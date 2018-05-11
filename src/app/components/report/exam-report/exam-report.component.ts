@@ -4,9 +4,12 @@ import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
 import { FilterPipe } from './filter.pipe';
 import { lang } from 'moment';
+
 import { ViewChild } from '@angular/core';
 
 import { ElementRef, Directive } from '@angular/core';
+import { LoginService } from '../../../services/login-services/login.service';
+
 
 @Component({
   selector: 'app-exam-report',
@@ -48,15 +51,15 @@ export class ExamReportComponent implements OnInit {
 
   projectSettings: ColumnSetting[] = [
 
-    { primaryKey: 'student_id', header: 'Student Id' },
+    { primaryKey: 'student_disp_id', header: 'Student ID' },
     { primaryKey: 'student_name', header: 'Student Name' },
-    { primaryKey: 'total_marks', header: 'Total Marks' },
-    { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
     { primaryKey: 'student_phone', header: 'Contact No.' },
-    { primaryKey: 'rank', header: 'Rank' },
-    { primaryKey: 'doj', header: 'Joining Date' }
+    { primaryKey: 'doj', header: 'Joining Date' },
+    { primaryKey: 'grade', header: 'Grade' }
   ];
-
+  HighestMarks :string = "";
+  LowestMarks : string = "";
+  AverageMarks:string = "";
 
   queryParam = {
     standard_id: -1,
@@ -79,17 +82,39 @@ export class ExamReportComponent implements OnInit {
   property = "";
   direction = 0;
   sortingEnabled: boolean = true;
-  constructor(private examdata: ExamService, private appC: AppComponent) {
+  constructor(private login: LoginService , private examdata: ExamService, private appC: AppComponent) {
     this.switchActiveView('exam');
   }
 
   ngOnInit() {
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if (this.isProfessional) {
-      this.showTitle = true;
+    if(this.isProfessional){
+      this.showTitle = true  
+      this.projectSettings = [
+    
+        { primaryKey: 'student_disp_id', header: 'Student ID' },
+        { primaryKey: 'student_name', header: 'Student Name' },
+        { primaryKey: 'student_phone', header: 'Contact No.' },
+        { primaryKey: 'doj', header: 'Joining Date' },
+        { primaryKey: 'grade', header: 'Grade' }
+      ];
+    
     }
-    else {
-      this.showTitle = false;
+    
+    else{
+      this.showTitle=false;
+      this.projectSettings = [
+        { primaryKey: 'student_id', header: 'Student Id' },
+        { primaryKey: 'student_name', header: 'Student Name' },
+        { primaryKey: 'student_phone', header: 'Contact No.' },
+        { primaryKey: 'doj', header: 'Joining Date' },
+        { primaryKey: 'total_marks', header: 'Total Marks' },
+        { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
+        { primaryKey: 'rank', header: 'Rank' }, 
+      ];
+
     }
     this.fetchExamData();
     this.pageIndex = 1;
@@ -134,6 +159,7 @@ export class ExamReportComponent implements OnInit {
 
     this.isRippleLoad = true;
     if (this.isProfessional) {
+
       this.batchCourseData = [];
 
       this.fetchFieldData.exam_schd_id = "";
@@ -185,13 +211,17 @@ export class ExamReportComponent implements OnInit {
           }
         },
         (error: any) => {
+
           this.isRippleLoad = false;
+
+
+
           let obj = {
             type: "error",
             title: "Unable to Fetch Report",
             body: ""
-
           }
+          this.appC.popToast(obj);
         }
       )
     }
@@ -207,9 +237,9 @@ export class ExamReportComponent implements OnInit {
 
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
+
           this.isRippleLoad = false;
           this.getSubjectData = res.batchLi;
-
           if (this.getSubjectData == null) {
             let obj = {
               type: "info",
@@ -217,7 +247,9 @@ export class ExamReportComponent implements OnInit {
               body: "Don't go in next field"
             }
             this.appC.popToast(obj);
+
             this.isRippleLoad = false;
+
           }
         })
     }
@@ -295,10 +327,34 @@ export class ExamReportComponent implements OnInit {
               this.examSource = res;
               this.examDesc = this.examSource[0].exam_desc
               this.Tdata = true;
+              
+              this.HighestMarks = this.examSource[0].highest_marks;
+              this.LowestMarks = this.examSource[0].lowest_marks;
+              this.AverageMarks = this.examSource[0].average_marks;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-
+              if(this.examSource[0].grade==""){
+                this.projectSettings = [
+                  { primaryKey: 'student_id', header: 'Student Id' },
+                  { primaryKey: 'student_name', header: 'Student Name' },
+                  { primaryKey: 'student_phone', header: 'Contact No.' },
+                  { primaryKey: 'doj', header: 'Joining Date' },
+                  { primaryKey: 'total_marks', header: 'Total Marks' },
+                  { primaryKey: 'student_marks_obtained', header: 'Marks Obtained' },
+                  { primaryKey: 'student_rank', header: 'Rank' }, 
+                ];
+              }
+              else{
+                this.projectSettings = 
+                [{ primaryKey: 'student_id', header: 'Student Id' },
+                { primaryKey: 'student_name', header: 'Student Name' },
+                { primaryKey: 'student_phone', header: 'Contact No.' },
+                { primaryKey: 'doj', header: 'Joining Date' },
+                { primaryKey: 'grade', header: 'Grade' },
+              ];
+              }
+              
             }
             else {
               let msg = {
@@ -378,11 +434,7 @@ export class ExamReportComponent implements OnInit {
     this.isRippleLoad = true;
     if (this.isProfessional) {
 
-      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1 || this.fetchFieldData.batch_id == ""
-        || this.fetchFieldData.exam_schd_id == "") {
-
-
-
+      if (this.fetchFieldData.batch_id == "" || this.fetchFieldData.exam_schd_id == "") {
         let msg = {
           type: "error",
           title: "Invalid Data Range Selected",
@@ -467,7 +519,12 @@ export class ExamReportComponent implements OnInit {
       }
     }
   }
-
+  getColor(status) {
+    switch (status) {
+      case 'Leave': return 'red';
+      case 'Absent': return 'green';
+    }
+  }
 
 
   /*=========================================================================================
@@ -539,13 +596,16 @@ export class ExamReportComponent implements OnInit {
   /*================================================
   ============================================== */
 
+
   downloadJsonToCSV() {
     console.log(this.xlsDownloader);
     let link = this.xlsDownloader.nativeElement;
     let outer = this.examTable.nativeElement.outerHTML.replace(/ /g, '%20');
     let data_type = 'data:application/vnd.ms-excel';
 
+
     link.setAttribute('href', data_type + ',' + outer);
+
     link.setAttribute('download', 'test.xls');
     link.click();
   }

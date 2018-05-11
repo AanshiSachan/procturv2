@@ -1,5 +1,5 @@
 <div class="forty">
-    <h2 *ngIf="viewText" style="text-align:center;padding-top:10px; padding-bottom:10px;">Exam Description:{{text}}</h2>
+    
     <table class="table">
 
         <thead>
@@ -25,9 +25,11 @@
                         <label>asdf</label>
                     </div>
                 </td>
-                <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]">
-                    {{ record[map.access(record)] | formatCell:map.format }}
+                <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]" [style.color]="getColor(map.primaryKey , record[map.access(record)])">
+                    {{ record[map.access(record)] | formatCell:map.format }} 
                 </td>
+                
+                
             </tr>
         </tbody>
         <tbody *ngIf="records.length == 0 && dataStatus === true">

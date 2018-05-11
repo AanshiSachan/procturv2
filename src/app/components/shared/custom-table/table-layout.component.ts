@@ -69,7 +69,7 @@ ngOnInit()
             this.sortData.emit(ev);
         }
         //console.log(ev);
-
+        console.log(this.columnMaps);
     }
 
 
@@ -81,5 +81,18 @@ ngOnInit()
         else {
             return false;
         }
+  
     }
+    getColor(key , data) {
+      
+           if(data == "Absent"){
+             return 'green'
+               
+           }
+           else if(data == "Leave"){
+            return 'red'
+           }
+          
+        }
+        
 }
