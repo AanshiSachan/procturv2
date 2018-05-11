@@ -217,8 +217,6 @@
                 <td>{{det.student_name}}</td>
     
                 <td class="marks" *ngFor="let marks of det.detailExamReportList">
-                  <label *ngIf="isProfessional && (marks.grade == 'Leave'||marks.grade=='Absent')" style="color:red">{{marks.grade | uppercase}}</label>
-                  <label *ngIf="isProfessional && marks.grade != 'Leave'||marks.grade!='Absent')">{{marks.grade | uppercase}}</label>
                   <label *ngIf="!isProfessional && marks.marks_obtained != null">{{marks.marks_obtained}} / {{marks.total_marks}} ({{marks.student_rank}})</label>
                   <label *ngIf="!isProfessional && marks.marks_obtained == null"></label>
                 </td>
@@ -243,4 +241,4 @@
       </div>
     </div>
   
-  </proctur-popup
+  </proctur-popup>
