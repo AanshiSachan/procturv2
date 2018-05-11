@@ -17,10 +17,10 @@ export class AddEditUserComponent implements OnInit {
     address: '',
     username: '',
     alternate_email_id: '',
-    role_id: '',
+    role_id: '-1',
     attendance_device_id: '',
     userType: '',
-    is_employee_to_be_create:'N'
+    is_employee_to_be_create: 'true'
   }
 
   constructor(
@@ -35,12 +35,15 @@ export class AddEditUserComponent implements OnInit {
       (res: any) => {
         if (res.hasOwnProperty('id')) {
           this.userId = res.id;
+          this.fetchUserDetails(res.id);
         } else {
           this.userId = "-1";
         }
       }
     )
     this.getRolesList();
+    this.userId = '18077';
+    this.fetchUserDetails('18077');
   }
 
   getRolesList() {
@@ -52,6 +55,82 @@ export class AddEditUserComponent implements OnInit {
         //console.log(err);
       }
     )
+  }
+
+  fetchUserDetails(id) {
+    this.apiService.fetchUserDetails(id).subscribe(
+      res => {
+        this.roleDetails = res;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  saveUserDetails() {
+    let validate = this.validateUserDetails(this.roleDetails);
+    if (validate == false) {
+      return;
+    }
+    if (this.roleDetails.is_employee_to_be_create == true) {
+      this.roleDetails.is_employee_to_be_create = 'Y';
+    } else {
+      this.roleDetails.is_employee_to_be_create = 'N';
+    }
+    this.apiService.createUser(this.roleDetails).subscribe(
+      res => {
+        this.messageNotifier('success', 'Added Successfully', 'User Added Successfully');
+        this.route.navigateByUrl('/manage/user');
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  validateUserDetails(obj) {
+    let check = false;
+    if (obj.name.trim() == "") {
+      this.messageNotifier('error', 'Error', 'Please provide name');
+      return false;
+    }
+    check = this.phonenumberCheck(obj.username);
+    if (check == false) {
+      this.messageNotifier('error', 'Error', 'Please check the number you have provided');
+      return false;
+    }
+    if (obj.alternate_email_id.trim() != "") {
+      check = this.ValidateEmail(obj.alternate_email_id);
+      if (check == false) {
+        this.messageNotifier('error', 'Error', 'Please check the email you have provided');
+        return false;
+      }
+    }
+    if (obj.role_id == '-1') {
+      this.messageNotifier('error', 'Error', 'Please assign role to user');
+      return false;
+    }
+    return true;
+  }
+
+  phonenumberCheck(inputtxt) {
+    let phoneno = /^\d{10}$/;
+    if ((inputtxt.match(phoneno))) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    return false;
   }
 
   messageNotifier(type, title, msg) {

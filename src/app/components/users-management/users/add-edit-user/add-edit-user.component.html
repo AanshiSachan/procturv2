@@ -5,42 +5,101 @@
   <div class="content-container">
 
     <h3 *ngIf="userId == -1">Add User</h3>
-    <h3 *ngIf="userId == -1">Edit User Detail</h3>
+    <h3 *ngIf="userId != -1">Edit User Detail</h3>
 
-    <div class="">
-      <div class="field-wrapper">
-        <label for="role_name">Name</label>
-        <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.name" id="role_desc" name="role_desc">
+    <div class="user-form-section">
+      <div class="row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-wrapper">
+            <label for="role_name">Name*</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.name" id="role_desc" name="role_desc">
+          </div>
+        </div>
       </div>
 
-      <div class="field-wrapper">
-        <label for="role_name">Address</label>
-        <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.address" id="role_desc" name="role_desc">
+      <div class="row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-wrapper">
+            <label for="role_name">Contact No*</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.username" id="role_desc" name="role_desc">
+          </div>
+        </div>
       </div>
 
-      <div class="field-wrapper">
-        <label for="role_name">Contact No*</label>
-        <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.username" id="role_desc" name="role_desc">
+      <div class="row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-wrapper">
+            <label for="role_name" *ngIf="userId == '-1'">Email ID</label>
+            <label for="role_name" *ngIf="userId != '-1'">Alternate Login Email ID</label>
+            <input type="text" class="form-ctrl" [disabled]="userId != '-1'" [(ngModel)]="roleDetails.alternate_email_id" id="role_desc"
+              name="role_desc">
+          </div>
+        </div>
       </div>
 
-      <div class="field-wrapper">
-        <label for="role_name">Email ID</label>
-        <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.alternate_email_id" id="role_desc" name="role_desc">
+      <div class="row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-wrapper">
+            <label for="role_name">Address</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.address" id="role_desc" name="role_desc">
+          </div>
+        </div>
       </div>
 
-      <div class="field-wrapper">
-        <label for="">Role*</label>
-        <select id="" class="form-ctrl" [(ngModel)]="roleDetails.role_id">
-          <option *ngFor="let opt of rolesList" [value]="opt.role_id">
-            {{opt.role_name}}
-          </option>
-        </select>
-
+      <div class="row" *ngIf="userId == '-1'">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-wrapper">
+            <label for="">Role*</label>
+            <select id="" class="form-ctrl" [(ngModel)]="roleDetails.role_id">
+              <option value="-1"></option>
+              <option *ngFor="let opt of rolesList" [value]="opt.role_id">
+                {{opt.role_name}}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div class="field-wrapper">
-        <label for="role_name">Attendance Card ID</label>
-        <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.attendance_device_id" id="role_desc" name="role_desc">
+      <div class="row" *ngIf="userId != '-1' && roleDetails.mutlpleRoles != '' && roleDetails.mutlpleRoles != null">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <h4>Multiple Roles:{{roleDetails.mutlpleRoles}}</h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-wrapper">
+            <label for="role_name">Attendance Card ID</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.attendance_device_id" id="role_desc" name="role_desc">
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="userId == '-1'">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-checkbox-wrapper">
+            <input id="is_employee_to_be_create" name="is_employee_to_be_create" type="checkbox" class="form-checkbox" [(ngModel)]="roleDetails.is_employee_to_be_create">
+            <label for="is_employee_to_be_create">Allow Employee to create automatically</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="field-checkbox-wrapper">
+            <input id="is_active" name="is_active" type="checkbox" class="form-checkbox" [(ngModel)]="roleDetails.is_active">
+            <label for="is_active">Is Active</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-6 c-lg-6 c-md-6">
+          <div class="pull-right">
+            <button class="btn" routerLink="/manage/user">Cancel</button>
+            <button class="btn fullBlue" (click)="saveUserDetails()">Save</button>
+          </div>
+        </div>
       </div>
 
     </div>

@@ -24,6 +24,28 @@ export class UsersComponent implements OnInit {
     this.checkInstituteType();
   }
 
+  sendSmsForApp(type) {
+    if (confirm('Are you sure you want to send SMS to selected users?')) {
+      let data = {
+        app_sms_type: type,
+        userArray: []
+      };
+      this.apiService.sendSmS(data).subscribe(
+        res => {
+          this.messageNotifier('success', 'Send Successfully', 'SMS Sent Successfully');
+        },
+        err => {
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  getAllotedItemHistry(id){
+    
+  }
+
   checkInstituteType() {
     let type: any = sessionStorage.getItem('institute_type');
     if (type == "LANG") {

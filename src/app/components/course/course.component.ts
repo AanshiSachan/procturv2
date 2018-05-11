@@ -112,6 +112,9 @@ export class CourseComponent implements OnInit {
           if (permissionArray.indexOf('701') >= 0 || permissionArray.indexOf('704') >= 0) {
             document.getElementById('liClass').classList.remove('hide');
           }
+          if (permissionArray.indexOf('702') >= 0) {
+            document.getElementById('liExam').classList.remove('hide');
+          }
           this.routeToSubTabs(permissionArray);
         }
       }
@@ -133,6 +136,9 @@ export class CourseComponent implements OnInit {
     } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
       this.router.navigateByUrl('course/class');
       this.switchActiveView('liClass');
+    } else if (data.indexOf('702') >= 0) {
+      this.router.navigateByUrl('course/exam');
+      this.switchActiveView('liExam');
     }
   }
 
@@ -158,6 +164,9 @@ export class CourseComponent implements OnInit {
           if (permissionArray.indexOf('402') >= 0 || permissionArray.indexOf('704') >= 0) {
             document.getElementById('liClass').classList.remove('hide');
           }
+          if (permissionArray.indexOf('404') >= 0) {
+            document.getElementById('liExam').classList.remove('hide');
+          }
           this.routeToSubTabsForLang(permissionArray);
         }
       }
@@ -179,6 +188,9 @@ export class CourseComponent implements OnInit {
     } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
       this.router.navigateByUrl('course/class');
       this.switchActiveView('liClass');
+    } else if (data.indexOf('404') >= 0) {
+      this.router.navigateByUrl('course/exam');
+      this.switchActiveView('liExam');
     }
   }
 

@@ -266,9 +266,12 @@
                                                 <i class="fa fa-trash-o " aria-hidden="true "></i>
                                             </span>
                                             <span *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)" title="Mark Attendance">
-                                                <img src="../../../../assets/images/attendance.png" width="20px" height="20px">
+                                                <img src="../../../../assets/images/attendance.png" width="20px" height="20px" style="position: relative;top: 2px;">
                                             </span>
-                                            <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="cancelExamSchedule(row)">Cancel Exam</a>
+                                            <span *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="cancelExamSchedule(row)" title="Cancel Exam">
+                                                <i class="fa fa-times" style="font-family: FontAwesome;font-size: 20px; position: relative;top: -1px" aria-hidden="true"></i>
+                                            </span>
+
                                         </div>
 
 
@@ -364,7 +367,7 @@
                     <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
 
                     <div class="pull-right" *ngIf="selectedType == 'course'" style="margin-right:10px;">
-                        <button class="btn fullBlue small-btn" (click)="addMoreSchedule()">Add More</button>
+                        <button class="btn fullBlue small-btn" (click)="addMoreSchedule()" title="Used to create an additional/ multiple exams in same course on same day but with different timings.">Add More</button>
                     </div>
 
                 </div>
@@ -509,7 +512,9 @@
                                                 <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
                                                     <i class="fa fa-trash-o " aria-hidden="true "></i>
                                                 </span>
-                                                <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
+                                                <span (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0" title="Cancel Exam">
+                                                    <i class="fa fa-times" style="font-family: FontAwesome;font-size: 20px" aria-hidden="true"></i>
+                                                </span>
                                             </div>
 
                                             <!-- <div class="action-Menu">
@@ -703,7 +708,7 @@
                     <div class="row attendance-Note">
                         <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="form-wrapper">
-                                <label for="cancelTxtBx">Cancellation Reason</label>
+                                <label for="cancelTxtBx">Cancellation Reason*</label>
                                 <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
                             </div>
                         </div>
@@ -719,7 +724,7 @@
                         </aside>
                         <aside *ngIf="isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
-                            <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
+                            <input type="button" value="Cancel Exam" (click)="cancelExamClassSchedule()" class="fullBlue btn">
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">

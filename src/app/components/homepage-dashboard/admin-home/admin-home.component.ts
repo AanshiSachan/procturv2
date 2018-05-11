@@ -3036,6 +3036,12 @@ export class AdminHomeComponent implements OnInit {
           if (student.marks_obtained > this.examData.total_marks) {
             this.messageNotifier('error', 'Error', 'Please check marks you have provided');
             return false;
+          } else {
+            if (this.studentList[i].attendance == 'P') {
+              student.marks_obtained = this.studentList[i].marks_obtained;
+            } else {
+              student.marks_obtained = '0';
+            }
           }
         }
         arr.studLi.push(student);
