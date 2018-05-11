@@ -20,7 +20,7 @@ export class AddEditUserComponent implements OnInit {
     role_id: '-1',
     attendance_device_id: '',
     userType: '',
-    is_employee_to_be_create: 'N'
+    is_employee_to_be_create: 'true'
   }
 
   constructor(
@@ -35,12 +35,15 @@ export class AddEditUserComponent implements OnInit {
       (res: any) => {
         if (res.hasOwnProperty('id')) {
           this.userId = res.id;
+          this.fetchUserDetails(res.id);
         } else {
           this.userId = "-1";
         }
       }
     )
     this.getRolesList();
+    this.userId = '18077';
+    this.fetchUserDetails('18077');
   }
 
   getRolesList() {
@@ -54,10 +57,27 @@ export class AddEditUserComponent implements OnInit {
     )
   }
 
+  fetchUserDetails(id) {
+    this.apiService.fetchUserDetails(id).subscribe(
+      res => {
+        this.roleDetails = res;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
   saveUserDetails() {
     let validate = this.validateUserDetails(this.roleDetails);
     if (validate == false) {
       return;
+    }
+    if (this.roleDetails.is_employee_to_be_create == true) {
+      this.roleDetails.is_employee_to_be_create = 'Y';
+    } else {
+      this.roleDetails.is_employee_to_be_create = 'N';
     }
     this.apiService.createUser(this.roleDetails).subscribe(
       res => {
@@ -98,7 +118,7 @@ export class AddEditUserComponent implements OnInit {
 
   phonenumberCheck(inputtxt) {
     let phoneno = /^\d{10}$/;
-    if ((inputtxt.value.match(phoneno))) {
+    if ((inputtxt.match(phoneno))) {
       return true;
     }
     else {
@@ -112,7 +132,6 @@ export class AddEditUserComponent implements OnInit {
     }
     return false;
   }
-
 
   messageNotifier(type, title, msg) {
     let data = {
