@@ -230,7 +230,7 @@ export class SmsReportComponent implements OnInit {
     }
 
     dateValidationForFuture(e) {
-      console.log(e);
+      //console.log(e);
       let today = moment(new Date);
       let selected = moment(e);
   

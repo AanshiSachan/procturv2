@@ -32,14 +32,15 @@
                 </h4>
               </div>
               <!-- Accordian Form 1 -->
-              <div class="accordian-content">
+              <div class="accordian-content AdFilter-field">
                 <div class="form-type1">
 
                   <!-- Name -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.name != ''}">
+                    <label for="name">Name*</label>
                     <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.name" name="name" maxlength="50"
                       pattern="^([a-zA-Z .-]){1,30}$" required />
-                    <label for="name">Name*</label>
+
                     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
                       <div *ngIf="name.errors.required">
                         name is required.
@@ -52,9 +53,10 @@
 
                   <!-- phone -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone != ''}">
+                    <label for="phone">Phone No*</label>
                     <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
                       name="phone" maxlength="10" OnlyNumber="true" />
-                    <label for="phone">Phone No*</label>
+
                   </div>
 
                   <!-- fetch more details -->
@@ -64,9 +66,10 @@
 
                   <!-- email enq -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.email != ''}">
+                    <label for="email">Email ID</label>
                     <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
                     />
-                    <label for="email">Email ID</label>
+
                     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
                       <div *ngIf="email.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -76,51 +79,56 @@
 
                   <!-- gender -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.gender != ''}">
+                    <label for="gender">Gender</label>
                     <select class="form-ctrl" [(ngModel)]="newEnqData.gender" name="gender" id="gender">
                       <option value=""></option>
                       <option value="M">Male</option>
                       <option value="F">Female</option>
                       <option value="NA">NA</option>
                     </select>
-                    <label for="gender">Gender</label>
+
                   </div>
 
                   <!-- Date of Birth -->
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': newEnqData.dob != 'Invalid date'}">
+                    <label for="dob">Date of Birth</label>
                     <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.dob" name="dob" readonly='true'
                       bsDatepicker>
-                    <label for="dob">Date of Birth</label>
-                    <span style="top: 20px;right: -50px;" class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
+
+                    <span class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
                   </div>
 
                   <!-- city -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.city != -1}">
-                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
-                      <option value="-1"></option>
-                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
-                    </select>
                     <label for="cityDdn">City
+                      <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
+                        <option value="-1"></option>
+                        <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                      </select>
+
                       <span *ngIf="isCityMandatory == 1">*</span>
                     </label>
                   </div>
 
                   <!-- area -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.area != -1}">
+                    <label for="areaDdn">Area
+                    </label>
                     <select id="areaDdn" class="form-ctrl" [(ngModel)]="newEnqData.area" name="area">
                       <option value="-1"></option>
                       <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
                     </select>
-                    <label for="areaDdn">Area
-                    </label>
+
                   </div>
 
                   <!-- Source -->
                   <div class="field-wrapper " [ngClass]="{'has-value': newEnqData.source_id != '-1'}">
+                    <label for="source">Source*</label>
                     <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source">
                       <option value="-1"></option>
                       <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
                     </select>
-                    <label for="source">Source*</label>
+
                     <span (click)="showAddSourcePops()" class="sourceI iconPlus">+</span>
                   </div>
 
@@ -137,22 +145,25 @@
                   <br>
                   <!-- address -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.curr_address != ''}">
-                    <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" />
                     <label for="userAddress">Address</label>
+                    <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" />
+
                   </div>
 
                   <!-- Phone -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone2 != ''}">
+                    <label for="altContact">Alternate Contact</label>
                     <input type="text" value="" id="altContact" #phone2="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone2" name="phone2"
                       maxlength="10" OnlyNumber="true" />
-                    <label for="altContact">Alternate Contact</label>
+
                   </div>
 
                   <!-- Email -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.email2 != ''}">
+                    <label for="email2">Alternate Email ID</label>
                     <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email2" name="email2"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" />
-                    <label for="email2">Alternate Email ID</label>
+
                     <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert invalid-alert">
                       <div *ngIf="email2.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -162,9 +173,10 @@
 
                   <!-- Name -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.parent_name != ''}">
+                    <label for="guardianName">Parent Name</label>
                     <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="newEnqData.parent_name" name="guardianName"
                       pattern="^([a-zA-Z .-]){1,30}$" maxlength="50" #guardianName="ngModel" />
-                    <label for="guardianName">Parent Name</label>
+
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
                         Only Alphabets . - Allowed.
@@ -174,16 +186,18 @@
 
                   <!-- Phone -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.parent_phone != ''}">
+                    <label for="guardianContact">Parent Contact</label>
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
                       maxlength="10" OnlyNumber="true" />
-                    <label for="guardianContact">Parent Contact</label>
+
                   </div>
 
                   <!-- Email -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.parent_email != ''}">
+                    <label for="guardianEmail">Parent Email</label>
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="newEnqData.parent_email" name="guardianEmail"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" #guardianEmail="ngModel" />
-                    <label for="guardianEmail">Parent Email</label>
+
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -193,22 +207,25 @@
 
                   <!-- Link -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.link != ''}">
-                    <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="newEnqData.link" name="enquirerLink" />
                     <label for="enquirerLink">Link Details</label>
+                    <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="newEnqData.link" name="enquirerLink" />
+
                   </div>
 
                   <!-- Fee Commited -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.fee_committed != ''}">
+                    <label for="feeCommitted">Fees Committed Details</label>
                     <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
                       OnlyNumber="true" #feeCommitted="ngModel" />
-                    <label for="feeCommitted">Fees Committed Details</label>
+
                   </div>
 
                   <!-- Discount -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.discount_offered != ''}">
+                    <label for="discount">Discount Offered Details</label>
                     <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="newEnqData.discount_offered" name="discount" pattern="[0-9]+"
                       OnlyNumber="true" #discount="ngModel" />
-                    <label for="discount">Discount Offered Details</label>
+
                   </div>
 
                 </div>
@@ -227,25 +244,30 @@
                 <div class="form-type2">
                   <!-- school -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.school_id != '-1'}">
+                    <label for="institutionName">Institution Name</label>
                     <select id="institutionName" class="form-ctrl" [(ngModel)]="newEnqData.school_id" name="institutename">
                       <option value="-1"></option>
                       <option *ngFor="let institute of school" [value]="institute.school_id">
                         {{institute.school_name}}
                       </option>
                     </select>
-                    <label for="institutionName">Institution Name</label>
+
                     <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+</a>
                   </div>
                   <!-- standard -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
-                    <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
-                      <option value="-1"></option>
-                      <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
-                    </select>
+
+
                     <label *ngIf="!isProfessional" for="editStandard">Standard</label>
                     <label *ngIf="isProfessional" for="editStandard">Master Course</label>
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
+
+                      <option value="-1"></option>
+                      <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+
+                    </select>
                     <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
+                      <span class="qInfoIcon" style="margin-top:-12px;">?</span>
                       <div class="tooltip-box-field tooltip-size">
                         Enquirer select a standard to fetch related subject
                       </div>
@@ -253,14 +275,15 @@
                   </div>
                   <!-- subject -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.subject_id != '-1'}">
+                    <label *ngIf="!isProfessional" for="forSubject">Subject</label>
+                    <label *ngIf="isProfessional" for="forSubject">Course</label>
                     <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" name="subject">
                       <option value="-1"></option>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
-                    <label *ngIf="!isProfessional" for="forSubject">Subject</label>
-                    <label *ngIf="isProfessional" for="forSubject">Course</label>
+
                     <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
+                      <span class="qInfoIcon" style="margin-top:-12px;">?</span>
                       <div class="tooltip-box-field">
                         Subject with relation to the standard opted
                       </div>
@@ -271,10 +294,11 @@
 
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label +i}}"
-                        />
                         <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
+                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label +i}}"
+                        />
+
                       </div>
                     </div>
 
@@ -290,21 +314,22 @@
 
                     <div class="" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <select id="{{component.id}}" class="form-ctrl" name="{{component.label +i}}" [(ngModel)]="component.value">
                           <option value=""></option>
                           <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                         </select>
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
+
                       </div>
                     </div>
 
                     <div class="" *ngIf="component.type == 4" input-def>
                       <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.selectedString != ''}">
-                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label +i}}" class="form-ctrl"
-                          readonly="true" />
                         <label *ngIf="component.is_required == 'Y'" for="component.id">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="component.id">{{component.label}} </label>
+                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label +i}}" class="form-ctrl"
+                          readonly="true" />
                       </div>
                       <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                         <div class="multiselect-wrapper-inner">
@@ -321,11 +346,12 @@
                       </div>
                     </div>
 
-                    <div class="" *ngIf="component.type == 5" input-def>
+                    <div class="newDate" *ngIf="component.type == 5" input-def>
                       <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                        <label for="component.id">{{component.label}} </label>
                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                           name="{{component.label}}" bsDatepicker/>
-                        <label for="component.id">{{component.label}} </label>
+
                       </div>
                     </div>
 
@@ -345,12 +371,15 @@
         </div>
         <aside class="pull-right">
           <div style="display: inline-block;" class="field-checkbox-wrapper">
+
             <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
             <label for="addNextEnquiry">Add Next Enquiry</label>
-          </div> 
+          </div>
           <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
-          <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button" value="Add & Register Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
-          <input style="display: inline-block;" type="button" value="Add Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitForm(myForm)">
+          <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button" value="Add & Register Enquiry"
+            [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
+          <input style="display: inline-block;" type="button" value="Add Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue"
+            (click)="submitForm(myForm)">
         </aside>
       </section>
     </aside>
@@ -384,35 +413,33 @@
         <h4>
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
+          <label for="">Enquiry Date</label>
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': newEnqData.enquiry_date != 'Invalid date'}">
             <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.enquiry_date" name="enqDate" readonly="true"
               bsDatepicker>
-            <label for="">Enquiry Date</label>
+
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
+            <label for="eStatus">Enquiry Status</label>
             <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
               <option value="-1"></option>
               <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == 'Open' ? '' : null"
                 [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
-            <label for="eStatus">Enquiry Status</label>
+
           </div>
+
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.priority != '-1'}">
+            <label for="priority">Enquiry Priority</label>
             <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority">
               <option value="-1"></option>
               <option *ngFor="let priority of enqPriority" [value]="priority.data_key" [attr.selected]="priority.data_value == 'cold_call'? '' : null">
                 {{priority.data_value}}
               </option>
             </select>
-            <label for="priority">Enquiry Priority</label>
+
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.follow_type != '-1'}">
-            <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype">
-              <option value="-1"></option>
-              <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key" [attr.selected]="followUp.data_value == 'call' ? '' : null">
-                {{followUp.data_value}}
-              </option>
-            </select>
             <label for="followUpType">Follow Up Type
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
@@ -420,13 +447,23 @@
               </div>
 
             </label>
+            <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype">
+              <option value="-1"></option>
+              <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key" [attr.selected]="followUp.data_value == 'call' ? '' : null">
+                {{followUp.data_value}}
+              </option>
+            </select>
+
 
           </div>
-          <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
-            <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
-              readonly="true" bsDatepicker>
-            <label for="followUpDate">Follow Up Date</label>
-            <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
+          <div class="newDate">
+            <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
+              <label for="followUpDate">Follow Up Date</label>
+              <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
+                readonly="true" bsDatepicker>
+
+              <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
+            </div>
           </div>
           <!-- <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
@@ -457,43 +494,48 @@
 
           <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 60px;"
+              <label for="hour">Hour</label>
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 75px;"
                 (ngModelChange)="timeChanges($event)">
                 <option *ngFor="let time of times" [value]="time">
                   {{time}}
                 </option>
               </select>
-              <label for="hour">Hour</label>
+
             </div>
             <div class="field-wrapper" id="minutepar" style="padding-right: 10px;" [ngClass]="{'has-value': minute != ''}">
+              <label for="minute">Minute</label>
               <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
-              <label for="minute">Minute</label>
+
             </div>
 
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.referred_by != '-1'}">
+            <label for="refferedBy">Referred By</label>
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered">
               <option value="-1"></option>
               <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
             </select>
-            <label for="refferedBy">Referred By</label>
+
             <span style="right: 5px;" class="sourceI iconPlus" (click)="showAddReferPops()">+</span>
           </div>
           <div class="field-wrapper" *ngIf="isEnquiryAdmin" [ngClass]="{'has-value': newEnqData.assigned_to != '-1'}">
+            <label for="assignedTo">Assigned To</label>
             <select id="assignedTo" class="form-ctrl" [(ngModel)]="newEnqData.assigned_to" name="assigned_to">
               <option value="-1"></option>
               <option *ngFor="let assign of enqAssignTo" [value]="assign.userid">{{assign.name}}</option>
             </select>
-            <label for="assignedTo">Assigned To</label>
+
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.enquiry != ''}">
-            <input type="text" value="" id="Remarks" class="form-ctrl" [(ngModel)]="newEnqData.enquiry" name="remarks">
             <label for="Remarks">Comment</label>
+            <input type="text" value="" id="Remarks" class="form-ctrl" [(ngModel)]="newEnqData.enquiry" name="remarks">
+
           </div>
         </div>
       </section>
@@ -588,9 +630,10 @@
       <div class="row">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
           <div class="field-wrapper" [ngClass]="{'has-value': createInstitute.instituteName != ''}">
+            <label for="instituteName">Institute Name</label>
             <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
             />
-            <label for="instituteName">Institute Name</label>
+
           </div>
         </div>
 
@@ -695,8 +738,9 @@
       <div class="row">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
           <div class="field-wrapper" [ngClass]="{'has-value': createSource.name != ''}">
-            <input type="text" value="" id="sourceName" class="form-ctrl" [(ngModel)]="createSource.name" name="sourceName" />
             <label for="sourceName">Source Name</label>
+            <input type="text" value="" id="sourceName" class="form-ctrl" [(ngModel)]="createSource.name" name="sourceName" />
+
           </div>
         </div>
 
@@ -803,8 +847,9 @@
       <div class="row">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
           <div class="field-wrapper" [ngClass]="{'has-value': createReferer.name != ''}">
-            <input type="text" value="" id="referName" class="form-ctrl" [(ngModel)]="createReferer.name" name="referName" />
             <label for="referName">Refer Name</label>
+            <input type="text" value="" id="referName" class="form-ctrl" [(ngModel)]="createReferer.name" name="referName" />
+
           </div>
         </div>
 

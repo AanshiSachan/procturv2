@@ -21,35 +21,38 @@
                   <div class="search-filter-wrapper" *ngIf="isProfessional">
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
+                        <label for="smc">Select Master Course</label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id" (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
                           <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
                             {{std.standard_name}}
                           </option>
                         </select>
-                        <label for="smc">Select Master Course</label>
+
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
+                        <label for="sc">Select Course</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id" (ngModelChange)="filterSubjectBatches($event)">
                           <option value="-1"></option>
                           <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
                             {{subject.subject_name}}
                           </option>
                         </select>
-                        <label for="sc">Select Course</label>
+
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.batch_id != '-1'}">
+                        <label for="bn">Select Batch Name</label>
                         <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
                           <option value="-1"></option>
                           <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
                             {{batch.batch_name}}
                           </option>
                         </select>
-                        <label for="bn">Select Batch Name</label>
+
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
@@ -60,42 +63,45 @@
                     <div class="row" style="margin-left:15px">
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
+                          <label for="smc">Select Master Course
+                            <span style="color:red">*</span>
+                          </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
                             <option value="-1"></option>
                             <option [value]="master.master_course" *ngFor="let  master of masterCourse">
                               {{master.master_course}}
                             </option>
                           </select>
-                          <label for="smc">Select Master Course
-                            <span style="color:red">*</span>
-                          </label>
+
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
+                          <label for="sc">Select Course
+                            <span style="color:red">*</span>
+                          </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="onCourseListSelection($event)">
                             <option value="-1"></option>
                             <option [value]="course.course_id" *ngFor="let course of courseList">
                               {{course.course_name}}
                             </option>
                           </select>
-                          <label for="sc">Select Course
-                            <span style="color:red">*</span>
-                          </label>
+
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
-                          <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="fetchMasterCourseModule.requested_date"
-                            readonly="true" name="csd" bsDatepicker>
                           <label for="csd">Class Schedule Date
                             <span style="color:red">*</span>
                           </label>
+                          <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="fetchMasterCourseModule.requested_date"
+                            readonly="true" name="csd" bsDatepicker>
+
                           <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span>
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
-                        <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterCourse()">
+                        <input type="button" class="fullBlue btn" style="margin-top:5%;" value="Go" (click)="submitMasterCourse()">
                       </div>
                     </div>
                     <div class="row" *ngIf="courseStartDate" style="margin-top:10px;margin-left:15px">
@@ -441,10 +447,11 @@
                       <tr *ngFor="let row of weekDaysTable; let i=index ; trackBy : index ">
                         <td>
                           <div class="field-checkbox-wrapper">
+                            
                             <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected" class="form-checkbox">
                             <label for="checkbx{{i}}">
-                              {{row.data_value}}
-                            </label>
+                                {{row.data_value}}
+                              </label>
                           </div>
                         </td>
                         <td>
@@ -511,11 +518,12 @@
             <div class="row adderCustom">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': custom.date!=''}">
-                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date" readonly="true" name="csd"
-                    bsDatepicker>
                   <label for="csd">Date
                     <span style="color:red">*</span>
                   </label>
+                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date" readonly="true" name="csd"
+                    bsDatepicker>
+
                 </div>
               </div>
 
@@ -565,8 +573,9 @@
 
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper" [ngClass]="{'has-value' : custom.desc != ''}">
-                  <textarea class="form-ctrl" [(ngModel)]="custom.desc" id="customDescTxt" name="customDescTxt"></textarea>
                   <label for="customDescTxt">Description</label>
+                  <textarea class="form-ctrl" [(ngModel)]="custom.desc" id="customDescTxt" name="customDescTxt"></textarea>
+
                 </div>
               </div>
 
@@ -643,11 +652,12 @@
 
                 <div class="c-lg-3 c-md-3 c-sm-3">
                   <div class="field-wrapper datePickerBox has-value">
-                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
-                      bsDatepicker>
                     <label for="csd">Date
                       <span style="color:red">*</span>
                     </label>
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
+                      bsDatepicker>
+
                   </div>
                 </div>
 
@@ -697,8 +707,9 @@
 
                 <div class="c-lg-3 c-md-3 c-sm-3">
                   <div class="field-wrapper" [ngClass]="{'has-value':addExtraClass.desc != ''}">
-                    <textarea class="form-ctrl textBox" id="divDesc" name="desc" [(ngModel)]="addExtraClass.desc"></textarea>
                     <label for="divDesc">Class Description</label>
+                    <textarea class="form-ctrl textBox" id="divDesc" name="desc" [(ngModel)]="addExtraClass.desc"></textarea>
+
                   </div>
                 </div>
 
@@ -1202,6 +1213,7 @@
 
         <div class="row extraMargin">
           <div class="field-checkbox-wrapper pull-left">
+           
             <input type="checkbox" checked name="enableSMS" class="form-checkbox" id="idChkbxEnable">
             <label for="idChkbxEnable">Notify students</label>
           </div>
@@ -1322,11 +1334,12 @@
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="dateWee" class="form-ctrl bsDatepicker" [(ngModel)]="weeklyScheduleCan.date" readonly="true"
-                name="csd" bsDatepicker>
               <label for="dateWee">Date
                 <span style="color:red">*</span>
               </label>
+              <input type="text" value="" id="dateWee" class="form-ctrl bsDatepicker" [(ngModel)]="weeklyScheduleCan.date" readonly="true"
+                name="csd" bsDatepicker>
+
             </div>
           </div>
           <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
@@ -1336,6 +1349,7 @@
 
         <div class="row extraMargin">
           <div class="field-checkbox-wrapper pull-left">
+            
             <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox" id="NotifyStusde">
             <label for="NotifyStusde">Notify students</label>
           </div>

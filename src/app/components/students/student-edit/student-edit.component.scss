@@ -659,7 +659,7 @@
                     content: '';
                     background: url("../../../../assets/images/calendar.svg") no-repeat;
                     position: absolute;
-                    left: 100px;
+                    left: 97px;
                     top: 10px;
                     width: 21px;
                     height: 21px;
@@ -1401,7 +1401,7 @@ input[type=number]::-webkit-outer-spin-button {
                 background: url("../../../../assets/images/calendar.svg") no-repeat;
                 position: absolute;
                 right: 50px;
-                top: 18px;
+                top: 35px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -1413,28 +1413,6 @@ input[type=number]::-webkit-outer-spin-button {
             top: 25px;
             cursor: pointer;
             color: #0084f6;
-        }
-    }
-    .field-wrapper {
-        position: relative;
-        padding-top: 10px;
-        &.datePickerBox {
-            .form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 50px;
-                top: 18px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
         }
     }
     .field-checkbox-wrapper {
@@ -1805,8 +1783,8 @@ input[type=number]::-webkit-outer-spin-button {
                 content: '';
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
-                right: 35px;
-                top: 18px;
+                right: 40px;
+                top: 35px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;

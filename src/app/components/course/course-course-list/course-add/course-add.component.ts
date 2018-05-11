@@ -63,7 +63,7 @@ export class CourseAddComponent implements OnInit {
     if (this.newCourseAdd.master_course_name != "" && this.newCourseAdd.standard_id != "" && this.newCourseAdd.standard_id != -1) {
       this.apiService.getSubjectListOfStandard(this.newCourseAdd.standard_id).subscribe(
         (data: any) => {
-          console.log(data);
+          //console.log(data);
           if (data.length == 0) {
             let msg = {
               type: "error",
@@ -83,7 +83,7 @@ export class CourseAddComponent implements OnInit {
           }
         },
         error => {
-          console.log(error);
+          //console.log(error);
           let data = {
             type: "error",
             title: "",
@@ -108,7 +108,7 @@ export class CourseAddComponent implements OnInit {
         this.standardNameList = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -119,7 +119,7 @@ export class CourseAddComponent implements OnInit {
         this.activeTeachers = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
         let data = {
           type: "error",
           title: "",
@@ -173,7 +173,7 @@ export class CourseAddComponent implements OnInit {
       }
     } else {
       this.dummyArrayOfSubjectList.splice(index, 1);
-      console.log('Splice at work', this.dummyArrayOfSubjectList)
+      //console.log('Splice at work', this.dummyArrayOfSubjectList)
     }
   }
 
@@ -250,7 +250,7 @@ export class CourseAddComponent implements OnInit {
         this.route.navigateByUrl('/course/courselist');
       },
       error => {
-        console.log(error);
+        //console.log(error);
         let warning = {
           type: "error",
           title: "Error",
@@ -374,7 +374,7 @@ export class CourseAddComponent implements OnInit {
         obj.subjectListArray = this.nestedTableDataSource;
         this.mainArrayForTable[index] = obj;
         document.getElementById("show" + index).style.display = 'none';
-        console.log('updateArrayMainArrayTable', this.mainArrayForTable);
+        //console.log('updateArrayMainArrayTable', this.mainArrayForTable);
         document.getElementById(("viewComp" + index).toString()).style.display = '';
         document.getElementById(("editComp" + index).toString()).style.display = 'none';
       }

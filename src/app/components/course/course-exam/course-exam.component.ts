@@ -56,7 +56,7 @@ export class CourseExamComponent implements OnInit {
   cancelExamData: any = "";
   cancelPopUpData = {
     reason: "",
-    notify: false
+    notify: true
   }
   currentDate: any = moment().format("YYYY-MM-DD");
   courseData = {
@@ -70,6 +70,8 @@ export class CourseExamComponent implements OnInit {
   ];
   selectedType: string = "course";
   viewList: any = [];
+  cancelCourseLevel: boolean = false;
+  isRippleLoad: boolean = false;
 
   constructor(
     private apiService: ExamCourseService,
@@ -103,7 +105,7 @@ export class CourseExamComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -128,8 +130,10 @@ export class CourseExamComponent implements OnInit {
     if (this.batchData.batch_id != -1) {
       this.cancelledSchedule = [];
       this.examSchedule = [];
+      this.isRippleLoad = true;
       this.apiService.getExamSchedule(this.batchData.batch_id).subscribe(
         (res: any) => {
+          this.isRippleLoad = false;
           this.showContentSection = true;
           this.examScheduleData = res;
           this.batchStartDate = res.batch_start_date;
@@ -146,7 +150,8 @@ export class CourseExamComponent implements OnInit {
           }
         },
         err => {
-          console.log(err);
+          this.isRippleLoad = false;
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -164,28 +169,42 @@ export class CourseExamComponent implements OnInit {
   }
 
   addNewExamSchedule() {
-    this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
-    if (this.batchAdderData.total_marks > 0) {
-      let obj: any = {};
-      obj.total_marks = this.batchAdderData.total_marks;
-      obj.exam_date = moment(this.batchAdderData.exam_date).format('YYYY-MM-DD');
-      let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
-      let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
-      if (!(start_time.isBefore(end_time))) {
-        this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
-        return false;
-      } else {
-        obj.start_time = this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, '');
-        obj.end_time = this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, '');
-        obj.duration = end_time.diff(start_time, 'minutes');
+    if (this.examScheduleData.is_exam_grad_feature == "0") {
+      this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
+      if (this.batchAdderData.total_marks == 0) {
+        this.messageNotifier('error', 'Error', 'Please Provide Total Marks');
+        return;
       }
-      obj.exam_desc = this.batchAdderData.exam_desc;
-      obj.schd_id = 0;
-      obj.isReferenced = "Y";
-      this.examSchedule.push(obj);
+    }
+    let obj: any = {};
+    obj.total_marks = this.batchAdderData.total_marks;
+    obj.exam_date = moment(this.batchAdderData.exam_date).format('YYYY-MM-DD');
+    let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
+    let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
+    if (!(start_time.isBefore(end_time))) {
+      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
+      return false;
     } else {
-      this.messageNotifier('error', 'Error', 'Please Provide Total Marks');
-      return;
+      obj.start_time = this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, '');
+      obj.end_time = this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, '');
+      obj.duration = end_time.diff(start_time, 'minutes');
+    }
+    obj.exam_desc = this.batchAdderData.exam_desc;
+    obj.schd_id = 0;
+    obj.isReferenced = "Y";
+    this.examSchedule.push(obj);
+    this.batchAdderData = {
+      exam_date: moment().format("YYYY-MM-DD"),
+      exam_desc: "",
+      start_time: {
+        hour: "12 PM",
+        minute: '00'
+      },
+      end_time: {
+        hour: "1 PM",
+        minute: "00"
+      },
+      total_marks: 0
     }
   }
 
@@ -195,19 +214,26 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     let type: string = "";
-    if (this.examScheduleData.otherSchd > 0) {
+    if (this.examScheduleData.otherSchd == 0) {
+      type = "post";
+    } else if (this.examScheduleData.otherSchd == null) {
+      type = "post";
+    } else if (this.examScheduleData.otherSchd == undefined) {
       type = "post";
     } else {
       type = "put";
     }
+    this.isRippleLoad = true;
     this.apiService.serverRequestToSaveSchedule(dataToSend, type).subscribe(
       res => {
-        console.log(res);
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Successfully', 'Schedule Created Successfully');
         this.batchModelGoClick();
       },
       err => {
-        console.log(err);
+        this.isRippleLoad = false;
+        //console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
       }
     )
   }
@@ -247,7 +273,8 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
         }
       )
     }
@@ -261,11 +288,12 @@ export class CourseExamComponent implements OnInit {
   }
 
   closeCancelExamPopUp() {
+    this.cancelCourseLevel = false;
     this.cancelExamPopUp = false;
     this.cancelExamData = "";
     this.cancelPopUpData = {
       reason: "",
-      notify: false
+      notify: true
     }
   }
 
@@ -296,7 +324,7 @@ export class CourseExamComponent implements OnInit {
         this.closeCancelExamPopUp();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -326,7 +354,9 @@ export class CourseExamComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+        this.closeCourseLevelAttendance();
       }
     )
   }
@@ -455,15 +485,17 @@ export class CourseExamComponent implements OnInit {
   }
 
   updateCourseAttendance() {
+    this.isRippleLoad = true;
     let dataToSend = this.makeJsonForAttendceMark();
-    console.log(dataToSend);
     this.apiService.markAttendance(dataToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
         this.closeCourseLevelAttendance();
       },
       err => {
-        console.log(err);
+        this.isRippleLoad = false;
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -509,7 +541,7 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('success', 'Success', 'Notified Successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -530,7 +562,7 @@ export class CourseExamComponent implements OnInit {
           this.batchModelGoClick();
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -545,7 +577,7 @@ export class CourseExamComponent implements OnInit {
         this.masterCourseList = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -557,7 +589,7 @@ export class CourseExamComponent implements OnInit {
           this.courseList = res;
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -565,15 +597,18 @@ export class CourseExamComponent implements OnInit {
 
   getExamSchedule() {
     if (this.courseData.master_course != "" && this.courseData.course_id != -1) {
+      this.isRippleLoad = true;
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
+          this.isRippleLoad = false;
           this.examScheduleData = res;
           this.calculateDataAsPerSelection(res);
           this.showContentSection = true;
-          console.log(res);
+          //console.log(res);
         },
         err => {
-          console.log(err);
+          this.isRippleLoad = false;
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -634,32 +669,28 @@ export class CourseExamComponent implements OnInit {
   }
 
   addNewExamSubjectCourse(index) {
-    if (this.viewList[index].coursetableAdder.batch_id != -1 && this.viewList[index].coursetableAdder.total_marks > 0) {
-      let obj: any = {};
-      obj.total_marks = this.viewList[index].coursetableAdder.total_marks;
-      obj.class_schedule_id = '0';
-      let selectedSubject = this.getSubjectName(this.viewList[index].subjectList, this.viewList[index].coursetableAdder.batch_id);
-      obj.subject_name = selectedSubject.subject_name;
-      obj.batch_id = this.viewList[index].coursetableAdder.batch_id;
-      obj.otherData = selectedSubject;
-      this.viewList[index].courseTableList.push(obj);
-      if (this.viewList[index].coursetableAdder.length > 1) {
-        this.viewList[index].courseModelAdder.total_marks += Number(this.viewList[index].coursetableAdder.total_marks);
-      }
-      this.viewList[index].coursetableAdder = {
-        batch_id: -1,
-        total_marks: 0
-      };
-    } else {
-      if (this.viewList[index].coursetableAdder.batch_id != -1) {
-        this.messageNotifier('error', 'Error', 'Please Provide Subject');
-        return;
-      }
+    if (this.viewList[index].coursetableAdder.batch_id == -1) {
+      this.messageNotifier('error', 'Error', 'Please Provide Subject');
+      return;
+    };
+    if (this.viewList[index].selectedCourseList.is_exam_grad_feature == '0') {
       if (this.viewList[index].coursetableAdder.total_marks == 0) {
         this.messageNotifier('error', 'Error', 'Please Provide Marks');
         return;
       }
     }
+    let obj: any = {};
+    obj.total_marks = this.viewList[index].coursetableAdder.total_marks;
+    obj.class_schedule_id = '0';
+    let selectedSubject = this.getSubjectName(this.viewList[index].subjectList, this.viewList[index].coursetableAdder.batch_id);
+    obj.subject_name = selectedSubject.subject_name;
+    obj.batch_id = this.viewList[index].coursetableAdder.batch_id;
+    obj.otherData = selectedSubject;
+    this.viewList[index].courseTableList.push(obj);
+    this.viewList[index].coursetableAdder = {
+      batch_id: -1,
+      total_marks: 0
+    };
   }
 
   getSubjectName(data, id) {
@@ -691,7 +722,7 @@ export class CourseExamComponent implements OnInit {
       batch_id: -1,
       total_marks: 0
     };
-    obj.selectedCourseList = this.viewList[0].selectedCourseList;
+    obj.selectedCourseList = Object.assign({}, this.viewList[0].selectedCourseList);
     obj.selectedCourseList.course_exam_schedule_id = '-1';
     obj.courseTableList = [];
     obj.subjectList = this.viewList[0].subjectList;
@@ -707,14 +738,16 @@ export class CourseExamComponent implements OnInit {
     if (dataToSend == false) {
       return;
     }
-    console.log(dataToSend);
+    this.isRippleLoad = true;
     this.apiService.updateExamSch(dataToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Success', 'Exam Schedule Added Successfully');
         this.getExamSchedule();
       },
       err => {
-        console.log(err);
+        this.isRippleLoad = false;
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -807,12 +840,53 @@ export class CourseExamComponent implements OnInit {
 
   ////cancel Exam popup/////
 
-  cancelExamCourse(data) {
+  cancelExamCourse(data, index, j) {
     this.cancelExamPopUp = true;
-    this.cancelExamData = data;
+    this.cancelExamData = this.viewList[j].courseTableList[index];
   }
 
   cancelCourseExam() {
+    if (this.cancelPopUpData.reason.trim() == "" || null) {
+      this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
+      return;
+    }
+    let notify: any = "";
+    if (this.cancelPopUpData.notify) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let obj: any = {
+      batch_id: this.cancelExamData.batch_id,
+      exam_freq: "OTHER",
+      cancelSchd: [{
+        schd_id: this.cancelExamData.class_schedule_id,
+        exam_desc: this.cancelPopUpData.reason,
+        is_notified: notify
+      }]
+    }
+    this.apiService.cancelExamSchedule(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Cancelled', 'Cancelled Successfully');
+        this.closeCancelExamPopUp();
+        this.getExamSchedule();
+      },
+      err => {
+        //console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  // cancel Button next to Send Reminder
+
+  cancelExamForFullCourse(data, index) {
+    this.cancelExamPopUp = true;
+    this.cancelExamData = data;
+    this.cancelCourseLevel = true;
+  }
+
+  cancelCourseLevelExam() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
       this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
       return;
@@ -834,14 +908,16 @@ export class CourseExamComponent implements OnInit {
       res => {
         this.messageNotifier('success', 'Successfully Cancelled', 'Cancelled Successfully');
         this.closeCancelExamPopUp();
+        this.getExamSchedule();
       },
       err => {
-        debugger
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
   }
+
+
 
   //Toggle Buttons////
 
@@ -864,11 +940,15 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
     }
+  }
+
+  deleteWholeCourse(data, index) {
+    this.viewList.splice(index, 1);
   }
 
   // Helper Function

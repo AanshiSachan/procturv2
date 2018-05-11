@@ -16,38 +16,41 @@
                 <div class="row">
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '-1'}">
+                            <label for="ddnMAsterCourse">Master Course*</label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
                                 <option value="-1"></option>
                                 <option [value]="master.standard_id" *ngFor="let  master of masterCourseList">
                                     {{master.standard_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Master Course</label>
+
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '-1'}">
+                            <label for="ddnMAsterCourse">Course*</label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onBatchCourseSelection($event)">
                                 <option value="-1"></option>
                                 <option [value]="master.subject_id" *ngFor="let  master of courseList">
                                     {{master.subject_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Course</label>
+
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '-1'}">
+                            <label for="sc">Batch*</label>
                             <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
                                 <option value="-1"></option>
                                 <option [value]="subject.batch_id" *ngFor="let subject of batchesList">
                                     {{subject.batch_name}}
                                 </option>
                             </select>
-                            <label for="sc">Batch</label>
+
                         </div>
                     </div>
-                    <div class="c-sm-3 c-md-3 c-lg-3">
+                    <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px">
                         <button class="btn fullBlue" (click)="batchModelGoClick()">Go</button>
                     </div>
                 </div>
@@ -59,45 +62,48 @@
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
+                            <label for="ddnMAsterCourse">Master Course
+                                <span style="color:red">*</span>
+                            </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
                                 <option value="-1"></option>
                                 <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
                                     {{master.master_course}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Master Course
-                                <span style="color:red">*</span>
-                            </label>
+
                         </div>
                     </div>
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.course_id != -1}">
+                            <label for="ddnMAsterCourse">Course
+                                <span style="color:red">*</span>
+                            </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.course_id">
                                 <option value="-1"></option>
                                 <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
                                     {{master.course_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Course
-                                <span style="color:red">*</span>
-                            </label>
+
                         </div>
                     </div>
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
 
                         <div class="field-wrapper datePickerBox has-value">
-                            <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
-                                name="reqDate" bsDatepicker>
                             <label for="reqDate">Exam Schedule Date
                                 <span style="color:red">*</span>
                             </label>
+                            <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
+                                name="reqDate" bsDatepicker>
+
                         </div>
 
                     </div>
 
-                    <div class="c-sm-3 c-md-3 c-lg-3">
+                    <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px">
                         <button class="btn fullBlue" (click)="getExamSchedule()">Go</button>
                     </div>
                 </div>
@@ -189,7 +195,7 @@
                         </div>
                     </div>
 
-                    <div class="c-sm-2 c-lg-2 c-md-2">
+                    <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="examScheduleData.is_exam_grad_feature == 0">
                         <div class="form-wrapper" style="width: 75px">
                             <label for="inpTotalMarks">Total Marks</label>
                             <input type="number" class="side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.total_marks">
@@ -217,7 +223,7 @@
                                     <th>
                                         End Time
                                     </th>
-                                    <th>
+                                    <th *ngIf="examScheduleData.is_exam_grad_feature == 0">
                                         Total Marks
                                     </th>
                                     <th>
@@ -239,7 +245,7 @@
                                     <td>
                                         {{row.end_time}}
                                     </td>
-                                    <td>
+                                    <td *ngIf="examScheduleData.is_exam_grad_feature == 0">
                                         <div class="form-wrapper">
                                             <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
                                         </div>
@@ -250,12 +256,28 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="action-Menu">
+
+                                        <div class="action-box">
+                                            <span class="mail-notification" *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="notifyExamSchedule(row)"
+                                                title="Notify">
+                                            </span>
+                                            <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" *ngIf="row.schd_id == 0 || (currentDate < row.exam_date)"
+                                                (click)="deleteExamSchedule(row,i)" title="Delete">
+                                                <i class="fa fa-trash-o " aria-hidden="true "></i>
+                                            </span>
+                                            <span *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)" title="Mark Attendance">
+                                                <img src="../../../../assets/images/attendance.png" width="20px" height="20px">
+                                            </span>
+                                            <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="cancelExamSchedule(row)">Cancel Exam</a>
+                                        </div>
+
+
+                                        <!-- <div class="action-Menu">
                                             <a *ngIf="row.schd_id == 0 || (currentDate < row.exam_date)" (click)="deleteExamSchedule(row,i)">Delete</a>
                                             <a *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)">Mark Attendance</a>
-                                            <a *ngIf="row.schd_id != 0" (click)="cancelExamSchedule(row)">Cancel Exam</a>
-                                            <a *ngIf="row.schd_id != 0" (click)="notifyExamSchedule(row)">Notify</a>
-                                        </div>
+                                            <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="cancelExamSchedule(row)">Cancel Exam</a>
+                                            <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="notifyExamSchedule(row)">Notify</a>
+                                        </div> -->
                                     </td>
                                 </tr>
                                 <tr *ngIf="examSchedule.length == 0">
@@ -283,7 +305,7 @@
                                     <th>Date</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
-                                    <th>Total Marks</th>
+                                    <th *ngIf="examScheduleData.is_exam_grad_feature == 0">Total Marks</th>
                                     <th>Cancel Reason</th>
                                     <th>Action</th>
                                 </tr>
@@ -299,7 +321,7 @@
                                     <td>
                                         {{row.end_time}}
                                     </td>
-                                    <td>
+                                    <td *ngIf="examScheduleData.is_exam_grad_feature == 0">
                                         {{row.total_marks}}
                                     </td>
                                     <td>
@@ -307,8 +329,18 @@
                                     </td>
                                     <td>
                                         <div class="action-Menu">
-                                            <a title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">Notify</a>
-                                            <a title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)" (click)="unCancelClass(row)">Uncancel Class</a>
+
+                                            <div class="action-box">
+                                                <span class="mail-notification" title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">
+                                                </span>
+                                                <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)"
+                                                    (click)="unCancelClass(row)">
+                                                    <i class="fa fa-trash-o " aria-hidden="true "></i>
+                                                </span>
+                                            </div>
+
+                                            <!-- <a title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">Notify</a>
+                                            <a title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)" (click)="unCancelClass(row)">Uncancel Class</a> -->
                                         </div>
                                     </td>
                                 </tr>
@@ -331,7 +363,7 @@
 
                     <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
 
-                    <div class="pull-right" *ngIf="selectedType == 'course'">
+                    <div class="pull-right" *ngIf="selectedType == 'course'" style="margin-right:10px;">
                         <button class="btn fullBlue small-btn" (click)="addMoreSchedule()">Add More</button>
                     </div>
 
@@ -350,8 +382,9 @@
                                 <span class="spanText">Course End Date : {{data.batchEndDate}} </span>
                             </div>
 
-                            <div class="pull-right">
-                                <button (click)="cancelExamCourse(data,j)" class="btn fullBlue small-btn">Cancel</button>
+                            <div class="pull-right" style="margin-right:10px;">
+                                <button *ngIf="data.selectedCourseList.course_exam_schedule_id == -1" (click)="deleteWholeCourse(data, j)" class="btn fullBlue small-btn">Delete</button>
+                                <button (click)="cancelExamForFullCourse(data,j)" class="btn fullBlue small-btn">Cancel</button>
                                 <button (click)="sendReminderForCourse(data,j)" class="btn fullBlue small-btn">Send Reminder</button>
                             </div>
 
@@ -408,7 +441,7 @@
 
                             </div>
 
-                            <div class="c-sm-2 c-lg-2 c-md-2">
+                            <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
                                 <div class="form-wrapper" style="width: 70px">
                                     <label for="inpTotalMarks">Total Marks</label>
                                     <input type="number" class="side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.total_marks">
@@ -437,7 +470,7 @@
                                 <thead>
                                     <tr>
                                         <th>Subject</th>
-                                        <th>Marks</th>
+                                        <th *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">Marks</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -453,7 +486,7 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
                                             <div class="form-wrapper">
                                                 <input type="number" class="side-form-ctrl torlMarksWidth constantHeight" [(ngModel)]="data.coursetableAdder.total_marks">
                                             </div>
@@ -466,14 +499,23 @@
                                         <td>
                                             {{row.subject_name}}
                                         </td>
-                                        <td>
-                                            {{row.total_marks}}
+                                        <td *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
+                                            <div class="form-wrapper">
+                                                <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="action-Menu">
-                                                <a (click)="deleteFromCourse(row , i , j)">Delete</a>
-                                                <a *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
+                                                <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
+                                                    <i class="fa fa-trash-o " aria-hidden="true "></i>
+                                                </span>
+                                                <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
                                             </div>
+
+                                            <!-- <div class="action-Menu">
+                                                <a (click)="deleteFromCourse(row , i , j)">Delete</a>
+                                                <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
+                                            </div> -->
                                         </td>
                                     </tr>
                                 </tbody>
@@ -483,7 +525,7 @@
 
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="margin-right:10px;">
                         <button class="btn fullBlue pull-right" (click)="saveExamScheduleCourse()">Save</button>
                     </div>
 
@@ -530,12 +572,13 @@
                     <div class="row attendance-Note">
                         <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="form-wrapper">
-                                <label for="attedNote">Attendance Note</label>
+                                <label for="attedNote">Exam Description</label>
                                 <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
                             </div>
                         </div>
                         <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
                             <div class="field-checkbox-wrapper">
+
                                 <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
                                 <label for="msgAbsentees">Send Sms For Absentees</label>
                             </div>
@@ -561,6 +604,7 @@
 
                         <div class="c-sm-3 c-md-3 c-lg-3">
                             <div class="field-checkbox-wrapper">
+
                                 <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatus()" (change)="markAllPresent($event)">
                                 <label for="MarkAllPresent">Mark All Present</label>
                             </div>
@@ -668,6 +712,7 @@
                     <div class="clearfix" style="margin-top: 10px">
                         <aside class="pull-left" style="margin-top: 10px">
                             <div class="field-checkbox-wrapper">
+
                                 <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
                                 <label for="chkBxNotifyStudent">Notify Students</label>
                             </div>
@@ -678,7 +723,8 @@
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
-                            <input type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
+                            <input *ngIf="cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseLevelExam()" class="fullBlue btn">
+                            <input *ngIf="!cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
                         </aside>
                     </div>
 

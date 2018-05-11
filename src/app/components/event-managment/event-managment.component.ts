@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventManagmentService } from '../../services/event-managment.service';
 import * as moment from 'moment';
 import { AppComponent } from '../../app.component';
+import { searchPipe } from '../shared/pipes/searchBarPipe';
 import { LoginService } from '../../services/login-services/login.service';
 @Component({
   selector: 'app-event-managment',
@@ -36,6 +37,11 @@ export class EventManagmentComponent implements OnInit {
     month: -1,
     event_type: "",
   }
+  
+  searchText: string = "";
+  searchflag: boolean = false;
+  searchData: any = [];
+
 
   sendNotify_obj = {
     event_id: ""
@@ -95,7 +101,7 @@ export class EventManagmentComponent implements OnInit {
         this.fetchTableDataByPage(this.pageIndex);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -105,12 +111,12 @@ export class EventManagmentComponent implements OnInit {
   getEvents() {
     this.eve_mnge.getEventdata().subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         this.getEvent = res;
-        console.log(this.getEvent);
+        //console.log(this.getEvent);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -124,7 +130,7 @@ export class EventManagmentComponent implements OnInit {
         this.getHoliday = res;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -247,7 +253,7 @@ export class EventManagmentComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -332,12 +338,12 @@ export class EventManagmentComponent implements OnInit {
           body: "Event Updated Successfully."
         }
         this.appc.popToast(obj);
-        console.log(res);
+        //console.log(res);
         this.closeEditPopup = false;
         this.getAllListData();
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
 
@@ -387,10 +393,9 @@ export class EventManagmentComponent implements OnInit {
           this.checker = true;
           this.newUpdateObj.event_end_date = moment(res.event_end_date).format("YYYY-MM-DD");
         }
-        // console.log(this.newUpdateObj);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
     // (<HTMLImageElement>document.getElementById('imgUpdate')).src = "data:image/png;base64,"+this.newUpdateObj.image;
@@ -400,11 +405,11 @@ export class EventManagmentComponent implements OnInit {
   deleteEventDataFromList(holidayId) {
     this.eve_mnge.deleteEventData(holidayId).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         this.getAllListData();
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }

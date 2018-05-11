@@ -1,40 +1,45 @@
 <div class="middle-section clearFix">
-    <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
-      <h1 class="pull-left marginhead">
-        Classroom
-      </h1>
-    </section>
 
-    <section class="middle-main clearFix">
-  
-      <div class="clearFix add-edit">
-        <a (click)="toggleCreateNewList()">
-          <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-          <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
-          <span>Add Classroom</span>
-        </a>
-      </div>
-      <section class="clearFix create-standard-form" *ngIf="CreateNewList">
-  <form action="">
-        <div class="row field">
-          <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
+  <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
+    <h1 class="pull-left marginhead">
+      Classroom
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreateNewList()">
+        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+        <span>Add Classroom</span>
+      </a>
+    </div>
+    <section class="clearFix create-standard-form" *ngIf="CreateNewList">
+      <form action="">
+        <div class="row ">
+          <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 ">
+
             <div class="field-wrapper" [ngClass]="{'has-value': enterclassdata!= ''}">
-              <input type="text" #idAddRoom class="form-ctrl"  [(ngModel)]="enterclassdata" name="Classroom_Name" id="Classroom_Name">
-              <label for="Classroom_Name">Classroom Name*</label>
+              <label for="Classroom_Name">Classroom Name<span class="astrick">*</span></label>
+              <input type="text" #idAddRoom class="form-ctrl" [(ngModel)]="enterclassdata" name="Classroom_Name" id="Classroom_Name">
+
             </div>
           </div>
-          <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
+          <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3">
             <div class="field-wrapper" [ngClass]="{'has-value': enterclassdataDesc!= ''}">
-              <input type="text" #idAddDesc class="form-ctrl" [(ngModel)]="enterclassdataDesc"  name="ClassroomDesc" id="ClassroomDesc">
-              <label for="ClassroomDesc">Classroom Description*</label>
+              <label for="ClassroomDesc">Classroom Description<span class="astrick">*</span></label>
+              <input type="text" #idAddDesc class="form-ctrl" [(ngModel)]="enterclassdataDesc" name="ClassroomDesc" id="ClassroomDesc">
+
             </div>
           </div>
-          <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
+          <div class="c-lg-2 c-md-2 c-sm-2 c-sx-2" style="margin-top:1%;">
             <aside class="pull-left create-cancel-small">
-              <button class="btn pull-right fullBlue btnclass" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
+              <button class="btn fullBlue btnclass" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
             </aside>
           </div>
         </div>
+
   </form>
       </section>
       <div id="divSlotTable">

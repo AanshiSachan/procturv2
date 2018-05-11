@@ -4,15 +4,17 @@ import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
 import { FilterPipe } from './filter.pipe';
 import { lang } from 'moment';
-import {ViewChild} from '@angular/core';
 
-import {ElementRef,Directive} from '@angular/core';
+import { ViewChild } from '@angular/core';
+
+import { ElementRef, Directive } from '@angular/core';
+
 
 @Component({
   selector: 'app-exam-report',
   templateUrl: './exam-report.component.html',
   styleUrls: ['./exam-report.component.scss'],
-  
+
 })
 export class ExamReportComponent implements OnInit {
   isProfessional: boolean = true;
@@ -25,7 +27,7 @@ export class ExamReportComponent implements OnInit {
   displayBatchSize: number = 10;
   Tdata: boolean = false;
   courseData: any[] = [];
-  
+
   batchCourseData: any = [];
 
 
@@ -91,6 +93,10 @@ export class ExamReportComponent implements OnInit {
   ================================================================================== */
   fetchExamData() {
     if (this.isProfessional) {
+      this.batchExamRepo = [];
+      this.subjectData = [];
+      this.queryParam.subject_id = -1;
+      this.queryParam.standard_id = -1;
       this.examdata.batchExamReport(this.queryParam).subscribe((res) => {
         {
           this.batchExamRepo = res.standardLi;
@@ -114,16 +120,18 @@ export class ExamReportComponent implements OnInit {
 
     if (this.isProfessional) {
 
+      this.batchCourseData = [];
+
       this.fetchFieldData.exam_schd_id = "";
 
-      this.fetchFieldData.subject_id = "";
+      this.queryParam.subject_id = -1;
 
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
           console.log(res.subjectLi);
 
           this.batchCourseData = res.subjectLi;
-          
+
           this.getSubjectData = res.batchLi;
 
           if (this.batchCourseData == null) {
@@ -161,12 +169,13 @@ export class ExamReportComponent implements OnInit {
         },
         (error: any) => {
 
+
           let obj = {
             type: "error",
             title: "Unable to Fetch Report",
             body: ""
-
           }
+          this.appC.popToast(obj);
         }
       )
     }
@@ -194,7 +203,7 @@ export class ExamReportComponent implements OnInit {
               Body: "Don't go in next field"
             }
             this.appC.popToast(obj);
-          }
+   }
         })
     }
     else {
@@ -369,7 +378,7 @@ export class ExamReportComponent implements OnInit {
       }
     }
   }
-  
+
 
 
   /*=========================================================================================
@@ -397,6 +406,13 @@ export class ExamReportComponent implements OnInit {
     return t;
   }
 
+  // fetchTableDataByPagePopup(index) {
+  //   this.pageIndex = index;
+  //   let startindex = this.displayBatchSize * (index - 1);
+  //   this.pagedDetailedExamSource = this.getDataFromDataSourcePopup(startindex);
+  //   //console.log(this.pagedDetailedExamSource);
+  // }
+
   closeExamReport() {
     this.addReportPopup = false;
 
@@ -405,13 +421,16 @@ export class ExamReportComponent implements OnInit {
   /*================================================
   ============================================== */
 
-downloadJsonToCSV(){
-  console.log(this.xlsDownloader);
+
+  downloadJsonToCSV() {
+    console.log(this.xlsDownloader);
     let link = this.xlsDownloader.nativeElement;
     let outer = this.examTable.nativeElement.outerHTML.replace(/ /g, '%20');
     let data_type = 'data:application/vnd.ms-excel';
 
-    link.setAttribute('href',  data_type + ',' +outer);
+
+    link.setAttribute('href', data_type + ',' + outer);
+
     link.setAttribute('download', 'test.xls');
     link.click();
   }

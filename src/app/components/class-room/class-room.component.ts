@@ -51,7 +51,7 @@ export class ClassRoomComponent {
         this.fetchTableDataByPage(this.pageIndex);
       }),
       err => {
-        console.log(err);
+        //console.log(err);
       }
   }
 
@@ -126,7 +126,7 @@ export class ClassRoomComponent {
 
         },
         error => {
-          console.log(error);
+          //console.log(error);
           let msg = {
             type: "error",
             title: "Error",
@@ -205,7 +205,7 @@ export class ClassRoomComponent {
           this.getClassList();
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       );
     }

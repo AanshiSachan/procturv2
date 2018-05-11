@@ -7,7 +7,7 @@ import { TreeTableModule } from 'primeng/treetable';
 
 
 /* Modules */
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -48,10 +48,11 @@ import { ClassRoomService } from './services/class-roomService/class-roomlist.se
 import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
-import { FilterPipe } from './components/event-managment/filterpipe';
 import { TopicsComponent } from './components/topics/topics.component';
 import { TopicServiceService} from './services/topic-service.service';
-
+import {FilterPipe} from './components/event-managment/filterpipe';
+import { MasterComponent } from './components/master/master.component';
+import { ManageExamModule } from './components/master/master.module';
 @NgModule({
   imports: [
     BrowserModule,
@@ -59,6 +60,7 @@ import { TopicServiceService} from './services/topic-service.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ManageExamModule,
     HttpModule,
     BrowserAnimationsModule,
     Ng2SmartTableModule,TreeTableModule,
@@ -66,7 +68,7 @@ import { TopicServiceService} from './services/topic-service.service';
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SharedModule,
-    Ng2OrderModule
+    Ng2OrderModule,
   ],
   declarations: [
     AppComponent,
@@ -80,8 +82,11 @@ import { TopicServiceService} from './services/topic-service.service';
     FilterPipe,
     EventManagmentComponent,
     CityAreaMapComponent,
-    SearchBoxComponent,
+
     TopicsComponent,
+    SearchBoxComponent
+   
+
   ],
   entryComponents: [
     SearchBoxComponent
@@ -98,7 +103,8 @@ import { TopicServiceService} from './services/topic-service.service';
     CityAreaService,
     ClassRoomService,
     EventManagmentService,
-    TopicServiceService
+ TopicServiceService,
+    Title
   ],
   bootstrap: [AppComponent]
 })

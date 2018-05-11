@@ -292,7 +292,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -315,7 +315,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
+import { DropData, DropMapData } from './dropmenu/dropmenu.model';
 
 @Component({
     selector: 'rob-table',
@@ -9,7 +10,9 @@ import * as moment from 'moment';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RobAdvanceTableComponent implements OnChanges {
+
     headerSort: any;
+
     @Input() records: any[];
     @Input() settings: ColumnData[];
     @Input() tableName: string = '';
@@ -17,23 +20,26 @@ export class RobAdvanceTableComponent implements OnChanges {
     @Input() primaryKey: string = '';
     @Input() key1: string;
     @Input() reset: boolean;
-    @Input() defaultSort:string="";
-
+    @Input() defaultSort: string = "";
+    @Input() isMulti: boolean = true;
+    @Input() hasMenu: boolean = false;
+    @Input() menuOptions: DropData[];
 
     @Output() userRowSelect = new EventEmitter();
     @Output() rowsSelected = new EventEmitter<number>();
     @Output() rowIdArr = new EventEmitter<any[]>();
     @Output() sortById = new EventEmitter<string>();
     @Output() rowUserId = new EventEmitter<string>();
-    @Output() sortDirection=new EventEmitter<boolean>();
-
-
+    @Output() sortDirection = new EventEmitter<boolean>();
+    @Output() multiOptionSelected = new EventEmitter<any>();
+    
     isAllSelected: boolean = false;
     columnMaps: ColumnMapData[];
     selectedRowGroup: any[] = [];
     selectedRow: number;
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
+    
     /* Number of line for skeleton screen */
     dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     userIdArray: any = [];
@@ -51,6 +57,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.dataStatus;
         this.key1;
         this.defaultSort;
+        this.menuOptions;
         this.refreshTable();
         if (this.settings) {
             this.columnMaps = this.settings
@@ -87,10 +94,11 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.userIdArray = [];
         this.records.forEach(e => {
             if (e.uiSelected) {
-                this.rowSelectedId.push(e[this.primaryKey]);
+                this.rowSelectedId.push(e);
                 this.userIdArray.push(e.user_id);
             }
         });
+
         this.rowIdArr.emit(this.rowSelectedId);
         this.rowUserId.emit(this.userIdArray);
     }
@@ -123,14 +131,14 @@ export class RobAdvanceTableComponent implements OnChanges {
         if (status == false) {
             eve.uiSelected = false;
             this.rowSelectedCount--;
-            this.rowSelectedId = this.removeFromSelectedArr(eve[this.primaryKey]);
+            this.rowSelectedId = this.removeFromSelectedArr(eve);
             this.rowIdArr.emit(this.rowSelectedId);
             this.rowsSelected.emit(this.rowSelectedCount);
         }
         else if (status == true) {
             eve.uiSelected = true;
             this.rowSelectedCount++;
-            this.rowSelectedId.push(eve[this.primaryKey]);
+            this.rowSelectedId.push(eve);
             this.rowIdArr.emit(this.rowSelectedId);
             this.rowsSelected.emit(this.rowSelectedCount);
         }
@@ -138,7 +146,7 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     refreshTable() {
         this.cd.markForCheck();
-              
+
         this.headerSort = this.defaultSort;
         if (!this.reset) {
             this.selectedRow = null;
@@ -159,8 +167,8 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.cd.markForCheck();
         this.caret = true;
 
-        this.headerSort=ev;
-        (this.asc) ? (this.asc=false) : (this.asc=true);
+        this.headerSort = ev;
+        (this.asc) ? (this.asc = false) : (this.asc = true);
         this.sortById.emit(ev);
         this.sortDirection.emit(this.asc);
     }
@@ -215,14 +223,18 @@ export class RobAdvanceTableComponent implements OnChanges {
         }
     }
 
-    isSorted(map):boolean{
+    isSorted(map): boolean {
         if (map.primaryKey != 'noOfBatchesAssigned') {
             this.cd.markForCheck();
-            return  (map.primaryKey==this.headerSort && this.caret);
+            return (map.primaryKey == this.headerSort && this.caret);
         }
-        else{
+        else {
             return false;
         }
+    }
+
+    recordSelected(e){
+        this.multiOptionSelected.emit(e);
     }
 
 }

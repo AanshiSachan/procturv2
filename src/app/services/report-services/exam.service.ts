@@ -105,7 +105,7 @@ getCourses(obj): Observable<any> {
 }
 
 viewDetailData(obj){
-console.log(obj);
+//console.log(obj);
   let url = this.baseUrl + "/api/v1/reports/StdExam/" +obj
         return this.http.get(url,{ headers: this.headers }).map(
             res => {

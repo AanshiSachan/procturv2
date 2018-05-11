@@ -25,11 +25,12 @@
       <div class="row" style="padding-left:15px">
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.name != ''}">
+              <label for="Name">Name
+                  <span style="color:red">*</span>
+                </label>
             <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name" maxlength="50"
               #name="ngModel" required style="width: 75%">
-            <label for="Name">Name
-              <span style="color:red">*</span>
-            </label>
+           
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
               <div *ngIf="name.errors.required" style="color: red">
                 Lead name is required.
@@ -41,13 +42,14 @@
       <div class="row" style="padding-left:15px">
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper"  [ngClass]="{'has-value': campaignAddFormData.referred != ''}">
+              <label for="referred">Referred by</label>
             <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred" style="width: 75%">
               <option value=""></option>
               <option [value]="refer.id" *ngFor="let refer of referralList">
                 {{refer.name}}
               </option>
             </select>
-            <label for="referred">Referred by</label>
+           
           </div>
         </div>
       </div>
@@ -55,13 +57,14 @@
       <div class="row" style="padding-left:15px">
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.source != ''}">
+              <label for="source">Source</label>
             <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source" style="width: 75%">
               <option value=""></option>
               <option [value]="source.id" *ngFor="let source of sourceList">
                 {{source.name}}
               </option>
             </select>
-            <label for="source">Source</label>
+           
           </div>
         </div>
       </div>

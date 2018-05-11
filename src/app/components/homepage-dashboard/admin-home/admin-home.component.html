@@ -163,10 +163,10 @@
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
                           <div *ngIf="class.isExam" class="che-action">
-                            <span (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
+                            <span (click)="markExamAttendance(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="notifyExamSchedule(class)" style="cursor:pointer">Send Reminder</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
-                            <span class="" *ngIf="class.isReferenced== 'Y'" (click)="examMarksUpdate(class)">Exam Marks</span>
+                            <span class="" *ngIf="class.isReferenced== 'Y'" (click)="examMarksUpdate(class)" style="cursor:pointer">Exam Marks</span>
                           </div>
                         </div>
                       </div>
@@ -235,7 +235,7 @@
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
                           <div *ngIf="(class.isExam)" class="che-action">
-                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
+                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer" [ngClass]="hideFutureExamSchedule(class)">Exam Attendance</span>
                             <span class="" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>
                             <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks</span>
@@ -1459,7 +1459,7 @@
       <div class="row attendance-Note">
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="form-wrapper">
-            <label for="attedNote">Attendance Note</label>
+            <label for="attedNote">Exam Description</label>
             <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
           </div>
         </div>
@@ -1545,7 +1545,10 @@
       <div class="clearfix" style="padding-top: 15px">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeExamAttendance()">
-          <input type="button" value="Mark Attendance" (click)="updateCourseAttendanceExam()" class="fullBlue btn">
+          <input type="button" *ngIf="tempData.isReferenced == 'N'" value="Mark Attendance" (click)="updateCourseAttendanceExam()"
+            class="fullBlue btn">
+          <input type="button" *ngIf="tempData.isReferenced == 'Y'" value="Update Attendance" (click)="updateCourseAttendanceExam()"
+            class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1573,6 +1576,10 @@
       <div class="row filterSection">
         <div class="c-sm-3 c-md-3 c-lg-3">
           <h3>Total Students : {{studentList.length}} </h3>
+        </div>
+
+        <div *ngIf="examData.is_exam_grad_feature == 0" class="pull-right" style="margin-right: 10px">
+          <h3>Total Marks : {{examData.total_marks}}</h3>
         </div>
 
         <!-- <div class="c-sm-6 c-md-6 c-lg-6">
@@ -1604,7 +1611,10 @@
                   <th style="font-size: 14px;font-weight: 600;">Student Id</th>
                   <th style="font-size: 14px;font-weight: 600;">Student Name</th>
                   <th style="font-size: 14px;font-weight: 600;">Standard/Class</th>
-                  <th style="font-size: 14px;font-weight: 600;">Marks Obtained</th>
+                  <th style="font-size: 14px;font-weight: 600;">
+                    <span *ngIf="examData.is_exam_grad_feature == 0">Marks Obtained</span>
+                    <span *ngIf="examData.is_exam_grad_feature == 1">Grades Obtained</span>
+                  </th>
                   <th style="font-size: 14px;font-weight: 600;">Attendance</th>
                 </tr>
               </thead>
@@ -1625,9 +1635,20 @@
                   <td>
                     {{s.student_class}}
                   </td>
-                  <td>
+                  <td *ngIf="examData.is_exam_grad_feature == 0">
                     <div class="form-wrapper" style="width:50px;">
                       <input type="text" class="side-form-ctrl" [(ngModel)]="s.marks_obtained">
+                    </div>
+                  </td>
+                  <td *ngIf="examData.is_exam_grad_feature == 1">
+                    <div class="form-wrapper" style="width:70px;">
+                      <select id="" class="side-form-ctrl" [(ngModel)]="s.grade_id" name="grade_id" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N') || (s.attendance == 'L') || (s.attendance == 'A')"
+                        style="padding: 0px 0px">
+                        <option value="-1"></option>
+                        <option [value]="time.grade_id" *ngFor="let time of gradesList">
+                          {{time.grade}}
+                        </option>
+                      </select>
                     </div>
                   </td>
                   <td>

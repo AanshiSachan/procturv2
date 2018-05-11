@@ -194,7 +194,19 @@ export class AdminHomeComponent implements OnInit {
   selectedViewDet: any;
   viewDetTable: any = [];
   searchData: string = "";
-  allChecked: boolean = true;
+  allChecked: boolean = true; u
+  cancelExamPopUP: boolean = false;
+  tempData: any = [];
+  cancelPopUpData = {
+    reason: "",
+    notify: true
+  };
+  markExamAttendancePopUp: boolean = false;
+  smsAbsenteesChkbx: boolean = false;
+  examMarksPopup: boolean = false;
+  examData: any = "";
+  examGradeFeature: any;
+  gradesList: any = [];
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -210,6 +222,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
+    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
     this.permissionArray = sessionStorage.getItem('permissions');
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
@@ -277,12 +290,12 @@ export class AdminHomeComponent implements OnInit {
     //this.fetchFeeWidgetData();
     this.getStorageData();
 
-    if (this.isProfessional) {
-      this.fetchBatchWidgetData();
-    }
-    else {
-      this.fetchScheduleWidgetData();
-    }
+    // if (this.isProfessional) {
+    //   this.fetchBatchWidgetData();
+    // }
+    // else {
+    //   this.fetchScheduleWidgetData();
+    // }
   }
 
   getStorageData() {
@@ -1250,7 +1263,7 @@ export class AdminHomeComponent implements OnInit {
     this.selectedRow = null;
     if (event.value == 'subject') {
       this.isSubjectView = true;
-      this.fetchScheduleWidgetData();
+      // this.fetchScheduleWidgetData(); This function get call twice 
     }
     else if (event.value == 'course') {
       this.isRippleLoad = true;
@@ -1522,7 +1535,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getTopicsUpdate() {
-    debugger
+
     this.isRippleLoad = true;
     this.topicsList = [];
     let obj = { batch_id: this.classMarkedForAction.batch_id.toString() };
@@ -1941,7 +1954,7 @@ export class AdminHomeComponent implements OnInit {
           this.selectedOption = "filter";
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -2347,7 +2360,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeNotificationPopUp();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let msg = {
           type: 'error',
           title: 'Error',
@@ -2384,7 +2397,7 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let msg = {
           type: 'error',
           title: 'Error',
@@ -2429,7 +2442,7 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          console.log(err);
+          //console.log(err);
           let msg = {
             type: 'error',
             title: 'Error',
@@ -2481,7 +2494,7 @@ export class AdminHomeComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2589,25 +2602,15 @@ export class AdminHomeComponent implements OnInit {
 
   ////Exam Schedule Section
 
-  cancelExamPopUP: boolean = false;
-  tempData: any = [];
-  cancelPopUpData = {
-    reason: "",
-    notify: false
-  };
-  markExamAttendancePopUp: boolean = false;
-  smsAbsenteesChkbx: boolean = false;
-  examMarksPopup: boolean = false;
-  examData: any = "";
-
   getAllExamsAndClass(obj) {
+    this.schedStat = [];
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
       this.grid.refreshItems().layout();
       this.schedStat = data;
       this.getExamSchedule(obj);
       this.addKeyInData(this.schedStat.otherSchd, "isExam", false);
     }, err => {
-      console.log(err);
+      //console.log(err);
       this.getExamSchedule(obj);
     })
   }
@@ -2616,11 +2619,11 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getExamSchedule(obj).subscribe(
       (res: any) => {
         this.addKeyInData(res.otherSchd, "isExam", true);
-        this.schedStat.otherSchd = this.schedStat.otherSchd.concat(res.otherSchd);
-        this.schedStat.otherSchd = this.sortDataByDateTime(this.schedStat.otherSchd);
+        let result = this.schedStat.otherSchd.concat(res.otherSchd);
+        this.schedStat.otherSchd = this.sortDataByDateTime(result);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2706,7 +2709,7 @@ export class AdminHomeComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2782,14 +2785,14 @@ export class AdminHomeComponent implements OnInit {
   // Batch Section
   updateCourseAttendanceExam() {
     let dataToSend = this.makeJsonForAttendceMark();
-    console.log(dataToSend);
     this.widgetService.markAttendance(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
+        this.fetchScheduleWidgetData();
         this.closeExamAttendance();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2832,7 +2835,7 @@ export class AdminHomeComponent implements OnInit {
     this.tempData = "";
     this.cancelPopUpData = {
       reason: "",
-      notify: false
+      notify: true
     }
   }
 
@@ -2865,7 +2868,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeExamPopup();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2880,7 +2883,7 @@ export class AdminHomeComponent implements OnInit {
           this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -2913,6 +2916,9 @@ export class AdminHomeComponent implements OnInit {
     this.tempData = data;
     this.examMarksPopup = true;
     this.fetchStudentDetails(data);
+    if (this.examGradeFeature == 1) {
+      this.getAllExamGrades();
+    }
   }
 
   closeExamMarks() {
@@ -2920,15 +2926,26 @@ export class AdminHomeComponent implements OnInit {
     this.examMarksPopup = false;
   }
 
+  getAllExamGrades() {
+    this.widgetService.getExamGrades().subscribe(
+      res => {
+        this.gradesList = res;
+      },
+      err => {
+        //console.log(err);
+      }
+    )
+  }
+
   fetchStudentDetails(data) {
     this.widgetService.fetchStudentExamDetails(data.batch_id, data.schd_id).subscribe(
       (res: any) => {
-        console.log(res);
+        //console.log(res);
         this.examData = res;
         this.studentList = this.addKeys(res.studLi, false);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2957,9 +2974,15 @@ export class AdminHomeComponent implements OnInit {
     if (event.target.innerText == "L") {
       data.attendance = "L";
       data.isAttendanceUpdated = "Y";
+      if (this.examGradeFeature == 1) {
+        data.grade_id = "-1";
+      }
     } else if (event.target.innerText == "A") {
       data.attendance = "A";
       data.isAttendanceUpdated = "Y";
+      if (this.examGradeFeature == 1) {
+        data.grade_id = "-1";
+      }
     } else {
       data.attendance = "P";
       data.isAttendanceUpdated = "Y";
@@ -2972,13 +2995,17 @@ export class AdminHomeComponent implements OnInit {
       this.messageNotifier('error', 'Error', 'Please Select Student');
       return;
     }
+    if (dataToSend == false) {
+      return;
+    }
     this.widgetService.updateAttendanceDetails(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', "Marks Updated", 'Marks Updated Successfully');
+        this.fetchScheduleWidgetData();
         this.closeExamMarks();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2997,10 +3024,20 @@ export class AdminHomeComponent implements OnInit {
         student.marks_obtained = this.studentList[i].marks_obtained;
         student.student_exam_det_id = this.studentList[i].student_exam_det_id;
         student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
-        student.isUpdated = this.studentList[i].isUpdated;
+        if (sendSms == "Y") {
+          student.isUpdated = "Y";
+        } else {
+          student.isUpdated = this.studentList[i].isUpdated;
+        }
         student.attendance = this.studentList[i].attendance;
         student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
         student.grade_id = this.studentList[i].grade_id;
+        if (this.examData.is_exam_grad_feature == 0) {
+          if (student.marks_obtained > this.examData.total_marks) {
+            this.messageNotifier('error', 'Error', 'Please check marks you have provided');
+            return false;
+          }
+        }
         arr.studLi.push(student);
       }
     }
@@ -3014,6 +3051,14 @@ export class AdminHomeComponent implements OnInit {
       body: msg
     }
     this.appC.popToast(data);
+  }
+
+  hideFutureExamSchedule(row) {
+    if (moment(row.exam_date) > moment()) {
+      return "hide";
+    } else {
+      return "";
+    }
   }
 
 }

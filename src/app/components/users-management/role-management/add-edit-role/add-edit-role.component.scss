@@ -1,0 +1,30 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.picklist-wrapper {
+    max-width: 80%;
+    margin-top: 20px;
+}
+
+.btn-section {
+    margin-top: 20px;
+}
+
+.picklist-wrapper {
+    ui-picklist-buttons {
+        color: #0083f6 !important;
+        background: #f4f4f4 !important;
+        &.ui-button-icon-left &.ui-clickable {
+            font-weight: 800 !important;
+            font-size: 20px !important;
+        }
+    }
+}

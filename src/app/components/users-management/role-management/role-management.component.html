@@ -1,0 +1,109 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+
+<section class="middle-section clearFix">
+  <div class="content-contaioner">
+
+    <div class="head">
+      <div class="row">
+        <div class="pull-left">
+          <h3>Roles</h3>
+        </div>
+        <div class="btnWrapper">
+          <button class="btn pull-right" routerLink='addedit'>
+            <div class="option-wrap">
+              <img src="assets/images/plus.png" alt="Add User" style="vertical-align: -webkit-baseline-middle;">
+              <span class="tooltip tooltipWrapper">
+                Add Role
+              </span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="roles-table-wrapper">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>S No.</th>
+              <th>Role</th>
+              <th>Desc</th>
+              <th>Assigned User</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of rolesList; let i = index; trackBy: i">
+              <td>{{i + 1}}</td>
+              <td>{{data.role_name}}</td>
+              <td>{{data.role_desc}}</td>
+              <td>
+                <a class="viewTag" (click)="showAssignedUserList(data)" title="Click here to see assigend user list">{{data.total_user_count}}</a>
+              </td>
+              <td>
+                <div class="action-menu">
+                  <a [routerLink]='["addedit" , data.role_id]'>Edit</a>
+                  <a (click)="deleteRole(data)">Delete</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showUserListPopUp">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopUp()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                      rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                      rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                      " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2>Assigned User list</h2>
+        <div class="table-wrapper-user">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email Id</th>
+                <th>Contact Number</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of userList">
+                <td>{{s.name}}</td>
+                <td>{{s.email_id}}</td>
+                <td>{{s.phone}}</td>
+                <td>{{s.username}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

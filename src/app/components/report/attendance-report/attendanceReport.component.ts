@@ -54,7 +54,7 @@ export class AttendanceReportComponent implements OnInit {
   pageDetailedDataPro: any[] = [];
   property = "";
   direction = 0;
-  sortingEnabled:boolean = true;
+  sortingEnabled: boolean = true;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   columnMaps2: any[] = [0, 1, 2, 3, 4, 5];
@@ -90,7 +90,7 @@ export class AttendanceReportComponent implements OnInit {
     course_id: -1,
     batch_id: "-1",
     master_course_name: "",
-    from_date:  moment(new Date()).format('YYYY-MM-DD'),
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
     to_date: moment(new Date()).format('YYYY-MM-DD')
   };
 
@@ -144,10 +144,11 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
-      this.reportService.getMasterCourse().subscribe(data => {
-        this.isRippleLoad = false;
-        this.masterCourses = data;
-      },
+      this.reportService.getMasterCourse().subscribe(
+        (data: any) => {
+          this.isRippleLoad = false;
+          this.masterCourses = data;
+        },
         error => {
           this.isRippleLoad = false;
           return error;
@@ -410,7 +411,7 @@ export class AttendanceReportComponent implements OnInit {
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
-              this.isRippleLoad=false;
+              this.isRippleLoad = false;
             }
 
           },
@@ -467,31 +468,31 @@ export class AttendanceReportComponent implements OnInit {
         this.pageDetailedData = [];
         this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
           (data: any) => {
-            if(data.length){
+            if (data.length) {
               this.addReportPopUp = true;
               this.isRippleLoad = false;
               this.dataStatus = false;
               this.dateWiseAttendance = data;
               this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
                 this.typeAttendance = ele.attendanceDateType;
-  
+
               });
               this.attendanceIndex0 = this.typeAttendance[0];
               this.attendanceIndexi = this.typeAttendance.length;
               this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
-  
+
               this.totalRowPopup = data.length;
               this.PageIndexPopup = 1;
-              this.fetchTableDataByPagePopup(this.PageIndexPopup);  
+              this.fetchTableDataByPagePopup(this.PageIndexPopup);
             }
-            else{
+            else {
               let msg = {
                 type: "info",
                 title: "No Data Found",
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
-              this.isRippleLoad=false;
+              this.isRippleLoad = false;
             }
           },
           (error: any) => {
@@ -652,7 +653,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   DownloadJsonToCsv() {
-    console.log(this.attendanceTable.nativeElement.innerHtml);
+    //console.log(this.attendanceTable.nativeElement.innerHtml);
     let link = this.xlsDownloader.nativeElement;
     let outer = this.attendanceTable.nativeElement.outerHTML.replace(/ /g, '%20');
     let data_type = 'data:application/vnd.ms-excel';
@@ -666,9 +667,9 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   searchDatabase() {
-    
+
     if (this.searchText != "" && this.searchText != null) {
-      
+
       this.PageIndex = 1;
       let searchRes: any;
       if (!this.isProfessional) {
@@ -676,16 +677,15 @@ export class AttendanceReportComponent implements OnInit {
           Object.keys(item).some(
             k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
         );
-      } 
-      else 
-      {
+      }
+      else {
         searchRes = this.queryParamsPro.filter(item =>
           Object.keys(item).some(
             k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
         );
-        
+
       }
-      
+
       this.searchData = searchRes;
       this.totalRow = searchRes.length;
       this.searchflag = true;

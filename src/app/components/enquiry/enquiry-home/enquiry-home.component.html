@@ -74,13 +74,6 @@
               <div class="search-filter-wrapper" id="adFilterExitVisible">
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-                <!-- followup date handler -->
-                <!-- <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                    name="followupdate" bsDatepicker readonly="true" />
-                  <label for="followupdate">Follow up Date</label>
-                  <span class="date-clear" name="followupdate" (click)="clearSearchDate()">clear</span>
-                </div> -->
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
             </div>
@@ -117,11 +110,12 @@
             <!-- Status -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
+                  <label for="enquiryStatus">Enquiry Status</label>
                 <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status">
                   <option value=""></option>
                   <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
                 </select>
-                <label for="enquiryStatus">Enquiry Status</label>
+                
               </div>
             </div>
 
@@ -139,68 +133,74 @@
             <!-- Priority -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
+                  <label for="enquiryPriority">Enquiry Priority</label>
                 <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority">
                   <option></option>
                   <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
                     {{priority.data_value}}
                   </option>
                 </select>
-                <label for="enquiryPriority">Enquiry Priority</label>
+                
               </div>
             </div>
 
             <!-- Followup Type -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
+                  <label for="followupType">Enquiry Follow up Type</label>
                 <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType">
                   <option></option>
                   <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
                     {{ follow.data_value }}
                   </option>
                 </select>
-                <label for="followupType">Enquiry Follow up Type</label>
+               
               </div>
             </div>
 
             <!-- Standard -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                  <label *ngIf="!isProfessional" for="standard">Standard</label>
+                  <label *ngIf="isProfessional" for="standard">Master Course</label>
                 <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()">
                   <option value="-1"></option>
                   <option *ngFor="let std of enqStd" [value]="std.standard_id">
                     {{ std.standard_name }}
                   </option>
                 </select>
-                <label *ngIf="!isProfessional" for="standard">Standard</label>
-                <label *ngIf="isProfessional" for="standard">Master Course</label>
+               
               </div>
             </div>
 
             <!-- Subject -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
+                  <label *ngIf="!isProfessional" for="selectSub">Subject</label>
+                  <label *ngIf="isProfessional" for="selectSub">Course</label>
                 <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject">
                   <option value="-1"></option>
                   <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
                     {{ subject.subject_name }}
                   </option>
                 </select>
-                <label *ngIf="!isProfessional" for="selectSub">Subject</label>
-                <label *ngIf="isProfessional" for="selectSub">Course</label>
+               
               </div>
             </div>
 
             <!-- Slot -->
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
               <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                  <label for="assignCourses">Slots</label>
                 <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
-                <label for="assignCourses">Slots</label>
+                
               </div>
               <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                 <div class="multiselect-wrapper-inner">
                   <ul class="">
                     <li *ngFor="let slot of slots">
                       <div class="field-checkbox-wrapper">
+                         
                         <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
                         <label for="slot.label">{{slot.label}}</label>
                       </div>
@@ -213,22 +213,24 @@
             <!-- Assigned -->
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isEnquiryAdmin">
               <div class="field-wrapper">
+                  <label for="assignTo">Assign To</label>
                 <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
                   <option></option>
                   <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                     {{ assigned.name }}
                   </option>
                 </select>
-                <label for="assignTo">Assign To</label>
+
               </div>
             </div>
 
             <!-- Update Date -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
-                <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
+                  <label for="updateDate">Update Date</label>
+                <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
                   readonly="true" bsDatepicker/>
-                <label for="updateDate">Update Date</label>
+                
                 <span class="date-clear" name="followupdate" (click)="clearadfilterUpdateDate()">clear</span>
               </div>
             </div>
@@ -236,9 +238,10 @@
             <!-- Enquiry From Date -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
-                <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateFrom"
+                  <label for="enquiryFromDate">Enquiry From Date</label>
+                <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.enquireDateFrom"
                   name="EFD" bsDatepicker readonly="true" />
-                <label for="enquiryFromDate">Enquiry From Date</label>
+                
                 <span class="date-clear" name="followupdate" (click)="clearadfilterEnqFromDate()">clear</span>
               </div>
             </div>
@@ -246,9 +249,10 @@
             <!-- Enquiry To Date -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
-                <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateTo"
+                  <label for="enquiryToDate">Enquiry To Date</label>
+                <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker dateFormat " [(ngModel)]="advancedFilterForm.enquireDateTo"
                   name="ETD" bsDatepicker readonly="true" />
-                <label for="enquiryToDate">Enquiry To Date</label>
+               
                 <span class="date-clear" name="followupdate" (click)="clearadfilterEnqToDate()">clear</span>
               </div>
             </div>
@@ -256,9 +260,10 @@
             <!-- Follow Up Date -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
-                <input type="text" value="" id="followDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.followUpDate"
+                  <label for="followDate">Follow-Up Date</label>
+                <input type="text" value="" id="followDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.followUpDate"
                   name="FD" readonly="true" bsDatepicker/>
-                <label for="followDate">Follow-Up Date</label>
+                
                 <span class="date-clear" name="followupdate" (click)="clearfollowUpDate()">clear</span>
               </div>
             </div>
@@ -277,11 +282,12 @@
             <!-- Institute List  -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1' }">
+                  <label for="schoolList">Institute Name</label>
                 <select id="schoolList" class="form-ctrl" [(ngModel)]="advancedFilterForm.school_id" name="school">
                   <option value="-1"></option>
                   <option *ngFor="let school of schools" [value]="school.school_id">{{school.school_name}}</option>
                 </select>
-                <label for="schoolList">Institute Name</label>
+               
               </div>
             </div>
 
@@ -290,45 +296,50 @@
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                    <label for="{{component.id}}">{{component.label}} </label>
                   <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
                   />
-                  <label for="{{component.id}}">{{component.label}} </label>
+                  
                 </div>
               </div>
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                 <br>
                 <div class="field-checkbox-wrapper">
+                  
                   <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                     value="">
-                  <label for="{{component.id}}">{{component.label}} </label>
+                    <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                    <label for="{{component.id}}">{{component.label}} </label>
                   <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                     <option value=""></option>
                     <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                   </select>
-                  <label for="{{component.id}}">{{component.label}} </label>
+                 
                 </div>
               </div>
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                 <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                    <label for="{{component.id}}">{{component.label}} </label>
                   <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                     readonly="true" />
-                  <label for="{{component.id}}">{{component.label}} </label>
+                  
                 </div>
                 <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                   <div class="multiselect-wrapper-inner">
                     <ul class="">
                       <li *ngFor="let opt of component.prefilled_data">
                         <div class="field-checkbox-wrapper">
+                           
                           <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                             class="form-checkbox">
-                          <label for="opt.data">{{opt.data}}</label>
+                            <label for="opt.data">{{opt.data}}</label>
                         </div>
                       </li>
                     </ul>
@@ -338,9 +349,10 @@
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                    <label for="{{component.id}}">{{component.label}} </label>
                   <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                     name="{{component.label}}" bsDatepicker/>
-                  <label for="{{component.id}}">{{component.label}} </label>
+                  
                 </div>
               </div>
 
@@ -436,24 +448,26 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
+                      <label for="priorityEdit">Priority</label>
                     <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.priority" name="priority">
                       <option></option>
                       <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
                         {{priority.data_value}}
                       </option>
                     </select>
-                    <label for="priorityEdit">Priority</label>
+                   
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
+                      <label for="selectFollowupEdit">Follow Up Type</label>
                     <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type" name="follow_type">
                       <option></option>
                       <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
                         {{followT.data_value}}
                       </option>
                     </select>
-                    <label for="selectFollowupEdit">Follow Up Type</label>
+                    
                   </div>
                 </div>
               </div>
@@ -461,9 +475,10 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
+                      <label for="followUPdateEdit">Follow Up Date</label>
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
                       (ngModelChange)="isNotifyDisplayed()" bsDatepicker readonly="true" />
-                    <label for="followUPdateEdit">Follow Up Date</label>
+                  
                     <span class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
                   </div>
                 </div>
@@ -494,6 +509,7 @@
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
                   <div class="form-checkbox-wrapper">
                     <div class="field-checkbox-wrapper">
+                        
                       <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox"
                       />
                       <label for="notifyme">Notify Me</label>
@@ -505,6 +521,7 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
+                      <label for="enquiryStatusEdit">Status</label>
                     <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
                       name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
                       <option></option>
@@ -513,7 +530,7 @@
                         {{status.data_value}}
                       </option>
                     </select>
-                    <label for="enquiryStatusEdit">Status</label>
+                   
                   </div>
                 </div>
 
@@ -533,9 +550,10 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
+                      <label for="followUPdateEdit">Walkin Date</label>
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.walkin_followUpDate"
                       id="" bsDatepicker readonly="true" />
-                    <label for="followUPdateEdit">Walkin Date</label>
+                    
                     <span class="date-clear" name="walkinfollowUpDate" (click)="updateFormData.walkin_followUpDate = ''">clear</span>
                   </div>
                 </div>
@@ -748,20 +766,22 @@
                   <div class="row extraMargin">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper has-value">
+                          <label for="pDate">Payment Date</label>
                         <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate" name="pDate"
                           bsDatepicker readonly="true" />
-                        <label for="pDate">Payment Date</label>
+                        
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
+                          <label for="paymentMode">Payment Mode</label>
                         <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode">
                           <option></option>
                           <option *ngFor="let payment of paymentMode" [value]="payment">
                             {{payment}}
                           </option>
                         </select>
-                        <label for="paymentMode">Payment Mode</label>
+                        
                       </div>
                     </div>
                   </div>
@@ -769,15 +789,17 @@
                   <div class="row extraMargin">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
+                          <label for="remark">Amount</label>
                         <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" />
-                        <label for="remark">Amount</label>
+                       
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
+                          <label for="referenceNo">Reference No.</label>
                         <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
                         />
-                        <label for="referenceNo">Reference No.</label>
+                       
                       </div>
                     </div>
                   </div>
@@ -908,13 +930,14 @@
           <div class="update-enquiry-form overflowHidden">
             <div class="enquiry-update-history">
               <div class="field-wrapper" style="max-width: 70%">
+                  <label for="assignTo">Assign To</label>
                 <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
                   <option></option>
                   <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                     {{ assigned.name }}
                   </option>
                 </select>
-                <label for="assignTo">Assign To</label>
+               
               </div>
             </div>
             <div class="">
@@ -974,14 +997,15 @@
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-6 pull-left new-sms-wrapper">
+                            <div class="c-lg-1">
+                                <label>{{newSmsString.length}}</label>
+                              </div>
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
                             [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
                             </textarea>
                         </div>
 
-                        <div class="c-lg-1">
-                          <label>{{newSmsString.length}}</label>
-                        </div>
+                       
 
                         <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
@@ -1007,7 +1031,7 @@
                   <div class="row sms-table-head">
                     <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
                       <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;" (click)="switchSmsTab('approvedSms')">
-                        <label style="cursor: pointer">Approved</label>
+                          <label style="cursor: pointer">Approved</label>
                       </div>
                       <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
                         <label style="cursor: pointer">Open</label>
@@ -1054,8 +1078,9 @@
                             <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
                               <td>
                                 <div class="field-radio-wrapper">
+                                    <label for="appradiosms{{i}}"></label>
                                   <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
-                                  <label for="appradiosms{{i}}"></label>
+                                  
                                 </div>
                               </td>
                               <td style="text-align: left; text-overflow: ellipsis">
@@ -1074,8 +1099,9 @@
                             <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
                               <td>
                                 <div class="field-radio-wrapper">
+                                    <label for="oppradiosms{{i}}"></label>
                                   <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
-                                  <label for="oppradiosms{{i}}"></label>
+                                  
                                 </div>
                               </td>
                               <td style="text-align: left; text-overflow: ellipsis">
@@ -1190,14 +1216,15 @@
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-6 pull-left new-sms-wrapper">
+                            <div class="c-lg-1">
+                                <label>{{newSmsString.length}}</label>
+                              </div>
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
                             [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
                                 </textarea>
                         </div>
 
-                        <div class="c-lg-1">
-                          <label>{{newSmsString.length}}</label>
-                        </div>
+                        
 
                         <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
@@ -1270,8 +1297,9 @@
                             <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
                               <td>
                                 <div class="field-radio-wrapper">
+                                    <label for="appradiosms{{i}}"></label>
                                   <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
-                                  <label for="appradiosms{{i}}"></label>
+                                  
                                 </div>
                               </td>
                               <td style="text-align: left; text-overflow: ellipsis">
@@ -1290,8 +1318,9 @@
                             <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
                               <td>
                                 <div class="field-radio-wrapper">
+                                    <label for="oppradiosms{{i}}"></label>
                                   <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
-                                  <label for="oppradiosms{{i}}"></label>
+                                 
                                 </div>
                               </td>
                               <td style="text-align: left; text-overflow: ellipsis">
@@ -1387,13 +1416,14 @@
             <div id="divDropDownSection" *ngIf="!showDateRange" class="row dropDownSection">
               <div class="c-sm-6 c-lg-6 c-lg-6">
                 <div class="field-wrapper has-value">
+                    <label for="priorityEdit">Select Duration</label>
                   <select id="" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
                     <option value="1">Select Month</option>
                     <option value="2">This Month</option>
                     <option value="3">Previous Month</option>
                     <option value="4">Last Two Month</option>
                   </select>
-                  <label for="priorityEdit">Select Duration</label>
+                 
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">
@@ -1403,16 +1433,18 @@
             <div id="divRangeSelection" *ngIf="showDateRange" class="select-dates">
               <div class="c-sm-4 c-lg-4 c-lg-4">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':summaryReport.from_date != ''}">
+                    <label for="fromDate">From Date</label>
                   <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="summaryReport.from_date" name="fromDate" readonly="true"
                     bsDatepicker/>
-                  <label for="fromDate">From Date</label>
+                  
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':summaryReport.to_date != ''}">
+                    <label for="toDate">To Date</label>
                   <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="summaryReport.to_date" name="toDate" readonly="true"
                     bsDatepicker/>
-                  <label for="toDate">To Date</label>
+                  
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">

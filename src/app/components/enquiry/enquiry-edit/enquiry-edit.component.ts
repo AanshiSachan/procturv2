@@ -438,7 +438,7 @@ export class EnquiryEditComponent implements OnInit {
         this.cityListDataSource = data;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
 
@@ -1106,7 +1106,7 @@ export class EnquiryEditComponent implements OnInit {
           this.areaListDataSource = res;
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }

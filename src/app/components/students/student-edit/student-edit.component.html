@@ -338,20 +338,11 @@
         <section class="middle-bottom clearFix">
           <div class="pull-left">
             <div class="field-checkbox-wrapper">
-              <label for="isStudentActive">Is Active Student</label>
+
               <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
                 class="form-checkbox" id="isStudentActive">
+                <label for="isStudentActive">Is Active Student</label>
             </div>
-            <!-- <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
-                <label for="quickAddStudent">Quick Add Student</label>
-                <div class="questionInfo pos-rel">
-                  <span class="qInfoIcon">?</span>
-                  <div class="tooltip-box-field">
-                    Student fees and inventory details can be added later.
-                  </div>
-                </div>
-              </div> -->
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
@@ -403,10 +394,10 @@
                 <div class="row" *ngIf="component.type == 2" input-def>
                   <br>
                   <div class="field-checkbox-wrapper">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                       value="{{component.value}}">
+                      <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                      <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
@@ -434,9 +425,9 @@
                       <ul class="">
                         <li *ngFor="let opt of component.prefilled_data">
                           <div class="field-checkbox-wrapper">
-                            <label for="opt.data">{{opt.data}}</label>
                             <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                               class="form-checkbox">
+                              <label for="opt.data">{{opt.data}}</label>
                           </div>
                         </li>
                       </ul>
@@ -460,16 +451,6 @@
         <section class="middle-bottom clearFix ">
           <aside class="pull-left">
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
-            <!-- <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
-              <label for="quickAddStudent">Quick Add Student</label>
-              <div class="questionInfo pos-rel">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Student fees and inventory details can be added later.
-                </div>
-              </div>
-            </div> -->
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
@@ -624,9 +605,9 @@
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper" [ngClass]="{'hide': installment.is_referenced == 'Y'}">
-                      <label for="instl{{i}}"></label>
                       <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected" (ngModelChange)="paymentValueUpdate($event, i)"
                       />
+                      <label for="instl{{i}}"></label>
                     </div>
                   </div>
                   <div class="inst-detail">
@@ -981,10 +962,9 @@
               <td>
                 <div class="inst-no">
                   <div class="field-checkbox-wrapper">
-                    <label></label>
                     <input type="checkbox" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" (ngModelChange)="batchChangeAlert($event, i)"
                       class="form-checkbox">
-
+                      <label></label>
                   </div>
                 </div>
               </td>
@@ -1249,8 +1229,8 @@
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
                 <li (click)="chequeSelectedForAction(ch)">
                   <div class="field-radio-wrapper">
-                    <label for="pdcEditlist{{i}}"></label>
                     <input type="radio" name="pdcGen" class="form-radio" id="pdcEditlist{{i}}">
+                    <label for="pdcEditlist{{i}}"></label>
                   </div>
                 </li>
 
@@ -1419,7 +1399,7 @@
         </div>
 
         <!-- Cheque Payment PDC updates -->
-        <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
+        <div style="margin: 5px -5px;" class="row pdcChequePayment" *ngIf="isPaymentPdc">
           <h5></h5>
 
           <div [ngClass]="{'hide': chequePdcList.length == 0}" class="">
@@ -1482,14 +1462,14 @@
           <a id="payMultiReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <label for="isGenPdc">Generate Fee Receipt</label>
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
+              <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <label for="emailPdc">Email Receipt</label>
               <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
+              <label for="emailPdc">Email Receipt</label>
             </div>
           </div>
         </div>
@@ -1576,7 +1556,7 @@
 
         </div>
         <!-- Cheque Payment PDC updates -->
-        <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
+        <div style="margin: 5px -5px;" class="row pdcChequePayment" *ngIf="isPaymentPdc">
           <h5></h5>
 
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
@@ -1640,14 +1620,14 @@
           <a id="payOneReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <label for="isGenPdc">Generate Fee Receipt</label>
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
+              <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <label for="emailPdc">Email Receipt</label>
               <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
+              <label for="emailPdc">Email Receipt</label>
             </div>
           </div>
         </div>

@@ -75,6 +75,7 @@ export class TopicsComponent implements OnInit {
   }
 
   toggleCreateNewTopic() {
+    
     if (this.createNewTopic == false) {
       this.createNewTopic = true;
       document.getElementById('showCloseBtn').style.display = '';

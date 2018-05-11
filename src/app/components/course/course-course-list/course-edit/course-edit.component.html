@@ -11,22 +11,24 @@
     <div class="search-wrapper row">
       <div class="c-lg-3 c-md-3 c-sm-3">
         <div class="field-wrapper has-value">
+            <label for="idMasterCourse">Master Course
+                <span style="color:red">*</span>
+              </label>
           <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
           " name="masterCourse" class="form-ctrl" />
-          <label for="idMasterCourse">Master Course
-            <span style="color:red">*</span>
-          </label>
+          
         </div>
       </div>
       <div class="c-lg-3 c-md-3 c-sm-3">
         <div class="field-wrapper has-value">
+            <label for="idStanadardName">Standard Name
+              </label>
           <select id="idStanadardName" class="form-ctrl" disabled="true" [(ngModel)]="selectedCourseDetails.standard_id">
             <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
               {{opt.standard_name}}
             </option>
           </select>
-          <label for="idStanadardName">Standard Name
-          </label>
+         
         </div>
       </div>
     </div>
@@ -93,9 +95,10 @@
                           </td>
                           <td *ngIf="examGradeFeature == 1">
                             <div class="field-checkbox-wrapper" style="margin-top: 25px;">
+                               
                               <input type="checkbox" value="" style="background: transparent" [disabled]="mainTableDataSource[i].course_id > '0'" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature"
                                 name="allow" class="form-checkbox" id="allow">
-                              <label for="allow">Allow Exam Grades</label>
+                                <label for="allow">Allow Exam Grades</label>
                             </div>
                           </td>
                           <td>
@@ -126,6 +129,7 @@
                         <tr class="teacher-list" *ngFor="let row of mainTableDataSource[i].batchesList ; let y= index; trackBy: index">
                           <td>
                             <div class="field-checkbox-wrapper">
+                                
                               <input id="{{row.subject_id}}" [(ngModel)]="row.uiSelected" type="checkbox" value="" class="form-checkbox">
                               <label for="{{row.subject_id}}"></label>
                             </div>
