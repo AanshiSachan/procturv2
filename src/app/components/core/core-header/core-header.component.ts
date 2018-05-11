@@ -27,7 +27,7 @@ export class CoreHeaderComponent implements OnInit {
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   inputValue: any;
-  manageExamGrades:string = "";
+  manageExamGrades: string = "";
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -40,7 +40,7 @@ export class CoreHeaderComponent implements OnInit {
   @ViewChild('seachResult') seachResult: ElementRef;
   @ViewChild('form') form: any;
   resultStat: any = 1;
-  teacherId : any = 0;
+  teacherId: any = 0;
 
 
   @Output() searchViewMore = new EventEmitter<any>();
@@ -51,7 +51,7 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();
@@ -159,6 +159,9 @@ export class CoreHeaderComponent implements OnInit {
           document.getElementById('divManageFormTag').classList.remove('hide');
           document.getElementById('divAreaAndMap').classList.remove('hide');
         }
+        if (permissionArray.indexOf('601') != -1) {
+          document.getElementById('divManageUsers').classList.remove('hide');
+        }
       }
     }
   }
@@ -180,6 +183,7 @@ export class CoreHeaderComponent implements OnInit {
     else if (!this.isProfessional) {
       document.getElementById('divSlotTag').classList.add('hide');
     }
+    document.getElementById('divManageUsers').classList.remove('hide');
   }
 
   showTeacherFields() {
@@ -198,6 +202,7 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divManageTag').classList.add('hide');
     document.getElementById('divAcademicTag').classList.add('hide');
     document.getElementById('divGradesTag').classList.remove('hide');
+    document.getElementById('divManageUsers').classList.add('hide');
   }
 
   hideAllFields() {
@@ -213,6 +218,7 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divManageFormTag').classList.add('hide');
     document.getElementById('divAreaAndMap').classList.add('hide');
     document.getElementById('divGradesTag').classList.remove('hide');
+    document.getElementById('divManageUsers').classList.add('hide');
   }
 
   hasEnquiryAccess(): boolean {
