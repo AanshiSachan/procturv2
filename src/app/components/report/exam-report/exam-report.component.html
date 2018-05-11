@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="middle-section clear-fix">
     <aside class="middle-full">
         <section class="middle-main clearFix attendance-container">
@@ -88,11 +90,13 @@
 
                 <div class="search-filter-wrapper" id="adFilterExitVisible">
 
-                    <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Search">
+                    <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
-
+                <span *ngIf="pagedExamSource.exam_desc!=''">
+                    <h1>Exam Description : {{pagedExamSource.exam_desc}}</h1>
+                </span>
                 <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
-                    [tableName]="'Exam'" [settings]="projectSettings">
+                    [tableName]="'Exam'" [settings]="projectSettings"  (sortData)="sortedData($event)" [direction]="direction" [sortingEnabled]="sortingEnabled">
 
                 </proctur-table>
             </div>
@@ -103,13 +107,13 @@
 
                 <div class="search-filter-wrapper" id="adFilterExitVisible">
 
-                    <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Search">
+                    <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
-
-
+               
                 <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
-                    [tableName]="'Exam'" [settings]="projectSettings">
+                    [tableName]="'Exam'" [settings]="projectSettings" [text]="examDesc" [viewText]="showTitle"  (sortData)="sortedData($event)" [direction]="direction" [sortingEnabled]="sortingEnabled">
                 </proctur-table>
+
             </div>
 
 
@@ -155,7 +159,7 @@
 
     <div class="" popup-content>
         <div class="details-wrapper" *ngIf="!isProfessional">
-            <input type="button" value="X" class=" pull-right btn" style="margin-left:602px;margin-bottom:10px;color:blue" (click)="downloadJsonToCSV()">
+            <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
             <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table stu-table">
@@ -171,13 +175,13 @@
                                 Student Name
                             </th>
                             <th class="marks" *ngFor="let date of dateStore">
-                                {{date.exam_date}}&nbsp;{{date.start_time}}
+                                {{date.exam_date}}<br><span style="font-size:12px;">{{date.start_time}}</span>
                             </th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor='let det of detailSource'>
+                        <tr *ngFor='let det of pagedDetailExamSource'>
                             <td>{{det.student_display_id}}</td>
                             <td>{{det.student_name}}</td>
 
@@ -195,8 +199,7 @@
         </div>
 
         <div class="details-wrapper" *ngIf="isProfessional">
-            <input type="button" value="X" class=" pull-right btn" style="margin-left:602px;margin-bottom:10px;color:blue" (click)="downloadJsonToCSV()"
-                #examTable>
+                <i class="fa fa-file-excel-o"  (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
 
             <a class="hide" #xlsDownloader></a>
             <div class="table table-responsive student-table stu-table">
@@ -213,13 +216,14 @@
                                 Student Name
                             </th>
                             <th class="marks" *ngFor="let date of dateStore">
-                                {{date.exam_date}}&nbsp;{{date.start_time}}
+                                {{date.exam_date}}<br><span style="font-size:12px;">{{date.start_time}}</span>
                             </th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor='let det of detailSource'>
+                        <tr *ngFor='let det of pagedDetailExamSource'>
+
                             <td>{{det.student_display_id}}</td>
                             <td>{{det.student_name}}</td>
 
@@ -229,10 +233,26 @@
                             </td>
 
                         </tr>
-                        <tr *ngIf='detailSource.length==0'>No Students Founds</tr>
+                        <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
                     </tbody>
 
                 </table>
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                            [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
+                    </div>
+                </div>
+
+
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                            [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -247,5 +267,6 @@
             </aside>
         </div>
     </div>
+
 
 </proctur-popup>
