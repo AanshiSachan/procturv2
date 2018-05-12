@@ -34,6 +34,47 @@ export class UserService {
         )
     }
 
+    fetchUserDetails(id) {
+        let url = this.baseUrl + "/api/v1/profiles/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    sendSmS(obj) {
+        let url = this.baseUrl + "/api/v1/profiles/sendAPPSMS/" + this.institute_id;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getItemList() {
+        let url = this.baseUrl + "/api/v1/inventory/item/fetchForUserAllocation/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getAllotedHistroy(id) {
+        let url = this.baseUrl + "/api/v1/inventory/item/user/txHistory/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    allocateItem(obj) {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/inventory/item/user/allocate";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
     createUser(obj) {
         obj.institute_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/profiles";

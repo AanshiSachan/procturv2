@@ -12,7 +12,7 @@ import { UsersManagementComponent } from './users-management.component';
                 children: [
                     {
                         path: '',
-                        redirectTo: 'user'
+                        redirectTo: 'role'
                     },
                     {
                         path: 'user',

@@ -27,7 +27,7 @@
 
       <div class="row" *ngIf="roleId != '-1'">
         <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 30px;">
-          <span style="font-weight: 600;font-size: 16px;">Role Name : {{userData.role_name}}</span>
+          <span>Role Name : {{userData.role_name}}</span>
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-wrapper">
@@ -41,8 +41,8 @@
 
 
     <div class="picklist-wrapper">
-      <p-pickList [source]="cloneFeatureArray" [target]="targetFeatures" [responsive]="true" filterBy="feature_name,description"
-        dragdrop="true">
+      <p-pickList [source]="cloneFeatureArray" [target]="targetFeatures" [showSourceControls]="false" [showTargetControls]="false"
+        [responsive]="true" filterBy="feature_name,description" dragdrop="true">
         <ng-template let-car pTemplate="item">
           <div class="ui-helper-clearfix">
             <!-- <img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="display:inline-block;margin:2px 0 2px 2px" width="48"> -->
@@ -53,7 +53,7 @@
     </div>
 
     <div class="btn-section pull-right">
-      <button routerLink='/manage/role' class="btn fullBlue">Cancel</button>
+      <button routerLink='/manage/role' class="btn">Cancel</button>
       <button class="btn fullBlue" *ngIf="roleId == '-1'" (click)="createNewRole()">Save</button>
       <button class="btn fullBlue" *ngIf="roleId != '-1'" (click)="updateRole()">Update</button>
     </div>

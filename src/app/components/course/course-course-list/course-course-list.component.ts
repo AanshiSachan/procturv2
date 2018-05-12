@@ -251,6 +251,7 @@ export class CourseCourseListComponent implements OnInit {
           k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
       );
       this.studentList = searchData;
+      this.PageIndex = 1;
     } else {
       this.studentList = this.studentListDataSource;
     }

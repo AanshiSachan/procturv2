@@ -158,6 +158,7 @@ export class ScheduleHomeComponent implements OnInit {
       this.searchedData = searchData;
       this.totalRow = searchData.length;
       this.searchDataFlag = true;
+      this.PageIndex = 1;
       this.fetchTableDataByPage(this.PageIndex);
     } else {
       this.searchDataFlag = false;

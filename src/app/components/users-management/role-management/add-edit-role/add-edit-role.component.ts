@@ -117,7 +117,7 @@ export class AddEditRoleComponent implements OnInit {
       this.apiService.updateRole(data, this.userData.role_id).subscribe(
         res => {
           this.messageNotifier('success', 'Success', 'Role Updated Successfully');
-          this.getRolesOfUser(this.roleId);
+          this.route.navigateByUrl('manage/role');
         },
         err => {
           //console.log(err);

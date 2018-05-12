@@ -211,7 +211,6 @@ export class EventManagmentComponent implements OnInit {
       return;
 
     }
-
     if (this.saveDataObj.holiday_long_desc.length > 300) {
       let obj = {
         type: "error",
