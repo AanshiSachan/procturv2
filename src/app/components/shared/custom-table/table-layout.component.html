@@ -1,45 +1,51 @@
-<table class="table">
-    <thead>
-        <tr>
-            <th *ngIf="isMulti">
-                <div class="field-checkbox-wrapper" style="background: transparent;">
-                    <input id="headerCheckbox" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="isAllSelected" (ngModelChange)="selectAllRows($event)">
-                    <label>asdf</label>
-                </div>
-            </th>
-            <th class="{{map.header}}" (click)="getSortedData(map.primaryKey)" id="{{map.header}}" *ngFor="let map of columnMaps">
-                    {{ map.header }} &nbsp;
-                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity(map.primaryKey, 'up') && direction==1"></i>
-                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity(map.primaryKey, 'down') && direction==-1"></i>
+<div class="forty">
+    
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th *ngIf="isMulti">
+                    <div class="field-checkbox-wrapper" style="background: transparent;">
+                        <input id="headerCheckbox" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="isAllSelected" (ngModelChange)="selectAllRows($event)">
+                        <label>asdf</label>
+                    </div>
                 </th>
-        </tr>
-    </thead>
-    <tbody *ngIf="records.length != 0">
-        <tr *ngFor="let record of records; let i = index;">
-            <td *ngIf="isMulti">
-                <div class="field-checkbox-wrapper" style="background: transparent;">
-                    <input id="{{tableName}}check{{i}}" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="record.isSelected">
-                    <label>asdf</label>
-                </div>
-            </td>
-            <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]">
-                {{ record[map.access(record)] | formatCell:map.format }}
-            </td>
-        </tr>
-    </tbody>
-    <tbody *ngIf="records.length == 0 && dataStatus === true">
-        <tr *ngFor="let dummy of dummyArr">
-            <td *ngFor="let c of columnMap" style="padding:10px;">
-                <div class="skeleton">
-                </div>
-            </td>
-        </tr>
-    </tbody>
-    <tbody *ngIf="records.length == 0 && dataStatus === false">
-        <tr>
-            <td colspan="10">
-                <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                <th class="{{map.header}}" (click)="getSortedData(map.primaryKey)" id="{{map.header}}" *ngFor="let map of columnMaps">
+                    {{ map.header }} &nbsp;
+                    <i class="fa fa-caret-up" *ngIf="getCaretVisiblity(map.primaryKey, 'up') && direction==1"></i>
+                    <i class="fa fa-caret-down" *ngIf="getCaretVisiblity(map.primaryKey, 'down') && direction==-1"></i>
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngIf="records.length != 0">
+            <tr *ngFor="let record of records; let i = index;">
+                <td *ngIf="isMulti">
+                    <div class="field-checkbox-wrapper" style="background: transparent;">
+                        <input id="{{tableName}}check{{i}}" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="record.isSelected">
+                        <label>asdf</label>
+                    </div>
+                </td>
+                <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]" [style.color]="getColor(map.primaryKey , record[map.access(record)])">
+                    {{ record[map.access(record)] | formatCell:map.format }} 
+                </td>
+                
+                
+            </tr>
+        </tbody>
+        <tbody *ngIf="records.length == 0 && dataStatus === true">
+            <tr *ngFor="let dummy of dummyArr">
+                <td *ngFor="let c of columnMap" style="padding:10px;">
+                    <div class="skeleton">
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="records.length == 0">
+            <tr>
+                <td colspan="10">
+                    <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

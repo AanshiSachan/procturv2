@@ -43,16 +43,11 @@
 
       <div id="divSlotTable">
           <div class="table-scroll-wrapper">
-              <div class="filter-box clearFix">
-                  <div id="basic-search" class="search-filter-wrapper">
-                      <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
-                  </div>
+            <div class="pull-right">
+              <div class="search-filter-wrapper">
+                <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
               </div>
-              <!-- <div class="pull-right">
-                  <div class="search-filter-wrapper">
-                    <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
-                  </div>
-                </div> -->
+            </div>
             <div class="table table-responsive">
               <table>
                 <thead>

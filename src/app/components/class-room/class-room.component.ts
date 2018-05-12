@@ -99,7 +99,7 @@ export class ClassRoomComponent {
         }
 
       }
-     if(Desc_ele.length <80){
+   /*  if(Desc_ele.length <80){
        let obj = {
           type: "error",
           title: "error",
@@ -107,7 +107,7 @@ export class ClassRoomComponent {
         }
         this.AppC.popToast(obj);
         return;
-      }
+      }*/
        if (Desc_ele.length > 500) {
         let data = {
           type: 'error',
@@ -149,7 +149,7 @@ export class ClassRoomComponent {
       let data = {
         type: 'error',
         title: "Error",
-        body: "Please fill ClassRoom Name."
+        body: "Please fill classRoom name and Description."
       }
       this.AppC.popToast(data);
       this.enterclassdata = "";
@@ -193,7 +193,7 @@ export class ClassRoomComponent {
         this.AppC.popToast(data);
         return;
       }
-      if (data.class_room_desc.length < 80) {
+    /*  if (data.class_room_desc.length < 80) {
         let data = {
           type: 'error',
           title: "Description should  be greater than 80 Characters",
@@ -202,7 +202,7 @@ export class ClassRoomComponent {
         this.AppC.popToast(data);
         return;
       }
-    
+    */
       this.ClassList.updateclassListData(data).subscribe(
         res => {
           let data = {
