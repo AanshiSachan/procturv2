@@ -33,7 +33,7 @@ export class CoreHeaderComponent implements OnInit {
     phone: '',
     instituteId: sessionStorage.getItem('institute_id'),
     start_index: '0',
-    batch_size: '5'
+    batch_size: '6'
   }
 
   @ViewChild('searchInput') searchInput: ElementRef;
@@ -44,6 +44,7 @@ export class CoreHeaderComponent implements OnInit {
 
 
   @Output() searchViewMore = new EventEmitter<any>();
+  @Output() hideSearchPopup = new EventEmitter<any>();
 
   private userInput: string;
 
@@ -290,6 +291,7 @@ export class CoreHeaderComponent implements OnInit {
     $event.preventDefault();
     this.isResultDisplayed = true;
     this.seachResult.nativeElement.classList.add('searchView');
+    this.hideSearchPopup.emit(null);
   }
 
   closeSearch(e) {

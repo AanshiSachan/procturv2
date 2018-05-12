@@ -1457,7 +1457,7 @@ screen and (max-height: 768px) {
                 }
                 &:hover {
                     .cls-2 {
-                        stroke: $common-blue;
+                        pstroke: $common-blue;
                     }
                 }
             }
@@ -1514,6 +1514,12 @@ screen and (max-height: 768px) {
     .update-enquiry-form {
         max-height: 380px;
         overflow: hidden;
+        .date-clear {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+        }
         ::-webkit-scrollbar {
             display: block;
             width: 7px;
@@ -1550,10 +1556,10 @@ screen and (max-height: 768px) {
                     font-weight: 600;
                 }
                 .enquiry-update-history {
-                    min-height: 370px;
+                    /* min-height: 370px;
                     max-height: 400px;
                     overflow-y: auto;
-                    overflow-x: hidden;
+                    overflow-x: hidden; */
                     ::-webkit-scrollbar {
                         display: block;
                         width: 7px;
