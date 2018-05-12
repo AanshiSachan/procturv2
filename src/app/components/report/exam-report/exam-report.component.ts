@@ -34,7 +34,7 @@ export class ExamReportComponent implements OnInit {
 
   subjectData: any[] = [];
   masterCourses: any[] = [];
-  examDesc: string = "";
+  
   addReportPopup: boolean = false;
   examTypeEntry: any[] = [];
   showTitle: boolean = false;
@@ -325,7 +325,7 @@ export class ExamReportComponent implements OnInit {
           (res: any) => {
             if (res.length) {
               this.examSource = res;
-              this.examDesc = this.examSource[0].exam_desc
+            
               this.Tdata = true;
               
               this.HighestMarks = this.examSource[0].highest_marks;
@@ -359,7 +359,6 @@ export class ExamReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                title: "Invalid Data Range Selected",
                 body: "We did not found data in the selected range"
               }
               this.examSource = [];
@@ -405,12 +404,31 @@ export class ExamReportComponent implements OnInit {
               this.Tdata = true;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
+              if(this.examSource[0].grade==""){
+                this.projectSettings = [
+                  { primaryKey: 'student_id', header: 'Student Id' },
+                  { primaryKey: 'student_name', header: 'Student Name' },
+                  { primaryKey: 'student_phone', header: 'Contact No.' },
+                  { primaryKey: 'doj', header: 'Joining Date' },
+                  { primaryKey: 'total_marks', header: 'Total Marks' },
+                  { primaryKey: 'student_marks_obtained', header: 'Marks Obtained' },
+                  { primaryKey: 'student_rank', header: 'Rank' }, 
+                ];
+              }
+              else{
+                this.projectSettings = 
+                [{ primaryKey: 'student_id', header: 'Student Id' },
+                { primaryKey: 'student_name', header: 'Student Name' },
+                { primaryKey: 'student_phone', header: 'Contact No.' },
+                { primaryKey: 'doj', header: 'Joining Date' },
+                { primaryKey: 'grade', header: 'Grade' },
+              ];
+              }
               console.log(res);
             }
             else {
               let msg = {
                 type: "info",
-                title: "Invalid Data Range Selected",
                 body: "We did not found data in the selected range"
               }
               this.examSource = [];
@@ -567,7 +585,7 @@ export class ExamReportComponent implements OnInit {
 
   fetchNextPopup() {
     this.pageIndexPopup++;
-    this.fetchTableDataByPagePopup(this.pageIndex);
+    this.fetchTableDataByPagePopup(this.pageIndexPopup);
   }
 
   fetchPreviousPopup() {

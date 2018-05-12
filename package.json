@@ -25,6 +25,7 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.1",
     "@types/js-base64": "^2.3.0",
     "angucomplete-alt": "^3.0.0",
+    "angular-font-awesome": "^3.1.2",
     "angular-highcharts": "^5.2.12",
     "angular2-busy": "^2.0.4",
     "angular2-datatable-custom": "^0.7.3",
