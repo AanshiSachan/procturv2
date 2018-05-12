@@ -10,26 +10,23 @@
     <div class="clearFix add-edit">
       <a (click)="toggleCreateNewSlot()">
         <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-        <i id="showCloseBtn" style="display:none;border:none;"  class="closeBtnClass">-</i>
+        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
         <span>Add Slot</span>
       </a>
     </div>
     <section class="clearFix create-standard-form" *ngIf="createNewSlot">
       <div class="row create-standard-field">
-        <div class="c-lg-2 c-md-2 c-sm-2">
-        </div>
-        <div class="c-lg-6 c-md-6 c-sm-6">
+       
+        <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper">
-            <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
             <label for="slotNew">Slot</label>
-                
+            <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
           </div>
-          
           <!-- <p>* You can provide time Example 10-12 PM</p> -->
         </div>
-        <div class="c-lg-4 c-md-4 c-sm-4" style="margin-top: 1%;">
+        <div class="c-lg-2 c-md-2 c-sm-2" style="margin-top: 2%;">
           <aside class="pull-left create-cancel-small">
-            <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
+            <button class="btn fullBlue" (click)="addNewSlot(idSlot)" style="margin-top:-5px;">Add</button>
           </aside>
         </div>
       </div>

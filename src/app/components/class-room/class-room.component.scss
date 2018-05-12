@@ -54,7 +54,9 @@ table {
 .anchorTagCursor {
     cursor: pointer;
 }
-
+.astrick{
+    color: red;
+}
 @media screen and (max-width: 995px),
 screen and (max-height: 768px) {
     #divSlotTable {
@@ -84,7 +86,7 @@ screen and (max-height: 768px) {
 .add-edit {
     margin-bottom: 15px;
     margin-top: 25px;
-    i {
+    i { 
         border: 1px solid $common-blue;
         display: inline-block;
         width: 17px;
@@ -98,6 +100,7 @@ screen and (max-height: 768px) {
     }
     span {
         display: inline-block;
+        margin-bottom: 0px;
     }
     .expend-box {
         i {
@@ -113,6 +116,7 @@ screen and (max-height: 768px) {
 .create-standard-form {
     margin: -6px 0;
     padding-left: 20px;
+    margin-bottom: -27px;
     background: #efefef;
     border-top: 1px solid #d8d8d8;
     .form-ctrl {
@@ -145,6 +149,7 @@ screen and (max-height: 768px) {
 .btnclass {
     margin-top: 13px;
     margin-bottom: 10px;
+    margin-right: 74%;
 }
 
 .marginhead {
@@ -161,5 +166,67 @@ screen and (max-height: 768px) {
 }
 
 form{
-    margin:2em 0;
+    margin:0.9em 0;
 }
+
+.search-filter-wrapper {
+    margin: 10px 5px 10px 5px;
+    float: right;
+    .search-field {
+        font-size:12px;
+        padding: 7px 10px;
+        width: 200px;
+        box-sizing: border-box;
+        float: right;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+.filter-box {
+    padding: 0px 0px;
+    margin-bottom: 5px;
+    
+}
+
+.btn-sms-search {
+    margin-top: 35px;
+    text-align: center;
+    margin-left: 280px;
+    width: 100%
+}
+
+.search-filter-wrapper {
+    margin-top: 10px;
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc; // width: 130px;
+        box-sizing: border-box;
+        margin-right: 10px;
+        margin-bottom: 5px;
+        height: 35px;
+        font-size: 14px;
+        margin-left: 229px;
+    }
+}
+
+.btn-sms-search {
+    margin-top: 35px;
+    text-align: center;
+    margin-left: 280px;
+    width: 100%
+}
+
+.search-filter-wrapper {
+    margin-top: 10px;
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc; // width: 130px;
+        box-sizing: border-box;
+        margin-right: 10px;
+        margin-bottom: -5px;
+        height: 35px;
+        font-size: 14px;
+        margin-left: 229px;
+    }
+}
+

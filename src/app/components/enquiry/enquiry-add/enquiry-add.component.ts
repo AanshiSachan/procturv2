@@ -852,6 +852,7 @@ export class EnquiryAddComponent implements OnInit {
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
+        this.newEnqData.dob = this.fetchDOB();
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
             this.enquiryConfirm = data;
@@ -917,6 +918,15 @@ export class EnquiryAddComponent implements OnInit {
     }
     else {
       this.submitError = true;
+    }
+  }
+
+  fetchDOB(): string{
+    if(this.newEnqData.dob == null || this.newEnqData.dob == '' || this.newEnqData.dob == "Invalid date" ){
+      return '';
+    }
+    else{
+      return moment(this.newEnqData.dob).format('YYYY-MM-DD');
     }
   }
 
@@ -1245,7 +1255,7 @@ export class EnquiryAddComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let alert = {
           type: 'error',
           title: 'Failed To Add Institute',
@@ -1309,7 +1319,7 @@ export class EnquiryAddComponent implements OnInit {
           res => {
             let alert = {
               type: 'success',
-              title: 'institute Name Update',
+              title: 'institute Name Updated',
             }
             this.appC.popToast(alert);
             this.fetchInstituteInfo();
@@ -1780,7 +1790,7 @@ export class EnquiryAddComponent implements OnInit {
           this.areaListDataSource = res;
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }

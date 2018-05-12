@@ -1,7 +1,6 @@
 import { Injectable, } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
-import { Observable } from 'rxjs/observable';
 import * as moment from 'moment';
 
 @Injectable()
@@ -30,7 +29,7 @@ export class AttendanceReportServiceService {
 
   }
 
-  getMasterCourse(): Observable<any> {
+  getMasterCourse() {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all"
     return this.http.get(url, { headers: this.headers }).map(
       data => {
@@ -70,15 +69,15 @@ export class AttendanceReportServiceService {
   }
 
   postDataToTable(obj) {
-    
+
     obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
     obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
-    if(obj.from_date == "Invalid date"){
-      obj.from_date="";
-     }
-     if(obj.to_date == "Invalid date"){
-      obj.to_date="";
-     }
+    if (obj.from_date == "Invalid date") {
+      obj.from_date = "";
+    }
+    if (obj.to_date == "Invalid date") {
+      obj.to_date = "";
+    }
     let url = this.baseUrl + "/api/v1/reports/attendance";
     return this.http.post(url, obj, { headers: this.headers }).map(
       data => {
@@ -91,15 +90,15 @@ export class AttendanceReportServiceService {
   }
 
   postDataToTablePro(obj) {
-    
+
     obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
     obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
-    if(obj.from_date == "Invalid date"){
-      obj.from_date="";
-     }
-     if(obj.to_date == "Invalid date"){
-      obj.to_date="";
-     }
+    if (obj.from_date == "Invalid date") {
+      obj.from_date = "";
+    }
+    if (obj.to_date == "Invalid date") {
+      obj.to_date = "";
+    }
     let url = this.baseUrl + "/api/v1/reports/attendance";
     return this.http.post(url, obj, { headers: this.headers }).map(
       data => {

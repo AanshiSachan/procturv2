@@ -7,7 +7,8 @@
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
                     <a routerLink="/reports/home">
-                        <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+                        Report
+                        <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
                     </a>
                     <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Attendance Report
                 </h2>
@@ -110,22 +111,22 @@
                     <div class="c-lg-4 inner-main">
                         <div class="form-btn">
                             <div *ngIf="!isProfessional">
-                                <div class="c-lg-6 inner-btn">
+                                <div class="c-lg-4 inner-btn">
                                     <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
                                 </div>
                             </div>
                             <div *ngIf="isProfessional">
-                                <div class="c-lg-6 inner-btn">
+                                <div class="c-lg-4 inner-btn">
                                     <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
                                 </div>
                             </div>
                             <div *ngIf="isProfessional">
-                                <div class="c-lg-6 outer-btn">
+                                <div class="c-lg-4 outer-btn">
                                     <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
                                 </div>
                             </div>
                             <div *ngIf="!isProfessional">
-                                <div class="c-lg-6 outer-btn">
+                                <div class="c-lg-4 outer-btn">
                                     <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
                                 </div>
                             </div>
@@ -219,7 +220,7 @@
                                     {{k.class_date | date:"dd MMM"}}
                                     <br>
                                     <span *ngIf="k.start_date != null || k.end_time != null" class="madeDate">
-                                         {{k.start_time}} - {{k.end_time}} 
+                                        {{k.start_time}} - {{k.end_time}}
                                     </span>
                                     <br>
                                     <span *ngIf="k.class_desc != '' || k.class_desc !=null" class="madeDate">
@@ -369,8 +370,8 @@
             </div>
             <div class="row filter-res pagination" style="width: 100%;" *ngIf=!isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
-                        [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
+                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()" (goPrev)="fetchPreviousPopup()"
+                        [pagesToShow]="10" [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
                     </pagination>
                 </div>
             </div>
@@ -395,7 +396,7 @@
                                     {{k.class_date | date:"dd MMM"}}
                                     <br>
                                     <span *ngIf="k.start_date != null || k.end_time != null" class="madeDate">
-                                        {{k.start_time}} - {{k.end_time}} 
+                                        {{k.start_time}} - {{k.end_time}}
                                     </span>
                                     <br>
                                     <span *ngIf="k.class_desc != '' || k.class_desc !=null" class="madeDate">
@@ -479,7 +480,7 @@
                                     {{k.class_date | date:"dd MMM"}}
                                     <br>
                                     <span *ngIf="k.start_date != null || k.end_time != null" class="madeDate">
-                                    {{k.start_time}} - {{k.end_time}}
+                                        {{k.start_time}} - {{k.end_time}}
                                     </span>
                                     <span *ngIf="k.class_desc != '' || k.class_desc !=null">
                                         {{k.class_desc}})
@@ -539,8 +540,8 @@
             </div>
             <div class="row filter-res pagination" style="width: 100%;" *ngIf=isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
-                        [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
+                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()" (goPrev)="fetchPreviousPopup()"
+                        [pagesToShow]="10" [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
                     </pagination>
                 </div>
             </div>

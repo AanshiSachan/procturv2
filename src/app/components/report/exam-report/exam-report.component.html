@@ -1,81 +1,164 @@
-<div class="clear-fix">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="middle-section clear-fix">
     <aside class="middle-full">
-        <section class="middle-main clearFix">
+        <section class="middle-main clearFix attendance-container">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
                     <a routerLink="/reports/home">
-                        <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
+                        Report
+                        <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
                     </a>
-                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Exam Report
+                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                    Exam Report
                 </h2>
                 <aside class="pull-right">
                 </aside>
             </section>
-            <div class="row">
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
-                    <label>Master Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
-                        <option value="" selected>Master Course</option>
-                        <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
-                    </select>
-                </div>
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
-                    <label> Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
-                        <option value="" selected></option>
-                        <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
-                    </select>
-                </div>
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
-                    <label>Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
-                        <option value="" selected></option>
-                        <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
-                    </select>
-                </div>
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
-                    <label>Exam Schedule</label>
-                    <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.exam_schd_id">
-                        <option value="" selected></option>
-                        <option *ngFor="let i of exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
-                    </select>
-                </div>
-                <div class="c-lg-4 c-md-4 c-sm-4 pull-Right">
-                    <div class="btn-sms-search">
+            <section class="filter-form">
+                <div class="row">
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
+                        <label>Master Course</label>
+                        <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+                            <option></option>
+                            <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
+                        </select>
+                    </div>
+
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="isProfessional">
+                        <label>Master Course</label>
+                        <select class="form-ctrl" id="one" [(ngModel)]="queryParam.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+                            <option value="-1"></option>
+                            <option *ngFor="let i of batchExamRepo" [value]="i.standard_id">{{i.standard_name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
+                        <label> Course</label>
+                        <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
+                            <option></option>
+                            <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="isProfessional">
+                        <label> Course</label>
+                        <select class="form-ctrl" id="two" [(ngModel)]="queryParam.subject_id">
+                            <option value="-1"></option>
+                            <option *ngFor="let i of batchCourseData" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
+                        <label>Subject</label>
+                        <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+                            <option></option>
+                            <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3  field-wrapper" *ngIf="isProfessional">
+                        <label>Batch</label>
+                        <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+                            <option></option>
+                            <option *ngFor="let i of getSubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+                        <label>Exam Schedule</label>
+                        <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.exam_schd_id">
+                            <option></option>
+                            <option *ngFor="let i of exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
+                        </select>
+                    </div>
+
+                    <div class="master" *ngIf="!isProfessional">
                         <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
                         <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
+                    </div>
 
+                    <div class="master" *ngIf="isProfessional">
+                        <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
+                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
+                    </div>
+
+                </div>
+            </section>
+            <div class="table table-responsive student-table stdnt-table" *ngIf="!isProfessional && Tdata">
+                <div class="search-filter-wrapper" id="adFilterExitVisible">
+                    <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
+                </div>
+
+                <div class="poor">
+
+                    <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
+                        [tableName]="'Exam'" [settings]="projectSettings" (sortData)="sortedData($event)" [direction]="direction"
+                        [sortingEnabled]="sortingEnabled">
+                    </proctur-table>
+                </div>
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
                     </div>
                 </div>
+                <ul style="list-style-type:none; text-align:center; font-weight:bold;" *ngIf="!isProfessional && examSource.length !=0 && examSource[0].grade==''">
+                    <li>
+                        Highest Marks : {{HighestMarks}}
+                    </li>
+                    <li>
+                        Lowest Marks : {{LowestMarks}}
+                    </li>
+                    <li>
+                        Average Marks : {{AverageMarks}}
+                    </li>
+                </ul>
             </div>
+
+
+            <div class="table table-responsive student-table stdnt-table" *ngIf="isProfessional && Tdata">
+                <div class="search-filter-wrapper" id="adFilterExitVisible">
+                    <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
+                </div>
+
+                <div class="poor">
+                    <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
+                        [tableName]="'Exam'" [settings]="projectSettings" [text]="examDesc" [viewText]="showTitle" (sortData)="sortedData($event)"
+                        [direction]="direction" [sortingEnabled]="sortingEnabled">
+                    </proctur-table>
+                </div>
+
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
+                    </div>
+                </div>
+
+                <ul style="list-style-type:none; text-align:center; font-weight:bold;" *ngIf=" isProfessional && examSource.length !=0 && examSource[0].grade==''">
+                    <li>
+                        Highest Marks : {{HighestMarks}}
+                    </li>
+                    <li>
+                        Lowest Marks : {{LowestMarks}}
+                    </li>
+                    <li>
+                        Average Marks : {{AverageMarks}}
+                    </li>
+                </ul>
+
+            </div>
+
         </section>
+
     </aside>
 </div>
-<section class="sms-table-wrapper" *ngIf="Tdata">
-    <div class="table table-responsive student-table">
-
-       <div class="search-filter-wrapper" id="adFilterExitVisible">
-
-         <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
-        </div>
-        <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
-            [tableName]="'Exam'" [settings]="projectSettings">
-
-        </proctur-table>
-    </div>
-
-
-    <div class="row filter-res pagination" style="width: 100%;">
-        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-            </pagination>
-        </div>
-    </div>
-</section>
-
 
 <proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
+
 
     <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -89,28 +172,118 @@
             </g>
         </svg>
     </span>
-    <div popup-header class="popup-header-content">
 
-        <h2>DataWise Exam Report</h2>
+    <h2 popup-header>DateWise Exam Report</h2>
 
+    <div class="stu-table" popup-content>
+
+        <div *ngIf="!isProfessional" style="height:402px;">
+            <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
+            <a class="hide" #xlsDownloader></a>
+
+            <div class="table table-responsive student-table made ">
+
+                <table #examTable>
+
+                    <thead >
+                        <tr>
+                            <th style="text-align:right;">
+                                Student Id
+                            </th>
+                            <th style="text-align:left;">
+                                Student Name
+                            </th>
+                            <th class="marks" *ngFor="let date of dateStore">
+                                {{date.exam_date}}
+                                <br>
+                                <span style="font-size:12px;">{{date.start_time}}</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let det of pagedDetailExamSource'>
+                            <td style="text-align:right;">{{det.student_display_id}}</td>
+                            <td style="text-align:left;">{{det.student_name}}</td>
+
+                            <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
+                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
+                            </td>
+
+                        </tr>
+                        <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
+                    </tbody>
+
+                </table>
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                            [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div *ngIf="isProfessional">
+            <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
+
+            <a class="hide" #xlsDownloader></a>
+            <div class="table table-responsive student-table stu-table made">
+                <table #examTable>
+                    <thead>
+                        <tr>
+                            <th style="text-align:right;">
+                                Student Id
+                            </th>
+                            <th style="text-align:left;">
+                                Student Name
+                            </th>
+                            <th class="marks" *ngFor="let date of dateStore">
+                                {{date.exam_date}}
+                                <br>
+                                <span style="font-size:12px;">{{date.start_time}}</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let det of pagedDetailExamSource'>
+
+                            <td style="text-align:right;">{{det.student_display_id}}</td>
+                            <td style="text-align:left;">{{det.student_name}}</td>
+
+                            <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
+                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
+                            </td>
+
+                        </tr>
+                        <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
+                    </tbody>
+                </table>
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                            [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
-    <div class="table table-responsive student-table">
 
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Student Name
-                    </th>
-                    <th>
-                        Student Id
-                    </th>
-
-                </tr>
-            </thead>
-        </table>
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="pull-right popup-btn" style="position: absolute;top: 90%;right: 1%;">
+                <input type="button" value="Close" class="btn" (click)="closeReportPopup()">
+            </aside>
+        </div>
     </div>
-
-
+    
 </proctur-popup>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { BiometricServiceService } from '../../../services/biometric-service/biometric-service.service';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
@@ -82,6 +82,21 @@ export class BiometricComponent implements OnInit {
     to_date: "",
     user_id: ""
   }
+  studentName: string = "";
+  teacherName:string = "";
+  customName:string = "";
+  findName: any[] = [];
+  masterCoursePro: any[] = [];
+  batchPro: any[] = [];
+  coursePro: any[] = [];
+  nameOfPeople : any[]=[];
+  studentId:string="";
+  teacherId:string="";
+  customId:string="";
+
+  @ViewChild('biometricTable') biometricTable: ElementRef;
+  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
+
   constructor(private reportService: BiometricServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService,
@@ -90,42 +105,78 @@ export class BiometricComponent implements OnInit {
   ngOnInit() {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.getInstitute();
     this.getMasterCourses();
   }
   getMasterCourses() {
 
     this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
     this.dataStatus = true;
-    this.reportService.getAllData().subscribe(
-      (data: any) => {
-        this.dataStatus = false;
-        this.getData.master_course_name = "";
-        this.getData.course_id = -1;
-        this.masterCourse = data;
-        this.isRippleLoad = false;
-      },
-      (error) => {
-        this.dataStatus = false;
-        this.isRippleLoad = false;
-        return error;
-      }
-    )
+    this.batchPro = [];
+    this.masterCoursePro = [];
+    if (this.isProfessional) {
+      this.reportService.fetchMasterCourseProfessional(this.getData).subscribe(
+        (data: any) => {
+          this.isRippleLoad = false;
+          this.masterCoursePro = data.standardLi;
+          this.batchPro = data.batchLi;
+        },
+        (error: any) => {
+          this.isRippleLoad = false;
+          this.dataStatus = false;
+          return error;
+        }
+      )
+    }
+    else {
+      this.reportService.getAllData().subscribe(
+        (data: any) => {
+          this.getData.master_course_name = "";
+          this.getData.course_id = -1;
+          this.masterCourse = data;
+          this.isRippleLoad = false;
+        },
+        (error) => {
+          this.isRippleLoad = false;
+          return error;
+        }
+      )
+    }
   }
   getCourses(i) {
     this.dataStatus = true;
-    this.reportService.getCourses(i).subscribe(
-      (data: any) => {
-        this.dataStatus = false;
-        this.isRippleLoad = false;
-        this.courses = data.coursesList;
-      },
-      (error) => {
-        this.dataStatus = false;
-        this.isRippleLoad = false;
-        return error;
-      }
-    )
-
+    this.getData.name = "";
+    this.getData.subject_id = -1;
+    // this.batchPro = [];
+    this.coursePro = [];
+    if (this.isProfessional) {
+      this.reportService.fetchCourseProfessional(i).subscribe(
+        (data: any) => {
+          this.dataStatus = false;
+          this.isRippleLoad = false;
+          this.coursePro = data;
+        },
+        (error: any) => {
+          this.dataStatus = false;
+          this.isRippleLoad = false;
+          return error;
+        }
+      )
+    }
+    else {
+      this.reportService.getCourses(i).subscribe(
+        (data: any) => {
+          this.dataStatus = false;
+          this.isRippleLoad = false;
+          this.courses = data.coursesList;
+        },
+        (error) => {
+          this.dataStatus = false;
+          this.isRippleLoad = false;
+          return error;
+        }
+      )
+    }
   }
   getSubjects(i) {
     this.dataStatus = true;
@@ -142,9 +193,8 @@ export class BiometricComponent implements OnInit {
       }
     )
   }
+  
   fetchDataByName() {
-
-
     this.showTeacherButton = true;
     if (this.getData.user_Type == 1) {
       this.studentsDisplayData = [];
@@ -153,24 +203,43 @@ export class BiometricComponent implements OnInit {
       this.showTeachersTable = false;
       this.showCustomTable = false;
       this.dataStatus = true;
-      this.reportService.getAttendanceReport(this.getData).subscribe(
-        (data: any) => {
-          this.getData.master_course_name = "";
-          this.getData.course_id = -1;
-          this.isRippleLoad = false;
-          this.dataStatus = false;
-          this.studentsData = data;
-          this.totalRow = data.length;
-          this.PageIndex = 1;
-          this.fetchTableDataByPage(this.PageIndex);
+      if (this.isProfessional) {
+        this.reportService.getAttendanceReport(this.getData).subscribe(
+          (data: any) => {
+            this.isRippleLoad = false;
+            this.dataStatus = false;
+            this.studentsData = data;
+            this.totalRow = data.length;
+            this.PageIndex = 1;
+            this.fetchTableDataByPage(this.PageIndex);
+          },
+          (error) => {
+            this.dataStatus = false;
+            this.isRippleLoad = false;
+            return error;
+          }
+        )
+      }
+      else {
+        this.reportService.getAttendanceReport(this.getData).subscribe(
+          (data: any) => {
+            this.getData.master_course_name = "";
+            this.getData.course_id = -1;
+            this.isRippleLoad = false;
+            this.dataStatus = false;
+            this.studentsData = data;
+            this.totalRow = data.length;
+            this.PageIndex = 1;
+            this.fetchTableDataByPage(this.PageIndex);
 
-        },
-        (error) => {
-          this.dataStatus = false;
-          this.isRippleLoad = false;
-          return error;
-        }
-      )
+          },
+          (error) => {
+            this.dataStatus = false;
+            this.isRippleLoad = false;
+            return error;
+          }
+        )
+      }
     }
     else if (this.getData.user_Type == 3) {
       this.dataStatus = true;
@@ -224,6 +293,14 @@ export class BiometricComponent implements OnInit {
 
 
   viewOlderRecords(i) {
+  
+    this.studentName = i.student_name;
+    this.teacherName = i.teacher_name;
+    this.customName = i.name;
+    this.studentId = i.student_disp_id;
+    this.teacherId = i.teacher_id;
+    this.customId = i.userid;
+    //console.log(this.teacherName);
     this.getAllData.user_id = i.user_id;
     this.addReportPopUp = true;
     this.dataStatus = true;
@@ -258,10 +335,37 @@ export class BiometricComponent implements OnInit {
       this.showButton = true;
     }
     else {
+      this.getData.standard_id = -1;
+      this.getData.subject_id = -1;
+      this.getData.batch_id = -1;
       this.showTeacherButton = true;
       this.showStudentTable = false;
       this.masterCourseNames = false;
       this.showButton = false;
+    }
+  }
+
+  futureDateValid(selectDate) {
+    if (moment(selectDate).diff(moment()) > 0) {
+      let msg = {
+        type: "info",
+        body: "You cannot select future date"
+      }
+      this.appc.popToast(msg);
+      this.isRippleLoad = false;
+      this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
+      this.getAllData.from_date = moment().format('YYYY-MM-DD');
+    }
+  }
+
+  courseChange() {
+    if ((this.getData.master_course_name == "" && !this.isProfessional) || (this.getData.standard_id == -1 && this.isProfessional)) {
+      let msg = {
+        type: "info",
+        body: "Select Master Course First !"
+      }
+      this.appc.popToast(msg);
+      this.isRippleLoad = false;
     }
   }
 
@@ -295,6 +399,10 @@ export class BiometricComponent implements OnInit {
       this.showWeek = false;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
+          //console.log(this.studentsData);
+          this.nameOfPeople=this.studentsData.map(
+            data => data.student_name
+          )
           if (data != null) {
             this.addAcademicPopUp = true;
             this.dataStatus = false;
@@ -341,7 +449,7 @@ export class BiometricComponent implements OnInit {
       this.showWeek = true;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
-          console.log(data);
+          
           this.isRippleLoad = false;
           if (data != null) {
             this.addAcademicPopUp = true;
@@ -357,11 +465,11 @@ export class BiometricComponent implements OnInit {
             }
             this.appc.popToast(msg);
             this.dataStatus = false;
-          this.weekAttendance =[];
+            this.weekAttendance = [];
             this.isRippleLoad = false;
           }
 
-          
+
 
         },
         (error: any) => {
@@ -377,6 +485,13 @@ export class BiometricComponent implements OnInit {
 
     }
 
+  }
+  courseEmpty() {
+    if (this.getData.name != "") {
+      this.getData.standard_id = -1;
+      this.getData.batch_id = -1;
+      this.getData.subject_id = -1;
+    }
   }
   closeReportAcademicPopup() {
     this.addAcademicPopUp = false;
@@ -401,11 +516,11 @@ export class BiometricComponent implements OnInit {
       to_date: moment(this.getAllData.to_date).format('YYYY-MM-DD'),
       user_id: this.getAllData.user_id
     }
-    console.log(this.getAllData.from_date);
+    //console.log(this.getAllData.from_date);
     let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
     let futureDate = moment(this.getAllData.to_date).add('days', 1).format('YYYY-MM-DD');
-    console.log(futureDate);
-    console.log(this.getAllData.to_date);
+    //console.log(futureDate);
+    //console.log(this.getAllData.to_date);
     if (diff < -2) {
       let msg = {
         type: "error",
@@ -442,6 +557,15 @@ export class BiometricComponent implements OnInit {
     else {
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
+
+          this.studentsData.map(
+            (data: any) => {
+              this.findName = data.student_name;
+            },
+            (error: any) => {
+              return error;
+            }
+          )
           if (data != null) {
             this.addAcademicPopUp = true;
             this.dataStatus = false;
@@ -454,8 +578,8 @@ export class BiometricComponent implements OnInit {
               title: "No Data Found",
               body: "We could not find any data in this range"
             }
-            
-            
+
+
             this.isRippleLoad = false;
             this.appc.popToast(msg);
             this.dataStatus = false;
@@ -597,7 +721,7 @@ export class BiometricComponent implements OnInit {
 
 
   dateValidationForFuture(e) {
-    console.log(e);
+    //console.log(e);
     let today = moment(new Date);
     let selected = moment(e);
 
@@ -616,10 +740,22 @@ export class BiometricComponent implements OnInit {
         body: "Future date is not allowed"
       }
       this.isRippleLoad = false;
-      this.dataStatus=false;
+      this.dataStatus = false;
       this.appc.popToast(msg);
     }
 
   }
+  // ====================================================================================================================
+  DownloadJsonToCsv() {
+
+    let link = this.xlsDownloader.nativeElement;
+    let outer = this.biometricTable.nativeElement.outerHTML.replace(/ /g, '%20');
+    let data_type = 'data:application/vnd.ms-excel';
+
+    link.setAttribute('href', data_type + ',' + outer);
+    link.setAttribute('download', 'test.xls');
+    link.click();
+  }
+
 
 }

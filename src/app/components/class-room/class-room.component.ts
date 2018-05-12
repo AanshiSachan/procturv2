@@ -23,6 +23,11 @@ export class ClassRoomComponent {
   CreateNewList: boolean = false;
   displayBatchSize: number = 10;
 
+  
+  searchText: string = "";
+  searchflag: boolean = false;
+  searchData: any = [];
+
 
   constructor
     (
@@ -51,8 +56,7 @@ export class ClassRoomComponent {
         this.fetchTableDataByPage(this.pageIndex);
       }),
       err => {
-        console.log(err);
-      }
+       }
   }
 
   /*=====================================================================================
@@ -78,10 +82,40 @@ export class ClassRoomComponent {
   ================================================================================= */
 
   addNewclassRoom(Room_ele, Desc_ele) {
-    if (Room_ele && Desc_ele != "" && Room_ele && Desc_ele != null && Desc_ele.length < 500) {
+    if (Room_ele!="" && Desc_ele != "" && Room_ele !=null && Desc_ele != null ) {
       let classRoomobj = {
         class_room_desc: Desc_ele,
         class_room_name: Room_ele
+      }
+      for (var i = 0; i < this.classRoomData.length; i++) {
+        if (this.classRoomData[i].class_room_name == classRoomobj.class_room_name) {
+          let obj = {
+            type: "error",
+            title: "error",
+            body: 'Duplicate Entries are not Allowed',
+          }
+          this.AppC.popToast(obj);
+          return;
+        }
+
+      }
+   /*  if(Desc_ele.length <80){
+       let obj = {
+          type: "error",
+          title: "error",
+          body: 'Description should be greater than 80 Characters',
+        }
+        this.AppC.popToast(obj);
+        return;
+      }*/
+       if (Desc_ele.length > 500) {
+        let data = {
+          type: 'error',
+          title: "Description should not be greater than 500 Characters",
+          body: "error"
+        }
+        this.AppC.popToast(data);
+        return;
       }
       this.ClassList.saveClassroomDetail(classRoomobj).subscribe(
         data => {
@@ -98,7 +132,7 @@ export class ClassRoomComponent {
 
         },
         error => {
-          console.log(error);
+         
           let msg = {
             type: "error",
             title: "Error",
@@ -109,20 +143,13 @@ export class ClassRoomComponent {
           this.AppC.popToast(msg);
         }
       )
-    }
-    else if (Desc_ele.length > 500) {
-      let data = {
-        type: 'error',
-        title: "Description should not be greater than 500",
-        body: "error"
-      }
-      this.AppC.popToast(data);
-    }
+    } 
+   
     else {
       let data = {
         type: 'error',
         title: "Error",
-        body: "Please fill ClassRoom Name."
+        body: "Please fill classRoom name and Description."
       }
       this.AppC.popToast(data);
       this.enterclassdata = "";
@@ -135,11 +162,27 @@ export class ClassRoomComponent {
   ================================================================================= */
   saveclassRoomInfo(row, index) {
     let data = {
-      "class_room_name": row.class_room_name,
-      "class_room_desc": row.class_room_desc,
-      "class_room_id": row.class_room_id,
+      class_room_name: row.class_room_name,
+      class_room_desc: row.class_room_desc,
+      class_room_id: row.class_room_id,
 
     }
+    
+    for (var j = 0; j < this.classRoomData.length; j++) {
+      if(j==index){
+        continue;
+      }
+      else if(this.classRoomData[j].class_room_name === row.class_room_name) {
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: "Duplicate Entries are not Allowed"
+        }
+        this.AppC.popToast(data);
+        return;
+      }
+    } 
+     
     if (data.class_room_name != "" && data.class_room_name != null && data.class_room_desc != "" && data.class_room_desc != null) {
       if (data.class_room_desc.length > 500) {
         let data = {
@@ -150,7 +193,16 @@ export class ClassRoomComponent {
         this.AppC.popToast(data);
         return;
       }
-
+    /*  if (data.class_room_desc.length < 80) {
+        let data = {
+          type: 'error',
+          title: "Description should  be greater than 80 Characters",
+          body: "error"
+        }
+        this.AppC.popToast(data);
+        return;
+      }
+    */
       this.ClassList.updateclassListData(data).subscribe(
         res => {
           let data = {
@@ -162,7 +214,7 @@ export class ClassRoomComponent {
           this.getClassList();
         },
         err => {
-          console.log(err);
+         
         }
       );
     }
@@ -175,6 +227,30 @@ export class ClassRoomComponent {
       this.AppC.popToast(data);
     }
   }
+  /*===================================Search============================================ */
+  searchDatabase() {
+
+    if (this.searchText != "" && this.searchText != null) {
+      this.pageIndex = 1;
+      let searchRes: any;
+     
+        searchRes = this.classRoomData.filter(item =>
+          Object.keys(item).some(
+            k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+        );
+      this.searchData = searchRes;
+      this.totalRow = searchRes.length;
+      this.searchflag = true;
+      this.fetchTableDataByPage(this.pageIndex);
+    }
+    else {
+      this.searchflag = false;
+      this.fetchTableDataByPage(this.pageIndex);
+      this.totalRow = this.classRoomData.length;
+      
+    }
+  }
+
 
   /*==================pagination================================================ */
   fetchTableDataByPage(index) {
@@ -196,8 +272,13 @@ export class ClassRoomComponent {
   }
 
   getClassRoomTableFromSource(startindex) {
-    let t = this.classRoomData.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    if (this.searchflag) {
+      let t = this.searchData.slice(startindex, startindex + this.displayBatchSize);
+      return t;
+    } else {
+      let t = this.classRoomData.slice(startindex, startindex + this.displayBatchSize);
+      return t;
+    }
   }
   /*==================================================================================
   ====================================================================================== */
@@ -230,5 +311,5 @@ export class ClassRoomComponent {
 
 }
 
-
+/*class-css-Ayushi */
 

@@ -327,7 +327,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.actRoute.queryParams.subscribe(e => {
-      console.log(e);
+      //console.log(e);
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
           this.router.navigate(['/enquiry/edit/' + e.id]);
@@ -339,7 +339,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               break;
             }
             case 'enquiryUpdate': {
-              console.log(e);
+              //console.log(e);
               break;
             }
           }
@@ -1532,6 +1532,39 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       let toDate = obj.dateR[1];
       this.searchBarData = '';
 
+      if (filter == "total") {
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          commentShow: 'false',
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          filtered_statuses: "",
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.loadTableDatatoSource(this.instituteData);
+      }
+
       if (filter == "Admitted") {
         this.instituteData = {
           name: "",
@@ -2099,7 +2132,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-    debugger;
+
     if (this.validateTime()) {
       this.isRippleLoad = true;
       this.updateFormData.comment = this.updateFormData.comment;
@@ -3458,7 +3491,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else if (this.downloadReportOption == 3) {
@@ -3470,7 +3503,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -3482,7 +3515,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -3503,7 +3536,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -4053,7 +4086,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 export class DateConverter implements PipeTransform {
   transform(value: any, exponent: any): any {
 
-    console.log(value);
+    //console.log(value);
 
     return null;
 

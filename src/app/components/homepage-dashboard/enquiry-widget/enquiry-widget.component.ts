@@ -228,7 +228,7 @@ export class EnquiryWidgetComponent implements OnInit {
 
         for (let k in s) {
             if (k == "Converted") {
-                console.log(k);
+                //console.log(k);
                 conv = s[k];
                 s[k] = 0;
             }
@@ -237,7 +237,7 @@ export class EnquiryWidgetComponent implements OnInit {
         if (conv != 0) {
             obj.statusMap['Open'] += conv;
         }
-        console.log(obj);
+        //console.log(obj);
         return obj;
     }
 

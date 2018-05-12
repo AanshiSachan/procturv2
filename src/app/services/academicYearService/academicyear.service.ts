@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
-import {Observable} from 'rxjs/observable';
 import * as moment from 'moment';
  
 @Injectable()
@@ -67,8 +66,8 @@ export class AcademicyearService {
     obj.start_date = moment(obj.start_date).format("YYYY-MM-DD");
     obj.end_date = moment(obj.end_date).format("YYYY-MM-DD");
     obj.created_date = moment(obj.created_date).format("DD-MM-YYYY");
-    console.log(obj.start_date);
-    console.log(obj.created_date);
+    //console.log(obj.start_date);
+    //console.log(obj.created_date);
     return this.http.put(url, obj, {headers:this.headers}).map(
       data =>{
        

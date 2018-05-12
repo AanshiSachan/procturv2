@@ -145,7 +145,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('110') || permissions.includes('115')) {
       document.getElementById('lione').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('lione').classList.add('hide');
     }
   }
@@ -156,7 +156,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('301') || permissions.includes('302') || permissions.includes('303')) {
       document.getElementById('litwo').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('litwo').classList.add('hide');
     }
   }
@@ -164,10 +164,10 @@ export class CoreSidednavComponent implements OnInit {
 
 
   hasCourse(permissions) {
-    if (permissions.includes('401') || permissions.includes('402') || permissions.includes('403') || permissions.includes('404') || permissions.includes('405') || permissions.includes('406') || permissions.includes('501') || permissions.includes('502') || permissions.includes('505') || permissions.includes('701') || permissions.includes('704')) {
+    if (permissions.includes('401') || permissions.includes('402') || permissions.includes('403') || permissions.includes('404') || permissions.includes('405') || permissions.includes('406') || permissions.includes('501') || permissions.includes('502') || permissions.includes('505') || permissions.includes('701') || permissions.includes('704') || permissions.includes('702') || permissions.includes('404')) {
       document.getElementById('lithree').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('lithree').classList.add('hide');
     }
   }
@@ -178,7 +178,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('101') || permissions.includes('102') || permissions.includes('103') || permissions.includes('104') || permissions.includes('114') || permissions.includes('113')) {
       document.getElementById('lifour').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('lifour').classList.add('hide');
     }
   }
@@ -189,7 +189,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('118') || permissions.includes('119') || permissions.includes('120') || permissions.includes('121')) {
       document.getElementById('lifive').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('lifive').classList.add('hide');
     }
   }
@@ -200,7 +200,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('201') || permissions.includes('202') || permissions.includes('203') || permissions.includes('204') || permissions.includes('205') || permissions.includes('206') || permissions.includes('207') || permissions.includes('208')) {
       document.getElementById('lisix').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('lisix').classList.add('hide');
     }
   }
@@ -211,7 +211,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('301')) {
       document.getElementById('liseven').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('liseven').classList.add('hide');
     }
   }
@@ -221,7 +221,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('108') || permissions.includes('109')) {
       document.getElementById('lieight').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('lieight').classList.add('hide');
     }
   }
@@ -231,7 +231,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('115')) {
       document.getElementById('linine').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('linine').classList.add('hide');
     }
   }
@@ -241,7 +241,7 @@ export class CoreSidednavComponent implements OnInit {
     if (permissions.includes('103') || permissions.includes('112') || permissions.includes('203') || permissions.includes('404')) {
       //document.getElementById('liten').classList.remove('hide');
     }
-    else{}
+    else { }
   }
 
 
@@ -443,7 +443,7 @@ export class CoreSidednavComponent implements OnInit {
   }
 
 
-  
+
   checkInstituteType() {
     let type: any = sessionStorage.getItem('institute_type');
     if (type == "LANG") {

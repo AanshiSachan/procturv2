@@ -4,7 +4,7 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 .homewrap {
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -225,7 +225,7 @@
                 content: '';
                 background: url("../../../../assets/images/calendar.svg") no-repeat;
                 position: absolute;
-                right: 50px;
+                right: 14% !important;
                 top: 18px;
                 width: 21px;
                 height: 21px;
@@ -234,8 +234,8 @@
         }
         .date-clear {
             position: absolute;
-            right: 5px;
-            top: 25px;
+            right: 0px;
+            top: 35px;
             cursor: pointer;
             color: #0084f6;
         }
@@ -261,7 +261,6 @@
                 z-index: 0;
             }
         }
-
     }
 }
 
@@ -284,6 +283,81 @@
     box-sizing: $border-box;
     padding: 0 15px;
     @extend .boxPadding15;
+}
+
+.AdFilter-field {
+    .field-wrapper {
+        margin: 15px 0;
+        .date-clear {
+            position: absolute;
+            right: -35px;
+            top: 35px;
+            cursor: pointer;
+            color: #0084f6;
+        }
+        &.datePickerBox {
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                left: 97% !important;
+                top: 33px !important;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
+.newDate {
+    .field-wrapper {
+        margin: 15px 0;
+        .date-clear {
+            position: absolute;
+            right: 0px;
+            top: 35px;
+            cursor: pointer;
+            color: #0084f6;
+        }
+        &.datePickerBox {
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                left: 84% !important;
+                top: 32px !important;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
+.AdFilter {
+    .field-wrapper {
+        margin: 15px 0;
+        .date-clear {
+            position: absolute;
+            right: 0px;
+            top: 35px;
+            cursor: pointer;
+            color: #0084f6;
+        }
+        &.datePickerBox {
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 5%;
+                top: 33px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
 }
 
 .accordian-section {
@@ -326,7 +400,6 @@
             }
         }
     }
-    
     .accordian-content {
         padding-left: 50px;
     }
@@ -525,7 +598,6 @@
     }
 }
 
-
 /*=======================Right bottom lite shadow box======================*/
 
 .box-shadow-lite {
@@ -577,7 +649,6 @@
         width: 21px;
     }
 }
-
 
 /* popUp Scss */
 
@@ -733,7 +804,6 @@
     bottom: 0;
 }
 
-
 /*=========================================registration popup form css==================*/
 
 .registration-fee-form {
@@ -795,7 +865,6 @@
         }
     }
 }
-
 
 /*=======================================confirmation =========================*/
 
@@ -884,12 +953,11 @@
     -webkit-appearance: none;
 }
 
-
 @media only screen and (max-width: 767px) {
-    .middle-left{
+    .middle-left {
         width: 100%;
     }
-    .middle-right{
+    .middle-right {
         width: 100%;
         padding: 0;
     }

@@ -1,0 +1,25 @@
+<button aria-expanded="true" class="d-item dropdown-trigger" (click)="openMenu()">
+    <span class="d-item svg-icon-wrap">
+        <span class="visually-hidden"></span>
+        <div aria-hidden="true" type="ellipsis-horizontal-icon">
+            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                focusable="false">
+                <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+            </svg>
+        </div>
+    </span>
+</button>
+
+<div class="d-item dd-list-container" *ngIf="showMenu" (mouseleave)="closeMenu()">
+    <div class="d-item dropdown-list">
+        <div class="d-item dd-list-inner">
+            <ul class="d-item actions-menu">
+                <li class="d-item action-item" (click)="selectOption(option)" *ngFor="let option of columnMaps">
+                    <a class="d-item enq-act enq-act--one">
+                        {{option.header}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

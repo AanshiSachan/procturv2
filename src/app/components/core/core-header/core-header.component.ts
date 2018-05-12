@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { Subscription, } from 'rxjs';
+import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
@@ -27,23 +27,25 @@ export class CoreHeaderComponent implements OnInit {
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   inputValue: any;
-
+  settings:string = "";
+  manageExamGrades: string = "";
   globalSearchForm: any = {
     name: '',
     phone: '',
     instituteId: sessionStorage.getItem('institute_id'),
     start_index: '0',
-    batch_size: '5'
+    batch_size: '6'
   }
 
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('seachResult') seachResult: ElementRef;
   @ViewChild('form') form: any;
   resultStat: any = 1;
-  teacherId : any = 0;
+  teacherId: any = 0;
 
 
   @Output() searchViewMore = new EventEmitter<any>();
+  @Output() hideSearchPopup = new EventEmitter<any>();
 
   private userInput: string;
 
@@ -51,6 +53,8 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.settings = sessionStorage.getItem('exam_grading_system');
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();
@@ -158,6 +162,9 @@ export class CoreHeaderComponent implements OnInit {
           document.getElementById('divManageFormTag').classList.remove('hide');
           document.getElementById('divAreaAndMap').classList.remove('hide');
         }
+        if (permissionArray.indexOf('601') != -1) {
+          document.getElementById('divManageUsers').classList.remove('hide');
+        }
       }
     }
   }
@@ -172,13 +179,14 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divSettingTag').classList.remove('hide');
     document.getElementById('divGeneralSettingTag').classList.remove('hide');
     document.getElementById('divManageFormTag').classList.remove('hide');
-    document.getElementById('divAreaAndMap').classList.remove('hide');
+    document.getElementById('divGradesTag').classList.remove('hide');
     if (this.isProfessional) {
       document.getElementById('divSlotTag').classList.remove('hide');
     }
     else if (!this.isProfessional) {
       document.getElementById('divSlotTag').classList.add('hide');
     }
+    document.getElementById('divManageUsers').classList.remove('hide');
   }
 
   showTeacherFields() {
@@ -196,6 +204,8 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divClassRoomTag').classList.add('hide');
     document.getElementById('divManageTag').classList.add('hide');
     document.getElementById('divAcademicTag').classList.add('hide');
+    document.getElementById('divGradesTag').classList.remove('hide');
+    document.getElementById('divManageUsers').classList.add('hide');
   }
 
   hideAllFields() {
@@ -210,6 +220,8 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divGeneralSettingTag').classList.add('hide');
     document.getElementById('divManageFormTag').classList.add('hide');
     document.getElementById('divAreaAndMap').classList.add('hide');
+    document.getElementById('divGradesTag').classList.remove('hide');
+    document.getElementById('divManageUsers').classList.add('hide');
   }
 
   hasEnquiryAccess(): boolean {
@@ -281,6 +293,7 @@ export class CoreHeaderComponent implements OnInit {
     $event.preventDefault();
     this.isResultDisplayed = true;
     this.seachResult.nativeElement.classList.add('searchView');
+    this.hideSearchPopup.emit(null);
   }
 
   closeSearch(e) {

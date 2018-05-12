@@ -4,6 +4,8 @@ import { FormsModule, Form, FormControl, FormGroup } from '@angular/forms';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 import { isNumber } from 'util';
 import { window } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import * as moment from 'moment';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-teacher-view',
@@ -36,7 +38,8 @@ export class TeacherViewComponent implements OnInit {
 
   constructor(
     private route: Router,
-    private ApiService: TeacherAPIService
+    private ApiService: TeacherAPIService,
+    private toastCtrl: AppComponent
   ) {
     if (localStorage.getItem('teacherID')) {
       this.selectedTeacherId = localStorage.getItem('teacherID');
@@ -55,12 +58,11 @@ export class TeacherViewComponent implements OnInit {
   getTeacherViewInfo() {
     this.ApiService.getViewInfoOfTeacher(this.selectedTeacherId).subscribe(
       (data: any) => {
-        console.log(data);
         this.studentImage = data.photo;
         this.selectedTeacherInformation = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -68,49 +70,55 @@ export class TeacherViewComponent implements OnInit {
   getAllBatchesInformation() {
     this.ApiService.getTeacherViewBatchesInfo().subscribe(
       data => {
-        console.log(data);
         this.batchesList = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
 
   searchTeacherInfo() {
-    console.log(this.selectedBatch, this.selectedFromDate, this.selectedToDate);
+    if (moment() < moment(this.selectedFromDate)) {
+      this.messageNotifier('error', 'Error', 'Please provide valid date');
+      return;
+    }
+    if (moment() < moment(this.selectedToDate)) {
+      this.messageNotifier('error', 'Error', 'Please provide valid date');
+      return;
+    }
     let data: any = {};
     data.batch_id = this.selectedBatch;
-    data.from_date = this.selectedFromDate;
-    data.to_date = this.selectedToDate;
+    data.from_date = moment(this.selectedFromDate).format('YYYY-MM-DD');
+    data.to_date = moment(this.selectedToDate).format('YYYY-MM-DD');
     this.getInfoFromDashBoard(data);
     this.getInfoFromGuest(data);
   }
 
   getInfoFromDashBoard(data) {
+    this.assignedBatchList = [];
     this.ApiService.customizedTeacherSearchOnDashBoardView(data, this.selectedTeacherId).subscribe(
       data => {
-        console.log(data);
         this.assignedBatchList = data;
         this.totalClassesTaken = this.getPerticularKeyValue(data, "total_teacher_classes", '');
         this.totalHourSpent = this.getPerticularKeyValue(data, 'total_hours', ' ');
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
   }
 
   getInfoFromGuest(data) {
+    this.visitingBatchList = [];
     this.ApiService.customizedTeacherSearchOnGuestBatchView(data, this.selectedTeacherId).subscribe(
       data => {
-        console.log(data);
         this.visitingBatchList = data;
         this.visitingTotalClasses = this.getPerticularKeyValue(data, "total_teacher_classes", '');
         this.visitingTotalHour = this.getPerticularKeyValue(data, 'total_hours', ' ');
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
   }
@@ -134,7 +142,7 @@ export class TeacherViewComponent implements OnInit {
   }
 
   exportDetailsInExcel() {
-    console.log("Excel");
+    //console.log("Excel");
   }
 
   printBtnClick() {
@@ -155,10 +163,10 @@ export class TeacherViewComponent implements OnInit {
     this.ApiService.viewBatchDetails(data, this.selectedTeacherId).subscribe(
       (data: any) => {
         this.teacherTakenClasses = data;
-        console.log(data);
+        //console.log(data);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -178,10 +186,10 @@ export class TeacherViewComponent implements OnInit {
     this.ApiService.viewBatchDetails(data, this.selectedTeacherId).subscribe(
       (data: any) => {
         this.guestBatchList = data;
-        console.log(data);
+        //console.log(data);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -224,6 +232,15 @@ export class TeacherViewComponent implements OnInit {
       document.getElementById('showCloseBtn').style.display = 'none';
       document.getElementById('showAddBtn').style.display = '';
     }
+  }
+
+  messageNotifier(type, title, msg) {
+    let data = {
+      type: type,
+      title: title,
+      body: msg
+    }
+    this.toastCtrl.popToast(data);
   }
 
 }

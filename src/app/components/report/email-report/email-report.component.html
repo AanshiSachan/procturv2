@@ -12,7 +12,8 @@
 
           <h1 class="pull-left">
             <a routerLink="/reports/home">
-              <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+              Report
+              <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Email Report
           </h1>
@@ -28,19 +29,21 @@
           <div class="row">
             <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
+                  <label for="fromDate">Sent From</label>
                 <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event)" readonly="false"
                   name="fromDate" bsDatepicker/>
-                <label for="fromDate">Sent From</label>
+               
               </div>
               <div class="field-wrapper datePickerBox has-value">
+                  <label for="toDate">Sent To</label>
                 <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date" (ngModelChange)="dateValidationForFuture($event)"
                   name="toDate" bsDatepicker/>
-                <label for="toDate">Sent To</label>
+              
               </div>
             </div>
             <div class="c-lg-2">
               <div class="btn-sms-search">
-                <input type="button" class="normal-btn fullBlue btn" value="Go" (click)="fetchemailByDate()" />
+                <input type="button"  style="margin-top:7%;" class="normal-btn fullBlue btn" value="Go" (click)="fetchemailByDate()" />
               </div>
             </div>
             <div class="c-lg-5"></div>

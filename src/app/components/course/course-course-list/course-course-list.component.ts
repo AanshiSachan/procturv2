@@ -35,6 +35,7 @@ export class CourseCourseListComponent implements OnInit {
   showTable: boolean = false;
   feeTemplateDataSource: any = [];
   deafultTemplate: any;
+  searchData: any = "";
 
   constructor(
     private apiService: CourseListService,
@@ -192,7 +193,7 @@ export class CourseCourseListComponent implements OnInit {
         this.defaultTemplateDet(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -250,6 +251,7 @@ export class CourseCourseListComponent implements OnInit {
           k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
       );
       this.studentList = searchData;
+      this.PageIndex = 1;
     } else {
       this.studentList = this.studentListDataSource;
     }
@@ -263,6 +265,7 @@ export class CourseCourseListComponent implements OnInit {
     };
     this.studentList = [];
     this.showTable = false;
+    this.searchData = "";
   }
 
   selectAllCheckBox(element) {
@@ -309,7 +312,7 @@ export class CourseCourseListComponent implements OnInit {
     this.toastCtrl.popToast(msg);
   }
 
-  checkTabSelection() {  
+  checkTabSelection() {
     setTimeout(() => {
       this.hideAllTabs();
       document.getElementById('liManageBatch').classList.add('active');

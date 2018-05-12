@@ -1,0 +1,49 @@
+:host>>>:host>>>.tooltip.top .tooltip-arrow:before,
+:host>>>.tooltip.top .tooltip-arrow {
+    border-top-color: #009688;
+}
+
+.infoBox {
+    padding: 1px 7px;
+    background: #fff;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    box-sizing: border-box;
+    border-radius: 50%;
+    height: 25px;
+    cursor: pointer;
+    color: #0084f6;
+    background: #efefef;
+    outline: none;
+    border: none;
+    &:focus {
+        outline: none;
+        border: none;
+    }
+    &:hover {
+        outline: none;
+        border: none;
+    }
+}
+
+.tooltip-container {
+    position: relative;
+    overflow: visible;
+    padding-top: 5px;
+}
+
+:host {
+    .tooltip-inner {
+        background-color: #009688;
+        color: #fff;
+    }
+    .tooltip-auto {
+        /* top: calc(50% - 2.5px);
+        left: calc(50% - 2.5px); */
+        top: 0;
+        left: 0;
+    }
+}

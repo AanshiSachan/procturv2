@@ -158,6 +158,7 @@ export class ScheduleHomeComponent implements OnInit {
       this.searchedData = searchData;
       this.totalRow = searchData.length;
       this.searchDataFlag = true;
+      this.PageIndex = 1;
       this.fetchTableDataByPage(this.PageIndex);
     } else {
       this.searchDataFlag = false;
@@ -212,29 +213,31 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   deleteRow(data) {
-    this.isRippleLoad = true;
-    this.apiService.deleteStandard(data.standard_id).subscribe(
-      res => {
-        this.isRippleLoad = false;
-        let data = {
-          type: "success",
-          title: "Success",
-          body: "Deleted Successfully"
-        }
-        this.toastCtrl.popToast(data);
-        this.getAllStandardList();
-      },
-      err => {
-        this.isRippleLoad = false;
-        let data = {
-          type: "error",
-          title: "Error",
-          body: err.error.message
-        }
-        this.toastCtrl.popToast(data);
+    if(confirm('Are you sure you want to delete?')){
+      this.isRippleLoad = true;
+      this.apiService.deleteStandard(data.standard_id).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let data = {
+            type: "success",
+            title: "Success",
+            body: "Deleted Successfully"
+          }
+          this.toastCtrl.popToast(data);
+          this.getAllStandardList();
+        },
+        err => {
+          this.isRippleLoad = false;
+          let data = {
+            type: "error",
+            title: "Error",
+            body: err.error.message
+          }
+          this.toastCtrl.popToast(data);
 
-      }
-    )
+        }
+      )
+    }
   }
 
   // pagination functions 

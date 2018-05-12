@@ -1,0 +1,202 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.middle-section {
+    padding: 0px 0px;
+}
+
+.filter-section-wrapper {
+    padding: 10px 10px;
+    background: #efefef;
+}
+
+.row {
+    margin-top: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.form-wrapper {
+    background: transparent;
+    margin: 2px 0px;
+    width: 85% !important;
+    .btn {
+        margin-top: 10px;
+        width: 30%;
+    }
+    label {
+        padding-left: 190px;
+        font-size: 12px;
+        font-weight: 400; //font-family: -webkit-body;
+        color: 0084f6;
+        text-decoration: none;
+        -webkit-font-smoothing: antialiased;
+        width: 100%;
+        &.l1 {
+            padding-left: 14px;
+        }
+    }
+    .side-form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 60%;
+        padding-left: 10px;
+        margin-left: 187px;
+        height: 30px;
+        padding: 4px 5px;
+        font-weight: 600;
+        font-size: 14px;
+        color: black;
+        &.bsDatepicker {
+            // padding-left: 10px;
+            // margin-left: 8px;
+            width: 86%;
+        }
+    }
+}
+   .side-form-ctrl{
+    
+        margin-left: 0px;
+    }
+.left-shift{
+    width:100% !important;
+    margin-left: 0px !important;
+    margin-top: 13px!important;
+    
+}
+
+
+.margin-head {
+    padding-left: 8px;
+}
+
+.btn-sms-search {
+    margin-top: 35px;
+    text-align: center;
+    margin-left: 280px;
+    width: 100%
+}
+ 
+.search-filter-wrapper {
+    margin-top: 10px;
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc; // width: 130px;
+        box-sizing: border-box;
+        margin-right: 10px;
+        margin-bottom: 5px;
+        height: 35px;
+        font-size: 14px;
+        margin-left: 229px;
+    }
+}
+.field-radio-wrapper {
+    .form-radio:checked+label:before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        background: #0084f6;
+        border-radius: 50%;
+        left: 3px;
+        top: 3px;
+    }
+    label {
+        margin-left: 10px;
+    }
+}
+
+.margin-headleft {
+    margin-left: -30px;
+    margin-top: 25px;
+}
+
+.side-form-ctrl {
+    &.datePickerBox {
+        content: '';
+        background: url(/./assets/images/calendar.svg) no-repeat;
+        position: absolute;
+        right: 0;
+        top: 18px;
+        width: 27px;
+        height: 21px;
+        z-index: 0;
+    }
+}
+
+.field-wrapper {
+    position: relative;
+    padding-top: 10px;
+    width: 73%;
+    margin-left: 20px;
+}
+
+.add-edit {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+}
+
+.closeBtnClass {
+    line-height: 11px !important;
+}
+
+
+.btn-sms-search {
+    margin-top: 35px;
+    text-align: center;
+    width: 100%;
+    float:right;
+}
+
+.search-filter-wrapper {
+    margin-top: 10px;
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc; // width: 130px;
+        box-sizing: border-box;
+        margin-bottom: 5px;
+        height: 35px;
+        float:right;
+        font-size: 14px;
+        
+    }
+}
+
+.pulldown{
+    margin-top:24px;
+}

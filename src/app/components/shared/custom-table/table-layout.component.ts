@@ -14,6 +14,8 @@ export class TableLayoutComponent implements OnChanges {
     @Input() isMulti: boolean = false;
     @Input() tableName: string = '';
     @Input() dummyArr: any[];
+    @Input() viewText: boolean;
+    @Input() text: string
     @Input() columnMap: any[];
     @Input() dataStatus: boolean;
     @Input() direction: number;
@@ -27,6 +29,10 @@ export class TableLayoutComponent implements OnChanges {
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef) { }
 
     ngOnChanges() {
+        console.log(this.viewText,this.text);
+
+
+
         this.sortingEnabled;
         if (this.settings) {
             this.columnMaps = this.settings
@@ -38,7 +44,10 @@ export class TableLayoutComponent implements OnChanges {
         }
 
     }
-
+ngOnInit()
+{
+    console.log(this.viewText,this.text);
+}
 
     selectAllRows(ev) {
         if (ev) {
@@ -59,8 +68,8 @@ export class TableLayoutComponent implements OnChanges {
             this.sortedBy = ev;
             this.sortData.emit(ev);
         }
-        console.log(ev);
-
+        //console.log(ev);
+        console.log(this.columnMaps);
     }
 
 
@@ -68,9 +77,22 @@ export class TableLayoutComponent implements OnChanges {
         if (this.sortingEnabled && this.sortedBy == e) {
             return true;
         }
-        
+
         else {
             return false;
         }
+  
     }
+    getColor(key , data) {
+      
+           if(data == "Absent"){
+             return 'red'
+               
+           }
+           else if(data == "Leave"){
+            return 'blue'
+           }
+          
+        }
+        
 }

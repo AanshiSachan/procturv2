@@ -104,6 +104,7 @@
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                                    <label for="masterCourse">Master Course</label>
                                     <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
                                         class="form-ctrl">
                                         <option value="-1"></option>
@@ -111,70 +112,70 @@
                                             {{std.standard_name}}
                                         </option>
                                     </select>
-                                    <label for="masterCourse">Master Course</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
+                                    <label for="course">Course</label>
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id" class="form-ctrl">
                                         <option value="-1"></option>
                                         <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
                                             {{subject.subject_name}}
                                         </option>
                                     </select>
-                                    <label for="course">Course</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.batch_id != '-1'}">
+                                    <label for="batch">Batch</label>
                                     <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id" class="form-ctrl">
                                         <option value="-1"></option>
                                         <option [value]="b.batch_id" *ngFor="let b of batchList">
                                             {{b.batch_name}}
                                         </option>
                                     </select>
-                                    <label for="batch">Batch</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+                                    <label for="school">Institutional/Custom2</label>
                                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
                                         <option value="-1"></option>
                                         <option [value]="sch.school_id" *ngFor="let sch of schoolList">
                                             {{sch.school_name}}
                                         </option>
                                     </select>
-                                    <label for="school">Institutional/Custom2</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
+                                    <label for="status">Status</label>
                                     <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
                                         <option value="-1"></option>
                                         <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
                                             {{stdst.data_value}}
                                         </option>
                                     </select>
-                                    <label for="status">Status</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
-                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                                     <label for="assignCourses">Slots</label>
+                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                                 </div>
                                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                                     <div class="multiselect-wrapper-inner">
                                         <ul class="">
                                             <li *ngFor="let slot of slots">
                                                 <div class="field-checkbox-wrapper">
-                                                    <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
-                                                    <label for="slot.label">{{slot.label}}</label>
+                                                    <input type="checkbox" id="{{slot.label}}" value="" name="{{slot.label}}" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)"
+                                                        class="form-checkbox">
+                                                    <label for="{{slot.label}}">{{slot.label}}</label>
                                                 </div>
                                             </li>
                                         </ul>
@@ -185,6 +186,7 @@
                             <!-- non professional/ academic -->
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
+                                    <label for="standard">Standard</label>
                                     <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
                                         class="form-ctrl">
                                         <option value="-1"></option>
@@ -192,12 +194,12 @@
                                             {{std.standard_name}}
                                         </option>
                                     </select>
-                                    <label for="standard">Standard</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
+                                    <label for="masterCourse">Master Courses</label>
                                     <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
                                         class="form-ctrl">
                                         <option value="-1"></option>
@@ -205,90 +207,89 @@
                                             {{mc.master_course}}
                                         </option>
                                     </select>
-                                    <label for="masterCourse">Master Courses</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
+                                    <label for="course">Course</label>
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id" class="form-ctrl">
                                         <option value="-1"></option>
                                         <option [value]="course.course_id" *ngFor="let course of subCourseList">
                                             {{course.course_name}}
                                         </option>
                                     </select>
-                                    <label for="course">Course</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
+                                    <label for="school">Institutional/Custom2</label>
                                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
                                         <option value="-1"></option>
                                         <option [value]="sch.school_id" *ngFor="let sch of schoolList">
                                             {{sch.school_name}}
                                         </option>
                                     </select>
-                                    <label for="school">Institutional/Custom2</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
+                                    <label for="status">Status</label>
                                     <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
                                         <option value="-1"></option>
                                         <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
                                             {{stdst.data_value}}
                                         </option>
                                     </select>
-                                    <label for="status">Status</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper" [class.has-value]="advancedFilterForm.is_active_status != ''">
+                                    <label for="status">Is Active</label>
                                     <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-ctrl">
                                         <option value=""></option>
                                         <option value="1">Active</option>
                                         <option value="2">Inactive</option>
                                         <option value="3">Both</option>
                                     </select>
-                                    <label for="status">Is Active</label>
                                 </div>
                             </div>
 
-                            <custom-student *ngFor="let component of customComponents">
-
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                            <custom-student class="c-lg-4 c-md-4 c-sm-4" [ngClass]="{'hide': component.is_searchable == 'N'}" *ngFor="let component of customComponents">
+                                <div class="" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper">
-                                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
                                         <label for="{{component.id}}">{{component.label}} </label>
+                                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="component.label"
+                                        />
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                                <div class="" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                                     <br>
-                                    <div class="field-checkbox-wrapper">
+                                    <div style="margin: 30px 0px;" class="field-checkbox-wrapper">
                                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
                                         <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                                <div class="" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper">
+                                        <label for="{{component.id}}">{{component.label}} </label>
                                         <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
                                             <option value=""></option>
                                             <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                                         </select>
-                                        <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                                <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                                     <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                        <label for="{{component.id}}">{{component.label}} </label>
                                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                                         />
-                                        <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                     <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                                         <div class="multiselect-wrapper-inner">
@@ -305,14 +306,13 @@
                                     </div>
                                 </div>
 
-                                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
-                                        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
-                                            <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
-                                                name="{{component.label}}" bsDatepicker/>
-                                            <label for="component.id">{{component.label}} </label>
-                                        </div>
+                                <div class="" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                    <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                        <label for="component.id">{{component.label}} </label>
+                                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                                            name="{{component.label}}" bsDatepicker/>
+                                    </div>
                                 </div>
-
                             </custom-student>
 
                             <div class="row adfilter-submitter">
@@ -386,7 +386,8 @@
             </div> -->
             <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
                 (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
-                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)" (invEdit)="editInventory($event)">
+                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)"
+                (invEdit)="editInventory($event)">
             </student-sidebar>
         </div>
     </aside>
@@ -542,17 +543,17 @@
                             </aside>
                             <aside class="leave-add pull-right">
                                 <div class="field-wrapper datePickerBox c-md-6 has-value">
-                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.start_date">
                                     <label for="">Start Date*</label>
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.start_date">
                                 </div>
                                 <div class="field-wrapper datePickerBox c-md-6 has-value">
-                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.end_date">
                                     <label for="">End Date*</label>
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.end_date">
                                 </div>
                                 <div class="field-wrapper c-md-12">
                                     <textarea placeholder="Reason" rows="1" cols="1" style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
                                         id="reason" class="form-ctrl" [(ngModel)]="applyLeave.reason">
-                                            </textarea>
+                                    </textarea>
                                 </div>
                             </aside>
                         </div>
@@ -610,10 +611,10 @@
                                 <div id="" class="c-sm-4 c-md-4 c-lg-4">
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                                         <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="">
-                                        <label for="sms">SMS</label>
+                                        <label for="sms">SMS</label>                                        
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-              <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="">
+                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="">
                                         <label for="mail">Mail</label>
                                     </div>
                                 </div>
@@ -651,10 +652,6 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    <!-- <div class="field-checkbox-wrapper">
-                                                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(messageList)" (click)="checkAllChechboxes($event , messageList)">
-                                                          <label></label>
-                                                        </div> -->
                                                 </th>
                                                 <th>
                                                     Date

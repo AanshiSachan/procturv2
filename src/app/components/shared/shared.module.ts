@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+
 import { TableLayoutComponent } from './custom-table/table-layout.component';
-import { FormatCellPipe } from './custom-checkbox-table/checkbox-format-cell.pipe';
-import { StyleCellDirective } from './custom-checkbox-table/checkbox-style-cell.directive';
+import { FormatCellPipe } from './custom-table/format-cell.pipe';
+import { StyleCellDirective } from './custom-table/style-cell.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
-import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-layout.component';
 import { AppLoaderComponent } from './app-loader/app-loader.component';
 import { PictureCropComponent } from './img-cropper/picture-crop.component';
 
@@ -17,21 +17,30 @@ import { RobTableCellPipe } from './ng-robTable/ng-robTable-format-cell.pipe';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
 import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
+import { TooltipModule } from '../../../assets/imported_modules/ngx-bootstrap/tooltip';
+
+import { CustomizingPipe } from './ng-robAdvanceTable/customizing.pipe';
+
+/* Advanced Table Declaration */
+import { RobAdvanceTableComponent } from './ng-robAdvanceTable/ng-robAdvanceTable.component';
+
 import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
 import { SearchPipe } from './pipes/tablesSearchPipe';
-import { CustomButtonTableComponent } from './custom-button-table/custom-button-table.component';
 
+import { DropMenuComponent } from './ng-robAdvanceTable/dropmenu/dropmenu.component';
 
+import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
+        TooltipModule.forRoot(),
     ],
     declarations: [
         TableLayoutComponent,
         RobTableComponent,
-        CheckboxTableComponent,
+        RobAdvanceTableComponent,
         FormatCellPipe,
         RobTableCellPipe,
         StyleCellDirective,
@@ -43,21 +52,32 @@ import { CustomButtonTableComponent } from './custom-button-table/custom-button-
         CommaSeprationAmount,
         ProcturPopUpComponent,
         SearchPipe,
-        CustomButtonTableComponent
+        CustomizingPipe,
+        DropMenuComponent,
+        RobTooltipComponent
     ],
     exports: [
         CommonModule,
         TableLayoutComponent,
         RobTableComponent,
-        CheckboxTableComponent,
+        RobAdvanceTableComponent,
         PaginationComponent,
         QuickFilterComponent,
         AppLoaderComponent,
         PictureCropComponent,
         CommaSeprationAmount,
         ProcturPopUpComponent,
-        SearchPipe
+        SearchPipe,
+        CustomizingPipe,
+        DropMenuComponent,
+        RobTooltipComponent
     ],
-    providers: [CurrencyPipe]
+    entryComponents: [
+        DropMenuComponent,
+    ],
+    providers: [
+        CurrencyPipe,
+        DecimalPipe
+    ]
 })
 export class SharedModule { }

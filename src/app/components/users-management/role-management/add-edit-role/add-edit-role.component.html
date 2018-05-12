@@ -1,0 +1,62 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<section class="middle-section clearFix">
+  <div class="content-container">
+
+    <div class="header">
+      <h2 *ngIf="roleId == '-1'">Add Role</h2>
+      <h2 *ngIf="roleId != '-1'">Edit Role</h2>
+    </div>
+
+    <div class="addEditRole">
+      <div class="row" *ngIf="roleId == '-1'">
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <div class="field-wrapper">
+            <label for="role_name">Role Name</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleName" id="role_name" name="role_name">
+          </div>
+        </div>
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <div class="field-wrapper">
+            <label for="role_name">Role Description</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDesc" id="role_desc" name="role_desc">
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="roleId != '-1'">
+        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 30px;">
+          <span>Role Name : {{userData.role_name}}</span>
+        </div>
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <div class="field-wrapper">
+            <label for="role_name">Role Description</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="userData.role_desc" id="role_desc" name="role_desc">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="picklist-wrapper">
+      <p-pickList [source]="cloneFeatureArray" [target]="targetFeatures" [showSourceControls]="false" [showTargetControls]="false"
+        [responsive]="true" filterBy="feature_name,description" dragdrop="true">
+        <ng-template let-car pTemplate="item">
+          <div class="ui-helper-clearfix">
+            <!-- <img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="display:inline-block;margin:2px 0 2px 2px" width="48"> -->
+            <div>{{car.feature_name}}</div>
+          </div>
+        </ng-template>
+      </p-pickList>
+    </div>
+
+    <div class="btn-section pull-right">
+      <button routerLink='/manage/role' class="btn">Cancel</button>
+      <button class="btn fullBlue" *ngIf="roleId == '-1'" (click)="createNewRole()">Save</button>
+      <button class="btn fullBlue" *ngIf="roleId != '-1'" (click)="updateRole()">Update</button>
+    </div>
+
+  </div>
+</section>

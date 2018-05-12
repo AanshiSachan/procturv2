@@ -1,6 +1,6 @@
 <div class="main-wrapper">
     <overlay-menu *ngIf="isMenuVisible"></overlay-menu>
-    <core-header (searchViewMore)="searchViewMore($event)" class="hide">
+    <core-header (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)" class="hide">
     </core-header>
     <div id="middleWrapper">
         <main>

@@ -86,7 +86,7 @@ export class ReportHomeComponent implements OnInit {
       }
     }
     else {
-      console.log(permissions);
+      //console.log(permissions);
     }
   }
 

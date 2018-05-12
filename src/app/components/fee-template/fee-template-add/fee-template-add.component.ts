@@ -89,7 +89,7 @@ export class FeeTemplateAddComponent implements OnInit {
           this.masterCourseList = res;
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -119,7 +119,7 @@ export class FeeTemplateAddComponent implements OnInit {
             this.CourseList = res;
           },
           err => {
-            console.log(err);
+            //console.log(err);
           }
         )
       } else {

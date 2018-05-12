@@ -42,7 +42,8 @@ import {BiometricComponent} from './biometric/biometric.component';
                     },
                     {
                         path: 'fee',
-                        component: FeeReportComponent
+                        loadChildren: 'app/components/report/fee-report/fee-report.module#FeeReportModule',
+                        pathMatch: 'prefix'
                     },
                     {
                         path: 'exam',

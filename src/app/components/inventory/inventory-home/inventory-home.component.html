@@ -353,10 +353,11 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" formControlName="item_name" id="In" name="item" (focus)="inputClickedCheck($event)">
                   <label for="In">Item Name
                     <span style="color:red">*</span>
                   </label>
+                  <input type="text" class="form-ctrl" formControlName="item_name" id="In" name="item" (focus)="inputClickedCheck($event)">
+
                   <div *ngIf="addItemForm.controls['item_name'].invalid && (addItemForm.controls['item_name'].dirty || addItemForm.controls['item_name'].touched)"
                     class="alert alert-danger">
                     <div *ngIf="addItemForm.controls['item_name'].hasError('required')">
@@ -367,9 +368,10 @@
               </div>
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" formControlName="desc" id="label" name="label" (focus)="inputClickedCheck($event)">
                   <label for="label">Item Description
                   </label>
+                  <input type="text" class="form-ctrl" formControlName="desc" id="label" name="label" (focus)="inputClickedCheck($event)">
+
                 </div>
               </div>
             </div>
@@ -377,14 +379,15 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
+                  <label for="cat">Category
+                    <span style="color:red">*</span>
+                  </label>
                   <select id="cat" class="form-ctrl" formControlName="categoryDet" (focus)="inputClickedCheck($event)">
                     <option *ngFor="let opt of categoryList" [value]="opt.category_id">
                       {{opt.category_name}}
                     </option>
                   </select>
-                  <label for="cat">Category
-                    <span style="color:red">*</span>
-                  </label>
+
                   <div *ngIf="addItemForm.controls['categoryDet'].invalid && (addItemForm.controls['categoryDet'].dirty || addItemForm.controls['categoryDet'].touched)"
                     class="alert alert-danger">
                     <div *ngIf="addItemForm.controls['categoryDet'].hasError('required')">
@@ -395,10 +398,11 @@
               </div>
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="number" class="form-ctrl" formControlName="alloted_units" id="Unit" name="Unit" (focus)="inputClickedCheck($event)">
                   <label for="Unit">Available Unit
                     <span style="color:red">*</span>
                   </label>
+                  <input type="number" class="form-ctrl" formControlName="alloted_units" id="Unit" name="Unit" (focus)="inputClickedCheck($event)">
+
                   <div *ngIf="addItemForm.controls['alloted_units'].invalid && (addItemForm.controls['alloted_units'].dirty || addItemForm.controls['alloted_units'].touched)"
                     class="alert alert-danger">
                     <div *ngIf="addItemForm.controls['alloted_units'].hasError('required')">
@@ -412,25 +416,27 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
+                  <label for="master">Master Course
+                  </label>
                   <select id="master" class="form-ctrl" formControlName="standardDet" (focus)="inputClickedCheck($event)" (change)="masterCourseSelected()">
                     <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
                       {{opt.standard_name}}
                     </option>
                   </select>
-                  <label for="master">Master Course
-                  </label>
+
                 </div>
               </div>
 
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
+                  <label for="course">Course
+                  </label>
                   <select id="course" class="form-ctrl" formControlName="subjectDet" (focus)="inputClickedCheck($event)">
                     <option *ngFor="let opt of courseList" [value]="opt.subject_id">
                       {{opt.subject_name}}
                     </option>
                   </select>
-                  <label for="course">Course
-                  </label>
+
                 </div>
               </div>
             </div>
@@ -438,13 +444,16 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="number" class="form-ctrl" min="0" id="UnitCost" formControlName="unit_cost" name="UnitCost" (focus)="inputClickedCheck($event)">
                   <label for="UnitCost">Unit Cost
                   </label>
+                  <input type="number" class="form-ctrl" min="0" id="UnitCost" formControlName="unit_cost" name="UnitCost" (focus)="inputClickedCheck($event)">
+
                 </div>
               </div>
-              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 madeDate" style="margin-top:0px;">
                 <div class="field-wrapper datePickerBox">
+                  <label for="followupdate">Follow Up Date
+                  </label>
                   <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="created_date" style="cursor: pointer;" name="createdDate"
                     (focus)="inputClickedCheck($event)" readonly="true" bsDatepicker/>
                   <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
@@ -456,9 +465,10 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" id="lowUnit" name="lowUnit" (focus)="inputClickedCheck($event)">
                   <label for="lowUnit">Low Stock Indicator Units
                   </label>
+                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" id="lowUnit" name="lowUnit" (focus)="inputClickedCheck($event)">
+
                 </div>
               </div>
             </div>
@@ -509,14 +519,15 @@
           <div class="row extraMargin">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper has-value">
+                <label for="item">Sub Branch
+                  <span style="color:red">*</span>
+                </label>
                 <select id="" class="form-ctrl" formControlName="sub_branch_id" (change)="onSubBranchSelection()" (focus)="inputClickedCheck($event)">
                   <option *ngFor="let opt of subBranchList" [value]="opt.institute_id">
                     {{opt.institute_name}}
                   </option>
                 </select>
-                <label for="item">Sub Branch
-                  <span style="color:red">*</span>
-                </label>
+
                 <div *ngIf="allocateItemForm.controls['sub_branch_id'].invalid && (allocateItemForm.controls['sub_branch_id'].dirty || allocateItemForm.controls['sub_branch_id'].touched)"
                   class="alert alert-danger">
                   <div *ngIf="allocateItemForm.controls['sub_branch_id'].hasError('required')">
@@ -527,14 +538,15 @@
             </div>
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
+                <label for="label">Sub Branch Item
+                  <span style="color:red">*</span>
+                </label>
                 <select id="" class="form-ctrl" formControlName="sub_branch_item_id" (click)="onSelectSubBranchItem()" (focus)="inputClickedCheck($event)">
                   <option *ngFor="let opt of subBranchItemList" [value]="opt.item_id">
                     {{opt.item_name}}({{opt.category_name}})
                   </option>
                 </select>
-                <label for="label">Sub Branch Item
-                  <span style="color:red">*</span>
-                </label>
+
                 <span *ngIf="showAvailableUnits">Units available in Sub Branch: {{availabelItemCount}}</span>
                 <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].invalid && (allocateItemForm.controls['sub_branch_item_id'].dirty || allocateItemForm.controls['sub_branch_item_id'].touched)"
                   class="alert alert-danger">
@@ -550,10 +562,11 @@
           <div class="row extraMargin">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
-                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item" (focus)="inputClickedCheck($event)">
                 <label for="item">Allocate Unit
                   <span style="color:red">*</span>
                 </label>
+                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item" (focus)="inputClickedCheck($event)">
+
                 <div *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
                   class="alert alert-danger">
                   <div *ngIf="allocateItemForm.controls['alloted_units'].hasError('required')">
@@ -564,9 +577,10 @@
             </div>
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
-                <input type="text" class="form-ctrl" formControlName="transport" name="label" (focus)="inputClickedCheck($event)">
                 <label for="label">Transport
                 </label>
+                <input type="text" class="form-ctrl" formControlName="transport" name="label" (focus)="inputClickedCheck($event)">
+
               </div>
             </div>
           </div>
@@ -575,16 +589,18 @@
           <div class="row extraMargin">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
-                <input type="number" class="form-ctrl" formControlName="challan_no" name="item" (focus)="inputClickedCheck($event)">
                 <label for="item">Challan No.
                 </label>
+                <input type="number" class="form-ctrl" formControlName="challan_no" name="item" (focus)="inputClickedCheck($event)">
+
               </div>
             </div>
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper datePickerBox">
+                <label for="createdDate">Challan Date</label>
                 <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date" style="cursor: pointer;" name="createdDate"
                   (focus)="inputClickedCheck($event)" readonly="true" bsDatepicker/>
-                <label for="createdDate">Challan Date</label>
+
               </div>
             </div>
           </div>
@@ -592,9 +608,10 @@
           <div class="row extraMargin">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
-                <input type="number" class="form-ctrl" formControlName="challan_amount" name="item" (focus)="inputClickedCheck($event)">
                 <label for="item">Challan Amount (Rs)
                 </label>
+                <input type="number" class="form-ctrl" formControlName="challan_amount" name="item" (focus)="inputClickedCheck($event)">
+
               </div>
             </div>
           </div>

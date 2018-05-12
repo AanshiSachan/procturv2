@@ -183,6 +183,7 @@ export class CourseSubjectComponent implements OnInit {
       this.searchedData = searchData;
       this.searchDataFlag = true;
       this.totalRow = searchData.length;
+      this.PageIndex = 1;
       this.fetchTableDataByPage(this.PageIndex);
     } else {
       this.searchDataFlag = false;

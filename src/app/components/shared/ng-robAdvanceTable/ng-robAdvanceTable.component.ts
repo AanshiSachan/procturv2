@@ -1,0 +1,241 @@
+import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
+import * as moment from 'moment';
+import { DropData, DropMapData } from './dropmenu/dropmenu.model';
+import { CustomizingPipe } from './customizing.pipe';
+
+@Component({
+    selector: 'rob-table',
+    templateUrl: 'ng-robAdvanceTable.component.html',
+    styleUrls: ['./ng-robAdvanceTable.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class RobAdvanceTableComponent implements OnChanges {
+
+    headerSort: any;
+
+    @Input() records: any[];
+    @Input() settings: ColumnData[];
+    @Input() tableName: string = '';
+    @Input() dataStatus: number;
+    @Input() primaryKey: string = '';
+    @Input() key1: string;
+    @Input() reset: boolean;
+    @Input() defaultSort: string = "";
+    @Input() isMulti: boolean = true;
+    @Input() hasMenu: boolean = false;
+    @Input() menuOptions: DropData[];
+
+    @Output() userRowSelect = new EventEmitter();
+    @Output() rowsSelected = new EventEmitter<number>();
+    @Output() rowIdArr = new EventEmitter<any[]>();
+    @Output() sortById = new EventEmitter<string>();
+    @Output() rowUserId = new EventEmitter<string>();
+    @Output() sortDirection = new EventEmitter<boolean>();
+    @Output() multiOptionSelected = new EventEmitter<any>();
+
+    isAllSelected: boolean = false;
+    columnMaps: ColumnMapData[];
+    selectedRowGroup: any[] = [];
+    selectedRow: number;
+    rowSelectedCount: number = 0;
+    rowSelectedId: any[] = [];
+
+    /* Number of line for skeleton screen */
+    dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    userIdArray: any = [];
+    asc: boolean = false;
+    caret = true;
+
+    @ViewChild('headerCheckbox') hc: ElementRef;
+
+    constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eleRef: ElementRef) { }
+
+
+
+    ngOnChanges() {
+        this.cd.markForCheck();
+        this.dataStatus;
+        this.key1;
+        this.defaultSort;
+        this.menuOptions;
+        this.refreshTable();
+        if (this.settings) {
+            this.columnMaps = this.settings
+                .map(col => new ColumnMapData(col));
+        } else {
+            this.columnMaps = Object.keys(this.records[0]).map(key => {
+                return new ColumnMapData({ primaryKey: key });
+            });
+        }
+
+    }
+
+    selectAllRows(ev) {
+        this.cd.markForCheck();
+        ev.preventDefault();
+        ev.stopPropagation();
+        if (ev.target.checked) {
+            this.records.forEach(x => x.uiSelected = ev.target.checked);
+            this.rowSelectedCount = this.records.length;
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.getSelectedRows();
+        }
+        else {
+            this.records.forEach(x => x.uiSelected = ev.target.checked);
+            this.rowSelectedCount = 0;
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.getSelectedRows();
+        }
+    }
+
+
+    getSelectedRows() {
+        this.rowSelectedId = [];
+        this.userIdArray = [];
+        this.records.forEach(e => {
+            if (e.uiSelected) {
+                this.rowSelectedId.push(e);
+                this.userIdArray.push(e.user_id);
+            }
+        });
+
+        this.rowIdArr.emit(this.rowSelectedId);
+        this.rowUserId.emit(this.userIdArray);
+    }
+
+    isAllChecked(): boolean {
+        return this.records.every(_ => _.uiSelected);
+    }
+
+
+    userRowClicked($event, ev, row) {
+        this.cd.markForCheck();
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.selectedRow = ev;
+        this.userRowSelect.emit(row);
+        this.getSelectedRows();
+    }
+
+
+    removeFromSelectedArr(id): any[] {
+        return this.rowSelectedId.filter(e => e != id);
+    }
+
+
+    rowCheckboxChange(eve) {
+
+        this.cd.markForCheck();
+        let status = eve.uiSelected;
+        /* if the checkbox is already checked uncheck it and perform operation */
+        if (status == false) {
+            eve.uiSelected = false;
+            this.rowSelectedCount--;
+            this.rowSelectedId = this.removeFromSelectedArr(eve);
+            this.rowIdArr.emit(this.rowSelectedId);
+            this.rowsSelected.emit(this.rowSelectedCount);
+        }
+        else if (status == true) {
+            eve.uiSelected = true;
+            this.rowSelectedCount++;
+            this.rowSelectedId.push(eve);
+            this.rowIdArr.emit(this.rowSelectedId);
+            this.rowsSelected.emit(this.rowSelectedCount);
+        }
+    }
+
+    refreshTable() {
+        this.cd.markForCheck();
+
+        this.headerSort = this.defaultSort;
+        if (!this.reset) {
+            this.selectedRow = null;
+            this.isAllSelected = false;
+            this.rowSelectedCount = 0;
+            this.rowSelectedId = [];
+            this.rowIdArr.emit(this.rowSelectedId);
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.records.forEach(x => x.uiSelected = false);
+            this.rowSelectedCount = 0;
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.getSelectedRows();
+        }
+    }
+
+
+    requestSort(ev) {
+        this.cd.markForCheck();
+        this.caret = true;
+
+        this.headerSort = ev;
+        (this.asc) ? (this.asc = false) : (this.asc = true);
+        this.sortById.emit(ev);
+        this.sortDirection.emit(this.asc);
+    }
+
+    getStyle(key, value): any {
+        /* for followup date */
+        if (key == this.key1) {
+            if (value != '') {
+                let cmp = moment(value).unix();
+                let tod = moment(new Date()).subtract(1, 'd').unix();
+                if (cmp > tod) {
+                    return 'blueleft';
+                }
+                else {
+                    return 'redleft';
+                }
+            }
+            else {
+                return 'left';
+            }
+        }
+        /* else for left and right allignment */
+        else {
+
+            if (key == 'enquiry_no') {
+                return 'left';
+            }
+            else if (key == 'enquiry_date') {
+                return 'left';
+            }
+            else if (key == 'name') {
+                return 'left';
+            }
+            else if (key == 'phone') {
+                return 'right';
+            }
+            else if (key == 'statusValue') {
+                return 'left';
+            }
+            else if (key == 'priority') {
+                return 'left';
+            }
+            else if (key == 'follow_type') {
+                return 'left';
+            }
+            else if (key == 'student_class') {
+                return 'width25'
+            }
+            else {
+                return 'left';
+            }
+        }
+    }
+
+    isSorted(map): boolean {
+        if (map.primaryKey != 'noOfBatchesAssigned') {
+            this.cd.markForCheck();
+            return (map.primaryKey == this.headerSort && this.caret);
+        }
+        else {
+            return false;
+        }
+    }
+
+    recordSelected(e) {
+        this.multiOptionSelected.emit(e);
+    }
+
+}

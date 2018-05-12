@@ -3,12 +3,10 @@
     @import "./src/assets/css/common/common.scss";
     @import "./src/assets/css/common/grid.scss";
     @import "./src/assets/css/common/variables.scss";
-
-
-    .inventory-table{
+    .inventory-table {
         max-height: 400px;
         overflow: visible;
-        #item-Table{
+        #item-Table {
             max-height: 400px;
             overflow-x: hidden;
             overflow-y: auto;
@@ -144,6 +142,7 @@
             float: left;
         }
     }
+
     /*=======================filter type==============*/
 
     .filter-res label {
@@ -200,7 +199,9 @@
     .filter-res {
         margin-top: 20px;
     }
+
     /*===========================================action tooltip of table===================*/
+
     /**===============================search data=========================*/
 
     .search-data {
@@ -226,7 +227,9 @@
             }
         }
     }
+
     /*=====================================mobile head menu css===========================*/
+
     /* popUp Scss */
 
     .popupWrapper {
@@ -378,7 +381,9 @@
     .popupWrapperMob.showPopupMob .popup-mob {
         bottom: 0;
     }
+
     /*=========================================registration popup form css==================*/
+
     /*=======================================confirmation =========================*/
 
     .popup-btn {
@@ -491,12 +496,12 @@
         color: #fff;
     }
 
-
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
+
     /*===========================================action tooltip of table===================*/
 
     .enquiry-action {
@@ -540,6 +545,26 @@
         opacity: 0;
         transition: all 0.6s;
     }
+
+    .madeDate {
+        .field-wrapper {
+            margin: 0px 0;
+            &.datePickerBox {
+                &:after {
+                    content: '';
+                    background: url('../../../../assets/images/calendar.svg') no-repeat;
+                    position: absolute;
+                    right: 5px;
+                    top: 33px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+        }
+    }
+
+    
 
     .enquiry-action:hover .action-menu {
         visibility: visible;
@@ -694,10 +719,10 @@
     }
 
     .tooltipSpan {
-        height: 30px!important;
-        top: -60px!important;
-        min-width: 75px!important;
-        right: 30px!important;
+        height: 30px !important;
+        top: -60px !important;
+        min-width: 75px !important;
+        right: 30px !important;
     }
 
     .addQuantityInput {

@@ -8,6 +8,8 @@ import { SlotComponent } from './components/slot/slot.component';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
+import {TopicsComponent} from './components/topics/topics.component';
+import { MasterComponent } from './components/master/master.component';
 
 @NgModule({
     imports: [
@@ -23,6 +25,7 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                     loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule'
 
                 },
+                
                 {
                     path: 'formField',
                     loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
@@ -94,18 +97,31 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                     canLoad: [AuthGuard]
                 },
                 {
-                 path:'classroom',
-                 component:ClassRoomComponent,
-                 canLoad:[AuthGuard]
+                    path: 'classroom',
+                    component: ClassRoomComponent,
+                    canLoad: [AuthGuard]
                 },
+                {
+
+                    path:'Topics',
+                    component: TopicsComponent,
+                    canLoad:[AuthGuard]
+                },
+               
                 {
                 path:'eventManagment',
                 component:EventManagmentComponent,
                 canLoad:[AuthGuard]
+
+
                 },
                 {
                     path: 'academic',
                     loadChildren: 'app/components/academic-year/academic-year.module#AcademicYearModule',
+                },
+                {
+                    path: 'master',
+                    loadChildren: 'app/components/master/master.module#ManageExamModule',
                 },
                 {
                     path: 'setting',
@@ -120,8 +136,12 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                     component: CityAreaMapComponent,
                     // canLoad: [AuthGuard]
                 },
+                {
+                    path: 'manage',
+                    loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
+                },
                 { path: 'comingsoon', component: ComingSoonComponent },
-                { path: '**', component: ErrorComponent },
+                { path: '**', component: ErrorComponent },  
             ],
             {
                 useHash: true,

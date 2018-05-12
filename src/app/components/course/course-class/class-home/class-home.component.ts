@@ -134,7 +134,7 @@ export class ClassHomeComponent implements OnInit {
   getCombinedData() {
     this.classService.getCombinedDataFromServer(this.batchData.standard_id, this.batchData.subject_id).subscribe(
       res => {
-        console.log('Combined data', res);
+        //console.log('Combined data', res);
         this.combinedData = res;
         if (res.standardLi != null) {
           this.batchMasterCourse = res.standardLi;
@@ -147,7 +147,7 @@ export class ClassHomeComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -157,10 +157,10 @@ export class ClassHomeComponent implements OnInit {
     this.classService.getAllMasterCourse().subscribe(
       res => {
         this.masterCourse = res;
-        console.log('master', res);
+        //console.log('master', res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -169,7 +169,7 @@ export class ClassHomeComponent implements OnInit {
     this.isRippleLoad = true;
     this.classService.getAllTeachersList().subscribe(
       res => {
-        console.log('teacher', res);
+        //console.log('teacher', res);
         this.isRippleLoad = false;
         this.teacherList = res;
       },
@@ -185,7 +185,7 @@ export class ClassHomeComponent implements OnInit {
     this.classService.getCourseFromMasterById(ev).subscribe(
       res => {
         if (res.coursesList) {
-          console.log("course", res);
+          //console.log("course", res);
           this.courseList = res;
           this.isRippleLoad = false;
         }
@@ -195,7 +195,7 @@ export class ClassHomeComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.courseList = [];
         this.isRippleLoad = false;
       }
@@ -208,12 +208,12 @@ export class ClassHomeComponent implements OnInit {
     this.classService.getSubjectList(event).subscribe(
       res => {
         this.isRippleLoad = false;
-        console.log('Subject', res);
+        //console.log('Subject', res);
         this.subjectList = res.batchesList;
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -265,7 +265,7 @@ export class ClassHomeComponent implements OnInit {
         this.weekScheduleList = this.getClassList();
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -380,18 +380,17 @@ export class ClassHomeComponent implements OnInit {
 
   delete(level, index, subIndex) {
     if (level == 'course') {
-      console.log(this.weekScheduleList[index]);
-      console.log('this has to be deleted');
+      //console.log(this.weekScheduleList[index]);
+      //console.log('this has to be deleted');
     }
     else if (level == 'subject') {
-      console.log(this.weekScheduleList[index].data[subIndex]);
-      console.log('this has to be deleted');
+      //console.log(this.weekScheduleList[index].data[subIndex]);
+      //console.log('this has to be deleted');
     }
     else if (level == 'batch') { }
   }
 
   notify(notify) {
-    debugger
     if (confirm("Are you sure, You want to notify?")) {
       let obj = {
         course_ids: this.fetchMasterCourseModule.course_id,
@@ -431,7 +430,7 @@ export class ClassHomeComponent implements OnInit {
           this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageToast('error', 'Error', err.error.message);
         }
       )
