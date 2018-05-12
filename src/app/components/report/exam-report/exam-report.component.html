@@ -77,23 +77,26 @@
                     </div>
                     <div class="master" *ngIf="!isProfessional">
                         <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
-                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
+                        <input type="button" class="normal-btn fullBlue btn" value="Detail Report" (click)="fetchDetailReport()" />
                     </div>
                     <div class="master" *ngIf="isProfessional">
                         <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
-                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
+                        <input type="button" class="normal-btn fullBlue btn" value="Detail Report" (click)="fetchDetailReport()" />
                     </div>
 
                 </div>
 
             </section>
+
             <div class="table table-responsive student-table stdnt-table" *ngIf="!isProfessional && Tdata">
 
                 <div class="search-filter-wrapper" id="adFilterExitVisible">
 
                     <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
+
                 <div class="poor">
+                    
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" (sortData)="sortedData($event)" [direction]="direction"
                         [sortingEnabled]="sortingEnabled">
@@ -103,7 +106,7 @@
                 <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+                            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords" >
                         </pagination>
                     </div>
                 </div>
@@ -129,7 +132,8 @@
                     <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
                 <div class="poor">
-
+                  
+                   
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" [text]="examDesc" [viewText]="showTitle" (sortData)="sortedData($event)"
                         [direction]="direction" [sortingEnabled]="sortingEnabled">
@@ -181,7 +185,7 @@
 
     <div class="stu-table" popup-content>
 
-        <div  *ngIf="!isProfessional" style="height:402px;">
+        <div *ngIf="!isProfessional" style="height:402px;">
             <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
             <a class="hide" #xlsDownloader></a>
 
@@ -191,10 +195,10 @@
 
                     <thead>
                         <tr>
-                            <th>
+                            <th style="text-align:right">
                                 Student Id
                             </th>
-                            <th>
+                            <th style="text-align:left">
                                 Student Name
                             </th>
                             <th class="marks" *ngFor="let date of dateStore">
@@ -207,8 +211,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor='let det of pagedDetailExamSource'>
-                            <td>{{det.student_display_id}}</td>
-                            <td>{{det.student_name}}</td>
+                            <td style="text-align:right">{{det.student_display_id}}</td>
+                            <td style="text-align:left">{{det.student_name}}</td>
 
                             <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
                                 <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
@@ -231,7 +235,7 @@
             </div>
         </div>
 
-        <div  *ngIf="isProfessional">
+        <div *ngIf="isProfessional">
             <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
 
             <a class="hide" #xlsDownloader></a>
@@ -254,7 +258,7 @@
 
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                         <tr *ngFor='let det of pagedDetailExamSource'>
 
                             <td>{{det.student_display_id}}</td>

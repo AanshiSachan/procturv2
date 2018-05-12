@@ -582,14 +582,15 @@ p {
 }
 .stu-table {
     height:500px;
-    overflow: hidden;
     ::-webkit-scrollbar{
         display:block;
     }
-    
-    .made{
-        height:450px;
-        overflow-x: auto;
-        overflow-y: auto;
+    table{
+        tbody{
+            height:450px;
+            overflow-x: auto;
+            overflow-y: auto;
+        }
     }
+    
 }
