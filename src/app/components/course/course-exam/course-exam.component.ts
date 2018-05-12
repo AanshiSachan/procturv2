@@ -4,7 +4,7 @@ import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
 import { SelectItem } from 'primeng/components/common/api';
 import { MenuItem } from 'primeng/primeng';
-import { element } from 'protractor';
+import { Pipe, PipeTransform } from '@angular/core';
 
 
 @Component({
@@ -246,7 +246,7 @@ export class CourseExamComponent implements OnInit {
     if (this.examSchedule.length > 0) {
       for (let i = 0; i < this.examSchedule.length; i++) {
         let test: any = {};
-        test.exam_date = this.examSchedule[i].exam_date;
+        test.exam_date = moment(this.examSchedule[i].exam_date).format('YYYY-MM-DD'),
         test.start_time = this.examSchedule[i].start_time;
         test.end_time = this.examSchedule[i].end_time;
         test.total_marks = this.examSchedule[i].total_marks;
@@ -1001,4 +1001,18 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
+}
+
+
+@Pipe({
+  name: 'dateMonthYear'
+})
+export class DateMonthFormat implements PipeTransform {
+  public transform(value) {
+    if(value != "" && value != null && value != undefined){
+      return moment(value).format('DD-MMM-YYYY');
+    }else{
+      return value
+    }
+  }
 }

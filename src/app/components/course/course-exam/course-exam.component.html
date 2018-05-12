@@ -237,7 +237,7 @@
                             <tbody>
                                 <tr *ngFor="let row of examSchedule ; let i= index ; trackBy : index">
                                     <td>
-                                        {{row.exam_date}}
+                                        {{row.exam_date | dateMonthYear}}
                                     </td>
                                     <td>
                                         {{row.start_time}}
