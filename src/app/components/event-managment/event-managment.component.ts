@@ -37,7 +37,7 @@ export class EventManagmentComponent implements OnInit {
     month: -1,
     event_type: "2",
   }
-  
+
   searchText: string = "";
   searchflag: boolean = false;
   searchData: any = [];
@@ -45,7 +45,7 @@ export class EventManagmentComponent implements OnInit {
 
   sendNotify_obj = {
     event_id: ""
- }
+  }
 
   saveDataObj = {
     event_end_date: "",
@@ -93,21 +93,21 @@ export class EventManagmentComponent implements OnInit {
     this.pageIndex = 1;
     this.searchDataFlag = false;
     this.searchDataFilter = "";
-    
+
     this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
       res => {
         this.eventRecord = res;
         this.totalRow = this.eventRecord.length;
         this.fetchTableDataByPage(this.pageIndex);
-      },)
-}
+      }, )
+  }
   /*================================================get events==============================
   ============================================================================================= */
 
   getEvents() {
     this.eve_mnge.getEventdata().subscribe(
       res => {
-      
+
         this.getEvent = res;
       },
       error => {
@@ -166,7 +166,7 @@ export class EventManagmentComponent implements OnInit {
       return;
     }
     var fileReader = new FileReader();
-    var encString="";
+    var encString = "";
     fileReader.readAsDataURL(file);
     fileReader.onload = function () {
       encString = fileReader.result.split(',')[1];
@@ -181,7 +181,7 @@ export class EventManagmentComponent implements OnInit {
 
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
       let obj = {
-        type: "error",
+        type: "error", 
         title: "Error",
         body: "Please Provide Mandatory Fields"
       }
@@ -222,11 +222,9 @@ export class EventManagmentComponent implements OnInit {
       return;
     }
     this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
-
-    if(this.saveDataObj.event_type == "2"){
+    if (this.saveDataObj.event_type == "2") {
       this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
     }
-
     this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
       res => {
         let obj = {
@@ -250,7 +248,7 @@ export class EventManagmentComponent implements OnInit {
         }
       },
       error => {
-      }  
+      }
     )
   }
   /*==========================================get update data================================
@@ -264,8 +262,11 @@ export class EventManagmentComponent implements OnInit {
       return false;
     }
   }
-
+/*=============================validate Date==============================================*/
   validateDate(start, end) {
+    if (moment(start).format('YYYY-MM-DD') == moment(end).format('YYYY-MM-DD')) {
+      return true;
+    }
     let v = moment(start).diff(moment(end))
     if (v <= 0) {
       return true;
@@ -321,7 +322,9 @@ export class EventManagmentComponent implements OnInit {
     }
 
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
-    this.newUpdateObj.image = (<HTMLImageElement>document.getElementById('imgUpdate')).src.split(',')[1];
+    if (this.newUpdateObj.event_type == "2") {
+      this.newUpdateObj.image = (<HTMLImageElement>document.getElementById('imgUpdate')).src.split(',')[1];
+    }
     this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
       res => {
         let obj = {
@@ -330,13 +333,14 @@ export class EventManagmentComponent implements OnInit {
           body: "Event Updated Successfully."
         }
         this.appc.popToast(obj);
-       
+
         this.closeEditPopup = false;
         this.getAllListData();
       },
       error => {
-      
-      })}
+
+      })
+  }
 
   checkChange(para) {
     if (para == true) {
@@ -365,9 +369,9 @@ export class EventManagmentComponent implements OnInit {
         this.newUpdateObj.holiday_name = res.holiday_name;
         this.newUpdateObj.holiday_type = res.holiday_type;
         this.newUpdateObj.holidayId = res.holidayId;
-        if(res.image != null){
+        if (res.image != null) {
           this.newUpdateObj.image = "data:image/png;base64," + res.image;
-          }
+        }
         this.newUpdateObj.public_url = res.public_url;
         if (res.event_type == "1") {
           this.checker = false;
@@ -439,8 +443,8 @@ export class EventManagmentComponent implements OnInit {
     if (prompt) {
       this.deleteEventDataFromList(holidayId);
     }
-    else {    }
-}
+    else { }
+  }
 
   closeReportPopup() {
     this.closeVarPopup = false;
@@ -468,6 +472,17 @@ export class EventManagmentComponent implements OnInit {
       this.fetchTableDataByPage(this.pageIndex);
     }
   }
+  eventTypeChange() {
+    if (this.saveDataObj.event_type != "2") {
+      this.saveDataObj.event_end_date = "";
+      this.endDateBox = false;
+    }
+    if (this.newUpdateObj.event_type != "2") {
+      this.newUpdateObj.event_end_date = "";
+      this.checker = false;
+    }
+  }
+
   getClassRoomTableFromSource(startindex) {
     let data = [];
     if (this.searchDataFlag == true) {
