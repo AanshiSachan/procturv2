@@ -2192,3 +2192,27 @@ div#enqChart {
         }
     }
 }
+
+.attendanceMain {
+    table {
+        thead {
+            tr {
+                th {
+                    padding: 5px 5px !important;
+                    .field-checkbox-wrapper {
+                        display: inline-block;
+                        margin-bottom: 0px
+                    }
+                }
+            }
+        }
+    }
+}
+
+.send-notificaton-tooltip {
+    left: 160px !important;
+    .tooltip-box-field {
+        left: 35px !important;
+        top: -30px !important;
+    }
+}
