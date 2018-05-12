@@ -301,6 +301,7 @@ export class ExamReportComponent implements OnInit {
   fetchExamReport() {
 
     this.isRippleLoad = true;
+    this.examSource = [];
     if (this.isProfessional) {
       if (this.fetchFieldData.batch_id == "" || this.fetchFieldData.exam_schd_id == "") {
 
@@ -399,11 +400,12 @@ export class ExamReportComponent implements OnInit {
         this.examdata.viewExamData(o).subscribe(
           (res: any) => {
             if (res.length) {
-              this.isRippleLoad = false;
+             
               this.examSource = res;
               this.Tdata = true;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
+              this.isRippleLoad = false;
               if(this.examSource[0].grade==""){
                 this.projectSettings = [
                   { primaryKey: 'student_id', header: 'Student Id' },
@@ -539,8 +541,8 @@ export class ExamReportComponent implements OnInit {
   }
   getColor(status) {
     switch (status) {
-      case 'Leave': return 'red';
-      case 'Absent': return 'green';
+      case 'Leave': return 'blue';
+      case 'Absent': return 'red';
     }
   }
 

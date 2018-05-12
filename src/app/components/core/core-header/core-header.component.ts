@@ -27,6 +27,7 @@ export class CoreHeaderComponent implements OnInit {
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   inputValue: any;
+  settings:string = "";
   manageExamGrades: string = "";
   globalSearchForm: any = {
     name: '',
@@ -53,6 +54,7 @@ export class CoreHeaderComponent implements OnInit {
 
   ngOnInit() {
 
+    this.settings = sessionStorage.getItem('exam_grading_system');
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();
