@@ -28,8 +28,6 @@
                 <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]" [style.color]="getColor(map.primaryKey , record[map.access(record)])">
                     {{ record[map.access(record)] | formatCell:map.format }} 
                 </td>
-                
-                
             </tr>
         </tbody>
         <tbody *ngIf="records.length == 0 && dataStatus === true">
