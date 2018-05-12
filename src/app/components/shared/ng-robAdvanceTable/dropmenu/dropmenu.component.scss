@@ -2,11 +2,10 @@
 
 .dropdown-trigger{
     background: transparent;
-    position: absolute;
+    position: relative;
     right: 30px;
     transform: rotate(90deg);
-    margin-top: 5px;
-    z-index: 100;
+    float: right;
 }
 
 .svg-icon-wrap {
@@ -29,9 +28,8 @@
 .dd-list-container{
     position: absolute;
     border: 1px solid rgba(119, 119, 119, 0.29);
-    right: 0;
+    right: 3% !important;
     z-index: 1000;
-    width: 100%;
     min-width: 150px;
     height: auto;
     background: white;

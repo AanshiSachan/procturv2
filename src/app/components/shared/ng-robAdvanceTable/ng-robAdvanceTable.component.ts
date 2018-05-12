@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer
 import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
 import { DropData, DropMapData } from './dropmenu/dropmenu.model';
+import { CustomizingPipe } from './customizing.pipe';
 
 @Component({
     selector: 'rob-table',
@@ -32,14 +33,14 @@ export class RobAdvanceTableComponent implements OnChanges {
     @Output() rowUserId = new EventEmitter<string>();
     @Output() sortDirection = new EventEmitter<boolean>();
     @Output() multiOptionSelected = new EventEmitter<any>();
-    
+
     isAllSelected: boolean = false;
     columnMaps: ColumnMapData[];
     selectedRowGroup: any[] = [];
     selectedRow: number;
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
-    
+
     /* Number of line for skeleton screen */
     dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     userIdArray: any = [];
@@ -233,7 +234,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         }
     }
 
-    recordSelected(e){
+    recordSelected(e) {
         this.multiOptionSelected.emit(e);
     }
 
