@@ -32,8 +32,6 @@
                         </select>
                     </div>
 
-
-
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
                         <label> Course</label>
                         <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
@@ -49,7 +47,6 @@
                             <option *ngFor="let i of batchCourseData" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
                         </select>
                     </div>
-
 
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
                         <label>Subject</label>
@@ -74,21 +71,21 @@
                             <option *ngFor="let i of exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
                         </select>
                     </div>
+
                     <div class="master" *ngIf="!isProfessional">
                         <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
                         <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
                     </div>
+
                     <div class="master" *ngIf="isProfessional">
                         <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
                         <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
                     </div>
 
+                </div>
             </section>
-
             <div class="table table-responsive student-table stdnt-table" *ngIf="!isProfessional && Tdata">
                 <div class="search-filter-wrapper" id="adFilterExitVisible">
-
-
                     <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
 
@@ -97,7 +94,6 @@
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" (sortData)="sortedData($event)" [direction]="direction"
                         [sortingEnabled]="sortingEnabled">
-
                     </proctur-table>
                 </div>
                 <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
@@ -121,176 +117,172 @@
             </div>
 
 
-
-
             <div class="table table-responsive student-table stdnt-table" *ngIf="isProfessional && Tdata">
-                <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
-                <div class="poor">
+                <div class="search-filter-wrapper" id="adFilterExitVisible">
+                    <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
+                </div>
 
+                <div class="poor">
                     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
                         [tableName]="'Exam'" [settings]="projectSettings" [text]="examDesc" [viewText]="showTitle" (sortData)="sortedData($event)"
                         [direction]="direction" [sortingEnabled]="sortingEnabled">
                     </proctur-table>
                 </div>
+
                 <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
                             [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
                         </pagination>
                     </div>
-                    <ul style="list-style-type:none; text-align:center; font-weight:bold;" *ngIf=" isProfessional && examSource.length !=0 && examSource[0].grade==''">
-                        <li>
-                            Highest Marks : {{HighestMarks}}
-                        </li>
-                        <li>
-                            Lowest Marks : {{LowestMarks}}
-                        </li>
-                        <li>
-                            Average Marks : {{AverageMarks}}
-                        </li>
-                    </ul>
                 </div>
 
+                <ul style="list-style-type:none; text-align:center; font-weight:bold;" *ngIf=" isProfessional && examSource.length !=0 && examSource[0].grade==''">
+                    <li>
+                        Highest Marks : {{HighestMarks}}
+                    </li>
+                    <li>
+                        Lowest Marks : {{LowestMarks}}
+                    </li>
+                    <li>
+                        Average Marks : {{AverageMarks}}
+                    </li>
+                </ul>
 
             </div>
 
         </section>
 
     </aside>
+</div>
+
+<proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
+
+
+    <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header>DateWise Exam Report</h2>
+
+    <div class="stu-table" popup-content>
+
+        <div *ngIf="!isProfessional" style="height:402px;">
+            <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
+            <a class="hide" #xlsDownloader></a>
+
+            <div class="table table-responsive student-table made ">
+
+                <table #examTable>
+
+                    <thead >
+                        <tr>
+                            <th style="text-align:right;">
+                                Student Id
+                            </th>
+                            <th style="text-align:left;">
+                                Student Name
+                            </th>
+                            <th class="marks" *ngFor="let date of dateStore">
+                                {{date.exam_date}}
+                                <br>
+                                <span style="font-size:12px;">{{date.start_time}}</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let det of pagedDetailExamSource'>
+                            <td style="text-align:right;">{{det.student_display_id}}</td>
+                            <td style="text-align:left;">{{det.student_name}}</td>
+
+                            <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
+                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
+                            </td>
+
+                        </tr>
+                        <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
+                    </tbody>
+
+                </table>
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                            [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div *ngIf="isProfessional">
+            <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
+
+            <a class="hide" #xlsDownloader></a>
+            <div class="table table-responsive student-table stu-table made">
+                <table #examTable>
+                    <thead>
+                        <tr>
+                            <th style="text-align:right;">
+                                Student Id
+                            </th>
+                            <th style="text-align:left;">
+                                Student Name
+                            </th>
+                            <th class="marks" *ngFor="let date of dateStore">
+                                {{date.exam_date}}
+                                <br>
+                                <span style="font-size:12px;">{{date.start_time}}</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor='let det of pagedDetailExamSource'>
+
+                            <td style="text-align:right;">{{det.student_display_id}}</td>
+                            <td style="text-align:left;">{{det.student_name}}</td>
+
+                            <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
+                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
+                            </td>
+
+                        </tr>
+                        <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
+                    </tbody>
+                </table>
+                <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                            [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
-
-
-        <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                    </g>
-                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                    />
-                </g>
-            </svg>
-        </span>
-
-        <h2 popup-header>DateWise Exam Report</h2>
-
-        <div class="stu-table" popup-content>
-
-            <div *ngIf="!isProfessional" style="height:402px;">
-                <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
-                <a class="hide" #xlsDownloader></a>
-
-                <div class="table table-responsive student-table made ">
-
-                    <table #examTable>
-
-                        <thead>
-                            <tr>
-                                <th style="text-align:right">
-                                    Student Id
-                                </th>
-                                <th style="text-align:left">
-                                    Student Name
-                                </th>
-                                <th class="marks" *ngFor="let date of dateStore">
-                                    {{date.exam_date}}
-                                    <br>
-                                    <span style="font-size:12px;">{{date.start_time}}</span>
-                                </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor='let det of pagedDetailExamSource'>
-                                <td style="text-align:right">{{det.student_display_id}}</td>
-                                <td style="text-align:left">{{det.student_name}}</td>
-
-                                <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
-                                    <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
-                                    <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
-                                    <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
-                                </td>
-
-                            </tr>
-                            <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
-                        </tbody>
-
-                    </table>
-                    <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
-                        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                            <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
-                                [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
-                            </pagination>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div *ngIf="isProfessional">
-                <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
-
-                <a class="hide" #xlsDownloader></a>
-                <div class="table table-responsive student-table stu-table made">
-
-                    <table #examTable>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Student Id
-                                </th>
-                                <th>
-                                    Student Name
-                                </th>
-                                <th class="marks" *ngFor="let date of dateStore">
-                                    {{date.exam_date}}
-                                    <br>
-                                    <span style="font-size:12px;">{{date.start_time}}</span>
-                                </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor='let det of pagedDetailExamSource'>
-
-                                <td>{{det.student_display_id}}</td>
-                                <td>{{det.student_name}}</td>
-
-                                <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
-                                    <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
-                                    <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
-                                    <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
-                                </td>
-
-                            </tr>
-                            <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
-                        </tbody>
-
-                    </table>
-                    <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
-                        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                            <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
-                                [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
-                            </pagination>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="pull-right popup-btn" style="position: absolute;top: 90%;right: 1%;">
+                <input type="button" value="Close" class="btn" (click)="closeReportPopup()">
+            </aside>
         </div>
-
-
-        <div class="" popup-footer>
-            <div class="clearfix">
-                <aside class="pull-right popup-btn" style="position: absolute;top: 88%;right: 1%;">
-                    <input type="button" value="Close" class="btn" (click)="closeReportPopup()">
-                </aside>
-            </div>
-
-        </div>
-    </proctur-popup>
-
-</div>
+    </div>
+    
+</proctur-popup>
