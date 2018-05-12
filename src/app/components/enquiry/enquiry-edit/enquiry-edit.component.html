@@ -86,7 +86,6 @@
                     <label for="dob">Date of Birth</label>
                     <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.dob" name="dob" readonly='true'
                       bsDatepicker>
-
                     <span class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
                   </div>
 
@@ -380,7 +379,7 @@
             <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
               readonly="true" bsDatepicker>
 
-            <span class="date-clear" name="followupdate" (click)="editEnqData.enquiry_date = ''">clear</span>
+            <!-- <span class="date-clear" name="followupdate" (click)="editEnqData.enquiry_date = ''">clear</span> -->
           </div>
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.status != '-1'}">
             <label for="eStatus">Enquiry Status</label>

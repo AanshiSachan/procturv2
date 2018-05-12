@@ -11,7 +11,9 @@
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Fee Report
                     </h2>
-                    <aside class="pull-right">
+                    <aside class="pull-left">
+                        <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                        </rob-tooltip>
                     </aside>
                 </div>
 
@@ -47,9 +49,15 @@
                         <div class="c-lg-3">
                             <div class="field-wrapper" [ngClass]="{'has-value': true }">
                                 <label for="mc">Master Course</label>
-                                <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
+                                <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
+                                    name="mc" id="mc">
                                     <option value="-1"></option>
                                     <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
+                                </select>
+                                <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
+                                    name="mc" id="mc">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let master of standardList" [value]="master.master_course">{{master.master_course}}</option>
                                 </select>
                             </div>
                         </div>
@@ -57,9 +65,14 @@
                         <div class="c-lg-3">
                             <div class="field-wrapper">
                                 <label for="cc">Course</label>
-                                <select [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl" name="cc" id="cc">
+                                <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl"
+                                    name="cc" id="cc">
                                     <option value="-1"></option>
                                     <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
+                                </select>
+                                <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" name="cc" id="cc">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let course of subjectList" [value]="course.course_id">{{course.course_name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -143,7 +156,7 @@
             </div>
 
             <section class="fee-info">
-                
+
                 <div class="c-lg-8 hide">
                     <div class="c-lg-1"></div>
                     <div class="c-lg-4">
@@ -194,8 +207,9 @@
 
             <section class="fee-table">
                 <div class="table-content" *ngIf="isFilterReversed">
-                    <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1"
-                        [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
+                    <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
+                        [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
+                        [settings]="feeSettings1">
                     </rob-table>
                 </div>
                 <div class="table-content" *ngIf="!isFilterReversed">

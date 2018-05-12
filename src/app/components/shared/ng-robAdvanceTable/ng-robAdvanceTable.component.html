@@ -17,7 +17,7 @@
                                     </li>
                                     <li class="{{map.primaryKey}}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)">
                                         {{ map.header }}
-                                        <div *ngIf="isSorted(map)" style="display: inline-block">
+                                        <!-- <div *ngIf="isSorted(map)" style="display: inline-block">
                                             <div *ngIf="asc;then ascending else descending">
                                             </div>
                                             <ng-template #ascending>
@@ -26,7 +26,7 @@
                                             <ng-template #descending>
                                                 <div class="fa fa-caret-up"></div>
                                             </ng-template>
-                                        </div>
+                                        </div> -->
                                     </li>
                                     <li *ngIf="hasMenu"></li>
                                 </ul>
