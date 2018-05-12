@@ -143,7 +143,7 @@ export class ClassRoomComponent {
           this.AppC.popToast(msg);
         }
       )
-    }
+    } 
    
     else {
       let data = {

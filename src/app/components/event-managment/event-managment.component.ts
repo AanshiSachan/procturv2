@@ -181,7 +181,7 @@ export class EventManagmentComponent implements OnInit {
 
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
       let obj = {
-        type: "error",
+        type: "error", 
         title: "Error",
         body: "Please Provide Mandatory Fields"
       }
