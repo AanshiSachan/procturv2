@@ -1,95 +1,96 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-
 <div class="middle-section clear-fix">
-    <aside class="middle-full">
-        <section class="middle-main clearFix attendance-container">
-            <section class="middle-top mb0 clearFix sms-header">
-                <h2 class="pull-left">
-                    <a routerLink="/reports/home">
-                        <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
-                    </a>
-                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-                    Exam Report
-                </h2>
-                <aside class="pull-right">
-                </aside>
-            </section>
-            <section class="filter-form">
-                <div class="row">
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
-                        <label>Master Course</label>
-                        <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
-                            <option></option>
-                            <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
-                        </select>
-                    </div>
+  <aside class="middle-full">
+    <section class="middle-main clearFix attendance-container">
+      <section class="middle-top mb0 clearFix sms-header">
+        <h2 class="pull-left">
+          <a routerLink="/reports/home">
+            <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+          Exam Report
+        </h2>
+        <aside class="pull-right">
+        </aside>
+      </section>
+      <section class="filter-form">
+        <div class="row">
+          <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
+            <label>Master Course</label>
+            <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+              <option></option>
+              <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
+            </select>
+          </div>
 
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="isProfessional">
-                        <label>Master Course</label>
-                        <select class="form-ctrl" id="one" [(ngModel)]="queryParam.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of batchExamRepo" [value]="i.standard_id">{{i.standard_name}}</option>
-                        </select>
-                    </div>
-
-
-
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
-                        <label> Course</label>
-                        <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
-                            <option></option>
-                            <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
-                        </select>
-                    </div>
-
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="isProfessional">
-                        <label> Course</label>
-                        <select class="form-ctrl" id="two" [(ngModel)]="queryParam.subject_id">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of batchCourseData" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
-                        </select>
-                    </div>
+          <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="isProfessional">
+            <label>Master Course</label>
+            <select class="form-ctrl" id="one" [(ngModel)]="queryParam.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+              <option value="-1"></option>
+              <option *ngFor="let i of batchExamRepo" [value]="i.standard_id">{{i.standard_name}}</option>
+            </select>
+          </div>
 
 
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
-                        <label>Subject</label>
-                        <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
-                            <option></option>
-                            <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
-                        </select>
-                    </div>
 
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3  field-wrapper" *ngIf="isProfessional">
-                        <label>Batch</label>
-                        <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
-                            <option></option>
-                            <option *ngFor="let i of getSubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
-                        </select>
-                    </div>
+          <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
+            <label> Course</label>
+            <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
+              <option></option>
+              <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
+            </select>
+          </div>
 
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <label>Exam Schedule</label>
-                        <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.exam_schd_id">
-                            <option></option>
-                            <option *ngFor="let i of exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
-                        </select>
-                    </div>
-                    <div class="master" *ngIf="!isProfessional">
-                        <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
-                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
-                    </div>
-                    <div class="master" *ngIf="isProfessional">
-                        <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
-                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
-                    </div>
+          <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="isProfessional">
+            <label> Course</label>
+            <select class="form-ctrl" id="two" [(ngModel)]="queryParam.subject_id">
+              <option value="-1"></option>
+              <option *ngFor="let i of batchCourseData" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
+            </select>
+          </div>
 
-                </div>
+
+          <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="!isProfessional">
+            <label>Subject</label>
+            <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+              <option></option>
+              <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
+            </select>
+          </div>
+
+          <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3  field-wrapper" *ngIf="isProfessional">
+            <label>Batch</label>
+            <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+              <option></option>
+              <option *ngFor="let i of getSubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+            </select>
+          </div>
+
+          <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+            <label>Exam Schedule</label>
+            <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.exam_schd_id">
+              <option></option>
+              <option *ngFor="let i of exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
+            </select>
+          </div>
+          <div class="master" *ngIf="!isProfessional">
+            <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
+            <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
+          </div>
+          <div class="master" *ngIf="isProfessional">
+            <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
+            <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
+          </div>
+
+        </div>
 
             </section>
             <div class="table table-responsive student-table stdnt-table" *ngIf="!isProfessional && Tdata">
 
-                <div class="search-filter-wrapper" id="adFilterExitVisible">
+
+        <div class="search-filter-wrapper" id="adFilterExitVisible">
+
 
                     <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
@@ -120,11 +121,15 @@
                 </ul>
             </div>
 
+        </proctur-table>
+      </div>
+
 
 
             <div class="table table-responsive student-table stdnt-table" *ngIf="isProfessional && Tdata">
 
-                <div class="search-filter-wrapper" id="adFilterExitVisible">
+
+      <div class="table table-responsive student-table stu-table" *ngIf="isProfessional && Tdata">
 
                     <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
@@ -157,12 +162,33 @@
 
             </div>
 
-        </section>
 
-    </aside>
+      <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+          </pagination>
+        </div>
+        <ul style="list-style-type:none; text-align:center; font-weight:bold;" *ngIf="examSource.length !=0 && examSource[0].grade==''">
+          <li>
+            Highest Marks : {{HighestMarks}}
+          </li>
+          <li>
+            Lowest Marks : {{LowestMarks}}
+          </li>
+          <li>
+            Average Marks : {{AverageMarks}}
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+  </aside>
 </div>
 
 <proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
+
 
     <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -229,6 +255,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div  *ngIf="isProfessional">
@@ -281,6 +308,8 @@
 
             </div>
         </div>
+      </div>
+    </div>
 
         <div class="" popup-footer>
             <div class="clearfix">

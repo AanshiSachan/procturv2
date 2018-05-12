@@ -1319,7 +1319,7 @@ export class EnquiryAddComponent implements OnInit {
           res => {
             let alert = {
               type: 'success',
-              title: 'institute Name Update',
+              title: 'institute Name Updated',
             }
             this.appC.popToast(alert);
             this.fetchInstituteInfo();

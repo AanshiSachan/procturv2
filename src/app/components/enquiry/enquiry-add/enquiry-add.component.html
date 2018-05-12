@@ -541,8 +541,6 @@
     </aside>
 
   </form>
-
-
 </section>
 
 
@@ -650,12 +648,27 @@
         <table>
           <thead>
             <tr>
+              <th>Institute Id</th>
               <th>Institute Name</th>
               <th> Action </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let sch of instituteList">
+
+              <td *ngIf="!sch.edit">
+                <div class="inst-id">
+                  {{sch.school_id}}
+                </div>
+              </td>
+
+              <td *ngIf="sch.edit">
+                <div class="inst-id">
+                  {{sch.school_id}}
+                </div>
+              </td>
+
+
               <td *ngIf="!sch.edit">
                 <div class="inst-name">
                   {{sch.school_name}}
