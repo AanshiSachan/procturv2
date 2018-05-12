@@ -479,7 +479,7 @@
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
                       (ngModelChange)="isNotifyDisplayed()" bsDatepicker readonly="true" />
                   
-                    <span class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
+                    <span class="date-clear danger" name="followupdate" (click)="clearupdateDate()">clear</span>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
@@ -554,7 +554,7 @@
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.walkin_followUpDate"
                       id="" bsDatepicker readonly="true" />
                     
-                    <span class="date-clear" name="walkinfollowUpDate" (click)="updateFormData.walkin_followUpDate = ''">clear</span>
+                    <span class="date-clear danger" name="walkinfollowUpDate" (click)="updateFormData.walkin_followUpDate = ''">clear</span>
                   </div>
                 </div>
 

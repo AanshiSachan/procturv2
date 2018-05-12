@@ -1532,6 +1532,39 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       let toDate = obj.dateR[1];
       this.searchBarData = '';
 
+      if (filter == "total") {
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          commentShow: 'false',
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          filtered_statuses: "",
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.loadTableDatatoSource(this.instituteData);
+      }
+
       if (filter == "Admitted") {
         this.instituteData = {
           name: "",
