@@ -17,6 +17,7 @@ import { RobTableCellPipe } from './ng-robTable/ng-robTable-format-cell.pipe';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
 import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
+import { TooltipModule } from '../../../assets/imported_modules/ngx-bootstrap/tooltip';
 
 /* Advanced Table Declaration */
 import { RobAdvanceTableComponent } from './ng-robAdvanceTable/ng-robAdvanceTable.component';
@@ -26,10 +27,13 @@ import { SearchPipe } from './pipes/tablesSearchPipe';
 
 import { DropMenuComponent } from './ng-robAdvanceTable/dropmenu/dropmenu.component';
 
+import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
+
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
+        TooltipModule.forRoot(),
     ],
     declarations: [
         TableLayoutComponent,
@@ -46,7 +50,8 @@ import { DropMenuComponent } from './ng-robAdvanceTable/dropmenu/dropmenu.compon
         CommaSeprationAmount,
         ProcturPopUpComponent,
         SearchPipe,
-        DropMenuComponent
+        DropMenuComponent,
+        RobTooltipComponent
     ],
     exports: [
         CommonModule,
@@ -60,10 +65,11 @@ import { DropMenuComponent } from './ng-robAdvanceTable/dropmenu/dropmenu.compon
         CommaSeprationAmount,
         ProcturPopUpComponent,
         SearchPipe,
-        DropMenuComponent
+        DropMenuComponent,
+        RobTooltipComponent
     ],
     entryComponents: [
-        DropMenuComponent
+        DropMenuComponent,
     ],
     providers: [
         CurrencyPipe

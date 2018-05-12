@@ -47,7 +47,7 @@ export class EnquiryEditComponent implements OnInit {
     name: "",
     phone: "",
     email: "",
-    dob: null,
+    dob: '',
     gender: "",
     phone2: "",
     email2: "",
@@ -219,7 +219,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
-        //console.log(data);
+        this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
         if (data.followUpTime != '') {
           let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
           this.hour = moment(followUpDateTime).format('h');
@@ -730,6 +730,8 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
         this.editEnqData.enqCustomLi = this.getCustomComponents();
+        let dob = this.fetchDOB();
+        this.editEnqData.dob = dob;
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           data => {
             if (data.statusCode == 200) {
@@ -745,7 +747,7 @@ export class EnquiryEditComponent implements OnInit {
                   phone: this.editEnqData.phone,
                   email: this.editEnqData.email,
                   gender: this.editEnqData.gender,
-                  dob: moment(this.editEnqData.dob).format("YYYY-MM-DD"),
+                  dob: this.fetchDOB(),
                   parent_email: this.editEnqData.parent_email,
                   parent_name: this.editEnqData.parent_name,
                   parent_phone: this.editEnqData.parent_phone,
@@ -789,16 +791,24 @@ export class EnquiryEditComponent implements OnInit {
     }
     /* Do Nothing if the formData is Still Invalid  */
     else {
-      let msg = {
+      /* let msg = {
         type: 'error',
         title: 'Academic Details Incomplete',
         body: 'Please fill all the required fields'
       }
-      this.appC.popToast(msg);
+      this.appC.popToast(msg); */
     }
   }
 
 
+  fetchDOB(): string{
+    if(this.editEnqData.dob == null || this.editEnqData.dob == '' || this.editEnqData.dob == "Invalid date" ){
+      return '';
+    }
+    else{
+      return moment(this.editEnqData.dob).format('YYYY-MM-DD');
+    }
+  }
 
 
   validateTime(): boolean {
@@ -930,6 +940,7 @@ export class EnquiryEditComponent implements OnInit {
       qualification: "",
       grade: "",
       enquiry_date: moment().format('YYYY-MM-DD'),
+      dob: '',
       standard_id: "-1",
       subject_id: "-1",
       referred_by: "-1",
