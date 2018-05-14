@@ -14,7 +14,7 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     headerSort: any;
 
-    @Input() records: any[];
+    @Input() records: any[] = [];
     @Input() settings: ColumnData[];
     @Input() tableName: string = '';
     @Input() dataStatus: number;
@@ -34,7 +34,10 @@ export class RobAdvanceTableComponent implements OnChanges {
     @Output() sortDirection = new EventEmitter<boolean>();
     @Output() multiOptionSelected = new EventEmitter<any>();
 
+    recordCount: any;
+
     isAllSelected: boolean = false;
+    recordsTrimmed: any[] = [];
     columnMaps: ColumnMapData[];
     selectedRowGroup: any[] = [];
     selectedRow: number;
@@ -46,6 +49,11 @@ export class RobAdvanceTableComponent implements OnChanges {
     userIdArray: any = [];
     asc: boolean = false;
     caret = true;
+
+    PageIndex: number = 1;
+    displayBatchSize: number = 50;
+    sizeArr: any[] = [25, 50, 100, 150, 200, 500];
+
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 
@@ -59,6 +67,8 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.key1;
         this.defaultSort;
         this.menuOptions;
+        this.recordCount = this.records.length - 1;
+        this.updateTableBatchSize(this.displayBatchSize);
         this.refreshTable();
         if (this.settings) {
             this.columnMaps = this.settings
@@ -166,12 +176,83 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     requestSort(ev) {
         this.cd.markForCheck();
-        this.caret = true;
 
+        this.caret = true;
         this.headerSort = ev;
         (this.asc) ? (this.asc = false) : (this.asc = true);
-        this.sortById.emit(ev);
-        this.sortDirection.emit(this.asc);
+
+        let type = this.typeOfDataSelected(ev);
+
+        if (type === 0) {
+            this.sortNumber(ev);
+        }
+        else if (type === 1) {
+            this.sortName(ev);
+        }
+        else if (type === 2) {
+            this.sortDate(ev);
+        }
+    }
+
+    sortNumber(e): any {
+        if (this.asc) {
+            this.records.sort((a, b) => {
+                return a[e] - b[e];
+            });
+        }
+        else {
+            this.records.sort((a, b) => {
+                return b[e] - a[e];
+            });
+        }
+    }
+
+    sortName(e): any {
+        if (this.asc) {
+            this.records.sort((a: string, b: string) => {
+                let x = a[e].toLowerCase();
+                let y = b[e].toLowerCase();
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        }
+        else {
+            this.records.sort((a, b) => {
+                let y = a[e];
+                let x = b[e];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        }
+    }
+
+    sortDate(e): any {
+        if (this.asc) {
+            this.records.sort((a, b) => {
+                return new Date(a[e]).getTime() - new Date(b[e]).getTime();
+            });
+        }
+        else {
+            this.records.sort((a, b) => {
+                return new Date(b[e]).getTime() - new Date(a[e]).getTime();
+            });
+        }
+    }
+
+    typeOfDataSelected(i: string): number {
+        if (i.includes('id')) {
+            return 0
+        }
+        else if (i.includes('name')) {
+            return 1
+        }
+        else if (i.includes('email')) {
+            return 1
+        }
+        else if (i.includes('date')) {
+            return 2
+        }
+        else {
+            return 0
+        }
     }
 
     getStyle(key, value): any {
@@ -225,17 +306,64 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
     isSorted(map): boolean {
-        if (map.primaryKey != 'noOfBatchesAssigned') {
-            this.cd.markForCheck();
-            return (map.primaryKey == this.headerSort && this.caret);
-        }
-        else {
-            return false;
-        }
+        this.cd.markForCheck();
+        return (map.primaryKey == this.headerSort && this.caret);
     }
 
     recordSelected(e) {
         this.multiOptionSelected.emit(e);
+    }
+
+    /* Fetches Data as per the user selected batch size */
+    updateTableBatchSize(num) {
+
+        this.displayBatchSize = parseInt(num);
+
+        let index: number;
+        let clone = this.records.slice();
+
+
+        if (this.records.length <= this.displayBatchSize) {
+            index = this.records.length;
+        }
+        else if (this.records.length > this.displayBatchSize) {
+            index = this.displayBatchSize;
+        }
+
+        this.recordsTrimmed = clone.splice(0, index);
+    }
+
+    /* Fetch table data by page index */
+    fectchTableDataByPage(index) {
+        this.PageIndex = index;
+        let clone = this.records.slice();
+
+        let startIndex = this.displayBatchSize * (index - 1);
+
+        let endIndex: number;
+
+        /* page index is not valid then select max limmit */
+        if (this.records.length <= (this.displayBatchSize + startIndex)) {
+            endIndex = this.records.length;
+        }
+        else if (this.records.length > (this.displayBatchSize + startIndex)) {
+            endIndex = this.displayBatchSize + startIndex;
+        }
+
+        this.recordsTrimmed = clone.slice(startIndex, endIndex);
+
+    }
+
+    /* Fetch next set of data from server and update table */
+    fetchNext() {
+        this.PageIndex++;
+        this.fectchTableDataByPage(this.PageIndex);
+    }
+
+    /* Fetch previous set of data from server and update table */
+    fetchPrevious() {
+        this.PageIndex--;
+        this.fectchTableDataByPage(this.PageIndex);
     }
 
 }
