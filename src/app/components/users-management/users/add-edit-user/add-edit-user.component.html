@@ -97,7 +97,8 @@
         <div class="c-sm-6 c-lg-6 c-md-6">
           <div class="pull-right">
             <button class="btn" routerLink="/manage/user">Cancel</button>
-            <button class="btn fullBlue" (click)="saveUserDetails()">Save</button>
+            <button class="btn fullBlue" *ngIf="userId == '-1'" (click)="saveUserDetails()">Save</button>
+            <button class="btn fullBlue" *ngIf="userId != '-1'" (click)="updateUserDetails()">Update</button>
           </div>
         </div>
       </div>

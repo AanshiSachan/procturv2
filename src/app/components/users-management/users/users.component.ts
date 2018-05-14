@@ -9,11 +9,30 @@ import { AppComponent } from '../../../app.component';
 })
 export class UsersComponent implements OnInit {
 
+  usersList: any = [];
+  userListDataSource: any = [];
   isLangInstitute: boolean = false;
   dataFilter: any = {
-    role: '',
+    role: -1,
     is_active: false
-  }
+  };
+  allocateItemPopUp: boolean = false;
+  tempdata: any = "";
+  inventoryList: any = [];
+  inventoryAllocated: any = [];
+  allocateInventory: any = {
+    item_id: -1,
+    alloted_units: 0
+  };
+  showUnit: boolean = false;
+  availableunit: number = 0;
+  showUserTable: boolean = false;
+  PageIndex: number = 1;
+  displayBatchSize: number = 10;
+  searchDataFlag: boolean = false;
+  searchedData: any = [];
+  totalRow: number = 0;
+  userSelected: any = [];
 
   constructor(
     private apiService: UserService,
@@ -24,12 +43,48 @@ export class UsersComponent implements OnInit {
     this.checkInstituteType();
   }
 
+  getAllUserList() {
+    if (this.dataFilter.role == "-1"){
+      this.messageNotifier('error','Error','Please Select User Type');
+      return;
+    }
+    this.PageIndex = 1;
+    let Active: any = "";
+    if (this.dataFilter.is_active) {
+      Active = "Y";
+    } else {
+      Active = "N";
+    }
+    let obj: any = {
+      is_not_alr_users: 'N',
+      user_Type: this.dataFilter.role,
+      app_downloaded: -1
+    }
+    this.apiService.getUserList(obj, Active).subscribe(
+      (res: any) => {
+        this.totalRow = res.length;
+        this.showUserTable = true;
+        this.userListDataSource = this.addKeys(res, false);
+        this.fetchTableDataByPage(this.PageIndex);
+      },
+      err => {
+        this.showUserTable = false;
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
   sendSmsForApp(type) {
     if (confirm('Are you sure you want to send SMS to selected users?')) {
       let data = {
         app_sms_type: type,
-        userArray: []
+        userArray: this.getSelectedUser()
       };
+      if(data.userArray.length == 0){
+        this.messageNotifier('error','Error','Please select user');
+        return;
+      }
       this.apiService.sendSmS(data).subscribe(
         res => {
           this.messageNotifier('success', 'Send Successfully', 'SMS Sent Successfully');
@@ -42,8 +97,189 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  getAllotedItemHistry(id){
-    
+  allocateItemToUser(data) {
+    this.tempdata = data;
+    this.getInventoryItemList(data);
+    this.getAllocatedItemHistrory(data);
+    this.allocateItemPopUp = true;
+  }
+
+  closePopUp() {
+    this.tempdata = "";
+    this.allocateItemPopUp = false;
+    this.showUnit = false;
+    this.allocateInventory = {
+      item_id: -1,
+      alloted_units: 0
+    };
+  }
+
+  getInventoryItemList(data) {
+    this.apiService.getItemList(data.user_id).subscribe(
+      res => {
+        this.inventoryList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  getAllocatedItemHistrory(data) {
+    this.apiService.getAllotedHistroy(data.user_id).subscribe(
+      res => {
+        this.inventoryAllocated = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  allocateItem() {
+    if (this.allocateInventory.item_id == -1) {
+      this.messageNotifier('error', 'Error', 'Please prvide item details');
+      return;
+    }
+    let unit: number = Number(this.allocateInventory.alloted_units);
+    if (unit < 0) {
+      this.messageNotifier('error', 'Error', 'Please give valid unit');
+      return;
+    }
+    if (this.availableunit < unit) {
+      this.messageNotifier('error', 'Error', 'Allocatd unit can not be greater than available unit');
+      return;
+    }
+    let obj: any = {
+      alloted_units: this.allocateInventory.alloted_units,
+      item_id: this.allocateInventory.item_id,
+      user_id: this.tempdata.user_id
+    }
+    this.apiService.allocateItem(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Allocated', 'Inventory Allocate Successfully');
+        this.getAllocatedItemHistrory(this.tempdata);
+        this.allocateInventory = {
+          item_id: -1,
+          alloted_units: 0
+        };
+        this.showUnit = false;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  onitemSelction() {
+    if (this.allocateInventory.item_id != '-1') {
+      this.showUnit = true;
+      for (let i = 0; i < this.inventoryList.length; i++) {
+        if (this.inventoryList[i].item_id == this.allocateInventory.item_id) {
+          this.availableunit = Number(this.inventoryList[i].available_units);
+        }
+      }
+    } else {
+      this.showUnit = false;
+      this.availableunit = 0;
+    }
+  }
+
+  deleteInventoryItem(data) {
+    if (confirm('Are you sure you want to delete?')) {
+      this.apiService.deleteInventory(data.allocation_id).subscribe(
+        res => {
+          this.messageNotifier('success', 'Deleted', 'Item Deleted Successfully');
+          this.getAllocatedItemHistrory(this.tempdata);
+        },
+        err => {
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+
+  // pagination functions 
+
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.usersList = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let data = [];
+    if (this.searchDataFlag == true) {
+      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      data = this.userListDataSource.slice(startindex, startindex + this.displayBatchSize);
+    }
+    return data;
+  }
+
+
+  searchInList(element) {
+    if (element.value != "" && element.value != null) {
+      let searchData = this.userListDataSource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
+      );
+      this.searchedData = searchData;
+      this.totalRow = searchData.length;
+      this.searchDataFlag = true;
+      this.PageIndex = 1;
+      this.fetchTableDataByPage(this.PageIndex);
+    } else {
+      this.searchDataFlag = false;
+      this.fetchTableDataByPage(this.PageIndex);
+      this.totalRow = this.userListDataSource.length;
+    }
+  }
+
+  getSelectedUser() {
+    let arr: any = [];
+    for (let i = 0; i < this.userSelected.length; i++) {
+      if (this.userSelected[i].assigned == true) {
+        arr.push(this.userSelected[i].user_id);
+      }
+    }
+    return arr;
+  }
+
+  userSelectedEvent(event, data) {
+    if (event.target.checked) {
+      this.userSelected.push(data);
+    } else {
+      for (let i = 0; i < this.userSelected.length; i++){
+        if (this.userSelected[i].user_id == data.user_id){
+          this.userSelected.splice(i , 1);
+        }
+      }
+    }
+  }
+
+
+  addKeys(data, val) {
+    data.forEach(
+      element => {
+        element.assigned = val;
+      }
+    )
+    return data;
   }
 
   checkInstituteType() {

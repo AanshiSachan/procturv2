@@ -31,6 +31,16 @@ export class AddEditUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.roleDetails = {
+      name: '',
+      address: '',
+      username: '',
+      alternate_email_id: '',
+      role_id: '-1',
+      attendance_device_id: '',
+      userType: '',
+      is_employee_to_be_create: 'true'
+    };
     this.activatedRoute.params.subscribe(
       (res: any) => {
         if (res.hasOwnProperty('id')) {
@@ -42,8 +52,6 @@ export class AddEditUserComponent implements OnInit {
       }
     )
     this.getRolesList();
-    this.userId = '18077';
-    this.fetchUserDetails('18077');
   }
 
   getRolesList() {
@@ -91,6 +99,31 @@ export class AddEditUserComponent implements OnInit {
     )
   }
 
+  updateUserDetails() {
+    let validate = this.validateUserDetails(this.roleDetails);
+    if (validate == false) {
+      return;
+    }
+    let obj: any = {
+      address: this.roleDetails.address,
+      attendance_device_id: this.roleDetails.attendance_device_id,
+      is_active: this.roleDetails.is_active,
+      name: this.roleDetails.name,
+      phone: this.roleDetails.phone,
+      role_id: this.roleDetails.role_id
+    }
+    this.apiService.updateUserDetails(this.roleDetails, this.userId).subscribe(
+      res => {
+        this.messageNotifier('success', 'Updated Successfully', 'Details Updated Successfully');
+        this.route.navigateByUrl('/manage/user');
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
   validateUserDetails(obj) {
     let check = false;
     if (obj.name.trim() == "") {
@@ -109,9 +142,11 @@ export class AddEditUserComponent implements OnInit {
         return false;
       }
     }
-    if (obj.role_id == '-1') {
-      this.messageNotifier('error', 'Error', 'Please assign role to user');
-      return false;
+    if (this.userId == "-1") {
+      if (obj.role_id == '-1') {
+        this.messageNotifier('error', 'Error', 'Please assign role to user');
+        return false;
+      }
     }
     return true;
   }
