@@ -318,15 +318,17 @@ export class RobAdvanceTableComponent implements OnChanges {
     updateTableBatchSize(num) {
 
         this.displayBatchSize = parseInt(num);
-
         let index: number;
         let clone = this.records.slice();
 
+        console.log(this.records.length);
 
-        if (this.records.length <= this.displayBatchSize) {
+        console.log(this.displayBatchSize);
+
+        if(this.displayBatchSize >= this.records.length){
             index = this.records.length;
         }
-        else if (this.records.length > this.displayBatchSize) {
+        else if (this.displayBatchSize < this.records.length) {
             index = this.displayBatchSize;
         }
 
