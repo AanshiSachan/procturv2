@@ -228,6 +228,9 @@ $color-highlight: lighten($color-base, 7%);
                 &.ID {
                     text-align: right;
                 }
+                &.Dues {
+                    text-align: right;
+                }
             }
         }
         .class-type-status {
@@ -271,6 +274,12 @@ $color-highlight: lighten($color-base, 7%);
                 }
                 &.ID {
                     text-align: right;
+                }
+                &.Dues {
+                    text-align: right;
+                    &.Past{
+                        color: #ff0000;
+                    }
                 }
             }
         }

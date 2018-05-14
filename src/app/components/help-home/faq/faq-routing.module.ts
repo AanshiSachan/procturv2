@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HelpHomeComponent } from './help-home.component';
-import { HomeComponent } from './home/home.component';
 
+import { FAQHomeComponent } from './faq-home/faq-home.component'
+import { FAQComponent } from './faq.component';
 
 @NgModule({
     imports: [
         RouterModule.forChild([
             {
                 path: '',
-                component: HelpHomeComponent,
+                component: FAQComponent,
                 pathMatch: 'prefix',
                 children: [
                     {
@@ -18,13 +18,8 @@ import { HomeComponent } from './home/home.component';
                     },
                     {
                         path: 'home',
-                        component: HomeComponent
-                    },
-                    {
-                        path: 'faq',
-                        loadChildren: 'app/components/help-home/faq/faq.module#FaqModule',
-                        pathMatch: 'prefix'
-                    },
+                        component: FAQHomeComponent
+                    }
                 ]
             }
         ])
@@ -33,6 +28,6 @@ import { HomeComponent } from './home/home.component';
         RouterModule
     ]
 })
-export class HelpHomeRoutingModule {
+export class FAQRoutingModule {
     
 }
