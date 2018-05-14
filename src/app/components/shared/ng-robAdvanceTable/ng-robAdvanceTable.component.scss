@@ -277,6 +277,9 @@ $color-highlight: lighten($color-base, 7%);
                 }
                 &.Dues {
                     text-align: right;
+                    &.Past{
+                        color: #ff0000;
+                    }
                 }
             }
         }

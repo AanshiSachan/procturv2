@@ -33,7 +33,7 @@ export class CustomizingPipe implements PipeTransform {
                         maximumFractionDigits: 2,
                         style: 'currency',
                         currency: 'INR'
-                    });
+                    }).slice(0, -3);
         
                     return InitialResult;
                 }
@@ -55,7 +55,7 @@ export class CustomizingPipe implements PipeTransform {
                         maximumFractionDigits: 2,
                         style: 'currency',
                         currency: 'INR'
-                    });
+                    }).slice(0, -3);
         
                     return InitialResult;
                 }
@@ -76,7 +76,7 @@ export class CustomizingPipe implements PipeTransform {
                         maximumFractionDigits: 2,
                         style: 'currency',
                         currency: 'INR'
-                    });
+                    }).slice(0, -3);
         
                     return InitialResult;
                 }
