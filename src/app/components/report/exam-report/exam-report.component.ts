@@ -606,7 +606,7 @@ export class ExamReportComponent implements OnInit {
 
     link.setAttribute('href', data_type + ',' + outer);
 
-    link.setAttribute('download', 'test.xls');
+    link.setAttribute('download', 'ExamReport.xls');
     link.click();
   }
 
