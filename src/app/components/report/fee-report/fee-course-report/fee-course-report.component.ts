@@ -29,6 +29,7 @@ export class FeeCourseReportComponent implements OnInit {
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
   dataStatus: number = 3;
+  
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -743,7 +744,7 @@ export class FeeCourseReportComponent implements OnInit {
     let temp = false;
 
     for (let key in e) {
-      if (String(e[key]).toLowerCase().indexOf(this.userInput.toLowerCase()) >= 0) {
+      if (String(e[key]).toLowerCase().includes(this.userInput.toLowerCase())) {
         temp = true;
         break;
       }

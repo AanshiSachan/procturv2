@@ -319,11 +319,9 @@ export class RobAdvanceTableComponent implements OnChanges {
 
         this.displayBatchSize = parseInt(num);
         let index: number;
-        let clone = this.records.slice();
-
-        console.log(this.records.length);
-
-        console.log(this.displayBatchSize);
+        let clone = this.records.map(e => {
+            return e;
+        });
 
         if(this.displayBatchSize >= this.records.length){
             index = this.records.length;
@@ -338,7 +336,9 @@ export class RobAdvanceTableComponent implements OnChanges {
     /* Fetch table data by page index */
     fectchTableDataByPage(index) {
         this.PageIndex = index;
-        let clone = this.records.slice();
+        let clone = this.records.map(e => {
+            return e;
+        });
 
         let startIndex = this.displayBatchSize * (index - 1);
 
