@@ -74,7 +74,7 @@ export class CourseComponent implements OnInit {
       document.getElementById('liManageBatch').classList.remove('active');
       // document.getElementById('liCourses').classList.remove('active');
       document.getElementById(showId).classList.add('active');
-    }, 100)
+    }, 500)
   }
 
   removeFullscreen() {
@@ -125,7 +125,7 @@ export class CourseComponent implements OnInit {
 
   routeToSubTabs(data) {
     if (data.indexOf('501') != -1) {
-      this.router.navigateByUrl('course/course');
+      this.router.navigateByUrl('course/standardlist');
       this.switchActiveView('liStandard');
     } else if (data.indexOf('502') != -1) {
       this.router.navigateByUrl('course/subject');
@@ -177,7 +177,7 @@ export class CourseComponent implements OnInit {
 
   routeToSubTabsForLang(data) {
     if (data.indexOf('501') != -1) {
-      this.router.navigateByUrl('course/course');
+      this.router.navigateByUrl('course/standardlist');
       this.switchActiveView('liStandard');
     } else if (data.indexOf('502') != -1) {
       this.router.navigateByUrl('course/subject');
