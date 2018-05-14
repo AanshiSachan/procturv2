@@ -178,8 +178,8 @@ export class ExamReportComponent implements OnInit {
           if (this.batchCourseData == null) {
             let obj = {
               type: "info",
-              title: "There is no Record in this  Field",
-              body: "Don't go in next field"
+              title: "No Exam Schedule Found",
+              body: ""
             }
             this.appC.popToast(obj);
             this.isRippleLoad = false;
@@ -203,8 +203,8 @@ export class ExamReportComponent implements OnInit {
           if (this.courseData == null) {
             let obj = {
               type: "info",
-              title: "There is no Record in this  Field",
-              body: "Don't go in next field"
+              title: "No Exam Schedule Found",
+              body: ""
             }
             this.appC.popToast(obj);
             this.isRippleLoad = false;
@@ -214,12 +214,10 @@ export class ExamReportComponent implements OnInit {
 
           this.isRippleLoad = false;
 
-
-
           let obj = {
             type: "error",
             title: "Unable to Fetch Report",
-            body: ""
+            body: "Please check your internet connection and if the issue persist contact support@proctur.com"
           }
           this.appC.popToast(obj);
         }
@@ -243,8 +241,8 @@ export class ExamReportComponent implements OnInit {
           if (this.getSubjectData == null) {
             let obj = {
               type: "info",
-              title: "There is no Record in this Field",
-              body: "Don't go in next field"
+              title: "No Exam Schedule Found",
+              body: ""
             }
             this.appC.popToast(obj);
 
@@ -263,8 +261,8 @@ export class ExamReportComponent implements OnInit {
         if (this.subjectData == null) {
           let obj = {
             type: "info",
-            title: "There is no Record in this  Field",
-            body: "Don't go in next field"
+            title: "No Exam Schedule Found",
+            body: ""
           }
           this.appC.popToast(obj);
           this.isRippleLoad = false;
@@ -287,8 +285,8 @@ export class ExamReportComponent implements OnInit {
       if (this.exam_Sch_Data == null) {
         let obj = {
           type: "info",
-          title: "There is no Record in this  Field",
-          body: "Don't go in next field"
+          title: "No Exam Schedule Found",
+          body: ""
         }
         this.appC.popToast(obj);
         this.isRippleLoad = false;
@@ -360,7 +358,7 @@ export class ExamReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                body: "We did not found data in the selected range"
+                body: "No Data Found"
               }
               this.examSource = [];
               this.totalRecords = this.examSource.length;
@@ -431,7 +429,7 @@ export class ExamReportComponent implements OnInit {
             else {
               let msg = {
                 type: "info",
-                body: "We did not found data in the selected range"
+                body: "No Data Found"
               }
               this.examSource = [];
               this.totalRecords = this.examSource.length;
@@ -480,8 +478,8 @@ export class ExamReportComponent implements OnInit {
               else {
                 let msg = {
                   type: "info",
-                  title: "Invalid Data Range Selected",
-                  body: "We did not found data in the selected range"
+                  title: "No Data Found",
+                  body: ""
                 }
 
                 this.appC.popToast(msg);
@@ -524,8 +522,8 @@ export class ExamReportComponent implements OnInit {
               else {
                 let msg = {
                   type: "info",
-                  title: "Invalid Data Range Selected",
-                  body: "We did not found data in the selected range"
+                  title: "No Data Found",
+                  body: ""
                 }
 
                 this.appC.popToast(msg);

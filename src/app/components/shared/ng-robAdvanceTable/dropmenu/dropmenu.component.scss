@@ -1,5 +1,9 @@
 @import "./src/assets/css/common/variables.scss";
 
+.dropdown-wrapper{
+    position: relative;
+}
+
 .dropdown-trigger{
     background: transparent;
     position: relative;
