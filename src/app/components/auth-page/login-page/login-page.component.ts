@@ -193,12 +193,15 @@ export class LoginPageComponent {
   //End -2
 
   validInstituteCheck(data): boolean {
-    let instIdArr = this.login.getAllInstituteId();
+    /* Open For All Institute Currently */
+    return true;
+    /* Code to Resrict Users from login without invitation */
+    /* let instIdArr = this.login.getAllInstituteId();
     if (instIdArr.indexOf(data.institution_id) == -1) {
       return false;
     } else {
       return true;
-    }
+    } */
   }
 
   //if login is successfull ( Start - 3)
