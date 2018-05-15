@@ -47,7 +47,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     /* Number of line for skeleton screen */
     dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     userIdArray: any = [];
-    asc: boolean = false;
+    asc: boolean = true;
     caret = true;
 
     PageIndex: number = 1;
@@ -192,6 +192,9 @@ export class RobAdvanceTableComponent implements OnChanges {
         else if (type === 2) {
             this.sortDate(ev);
         }
+
+        this.fectchTableDataByPage(this.PageIndex);
+
     }
 
     sortNumber(e): any {
