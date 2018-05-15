@@ -1278,6 +1278,7 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
+        this.grid.refreshItems().layout();
         let tempArr: any[] = [];
         for (let o in res) {
           let temp = res[o].course_ids.split(',');
@@ -1316,6 +1317,10 @@ export class AdminHomeComponent implements OnInit {
         this.courseLevelSchedule = tempArr;
         this.isRippleLoad = false;
         this.isSubjectView = false;
+      },
+      err =>{
+        console.log(err);
+        this.grid.refreshItems().layout();
       }
     );
   }

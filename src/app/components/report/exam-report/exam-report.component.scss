@@ -514,8 +514,11 @@ p {
 
 .details-wrapper {
     max-height: 450px;
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: auto;
+    ::-webkit-scrollbar{
+        display:block;
+    }
     tr {
         th {
             padding: 10px;
@@ -561,9 +564,8 @@ p {
     margin-right: 12px;
     padding-bottom: 10px;
 }
-
-.stu-table {
-    height:300px;
+.stdnt-table{
+    height:500px;
     overflow: hidden;
     ::-webkit-scrollbar{
         display:block;
@@ -575,5 +577,20 @@ p {
         margin-right:5px;
         height:300px;
         overflow-y: auto;
+        overflow-x: auto;
     }
+}
+.stu-table {
+    height:500px;
+    ::-webkit-scrollbar{
+        display:block;
+    }
+    table{
+        tbody{
+            height:450px;
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+    }
+    
 }

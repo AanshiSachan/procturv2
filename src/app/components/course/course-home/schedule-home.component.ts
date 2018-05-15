@@ -213,29 +213,31 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   deleteRow(data) {
-    this.isRippleLoad = true;
-    this.apiService.deleteStandard(data.standard_id).subscribe(
-      res => {
-        this.isRippleLoad = false;
-        let data = {
-          type: "success",
-          title: "Success",
-          body: "Deleted Successfully"
-        }
-        this.toastCtrl.popToast(data);
-        this.getAllStandardList();
-      },
-      err => {
-        this.isRippleLoad = false;
-        let data = {
-          type: "error",
-          title: "Error",
-          body: err.error.message
-        }
-        this.toastCtrl.popToast(data);
+    if(confirm('Are you sure you want to delete?')){
+      this.isRippleLoad = true;
+      this.apiService.deleteStandard(data.standard_id).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let data = {
+            type: "success",
+            title: "Success",
+            body: "Deleted Successfully"
+          }
+          this.toastCtrl.popToast(data);
+          this.getAllStandardList();
+        },
+        err => {
+          this.isRippleLoad = false;
+          let data = {
+            type: "error",
+            title: "Error",
+            body: err.error.message
+          }
+          this.toastCtrl.popToast(data);
 
-      }
-    )
+        }
+      )
+    }
   }
 
   // pagination functions 
@@ -366,7 +368,7 @@ export class ScheduleHomeComponent implements OnInit {
 
   routeToSubTabsForNotLang(data) {
     if (data.indexOf('501') != -1) {
-      this.route.navigateByUrl('course/course');
+      this.route.navigateByUrl('course/standardlist');
     } else if (data.indexOf('502') != -1) {
       this.route.navigateByUrl('course/subject');
     } else if (data.indexOf('505') != -1) {
@@ -406,7 +408,7 @@ export class ScheduleHomeComponent implements OnInit {
     document.getElementById('liSubject').classList.remove('active');
     document.getElementById('liManageBatch').classList.remove('active');
     // document.getElementById('liCourses').classList.add('hide');
-    // document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liExam').classList.add('hide');
     document.getElementById('liClass').classList.remove('active');
   }
 

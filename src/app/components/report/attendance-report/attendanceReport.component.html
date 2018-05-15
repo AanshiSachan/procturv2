@@ -7,7 +7,8 @@
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
                     <a routerLink="/reports/home">
-                        <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+                        Report
+                        <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
                     </a>
                     <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Attendance Report
                 </h2>
@@ -110,22 +111,22 @@
                     <div class="c-lg-4 inner-main">
                         <div class="form-btn">
                             <div *ngIf="!isProfessional">
-                                <div class="c-lg-6 inner-btn">
+                                <div class="c-lg-4 inner-btn">
                                     <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
                                 </div>
                             </div>
                             <div *ngIf="isProfessional">
-                                <div class="c-lg-6 inner-btn">
+                                <div class="c-lg-4 inner-btn">
                                     <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
                                 </div>
                             </div>
                             <div *ngIf="isProfessional">
-                                <div class="c-lg-6 outer-btn">
+                                <div class="c-lg-4 outer-btn">
                                     <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
                                 </div>
                             </div>
                             <div *ngIf="!isProfessional">
-                                <div class="c-lg-6 outer-btn">
+                                <div class="c-lg-4 outer-btn">
                                     <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
                                 </div>
                             </div>

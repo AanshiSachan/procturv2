@@ -169,6 +169,7 @@ export class ClassAddComponent implements OnInit {
     if (!this.isProfessional) {
       this.checkForEditMode();
     }
+    this.switchActiveView();
   }
   /* ============================================================================================ */
 
@@ -1924,5 +1925,14 @@ export class ClassAddComponent implements OnInit {
     }
     this.appC.popToast(msg);
   }
+
+  switchActiveView() {
+      document.getElementById('liStandard').classList.remove('active');
+      document.getElementById('liSubject').classList.remove('active');
+      document.getElementById('liExam').classList.remove('active');
+      document.getElementById('liClass').classList.add('active');
+      document.getElementById('liManageBatch').classList.remove('active');
+  }
+
 
 }

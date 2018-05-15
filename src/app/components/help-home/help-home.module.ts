@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HelpHomeComponent } from './help-home.component';
 import { HelpHomeRoutingModule } from "./help-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import{ ZendAuth} from '../../services/Help-Service/help.service'; 
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
@@ -32,6 +33,8 @@ import { HomeComponent } from './home/home.component';
     entryComponents: [        
     ],
     providers: [  
+        ZendAuth
+        
     ]
 })
 export class HelpHomeModule {

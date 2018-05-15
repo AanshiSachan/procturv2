@@ -86,11 +86,11 @@ ngOnInit()
     getColor(key , data) {
       
            if(data == "Absent"){
-             return 'green'
+             return 'red'
                
            }
            else if(data == "Leave"){
-            return 'red'
+            return 'blue'
            }
           
         }

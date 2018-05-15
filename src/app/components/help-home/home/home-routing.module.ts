@@ -1,30 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HelpHomeComponent } from './help-home.component';
-import { HomeComponent } from './home/home.component';
-
+import { HomeComponent } from './home.component'
 
 @NgModule({
     imports: [
         RouterModule.forChild([
             {
                 path: '',
-                component: HelpHomeComponent,
+                component: HomeComponent,
                 pathMatch: 'prefix',
                 children: [
                     {
                         path: '',
-                        redirectTo: 'home'
+                        redirectTo: 'dashboard'
                     },
                     {
-                        path: 'home',
+                        path: 'dashboard',
                         component: HomeComponent
-                    },
-                    {
-                        path: 'faq',
-                        loadChildren: 'app/components/help-home/faq/faq.module#FaqModule',
-                        pathMatch: 'prefix'
-                    },
+                    }
                 ]
             }
         ])
@@ -34,5 +27,4 @@ import { HomeComponent } from './home/home.component';
     ]
 })
 export class HelpHomeRoutingModule {
-    
 }
