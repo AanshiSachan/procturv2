@@ -1,9 +1,9 @@
-import {Component, OnInit,} from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import {ZendAuth} from '../../../services/Help-Service/help.service';
+import { ZendAuth } from '../../../services/Help-Service/help.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -16,25 +16,18 @@ import 'rxjs/Rx';
 })
 export class HomeComponent implements OnInit {
 
-  isProfessional:boolean = false;
+  isProfessional: boolean = false;
 
-zendField={
-  institute_id:"", 
-  institute_name:"", 
-  primary_email_id:"",
-  Issue:""
-}
 
-payload={
-  "Ticket": {
-    "Subject":  "",
-    "Description": "",
-    "requester_id": 362262131554,
-    "submitter_id": 362262131554
+  payload = {
+    "ticket": {
+      "subject": "",
+      "description": "",
+      "requester_id": '362262131554'
+    }
   }
-}
 
-  constructor(private router: Router, private auth :ZendAuth, private appC: AppComponent, private login: LoginService,) {
+  constructor(private router: Router, private auth: ZendAuth, private appC: AppComponent, private login: LoginService, ) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -47,27 +40,27 @@ payload={
   }
 
 
-ZendeskLogin(){
-  this.auth.ZendeskAuth(this.payload).subscribe(
-  
-    (data: any) => {
-    },
-    error => {
-      let msg = {
-        type: "error",
-        title: "",
-        body: "An Error Occured"
+  ZendeskLogin() {
+    this.auth.ZendeskAuth(this.payload).subscribe(
+
+      (data: any) => {
+      },
+      error => {
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
-      this.appC.popToast(msg);
-    }
-  )
+    )
+  }
+
+  posterData() {
+    this.ZendeskLogin();
+  }
 }
 
-posterData(){
-this.payload.Ticket.Description= this.zendField.institute_id + "," +this.zendField.institute_name+ "," + this.zendField.Issue+ "," + this.zendField.primary_email_id;
-this.ZendeskLogin();
-}
-}
 
 
 
