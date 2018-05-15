@@ -13,38 +13,17 @@
 
         <div class="field-wrapper">
             <label for="phone">Subject</label>
-            <input type="text" value="" class="form-ctrl" [(ngModel)]= "payload.Ticket.Subject"/>
+            <input type="text" value="" class="form-ctrl" [(ngModel)]= "payload.ticket.subject"/>
         </div>
 
 
         <div class="field-wrapper">
             <label for="phone">Description</label>
-            <input type="text" value=""  class="form-ctrl"/>
+            <input type="text" value=""  class="form-ctrl"[(ngModel)]= "payload.ticket.description"/>
         </div>
-
-
-        <div class="field-wrapper">
-            <label for="phone">Institute Id</label>
-            <input type="text" value="" id="phone" class="form-ctrl"/>
-        </div>
-
-        <div class="field-wrapper">
-            <label for="phone">Institute Name</label>
-            <input type="text" value="" class="form-ctrl" />
-        </div>
-
-        <div class="field-wrapper">
-            <label for="phone">Email Id</label>
-            <input type="text" value="" id="phone" class="form-ctrl"/>
-        </div>
-
-
-        <div class="field-wrapper">
-            <label for="phone">Issue</label>
-            <input type="text" value="" class="form-ctrl"/>
-        </div>
-         <div>
-        <button class="btn fullBlue btnclass pull-right" (click)="posterData()">Save</button>
+        <div>
+        <button class="btn fullBlue btnclass pull-right" (click)="posterData()">Submit</button>
+        <i class="far fa-arrow-alt-circle-right"></i>
     </div>
 
     </div>

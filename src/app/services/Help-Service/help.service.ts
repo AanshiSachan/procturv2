@@ -24,10 +24,19 @@ export class ZendAuth {
             this.institute_id = id;
         });
     }
+
+
     ZendeskAuth(data) {
-       
+
+        let decoded = btoa("nishant@proctur.com/token:1dS8xAwpu5rxeK0fJgdFlw965p0Lq10ohDcdVDsJ");
+
+        let header = new HttpHeaders({
+            "Content-Type": "application/json",
+            "Authorization": "Basic " +decoded
+        });
+
         let url = 'https://proctur.zendesk.com/api/v2/tickets.json';
-        return this.http.post(url, data, { headers: this.headers }).map(
+        return this.http.post(url, data, { headers: header }).map(
             data => {
                 return data;
             },
@@ -36,5 +45,6 @@ export class ZendAuth {
             }
         )
     }
+
 
 }
