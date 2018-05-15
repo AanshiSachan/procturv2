@@ -1,0 +1,47 @@
+<div class="middle-section clearFix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix activity-wrapper">
+
+            <section class="row header">
+                <div class="row">
+                    <h2 class="pull-left">
+                        Manage Cheques
+                    </h2>
+                </div>
+                <section class="row filter-section  margin-head">
+                    <div class="c-lg-3">
+                        <div class="field-wrapper">
+                            <label for="">From {{datefield[0] | date: 'yyyy-mm-dd'}} To {{datefield[1] | date: 'yyyy-mm-dd'}}</label>
+                            <input type="text" name="" class="form-ctrl bsDatepicker" id="1" readonly="true" [(ngModel)]="datefield" bsDaterangepicker>
+                        </div>
+                    </div>
+                    <div class="c-lg-3">
+                        <div class="field-wrapper">
+                            <label for="">Cheque Status</label>
+                            <select name="" class="form-ctrl" id=""  [(ngModel)]="datefield.cheque_status_id">
+                                <option value="-1"></option>
+                                <option value></option>
+                                
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="c-lg-3">
+                        <div class="field-wrapper">
+                            <label for="">Student Name/ Contact No.</label>
+                            <input type="text" name="" class="form-ctrl" id="">
+                        </div>
+                    </div>
+                    <div class="c-lg-3 btn-wrap">
+                        <button class="btn fullBlue">Go</button>
+                    </div>
+                </section>
+            </section>
+
+            <section class="body-content">
+
+            </section>
+        </section>
+    </aside>
+</div>
