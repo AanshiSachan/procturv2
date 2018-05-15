@@ -226,3 +226,69 @@
 }
 
 //////////////////////////
+.allocation-popup {
+    .filler-section {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .table-histrory {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        max-height: 280px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+/////////////////////////////////////////
+.content-container {
+    .user-table-wrapper {
+        margin-top: 10px;
+    }
+    .btn-group {
+        margin-top: 5px;
+        button{
+            margin-right: 5px;
+        }
+    }
+}
+
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 0px !important;
+        width: 30%;
+        float: left !important;
+        .form-ctrl {
+            font: 400 13.3333px Arial;
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+        }
+    }
+    .field-wrapper label {
+        position: absolute !important;
+        left: 10% !important;
+        top: 1% !important;
+        &:after {
+            left: 85% !important;
+            top: 10px !important;
+        }
+    }
+}
+
+.action-menu{
+    a{
+        margin-right: 5px;
+        cursor: pointer;
+    }
+}
