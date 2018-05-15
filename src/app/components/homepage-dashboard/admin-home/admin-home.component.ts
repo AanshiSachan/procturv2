@@ -2688,6 +2688,7 @@ export class AdminHomeComponent implements OnInit {
   //Attendance Section
 
   markExamAttendance(data) {
+    this.studentList = [];
     this.tempData = data;
     this.markExamAttendancePopUp = true;
     this.getStudentList();

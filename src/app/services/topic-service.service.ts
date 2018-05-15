@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "./authenticator.service";
@@ -57,18 +58,40 @@ export class TopicServiceService {
     )
   }
 
-getList(){
-  return this.http.get(this.drl).map(
-  (data:any) => {
-    return <TreeNode[]>data.data;
-  },
-  error => {
-    return error;
+  getTopics(obj) {
+    let url = this.baseUrl + "/api/v1/topic_manager/getAllTopicsWithSubTopic/" + this.institute_id;
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => {
+        return data;
+      },
+      error => {
+        return error;
+      }
+    )
   }
-)
+
+  postTopic(obj) {
+    let url = this.baseUrl + "/api/v1/topic_manager/add/" + this.institute_id;
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => {
+        return data;
+      },
+      error => {
+        return error;
+      }
+    )
+  }
+
+  getList() {
+    return this.http.get(this.drl).map(
+      (data: any) => {
+        return <TreeNode[]>data.data;
+      },
+      error => {
+        return error;
+      }
+    )
 
 
-}
-
-
+  }
 }
