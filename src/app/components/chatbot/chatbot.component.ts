@@ -1,4 +1,4 @@
-import {Component,NgModule} from '@angular/core'; 
+import {Component,NgModule, ViewChild, ElementRef} from '@angular/core'; 
 
 
 @Component({
@@ -7,4 +7,20 @@ import {Component,NgModule} from '@angular/core';
     styleUrls: ['./chatbot.component.scss']
   })
   export class chatBotComponent {
+
+    @ViewChild('helpForm') help: ElementRef;
+
+
+    constructor(){}
+
+    helpRequested(){
+      
+      if(this.help.nativeElement.classList.contains('active')){
+        this.help.nativeElement.classList.remove('active');
+      }
+      else{
+        this.help.nativeElement.classList.add('active');
+      }
+    }
+
   }  

@@ -1,11 +1,11 @@
 <section class="bot-wrapper">
-    <div class="trigger">
+    <div class="trigger" (click)="helpRequested()">
         <a class="button-block">
             Need Help
             <span class="arrow arrow-top"></span>
         </a>
     </div>
-    <div class="help-form active">
+    <div #helpForm class="help-form">
         <div class="row"></div>
     </div>
 </section>

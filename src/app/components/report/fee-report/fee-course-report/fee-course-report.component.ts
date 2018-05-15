@@ -94,7 +94,7 @@ export class FeeCourseReportComponent implements OnInit {
 
   isRippleLoad: boolean = false;
 
-  // due_type: any = '-1';
+  due_type: any = '-1';
 
   search_value: any = '';
 
@@ -179,7 +179,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   batchSelected() {
-    
+    this.due_type = "-1";
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
@@ -283,82 +283,82 @@ export class FeeCourseReportComponent implements OnInit {
       }
     }
     /* Fetch by name or Dues Type */
-    // else {
-    //   if (this.due_type == 'all_dues') {
-    //     let obj: any = {
-    //       from_date: '',
-    //       to_date: '',
-    //     }
-    //     /* Name Detected */
-    //     if (isNaN(this.search_value)) {
-    //       obj.student_name = this.search_value;
-    //       obj.contact_no = '';
-    //     }
-    //     /* Contact Number Detected */
-    //     else {
-    //       obj.contact_no = this.search_value;
-    //       obj.student_name = '';
-    //     }
+    else {
+      if (this.due_type == 'all_dues') {
+        let obj: any = {
+          from_date: '',
+          to_date: '',
+        }
+        /* Name Detected */
+        if (isNaN(this.search_value)) {
+          obj.student_name = this.search_value;
+          obj.contact_no = '';
+        }
+        /* Contact Number Detected */
+        else {
+          obj.contact_no = this.search_value;
+          obj.student_name = '';
+        }
 
-    //     this.generateReport(obj);
+        this.generateReport(obj);
 
-    //   }
-    //   else if (this.due_type == 'next_month_dues') {
-    //     let obj: any = {
-    //       from_date: '',
-    //       to_date: '',
-    //     }
+      }
+      else if (this.due_type == 'next_month_dues') {
+        let obj: any = {
+          from_date: '',
+          to_date: '',
+        }
 
-    //     /* Name Detected */
-    //     if (isNaN(this.search_value)) {
-    //       obj.student_name = this.search_value;
-    //       obj.contact_no = '';
-    //     }
-    //     /* Contact Number Detected */
-    //     else {
-    //       obj.contact_no = this.search_value;
-    //       obj.student_name = '';
-    //     }
+        /* Name Detected */
+        if (isNaN(this.search_value)) {
+          obj.student_name = this.search_value;
+          obj.contact_no = '';
+        }
+        /* Contact Number Detected */
+        else {
+          obj.contact_no = this.search_value;
+          obj.student_name = '';
+        }
 
-    //   }
-    //   else if (this.due_type == 'this_month_dues') {
-    //     let obj: any = {
-    //       from_date: '',
-    //       to_date: '',
-    //     }
-
-
-    //     /* Name Detected */
-    //     if (isNaN(this.search_value)) {
-    //       obj.student_name = this.search_value;
-    //       obj.contact_no = '';
-    //     }
-    //     /* Contact Number Detected */
-    //     else {
-    //       obj.contact_no = this.search_value;
-    //       obj.student_name = '';
-    //     }
-
-    //   }
-    //   else if (this.due_type == 'current_dues') {
-    //     let obj: any = {
-    //       from_date: '',
-    //       to_date: '',
-    //     }
+      }
+      else if (this.due_type == 'this_month_dues') {
+        let obj: any = {
+          from_date: '',
+          to_date: '',
+        }
 
 
-    //     /* Name Detected */
-    //     if (isNaN(this.search_value)) {
-    //       obj.student_name = this.search_value;
-    //       obj.contact_no = '';
-    //     }
-    //     /* Contact Number Detected */
-    //     else {
-    //       obj.contact_no = this.search_value;
-    //       obj.student_name = '';
-    //     }
-    //   }
-    // }
+        /* Name Detected */
+        if (isNaN(this.search_value)) {
+          obj.student_name = this.search_value;
+          obj.contact_no = '';
+        }
+        /* Contact Number Detected */
+        else {
+          obj.contact_no = this.search_value;
+          obj.student_name = '';
+        }
+
+      }
+      else if (this.due_type == 'current_dues') {
+        let obj: any = {
+          from_date: '',
+          to_date: '',
+        }
+
+
+        /* Name Detected */
+        if (isNaN(this.search_value)) {
+          obj.student_name = this.search_value;
+          obj.contact_no = '';
+        }
+        /* Contact Number Detected */
+        else {
+          obj.contact_no = this.search_value;
+          obj.student_name = '';
+        }
+      }
+    }
   }
 
   /* ===================================================================================================== */
@@ -475,7 +475,7 @@ export class FeeCourseReportComponent implements OnInit {
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
     this.courseFetchForm.type = "0";
-  
+    this.due_type = '-1';
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -510,7 +510,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   fetchBatchList() {
     this.courseFetchForm.batch_id = -1;
-  
+    this.due_type = '-1';
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
@@ -667,53 +667,53 @@ export class FeeCourseReportComponent implements OnInit {
   }
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-  // dateRangeChanges(e) {
-  //   this.isCustomDate = false;
-  //   this.courseFetchForm.standard_id = '-1';
-  //   this.courseFetchForm.subject_id = '-1';
-  //   this.courseFetchForm.batch_id = '-1';
-  //   if (this.due_type == 'all_dues') {
-  //     this.getBatchCourseDetails();
-  //     this.courseFetchForm.from_date = '';
-  //     this.courseFetchForm.to_date = '';
-  //     this.courseFetchForm.type = "0";
-  //   }
+  dateRangeChanges(e) {
+    this.isCustomDate = false;
+    this.courseFetchForm.standard_id = '-1';
+    this.courseFetchForm.subject_id = '-1';
+    this.courseFetchForm.batch_id = '-1';
+    if (this.due_type == 'all_dues') {
+      this.getBatchCourseDetails();
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
+      this.courseFetchForm.type = "0";
+    }
 
-  //   else if (this.due_type == 'next_month_dues') {
-  //     let begin = moment().add(1, 'M').format("YYYY-MM-01");
-  //     let end = moment().add(1, 'M').format("YYYY-MM-") + moment().add(1, 'M').daysInMonth();
+    else if (this.due_type == 'next_month_dues') {
+      let begin = moment().add(1, 'M').format("YYYY-MM-01");
+      let end = moment().add(1, 'M').format("YYYY-MM-") + moment().add(1, 'M').daysInMonth();
 
-  //     this.courseFetchForm.from_date = begin;
-  //     this.courseFetchForm.to_date = end;
-  //     this.courseFetchForm.type = "1";
-  //   }
+      this.courseFetchForm.from_date = begin;
+      this.courseFetchForm.to_date = end;
+      this.courseFetchForm.type = "1";
+    }
 
-  //   else if (this.due_type == 'this_month_dues') {
-  //     let begin = moment().format("YYYY-MM-01");
-  //     let end = moment().format("YYYY-MM-") + moment().daysInMonth();
-  //     this.courseFetchForm.from_date = begin;
-  //     this.courseFetchForm.to_date = end;
-  //     this.courseFetchForm.type = "1";
-  //   }
+    else if (this.due_type == 'this_month_dues') {
+      let begin = moment().format("YYYY-MM-01");
+      let end = moment().format("YYYY-MM-") + moment().daysInMonth();
+      this.courseFetchForm.from_date = begin;
+      this.courseFetchForm.to_date = end;
+      this.courseFetchForm.type = "1";
+    }
 
-  //   else if (this.due_type == 'current_dues') {
-  //     this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
-  //     this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
-  //     this.courseFetchForm.type = "1";
-  //   }
-  //   else if (this.due_type == 'custom') {
-  //     this.courseFetchForm.from_date = '';
-  //     this.courseFetchForm.to_date = '';
-  //     this.courseFetchForm.type = "1";
-  //     this.isCustomDate = true;
-  //   }
-  //   else if (this.due_type == '-1') {
-  //     this.getBatchCourseDetails();
-  //     this.courseFetchForm.type = "0";
-  //     this.isCustomDate = false;
-  //   }
+    else if (this.due_type == 'current_dues') {
+      this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
+      this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
+      this.courseFetchForm.type = "1";
+    }
+    else if (this.due_type == 'custom') {
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
+      this.courseFetchForm.type = "1";
+      this.isCustomDate = true;
+    }
+    else if (this.due_type == '-1') {
+      this.getBatchCourseDetails();
+      this.courseFetchForm.type = "0";
+      this.isCustomDate = false;
+    }
 
-  // }
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
