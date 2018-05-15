@@ -1,17 +1,10 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import {Component, OnInit,} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
-import { Pipe, PipeTransform } from '@angular/core';
+import {ZendAuth} from '../../../services/Help-Service/help.service';
 import { LoginService } from '../../../services/login-services/login.service';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
@@ -25,7 +18,23 @@ export class HomeComponent implements OnInit {
 
   isProfessional:boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+zendField={
+  institute_id:"", 
+  institute_name:"", 
+  primary_email_id:"",
+  Issue:""
+}
+
+payload={
+  "Ticket": {
+    "Subject":  "",
+    "Description": "",
+    "requester_id": 362262131554,
+    "submitter_id": 362262131554
+  }
+}
+
+  constructor(private router: Router, private auth :ZendAuth, private appC: AppComponent, private login: LoginService,) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -37,4 +46,28 @@ export class HomeComponent implements OnInit {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
+
+ZendeskLogin(){
+  this.auth.ZendeskAuth(this.payload).subscribe(
+  
+    (data: any) => {
+    },
+    error => {
+      let msg = {
+        type: "error",
+        title: "",
+        body: "An Error Occured"
+      }
+      this.appC.popToast(msg);
+    }
+  )
 }
+
+posterData(){
+this.payload.Ticket.Description= this.zendField.institute_id + "," +this.zendField.institute_name+ "," + this.zendField.Issue+ "," + this.zendField.primary_email_id;
+this.ZendeskLogin();
+}
+}
+
+
+

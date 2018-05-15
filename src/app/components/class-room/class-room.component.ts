@@ -99,15 +99,7 @@ export class ClassRoomComponent {
         }
 
       }
-   /*  if(Desc_ele.length <80){
-       let obj = {
-          type: "error",
-          title: "error",
-          body: 'Description should be greater than 80 Characters',
-        }
-        this.AppC.popToast(obj);
-        return;
-      }*/
+  
        if (Desc_ele.length > 500) {
         let data = {
           type: 'error',
