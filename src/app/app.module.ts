@@ -49,10 +49,12 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
 import { TopicsComponent } from './components/topics/topics.component';
-import { TopicServiceService} from './services/topic-service.service';
-import {FilterPipe} from './components/event-managment/filterpipe';
+import { TopicServiceService } from './services/topic-service.service';
+import { FilterPipe } from './components/event-managment/filterpipe';
 import { MasterComponent } from './components/master/master.component';
 import { ManageExamModule } from './components/master/master.module';
+import { chatBotComponent } from './components/chatbot/chatbot.component';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -60,10 +62,10 @@ import { ManageExamModule } from './components/master/master.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ManageExamModule,
+  
     HttpModule,
     BrowserAnimationsModule,
-    Ng2SmartTableModule,TreeTableModule,
+    Ng2SmartTableModule, TreeTableModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
@@ -82,14 +84,13 @@ import { ManageExamModule } from './components/master/master.module';
     FilterPipe,
     EventManagmentComponent,
     CityAreaMapComponent,
-
+    chatBotComponent,
     TopicsComponent,
     SearchBoxComponent
-   
-
   ],
   entryComponents: [
-    SearchBoxComponent
+    SearchBoxComponent,
+    chatBotComponent
   ],
   providers: [
     FetchenquiryService,
@@ -103,7 +104,7 @@ import { ManageExamModule } from './components/master/master.module';
     CityAreaService,
     ClassRoomService,
     EventManagmentService,
- TopicServiceService,
+    TopicServiceService,
     Title
   ],
   bootstrap: [AppComponent]

@@ -408,8 +408,8 @@ export class ScheduleHomeComponent implements OnInit {
     document.getElementById('liSubject').classList.remove('active');
     document.getElementById('liManageBatch').classList.remove('active');
     // document.getElementById('liCourses').classList.add('hide');
-    document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liExam').classList.remove('active');
     document.getElementById('liClass').classList.remove('active');
   }
 
-}
+} 

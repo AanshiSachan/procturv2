@@ -269,7 +269,7 @@ $color-highlight: lighten($color-base, 7%);
                 }
                 &.Amount {
                     text-align: right;
-                    .Paid{
+                    &.Paid{
                         color: #0084f6;
                     }
                 }

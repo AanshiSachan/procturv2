@@ -192,8 +192,7 @@
                                 <a routerLink="/fee">Fee</a>
                               </span>
                             </li>
-
-                             <li id="divTopicTag">
+                             <li id="divTopicTag" style="display:none;">
                               <span>
                                 <a routerLink="/Topics">Topic</a>
                               </span>
@@ -220,7 +219,7 @@
                                 <a routerLink="/academic">Academic Year</a>
                               </span>
                             </li>
-                            <li id="divGradesTag">
+                            <li id="divGradesTag" *ngIf="settings==1">
                               <span >
                                 <a routerLink="/master">Manage exam grades</a>
                               </span>
@@ -229,7 +228,7 @@
                         </div>
                       </li>
 
-                      <li class="" id="divManageUsers" style="display:none;" >
+                      <li style="display: none" class="" id="divManageUsers">
                         <strong>
                           <a routerLink="/manage">Manage Users</a>
                         </strong>

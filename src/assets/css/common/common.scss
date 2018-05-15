@@ -408,35 +408,7 @@ h3 {
     overflow: auto;
 }
 
-/* .field-wrapper {
-    position: relative;
-    padding-top: 10px;
-    &.datePickerBox {
-        .form-ctrl {
-            cursor: pointer;
-            position: relative;
-            z-index: 1;
-            background: transparent;
-        }
-        &:after {
-            content: '';
-            background: url('/./assets/images/calendar.svg') no-repeat;
-            position: absolute;
-            right: 0;
-            top: 18px;
-            width: 21px;
-            height: 21px;
-            z-index: 0;
-        }
-    }
-    .date-clear {
-        position: absolute;
-        right: 15px;
-        top: 50px;
-        cursor: pointer;
-        color: #0084f6;
-    }
-} */
+
 
 .filter-fields {
     .field-wrapper {
@@ -449,35 +421,7 @@ h3 {
 
 /* For DatePicker */
 
-/* .field-wrapper {
-    position: relative;
-    padding-top: 10px;
-    &.datePickerBox {
-        .bsDatepicker {
-            cursor: pointer;
-            position: relative;
-            z-index: 1;
-            background: transparent;
-        }
-        &:after {
-            content: '';
-            background: url("/./assets/images/calendar.svg") no-repeat;
-            position: absolute;
-            right: 0;
-            top: 18px;
-            width: 21px;
-            height: 21px;
-            z-index: 0;
-        }
-    }
-    .date-clear {
-        position: absolute;
-        right: 15px;
-        top: 50px;
-        cursor: pointer;
-        color: #0084f6;
-    }
-} */
+
 
 .field-wrapper {
     position: relative;
@@ -525,13 +469,14 @@ h3 {
     padding: 10px 5px 5px;
     outline: none; //border: 0;
     border: solid 1px #e2ebee;
-    /* border-bottom: solid 1px #e2ebee; */
+    background: #fff;
     height: 36px;
     z-index: 10;
     font: 400 13.3333px Arial;
     box-shadow: none;
     border-radius: 0;
     line-height: 24px;
+    color: #000;
 }
 
 /* .field-wrapper label {
@@ -545,8 +490,8 @@ h3 {
 } */
 
 .field-wrapper .form-ctrl:focus {
-    padding: 12px 0 6px;
-    border-bottom: solid 2px $common-blue;
+    //padding: 12px 0 6px;
+    border: solid 2px $common-blue;
     box-shadow: none;
     line-height: 26px;
 }

@@ -54,7 +54,7 @@ export class CoreHeaderComponent implements OnInit {
 
   ngOnInit() {
 
-    this.settings = sessionStorage.getItem('exam_grading_system');
+    this.settings = sessionStorage.getItem('exam_grading_system')
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();
@@ -179,7 +179,9 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divSettingTag').classList.remove('hide');
     document.getElementById('divGeneralSettingTag').classList.remove('hide');
     document.getElementById('divManageFormTag').classList.remove('hide');
-    document.getElementById('divGradesTag').classList.remove('hide');
+    if(this.settings == '1'){
+      document.getElementById('divGradesTag').classList.remove('hide');
+    }
     if (this.isProfessional) {
       document.getElementById('divSlotTag').classList.remove('hide');
     }
@@ -204,7 +206,9 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divClassRoomTag').classList.add('hide');
     document.getElementById('divManageTag').classList.add('hide');
     document.getElementById('divAcademicTag').classList.add('hide');
-    document.getElementById('divGradesTag').classList.remove('hide');
+    if(this.settings == '1'){
+      document.getElementById('divGradesTag').classList.remove('hide');
+    }
     document.getElementById('divManageUsers').classList.add('hide');
   }
 
@@ -220,7 +224,9 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divGeneralSettingTag').classList.add('hide');
     document.getElementById('divManageFormTag').classList.add('hide');
     document.getElementById('divAreaAndMap').classList.add('hide');
-    document.getElementById('divGradesTag').classList.remove('hide');
+    if(this.settings == '1'){
+      document.getElementById('divGradesTag').classList.remove('hide');
+    }
     document.getElementById('divManageUsers').classList.add('hide');
   }
 

@@ -26,6 +26,14 @@ export class UserService {
         this.baseUrl = this.auth.getBaseUrl();
     }
 
+    getUserList(obj, active) {
+        let url = this.baseUrl + "/api/v1/profiles/all/" + this.institute_id + "?active=" + active;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
     getRoles() {
         let url = this.baseUrl + "/api/v1/roleApi/allRoles/" + this.institute_id;
         return this.http.get(url, { headers: this.headers }).map(
@@ -50,8 +58,8 @@ export class UserService {
         )
     }
 
-    getItemList() {
-        let url = this.baseUrl + "/api/v1/inventory/item/fetchForUserAllocation/" + this.institute_id;
+    getItemList(id) {
+        let url = this.baseUrl + "/api/v1/inventory/item/fetchForUserAllocation/" + id;
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
@@ -75,10 +83,27 @@ export class UserService {
         )
     }
 
+    deleteInventory(id) {
+        let url = this.baseUrl + "/api/v1/inventory/item/txHistory/" + id;
+        return this.http.delete(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
     createUser(obj) {
         obj.institute_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/profiles";
         return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    updateUserDetails(obj , id){
+        obj.institute_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/profiles/" + id;
+        return this.http.put(url, obj, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )

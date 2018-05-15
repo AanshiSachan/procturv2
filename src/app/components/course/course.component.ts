@@ -17,6 +17,7 @@ export class CourseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     this.removeSelectionFromSideNav();
     this.removeFullscreen();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -224,5 +225,5 @@ export class CourseComponent implements OnInit {
       this.switchActiveView('liManageBatch');
     }
   }
-
+ 
 }

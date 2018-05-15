@@ -87,6 +87,7 @@ export class ExamReportComponent implements OnInit {
   }
 
   ngOnInit() {
+   
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
@@ -624,7 +625,7 @@ export class ExamReportComponent implements OnInit {
 
     link.setAttribute('href', data_type + ',' + outer);
 
-    link.setAttribute('download', 'test.xls');
+    link.setAttribute('download', 'ExamReport.xls');
     link.click();
   }
 

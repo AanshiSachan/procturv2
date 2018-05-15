@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit {
 
   isProfessional:boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef ) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
