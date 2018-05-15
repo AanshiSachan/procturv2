@@ -19,7 +19,12 @@ import { HomeComponent } from './home/home.component';
                     {
                         path: 'dashboard',
                         component: HomeComponent
-                    }
+                    },
+                    {
+                        path: 'manage',
+                        loadChildren: 'app/components/activity-home/fee-activity/fee-activity.module#FeeActivityModule',
+                        pathMatch: 'prefix'
+                    },
                 ]
             }
         ])
