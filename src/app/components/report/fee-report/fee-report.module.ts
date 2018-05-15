@@ -23,6 +23,7 @@ import { PostFeeService } from '../../../services/report-services/fee-services/p
 
 import { FeeReportRoutingModule } from './fee-report-routing.module';
 import { FeeReportHomeComponent } from './fee-report-home/fee-report-home.component';
+import { AllDataReportComponent } from './all-data-report/all-data-report.component';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { FeeReportHomeComponent } from './fee-report-home/fee-report-home.compon
         NextDueDetailComponent,
         PaymentHistoryComponent,
         ViewDetailComponent,
-        FeeReportHomeComponent
+        FeeReportHomeComponent,
+        AllDataReportComponent
     ],
     entryComponents: [
         FeeReportHomeComponent,

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FeeReportComponent } from './fee-report.component';
 import {FeeReportHomeComponent} from './fee-report-home/fee-report-home.component'
 import { FeeCourseReportComponent } from './fee-course-report/fee-course-report.component';
-
+import {AllDataReportComponent} from './all-data-report/all-data-report.component';
 @NgModule({
     imports: [
         RouterModule.forChild([
@@ -14,15 +14,19 @@ import { FeeCourseReportComponent } from './fee-course-report/fee-course-report.
                 children: [
                     {
                         path: '',
-                        redirectTo: 'home'
+                        component:FeeReportHomeComponent
                     },
                     {
                         path: 'home',
+                        component: FeeReportHomeComponent
+                    },
+                    {
+                        path:'courseReport',
                         component: FeeCourseReportComponent
                     },
                     {
-                        path:'feeHome',
-                        component:FeeReportHomeComponent
+                        path:'allData',
+                        component: AllDataReportComponent
                     }
                 ]
             }

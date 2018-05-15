@@ -52,7 +52,8 @@ import { TopicsComponent } from './components/topics/topics.component';
 import { TopicServiceService} from './services/topic-service.service';
 import {FilterPipe} from './components/event-managment/filterpipe';
 import { MasterComponent } from './components/master/master.component';
-import { ManageExamModule } from './components/master/master.module';
+
+
 
 @NgModule({
   imports: [
@@ -61,7 +62,7 @@ import { ManageExamModule } from './components/master/master.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ManageExamModule,
+  
     HttpModule,
     BrowserAnimationsModule,
     Ng2SmartTableModule,TreeTableModule,
