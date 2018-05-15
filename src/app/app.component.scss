@@ -33,4 +33,14 @@
     background: #0084f6;
     width: 100%;
     height: 24px;
+    color: #fff;
+    ul{
+        list-style: none;
+        &.footer-list{
+            li{
+                display: inline-block;
+            }
+        }
+    }
+
 }
