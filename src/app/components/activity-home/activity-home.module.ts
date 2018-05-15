@@ -11,6 +11,8 @@ import 'hammerjs';
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
+import { ActivityPtmService } from '../../services/activity-ptmservice/activity-ptm.service';
+import { PtmManagementComponent } from './ptm-management/ptm-management.component';
 
 
 @NgModule({
@@ -27,11 +29,13 @@ import { HomeComponent } from './home/home.component';
     ],
     declarations: [
         ActivityHomeComponent,
-        HomeComponent
+        HomeComponent,
+        PtmManagementComponent
     ], 
     entryComponents: [        
     ],
     providers: [  
+        ActivityPtmService
     ]
 })
 export class ActivityHomeModule {

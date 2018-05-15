@@ -53,7 +53,6 @@ import { TopicServiceService } from './services/topic-service.service';
 import { FilterPipe } from './components/event-managment/filterpipe';
 import { MasterComponent } from './components/master/master.component';
 import { ManageExamModule } from './components/master/master.module';
-
 import { chatBotComponent } from './components/chatbot/chatbot.component';
 
 @NgModule({
@@ -63,7 +62,7 @@ import { chatBotComponent } from './components/chatbot/chatbot.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ManageExamModule,
+  
     HttpModule,
     BrowserAnimationsModule,
     Ng2SmartTableModule, TreeTableModule,
