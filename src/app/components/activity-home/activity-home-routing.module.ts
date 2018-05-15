@@ -21,8 +21,10 @@ import {ManageExamModule} from './ptm-management/ptm-manangement.module'
                         component: HomeComponent
                     },
                     {
-                        path:'ptm'
-                    }
+                        path: 'manage',
+                        loadChildren: 'app/components/activity-home/fee-activity/fee-activity.module#FeeActivityModule',
+                        pathMatch: 'prefix'
+                    },
                 ]
             }
         ])

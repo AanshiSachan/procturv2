@@ -86,6 +86,7 @@ import { MasterComponent } from './components/master/master.component';
                     loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
                     canLoad: [AuthGuard]
                 },
+               
                 {
                     path: 'help',
                     loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',

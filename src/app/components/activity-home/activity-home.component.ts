@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../../services/login-services/login.service';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-activity-home',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActivityHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private login: LoginService, private appC: AppComponent) { }
 
   ngOnInit() {
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.removeFullscreen();
     document.getElementById('lione').classList.remove('active');
     document.getElementById('litwo').classList.remove('active');
@@ -20,8 +24,6 @@ export class ActivityHomeComponent implements OnInit {
     document.getElementById('liseven').classList.remove('active');
     document.getElementById('lieight').classList.remove('active');
     document.getElementById('linine').classList.remove('active');
-    //document.getElementById('liten').classList.remove('active');
-    //document.getElementById('lieleven').classList.remove('active');
   }
 
 
