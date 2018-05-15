@@ -54,7 +54,7 @@ export class CoreHeaderComponent implements OnInit {
 
   ngOnInit() {
 
-    this.settings = sessionStorage.getItem('exam_grading_system');
+    this.settings = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();
