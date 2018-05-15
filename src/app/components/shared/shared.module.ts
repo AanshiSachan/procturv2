@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
 import { TableLayoutComponent } from './custom-table/table-layout.component';
 import { FormatCellPipe } from './custom-table/format-cell.pipe';
@@ -18,6 +18,8 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
 import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
 import { TooltipModule } from '../../../assets/imported_modules/ngx-bootstrap/tooltip';
+
+import { CustomizingPipe } from './ng-robAdvanceTable/customizing.pipe';
 
 /* Advanced Table Declaration */
 import { RobAdvanceTableComponent } from './ng-robAdvanceTable/ng-robAdvanceTable.component';
@@ -50,6 +52,7 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
         CommaSeprationAmount,
         ProcturPopUpComponent,
         SearchPipe,
+        CustomizingPipe,
         DropMenuComponent,
         RobTooltipComponent
     ],
@@ -65,6 +68,7 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
         CommaSeprationAmount,
         ProcturPopUpComponent,
         SearchPipe,
+        CustomizingPipe,
         DropMenuComponent,
         RobTooltipComponent
     ],
@@ -72,7 +76,8 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
         DropMenuComponent,
     ],
     providers: [
-        CurrencyPipe
+        CurrencyPipe,
+        DecimalPipe
     ]
 })
 export class SharedModule { }

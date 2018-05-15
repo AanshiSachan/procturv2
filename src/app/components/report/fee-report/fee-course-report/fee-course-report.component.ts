@@ -29,6 +29,7 @@ export class FeeCourseReportComponent implements OnInit {
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
   dataStatus: number = 3;
+  
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -180,6 +181,9 @@ export class FeeCourseReportComponent implements OnInit {
   batchSelected() {
     this.due_type = "-1";
     this.isCustomDate = false;
+    this.courseFetchForm.from_date = '';
+    this.courseFetchForm.to_date = '';
+    this.courseFetchForm.type = "0";
   }
 
 
@@ -468,6 +472,9 @@ export class FeeCourseReportComponent implements OnInit {
     this.courseFetchForm.subject_id = -1;
     this.courseFetchForm.batch_id = -1;
     this.isCustomDate = false;
+    this.courseFetchForm.from_date = '';
+    this.courseFetchForm.to_date = '';
+    this.courseFetchForm.type = "0";
     this.due_type = '-1';
     this.isRippleLoad = true;
     if (this.isProfessional) {
@@ -505,6 +512,9 @@ export class FeeCourseReportComponent implements OnInit {
     this.courseFetchForm.batch_id = -1;
     this.due_type = '-1';
     this.isCustomDate = false;
+    this.courseFetchForm.from_date = '';
+    this.courseFetchForm.to_date = '';
+    this.courseFetchForm.type = "0";
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -576,6 +586,9 @@ export class FeeCourseReportComponent implements OnInit {
       }
     }
     else if (this.courseFetchForm.standard_id == '-1' && this.courseFetchForm.subject_id == '-1' && this.courseFetchForm.batch_id == '-1') {
+      return true;
+    }
+    else if (this.courseFetchForm.standard_id == '-1' && this.courseFetchForm.subject_id == '-1' && this.courseFetchForm.batch_id != '-1') {
       return true;
     }
   }
@@ -659,8 +672,8 @@ export class FeeCourseReportComponent implements OnInit {
     this.courseFetchForm.standard_id = '-1';
     this.courseFetchForm.subject_id = '-1';
     this.courseFetchForm.batch_id = '-1';
-    this.getBatchCourseDetails();
     if (this.due_type == 'all_dues') {
+      this.getBatchCourseDetails();
       this.courseFetchForm.from_date = '';
       this.courseFetchForm.to_date = '';
       this.courseFetchForm.type = "0";
@@ -695,6 +708,7 @@ export class FeeCourseReportComponent implements OnInit {
       this.isCustomDate = true;
     }
     else if (this.due_type == '-1') {
+      this.getBatchCourseDetails();
       this.courseFetchForm.type = "0";
       this.isCustomDate = false;
     }
@@ -730,7 +744,7 @@ export class FeeCourseReportComponent implements OnInit {
     let temp = false;
 
     for (let key in e) {
-      if (String(e[key]).toLowerCase().indexOf(this.userInput.toLowerCase()) >= 0) {
+      if (String(e[key]).toLowerCase().includes(this.userInput.toLowerCase())) {
         temp = true;
         break;
       }

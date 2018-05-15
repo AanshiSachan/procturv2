@@ -28,7 +28,6 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
-
 // css for activity page
 .activity-page {
     background: #f2f2f2;
@@ -147,7 +146,7 @@ $color-highlight: lighten($color-base, 7%);
         min-height: 300px;
         max-height: 50vh;
         overflow-x: hidden;
-        overflow-y: visible;
+        overflow-y: auto;
     }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
@@ -211,23 +210,27 @@ $color-highlight: lighten($color-base, 7%);
                 color: black;
                 background: transparent;
                 font-size: 12px;
-                &:first-child{
+                &:first-child {
                     width: 5%;
                 }
-                &.enquiry_no{
-                    width: 9%;
+                &.Name {
+                    text-align: left;
                 }
-                &.updateDate{
-                    width: 22%;
+                &.Fee {
+                    text-align: right;
                 }
-                &.student_disp_id{
-                    width: 8%
+                &.Amount {
+                    text-align: right;
                 }
-                &.student_name{
-                    width: 25%;                    
+                &.Date {
+                    text-align: right;
                 }
-                &.noOfBatchesAssigned{
-                    width: 25%;
+                &.ID {
+                    width: 7%;
+                    text-align: right;
+                }
+                &.Dues {
+                    text-align: right;
                 }
             }
         }
@@ -242,9 +245,9 @@ $color-highlight: lighten($color-base, 7%);
             vertical-align: middle;
             font-weight: 600;
         }
-        &.ul-body{
-            &.selected{
-                transform: scale(1.01,1);
+        &.ul-body {
+            &.selected {
+                transform: scale(1.01, 1);
                 transition: 100ms ease-in;
                 background: #e3f7f5;
                 box-shadow: 0px 11px 8px -10px #CCC, 0px -11px 13px -9px #CCC;
@@ -255,29 +258,38 @@ $color-highlight: lighten($color-base, 7%);
                 text-transform: capitalize;
                 color: black;
                 font-size: 12px;
-                &:first-child{
+                &:first-child {
                     width: 5%;
                 }
-                &.enquiry_no{
-                    width: 9%;
+                &.Name {
+                    text-align: left;
                 }
-                &.updateDate{
-                    width: 22%;
+                &.Fee {
+                    text-align: right;
                 }
-                &.student_disp_id{
-                    width: 8%
+                &.Amount {
+                    text-align: right;
+                    .Paid{
+                        color: #0084f6;
+                    }
                 }
-                &.student_name{
-                    width: 25%;                    
+                &.Date {
+                    text-align: right;
                 }
-                &.noOfBatchesAssigned{
-                    width: 25%;
+                &.ID {
+                    width: 7%;
+                    text-align: right;
+                }
+                &.Dues {
+                    text-align: right;
+                    &.Past{
+                        color: #ff0000;
+                    }
                 }
                 &.option-menu{
-                    padding: 0px;
-                    position: relative;
+                    padding: 5px 10px 5px;
                 }
-            }   
+            }
         }
         &.ct-ongoing {
             .class-type-status {
@@ -316,7 +328,6 @@ $color-highlight: lighten($color-base, 7%);
         }
     }
 }
-
 
 .general-s-bottom {
     ul {
@@ -380,28 +391,6 @@ $color-highlight: lighten($color-base, 7%);
     font-weight: 500;
 }
 
-.fee-li {
-    position: relative;
-    padding-left: 33px;
-    margin-bottom: 8px;
-}
-
-.fee-li:last-child {
-    margin-bottom: 0;
-}
-
-.fee-li p {
-    margin: 0;
-    color: #666;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 500;
-}
-
-.fee-li .btn {
-    margin-top: 15px;
-}
-
 .n-icon {
     position: absolute;
     left: 9px;
@@ -417,213 +406,7 @@ $color-highlight: lighten($color-base, 7%);
 }
 
 
-.notification-list:first-child {
-    padding-top: 15px;
-}
 
-.notification-list {
-    padding: 3px 0px 15px 0px;
-    position: relative;
-}
-
-.notification-list:before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    width: 0px;
-    height: calc( 100% - 27px);
-    top: 24px;
-    border-left: 2px dotted rgba(25, 31, 34, 0.156863);
-}
-
-.notification-list:first-child:before {
-    height: calc( 100% - 44px);
-    top: 44px;
-}
-
-.notification-list>div.n-date {
-    padding: 0 0px 10px;
-}
-
-.pink-color {
-    background-color: #c277cb;
-}
-
-.timeline {
-    text-align: center;
-}
-
-.timeline ul li a {
-    text-decoration: none;
-    font-size: 14px;
-    color: rgba(31, 34, 40, 0.5);
-    font-weight: 400;
-    padding: 6px 5px 5px;
-    display: block;
-    position: relative;
-    z-index: 11;
-    transition: all 0.3s ease-in-out;
-}
-
-.timeline ul {
-    text-align: center;
-    font-size: 0;
-    margin: 0;
-    position: relative;
-}
-
-.timeline ul li {
-    display: inline-block;
-    width: 50%;
-    position: relative;
-}
-
-.timeline ul:after {
-    content: '';
-    width: 55%;
-    height: 124%;
-    position: absolute;
-    left: -2px;
-    top: -5px;
-    /* transition: all 0.3s ease-in-out; */
-    background: #5ad5e8;
-    border-radius: 100px;
-}
-
-.timeline ul.timelineActive:after {
-    /* left: -2px; */
-    animation: tabAnimationReverse 0.6s ease-in-out forwards;
-}
-
-.timeline ul.chatActive:after {
-    /* left: 47%; */
-    animation: tabAnimation 0.6s ease-in-out forwards;
-}
-
-.timeline ul.chatActive .chat-tab a,
-.timeline ul.timelineActive .timeline-tab a {
-    color: #fff;
-}
-
-.activity-right-sec {
-    padding: 24px 10px 24px 24px;
-    max-height: 390px;
-    overflow: auto;
-}
-
-.activity-right-sec {
-    h3 {
-        color: #414141;
-        margin-bottom: 10px;
-    }
-}
-
-.activity-right-sec-bottom {
-    border-top: 2px solid rgba(151, 151, 151, 0.5);
-    margin-top: 10px;
-    padding: 14px 10px 10px 25px;
-    .todo-top {
-        padding-bottom: 15px;
-        h3 {
-            padding-top: 3px;
-        }
-        span {
-            float: right;
-            font-size: 14px;
-            color: #666;
-            padding-top: 2px;
-            dfn {
-                font-style: normal;
-            }
-            dfn,
-            svg {
-                display: inline-block;
-                vertical-align: middle;
-            }
-        }
-    }
-}
-
-.todo-tab {
-    margin: 0 -20px;
-    border-bottom: 2px solid rgba(151, 151, 151, 0.1);
-    padding: 10px 20px 0px;
-    margin-bottom: 15px;
-    li {
-        float: left;
-        width: 50%;
-        text-align: center;
-        font-size: 12px;
-        color: #414141;
-        font-weight: 600;
-        cursor: pointer;
-        span {
-            display: inline-block;
-            border-bottom: 3px solid transparent;
-            padding-bottom: 10px;
-            padding-top: 10px;
-            text-transform: uppercase;
-        }
-        &.active {
-            span {
-                color: #0084f6;
-                border-bottom: 3px solid #0084f6;
-            }
-        }
-    }
-}
-
-.assign-task-list {
-    max-height: 350px;
-    overflow: auto;
-    .field-checkbox-wrapper,
-    .field-radio-wrapper {
-        position: relative;
-        padding-left: 33px;
-        margin-bottom: 18px;
-        line-height: 19px;
-        .form-checkbox:checked+label:before {
-            border-color: #fff;
-            z-index: 1;
-        }
-        .form-checkbox:checked+label:after {
-            border-color: #78dd95;
-            background: #78dd95;
-        }
-        .form-checkbox:checked+label {
-            color: rgba(0, 0, 0, 0.4);
-            text-decoration: line-through;
-        }
-    }
-}
-
-.tab-content-inner {
-    &>li {
-        position: relative;
-        &:before {
-            content: '';
-            width: 100%;
-            position: absolute;
-            bottom: 0;
-            height: 43px;
-            background: #fff;
-            opacity: 0.7;
-            left: 0;
-            z-index: 1;
-        }
-    }
-    .btn {
-        max-width: 220px;
-        width: 100%;
-        border-radius: 4px;
-        height: 40px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 2;
-    }
-}
 
 @media only screen and (max-width: 1200px) {
     .activity-left {

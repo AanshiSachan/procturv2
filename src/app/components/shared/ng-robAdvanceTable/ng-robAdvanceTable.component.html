@@ -7,6 +7,7 @@
                         <div>
                             <div class="schedule-bottom">
 
+
                                 <ul class="sche-head">
                                     <li *ngIf="isMulti">
                                         <div class="field-checkbox-wrapper" style="background: transparent;">
@@ -15,9 +16,9 @@
                                             <label></label>
                                         </div>
                                     </li>
-                                    <li class="{{map.primaryKey}}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)">
+                                    <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)">
                                         {{ map.header }}
-                                        <!-- <div *ngIf="isSorted(map)" style="display: inline-block">
+                                        <div *ngIf="isSorted(map)" style="display: inline-block">
                                             <div *ngIf="asc;then ascending else descending">
                                             </div>
                                             <ng-template #ascending>
@@ -26,13 +27,14 @@
                                             <ng-template #descending>
                                                 <div class="fa fa-caret-up"></div>
                                             </ng-template>
-                                        </div> -->
+                                        </div>
                                     </li>
                                     <li *ngIf="hasMenu"></li>
                                 </ul>
 
+
                                 <div class="schedule-scroller" *ngIf="records.length != 0">
-                                    <ul class="ul-body ct-ongoing" *ngFor="let record of records; let i = index;" [class.selected]="i == selectedRow">
+                                    <ul class="ul-body ct-ongoing" *ngFor="let record of recordsTrimmed; let i = index;" [class.selected]="i == selectedRow">
                                         <li *ngIf="isMulti">
                                             <div class="field-checkbox-wrapper" style="background: transparent;">
                                                 <input type="checkbox" name="recordcb[]" value="" name="check" class="rowCheckbox form-checkbox" [(ngModel)]="record.uiSelected"
@@ -40,8 +42,8 @@
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li class="{{map.primaryKey}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record)">
-                                            {{ record[map.access(record)]}}
+                                        <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record)">
+                                            {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header }}
                                         </li>
                                         <li class="option-menu" *ngIf="hasMenu">
                                             <drop-menu [info]="record" [menuOptions]="menuOptions" (selectedRecord)="recordSelected($event)"></drop-menu>
@@ -78,6 +80,7 @@
                                         </li>
                                     </ul>
                                 </div>
+
                             </div>
                         </div>
                     </li>
@@ -86,3 +89,8 @@
         </div>
     </section>
 </section>
+
+<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+[page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
+[count]="recordCount">
+</pagination>
