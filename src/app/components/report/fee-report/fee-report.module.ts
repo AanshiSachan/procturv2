@@ -22,6 +22,7 @@ import { GetFeeService } from '../../../services/report-services/fee-services/ge
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 
 import { FeeReportRoutingModule } from './fee-report-routing.module';
+import { FeeReportHomeComponent } from './fee-report-home/fee-report-home.component';
 
 @NgModule({
     imports: [
@@ -41,9 +42,11 @@ import { FeeReportRoutingModule } from './fee-report-routing.module';
         FeeReceiptComponent,
         NextDueDetailComponent,
         PaymentHistoryComponent,
-        ViewDetailComponent
+        ViewDetailComponent,
+        FeeReportHomeComponent
     ],
     entryComponents: [
+        FeeReportHomeComponent,
         FeeReceiptComponent,
         NextDueDetailComponent,
         PaymentHistoryComponent,

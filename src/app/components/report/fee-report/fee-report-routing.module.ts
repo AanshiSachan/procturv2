@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FeeReportComponent } from './fee-report.component';
+import {FeeReportHomeComponent} from './fee-report-home/fee-report-home.component'
 import { FeeCourseReportComponent } from './fee-course-report/fee-course-report.component';
 
 @NgModule({
@@ -18,6 +19,10 @@ import { FeeCourseReportComponent } from './fee-course-report/fee-course-report.
                     {
                         path: 'home',
                         component: FeeCourseReportComponent
+                    },
+                    {
+                        path:'feeHome',
+                        component:FeeReportHomeComponent
                     }
                 ]
             }
