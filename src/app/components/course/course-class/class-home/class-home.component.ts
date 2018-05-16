@@ -728,4 +728,7 @@ export class ClassHomeComponent implements OnInit {
     this.router.navigateByUrl('course/class/add');
   }
 
+printTimeTableData(){
+
+}
 }

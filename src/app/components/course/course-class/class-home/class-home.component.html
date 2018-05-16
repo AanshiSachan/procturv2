@@ -129,8 +129,7 @@
                         <label for="sc">Select Course</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
-                          <option [value]="course.course_id" *ngFor="let course of courseList.coursesList
-                                                                        ">
+                          <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
                             {{course.course_name}}
                           </option>
                         </select>
@@ -164,8 +163,7 @@
                   </div>
                 </div>
 
-                <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterCourse()" style="margin-top:1%;">
-
+                <input type="button" class="fullBlue btn" value="View" (click)="submitMasterCourse()" style="margin-top:1%;">
 
               </div>
 
@@ -402,9 +400,10 @@
               <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
               <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">
             </aside>
+            <input type="button" class="fullBlue btn" value="Print Time Table" (click)="printTimeTableData()">
+            
           </div>
         </div>
-
       </div>
     </div>
   </div>
