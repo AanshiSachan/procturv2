@@ -30,6 +30,8 @@ import { OnlinePaymentHistoryComponent } from './online-payment-history/online-p
 import { ChequeReportComponent } from './cheque-report/cheque-report.component';
 import { DiscountReportComponent } from './discount-report/discount-report.component';
 import { FeeTypeReportComponent } from './fee-type-report/fee-type-report.component';
+import { PaymentHistoryMainComponent } from './payment-history-main/payment-history-main.component';
+import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
 
 @NgModule({
     imports: [
@@ -57,7 +59,8 @@ import { FeeTypeReportComponent } from './fee-type-report/fee-type-report.compon
         OnlinePaymentHistoryComponent,
         ChequeReportComponent,
         DiscountReportComponent,
-        FeeTypeReportComponent
+        FeeTypeReportComponent,
+        PaymentHistoryMainComponent
     ],
     entryComponents: [
         FeeReportHomeComponent,
@@ -68,7 +71,8 @@ import { FeeTypeReportComponent } from './fee-type-report/fee-type-report.compon
     ],
     providers: [
         GetFeeService,
-        PostFeeService
+        PostFeeService,
+        PaymentHistoryMainService
     ],
     exports: [
     ]

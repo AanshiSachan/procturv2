@@ -1,0 +1,183 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="report-wrapper clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+      <div class="middle-top mb0 clearFix header">
+        <div class="report-header" style="padding-bottom:1%">
+          <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/reports/fee">
+              Report
+              <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
+          </h2>
+          <div class="row" style="padding-top:16px;margin-top:16px;">
+            <div class="c-lg-3 field-wrapper datePickerBox">
+              <label for=from>From Date</label>
+              <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+            </div>
+            <div class="c-lg-3 field-wrapper datePickerBox">
+              <label for=from>To Date</label>
+              <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+            </div>
+            <div class="c-lg-1 field-radio-wrapper" style="margin-top:32px;">
+              <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="0">
+              <label for=from>Active</label>
+            </div>
+            <div class="c-lg-1 field-radio-wrapper" style="margin-top:32px;">
+              <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="2">
+              <label for=from>All Students</label>
+            </div>
+            <div class="c-lg-1 field-radio-wrapper" style="margin-top:32px;">
+              <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="1">
+              <label for=from>Others</label>
+            </div>
+            <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
+              <input type="button" class="btn fullBlue" id="to" value="GO" (click)=" getAllPaymentHistory()">
+            </div>
+          </div>
+        </div>
+        <div *ngIf="showPaymentBox">
+          <div class="filter-box">
+            <div id="basic-search" style="margin:5px; float:right;">
+              <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+            </div>
+          </div>
+          <div class="table table-responsive scroller">
+
+            <div class="form">
+              <table>
+                <thead>
+                  <tr>
+                    <th (click)="sortedData('student_disp_id')">
+                      Id &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
+                    </th>
+                    <th  (click)="sortedData('student_name')">
+                      Name &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_name') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_name') && direction != 1"></i>
+                    </th>
+                    <th  (click)="sortedData('display_invoice_no')">
+                      Reciept No. &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('display_invoice_no') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('display_invoice_no') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('paymentMode')">
+                      Payment Mode &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('paymentMode') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('paymentMode') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('fee_type_name')">
+                      Fee Type &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('fee_type_name') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('fee_type_name') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('installment_nos')">
+                      Installment No. &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('installment_nos') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('installment_nos') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('paid_date')">
+                      Paid Date &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('paid_date') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('paid_date') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('remarks')">
+                      Remarks &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('remarks') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('remarks') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('reference_no')">
+                      Reference No.  &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('reference_no') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('reference_no') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('amount_paid_inRs')">
+                      Amount Paid(in RS.) &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('amount_paid_inRs') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('amount_paid_inRs') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('student_category')">
+                      Student Category &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_category') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_category') && direction != 1"></i>
+                    </th>
+                    <th (click)="sortedData('enquiry_councellor_name')">
+                      Counsellor &nbsp;
+                      <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('enquiry_councellor_name') && direction == 1"></i>
+                      <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('enquiry_councellor_name') && direction != 1"></i>
+                    </th>
+                    <th>
+                      Edit
+                    </th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="paginatedPayment.length!=0">
+                  <tr *ngFor="let i of paginatedPayment">
+                    <td>
+                      {{i.student_disp_id}}
+                    </td>
+                    <td>
+                      {{i.student_name}}
+                    </td>
+                    <td>
+                      {{i.display_invoice_no}}
+                    </td>
+                    <td>
+                      {{i.paymentMode}}
+                    </td>
+                    <td>
+                      {{i.fee_type_name}}
+                    </td>
+                    <td>
+                      {{i.installment_nos}}
+                    </td>
+                    <td>
+                      {{i.paid_date}}
+                    </td>
+                    <td>
+                      {{i.remarks}}
+                    </td>
+                    <td>
+                      {{i.reference_no}}
+                    </td>
+                    <td>
+                      {{i.amount_paid_inRs}}
+                    </td>
+                    <td>
+                      {{i.student_category}}
+                    </td>
+                    <td>
+                      {{i.enquiry_councellor_name}}
+                    </td>
+                    <td>
+                      <a>Edit</a>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="paginatedPayment.length == 0">
+                  <tr>
+                    <td colspan="13" style="font-weight:bold; font-size:20px;">
+                      No Records Found
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="row filter-res pagination" style="width: 100%;">
+                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                  <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                    [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                  </pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </aside>
+</div>
