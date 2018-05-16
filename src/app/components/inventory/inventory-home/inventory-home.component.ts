@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
 
 
   checkMainBranchOrSubBranch() {
-    let sessionData = JSON.parse(sessionStorage.getItem('institute_info')).is_main_branch;
+    let sessionData = sessionStorage.getItem('is_main_branch');
     if (sessionData == "Y") {
       this.showAllocateOption = true;
     } else {
@@ -526,7 +526,7 @@ export class HomeComponent implements OnInit {
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
     if (this.ActionInv.nativeElement.contains(event.target)) {
-       //console.log("clicked inside table");
+      //console.log("clicked inside table");
     } else {
       if (document.getElementById('menuList' + this.selectedRow) != null) {
         document.getElementById('menuList' + this.selectedRow).classList.add('hide');

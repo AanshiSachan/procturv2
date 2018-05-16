@@ -54,6 +54,7 @@ import { FilterPipe } from './components/event-managment/filterpipe';
 import { MasterComponent } from './components/master/master.component';
 import { ManageExamModule } from './components/master/master.module';
 import { chatBotComponent } from './components/chatbot/chatbot.component';
+import { MultiBranchDataService } from './services/multiBranchdata.service';
 
 @NgModule({
   imports: [
@@ -105,7 +106,8 @@ import { chatBotComponent } from './components/chatbot/chatbot.component';
     ClassRoomService,
     EventManagmentService,
     TopicServiceService,
-    Title
+    Title,
+    MultiBranchDataService
   ],
   bootstrap: [AppComponent]
 })

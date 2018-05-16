@@ -293,6 +293,9 @@ export class LoginPageComponent {
       sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
       sessionStorage.setItem('logo_url', institute_data.logo_url);
       sessionStorage.setItem('permitted_roles', JSON.stringify(res.data.featureDivMapping));
+      sessionStorage.setItem('is_exam_grad_feature', institute_data.is_exam_grad_feature);
+      sessionStorage.setItem('enable_routing', institute_data.enable_routing);
+      sessionStorage.setItem('enable_online_payment_feature', institute_data.enable_online_payment_feature);
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
@@ -554,7 +557,7 @@ export class LoginPageComponent {
   createRoleBasedSidenav() {
     this.auth.currentInstituteId.subscribe(id => {
       /* If Id has been updated to the services then proceed */
-      if(id != null){
+      if (id != null) {
         if (sessionStorage.getItem('userType') == '0') {
           this.login.changeSidenavStatus('authorized');
           this.route.navigateByUrl('home');
@@ -571,7 +574,7 @@ export class LoginPageComponent {
         }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
-      else{
+      else {
         this.auth.changeAuthenticationKey(sessionStorage.getItem('Authorization'));
         this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
         this.createRoleBasedSidenav();
