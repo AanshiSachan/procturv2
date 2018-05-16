@@ -1,6 +1,9 @@
 // css for activity page
 .activity-page {
     background: #f2f2f2;
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .activity-left {

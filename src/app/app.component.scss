@@ -99,3 +99,20 @@
     }
   }
 
+  
+    ul{
+        list-style: none;
+        &.footer-list{
+            li{
+                display: inline-block;
+                margin: 5px 20px 0px;
+                i{
+                    font-family: FontAwesome;
+                }
+            }
+        }
+    }
+    a{
+        color: #fff;
+    }
+

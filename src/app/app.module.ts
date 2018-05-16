@@ -65,7 +65,7 @@ import {ZendAuth} from './services/Chat-bot/chatbot.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ManageExamModule,
+  
     HttpModule,
     HelpHomeModule,
     BrowserAnimationsModule,

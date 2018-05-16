@@ -1,3 +1,4 @@
+
 import {Component,NgModule} from '@angular/core'; 
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
@@ -8,6 +9,9 @@ import { LoginService } from '../../services/login-services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
+import { ViewChild, ElementRef} from '@angular/core'; 
+
+
 
 @Component({
     selector: 'app-chatbot',
