@@ -1,11 +1,22 @@
-<section class="bot-wrapper">
-    <div class="trigger">
-        <a class="button-block">
-            Need Help
-            <span class="arrow arrow-top"></span>
-        </a>
+
+<section class="middle-main clearFix" id="middleMain">
+    <div class="add-new-enquiry-form accordian-section">
+
+
+        <div class="field-wrapper" style="padding-top:16px">
+            <label for="Subject" >Subject</label>
+            <input type="text" value="" class="form-ctrl  shift-label" name="Subject" [(ngModel)]="payload.ticket.subject">
+        </div>
+
+
+        <div class="field-wrapper">
+            <label for="Description">Description</label>
+            <input type="text" value=""  class="form-ctrl shift-label" name="Description" [(ngModel)]="payload.ticket.description">
+        </div>
+        <div>
+        <button class="btn fullBlue btnclass right-shift" (click)="posterData()">Submit</button>
+        <i class="far fa-arrow-alt-circle-right"></i>
     </div>
-    <div class="help-form active">
-        <div class="row"></div>
+
     </div>
 </section>

@@ -39,10 +39,8 @@ export class ZendAuth {
         return this.http.post(url, data, { headers: header }).map(
             data => {
                 return data;
-            },
-            error => {
-                return error;
             }
+          
         )
     }
 

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { ZendAuth } from '../../../services/Help-Service/help.service';
+//import { ZendAuth } from '../../../services/Help-Service/help.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router, private auth: ZendAuth, private appC: AppComponent, private login: LoginService, ) {
+  constructor(private router: Router,  private appC: AppComponent, private login: LoginService, ) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -40,26 +40,26 @@ export class HomeComponent implements OnInit {
   }
 
 
-  ZendeskLogin() {
-    this.auth.ZendeskAuth(this.payload).subscribe(
+//   ZendeskLogin() {
+//     this.auth.ZendeskAuth(this.payload).subscribe(
 
-      (data: any) => {
-      },
-      error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
-      }
-    )
-  }
+//       (data: any) => {
+//       },
+//       error => {
+//         let msg = {
+//           type: "error",
+//           title: "",
+//           body: "An Error Occured"
+//         }
+//         this.appC.popToast(msg);
+//       }
+//     )
+//   }
 
-  posterData() {
-    this.ZendeskLogin();
-  }
-}
+//   posterData() {
+//     this.ZendeskLogin();
+//   }
+ }
 
 
 

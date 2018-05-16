@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     timeout: 5000,
     mouseoverTimerStop: true,
   });
-
+  helpLoader: boolean = false;
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   searchResult: any[] = [];
@@ -86,6 +86,7 @@ export class AppComponent implements OnInit {
         }
       }
     });
+     
 
     this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
@@ -237,6 +238,15 @@ export class AppComponent implements OnInit {
     }
   }
 
+  helpToggle() {
+    console.log("hiii");
+   if(this.helpLoader){
+     this.helpLoader=false;
+   }
+   else{
+     this.helpLoader=true;
+   }
+  }
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
   }
