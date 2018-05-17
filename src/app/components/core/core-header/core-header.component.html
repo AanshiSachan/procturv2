@@ -247,7 +247,7 @@
                                 <a routerLink="/academic">Academic Year</a>
                               </span>
                             </li>
-                            <li id="divGradesTag" *ngIf="settings==1">
+                            <li id="divGradesTag" [ngClass]="{'hide' : settings==1}">
                               <span>
                                 <a routerLink="/master">Manage exam grades</a>
                               </span>
@@ -256,7 +256,7 @@
                         </div>
                       </li>
 
-                      <li style="display: none" class="" id="divManageUsers">
+                      <li class="" id="divManageUsers">
                         <strong>
                           <a routerLink="/manage">Manage Users</a>
                         </strong>

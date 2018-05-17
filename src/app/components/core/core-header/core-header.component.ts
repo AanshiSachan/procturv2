@@ -51,6 +51,10 @@ export class CoreHeaderComponent implements OnInit {
 
   private userInput: string;
 
+  branchesList: any = [];
+  mainBranchId: any = "";
+  isMainBranch: any = "N";
+
   constructor(
     private log: LoginService,
     private router: Router,
@@ -62,7 +66,7 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.settings = sessionStorage.getItem('exam_grading_system')
+    this.settings = sessionStorage.getItem('is_exam_grad_feature');
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();
@@ -87,10 +91,14 @@ export class CoreHeaderComponent implements OnInit {
         this.filterGlobal(data.userInput)
       });
 
-    this.isMainBranch = sessionStorage.getItem('is_main_branch');
-    if (this.isMainBranch == "Y") {
-      this.multiBranchInstituteFound();
-    }
+    this.auth.isMainBranch.subscribe(
+      (value: any) => {
+        this.isMainBranch = value;
+        if (this.isMainBranch == "Y") {
+          this.multiBranchInstituteFound();
+        }
+      }
+    )
 
   }
 
@@ -418,10 +426,6 @@ export class CoreHeaderComponent implements OnInit {
 
   // Multi Branch Case Handling
 
-  branchesList: any = [];
-  mainBranchId: any = "";
-  isMainBranch: any = "N";
-
   multiBranchInstituteFound() {
     this.mainBranchId = sessionStorage.getItem('institute_id');
 
@@ -441,7 +445,10 @@ export class CoreHeaderComponent implements OnInit {
     this.auth.changeInstituteId(data.institute_id);
     this.multiBranchService.getSubBranchLoginInfo(data.institute_id).subscribe(
       res => {
-        this.alternateLoginSuccess(res);
+        this.fillSessionStorageCommonFields(res);
+        sessionStorage.setItem('mainBranchId', this.mainBranchId);
+        sessionStorage.setItem('permissions', '');
+        this.router.navigateByUrl('/');
       },
       err => {
 
@@ -449,18 +456,34 @@ export class CoreHeaderComponent implements OnInit {
     )
   }
 
-  alternateLoginSuccess(res) {
+
+  loginToMainBranch() {
+    let mainBranchId = sessionStorage.getItem('mainBranchId');
+    this.multiBranchService.loginToMainBranch(mainBranchId).subscribe(
+      res => {
+        debugger
+        this.fillSessionStorageCommonFields(res);
+        this.mainBranchLogin(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  mainBranchLogin(res) {
+    sessionStorage.setItem('religion_feature', res.religion_feature);
+    this.router.navigateByUrl('/');
+  }
+
+
+  fillSessionStorageCommonFields(res) {
     sessionStorage.clear();
-    sessionStorage.setItem('mainBranchId', this.mainBranchId);
-    sessionStorage.setItem('institute_info', JSON.stringify(res.institute_info));
     let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
-
     sessionStorage.setItem('Authorization', Authorization);
-    sessionStorage.setItem('institute_id', res.institution_id);
-
     this.auth.changeAuthenticationKey(Authorization);
+    sessionStorage.setItem('institute_id', res.institution_id);
     this.auth.changeInstituteId(res.institution_id);
-
     sessionStorage.setItem('accountId', res.accountId);
     sessionStorage.setItem('alternate_email_id', res.alternate_email_id);
     sessionStorage.setItem('biometric_attendance_feature', res.biometric_attendance_feature);
@@ -472,12 +495,11 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('is_exam_grad_feature', res.is_exam_grad_feature);
     sessionStorage.setItem('inst_email', res.inst_email);
     sessionStorage.setItem('inst_phone', res.inst_phone);
-    sessionStorage.setItem('institute_setup_type', res.institute_setup_type);
     sessionStorage.setItem('institute_type', res.institute_type);
     sessionStorage.setItem('institute_name', res.institute_name);
     sessionStorage.setItem('is_campaign_message_approve_feature', res.is_campaign_message_approve_feature);
-    sessionStorage.setItem('allow_sms_approve_feature', res.allow_sms_approve_feature);
     sessionStorage.setItem('is_main_branch', res.is_main_branch);
+    this.auth.isMainBranch.next(res.is_main_branch);
     sessionStorage.setItem('is_student_bulk_upload_byClient', res.is_student_bulk_upload_byClient);
     sessionStorage.setItem('is_student_mgmt_flag', res.is_student_mgmt_flag);
     sessionStorage.setItem('login_teacher_id', res.login_teacher_id);
@@ -492,104 +514,14 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('username', res.username);
     sessionStorage.setItem('userid', res.userid);
     sessionStorage.setItem('message', res.message);
-    sessionStorage.setItem('name', res.name);
     sessionStorage.setItem('about_us_text', res.about_us_text);
     sessionStorage.setItem('inst_announcement', res.inst_announcement);
     sessionStorage.setItem('logo_url', res.logo_url);
     sessionStorage.setItem('permitted_roles', JSON.stringify(res.featureDivMapping));
-    sessionStorage.setItem('is_exam_grad_feature', res.is_exam_grad_feature);
     sessionStorage.setItem('enable_routing', res.enable_routing);
     sessionStorage.setItem('enable_online_payment_feature', res.enable_online_payment_feature);
-    sessionStorage.setItem('permissions', '');
-    this.router.navigateByUrl('/');
-  }
-
-  loginToMainBranch() {
-    debugger
-    let mainBranchId = sessionStorage.getItem('mainBranchId');
-    this.multiBranchService.loginToMainBranch(mainBranchId).subscribe(
-      res => {
-        this.mainBranchLogin(res);
-      },
-      err => {
-        console.log(err);
-      }
-    )
-  }
-
-  mainBranchLogin(res) {
-    sessionStorage.clear();
-    sessionStorage.setItem('institute_info', JSON.stringify(res.data));
-    let institute_data = res;
-    let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-    sessionStorage.setItem('Authorization', Authorization);
-    sessionStorage.setItem('institute_id', institute_data.institution_id);
-    this.auth.changeAuthenticationKey(Authorization);
-    this.auth.changeInstituteId(institute_data.institution_id);
-    sessionStorage.setItem('about_us_image', institute_data.about_us_image);
-    sessionStorage.setItem('about_us_text', institute_data.about_us_text);
-    sessionStorage.setItem('accountId', institute_data.accountId);
-    sessionStorage.setItem('alternate_email_id', institute_data.alternate_email_id);
-    sessionStorage.setItem('biometric_attendance_feature', institute_data.biometric_attendance_feature);
-    sessionStorage.setItem('courseType', institute_data.courseType);
-    sessionStorage.setItem('course_structure_flag', institute_data.course_structure_flag);
-    sessionStorage.setItem('enable_fee_payment_mandatory_student_creation', institute_data.enable_fee_payment_mandatory_student_creation);
-    sessionStorage.setItem('enable_fee_templates', institute_data.enable_fee_templates);
-    sessionStorage.setItem('enable_tax_applicable_fee_installments', institute_data.enable_tax_applicable_fee_installments);
-    sessionStorage.setItem('exam_grading_system', institute_data.exam_grading_system);
-    sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
-    sessionStorage.setItem('fee_functionality', institute_data.fee_functionality);
-    sessionStorage.setItem('fetaures_map', institute_data.fetaures_map);
-    sessionStorage.setItem('inst_email', institute_data.inst_email);
-    sessionStorage.setItem('inst_phone', institute_data.inst_phone);
-    sessionStorage.setItem('inst_reg_code', institute_data.inst_reg_code);
-    sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
-    sessionStorage.setItem('institute_type', institute_data.institute_type);
-    sessionStorage.setItem('institution_footer', institute_data.institution_footer);
-    sessionStorage.setItem('institution_header1', institute_data.institution_header1);
-    sessionStorage.setItem('institution_header2', institute_data.institution_header2);
-    sessionStorage.setItem('institution_header3', institute_data.institution_header3);
-    sessionStorage.setItem('institution_logo', institute_data.institution_logo);
-    sessionStorage.setItem('institution_name', institute_data.institution_name);
-    sessionStorage.setItem('institute_name', institute_data.institute_name);
-    sessionStorage.setItem('is_campaign_message_approve_feature', institute_data.is_campaign_message_approve_feature);
-    // sessionStorage.setItem('allow_sms_approve_feature', res.data.allow_sms_approve_feature);
-    sessionStorage.setItem('is_main_branch', institute_data.is_main_branch);
-    sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
-    sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
-    sessionStorage.setItem('login_student_id', institute_data.login_student_id);
-    sessionStorage.setItem('login_teacher_id', institute_data.login_teacher_id);
-    // sessionStorage.setItem('manual_student_disp_id', institute_data.manual_student_disp_id);
-    sessionStorage.setItem('name', institute_data.name);
-    // sessionStorage.setItem('online_payment_feature', institute_data.online_payment_feature);
-    sessionStorage.setItem('password', institute_data.password);
-    // sessionStorage.setItem('promoCode', institute_data.promoCode);
-    sessionStorage.setItem('religion_feature', institute_data.religion_feature);
-    sessionStorage.setItem('student_report_card_fee_module', institute_data.student_report_card_fee_module);
-    sessionStorage.setItem('studwise_fee_mod_with_amt', institute_data.studwise_fee_mod_with_amt);
-    // sessionStorage.setItem('tag_line', institute_data.tag_line);
-    sessionStorage.setItem('test_feature', institute_data.test_feature);
-    sessionStorage.setItem('testprepEnabled', institute_data.testprepEnabled);
-    // sessionStorage.setItem('userCat', institute_data.userCat);
-    // sessionStorage.setItem('userTimeGrp', institute_data.userTimeGrp);
-    sessionStorage.setItem('userType', institute_data.userType);
-    this.log.changeUserType(institute_data.userType);
-    // sessionStorage.setItem('user_permission', institute_data.user_permission);
-    // sessionStorage.setItem('user_type_name', institute_data.user_type_name);
-    sessionStorage.setItem('username', institute_data.username);
-    sessionStorage.setItem('userid', institute_data.userid);
-    sessionStorage.setItem('message', institute_data.message);
-    sessionStorage.setItem('name', institute_data.name);
-    // sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
-    sessionStorage.setItem('about_us_text', institute_data.about_us_text);
-    // sessionStorage.setItem('mobile_no', institute_data.mobile_no);
-    sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
-    sessionStorage.setItem('logo_url', institute_data.logo_url);
-    sessionStorage.setItem('permitted_roles', JSON.stringify(res.featureDivMapping));
-    sessionStorage.setItem('is_exam_grad_feature', institute_data.is_exam_grad_feature);
-    sessionStorage.setItem('enable_routing', institute_data.enable_routing);
-    sessionStorage.setItem('enable_online_payment_feature', institute_data.enable_online_payment_feature);
-    this.router.navigateByUrl('/');
+    sessionStorage.setItem('institute_setup_type', res.institute_setup_type);
+    sessionStorage.setItem('allow_sms_approve_feature', res.allow_sms_approve_feature);
   }
 
 }

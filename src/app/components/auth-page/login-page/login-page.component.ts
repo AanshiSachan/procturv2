@@ -261,6 +261,7 @@ export class LoginPageComponent {
       sessionStorage.setItem('is_campaign_message_approve_feature', institute_data.is_campaign_message_approve_feature);
       sessionStorage.setItem('allow_sms_approve_feature', res.data.allow_sms_approve_feature);
       sessionStorage.setItem('is_main_branch', institute_data.is_main_branch);
+      this.auth.changeMainBranchValue(institute_data.is_main_branch);
       sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
       sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
       sessionStorage.setItem('login_student_id', institute_data.login_student_id);
