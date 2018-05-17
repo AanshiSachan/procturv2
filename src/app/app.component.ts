@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
         }
       }
     });
-     
+
 
     this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
@@ -238,15 +238,22 @@ export class AppComponent implements OnInit {
     }
   }
 
-  helpToggle() {
-    console.log("hiii");
-   if(this.helpLoader){
-     this.helpLoader=false;
-   }
-   else{
-     this.helpLoader=true;
-   }
+  handler(flag) {
+    console.log(flag);
+    if (flag == true) {
+      this.helpToggle();
+    }
   }
+
+  helpToggle() {
+    if (this.helpLoader) {
+      this.helpLoader = false;
+    }
+    else {
+      this.helpLoader = true;
+    }
+  }
+
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
   }

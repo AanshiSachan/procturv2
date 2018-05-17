@@ -1,26 +1,28 @@
-
-
 <section class="middle-main clearFix" id="middleMain">
     <div class="add-new-enquiry-form accordian-section">
 
 
-        <div class="field-wrapper" style="padding-top:16px">
-            <label for="Subject" >Subject</label>
+        <div class="field-wrapper" style="padding-top:6px">
+            <label for="Subject">Subject</label>
             <input type="text" value="" class="form-ctrl  shift-label" name="Subject" [(ngModel)]="payload.ticket.subject">
         </div>
 
 
         <div class="field-wrapper">
             <label for="Description">Description</label>
-            <input type="text" value=""  class="form-ctrl shift-label" name="Description" [(ngModel)]="payload.ticket.description">
+            <!-- <input type="text" value="" class="form-ctrl shift-label" name="Description" [(ngModel)]="payload.ticket.description"> -->
+            <div class="form-wrapper">
+                
+                <input type="text" value="" class="form-ctrl shift-label space" name="Issue" [(ngModel)]="payload.ticket.description.Issue">
+            </div>
         </div>
         <div>
-        <button class="btn fullBlue btnclass right-shift" (click)="posterData()">Submit</button>
-        <i class="far fa-arrow-alt-circle-right"></i>
-    </div>
+            <button class="btn fullBlue btnclass right-shift" (click)="posterData()">Submit</button>
+            <i class="far fa-arrow-alt-circle-right"></i>
+        </div>
 
 
-<!--<section class="bot-wrapper">
+        <!--<section class="bot-wrapper">
     <div class="trigger" (click)="helpRequested()">
         <a class="button-block">
             Need Help

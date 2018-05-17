@@ -16,7 +16,7 @@
                 </router-outlet>
             </section>
         </main>
-        
+
     </div>
 
     <proctur-popup [sizeWidth]="'large'" *ngIf="isSearchMore">
@@ -166,25 +166,25 @@
 
     </proctur-popup>
 
-<<<<<<< HEAD
+
     <div class="footer-section" style="position:fixed">
-            <section class="bot-wrapper" >
-                    <div class="trigger">
-                        <a class="button-block" (click)="helpToggle()">
-                            Need Help
-                            <span class="arrow arrow-top"></span>
-                        </a>
-                    </div>
-                    <div class="help-form active" *ngIf="helpLoader">
-                            <app-chatbot></app-chatbot>
-                        <!-- <div class="row"></div> -->
-                    </div>
-                </section>
-                    
+        <section class="bot-wrapper">
+            <div class="trigger">
+                <a class="button-block" (click)="helpToggle()">
+                    Need Help
+                    <span class="arrow arrow-top"></span>
+                </a>
+            </div>
+            <div class="help-form active" *ngIf="helpLoader">
+                <app-chatbot (flagData)="handler($event)"></app-chatbot>
+                <!-- <div class="row"></div> -->
+            </div>
+        </section>
+
     </div>
 
 
-=======
+    <!--
     <div class="footer-section">
         <ul class="footer-list">
             <li>
@@ -205,5 +205,6 @@
     </div>
 
     <app-chatbot class=""></app-chatbot>
->>>>>>> 872ced4385c1f87c32e29b04eb11efbb14d1414a
+
+-->
 </div>

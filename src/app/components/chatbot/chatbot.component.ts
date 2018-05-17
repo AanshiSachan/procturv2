@@ -9,8 +9,7 @@ import { LoginService } from '../../services/login-services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { ViewChild, ElementRef} from '@angular/core'; 
-
+import { ViewChild, ElementRef,Output,EventEmitter} from '@angular/core'; 
 
 
 @Component({
@@ -20,32 +19,48 @@ import { ViewChild, ElementRef} from '@angular/core';
   })
   export class chatBotComponent {
     isProfessional: boolean = false;
-
+     @Output() flagData: EventEmitter<any>;
 
     payload = {
       "ticket": {
         "subject": "",
-        "description": "",
+        "description": {
+          "institute_id": "",
+          "institute_name":"",
+           "primary_email_id":"",
+            "Issue":""
+        },
         "requester_id": '362262131554'
       }
     }
-  
+      
+
+
     constructor(private router: Router, private auth: ZendAuth, private appC: AppComponent, private login: LoginService, ) {
       if (sessionStorage.getItem('Authorization') == null) {
         this.router.navigate(['/authPage']);
       }
+      this.flagData= new EventEmitter();
     }
   
     ngOnInit() {
       this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
       this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
       this.login.changeNameStatus(sessionStorage.getItem('name'));
+     this.payload.ticket.description.institute_id= (sessionStorage.getItem('institute_id'));
+     this.payload.ticket.description.institute_name= (sessionStorage.getItem('institute_name'));
+     this.payload.ticket.description.primary_email_id= (sessionStorage.getItem('inst_email'));
+     console.log(this.payload.ticket.description);
     }
   
   
     ZendeskLogin() {
+        if(this.payload.ticket.subject=="" || this.payload.ticket.description.Issue==""){
+       this.flagData.emit(true);
+       return;
+       }
       this.auth.ZendeskAuth(this.payload).subscribe(
-  
+    
         (data: any) => {
           let msg = {
             type: "success",
@@ -65,12 +80,7 @@ import { ViewChild, ElementRef} from '@angular/core';
       )
     }
   
-    ticketData(){
-    
-    }
-/*
-ticket_id
- */
+  
 
     posterData() {
       this.ZendeskLogin();
