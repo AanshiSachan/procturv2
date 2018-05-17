@@ -29,26 +29,33 @@
               <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="2">
               <label for=from>All Students</label>
             </div>
-            <div class="c-lg-1 field-radio-wrapper" style="margin-top:32px;">
+
+            <div class="c-lg-1 field-radio-wrapper" style="margin-top:32px; display:inline-block;">
+              <aside class="pull-left">
+                <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                </rob-tooltip>
+              </aside>
               <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="1">
+
               <label for=from>Others</label>
+
             </div>
-            <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
+
+            <div class="c-lg-2 field-wrapper" style="margin-top:1%;">
               <input type="button" class="btn fullBlue" id="to" value="GO" (click)=" getAllPaymentHistory()">
               <a (click)="searchByName()">Search By Name Filter</a>
             </div>
-           
           </div>
           <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="searchByNameVisible">
             <div class="c-lg-3 field-wrapper">
               <label for=from>Student Name/Contact No/Reciept No</label>
-              <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.student_name">
+              <input type="text" class="form-ctrl" id="from" [(ngModel)]="searchName">
             </div>
-            <div class="c-lg-3 field-wrapper">
-              <input type="button" class="btn fullBlue" value="GO">
+            <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
+              <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
               <a (click)="searchByDate()">Remove Search By Name Filter</a>
             </div>
-            
+
           </div>
         </div>
         <div *ngIf="showPaymentBox">
@@ -59,7 +66,49 @@
             </div>
           </div>
           <div class="table table-responsive scroller">
+            <div class="c-lg-12" style="margin:20px;padding:20px;">
 
+              <div class="c-lg-4">
+                <ul>
+                  <li>
+                    <span> Cheque/PDC/DD No: {{newData[0]['Cheque/PDC/DD No.']}}</span>
+
+                  </li>
+                  <li>
+                    <span> Caution Deposit(Refundable) : {{newData[0]['Caution Deposit(Refundable)']}}</span>
+
+                  </li>
+                </ul>
+              </div>
+              <div class="c-lg-4">
+                <ul>
+                  <li>
+                    Cash : {{newData[0].Cash}}
+                  </li>
+                  <li>
+                    Online Payments
+                  </li>
+                </ul>
+              </div>
+              <div class="c-lg-4">
+                <ul>
+                  <li>
+                    <span> Credit/Debit Card : {{newData[0]['Credit/Debit Card'] }}</span>
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="c-lg-4"></div>
+              <div class="c-lg-4">
+                <ul>
+                  <li>
+                    Total Fees Collection : {{paginatedPayment[0].fees_amount}}
+                  </li>
+                </ul>
+              </div>
+            </div>
             <div class="form">
               <table>
                 <thead>
@@ -168,7 +217,7 @@
                       {{i.enquiry_councellor_name}}
                     </td>
                     <td>
-                      <a>Edit</a>
+                      <a (click)="editPerPersonData(i)">Edit</a>
                     </td>
                   </tr>
                 </tbody>
@@ -194,3 +243,115 @@
     </section>
   </aside>
 </div>
+<proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopUp && perPersonData.length!=0">
+
+  <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+
+  <div popup-header class="popup-header-content">
+    <h2>Update Fee Receipt for Student</h2>
+  </div>
+
+  <div popup-content class="main-student-table">
+    <div class="table table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Installment No
+            </th>
+            <th>
+              Fee Type
+            </th>
+            <th>
+              Fee Amount(incl tax.)
+            </th>
+            <th>
+              Amont Paid
+            </th>
+            <th>
+              Balance Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let i of perPersonData">
+            <td>
+              {{i.installment_no}}
+            </td>
+            <td>
+              {{i.fee_type_name}}
+            </td>
+            <td>
+              {{i.fees_amount}}
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl" value={{i.amount_paid}}>
+              </div>
+            </td>
+            <td>
+              {{i.balance_amount}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="c-lg-6 field-wrapper datePickerBox">
+          <label>Payment Date</label>
+          <input type="text" class="form-ctrl" bsDatepicker>
+        </div>
+        <div class="c-lg-6 field-wrapper">
+          <label>Payment Mode</label>
+          <select class="form-ctrl">
+            <option value="-1"></option>
+            <option>Cash</option>
+            <option>Cheque/PDC/DD No</option>
+            <option>Credit/Debit Card</option>
+            <option>Caution Deposit(Refundable)</option>
+            <option>Others</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-lg-6 field-wrapper">
+          <label>Remarks</label>
+          <input type="text" class="form-ctrl">
+        </div>
+        <div class="c-lg-6 field-wrapper">
+          <label>Reference No.</label>
+          <input type="text" class="form-ctrl">
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-lg-6 field-wrapper">
+          <label>Receipt No.</label>
+          <input type="text" class="form-ctrl">
+        </div>
+        <div class="c-lg-6 field-wrapper">
+          <label>Reason for Update</label>
+          <input type="text" class="form-ctrl">
+        </div>
+      </div>
+    </div>
+    <div class="row" style="float: right;">
+      <div class="c-lg-1">
+        <input type="button" class="btn fullBlue" value="GO" style="padding:5px;">
+      </div>
+      <div class="c-lg-1">
+        <input type="button" class="btn fullBlue" value="Close">
+      </div>
+    </div>
+  </div>
+</proctur-popup>

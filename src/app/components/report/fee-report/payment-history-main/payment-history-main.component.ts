@@ -30,9 +30,15 @@ export class PaymentHistoryMainComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
-  searchByNameVisible:boolean = false;
-  searchByDateVisible:boolean = true;
-
+  searchByNameVisible: boolean = false;
+  searchByDateVisible: boolean = true;
+  newData: any[] = [];
+  paymentMode: any[] = [];
+  searchName:any ;
+  addReportPopUp:boolean = false;
+  perPersonData:any[]=[];
+  helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
+  
   constructor(private payment: PaymentHistoryMainService, private appc: AppComponent, ) { }
 
   ngOnInit() {
@@ -42,14 +48,40 @@ export class PaymentHistoryMainComponent implements OnInit {
   getAllPaymentHistory() {
     this.showPaymentBox = true;
     this.isRippleLoad = true;
-
+    this.newData = [];
+    this.allPaymentRecords = [];
+   if(this.searchName!="" || this.searchName != null){
+     if(this.isName(this.searchName)){
+       this.sendPayload.contact_no = "";
+       this.sendPayload.student_name= this.searchName;
+     }
+     else{
+       if(this.searchName.length == 10){
+        this.sendPayload.student_name = "";
+        this.sendPayload.contact_no= this.searchName;
+       }
+       else{
+        this.allPaymentRecords= this.allPaymentRecords.filter((ele:any)=>{return ele.display_invoice_no.toLowerCase().match(this.searchName.toLowerCase()
+        )})
+        
+        this.totalRow = this.allPaymentRecords.length;
+        this.PageIndex = 1;
+        this.fetchTableDataByPage(this.PageIndex);     
+       }
+     }
+   }
     this.payment.getPaymentData(this.sendPayload).subscribe(
       (data: any) => {
+
         this.allPaymentRecords = data;
+        this.newData = data.map((ele: any) => ele.paymentModeAmountMap
+        );
+        console.log(this.newData[0]);
         this.isRippleLoad = false;
         this.totalRow = data.length;
         this.PageIndex = 1;
-        this.fetchTableDataByPage(this.PageIndex);
+        this.fetchTableDataByPage(this.PageIndex);        
+        
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -59,11 +91,38 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   }
 
-  searchByName(){
+  isName(str){
+    let hasNumber = /\d/;
+    if(hasNumber.test(str)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  editPerPersonData(i){
+   let queryParameters={
+      financial_year:i.financial_year
+    }
+    this.addReportPopUp = true;
+    this.payment.getPerPersonData(queryParameters , i).subscribe(
+      (data:any)=>{
+          this.perPersonData = data.feeSchedule_TxLst;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+    console.log(this.perPersonData);
+  }
+  closeReportPopup(){
+    this.addReportPopUp = false;
+  }
+  searchByName() {
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
   }
-  searchByDate(){
+  searchByDate() {
     this.searchByDateVisible = true;
     this.searchByNameVisible = false;
   }

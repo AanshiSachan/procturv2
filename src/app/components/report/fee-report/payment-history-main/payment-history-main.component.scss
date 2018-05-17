@@ -1,5 +1,7 @@
 .scroller {
     height: 500px;
+    background: white;
+    
     ::-webkit-scrollbar{
         display: block;
     }
