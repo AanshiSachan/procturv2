@@ -30,9 +30,9 @@ export class PaymentHistoryMainComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
+
   searchByNameVisible:boolean = false;
   searchByDateVisible:boolean = true;
-
   constructor(private payment: PaymentHistoryMainService, private appc: AppComponent, ) { }
 
   ngOnInit() {
