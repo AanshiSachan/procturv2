@@ -14,7 +14,7 @@ export class UsersComponent implements OnInit {
   isLangInstitute: boolean = false;
   dataFilter: any = {
     role: -1,
-    is_active: false
+    is_active: true
   };
   allocateItemPopUp: boolean = false;
   tempdata: any = "";
@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
   inventoryAllocated: any = [];
   allocateInventory: any = {
     item_id: -1,
-    alloted_units: 0
+    alloted_units: 1
   };
   showUnit: boolean = false;
   availableunit: number = 0;
@@ -110,7 +110,7 @@ export class UsersComponent implements OnInit {
     this.showUnit = false;
     this.allocateInventory = {
       item_id: -1,
-      alloted_units: 0
+      alloted_units: 1
     };
   }
 
@@ -161,7 +161,7 @@ export class UsersComponent implements OnInit {
         this.getAllocatedItemHistrory(this.tempdata);
         this.allocateInventory = {
           item_id: -1,
-          alloted_units: 0
+          alloted_units: 1
         };
         this.showUnit = false;
       },

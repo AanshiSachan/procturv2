@@ -73,6 +73,7 @@
               <!-- <th>Added Date</th> -->
               <th>User Role</th>
               <th>User Type</th>
+              <th>Allocate Inventory</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -91,14 +92,16 @@
               <!-- <td>{{data.created_date}}</td> -->
               <td>{{data.role_name}}</td>
               <td>{{data.userType}}</td>
+              <td>
+                <a (click)="allocateItemToUser(data)">Allocate</a>
+              </td>
               <td class="action-menu">
                 <a [routerLink]='["addedit" , data.user_id]'>Edit</a>
-                <a (click)="allocateItemToUser(data)">Allocate</a>
                 <a (click)="deleteUser(data)">Delete</a>
               </td>
             </tr>
             <tr *ngIf="usersList.length == 0">
-              <td colspan="8">
+              <td colspan="9">
                 No User Data Found
               </td>
             </tr>
