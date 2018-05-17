@@ -21,12 +21,15 @@ export class ReportHomeComponent implements OnInit {
   isFee: boolean
   isBiometric: boolean
   isAttendance: boolean
+  biometricAttendanceEnable:boolean=true;
+
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService) {
     this.switchActiveView('home');
   }
 
   ngOnInit() {
+    this.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
