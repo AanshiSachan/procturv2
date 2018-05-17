@@ -220,6 +220,7 @@ export class LoginPageComponent {
       return
     }
     else {
+      debugger
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
 
@@ -306,7 +307,7 @@ export class LoginPageComponent {
         this.login.changePermissions(JSON.stringify(res.data.permissions.split(',')));
       }
 
-      if (sessionStorage.getItem('userType') == '0') {
+      if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
         this.createRoleBasedSidenav();
       }
       else if (sessionStorage.getItem('userType') == '1') {
@@ -559,7 +560,7 @@ export class LoginPageComponent {
     this.auth.currentInstituteId.subscribe(id => {
       /* If Id has been updated to the services then proceed */
       if (id != null) {
-        if (sessionStorage.getItem('userType') == '0') {
+        if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
           this.login.changeSidenavStatus('authorized');
           this.route.navigateByUrl('home');
         }
