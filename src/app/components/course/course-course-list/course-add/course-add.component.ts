@@ -54,7 +54,7 @@ export class CourseAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
+    this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.getAllStandardNameList();
     this.toggleCreateNewSlot();
   }

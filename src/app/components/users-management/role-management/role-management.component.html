@@ -50,8 +50,22 @@
                 </div>
               </td>
             </tr>
+            <tr *ngIf="rolesList.length == 0">
+              <td colspan="5">
+                No Role List Found
+              </td>
+            </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+        </pagination>
       </div>
     </div>
 
