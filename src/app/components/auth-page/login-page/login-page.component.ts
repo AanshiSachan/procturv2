@@ -220,7 +220,6 @@ export class LoginPageComponent {
       return
     }
     else {
-      debugger
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
 
