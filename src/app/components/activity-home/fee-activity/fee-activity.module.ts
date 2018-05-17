@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import 'hammerjs';
 import { SharedModule } from '../../shared/shared.module';
@@ -18,9 +17,6 @@ import { getCheque } from '../../../services/cheque-manage/get-cheque.service';
         ReactiveFormsModule,
         CommonModule,
         BsDatepickerModule,
-        FileUploadModule,
-        SplitButtonModule,
-        MenuModule,
         SharedModule,
         FeeActivityRoutingModule
     ],

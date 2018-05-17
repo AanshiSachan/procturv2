@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../../../services/login-services/login.service';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { getCheque } from '../../../../services/cheque-manage/get-cheque.service';
+/* import { getCheque } from '../../../../services/cheque-manage/get-cheque.service'; */
 
 
 @Component({
@@ -14,7 +14,7 @@ export class ChequeManageComponent implements OnInit {
 
   datefield: any[] = [];
 
-  constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque) {
+  constructor(private login: LoginService, private appC: AppComponent, /* private getter: getCheque */) {
     this.datefield[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.datefield[1] = new Date();
   }
@@ -28,7 +28,7 @@ export class ChequeManageComponent implements OnInit {
 
   fetchChequeType() {
 
-    this.getter.getChequeTypes()
+/*     this.getter.getChequeTypes() */
 
   }
 

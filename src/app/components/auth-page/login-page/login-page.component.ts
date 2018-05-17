@@ -222,7 +222,7 @@ export class LoginPageComponent {
     else {
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
-
+      this.toastCtrl.informFooter();
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
 
