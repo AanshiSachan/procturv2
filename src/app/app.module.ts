@@ -53,10 +53,13 @@ import { TopicServiceService } from './services/topic-service.service';
 import { FilterPipe } from './components/event-managment/filterpipe';
 import { MasterComponent } from './components/master/master.component';
 import { ManageExamModule } from './components/master/master.module';
+import {HelpHomeModule} from './components/help-home/help-home.module';
 import { chatBotComponent } from './components/chatbot/chatbot.component';
-
+//import {ChatbotModule} from './components/chatbot/chatbot.module';
+import {ZendAuth} from './services/Chat-bot/chatbot.service';
 @NgModule({
   imports: [
+    
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -64,6 +67,7 @@ import { chatBotComponent } from './components/chatbot/chatbot.component';
     HttpClientModule,
   
     HttpModule,
+    HelpHomeModule,
     BrowserAnimationsModule,
     Ng2SmartTableModule, TreeTableModule,
     ToasterModule,
@@ -71,6 +75,7 @@ import { chatBotComponent } from './components/chatbot/chatbot.component';
     TimepickerModule.forRoot(),
     SharedModule,
     Ng2OrderModule,
+   
   ],
   declarations: [
     AppComponent,
@@ -82,15 +87,16 @@ import { chatBotComponent } from './components/chatbot/chatbot.component';
     SlotComponent,
     ClassRoomComponent,
     FilterPipe,
+    chatBotComponent,
     EventManagmentComponent,
     CityAreaMapComponent,
-    chatBotComponent,
+   
     TopicsComponent,
     SearchBoxComponent
   ],
   entryComponents: [
-    SearchBoxComponent,
-    chatBotComponent
+    SearchBoxComponent,chatBotComponent
+    
   ],
   providers: [
     FetchenquiryService,
@@ -103,6 +109,7 @@ import { chatBotComponent } from './components/chatbot/chatbot.component';
     SlotApiService,
     CityAreaService,
     ClassRoomService,
+    ZendAuth,
     EventManagmentService,
     TopicServiceService,
     Title
