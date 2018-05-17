@@ -13,20 +13,22 @@ import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTabl
 })
 export class ChequeManageComponent implements OnInit {
 
-  datefield: any[] = [];
+  dateRange: any[] = [];
 
   chequeFetchForm: any = {
     from_date: '',
     to_date: '',
-    cheque_status_id: 3,
+    cheque_status_id: -1,
     student_name: '',
     contact_no: '',
   }
 
-  chequeDataSource:any[] = [];
-  dataStatus:number = 1;
+  searchValue: any = ''
+
+  chequeDataSource: any[] = [];
+  dataStatus: number = 1;
   chequeSetting: ColumnData[] = [
-    { primaryKey: 'display_invoice_no', header: 'Receipt No'},
+    { primaryKey: 'display_invoice_no', header: 'Receipt No' },
     { primaryKey: 'cheque_no', header: 'Cheque No' },
     { primaryKey: 'bank_name', header: 'Bank Name' },
     { primaryKey: 'student_name', header: 'Student Name' },
@@ -38,8 +40,8 @@ export class ChequeManageComponent implements OnInit {
 
 
   constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque) {
-    this.datefield[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
-    this.datefield[1] = new Date();
+    this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
+    this.dateRange[1] = new Date();
   }
 
   ngOnInit() {
@@ -59,9 +61,29 @@ export class ChequeManageComponent implements OnInit {
     );
   }
 
-  selectedRecords(){
+  selectedRecords() {
 
   }
 
+  filterCheques() {
+
+    let obj = {
+      from_date: moment(this.dateRange[0]).format("YYYY-MM-DD"),
+      to_date: moment(this.dateRange[1]).format("YYYY-MM-DD"),
+      cheque_status_id: this.chequeFetchForm.cheque_status_id,
+      student_name: '',
+      contact_no: '',
+    }
+
+    if(isNaN(this.searchValue)){
+      obj.student_name = this.searchValue;
+    }
+    else{
+      obj.contact_no = this.searchValue;
+    }
+
+    this.fetchChequeType(obj);
+
+  }
 
 }

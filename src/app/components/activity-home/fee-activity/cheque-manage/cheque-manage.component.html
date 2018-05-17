@@ -11,14 +11,14 @@
                 <section class="row filter-section  margin-head">
                     <div class="c-lg-3">
                         <div class="field-wrapper">
-                            <label for="">From {{datefield[0] | date: 'yyyy-mm-dd'}} To {{datefield[1] | date: 'yyyy-mm-dd'}}</label>
-                            <input type="text" name="" class="form-ctrl bsDatepicker" id="1" readonly="true" [(ngModel)]="datefield" bsDaterangepicker>
+                            <label for="range">From {{dateRange[0] | date: 'yyyy-mm-dd'}} To {{dateRange[1] | date: 'yyyy-mm-dd'}}</label>
+                            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker>
                         </div>
                     </div>
                     <div class="c-lg-3">
                         <div class="field-wrapper">
-                            <label for="">Cheque Status</label>
-                            <select name="" class="form-ctrl" id=""  [(ngModel)]="datefield.cheque_status_id">
+                            <label for="ctype">Cheque Status</label>
+                            <select [(ngModel)]="chequeFetchForm.cheque_status_id" name="ctype" class="form-ctrl" id="ctype"  [(ngModel)]="datefield.cheque_status_id">
                                 <option value="-1"></option>
                                 <option value="1">pending</option>
                                 <option value="2">dishonoured</option>
@@ -30,12 +30,13 @@
 
                     <div class="c-lg-3">
                         <div class="field-wrapper">
-                            <label for="">Student Name/ Contact No.</label>
-                            <input type="text" name="" class="form-ctrl" id="">
+                            <label for="searchB">Student Name/ Contact No.</label>
+                            <input [(ngModel)]="searchValue" type="text" name="searchB" class="form-ctrl" id="searchB">
                         </div>
                     </div>
+
                     <div class="c-lg-3 btn-wrap">
-                        <button class="btn fullBlue">Go</button>
+                        <button class="btn fullBlue" (click)="filterCheques()">Go</button>
                     </div>
                 </section>
             </section>
