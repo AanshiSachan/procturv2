@@ -461,7 +461,6 @@ export class CoreHeaderComponent implements OnInit {
     let mainBranchId = sessionStorage.getItem('mainBranchId');
     this.multiBranchService.loginToMainBranch(mainBranchId).subscribe(
       res => {
-        debugger
         this.fillSessionStorageCommonFields(res);
         this.mainBranchLogin(res);
       },

@@ -391,6 +391,15 @@ export class HomeComponent implements OnInit {
     let data: AddCategoryInInventory = {};
     data.alloted_units = this.addItemForm.value.alloted_units.toString();
     data.category_id = this.addItemForm.value.categoryDet;
+    if (data.category_id == -1) {
+      let msg = {
+        type: 'error',
+        title: "Error",
+        body: "Please provide category"
+      }
+      this.appC.popToast(msg);
+      return;
+    }
     data.created_date = this.addItemForm.value.created_date;
     data.desc = this.addItemForm.value.desc;
     data.item_name = this.addItemForm.value.item_name;
@@ -475,18 +484,21 @@ export class HomeComponent implements OnInit {
 
   onSubBranchSelection() {
     let data_id = this.allocateItemForm.value.sub_branch_id;
-    this.isRippleLoad = true;
-    this.inventoryApi.getSubBranchItemInfo(data_id).subscribe(
-      data => {
-        this.isRippleLoad = false;
-        this.subBranchItemList = data;
-        //console.log('Sub Branch Selection', data);
-      },
-      error => {
-        this.isRippleLoad = false;
-        //console.log('Error', error);
-      }
-    )
+    if (data_id != "-1") {
+      this.isRippleLoad = true;
+      this.inventoryApi.getSubBranchItemInfo(data_id).subscribe(
+        data => {
+          this.isRippleLoad = false;
+          this.subBranchItemList = data;
+        },
+        error => {
+          this.isRippleLoad = false;
+          console.log('Error', error);
+        }
+      )
+    } else {
+      this.subBranchItemList = [];
+    }
   }
 
   onSelectSubBranchItem() {
@@ -512,9 +524,6 @@ export class HomeComponent implements OnInit {
         document.getElementById('menuList' + i).classList.add('hide');
       }
     }
-
-
-
   }
 
   /* close action menu on events  */
@@ -540,7 +549,7 @@ export class HomeComponent implements OnInit {
       title: "Error",
       body: ""
     }
-    if (this.allocateItemForm.value.sub_branch_id == "" || this.allocateItemForm.value.sub_branch_id == null) {
+    if (this.allocateItemForm.value.sub_branch_id == "" || this.allocateItemForm.value.sub_branch_id == null || this.allocateItemForm.value.sub_branch_id == '-1') {
       msg.body = "Please provide sub branch";
       this.appC.popToast(msg);
       return false;
