@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from './authenticator.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 
@@ -13,6 +14,7 @@ export class MultiBranchDataService {
     branchesList: any = [];
     mainBranchID: any = "";
     branchData: any = "";
+    subBranchSelected: any = new BehaviorSubject(false);
 
     constructor(
         private http: HttpClient,
@@ -27,7 +29,7 @@ export class MultiBranchDataService {
             this.institute_id = id;
         });
         this.baseUrl = this.auth.getBaseUrl();
-
+        this.isSubBranchSelected();
     }
 
     getAllBranches() {
@@ -44,6 +46,13 @@ export class MultiBranchDataService {
 
     getSelectedBranchData() {
         return this.branchData;
+    }
+
+    isSubBranchSelected() {
+        let data = sessionStorage.getItem('mainBranchId');
+        if (data != "" && data != null && data != undefined) {
+            this.subBranchSelected.next(true);
+        }
     }
 
     getSubBranchLoginInfo(id) {

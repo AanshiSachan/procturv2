@@ -54,6 +54,7 @@ export class CoreHeaderComponent implements OnInit {
   branchesList: any = [];
   mainBranchId: any = "";
   isMainBranch: any = "N";
+  showMainBranchBackBtn: boolean = false;
 
   constructor(
     private log: LoginService,
@@ -97,6 +98,13 @@ export class CoreHeaderComponent implements OnInit {
         if (this.isMainBranch == "Y") {
           this.multiBranchInstituteFound();
         }
+      }
+    )
+
+    this.multiBranchService.subBranchSelected.subscribe(
+      res => {
+        console.log(res);
+        this.showMainBranchBackBtn = res;
       }
     )
 
@@ -445,6 +453,7 @@ export class CoreHeaderComponent implements OnInit {
     this.auth.changeInstituteId(data.institute_id);
     this.multiBranchService.getSubBranchLoginInfo(data.institute_id).subscribe(
       res => {
+        this.multiBranchService.subBranchSelected.next(true);
         this.fillSessionStorageCommonFields(res);
         sessionStorage.setItem('mainBranchId', this.mainBranchId);
         sessionStorage.setItem('permissions', '');
@@ -461,6 +470,7 @@ export class CoreHeaderComponent implements OnInit {
     let mainBranchId = sessionStorage.getItem('mainBranchId');
     this.multiBranchService.loginToMainBranch(mainBranchId).subscribe(
       res => {
+        this.multiBranchService.subBranchSelected.next(false);
         this.fillSessionStorageCommonFields(res);
         this.mainBranchLogin(res);
       },
@@ -472,6 +482,7 @@ export class CoreHeaderComponent implements OnInit {
 
   mainBranchLogin(res) {
     sessionStorage.setItem('religion_feature', res.religion_feature);
+    sessionStorage.setItem('permissions', '');
     this.router.navigateByUrl('/');
   }
 
