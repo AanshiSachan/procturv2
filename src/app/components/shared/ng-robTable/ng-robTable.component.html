@@ -15,18 +15,18 @@
                                             <label></label>
                                         </div>
                                     </li>
-                                    <li class="{{map.primaryKey}}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)" [ctStyleCell]="getStyle(map.primaryKey, '')">
+                                    <li class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)" [ctStyleCell]="getStyle(map.primaryKey, '')">
                                         {{ map.header }}
-                                        <div *ngIf="isSorted(map)" style="display: inline-block">
-                                                <div *ngIf="asc;then ascending else descending">
-                                                </div>
+                                        <section *ngIf="isSorted(map)" style="display: inline-block">
+                                                <aside *ngIf="asc;then ascending else descending">
+                                                </aside>
                                                 <ng-template #ascending>
-                                                    <div class="fa fa-caret-down"></div>
+                                                    <span class="fa fa-caret-down"></span>
                                                 </ng-template>
                                                 <ng-template #descending>
-                                                    <div class="fa fa-caret-up"></div>
+                                                    <span class="fa fa-caret-up"></span>
                                                 </ng-template>
-                                            </div>
+                                        </section>
                                     </li>
                                 </ul>
 
@@ -39,7 +39,7 @@
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li class="{{map.primaryKey}}" *ngFor="let map of columnMaps" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])" (click)="userRowClicked($event, i, record)">
+                                        <li class="{{map.primaryKey}} {{ map.header }}" *ngFor="let map of columnMaps" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])" (click)="userRowClicked($event, i, record)">
                                             {{ record[map.access(record)] | formatCell:map.primaryKey }}
                                         </li>
                                     </ul>

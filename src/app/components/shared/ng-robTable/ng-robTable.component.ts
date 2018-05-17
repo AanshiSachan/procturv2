@@ -186,10 +186,10 @@ export class RobTableComponent implements OnChanges {
         else {
 
             if (key == 'enquiry_no') {
-                return 'left';
+                return 'right';
             }
             else if (key == 'enquiry_date') {
-                return 'left';
+                return 'right';
             }
             else if (key == 'name') {
                 return 'left';

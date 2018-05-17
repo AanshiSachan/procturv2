@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../../../services/login-services/login.service';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-/* import { getCheque } from '../../../../services/cheque-manage/get-cheque.service'; */
+import { getCheque } from '../../../../services/cheque-manage/get-cheque.service';
+import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 
 
 @Component({
@@ -14,7 +15,29 @@ export class ChequeManageComponent implements OnInit {
 
   datefield: any[] = [];
 
-  constructor(private login: LoginService, private appC: AppComponent, /* private getter: getCheque */) {
+  chequeFetchForm: any = {
+    from_date: '',
+    to_date: '',
+    cheque_status_id: 3,
+    student_name: '',
+    contact_no: '',
+  }
+
+  chequeDataSource:any[] = [];
+  dataStatus:number = 1;
+  chequeSetting: ColumnData[] = [
+    { primaryKey: 'display_invoice_no', header: 'Receipt No'},
+    { primaryKey: 'cheque_no', header: 'Cheque No' },
+    { primaryKey: 'bank_name', header: 'Bank Name' },
+    { primaryKey: 'student_name', header: 'Student Name' },
+    { primaryKey: 'contact_no', header: 'Contact No' },
+    { primaryKey: 'cheque_date', header: 'Cheque No' },
+    { primaryKey: 'cheque_amount', header: 'Amount' },
+    { primaryKey: 'cheque_status', header: 'Status' }
+  ];
+
+
+  constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque) {
     this.datefield[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.datefield[1] = new Date();
   }
@@ -22,14 +45,23 @@ export class ChequeManageComponent implements OnInit {
   ngOnInit() {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-
-    this.fetchChequeType();
+    this.fetchChequeType(this.chequeFetchForm);
   }
 
-  fetchChequeType() {
+  fetchChequeType(obj) {
+    this.getter.getChequeTypes(obj).subscribe(
+      res => {
+        this.chequeDataSource = res;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 
-/*     this.getter.getChequeTypes() */
+  selectedRecords(){
 
   }
+
 
 }

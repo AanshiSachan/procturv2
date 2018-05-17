@@ -10,14 +10,13 @@ export class RobTableCellDirective implements OnInit {
         private renderer: Renderer) { }
     ngOnInit() {
         if (this.ctStyleCell === 'left') {
-            this.renderer.setElementStyle(this.el.nativeElement,'text-align','left');
         }
         else if (this.ctStyleCell === 'redleft') {
-            this.renderer.setElementStyle(this.el.nativeElement,'text-align','left');
+            this.renderer.setElementStyle(this.el.nativeElement,'text-align','right');
             this.renderer.setElementStyle(this.el.nativeElement,'color','red');
         }
         else if (this.ctStyleCell === 'blueleft') {
-            this.renderer.setElementStyle(this.el.nativeElement,'text-align','left');
+            this.renderer.setElementStyle(this.el.nativeElement,'text-align','right');
             this.renderer.setElementStyle(this.el.nativeElement,'color','blue');
         }
         else if(this.ctStyleCell === 'width25'){
@@ -25,7 +24,6 @@ export class RobTableCellDirective implements OnInit {
             this.renderer.setElementStyle(this.el.nativeElement,'width','25%');
         }
         else if (this.ctStyleCell === 'right') {
-            this.renderer.setElementStyle(this.el.nativeElement,'text-align','right');
         }
     }
 }

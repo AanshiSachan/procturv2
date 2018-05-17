@@ -282,9 +282,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   enquiryFullDetail: any;
 
   EnquirySettings: ColumnSetting[] = [
-    { primaryKey: 'enquiry_no', header: 'Enquiry No.', format: this.currentDirection },
+    { primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.currentDirection },
     { primaryKey: 'name', header: 'Name' },
-    { primaryKey: 'phone', header: 'Contact No.' },
+    { primaryKey: 'phone', header: 'Contact No' },
     { primaryKey: 'statusValue', header: 'Status' },
     { primaryKey: 'priority', header: 'Priority' },
     { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.currentDirection },

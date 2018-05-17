@@ -20,6 +20,9 @@
                             <label for="">Cheque Status</label>
                             <select name="" class="form-ctrl" id=""  [(ngModel)]="datefield.cheque_status_id">
                                 <option value="-1"></option>
+                                <option value="1">pending</option>
+                                <option value="2">dishonoured</option>
+                                <option value="3">cleared</option>
                             </select>
                         </div>
                     </div>
@@ -38,7 +41,12 @@
             </section>
 
             <section class="body-content">
-
+                <div class="table-content">
+                    <rob-table (rowIdArr)="selectedRecords($event)"
+                        [isMulti]='false' [hasMenu]="false" [records]="chequeDataSource" [dataStatus]="dataStatus" [tableName]="'chequemanage'"
+                        [settings]="chequeSetting">
+                    </rob-table>
+                </div>
             </section>
         </section>
     </aside>

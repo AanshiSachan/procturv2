@@ -202,7 +202,7 @@ $color-highlight: lighten($color-base, 7%);
             }
         }
         &.sche-head {
-            background: #e0eaec;
+            background: #fff;
             li {
                 width: 15%;
                 padding: 20px 10px 10px;
@@ -210,6 +210,7 @@ $color-highlight: lighten($color-base, 7%);
                 color: black;
                 background: transparent;
                 font-size: 12px;
+                font-weight: 600;
                 &:first-child {
                     width: 5%;
                 }
@@ -228,6 +229,12 @@ $color-highlight: lighten($color-base, 7%);
                 &.ID {
                     width: 7%;
                     text-align: right;
+                }
+                &.No{
+                    text-align: right;
+                    &.Receipt{
+                        width: 15% !important;
+                    }
                 }
                 &.Dues {
                     text-align: right;
@@ -257,7 +264,7 @@ $color-highlight: lighten($color-base, 7%);
                 padding: 10px 10px 0px;
                 text-transform: capitalize;
                 color: black;
-                font-size: 12px;
+                font-size: 14px;
                 &:first-child {
                     width: 5%;
                 }
@@ -284,6 +291,12 @@ $color-highlight: lighten($color-base, 7%);
                     text-align: right;
                     &.Past{
                         color: #ff0000;
+                    }
+                }
+                &.No{
+                    text-align: right;
+                    &.Receipt{
+                        width: 15% !important;
                     }
                 }
                 &.option-menu{
