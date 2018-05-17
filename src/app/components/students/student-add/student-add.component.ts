@@ -1121,7 +1121,8 @@ export class StudentAddComponent implements OnInit {
       this.isRippleLoad = true;
 
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
-
+      let dob = this.validateDOB();
+      this.studentAddFormData.dob = dob;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           this.isRippleLoad = false;
@@ -1183,6 +1184,16 @@ export class StudentAddComponent implements OnInit {
         }
         this.appC.popToast(alert);
       }
+    }
+  }
+  
+  
+    validateDOB(): string{
+    if(this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date'){
+      return '';
+    }
+    else{
+      return moment(this.studentAddFormData.dob).format("YYYY-MM-DD");
     }
   }
   /* ============================================================================================================================ */
