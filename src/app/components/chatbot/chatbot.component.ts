@@ -78,13 +78,17 @@ export class chatBotComponent {
   helpRequested() {
 
     if (this.help.nativeElement.classList.contains('active')) {
-      this.help.nativeElement.classList.remove('active')
+      this.help.nativeElement.classList.remove('active');
     }
     else {
-      this.help.nativeElement.classList.add('active')
+      this.help.nativeElement.classList.add('active');
     }
 
   }
+
+   closeHelp(){
+    this.help.nativeElement.classList.remove('active');
+   }
 
 }
 
