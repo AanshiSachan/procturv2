@@ -30,6 +30,9 @@ export class PaymentHistoryMainComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
+
+  searchByNameVisible:boolean = false;
+  searchByDateVisible:boolean = true;
   constructor(private payment: PaymentHistoryMainService, private appc: AppComponent, ) { }
 
   ngOnInit() {
@@ -51,14 +54,18 @@ export class PaymentHistoryMainComponent implements OnInit {
       (error: any) => {
         this.isRippleLoad = false;
         return error;
-        let msg = {
-          type: "error",
-          body: error.error.message
-        }
-        this.appc.popToast(msg);
       }
     )
 
+  }
+
+  searchByName(){
+    this.searchByNameVisible = true;
+    this.searchByDateVisible = false;
+  }
+  searchByDate(){
+    this.searchByDateVisible = true;
+    this.searchByNameVisible = false;
   }
 
   searchDatabase() {
