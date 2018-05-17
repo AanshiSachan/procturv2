@@ -43,6 +43,7 @@
 
             <div class="c-lg-2 field-wrapper" style="margin-top:1%;">
               <input type="button" class="btn fullBlue" id="to" value="GO" (click)=" getAllPaymentHistory()">
+
               <a (click)="searchByName()">Search By Name Filter</a>
             </div>
           </div>
@@ -54,8 +55,12 @@
             <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
               <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
               <a (click)="searchByDate()">Remove Search By Name Filter</a>
+<<<<<<< HEAD
             </div>
 
+=======
+            </div>     
+>>>>>>> da8390a72f51743a7f223dfb6ed9f8d06f02eabf
           </div>
         </div>
         <div *ngIf="showPaymentBox">
@@ -148,17 +153,20 @@
                       <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('paid_date') && direction == 1"></i>
                       <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('paid_date') && direction != 1"></i>
                     </th>
+
                     <th (click)="sortedData('remarks')" style="text-align:left;">
                       Remarks &nbsp;
                       <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('remarks') && direction == 1"></i>
                       <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('remarks') && direction != 1"></i>
                     </th>
+
                     <th (click)="sortedData('reference_no')" style="text-align:right;">
                       Reference No. &nbsp;
                       <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('reference_no') && direction == 1"></i>
                       <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('reference_no') && direction != 1"></i>
                     </th>
                     <th (click)="sortedData('amount_paid_inRs')" style="text-align:right;">
+
                       Amount Paid(in RS.) &nbsp;
                       <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('amount_paid_inRs') && direction == 1"></i>
                       <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('amount_paid_inRs') && direction != 1"></i>
@@ -168,7 +176,9 @@
                       <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_category') && direction == 1"></i>
                       <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_category') && direction != 1"></i>
                     </th>
+
                     <th (click)="sortedData('enquiry_councellor_name')" style="text-align:right;">
+
                       Counsellor &nbsp;
                       <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('enquiry_councellor_name') && direction == 1"></i>
                       <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('enquiry_councellor_name') && direction != 1"></i>
@@ -214,6 +224,7 @@
                       {{i.student_category}}
                     </td>
                     <td style="text-align:left;">
+
                       {{i.enquiry_councellor_name}}
                     </td>
                     <td>

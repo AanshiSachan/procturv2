@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
 
 
   isSearchMore: boolean;
+  @ViewChild('footer') footer: ElementRef;
   /* ToasterConfig ==> {
     animation: 'fade', 'flyLeft', 'flyRight', 'slideDown', and 'slideUp'
     limit: number
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
     mouseoverTimerStop: true,
   });
 
+  helpLoader: boolean = false;
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   searchResult: any[] = [];
@@ -86,6 +88,7 @@ export class AppComponent implements OnInit {
         }
       }
     });
+     
 
     this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
@@ -239,6 +242,10 @@ export class AppComponent implements OnInit {
 
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
+  }
+
+  informFooter(){
+    this.footer.nativeElement.classList.remove('hide');
   }
 
 }

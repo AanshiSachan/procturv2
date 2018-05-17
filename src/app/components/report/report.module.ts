@@ -39,10 +39,7 @@ import { BiometricComponent } from './biometric/biometric.component';
 import { BiometricServiceService } from '../../services/biometric-service/biometric-service.service';
 import { ReportWidgetComponent } from './report-widget/report-widget.component';
 
-/* import { FeeReceiptComponent } from './fee-report/fee-receipt/fee-receipt.component';
-import { NextDueDetailComponent } from './fee-report/next-due-detail/next-due-detail.component';
-import { PaymentHistoryComponent } from './fee-report/payment-history/payment-history.component';
-import { ViewDetailComponent } from './fee-report/view-detail-report/view-detail-report.component'; */
+
 
 
 @NgModule({
@@ -72,10 +69,6 @@ import { ViewDetailComponent } from './fee-report/view-detail-report/view-detail
         arraySortPipe,
         BiometricComponent,
         ReportWidgetComponent,
-        /* FeeReceiptComponent,
-        NextDueDetailComponent,
-        PaymentHistoryComponent,
-        ViewDetailComponent */
     ],
     entryComponents: [
 

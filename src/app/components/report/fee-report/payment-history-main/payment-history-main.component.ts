@@ -30,6 +30,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
+
   searchByNameVisible: boolean = false;
   searchByDateVisible: boolean = true;
   newData: any[] = [];
@@ -39,6 +40,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   perPersonData:any[]=[];
   helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
   
+
   constructor(private payment: PaymentHistoryMainService, private appc: AppComponent, ) { }
 
   ngOnInit() {
