@@ -223,7 +223,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.instituteName = sessionStorage.getItem('institute_name');
-    this.onlinePayment = JSON.parse(sessionStorage.getItem('institute_info')).enable_online_payment_feature;
+    this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
     this.getSettingFromServer();

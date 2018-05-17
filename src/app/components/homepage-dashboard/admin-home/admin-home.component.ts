@@ -222,7 +222,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
+    this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
@@ -1318,7 +1318,7 @@ export class AdminHomeComponent implements OnInit {
         this.isRippleLoad = false;
         this.isSubjectView = false;
       },
-      err =>{
+      err => {
         console.log(err);
         this.grid.refreshItems().layout();
       }
