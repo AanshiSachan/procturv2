@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HelpHomeComponent } from './help-home.component';
 import { HomeComponent } from './home/home.component';
-
+import {chatBotComponent} from '../chatbot/chatbot.component';
 
 @NgModule({
     imports: [
@@ -12,16 +12,16 @@ import { HomeComponent } from './home/home.component';
                 component: HelpHomeComponent,
                 pathMatch: 'prefix',
                 children: [
-                    {
-                        path: '',
-                        redirectTo: 'home'
-                    },
-                    {
-                        path: 'home',
-                        component: HomeComponent
-                    },
-                    {
-                        path: 'faq',
+                    // {
+                    //     path: '',
+                    //     redirectTo: 'faq'
+                    // },
+                    // //  {
+                    // //     path: 'chatbot',
+                    // //     component: chatBotComponent
+                    // // },
+                      {
+                         path: 'faq',
                         loadChildren: 'app/components/help-home/faq/faq.module#FaqModule',
                         pathMatch: 'prefix'
                     },

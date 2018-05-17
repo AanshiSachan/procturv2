@@ -7,7 +7,7 @@ import { AuthenticatorService } from "../authenticator.service";
 
 
 @Injectable()
-export class  manageCheque {
+export class  getCheque {
 
     baseUrl: string = '';
     institute_id: string;
@@ -24,7 +24,7 @@ export class  manageCheque {
         this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
     }
 
-    manageCheque():Observable<any> {
+    getChequeTypes():Observable<any> {
         let url = this.baseUrl + "/api/v1/institutes/all/subBranches/" + this.institute_id;
 
         return this.http.get(url, { headers: this.headers }).map(
