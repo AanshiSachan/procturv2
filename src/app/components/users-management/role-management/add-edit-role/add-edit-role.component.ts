@@ -48,7 +48,7 @@ export class AddEditRoleComponent implements OnInit {
         }
       },
       err => {
-        //console.log(err);
+        console.log(err);
       }
     )
   }
@@ -61,7 +61,7 @@ export class AddEditRoleComponent implements OnInit {
         this.makeTargetArray(role.feautreList);
       },
       err => {
-        //console.log(err);
+        console.log(err);
       }
     )
   }
@@ -120,7 +120,7 @@ export class AddEditRoleComponent implements OnInit {
           this.route.navigateByUrl('manage/role');
         },
         err => {
-          //console.log(err);
+          console.log(err);
           this.messageNotifier('error', 'error', err.error.message);
         }
       )

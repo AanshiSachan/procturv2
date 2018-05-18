@@ -53,7 +53,11 @@
                         Schedule
                       </span>
                       <div class="schedSwitcher" *ngIf="!isProfessional">
-                        <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton>
+                        <ul>
+                          <li (click)="onChanged('course')" id="courseSelectButton" class="active">Course</li>
+                          <li (click)="onChanged('subject')" id="subjectSelectButton" class="">Subject</li>
+                        </ul>
+                        <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
                       </div>
                       <ul class="sche-top-det">
                         <li class="schedule-det" *ngIf="!isProfessional && isSubjectView">

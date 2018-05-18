@@ -4,7 +4,6 @@ import { ActivityHomeComponent } from './activity-home.component';
 import { ActivityHomeRoutingModule } from "./activity-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import 'hammerjs';
 
@@ -22,9 +21,6 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
         CommonModule,
         ActivityHomeRoutingModule,
         BsDatepickerModule,
-        FileUploadModule,
-        SplitButtonModule,
-        MenuModule,
         SharedModule
     ],
     declarations: [

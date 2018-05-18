@@ -192,7 +192,7 @@ export class EnquiryAddComponent implements OnInit {
   }
   /* OnInit Initialized */
   ngOnInit() {
-    this.isCityMandatory = JSON.parse(sessionStorage.getItem('institute_info')).enable_routing;
+    this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
 
@@ -921,11 +921,11 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-  fetchDOB(): string{
-    if(this.newEnqData.dob == null || this.newEnqData.dob == '' || this.newEnqData.dob == "Invalid date" ){
+  fetchDOB(): string {
+    if (this.newEnqData.dob == null || this.newEnqData.dob == '' || this.newEnqData.dob == "Invalid date") {
       return '';
     }
-    else{
+    else {
       return moment(this.newEnqData.dob).format('YYYY-MM-DD');
     }
   }

@@ -357,12 +357,12 @@ header {
                         strong {
                             font-weight: 600;
                         }
-                        &.recent{
+                        &.recent {
                             display: inline-block;
                             margin-bottom: 6px;
                             width: 60%;
                         }
-                        &.delete{
+                        &.delete {
                             display: inline-block;
                             margin-bottom: 6px;
                             font-family: FontAwesome;
@@ -423,4 +423,9 @@ header {
         left: 171px;
         margin-top: 10px;
     }
+}
+
+.branch-wrapper {
+    position: relative;
+    margin-bottom: 10px;
 }

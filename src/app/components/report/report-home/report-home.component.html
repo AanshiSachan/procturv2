@@ -28,7 +28,7 @@
                 </div>
 
                 <!-- Biometric -->
-                <div *ngIf="isBiometric"  class="c-lg-4">
+                <div *ngIf="isBiometric && biometricAttendanceEnable"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/biometric">
                         <li>
                             Biometric Attendance

@@ -222,7 +222,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
+    this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
@@ -1259,14 +1259,17 @@ export class AdminHomeComponent implements OnInit {
   /* ======================================================================================================= */
 
 
-  onChanged(event) {
+  onChanged(e) {
     this.selectedRow = null;
-    if (event.value == 'subject') {
+    if (e == 'subject') {
       this.isSubjectView = true;
-      // this.fetchScheduleWidgetData(); This function get call twice 
+      document.getElementById('courseSelectButton').classList.remove('active');
+      document.getElementById('subjectSelectButton').classList.add('active');
     }
-    else if (event.value == 'course') {
-      this.isRippleLoad = true;
+    else if (e == 'course') {
+      this.isSubjectView = false;
+      document.getElementById('courseSelectButton').classList.add('active');
+      document.getElementById('subjectSelectButton').classList.remove('active');
       this.generateCourseLevelWidget();
     }
   }
@@ -1318,7 +1321,7 @@ export class AdminHomeComponent implements OnInit {
         this.isRippleLoad = false;
         this.isSubjectView = false;
       },
-      err =>{
+      err => {
         console.log(err);
         this.grid.refreshItems().layout();
       }

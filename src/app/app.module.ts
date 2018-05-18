@@ -57,6 +57,8 @@ import {HelpHomeModule} from './components/help-home/help-home.module';
 import { chatBotComponent } from './components/chatbot/chatbot.component';
 //import {ChatbotModule} from './components/chatbot/chatbot.module';
 import {ZendAuth} from './services/Chat-bot/chatbot.service';
+import { MultiBranchDataService } from './services/multiBranchdata.service';
+
 @NgModule({
   imports: [
     
@@ -112,7 +114,8 @@ import {ZendAuth} from './services/Chat-bot/chatbot.service';
     ZendAuth,
     EventManagmentService,
     TopicServiceService,
-    Title
+    Title,
+    MultiBranchDataService
   ],
   bootstrap: [AppComponent]
 })

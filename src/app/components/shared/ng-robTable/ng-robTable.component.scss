@@ -202,14 +202,16 @@ $color-highlight: lighten($color-base, 7%);
             }
         }
         &.sche-head {
-            background: #e0eaec;
+            background: #fff;
             li {
                 width: 15%;
                 padding: 20px 10px 10px;
                 text-transform: uppercase;
                 color: black;
+                text-align: left;
                 background: transparent;
                 font-size: 12px;
+                font-weight: 600;
                 &:first-child{
                     width: 5%;
                 }
@@ -220,7 +222,7 @@ $color-highlight: lighten($color-base, 7%);
                     width: 22%;
                 }
                 &.student_disp_id{
-                    width: 8%
+                    width: 11%
                 }
                 &.student_name{
                     width: 25%;                    
@@ -228,6 +230,16 @@ $color-highlight: lighten($color-base, 7%);
                 &.noOfBatchesAssigned{
                     width: 25%;
                 }
+                &.No{
+                    text-align: right;
+                }
+                &.Id{
+                    text-align: right;
+                }
+                &.Date{
+                    text-align: right;
+                }
+
             }
         }
         .class-type-status {
@@ -253,7 +265,8 @@ $color-highlight: lighten($color-base, 7%);
                 padding: 10px 10px 0px;
                 text-transform: capitalize;
                 color: black;
-                font-size: 12px;
+                text-align: left;
+                font-size: 14px;
                 &:first-child{
                     width: 5%;
                 }
@@ -264,13 +277,22 @@ $color-highlight: lighten($color-base, 7%);
                     width: 22%;
                 }
                 &.student_disp_id{
-                    width: 8%
+                    width: 11%
                 }
                 &.student_name{
                     width: 25%;                    
                 }
                 &.noOfBatchesAssigned{
                     width: 25%;
+                }
+                &.No{
+                    text-align: right;
+                }
+                &.Id{
+                    text-align: right;
+                }
+                &.Date{
+                    text-align: right;
                 }
             }   
         }
