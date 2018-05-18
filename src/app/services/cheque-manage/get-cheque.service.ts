@@ -14,8 +14,6 @@ export class  getCheque {
     Authorization: string;
     headers: HttpHeaders;
 
-
-
     /* set default value for each url, header and autherization on service creation */
     constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
         this.Authorization = sessionStorage.getItem('Authorization');
@@ -24,15 +22,15 @@ export class  getCheque {
         this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
     }
 
-    getChequeTypes():Observable<any> {
-        let url = this.baseUrl + "/api/v1/institutes/all/subBranches/" + this.institute_id;
+    getChequeTypes(obj):Observable<any> {
+        let url = this.baseUrl + "/api/v1/chequeDetails/studentWiseFee/" + this.institute_id;
 
-        return this.http.get(url, { headers: this.headers }).map(
+        return this.http.post(url, obj,{ headers: this.headers }).map(
             res => {
                 return res;
             },
             err => {
                 return err;
-            })
+            });
     }
 }

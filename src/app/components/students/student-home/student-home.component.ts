@@ -173,18 +173,18 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
         if (this.isProfessional) {
           this.StudentSettings = [
-            { primaryKey: 'student_disp_id', header: 'Student Id.' },
-            { primaryKey: 'student_name', header: 'Name.' },
-            { primaryKey: 'student_phone', header: 'Contact No.' },
+            { primaryKey: 'student_disp_id', header: 'Student Id' },
+            { primaryKey: 'student_name', header: 'Name' },
+            { primaryKey: 'student_phone', header: 'Contact No' },
             { primaryKey: 'student_class', header: 'Class' },
             { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
           ];
         }
         else {
           this.StudentSettings = [
-            { primaryKey: 'student_disp_id', header: 'Student Id.' },
-            { primaryKey: 'student_name', header: 'Name.' },
-            { primaryKey: 'student_phone', header: 'Contact No.' },
+            { primaryKey: 'student_disp_id', header: 'Student Id' },
+            { primaryKey: 'student_name', header: 'Name' },
+            { primaryKey: 'student_phone', header: 'Contact No' },
             { primaryKey: 'student_class', header: 'Class' },
             { primaryKey: 'noOfBatchesAssigned', header: 'Course Assigned' }
           ];
