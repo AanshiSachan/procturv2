@@ -53,7 +53,7 @@
         <div class="">
           <div class="pull-right" style="margin-top: 30px;margin-right: 15px;">
             <div class="search-filter-wrapper">
-              <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" #searchVal (keyup)="searchInList(searchVal)">
+              <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
             </div>
           </div>
         </div>
@@ -97,7 +97,7 @@
               </td>
               <td class="action-menu">
                 <a [routerLink]='["addedit" , data.user_id]'>Edit</a>
-                <a (click)="deleteUser(data)">Delete</a>
+                <!-- <a (click)="deleteUser(data)">Delete</a> -->
               </td>
             </tr>
             <tr *ngIf="usersList.length == 0">

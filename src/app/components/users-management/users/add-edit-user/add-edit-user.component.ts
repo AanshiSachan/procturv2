@@ -71,7 +71,11 @@ export class AddEditUserComponent implements OnInit {
     this.apiService.fetchUserDetails(id).subscribe(
       res => {
         this.roleDetails = res;
-        console.log(res);
+        if (this.roleDetails.is_active == 'Y') {
+          this.roleDetails.is_active = true;
+        } else {
+          this.roleDetails.is_active = false;
+        }
       },
       err => {
         console.log(err);
