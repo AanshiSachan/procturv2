@@ -52,7 +52,7 @@ export class TeacherEditComponent implements OnInit {
         this.hasIdCard = data.hasIDCard;
       },
       error => {
-
+        console.log(error);
       }
     );
   }
@@ -79,10 +79,10 @@ export class TeacherEditComponent implements OnInit {
     dataToBind.teacher_name = data.teacher_name;
     dataToBind.teacher_curr_addr = data.teacher_curr_addr;
     dataToBind.teacher_phone = data.teacher_phone;
-    if (dataToBind.teacher_alt_phone == "" || dataToBind.teacher_alt_phone == null) {
+    if (data.teacher_alt_phone == "" || data.teacher_alt_phone == null) {
       dataToBind.teacher_alt_phone = '';
     } else {
-      dataToBind.teacher_alt_phone = dataToBind.teacher_alt_phone;
+      dataToBind.teacher_alt_phone = data.teacher_alt_phone;
     }
     dataToBind.teacher_standards = data.teacher_standards;
     dataToBind.teacher_email = data.teacher_email;
@@ -119,13 +119,13 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if (isNaN(parseInt(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
+    if (!(this.validateNumber(formData.teacher_phone))) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (isNaN(parseInt(formData.teacher_alt_phone)) || formData.teacher_alt_phone.length != 10) {
-        this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      if (!(this.validateNumber(formData.teacher_alt_phone))) {
+        this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
         return;
       }
     }
@@ -246,6 +246,16 @@ export class TeacherEditComponent implements OnInit {
       }
     } else {
       return true;
+    }
+  }
+
+  validateNumber(inputtxt) {
+    let phoneno = /^\d{10}$/;
+    if ((inputtxt.match(phoneno))) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
