@@ -22,9 +22,9 @@ header {
         display: inline-block;
         width: 200px;
         color: $bg-white;
-        font-size: 16px;
+        font-size: 14px;
         position: absolute;
-        top: 30%;
+        top: 20%;
         left: 70px;
     }
 }
@@ -33,7 +33,7 @@ header {
 
 .header-search {
     position: relative;
-    left: 200px;
+    left: 235px;
     top: 7px;
     .form-ctrl-head {
         border: 1px solid $header-border;
@@ -258,14 +258,14 @@ header {
             transition: 0.5s ease;
             border-radius: 5px;
             &.has-focus {
-                width: 600px;
+                width: 489px;
             }
         }
     }
     &:hover {
         .form-ctrl-head {
             &.searchbox {
-                width: 600px;
+                width: 489px;
                 transition: 0.5s;
                 border-radius: 5px;
             }
@@ -298,8 +298,8 @@ header {
     border-radius: 0;
     padding: 8px 16px;
     box-sizing: border-box;
-    width: 600px;
-    left: 251px;
+    width: 489px;
+    left: 287px;
     margin-top: 10px;
     &.searchView {
         opacity: 1;

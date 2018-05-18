@@ -18,7 +18,7 @@
                     <div class="c-lg-3">
                         <div class="field-wrapper">
                             <label for="ctype">Cheque Status</label>
-                            <select [(ngModel)]="chequeFetchForm.cheque_status_id" name="ctype" class="form-ctrl" id="ctype"  [(ngModel)]="datefield.cheque_status_id">
+                            <select [(ngModel)]="chequeFetchForm.cheque_status_id" name="ctype" class="form-ctrl" id="ctype" [(ngModel)]="datefield.cheque_status_id">
                                 <option value="-1"></option>
                                 <option value="1">pending</option>
                                 <option value="2">dishonoured</option>
@@ -43,12 +43,51 @@
 
             <section class="body-content">
                 <div class="table-content">
-                    <rob-table (rowIdArr)="selectedRecords($event)"
-                        [isMulti]='false' [hasMenu]="true" [dropType]="dropType" [menuOptions]="menuList" (multiOptionSelected)="optionSelected($event)" [records]="chequeDataSource" [dataStatus]="dataStatus" [tableName]="'chequemanage'"
-                        [settings]="chequeSetting">
+
+                    <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="dropType" [menuOptions]="menuList"
+                        (multiOptionSelected)="optionSelected($event)" [records]="chequeDataSource" [dataStatus]="dataStatus"
+                        [tableName]="'chequemanage'" [settings]="chequeSetting">
                     </rob-table>
                 </div>
+
             </section>
         </section>
     </aside>
 </div>
+
+<proctur-popup [sizeWidth]="'small'" *ngIf="isUpdatePopup">
+
+    <span class="closePopup pos-abs fbold show" (click)="cancelUpdate()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header>Update Cheque Status (Cheque No.- {{selectedRecord.cheque_no}})</h2>
+
+    <div class="row update-cheque-wrapper" popup-content>
+        <div class="field-wrapper">
+            <select name="types" id="" class="form-ctrl">
+                <option value="2">dishonoured</option>
+                <option value="3">cleared</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="cancelUpdate()">
+                <input type="button" value="Update" class="fullBlue btn" (click)="updateRecord()">
+            </aside>
+        </div>
+    </div>
+
+</proctur-popup>
