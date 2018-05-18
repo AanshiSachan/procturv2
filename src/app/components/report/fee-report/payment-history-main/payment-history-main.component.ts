@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentHistoryMainService } from '../../../../services/payment-history/payment-history-main.service';
 import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
+import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+
 @Component({
   selector: 'app-payment-history-main',
   templateUrl: './payment-history-main.component.html',
@@ -31,9 +34,36 @@ export class PaymentHistoryMainComponent implements OnInit {
   sortedBy: string = "";
   direction = 0;
 
-  searchByNameVisible:boolean = false;
-  searchByDateVisible:boolean = true;
-  constructor(private payment: PaymentHistoryMainService, private appc: AppComponent, ) { }
+  searchByNameVisible: boolean = false;
+  searchByDateVisible: boolean = true;
+  newData: any[] = [];
+  paymentMode: any[] = [];
+  searchName:any ;
+  addReportPopUp:boolean = false;
+  perPersonData:any[]=[];
+  helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
+  feeSettings1: ColumnData[] = [
+    { primaryKey: 'student_disp_id', header: 'ID' },
+    { primaryKey: 'student_name', header: 'Name' },
+    { primaryKey: 'display_invoice_no', header: 'Reciept No.' },
+    { primaryKey: 'paymentMode', header: 'Payment Mode' },
+    { primaryKey: 'fee_type_name', header: 'Fee Type' },
+    { primaryKey: 'installment_nos', header: 'Installment No.' },
+    { primaryKey: 'paid_date', header: 'Paid Date' },
+    { primaryKey: 'remarks', header: 'Remarks' },
+    { primaryKey: 'amount_paid_inRs', header: 'Reference No.' },
+    { primaryKey: 'reference_no', header: ' Amount Paid(in RS.)' },
+    { primaryKey: 'student_category', header: 'Student Category' },
+    { primaryKey: 'enquiry_councellor_name', header: 'Counsellor' }
+  ];
+  menuOptions: DropData[] = [
+    {
+      key: 'edit',
+      header: 'edit',
+    }
+  ];
+  dataStatus:boolean = false;
+  constructor(private payment: PaymentHistoryMainService, private appc: AppComponent ) { }
 
   ngOnInit() {
     this.getAllPaymentHistory();
@@ -42,16 +72,44 @@ export class PaymentHistoryMainComponent implements OnInit {
   getAllPaymentHistory() {
     this.showPaymentBox = true;
     this.isRippleLoad = true;
-
+    this.newData = [];
+    this.allPaymentRecords = [];
+    this.dataStatus = true;
+   if(this.searchName!="" || this.searchName != null){
+     if(this.isName(this.searchName)){
+       this.sendPayload.contact_no = "";
+       this.sendPayload.student_name= this.searchName;
+     }
+     else{
+       if(this.searchName.length == 10){
+        this.sendPayload.student_name = "";
+        this.sendPayload.contact_no= this.searchName;
+       }
+       else{
+        this.allPaymentRecords= this.allPaymentRecords.filter((ele:any)=>{return ele.display_invoice_no.toLowerCase().match(this.searchName.toLowerCase()
+        )})
+        
+        this.totalRow = this.allPaymentRecords.length;
+        this.PageIndex = 1;
+        this.fetchTableDataByPage(this.PageIndex);     
+       }
+     }
+   }
     this.payment.getPaymentData(this.sendPayload).subscribe(
       (data: any) => {
+        this.dataStatus = false;
         this.allPaymentRecords = data;
+        this.newData = data.map((ele: any) => ele.paymentModeAmountMap
+        );
+        console.log(this.newData[0]);
         this.isRippleLoad = false;
         this.totalRow = data.length;
         this.PageIndex = 1;
-        this.fetchTableDataByPage(this.PageIndex);
+        this.fetchTableDataByPage(this.PageIndex);        
+        
       },
       (error: any) => {
+        this.dataStatus = false;
         this.isRippleLoad = false;
         return error;
       }
@@ -59,11 +117,39 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   }
 
-  searchByName(){
+  isName(str){
+    let hasNumber = /\d/;
+    if(hasNumber.test(str)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  editPerPersonData($event, ev, i){
+   let queryParameters={
+      financial_year:i.financial_year
+    }
+    this.addReportPopUp = true;
+    this.payment.getPerPersonData(queryParameters , i).subscribe(
+      (data:any)=>{
+          this.perPersonData = data.feeSchedule_TxLst;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+    console.log(this.perPersonData);
+  }
+  closeReportPopup(){
+    this.addReportPopUp = false;
+  }
+  searchByName() {
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
   }
-  searchByDate(){
+  searchByDate() {
     this.searchByDateVisible = true;
     this.searchByNameVisible = false;
   }
@@ -83,8 +169,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     else {
       this.searchflag = false;
-      this.fetchTableDataByPage(this.PageIndex);
-
     }
   }
 
@@ -116,6 +200,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       return d;
     }
   }
+
   futureDateValid(selectDate) {
     if (moment(selectDate).diff(moment()) > 0) {
       let msg = {
@@ -128,6 +213,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.sendPayload.to_date = moment().format('YYYY-MM-DD');
     }
   }
+
   sortedData(ev) {
     this.sortedenabled = true;
     if (this.sortedenabled) {
