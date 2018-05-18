@@ -4,6 +4,7 @@ import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { getCheque } from '../../../../services/cheque-manage/get-cheque.service';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class ChequeManageComponent implements OnInit {
     contact_no: '',
   }
 
+  dropType:number = 1;
+
   searchValue: any = ''
 
   chequeDataSource: any[] = [];
@@ -38,6 +41,9 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'cheque_status', header: 'Status' }
   ];
 
+  menuList: DropData[] = [
+    { key: 'edit', header: 'Edit' }
+  ]
 
   constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
@@ -84,6 +90,10 @@ export class ChequeManageComponent implements OnInit {
 
     this.fetchChequeType(obj);
 
+  }
+
+  optionSelected(e){
+      console.log(e);
   }
 
 }

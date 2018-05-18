@@ -44,7 +44,7 @@
             <section class="body-content">
                 <div class="table-content">
                     <rob-table (rowIdArr)="selectedRecords($event)"
-                        [isMulti]='false' [hasMenu]="false" [records]="chequeDataSource" [dataStatus]="dataStatus" [tableName]="'chequemanage'"
+                        [isMulti]='false' [hasMenu]="true" [dropType]="dropType" [menuOptions]="menuList" (multiOptionSelected)="optionSelected($event)" [records]="chequeDataSource" [dataStatus]="dataStatus" [tableName]="'chequemanage'"
                         [settings]="chequeSetting">
                     </rob-table>
                 </div>
