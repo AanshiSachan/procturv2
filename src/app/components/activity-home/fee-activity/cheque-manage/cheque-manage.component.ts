@@ -16,7 +16,9 @@ import { copyConfig } from '@angular/router/src/config';
 export class ChequeManageComponent implements OnInit {
 
   pdcDetails: any;
-  studentFeeDues: any[];
+  studentFeeDues: any = {
+    studentFeeReportJsonList: [],
+  };
   isPendingUpdate: boolean;
   isUpdatePopup: boolean;
   actionSelected: any;
