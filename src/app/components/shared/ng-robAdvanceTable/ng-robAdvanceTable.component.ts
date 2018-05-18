@@ -24,6 +24,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     @Input() defaultSort: string = "";
     @Input() isMulti: boolean = true;
     @Input() hasMenu: boolean = false;
+    @Input() dropType: number;
     @Input() menuOptions: DropData[];
 
     @Output() userRowSelect = new EventEmitter();

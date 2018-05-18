@@ -12,16 +12,22 @@ export class DropMenuComponent implements OnChanges {
 
     @Input() menuOptions: DropData[];
     @Input() records: any[];
+    @Input() dropType: number = 1;
     @Input() info:any;
     columnMaps: DropMapData[];
     private showMenu: boolean = false;
     @Output() selectedRecord = new EventEmitter<any>();
+
+    isDropdown:boolean = true;
     
     constructor(private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef, private zone: NgZone) { }
 
     ngOnChanges() {
         this.menuOptions;
-
+        if(this.dropType == 1){
+            this.isDropdown = false
+        }
+        
         if (this.menuOptions) {
             this.columnMaps = this.menuOptions
                 .map(col => new DropMapData(col));

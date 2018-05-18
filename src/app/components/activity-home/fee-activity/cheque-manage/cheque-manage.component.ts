@@ -4,6 +4,7 @@ import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { getCheque } from '../../../../services/cheque-manage/get-cheque.service';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 
 
 @Component({
@@ -13,6 +14,9 @@ import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTabl
 })
 export class ChequeManageComponent implements OnInit {
 
+  isUpdatePopup: boolean;
+  actionSelected: any;
+  selectedRecord: any;
   dateRange: any[] = [];
 
   chequeFetchForm: any = {
@@ -22,6 +26,8 @@ export class ChequeManageComponent implements OnInit {
     student_name: '',
     contact_no: '',
   }
+
+  dropType:number = 1;
 
   searchValue: any = ''
 
@@ -38,6 +44,9 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'cheque_status', header: 'Status' }
   ];
 
+  menuList: DropData[] = [
+    { key: 'update', header: 'Update' }
+  ];
 
   constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
@@ -54,15 +63,15 @@ export class ChequeManageComponent implements OnInit {
     this.getter.getChequeTypes(obj).subscribe(
       res => {
         this.chequeDataSource = res;
+        if(res == null || res.length == 0){
+          this.dataStatus = 0;          
+        }
       },
       err => {
+        this.dataStatus = 0;
         console.log(err);
       }
     );
-  }
-
-  selectedRecords() {
-
   }
 
   filterCheques() {
@@ -85,5 +94,18 @@ export class ChequeManageComponent implements OnInit {
     this.fetchChequeType(obj);
 
   }
+
+  optionSelected(e){
+      console.log(e);
+      this.selectedRecord = e.data;
+      this.actionSelected = e.action._value;
+      this.isUpdatePopup = true;
+  }
+
+  cancelUpdate(){
+    this.isUpdatePopup = false;
+  }
+
+  
 
 }
