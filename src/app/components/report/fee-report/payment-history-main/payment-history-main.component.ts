@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentHistoryMainService } from '../../../../services/payment-history/payment-history-main.service';
 import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
+import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+
 @Component({
   selector: 'app-payment-history-main',
   templateUrl: './payment-history-main.component.html',
@@ -39,9 +42,28 @@ export class PaymentHistoryMainComponent implements OnInit {
   addReportPopUp:boolean = false;
   perPersonData:any[]=[];
   helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
-  
-
-  constructor(private payment: PaymentHistoryMainService, private appc: AppComponent, ) { }
+  feeSettings1: ColumnData[] = [
+    { primaryKey: 'student_disp_id', header: 'ID' },
+    { primaryKey: 'student_name', header: 'Name' },
+    { primaryKey: 'display_invoice_no', header: 'Reciept No.' },
+    { primaryKey: 'paymentMode', header: 'Payment Mode' },
+    { primaryKey: 'fee_type_name', header: 'Fee Type' },
+    { primaryKey: 'installment_nos', header: 'Installment No.' },
+    { primaryKey: 'paid_date', header: 'Paid Date' },
+    { primaryKey: 'remarks', header: 'Remarks' },
+    { primaryKey: 'amount_paid_inRs', header: 'Reference No.' },
+    { primaryKey: 'reference_no', header: ' Amount Paid(in RS.)' },
+    { primaryKey: 'student_category', header: 'Student Category' },
+    { primaryKey: 'enquiry_councellor_name', header: 'Counsellor' }
+  ];
+  menuOptions: DropData[] = [
+    {
+      key: 'edit',
+      header: 'edit',
+    }
+  ];
+  dataStatus:boolean = false;
+  constructor(private payment: PaymentHistoryMainService, private appc: AppComponent ) { }
 
   ngOnInit() {
     this.getAllPaymentHistory();
@@ -52,6 +74,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.isRippleLoad = true;
     this.newData = [];
     this.allPaymentRecords = [];
+    this.dataStatus = true;
    if(this.searchName!="" || this.searchName != null){
      if(this.isName(this.searchName)){
        this.sendPayload.contact_no = "";
@@ -74,7 +97,7 @@ export class PaymentHistoryMainComponent implements OnInit {
    }
     this.payment.getPaymentData(this.sendPayload).subscribe(
       (data: any) => {
-
+        this.dataStatus = false;
         this.allPaymentRecords = data;
         this.newData = data.map((ele: any) => ele.paymentModeAmountMap
         );
@@ -86,6 +109,7 @@ export class PaymentHistoryMainComponent implements OnInit {
         
       },
       (error: any) => {
+        this.dataStatus = false;
         this.isRippleLoad = false;
         return error;
       }
@@ -102,7 +126,8 @@ export class PaymentHistoryMainComponent implements OnInit {
       return true;
     }
   }
-  editPerPersonData(i){
+
+  editPerPersonData($event, ev, i){
    let queryParameters={
       financial_year:i.financial_year
     }
@@ -144,8 +169,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     else {
       this.searchflag = false;
-      this.fetchTableDataByPage(this.PageIndex);
-
     }
   }
 
@@ -177,6 +200,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       return d;
     }
   }
+
   futureDateValid(selectDate) {
     if (moment(selectDate).diff(moment()) > 0) {
       let msg = {
@@ -189,6 +213,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.sendPayload.to_date = moment().format('YYYY-MM-DD');
     }
   }
+
   sortedData(ev) {
     this.sortedenabled = true;
     if (this.sortedenabled) {

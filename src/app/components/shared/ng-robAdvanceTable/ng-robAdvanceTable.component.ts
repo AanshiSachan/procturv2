@@ -127,6 +127,9 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.selectedRow = ev;
         this.userRowSelect.emit(row);
         this.getSelectedRows();
+        console.log(ev);
+        console.log(row);
+        console.log($event)
     }
 
 
