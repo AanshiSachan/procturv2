@@ -2700,6 +2700,7 @@ export class AdminHomeComponent implements OnInit {
   closeExamAttendance() {
     this.tempData = "";
     this.markExamAttendancePopUp = false;
+    this.attendanceNote = "";
   }
 
   getStudentList() {
