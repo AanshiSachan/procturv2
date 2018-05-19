@@ -16,7 +16,7 @@
                 </router-outlet>
             </section>
         </main>
-        
+
     </div>
 
     <proctur-popup [sizeWidth]="'large'" *ngIf="isSearchMore">
@@ -169,7 +169,7 @@
     <div #footer class="footer-section">
         <ul class="footer-list">
             <li>
-                <i  class="fa fa-phone"></i> +91 9971831677</li>
+                <i class="fa fa-phone"></i> +91 9971831677</li>
             <li>
                 <i class="fa fa-envelope"></i>
                 <a href="mailto:support@proctur.com">support@proctur.com</a>
@@ -185,6 +185,9 @@
         </ul>
     </div>
 
-    <app-chatbot>
-    </app-chatbot>
+    <div *ngIf="institute_id">
+        <app-chatbot>
+        </app-chatbot>
+    </div>
+
 </div>
