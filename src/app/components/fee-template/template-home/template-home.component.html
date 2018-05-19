@@ -108,7 +108,7 @@
         </a>
 
 
-        <div *ngIf="(feeStructure.course_id != -1)" class="field-checkbox-wrapper pull-right checkBoxAllignMent">
+        <div class="field-checkbox-wrapper pull-right checkBoxAllignMent">
           <input type="checkbox" id="" name="checkbx" [(ngModel)]="feeStructure.is_default" class="form-checkbox">
           <label for="checkbx">Is Default Template</label>
         </div>
@@ -128,18 +128,18 @@
             <div class="row" style="margin-top: 10px;margin-bottom: 10px">
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
-                    <label for="slotNew">Total Amount (Rs)*
-                      </label>
+                  <label for="slotNew">Total Amount (Rs)*
+                  </label>
                   <input type="number" min="0" readonly="true" class="form-ctrl" [(ngModel)]="totalAmountCal" name="slotNew">
-                  
+
                 </div>
               </div>
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper has-value">
-                    <label for="slotNew">Total No of Installments*
-                      </label>
+                  <label for="slotNew">Total No of Installments*
+                  </label>
                   <input type="number" min="0" readonly="true" #idSlot [value]="installmentList.length" class="form-ctrl" name="slotNew">
-                 
+
                 </div>
               </div>
               <div class="c-sm-3 c-md-3 c-lg-3 hide">
@@ -158,32 +158,32 @@
 
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
-                    <label for="row.category_id">Trigger Date</label>
+                  <label for="row.category_id">Trigger Date</label>
                   <select id="" class="form-ctrl" style="background: transparent" name="AddInstallment.day_type" [(ngModel)]="AddInstallment.day_type">
                     <option value="1">Date Of Joining</option>
                     <option value="2">No of days after DOJ</option>
                     <option value="3">No of Month after DOJ</option>
                   </select>
-                 
+
                 </div>
               </div>
 
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
-                    <label for="slotNew"> No.
-                      </label>
+                  <label for="slotNew"> No.
+                  </label>
                   <input type="number" min="0" class="form-ctrl" [(ngModel)]="AddInstallment.days" name="slotNew">
-                  
+
                   <p>(Days/Months)</p>
                 </div>
               </div>
 
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
-                    <label for="slotNew">Fee Amount
-                      </label>
+                  <label for="slotNew">Fee Amount
+                  </label>
                   <input type="number" min="0" class="form-ctrl" [(ngModel)]="AddInstallment.initial_fee_amount" name="slotNew">
-                 
+
                 </div>
               </div>
 
@@ -260,52 +260,52 @@
             <div class="row" style="margin-top: 10pxd;margin-bottom: 10px">
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
-                    <label for="row.category_id">Select Fee Type</label>
+                  <label for="row.category_id">Select Fee Type</label>
                   <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type" (ngModelChange)="onAdditionalFeeSelection($event)"
                     name="row.category_id">
                     <option *ngFor="let opt of otherFeetype; let i= index ; trackBy : index" [value]="opt.id">
                       {{opt.value}}
                     </option>
                   </select>
-                
+
                 </div>
               </div>
 
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
-                    <label for="row.category_id">Trigger Date</label>
+                  <label for="row.category_id">Trigger Date</label>
                   <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" name="row.category_id">
                     <option value="1">Date Of Joining</option>
                     <option value="2">No of days after DOJ</option>
                     <option value="3">No of Month after DOJ</option>
                   </select>
-                 
+
                 </div>
               </div>
 
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
-                    <label for="slotNew"> No.
-                      </label>
+                  <label for="slotNew"> No.
+                  </label>
                   <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.days" name="slotNew">
-                 
+
                   <p>(Days/Months)</p>
                 </div>
               </div>
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
-                    <label for="slotNew">Fee Amount
-                      </label>
+                  <label for="slotNew">Fee Amount
+                  </label>
                   <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount" name="slotNew">
-                  
+
                 </div>
               </div>
               <div class="c-sm-2 c-md-2 c-lg-2" style="padding: 0;">
                 <div class="field-wrapper has-value">
-                    <label for="slotNew">Tax Applicable (%)
-                      </label>
+                  <label for="slotNew">Tax Applicable (%)
+                  </label>
                   <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.service_tax" disabled name="slotNew">
-                 
+
                 </div>
               </div>
               <div class="c-sm-2 c-md-2 c-lg-2">

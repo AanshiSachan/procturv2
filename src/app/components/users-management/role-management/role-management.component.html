@@ -7,8 +7,12 @@
 
     <div class="head">
       <div class="row">
-        <div class="pull-left">
+        <div class="pull-left" style="display: inline-flex;">
           <h3>Roles</h3>
+          <div style="margin-top: -8px">
+            <rob-tooltip [textMessage]="'?'" [message]="toottip" [placement]="'left'" [customClass]="'left'">
+            </rob-tooltip>
+          </div>
         </div>
         <div class="btnWrapper">
           <button class="btn pull-right" routerLink='addedit'>
