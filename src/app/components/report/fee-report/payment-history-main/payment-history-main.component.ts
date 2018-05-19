@@ -51,7 +51,11 @@ export class PaymentHistoryMainComponent implements OnInit {
   addReportPopUp: boolean = false;
   perPersonData: any[] = [];
   helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
-
+  helpMsg3:string = " Fee(s) collected from active students";
+  helpMsg4:string = " Fee(s) collected from inactive students";
+  helpMsg1:string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
+  helpMsg2:string = " Fee(s)collected from archived students";
+  
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
