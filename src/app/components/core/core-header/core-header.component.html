@@ -110,6 +110,22 @@
               </div>
             </li> -->
 
+
+            <li class="pos-rel branch-wrapper" *ngIf="isMainBranch == 'Y' && checkAdmin">
+              <span>Branches</span>
+              <div style="min-width:130px" class="dropdown">
+                <ul class="user-detail">
+                  <li *ngFor="let data of branchesList">
+                    <a (click)="onSubBranchClick(data)">{{data.institute_name}}</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="pos-rel branch-wrapper" *ngIf="(showMainBranchBackBtn)">
+              <span (click)="loginToMainBranch()">Back To Main Branch</span>
+            </li>
+
             <li class="pos-rel" *ngIf="(hasEnquiry || hasStudent || hasClass)">
               <i class="icons">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="1128 2 24 24">
@@ -192,7 +208,7 @@
                                 <a routerLink="/fee">Fee</a>
                               </span>
                             </li>
-                             <li id="divTopicTag" style="display:none;">
+                            <li id="divTopicTag" style="display:none;">
                               <span>
                                 <a routerLink="/Topics">Topic</a>
                               </span>
@@ -219,8 +235,8 @@
                                 <a routerLink="/academic">Academic Year</a>
                               </span>
                             </li>
-                            <li id="divGradesTag" *ngIf="settings==1">
-                              <span >
+                            <li id="divGradesTag" [ngClass]="{'hide' : settings==1}">
+                              <span>
                                 <a routerLink="/master">Manage exam grades</a>
                               </span>
                             </li>
@@ -228,7 +244,7 @@
                         </div>
                       </li>
 
-                      <li style="display: none" class="" id="divManageUsers">
+                      <li class="" id="divManageUsers">
                         <strong>
                           <a routerLink="/manage">Manage Users</a>
                         </strong>

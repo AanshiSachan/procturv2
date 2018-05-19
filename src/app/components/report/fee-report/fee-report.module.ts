@@ -22,6 +22,18 @@ import { GetFeeService } from '../../../services/report-services/fee-services/ge
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 
 import { FeeReportRoutingModule } from './fee-report-routing.module';
+import { FeeReportHomeComponent } from './fee-report-home/fee-report-home.component';
+import { AllDataReportComponent } from './all-data-report/all-data-report.component';
+import { InactiveStudentReportComponent } from './inactive-student-report/inactive-student-report.component';
+import { GstReportComponent } from './gst-report/gst-report.component';
+import { OnlinePaymentHistoryComponent } from './online-payment-history/online-payment-history.component';
+import { ChequeReportComponent } from './cheque-report/cheque-report.component';
+import { DiscountReportComponent } from './discount-report/discount-report.component';
+import { FeeTypeReportComponent } from './fee-type-report/fee-type-report.component';
+import { PaymentHistoryMainComponent } from './payment-history-main/payment-history-main.component';
+import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
+
+import { ExcelService } from '../../../services/excel.service';
 
 @NgModule({
     imports: [
@@ -41,9 +53,19 @@ import { FeeReportRoutingModule } from './fee-report-routing.module';
         FeeReceiptComponent,
         NextDueDetailComponent,
         PaymentHistoryComponent,
-        ViewDetailComponent
+        ViewDetailComponent,
+        FeeReportHomeComponent,
+        AllDataReportComponent,
+        InactiveStudentReportComponent,
+        GstReportComponent,
+        OnlinePaymentHistoryComponent,
+        ChequeReportComponent,
+        DiscountReportComponent,
+        FeeTypeReportComponent,
+        PaymentHistoryMainComponent
     ],
     entryComponents: [
+        FeeReportHomeComponent,
         FeeReceiptComponent,
         NextDueDetailComponent,
         PaymentHistoryComponent,
@@ -51,7 +73,9 @@ import { FeeReportRoutingModule } from './fee-report-routing.module';
     ],
     providers: [
         GetFeeService,
-        PostFeeService
+        PostFeeService,
+        PaymentHistoryMainService,
+        ExcelService
     ],
     exports: [
     ]

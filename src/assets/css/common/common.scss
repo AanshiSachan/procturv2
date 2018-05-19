@@ -668,10 +668,10 @@ td {
 }
 
 th {
-    background: #e0eaec;
-    font-size: 14px !important;
+    background: #fff;
+    font-size: 12px !important;
     color: #000000;
-    font-weight: normal;
+    font-weight: 600;
     padding: 20px 10px;
     border-top: 2px solid rgba(119, 119, 119, 0.11);
     label {
@@ -685,10 +685,34 @@ th {
     &:first-child {
         border-top-left-radius: 5px; //border-top-right-radius: 5px;
     }
+    &.No{
+        text-align: right;
+    }
+    &.Name{
+        text-align: left;
+    }
+    &.Contact{
+        text-align: right;
+    }
+    &.Date{
+        text-align: right;
+    }
 }
 
 td {
     border-bottom: 1px solid #fff;
+    &.No{
+        text-align: right;
+    }
+    &.Name{
+        text-align: left;
+    }
+    &.Contact{
+        text-align: right;
+    }
+    &.Date{
+        text-align: right;
+    }
 }
 
 table tr {

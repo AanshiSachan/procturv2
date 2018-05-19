@@ -77,7 +77,7 @@ export class StudentAddComponent implements OnInit {
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
     school_name: "-1",
-    student_class: "",
+    student_class: "-1",
     parent_name: "",
     parent_email: "",
     parent_phone: "",
@@ -340,11 +340,11 @@ export class StudentAddComponent implements OnInit {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-     this.fetchPrefillFormData();
+    this.fetchPrefillFormData();
     if (this.isProfessional) {
       if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
-         this.getSlots();
-         this.getlangStudentStatus();
+        this.getSlots();
+        this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
       this.getSlots();
@@ -358,6 +358,7 @@ export class StudentAddComponent implements OnInit {
         this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
+      this.updateMasterCourseList(this.studentAddFormData.student_class);
       this.isRippleLoad = true;
       this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe(data => {
         this.batchList = [];
@@ -1186,8 +1187,6 @@ export class StudentAddComponent implements OnInit {
       }
     }
   }
-  
-  
     validateDOB(): string{
     if(this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date'){
       return '';
@@ -1494,7 +1493,7 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.student_sex = "M";
       }
 
-       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+      this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -1610,15 +1609,18 @@ export class StudentAddComponent implements OnInit {
   convertToStudentDetected() {
     this.isConvertEnquiry = true;
     this.enquiryData = JSON.parse(localStorage.getItem('studentPrefill'));
-    console.log(this.enquiryData);
     this.studentAddFormData.student_name = this.enquiryData.name;
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
+    this.studentAddFormData.school_name = this.enquiryData.school_name;
+    this.studentAddFormData.student_class = this.enquiryData.standard_id;
+    this.studentAddFormData.standard_id = this.enquiryData.standard_id;
     this.studentAddFormData.parent_name = this.enquiryData.parent_email;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
     this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
+
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
     this.fetchEnquiryCustomComponentDetails();
@@ -3326,7 +3328,7 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+      this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -3600,7 +3602,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  fetchDiscountData(e){
+  fetchDiscountData(e) {
     this.discountReason = e.reason;
     this.instalmentTableData = e.installment;
 
@@ -3611,7 +3613,7 @@ export class StudentAddComponent implements OnInit {
     this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
     this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
 
-    this.updateDiscount(); 
+    this.updateDiscount();
   }
   /* ============================================================================================================================ */
   deselectAllSelectedCheckbox() {
@@ -3805,7 +3807,7 @@ export class StudentAddComponent implements OnInit {
   deleteUnsavedPdc(i) {
     this.newPdcArr.splice(i, 1);
   }
- 
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getPdcChequeList() {
@@ -3846,13 +3848,13 @@ export class StudentAddComponent implements OnInit {
       })
 
   }
- 
+
   /* ============================================================================================================================ */
   closePDCPop() {
     this.selectedCheque = null;
     this.isPdcApply = false
   }
- 
+
   /* ============================================================================================================================ */
   addPdcDataToServer() {
     let temp: any[] = [];

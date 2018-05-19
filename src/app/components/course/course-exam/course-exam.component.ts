@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { SelectItem } from 'primeng/components/common/api';
 import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -75,7 +76,8 @@ export class CourseExamComponent implements OnInit {
 
   constructor(
     private apiService: ExamCourseService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
@@ -92,8 +94,10 @@ export class CourseExamComponent implements OnInit {
   }
 
   getMasterCourseBatchData() {
+    this.isRippleLoad = true;
     this.apiService.getCombinedList(this.batchData.standard_id, this.batchData.subject_id).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         if (this.masterCourseList.length == 0) {
           this.masterCourseList = res.standardLi;
         }
@@ -105,7 +109,8 @@ export class CourseExamComponent implements OnInit {
         }
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        this.isRippleLoad = false;
       }
     )
   }
@@ -247,7 +252,7 @@ export class CourseExamComponent implements OnInit {
       for (let i = 0; i < this.examSchedule.length; i++) {
         let test: any = {};
         test.exam_date = moment(this.examSchedule[i].exam_date).format('YYYY-MM-DD'),
-        test.start_time = this.examSchedule[i].start_time;
+          test.start_time = this.examSchedule[i].start_time;
         test.end_time = this.examSchedule[i].end_time;
         test.total_marks = this.examSchedule[i].total_marks;
         test.exam_desc = this.examSchedule[i].exam_desc;
@@ -343,8 +348,10 @@ export class CourseExamComponent implements OnInit {
       attendanceSchdId: this.markAttendanceData.schd_id,
       batch_id: this.batchData.batch_id
     }
+    this.isRippleLoad = true;
     this.apiService.fetchStudentList(obj).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         this.studentList = res;
         this.getTotalCountForCourse(res);
         if (res.length > 0) {
@@ -355,6 +362,7 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         //console.log(err);
+        this.isRippleLoad = false;
         this.messageNotifier('error', 'Error', err.error.message);
         this.closeCourseLevelAttendance();
       }
@@ -572,24 +580,32 @@ export class CourseExamComponent implements OnInit {
   ////////// Course Model 
 
   getMasterCourseList() {
+    this.isRippleLoad = true;
     this.apiService.getMasterCourse().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.masterCourseList = res;
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        this.isRippleLoad = false;
       }
     )
   }
 
   getCourseList(event) {
+    this.courseList = [];
+    this.courseData.course_id = -1;
     if (event != -1) {
+      this.isRippleLoad = true
       this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.courseList = res;
         },
         err => {
-          //console.log(err);
+          console.log(err);
+          this.isRippleLoad = false;
         }
       )
     }
@@ -747,7 +763,7 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
+        console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -993,12 +1009,15 @@ export class CourseExamComponent implements OnInit {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
   }
 
 }
@@ -1009,9 +1028,9 @@ export class CourseExamComponent implements OnInit {
 })
 export class DateMonthFormat implements PipeTransform {
   public transform(value) {
-    if(value != "" && value != null && value != undefined){
+    if (value != "" && value != null && value != undefined) {
       return moment(value).format('DD-MMM-YYYY');
-    }else{
+    } else {
       return value
     }
   }

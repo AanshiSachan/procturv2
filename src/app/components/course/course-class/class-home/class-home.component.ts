@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-class-home',
@@ -93,7 +94,8 @@ export class ClassHomeComponent implements OnInit {
     (
     private router: Router,
     private classService: ClassScheduleService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
     ) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
@@ -355,12 +357,15 @@ export class ClassHomeComponent implements OnInit {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
   }
 
   gotoPreviousWeek() {
@@ -728,4 +733,7 @@ export class ClassHomeComponent implements OnInit {
     this.router.navigateByUrl('course/class/add');
   }
 
+  printTimeTableData() {
+
+  }
 }

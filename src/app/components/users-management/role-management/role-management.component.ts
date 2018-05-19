@@ -12,6 +12,13 @@ export class RoleManagementComponent implements OnInit {
   rolesList: any = [];
   userList: any = [];
   showUserListPopUp: boolean = false;
+  rolesListDataSource: any = [];
+  PageIndex: number = 1;
+  displayBatchSize: number = 10;
+  searchDataFlag: boolean = false;
+  totalRow: number = 0;
+  searchedData: any = [];
+  toottip: string = "We can customize roles buy defining multiple activities to a user";
 
   constructor(
     private apiService: RoleService,
@@ -23,13 +30,15 @@ export class RoleManagementComponent implements OnInit {
   }
 
   getRolesList() {
+    this.PageIndex = 1;
     this.apiService.getRoles().subscribe(
-      res => {
-        this.rolesList = res;
-        //console.log(res);
+      (res: any) => {
+        this.rolesListDataSource = res;
+        this.totalRow = res.length;
+        this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
-        //console.log(err);
+        console.log(err);
       }
     )
   }
@@ -69,6 +78,36 @@ export class RoleManagementComponent implements OnInit {
   closePopUp() {
     this.showUserListPopUp = false;
     this.userList = [];
+  }
+
+  // pagination functions 
+
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.rolesList = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let data = [];
+    if (this.searchDataFlag == true) {
+      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      data = this.rolesListDataSource.slice(startindex, startindex + this.displayBatchSize);
+    }
+    return data;
   }
 
   messageNotifier(type, title, msg) {

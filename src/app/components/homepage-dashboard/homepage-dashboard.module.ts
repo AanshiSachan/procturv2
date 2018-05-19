@@ -4,7 +4,7 @@ import { HomepageDashboardComponent } from './homepage-dashboard.component';
 import { HomepageDashboardRoutingModule } from "./homepage-dashboard-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, SelectButtonModule } from 'primeng/primeng';
+//import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, SelectButtonModule } from 'primeng/primeng';
 import 'moment';
 import 'hammerjs';
 import { ProcturWidgetComponent } from './proctur-widget/proctur-widget.component';
@@ -24,10 +24,10 @@ import { GeneralWidgetComponent } from './general-widget/general-widget.componen
         CommonModule,
         HomepageDashboardRoutingModule,
         BsDatepickerModule,
-        FileUploadModule,
-        SplitButtonModule,
-        SelectButtonModule,
-        MenuModule,
+        // FileUploadModule,
+        // SplitButtonModule,
+        // SelectButtonModule,
+        // MenuModule,
         SharedModule,
         ChartModule
     ],

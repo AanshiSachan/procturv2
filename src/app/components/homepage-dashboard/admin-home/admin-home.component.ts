@@ -20,6 +20,7 @@ import { FetchenquiryService } from '../../../services/enquiry-services/fetchenq
 import { Chart } from 'angular-highcharts';
 import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'admin-home',
@@ -211,7 +212,16 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private enquiryService: FetchenquiryService, private widgetService: WidgetService) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private appC: AppComponent,
+    private login: LoginService,
+    private rd: Renderer2,
+    private enquiryService: FetchenquiryService,
+    private widgetService: WidgetService,
+    private auth: AuthenticatorService
+  ) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -222,9 +232,17 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+    this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -1259,14 +1277,17 @@ export class AdminHomeComponent implements OnInit {
   /* ======================================================================================================= */
 
 
-  onChanged(event) {
+  onChanged(e) {
     this.selectedRow = null;
-    if (event.value == 'subject') {
+    if (e == 'subject') {
       this.isSubjectView = true;
-      // this.fetchScheduleWidgetData(); This function get call twice 
+      document.getElementById('courseSelectButton').classList.remove('active');
+      document.getElementById('subjectSelectButton').classList.add('active');
     }
-    else if (event.value == 'course') {
-      this.isRippleLoad = true;
+    else if (e == 'course') {
+      this.isSubjectView = false;
+      document.getElementById('courseSelectButton').classList.add('active');
+      document.getElementById('subjectSelectButton').classList.remove('active');
       this.generateCourseLevelWidget();
     }
   }
@@ -1316,9 +1337,9 @@ export class AdminHomeComponent implements OnInit {
         }
         this.courseLevelSchedule = tempArr;
         this.isRippleLoad = false;
-        this.isSubjectView = false;
+        // this.isSubjectView = false;
       },
-      err =>{
+      err => {
         console.log(err);
         this.grid.refreshItems().layout();
       }
@@ -2697,6 +2718,7 @@ export class AdminHomeComponent implements OnInit {
   closeExamAttendance() {
     this.tempData = "";
     this.markExamAttendancePopUp = false;
+    this.attendanceNote = "";
   }
 
   getStudentList() {

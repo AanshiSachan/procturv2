@@ -123,7 +123,7 @@ export class CityAreaMapComponent implements OnInit {
   }
 
   checkMainBranchOrSubBranch() {
-    let sessionData = JSON.parse(sessionStorage.getItem('institute_info')).is_main_branch;
+    let sessionData = sessionStorage.getItem('is_main_branch');
     if (sessionData == "Y") {
       this.isMultiBranch = true;
     } else {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user-management/user.service';
 import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-users',
@@ -14,7 +15,7 @@ export class UsersComponent implements OnInit {
   isLangInstitute: boolean = false;
   dataFilter: any = {
     role: -1,
-    is_active: false
+    is_active: true
   };
   allocateItemPopUp: boolean = false;
   tempdata: any = "";
@@ -22,7 +23,7 @@ export class UsersComponent implements OnInit {
   inventoryAllocated: any = [];
   allocateInventory: any = {
     item_id: -1,
-    alloted_units: 0
+    alloted_units: 1
   };
   showUnit: boolean = false;
   availableunit: number = 0;
@@ -33,10 +34,14 @@ export class UsersComponent implements OnInit {
   searchedData: any = [];
   totalRow: number = 0;
   userSelected: any = [];
+  searchText: any = "";
+  isRippleLoad: boolean = false;
+  toottip : string = "We can customize our users via providing or assigning different roles according to their activities.User can login with their credentials and can login with their credentials and can operate only their defined roles."
 
   constructor(
     private apiService: UserService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
@@ -44,8 +49,8 @@ export class UsersComponent implements OnInit {
   }
 
   getAllUserList() {
-    if (this.dataFilter.role == "-1"){
-      this.messageNotifier('error','Error','Please Select User Type');
+    if (this.dataFilter.role == "-1") {
+      this.messageNotifier('error', 'Error', 'Please Select User Type');
       return;
     }
     this.PageIndex = 1;
@@ -60,14 +65,19 @@ export class UsersComponent implements OnInit {
       user_Type: this.dataFilter.role,
       app_downloaded: -1
     }
+    this.searchText = "";
+    this.searchDataFlag = false;
+    this.isRippleLoad = true;
     this.apiService.getUserList(obj, Active).subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         this.totalRow = res.length;
         this.showUserTable = true;
         this.userListDataSource = this.addKeys(res, false);
         this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
+        this.isRippleLoad = false;
         this.showUserTable = false;
         console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
@@ -81,8 +91,8 @@ export class UsersComponent implements OnInit {
         app_sms_type: type,
         userArray: this.getSelectedUser()
       };
-      if(data.userArray.length == 0){
-        this.messageNotifier('error','Error','Please select user');
+      if (data.userArray.length == 0) {
+        this.messageNotifier('error', 'Error', 'Please select user');
         return;
       }
       this.apiService.sendSmS(data).subscribe(
@@ -110,27 +120,33 @@ export class UsersComponent implements OnInit {
     this.showUnit = false;
     this.allocateInventory = {
       item_id: -1,
-      alloted_units: 0
+      alloted_units: 1
     };
   }
 
   getInventoryItemList(data) {
+    this.isRippleLoad = true;
     this.apiService.getItemList(data.user_id).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.inventoryList = res;
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
   }
 
   getAllocatedItemHistrory(data) {
+    this.isRippleLoad = true;
     this.apiService.getAllotedHistroy(data.user_id).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.inventoryAllocated = res;
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
@@ -155,17 +171,20 @@ export class UsersComponent implements OnInit {
       item_id: this.allocateInventory.item_id,
       user_id: this.tempdata.user_id
     }
+    this.isRippleLoad = true;
     this.apiService.allocateItem(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Allocated', 'Inventory Allocate Successfully');
         this.getAllocatedItemHistrory(this.tempdata);
         this.allocateInventory = {
           item_id: -1,
-          alloted_units: 0
+          alloted_units: 1
         };
         this.showUnit = false;
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
@@ -187,12 +206,15 @@ export class UsersComponent implements OnInit {
 
   deleteInventoryItem(data) {
     if (confirm('Are you sure you want to delete?')) {
+      this.isRippleLoad = true;
       this.apiService.deleteInventory(data.allocation_id).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.messageNotifier('success', 'Deleted', 'Item Deleted Successfully');
           this.getAllocatedItemHistrory(this.tempdata);
         },
         err => {
+          this.isRippleLoad = false;
           console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
@@ -232,11 +254,11 @@ export class UsersComponent implements OnInit {
   }
 
 
-  searchInList(element) {
-    if (element.value != "" && element.value != null) {
+  searchInList() {
+    if (this.searchText != "" && this.searchText != null) {
       let searchData = this.userListDataSource.filter(item =>
         Object.keys(item).some(
-          k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
       );
       this.searchedData = searchData;
       this.totalRow = searchData.length;
@@ -264,9 +286,9 @@ export class UsersComponent implements OnInit {
     if (event.target.checked) {
       this.userSelected.push(data);
     } else {
-      for (let i = 0; i < this.userSelected.length; i++){
-        if (this.userSelected[i].user_id == data.user_id){
-          this.userSelected.splice(i , 1);
+      for (let i = 0; i < this.userSelected.length; i++) {
+        if (this.userSelected[i].user_id == data.user_id) {
+          this.userSelected.splice(i, 1);
         }
       }
     }
@@ -283,12 +305,15 @@ export class UsersComponent implements OnInit {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
   }
 
   messageNotifier(type, title, msg) {

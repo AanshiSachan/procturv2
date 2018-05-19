@@ -186,7 +186,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* OnInit Initialized */
   ngOnInit() {
-    this.isCityMandatory = JSON.parse(sessionStorage.getItem('institute_info')).enable_routing;
+    this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -669,8 +669,8 @@ export class EnquiryEditComponent implements OnInit {
       this.enqSub = [];
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
-        data => { 
-          this.enqSub = data; 
+        data => {
+          this.enqSub = data;
         }
       )
     }
@@ -700,7 +700,7 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
-  submitRegisterForm(){
+  submitRegisterForm() {
     this.isConvertToStudent = true;
     this.submitForm();
   }
@@ -741,8 +741,8 @@ export class EnquiryEditComponent implements OnInit {
                 body: "Your enquiry has been successfully edited"
               }
               this.appC.popToast(msg);
-              if(this.isConvertToStudent){
-                let obj = { 
+              if (this.isConvertToStudent) {
+                let obj = {
                   name: this.editEnqData.name,
                   phone: this.editEnqData.phone,
                   email: this.editEnqData.email,
@@ -752,12 +752,12 @@ export class EnquiryEditComponent implements OnInit {
                   parent_name: this.editEnqData.parent_name,
                   parent_phone: this.editEnqData.parent_phone,
                   enquiry_id: this.institute_enquiry_id,
-                  institute_enquiry_id : this.institute_enquiry_id
+                  institute_enquiry_id: this.institute_enquiry_id
                 }
                 localStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['student/add']);
               }
-              else{
+              else {
                 this.clearLocalAndRoute()
               }
             }
@@ -801,11 +801,11 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
-  fetchDOB(): string{
-    if(this.editEnqData.dob == null || this.editEnqData.dob == '' || this.editEnqData.dob == "Invalid date" ){
+  fetchDOB(): string {
+    if (this.editEnqData.dob == null || this.editEnqData.dob == '' || this.editEnqData.dob == "Invalid date") {
       return '';
     }
-    else{
+    else {
       return moment(this.editEnqData.dob).format('YYYY-MM-DD');
     }
   }

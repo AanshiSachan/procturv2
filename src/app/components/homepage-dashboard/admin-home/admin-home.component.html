@@ -53,7 +53,11 @@
                         Schedule
                       </span>
                       <div class="schedSwitcher" *ngIf="!isProfessional">
-                        <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton>
+                        <ul>
+                          <li (click)="onChanged('course')" id="courseSelectButton" class="active">Course</li>
+                          <li (click)="onChanged('subject')" id="subjectSelectButton" class="">Subject</li>
+                        </ul>
+                        <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
                       </div>
                       <ul class="sche-top-det">
                         <li class="schedule-det" *ngIf="!isProfessional && isSubjectView">
@@ -162,7 +166,7 @@
                               (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
-                          <div *ngIf="class.isExam" class="che-action">
+                          <div *ngIf="class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('103')}">
                             <span (click)="markExamAttendance(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="notifyExamSchedule(class)" style="cursor:pointer">Send Reminder</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
@@ -230,11 +234,14 @@
                           <div *ngIf="(!class.isExam)" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View Attendance</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
-                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
+                              (click)="initiateCourseCancelClass(i, class)">Cancel</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
+                              (click)="initiateRemiderClass(i, class)">Class Reminder</span>
+                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
+                              (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
-                          <div *ngIf="(class.isExam)" class="che-action">
+                          <div *ngIf="(class.isExam)" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('112')}">
                             <span class="" (click)="markExamAttendance(class)" style="cursor:pointer" [ngClass]="hideFutureExamSchedule(class)">Exam Attendance</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>

@@ -7,8 +7,12 @@
 
     <div class="head">
       <div class="row">
-        <div class="pull-left">
+        <div class="pull-left" style="display: inline-flex;">
           <h3>Roles</h3>
+          <div style="margin-top: -8px">
+            <rob-tooltip [textMessage]="'?'" [message]="toottip" [placement]="'left'" [customClass]="'left'">
+            </rob-tooltip>
+          </div>
         </div>
         <div class="btnWrapper">
           <button class="btn pull-right" routerLink='addedit'>
@@ -30,7 +34,7 @@
             <tr>
               <th>S No.</th>
               <th>Role</th>
-              <th>Desc</th>
+              <th>Description</th>
               <th>Assigned User</th>
               <th>Action</th>
             </tr>
@@ -50,8 +54,22 @@
                 </div>
               </td>
             </tr>
+            <tr *ngIf="rolesList.length == 0">
+              <td colspan="5">
+                No Role List Found
+              </td>
+            </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+        </pagination>
       </div>
     </div>
 
@@ -83,7 +101,7 @@
       </span>
       <div class="popup-content">
         <h2>Assigned User list</h2>
-        <div class="table-wrapper-user">
+        <div class="roles-table-wrapper">
           <table>
             <thead>
               <tr>

@@ -66,7 +66,7 @@ export class ManageBatchComponent implements OnInit {
 
   ngOnInit() {
     this.checkTabSelection();
-    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
+    this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.getAllBatchesList()
     this.getMasterCourseList();
     this.getAllClassRoom();

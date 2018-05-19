@@ -222,7 +222,7 @@ export class LoginPageComponent {
     else {
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
-
+      this.toastCtrl.informFooter();
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
 
@@ -251,6 +251,7 @@ export class LoginPageComponent {
       sessionStorage.setItem('inst_reg_code', institute_data.inst_reg_code);
       sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
       sessionStorage.setItem('institute_type', institute_data.institute_type);
+      this.auth.institute_type.next(institute_data.institute_type);
       sessionStorage.setItem('institution_footer', institute_data.institution_footer);
       sessionStorage.setItem('institution_header1', institute_data.institution_header1);
       sessionStorage.setItem('institution_header2', institute_data.institution_header2);
@@ -261,6 +262,7 @@ export class LoginPageComponent {
       sessionStorage.setItem('is_campaign_message_approve_feature', institute_data.is_campaign_message_approve_feature);
       sessionStorage.setItem('allow_sms_approve_feature', res.data.allow_sms_approve_feature);
       sessionStorage.setItem('is_main_branch', institute_data.is_main_branch);
+      this.auth.changeMainBranchValue(institute_data.is_main_branch);
       sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
       sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
       sessionStorage.setItem('login_student_id', institute_data.login_student_id);
@@ -293,6 +295,9 @@ export class LoginPageComponent {
       sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
       sessionStorage.setItem('logo_url', institute_data.logo_url);
       sessionStorage.setItem('permitted_roles', JSON.stringify(res.data.featureDivMapping));
+      sessionStorage.setItem('is_exam_grad_feature', institute_data.is_exam_grad_feature);
+      sessionStorage.setItem('enable_routing', institute_data.enable_routing);
+      sessionStorage.setItem('enable_online_payment_feature', institute_data.enable_online_payment_feature);
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
@@ -302,7 +307,7 @@ export class LoginPageComponent {
         this.login.changePermissions(JSON.stringify(res.data.permissions.split(',')));
       }
 
-      if (sessionStorage.getItem('userType') == '0') {
+      if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
         this.createRoleBasedSidenav();
       }
       else if (sessionStorage.getItem('userType') == '1') {
@@ -554,8 +559,8 @@ export class LoginPageComponent {
   createRoleBasedSidenav() {
     this.auth.currentInstituteId.subscribe(id => {
       /* If Id has been updated to the services then proceed */
-      if(id != null){
-        if (sessionStorage.getItem('userType') == '0') {
+      if (id != null) {
+        if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
           this.login.changeSidenavStatus('authorized');
           this.route.navigateByUrl('home');
         }
@@ -571,7 +576,7 @@ export class LoginPageComponent {
         }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
-      else{
+      else {
         this.auth.changeAuthenticationKey(sessionStorage.getItem('Authorization'));
         this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
         this.createRoleBasedSidenav();

@@ -10,9 +10,10 @@
 
                 <div class="overflowHidden">
 
-                    <!-- project content for popup here -->
-                    <ng-content select="[popup-content]"></ng-content>
-
+                    <div class="popup-body">
+                        <!-- project content for popup here -->
+                        <ng-content select="[popup-content]"></ng-content>
+                    </div>
                     <!-- project footer for popup here -->
                     <ng-content select="[popup-footer]"></ng-content>
 

@@ -1,0 +1,366 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="report-wrapper clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+      <div class="middle-top mb0 clearFix header">
+
+
+        <div class="report-header" style="padding-bottom:1%">
+          <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/reports/fee">
+              Activity Home
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
+          </h2>
+          <a (click)="searchByName()" class="showFilter" style="float:right;" *ngIf="searchByDateVisible">Show Name Filter</a>
+          <div class="row" *ngIf="searchByDateVisible">
+            <div class="c-lg-12 field-made">
+              <div class="c-lg-8">
+                <div class="c-lg-4 field-wrapper datePickerBox">
+                  <label for="from">From Date</label>
+                  <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+                </div>
+                <div class="c-lg-4 field-wrapper datePickerBox">
+                  <label for="to">To Date</label>
+                  <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+                </div>
+              </div>
+              <div class="c-lg-3" style="margin-top:2%; ">
+                <div class="c-lg-6">
+                  <div class="c-lg-6" style="color:green; margin-top:5%;">
+                    <h5 style="display: inline-block;">Active</h5>
+                  </div>
+                  <div>
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
+                </div>
+                <div class="c-lg-6">
+                  <div class="c-lg-6" style="color:red ;margin-top:5%;">
+                    <h5 style="display: inline-block;">Inactive</h5>
+                  </div>
+                  <div class="c-lg-6">
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="c-lg-12" style="margin-top: 24px;margin-left: 15px;">
+              <div class="c-lg-8 field-correspond">
+                <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
+                  <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="0"
+                    id="active">
+                  <label for="active">Active</label>
+                </div>
+                <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
+                  <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="2"
+                    id="allStudents">
+                  <label for="allStudents">All Students</label>
+                </div>
+                <div class="c-lg-4 field-radio-wrapper makeAdjust">
+                  <div class="c-lg-5">
+                    <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="1"
+                      id="others">
+                    <label for="others" style="margin-left:10px;">Others</label>
+                  </div>
+                  <div class="c-lg-1" style="margin-top:-9px;text-align: left;">
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
+                </div>
+              </div>
+              <div class="c-lg-1">
+                <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
+              </div>
+              <div class="c-lg-1"></div>
+              <div class="c-lg-3" style="margin-left: -1%;">
+                <div class="c-lg-6">
+                  <div class="c-lg-6" style="color:brown ;margin-top:5%;">
+                    <h5 style="display: inline-block;">Historical</h5>
+                  </div>
+                  <div class="c-lg-6">
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
+                </div>
+                <div class="c-lg-6">
+                  <div class="c-lg-6" style="color:blue ;margin-top:5%;">
+                    <h5 style="display: inline-block;">Archived</h5>
+                  </div>
+                  <div class="c-lg-6">
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="searchByNameVisible">
+            <div class="c-lg-3 field-wrapper">
+              <label for=from>Student Name/Contact No/Reciept No</label>
+              <input type="text" class="form-ctrl" id="from" [(ngModel)]="searchName">
+            </div>
+
+            <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
+              <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
+              <a (click)="searchByDate()" class="showFilter">Remove Search By Name Filter</a>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="showPaymentBox && allPaymentRecords.length > 0" class="filter-wrapping">
+
+          <div>
+            <div class="filter-box">
+              <div class="c-lg-12">
+                <div class="c-lg-4">
+                  <ul>
+                    <li style="margin:4%">
+                      <span *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')"> Cheque/PDC/DD No: {{newData[0]['Cheque/PDC/DD No.'] | currency : "₹" :0}}</span>
+                      <!-- <span> Cheque/PDC/DD No: {{collectionData.pdcNo}}</span> -->
+                    </li>
+                    <li style="margin:4%">
+                      <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')"> Caution Deposit(Refundable) : {{newData[0]['Caution Deposit(Refundable)'] | currency : "₹" :0}}</span>
+                      <!-- <span> Caution Deposit(Refundable) : {{refundValue}}</span> -->
+                    </li>
+                  </ul>
+                </div>
+                <div class="c-lg-4">
+                  <ul>
+                    <li style="margin:4%">
+                      <span *ngIf="newData[0].hasOwnProperty('Cash')">Cash : {{newData[0].Cash | currency : "₹" :0}}</span>
+                      <!-- Cash : {{collectionData.cash}} -->
+                    </li>
+                    <li style="margin:4%">
+                      <span *ngIf="newData[0].hasOwnProperty('Online Payment')">Online Payments : {{newData[0]['Online Payment'] | currency : "₹" :0}}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="c-lg-4">
+                  <ul>
+                    <li style="margin:4%">
+                      <span *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')"> Credit/Debit Card : {{newData[0]['Credit/Debit Card'] | currency : "₹" :0}}</span>
+                      <!-- <span> Credit/Debit Card : {{collectionData.cardValue}}</span> -->
+                    </li>
+                    <li style="margin:4%">
+                      Total Fees Collection : {{allPaymentRecords[0].fees_amount | currency : "₹" :0}}
+                      <!-- Total Fees Collection : {{collectionData.fees_amount}} -->
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+        <div id="basic-search" style="margin:5px; float:right;">
+          <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+            (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+        </div>
+
+        <div class="table-content">
+          <div style="margin: 10px;">
+
+            <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+            <span class="fa fa-cloud-download">
+            </span>
+          </div>
+          <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="1" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
+            [records]="allPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
+          </rob-table>
+        </div>
+
+      </div>
+    </section>
+  </aside>
+</div>
+
+
+<proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopUp">
+
+  <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+
+  <div popup-header class="popup-header-content">
+    <h2>Update Fee Receipt for {{personData.student_name}}</h2>
+  </div>
+
+  <div popup-content class="main-student-table">
+    <div class="table table-responsive">
+   
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Installment No
+            </th>
+            <th>
+              Fee Type
+            </th>
+            <th>
+              Fee Amount(incl tax.)
+            </th>
+            <th>
+              Amount Paid
+            </th>
+            <th>
+              Balance Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of perPersonData; let i = index;">
+            <td>
+              {{d.installment_no}}
+            </td>
+            <td>
+              {{d.fee_type_name}}
+            </td>
+            <td>
+              {{d.fees_amount}}
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" (ngModelChange)="updateStudentFee($event, i)"
+                  name='paidVal'>
+              </div>
+            </td>
+            <td>
+              {{d.balance_amount}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="row" class="field-made">
+
+        <div class="c-lg-6 field-wrapper datePickerBox">
+          <label>Payment Date</label>
+          <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="updatedResult.paid_date">
+        </div>
+
+        <div class="c-lg-6 field-wrapper">
+          <label>Payment Mode</label>
+          <select class="form-ctrl" name="paymentMode" [(ngModel)]="updatedResult.paymentMode" (ngModelChange)="payModeUpdated($event)">
+            <option value="Cash">Cash</option>
+            <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
+            <option value="Credit/Debit Card">Credit/Debit Card</option>
+            <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-lg-6 field-wrapper">
+          <label>Remarks</label>
+          <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.remarks">
+        </div>
+        <div class="c-lg-6 field-wrapper">
+          <label>Reference No.</label>
+          <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.reference_no">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-lg-6 field-wrapper">
+          <label>Receipt No.</label>
+          <span class="field-red">*</span>
+          <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="personData.invoice_no">
+        </div>
+        <div class="c-lg-6 field-wrapper">
+          <label>Reason for Update</label>
+          <span class="field-red">*</span>
+          <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.fee_receipt_update_reason">
+        </div>
+
+      </div>
+
+      <div *ngIf="isChequePayment" style="margin-top: 10px;" class="field-made">
+        <div>
+          <h2 style="margin-left:8px;">Cheque Details</h2>
+          <div class="row">
+            <div class="c-lg-6 field-wrapper">
+              <label>Bank Name</label>
+              <span class="field-red">*</span>
+              <input type="text" [(ngModel)]="chequeDetailsJson.bank_name" class="form-ctrl">
+            </div>
+            <div class="c-lg-6 field-wrapper">
+              <label>Cheque No.</label>
+              <span class="field-red">*</span>
+              <input type="text" class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_no">
+            </div>
+          </div>
+          <div class="row">
+            <div class="c-lg-6 field-wrapper datePickerBox">
+              <label>Cheque Date</label>
+              <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date">
+            </div>
+            <div class="c-lg-6 field-wrapper">
+              <label>Cheque Amount</label>
+              <input type="text" class="form-ctrl">
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="c-lg-6 field-wrapper">
+              <label>Cheque Status</label>
+              <select class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_status_id">
+                <option value="1" selected>
+                </option>
+                <option value="2">
+                  Dishonoured
+                </option>
+                <option value="3">
+                  Cleared
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 5px;">
+            <input type="button" class="btn fullBlue" value="Save" (click)="updationOfPerPersonData()">
+            <input type="button" class="btn fullBlue" value="Close">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div popup-footer>
+      <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()">
+  </div>
+
+</proctur-popup>

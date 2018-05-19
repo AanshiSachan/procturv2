@@ -24,6 +24,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     @Input() defaultSort: string = "";
     @Input() isMulti: boolean = true;
     @Input() hasMenu: boolean = false;
+    @Input() dropType: number;
     @Input() menuOptions: DropData[];
 
     @Output() userRowSelect = new EventEmitter();
@@ -80,6 +81,24 @@ export class RobAdvanceTableComponent implements OnChanges {
         }
 
     }
+    getColor(key, data) {
+       
+        if (key == "student_category") {
+            if (data == "active") {
+                return 'green'
+            }
+            else if (data == "inactive") {
+                return 'red'
+            }
+            else if (data == "historical") {
+                return 'brown'
+            }
+            else if (data == "archived") {
+                return 'blue';
+            }
+        }
+    }
+
 
     selectAllRows(ev) {
         this.cd.markForCheck();
@@ -126,6 +145,9 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.selectedRow = ev;
         this.userRowSelect.emit(row);
         this.getSelectedRows();
+        console.log(ev);
+        console.log(row);
+        console.log($event)
     }
 
 
@@ -326,7 +348,7 @@ export class RobAdvanceTableComponent implements OnChanges {
             return e;
         });
 
-        if(this.displayBatchSize >= this.records.length){
+        if (this.displayBatchSize >= this.records.length) {
             index = this.records.length;
         }
         else if (this.displayBatchSize < this.records.length) {

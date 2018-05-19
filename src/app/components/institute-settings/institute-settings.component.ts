@@ -3,6 +3,7 @@ import { AppComponent } from '../../app.component';
 import { LoginService } from '../../services/login-services/login.service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { document } from '../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { AuthenticatorService } from '../../services/authenticator.service';
 
 @Component({
   selector: 'app-institute-settings',
@@ -213,7 +214,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private appC: AppComponent,
     private login: LoginService,
-    private apiService: InstituteSettingService
+    private apiService: InstituteSettingService,
+    private auth: AuthenticatorService
   ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
@@ -223,7 +225,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.instituteName = sessionStorage.getItem('institute_name');
-    this.onlinePayment = JSON.parse(sessionStorage.getItem('institute_info')).enable_online_payment_feature;
+    this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
     this.getSettingFromServer();
@@ -624,11 +626,15 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
 
   checkInstitutionType() {
-    if (sessionStorage.getItem('institute_type') == "LANG") {
-      this.isLangInst = true;
-    } else {
-      this.isLangInst = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInst = true;
+        } else {
+          this.isLangInst = false;
+        }
+      }
+    )
   }
 
   removeFullscreen() {

@@ -8,7 +8,14 @@
     <div class="head">
       <div class="row">
         <div class="pull-left">
-          <h3>User's List</h3>
+          <div class="header-wrapper">
+            <h3 style="display: inline-flex">User List
+              <div style="margin-top: -8px">
+                <rob-tooltip [textMessage]="'?'" [message]="toottip" [placement]="'left'" [customClass]="'left'">
+                </rob-tooltip>
+              </div>
+            </h3>
+          </div>
         </div>
         <div class="btnWrapper">
           <button class="btn pull-right" routerLink='addedit'>
@@ -53,7 +60,7 @@
         <div class="">
           <div class="pull-right" style="margin-top: 30px;margin-right: 15px;">
             <div class="search-filter-wrapper">
-              <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" #searchVal (keyup)="searchInList(searchVal)">
+              <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
             </div>
           </div>
         </div>
@@ -73,6 +80,7 @@
               <!-- <th>Added Date</th> -->
               <th>User Role</th>
               <th>User Type</th>
+              <th>Allocate Inventory</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -91,14 +99,16 @@
               <!-- <td>{{data.created_date}}</td> -->
               <td>{{data.role_name}}</td>
               <td>{{data.userType}}</td>
+              <td>
+                <a (click)="allocateItemToUser(data)">Allocate</a>
+              </td>
               <td class="action-menu">
                 <a [routerLink]='["addedit" , data.user_id]'>Edit</a>
-                <a (click)="allocateItemToUser(data)">Allocate</a>
-                <a (click)="deleteUser(data)">Delete</a>
+                <!-- <a (click)="deleteUser(data)">Delete</a> -->
               </td>
             </tr>
             <tr *ngIf="usersList.length == 0">
-              <td colspan="8">
+              <td colspan="9">
                 No User Data Found
               </td>
             </tr>

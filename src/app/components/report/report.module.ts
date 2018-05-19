@@ -28,7 +28,7 @@ import { getSMSService } from '../../services/report-services/get-sms.service';
 import { getEmailService } from '../../services/report-services/get-email.service';
 import { ExamService } from '../../services/report-services/exam.service';
 import { postSMSService } from '../../services/report-services/post-sms.service';
-
+import {timeTableService} from '../../services/TimeTable/timeTable.service';
 import { SharedModule } from '../shared/shared.module';
 import { postEmailService } from '../../services/report-services/post-email.service';
 
@@ -38,12 +38,6 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
 import { BiometricComponent } from './biometric/biometric.component';
 import { BiometricServiceService } from '../../services/biometric-service/biometric-service.service';
 import { ReportWidgetComponent } from './report-widget/report-widget.component';
-
-/* import { FeeReceiptComponent } from './fee-report/fee-receipt/fee-receipt.component';
-import { NextDueDetailComponent } from './fee-report/next-due-detail/next-due-detail.component';
-import { PaymentHistoryComponent } from './fee-report/payment-history/payment-history.component';
-import { ViewDetailComponent } from './fee-report/view-detail-report/view-detail-report.component'; */
-
 
 @NgModule({
     imports: [
@@ -72,10 +66,6 @@ import { ViewDetailComponent } from './fee-report/view-detail-report/view-detail
         arraySortPipe,
         BiometricComponent,
         ReportWidgetComponent,
-        /* FeeReceiptComponent,
-        NextDueDetailComponent,
-        PaymentHistoryComponent,
-        ViewDetailComponent */
     ],
     entryComponents: [
 
@@ -85,7 +75,7 @@ import { ViewDetailComponent } from './fee-report/view-detail-report/view-detail
         postSMSService, ExamService,
         AttendanceReportServiceService,
         getEmailService,
-        postEmailService,
+        postEmailService,timeTableService,
         BiometricServiceService
     ],
     exports: [

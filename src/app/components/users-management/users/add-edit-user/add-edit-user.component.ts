@@ -22,6 +22,7 @@ export class AddEditUserComponent implements OnInit {
     userType: '',
     is_employee_to_be_create: 'true'
   }
+  biometricEnable: any = '0';
 
   constructor(
     private route: Router,
@@ -52,6 +53,7 @@ export class AddEditUserComponent implements OnInit {
       }
     )
     this.getRolesList();
+    this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
   }
 
   getRolesList() {
@@ -69,7 +71,11 @@ export class AddEditUserComponent implements OnInit {
     this.apiService.fetchUserDetails(id).subscribe(
       res => {
         this.roleDetails = res;
-        console.log(res);
+        if (this.roleDetails.is_active == 'Y') {
+          this.roleDetails.is_active = true;
+        } else {
+          this.roleDetails.is_active = false;
+        }
       },
       err => {
         console.log(err);
@@ -104,6 +110,11 @@ export class AddEditUserComponent implements OnInit {
     if (validate == false) {
       return;
     }
+    if (this.roleDetails.is_active == true) {
+      this.roleDetails.is_active = 'Y';
+    } else {
+      this.roleDetails.is_active = 'N';
+    }
     let obj: any = {
       address: this.roleDetails.address,
       attendance_device_id: this.roleDetails.attendance_device_id,
@@ -112,7 +123,7 @@ export class AddEditUserComponent implements OnInit {
       phone: this.roleDetails.phone,
       role_id: this.roleDetails.role_id
     }
-    this.apiService.updateUserDetails(this.roleDetails, this.userId).subscribe(
+    this.apiService.updateUserDetails(obj, this.userId).subscribe(
       res => {
         this.messageNotifier('success', 'Updated Successfully', 'Details Updated Successfully');
         this.route.navigateByUrl('/manage/user');

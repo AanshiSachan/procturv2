@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
@@ -6,6 +6,7 @@ import { LoaderHandlingService } from './services/loading-services/loader-handli
 import { LoginService } from './services/login-services/login.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { Title } from '@angular/platform-browser';
+import { AuthenticatorService } from './services/authenticator.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,10 @@ import { Title } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit {
 
+  isloggedInAdmin: boolean;
 
-  isSearchMore: boolean;
+  isSearchMore: boolean = false;
+  @ViewChild('footer') footer: ElementRef;
   /* ToasterConfig ==> {
     animation: 'fade', 'flyLeft', 'flyRight', 'slideDown', and 'slideUp'
     limit: number
@@ -36,6 +39,10 @@ export class AppComponent implements OnInit {
     mouseoverTimerStop: true,
   });
 
+  helpLoader: boolean = false;
+  ticketId = "";
+  addReportPopup: boolean = false;
+  closechatbot: boolean = true;
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   searchResult: any[] = [];
@@ -49,11 +56,19 @@ export class AppComponent implements OnInit {
   }
 
   isRippleLoad: boolean = true;
+  institute_id: boolean = false;
 
+  constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title, private auth: AuthenticatorService) {
 
-  constructor(toasterService: ToasterService, private router: Router,
-    private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title) {
     this.toasterService = toasterService;
+    this.auth.currentInstituteId.subscribe(id => {
+      if(id != null && id != ""){
+        this.institute_id = true;
+      }else{
+        this.institute_id = false;
+      }
+      
+    });
   }
 
 
@@ -87,9 +102,31 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.log.currentMenuState.subscribe(el => {
+
+
+      this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
     })
+
+    this.auth.currentInstituteId.subscribe(e => {
+      if (e == null || e == undefined || e == '') {
+        this.isloggedInAdmin = false;
+      }
+      else {
+        let p = sessionStorage.getItem('permissions');
+        let user = sessionStorage.getItem('userType')
+
+        if(user == "0"){
+          if (p == null || p == undefined || p == ''){
+            this.isloggedInAdmin = true;
+          }
+          else{
+            this.isloggedInAdmin = false
+          }
+        }
+      }
+    });
+
   }
 
 
@@ -239,6 +276,27 @@ export class AppComponent implements OnInit {
 
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
+  }
+
+  informFooter() {
+    this.footer.nativeElement.classList.remove('hide');
+  }
+
+  handler(f) {
+    let flag:any = f;
+
+    if(flag.hasOwnProperty('ticket')){
+      this.addReportPopup = true;
+      this.ticketId = flag.ticket.id;
+      this.closechatbot = false;
+    }
+    else{
+      this.closechatbot = false;
+    }
+  }
+
+  closeReportPopup() {
+    this.addReportPopup = false;
   }
 
 }

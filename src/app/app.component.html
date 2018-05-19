@@ -1,14 +1,17 @@
 <div class="main-wrapper">
+
     <overlay-menu *ngIf="isMenuVisible"></overlay-menu>
+
     <core-header (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)" class="hide">
     </core-header>
+
     <div id="middleWrapper">
         <main>
             <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
             </loaders-css>
             <core-sidednav class="hide">
             </core-sidednav>
-            <section class="middle-section clearFix">
+            <section class="middle-section clearFix router-wrapper">
                 <div>
                     <toaster-container [toasterconfig]="config"></toaster-container>
                 </div>
@@ -16,6 +19,7 @@
                 </router-outlet>
             </section>
         </main>
+
     </div>
 
     <proctur-popup [sizeWidth]="'large'" *ngIf="isSearchMore">
@@ -165,8 +169,78 @@
 
     </proctur-popup>
 
-    <!-- <div class="footer-section">
+    <proctur-popup class="popupData" *ngIf="addReportPopup">
+
+
+        <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                    </g>
+                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                    />
+                </g>
+            </svg>
+
+        </span>
+        <div popup-header>
+        </div>
+        <div popup-content>
+            <br>
+  
+            <h1>
+                Thanks You For Contacting Us.
+            </h1>
+  
+            <br>
+  
+            <h6>
+                <br> A Support Request With Id <b>#{{ticketId}}</b> Has Been Generated For Your Reference.
+
+                <br>
+                
+                <br>We Will Revert Within 24 Business Hours, Alternatively You Can Also Contact Us Via Below Email Or Contact
+                Number With The Support Id For Any Further Assistance.
+            </h6>
+
+        </div>
+
+        <div class="" popup-footer>
+            <div class="clearfix">
+                <aside class="pull-right popup-btn">
+                    <!-- <input type="button" value="Close" class="btn" (click)="closeReportPopup()">-->
+                </aside> 
+            </div>
+        </div>
+
+    </proctur-popup>
+
+
+    <div [ngClass]="{'hide': !isloggedInAdmin}" #footer class="footer-section">
+
+        <ul class="footer-list">
+            <li>
+                <i class="fa fa-phone"></i> +91 9971831677</li>
+            <li>
+                <i class="fa fa-envelope"></i>
+                <a href="mailto:support@proctur.com">support@proctur.com</a>
+            </li>
+            <li>
+                <i class="fa fa-globe"></i>
+                <a href="http://proctur.com">proctur.com</a>
+            </li>
+            <li>
+                2017 © All Rights Reserved.
+                <a target="_blank" href="http://eduspacetech.com">Eduspace Technologies Pvt. Ltd</a>
+            </li>
+        </ul>
     </div>
 
-    <app-chatbot class=""></app-chatbot> -->
+
+    <app-chatbot (flagData)="handler($event)" [ngClass]="{'hide': !isloggedInAdmin}">
+    </app-chatbot>
+
+
 </div>

@@ -783,6 +783,9 @@ div#enqChart {
 // css for activity page
 .activity-page {
     background: #f2f2f2;
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     ::-webkit-scrollbar {
         display: block;
     }
@@ -895,7 +898,24 @@ div#enqChart {
                 width: 200px;
                 margin: 0px 25px;
                 padding-top: 4px;
-                height: 25px;
+                //height: 25px;
+                ul{
+                    list-style: none;
+                    width: 100%;
+                    li{
+                        background: #fff;
+                        display: inline-block;
+                        width: 45%;
+                        padding: 6px 20px 6px;
+                        border: 1px solid #0084f6;
+                        cursor: pointer;
+                        color: #0084f6;
+                        &.active{
+                            background: #0084f6;
+                            color: #fff;
+                        }
+                    }
+                }
             }
         }
     }

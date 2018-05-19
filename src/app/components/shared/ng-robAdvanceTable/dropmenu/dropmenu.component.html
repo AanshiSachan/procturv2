@@ -1,4 +1,14 @@
-<div class="dropdown-wrapper">
+<div class="dropdown-wrapper" *ngIf="!isDropdown">
+    <ul class="single">
+        <li  [ngClass]="{'hide': !isChequeUpdatable}" class="item" (click)="selectOption(option)" *ngFor="let option of columnMaps;">
+            <a>
+                {{option.header}}
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="dropdown-wrapper" *ngIf="isDropdown">
 
     <button aria-expanded="true" class="d-item dropdown-trigger" (click)="openMenu()">
         <span class="d-item svg-icon-wrap">
