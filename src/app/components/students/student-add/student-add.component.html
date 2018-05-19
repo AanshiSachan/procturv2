@@ -270,7 +270,7 @@
                 <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
                   <label for="standard">Standard</label>
 
-                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class" name="standard"
+                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard"
                     class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
@@ -718,7 +718,7 @@
                             Paid Date
                           </label>
                           <span>
-                            {{installment.paid_date}}
+                            {{installment.paid_date | date:"dd-MMM-yyyy"}}
                           </span>
                         </li>
 
