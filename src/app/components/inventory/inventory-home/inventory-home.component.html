@@ -704,7 +704,7 @@
                   <span *ngIf="(row.inventory_type == 2)"> OUT </span>
                 </td>
                 <td>
-                  {{row.other_details}}
+                  <span [innerHTML]="row.other_details" style="float: left; text-align: left"></span>
                 </td>
               </tr>
               <tr *ngIf="(allocationHistoryList.length == 0)">
