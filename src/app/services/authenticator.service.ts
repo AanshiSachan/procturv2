@@ -97,7 +97,7 @@ export class AuthenticatorService {
         this.token = null;
         this.institute_id = null;
         this.standard_id = null;
-        this.institute_type = null;
+        this.institute_type.next('LANG');
         this.institution_type = null;
         sessionStorage.setItem('Authorization', null);
         sessionStorage.setItem('institute_id', null);
