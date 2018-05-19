@@ -251,6 +251,7 @@ export class LoginPageComponent {
       sessionStorage.setItem('inst_reg_code', institute_data.inst_reg_code);
       sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
       sessionStorage.setItem('institute_type', institute_data.institute_type);
+      this.auth.institute_type.next(institute_data.institute_type);
       sessionStorage.setItem('institution_footer', institute_data.institution_footer);
       sessionStorage.setItem('institution_header1', institute_data.institution_header1);
       sessionStorage.setItem('institution_header2', institute_data.institution_header2);

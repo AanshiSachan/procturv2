@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-class-add',
@@ -149,8 +150,16 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
   /* ============================================================================================ */
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef,
-    private classService: ClassScheduleService) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private appC: AppComponent,
+    private login: LoginService,
+    private rd: Renderer2,
+    private cd: ChangeDetectorRef,
+    private classService: ClassScheduleService,
+    private auth: AuthenticatorService
+  ) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -161,7 +170,15 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   ngOnInit() {
     /* Prerequiste loaded */
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     /* fetching prefilled data */
@@ -1927,11 +1944,11 @@ export class ClassAddComponent implements OnInit {
   }
 
   switchActiveView() {
-      document.getElementById('liStandard').classList.remove('active');
-      document.getElementById('liSubject').classList.remove('active');
-      document.getElementById('liExam').classList.remove('active');
-      document.getElementById('liClass').classList.add('active');
-      document.getElementById('liManageBatch').classList.remove('active');
+    document.getElementById('liStandard').classList.remove('active');
+    document.getElementById('liSubject').classList.remove('active');
+    document.getElementById('liExam').classList.remove('active');
+    document.getElementById('liClass').classList.add('active');
+    document.getElementById('liManageBatch').classList.remove('active');
   }
 
 

@@ -55,8 +55,8 @@
 
                       </div>
                     </div>
-                    <div class="c-lg-3 c-md-3 c-sm-3">
-                      <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterBatch()">
+                    <div class="c-lg-1 c-md-1 c-sm-1" style="margin-top: 15px">
+                      <button class="btn fullBlue" (click)="submitMasterBatch()">Go</button>
                     </div>
                   </div>
                   <div class="search-filter-wrapper" *ngIf="!isProfessional">
@@ -97,7 +97,7 @@
                           <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="fetchMasterCourseModule.requested_date"
                             readonly="true" name="csd" bsDatepicker>
 
-                          <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span>
+                          <!-- <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span> -->
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
@@ -243,13 +243,13 @@
 
                       <td class="desc">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
-                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc">
+                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc" style="height: 31px;">
                         </div>
                       </td>
 
                       <td class="room">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.room_no != '' && addClassDetails.room_no != null }">
-                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no">
+                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no" style="height: 31px;">
                         </div>
                       </td>
 
@@ -422,8 +422,8 @@
                   </div>
                 </div>
                 <div class="pull-right btnGroup">
-                  <button class="btn" (click)="applyButtonClick()">Apply</button>
-                  <button class="btn" *ngIf="showCancelWeeklyBtn" (click)="cancelWeeklyScheduledClass()">Cancel Weekly Scheduled Class</button>
+                  <button class="btn fullBlue" (click)="applyButtonClick()">Apply</button>
+                  <button class="btn fullBlue" *ngIf="showCancelWeeklyBtn" (click)="cancelWeeklyScheduledClass()">Cancel Weekly Scheduled Class</button>
                 </div>
               </div>
 
@@ -447,11 +447,11 @@
                       <tr *ngFor="let row of weekDaysTable; let i=index ; trackBy : index ">
                         <td>
                           <div class="field-checkbox-wrapper">
-                            
+
                             <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected" class="form-checkbox">
                             <label for="checkbx{{i}}">
-                                {{row.data_value}}
-                              </label>
+                              {{row.data_value}}
+                            </label>
                           </div>
                         </td>
                         <td>
@@ -527,7 +527,7 @@
                 </div>
               </div>
 
-              <div class="c-sm-2 c-md-2 c-lg-2">
+              <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
                 <div class="form-wrapper timepick">
                   <label for="startTime">Start Time</label>
                   <div class="tbox">
@@ -549,7 +549,7 @@
                 </div>
               </div>
 
-              <div class="c-sm-2 c-md-2 c-lg-2">
+              <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
                 <div class="form-wrapper timepick">
                   <label for="startTime">End Time</label>
                   <div class="tbox">
@@ -579,7 +579,7 @@
                 </div>
               </div>
 
-              <div class="" style="margin-top: 10px">
+              <div class="" style="margin-top: 25px">
                 <button class="btn fullBlue" (click)="addNewCustomClass()">Add</button>
               </div>
             </div>
@@ -661,7 +661,7 @@
                   </div>
                 </div>
 
-                <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
                   <div class="form-wrapper timepick">
                     <label for="startTime">Start Time</label>
                     <div class="tbox">
@@ -683,7 +683,7 @@
                   </div>
                 </div>
 
-                <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
                   <div class="form-wrapper timepick">
                     <label for="startTime">End Time</label>
                     <div class="tbox">
@@ -713,7 +713,7 @@
                   </div>
                 </div>
 
-                <div style="padding-top: 10px">
+                <div style="padding-top: 25px">
                   <button class="btn fullBlue" (click)="addNewExtraClass()">Add</button>
                 </div>
 
@@ -759,7 +759,7 @@
                           <td>
                             <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)">Cancel</a>
                             <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)">Notify</a>
-                            <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , index)">Delete</a>
+                            <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)">Delete</a>
                           </td>
                         </tr>
                         <tr *ngIf="extraClassTable.length == 0">
@@ -1213,7 +1213,7 @@
 
         <div class="row extraMargin">
           <div class="field-checkbox-wrapper pull-left">
-           
+
             <input type="checkbox" checked name="enableSMS" class="form-checkbox" id="idChkbxEnable">
             <label for="idChkbxEnable">Notify students</label>
           </div>
@@ -1349,7 +1349,7 @@
 
         <div class="row extraMargin">
           <div class="field-checkbox-wrapper pull-left">
-            
+
             <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox" id="NotifyStusde">
             <label for="NotifyStusde">Notify students</label>
           </div>
