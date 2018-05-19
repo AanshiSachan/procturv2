@@ -833,26 +833,7 @@ export class AllDataReportComponent implements OnInit {
 
   exportToExcel(event) {
     this.excelService.exportAsExcelFile(
-      [
-        {
-          id: 1,
-          name: 'Thomas',
-          surname: 'Novicky',
-          age: 21
-        },
-        {
-          id: 2,
-          name: 'Adam',
-          surname: 'Tracz',
-          age: 12
-        },
-        {
-          id: 3,
-          name: 'Steve',
-          surname: 'Laski',
-          age: 38
-        }
-      ],
+      this.feeDataSource1,
       'persons'
     )
   }

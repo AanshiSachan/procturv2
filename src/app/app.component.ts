@@ -4,7 +4,6 @@ import { trigger, animate, style, group, animateChild, query, stagger, transitio
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { LoginService } from './services/login-services/login.service';
-import { AuthenticatorService } from './services/authenticator.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { Title } from '@angular/platform-browser';
 import { AuthenticatorService } from './services/authenticator.service';
