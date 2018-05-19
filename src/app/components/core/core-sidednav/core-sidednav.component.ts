@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -15,7 +16,12 @@ export class CoreSidednavComponent implements OnInit {
   isLangInstitute: boolean = false;
   permissionData: any[] = [];
   userType: any = '';
-  constructor(private login: LoginService, private route: Router) { }
+
+  constructor(
+    private login: LoginService,
+    private route: Router,
+    private auth: AuthenticatorService
+  ) { }
 
 
   ngOnInit() {
@@ -445,12 +451,15 @@ export class CoreSidednavComponent implements OnInit {
 
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
   }
 
 

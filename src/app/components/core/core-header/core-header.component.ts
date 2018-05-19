@@ -308,11 +308,15 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   updatePermissions() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    this.checkUserHadAccess();
-    this.hasEnquiry = this.hasEnquiryAccess();
-    this.hasStudent = this.hasStudentAccess();
-    this.hasClass = this.hasCourseAccess();
+    this.auth.institute_type.subscribe(
+      res => {
+        this.isProfessional = res == 'LANG';
+        this.checkUserHadAccess();
+        this.hasEnquiry = this.hasEnquiryAccess();
+        this.hasStudent = this.hasStudentAccess();
+        this.hasClass = this.hasCourseAccess();
+      }
+    )
   }
 
 
@@ -436,10 +440,8 @@ export class CoreHeaderComponent implements OnInit {
 
   multiBranchInstituteFound() {
     this.mainBranchId = sessionStorage.getItem('institute_id');
-
     this.multiBranchService.getAllBranches().subscribe(
       res => {
-        //console.log(res);
         this.branchesList = res;
       },
       err => {
@@ -460,7 +462,7 @@ export class CoreHeaderComponent implements OnInit {
         this.router.navigateByUrl('/');
       },
       err => {
-
+        console.log(err);
       }
     )
   }
@@ -506,10 +508,12 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('inst_email', res.inst_email);
     sessionStorage.setItem('inst_phone', res.inst_phone);
     sessionStorage.setItem('institute_type', res.institute_type);
+    this.auth.institute_type.next(res.institute_type);
     sessionStorage.setItem('institute_name', res.institute_name);
     sessionStorage.setItem('is_campaign_message_approve_feature', res.is_campaign_message_approve_feature);
     sessionStorage.setItem('is_main_branch', res.is_main_branch);
     this.auth.isMainBranch.next(res.is_main_branch);
+    console.log('sds', res.is_main_branch);
     sessionStorage.setItem('is_student_bulk_upload_byClient', res.is_student_bulk_upload_byClient);
     sessionStorage.setItem('is_student_mgmt_flag', res.is_student_mgmt_flag);
     sessionStorage.setItem('login_teacher_id', res.login_teacher_id);

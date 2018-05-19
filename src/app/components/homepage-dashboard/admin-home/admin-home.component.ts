@@ -20,6 +20,7 @@ import { FetchenquiryService } from '../../../services/enquiry-services/fetchenq
 import { Chart } from 'angular-highcharts';
 import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'admin-home',
@@ -211,7 +212,16 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private enquiryService: FetchenquiryService, private widgetService: WidgetService) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private appC: AppComponent,
+    private login: LoginService,
+    private rd: Renderer2,
+    private enquiryService: FetchenquiryService,
+    private widgetService: WidgetService,
+    private auth: AuthenticatorService
+  ) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -222,9 +232,17 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));

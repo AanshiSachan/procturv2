@@ -3,6 +3,7 @@ import { SubjectApiService } from '../../../services/course-services/subject.ser
 import { AppComponent } from '../../../app.component';
 import { error } from 'util';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-course-subject',
@@ -36,7 +37,8 @@ export class CourseSubjectComponent implements OnInit {
 
   constructor(
     private apiService: SubjectApiService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
@@ -310,11 +312,15 @@ export class CourseSubjectComponent implements OnInit {
 
   checkInstituteType() {
     let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitue = true;
-    } else {
-      this.isLangInstitue = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitue = true;
+        } else {
+          this.isLangInstitue = false;
+        }
+      }
+    )
   }
 
   /* Customiized click detection strategy */
