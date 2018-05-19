@@ -33,7 +33,14 @@ export class PaymentHistoryMainComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
-
+  personData: any = {
+    paid_date: "",
+    paymentMode: "",
+    remarks: "",
+    reference_no: "",
+    invoice_no: "",
+  }
+  updationArray: any[] = [];
   searchByNameVisible: boolean = false;
   searchByDateVisible: boolean = true;
   newData: any[] = [];
@@ -73,7 +80,23 @@ export class PaymentHistoryMainComponent implements OnInit {
     fees_amount: 0
   }
 
-
+  updatedResult: any = {
+    feeSchedule_TxLst: {
+      schedule_id: "",
+      amount_paid: "",
+      balance_amount: "",
+      payment_tx_id: ""
+    },
+    fee_receipt_update_reason: "",
+    financial_year: "",
+    invoice_no: "",
+    old_invoice_no: "",
+    paid_date: "",
+    paymentMode: "",
+    reference_no: "",
+    remarks: "",
+    student_id: ""
+  }
   constructor(private payment: PaymentHistoryMainService, private appc: AppComponent) { }
 
 
@@ -130,7 +153,11 @@ export class PaymentHistoryMainComponent implements OnInit {
       (error: any) => {
         this.dataStatus = 2;
         this.isRippleLoad = false;
-        return error;
+        let msg = {
+          type: "error",
+          body: error.error.message
+        }
+        this.appc.popToast(msg);
       }
     )
 
@@ -160,8 +187,14 @@ export class PaymentHistoryMainComponent implements OnInit {
         this.perPersonData = data.feeSchedule_TxLst;
       },
       (error: any) => {
+        let msg = {
+          type: "error",
+          body: error.error.message
+        }
+        this.appc.popToast(msg);
         return error;
       }
+
     )
     console.log(this.perPersonData);
   }
@@ -302,14 +335,50 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   optionSelected(e) {
-    console.log(e);
+    this.personData = e.data;
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
+
         this.perPersonData = data.feeSchedule_TxLst;
         this.addReportPopUp = true;
       },
       (error: any) => {
-        return error;
+        let msg = {
+          type: "error",
+          body: error.error.message
+        }
+        this.appc.popToast(msg);
+      }
+    )
+   
+  }
+
+  updationOfPerPersonData() {
+    console.log(this.perPersonData);
+    this.updatedResult = {
+      feeSchedule_TxLst: {
+        schedule_id: this.personData.schedule_id,
+        amount_paid: this.personData.amount_paid,
+        balance_amount: this.personData.balance_amount,
+        payment_tx_id: this.personData.payment_tx_id
+      },
+
+      fee_receipt_update_reason: "",
+      financial_year: this.personData.financial_year,
+      invoice_no: this.personData.invoice_no,
+      old_invoice_no: this.personData.invoice_no,
+      paid_date: this.personData.paid_date,
+      paymentMode: this.personData.paymentMode,
+      reference_no: this.personData.reference_no,
+      remarks: this.personData.remarks,
+      student_id: ""
+    }
+    console.log(this.personData);
+    this.payment.updatePerPersonData(this.updatedResult).subscribe(
+      (data: any) => {
+
+        this.perPersonData = data
+        this.updationArray = data;
       }
     )
   }

@@ -7,6 +7,7 @@ import { LoginService } from './services/login-services/login.service';
 import { AuthenticatorService } from './services/authenticator.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { Title } from '@angular/platform-browser';
+import { AuthenticatorService } from './services/authenticator.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
 
   isloggedInAdmin: boolean;
 
-  isSearchMore: boolean;
+  isSearchMore: boolean = false;
   @ViewChild('footer') footer: ElementRef;
   /* ToasterConfig ==> {
     animation: 'fade', 'flyLeft', 'flyRight', 'slideDown', and 'slideUp'
@@ -56,10 +57,19 @@ export class AppComponent implements OnInit {
   }
 
   isRippleLoad: boolean = true;
-
+  institute_id: boolean = false;
 
   constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title, private auth: AuthenticatorService) {
+
     this.toasterService = toasterService;
+    this.auth.currentInstituteId.subscribe(id => {
+      if(id != null && id != ""){
+        this.institute_id = true;
+      }else{
+        this.institute_id = false;
+      }
+      
+    });
   }
 
 
@@ -92,6 +102,7 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
 
 
       this.log.currentMenuState.subscribe(el => {
