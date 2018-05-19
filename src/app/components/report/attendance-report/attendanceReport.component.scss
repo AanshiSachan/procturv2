@@ -145,6 +145,11 @@ $color-highlight: lighten($color-base, 7%);
     .inner-main {
         display: inline;
         padding: 20px 0px 12px 0px;
+        .form-btn{
+            .btn{
+                margin:0px 10px;
+            }
+        }
         .inner-btn {
             display: inline-block;
         }
