@@ -1,7 +1,7 @@
 <div class="dropdown-wrapper" *ngIf="!isDropdown">
-    <ul class="">
-        <li class="" (click)="selectOption(option)" *ngFor="let option of columnMaps">
-            <a class="">
+    <ul class="single">
+        <li  [ngClass]="{'hide': !isChequeUpdatable}" class="item" (click)="selectOption(option)" *ngFor="let option of columnMaps;">
+            <a>
                 {{option.header}}
             </a>
         </li>

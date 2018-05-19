@@ -6,11 +6,11 @@
     <div class="pull-left">
       <form [formGroup]="addTeacherForm" novalidate (ngSubmit)="addNewTeacherInfo()">
         <div class="row field-wrapper">
-            <label for="name">Faculty Name
-                <span style="color:red">*</span>
-              </label>
-          <input type="text" class="form-ctrl" formControlName="teacher_name" name="name" (focus)="inputClickedCheck($event)">
-         
+          <label for="name">Faculty Name
+            <span style="color:red">*</span>
+          </label>
+          <input type="text" class="form-ctrl" formControlName="teacher_name" name="name">
+
           <div *ngIf="addTeacherForm.controls['teacher_name'].invalid && (addTeacherForm.controls['teacher_name'].dirty || addTeacherForm.controls['teacher_name'].touched)"
             class="alert alert-danger">
             <div *ngIf="addTeacherForm.controls['teacher_name'].hasError('required')">
@@ -19,11 +19,11 @@
           </div>
         </div>
         <div class="row field-wrapper">
-            <label for="contNumber">Contact Number
-                <span style="color:red">*</span>
-              </label>
-          <input type="text" maxlength="10" class="form-ctrl" formControlName="teacher_phone" name="contNumber" (focus)="inputClickedCheck($event)">
-         
+          <label for="contNumber">Contact Number
+            <span style="color:red">*</span>
+          </label>
+          <input type="text" maxlength="10" class="form-ctrl" formControlName="teacher_phone" name="contNumber">
+
           <div *ngIf="addTeacherForm.controls['teacher_phone'].invalid && (addTeacherForm.controls['teacher_phone'].dirty || addTeacherForm.controls['teacher_phone'].touched)"
             class="alert alert-danger">
             <div *ngIf="addTeacherForm.controls['teacher_phone'].hasError('required')">
@@ -38,46 +38,42 @@
           </div>
         </div>
         <div class="row field-wrapper">
-            <label for="emailID">Email Id
-              </label>
-          <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email" (focus)="inputClickedCheck($event)">
-         
+          <label for="emailID">Email Id
+          </label>
+          <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email">
         </div>
         <div class="row field-wrapper">
-            <label for="CurrentAddress">Current Address
-              </label>
-          <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress" (focus)="inputClickedCheck($event)">
-          
+          <label for="CurrentAddress">Current Address
+          </label>
+          <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress">
         </div>
         <div class="row field-wrapper">
-            <label for="alternateNo">Alternate Contact Number
-              </label>
-          <input type="number" maxlength="10" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone" (focus)="inputClickedCheck($event)">
-          
+          <label for="alternateNo">Alternate Contact Number
+          </label>
+          <input type="text" maxlength="10" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone">
         </div>
         <div class="row field-wrapper">
-            <label for="standard">Standard
-              </label>
-          <input type="text" class="form-ctrl" name="standard" formControlName="teacher_standards" (focus)="inputClickedCheck($event)">
-          
+          <label for="standard">Standard
+          </label>
+          <input type="text" class="form-ctrl" name="standard" formControlName="teacher_standards">
         </div>
         <div class="row field-wrapper">
-            <label for="subject">Subjects
-              </label>
-          <input type="text" class="form-ctrl" name="subject" formControlName="teacher_subjects" (focus)="inputClickedCheck($event)">
-          
+          <label for="subject">Subjects
+          </label>
+          <input type="text" class="form-ctrl" name="subject" formControlName="teacher_subjects">
+
         </div>
         <div class="row field-wrapper">
-            <label for="salary">Salary (Per Hour)
-              </label>
-          <input type="text" class="form-ctrl" name="salary" formControlName="hour_rate" (focus)="inputClickedCheck($event)">
-          
+          <label for="salary">Salary (Per Hour)
+          </label>
+          <input type="text" class="form-ctrl" name="salary" formControlName="hour_rate">
+
         </div>
         <div class="row field-wrapper" *ngIf="enableBiometric == '1'">
-            <label for="biometric">Attendance Card ID
-              </label>
-          <input type="text" class="form-ctrl" name="biometric" formControlName="attendance_device_id" (focus)="inputClickedCheck($event)">
-         
+          <label for="biometric">Attendance Card ID
+          </label>
+          <input type="text" class="form-ctrl" name="biometric" formControlName="attendance_device_id">
+
         </div>
         <div class="extra-margin" style="margin-top: 15px;">
 

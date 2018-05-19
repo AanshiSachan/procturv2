@@ -37,8 +37,8 @@ export class PaymentHistoryMainService {
     )
   }
 
-  getPerPersonData(obj , i){
-    let url=this.baseUrl + "/api/v1/studentWise/fee/fetchTransactionsForFeeReceipt/" + i.invoice_no + "?financial_year=" + obj.financial_year;
+  getPerPersonData(fin , i){
+    let url=this.baseUrl + "/api/v1/studentWise/fee/fetchTransactionsForFeeReceipt/" +i + "?financial_year=" + fin;
     return this.http.get(url , {headers : this.headers}).map(
       data =>{
         return data;

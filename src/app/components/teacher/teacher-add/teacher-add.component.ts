@@ -52,13 +52,13 @@ export class TeacherAddComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if (isNaN(parseInt(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
+    if (!(this.validateNumber(formData.teacher_phone))) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if (isNaN(parseInt(formData.teacher_alt_phone)) || formData.teacher_alt_phone.length != 10) {
-        this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      if (!(this.validateNumber(formData.teacher_alt_phone))) {
+        this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
         return;
       }
     }
@@ -142,6 +142,16 @@ export class TeacherAddComponent implements OnInit {
       }
     } else {
       return true;
+    }
+  }
+
+  validateNumber(inputtxt) {
+    let phoneno = /^\d{10}$/;
+    if ((inputtxt.match(phoneno))) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
