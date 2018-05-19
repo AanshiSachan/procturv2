@@ -60,12 +60,14 @@ export class chatBotComponent {
       return;
     }
     this.auth.ZendeskAuth(this.payload).subscribe(
-
       (data: any) => {
-        this.flagData.emit(data.audit.ticket_id);
-        this.helpRequested();
-       
+        this.flagData.emit(data);
+        this.helpRequested();       
       },
+      (err: any)  => {
+        this.flagData.emit(err);
+        this.helpRequested();
+      }     
     )
   }
 

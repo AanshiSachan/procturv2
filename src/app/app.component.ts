@@ -272,17 +272,21 @@ export class AppComponent implements OnInit {
     this.footer.nativeElement.classList.remove('hide');
   }
 
-  handler(flag) {
-    console.log(flag);
-    if (flag != "") {
-      this.addReportPopup = true;
-      this.ticketId = flag;
+  handler(f) {
+    let flag:any = f;
 
+    if(flag.hasOwnProperty('ticket')){
+      this.addReportPopup = true;
+      this.ticketId = flag.ticket.id;
+      this.closechatbot = false;
     }
-    this.closechatbot = false;
+    else{
+      this.closechatbot = false;
+    }
   }
 
   closeReportPopup() {
     this.addReportPopup = false;
   }
+
 }
