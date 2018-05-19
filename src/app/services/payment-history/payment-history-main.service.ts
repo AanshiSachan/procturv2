@@ -49,4 +49,16 @@ export class PaymentHistoryMainService {
     )
   }
 
+  updatePerPersonData(obj){
+    let url = this.baseUrl + "/api/v1/studentWise/fee/updateFeeReceipt/" + this.institute_id + "/save";
+    return this.http.post(url , obj ,{headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
 }
