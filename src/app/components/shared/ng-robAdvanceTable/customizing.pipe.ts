@@ -71,14 +71,19 @@ export class CustomizingPipe implements PipeTransform {
                         return value;
                     }
                 }
-                else {
-                    let InitialResult = value.toLocaleString('en-IN', {
-                        maximumFractionDigits: 2,
-                        style: 'currency',
-                        currency: 'INR'
-                    }).slice(0, -3);
-        
-                    return InitialResult;
+                else{
+                    if(typeHead.toLowerCase().includes('type')){
+                        return value;
+                    }
+                    else{
+                        let InitialResult = value.toLocaleString('en-IN', {
+                            maximumFractionDigits: 2,
+                            style: 'currency',
+                            currency: 'INR'
+                        }).slice(0, -3);
+            
+                        return InitialResult;
+                    }
                 }
             }
             else{
