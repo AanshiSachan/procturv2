@@ -13,7 +13,7 @@ import { ExcelService } from '../../../../services/excel.service';
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  isChequePayment: boolean;
+  isChequePayment: boolean =false;
   isRippleLoad: boolean = false;
   sendPayload = {
     institute_id: this.payment.institute_id,
@@ -388,7 +388,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   updationOfPerPersonData() {
     
-    if (this.personData.invoice_no != null && this.personData.invoice_no.trim() != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != "0") {
+    if (this.personData.invoice_no != null && this.personData.invoice_no != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != 0) {
 
       if (this.updatedResult.fee_receipt_update_reason.trim() != "" && this.updatedResult.fee_receipt_update_reason != null) {
 
@@ -515,6 +515,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   payModeUpdated(e) {
+    console.log(e);
     if (e == "Cheque/PDC/DD No.") {
       this.isChequePayment = true;
     }
@@ -526,7 +527,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   isChequeFormValid(): boolean {
 
-    
+
 
     return false;
   }
