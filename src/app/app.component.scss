@@ -4,9 +4,10 @@
 }
 
 .router-wrapper {
-    max-height: 85vh;
+    max-height: 87vh;
     overflow-x: hidden;
     overflow-y: auto;
+    padding: 15px 15px 0px;
     ::-webkit-scrollbar {
         display: block;
         width: 7px;
@@ -93,7 +94,7 @@
     position: absolute;
     bottom: 45px;
     right: 0px;
-    height: 193px;
+    height: 244px;
     width: 256px;
     margin-right: 26px;
     border: 1px solid #efefef;
@@ -124,4 +125,19 @@ ul {
 
 a {
     color: #fff;
+}
+// .popupContent{
+//     width:93%;
+//     height:14%;
+//     padding: 21px 8px;
+// }
+// .popupData{
+//     width:93%;
+//     height:14%;
+//     padding: 21px 8px;
+// }
+.popup-header{
+    width:93%;
+    height:14%;
+    padding: 21px 8px;
 }

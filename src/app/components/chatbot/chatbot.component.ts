@@ -1,4 +1,3 @@
-
 import { Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
@@ -9,9 +8,7 @@ import { LoginService } from '../../services/login-services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { ViewChild, ElementRef } from '@angular/core';
-
-
+import { Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-chatbot',
@@ -20,9 +17,9 @@ import { ViewChild, ElementRef } from '@angular/core';
 })
 export class chatBotComponent {
   isProfessional: boolean = false;
-
+  closechatbot: boolean = true;
+  @Output() flagData: EventEmitter<any>;
   @ViewChild('helpForm') help: ElementRef;
-
 
   payload = {
     "ticket": {
@@ -36,6 +33,8 @@ export class chatBotComponent {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
+    this.flagData = new EventEmitter();
+
   }
 
   ngOnInit() {
@@ -44,31 +43,32 @@ export class chatBotComponent {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
-
   ZendeskLogin() {
-    this.auth.ZendeskAuth(this.payload).subscribe(
+    if (this.payload.ticket.subject == "" && this.payload.ticket.description == "") {
 
-      (data: any) => {
-        let msg = {
-          type: "success",
-          title: "",
-          body: "#" + data.audit.ticket_id + "  " + "Your Ticket has been Generated."
-        }
-        this.appC.popToast(msg);
-      },
-      error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+      this.helpRequested();
+      return;
+
+    }
+     if (this.payload.ticket.subject == "" || this.payload.ticket.description == "" ) {
+      let data = {
+        type: 'error',
+        title: "Error",
+        body: "Please fill Both this fields."
       }
+      this.appC.popToast(data);
+      return;
+    }
+    this.auth.ZendeskAuth(this.payload).subscribe(
+      (data: any) => {
+        this.flagData.emit(data);
+        this.helpRequested();       
+      },
+      (err: any)  => {
+        this.flagData.emit(err);
+        this.helpRequested();
+      }     
     )
-  }
-
-  ticketData() {
-
   }
 
   posterData() {
@@ -76,19 +76,20 @@ export class chatBotComponent {
   }
 
   helpRequested() {
-
     if (this.help.nativeElement.classList.contains('active')) {
+      this.payload.ticket.subject = "";
+      this.payload.ticket.description = "";
       this.help.nativeElement.classList.remove('active');
+
     }
     else {
       this.help.nativeElement.classList.add('active');
     }
-
   }
 
-   closeHelp(){
+  closeHelp() {
     this.help.nativeElement.classList.remove('active');
-   }
+  }
 
 }
 

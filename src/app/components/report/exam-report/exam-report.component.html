@@ -158,8 +158,6 @@
 </div>
 
 <proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
-
-
     <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
             <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -174,7 +172,6 @@
     </span>
 
     <h2 popup-header>DateWise Exam Report</h2>
-
     <div class="stu-table" popup-content>
 
         <div *ngIf="!isProfessional" style="height:402px;">
@@ -182,10 +179,8 @@
             <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table made ">
-
                 <table #examTable>
-
-                    <thead >
+                    <thead>
                         <tr>
                             <th style="text-align:right;">
                                 Student Id
@@ -224,7 +219,6 @@
                         </pagination>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -285,5 +279,5 @@
             </aside>
         </div>
     </div>
-    
+
 </proctur-popup>

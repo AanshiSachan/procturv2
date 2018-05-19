@@ -37,4 +37,28 @@ export class PaymentHistoryMainService {
     )
   }
 
+  getPerPersonData(fin , i){
+    let url=this.baseUrl + "/api/v1/studentWise/fee/fetchTransactionsForFeeReceipt/" +i + "?financial_year=" + fin;
+    return this.http.get(url , {headers : this.headers}).map(
+      data =>{
+        return data;
+      },
+      error =>{
+        return error;
+      }
+    )
+  }
+
+  updatePerPersonData(obj){
+    let url = this.baseUrl + "/api/v1/studentWise/fee/updateFeeReceipt/" + this.institute_id + "/save";
+    return this.http.post(url , obj ,{headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
 }

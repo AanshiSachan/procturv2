@@ -24,6 +24,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     @Input() defaultSort: string = "";
     @Input() isMulti: boolean = true;
     @Input() hasMenu: boolean = false;
+    @Input() dropType: number;
     @Input() menuOptions: DropData[];
 
     @Output() userRowSelect = new EventEmitter();
@@ -126,6 +127,9 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.selectedRow = ev;
         this.userRowSelect.emit(row);
         this.getSelectedRows();
+        console.log(ev);
+        console.log(row);
+        console.log($event)
     }
 
 

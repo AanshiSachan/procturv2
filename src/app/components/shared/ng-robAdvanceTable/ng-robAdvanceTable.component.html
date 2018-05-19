@@ -46,7 +46,7 @@
                                             {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header }}
                                         </li>
                                         <li class="option-menu" *ngIf="hasMenu">
-                                            <drop-menu [info]="record" [menuOptions]="menuOptions" (selectedRecord)="recordSelected($event)"></drop-menu>
+                                            <drop-menu [dropType]="dropType" [info]="record" [menuOptions]="menuOptions" (selectedRecord)="recordSelected($event)"></drop-menu>
                                         </li>
                                     </ul>
                                 </div>
