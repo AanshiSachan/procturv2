@@ -4,9 +4,7 @@ import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
 import { FilterPipe } from './filter.pipe';
 import { lang } from 'moment';
-
 import { ViewChild } from '@angular/core';
-
 import { ElementRef, Directive } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 
@@ -34,7 +32,7 @@ export class ExamReportComponent implements OnInit {
 
   subjectData: any[] = [];
   masterCourses: any[] = [];
-  
+
   addReportPopup: boolean = false;
   examTypeEntry: any[] = [];
   showTitle: boolean = false;
@@ -57,9 +55,9 @@ export class ExamReportComponent implements OnInit {
     { primaryKey: 'doj', header: 'Joining Date' },
     { primaryKey: 'grade', header: 'Grade' }
   ];
-  HighestMarks :string = "";
-  LowestMarks : string = "";
-  AverageMarks:string = "";
+  HighestMarks: string = "";
+  LowestMarks: string = "";
+  AverageMarks: string = "";
 
   queryParam = {
     standard_id: -1,
@@ -82,38 +80,38 @@ export class ExamReportComponent implements OnInit {
   property = "";
   direction = 0;
   sortingEnabled: boolean = true;
-  constructor(private login: LoginService , private examdata: ExamService, private appC: AppComponent) {
+  constructor(private login: LoginService, private examdata: ExamService, private appC: AppComponent) {
     this.switchActiveView('exam');
   }
 
   ngOnInit() {
-   
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if(this.isProfessional){
-      this.showTitle = true  
+    if (this.isProfessional) {
+      this.showTitle = true
       this.projectSettings = [
-    
+
         { primaryKey: 'student_disp_id', header: 'Student ID' },
         { primaryKey: 'student_name', header: 'Student Name' },
         { primaryKey: 'student_phone', header: 'Contact No.' },
         { primaryKey: 'doj', header: 'Joining Date' },
         { primaryKey: 'grade', header: 'Grade' }
       ];
-    
+
     }
-    
-    else{
-      this.showTitle=false;
+
+    else {
+      this.showTitle = false;
       this.projectSettings = [
-        { primaryKey: 'student_id', header: 'Student Id' },
+        { primaryKey: 'student_disp_id', header: 'Student Id' },
         { primaryKey: 'student_name', header: 'Student Name' },
         { primaryKey: 'student_phone', header: 'Contact No.' },
         { primaryKey: 'doj', header: 'Joining Date' },
         { primaryKey: 'total_marks', header: 'Total Marks' },
         { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
-        { primaryKey: 'rank', header: 'Rank' }, 
+        { primaryKey: 'rank', header: 'Rank' },
       ];
 
     }
@@ -325,36 +323,36 @@ export class ExamReportComponent implements OnInit {
           (res: any) => {
             if (res.length) {
               this.examSource = res;
-            
+
               this.Tdata = true;
-              
+
               this.HighestMarks = this.examSource[0].highest_marks;
               this.LowestMarks = this.examSource[0].lowest_marks;
               this.AverageMarks = this.examSource[0].average_marks;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if(this.examSource[0].grade==""){
+              if (this.examSource[0].grade == "") {
                 this.projectSettings = [
-                  { primaryKey: 'student_id', header: 'Student Id' },
+                  { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
                   { primaryKey: 'student_phone', header: 'Contact No.' },
                   { primaryKey: 'doj', header: 'Joining Date' },
                   { primaryKey: 'total_marks', header: 'Total Marks' },
                   { primaryKey: 'student_marks_obtained', header: 'Marks Obtained' },
-                  { primaryKey: 'student_rank', header: 'Rank' }, 
+                  { primaryKey: 'student_rank', header: 'Rank' },
                 ];
               }
-              else{
-                this.projectSettings = 
-                [{ primaryKey: 'student_id', header: 'Student Id' },
-                { primaryKey: 'student_name', header: 'Student Name' },
-                { primaryKey: 'student_phone', header: 'Contact No.' },
-                { primaryKey: 'doj', header: 'Joining Date' },
-                { primaryKey: 'grade', header: 'Grade' },
-              ];
+              else {
+                this.projectSettings =
+                  [{ primaryKey: 'student_disp_id', header: 'Student Id' },
+                  { primaryKey: 'student_name', header: 'Student Name' },
+                  { primaryKey: 'student_phone', header: 'Contact No.' },
+                  { primaryKey: 'doj', header: 'Joining Date' },
+                  { primaryKey: 'grade', header: 'Grade' },
+                  ];
               }
-              
+
             }
             else {
               let msg = {
@@ -362,6 +360,8 @@ export class ExamReportComponent implements OnInit {
                 body: "No Data Found"
               }
               this.examSource = [];
+              
+              
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.appC.popToast(msg);
@@ -399,31 +399,35 @@ export class ExamReportComponent implements OnInit {
         this.examdata.viewExamData(o).subscribe(
           (res: any) => {
             if (res.length) {
-             
+
               this.examSource = res;
               this.Tdata = true;
+            
+              this.HighestMarks = this.examSource[0].highest_marks;
+              this.LowestMarks = this.examSource[0].lowest_marks;
+              this.AverageMarks = this.examSource[0].average_marks;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if(this.examSource[0].grade==""){
+              if (this.examSource[0].grade == "") {
                 this.projectSettings = [
-                  { primaryKey: 'student_id', header: 'Student Id' },
+                  { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
                   { primaryKey: 'student_phone', header: 'Contact No.' },
                   { primaryKey: 'doj', header: 'Joining Date' },
                   { primaryKey: 'total_marks', header: 'Total Marks' },
                   { primaryKey: 'student_marks_obtained', header: 'Marks Obtained' },
-                  { primaryKey: 'student_rank', header: 'Rank' }, 
+                  { primaryKey: 'student_rank', header: 'Rank' },
                 ];
               }
-              else{
-                this.projectSettings = 
-                [{ primaryKey: 'student_id', header: 'Student Id' },
-                { primaryKey: 'student_name', header: 'Student Name' },
-                { primaryKey: 'student_phone', header: 'Contact No.' },
-                { primaryKey: 'doj', header: 'Joining Date' },
-                { primaryKey: 'grade', header: 'Grade' },
-              ];
+              else {
+                this.projectSettings =
+                  [{ primaryKey: 'student_disp_id', header: 'Student Id' },
+                  { primaryKey: 'student_name', header: 'Student Name' },
+                  { primaryKey: 'student_phone', header: 'Contact No.' },
+                  { primaryKey: 'doj', header: 'Joining Date' },
+                  { primaryKey: 'grade', header: 'Grade' },
+                  ];
               }
               console.log(res);
             }
@@ -538,6 +542,7 @@ export class ExamReportComponent implements OnInit {
       }
     }
   }
+
   getColor(status) {
     switch (status) {
       case 'Leave': return 'blue';
@@ -545,9 +550,6 @@ export class ExamReportComponent implements OnInit {
     }
   }
 
-
-  /*=========================================================================================
-  ========================================================================================== */
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
@@ -577,7 +579,6 @@ export class ExamReportComponent implements OnInit {
 
   }
 
-
   fetchTableDataByPagePopup(index) {
     this.pageIndexPopup = index;
     let startindex = this.displayBatchSize * (index - 1);
@@ -600,36 +601,21 @@ export class ExamReportComponent implements OnInit {
     let t = this.detailSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
-  // fetchTableDataByPagePopup(index) {
-  //   this.pageIndex = index;
-  //   let startindex = this.displayBatchSize * (index - 1);
-  //   this.pagedDetailedExamSource = this.getDataFromDataSourcePopup(startindex);
-  //   //console.log(this.pagedDetailedExamSource);
-  // }
 
   closeExamReport() {
     this.addReportPopup = false;
 
   }
 
-  /*================================================
-  ============================================== */
-
-
   downloadJsonToCSV() {
     console.log(this.xlsDownloader);
     let link = this.xlsDownloader.nativeElement;
     let outer = this.examTable.nativeElement.outerHTML.replace(/ /g, '%20');
     let data_type = 'data:application/vnd.ms-excel';
-
-
     link.setAttribute('href', data_type + ',' + outer);
-
     link.setAttribute('download', 'ExamReport.xls');
     link.click();
   }
-
-
 
   switchActiveView(id) {
 
@@ -655,17 +641,13 @@ export class ExamReportComponent implements OnInit {
     }
   }
   searchDatabase() {
-
     if (this.searchText != "" && this.searchText != null) {
-
       this.pageIndex = 1;
       let searchRes: any;
       searchRes = this.examSource.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
       );
-
-
       this.searchData = searchRes;
       this.totalRecords = searchRes.length;
       this.searchflag = true;
@@ -674,10 +656,7 @@ export class ExamReportComponent implements OnInit {
     else {
       this.searchflag = false;
       this.fetchTableDataByPage(this.pageIndex);
-
       this.totalRecords = this.examSource.length;
-
-
     }
 
   }
@@ -697,7 +676,6 @@ export class ExamReportComponent implements OnInit {
         }
       })
     }
-   
     this.pageIndex = 1;
     this.fetchTableDataByPage(this.pageIndex);
   }

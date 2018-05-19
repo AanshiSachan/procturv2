@@ -1,37 +1,16 @@
-<section class="middle-main clearFix" id="middleMain">
-    <div class="add-new-enquiry-form accordian-section">
+<section class="bot-wrapper">
 
-
-        <div class="field-wrapper" style="padding-top:6px">
-            <label for="Subject">Subject</label>
-            <input type="text" value="" class="form-ctrl  shift-label" name="Subject" [(ngModel)]="payload.ticket.subject">
-        </div>
-
-
-        <div class="field-wrapper">
-            <label for="Description">Description</label>
-            <!-- <input type="text" value="" class="form-ctrl shift-label" name="Description" [(ngModel)]="payload.ticket.description"> -->
-            <div class="form-wrapper">
-                
-                <input type="text" value="" class="form-ctrl shift-label space" name="Issue" [(ngModel)]="payload.ticket.description.Issue">
-            </div>
-        </div>
-        <div>
-            <button class="btn fullBlue btnclass right-shift" (click)="posterData()">Submit</button>
-            <i class="far fa-arrow-alt-circle-right"></i>
-        </div>
-
-
-        <!--<section class="bot-wrapper">
     <div class="trigger" (click)="helpRequested()">
         <a class="button-block">
             Need Help
             <span class="arrow arrow-top"></span>
         </a>
     </div>
-    <div #helpForm class="help-form">
+
+    <div #helpForm class="help-form popupContent" >
+
         <div class="row pull-right">
-            <span class="closePopup pos-abs fbold show"  (click)="helpRequested()">
+            <span class="closePopup pos-abs fbold show" (click)="closeHelp()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                     <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -43,7 +22,26 @@
                     </g>
                 </svg>
             </span>
-        </div>-->
+        </div>
+
+        <div class="row form-box">
+
+            <div class="field-wrapper">
+                <label for="Subject">Subject</label>
+                <input type="text" value="" class="form-ctrl  shift-label" name="Subject" [(ngModel)]="payload.ticket.subject">
+            </div>
+
+            <div class="field-wrapper">
+                <label for="Description"></label>
+                <textarea class="form-ctrl help-desc" name="Description" id="Description" cols="30" rows="10" [(ngModel)]="payload.ticket.description"
+                    placeholder="Describe Issue Max 500 Characters"></textarea>
+            </div>
+
+            <div>
+                <button class="btn fullBlue btnclass right-shift" (click)="posterData()">Submit</button>
+            </div>
+
+        </div>
 
     </div>
 </section>

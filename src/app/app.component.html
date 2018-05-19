@@ -8,7 +8,7 @@
             </loaders-css>
             <core-sidednav class="hide">
             </core-sidednav>
-            <section class="middle-section clearFix">
+            <section class="middle-section clearFix router-wrapper">
                 <div>
                     <toaster-container [toasterconfig]="config"></toaster-container>
                 </div>
@@ -166,29 +166,41 @@
 
     </proctur-popup>
 
-
-    <div class="footer-section" style="position:fixed">
-        <section class="bot-wrapper">
-            <div class="trigger">
-                <a class="button-block" (click)="helpToggle()">
-                    Need Help
-                    <span class="arrow arrow-top"></span>
-                </a>
-            </div>
-            <div class="help-form active" *ngIf="helpLoader">
-                <app-chatbot (flagData)="handler($event)"></app-chatbot>
-                <!-- <div class="row"></div> -->
-            </div>
-        </section>
-
-    </div>
+    <proctur-popup [sizeWidth]="'small'" class="popupData" *ngIf="addReportPopup">
 
 
-    <!--
-    <div class="footer-section">
+        <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                    </g>
+                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                    />
+                </g>
+            </svg>
+
+        </span>
+        <div popup-header>
+        </div>
+        <div popup-content>
+            <span>
+                Thanks For visiting Our WebSite.
+                <br>Your Ticket Id
+                <b>#{{ticketId}}</b> has been generated.
+                <br>We Will get back to You Shortly.
+            </span>
+        </div>
+
+
+
+    </proctur-popup>
+
+    <div #footer class="hide footer-section">
         <ul class="footer-list">
             <li>
-                <i  class="fa fa-phone"></i> +91 9971831677</li>
+                <i class="fa fa-phone"></i> +91 9971831677</li>
             <li>
                 <i class="fa fa-envelope"></i>
                 <a href="mailto:support@proctur.com">support@proctur.com</a>
@@ -204,7 +216,5 @@
         </ul>
     </div>
 
-    <app-chatbot class=""></app-chatbot>
-
--->
+    <app-chatbot (flagData)="handler($event)"></app-chatbot>
 </div>

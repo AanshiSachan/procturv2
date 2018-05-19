@@ -62,42 +62,16 @@
     }
 }
 
-body {
-  background: #EEEEF4;
-  color: #999;
-}
-
-h1 {
-  font-weight: 100;
-  font-size: 27pt;
-  color: #E43;
-}
-
-p {
-  font-weight: 300;
-}
-
-.warning-content {
-  position: absolute;
-  top: 60px;
-  width: 100%;
-  height: 300px;
-  text-align: center;
-  margin: 0;
-}
-.shift-label{
-  margin-left:14px!important;
-  width:88%!important
-}
-.field-wrapper{
-  label{
-margin-left: 25px;
+.form-box{
+  margin-top: 35px !important;
+  padding: 15px;
+  .help-desc{
+    height: 200px;
+    margin-bottom: 10px;
   }
 }
-.right-shift{
-  margin-top:20px;
- margin-left: 164px;
-}
-.space{
-  height:81px;
+.popupContent{
+  width:93%;
+  height:14%;
+  padding: 21px 8px;
 }
