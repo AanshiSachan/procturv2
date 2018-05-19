@@ -13,7 +13,7 @@ import { ExcelService } from '../../../../services/excel.service';
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  isChequePayment: boolean =false;
+  isChequePayment: boolean = false;
   isRippleLoad: boolean = false;
   sendPayload = {
     institute_id: this.payment.institute_id,
@@ -110,7 +110,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     bank_name: "",
     cheque_date: "",
     cheque_no: "",
-    cheque_status_id:""
+    cheque_status_id: ""
   }
   constructor(private payment: PaymentHistoryMainService, private excelService: ExcelService, private appc: AppComponent) { }
 
@@ -387,7 +387,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   updationOfPerPersonData() {
-    
+
     if (this.personData.invoice_no != null && this.personData.invoice_no != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != 0) {
 
       if (this.updatedResult.fee_receipt_update_reason.trim() != "" && this.updatedResult.fee_receipt_update_reason != null) {
@@ -396,6 +396,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
           if (this.isChequeFormValid()) {
             let obj = {
+              chequeDetailsJson: this.chequeDetailsJson,
               feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
               fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
               financial_year: this.personData.financial_year,
@@ -527,9 +528,19 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   isChequeFormValid(): boolean {
 
+    if (this.chequeDetailsJson.bank_name.trim() != "") {
+      if (this.chequeDetailsJson.cheque_no != 0 && this.chequeDetailsJson.cheque_no != null) {
+        return true
+      }
+      else {
+        return false
+      }
+    }
+    else {
+      return false;
+    }
 
 
-    return false;
   }
 
 
