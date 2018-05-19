@@ -194,7 +194,7 @@
 </div>
 
 
-<proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopUp && perPersonData.length!=0">
+<proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopUp">
 
   <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -215,6 +215,7 @@
 
   <div popup-content class="main-student-table">
     <div class="table table-responsive">
+   
       <table>
         <thead>
           <tr>
@@ -248,7 +249,7 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" OnlyNumber="true" class="form-ctrl" [ngModel]="d.amount_paid" (ngModelChange)="updateStudentFee($event, i)"
+                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" (ngModelChange)="updateStudentFee($event, i)"
                   name='paidVal'>
               </div>
             </td>
@@ -258,6 +259,7 @@
           </tr>
         </tbody>
       </table>
+      
       <div class="row" class="field-made">
 
         <div class="c-lg-6 field-wrapper datePickerBox">
@@ -299,6 +301,7 @@
           <span class="field-red">*</span>
           <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.fee_receipt_update_reason">
         </div>
+
       </div>
 
       <div *ngIf="isChequePayment" style="margin-top: 10px;" class="field-made">
@@ -313,30 +316,31 @@
             <div class="c-lg-6 field-wrapper">
               <label>Cheque No.</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl">
+              <input type="text" class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_no">
             </div>
           </div>
           <div class="row">
             <div class="c-lg-6 field-wrapper datePickerBox">
               <label>Cheque Date</label>
-              <input type="text" class="form-ctrl" bsDatepicker>
+              <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date">
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>
               <input type="text" class="form-ctrl">
             </div>
           </div>
+
           <div class="row">
 
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Status</label>
-              <select class="form-ctrl">
-                <option value="-1" selected>
+              <select class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_status_id">
+                <option value="1" selected>
                 </option>
-                <option value="1">
+                <option value="2">
                   Dishonoured
                 </option>
-                <option value="1">
+                <option value="3">
                   Cleared
                 </option>
               </select>
@@ -344,7 +348,7 @@
           </div>
 
           <div style="margin-top: 5px;">
-            <input type="button" class="btn fullBlue" value="Save">
+            <input type="button" class="btn fullBlue" value="Save" (click)="updationOfPerPersonData()">
             <input type="button" class="btn fullBlue" value="Close">
           </div>
 
@@ -356,7 +360,7 @@
 
 
   <div popup-footer>
-    <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()">
+      <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()">
   </div>
 
 </proctur-popup>
