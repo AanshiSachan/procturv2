@@ -52,11 +52,11 @@ export class PaymentHistoryMainComponent implements OnInit {
   addReportPopUp: boolean = false;
   perPersonData: any[] = [];
   helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
-  helpMsg3:string = " Fee(s) collected from active students";
-  helpMsg4:string = " Fee(s) collected from inactive students";
-  helpMsg1:string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
-  helpMsg2:string = " Fee(s)collected from archived students";
-  
+  helpMsg3: string = " Fee(s) collected from active students";
+  helpMsg4: string = " Fee(s) collected from inactive students";
+  helpMsg1: string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
+  helpMsg2: string = " Fee(s)collected from archived students";
+
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -86,7 +86,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     cardValue: 0,
     fees_amount: 0
   }
-
+  specifyCheckbox: boolean = false;
   updatedResult: any = {
     feeSchedule_TxLst: {
       schedule_id: "",
@@ -105,7 +105,14 @@ export class PaymentHistoryMainComponent implements OnInit {
     student_id: ""
   }
 
-  constructor(private payment: PaymentHistoryMainService, private excelService:ExcelService ,private appc: AppComponent) { }
+
+  chequeDetailsJson: any = {
+    bank_name: "",
+    cheque_date: "",
+    cheque_no: "",
+    cheque_status_id:""
+  }
+  constructor(private payment: PaymentHistoryMainService, private excelService: ExcelService, private appc: AppComponent) { }
 
 
   ngOnInit() {
@@ -140,52 +147,52 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     if (this.searchflag) {
       this.isRippleLoad = false;
-      if(this.allPaymentRecords.length == 0){
-        this.dataStatus = 2;  
+      if (this.allPaymentRecords.length == 0) {
+        this.dataStatus = 2;
       }
-      else{
+      else {
         this.dataStatus = 0;
       }
       this.searchflag = false;
       return;
     }
     else {
-    this.payment.getPaymentData(this.sendPayload).subscribe(
-      (data: any) => {
-        if (data.length == 0) {
+      this.payment.getPaymentData(this.sendPayload).subscribe(
+        (data: any) => {
+          if (data.length == 0) {
+            this.dataStatus = 2;
+          }
+          else {
+            this.dataStatus = 0;
+          }
+          this.allPaymentRecords = data;
+          this.tempRecords = data;
+          this.newData = data.map((ele: any) => ele.paymentModeAmountMap
+          );
+
+          if (this.newData.length) {
+            this.isRippleLoad = false;
+            /* update CollectionObject Data for display */
+          }
+          else {
+            this.isRippleLoad = false;
+            this.dataStatus = 2;
+          }
+
+        },
+        (error: any) => {
           this.dataStatus = 2;
-        }
-        else {
-          this.dataStatus = 0;
-        }
-        this.allPaymentRecords = data;
-        this.tempRecords = data;
-        this.newData = data.map((ele: any) => ele.paymentModeAmountMap
-        );
-
-        if (this.newData.length) {
+          // this.dataStatus = 0;
           this.isRippleLoad = false;
-          /* update CollectionObject Data for display */
+          let msg = {
+            type: "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
         }
-        else {
-          this.isRippleLoad = false;
-          this.dataStatus = 2;
-        }
+      )
 
-      },
-      (error: any) => {
-        this.dataStatus = 2;
-        // this.dataStatus = 0;
-        this.isRippleLoad = false;
-        let msg = {
-          type: "error",
-          body: error.error.message
-        }
-        this.appc.popToast(msg);
-      }
-    )
-
-  }
+    }
   }
 
 

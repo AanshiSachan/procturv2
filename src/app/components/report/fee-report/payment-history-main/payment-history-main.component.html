@@ -257,7 +257,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="row">
+      <div class="row" class="field-made">
 
         <div class="c-lg-6 field-wrapper datePickerBox">
           <label>Payment Date</label>
@@ -290,16 +290,70 @@
       <div class="row">
         <div class="c-lg-6 field-wrapper">
           <label>Receipt No.</label>
+          <span class="field-red">*</span>
           <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="personData.invoice_no">
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reason for Update</label>
+          <span class="field-red">*</span>
           <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.fee_receipt_update_reason">
         </div>
       </div>
 
     </div>
   </div>
+
+    <div *ngIf="isChequePayment" style="margin-top: 10px;" class="field-made">
+      <div>
+        <h2 style="margin-left:8px;">Cheque Details</h2>
+        <div class="row">
+          <div class="c-lg-6 field-wrapper">
+            <label>Bank Name</label>
+            <span class="field-red">*</span>
+            <input type="text" class="form-ctrl">
+          </div>
+          <div class="c-lg-6 field-wrapper">
+            <label>Cheque No.</label>
+            <span class="field-red">*</span>
+            <input type="text" class="form-ctrl">
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-lg-6 field-wrapper datePickerBox">
+            <label>Cheque Date</label>
+            <input type="text" class="form-ctrl" bsDatepicker>
+          </div>
+          <div class="c-lg-6 field-wrapper">
+            <label>Cheque Amount</label>
+            <input type="text" class="form-ctrl">
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="c-lg-6 field-wrapper">
+            <label>Cheque Status</label>
+            <select class="form-ctrl">
+              <option value="-1" selected>
+              </option>
+              <option value="1">
+                Dishonoured
+              </option>
+              <option value="1">
+                Cleared
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 5px;">
+          <input type="button" class="btn fullBlue" value="Save">
+          <input type="button" class="btn fullBlue" value="Close">
+        </div>
+
+      </div>
+    </div>
+
+
 
   <div popup-footer>
       <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()">
