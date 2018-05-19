@@ -59,6 +59,17 @@ export class chatBotComponent {
       this.appC.popToast(data);
       return;
     }
+    if(this.payload.ticket.description > "500" ){
+      let data = {
+        type: 'error',
+        title: "Description should not be greater than 500 Characters",
+        body: "error"
+      }
+      this.appC.popToast(data);
+      return;
+    }
+
+    
     this.auth.ZendeskAuth(this.payload).subscribe(
       (data: any) => {
         this.flagData.emit(data);
