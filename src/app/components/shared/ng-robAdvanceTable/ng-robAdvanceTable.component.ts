@@ -83,18 +83,19 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
     getColor(key, data) {
        
-        if (data == "Active") {
-            return 'green'
-
-        }
-        else if (data == "Inactive") {
-            return 'red'
-        }
-        else if (data == "Historical") {
-            return 'brown'
-        }
-        else if(data == "Archived"){
-            return 'blue';
+        if (key == "student_category") {
+            if (data == "active") {
+                return 'green'
+            }
+            else if (data == "inactive") {
+                return 'red'
+            }
+            else if (data == "historical") {
+                return 'brown'
+            }
+            else if (data == "archived") {
+                return 'blue';
+            }
         }
     }
 
