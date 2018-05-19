@@ -23,7 +23,7 @@ export class AuthenticatorService {
     currentInstituteId = this.instituteId.asObservable();
     currentAuthKey = this.authToken.asObservable();
     isMainBranch = new BehaviorSubject('N');
-    institute_type = new BehaviorSubject('');
+    institute_type = new BehaviorSubject('LANG');
 
      //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
      public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";

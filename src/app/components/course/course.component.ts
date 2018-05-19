@@ -163,7 +163,7 @@ export class CourseComponent implements OnInit {
           if (permissionArray.indexOf('501') != -1) {
             document.getElementById('liStandard').classList.remove('hide');
           }
-          if (permissionArray.indexOf('502')) {
+          if (permissionArray.indexOf('502') != -1) {
             document.getElementById('liSubject').classList.remove('hide');
           }
           if (permissionArray.indexOf('401') != -1) {
