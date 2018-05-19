@@ -1,7 +1,10 @@
 <div class="main-wrapper">
+
     <overlay-menu *ngIf="isMenuVisible"></overlay-menu>
+
     <core-header (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)" class="hide">
     </core-header>
+
     <div id="middleWrapper">
         <main>
             <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
@@ -16,7 +19,7 @@
                 </router-outlet>
             </section>
         </main>
-        
+
     </div>
 
     <proctur-popup [sizeWidth]="'large'" *ngIf="isSearchMore">
@@ -166,10 +169,10 @@
 
     </proctur-popup>
 
-    <div #footer class="footer-section">
+    <div [ngClass]="{'hide': !isloggedInAdmin}" #footer class="footer-section">
         <ul class="footer-list">
             <li>
-                <i  class="fa fa-phone"></i> +91 9971831677</li>
+                <i class="fa fa-phone"></i> +91 9971831677</li>
             <li>
                 <i class="fa fa-envelope"></i>
                 <a href="mailto:support@proctur.com">support@proctur.com</a>
@@ -185,6 +188,7 @@
         </ul>
     </div>
 
-    <app-chatbot>
+    <app-chatbot [ngClass]="{'hide': !isloggedInAdmin}">
     </app-chatbot>
+
 </div>

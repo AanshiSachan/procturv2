@@ -4,6 +4,7 @@ import { trigger, animate, style, group, animateChild, query, stagger, transitio
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { LoginService } from './services/login-services/login.service';
+import { AuthenticatorService } from './services/authenticator.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { Title } from '@angular/platform-browser';
 
@@ -14,7 +15,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit {
 
-
+  isloggedInAdmin: boolean;
   isSearchMore: boolean;
   @ViewChild('footer') footer: ElementRef;
   /* ToasterConfig ==> {
@@ -53,8 +54,7 @@ export class AppComponent implements OnInit {
   isRippleLoad: boolean = true;
 
 
-  constructor(toasterService: ToasterService, private router: Router,
-    private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title) {
+  constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title, private auth: AuthenticatorService) {
     this.toasterService = toasterService;
   }
 
@@ -88,11 +88,31 @@ export class AppComponent implements OnInit {
         }
       }
     });
-     
+
 
     this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
     })
+
+    this.auth.currentInstituteId.subscribe(e => {
+      if (e == null || e == undefined || e == '') {
+        this.isloggedInAdmin = false;
+      }
+      else {
+        let p = sessionStorage.getItem('permissions');
+        let user = sessionStorage.getItem('userType')
+
+        if(user == "0"){
+          if (p == null || p == undefined || p == ''){
+            this.isloggedInAdmin = true;
+          }
+          else{
+            this.isloggedInAdmin = false
+          }
+        }
+      }
+    });
+
   }
 
 
@@ -244,7 +264,7 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle(newTitle);
   }
 
-  informFooter(){
+  informFooter() {
     this.footer.nativeElement.classList.remove('hide');
   }
 
