@@ -31,6 +31,8 @@ import { DropMenuComponent } from './ng-robAdvanceTable/dropmenu/dropmenu.compon
 
 import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
 
+import { OnlyNumber } from './onlynumber.directive';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -54,7 +56,8 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
         SearchPipe,
         CustomizingPipe,
         DropMenuComponent,
-        RobTooltipComponent
+        RobTooltipComponent,
+        OnlyNumber
     ],
     exports: [
         CommonModule,
@@ -70,7 +73,8 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
         SearchPipe,
         CustomizingPipe,
         DropMenuComponent,
-        RobTooltipComponent
+        RobTooltipComponent,
+        OnlyNumber
     ],
     entryComponents: [
         DropMenuComponent,
