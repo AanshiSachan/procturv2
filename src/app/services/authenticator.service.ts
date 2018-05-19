@@ -23,7 +23,7 @@ export class AuthenticatorService {
     currentInstituteId = this.instituteId.asObservable();
     currentAuthKey = this.authToken.asObservable();
     isMainBranch = new BehaviorSubject('N');
-    institute_type = new BehaviorSubject('');
+    institute_type = new BehaviorSubject('LANG');
 
      //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
      public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
@@ -97,7 +97,7 @@ export class AuthenticatorService {
         this.token = null;
         this.institute_id = null;
         this.standard_id = null;
-        this.institute_type = null;
+        this.institute_type.next('LANG');
         this.institution_type = null;
         sessionStorage.setItem('Authorization', null);
         sessionStorage.setItem('institute_id', null);

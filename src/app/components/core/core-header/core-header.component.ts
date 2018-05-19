@@ -55,6 +55,7 @@ export class CoreHeaderComponent implements OnInit {
   mainBranchId: any = "";
   isMainBranch: any = "N";
   showMainBranchBackBtn: boolean = false;
+  checkAdmin: any = "";
 
   constructor(
     private log: LoginService,
@@ -100,6 +101,8 @@ export class CoreHeaderComponent implements OnInit {
         }
       }
     )
+
+    this.checkAdmin = this.checkToShowMultiBranch();
 
     this.multiBranchService.subBranchSelected.subscribe(
       res => {
@@ -535,6 +538,23 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('enable_online_payment_feature', res.enable_online_payment_feature);
     sessionStorage.setItem('institute_setup_type', res.institute_setup_type);
     sessionStorage.setItem('allow_sms_approve_feature', res.allow_sms_approve_feature);
+  }
+
+  checkToShowMultiBranch() {
+    this.log.currentUserType.subscribe(
+      res => {
+        if (res == '3') {
+          this.checkAdmin = false;
+        } else {
+          let permissions = sessionStorage.getItem('permissions');
+          if (permissions != "" && permissions != null && permissions != undefined) {
+            this.checkAdmin = false;
+          } else {
+            this.checkAdmin = true;
+          }
+        }
+      }
+    )
   }
 
 }

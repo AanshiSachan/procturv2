@@ -563,9 +563,19 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   isChequeFormValid(): boolean {
 
+    if (this.chequeDetailsJson.bank_name.trim() != "") {
+      if (this.chequeDetailsJson.cheque_no != 0 && this.chequeDetailsJson.cheque_no != null) {
+        return true
+      }
+      else {
+        return false
+      }
+    }
+    else {
+      return false;
+    }
 
 
-    return false;
   }
 
 
