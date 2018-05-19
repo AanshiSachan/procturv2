@@ -1,8 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+//import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../app.component';
-import * as moment from 'moment';
 import { ZendAuth } from '../../services/Chat-bot/chatbot.service';
 import { LoginService } from '../../services/login-services/login.service';
 import { Observable } from 'rxjs/Rx';
@@ -45,7 +44,7 @@ export class chatBotComponent {
 
   ZendeskLogin() {
     if (this.payload.ticket.subject == "" && this.payload.ticket.description == "") {
-
+   
       this.helpRequested();
       return;
 
@@ -59,11 +58,11 @@ export class chatBotComponent {
       this.appC.popToast(data);
       return;
     }
-    if(this.payload.ticket.description > "500" ){
+   if(this.payload.ticket.description.length > 499 ){
       let data = {
         type: 'error',
         title: "Description should not be greater than 500 Characters",
-        body: "error"
+        body: ""
       }
       this.appC.popToast(data);
       return;
