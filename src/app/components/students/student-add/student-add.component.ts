@@ -1610,15 +1610,18 @@ export class StudentAddComponent implements OnInit {
   convertToStudentDetected() {
     this.isConvertEnquiry = true;
     this.enquiryData = JSON.parse(localStorage.getItem('studentPrefill'));
-    console.log(this.enquiryData);
     this.studentAddFormData.student_name = this.enquiryData.name;
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
+    this.studentAddFormData.school_name = this.enquiryData.school_name;
+    this.studentAddFormData.student_class = this.enquiryData.standard_id;
+    this.studentAddFormData.standard_id = this.enquiryData.standard_id;
     this.studentAddFormData.parent_name = this.enquiryData.parent_email;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
     this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
+
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
     this.fetchEnquiryCustomComponentDetails();
