@@ -16,6 +16,7 @@ import { Title } from '@angular/platform-browser';
 export class AppComponent implements OnInit {
 
   isloggedInAdmin: boolean;
+
   isSearchMore: boolean;
   @ViewChild('footer') footer: ElementRef;
   /* ToasterConfig ==> {
@@ -39,6 +40,9 @@ export class AppComponent implements OnInit {
   });
 
   helpLoader: boolean = false;
+  ticketId = "";
+  addReportPopup: boolean = false;
+  closechatbot: boolean = true;
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   searchResult: any[] = [];
@@ -90,7 +94,7 @@ export class AppComponent implements OnInit {
     });
 
 
-    this.log.currentMenuState.subscribe(el => {
+      this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
     })
 
@@ -268,4 +272,17 @@ export class AppComponent implements OnInit {
     this.footer.nativeElement.classList.remove('hide');
   }
 
+  handler(flag) {
+    console.log(flag);
+    if (flag != "") {
+      this.addReportPopup = true;
+      this.ticketId = flag;
+
+    }
+    this.closechatbot = false;
+  }
+
+  closeReportPopup() {
+    this.addReportPopup = false;
+  }
 }
