@@ -10,8 +10,7 @@
         <div class="report-header" style="padding-bottom:1%">
           <h2 style="padding: 5px;" class="pull-left">
             <a routerLink="/reports/fee">
-              Report
-
+              Activity Home
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
           </h2>
@@ -237,7 +236,6 @@
           </tr>
         </thead>
         <tbody>
-
           <tr *ngFor="let d of perPersonData; let i = index;">
             <td>
               {{d.installment_no}}
@@ -250,7 +248,7 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="number" class="form-ctrl" [ngModel]="d.amount_paid" (ngModelChange)="updateStudentFee($event, i)" name='paidVal'>
+                <input type="text" OnlyNumber="true" class="form-ctrl" [ngModel]="d.amount_paid" (ngModelChange)="updateStudentFee($event, i)" name='paidVal'>
               </div>
             </td>
             <td>
@@ -263,7 +261,7 @@
 
         <div class="c-lg-6 field-wrapper datePickerBox">
           <label>Payment Date</label>
-          <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="updatedResult.paid_date">
+          <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="updatedResult.paid_date">
         </div>
 
         <div class="c-lg-6 field-wrapper">
@@ -293,7 +291,7 @@
         <div class="c-lg-6 field-wrapper">
           <label>Receipt No.</label>
           <span class="field-red">*</span>
-          <input type="text" class="form-ctrl" [(ngModel)]="personData.invoice_no">
+          <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="personData.invoice_no">
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reason for Update</label>
@@ -303,12 +301,7 @@
       </div>
 
     </div>
-
-
-    <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()">
-
-
-    <input type="button" class="btn fullBlue" value="Close">
+  </div>
 
     <div *ngIf="isChequePayment" style="margin-top: 10px;" class="field-made">
       <div>
@@ -361,5 +354,9 @@
     </div>
 
 
+
+  <div popup-footer>
+      <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()">
   </div>
+
 </proctur-popup>

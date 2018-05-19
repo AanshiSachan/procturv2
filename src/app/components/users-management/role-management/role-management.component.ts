@@ -18,6 +18,7 @@ export class RoleManagementComponent implements OnInit {
   searchDataFlag: boolean = false;
   totalRow: number = 0;
   searchedData: any = [];
+  toottip: string = "We can customize roles buy defining multiple activities to a user";
 
   constructor(
     private apiService: RoleService,

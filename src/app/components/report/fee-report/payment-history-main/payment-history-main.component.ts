@@ -387,10 +387,10 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   updationOfPerPersonData() {
-
+    
     if (this.personData.invoice_no != null && this.personData.invoice_no.trim() != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != "0") {
 
-      if (this.updatedResult.fee_receipt_update_reason.trim() == "" && this.updatedResult.fee_receipt_update_reason == null) {
+      if (this.updatedResult.fee_receipt_update_reason.trim() != "" && this.updatedResult.fee_receipt_update_reason != null) {
 
         if (this.isChequePayment) {
 
@@ -435,9 +435,16 @@ export class PaymentHistoryMainComponent implements OnInit {
 
           this.payment.updatePerPersonData(obj).subscribe(
             (data: any) => {
-
-              this.perPersonData = data
+              this.perPersonData = data;
               this.updationArray = data;
+            },
+            err => {
+              let msg = {
+                type: "error",
+                title: "",
+                body: ""
+              }
+              this.appc.popToast(msg);
             }
           );
 
@@ -445,13 +452,22 @@ export class PaymentHistoryMainComponent implements OnInit {
 
       }
       else {
-
+        let msg = {
+          type: "error",
+          title: "Update Reason Cannot Be Empty",
+          body: ""
+        }
+        this.appc.popToast(msg);
       }
     }
     else {
-
+      let msg = {
+        type: "error",
+        title: "Receipt Number Cannot Be Empty",
+        body: ""
+      }
+      this.appc.popToast(msg);
     }
-
   }
 
 
@@ -510,8 +526,11 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   isChequeFormValid(): boolean {
 
+    
+
     return false;
   }
+
 
 }
 
