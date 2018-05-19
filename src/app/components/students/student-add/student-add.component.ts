@@ -1187,13 +1187,11 @@ export class StudentAddComponent implements OnInit {
       }
     }
   }
-
-
-  validateDOB(): string {
-    if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date') {
+    validateDOB(): string{
+    if(this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date'){
       return '';
     }
-    else {
+    else{
       return moment(this.studentAddFormData.dob).format("YYYY-MM-DD");
     }
   }
