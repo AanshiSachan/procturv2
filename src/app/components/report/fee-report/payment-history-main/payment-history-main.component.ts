@@ -13,7 +13,7 @@ import { ExcelService } from '../../../../services/excel.service';
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
-  isChequePayment: boolean =false;
+  isChequePayment: boolean = false;
   isRippleLoad: boolean = false;
   sendPayload = {
     institute_id: this.payment.institute_id,
@@ -110,7 +110,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     bank_name: "",
     cheque_date: "",
     cheque_no: "",
-    cheque_status_id:""
+    cheque_status_id: ""
   }
   constructor(private payment: PaymentHistoryMainService, private excelService: ExcelService, private appc: AppComponent) { }
 
@@ -367,12 +367,26 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.personData = e.data;
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
-        this.perPersonData = data.feeSchedule_TxLst.map(e => {
-          e.amountToBePaid = e.amount_paid;
-          e.receipt_old_id = e.invoice_no;
-          return e;
-        })
-        this.addReportPopUp = true;
+        if(data.feeSchedule_TxLst.length){
+
+          this.perPersonData = data.feeSchedule_TxLst.map(e => {
+            e.amountToBePaid = e.amount_paid;
+            e.receipt_old_id = e.invoice_no;
+            return e; 
+          });
+          console.log(this.perPersonData);
+          this.addReportPopUp = true;
+        }
+        else{
+          let msg = {
+            type: "info",
+            title: "",
+            body: ""
+          }
+          this.appc.popToast(msg);          
+          this.addReportPopUp = false;
+        }
+      
       },
       (error: any) => {
         let msg = {
@@ -387,7 +401,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   updationOfPerPersonData() {
-    
+
     if (this.personData.invoice_no != null && this.personData.invoice_no != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != 0) {
 
       if (this.updatedResult.fee_receipt_update_reason.trim() != "" && this.updatedResult.fee_receipt_update_reason != null) {
@@ -396,11 +410,17 @@ export class PaymentHistoryMainComponent implements OnInit {
 
           if (this.isChequeFormValid()) {
             let obj = {
+              chequeDetailsJson:{
+                schedule_id:this.chequeDetailsJson.schedule_id,
+                amount_paid:this.chequeDetailsJson.amount_paid,
+                balance_amount: this.chequeDetailsJson.balance_amount,
+                payment_tx_id:this.chequeDetailsJson.payment_tx_id
+              },
               feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
               fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
               financial_year: this.personData.financial_year,
               invoice_no: this.personData.invoice_no,
-              old_invoice_no: this.perPersonData[0].receipt_old_id,
+              old_invoice_no: this.personData.invoice_no,
               paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
               paymentMode: this.updatedResult.paymentMode,
               reference_no: this.updatedResult.reference_no,
@@ -410,9 +430,20 @@ export class PaymentHistoryMainComponent implements OnInit {
 
             this.payment.updatePerPersonData(obj).subscribe(
               (data: any) => {
-
-                this.perPersonData = data
-                this.updationArray = data;
+                console.log(data);
+                let msg={
+                  type:"success",
+                  body:"Fee reciept updated successfully"
+                }
+                this.appc.popToast(msg);
+                this.getAllPaymentHistory();
+              },
+              (error: any) => {
+                let msg = {
+                  type: "error",
+                  body: error.error.message
+                }
+                this.appc.popToast(msg);
               }
             );
           }
@@ -421,28 +452,34 @@ export class PaymentHistoryMainComponent implements OnInit {
         else {
 
           let obj = {
+
             feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
             fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
             financial_year: this.personData.financial_year,
             invoice_no: this.personData.invoice_no,
-            old_invoice_no: this.perPersonData[0].receipt_old_id,
+            old_invoice_no: this.personData.invoice_no,
             paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
             paymentMode: this.updatedResult.paymentMode,
             reference_no: this.updatedResult.reference_no,
             remarks: this.updatedResult.remarks,
-            student_id: this.perPersonData[0].student_id
+            student_id: this.perPersonData[0].student_id,
           }
 
           this.payment.updatePerPersonData(obj).subscribe(
             (data: any) => {
               this.perPersonData = data;
               this.updationArray = data;
+              let msg={
+                type:"success",
+                body:"Fee reciept updated successfully"
+              }
+              this.appc.popToast(msg);
+              this.getAllPaymentHistory();
             },
-            err => {
+            (error: any) => {
               let msg = {
                 type: "error",
-                title: "",
-                body: ""
+                body: error.error.message
               }
               this.appc.popToast(msg);
             }
@@ -507,7 +544,6 @@ export class PaymentHistoryMainComponent implements OnInit {
         body: ''
       }
       this.appc.popToast(obj);
-      this.perPersonData[index].amount_paid = this.perPersonData[index].amountToBePaid;
       return this.perPersonData[index].amount_paid;
     }
 

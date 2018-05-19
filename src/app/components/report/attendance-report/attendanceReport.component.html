@@ -109,29 +109,18 @@
                     </div>
 
                     <div class="c-lg-4 inner-main">
-                        <div class="form-btn">
-                            <div *ngIf="!isProfessional">
-                                <div class="c-lg-4 inner-btn">
-                                    <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
-                                </div>
+                        <div class="form-btn" style="display: inline-flex">
+                            <div style="margin-right: 5px;">
+                                <button *ngIf="!isProfessional" class="btn fullBlue" (click)="getPostData()">Summary Report</button>
+                                <button *ngIf="isProfessional" class="btn fullBlue" (click)="getPostData()">Summary Report</button>
                             </div>
-                            <div *ngIf="isProfessional">
-                                <div class="c-lg-4 inner-btn">
-                                    <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
-                                </div>
-                            </div>
-                            <div *ngIf="isProfessional">
-                                <div class="c-lg-4 outer-btn">
-                                    <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
-                                </div>
-                            </div>
-                            <div *ngIf="!isProfessional">
-                                <div class="c-lg-4 outer-btn">
-                                    <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
-                                </div>
+                            <div>
+                                <button *ngIf="isProfessional" class="btn fullBlue" (click)="postDetails()">Detail Report</button>
+                                <button *ngIf="!isProfessional" class="btn fullBlue" (click)="postDetails()">Detail Report</button>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </section>
