@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { SelectItem } from 'primeng/components/common/api';
 import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -75,7 +76,8 @@ export class CourseExamComponent implements OnInit {
 
   constructor(
     private apiService: ExamCourseService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
@@ -1007,12 +1009,15 @@ export class CourseExamComponent implements OnInit {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login-services/login.service';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../services/authenticator.service';
 
 @Component({
   selector: 'app-course',
@@ -14,10 +15,19 @@ export class CourseComponent implements OnInit {
   constructor(
     private router: Router,
     private login: LoginService,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
-    
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitue = true;
+        } else {
+          this.isLangInstitue = false;
+        }
+      }
+    )
     this.removeSelectionFromSideNav();
     this.removeFullscreen();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -39,12 +49,9 @@ export class CourseComponent implements OnInit {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitue = true;
+    if (this.isLangInstitue) {
       this.checkUserAcessForLang();
     } else {
-      this.isLangInstitue = false;
       this.checkUserAcessForNotLang();
     }
   }
@@ -225,5 +232,5 @@ export class CourseComponent implements OnInit {
       this.switchActiveView('liManageBatch');
     }
   }
- 
+
 }

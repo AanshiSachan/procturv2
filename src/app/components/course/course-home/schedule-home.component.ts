@@ -6,6 +6,7 @@ import { StandardServices } from '../../../services/course-services/standard.ser
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -41,7 +42,8 @@ export class ScheduleHomeComponent implements OnInit {
   constructor(
     private apiService: StandardServices,
     private toastCtrl: AppComponent,
-    private route: Router
+    private route: Router,
+    private auth: AuthenticatorService
   ) {
 
   }
@@ -213,7 +215,7 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   deleteRow(data) {
-    if(confirm('Are you sure you want to delete?')){
+    if (confirm('Are you sure you want to delete?')) {
       this.isRippleLoad = true;
       this.apiService.deleteStandard(data.standard_id).subscribe(
         res => {
@@ -337,21 +339,25 @@ export class ScheduleHomeComponent implements OnInit {
     let userType: any = Number(sessionStorage.getItem('userType'));
     const permissionArray = sessionStorage.getItem('permissions');
     let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitue = true;
-      if (userType != 3) {
-        this.routeToSubTabsForLang(permissionArray);
-      } else {
-        this.teacherLoginFound();
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitue = true;
+          if (userType != 3) {
+            this.routeToSubTabsForLang(permissionArray);
+          } else {
+            this.teacherLoginFound();
+          }
+        } else {
+          this.isLangInstitue = false;
+          if (userType != 3) {
+            this.routeToSubTabsForNotLang(permissionArray);
+          } else {
+            this.teacherLoginFound();
+          }
+        }
       }
-    } else {
-      this.isLangInstitue = false;
-      if (userType != 3) {
-        this.routeToSubTabsForNotLang(permissionArray);
-      } else {
-        this.teacherLoginFound();
-      }
-    }
+    )
   }
 
   routeToSubTabsForLang(data) {

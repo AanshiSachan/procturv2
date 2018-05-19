@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user-management/user.service';
 import { AppComponent } from '../../../app.component';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-users',
@@ -38,7 +39,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private apiService: UserService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
@@ -302,12 +304,15 @@ export class UsersComponent implements OnInit {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
   }
 
   messageNotifier(type, title, msg) {

@@ -543,7 +543,7 @@
                         margin-top: -10px;
                     }
                     .fullBlue.btn {
-                        width: 120px;
+                        // width: 120px;
                     }
                 }
             }
@@ -1500,7 +1500,7 @@
                     font-size: 12px;
                     font-weight: 400;
                     color: rgba(0, 0, 0, 0.77);
-                    padding-bottom: 2px;
+                    // padding-bottom: 2px;
                     text-decoration: none; // text-transform: uppercase;
                     -webkit-font-smoothing: antialiased;
                 }
@@ -1536,9 +1536,11 @@
                             color: black;
                             &.mins {
                                 width: 80px;
+                                height: 36px;
                             }
                             &.mers {
                                 width: 50px;
+                                height: 36px;
                             }
                         }
                     }

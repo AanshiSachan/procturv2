@@ -15,7 +15,6 @@ export class AuthenticatorService {
     public token: string = null;
     public institute_id: any = null;
     public standard_id: any = null;
-    public institute_type: any = null;
     public institution_type: any = null;
 
     private instituteId = new BehaviorSubject<any>(null);
@@ -24,8 +23,9 @@ export class AuthenticatorService {
     currentInstituteId = this.instituteId.asObservable();
     currentAuthKey = this.authToken.asObservable();
     isMainBranch = new BehaviorSubject('N');
+    institute_type = new BehaviorSubject('');
 
-    //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    // public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
     public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
     constructor() {
@@ -33,6 +33,7 @@ export class AuthenticatorService {
         this.getAuthToken();
         this.getInstituteId();
         this.getIsMainBranchValue();
+        this.getInstituteType();
     }
 
 
@@ -44,7 +45,6 @@ export class AuthenticatorService {
     changeAuthenticationKey(key: string) {
         //console.log("Auth changed " +key);
         this.authToken.next(key);
-        this.institute_type = sessionStorage.getItem('institute_type');
     }
 
 
@@ -56,9 +56,9 @@ export class AuthenticatorService {
     }
 
     getInstituteType() {
-        this.institute_type = sessionStorage.getItem('institute_type');
-        if (this.institute_type != null) {
-            return this.institute_type;
+        let type = sessionStorage.getItem('institute_type');
+        if (type != null && type != "" || type != undefined) {
+            this.institute_type.next(type);
         }
     }
 
