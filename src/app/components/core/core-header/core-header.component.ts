@@ -439,7 +439,7 @@ export class CoreHeaderComponent implements OnInit {
 
     this.multiBranchService.getAllBranches().subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         this.branchesList = res;
       },
       err => {

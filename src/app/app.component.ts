@@ -4,6 +4,7 @@ import { trigger, animate, style, group, animateChild, query, stagger, transitio
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { LoginService } from './services/login-services/login.service';
+import { AuthenticatorService } from './services/authenticator.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { Title } from '@angular/platform-browser';
 import { AuthenticatorService } from './services/authenticator.service';
@@ -15,6 +16,7 @@ import { AuthenticatorService } from './services/authenticator.service';
 })
 export class AppComponent implements OnInit {
 
+  isloggedInAdmin: boolean;
 
   isSearchMore: boolean = false;
   @ViewChild('footer') footer: ElementRef;
@@ -39,6 +41,9 @@ export class AppComponent implements OnInit {
   });
 
   helpLoader: boolean = false;
+  ticketId = "";
+  addReportPopup: boolean = false;
+  closechatbot: boolean = true;
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   searchResult: any[] = [];
@@ -54,13 +59,8 @@ export class AppComponent implements OnInit {
   isRippleLoad: boolean = true;
   institute_id: boolean = false;
 
-  constructor(toasterService: ToasterService, private router: Router,
-    private load: LoaderHandlingService,
-    private log: LoginService,
-    private fetchService: FetchprefilldataService,
-    private titleService: Title,
-    private auth: AuthenticatorService
-  ) {
+  constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title, private auth: AuthenticatorService) {
+
     this.toasterService = toasterService;
     this.auth.currentInstituteId.subscribe(id => {
       if(id != null && id != ""){
@@ -104,9 +104,30 @@ export class AppComponent implements OnInit {
     });
 
 
-    this.log.currentMenuState.subscribe(el => {
+
+      this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
     })
+
+    this.auth.currentInstituteId.subscribe(e => {
+      if (e == null || e == undefined || e == '') {
+        this.isloggedInAdmin = false;
+      }
+      else {
+        let p = sessionStorage.getItem('permissions');
+        let user = sessionStorage.getItem('userType')
+
+        if(user == "0"){
+          if (p == null || p == undefined || p == ''){
+            this.isloggedInAdmin = true;
+          }
+          else{
+            this.isloggedInAdmin = false
+          }
+        }
+      }
+    });
+
   }
 
 
@@ -260,6 +281,23 @@ export class AppComponent implements OnInit {
 
   informFooter() {
     this.footer.nativeElement.classList.remove('hide');
+  }
+
+  handler(f) {
+    let flag:any = f;
+
+    if(flag.hasOwnProperty('ticket')){
+      this.addReportPopup = true;
+      this.ticketId = flag.ticket.id;
+      this.closechatbot = false;
+    }
+    else{
+      this.closechatbot = false;
+    }
+  }
+
+  closeReportPopup() {
+    this.addReportPopup = false;
   }
 
 }

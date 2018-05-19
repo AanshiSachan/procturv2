@@ -8,6 +8,7 @@ import { GetFeeService } from '../../../../services/report-services/fee-services
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
 import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
+import { ExcelService } from '../../../../services/excel.service';
 
 @Component({
   selector: 'app-all-data-report',
@@ -29,7 +30,7 @@ export class AllDataReportComponent implements OnInit {
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
   dataStatus: number = 3;
-  
+
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -106,7 +107,7 @@ export class AllDataReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg:string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
+  helpMsg: string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
 
   @ViewChild('form') form: any;
 
@@ -114,8 +115,10 @@ export class AllDataReportComponent implements OnInit {
     private login: LoginService,
     private appC: AppComponent,
     private getter: GetFeeService,
-    private putter: PostFeeService
+    private putter: PostFeeService,
+    private excelService: ExcelService
   ) {
+    this.excelService = excelService;
     this.switchActiveView('fee');
   }
 
@@ -179,7 +182,7 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   // batchSelected() {
-    
+
   //   this.isCustomDate = false;
   //   this.courseFetchForm.from_date = '';
   //   this.courseFetchForm.to_date = '';
@@ -243,123 +246,123 @@ export class AllDataReportComponent implements OnInit {
     //   /* Checks if user has filled the form correctly and selected a batch or master course course */
     //   if (this.courseFormValidator()) {
     //     if (this.dateRangeValid()) {
-          if (this.isProfessional) {
-            let obj = {
-              standard_id: this.courseFetchForm.standard_id,
-              batch_id: this.courseFetchForm.batch_id,
-              type: this.courseFetchForm.type,
-              from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-              to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
-              installment_id: this.courseFetchForm.installment_id,
-              subject_id: this.courseFetchForm.subject_id,
-              master_course_name: this.courseFetchForm.master_course_name,
-              course_id: this.courseFetchForm.course_id,
-              student_name: this.courseFetchForm.student_name,
-              contact_no: this.courseFetchForm.contact_no,
-              is_fee_report_view: this.courseFetchForm.is_fee_report_view
-            }
-            //console.log(obj);
-            this.generateReport(obj);
-          }
-          else {
-            let obj = {
-              standard_id: this.courseFetchForm.master_course_name,
-              batch_id: this.courseFetchForm.batch_id,
-              type: this.courseFetchForm.type,
-              from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-              to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
-              installment_id: this.courseFetchForm.installment_id,
-              subject_id: this.courseFetchForm.course_id,
-              master_course_name: this.courseFetchForm.standard_id,
-              course_id: this.courseFetchForm.subject_id,
-              student_name: this.courseFetchForm.student_name,
-              contact_no: this.courseFetchForm.contact_no,
-              is_fee_report_view: this.courseFetchForm.is_fee_report_view
-            }
-            //console.log(obj);
-            this.generateReport(obj);
-          }
-        
+    if (this.isProfessional) {
+      let obj = {
+        standard_id: this.courseFetchForm.standard_id,
+        batch_id: this.courseFetchForm.batch_id,
+        type: this.courseFetchForm.type,
+        from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+        to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+        installment_id: this.courseFetchForm.installment_id,
+        subject_id: this.courseFetchForm.subject_id,
+        master_course_name: this.courseFetchForm.master_course_name,
+        course_id: this.courseFetchForm.course_id,
+        student_name: this.courseFetchForm.student_name,
+        contact_no: this.courseFetchForm.contact_no,
+        is_fee_report_view: this.courseFetchForm.is_fee_report_view
+      }
+      //console.log(obj);
+      this.generateReport(obj);
+    }
+    else {
+      let obj = {
+        standard_id: this.courseFetchForm.master_course_name,
+        batch_id: this.courseFetchForm.batch_id,
+        type: this.courseFetchForm.type,
+        from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+        to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+        installment_id: this.courseFetchForm.installment_id,
+        subject_id: this.courseFetchForm.course_id,
+        master_course_name: this.courseFetchForm.standard_id,
+        course_id: this.courseFetchForm.subject_id,
+        student_name: this.courseFetchForm.student_name,
+        contact_no: this.courseFetchForm.contact_no,
+        is_fee_report_view: this.courseFetchForm.is_fee_report_view
+      }
+      //console.log(obj);
+      this.generateReport(obj);
+    }
+
     //   }
     // }
     // /* Fetch by name or Dues Type */
-   
-      if (this.due_type == 'all_dues') {
-        let obj: any = {
-          from_date: '',
-          to_date: '',
-        }
-        /* Name Detected */
-        if (isNaN(this.search_value)) {
-          obj.student_name = this.search_value;
-          obj.contact_no = '';
-        }
-        /* Contact Number Detected */
-        else {
-          obj.contact_no = this.search_value;
-          obj.student_name = '';
-        }
 
-        this.generateReport(obj);
-
+    if (this.due_type == 'all_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
       }
-      else if (this.due_type == 'next_month_dues') {
-        let obj: any = {
-          from_date: '',
-          to_date: '',
-        }
-
-        /* Name Detected */
-        if (isNaN(this.search_value)) {
-          obj.student_name = this.search_value;
-          obj.contact_no = '';
-        }
-        /* Contact Number Detected */
-        else {
-          obj.contact_no = this.search_value;
-          obj.student_name = '';
-        }
-
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
       }
-      else if (this.due_type == 'this_month_dues') {
-        let obj: any = {
-          from_date: '',
-          to_date: '',
-        }
-
-
-        /* Name Detected */
-        if (isNaN(this.search_value)) {
-          obj.student_name = this.search_value;
-          obj.contact_no = '';
-        }
-        /* Contact Number Detected */
-        else {
-          obj.contact_no = this.search_value;
-          obj.student_name = '';
-        }
-
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
       }
-      else if (this.due_type == 'current_dues') {
-        let obj: any = {
-          from_date: '',
-          to_date: '',
-        }
+
+      this.generateReport(obj);
+
+    }
+    else if (this.due_type == 'next_month_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+    }
+    else if (this.due_type == 'this_month_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
 
 
-        /* Name Detected */
-        if (isNaN(this.search_value)) {
-          obj.student_name = this.search_value;
-          obj.contact_no = '';
-        }
-        /* Contact Number Detected */
-        else {
-          obj.contact_no = this.search_value;
-          obj.student_name = '';
-        }
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+    }
+    else if (this.due_type == 'current_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+
+
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
       }
     }
-  
+  }
+
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
@@ -475,7 +478,7 @@ export class AllDataReportComponent implements OnInit {
   //   this.courseFetchForm.from_date = '';
   //   this.courseFetchForm.to_date = '';
   //   this.courseFetchForm.type = "0";
-  
+
   //   this.isRippleLoad = true;
   //   if (this.isProfessional) {
   //     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -510,7 +513,7 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   // fetchBatchList() {
   //   this.courseFetchForm.batch_id = -1;
-  
+
   //   this.isCustomDate = false;
   //   this.courseFetchForm.from_date = '';
   //   this.courseFetchForm.to_date = '';
@@ -762,14 +765,14 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   sendBulkSms() {
-    if(confirm("Are you sure u want to send Fee Dues SMS to the selected students?")){
+    if (confirm("Are you sure u want to send Fee Dues SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
         return e.student_id;
       });
       let obj = {
         delivery_mode: 0,
         institution_id: '',
-        student_ids: arr.join(',') 
+        student_ids: arr.join(',')
       }
       this.putter.sendBulkSMS(obj).subscribe(
         res => {
@@ -795,7 +798,7 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   sendBulkFineSms() {
-    if(confirm("Are you sure u want to send Fine SMS to the selected students?")){
+    if (confirm("Are you sure u want to send Fine SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
         return e.student_id;
       });
@@ -803,7 +806,7 @@ export class AllDataReportComponent implements OnInit {
       let obj = {
         delivery_mode: 0,
         institution_id: '',
-        student_ids: arr.join(',') 
+        student_ids: arr.join(',')
       }
 
       this.putter.sendBulkFineSMS(obj).subscribe(
@@ -825,6 +828,33 @@ export class AllDataReportComponent implements OnInit {
         }
       );
     }
+  }
+
+
+  exportToExcel(event) {
+    this.excelService.exportAsExcelFile(
+      [
+        {
+          id: 1,
+          name: 'Thomas',
+          surname: 'Novicky',
+          age: 21
+        },
+        {
+          id: 2,
+          name: 'Adam',
+          surname: 'Tracz',
+          age: 12
+        },
+        {
+          id: 3,
+          name: 'Steve',
+          surname: 'Laski',
+          age: 38
+        }
+      ],
+      'persons'
+    )
   }
 
 }

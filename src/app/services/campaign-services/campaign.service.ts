@@ -20,7 +20,6 @@ export class CampaignService {
   urlCampaign: string;
   Authorization: string;
   headers: Headers;
-  headersEncoded: Headers;
   instituteFormData: any = {};
   row: any = [];
   filtered = [];
@@ -37,9 +36,6 @@ export class CampaignService {
       this.headers = new Headers();
       this.headers.append("Content-Type", "application/json");
       this.headers.append("Authorization", this.Authorization);
-  
-      this.headersEncoded = new Headers();
-      this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     }) 
     this.auth.currentInstituteId.subscribe( id => {
       this.institute_id = id;
