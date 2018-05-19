@@ -578,12 +578,15 @@ export class CourseExamComponent implements OnInit {
   ////////// Course Model 
 
   getMasterCourseList() {
+    this.isRippleLoad = true;
     this.apiService.getMasterCourse().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.masterCourseList = res;
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        this.isRippleLoad = false;
       }
     )
   }
@@ -592,12 +595,15 @@ export class CourseExamComponent implements OnInit {
     this.courseList = [];
     this.courseData.course_id = -1;
     if (event != -1) {
+      this.isRippleLoad = true
       this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.courseList = res;
         },
         err => {
-          //console.log(err);
+          console.log(err);
+          this.isRippleLoad = false;
         }
       )
     }
@@ -755,7 +761,7 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
+        console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )

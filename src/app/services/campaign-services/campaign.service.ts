@@ -40,8 +40,7 @@ export class CampaignService {
     this.auth.currentInstituteId.subscribe( id => {
       this.institute_id = id;
     });
-    // this.Authorization = this.auth.getAuthToken();
-    // this.institute_id = this.auth.getInstituteId();
+
     this.baseUrl = this.auth.getBaseUrl();
     this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
   }

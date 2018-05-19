@@ -7,7 +7,7 @@ import { AuthenticatorService } from "../authenticator.service";
 
 
 @Injectable()
-export class  getCheque {
+export class getCheque {
 
     baseUrl: string = '';
     institute_id: string;
@@ -18,14 +18,24 @@ export class  getCheque {
     constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
         this.Authorization = sessionStorage.getItem('Authorization');
         this.institute_id = sessionStorage.getItem('institute_id');
+
+        this.auth1.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+        });
+
+        this.auth1.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+
         this.baseUrl = this.auth1.getBaseUrl();
-        this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+
     }
 
-    getChequeTypes(obj):Observable<any> {
+    getChequeTypes(obj): Observable<any> {
         let url = this.baseUrl + "/api/v1/chequeDetails/studentWiseFee/" + this.institute_id;
 
-        return this.http.post(url, obj,{ headers: this.headers }).map(
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
             },
@@ -33,4 +43,75 @@ export class  getCheque {
                 return err;
             });
     }
+
+
+    updateChequeStatus(obj): Observable<any> {
+
+        let url = this.baseUrl + '/api/v1/chequeDetails/studentWiseFee/updateChequeStatus/' + this.institute_id;
+
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        );
+
+    }
+
+    fetchStudentFeeDetails(id): Observable<any> {
+
+        let obj = {
+            from_date: "",
+            to_date: ""
+        }
+
+        let url = this.baseUrl + '/api/v1/studentWise/fee/dueDetails/payment/' + this.institute_id + '/' + id;
+
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        );
+
+    }
+
+    fetchAllChequeStudent(id): Observable<any> {
+
+        let obj = { cheque_status: "1" }
+
+        let url = this.baseUrl + '/api/v1/student_cheque/getAll/' + this.institute_id + '/' + id;
+
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        );
+
+    }
+
+    fetchPdcChequeDetails(id): Observable<any> {
+
+        let url = this.baseUrl + '/api/v1/student_cheque/getDetail/' + this.institute_id + '/' + id;
+
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        );
+
+    }
+
+
+
 }

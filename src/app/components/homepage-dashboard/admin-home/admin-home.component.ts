@@ -1319,7 +1319,7 @@ export class AdminHomeComponent implements OnInit {
         }
         this.courseLevelSchedule = tempArr;
         this.isRippleLoad = false;
-        this.isSubjectView = false;
+        // this.isSubjectView = false;
       },
       err => {
         console.log(err);
@@ -2700,6 +2700,7 @@ export class AdminHomeComponent implements OnInit {
   closeExamAttendance() {
     this.tempData = "";
     this.markExamAttendancePopUp = false;
+    this.attendanceNote = "";
   }
 
   getStudentList() {

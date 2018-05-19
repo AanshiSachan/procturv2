@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="userId == '-1'">
+      <div class="row" *ngIf="userId == '-1' || roleDetails.userType == '0'">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
             <label for="">Role*</label>

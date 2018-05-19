@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentHistoryMainService } from '../../../../services/payment-history/payment-history-main.service';
 import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
+import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+
 @Component({
   selector: 'app-payment-history-main',
   templateUrl: './payment-history-main.component.html',
@@ -31,27 +34,101 @@ export class PaymentHistoryMainComponent implements OnInit {
   sortedBy: string = "";
   direction = 0;
 
-  searchByNameVisible:boolean = false;
-  searchByDateVisible:boolean = true;
-  constructor(private payment: PaymentHistoryMainService, private appc: AppComponent, ) { }
+  searchByNameVisible: boolean = false;
+  searchByDateVisible: boolean = true;
+  newData: any[] = [];
+  paymentMode: any[] = [];
+  searchName: any;
+  addReportPopUp: boolean = false;
+  perPersonData: any[] = [];
+  helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
+
+  feeSettings1: ColumnData[] = [
+    { primaryKey: 'student_disp_id', header: 'ID' },
+    { primaryKey: 'student_name', header: 'Name' },
+    { primaryKey: 'display_invoice_no', header: 'Receipt No' },
+    { primaryKey: 'paymentMode', header: 'Payment Mode' },
+    { primaryKey: 'fee_type_name', header: 'Fee Type' },
+    { primaryKey: 'installment_nos', header: 'Inst No' },
+    { primaryKey: 'paid_date', header: 'Paid Date' },
+    { primaryKey: 'reference_no', header: 'Ref No' },
+    { primaryKey: 'amount_paid', header: 'Amount Paid' },
+    { primaryKey: 'student_category', header: 'Student Category' },
+    { primaryKey: 'enquiry_councellor_name', header: 'Counsellor' }
+  ];
+
+  menuOptions: DropData[] = [
+    {
+      key: 'edit',
+      header: 'edit',
+    }
+  ];
+  dataStatus: number = 3;
+
+  collectionData: any = {
+    pdcNo: 0,
+    refundValue: 0,
+    cash: 0,
+    cardValue: 0,
+    fees_amount: 0
+  }
+
+
+  constructor(private payment: PaymentHistoryMainService, private appc: AppComponent) { }
+
 
   ngOnInit() {
     this.getAllPaymentHistory();
   }
 
+
   getAllPaymentHistory() {
     this.showPaymentBox = true;
     this.isRippleLoad = true;
+    this.newData = [];
+    this.allPaymentRecords = [];
+    this.dataStatus = 1;
+    if (this.searchName != "" || this.searchName != null) {
+      if (this.isName(this.searchName)) {
+        this.sendPayload.contact_no = "";
+        this.sendPayload.student_name = this.searchName;
+      }
+      else {
+        if (this.searchName.length == 10) {
+          this.sendPayload.student_name = "";
+          this.sendPayload.contact_no = this.searchName;
+        }
+        else {
+          this.allPaymentRecords = this.allPaymentRecords.filter((ele: any) => {
+            return ele.display_invoice_no.toLowerCase().match(this.searchName.toLowerCase()
+            )
+          })
 
+          this.totalRow = this.allPaymentRecords.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
+        }
+      }
+    }
     this.payment.getPaymentData(this.sendPayload).subscribe(
       (data: any) => {
         this.allPaymentRecords = data;
-        this.isRippleLoad = false;
-        this.totalRow = data.length;
-        this.PageIndex = 1;
-        this.fetchTableDataByPage(this.PageIndex);
+
+        this.newData = data.map((ele: any) => ele.paymentModeAmountMap
+        );
+
+        if (this.newData.length) {
+          this.isRippleLoad = false;
+          /* update CollectionObject Data for display */
+        }
+        else {
+          this.isRippleLoad = false;
+          this.dataStatus = 2;
+        }
+
       },
       (error: any) => {
+        this.dataStatus = 2;
         this.isRippleLoad = false;
         return error;
       }
@@ -59,14 +136,57 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   }
 
-  searchByName(){
+
+
+  isName(str) {
+    let hasNumber = /\d/;
+    if (hasNumber.test(str)) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+
+
+  editPerPersonData(ev, i) {
+    let queryParameters = {
+      financial_year: i.financial_year
+    }
+    this.addReportPopUp = true;
+    this.payment.getPerPersonData(queryParameters, i).subscribe(
+      (data: any) => {
+        this.perPersonData = data.feeSchedule_TxLst;
+      },
+      (error: any) => {
+        return error;
+      }
+    )
+    console.log(this.perPersonData);
+  }
+
+
+
+  closeReportPopup() {
+    this.addReportPopUp = false;
+  }
+
+
+
+  searchByName() {
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
   }
-  searchByDate(){
+
+
+
+  searchByDate() {
     this.searchByDateVisible = true;
     this.searchByNameVisible = false;
   }
+
+
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
@@ -83,10 +203,10 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     else {
       this.searchflag = false;
-      this.fetchTableDataByPage(this.PageIndex);
-
     }
   }
+
+
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;
@@ -94,10 +214,16 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.paginatedPayment = this.getDataFromDataSource(startindex);
   }
 
+
+
+
   fetchNext() {
     this.PageIndex++;
     this.fetchTableDataByPage(this.PageIndex);
   }
+
+
+
 
   fetchPrevious() {
     if (this.PageIndex != 1) {
@@ -105,6 +231,9 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.fetchTableDataByPage(this.PageIndex);
     }
   }
+
+
+
 
   getDataFromDataSource(startindex) {
     if (this.searchflag) {
@@ -116,6 +245,10 @@ export class PaymentHistoryMainComponent implements OnInit {
       return d;
     }
   }
+
+
+
+
   futureDateValid(selectDate) {
     if (moment(selectDate).diff(moment()) > 0) {
       let msg = {
@@ -128,6 +261,10 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.sendPayload.to_date = moment().format('YYYY-MM-DD');
     }
   }
+
+
+
+
   sortedData(ev) {
     this.sortedenabled = true;
     if (this.sortedenabled) {
@@ -149,6 +286,9 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
+
+
+
   getCaretVisiblity(e): boolean {
 
     if (this.sortedenabled && this.sortedBy == e) {
@@ -158,6 +298,20 @@ export class PaymentHistoryMainComponent implements OnInit {
     else {
       return false;
     }
+  }
+
+
+  optionSelected(e) {
+    console.log(e);
+    this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
+      (data: any) => {
+        this.perPersonData = data.feeSchedule_TxLst;
+        this.addReportPopUp = true;
+      },
+      (error: any) => {
+        return error;
+      }
+    )
   }
 
 }

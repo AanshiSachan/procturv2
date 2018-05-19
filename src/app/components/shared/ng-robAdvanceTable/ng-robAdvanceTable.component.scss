@@ -233,11 +233,16 @@ $color-highlight: lighten($color-base, 7%);
                 &.No{
                     text-align: right;
                     &.Receipt{
-                        width: 15% !important;
+                        width: 17% !important;
                     }
                 }
                 &.Dues {
                     text-align: right;
+                }
+                &.Mode{
+                    &.Payment{
+                        word-break: break-word;                        
+                    }
                 }
             }
         }
@@ -298,10 +303,16 @@ $color-highlight: lighten($color-base, 7%);
                     text-align: right;
                     &.Receipt{
                         width: 15% !important;
+                        word-break: break-word;
                     }
                 }
                 &.option-menu{
                     padding: 5px 10px 5px;
+                }
+                &.Mode{
+                    &.Payment{
+                        word-break: break-word;                        
+                    }
                 }
             }
         }
