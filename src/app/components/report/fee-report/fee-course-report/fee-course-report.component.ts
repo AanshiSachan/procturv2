@@ -8,6 +8,7 @@ import { GetFeeService } from '../../../../services/report-services/fee-services
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
 import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
+import { ExcelService } from '../../../../services/excel.service';
 
 @Component({
   selector: 'app-fee-course-report',
@@ -111,6 +112,7 @@ export class FeeCourseReportComponent implements OnInit {
   @ViewChild('form') form: any;
 
   constructor(
+    private excelService:ExcelService,
     private login: LoginService,
     private appC: AppComponent,
     private getter: GetFeeService,
@@ -736,6 +738,14 @@ export class FeeCourseReportComponent implements OnInit {
     else {
       this.feeDataSource1 = this.reportSource;
     }
+  }
+
+
+  exportToExcel(event) {
+    this.excelService.exportAsExcelFile(
+      this.feeDataSource1,
+      'persons'
+    )
   }
 
   /* ===================================================================================================== */

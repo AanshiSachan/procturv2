@@ -208,6 +208,11 @@
 
             <section class="fee-table">
                 <div class="table-content" *ngIf="isFilterReversed">
+                    <div style="margin: 10px;">
+                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+                        <span class="fa fa-cloud-download">
+                        </span>
+                    </div>
                     <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                         [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
                         [settings]="feeSettings1">

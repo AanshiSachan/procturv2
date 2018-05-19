@@ -81,6 +81,23 @@ export class RobAdvanceTableComponent implements OnChanges {
         }
 
     }
+    getColor(key, data) {
+       
+        if (data == "Active") {
+            return 'green'
+
+        }
+        else if (data == "Inactive") {
+            return 'red'
+        }
+        else if (data == "Historical") {
+            return 'brown'
+        }
+        else if(data == "Archived"){
+            return 'blue';
+        }
+    }
+
 
     selectAllRows(ev) {
         this.cd.markForCheck();
@@ -330,7 +347,7 @@ export class RobAdvanceTableComponent implements OnChanges {
             return e;
         });
 
-        if(this.displayBatchSize >= this.records.length){
+        if (this.displayBatchSize >= this.records.length) {
             index = this.records.length;
         }
         else if (this.displayBatchSize < this.records.length) {
