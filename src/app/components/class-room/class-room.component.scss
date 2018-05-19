@@ -114,9 +114,9 @@ screen and (max-height: 768px) {
 }
 
 .create-standard-form {
-    margin: -6px 0;
+    margin: -18px 0;
     padding-left: 20px;
-    margin-bottom: -27px;
+    margin-bottom: -10px;
     background: #efefef;
     border-top: 1px solid #d8d8d8;
     .form-ctrl {
@@ -196,7 +196,7 @@ form{
 }
 
 .search-filter-wrapper {
-    margin-top: 10px;
+    margin-top: -51px;
     .normal-field {
         padding: 7px 10px;
         border: 1px solid #ccc; // width: 130px;
@@ -216,17 +216,16 @@ form{
     width: 100%
 }
 
-.search-filter-wrapper {
-    margin-top: 10px;
-    .normal-field {
-        padding: 7px 10px;
-        border: 1px solid #ccc; // width: 130px;
-        box-sizing: border-box;
-        margin-right: 10px;
-        margin-bottom: -5px;
-        height: 35px;
-        font-size: 14px;
-        margin-left: 229px;
-    }
-}
+// .search-filter-wrapper {
+//     margin-top: 10px;
+//     .normal-field {
+//         padding: 7px 10px;
+//         border: 1px solid #ccc; // width: 130px;
+//         box-sizing: border-box;
+//         margin-right: 10px;
+//         margin-bottom: -5px;
+//         height: 35px;
+//         font-size: 14px;
+//         margin-left: 229px;
+//     }
 

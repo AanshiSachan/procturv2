@@ -18,11 +18,11 @@
                     <div class="c-lg-3">
                         <div class="field-wrapper">
                             <label for="ctype">Cheque Status</label>
-                            <select [(ngModel)]="chequeFetchForm.cheque_status_id" name="ctype" class="form-ctrl" id="ctype"  [(ngModel)]="datefield.cheque_status_id">
+                            <select [(ngModel)]="chequeFetchForm.cheque_status_id" name="ctype" class="form-ctrl" id="ctype" [(ngModel)]="chequeFetchForm.cheque_status_id">
                                 <option value="-1"></option>
-                                <option value="1">pending</option>
-                                <option value="2">dishonoured</option>
-                                <option value="3">cleared</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Dishonoured</option>
+                                <option value="3">Cleared</option>
                             </select>
                         </div>
                     </div>
@@ -43,12 +43,137 @@
 
             <section class="body-content">
                 <div class="table-content">
-                    <rob-table (rowIdArr)="selectedRecords($event)"
-                        [isMulti]='false' [hasMenu]="false" [records]="chequeDataSource" [dataStatus]="dataStatus" [tableName]="'chequemanage'"
-                        [settings]="chequeSetting">
+
+                    <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="dropType" [menuOptions]="menuList" (multiOptionSelected)="optionSelected($event)"
+                        [records]="chequeDataSource" [dataStatus]="dataStatus" [tableName]="'chequemanage'" [settings]="chequeSetting">
                     </rob-table>
+
                 </div>
+
             </section>
+
+
+            <proctur-popup [sizeWidth]="'small'" *ngIf="isUpdatePopup">
+
+                <span class="closePopup pos-abs fbold show" (click)="cancelUpdate()" close-button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+
+                <h2 popup-header>Update Cheque Status (Cheque No.- {{selectedRecord.cheque_no}})</h2>
+
+                <div class="row update-cheque-wrapper" popup-content>
+                    <div class="field-wrapper">
+                        <label for="cstatus">Update Cheque Status </label>
+                        <select name="cstatus" id="cstatus" class="form-ctrl" [(ngModel)]="chequeUpdateStatus">
+                            <option value="2">Dishonoured</option>
+                            <option value="3">Cleared</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="" popup-footer>
+                    <div class="clearfix">
+                        <aside class="pull-right popup-btn">
+                            <input type="button" value="Cancel" class="btn" (click)="cancelUpdate()">
+                            <input type="button" value="Update" class="fullBlue btn" (click)="updateRecord()">
+                        </aside>
+                    </div>
+                </div>
+
+            </proctur-popup>
+
+            <proctur-popup [sizeWidth]="'large'" *ngIf="isPendingUpdate">
+
+                <span class="closePopup pos-abs fbold show" (click)="cancelUpdate()" close-button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+
+                <h2 popup-header>Update Payment For Student: {{selectedRecord.student_name}} ({{selectedRecord.cheque_no}})</h2>
+
+                <div class="row update-cheque-wrapper" popup-content>
+
+                    <div class="c-lg-12">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="No">Installment No</th>
+                                    <th>Course</th>
+                                    <th>Academic Year</th>
+                                    <th>Fee Type</th>
+                                    <th class="Date">Due Date</th>
+                                    <th class="No">Intitial Fee Amount</th>
+                                    <th class="No">Tax</th>
+                                    <th class="No">Fee Amount(Incl Tax)</th>
+                                    <th class="No">Amount Paid</th>
+                                    <th class="No">Balance Amount</th>
+                                    <th class="No">Pay Amount</th>
+                                    <th class="No">Balance Due Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let c of studentFeeDues.studentFeeReportJsonList; let i = index;">
+                                    <td class="No">
+                                        <div class=" check field-checkbox-wrapper">
+                                            <input class="form-checkbox" id="{{c.installment_no}}" type="checkbox" [(ngModel)]="c.selected" name="{{c.installment_no}}"
+                                                value="">
+                                            <label for="{{c.installment_no}}">
+                                                {{c.installment_no}}
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>{{c.course_subject_name}}</td>
+                                    <td>{{c.academic_year}}</td>
+                                    <td>{{c.fee_type_name}}</td>
+                                    <td class="No">{{c.due_date}}</td>
+                                    <td class="No">₹&nbsp;{{c.total_initial_amount}}</td>
+                                    <td class="No">₹&nbsp;{{c.total_tax_applied}}</td>
+                                    <td class="No">₹&nbsp;{{c.total_amount_after_discount_after_tax}}</td>
+                                    <td class="No">₹&nbsp;{{c.total_amt_paid}}</td>
+                                    <td class="No">₹&nbsp;{{c.total_balance_amt}}</td>
+                                    <td>
+                                        <div class="field-wrapper">
+                                            <input type="text" [(ngModel)]="c.toPay" class="form-ctrl">
+                                        </div>
+                                    </td>
+                                    <td>{{c.balanceDueOn}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="c-lg-12"></div>
+
+                </div>
+
+                <div class="" popup-footer>
+                    <div class="clearfix">
+                        <aside class="pull-right popup-btn">
+                            <input type="button" value="Cancel" class="btn" (click)="cancelUpdate()">
+                            <input type="button" value="Update" class="fullBlue btn" (click)="payUsingCheque()">
+                        </aside>
+                    </div>
+                </div>
+
+            </proctur-popup>
+
         </section>
     </aside>
 </div>

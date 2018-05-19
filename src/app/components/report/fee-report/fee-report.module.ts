@@ -33,6 +33,8 @@ import { FeeTypeReportComponent } from './fee-type-report/fee-type-report.compon
 import { PaymentHistoryMainComponent } from './payment-history-main/payment-history-main.component';
 import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
 
+import { ExcelService } from '../../../services/excel.service';
+
 @NgModule({
     imports: [
         FormsModule,
@@ -72,7 +74,8 @@ import { PaymentHistoryMainService } from '../../../services/payment-history/pay
     providers: [
         GetFeeService,
         PostFeeService,
-        PaymentHistoryMainService
+        PaymentHistoryMainService,
+        ExcelService
     ],
     exports: [
     ]

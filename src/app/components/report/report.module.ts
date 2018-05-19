@@ -28,7 +28,7 @@ import { getSMSService } from '../../services/report-services/get-sms.service';
 import { getEmailService } from '../../services/report-services/get-email.service';
 import { ExamService } from '../../services/report-services/exam.service';
 import { postSMSService } from '../../services/report-services/post-sms.service';
-
+import {timeTableService} from '../../services/TimeTable/timeTable.service';
 import { SharedModule } from '../shared/shared.module';
 import { postEmailService } from '../../services/report-services/post-email.service';
 
@@ -38,9 +38,6 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
 import { BiometricComponent } from './biometric/biometric.component';
 import { BiometricServiceService } from '../../services/biometric-service/biometric-service.service';
 import { ReportWidgetComponent } from './report-widget/report-widget.component';
-
-
-
 
 @NgModule({
     imports: [
@@ -78,7 +75,7 @@ import { ReportWidgetComponent } from './report-widget/report-widget.component';
         postSMSService, ExamService,
         AttendanceReportServiceService,
         getEmailService,
-        postEmailService,
+        postEmailService,timeTableService,
         BiometricServiceService
     ],
     exports: [

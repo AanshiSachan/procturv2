@@ -17,7 +17,7 @@
                           </rob-tooltip>
                       </aside>
                   </div>
-  
+
                   <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
                       <!-- <div id="primary" *ngIf="!isFilterReversed">
                           <div class="c-lg-4">
@@ -207,6 +207,7 @@
               </section>
   
               <section class="fee-table">
+                  <a (click)="exportToExcel()">Download</a>
                   <div class="table-content" *ngIf="isFilterReversed">
                       <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                           [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
