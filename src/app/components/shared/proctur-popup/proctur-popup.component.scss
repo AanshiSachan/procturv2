@@ -123,6 +123,10 @@
     height: 100%;
     overflow: hidden;
     visibility: visible;
+    .popup-body{
+        max-height: 65vh;
+        overflow: auto;
+    }
 }
 
 .fadeIn {
