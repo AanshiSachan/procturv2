@@ -12,6 +12,7 @@ import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.m
 })
 export class PaymentHistoryMainComponent implements OnInit {
 
+  isChequePayment: boolean;
   isRippleLoad: boolean = false;
   sendPayload = {
     institute_id: this.payment.institute_id,
@@ -91,12 +92,13 @@ export class PaymentHistoryMainComponent implements OnInit {
     financial_year: "",
     invoice_no: "",
     old_invoice_no: "",
-    paid_date: "",
-    paymentMode: "",
+    paid_date: moment(new Date()).format("DD-MMM-YYYY"),
+    paymentMode: "Cash",
     reference_no: "",
     remarks: "",
     student_id: ""
   }
+
   constructor(private payment: PaymentHistoryMainService, private appc: AppComponent) { }
 
 
@@ -338,8 +340,11 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.personData = e.data;
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
-
-        this.perPersonData = data.feeSchedule_TxLst;
+        this.perPersonData = data.feeSchedule_TxLst.map(e => {
+          e.amountToBePaid = e.amount_paid;
+          e.receipt_old_id = e.invoice_no;
+          return e;
+        })
         this.addReportPopUp = true;
       },
       (error: any) => {
@@ -350,37 +355,130 @@ export class PaymentHistoryMainComponent implements OnInit {
         this.appc.popToast(msg);
       }
     )
-   
+
   }
+
 
   updationOfPerPersonData() {
-    console.log(this.perPersonData);
-    this.updatedResult = {
-      feeSchedule_TxLst: {
-        schedule_id: this.personData.schedule_id,
-        amount_paid: this.personData.amount_paid,
-        balance_amount: this.personData.balance_amount,
-        payment_tx_id: this.personData.payment_tx_id
-      },
 
-      fee_receipt_update_reason: "",
-      financial_year: this.personData.financial_year,
-      invoice_no: this.personData.invoice_no,
-      old_invoice_no: this.personData.invoice_no,
-      paid_date: this.personData.paid_date,
-      paymentMode: this.personData.paymentMode,
-      reference_no: this.personData.reference_no,
-      remarks: this.personData.remarks,
-      student_id: ""
-    }
-    console.log(this.personData);
-    this.payment.updatePerPersonData(this.updatedResult).subscribe(
-      (data: any) => {
+    if (this.personData.invoice_no != null && this.personData.invoice_no.trim() != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != "0") {
 
-        this.perPersonData = data
-        this.updationArray = data;
+      if (this.updatedResult.fee_receipt_update_reason.trim() == "" && this.updatedResult.fee_receipt_update_reason == null) {
+
+        if (this.isChequePayment) {
+
+          if (this.isChequeFormValid()) {
+            let obj = {
+              feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
+              fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
+              financial_year: this.personData.financial_year,
+              invoice_no: this.personData.invoice_no,
+              old_invoice_no: this.perPersonData[0].receipt_old_id,
+              paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
+              paymentMode: this.updatedResult.paymentMode,
+              reference_no: this.updatedResult.reference_no,
+              remarks: this.updatedResult.remarks,
+              student_id: this.perPersonData[0].student_id
+            }
+
+            this.payment.updatePerPersonData(obj).subscribe(
+              (data: any) => {
+
+                this.perPersonData = data
+                this.updationArray = data;
+              }
+            );
+          }
+
+        }
+        else {
+
+          let obj = {
+            feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
+            fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
+            financial_year: this.personData.financial_year,
+            invoice_no: this.personData.invoice_no,
+            old_invoice_no: this.perPersonData[0].receipt_old_id,
+            paid_date: moment(this.updatedResult.paid_date).format("YYYY-MM-DD"),
+            paymentMode: this.updatedResult.paymentMode,
+            reference_no: this.updatedResult.reference_no,
+            remarks: this.updatedResult.remarks,
+            student_id: this.perPersonData[0].student_id
+          }
+
+          this.payment.updatePerPersonData(obj).subscribe(
+            (data: any) => {
+
+              this.perPersonData = data
+              this.updationArray = data;
+            }
+          );
+
+        }
+
       }
-    )
+      else {
+
+      }
+    }
+    else {
+
+    }
+
   }
 
+
+  fetchhStudentPaymentJson(data: any[]): any[] {
+
+    let temp: any[] = [];
+
+    data.forEach(e => {
+      let obj = {
+        schedule_id: e.schedule_id,
+        payment_tx_id: e.payment_tx_id,
+        amount_paid: e.amount_paid,
+        balance_amount: e.balance_amount
+      }
+      temp.push(obj);
+    });
+    return temp;
+  }
+
+
+  updateStudentFee(e, index) {
+    if (e <= this.perPersonData[index].fees_amount) {
+      this.perPersonData[index].amount_paid = e;
+      this.perPersonData[index].balance_amount = parseInt(this.perPersonData[index].fees_amount) - parseInt(e);
+    }
+    else {
+      let obj = {
+        type: 'error',
+        title: 'Invalid value for Amount Paid',
+        body: ''
+      }
+      this.appc.popToast(obj);
+      this.perPersonData[index].amount_paid = this.perPersonData[index].amountToBePaid;
+      return this.perPersonData[index].amount_paid;
+    }
+
+  }
+
+
+  payModeUpdated(e) {
+    if (e == "Cheque/PDC/DD No.") {
+      this.isChequePayment = true;
+    }
+    else {
+      this.isChequePayment = false;
+    }
+  }
+
+
+  isChequeFormValid(): boolean {
+
+    return false;
+  }
+
+  
 }
+
