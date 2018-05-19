@@ -1,25 +1,25 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-  </loaders-css>
-  <div class="report-wrapper clearFix">
-      <aside class="middle-full">
-          <section class="middle-main clearFix">
-              <div class="middle-top mb0 clearFix header">
-                  <div class="row report-header">
-                      <h2 style="padding: 5px;" class="pull-left">
-                          <a routerLink="/reports/fee">
-                              Report
-                              <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
-                          </a>
-                          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Fee Report
-                      </h2>
-                      <aside class="pull-left">
-                          <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
-                          </rob-tooltip>
-                      </aside>
-                  </div>
+</loaders-css>
+<div class="report-wrapper clearFix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix">
+            <div class="middle-top mb0 clearFix header">
+                <div class="row report-header">
+                    <h2 style="padding: 5px;" class="pull-left">
+                        <a routerLink="/reports/fee">
+                            Report
+                            <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Fee Report
+                    </h2>
+                    <aside class="pull-left">
+                        <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                        </rob-tooltip>
+                    </aside>
+                </div>
 
-                  <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
-                      <!-- <div id="primary" *ngIf="!isFilterReversed">
+                <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
+                    <!-- <div id="primary" *ngIf="!isFilterReversed">
                           <div class="c-lg-4">
                               <div class="form-wrapper">
                                   <input [(ngModel)]='search_value' type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
@@ -44,10 +44,10 @@
                           </div>
                           <div class="c-lg-3"></div>
                       </div> -->
-  
-                      <div id="secondary" >
-  
-                          <!-- <div class="c-lg-3">
+
+                    <div id="secondary">
+
+                        <!-- <div class="c-lg-3">
                               <div class="field-wrapper" [ngClass]="{'has-value': true }">
                                   <label for="mc">Master Course</label>
                                   <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
@@ -87,8 +87,8 @@
                                   </select>
                               </div>
                           </div> -->
-  
-                          <!-- <div class="c-lg-3">
+
+                        <!-- <div class="c-lg-3">
                               <div class="field-wrapper hide">
                                   <label for="ic">Installment</label>
                                   <select class="form-ctrl" name="" id="ic">
@@ -97,138 +97,143 @@
                                   </select>
                               </div>
                           </div> -->
-  
-                          <div class="c-lg-3">
-                              <div class="form-wrapper">
-                                  <label for="sd">Select Dues</label>
-                                  <select [(ngModel)]="due_type" (ngModelChange)="dateRangeChanges($event)" name="sd" id="sd" class="form-ctrl">
-                                      <option value="-1"></option>
-                                      <option value="all_dues">All Dues</option>
-                                      <option value="next_month_dues">Next Month Dues</option>
-                                      <option value="this_month_dues">This Month Dues</option>
-                                      <option value="current_dues">Current Dues</option>
-                                      <option value="custom">Custom</option>
-                                  </select>
-                              </div>
-                          </div>
-  
-                          <div class="c-lg-3 radio-group hide">
-                              <div class="c-lg-6 field-radio-wrapper">
-                                  <input class="form-radio" type="radio" name="dues" value="0" id='r1' [(ngModel)]="courseFetchForm.type" checked>
-                                  <label for="r1">All Students</label>
-                              </div>
-  
-                              <div class="c-lg-6 field-radio-wrapper">
-                                  <input class="form-radio" type="radio" name="dues" value="1" [(ngModel)]="courseFetchForm.type" id='r2'>
-                                  <label for="r2">Previous Dues</label>
-                              </div>
-                          </div>
-  
-                          <div class="c-lg-3" *ngIf="isCustomDate">
-                              <div class="field-wrapper datePickerBox">
-                                  <label for="ic">From Date</label>
-                                  <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')" type="text" value="" readonly="true"
-                                      class="form-ctrl bsDatepicker" bsDatepicker/>
-                              </div>
-                              <span style="cursor: pointer; color: #ff0000;" (click)="courseFetchForm.from_date = ''">clear</span>
-                          </div>
-  
-                          <div class="c-lg-3" *ngIf="isCustomDate">
-                              <div class="field-wrapper datePickerBox">
-                                  <label for="ic">To Date</label>
-                                  <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text" value="" readonly="true"
-                                      class="form-ctrl bsDatepicker" bsDatepicker/>
-                              </div>
-                              <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
-                          </div>
-  
-                          <div class="c-lg-2 filter-btn">
-                              <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                          </div>
-  
-                          <div class="c-lg-1 filter-btn hide">
-                              <div class="filter-right pull-right">
-                                  <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
-                              </div>
-                          </div>
-  
-                      </div>
-                  </div>
-              </div>
-  
-              <section class="fee-info">
-  
-                  <div class="c-lg-8 hide">
-                      <div class="c-lg-1"></div>
-                      <div class="c-lg-4">
-                          <ul>
-                              <li class="key">
-                                  Total Fees Collection
-                              </li>
-                              <li class="value">
-  
-                              </li>
-                          </ul>
-                      </div>
-                      <div class="c-lg-4">
-                          <ul>
-                              <li class="key">
-                                  Total Fees collection others
-                              </li>
-                              <li class="value">
-  
-                              </li>
-                          </ul>
-                      </div>
-                      <div class="c-lg-3">
-                          <ul>
-                              <li class="key">
-                                  Total Dues
-                              </li>
-                              <li class="value">
-  
-                              </li>
-                          </ul>
-                      </div>
-                  </div>
-  
-                  <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
-                      <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
-                  </div>
-  
-                  <div class="c-lg-4">
-                      <div class="form-wrapper">
-                          <form autocomplete="off" #form="ngForm">
-                              <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar">
-                          </form>
-                      </div>
-                  </div>
-  
-              </section>
-  
-              <section class="fee-table">
-                  <a (click)="exportToExcel()">Download</a>
-                  <div class="table-content" *ngIf="isFilterReversed">
-                      <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
-                          [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
-                          [settings]="feeSettings1">
-                      </rob-table>
-                  </div>
-                  <div class="table-content" *ngIf="!isFilterReversed">
-                      <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'"
-                          [dataStatus]="dataStatus" [settings]="feeSettings2">
-                      </rob-table>
-                  </div>
-              </section>
-          </section>
-      </aside>
-  
-      <fee-receipt [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeeReceipt"></fee-receipt>
-  
-      <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail"></next-due-detail>
-  
-      <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory"></payment-history>
-  
-      <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport"></view-detail-report>
-  
-  </div>
+
+                        <div class="c-lg-3">
+                            <div class="form-wrapper">
+                                <label for="sd">Select Dues</label>
+                                <select [(ngModel)]="due_type" (ngModelChange)="dateRangeChanges($event)" name="sd" id="sd" class="form-ctrl">
+                                    <option value="-1"></option>
+                                    <option value="all_dues">All Dues</option>
+                                    <option value="next_month_dues">Next Month Dues</option>
+                                    <option value="this_month_dues">This Month Dues</option>
+                                    <option value="current_dues">Current Dues</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-3 radio-group hide">
+                            <div class="c-lg-6 field-radio-wrapper">
+                                <input class="form-radio" type="radio" name="dues" value="0" id='r1' [(ngModel)]="courseFetchForm.type" checked>
+                                <label for="r1">All Students</label>
+                            </div>
+
+                            <div class="c-lg-6 field-radio-wrapper">
+                                <input class="form-radio" type="radio" name="dues" value="1" [(ngModel)]="courseFetchForm.type" id='r2'>
+                                <label for="r2">Previous Dues</label>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-3" *ngIf="isCustomDate">
+                            <div class="field-wrapper datePickerBox">
+                                <label for="ic">From Date</label>
+                                <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')" type="text" value="" readonly="true"
+                                    class="form-ctrl bsDatepicker" bsDatepicker/>
+                            </div>
+                            <span style="cursor: pointer; color: #ff0000;" (click)="courseFetchForm.from_date = ''">clear</span>
+                        </div>
+
+                        <div class="c-lg-3" *ngIf="isCustomDate">
+                            <div class="field-wrapper datePickerBox">
+                                <label for="ic">To Date</label>
+                                <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text" value="" readonly="true"
+                                    class="form-ctrl bsDatepicker" bsDatepicker/>
+                            </div>
+                            <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
+                        </div>
+
+                        <div class="c-lg-2 filter-btn">
+                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                        </div>
+
+                        <div class="c-lg-1 filter-btn hide">
+                            <div class="filter-right pull-right">
+                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <section class="fee-info">
+
+                <div class="c-lg-8 hide">
+                    <div class="c-lg-1"></div>
+                    <div class="c-lg-4">
+                        <ul>
+                            <li class="key">
+                                Total Fees Collection
+                            </li>
+                            <li class="value">
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="c-lg-4">
+                        <ul>
+                            <li class="key">
+                                Total Fees collection others
+                            </li>
+                            <li class="value">
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="c-lg-3">
+                        <ul>
+                            <li class="key">
+                                Total Dues
+                            </li>
+                            <li class="value">
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
+                    <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
+                </div>
+
+                <div class="c-lg-4">
+                    <div class="form-wrapper">
+                        <form autocomplete="off" #form="ngForm">
+                            <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar">
+                        </form>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="fee-table">
+
+                <div class="table-content" *ngIf="isFilterReversed">
+                    <div style="margin: 10px;">
+                        <a (click)="exportToExcel()" class="download">Download To Excel</a>
+                        <span class="fa fa-cloud-download">
+                        </span>
+                    </div>
+                    <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
+                        [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
+                        [settings]="feeSettings1">
+                    </rob-table>
+                </div>
+                <div class="table-content" *ngIf="!isFilterReversed">
+                    <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'"
+                        [dataStatus]="dataStatus" [settings]="feeSettings2">
+                    </rob-table>
+                </div>
+            </section>
+        </section>
+    </aside>
+
+    <fee-receipt [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeeReceipt"></fee-receipt>
+
+    <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail"></next-due-detail>
+
+    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory"></payment-history>
+
+    <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport"></view-detail-report>
+
+</div>

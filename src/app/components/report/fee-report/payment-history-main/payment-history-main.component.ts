@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
+import { ExcelService } from '../../../../services/excel.service';
 
 @Component({
   selector: 'app-payment-history-main',
@@ -23,6 +24,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     contact_no: ""
   }
   allPaymentRecords: any[] = [];
+  tempRecords: any[] = [];
   PageIndex: number = 1;
   pagedisplaysize: number = 10;
   totalRow: number;
@@ -50,7 +52,11 @@ export class PaymentHistoryMainComponent implements OnInit {
   addReportPopUp: boolean = false;
   perPersonData: any[] = [];
   helpMsg: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
-
+  helpMsg3:string = " Fee(s) collected from active students";
+  helpMsg4:string = " Fee(s) collected from inactive students";
+  helpMsg1:string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
+  helpMsg2:string = " Fee(s)collected from archived students";
+  
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -71,7 +77,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       header: 'edit',
     }
   ];
-  dataStatus: number = 3;
+  dataStatus: number = 0;
 
   collectionData: any = {
     pdcNo: 0,
@@ -99,7 +105,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     student_id: ""
   }
 
-  constructor(private payment: PaymentHistoryMainService, private appc: AppComponent) { }
+  constructor(private payment: PaymentHistoryMainService, private excelService:ExcelService ,private appc: AppComponent) { }
 
 
   ngOnInit() {
@@ -110,8 +116,8 @@ export class PaymentHistoryMainComponent implements OnInit {
   getAllPaymentHistory() {
     this.showPaymentBox = true;
     this.isRippleLoad = true;
-    this.newData = [];
-    this.allPaymentRecords = [];
+    // this.newData = [];
+    this.allPaymentRecords = this.tempRecords;
     this.dataStatus = 1;
     if (this.searchName != "" || this.searchName != null) {
       if (this.isName(this.searchName)) {
@@ -125,20 +131,35 @@ export class PaymentHistoryMainComponent implements OnInit {
         }
         else {
           this.allPaymentRecords = this.allPaymentRecords.filter((ele: any) => {
+            this.searchflag = true;
             return ele.display_invoice_no.toLowerCase().match(this.searchName.toLowerCase()
             )
           })
-
-          this.totalRow = this.allPaymentRecords.length;
-          this.PageIndex = 1;
-          this.fetchTableDataByPage(this.PageIndex);
         }
       }
     }
+    if (this.searchflag) {
+      this.isRippleLoad = false;
+      if(this.allPaymentRecords.length == 0){
+        this.dataStatus = 2;  
+      }
+      else{
+        this.dataStatus = 0;
+      }
+      this.searchflag = false;
+      return;
+    }
+    else {
     this.payment.getPaymentData(this.sendPayload).subscribe(
       (data: any) => {
+        if (data.length == 0) {
+          this.dataStatus = 2;
+        }
+        else {
+          this.dataStatus = 0;
+        }
         this.allPaymentRecords = data;
-
+        this.tempRecords = data;
         this.newData = data.map((ele: any) => ele.paymentModeAmountMap
         );
 
@@ -154,6 +175,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       },
       (error: any) => {
         this.dataStatus = 2;
+        // this.dataStatus = 0;
         this.isRippleLoad = false;
         let msg = {
           type: "error",
@@ -164,7 +186,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     )
 
   }
-
+  }
 
 
   isName(str) {
@@ -225,18 +247,16 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
-      this.PageIndex = 1;
-      let searchData: any;
-      searchData = this.allPaymentRecords.filter(item =>
+      // let searchData: any;
+      this.allPaymentRecords = this.allPaymentRecords.filter(item =>
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
       );
-      this.searchData = searchData;
-      this.totalRow = searchData.length;
+      // this.searchData = searchData;
       this.searchflag = true;
-      this.fetchTableDataByPage(this.PageIndex);
     }
     else {
+      this.allPaymentRecords = this.tempRecords;
       this.searchflag = false;
     }
   }
@@ -442,6 +462,13 @@ export class PaymentHistoryMainComponent implements OnInit {
       temp.push(obj);
     });
     return temp;
+  }
+
+  exportToExcel(event) {
+    this.excelService.exportAsExcelFile(
+      this.allPaymentRecords,
+      'Students'
+    )
   }
 
 

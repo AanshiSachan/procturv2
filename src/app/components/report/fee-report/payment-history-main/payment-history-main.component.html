@@ -15,9 +15,9 @@
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
           </h2>
-          <a (click)="searchByName()" style="float:right;" *ngIf="searchByDateVisible">Show Name Filter</a>
+          <a (click)="searchByName()" class="showFilter" style="float:right;" *ngIf="searchByDateVisible">Show Name Filter</a>
           <div class="row" *ngIf="searchByDateVisible">
-            <div class="c-lg-12">
+            <div class="c-lg-12 field-made">
               <div class="c-lg-8">
                 <div class="c-lg-4 field-wrapper datePickerBox">
                   <label for="from">From Date</label>
@@ -30,10 +30,26 @@
               </div>
               <div class="c-lg-3" style="margin-top:2%; ">
                 <div class="c-lg-6">
-                  <h5 style="display: inline-block;">Active</h5>
+                  <div class="c-lg-6" style="color:green; margin-top:5%;">
+                    <h5 style="display: inline-block;">Active</h5>
+                  </div>
+                  <div>
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
                 </div>
                 <div class="c-lg-6">
-                  <h5 style="display: inline-block;">Inactive</h5>
+                  <div class="c-lg-6" style="color:red ;margin-top:5%;">
+                    <h5 style="display: inline-block;">Inactive</h5>
+                  </div>
+                  <div class="c-lg-6">
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
                 </div>
               </div>
             </div>
@@ -70,12 +86,26 @@
               <div class="c-lg-1"></div>
               <div class="c-lg-3" style="margin-left: -1%;">
                 <div class="c-lg-6">
-                  <h5 style="display: inline-block;">Historical</h5>
-
+                  <div class="c-lg-6" style="color:brown ;margin-top:5%;">
+                    <h5 style="display: inline-block;">Historical</h5>
+                  </div>
+                  <div class="c-lg-6">
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
                 </div>
-
                 <div class="c-lg-6">
-                  <h5 style="display: inline-block;">Archived</h5>
+                  <div class="c-lg-6" style="color:blue ;margin-top:5%;">
+                    <h5 style="display: inline-block;">Archived</h5>
+                  </div>
+                  <div class="c-lg-6">
+                    <aside class="pull-left">
+                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
+                      </rob-tooltip>
+                    </aside>
+                  </div>
                 </div>
               </div>
             </div>
@@ -88,46 +118,48 @@
 
             <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
               <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
-              <a (click)="searchByDate()">Remove Search By Name Filter</a>
+              <a (click)="searchByDate()" class="showFilter">Remove Search By Name Filter</a>
             </div>
           </div>
         </div>
 
+        <div *ngIf="showPaymentBox && allPaymentRecords.length > 0" class="filter-wrapping">
 
-        <div class="filter-wrapping">
-
-          <div *ngIf="showPaymentBox">
+          <div>
             <div class="filter-box">
               <div class="c-lg-12">
                 <div class="c-lg-4">
                   <ul>
                     <li style="margin:4%">
-                      <span> Cheque/PDC/DD No: {{collectionData.pdcNo}}</span>
-
+                      <span *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')"> Cheque/PDC/DD No: {{newData[0]['Cheque/PDC/DD No.'] | currency : "₹" :0}}</span>
+                      <!-- <span> Cheque/PDC/DD No: {{collectionData.pdcNo}}</span> -->
                     </li>
                     <li style="margin:4%">
-                      <span> Caution Deposit(Refundable) : {{refundValue}}</span>
-
-                    </li>
-                  </ul>
-                </div>
-                <div class="c-lg-4">
-                  <ul>
-                    <li style="margin:4%">
-                      Cash : {{collectionData.cash}}
-                    </li>
-                    <li style="margin:4%">
-                      Online Payments
+                      <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')"> Caution Deposit(Refundable) : {{newData[0]['Caution Deposit(Refundable)'] | currency : "₹" :0}}</span>
+                      <!-- <span> Caution Deposit(Refundable) : {{refundValue}}</span> -->
                     </li>
                   </ul>
                 </div>
                 <div class="c-lg-4">
                   <ul>
                     <li style="margin:4%">
-                      <span> Credit/Debit Card : {{collectionData.cardValue}}</span>
+                      <span *ngIf="newData[0].hasOwnProperty('Cash')">Cash : {{newData[0].Cash | currency : "₹" :0}}</span>
+                      <!-- Cash : {{collectionData.cash}} -->
                     </li>
                     <li style="margin:4%">
-                      Total Fees Collection : {{collectionData.fees_amount}}
+                      <span *ngIf="newData[0].hasOwnProperty('Online Payment')">Online Payments : {{newData[0]['Online Payment'] | currency : "₹" :0}}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="c-lg-4">
+                  <ul>
+                    <li style="margin:4%">
+                      <span *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')"> Credit/Debit Card : {{newData[0]['Credit/Debit Card'] | currency : "₹" :0}}</span>
+                      <!-- <span> Credit/Debit Card : {{collectionData.cardValue}}</span> -->
+                    </li>
+                    <li style="margin:4%">
+                      Total Fees Collection : {{allPaymentRecords[0].fees_amount | currency : "₹" :0}}
+                      <!-- Total Fees Collection : {{collectionData.fees_amount}} -->
                     </li>
                   </ul>
                 </div>
@@ -138,13 +170,20 @@
         </div>
 
 
+
+
         <div id="basic-search" style="margin:5px; float:right;">
           <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
             (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
         </div>
 
-
         <div class="table-content">
+          <div style="margin: 10px;">
+
+            <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+            <span class="fa fa-cloud-download">
+            </span>
+          </div>
           <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="1" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
             [records]="allPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
           </rob-table>
