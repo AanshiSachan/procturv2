@@ -404,19 +404,19 @@ export class PaymentHistoryMainComponent implements OnInit {
   updationOfPerPersonData() {
     console.log(this.perPersonData);
 
-
     if (this.personData.invoice_no != null && this.personData.invoice_no != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != 0) {
 
       if (this.updatedResult.fee_receipt_update_reason.trim() != "" && this.updatedResult.fee_receipt_update_reason != null) {
 
         if (this.isChequePayment) {
 
-          if (this.chequeDetailsJson.bank_name == "" && this.chequeDetailsJson.bank_name == null &&this.chequeDetailsJson.cheque_no == "" && this.chequeDetailsJson.cheque_no == null &&
-            this.chequeDetailsJson.cheque_date == "" && this.chequeDetailsJson.cheque_date == null && this.chequeDetailsJson.cheque_status_id == "" && this.chequeDetailsJson.cheque_status_id == null) {
+          if (this.chequeDetailsJson.bank_name == ""  || this.chequeDetailsJson.cheque_no == "" ||
+            this.chequeDetailsJson.cheque_date == "" ||  this.chequeDetailsJson.cheque_status_id == "" ) {
             let msg = {
               type: "error",
               body: "All bank details are required"
             }
+            this.appc.popToast(msg);
           }
           else {
             let obj = {
@@ -433,7 +433,6 @@ export class PaymentHistoryMainComponent implements OnInit {
               student_id: this.perPersonData[0].student_id
             }
 
-
             this.payment.updatePerPersonData(obj).subscribe(
 
               (data: any) => {
@@ -444,9 +443,6 @@ export class PaymentHistoryMainComponent implements OnInit {
                 }
                 this.appc.popToast(msg);
                 this.getAllPaymentHistory();
-                obj.fee_receipt_update_reason = "";
-                this.chequeDetailsJson = "";
-                this.isChequePayment = false;
                 this.addReportPopUp = false;
               }
             );
@@ -477,8 +473,7 @@ export class PaymentHistoryMainComponent implements OnInit {
                 }
                 this.appc.popToast(msg);
                 this.getAllPaymentHistory();
-                obj.fee_receipt_update_reason = "";
-                this.isChequePayment = false;
+               
                 this.addReportPopUp = false;
               },
               (error: any) => {
