@@ -451,6 +451,7 @@ export class PaymentHistoryMainComponent implements OnInit {
                   cheque_status_id: ""
                 }
                 this.getAllPaymentHistory();
+                this.updatedResult.fee_receipt_update_reason="";
                 this.addReportPopUp = false;
               }
             );
@@ -481,7 +482,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               }
               this.appc.popToast(msg);
               this.getAllPaymentHistory();
-
+              this.updatedResult.fee_receipt_update_reason="";
               this.addReportPopUp = false;
             },
             (error: any) => {
