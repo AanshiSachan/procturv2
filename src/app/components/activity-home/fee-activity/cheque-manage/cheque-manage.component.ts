@@ -178,7 +178,9 @@ export class ChequeManageComponent implements OnInit {
               res.studentFeeReportJsonList[k].selected = false;
             }
             this.studentFeeDues = res;
-            this.isPendingUpdate = true;
+            if(this.studentFeeDues.studentFeeReportJsonList.length){
+              this.isPendingUpdate = true;
+            }
           }
           else {
             let msg = {
