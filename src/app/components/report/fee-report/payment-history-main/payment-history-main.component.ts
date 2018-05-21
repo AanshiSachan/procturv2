@@ -451,6 +451,7 @@ export class PaymentHistoryMainComponent implements OnInit {
                   cheque_status_id: ""
                 }
                 this.getAllPaymentHistory();
+                this.updatedResult.fee_receipt_update_reason="";
                 this.addReportPopUp = false;
               }
             );
@@ -481,7 +482,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               }
               this.appc.popToast(msg);
               this.getAllPaymentHistory();
-
+              this.updatedResult.fee_receipt_update_reason="";
               this.addReportPopUp = false;
             },
             (error: any) => {
@@ -539,7 +540,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     )
   }
 
-
   updateStudentFee(event, index) {
     let e = event.target.value;
     if(e != ""){
@@ -558,7 +558,6 @@ export class PaymentHistoryMainComponent implements OnInit {
       }
     }
   }
-
 
   payModeUpdated(e) {
     if (e == "Cheque/PDC/DD No.") {
