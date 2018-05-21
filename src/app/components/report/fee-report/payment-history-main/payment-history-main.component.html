@@ -16,30 +16,73 @@
           </h2>
           <a (click)="searchByName()" class="showFilter" style="float:right;" *ngIf="searchByDateVisible">Show Name Filter</a>
           <div class="row" *ngIf="searchByDateVisible">
+
             <div class="c-lg-12 field-made">
               <div class="c-lg-8">
-                <div class="c-lg-4 field-wrapper datePickerBox">
-                  <label for="from">From Date</label>
-                  <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+                <div class="c-lg-12 upper">
+                  <div class="c-lg-6 field-wrapper datePickerBox">
+                    <label for="from">From Date</label>
+                    <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+                  </div>
+                  <div class="c-lg-6 field-wrapper datePickerBox">
+                    <label for="to">To Date</label>
+                    <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+                  </div>
                 </div>
-                <div class="c-lg-4 field-wrapper datePickerBox">
-                  <label for="to">To Date</label>
-                  <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+
+                <div style="padding-top: 20px" class="c-lg-12 lower">
+                  
+                  <div class="c-lg-10 field-correspond">
+                    
+                    <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
+                      <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="0"
+                        checked="true" id="active">
+                      <label for="active">Active</label>
+                    </div>
+                    <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
+                      <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="2"
+                        id="allStudents">
+                      <label for="allStudents">All Students</label>
+                    </div>
+                    <div class="c-lg-4 field-radio-wrapper makeAdjust">
+                      <div>
+                        <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="1"
+                          id="others">
+                        <label for="others" style="margin-left:10px;">Others</label>
+                      </div>
+                    
+                      <div style="position: absolute;top: -8px;right: 0;">
+                        <aside class="pull-left">
+                          <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                          </rob-tooltip>
+                        </aside>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="c-lg-2">
+                    <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
+                  </div>
+
                 </div>
               </div>
-              <div class="c-lg-3" style="margin-top:2%; ">
-                <div class="c-lg-6">
+
+              <div class="c-lg-2"></div>
+
+              <div class="c-lg-2">
+                <div class="c-lg-12">
                   <div class="c-lg-6" style="color:green; margin-top:5%;">
                     <h5 style="display: inline-block;">Active</h5>
                   </div>
-                  <div>
+                  <div class="c-lg-6">
                     <aside class="pull-left">
                       <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
                       </rob-tooltip>
                     </aside>
                   </div>
                 </div>
-                <div class="c-lg-6">
+                <div class="c-lg-12">
                   <div class="c-lg-6" style="color:red ;margin-top:5%;">
                     <h5 style="display: inline-block;">Inactive</h5>
                   </div>
@@ -50,41 +93,7 @@
                     </aside>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="c-lg-12" style="margin-top: 24px;margin-left: 15px;">
-              <div class="c-lg-8 field-correspond">
-                <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
-                  <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="0"
-                    id="active">
-                  <label for="active">Active</label>
-                </div>
-                <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
-                  <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="2"
-                    id="allStudents">
-                  <label for="allStudents">All Students</label>
-                </div>
-                <div class="c-lg-4 field-radio-wrapper makeAdjust">
-                  <div class="c-lg-5">
-                    <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload. payment_history_student_category_option" [value]="1"
-                      id="others">
-                    <label for="others" style="margin-left:10px;">Others</label>
-                  </div>
-                  <div class="c-lg-1" style="margin-top:-9px;text-align: left;">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-              </div>
-              <div class="c-lg-1">
-                <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
-              </div>
-              <div class="c-lg-1"></div>
-              <div class="c-lg-3" style="margin-left: -1%;">
-                <div class="c-lg-6">
+                <div class="c-lg-12">
                   <div class="c-lg-6" style="color:brown ;margin-top:5%;">
                     <h5 style="display: inline-block;">Historical</h5>
                   </div>
@@ -95,7 +104,7 @@
                     </aside>
                   </div>
                 </div>
-                <div class="c-lg-6">
+                <div class="c-lg-12">
                   <div class="c-lg-6" style="color:blue ;margin-top:5%;">
                     <h5 style="display: inline-block;">Archived</h5>
                   </div>
@@ -106,9 +115,13 @@
                     </aside>
                   </div>
                 </div>
+
               </div>
+
             </div>
+
           </div>
+
           <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="searchByNameVisible">
             <div class="c-lg-3 field-wrapper">
               <label for=from>Student Name/Contact No/Reciept No</label>
@@ -122,6 +135,7 @@
               <a (click)="searchByDate()" class="showFilter">Remove Search By Name Filter</a>
             </div>
           </div>
+
         </div>
 
         <div *ngIf="showPaymentBox && allPaymentRecords.length > 0" class="filter-wrapping">
@@ -251,7 +265,7 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" (ngModeChange)="updateStudentFee($event, i)" name='paidVal'>
+                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" (blur)="updateStudentFee($event, i)" name='paidVal'>
               </div>
             </td>
             <td>

@@ -19,7 +19,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     institute_id: this.payment.institute_id,
     from_date: moment().format('YYYY-MM-DD'),
     to_date: moment().format('YYYY-MM-DD'),
-    payment_history_student_category_option: "",
+    payment_history_student_category_option: 0,
     student_name: "",
     contact_no: ""
   }
@@ -540,26 +540,26 @@ export class PaymentHistoryMainComponent implements OnInit {
     )
   }
 
-
-  updateStudentFee(e, index) {
-    if (e <= this.perPersonData[index].fees_amount) {
-      this.perPersonData[index].amount_paid = e;
-      this.perPersonData[index].balance_amount = parseInt(this.perPersonData[index].fees_amount) - parseInt(e);
-    }
-    else {
-      let obj = {
-        type: 'error',
-        title: 'Amount paid cannot be greater than the actual paid',
-        body: ''
+  updateStudentFee(event, index) {
+    let e = event.target.value;
+    if(e != ""){
+      if (parseInt(e) <= parseInt(this.perPersonData[index].fees_amount)) {
+        this.perPersonData[index].balance_amount = parseInt(this.perPersonData[index].fees_amount) - parseInt(e);
       }
-      this.appc.popToast(obj);
-      return this.perPersonData[index].amount_paid;
+      else {
+        let obj = {
+          type: 'error',
+          title: 'Invalid value for Amount Paid',
+          body: ''
+        }
+        this.appc.popToast(obj);
+        this.perPersonData[index].amount_paid = this.perPersonData[index].fees_amount;
+        this.perPersonData[index].balance_amount = parseInt(this.perPersonData[index].fees_amount) - parseInt(e); 
+      }
     }
-
   }
 
   payModeUpdated(e) {
-    console.log(e);
     if (e == "Cheque/PDC/DD No.") {
       this.isChequePayment = true;
     }

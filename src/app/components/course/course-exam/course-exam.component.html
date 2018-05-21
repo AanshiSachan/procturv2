@@ -508,7 +508,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="action-Menu">
+                                            <div class="action-Menu"  *ngIf="row.isReferenced != 'Y'">
                                                 <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
                                                     <i class="fa fa-trash-o " aria-hidden="true "></i>
                                                 </span>

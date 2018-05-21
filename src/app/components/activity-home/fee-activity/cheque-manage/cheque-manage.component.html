@@ -10,9 +10,10 @@
                 </div>
                 <section class="row filter-section  margin-head">
                     <div class="c-lg-3">
-                        <div class="field-wrapper">
-                            <label for="range">From {{dateRange[0] | date: 'yyyy-mm-dd'}} To {{dateRange[1] | date: 'yyyy-mm-dd'}}</label>
+                        <div class="field-wrapper datePickerBox">
+                            <label for="range">Cheque From And To</label>
                             <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker>
+                            <span class="pull-right" style="color: rgb(245, 79, 79); cursor: pointer;" (click)="clearDateRange()">clear</span>
                         </div>
                     </div>
                     <div class="c-lg-3">
@@ -110,18 +111,18 @@
 
                 <div class="row update-cheque-wrapper" popup-content>
 
-                    <div class="c-lg-12">
+                    <div class="c-lg-12 pending-cheque-data">
                         <table class="table table-responsive">
                             <thead>
                                 <tr>
-                                    <th class="No">Installment No</th>
+                                    <th class="Inst">Inst #</th>
                                     <th>Course</th>
                                     <th>Academic Year</th>
                                     <th>Fee Type</th>
                                     <th class="Date">Due Date</th>
                                     <th class="No">Intitial Fee Amount</th>
                                     <th class="No">Tax</th>
-                                    <th class="No">Fee Amount(Incl Tax)</th>
+                                    <th class="No">Fee Amount (Incl Tax)</th>
                                     <th class="No">Amount Paid</th>
                                     <th class="No">Balance Amount</th>
                                     <th class="No">Pay Amount</th>
@@ -130,7 +131,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let c of studentFeeDues.studentFeeReportJsonList; let i = index;">
-                                    <td class="No">
+                                    <td class="Inst">
                                         <div class=" check field-checkbox-wrapper">
                                             <input class="form-checkbox" id="{{c.installment_no}}" type="checkbox" [(ngModel)]="c.selected" name="{{c.installment_no}}"
                                                 value="">
@@ -150,7 +151,7 @@
                                     <td class="No">₹&nbsp;{{c.total_balance_amt}}</td>
                                     <td>
                                         <div class="field-wrapper">
-                                            <input type="text" [(ngModel)]="c.toPay" class="form-ctrl">
+                                            <input type="text" OnlyNumber="true" [(ngModel)]="c.toPay" (blur)="validatePaymentAmount(i)" class="form-ctrl">
                                         </div>
                                     </td>
                                     <td>{{c.balanceDueOn}}</td>
@@ -159,7 +160,89 @@
                         </table>
                     </div>
 
-                    <div class="c-lg-12"></div>
+                    <div class="c-lg-6">
+                        <!-- payment date -->
+                        <div class="field-wrapper datePickerBox">
+                            <label for="paymentdate">Payment Date</label>
+                            <input id="paymentdate" [(ngModel)]="chequePaymentModel.paymentDate" type="text" class="form-ctrl bsDatepicker" bsDatepicker>
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Payment Mode -->
+                        <div class="field-wrapper">
+                            <label for="PMode">Payment Mode</label>
+                            <input [(ngModel)]="chequePaymentModel.paymentMode" id="PMode" readonly="true" type="text" class="form-ctrl">
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Remarks -->
+                        <div class="field-wrapper">
+                            <label for="remarks">Remarks</label>
+                            <textarea [(ngModel)]="chequePaymentModel.remarks" id="remarks" class="form-ctrl"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Referencce number -->
+                        <div class="field-wrapper">
+                            <label for="refN">Referencce number</label>
+                            <input [(ngModel)]="chequePaymentModel.refNum" id="refN" type="text" class="form-ctrl">
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Bank Name -->
+                        <div class="field-wrapper">
+                            <label for="BankName">Bank Name</label>
+                            <input [(ngModel)]="chequePaymentModel.bankName" id="BankName" readonly="true" type="text" class="form-ctrl">
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Cheque Number -->
+                        <div class="field-wrapper">
+                            <label for="ChequeNumber">Cheque Number</label>
+                            <input [(ngModel)]="chequePaymentModel.chequeNum" id="ChequeNumber" readonly="true" type="text" class="form-ctrl">
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Cheque Date -->
+                        <div class="field-wrapper datePickerBox">
+                            <label for="ChequeDate">Cheque Date</label>
+                            <input [(ngModel)]="chequePaymentModel.chequeDate" id="ChequeDate" readonly="true" type="text" class="form-ctrl bsDatepicker">
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Cheque Amount -->
+                        <div class="field-wrapper">
+                            <label for="ChequeAmount">Cheque Amount</label>
+                            <input [(ngModel)]="chequePaymentModel.chequeAmount" id="ChequeAmount" readonly="true" type="text" class="form-ctrl">
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Generate Fee Receipt -->
+                        <div class="field-checkbox-wrapper">
+                            <input [(ngModel)]="chequePaymentModel.isGenAck" class="form-checkbox" type="checkbox" id="genAck">
+                            <label for="genAck">
+                                Generate Fee Receipt
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6">
+                        <!-- Send Email(Student/Parent) -->
+                        <div class="field-checkbox-wrapper">
+                            <input [(ngModel)]="chequePaymentModel.isSendEmail" class="form-checkbox" type="checkbox" id="sendEmail">
+                            <label for="sendEmail">
+                                Send Email (Student/Parent)
+                            </label>
+                        </div>
+                    </div>
 
                 </div>
 

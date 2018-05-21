@@ -54,3 +54,17 @@
         }
     }
 }
+
+.pending-cheque-data{
+    tr{
+        th{
+            &.Inst{
+                width: 6%;
+                text-align: 'right';
+            }
+        }
+        td{
+
+        }        
+    }
+}
