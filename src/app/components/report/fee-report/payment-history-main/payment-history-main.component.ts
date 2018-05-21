@@ -549,7 +549,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     else {
       let obj = {
         type: 'error',
-        title: 'Invalid value for Amount Paid',
+        title: 'Amount paid cannot be greater than the actual paid',
         body: ''
       }
       this.appc.popToast(obj);
@@ -557,7 +557,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
 
   }
-
 
   payModeUpdated(e) {
     console.log(e);

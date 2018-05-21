@@ -10,7 +10,7 @@
         <div class="report-header" style="padding-bottom:1%">
           <h2 style="padding: 5px;" class="pull-left">
             <a routerLink="/reports/fee">
-              Activity Home
+              Fee Report
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
           </h2>
@@ -116,7 +116,9 @@
             </div>
 
             <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
+             
               <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
+
               <a (click)="searchByDate()" class="showFilter">Remove Search By Name Filter</a>
             </div>
           </div>
@@ -249,8 +251,7 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" (ngModelChange)="updateStudentFee($event, i)"
-                  name='paidVal'>
+                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" (ngModeChange)="updateStudentFee($event, i)" name='paidVal'>
               </div>
             </td>
             <td>
@@ -301,7 +302,8 @@
           <span class="field-red">*</span>
           <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.fee_receipt_update_reason">
         </div>
-        <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()"
+        <input type="button" class="btn fullBlue" value="Close" (click)="closeReportPopup()" style="margin-right:10px;margin-left:15px; margin-top:1%" *ngIf="!isChequePayment">
+        <input type="button" class="btn fullBlue" value="GO" style="margin-right:10px;margin-left:5px; margin-top:1%" (click)="updationOfPerPersonData()"
           *ngIf="!isChequePayment">
       </div>
 
@@ -348,9 +350,9 @@
             </div>
           </div>
 
-          <div style="margin-top: 5px;">
+          <div style="margin-top: 1%; margin-left:5px;">
             <input type="button" class="btn fullBlue" value="Save" (click)="updationOfPerPersonData()">
-            <input type="button" class="btn fullBlue" value="Close">
+            <input type="button" class="btn fullBlue" value="Close" (click)="closeReportPopup()">
           </div>
 
         </div>
