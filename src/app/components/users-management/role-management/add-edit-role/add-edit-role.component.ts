@@ -71,9 +71,9 @@ export class AddEditRoleComponent implements OnInit {
     if (arr.length > 0) {
       //console.log(this.featuresArray);
       for (let i = 0; i < arr.length; i++) {
-        for (let t = 0; t < this.featuresArray.length; t++) {
-          if (arr[i] == this.featuresArray[t].feature_id) {
-            this.targetFeatures.push(this.featuresArray[t]);
+        for (let t = 0; t < this.cloneFeatureArray.length; t++) {
+          if (arr[i] == this.cloneFeatureArray[t].feature_id) {
+            this.targetFeatures.push(this.cloneFeatureArray[t]);
             this.cloneFeatureArray.splice(t, 1);
           }
         }
