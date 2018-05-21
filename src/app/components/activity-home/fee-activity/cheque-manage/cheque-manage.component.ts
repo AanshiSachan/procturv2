@@ -19,6 +19,9 @@ export class ChequeManageComponent implements OnInit {
   studentFeeDues: any = {
     studentFeeReportJsonList: [],
   };
+
+  studentFeelist:any[] = []
+
   isPendingUpdate: boolean;
   isUpdatePopup: boolean;
   actionSelected: any;
@@ -379,5 +382,18 @@ export class ChequeManageComponent implements OnInit {
     })
     return temp;
   }
+
+  validatePaymentAmount(i){
+    if(parseInt(this.studentFeeDues.studentFeeReportJsonList[i].toPay) > parseInt(this.studentFeeDues.studentFeeReportJsonList[i].total_balance_amt)){
+      let info = {
+        type: 'info',
+        title: "Invalid Payment Amount",
+        body: "Amount cannot be greater than the total balance amount"
+      }
+      this.appC.popToast(info);
+      this.studentFeeDues.studentFeeReportJsonList[i].toPay = this.studentFeeDues.studentFeeReportJsonList[i].total_balance_amt;
+    }
+  }
+
 
 }
