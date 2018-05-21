@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit {
   userSelected: any = [];
   searchText: any = "";
   isRippleLoad: boolean = false;
-  toottip : string = "We can customize our users via providing or assigning different roles according to their activities.User can login with their credentials and can login with their credentials and can operate only their defined roles."
+  toottip : string = "We can customize our users via providing or assigning different roles according to their activities.User can login with their credentials and can operate only their defined roles."
 
   constructor(
     private apiService: UserService,

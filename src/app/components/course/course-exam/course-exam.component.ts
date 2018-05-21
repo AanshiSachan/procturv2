@@ -614,6 +614,7 @@ export class CourseExamComponent implements OnInit {
   getExamSchedule() {
     if (this.courseData.master_course != "" && this.courseData.course_id != -1) {
       this.isRippleLoad = true;
+      this.courseData.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
           this.isRippleLoad = false;
