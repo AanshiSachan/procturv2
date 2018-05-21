@@ -215,7 +215,7 @@
 
   <div popup-content class="main-student-table">
     <div class="table table-responsive">
-   
+
       <table>
         <thead>
           <tr>
@@ -259,7 +259,7 @@
           </tr>
         </tbody>
       </table>
-      
+
       <div class="row" class="field-made">
 
         <div class="c-lg-6 field-wrapper datePickerBox">
@@ -301,7 +301,8 @@
           <span class="field-red">*</span>
           <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.fee_receipt_update_reason">
         </div>
-
+        <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()"
+          *ngIf="!isChequePayment">
       </div>
 
       <div *ngIf="isChequePayment" style="margin-top: 10px;" class="field-made">
@@ -326,7 +327,7 @@
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>
-              <input type="text" class="form-ctrl">
+              <input type="text" class="form-ctrl" [value]="updationArray.total_amt_paid | currency:'₹' :0" disabled>
             </div>
           </div>
 
@@ -360,7 +361,7 @@
 
 
   <div popup-footer>
-      <input type="button" class="btn fullBlue" value="GO" style="padding:5px; margin-right:10px" (click)="updationOfPerPersonData()">
+
   </div>
 
 </proctur-popup>
