@@ -10,6 +10,7 @@ import { ChequeManageComponent } from './cheque-manage/cheque-manage.component';
 import { FeeManageComponent } from './fee-manage/fee-manage.component';
 import { FeeActivityRoutingModule } from './fee-activity-routing.module';
 import { getCheque } from '../../../services/cheque-manage/get-cheque.service';
+import { ExcelService } from '../../../services/excel.service';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { getCheque } from '../../../services/cheque-manage/get-cheque.service';
     entryComponents: [
     ],
     providers: [
-        getCheque
+        getCheque,
+        ExcelService
     ]
 })
 export class FeeActivityModule {
