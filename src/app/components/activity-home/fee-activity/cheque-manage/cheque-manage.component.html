@@ -130,7 +130,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let c of studentFeeDues.studentFeeReportJsonList; let i = index;">
+                                <tr *ngFor="let c of studentUnpaid; let i = index;">
                                     <td class="Inst">
                                         <div class=" check field-checkbox-wrapper">
                                             <input class="form-checkbox" id="{{c.installment_no}}" type="checkbox" [(ngModel)]="c.selected" name="{{c.installment_no}}"
@@ -151,7 +151,7 @@
                                     <td class="No">₹&nbsp;{{c.total_balance_amt}}</td>
                                     <td>
                                         <div class="field-wrapper">
-                                            <input type="text" OnlyNumber="true" [(ngModel)]="c.toPay" class="form-ctrl">
+                                            <input type="text" OnlyNumber="true" [(ngModel)]="c.toPay" (blur)="validatePaymentAmount(i)" class="form-ctrl">
                                         </div>
                                     </td>
                                     <td>{{c.balanceDueOn}}</td>
