@@ -17,7 +17,6 @@ export class ChequeManageComponent implements OnInit {
 
   pdcDetails: any;
   studentFeeDues: any = {
-    studentFeeReportJsonList: [],
   };
 
   studentFeelist:any[] = []
@@ -35,6 +34,8 @@ export class ChequeManageComponent implements OnInit {
     student_name: '',
     contact_no: '',
   }
+
+  studentUnpaid:any[] = [];
 
   dropType: number = 1;
 
@@ -132,6 +133,8 @@ export class ChequeManageComponent implements OnInit {
     this.isUpdatePopup = false;
     this.isPendingUpdate = false;
     this.selectedRecord = null;
+    this.studentFeeDues = {};
+    this.studentUnpaid = [];
     this.chequePaymentModel = {
       paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
       paymentMode: 'Cheque/PDC/DD No.',
@@ -165,9 +168,6 @@ export class ChequeManageComponent implements OnInit {
   }
 
   getStudentFeeDetails() {
-    this.studentFeeDues = {
-      studentFeeReportJsonList: [],
-    };
     this.getter.fetchStudentFeeDetails(this.selectedRecord.student_id).subscribe(
       res => {
         if (res.studentFeeReportJsonList != null) {
@@ -177,10 +177,9 @@ export class ChequeManageComponent implements OnInit {
               res.studentFeeReportJsonList[k].balanceDueOn = res.studentFeeReportJsonList[k].due_date;
               res.studentFeeReportJsonList[k].selected = false;
             }
+            this.studentUnpaid = res.studentFeeReportJsonList;
             this.studentFeeDues = res;
-            if(this.studentFeeDues.studentFeeReportJsonList.length){
-              this.isPendingUpdate = true;
-            }
+            this.isPendingUpdate = true;
           }
           else {
             let msg = {
@@ -279,11 +278,11 @@ export class ChequeManageComponent implements OnInit {
 
     let toPay: number = 0;
     let temp: any[] = [];
-    for (let k in this.studentFeeDues.studentFeeReportJsonList) {
-      if (this.studentFeeDues.studentFeeReportJsonList[k].selected && this.studentFeeDues.studentFeeReportJsonList[k].toPay != '') {
-        if (!isNaN(this.studentFeeDues.studentFeeReportJsonList[k].toPay)) {
-          temp.push(this.studentFeeDues.studentFeeReportJsonList[k]);
-          toPay += parseInt(this.studentFeeDues.studentFeeReportJsonList[k].toPay);
+    for (let k in this.studentUnpaid) {
+      if (this.studentUnpaid[k].selected && this.studentUnpaid[k].toPay != '') {
+        if (!isNaN(this.studentUnpaid[k].toPay)) {
+          temp.push(this.studentUnpaid[k]);
+          toPay += parseInt(this.studentUnpaid[k].toPay);
         }
         else {
           let msg = {
@@ -386,14 +385,14 @@ export class ChequeManageComponent implements OnInit {
   }
 
   validatePaymentAmount(i){
-    if(parseInt(this.studentFeeDues.studentFeeReportJsonList[i].toPay) > parseInt(this.studentFeeDues.studentFeeReportJsonList[i].total_balance_amt)){
+    if(parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)){
       let info = {
         type: 'info',
         title: "Invalid Payment Amount",
         body: "Amount cannot be greater than the total balance amount"
       }
       this.appC.popToast(info);
-      this.studentFeeDues.studentFeeReportJsonList[i].toPay = this.studentFeeDues.studentFeeReportJsonList[i].total_balance_amt;
+      this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
     }
   }
 

@@ -130,7 +130,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let c of studentFeeDues.studentFeeReportJsonList; let i = index;">
+                                <tr *ngFor="let c of studentUnpaid; let i = index;">
                                     <td class="Inst">
                                         <div class=" check field-checkbox-wrapper">
                                             <input class="form-checkbox" id="{{c.installment_no}}" type="checkbox" [(ngModel)]="c.selected" name="{{c.installment_no}}"
