@@ -136,6 +136,7 @@ export class CoreHeaderComponent implements OnInit {
   logout() {
     this.clearSearch();
     if (this.log.logoutUser()) {
+      this.multiBranchService.subBranchSelected.next(false);
       this.router.navigateByUrl('/authPage');
     }
   }
