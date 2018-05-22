@@ -89,6 +89,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
+      this.popUpChangePassword = false;
       if (event instanceof NavigationStart) {
         this.isRippleLoad = true;
         this.closeSearchArea();
