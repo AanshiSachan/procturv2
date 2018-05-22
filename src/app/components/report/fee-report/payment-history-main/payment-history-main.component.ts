@@ -139,8 +139,7 @@ export class PaymentHistoryMainComponent implements OnInit {
         else {
           this.allPaymentRecords = this.allPaymentRecords.filter((ele: any) => {
             this.searchflag = true;
-            return ele.display_invoice_no.toLowerCase().match(this.searchName.toLowerCase()
-            )
+            return ele.invoice_no.toString().match(this.searchName);
           })
         }
       }
@@ -207,7 +206,12 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
 
-
+  fromDateClear() {
+    this.sendPayload.from_date = ""
+  }
+  toDateClear() {
+    this.sendPayload.to_date = ""
+  }
   editPerPersonData(ev, i) {
     let queryParameters = {
       financial_year: i.financial_year
@@ -239,7 +243,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   searchByName() {
-    
+
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
   }
@@ -451,7 +455,7 @@ export class PaymentHistoryMainComponent implements OnInit {
                   cheque_status_id: ""
                 }
                 this.getAllPaymentHistory();
-                this.updatedResult.fee_receipt_update_reason="";
+                this.updatedResult.fee_receipt_update_reason = "";
                 this.addReportPopUp = false;
               }
             );
@@ -482,7 +486,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               }
               this.appc.popToast(msg);
               this.getAllPaymentHistory();
-              this.updatedResult.fee_receipt_update_reason="";
+              this.updatedResult.fee_receipt_update_reason = "";
               this.addReportPopUp = false;
             },
             (error: any) => {
@@ -542,7 +546,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   updateStudentFee(event, index) {
     let e = event.target.value;
-    if(e != ""){
+    if (e != "") {
       if (parseInt(e) <= parseInt(this.perPersonData[index].fees_amount)) {
         this.perPersonData[index].balance_amount = parseInt(this.perPersonData[index].fees_amount) - parseInt(e);
       }
@@ -554,7 +558,7 @@ export class PaymentHistoryMainComponent implements OnInit {
         }
         this.appc.popToast(obj);
         this.perPersonData[index].amount_paid = this.perPersonData[index].fees_amount;
-        this.perPersonData[index].balance_amount = parseInt(this.perPersonData[index].fees_amount) - parseInt(e); 
+        this.perPersonData[index].balance_amount = parseInt(this.perPersonData[index].fees_amount) - parseInt(e);
       }
     }
   }

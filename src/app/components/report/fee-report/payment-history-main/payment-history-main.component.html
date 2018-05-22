@@ -23,10 +23,12 @@
                   <div class="c-lg-6 field-wrapper datePickerBox">
                     <label for="from">From Date</label>
                     <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+                    <a style="float:right" (click)="fromDateClear()">Clear</a>
                   </div>
                   <div class="c-lg-6 field-wrapper datePickerBox">
                     <label for="to">To Date</label>
                     <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+                    <a style="float:right" (click)="toDateClear()">Clear</a>
                   </div>
                 </div>
 
