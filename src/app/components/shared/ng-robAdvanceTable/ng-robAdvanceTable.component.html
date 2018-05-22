@@ -50,7 +50,8 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 1">
+                                
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 1">
                                     <ul class="ul-body ct-ongoing" *ngFor="let dummy of dummyArr">
                                         <li *ngIf="isMulti">
                                             <div class="skeleton">
@@ -66,14 +67,16 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 2">
+                                
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 2">
                                     <ul class="ul-body ct-ongoing">
                                         <li style="width: 100%;">
                                             <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 3">
+
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 3">
                                     <ul class="ul-body ct-ongoing">
                                         <li style="width: 100%;">
                                             <label style="font-size: 16px;font-weight: 600;">Enter Detail to Search</label>
