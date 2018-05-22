@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   isloggedInAdmin: boolean;
 
   isSearchMore: boolean = false;
-  @ViewChild('footer') footer: ElementRef;
+
   /* ToasterConfig ==> {
     animation: 'fade', 'flyLeft', 'flyRight', 'slideDown', and 'slideUp'
     limit: number
@@ -293,7 +293,6 @@ export class AppComponent implements OnInit {
   }
 
   informFooter() {
-    this.footer.nativeElement.classList.remove('hide');
   }
 
   handler(f) {

@@ -218,12 +218,12 @@
 
     </proctur-popup>
 
-
-    <div [ngClass]="{'hide': !isloggedInAdmin}" #footer class="footer-section">
-
+    <div class="hide footer-section">
         <ul class="footer-list">
             <li>
-                <i class="fa fa-phone"></i> +91 9971831677</li>
+                <i class="fa fa-phone"></i>
+                <a>+91 9971831677</a>
+            </li>
             <li>
                 <i class="fa fa-envelope"></i>
                 <a href="mailto:support@proctur.com">support@proctur.com</a>
@@ -238,7 +238,6 @@
             </li>
         </ul>
     </div>
-
 
     <app-chatbot (flagData)="handler($event)" [ngClass]="{'hide': !isloggedInAdmin}">
     </app-chatbot>

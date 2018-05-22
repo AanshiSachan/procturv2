@@ -17,8 +17,10 @@ export class ChequeManageComponent implements OnInit {
 
   pdcDetails: any;
   studentFeeDues: any = {
-    studentFeeReportJsonList: [],
   };
+
+  studentFeelist:any[] = []
+
   isPendingUpdate: boolean;
   isUpdatePopup: boolean;
   actionSelected: any;
@@ -26,12 +28,14 @@ export class ChequeManageComponent implements OnInit {
   dateRange: any[] = [];
 
   chequeFetchForm: any = {
-    from_date: '',
-    to_date: '',
+    from_date: moment().date(1).format("YYYY-MM-DD"),
+    to_date: moment().format("YYYY-MM-DD"),
     cheque_status_id: -1,
     student_name: '',
     contact_no: '',
   }
+
+  studentUnpaid:any[] = [];
 
   dropType: number = 1;
 
@@ -45,10 +49,10 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'bank_name', header: 'Bank Name' },
     { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'contact_no', header: 'Contact No' },
-    { primaryKey: 'cheque_date', header: 'Cheque No' },
+    { primaryKey: 'cheque_date', header: 'Cheque Date' },
     { primaryKey: 'cheque_amount', header: 'Amount' },
     { primaryKey: 'cheque_status', header: 'Status' }
-  ];
+  ];  
 
   menuList: DropData[] = [
     { key: 'update', header: 'Update' }
@@ -129,6 +133,8 @@ export class ChequeManageComponent implements OnInit {
     this.isUpdatePopup = false;
     this.isPendingUpdate = false;
     this.selectedRecord = null;
+    this.studentFeeDues = {};
+    this.studentUnpaid = [];
     this.chequePaymentModel = {
       paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
       paymentMode: 'Cheque/PDC/DD No.',
@@ -162,9 +168,6 @@ export class ChequeManageComponent implements OnInit {
   }
 
   getStudentFeeDetails() {
-    this.studentFeeDues = {
-      studentFeeReportJsonList: [],
-    };
     this.getter.fetchStudentFeeDetails(this.selectedRecord.student_id).subscribe(
       res => {
         if (res.studentFeeReportJsonList != null) {
@@ -174,6 +177,7 @@ export class ChequeManageComponent implements OnInit {
               res.studentFeeReportJsonList[k].balanceDueOn = res.studentFeeReportJsonList[k].due_date;
               res.studentFeeReportJsonList[k].selected = false;
             }
+            this.studentUnpaid = res.studentFeeReportJsonList;
             this.studentFeeDues = res;
             this.isPendingUpdate = true;
           }
@@ -274,11 +278,11 @@ export class ChequeManageComponent implements OnInit {
 
     let toPay: number = 0;
     let temp: any[] = [];
-    for (let k in this.studentFeeDues.studentFeeReportJsonList) {
-      if (this.studentFeeDues.studentFeeReportJsonList[k].selected && this.studentFeeDues.studentFeeReportJsonList[k].toPay != '') {
-        if (!isNaN(this.studentFeeDues.studentFeeReportJsonList[k].toPay)) {
-          temp.push(this.studentFeeDues.studentFeeReportJsonList[k]);
-          toPay += parseInt(this.studentFeeDues.studentFeeReportJsonList[k].toPay);
+    for (let k in this.studentUnpaid) {
+      if (this.studentUnpaid[k].selected && this.studentUnpaid[k].toPay != '') {
+        if (!isNaN(this.studentUnpaid[k].toPay)) {
+          temp.push(this.studentUnpaid[k]);
+          toPay += parseInt(this.studentUnpaid[k].toPay);
         }
         else {
           let msg = {
@@ -379,5 +383,18 @@ export class ChequeManageComponent implements OnInit {
     })
     return temp;
   }
+
+  validatePaymentAmount(i){
+    if(parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)){
+      let info = {
+        type: 'info',
+        title: "Invalid Payment Amount",
+        body: "Amount cannot be greater than the total balance amount"
+      }
+      this.appC.popToast(info);
+      this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
+    }
+  }
+
 
 }
