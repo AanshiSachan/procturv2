@@ -135,18 +135,11 @@ export class PaymentHistoryMainComponent implements OnInit {
         this.sendPayload.student_name = this.searchName;
       }
       else {
-        if (this.searchName.length == 10) {
           this.sendPayload.student_name = "";
           this.sendPayload.contact_no = this.searchName;
         }
-        else {
-          this.allPaymentRecords = this.allPaymentRecords.filter((ele: any) => {
-            this.searchflag = true;
-            return ele.invoice_no.toString().match(this.searchName);
-          })
-        }
       }
-    }
+    
     if (this.searchflag) {
       this.isRippleLoad = false;
       if (this.allPaymentRecords.length == 0) {
