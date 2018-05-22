@@ -57,17 +57,31 @@ export class AppComponent implements OnInit {
 
   isRippleLoad: boolean = true;
   institute_id: boolean = false;
+  popUpChangePassword: boolean = false;
+  changePass: any = {
+    username: '',
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  }
 
-  constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title, private auth: AuthenticatorService) {
+
+  constructor
+    (
+    toasterService: ToasterService,
+    private router: Router,
+    private load: LoaderHandlingService,
+    private log: LoginService,
+    private fetchService: FetchprefilldataService,
+    private titleService: Title,
+    private auth: AuthenticatorService
+    ) {
 
     this.toasterService = toasterService;
     this.auth.currentInstituteId.subscribe(id => {
-      if(id != null && id != ""){
-        this.institute_id = true;
-      }else{
-        this.institute_id = false;
+      if (id != null && id != "") {
+        this.institute_id = id;
       }
-      
     });
   }
 
@@ -104,7 +118,7 @@ export class AppComponent implements OnInit {
 
 
 
-      this.log.currentMenuState.subscribe(el => {
+    this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
     })
 
@@ -116,11 +130,11 @@ export class AppComponent implements OnInit {
         let p = sessionStorage.getItem('permissions');
         let user = sessionStorage.getItem('userType')
 
-        if(user == "0"){
-          if (p == null || p == undefined || p == ''){
+        if (user == "0") {
+          if (p == null || p == undefined || p == '') {
             this.isloggedInAdmin = true;
           }
-          else{
+          else {
             this.isloggedInAdmin = false
           }
         }
@@ -282,20 +296,94 @@ export class AppComponent implements OnInit {
   }
 
   handler(f) {
-    let flag:any = f;
+    let flag: any = f;
 
-    if(flag.hasOwnProperty('ticket')){
+    if (flag.hasOwnProperty('ticket')) {
       this.addReportPopup = true;
       this.ticketId = flag.ticket.id;
       this.closechatbot = false;
     }
-    else{
+    else {
       this.closechatbot = false;
     }
   }
 
   closeReportPopup() {
     this.addReportPopup = false;
+  }
+
+  changePasswordPopUp(event) {
+    this.popUpChangePassword = true;
+    let emailId = sessionStorage.getItem('alternate_email_id');
+    if (emailId != "" && emailId != null && emailId != undefined) {
+      this.changePass.username = emailId;
+    }
+    this.changePass.oldPassword = '';
+    this.changePass.newPassword = '';
+    this.changePass.confirmPassword = '';
+  }
+
+  closeChangePasswordPopup() {
+    this.popUpChangePassword = false;
+    this.changePass = {
+      username: sessionStorage.getItem('alternate_email_id'),
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    }
+  }
+
+  changeUserPassword() {
+    if (this.changePass.oldPassword.trim() == "" || this.changePass.oldPassword.trim() == null) {
+      this.messageNotifier('error', 'Error', 'Please provide old password');
+      return true;
+    }
+    if (this.changePass.newPassword.trim() == "" || this.changePass.newPassword.trim() == null) {
+      this.messageNotifier('error', 'Error', 'Please provide new password');
+      return true;
+    }
+    if (this.changePass.confirmPassword.trim() == "" || this.changePass.confirmPassword == null) {
+      this.messageNotifier('error', 'Error', 'Please provide password in confirm password');
+      return true;
+    }
+    if (this.changePass.newPassword.trim() != this.changePass.confirmPassword.trim()) {
+      this.messageNotifier('error', 'Error', 'Please check password provided in confirm password field');
+      return true;
+    }
+    let userId = sessionStorage.getItem('userid') + '|' + sessionStorage.getItem('userType');
+    let dataToSend: any = {
+      username: userId,
+      userid: sessionStorage.getItem('userid'),
+      oldPassword: this.changePass.oldPassword,
+      newPassword: this.changePass.newPassword,
+      institute_id: this.institute_id,
+    }
+    this.log.changePasswordService(dataToSend).subscribe(
+      res => {
+        this.messageNotifier('success', 'Password Changed', 'Password Changed Successfully');
+        this.closeChangePasswordPopup();
+        if (this.log.logoutUser()) {
+          this.router.navigateByUrl('/authPage');
+        }
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', JSON.parse(err._body).message);
+      }
+    )
+  }
+
+  resetUserPassword() {
+
+  }
+
+  messageNotifier(type, title, message) {
+    let obj = {
+      type: type,
+      title: title,
+      body: message
+    };
+    this.popToast(obj);
   }
 
 }

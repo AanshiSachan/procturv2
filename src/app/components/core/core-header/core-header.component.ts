@@ -48,6 +48,7 @@ export class CoreHeaderComponent implements OnInit {
 
   @Output() searchViewMore = new EventEmitter<any>();
   @Output() hideSearchPopup = new EventEmitter<any>();
+  @Output() changePassword = new EventEmitter<any>();
 
   private userInput: string;
 
@@ -555,6 +556,10 @@ export class CoreHeaderComponent implements OnInit {
         }
       }
     )
+  }
+
+  changePasswordClick() {
+    this.changePassword.emit('true');
   }
 
 }

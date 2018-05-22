@@ -68,7 +68,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.key1;
         this.defaultSort;
         this.menuOptions;
-        this.recordCount = this.records.length - 1;
+        this.recordCount = this.records.length;
         this.updateTableBatchSize(this.displayBatchSize);
         this.refreshTable();
         if (this.settings) {

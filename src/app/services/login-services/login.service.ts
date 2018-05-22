@@ -18,6 +18,7 @@ export class LoginService {
   regenerateOTPurl: string;
   forgotPasswordURL: string;
   baseUrl: string = '';
+  Authorization: any = '';
   public instituteList: string[] = ['100057', '100058', '100123', '100180', '100126', '100127', '100174', '100118', '100321', '100423', '100495', '100496', '100497', '100498', '100202', '100203', '100204', '100391', '100213', '100220', '100221', '100392', '100410', '100444', '100231', '100302', '100380', '100438', '100568', '100580'];
 
   /* 100533 100423 for divya video purpose */
@@ -67,6 +68,9 @@ export class LoginService {
     this.urlLogin = this.baseUrl + "/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
+    this.auth.currentAuthKey.subscribe(key => {
+      this.Authorization = key;
+    })
   }
 
 
@@ -111,6 +115,16 @@ export class LoginService {
 
   getAllInstituteId() {
     return this.instituteList;
+  }
+
+  changePasswordService(obj) {
+    let url = this.baseUrl + "/api/v1/changePwd";
+    let head = new Headers(
+      { "Content-Type": "application/json", "Authorization": this.Authorization });
+    return this.http.post(url, obj, { headers: head }).map(
+      res => { return res; },
+      err => { return err; }
+    )
   }
 
 }
