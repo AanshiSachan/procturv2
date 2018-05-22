@@ -189,18 +189,19 @@
         </div>
         <div popup-content>
             <br>
-  
+
             <h1>
                 Thanks You For Contacting Us.
             </h1>
-  
+
             <br>
-  
+
             <h6>
-                <br> A Support Request With Id <b>#{{ticketId}}</b> Has Been Generated For Your Reference.
+                <br> A Support Request With Id
+                <b>#{{ticketId}}</b> Has Been Generated For Your Reference.
 
                 <br>
-                
+
                 <br>We Will Revert Within 24 Business Hours, Alternatively You Can Also Contact Us Via Below Email Or Contact
                 Number With The Support Id For Any Further Assistance.
             </h6>
@@ -211,18 +212,18 @@
             <div class="clearfix">
                 <aside class="pull-right popup-btn">
                     <!-- <input type="button" value="Close" class="btn" (click)="closeReportPopup()">-->
-                </aside> 
+                </aside>
             </div>
         </div>
 
     </proctur-popup>
 
-
-    <div [ngClass]="{'hide': !isloggedInAdmin}" #footer class="footer-section">
-
+    <div class="hide footer-section">
         <ul class="footer-list">
             <li>
-                <i class="fa fa-phone"></i> +91 9971831677</li>
+                <i class="fa fa-phone"></i>
+                <a>+91 9971831677</a>
+            </li>
             <li>
                 <i class="fa fa-envelope"></i>
                 <a href="mailto:support@proctur.com">support@proctur.com</a>
@@ -237,7 +238,6 @@
             </li>
         </ul>
     </div>
-
 
     <app-chatbot (flagData)="handler($event)" [ngClass]="{'hide': !isloggedInAdmin}">
     </app-chatbot>
