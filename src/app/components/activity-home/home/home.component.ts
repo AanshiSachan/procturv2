@@ -24,9 +24,10 @@ import 'rxjs/Rx';
 })
 export class HomeComponent implements OnInit {
 
-  isProfessional:boolean = false;
+  isProfessional: boolean = false;
+  isAdmin: boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef ) {
+  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -36,6 +37,21 @@ export class HomeComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.checkUserAccess();
+  }
+
+  checkUserAccess() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    const userType = sessionStorage.getItem('userType');
+    if (userType == '3') {
+      this.isAdmin = false;
+    } else {
+      if (permissionArray == "" || permissionArray == null) {
+        this.isAdmin = true;
+      } else {
+        this.isAdmin = false;
+      }
+    }
   }
 
 }
