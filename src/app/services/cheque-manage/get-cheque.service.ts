@@ -33,6 +33,21 @@ export class getCheque {
     }
 
 
+    downloadResource(obj): Observable<any> {
+        let url = this.baseUrl +"/api/v1/studentWise/fee/" +obj.student_id +"/feeReceipt/" +obj.receipt_id +"/download?fin_yr=" +obj.fin +"&emailSent=" +obj.email;
+
+        return this.http.get(url, {headers: this.headers}).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+
+
     updatePDCPayment(obj): Observable<any> {
         let url = this.baseUrl +"/api/v1/studentWise/fee/students/" +this.institute_id +"/save";
 

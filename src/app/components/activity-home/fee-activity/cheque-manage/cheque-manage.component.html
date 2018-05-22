@@ -43,8 +43,13 @@
             </section>
 
             <section class="body-content">
+                <div style="margin: 10px;">
+                    <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+                    <a #invoiceDownloader id="invoiceDownloader" class="hide"></a>
+                    <span class="fa fa-cloud-download">
+                    </span>
+                </div>
                 <div class="table-content">
-
                     <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="dropType" [menuOptions]="menuList" (multiOptionSelected)="optionSelected($event)"
                         [records]="chequeDataSource" [dataStatus]="dataStatus" [tableName]="'chequemanage'" [settings]="chequeSetting">
                     </rob-table>
@@ -107,7 +112,7 @@
                     </svg>
                 </span>
 
-                <h2 popup-header>Update Payment For Student: {{selectedRecord.student_name}} ({{selectedRecord.cheque_no}})</h2>
+                <h2 popup-header>Update Payment For Student: {{selectedRecord.student_name}} ({{studentFeeDues.student_disp_id}})</h2>
 
                 <div class="row update-cheque-wrapper" popup-content>
 
@@ -154,7 +159,14 @@
                                             <input type="text" OnlyNumber="true" [(ngModel)]="c.toPay" (blur)="validatePaymentAmount(i)" class="form-ctrl">
                                         </div>
                                     </td>
-                                    <td>{{c.balanceDueOn}}</td>
+                                    <td>
+                                        <div *ngIf="c.total_balance_amt == c.toPay" class="field-wrapper">
+                                                {{c.balanceDueOn| date: 'dd-MMM-yyyy'}}
+                                        </div>
+                                        <div *ngIf="c.total_balance_amt != c.toPay" class="field-wrapper">
+                                            <input type="text" readonly="true" [(ngModel)]="c.balanceDueOn" class="form-ctrl" bsDatepicker>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -224,7 +236,7 @@
                         </div>
                     </div>
 
-                    <div class="c-lg-6">
+                    <div style="padding-top: 20px;" class="c-lg-6">
                         <!-- Generate Fee Receipt -->
                         <div class="field-checkbox-wrapper">
                             <input [(ngModel)]="chequePaymentModel.isGenAck" class="form-checkbox" type="checkbox" id="genAck">
@@ -234,7 +246,7 @@
                         </div>
                     </div>
 
-                    <div class="c-lg-6">
+                    <div style="padding-top: 20px;" class="c-lg-6">
                         <!-- Send Email(Student/Parent) -->
                         <div class="field-checkbox-wrapper">
                             <input [(ngModel)]="chequePaymentModel.isSendEmail" class="form-checkbox" type="checkbox" id="sendEmail">
