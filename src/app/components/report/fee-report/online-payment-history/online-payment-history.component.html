@@ -26,83 +26,83 @@
                                         <input type="text" class="form-ctrl" id="from" bsDatepicker>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="c-lg-12">
-                            <div class="c-lg-8" style="margin-top:1%;margin-left:2%;">
-                                <div class="c-lg-3 field-radio-wrapper makeAdjust" style="text-align: left;">
-                                    <input type="radio" class="form-radio" name="active" id="active">
-                                    <label for="active">Active</label>
-                                </div>
-                                <div class="c-lg-3 field-radio-wrapper makeAdjust" style="text-align: left;">
-                                    <input type="radio" class="form-radio" name="active" id="allStudents">
-                                    <label for="allStudents">All Students</label>
-                                </div>
-                                <div class="c-lg-3 field-radio-wrapper makeAdjust">
-                                    <div>
-                                        <input type="radio" class="form-radio" name="active" id="others">
-                                        <label for="others">Others</label>
-                                    </div>
+                                <div class="c-lg-12">
+                                    <div class="c-lg-8" style="margin-top:1%;margin-left:2%;">
+                                        <div class="c-lg-3 field-radio-wrapper makeAdjust" style="text-align: left;">
+                                            <input type="radio" class="form-radio" name="active" id="active">
+                                            <label for="active">Active</label>
+                                        </div>
+                                        <div class="c-lg-3 field-radio-wrapper makeAdjust" style="text-align: left;">
+                                            <input type="radio" class="form-radio" name="active" id="allStudents">
+                                            <label for="allStudents">All Students</label>
+                                        </div>
+                                        <div class="c-lg-3 field-radio-wrapper makeAdjust">
+                                            <div>
+                                                <input type="radio" class="form-radio" name="active" id="others">
+                                                <label for="others">Others</label>
+                                            </div>
 
-                                    <div style="position: relative;top: -25px;left:42px;right:0px;">
+                                            <div style="position: relative;top: -25px;left:42px;right:0px;">
+                                                <aside class="pull-left">
+                                                    <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                                                    </rob-tooltip>
+                                                </aside>
+                                            </div>
+                                        </div>
+                                        <div class="c-lg-3" style="text-align: left;">
+                                            <input type="button" class="btn fullBlue" value="GO">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="c-lg-2">
+                            </div>
+                            <div class="c-lg-2">
+                                <div class="c-lg-12">
+                                    <div style="color:green; margin-top:5%;">
+                                        <h5 style="display: inline-block;">Active</h5>
+                                    </div>
+                                    <div style="position:relative; top:-25px; left:34px;">
                                         <aside class="pull-left">
-                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
                                             </rob-tooltip>
                                         </aside>
                                     </div>
                                 </div>
-                                <div class="c-lg-3" style="text-align: left;">
-                                    <input type="button" class="btn fullBlue" value="GO" >
+                                <div class="c-lg-12">
+                                    <div style="color:red ;margin-top:5%;">
+                                        <h5 style="display: inline-block;">Inactive</h5>
+                                    </div>
+                                    <div style="position:relative; top:-25px; left:34px;">
+                                        <aside class="pull-left">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
+                                            </rob-tooltip>
+                                        </aside>
+                                    </div>
+                                </div>
+                                <div class="c-lg-12">
+                                    <div  style="color:brown ;margin-top:5%;">
+                                        <h5 style="display: inline-block;">Historical</h5>
+                                    </div>
+                                    <div style="position:relative; top:-25px; left:34px;">
+                                        <aside class="pull-left">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
+                                            </rob-tooltip>
+                                        </aside>
+                                    </div>
+                                </div>
+                                <div class="c-lg-12">
+                                    <div  style="color:blue ;margin-top:5%;">
+                                        <h5 style="display: inline-block;">Archived</h5>
+                                    </div>
+                                    <div style="position:relative; top:-25px; left:34px;">
+                                        <aside class="pull-left">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
+                                            </rob-tooltip>
+                                        </aside>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="c-lg-2">
-                        </div>
-                        <div class="c-lg-2">
-                            <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:green; margin-top:5%;">
-                    <h5 style="display: inline-block;">Active</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-                <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:red ;margin-top:5%;">
-                    <h5 style="display: inline-block;">Inactive</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-                <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:brown ;margin-top:5%;">
-                    <h5 style="display: inline-block;">Historical</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-                <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:blue ;margin-top:5%;">
-                    <h5 style="display: inline-block;">Archived</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
                         </div>
                     </div>
                 </div>
