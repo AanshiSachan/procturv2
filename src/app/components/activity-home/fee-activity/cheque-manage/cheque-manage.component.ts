@@ -28,8 +28,8 @@ export class ChequeManageComponent implements OnInit {
   dateRange: any[] = [];
 
   chequeFetchForm: any = {
-    from_date: '',
-    to_date: '',
+    from_date: moment().date(1).format("YYYY-MM-DD"),
+    to_date: moment().format("YYYY-MM-DD"),
     cheque_status_id: -1,
     student_name: '',
     contact_no: '',
@@ -49,10 +49,10 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'bank_name', header: 'Bank Name' },
     { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'contact_no', header: 'Contact No' },
-    { primaryKey: 'cheque_date', header: 'Cheque No' },
+    { primaryKey: 'cheque_date', header: 'Cheque Date' },
     { primaryKey: 'cheque_amount', header: 'Amount' },
     { primaryKey: 'cheque_status', header: 'Status' }
-  ];
+  ];  
 
   menuList: DropData[] = [
     { key: 'update', header: 'Update' }
