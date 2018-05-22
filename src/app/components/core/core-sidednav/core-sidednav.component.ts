@@ -443,7 +443,6 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      /* document.getElementById('liten').classList.remove('active'); */
       document.getElementById('lizero').classList.add('active');
     }
   }
@@ -465,6 +464,13 @@ export class CoreSidednavComponent implements OnInit {
 
   /// Teacher Role Found
   teacherLoginFound() {
+    document.getElementById('lione').classList.add('hide');
+    document.getElementById('litwo').classList.add('hide');
+    document.getElementById('lifive').classList.add('hide');
+    document.getElementById('liseven').classList.add('hide');
+    document.getElementById('lieight').classList.add('hide');
+    document.getElementById('linine').classList.add('hide');
+
     document.getElementById('lithree').classList.remove('hide');
     document.getElementById('lifour').classList.remove('hide');
     document.getElementById('lisix').classList.remove('hide');

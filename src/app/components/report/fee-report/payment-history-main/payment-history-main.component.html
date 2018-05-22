@@ -9,6 +9,10 @@
 
         <div class="report-header" style="padding-bottom:1%">
           <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/reports">
+              Report
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> 
             <a routerLink="/reports/fee">
               Fee Report
             </a>
@@ -23,10 +27,12 @@
                   <div class="c-lg-6 field-wrapper datePickerBox">
                     <label for="from">From Date</label>
                     <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+                    <a style="float:right" (click)="fromDateClear()">Clear</a>
                   </div>
                   <div class="c-lg-6 field-wrapper datePickerBox">
                     <label for="to">To Date</label>
                     <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+                    <a style="float:right" (click)="toDateClear()">Clear</a>
                   </div>
                 </div>
 
@@ -51,7 +57,7 @@
                         <label for="others" style="margin-left:10px;">Others</label>
                       </div>
                     
-                      <div style="position: absolute;top: -8px;right: 0;">
+                      <div style="position: relative;top: -25px;left:51px;">
                         <aside class="pull-left">
                           <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
                           </rob-tooltip>
@@ -146,11 +152,11 @@
                 <div class="c-lg-4">
                   <ul>
                     <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')"> Cheque/PDC/DD No: {{newData[0]['Cheque/PDC/DD No.'] | currency : "₹" :0}}</span>
+                      <span *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')"> Cheque/PDC/DD No: ₹{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}</span>
                       <!-- <span> Cheque/PDC/DD No: {{collectionData.pdcNo}}</span> -->
                     </li>
                     <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')"> Caution Deposit(Refundable) : {{newData[0]['Caution Deposit(Refundable)'] | currency : "₹" :0}}</span>
+                      <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')"> Caution Deposit(Refundable) :  ₹{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}</span>
                       <!-- <span> Caution Deposit(Refundable) : {{refundValue}}</span> -->
                     </li>
                   </ul>
@@ -158,22 +164,22 @@
                 <div class="c-lg-4">
                   <ul>
                     <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Cash')">Cash : {{newData[0].Cash | currency : "₹" :0}}</span>
+                      <span *ngIf="newData[0].hasOwnProperty('Cash')">Cash : ₹{{newData[0].Cash.toLocaleString('en-IN')}}</span>
                       <!-- Cash : {{collectionData.cash}} -->
                     </li>
                     <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Online Payment')">Online Payments : {{newData[0]['Online Payment'] | currency : "₹" :0}}</span>
+                      <span *ngIf="newData[0].hasOwnProperty('Online Payment')">Online Payments : ₹{{newData[0]['Online Payment'].toLocaleString('en-IN')}}</span>
                     </li>
                   </ul>
                 </div>
                 <div class="c-lg-4">
                   <ul>
                     <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')"> Credit/Debit Card : {{newData[0]['Credit/Debit Card'] | currency : "₹" :0}}</span>
+                      <span *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')"> Credit/Debit Card : ₹{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}</span>
                       <!-- <span> Credit/Debit Card : {{collectionData.cardValue}}</span> -->
                     </li>
                     <li style="margin:4%">
-                      Total Fees Collection : {{allPaymentRecords[0].fees_amount | currency : "₹" :0}}
+                      Total Fees Collection : ₹{{allPaymentRecords[0].fees_amount.toLocaleString('en-IN')}}
                       <!-- Total Fees Collection : {{collectionData.fees_amount}} -->
                     </li>
                   </ul>
@@ -285,6 +291,7 @@
         <div class="c-lg-6 field-wrapper">
           <label>Payment Mode</label>
           <select class="form-ctrl" name="paymentMode" [(ngModel)]="updatedResult.paymentMode" (ngModelChange)="payModeUpdated($event)">
+        
             <option value="Cash">Cash</option>
             <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
             <option value="Credit/Debit Card">Credit/Debit Card</option>
