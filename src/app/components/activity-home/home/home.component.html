@@ -2,15 +2,15 @@
     <aside class="middle-full">
         <section class="middle-main clearFix report-box">
             <section class="">
-                
-        
-                <div class="c-lg-4">
+
+
+                <div class="c-lg-4" *ngIf="isAdmin">
                     <ul class="card" routerLink="../manage">
                         <li>
                             Fee Activity
                         </li>
                         <li>
-                            Manage Student Wise Fees and Cheque Payments 
+                            Manage Student Wise Fees and Cheque Payments
                         </li>
                     </ul>
                 </div>
@@ -19,7 +19,7 @@
                 <div class="c-lg-4 hide">
                     <ul class="card" routerLink="../ptm">
                         <li>
-                            PTM Management 
+                            PTM Management
                         </li>
                         <li>
                             Create, Organize PTM Keeping Parents And Students Updated
@@ -28,7 +28,7 @@
                 </div>
 
 
-                <div  class="c-lg-4 hide">
+                <div class="c-lg-4 hide">
                     <ul class="card" routerLink="../file_manager">
                         <li>
                             File Manager
