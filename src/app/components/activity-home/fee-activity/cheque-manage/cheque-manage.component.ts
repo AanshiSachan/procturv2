@@ -6,7 +6,7 @@ import { getCheque } from '../../../../services/cheque-manage/get-cheque.service
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { copyConfig } from '@angular/router/src/config';
-
+import { ExcelService } from '../../../../services/excel.service';
 
 @Component({
   selector: 'app-cheque-manage',
@@ -19,7 +19,7 @@ export class ChequeManageComponent implements OnInit {
   studentFeeDues: any = {
   };
 
-  studentFeelist:any[] = []
+  studentFeelist: any[] = []
 
   isPendingUpdate: boolean;
   isUpdatePopup: boolean;
@@ -28,14 +28,14 @@ export class ChequeManageComponent implements OnInit {
   dateRange: any[] = [];
 
   chequeFetchForm: any = {
-    from_date: '',
-    to_date: '',
+    from_date: moment().date(1).format("YYYY-MM-DD"),
+    to_date: moment().format("YYYY-MM-DD"),
     cheque_status_id: -1,
     student_name: '',
     contact_no: '',
   }
 
-  studentUnpaid:any[] = [];
+  studentUnpaid: any[] = [];
 
   dropType: number = 1;
 
@@ -49,7 +49,7 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'bank_name', header: 'Bank Name' },
     { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'contact_no', header: 'Contact No' },
-    { primaryKey: 'cheque_date', header: 'Cheque No' },
+    { primaryKey: 'cheque_date', header: 'Cheque Date' },
     { primaryKey: 'cheque_amount', header: 'Amount' },
     { primaryKey: 'cheque_status', header: 'Status' }
   ];
@@ -74,7 +74,7 @@ export class ChequeManageComponent implements OnInit {
     isSendEmail: false
   }
 
-  constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque) {
+  constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque, private excelService: ExcelService) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
   }
@@ -189,6 +189,14 @@ export class ChequeManageComponent implements OnInit {
             }
             this.appC.popToast(msg);
           }
+        }
+        else{
+          let obj = {
+            type: 'info',
+            title: "No Installment To Make Payment Towards",
+            body: ""
+          }
+          this.appC.popToast(obj);
         }
       },
       err => { }
@@ -328,7 +336,77 @@ export class ChequeManageComponent implements OnInit {
             body: "paymnet via cheque has been updated"
           }
           this.appC.popToast(obj);
-          this.cancelUpdate();          
+
+          if (this.chequePaymentModel.isGenAck || this.chequePaymentModel.isSendEmail) {
+
+            let obj = {
+              student_id: this.selectedRecord.student_id,
+              receipt_id: res.other,
+              fin: res.otherDetails.financial_year,
+              email: "Y"
+            }
+
+            if (this.chequePaymentModel.isGenAck && this.chequePaymentModel.isSendEmail) {
+              this.getter.downloadResource(obj).subscribe(
+                res => {
+                  this.downloadReceipt(res);
+                },
+                err => {
+                  let msg = JSON.parse(err._body).message;
+                  //this.isRippleLoad = false;
+                  let obj = {
+                    type: 'error',
+                    title: msg,
+                    body: ""
+                  }
+                  this.appC.popToast(obj);
+                }
+              )
+            }
+            
+            else if (this.chequePaymentModel.isSendEmail) {
+              this.getter.downloadResource(obj).subscribe(
+                res => {
+                  let ob ={
+                    type: 'success',
+                    title: "Receipt Shared Over Email",
+                    body: ""
+                  }
+                  this.appC.popToast(ob);
+                },
+                err => {
+                  let msg = JSON.parse(err._body).message;
+                  //this.isRippleLoad = false;
+                  let obj = {
+                    type: 'error',
+                    title: msg,
+                    body: ""
+                  }
+                  this.appC.popToast(obj);
+                }
+              )
+            }
+
+            else if (this.chequePaymentModel.isGenAck) {
+              this.getter.downloadResource(obj).subscribe(
+                res => {
+                  this.downloadReceipt(res);
+                },
+                err => {
+                  let msg = JSON.parse(err._body).message;
+                  //this.isRippleLoad = false;
+                  let obj = {
+                    type: 'error',
+                    title: msg,
+                    body: ""
+                  }
+                  this.appC.popToast(obj);
+                }
+              )
+            }
+          }
+
+          this.cancelUpdate();
           this.filterCheques();
 
         },
@@ -384,8 +462,8 @@ export class ChequeManageComponent implements OnInit {
     return temp;
   }
 
-  validatePaymentAmount(i){
-    if(parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)){
+  validatePaymentAmount(i) {
+    if (parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)) {
       let info = {
         type: 'info',
         title: "Invalid Payment Amount",
@@ -394,7 +472,61 @@ export class ChequeManageComponent implements OnInit {
       this.appC.popToast(info);
       this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
     }
+    else if (parseInt(this.studentUnpaid[i].toPay) == parseInt(this.studentUnpaid[i].total_balance_amt)) {
+      this.studentUnpaid[i].balanceDueOn = this.studentUnpaid[i].due_date;
+    }
   }
 
+  exportToExcel(event) {
+
+    let temp: any[] = [];
+
+    temp = this.chequeDataSource.map(e => {
+      let obj: any = {
+        receipt_no: e.display_invoice_no,
+        cheque_number: e.cheque_no,
+        bank_name: e.bank_name,
+        student_name: e.student_name,
+        contact_nnumber: e.contact_no,
+        cheque_date: e.cheque_date,
+        amount: e.cheque_amount,
+        cheque_status: e.cheque_status,
+      }
+      return obj;
+    });
+
+    this.excelService.exportAsExcelFile(
+      temp,
+      'cheque_report'
+    )
+  }
+
+  downloadReceipt(r){
+    let link = document.getElementById("invoiceDownloader");
+    let body = r;
+    let byteArr = this.convertBase64ToArray(body.document);
+    let format = body.format;
+    let fileName = body.docTitle;
+    let file = new Blob([byteArr], { type: 'application/pdf' });
+    let url = URL.createObjectURL(file);
+    if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      link.click();
+    }
+  }
+
+    /* Converts base64 string into a byte[] */
+    convertBase64ToArray(val) {
+
+      var binary_string = window.atob(val);
+      var len = binary_string.length;
+      var bytes = new Uint8Array(len);
+      for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+      }
+      return bytes.buffer;
+  
+    }
 
 }
