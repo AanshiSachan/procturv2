@@ -26,7 +26,7 @@ export class DropMenuComponent implements OnChanges {
     constructor(private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef, private zone: NgZone) { }
 
     ngOnChanges() {
-
+        
         /* Data from cheque table */
         if (this.info.hasOwnProperty('cheque_status_id')) {
             if (this.info.cheque_status_id == 2) {
@@ -36,6 +36,15 @@ export class DropMenuComponent implements OnChanges {
                 this.isChequeUpdatable = true;
             }
         }
+        if(this.info.hasOwnProperty('student_category')) {
+            if (this.info.student_category == "active") {
+                this.isChequeUpdatable = true;
+            }
+            else{
+                this.isChequeUpdatable = false;
+            } 
+        }
+
 
         this.menuOptions;
         if (this.dropType == 1) {

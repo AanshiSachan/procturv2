@@ -17,8 +17,10 @@ export class ChequeManageComponent implements OnInit {
 
   pdcDetails: any;
   studentFeeDues: any = {
-    studentFeeReportJsonList: [],
   };
+
+  studentFeelist:any[] = []
+
   isPendingUpdate: boolean;
   isUpdatePopup: boolean;
   actionSelected: any;
@@ -32,6 +34,8 @@ export class ChequeManageComponent implements OnInit {
     student_name: '',
     contact_no: '',
   }
+
+  studentUnpaid:any[] = [];
 
   dropType: number = 1;
 
@@ -57,6 +61,18 @@ export class ChequeManageComponent implements OnInit {
 
   chequeUpdateStatus: any;
 
+  chequePaymentModel: any = {
+    paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
+    paymentMode: 'Cheque/PDC/DD No.',
+    remarks: "",
+    refNum: "",
+    bankName: "",
+    chequeNum: "",
+    chequeDate: "",
+    chequeAmount: "",
+    isGenAck: false,
+    isSendEmail: false
+  }
 
   constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
@@ -85,9 +101,12 @@ export class ChequeManageComponent implements OnInit {
 
   filterCheques() {
 
+    let f = this.dateRange.length != 0 ? moment(this.dateRange[0]).format("YYYY-MM-DD") : '';
+    let t = this.dateRange.length != 0 ? moment(this.dateRange[1]).format("YYYY-MM-DD") : '';
+
     let obj = {
-      from_date: moment(this.dateRange[0]).format("YYYY-MM-DD"),
-      to_date: moment(this.dateRange[1]).format("YYYY-MM-DD"),
+      from_date: f,
+      to_date: t,
       cheque_status_id: this.chequeFetchForm.cheque_status_id,
       student_name: '',
       contact_no: '',
@@ -113,6 +132,21 @@ export class ChequeManageComponent implements OnInit {
   cancelUpdate() {
     this.isUpdatePopup = false;
     this.isPendingUpdate = false;
+    this.selectedRecord = null;
+    this.studentFeeDues = {};
+    this.studentUnpaid = [];
+    this.chequePaymentModel = {
+      paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
+      paymentMode: 'Cheque/PDC/DD No.',
+      remarks: "",
+      refNum: "",
+      bankName: "",
+      chequeNum: "",
+      chequeDate: "",
+      chequeAmount: "",
+      isGenAck: false,
+      isSendEmail: false
+    }
   }
 
   decidePopup(d) {
@@ -122,7 +156,7 @@ export class ChequeManageComponent implements OnInit {
     }
     else if (d.cheque_status_id == 1) {
       this.fetchChequePaymentData();
-      this.isPendingUpdate = true;
+
     }
   }
 
@@ -133,38 +167,53 @@ export class ChequeManageComponent implements OnInit {
     this.getPdcDetails();
   }
 
-  getStudentFeeDetails(){
+  getStudentFeeDetails() {
     this.getter.fetchStudentFeeDetails(this.selectedRecord.student_id).subscribe(
       res => {
-        if(res.studentFeeReportJsonList != null){
-          for(let k in res.studentFeeReportJsonList){
-            res.studentFeeReportJsonList[k].toPay = '';
-            res.studentFeeReportJsonList[k].balanceDueOn = res.studentFeeReportJsonList[k].due_date;
-            res.studentFeeReportJsonList[k].selected = false;
+        if (res.studentFeeReportJsonList != null) {
+          if (res.studentFeeReportJsonList.length) {
+            for (let k in res.studentFeeReportJsonList) {
+              res.studentFeeReportJsonList[k].toPay = res.studentFeeReportJsonList[k].total_balance_amt;
+              res.studentFeeReportJsonList[k].balanceDueOn = res.studentFeeReportJsonList[k].due_date;
+              res.studentFeeReportJsonList[k].selected = false;
+            }
+            this.studentUnpaid = res.studentFeeReportJsonList;
+            this.studentFeeDues = res;
+            this.isPendingUpdate = true;
           }
-          this.studentFeeDues = res;
+          else {
+            let msg = {
+              type: 'error',
+              title: "No Installment Toward Which Payment Can Be Made",
+              body: ""
+            }
+            this.appC.popToast(msg);
+          }
         }
       },
-      err => {}
+      err => { }
     )
   }
 
-  getPdcDetails(){
-    console.log(this.selectedRecord);
+  getPdcDetails() {
     this.getter.fetchPdcChequeDetails(this.selectedRecord.pdc_cheque_id).subscribe(
       res => {
         this.pdcDetails = res;
+        this.chequePaymentModel.bankName = res.bank_name;
+        this.chequePaymentModel.chequeNum = res.cheque_no;
+        this.chequePaymentModel.chequeDate = res.cheque_date;
+        this.chequePaymentModel.chequeAmount = res.cheque_amount;
       },
-      err => {}
+      err => { }
     )
   }
 
-  getAllChequeStudent(){
+  getAllChequeStudent() {
     this.getter.fetchAllChequeStudent(this.selectedRecord.student_id).subscribe(
       res => {
         this.studentFeeDues = res;
       },
-      err => {}
+      err => { }
     )
   }
 
@@ -225,6 +274,127 @@ export class ChequeManageComponent implements OnInit {
   }
 
 
-  
+  payUsingCheque() {
+
+    let toPay: number = 0;
+    let temp: any[] = [];
+    for (let k in this.studentUnpaid) {
+      if (this.studentUnpaid[k].selected && this.studentUnpaid[k].toPay != '') {
+        if (!isNaN(this.studentUnpaid[k].toPay)) {
+          temp.push(this.studentUnpaid[k]);
+          toPay += parseInt(this.studentUnpaid[k].toPay);
+        }
+        else {
+          let msg = {
+            type: 'error',
+            title: "Invalid Amount Entered",
+            body: "Please enter a valid amount for payment"
+          }
+          this.appC.popToast(msg);
+        }
+      }
+    }
+
+    if (toPay > parseInt(this.chequePaymentModel.chequeAmount)) {
+      let msg = {
+        type: 'error',
+        title: "PDC cheque amount is not matching with the selected installments.",
+        body: "Please change to be paid amount in selected installments to make partial payment"
+      }
+      this.appC.popToast(msg);
+    }
+    else if (toPay <= parseInt(this.chequePaymentModel.chequeAmount) && toPay != 0) {
+      let obj = {
+        chequeDetailsJson: {
+          bank_name: this.chequePaymentModel.bankName,
+          cheque_amount: this.chequePaymentModel.chequeAmount,
+          cheque_date: this.chequePaymentModel.chequeDate,
+          cheque_no: this.chequePaymentModel.chequeNum,
+          pdc_cheque_id: this.selectedRecord.pdc_cheque_id,
+        },
+        paid_date: this.chequePaymentModel.paymentDate,
+        paymentMode: this.chequePaymentModel.paymentMode,
+        reference_no: this.chequePaymentModel.refNum,
+        remarks: this.chequePaymentModel.remarks,
+        studentFeeReportJsonList: this.getStudentList(temp),
+        student_id: this.selectedRecord.student_id,
+      }
+
+      this.getter.updatePDCPayment(obj).subscribe(
+        res => {
+          let obj = {
+            type: 'success',
+            title: "Payment Updated",
+            body: "paymnet via cheque has been updated"
+          }
+          this.appC.popToast(obj);
+          this.cancelUpdate();          
+          this.filterCheques();
+
+        },
+        err => {
+          let obj = {
+            type: 'error',
+            title: "An Error Occured",
+            body: err.error.message
+          }
+          this.appC.popToast(obj);
+        }
+      )
+
+    }
+    else if (toPay <= parseInt(this.chequePaymentModel.chequeAmount) && toPay == 0) {
+      this.cancelUpdate();
+    }
+
+  }
+
+
+  clearDateRange() {
+    this.dateRange[0] = '';
+    this.dateRange[1] = '';
+    this.dateRange = [];
+  }
+
+  getPaidStatus(a, p): string {
+    let amt = parseInt(a);
+    let paid = parseInt(p);
+
+    if (paid == amt) {
+      return "Y";
+    }
+    else if (paid < amt) {
+      return "N";
+    }
+  }
+
+  getStudentList(el: any[]): any[] {
+    let temp: any[] = [];
+    el.forEach(e => {
+      let obj = {
+        due_date: e.due_date,
+        fee_schedule_id: e.fee_schedule_id,
+        paid_full: this.getPaidStatus(e.total_balance_amt, e.toPay),
+        previous_balance_amt: e.total_balance_amt,
+        total_amt_paid: e.toPay,
+      }
+
+      temp.push(obj);
+    })
+    return temp;
+  }
+
+  validatePaymentAmount(i){
+    if(parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)){
+      let info = {
+        type: 'info',
+        title: "Invalid Payment Amount",
+        body: "Amount cannot be greater than the total balance amount"
+      }
+      this.appC.popToast(info);
+      this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
+    }
+  }
+
 
 }
