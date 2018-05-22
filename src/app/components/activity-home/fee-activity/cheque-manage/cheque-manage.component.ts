@@ -86,21 +86,24 @@ export class ChequeManageComponent implements OnInit {
   }
 
   fetchChequeType(obj) {
+    this.chequeDataSource = [];
     this.getter.getChequeTypes(obj).subscribe(
       res => {
         this.chequeDataSource = res;
         if (res == null || res.length == 0) {
+          this.dataStatus = 2;
+        }
+        else{
           this.dataStatus = 0;
         }
       },
       err => {
-        this.dataStatus = 0;
       }
     );
   }
 
   filterCheques() {
-
+    this.dataStatus = 1;
     let f = this.dateRange.length != 0 ? moment(this.dateRange[0]).format("YYYY-MM-DD") : '';
     let t = this.dateRange.length != 0 ? moment(this.dateRange[1]).format("YYYY-MM-DD") : '';
 

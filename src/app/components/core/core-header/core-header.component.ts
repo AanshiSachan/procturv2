@@ -153,6 +153,7 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   checkUserHadAccess() {
+    this.hideAllFields();
     document.getElementById('divProfileTag').classList.add('hide');
     const permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == null || permissionArray == "") {
