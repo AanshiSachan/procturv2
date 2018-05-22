@@ -9,9 +9,6 @@ import * as moment from 'moment';
   styleUrls: ['./time-table.component.scss']
 })
 export class TimeTableComponent implements OnInit {
-  currentDate :any;
-  weekstart:any;
-  weekend :any;
   courseData: any = [];
   subjectData: any = [];
   masterCoursesData: any = [];
@@ -19,17 +16,24 @@ export class TimeTableComponent implements OnInit {
   timeTableObj: any;
   datesArr = [];
   showtable: boolean;
-  selectMasterField: boolean;
+  isProfessional: boolean;
+  teacherBox: boolean;
+  batchBox: boolean;
+  selectData = "all";
+  masterPro: any[] = [];
+  coursePro: any[] = [];
+  batchPro: any[] = [];
+
+
   startdateweek = moment().startOf('week').add(1, 'day').format('DD-MMM-YYYY');
   enddateweek = moment().endOf('week').add(1, 'day').format('DD-MMM-YYYY');
-
   fetchFieldData = {
     batch_id: "-1",
     course_id: "-1",
     enddate: "",
     institute_id: "",
     isExamIncludedInTimeTable: "Y",
-    master_course: "-1",
+    master_course: "",
     standard_id: "-1",
     startdate: "",
     subject_id: "-1",
@@ -37,65 +41,126 @@ export class TimeTableComponent implements OnInit {
     type: 2
   }
 
+  fetchFieldDataPro = {
+    batch_id: "-1",
+    course_id: "-1",
+    enddate: "",
+    institute_id: "",
+    isExamIncludedInTimeTable: "Y",
+    master_course: "",
+    standard_id: "-1",
+    startdate: "",
+    subject_id: "-1",
+    teacher_id: "-1",
+    type: 2
+  }
 
   constructor(private timeTableServ: timeTableService, private appC: AppComponent) { }
 
   ngOnInit() {
-    this.getMasterCoursesData();
-    this.getTeachersNameData();
-  }
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    if (this.isProfessional) {
+      this.fetchTimeTableReportPro('0');
 
-  /*=============================getMasterCourseData================================================================
+    }
+    else {
+      this.getMasterCoursesData();
+      this.getTeachersNameData();
+
+    }
+  }
+  /*========================================================================================================
   ========================================================================================================== */
   getMasterCoursesData() {
-    this.timeTableServ.getMasterCourses().subscribe
-      (
-      res => {
-        this.masterCoursesData = res;
-        console.log(this.masterCoursesData);
-      },
-      err => {
-        console.log(err);
-      }
-      )
+    if (this.isProfessional) {
+      this.fetchFieldDataPro.standard_id = "-1";
+      this.fetchFieldDataPro.batch_id = "-1";
+      this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
+        (
+        res => {
+          this.masterPro = res.standardLi;
+          this.batchPro = res.batchLi;
+        },
+        err => {
+          console.log(err);
+        }
+        )
+    }
+    else {
+      this.timeTableServ.getMasterCourses().subscribe
+        (
+        res => {
+          this.masterCoursesData = res;
+          console.log(this.masterCoursesData);
+        },
+        err => {
+          console.log(err);
+        }
+        )
+    }
   }
-  /*=========================================get CoursesData=============================================
-  ======================================================================================================== */
+
   getCourses(i) {
-    this.fetchFieldData.batch_id = "-1";
-    this.fetchFieldData.course_id = "-1";
-    this.selectMasterField = true;
-    this.timeTableServ.getCoursesData(i).subscribe
-      (
-      res => {
-        this.courseData = res.coursesList;
-        console.log(this.courseData);
-      },
-      err => {
-        console.log(err);
-      }
-      )
+    if (this.isProfessional) {
+      this.fetchFieldDataPro.batch_id = "-1";
+      this.fetchFieldDataPro.subject_id = "-1";
+      this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
+        (
+        res => {
+          this.coursePro = res.subjectLi;
+          this.batchPro = res.batchLi;
+        },
+        err => {
+          console.log(err);
+        }
+        )
+    }
+    else {
+      this.fetchFieldData.batch_id = "-1";
+      this.fetchFieldData.course_id = "-1";
+
+      this.timeTableServ.getCoursesData(i).subscribe
+        (
+        res => {
+          this.courseData = res.coursesList;
+          console.log(this.courseData);
+        },
+        err => {
+          console.log(err);
+        }
+        )
+    }
   }
-  /*======================================getSubjectData==============================================
-  ====================================================================================================== */
+
   getSubjects(i) {
-    this.fetchFieldData.batch_id = "-1";
-    this.selectMasterField = false;
-    this.timeTableServ.getSubjectData(i).subscribe
-      (
-      res => {
-        this.subjectData = res.batchesList;
-        console.log(this.subjectData);
-      },
-      err => {
-        console.log(err);
-      }
-      )
+    if (this.isProfessional) {
+      this.fetchFieldDataPro.batch_id = "-1";
+      this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
+        (
+        res => {
+          this.batchPro = res.batchLi;
+        },
+        err => {
+          console.log(err);
+        }
+        )
+    }
+    else {
+      this.fetchFieldData.batch_id = "-1";
+      this.timeTableServ.getSubjectData(i).subscribe
+        (
+        res => {
+          this.subjectData = res.batchesList;
+          console.log(this.subjectData);
+        },
+        err => {
+          console.log(err);
+        }
+        )
+    }
   }
-  /*================================getTeacherData=====================================================
-  ==================================================================================================== */
+
   getTeachersNameData() {
-    this.selectMasterField = false;
     this.timeTableServ.getTeachersName().subscribe
       (
       res => {
@@ -107,10 +172,9 @@ export class TimeTableComponent implements OnInit {
       }
       )
   }
-  /*==================================view Time Table Data================================================
-  ========================================================================================================= */
+
   fetchTimeTableReport(flag) {
-    this.showtable = false;
+    // this.showtable = false;
     this.datesArr = [];
     if (this.fetchFieldData.master_course == "-1" && this.fetchFieldData.teacher_id == "-1") {
       let obj = {
@@ -121,7 +185,6 @@ export class TimeTableComponent implements OnInit {
       this.appC.popToast(obj);
       return;
     }
-
 
     if (flag == '-1') {
       this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
@@ -137,18 +200,27 @@ export class TimeTableComponent implements OnInit {
     }
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
+
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
       (
       res => {
-        if (this.selectMasterField && res.length != 0) {
+        this.datesArr = [];
+        if (res.length != 0) {
           this.timeTableObj = res[0].batchTimeTableList;
-          this.datesArr = Object.keys(this.timeTableObj);
+          // this.datesArr = Object.keys(this.timeTableObj);
         }
         else {
           if (res.length != 0) {
             this.timeTableObj = res.batchTimeTableList;
-            this.datesArr = Object.keys(this.timeTableObj);
+            //  this.datesArr = Object.keys(this.timeTableObj);
           }
+        }
+        for (let key in this.timeTableObj) {
+          let obj = {
+            id: key,
+            data: this.timeTableObj[key]
+          }
+          this.datesArr.push(obj);
         }
         this.showtable = true;
       },
@@ -158,17 +230,98 @@ export class TimeTableComponent implements OnInit {
       )
   }
 
-  gotoPreviousWeek() {
-    this.weekstart= moment(this.currentDate).isoWeekday("Monday").format("YYYY-MM-DD");
-    this.weekend = moment(this.currentDate).isoWeekday("Sunday").format("YYYY-MM-DD");
-
+  radiochangeData(para) {
+    this.selectData = para;
+    this.fetchFieldDataPro.teacher_id = "-1";
+    this.fetchFieldDataPro.batch_id = "-1";
+    this.fetchFieldDataPro.standard_id = "-1";
+    this.fetchFieldDataPro.subject_id = "-1";
+    if (para == 'all') {
+      this.batchBox = false;
+      this.teacherBox = false;
+    }
+    else if (para == 'teacher') {
+      this.batchBox = false;
+      this.teacherBox = true;
+      this.getTeachersNameData();
+    }
+    else if (para == 'batch') {
+      this.teacherBox = false;
+      this.batchBox = true;
+      this.getMasterCoursesData();
+    }
   }
 
-  gotoNextWeek(){
-    this.weekstart = moment(this.currentDate).isoWeekday("Monday").format("YYYY-MM-DD");
-    this.weekend = moment(this.currentDate).isoWeekday("Sunday").format("YYYY-MM-DD");
+  fetchTimeTableReportPro(data) {
+    // this.showtable = false;
+    this.datesArr = [];
+
+    // if (this.selectData == "all") {
+
+    // }
+    if (this.selectData == "teacher") {
+      if (this.fetchFieldDataPro.teacher_id == "-1") {
+        let obj = {
+          type: "error",
+          title: "Unable to Fetch Report",
+          body: "Select a Teacher"
+        }
+        this.appC.popToast(obj);
+        return;
+      }
+    }
+    else if (this.selectData == "batch") {
+      if (this.fetchFieldDataPro.batch_id == "-1") {
+        let obj = {
+          type: "error",
+          title: "Unable to Fetch Report",
+          body: "Select a Batch"
+        }
+        this.appC.popToast(obj);
+        return;
+      }
+    }
+
+    if (data == '-1') {
+      this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
+      this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
+    }
+    else if (data == '1') {
+      this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
+      this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
+    }
+    else {
+      this.startdateweek = moment().startOf('week').add(1, 'day').format('DD-MMM-YYYY');
+      this.enddateweek = moment().endOf('week').add(1, 'day').format('DD-MMM-YYYY');
+    }
+    this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
+    this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
+
+    this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
+      (
+      res => {
+        if (res.length != 0) {
+          this.timeTableObj = res.batchTimeTableList;
+          this.datesArr = Object.keys(this.timeTableObj);
+        }
+        this.showtable = true;
+      },
+      err => {
+        console.log(err);
+      }
+      )
   }
+
+  toggleTbodyClass(i) {
+    document.getElementById('tbodyItem' + i).classList.toggle("active");
+    document.getElementById('tbodyView' + i).classList.toggle("hide");
+    //document.getElementById('tbodyItem'+i).classList.toggle('active');
+  }
+
 }
+
+
+
 
 
 

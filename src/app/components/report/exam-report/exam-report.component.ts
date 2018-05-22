@@ -360,8 +360,8 @@ export class ExamReportComponent implements OnInit {
                 body: "No Data Found"
               }
               this.examSource = [];
-              
-              
+
+
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.appC.popToast(msg);
@@ -402,7 +402,7 @@ export class ExamReportComponent implements OnInit {
 
               this.examSource = res;
               this.Tdata = true;
-            
+
               this.HighestMarks = this.examSource[0].highest_marks;
               this.LowestMarks = this.examSource[0].lowest_marks;
               this.AverageMarks = this.examSource[0].average_marks;
@@ -475,8 +475,8 @@ export class ExamReportComponent implements OnInit {
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
                   this.isRippleLoad = false;
-                  this.totalRecords = this.detailSource.length;
-                  this.fetchTableDataByPagePopup(this.pageIndexPopup);
+                  //   this.totalRecords = this.detailSource.length;
+                  //  this.fetchTableDataByPagePopup(this.pageIndexPopup);
                 });
                 this.addReportPopup = true;
               }
@@ -518,8 +518,8 @@ export class ExamReportComponent implements OnInit {
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
                   this.isRippleLoad = false;
-                  this.totalRecords = this.detailSource.length;
-                  this.fetchTableDataByPagePopup(this.pageIndexPopup);
+                  // this.totalRecords = this.detailSource.length;
+                  //this.fetchTableDataByPagePopup(this.pageIndexPopup);
                 });
 
                 this.addReportPopup = true;
