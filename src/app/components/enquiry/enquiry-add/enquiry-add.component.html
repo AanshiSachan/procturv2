@@ -522,6 +522,15 @@
 
             <span style="right: 5px;" class="sourceI iconPlus" (click)="showAddReferPops()">+</span>
           </div>
+
+          <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == 'true'" [ngClass]="{'has-value': newEnqData.source_instituteId != '-1'}">
+            <label for="selectBranch">Branch</label>
+            <select id="selectBranch" class="form-ctrl" [(ngModel)]="newEnqData.source_instituteId" name="selectBranch">
+              <option value="-1"></option>
+              <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>
+            </select>
+          </div>
+
           <div class="field-wrapper" *ngIf="isEnquiryAdmin" [ngClass]="{'has-value': newEnqData.assigned_to != '-1'}">
             <label for="assignedTo">Assigned To</label>
             <select id="assignedTo" class="form-ctrl" [(ngModel)]="newEnqData.assigned_to" name="assigned_to">
