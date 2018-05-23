@@ -205,43 +205,63 @@ $color-highlight: lighten($color-base, 7%);
             background: #fff;
             li {
                 width: 15%;
-                padding: 20px 5px 10px;
+                padding: 20px 0px 10px 0px;
                 text-transform: uppercase;
                 color: black;
                 background: transparent;
                 font-size: 12px;
                 font-weight: 600;
-                overflow-wrap: break-word;
-                word-break: break-all;
-                word-wrap: break-word;
+                text-align: center;
                 &:first-child {
                     width: 5%;
+                    padding: 20px 0px 10px 20px;
                 }
                 &.Name {
                     text-align: left;
+                    padding: 20px 0px 10px 10px;
+                    &.Bank {
+                        text-align: left;
+                        padding: 20px 0px 10px 0px;
+                    }
+                    &.Student {
+                        text-align: left;
+                        padding: 20px 0px 10px 0px;
+                    }
                 }
                 &.Fee {
-                    text-align: right;
+                    &.Type {
+
+                    }
+                    &.Total{
+                        text-align: right;
+                        padding: 20px 15px 10px 0px;                        
+                    }
+                }
+                &.Status {
+                    text-align: left;
                 }
                 &.Amount {
                     text-align: right;
+                    padding: 20px 20px 10px 0px;
                 }
                 &.Date {
-                    text-align: right;
+
                 }
                 &.ID {
                     width: 7%;
-                    text-align: right;
+                    padding: 20px 0px 10px  0px;
+                }
+                &.Category{
+                    &.Student{
+                        text-align: left;
+                    }
                 }
                 &.No {
-                    text-align: right;
                     &.Receipt {
                         width: 17% !important;
                     }
                 }
-                &.Dues {
-                    text-align: right;
-                }
+                &.Dues {}
                 &.Mode {
                     &.Payment {
                         word-break: break-word;
@@ -269,7 +289,6 @@ $color-highlight: lighten($color-base, 7%);
             }
             li {
                 width: 15%;
-                padding: 10px 5px 0px;
                 text-transform: capitalize;
                 color: black;
                 margin-bottom: 5px;
@@ -277,36 +296,64 @@ $color-highlight: lighten($color-base, 7%);
                 overflow-wrap: break-word;
                 word-wrap: break-word;
                 word-break: break-all;
+                text-align: left;
+                padding: 10px 0px 0px 10px;
                 &:first-child {
                     width: 5%;
                 }
                 &.Name {
                     text-align: left;
+                    padding: 10px 0px 0px 10px;
+                    &.Bank {
+                        text-align: left;
+                        padding: 10px 0px 0px 20px;
+                    }
+                    &.Student {
+                        text-align: left;
+                        padding: 10px 0px 0px 20px;
+                    }
                 }
                 &.Fee {
                     text-align: right;
+                    padding: 10px 10px 0px 0px;
+                    &.Type {
+                        text-align: left;
+                        padding: 10px 0px 0px 10px;
+                    }
                 }
                 &.Amount {
                     text-align: right;
+                    padding: 10px 10px 0px 0px;
                     &.Paid {
                         color: #0084f6;
                     }
                 }
                 &.Date {
                     text-align: right;
+                    padding: 10px 10px 0px 0px;
                 }
                 &.ID {
                     width: 7%;
+                    padding: 10px 10px 0px 0px;
                     text-align: right;
                 }
                 &.Dues {
                     text-align: right;
+                    padding: 10px 10px 0px 0px;
+                    &.Past {
+                        color: #ff0000;
+                    }
+                }
+                &.Due {
+                    text-align: right;
+                    padding: 10px 10px 0px 0px;
                     &.Past {
                         color: #ff0000;
                     }
                 }
                 &.No {
                     text-align: right;
+                    padding: 10px 10px 0px 0px;
                     &.Receipt {
                         width: 15% !important;
                         word-break: break-word;
@@ -316,6 +363,8 @@ $color-highlight: lighten($color-base, 7%);
                     padding: 5px 10px 5px;
                 }
                 &.Mode {
+                    text-align: left;
+                    padding: 10px 0px 0px 10px;
                     &.Payment {
                         word-break: break-word;
                     }

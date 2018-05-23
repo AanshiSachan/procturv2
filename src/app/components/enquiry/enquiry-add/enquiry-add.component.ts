@@ -24,6 +24,7 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
 })
 export class EnquiryAddComponent implements OnInit {
 
+  isRippleLoad: boolean;
   isRegisterStudent: boolean;
   /* Variable Declarations */
   enqstatus: any = [];
@@ -266,8 +267,10 @@ export class EnquiryAddComponent implements OnInit {
     this.multiBranchService.subBranchSelected.subscribe(
       res => {
         this.subBranchSelected = res;
-        this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-        this.multiBranchInstituteFound();
+        if (this.subBranchSelected) {
+          this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
+          this.multiBranchInstituteFound();
+        }
       }
     )
 
@@ -877,67 +880,83 @@ export class EnquiryAddComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
+
         this.newEnqData.enqCustomLi = this.getCustomComponents();
-        //console.log(this.newEnqData.enqCustomLi);
+        
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
+        /* isMainBranch,subBranchSelected */
+        if(this.isMainBranch == "N" && this.subBranchSelected == false){
+          this.newEnqData.source_instituteId = '-1';
+        }
+        else if(this.isMainBranch == "Y" && this.subBranchSelected == false){
+          this.newEnqData.source_instituteId = this.auth.getInstituteId();
+        }
+        else if(this.isMainBranch == "Y" && this.subBranchSelected == true){
+          this.newEnqData.source_instituteId = '-1';
+        }
+
         this.newEnqData.dob = this.fetchDOB();
-        this.poster.postNewEnquiry(this.newEnqData).subscribe(
-          data => {
-            this.enquiryConfirm = data;
-            let instituteEnqId = data.generated_id;
-            this.prefill.fetchLastDetail().subscribe(data => {
-              this.lastDetail = data;
-              if (this.isRegisterStudent) {
-                let obj = {
-                  name: this.newEnqData.name,
-                  phone: this.newEnqData.phone,
-                  email: this.newEnqData.email,
-                  gender: this.newEnqData.gender,
-                  dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
-                  parent_email: this.newEnqData.parent_email,
-                  school_name: this.newEnqData.school_id,
-                  standard_id: this.newEnqData.standard_id,
-                  parent_name: this.newEnqData.parent_name,
-                  parent_phone: this.newEnqData.parent_phone,
-                  enquiry_id: instituteEnqId,
-                  institute_enquiry_id: instituteEnqId
-                }
-                localStorage.setItem('studentPrefill', JSON.stringify(obj));
-                this.router.navigate(['student/add']);
-              }
-              else {
-                if (this.addNextCheck) {
-                  let msg = {
-                    type: "success",
-                    title: "New Enquiry Added",
-                    body: "Your enquiry has been submitted"
-                  }
-                  //form.reset();
-                  this.appC.popToast(msg);
-                  this.clearFormData();
-                }
-                else {
-                  this.openConfirmationPopup();
-                  this.clearFormData();
-                }
 
-              }
-            },
-              err => {
+        console.log(this.newEnqData);
 
-              });
-          },
-          err => {
-            let data = {
-              type: "error",
-              title: "Error Posting New Enquiry",
-              body: err.message + " mobile number is already in use, please provide another primary contact"
-            }
-            this.appC.popToast(data);
-          }
-        );
+        // this.poster.postNewEnquiry(this.newEnqData).subscribe(
+        //   data => {
+        //     this.enquiryConfirm = data;
+        //     let instituteEnqId = data.generated_id;
+        //     this.prefill.fetchLastDetail().subscribe(data => {
+        //       this.lastDetail = data;
+        //       if (this.isRegisterStudent) {
+        //         let obj = {
+        //           name: this.newEnqData.name,
+        //           phone: this.newEnqData.phone,
+        //           email: this.newEnqData.email,
+        //           gender: this.newEnqData.gender,
+        //           dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+        //           parent_email: this.newEnqData.parent_email,
+        //           school_name: this.newEnqData.school_id,
+        //           standard_id: this.newEnqData.standard_id,
+        //           parent_name: this.newEnqData.parent_name,
+        //           parent_phone: this.newEnqData.parent_phone,
+        //           enquiry_id: instituteEnqId,
+        //           institute_enquiry_id: instituteEnqId
+        //         }
+        //         localStorage.setItem('studentPrefill', JSON.stringify(obj));
+        //         this.router.navigate(['student/add']);
+        //       }
+        //       else {
+        //         if (this.addNextCheck) {
+        //           let msg = {
+        //             type: "success",
+        //             title: "New Enquiry Added",
+        //             body: "Your enquiry has been submitted"
+        //           }
+        //           //form.reset();
+        //           this.appC.popToast(msg);
+        //           this.clearFormData();
+        //         }
+        //         else {
+        //           this.openConfirmationPopup();
+        //           this.clearFormData();
+        //         }
+
+        //       }
+        //     },
+        //       err => {
+
+        //       });
+        //   },
+        //   err => {
+        //     let data = {
+        //       type: "error",
+        //       title: "Error Posting New Enquiry",
+        //       body: err.message + " mobile number is already in use, please provide another primary contact"
+        //     }
+        //     this.appC.popToast(data);
+        //   }
+        // );
+
       }
       else {
         let msg = {
@@ -1107,7 +1126,6 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
   /* fetch the data of last updated enquiry */
   updateLastUpdatedDetails() {
     this.prefill.fetchLastDetail().subscribe(data => {
@@ -1120,17 +1138,11 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
-
-
   /* Function to open confirmation popup on succesfull form submission  */
   openConfirmationPopup() {
     //  console.log("confirmation popup opened");
     this.confimationPop = true;
   }
-
-
-
 
 
   /* Function to close the confirmation popup */
@@ -1141,16 +1153,12 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-
-
   /* function to open update popup */
   openUpdatePopup() {
     this.closePopUp();
     this.updatePop = true;
     // console.log("edit popup opened");
   }
-
-
 
 
 
@@ -1179,10 +1187,6 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-
-
-
-
   /* function to show popup for adding reference */
   showAddReferPops() {
     this.isReferPop = true;
@@ -1195,11 +1199,6 @@ export class EnquiryAddComponent implements OnInit {
   hideAddReferPops() {
     this.isReferPop = false;
   }
-
-
-
-
-
 
 
   /* Reload the Enquiry Form and clear data */
@@ -1223,9 +1222,6 @@ export class EnquiryAddComponent implements OnInit {
     }
     )
   }
-
-
-
 
 
   /* --------------------------------------------------------------------------------------------------------- */
@@ -1394,11 +1390,6 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
-
-
-
-
   /* --------------------------------------------------------------------------------------------------------- */
   /* ---------------------------------------------- Reference Editor Logic ------------------------------------------------- */
   /* --------------------------------------------------------------------------------------------------------- */
@@ -1560,12 +1551,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
-
-
-
-
 
 
   /* --------------------------------------------------------------------------------------------------------- */
@@ -1841,5 +1826,22 @@ export class EnquiryAddComponent implements OnInit {
       }
     )
   }
+
+
+  branchUpdated(e) {
+    this.isRippleLoad = true;
+    this.newEnqData.source_instituteId = e;
+    this.prefill.fetchAssignedToData(e).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.enqAssignTo = res;
+        this.newEnqData.assigned_to = "-1";
+      },
+      err => {
+        this.isRippleLoad = false;
+      }
+    );
+  }
+
 
 }
