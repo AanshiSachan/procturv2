@@ -377,9 +377,9 @@
                         <button id="leaveBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s , i)"
                           class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
                         <button id="absentBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s, i)"
-                          class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'L'}">A</button>
+                          class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'A'}">A</button>
                         <button id="presentBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s, i)"
-                          class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'L'}">P</button>
+                          class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
                       </div>
                     </li>
 
@@ -754,11 +754,11 @@
                   <td>
                     <div class="btnGroup">
                       <button id="leaveBtnCourse{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClickCourse($event , s , i)"
-                        class="btn" [ngClass]="getClassForLeave(s)">L</button>
+                        class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
                       <button id="absentBtnCourse{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForAbsent(s)">A</button>
+                        class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'A'}">A</button>
                       <button id="presentBtnCourse{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForPresent(s)">P</button>
+                        class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
                     </div>
                   </td>
                   <td *ngIf="settingInfo.home_work_feature_enable==1">
