@@ -58,6 +58,24 @@ export class CoreHeaderComponent implements OnInit {
   showMainBranchBackBtn: boolean = false;
   checkAdmin: any = "";
 
+  @ViewChild('divAdminTag') divAdminTag: ElementRef;
+  @ViewChild('divMyAccountTag') divMyAccountTag: ElementRef;
+  @ViewChild('divMasterTag') divMasterTag: ElementRef;
+  @ViewChild('divProfileTag') divProfileTag: ElementRef;
+  @ViewChild('divTeacherTag') divTeacherTag: ElementRef;
+  @ViewChild('divFeeTag') divFeeTag: ElementRef;
+  @ViewChild('divSlotTag') divSlotTag: ElementRef;
+  @ViewChild('divClassRoomTag') divClassRoomTag: ElementRef;
+  @ViewChild('divManageTag') divManageTag: ElementRef;
+  @ViewChild('divAcademicTag') divAcademicTag: ElementRef;
+  @ViewChild('divGradesTag') divGradesTag: ElementRef;
+  @ViewChild('divManageUsers') divManageUsers: ElementRef;
+  @ViewChild('divSettingTag') divSettingTag: ElementRef;
+  @ViewChild('divGeneralSettingTag') divGeneralSettingTag: ElementRef;
+  @ViewChild('divManageFormTag') divManageFormTag: ElementRef;
+  @ViewChild('divAreaAndMap') divAreaAndMap: ElementRef;
+
+
   constructor(
     private log: LoginService,
     private router: Router,
@@ -118,6 +136,7 @@ export class CoreHeaderComponent implements OnInit {
   logout() {
     this.clearSearch();
     if (this.log.logoutUser()) {
+      this.multiBranchService.subBranchSelected.next(false);
       this.router.navigateByUrl('/authPage');
     }
   }
@@ -153,14 +172,14 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   checkUserHadAccess() {
-    document.getElementById('divProfileTag').classList.add('hide');
+    this.divProfileTag.nativeElement.style.display = 'none';
     const permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == null || permissionArray == "") {
       if (sessionStorage.getItem('userType') == '0') {
         this.showAllFields();
       }
       else if (sessionStorage.getItem('userType') == '3') {
-        document.getElementById('divProfileTag').classList.remove('hide');
+        this.divProfileTag.nativeElement.style.display = '';
         this.teacherId = 0;
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
         this.showTeacherFields();
@@ -169,99 +188,86 @@ export class CoreHeaderComponent implements OnInit {
       if (permissionArray != undefined) {
         this.hideAllFields();
         if (permissionArray.indexOf('503') != -1) {
-          document.getElementById('divMasterTag').classList.remove('hide');
-          document.getElementById('divTeacherTag').classList.remove('hide');
+          this.divMasterTag.nativeElement.style.display = '';
+          this.divTeacherTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('506') != -1) {
-          document.getElementById('divMasterTag').classList.remove('hide');
-          document.getElementById('divFeeTag').classList.remove('hide');
+          this.divMasterTag.nativeElement.style.display = '';
+          this.divFeeTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('507') != -1 && this.isProfessional) {
-          document.getElementById('divMasterTag').classList.remove('hide');
-          document.getElementById('divSlotTag').classList.remove('hide');
+          this.divMasterTag.nativeElement.style.display = '';
+          this.divSlotTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('509') != -1) {
-          document.getElementById('divMasterTag').classList.remove('hide');
-          document.getElementById('divAcademicTag').classList.remove('hide');
+          this.divMasterTag.nativeElement.style.display = '';
+          this.divAcademicTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('602') != -1) {
-          document.getElementById('divSettingTag').classList.remove('hide');
-          document.getElementById('divMyAccountTag').classList.remove('hide');
+          this.divSettingTag.nativeElement.style.display = '';
+          this.divMyAccountTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('603') != -1) {
-          document.getElementById('divSettingTag').classList.remove('hide');
-          document.getElementById('divGeneralSettingTag').classList.remove('hide');
+          this.divSettingTag.nativeElement.style.display = '';
+          this.divGeneralSettingTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('115') != -1) {
-          document.getElementById('divManageFormTag').classList.remove('hide');
-          document.getElementById('divAreaAndMap').classList.remove('hide');
+          this.divManageFormTag.nativeElement.style.display = '';
+          this.divAreaAndMap.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('601') != -1) {
-          document.getElementById('divManageUsers').classList.remove('hide');
+          this.divManageUsers.nativeElement.style.display = '';
         }
       }
     }
   }
 
   showAllFields() {
-    document.getElementById('divAdminTag').classList.remove('hide');
-    document.getElementById('divMyAccountTag').classList.remove('hide');
-    document.getElementById('divMasterTag').classList.remove('hide');
-    document.getElementById('divTeacherTag').classList.remove('hide');
-    document.getElementById('divFeeTag').classList.remove('hide');
-    document.getElementById('divAcademicTag').classList.remove('hide');
-    document.getElementById('divSettingTag').classList.remove('hide');
-    document.getElementById('divGeneralSettingTag').classList.remove('hide');
-    document.getElementById('divManageFormTag').classList.remove('hide');
+    this.divAdminTag.nativeElement.style.display = '';
+    this.divMyAccountTag.nativeElement.style.display = '';
+    this.divMasterTag.nativeElement.style.display = '';
+    this.divTeacherTag.nativeElement.style.display = '';
+    this.divFeeTag.nativeElement.style.display = '';
+    this.divAcademicTag.nativeElement.style.display = '';
+    this.divSettingTag.nativeElement.style.display = '';
+    this.divGeneralSettingTag.nativeElement.style.display = '';
+    this.divManageFormTag.nativeElement.style.display = '';
+    this.divManageUsers.nativeElement.style.display = '';
     if (this.settings == '1') {
-      document.getElementById('divGradesTag').classList.remove('hide');
+      this.divGradesTag.nativeElement.style.display = '';
     }
     if (this.isProfessional) {
-      document.getElementById('divSlotTag').classList.remove('hide');
+      this.divSlotTag.nativeElement.style.display = '';
     }
     else if (!this.isProfessional) {
-      document.getElementById('divSlotTag').classList.add('hide');
+      this.divSlotTag.nativeElement.style.display = 'none';
     }
-    document.getElementById('divManageUsers').classList.remove('hide');
   }
 
   showTeacherFields() {
-    document.getElementById('divAdminTag').classList.add('hide');
-    document.getElementById('divMyAccountTag').classList.add('hide');
-    document.getElementById('divMasterTag').classList.add('hide');
-    document.getElementById('divTeacherTag').classList.add('hide');
-    document.getElementById('divFeeTag').classList.add('hide');
-    document.getElementById('divAcademicTag').classList.add('hide');
-    document.getElementById('divSettingTag').classList.add('hide');
-    document.getElementById('divGeneralSettingTag').classList.add('hide');
-    document.getElementById('divManageFormTag').classList.add('hide');
-    document.getElementById('divAreaAndMap').classList.add('hide');
-    document.getElementById('divSlotTag').classList.add('hide');
-    document.getElementById('divClassRoomTag').classList.add('hide');
-    document.getElementById('divManageTag').classList.add('hide');
-    document.getElementById('divAcademicTag').classList.add('hide');
-    if (this.settings == '1') {
-      document.getElementById('divGradesTag').classList.remove('hide');
-    }
-    document.getElementById('divManageUsers').classList.add('hide');
+    this.hideAllFields();
+    this.divAdminTag.nativeElement.style.display = 'none';
+    this.divClassRoomTag.nativeElement.style.display = 'none';
+    this.divManageTag.nativeElement.style.display = 'none';
+    this.divAcademicTag.nativeElement.style.display = 'none';
   }
 
   hideAllFields() {
-    document.getElementById('divAdminTag').classList.add('hide');
-    document.getElementById('divMyAccountTag').classList.add('hide');
-    document.getElementById('divMasterTag').classList.add('hide');
-    document.getElementById('divTeacherTag').classList.add('hide');
-    document.getElementById('divFeeTag').classList.add('hide');
-    document.getElementById('divSlotTag').classList.add('hide');
-    document.getElementById('divAcademicTag').classList.add('hide');
-    document.getElementById('divSettingTag').classList.add('hide');
-    document.getElementById('divGeneralSettingTag').classList.add('hide');
-    document.getElementById('divManageFormTag').classList.add('hide');
-    document.getElementById('divAreaAndMap').classList.add('hide');
+    this.divAdminTag.nativeElement.style.display = 'none';
+    this.divMyAccountTag.nativeElement.style.display = 'none';
+    this.divMasterTag.nativeElement.style.display = 'none';
+    this.divTeacherTag.nativeElement.style.display = 'none';
+    this.divFeeTag.nativeElement.style.display = 'none';
+    this.divSlotTag.nativeElement.style.display = 'none';
+    this.divAcademicTag.nativeElement.style.display = 'none';
+    this.divSettingTag.nativeElement.style.display = 'none';
+    this.divGeneralSettingTag.nativeElement.style.display = 'none';
+    this.divManageFormTag.nativeElement.style.display = 'none';
+    this.divAreaAndMap.nativeElement.style.display = 'none';
+    this.divManageUsers.nativeElement.style.display = 'none';
     if (this.settings == '1') {
-      document.getElementById('divGradesTag').classList.remove('hide');
+      this.divGradesTag.nativeElement.style.display = '';
     }
-    document.getElementById('divManageUsers').classList.add('hide');
   }
 
   hasEnquiryAccess(): boolean {
