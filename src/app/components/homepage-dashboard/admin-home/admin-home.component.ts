@@ -208,6 +208,7 @@ export class AdminHomeComponent implements OnInit {
   examData: any = "";
   examGradeFeature: any;
   gradesList: any = [];
+  classScheduleCount: number = 0;
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -2635,8 +2636,9 @@ export class AdminHomeComponent implements OnInit {
       this.schedStat = data;
       this.getExamSchedule(obj);
       this.addKeyInData(this.schedStat.otherSchd, "isExam", false);
+      this.classScheduleCount = this.schedStat.otherSchd.length;
     }, err => {
-      //console.log(err);
+      console.log(err);
       this.getExamSchedule(obj);
     })
   }
@@ -2647,6 +2649,7 @@ export class AdminHomeComponent implements OnInit {
         this.addKeyInData(res.otherSchd, "isExam", true);
         let result = this.schedStat.otherSchd.concat(res.otherSchd);
         this.schedStat.otherSchd = this.sortDataByDateTime(result);
+        this.classScheduleCount = this.schedStat.otherSchd.length;
       },
       err => {
         //console.log(err);
