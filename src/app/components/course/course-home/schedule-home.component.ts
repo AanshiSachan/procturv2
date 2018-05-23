@@ -362,7 +362,7 @@ export class ScheduleHomeComponent implements OnInit {
 
   routeToSubTabsForLang(data) {
     if (data.indexOf('501') != -1) {
-      this.route.navigateByUrl('course/course');
+      this.route.navigateByUrl('course/standardlist');
     } else if (data.indexOf('502') != -1) {
       this.route.navigateByUrl('course/subject');
     } else if (data.indexOf('401') != -1) {
