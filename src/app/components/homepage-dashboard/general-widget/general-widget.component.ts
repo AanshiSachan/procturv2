@@ -42,7 +42,6 @@ export class GeneralWidgetComponent implements OnInit {
         total: 0
     }
 
-    settingInfo: any = [];
     public currentPlan: any = null;
 
 
@@ -74,16 +73,6 @@ export class GeneralWidgetComponent implements OnInit {
             },
             err => { }
         );
-
-        this.widgetService.getSettings().subscribe(
-            res => {
-                this.cd.markForCheck();
-                this.settingInfo = res;
-            },
-            err => {
-
-            }
-        )
 
         this.getStorageData();
 
