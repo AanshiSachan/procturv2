@@ -886,76 +886,73 @@ export class EnquiryAddComponent implements OnInit {
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
+
         /* isMainBranch,subBranchSelected */
         if(this.isMainBranch == "N" && this.subBranchSelected == false){
           this.newEnqData.source_instituteId = '-1';
         }
+        
         else if(this.isMainBranch == "Y" && this.subBranchSelected == false){
-          this.newEnqData.source_instituteId = this.auth.getInstituteId();
-        }
-        else if(this.isMainBranch == "Y" && this.subBranchSelected == true){
-          this.newEnqData.source_instituteId = '-1';
+          this.newEnqData.source_instituteId = this.newEnqData.source_instituteId;
         }
 
         this.newEnqData.dob = this.fetchDOB();
 
-        console.log(this.newEnqData);
+        this.poster.postNewEnquiry(this.newEnqData).subscribe(
+          data => {
+            this.enquiryConfirm = data;
+            let instituteEnqId = data.generated_id;
+            this.prefill.fetchLastDetail().subscribe(data => {
+              this.lastDetail = data;
+              if (this.isRegisterStudent) {
+                let obj = {
+                  name: this.newEnqData.name,
+                  phone: this.newEnqData.phone,
+                  email: this.newEnqData.email,
+                  gender: this.newEnqData.gender,
+                  dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+                  parent_email: this.newEnqData.parent_email,
+                  school_name: this.newEnqData.school_id,
+                  standard_id: this.newEnqData.standard_id,
+                  parent_name: this.newEnqData.parent_name,
+                  parent_phone: this.newEnqData.parent_phone,
+                  enquiry_id: instituteEnqId,
+                  institute_enquiry_id: instituteEnqId
+                }
+                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                this.router.navigate(['student/add']);
+              }
+              else {
+                if (this.addNextCheck) {
+                  let msg = {
+                    type: "success",
+                    title: "New Enquiry Added",
+                    body: "Your enquiry has been submitted"
+                  }
+                  //form.reset();
+                  this.appC.popToast(msg);
+                  this.clearFormData();
+                }
+                else {
+                  this.openConfirmationPopup();
+                  this.clearFormData();
+                }
 
-        // this.poster.postNewEnquiry(this.newEnqData).subscribe(
-        //   data => {
-        //     this.enquiryConfirm = data;
-        //     let instituteEnqId = data.generated_id;
-        //     this.prefill.fetchLastDetail().subscribe(data => {
-        //       this.lastDetail = data;
-        //       if (this.isRegisterStudent) {
-        //         let obj = {
-        //           name: this.newEnqData.name,
-        //           phone: this.newEnqData.phone,
-        //           email: this.newEnqData.email,
-        //           gender: this.newEnqData.gender,
-        //           dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
-        //           parent_email: this.newEnqData.parent_email,
-        //           school_name: this.newEnqData.school_id,
-        //           standard_id: this.newEnqData.standard_id,
-        //           parent_name: this.newEnqData.parent_name,
-        //           parent_phone: this.newEnqData.parent_phone,
-        //           enquiry_id: instituteEnqId,
-        //           institute_enquiry_id: instituteEnqId
-        //         }
-        //         localStorage.setItem('studentPrefill', JSON.stringify(obj));
-        //         this.router.navigate(['student/add']);
-        //       }
-        //       else {
-        //         if (this.addNextCheck) {
-        //           let msg = {
-        //             type: "success",
-        //             title: "New Enquiry Added",
-        //             body: "Your enquiry has been submitted"
-        //           }
-        //           //form.reset();
-        //           this.appC.popToast(msg);
-        //           this.clearFormData();
-        //         }
-        //         else {
-        //           this.openConfirmationPopup();
-        //           this.clearFormData();
-        //         }
+              }
+            },
+              err => {
 
-        //       }
-        //     },
-        //       err => {
-
-        //       });
-        //   },
-        //   err => {
-        //     let data = {
-        //       type: "error",
-        //       title: "Error Posting New Enquiry",
-        //       body: err.message + " mobile number is already in use, please provide another primary contact"
-        //     }
-        //     this.appC.popToast(data);
-        //   }
-        // );
+              });
+          },
+          err => {
+            let data = {
+              type: "error",
+              title: "Error Posting New Enquiry",
+              body: err.message + " mobile number is already in use, please provide another primary contact"
+            }
+            this.appC.popToast(data);
+          }
+        );
 
       }
       else {
