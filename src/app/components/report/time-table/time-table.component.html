@@ -2,6 +2,7 @@
 </loaders-css>
 <div class="middle-section clear-fix">
     <aside class="middle-full">
+
         <section class="middle-main clearFix attendance-container">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
@@ -53,20 +54,32 @@
                     <hr style="margin-bottom: -3px">
                     <div class="c-sm-1 c-xs-1 c-lg-1 c-md-1"></div>
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+                        <label>Master Course</label>
                         <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldDataPro.standard_id" name="masterCourse" (ngModelChange)="getCourses($event)">
-                            <option value="-1">Master Course</option>
+                            <option value="-1"></option>
                             <option *ngFor="let i of masterPro" [value]="i.standard_id">{{i.standard_name}}</option>
                         </select>
                     </div>
+                    <!-- 
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper" *ngIf="isProfessional">
+                        <label>Master Course</label>
+                        <select class="form-ctrl" id="one" [(ngModel)]="queryParam.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+                            <option value="-1"></option>
+                            <option *ngFor="let i of batchExamRepo" [value]="i.standard_id">{{i.standard_name}}</option>
+                        </select>
+                    </div>
+ -->
                     <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
+                        <label>Course</label>
                         <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldDataPro.subject_id" (ngModelChange)="getSubjects($event)">
-                            <option value="-1">Course</option>
+                            <option value="-1"></option>
                             <option *ngFor="let i of coursePro" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
                         </select>
                     </div>
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+                        <label>Batch</label>
                         <select class="form-ctrl" id="three" [(ngModel)]="fetchFieldDataPro.batch_id">
-                            <option value="-1">Batch</option>
+                            <option value="-1"></option>
                             <option *ngFor="let i of batchPro" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
                         </select>
                     </div>
@@ -74,38 +87,38 @@
                 </div>
                 <div class="row btn-wrap" *ngIf="isProfessional">
                     <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
-                        <input type="button" class="normal-btn fullBlue btn" id="viewchange" value="View" style="margin-right:-797px;margin-bottom:-4px" (click)="fetchTimeTableReportPro('0')"
-                        />
+                        <input type="button" class="normal-btn fullBlue btn" id="viewchange" value="View" style="margin-right:-797px;margin-bottom:-4px"
+                            (click)="fetchTimeTableReportPro('0')" />
                     </div>
                 </div>
                 <div class="row" *ngIf="!isProfessional">
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <!-- <label>Master Course</label> -->
+                        <label>Master Course</label>
                         <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.master_course" (ngModelChange)="getCourses($event)" name="masterCourse">
-                            <option value="">Master Course</option>
+                            <option value=""></option>
                             <option *ngFor="let i of masterCoursesData" [value]="i.master_course">{{i.master_course}}</option>
                         </select>
                     </div>
 
 
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <!-- <label>Course</label> -->
+                        <label>Course</label>
                         <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.course_id" (ngModelChange)="getSubjects($event)">
-                            <option value="-1">Course</option>
+                            <option value="-1"></option>
                             <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
                         </select>
                     </div>
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <!-- <label>Subjects</label> -->
+                        <label>Subjects</label>
                         <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id">
-                            <option value="-1">Subjects</option>
+                            <option value="-1"></option>
                             <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
                         </select>
                     </div>
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <!-- <label>Teachers</label> -->
+                        <label>Teachers</label>
                         <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.teacher_id">
-                            <option value="-1">Teachers</option>
+                            <option value="-1"></option>
                             <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
                         </select>
                     </div>
@@ -113,47 +126,31 @@
                 <div class="row btn-wrap" *ngIf="!isProfessional">
 
                     <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
-                        <input type="button" class="normal-btn fullBlue btn"  id="viewchange" value="View" style="margin-right: -797px" (click)="fetchTimeTableReport('0')"
+                        <input type="button" class="normal-btn fullBlue btn" id="viewchange" value="View" style="margin-right: -797px" (click)="fetchTimeTableReport('0')"
                         />
                     </div>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3">
-                    <input type="button" class="normal-btn fullBlue btn"  style="margin-top:-4px" value="Previous Week" (click)="fetchTimeTableReport('-1')"
+                    <input type="button" class="normal-btn fullBlue btn" style="margin-top:-4px" value="Previous Week" (click)="fetchTimeTableReport('-1')"
                     />
                 </div>
                 <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6">
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3">
-                    <input type="button" class="normal-btn fullBlue btn" id= shiftright value="Next Week" (click)="fetchTimeTableReport('1')" />
+                    <input type="button" class="normal-btn fullBlue btn" id=s hiftright value="Next Week" (click)="fetchTimeTableReport('1')"
+                    />
                 </div>
             </section>
+
         </section>
-        <section class="clearFix calender-view1" *ngIf="showtable">
+        <section class="clearFix calender-view1">
             <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} - {{enddateweek}}</h4>
-            <div class="table-responsive ">
-                <table>
-                    <thead>
-                        <tr>
-                            <th *ngFor="let i of timeTablePrint">{{i}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody *ngFor="let i of datesArr">
-                        <tr *ngFor="let obj of i.data">
-                            <td>{{obj.start_time}}{{obj.end_time}}
-                            </td>
-                            <td>{{obj.class_type}}
-                            </td>
-                            <td>{{obj.subject_name}}</td>
-                            <td>{{obj.teacher_name}}</td>
 
-                        </tr>
-
-                    </tbody>
-                    <tbody *ngIf="datesArr.length==0">No Schedule Available
-                    </tbody>
-                </table>
-            </div>
+            <time-table [recordInput]="timeTableArr">
+            </time-table>
+            <!-- <div [timeTableData]= "timeTableArr"> -->
+            
         </section>
+
     </aside>
 </div>

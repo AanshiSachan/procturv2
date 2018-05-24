@@ -1,0 +1,46 @@
+.timetablewrapepr{
+    width: 100%;
+}
+ul {
+    &.time-head {
+        li{
+            &.head-item{
+                display: inline-block;
+                width: 14%;
+                padding: 10px 10px 10px;
+                border-bottom: 1px solid #efefef;
+            }
+            &.inner-date{
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            &.inner-day{
+                text-align: center;
+            }
+        }
+    }
+    &.time-body{
+        display: inline-block;
+        padding: 10px 20px;
+        text-align: center;
+        li{
+            &.time-item{
+                padding:5px;
+                text-align: center;
+                li{
+                 &.one{
+                    font-size:14px;
+                 }
+                 &.two{
+                    font-size:12px;
+                    font-weight: 600;
+                 }
+                 &.three{
+                    font-size:12px;
+                 }
+                }
+            }
+        }
+    }
+}
