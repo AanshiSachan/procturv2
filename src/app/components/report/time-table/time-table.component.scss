@@ -81,7 +81,7 @@ p {
 
 .row-val{
     padding-left: 0px !important;
-    margin-left: 73px !important;
+    margin-left: -5px !important;
 }
 
 .filter-form {
@@ -183,7 +183,7 @@ p {
     }
     .btn {
         display: inline-block;
-        width: 34%;
+        width: 51%;
     }
     .btn-wrap{
             text-align: center;
@@ -381,7 +381,7 @@ p {
             }
         }
         &:hover {
-            .cls-1 {}
+            
         }
     }
     .popup-content {
@@ -899,7 +899,7 @@ p {
             }
         }
         &:hover {
-            .cls-1 {}
+           
         }
     }
     .popup-content {
@@ -1417,7 +1417,7 @@ p {
             }
         }
         &:hover {
-            .cls-1 {}
+           
         }
     }
     .popup-content {
@@ -1567,8 +1567,9 @@ p {
     }
     
 }
-.shift-right{
-
+#shiftright{
+margin-left:137px;
+margin-top: -4px;
 }
 
 .calender-view1 {
@@ -1649,4 +1650,8 @@ p {
             }
         }
     }
+}
+#viewchange{
+    width:25%;
+    margin-right: -717px;
 }

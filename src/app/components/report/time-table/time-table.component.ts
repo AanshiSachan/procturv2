@@ -14,7 +14,9 @@ export class TimeTableComponent implements OnInit {
   masterCoursesData: any = [];
   getTeachersData: any = [];
   timeTableObj: any;
+  timeTablePrint: any = [];
   datesArr = [];
+  onlyMasterData: boolean = false;
   showtable: boolean;
   isProfessional: boolean;
   teacherBox: boolean;
@@ -61,14 +63,15 @@ export class TimeTableComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     if (this.isProfessional) {
       this.fetchTimeTableReportPro('0');
-
     }
     else {
       this.getMasterCoursesData();
       this.getTeachersNameData();
-
     }
+    this.timeTableHeader();
+
   }
+
   /*========================================================================================================
   ========================================================================================================== */
   getMasterCoursesData() {
@@ -118,7 +121,7 @@ export class TimeTableComponent implements OnInit {
     else {
       this.fetchFieldData.batch_id = "-1";
       this.fetchFieldData.course_id = "-1";
-
+      this.onlyMasterData = true;
       this.timeTableServ.getCoursesData(i).subscribe
         (
         res => {
@@ -135,6 +138,7 @@ export class TimeTableComponent implements OnInit {
   getSubjects(i) {
     if (this.isProfessional) {
       this.fetchFieldDataPro.batch_id = "-1";
+      this.onlyMasterData = false;
       this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
         (
         res => {
@@ -161,6 +165,7 @@ export class TimeTableComponent implements OnInit {
   }
 
   getTeachersNameData() {
+    this.onlyMasterData = false;
     this.timeTableServ.getTeachersName().subscribe
       (
       res => {
@@ -198,6 +203,7 @@ export class TimeTableComponent implements OnInit {
       this.startdateweek = moment().startOf('week').add(1, 'day').format('DD-MMM-YYYY');
       this.enddateweek = moment().endOf('week').add(1, 'day').format('DD-MMM-YYYY');
     }
+    this.timeTableHeader();
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
 
@@ -294,6 +300,7 @@ export class TimeTableComponent implements OnInit {
       this.startdateweek = moment().startOf('week').add(1, 'day').format('DD-MMM-YYYY');
       this.enddateweek = moment().endOf('week').add(1, 'day').format('DD-MMM-YYYY');
     }
+    this.timeTableHeader();
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
 
@@ -304,6 +311,15 @@ export class TimeTableComponent implements OnInit {
           this.timeTableObj = res.batchTimeTableList;
           this.datesArr = Object.keys(this.timeTableObj);
         }
+
+        for (let stat in this.timeTableObj) {
+          let obj = {
+            id: stat,
+            data: this.timeTableObj[stat]
+          }
+          this.datesArr.push(obj);
+        }
+
         this.showtable = true;
       },
       err => {
@@ -312,10 +328,11 @@ export class TimeTableComponent implements OnInit {
       )
   }
 
-  toggleTbodyClass(i) {
-    document.getElementById('tbodyItem' + i).classList.toggle("active");
-    document.getElementById('tbodyView' + i).classList.toggle("hide");
-    //document.getElementById('tbodyItem'+i).classList.toggle('active');
+  timeTableHeader() {
+    this.timeTablePrint = [];
+    for (var i = 0; i < 7; i++) {
+      this.timeTablePrint.push(moment(this.startdateweek).add(i, 'day').format("DD-MMM-YYYY dddd"));
+    }
   }
 
 }
