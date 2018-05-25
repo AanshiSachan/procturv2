@@ -9,13 +9,7 @@
                     </h2>
                 </div>
                 <section class="row filter-section  margin-head">
-                    <div class="c-lg-3">
-                        <div class="field-wrapper datePickerBox">
-                            <label for="range">Cheque From And To</label>
-                            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker>
-                            <span class="pull-right" style="color: rgb(245, 79, 79); cursor: pointer;" (click)="clearDateRange()">clear</span>
-                        </div>
-                    </div>
+
                     <div class="c-lg-3">
                         <div class="field-wrapper">
                             <label for="ctype">Cheque Status</label>
@@ -28,6 +22,13 @@
                         </div>
                     </div>
 
+                    <div class="c-lg-3">
+                        <div class="field-wrapper datePickerBox">
+                            <label for="range">Cheque From And To</label>
+                            <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker>
+                            <span class="pull-right" style="color: rgb(245, 79, 79); cursor: pointer;" (click)="clearDateRange()">clear</span>
+                        </div>
+                    </div>                  
 
                     <div class="c-lg-3">
                         <div class="field-wrapper">
