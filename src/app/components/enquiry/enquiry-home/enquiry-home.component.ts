@@ -27,6 +27,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 @Component({
   selector: 'app-enquiry-home',
@@ -314,6 +316,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   isNotifyVisible: boolean = false;
 
+  // Sub Branch
+  isMainBranch: any = 'N';
+  subBranchSelected: boolean = false;
+  branchesList: any = [];
+
   /* =========================================================================== */
   /* ===================== Declaration Fin ===================================== */
   /* =========================================================================== */
@@ -321,7 +328,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
-    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute) {
+    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute,
+    private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -448,6 +456,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     sessionStorage.setItem('displayBatchSize', this.displayBatchSize.toString());
+    
+    this.checkMultiBranchStatus();
+
   }
 
   convertTimeToFormat(data) {
@@ -4072,6 +4083,44 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.cd.markForCheck();
       this.isNotifyVisible = false;
     }
+  }
+
+
+  // Multi Branch Check
+
+  checkMultiBranchStatus() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      this.auth.isMainBranch.subscribe(
+        (value: any) => {
+          this.isMainBranch = value;
+          if (this.isMainBranch == "Y") {
+            this.multiBranchInstituteFound();
+          }
+        }
+      );
+
+      this.multiBranchService.subBranchSelected.subscribe(
+        res => {
+          this.subBranchSelected = res;
+          this.multiBranchInstituteFound();
+        }
+      )
+    } else {
+      this.isMainBranch = "N";
+      this.subBranchSelected = false;
+    }
+  }
+
+  multiBranchInstituteFound() {
+    this.prefill.getAllSubBranches().subscribe(
+      (res: any) => {
+        this.branchesList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
 }

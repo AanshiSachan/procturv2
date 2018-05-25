@@ -7,11 +7,9 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
@@ -29,20 +27,8 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 })
 export class AdminHomeComponent implements OnInit {
 
-  public storageData: any = {
-    storage_allocated: 0
-  };
   public isProfessional: boolean = false;
   public grid: any;
-  public instituteSetting: any = {
-    institute_campaign_sms_quota_available: 0,
-    institute_sms_quota_available: 0
-  };
-  public planListArr: any[] = [];
-  public enquiryStat: any = {
-    totalcount: null,
-    statusMap: null
-  };
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
   public teacherListArr: any[] = [];
@@ -57,12 +43,6 @@ export class AdminHomeComponent implements OnInit {
   public schedStat: any = {};
 
   is_notified: any = 'Y';
-  public genralStats: any = {
-    sms: 0,
-    download: 0,
-    expiry: moment().format('DD-MMM-YYYY'),
-    total: 0
-  }
   public selectedRow: number = null;
   public order: string[] = ['1', '2', '3', '4'];
   public schedSelected: boolean = false;
@@ -70,67 +50,14 @@ export class AdminHomeComponent implements OnInit {
   public enquiryDate: any[] = [];
 
   public schedDate: any[] = [];
-  public currentPlan: any = null;
   public classMarkedForAction: any;
-  public chart = new Chart({
-    chart: {
-      type: 'pie',
-      options3d: {
-        enabled: true,
-        alpha: 45,
-        beta: 0
-      },
-      renderTo: 'enqChart',
-      margin: [0, 0, 0, 0],
-      spacingTop: 0,
-      spacingBottom: 0,
-      spacingLeft: 0,
-      spacingRight: 0
-    },
-    title: {
-      text: null
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        colors: [
-          '#568bf4',
-          '#f456b0',
-          '#ffcc3c',
-          '#56cff4'
-        ],
-        size: '80%',
-        depth: 35,
-        dataLabels: {
-          enabled: false
-        }
-      }
-    },
-    credits: {
-      enabled: false
-    },
-    series: [{
-      type: 'pie',
-      name: '%',
-      data: [
-        ['Open', 0],
-        ['In Progress', 0],
-        ['Admitted', 0],
-        ['Closed', 0],
-        ['Converted', 0],
-        ['Registered', 0]
-      ]
-    }]
-  });
   public attendanceNote: string = "";
   public homework: string = "";
   public studentAttList: any = [];
   public cancellationReason: string = '';
   resheduleNotified: any = "Y";
-  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '15', '30', '45'];
-  meridianArr: any[] = ['', "AM", "PM"];
   reschedDate: any = new Date();
   reschedReason: any = "";
   timepicker: any = {
@@ -190,7 +117,6 @@ export class AdminHomeComponent implements OnInit {
   }
   permissionArray = sessionStorage.getItem('permissions');
   settingInfo: any = [];
-  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   viewDetailsPopUp: boolean = false;
   selectedViewDet: any;
   viewDetTable: any = [];
@@ -208,6 +134,7 @@ export class AdminHomeComponent implements OnInit {
   examData: any = "";
   examGradeFeature: any;
   gradesList: any = [];
+  classScheduleCount: number = 0;
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -232,6 +159,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
+
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -241,6 +169,7 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+    
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.fetchWidgetPrefill();
@@ -272,20 +201,6 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   fetchWidgetPrefill() {
 
-    this.widgetService.getAllplan().subscribe(
-      res => {
-        this.planListArr = res;
-        this.widgetService.getInstituteSettings().subscribe(
-          res => {
-            this.instituteSetting = res;
-            this.generatePlan();
-          },
-          err => { }
-        );
-      },
-      err => { }
-    );
-
     this.widgetService.getSettings().subscribe(
       res => {
         this.settingInfo = res;
@@ -304,56 +219,6 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
-    //this.fetchEnqWidgetData();
-    //this.fetchFeeWidgetData();
-    this.getStorageData();
-
-    // if (this.isProfessional) {
-    //   this.fetchBatchWidgetData();
-    // }
-    // else {
-    //   this.fetchScheduleWidgetData();
-    // }
-  }
-
-  getStorageData() {
-    this.widgetService.getAllocatedStorageDetails().subscribe(
-      res => {
-        this.storageData = res;
-        this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(3);
-      },
-      err => {
-        //console.log(err);
-      }
-    )
-  }
-
-
-  generatePlan() {
-    this.planListArr.forEach(e => {
-      if (e.id === this.instituteSetting.plan_id) {
-        this.genralStats.download = e.download_limit;
-        this.genralStats.expiry = this.instituteSetting.institute_expiry_date;
-        this.genralStats.total = this.instituteSetting.total_students;
-        this.genralStats.sms = this.instituteSetting.institute_sms_quota_available;
-        this.genralStats.student_limit = e.student_limit;
-      }
-    })
-  }
-
-  fetchEnqWidgetData() {
-    let obj = {
-      updateDateFrom: moment(this.enquiryDate[0]).date(1).format("YYYY-MM-DD"),
-      updateDateTo: moment(this.enquiryDate[1]).format("YYYY-MM-DD")
-    }
-    this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
-      res => {
-
-        this.grid.refreshItems().layout();
-        this.enquiryStat = res;
-        this.updateEnqChart();
-      }
-    )
   }
 
   fetchScheduleWidgetData() {
@@ -371,151 +236,9 @@ export class AdminHomeComponent implements OnInit {
     // );
   }
 
-  /* fetchFeeWidgetData() {
-    let obj = {
-      standard_id: -1,
-      batch_id: -1,
-      type: 0,
-      installment_id: -1,
-      subject_id: -1,
-      master_course_name: '-1',
-      course_id: -1,
-      is_fee_report_view: 1,
-      from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
-      to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
-    }
-    this.widgetService.fetchFeeWidgetData(obj).subscribe(
-      res => {
-        this.grid.refreshItems().layout();
-        this.feeStat = res;
-      },
-      err => { }
-    );
-  } */
-
-  fetchBatchWidgetData() {
-  }
-
   getOrder() {
     this.order = this.grid.getItems().map(item => item.getElement().getAttribute('data-id'));
   }
-
-  getDataId(text: String): number {
-    let id: number;
-
-    switch (text) {
-      case 'enquiry': {
-        id = 1;
-        break;
-      }
-
-      case 'fee': {
-        id = 2;
-        break;
-      }
-
-      case 'general': {
-        id = 3;
-        break;
-      }
-
-      case 'schedule': {
-        id = 4;
-        break;
-      }
-    }
-
-    return id;
-  }
-
-  getDetails(id: string): number {
-    if (id === 'total') {
-      if (this.enquiryStat.totalcount != null && this.enquiryStat.totalcount != undefined) {
-        return this.enquiryStat.totalcount;
-      }
-      else {
-        return 0;
-      }
-    }
-    else if (id === 'open') {
-      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
-        return this.enquiryStat.statusMap['Open'];
-      }
-      else {
-        return 0;
-      }
-    }
-    else if (id === 'ip') {
-      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
-        return this.enquiryStat.statusMap['In Progress'];
-      }
-      else {
-        return 0;
-      }
-    }
-    else if (id === 'admitted') {
-      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
-        return this.enquiryStat.statusMap['Student Admitted'];
-      }
-      else {
-        return 0;
-      }
-    }
-    else if (id === 'closed') {
-      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
-        return this.enquiryStat.statusMap['Closed'];
-      }
-      else {
-        return 0;
-      }
-    }
-  }
-
-  updateEnqChart() {
-    if (this.chart.ref.series.length > 0) {
-      this.chart.ref.series[0].setData(this.generateEnqChartData());
-    }
-    this.chart.ref.redraw();
-  }
-
-  /* Date CHange events handled here */
-
-  updateEnqChartByDate(e) {
-    let obj = {
-      updateDateFrom: moment(e[0]).date(1).format("YYYY-MM-DD"),
-      updateDateTo: moment(e[1]).format("YYYY-MM-DD")
-    }
-    this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
-      res => {
-        this.enquiryStat = res;
-        this.updateEnqChart();
-      }
-    )
-  }
-
-  /* updateFeeByDate(e) {
-    let obj = {
-      standard_id: -1,
-      batch_id: -1,
-      type: 2,
-      installment_id: -1,
-      subject_id: -1,
-      master_course_name: '-1',
-      course_id: -1,
-      is_fee_report_view: 1,
-      from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
-      to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
-    }
-    this.isOptionVisible = false;
-    this.widgetService.fetchFeeWidgetData(obj).subscribe(
-      res => {
-        this.grid.refreshItems().layout();
-        this.selectedRow = null;
-        this.feeStat = res;
-      },
-      err => { }
-    )
-  } */
 
   updateschedByDate(e) {
     let obj = {
@@ -546,46 +269,10 @@ export class AdminHomeComponent implements OnInit {
   /* ===================Wideget Fuctions====================== */
   /* ======================================================================================================= */
 
-  generateEnqChartData(): any[] {
-    let tempArr: any[] = [];
-    for (let key in this.enquiryStat.statusMap) {
-      let temp: any[] = [];
-      temp[0] = key;
-      if (this.enquiryStat.statusMap[key] == 0) {
-        temp[1] = 0;
-      } else {
-        temp[1] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
-      }
-      tempArr.push(temp);
-    }
-    return tempArr;
-  }
 
   openCalendar(id) {
     document.getElementById(id).click();
   }
-
-  getClassCount(): number {
-    if (this.schedStat.otherSchd != null && this.schedStat.otherSchd != undefined) {
-      return this.schedStat.otherSchd.length;
-    }
-    else {
-      return 0;
-    }
-
-  }
-
-  getEnqStartDate() {
-    let date = moment().date(1).format("YYYY-MM-DD");
-    return date;
-    // return this.enquiryDate;
-  }
-
-  getEnqEndDate() {
-    return this.enquiryDate[1];
-  }
-
-
 
   getSchedStartDate() {
     return this.schedDate[0];
@@ -612,27 +299,8 @@ export class AdminHomeComponent implements OnInit {
   }
 
 
-  /* deselectSelected() {
-    //console.log('fired');
-    this.selectedRow = null;
-     }
-   */
-
-  // generateOption(i, o) {
-  //   let d = moment(o).format("YYYY-MM-DD");
-
-  //   //this.schedSelected = true;
-  //   if (d >= moment(new Date()).format("YYYY-MM-DD")) {
-  //     this.isOptionVisible = true;
-  //   }
-  //   else {
-  //     this.isOptionVisible = false;
-  //   }
-  // }
-
   getVisibility(c): boolean {
     let d = moment(c.class_date).format("YYYY-MM-DD");
-    //this.schedSelected = true;
     if (d >= moment(new Date()).format("YYYY-MM-DD")) {
       return true;
     }
@@ -648,15 +316,6 @@ export class AdminHomeComponent implements OnInit {
   isCourseHomeworkStatusChanged(ev, i) {
     this.courseLevelStudentAtt[i].dateLi[0].home_work_status = ev;
     this.courseLevelStudentAtt[i].dateLi[0].is_home_work_status_changed = "Y";
-  }
-
-  getDisability(s): boolean {
-    if (s.dateLi[0].serverStatus == "L") {
-      return true;
-    }
-    else {
-      return false;
-    }
   }
 
   /* ======================================================================================================= */
@@ -786,25 +445,6 @@ export class AdminHomeComponent implements OnInit {
     this.home_work_notifn = null;
     this.topics_covered_notifn = null;
     this.teacher_id = null;
-  }
-
-  updateRadioAttendance(val, i, obj) {
-    if (val === "L") {
-      this.studentAttList[i].dateLi[0].home_work_status = "N";
-    }
-    else if (val === "A") {
-      this.studentAttList[i].dateLi[0].home_work_status = "N";
-    }
-    this.getCountOfAbsentPresentLeave(this.studentAttList);
-  }
-
-  updateCourseRadioAttendance(val, i, obj) {
-    if (val === "L") {
-      this.courseLevelStudentAtt[i].dateLi[0].home_work_status = "N";
-    }
-    else if (val === "A") {
-      this.courseLevelStudentAtt[i].dateLi[0].home_work_status = "N";
-    }
   }
 
   updateHomework(e) {
@@ -1598,10 +1238,6 @@ export class AdminHomeComponent implements OnInit {
   /* ====================================================================== */
   /* ======================================================================================================= */
 
-  markAttendance(i) {
-
-  }
-
   markAttendaceHide(row) {
     if (moment(row.class_date) > moment()) {
       return "hide";
@@ -1677,48 +1313,18 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttendaceBtnClick(event, rowData, index) {
-    document.getElementById('leaveBtn' + rowData.student_id).classList.remove('classLeaveBtn');
-    document.getElementById('absentBtn' + rowData.student_id).classList.remove('classAbsentBtn');
-    document.getElementById('presentBtn' + rowData.student_id).classList.remove('classPresentBtn');
     if (event.target.innerText == "L") {
-      document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
       rowData.dateLi[0].status = "L";
       rowData.dateLi[0].home_work_status = "N";
       rowData.dateLi[0].isStatusModified = "Y";
     } else if (event.target.innerText == "A") {
-      document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
       rowData.dateLi[0].status = "A";
       rowData.dateLi[0].home_work_status = "N";
     } else {
-      document.getElementById('presentBtn' + rowData.student_id).classList.add('classPresentBtn');
       rowData.dateLi[0].status = "P";
       rowData.dateLi[0].home_work_status = "Y";
     }
     this.getCountOfAbsentPresentLeave(this.studentAttList);
-  }
-
-  getClassForLeave(data) {
-    if (data.dateLi[0].status == "L") {
-      return "classLeaveBtn";
-    } else {
-      return "";
-    }
-  }
-
-  getClassForAbsent(data) {
-    if (data.dateLi[0].status == "A") {
-      return "classAbsentBtn";
-    } else {
-      return "";
-    }
-  }
-
-  getClassForPresent(data) {
-    if (data.dateLi[0].status == "P") {
-      return "classPresentBtn";
-    } else {
-      return "";
-    }
   }
 
   addSendNotification() {
@@ -1837,11 +1443,11 @@ export class AdminHomeComponent implements OnInit {
   addNewNotification() {
     this.addNotification = true;
   }
+
   saveNewMessage() {
     let obj = { message: this.newMessageText };
     this.widgetService.saveMessageTOServer(obj).subscribe(
       res => {
-        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message created Successfully',
@@ -2590,21 +2196,15 @@ export class AdminHomeComponent implements OnInit {
 
 
   markAttendaceBtnClickCourse(event, rowData, index) {
-    document.getElementById('leaveBtnCourse' + rowData.student_id).classList.remove('classLeaveBtn');
-    document.getElementById('absentBtnCourse' + rowData.student_id).classList.remove('classAbsentBtn');
-    document.getElementById('presentBtnCourse' + rowData.student_id).classList.remove('classPresentBtn');
     if (event.target.innerText == "L") {
-      document.getElementById('leaveBtnCourse' + rowData.student_id).classList.add('classLeaveBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "L";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
     } else if (event.target.innerText == "A") {
-      document.getElementById('absentBtnCourse' + rowData.student_id).classList.add('classAbsentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "A";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
     } else {
-      document.getElementById('presentBtnCourse' + rowData.student_id).classList.add('classPresentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "P";
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
@@ -2635,8 +2235,10 @@ export class AdminHomeComponent implements OnInit {
       this.schedStat = data;
       this.getExamSchedule(obj);
       this.addKeyInData(this.schedStat.otherSchd, "isExam", false);
+      this.classScheduleCount = this.schedStat.otherSchd.length;
     }, err => {
-      //console.log(err);
+      this.classScheduleCount = 0;
+      console.log(err);
       this.getExamSchedule(obj);
     })
   }
@@ -2647,6 +2249,7 @@ export class AdminHomeComponent implements OnInit {
         this.addKeyInData(res.otherSchd, "isExam", true);
         let result = this.schedStat.otherSchd.concat(res.otherSchd);
         this.schedStat.otherSchd = this.sortDataByDateTime(result);
+        this.classScheduleCount = this.schedStat.otherSchd.length;
       },
       err => {
         //console.log(err);
@@ -2968,7 +2571,6 @@ export class AdminHomeComponent implements OnInit {
   fetchStudentDetails(data) {
     this.widgetService.fetchStudentExamDetails(data.batch_id, data.schd_id).subscribe(
       (res: any) => {
-        //console.log(res);
         this.examData = res;
         this.studentList = this.addKeys(res.studLi, false);
       },

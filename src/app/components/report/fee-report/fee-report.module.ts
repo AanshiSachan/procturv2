@@ -34,6 +34,7 @@ import { PaymentHistoryMainComponent } from './payment-history-main/payment-hist
 import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
 
 import { ExcelService } from '../../../services/excel.service';
+import { OnlinePaymentServiceService } from '../../../services/online-payment/online-payment-service.service';
 
 @NgModule({
     imports: [
@@ -75,7 +76,8 @@ import { ExcelService } from '../../../services/excel.service';
         GetFeeService,
         PostFeeService,
         PaymentHistoryMainService,
-        ExcelService
+        ExcelService,
+        OnlinePaymentServiceService
     ],
     exports: [
     ]

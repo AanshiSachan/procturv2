@@ -98,6 +98,7 @@ export class RobAdvanceTableComponent implements OnChanges {
                 return 'blue';
             }
         }
+
     }
 
 
