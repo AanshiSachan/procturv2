@@ -240,7 +240,8 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   searchByName() {
-
+    this.sendPayload.from_date = "";
+    this.sendPayload.to_date = "";
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
   }

@@ -18,7 +18,6 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
     { primaryKey: 'display_invoice_no', header: 'Receipt No' },
-    { primaryKey: 'paymentMode', header: 'Payment Mode' },
     { primaryKey: 'fee_type_name', header: 'Fee Type' },
     { primaryKey: 'installment_nos', header: 'Inst No' },
     { primaryKey: 'razor_payment_id', header: 'Gateway Payment Id' },
@@ -129,6 +128,8 @@ export class OnlinePaymentHistoryComponent implements OnInit {
 // ============================================================================
 // for searching the history by name
   searchByName() {
+    this.sendPayload.from_date = "";
+    this.sendPayload.to_date = "";
     this.searchByNameVisible = true;
     this.removeSearchByName = false;
   }
@@ -177,14 +178,18 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   exportToExcel(event) {
     let exportedArray: any[] = [];
     this.dataGetPayload.map((data:any)=>{
+      
       let obj={
         "Id" : data.student_disp_id,
         "Name" : data.student_name,
         "Reciept No" : data.display_invoice_no,
-        "Payment Mode" : data.paymentMode,
         "Fee Type" : data.fee_type_name,
         "Inst No" : data.installment_nos,
         "Gateway Payment Id" : data.onlinePaymentJson.razor_payment_id,
+        "Payment Method" : data.onlinePaymentJson.payment_method,
+        "Transferrable Amt(in Rs)" : data.onlinePaymentJson.transerable_amount,
+        "Payment Gateway Commission(in Rs)" :  data.onlinePaymentJson.razor_payment_gateway_fees,
+        "GST(in Rs)" : data.onlinePaymentJson.razor_GST_fees,
         "Payment Status" : data.onlinePaymentJson.payment_status,
         "Paid Date" : data.paid_date,
         "Amount Paid" : data.amount_paid_inRs,

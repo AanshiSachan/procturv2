@@ -36,15 +36,15 @@ export class DropMenuComponent implements OnChanges {
                 this.isChequeUpdatable = true;
             }
         }
-        if(this.info.hasOwnProperty('student_category')) {
-            if (this.info.student_category == "active") {
+       
+            if (this.info.student_category == "active" && this.info.paymentMode !="Online Payment" && this.info.pdc_cheque_id == -1 ) {
                 this.isChequeUpdatable = true;
             }
             else{
                 this.isChequeUpdatable = false;
             } 
-        }
-
+        
+        
 
         this.menuOptions;
         if (this.dropType == 1) {
