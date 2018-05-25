@@ -14,23 +14,23 @@
                         <a routerLink="/reports/fee">
                             Fee Report
                         </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Online Payment History
                     </h2>
                     <a (click)="searchByName()" class="showFilter" style="float:right;"  *ngIf="removeSearchByName">Show Name Filter</a>
                     
-                    <div class="row report-header" style="margin-top:3%;">
+                    <div class="row">
                         <div class="c-lg-12">
                             <div class="c-lg-8" *ngIf="removeSearchByName">
                                 <div class="c-lg-12">
                                     <div class="c-lg-6 field-wrapper datePickerBox">
                                         <label for="from">From Date</label>
-                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date">
-                                        <a style="float:right" (click)="clearFromDate()">clear</a>
+                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+                                      
                                     </div>
                                     <div class="c-lg-6 field-wrapper datePickerBox">
                                         <label for="from">To Date</label>
-                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.to_date">
-                                        <a style="float:right" (click)="clearToDate()">clear</a>
+                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+                                     
                                     </div>
                                 </div>
                                 <div class="c-lg-12" style="margin-top:3%;">
@@ -140,7 +140,7 @@
                 <div class="table-content">
                     <div style="margin: 10px;">
 
-                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;" class="showFilter">Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>

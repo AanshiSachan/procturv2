@@ -54,7 +54,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   helpMsg1: string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
   helpMsg2: string = " Fee(s)collected from archived students";
 
-  constructor(private login: LoginService,
+  constructor(
     private paymentService: OnlinePaymentServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService,
@@ -63,7 +63,9 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   ngOnInit() {
     this.getAllPaymentRecords();
   }
-
+// ============================================================================
+// ============================================================================
+// for fetching data
   getAllPaymentRecords() {
     this.isRippleLoad = true;
     this.dataStatus = 1;
@@ -123,22 +125,24 @@ export class OnlinePaymentHistoryComponent implements OnInit {
       )
     }
   }
-
-
-
+// ============================================================================
+// ============================================================================
+// for searching the history by name
   searchByName() {
     this.searchByNameVisible = true;
     this.removeSearchByName = false;
   }
-
-
+// ============================================================================
+// ============================================================================
+// for searching by date
   searchByDate() {
     this.searchName = "";
     this.removeSearchByName = true;
     this.searchByNameVisible = false;
   }
-
-
+// ============================================================================
+// ============================================================================
+// for finding the number from a regex
   isName(str) {
     let hasNumber = /\d/;
     if (hasNumber.test(str)) {
@@ -149,7 +153,9 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     }
   }
 
-
+// ============================================================================
+// ============================================================================
+// for searching data
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       // let searchData: any;
@@ -165,7 +171,9 @@ export class OnlinePaymentHistoryComponent implements OnInit {
       this.searchflag = false;
     }
   }
-
+// ============================================================================
+// ============================================================================
+// exporting to excel of json file
   exportToExcel(event) {
     let exportedArray: any[] = [];
     this.dataGetPayload.map((data:any)=>{
@@ -191,12 +199,19 @@ export class OnlinePaymentHistoryComponent implements OnInit {
       'Students'
     )
   }
-
-  clearToDate(){
-    this.sendPayload.to_date = "";
+// ============================================================================
+// ============================================================================
+// for furure date validation
+  futureDateValid(selectDate) {
+    if (moment(selectDate).diff(moment()) > 0) {
+      let msg = {
+        type: "info",
+        body: "You cannot select future date"
+      }
+      this.appc.popToast(msg);
+      this.isRippleLoad = false;
+      this.sendPayload.from_date = moment().format('YYYY-MM-DD');
+      this.sendPayload.to_date = moment().format('YYYY-MM-DD');
+    }
   }
-  clearFromDate(){
-    this.sendPayload.from_date = "";
-  }
-
 }
