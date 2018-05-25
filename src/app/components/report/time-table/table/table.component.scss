@@ -1,75 +1,100 @@
-.timetablewrapepr{
+.timetablewrapepr {
     width: 100%;
+    margin-bottom: 12%;
 }
+
 ul {
     &.time-head {
-        li{
-            &.head-item{
+        li {
+            &.head-item {
                 display: inline-block;
                 width: 14%;
                 padding: 10px 10px 10px;
                 border-bottom: 1px solid #efefef;
                 border-left: 1px solid #efefef;
             }
-            &.inner-date{
-                text-align: center;
+            &.inner-date {
                 font-size: 14px;
-                font-weight: 600;
+                margin-left: -11px;
+                font-size:28px;
             }
-            &.inner-day{
+            &.inner-day {
                 text-align: center;
             }
         }
     }
-    &.time-body{
+    &.time-body {
         display: inline-block;
         width: 14%;
         padding: 10px 10px 10px;
         border-bottom: 1px solid #efefef;
         border-left: 1px solid #efefef;
-
-        li{
-            &.time-item:not(:first-child){
-
-                padding:5px;
+        li {
+            &.time-item:not(:first-child) {
+                padding: 5px;
                 text-align: center;
                 border-top: 1px solid #efefef;
-  
-                li{
-                 &.one{
-                    font-size:14px;
-                 }
-                 &.two{
-                    font-size:12px;
-                    font-weight: 600;
-                 }
-                 &.three{
-                    font-size:12px;
-                 }
+                li {
+                    &.one {
+                        font-size: 14px;
+                    }
+                    &.two {
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                    &.three {
+                        font-size: 12px;
+                    }
                 }
             }
-            &.time-item:first-child{
-                padding:5px;
+            &.time-item:first-child {
+                padding: 5px;
                 padding-top: 1px;
                 text-align: center;
-                li{
-                 &.one{
-                    font-size:14px;
-                 }
-                 &.two{
-                    font-size:12px;
-                    font-weight: 600;
-                 }
-                 &.three{
-                    font-size:12px;
-                 }
+                li {
+                    &.one {
+                        font-size: 14px;
+                    }
+                    &.two {
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                    &.three {
+                        font-size: 12px;
+                    }
                 }
             }
         }
     }
 }
-.emptyclass{
-    padding-top: 40px;
-    position:relative;
+
+@media screen and (min-width:480px)and (max-width:600px) {
+  .emptyclass {
+        padding-top: 100px;
+        position: relative;
+        bottom: 18px;
+    
+    }
+}  
+
+@media screen and (min-width:1281px){
+    .emptyclass {
+        padding-top: 42px;
+        position: relative;
+        bottom: 18px;
+    }}
+
+@media screen and (min-width :601px) and (max-width :768px){
+    .emptyclass {
+    padding-top: 85px;
+    position: relative;
     bottom: 18px;
+}}
+
+@media screen and (min-width :769px) and (max-width: 1280px){
+    .emptyclass {
+     padding-top: 54px;
+        position: relative;
+        bottom: 18px;
+    }
 }

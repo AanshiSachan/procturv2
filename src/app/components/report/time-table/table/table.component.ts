@@ -17,6 +17,14 @@ export class tableComponent {
 
   ngOnChanges() {
     this.recordInput;
-   }
- 
+  }
+
+  styling(para) {
+    if (para == "Exam") {
+      return "red";
+    }
+    else {
+      return "#04b8e6";
+    }
+  }
 }

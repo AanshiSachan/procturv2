@@ -52,22 +52,9 @@ p {
             font-weight: 600;
             font-size: 14px;
             color: black;
-            &.bsDatepicker {
-                padding-left: 10px;
-                margin-left: 25px;
-                width: 60%;
             }
-        }
     }
 }
-
-.master {
-    margin-top: 10px;
-    float: right;
-    margin-bottom: 10px;
-    margin-right: 16px;
-}
-
 .attendance-container {
     height: auto !important;
     background: #efefef;
@@ -129,33 +116,7 @@ p {
             border: 1px solid #dadada;
         }
     }
-    .form-wrapper {
-        padding: 10px 5px;
-        position: relative;
-        &.datePickerBox {
-            .side-form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-                width: 100%;
-                padding: 5px;
-                display: block;
-                border: 1px solid #dadada;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 10px;
-                top: 30px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
-    }
-    .popup-content {
+     .popup-content {
         position: relative;
         left: 5%;
         overflow-x: hidden;
@@ -183,7 +144,9 @@ p {
     }
     .btn {
         display: inline-block;
-        width: 51%;
+        width: 29%;
+        margin-left:496px;
+
     }
     .btn-wrap{
             text-align: center;
@@ -498,8 +461,9 @@ p {
 }
 
 .pull-right {
-    margin-right: 12px;
+    margin-right: 23px;
     padding-bottom: 10px;
+    margin-top:0px;
 }
 .stdnt-table{
     height:500px;
@@ -594,48 +558,12 @@ p {
     }
 }
 
-.master {
-    margin-top: 10px;
-    float: right;
-    margin-bottom: 10px;
-    margin-right: 16px;
-}
-
 .attendance-container {
     height: 85vh;
     background: #efefef;
     padding: 5px;
     overflow: auto;
 }
-
-.filter-form {
-    background: #fff;
-    box-shadow: 0px 0px 2px 2px #dadada;
-    border-radius: 10px;
-    .row {
-        margin: 5px 15px;
-    }
-    .form-wrapper {
-        position: relative;
-        &.datePickerBox {
-            .side-form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 0;
-                top: 20px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
-    }
     .form-wrapper {
         padding: 10px 5px;
         label {
@@ -653,33 +581,7 @@ p {
             border: 1px solid #dadada;
         }
     }
-    .form-wrapper {
-        padding: 10px 5px;
-        position: relative;
-        &.datePickerBox {
-            .side-form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-                width: 100%;
-                padding: 5px;
-                display: block;
-                border: 1px solid #dadada;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 10px;
-                top: 30px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
-    }
-    .popup-content {
+     .popup-content {
         position: relative;
         left: 5%;
         overflow-x: hidden;
@@ -965,7 +867,7 @@ p {
             height: 7px;
         }
     }
-}
+
 
 .details-wrapper {
     max-height: 450px;
@@ -1112,13 +1014,6 @@ p {
     }
 }
 
-.master {
-    margin-top: 10px;
-    float: right;
-    margin-bottom: 10px;
-    margin-right: 16px;
-}
-
 .attendance-container {
     height: 85vh;
     background: #efefef;
@@ -1132,27 +1027,6 @@ p {
     border-radius: 10px;
     .row {
         margin: 5px 15px;
-    }
-    .form-wrapper {
-        position: relative;
-        &.datePickerBox {
-            .side-form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 0;
-                top: 20px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
     }
     .form-wrapper {
         padding: 10px 5px;
@@ -1169,32 +1043,6 @@ p {
             padding: 3px;
             display: block;
             border: 1px solid #dadada;
-        }
-    }
-    .form-wrapper {
-        padding: 10px 5px;
-        position: relative;
-        &.datePickerBox {
-            .side-form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-                width: 100%;
-                padding: 5px;
-                display: block;
-                border: 1px solid #dadada;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 10px;
-                top: 30px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
         }
     }
     .popup-content {
@@ -1214,17 +1062,18 @@ p {
             text-align: center;
         }
     }
-    .main-student-table {
-        ::-webkit-scrollbar {
-            display: block;
-        }
-        .student-table {
-            overflow-x: auto;
-            height: 400px;
-        }
-    }
+    // .main-student-table {
+    //     ::-webkit-scrollbar {
+    //         display: block;
+    //     }
+    //     .student-table {
+    //         overflow-x: auto;
+    //         height: 400px;
+    //     }
+    // }
     .btn {
         display: inline-block;
+        margin-left:494px;
     }
     .inner-main {
         display: inline;
@@ -1567,10 +1416,6 @@ p {
     }
     
 }
-#shiftright{
-margin-left:137px;
-margin-top: -4px;
-}
 
 .calender-view1 {
     th {
@@ -1651,7 +1496,29 @@ margin-top: -4px;
         }
     }
 }
-#viewchange{
-    width:25%;
-    margin-right: -717px;
+
+.grid-data{
+margin-top:-4px
+}
+.grid-datadisplay{
+ margin-left:22px;   
+}
+.button-display{
+    &.pull-right{
+    margin-right: -1px;
+}}
+
+.field-radio-wrapper {
+    .form-radio:checked+label:before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        background: #0084f6;
+        border-radius: 50%;
+        left: 3px;
+        top: 3px;
+    }
+    label {
+        margin-left: 10px;
+    }
 }

@@ -5,7 +5,6 @@
             <ul>
                 <li class="inner-date">{{head.headerDate}}</li>
                 <li class="inner-day">{{head.headerDays}}</li>
-
             </ul>
         </li>
     </ul>
@@ -13,29 +12,44 @@
     <div class="table-scroller">
         <ul class="time-body" *ngFor="let time of recordInput">
             <li class="time-item" *ngFor="let i of time.data">
-                <ul  class="emptyclass" *ngIf="i == undefined">
+                <ul class="emptyclass" *ngIf="i == undefined">
                     NA
                 </ul>
                 <ul *ngIf="i != undefined">
                     <li class="one">
                         {{i.start_time}} - {{i.end_time}}
                     </li>
-                    <li class="two">
-                        {{i.class_type}}
+                    <li *ngIf="i.class_type=='Exam'" class="two" style="background-color:red">
+                        (Exam)
+                    </li>
+                    <li *ngIf="i.class_type=='REGULAR'" class="two" style="background-color:#04b8e6">
+                        (Regular)
+                    </li>
+                    <!---->
+                    <li *ngIf="i.class_type=='DOUBT'">
+                        (Doubt)
+                    </li>
+
+                    <li *ngIf="i.class_type =='REVISION'">
+                        (Revision)
+                    </li>
+                   
+                    <li *ngIf="i.class_type =='EXTRA'">
+                        (Extra)
+                    </li>
+
+                    <li class="three">
+                        {{i.batchName}}
                     </li>
                     <li class="three">
-                        {{i.subject_name}}
-                    </li>
-                    <li class= "three">
                         {{i.teacher_name}}
                     </li>
                 </ul>
             </li>
-            <li *ngIf="time.data.length == 0">
-                No Schedule Found !
-            </li>
+            <div *ngIf="time.data.length == 0">
+                No Schedule Found
+            </div>
         </ul>
     </div>
-
 
 </section>
