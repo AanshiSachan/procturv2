@@ -36,5 +36,6 @@ export interface addEnquiryForm {
 	assigned_to?: any,
 	followUpTime?: any,
 	lead_id?: any,
-	enqCustomLi?: any
+	enqCustomLi?: any,
+	source_instituteId?: any
 }

@@ -63,7 +63,7 @@
                         <li class="schedule-det" *ngIf="!isProfessional && isSubjectView">
                           <div>
                             <label>Total Classes :</label>
-                            <span>{{getClassCount()}}</span>
+                            <span>{{classScheduleCount}}</span>
                             <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                               [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
                           </div>
@@ -80,7 +80,7 @@
                         <li class="schedule-det" *ngIf="isProfessional">
                           <div>
                             <label>Total Classes :</label>
-                            <span>{{getClassCount()}}</span>
+                            <span>{{classScheduleCount}}</span>
                             <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                               [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
                           </div>
@@ -374,12 +374,12 @@
 
                     <li style="width: 35%">
                       <div class="btnGroup  btns">
-                        <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)" class="btn"
-                          [ngClass]="getClassForLeave(s)">L</button>
-                        <button id="absentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
-                          [ngClass]="getClassForAbsent(s)">A</button>
-                        <button id="presentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
-                          [ngClass]="getClassForPresent(s)">P</button>
+                        <button id="leaveBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s , i)"
+                          class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
+                        <button id="absentBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s, i)"
+                          class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'A'}">A</button>
+                        <button id="presentBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s, i)"
+                          class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
                       </div>
                     </li>
 
@@ -672,7 +672,7 @@
       <div class="clearfix">
         <aside class="pull-left">
           <div class="field-checkbox-wrapper" style="margin-top: 5px">
-            <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus( 'resheduleNotified')"
+            <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
               (change)="notifyRescheduleUpdate($event)">
             <label for="is_reshedule_notified">Notify Students</label>
           </div>
@@ -753,12 +753,12 @@
                   </td> -->
                   <td>
                     <div class="btnGroup">
-                      <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
-                        class="btn" [ngClass]="getClassForLeave(s)">L</button>
-                      <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForAbsent(s)">A</button>
-                      <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForPresent(s)">P</button>
+                      <button id="leaveBtnCourse{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClickCourse($event , s , i)"
+                        class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
+                      <button id="absentBtnCourse{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                        class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'A'}">A</button>
+                      <button id="presentBtnCourse{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                        class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
                     </div>
                   </td>
                   <td *ngIf="settingInfo.home_work_feature_enable==1">

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HomepageDashboardComponent } from './homepage-dashboard.component';
-import { HomeComponent } from './home/home.component';
+// import { HomeComponent } from './home/home.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component'
 
 @NgModule({
@@ -16,10 +16,11 @@ import { AdminHomeComponent } from './admin-home/admin-home.component'
                         path: '',
                         redirectTo: 'admin'
                     },
+                    // {
+                    //     path: 'home',
+                    //     component: HomeComponent
+                    // }, 
                     {
-                        path: 'home',
-                        component: HomeComponent
-                    }, {
                         path: 'admin',
                         component: AdminHomeComponent
                     }
