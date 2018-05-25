@@ -9,6 +9,7 @@ ul {
                 width: 14%;
                 padding: 10px 10px 10px;
                 border-bottom: 1px solid #efefef;
+                border-left: 1px solid #efefef;
             }
             &.inner-date{
                 text-align: center;
@@ -22,11 +23,34 @@ ul {
     }
     &.time-body{
         display: inline-block;
-        padding: 10px 20px;
-        text-align: center;
+        width: 14%;
+        padding: 10px 10px 10px;
+        border-bottom: 1px solid #efefef;
+        border-left: 1px solid #efefef;
+
         li{
-            &.time-item{
+            &.time-item:not(:first-child){
+
                 padding:5px;
+                text-align: center;
+                border-top: 1px solid #efefef;
+  
+                li{
+                 &.one{
+                    font-size:14px;
+                 }
+                 &.two{
+                    font-size:12px;
+                    font-weight: 600;
+                 }
+                 &.three{
+                    font-size:12px;
+                 }
+                }
+            }
+            &.time-item:first-child{
+                padding:5px;
+                padding-top: 1px;
                 text-align: center;
                 li{
                  &.one{
@@ -43,4 +67,9 @@ ul {
             }
         }
     }
+}
+.emptyclass{
+    padding-top: 40px;
+    position:relative;
+    bottom: 18px;
 }

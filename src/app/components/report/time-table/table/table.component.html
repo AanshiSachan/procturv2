@@ -13,7 +13,10 @@
     <div class="table-scroller">
         <ul class="time-body" *ngFor="let time of recordInput">
             <li class="time-item" *ngFor="let i of time.data">
-                <ul>
+                <ul  class="emptyclass" *ngIf="i == undefined">
+                    NA
+                </ul>
+                <ul *ngIf="i != undefined">
                     <li class="one">
                         {{i.start_time}} - {{i.end_time}}
                     </li>
@@ -27,6 +30,9 @@
                         {{i.teacher_name}}
                     </li>
                 </ul>
+            </li>
+            <li *ngIf="time.data.length == 0">
+                No Schedule Found !
             </li>
         </ul>
     </div>

@@ -34,7 +34,7 @@
                     <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 col-val">
                         <div class="field-radio-wrapper row-val">
                             <input class="form-radio" type="radio" name="filter" id='r3' (change)="radiochangeData('batch')">
-                            <label for="r3" style="margin-right:90px;margin-left20px">Batch</label>
+                            <label for="r3" style="margin-right:90px;margin-left:20px">Batch</label>
                         </div>
                     </div>
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3"></div>
@@ -86,10 +86,19 @@
                     <div class="c-sm-1 c-xs-1 c-lg-1 c-md-1"></div>
                 </div>
                 <div class="row btn-wrap" *ngIf="isProfessional">
+                        <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3">
+                                <input type="button" class="normal-btn fullBlue btn" style="margin-top:-4px" value="Previous Week" (click)="fetchTimeTableReportPro('-1')"
+                                />
+                            </div>
+                            
                     <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
-                        <input type="button" class="normal-btn fullBlue btn" id="viewchange" value="View" style="margin-right:-797px;margin-bottom:-4px"
+                        <input type="button" class="normal-btn fullBlue btn"  value="View" style="margin-bottom:-4px"
                             (click)="fetchTimeTableReportPro('0')" />
                     </div>
+                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3">
+                            <input type="button" class="normal-btn fullBlue btn" id=shiftright value="Next Week" (click)="fetchTimeTableReportPro('1')"
+                            />
+                        </div>
                 </div>
                 <div class="row" *ngIf="!isProfessional">
                     <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
@@ -124,22 +133,21 @@
                     </div>
                 </div>
                 <div class="row btn-wrap" *ngIf="!isProfessional">
-
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                                <input type="button" class="normal-btn fullBlue btn" style="margin-top:-4px" value="Previous Week" (click)="fetchTimeTableReport('-1')"
+                                />
+                            </div>
                     <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
-                        <input type="button" class="normal-btn fullBlue btn" id="viewchange" value="View" style="margin-right: -797px" (click)="fetchTimeTableReport('0')"
+                        <input type="button" class="normal-btn fullBlue btn"  value="View"  (click)="fetchTimeTableReport('0')"
                         />
                     </div>
+                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                            <input type="button" class="normal-btn fullBlue btn"  value="Next Week" (click)="fetchTimeTableReport('1')"
+                            />
+                        </div>
+
                 </div>
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3">
-                    <input type="button" class="normal-btn fullBlue btn" style="margin-top:-4px" value="Previous Week" (click)="fetchTimeTableReport('-1')"
-                    />
-                </div>
-                <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6">
-                </div>
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3">
-                    <input type="button" class="normal-btn fullBlue btn" id=s hiftright value="Next Week" (click)="fetchTimeTableReport('1')"
-                    />
-                </div>
+               
             </section>
 
         </section>
