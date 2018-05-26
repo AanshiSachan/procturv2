@@ -69,7 +69,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.defaultSort;
         this.menuOptions;
         this.recordCount = this.records.length;
-        console.log(this.records.length +"::" +this.dataStatus);
+        console.log(this.records.length + "::" + this.dataStatus);
         this.updateTableBatchSize(this.displayBatchSize);
         this.refreshTable();
         if (this.settings) {
@@ -83,24 +83,31 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     }
     getColor(key, data) {
-       
+
         if (key == "student_category") {
+            let obj = {
+                'color': 'green'
+            }
+            let obj1 = {
+                'color': 'red'
+            }
+
+            let obj3 = {
+                'color': 'blue'
+            }
+
             if (data == "active") {
-                return 'green'
+                return obj
             }
             else if (data == "inactive") {
-                return 'red'
-            }
-            else if (data == "historical") {
-                return 'brown'
+                return obj1
             }
             else if (data == "archived") {
-                return 'blue';
+                return obj3;
             }
         }
 
     }
-
 
     selectAllRows(ev) {
         this.cd.markForCheck();

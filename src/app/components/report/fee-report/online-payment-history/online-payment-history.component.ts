@@ -18,11 +18,13 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
     { primaryKey: 'display_invoice_no', header: 'Receipt No' },
-    { primaryKey: 'paymentMode', header: 'Payment Mode' },
     { primaryKey: 'fee_type_name', header: 'Fee Type' },
     { primaryKey: 'installment_nos', header: 'Inst No' },
     { primaryKey: 'razor_payment_id', header: 'Gateway Payment Id' },
     { primaryKey: 'payment_status', header: 'Payment Status' },
+    { primaryKey: 'transerable_amount', header: 'Transferrable Amt(in Rs)' },
+    { primaryKey: 'razor_payment_gateway_fees', header: 'Payment Gateway Commission(in Rs)' },
+    { primaryKey: 'razor_GST_fees', header: 'GST(in Rs)' },
     { primaryKey: 'paid_date', header: 'Paid Date' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
     { primaryKey: 'student_category', header: 'Student Category' },
@@ -54,7 +56,7 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   helpMsg1: string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
   helpMsg2: string = " Fee(s)collected from archived students";
 
-  constructor(private login: LoginService,
+  constructor(
     private paymentService: OnlinePaymentServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService,
@@ -63,7 +65,9 @@ export class OnlinePaymentHistoryComponent implements OnInit {
   ngOnInit() {
     this.getAllPaymentRecords();
   }
-
+// ============================================================================
+// ============================================================================
+// for fetching data
   getAllPaymentRecords() {
     this.isRippleLoad = true;
     this.dataStatus = 1;
@@ -105,7 +109,10 @@ export class OnlinePaymentHistoryComponent implements OnInit {
           this.dataGetPayload.map(
             (ele:any)=>{
               ele.razor_payment_id = ele.onlinePaymentJson.razor_payment_id,
-              ele.payment_status = ele.onlinePaymentJson.payment_status
+              ele.payment_status = ele.onlinePaymentJson.payment_status,
+              ele.transerable_amount = ele.onlinePaymentJson.transerable_amount,
+              ele.razor_payment_gateway_fees = ele.onlinePaymentJson.razor_payment_gateway_fees,
+              ele.razor_GST_fees = ele.onlinePaymentJson.razor_GST_fees
             }
           )
           console.log(this.dataGetPayload);
@@ -123,22 +130,26 @@ export class OnlinePaymentHistoryComponent implements OnInit {
       )
     }
   }
-
-
-
+// ============================================================================
+// ============================================================================
+// for searching the history by name
   searchByName() {
+    this.sendPayload.from_date = "";
+    this.sendPayload.to_date = "";
     this.searchByNameVisible = true;
     this.removeSearchByName = false;
   }
-
-
+// ============================================================================
+// ============================================================================
+// for searching by date
   searchByDate() {
     this.searchName = "";
     this.removeSearchByName = true;
     this.searchByNameVisible = false;
   }
-
-
+// ============================================================================
+// ============================================================================
+// for finding the number from a regex
   isName(str) {
     let hasNumber = /\d/;
     if (hasNumber.test(str)) {
@@ -149,7 +160,9 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     }
   }
 
-
+// ============================================================================
+// ============================================================================
+// for searching data
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       // let searchData: any;
@@ -165,18 +178,24 @@ export class OnlinePaymentHistoryComponent implements OnInit {
       this.searchflag = false;
     }
   }
-
+// ============================================================================
+// ============================================================================
+// exporting to excel of json file
   exportToExcel(event) {
     let exportedArray: any[] = [];
     this.dataGetPayload.map((data:any)=>{
+      
       let obj={
         "Id" : data.student_disp_id,
         "Name" : data.student_name,
         "Reciept No" : data.display_invoice_no,
-        "Payment Mode" : data.paymentMode,
         "Fee Type" : data.fee_type_name,
         "Inst No" : data.installment_nos,
         "Gateway Payment Id" : data.onlinePaymentJson.razor_payment_id,
+        "Payment Method" : data.onlinePaymentJson.payment_method,
+        "Transferrable Amt(in Rs)" : data.onlinePaymentJson.transerable_amount,
+        "Payment Gateway Commission(in Rs)" :  data.onlinePaymentJson.razor_payment_gateway_fees,
+        "GST(in Rs)" : data.onlinePaymentJson.razor_GST_fees,
         "Payment Status" : data.onlinePaymentJson.payment_status,
         "Paid Date" : data.paid_date,
         "Amount Paid" : data.amount_paid_inRs,
@@ -191,12 +210,19 @@ export class OnlinePaymentHistoryComponent implements OnInit {
       'Students'
     )
   }
-
-  clearToDate(){
-    this.sendPayload.to_date = "";
+// ============================================================================
+// ============================================================================
+// for furure date validation
+  futureDateValid(selectDate) {
+    if (moment(selectDate).diff(moment()) > 0) {
+      let msg = {
+        type: "info",
+        body: "You cannot select future date"
+      }
+      this.appc.popToast(msg);
+      this.isRippleLoad = false;
+      this.sendPayload.from_date = moment().format('YYYY-MM-DD');
+      this.sendPayload.to_date = moment().format('YYYY-MM-DD');
+    }
   }
-  clearFromDate(){
-    this.sendPayload.from_date = "";
-  }
-
 }
