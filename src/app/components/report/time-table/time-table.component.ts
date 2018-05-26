@@ -393,21 +393,37 @@ export class TimeTableComponent implements OnInit {
   }
 
   printTimeTableData() {
-    document.getElementById('header').style.display = "none";
-    document.getElementById('commonLeftNav').style.display = "none";
-    document.getElementById('filterWrap').style.display = "none";
+
+    var header = document.getElementsByTagName('core-header');
+    var sidebar = document.getElementsByTagName('core-sidednav');
+
+    [].forEach.call(header, function (el) {
+      el.classList.add('hide');
+    });
+    [].forEach.call(sidebar, function (el) {
+      el.classList.add('hide');
+    });
+
     [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
       el.style.display = 'none';
     });
-    document.getElementById('tableHead').style.display = "block";
-    window.print();
 
+    document.getElementById('middle-sectionId').style.display = "none";
+    document.getElementById('printTimeTable').style.display = "block";
+    window.print();
+    document.getElementById('middle-sectionId').style.display = "block";
+    document.getElementById('printTimeTable').style.display = "none";
     document.getElementById('tableHead').style.display = "none";
     document.getElementById('header').style.display = "block";
     document.getElementById('commonLeftNav').style.display = "block";
-    document.getElementById('filterWrap').style.display = "block";
     [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
       el.style.display = 'block';
+    });
+    [].forEach.call(header, function (el) {
+      el.classList.remove('hide');
+    });
+    [].forEach.call(sidebar, function (el) {
+      el.classList.remove('hide');
     });
   }
 

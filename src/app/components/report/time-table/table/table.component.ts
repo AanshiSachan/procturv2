@@ -11,8 +11,8 @@ import * as moment from 'moment';
 
 export class tableComponent {
   @Input() recordInput: any[] = [];
-  @Input() courseName :any;
-  
+  @Input() courseName: any;
+
 
   ngOnInit() {
   }

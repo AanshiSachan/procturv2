@@ -13,7 +13,7 @@
         <ul class="time-body" *ngFor="let time of recordInput">
             <li class="time-item" *ngFor="let i of time.data">
                 <ul class="emptyclass" *ngIf="i == undefined">
-                    NA
+                    No Classes
                 </ul>
                 <ul *ngIf="i != undefined">
                     <li class="one">
@@ -26,15 +26,15 @@
                         (Regular)
                     </li>
                     <!---->
-                    <li *ngIf="i.class_type=='DOUBT'">
+                    <li *ngIf="i.class_type=='DOUBT'" style="font-size: 12px">
                         (Doubt)
                     </li>
 
-                    <li *ngIf="i.class_type =='REVISION'">
+                    <li *ngIf="i.class_type =='REVISION'" style="font-size: 12px">
                         (Revision)
                     </li>
-                   
-                    <li *ngIf="i.class_type =='EXTRA'">
+
+                    <li *ngIf="i.class_type =='EXTRA'" style="font-size: 12px">
                         (Extra)
                     </li>
 
@@ -47,7 +47,7 @@
                 </ul>
             </li>
             <div *ngIf="time.data.length == 0">
-                No Schedule Found
+                No Schedule Available
             </div>
         </ul>
     </div>

@@ -16,8 +16,8 @@ ul {
             }
             &.inner-date {
                 font-size: 14px;
-                margin-left: -11px;
-                font-size:28px;
+                margin-left: -4px;
+                font-size: 28px;
             }
             &.inner-day {
                 text-align: center;
@@ -69,32 +69,41 @@ ul {
     }
 }
 
-@media screen and (min-width:480px)and (max-width:600px) {
-  .emptyclass {
-        padding-top: 100px;
+@media screen and (min-width:470px)and (max-width:480px) {
+    .emptyclass {
+        padding-top: 150px;
         position: relative;
         bottom: 18px;
-    
     }
-}  
+}
 
-@media screen and (min-width:1281px){
+@media screen and (min-width:480px)and (max-width:600px) {
+    .emptyclass {
+        padding-top: 106px;
+        position: relative;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width:1281px) {
     .emptyclass {
         padding-top: 42px;
         position: relative;
         bottom: 18px;
-    }}
+    }
+}
 
-@media screen and (min-width :601px) and (max-width :768px){
+@media screen and (min-width :601px) and (max-width :768px) {
     .emptyclass {
-    padding-top: 85px;
-    position: relative;
-    bottom: 18px;
-}}
+        padding-top: 85px;
+        position: relative;
+        bottom: 18px;
+    }
+}
 
-@media screen and (min-width :769px) and (max-width: 1280px){
+@media screen and (min-width :769px) and (max-width: 1280px) {
     .emptyclass {
-     padding-top: 54px;
+        padding-top: 74px;
         position: relative;
         bottom: 18px;
     }
