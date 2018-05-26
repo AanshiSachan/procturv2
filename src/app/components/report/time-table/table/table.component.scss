@@ -1,0 +1,110 @@
+.timetablewrapepr {
+    width: 100%;
+    margin-bottom: 4%;
+}
+
+ul {
+    &.time-head {
+        li {
+            &.head-item {
+                display: inline-block;
+                width: 14%;
+                padding: 10px 10px 10px;
+                border-bottom: 1px solid #efefef;
+                border-left: 1px solid #efefef;
+                border-top: 1px solid #efefef;
+            }
+            &.inner-date {
+                font-size: 14px;
+                margin-left: -4px;
+                font-size: 28px;
+            }
+            &.inner-day {
+                text-align: center;
+            }
+        }
+    }
+    &.time-body {
+        display: inline-block;
+        width: 14%;
+        padding: 10px 10px 10px;
+        border-bottom: 1px solid #efefef;
+        border-left: 1px solid #efefef;
+        li {
+            &.time-item:not(:first-child) {
+                padding: 5px;
+                text-align: center;
+                border-top: 1px solid #efefef;
+                li {
+                    &.one {
+                        font-size: 14px;
+                    }
+                    &.two {
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                    &.three {
+                        font-size: 12px;
+                    }
+                }
+            }
+            &.time-item:first-child {
+                padding: 5px;
+                padding-top: 1px;
+                text-align: center;
+                li {
+                    &.one {
+                        font-size: 14px;
+                    }
+                    &.two {
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                    &.three {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width:470px)and (max-width:480px) {
+    .emptyclass {
+        padding-top: 150px;
+        position: relative;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width:480px)and (max-width:600px) {
+    .emptyclass {
+        padding-top: 106px;
+        position: relative;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width:1281px) {
+    .emptyclass {
+        padding-top: 42px;
+        position: relative;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width :601px) and (max-width :768px) {
+    .emptyclass {
+        padding-top: 85px;
+        position: relative;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width :769px) and (max-width: 1280px) {
+    .emptyclass {
+        padding-top: 74px;
+        position: relative;
+        bottom: 18px;
+    }
+}
