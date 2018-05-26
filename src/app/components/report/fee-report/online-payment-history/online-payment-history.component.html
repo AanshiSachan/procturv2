@@ -14,23 +14,24 @@
                         <a routerLink="/reports/fee">
                             Fee Report
                         </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Online Payment History
+                        <a (click)="searchByName()" class="showFilter" style="float:right; font-size:15px; font-weight: 100;" *ngIf="removeSearchByName">Show Name Filter</a>
+
                     </h2>
-                    <a (click)="searchByName()" class="showFilter" style="float:right;"  *ngIf="removeSearchByName">Show Name Filter</a>
-                    
-                    <div class="row report-header" style="margin-top:3%;">
+                   
+                    <div class="row">
                         <div class="c-lg-12">
                             <div class="c-lg-8" *ngIf="removeSearchByName">
                                 <div class="c-lg-12">
                                     <div class="c-lg-6 field-wrapper datePickerBox">
                                         <label for="from">From Date</label>
-                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date">
-                                        <a style="float:right" (click)="clearFromDate()">clear</a>
+                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+
                                     </div>
                                     <div class="c-lg-6 field-wrapper datePickerBox">
                                         <label for="from">To Date</label>
-                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.to_date">
-                                        <a style="float:right" (click)="clearToDate()">clear</a>
+                                        <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+
                                     </div>
                                 </div>
                                 <div class="c-lg-12" style="margin-top:3%;">
@@ -65,56 +66,53 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="c-lg-2"></div>
+                            <div class="c-lg-2" *ngIf="removeSearchByName">
+                                <div class="c-lg-12">
+                                    <div class="c-lg-6" style="color:green; margin-top:5%;">
+                                        <h5 style="display: inline-block;">Active</h5>
+                                    </div>
+                                    <div class="c-lg-6">
+                                        <aside class="pull-left">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
+                                            </rob-tooltip>
+                                        </aside>
+                                    </div>
+                                </div>
+                                <div class="c-lg-12">
+                                    <div class="c-lg-6" style="color:red ;margin-top:5%;">
+                                        <h5 style="display: inline-block;">Inactive</h5>
+                                    </div>
+                                    <div class="c-lg-6">
+                                        <aside class="pull-left">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
+                                            </rob-tooltip>
+                                        </aside>
+                                    </div>
+                                </div>
+                                <div class="c-lg-12">
+                                    <div class="c-lg-6" style="color:brown ;margin-top:5%;">
+                                        <h5 style="display: inline-block;">Historical</h5>
+                                    </div>
+                                    <div class="c-lg-6">
+                                        <aside class="pull-left">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
+                                            </rob-tooltip>
+                                        </aside>
+                                    </div>
+                                </div>
+                                <div class="c-lg-12">
+                                    <div class="c-lg-6" style="color:blue ;margin-top:5%;">
+                                        <h5 style="display: inline-block;">Archived</h5>
+                                    </div>
+                                    <div class="c-lg-6">
+                                        <aside class="pull-left">
+                                            <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
+                                            </rob-tooltip>
+                                        </aside>
+                                    </div>
+                                </div>
 
-                            <div class="c-lg-4" style="margin-top:2%;" *ngIf="removeSearchByName">
-                                <div class="c-lg-12">
-                                    <div class="c-lg-6">
-                                        <div>
-                                            <label style=" color:green;">Active</label>
-                                        </div>
-                                        <div style="position: relative;top: -25px;left:42px;right:0px;">
-                                            <aside class="pull-left">
-                                                <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
-                                                </rob-tooltip>
-                                            </aside>
-                                        </div>
-                                    </div>
-                                    <div class="c-lg-6">
-                                        <div>
-                                            <label style="color:red;">Inactive</label>
-                                        </div>
-                                        <div style="position: relative;top: -25px;left:50px;right:0px;">
-                                            <aside class="pull-left">
-                                                <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
-                                                </rob-tooltip>
-                                            </aside>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="c-lg-12">
-                                    <div class="c-lg-6">
-                                        <div>
-                                            <label style="color:brown;">Historical</label>
-                                        </div>
-                                        <div style="position: relative;top: -25px;left:60px;right:0px;">
-                                            <aside class="pull-left">
-                                                <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
-                                                </rob-tooltip>
-                                            </aside>
-                                        </div>
-                                    </div>
-                                    <div class="c-lg-6">
-                                        <div>
-                                            <label style="color:blue;">Archived</label>
-                                        </div>
-                                        <div style="position: relative;top: -25px;left:55px;right:0px;">
-                                            <aside class="pull-left">
-                                                <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
-                                                </rob-tooltip>
-                                            </aside>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="searchByNameVisible">
                                 <div class="c-lg-3 field-wrapper">
@@ -140,7 +138,7 @@
                 <div class="table-content">
                     <div style="margin: 10px;">
 
-                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;" class="showFilter">Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>

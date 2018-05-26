@@ -22,30 +22,29 @@
           <div class="row" *ngIf="searchByDateVisible">
 
             <div class="c-lg-12 field-made">
-              <div class="c-lg-8">
-                <div class="c-lg-12 upper">
-                  <div class="c-lg-6 field-wrapper datePickerBox">
-                    <label for="from">From Date</label>
-                    <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
-                    <a style="float:right" (click)="fromDateClear()">Clear</a>
+              <div class="c-lg-4 field-wrapper datePickerBox">
+                <label for="from">From Date</label>
+                <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
+              </div>
+              <div class="c-lg-4 field-wrapper datePickerBox">
+                <label for="to">To Date</label>
+                <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
+              </div>
+              <div class="c-lg-4" style="margin-top:2%;">
+                <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
+              </div>
+
+
+              <div style="padding-top: 20px" class="c-lg-12 lower">
+
+                <div class="c-lg-10 field-correspond">
+
+                  <div class="c-lg-4 field-radio-wrapper makeAdjust hide" style="text-align: left;">
+                    <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="0"
+                      checked="true" id="active">
+                    <label for="active">Active</label>
                   </div>
-                  <div class="c-lg-6 field-wrapper datePickerBox">
-                    <label for="to">To Date</label>
-                    <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
-                    <a style="float:right" (click)="toDateClear()">Clear</a>
-                  </div>
-                </div>
-
-                <div style="padding-top: 20px" class="c-lg-12 lower">
-
-                  <div class="c-lg-10 field-correspond">
-
-                    <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
-                      <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="0"
-                        checked="true" id="active">
-                      <label for="active">Active</label>
-                    </div>
-                    <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
+                  <!-- <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
                       <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="2"
                         id="allStudents">
                       <label for="allStudents">All Students</label>
@@ -63,20 +62,17 @@
                           </rob-tooltip>
                         </aside>
                       </div>
-                    </div>
-                  </div>
-
-
-                  <div class="c-lg-2">
-                    <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
-                  </div>
-
+                    </div> -->
                 </div>
+
+
+
               </div>
+            </div>
 
-              <div class="c-lg-2"></div>
 
-              <div class="c-lg-2">
+
+            <!-- <div class="c-lg-2">
                 <div class="c-lg-12">
                   <div class="c-lg-6" style="color:green; margin-top:5%;">
                     <h5 style="display: inline-block;">Active</h5>
@@ -122,11 +118,11 @@
                   </div>
                 </div>
 
-              </div>
-
-            </div>
+              </div> -->
 
           </div>
+
+
 
           <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="searchByNameVisible">
             <div class="c-lg-3 field-wrapper">
@@ -144,10 +140,10 @@
 
         </div>
 
-        <div *ngIf="showPaymentBox && allPaymentRecords.length > 0" class="filter-wrapping">
+        <div *ngIf="showPaymentBox && allPaymentRecords.length > 0">
 
           <div>
-            <div class="filter-box">
+            <div>
               <div class="c-lg-12">
                 <div class="c-lg-4">
                   <ul>
@@ -336,19 +332,19 @@
             <div class="c-lg-6 field-wrapper">
               <label>Bank Name</label>
               <span class="field-red">*</span>
-              <input type="text" [(ngModel)]="chequeDetailsJson.bank_name" class="form-ctrl">
+              <input type="text" [(ngModel)]="chequeDetailsJson.bank_name" class="form-ctrl" [value]="chequeDetails.bank_name">
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque No.</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_no">
+              <input type="text" class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_no" [value]="chequeDetails.cheque_no">
             </div>
           </div>
           <div class="row">
             <div class="c-lg-6 field-wrapper datePickerBox">
               <label>Cheque Date</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date">
+              <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date" [value]="chequeDetails.cheque_date">
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>

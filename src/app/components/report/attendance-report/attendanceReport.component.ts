@@ -9,6 +9,7 @@ import { searchPipe } from '../../shared/pipes/searchBarPipe';
 import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
 import { start } from 'repl';
 import { LoginService } from '../../../services/login-services/login.service';
+import { PAGINATION_CONTROL_VALUE_ACCESSOR } from '../../../../assets/imported_modules/ngx-bootstrap/pagination/pagination.component';
 
 
 @Component({
@@ -139,6 +140,11 @@ export class AttendanceReportComponent implements OnInit {
         (error: any) => {
           this.isRippleLoad = false;
           this.dataStatus = false;
+          let msg={
+            type : "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
           return error;
         }
       )
@@ -146,11 +152,18 @@ export class AttendanceReportComponent implements OnInit {
     else {
       this.reportService.getMasterCourse().subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false;
           this.masterCourses = data;
         },
         error => {
+          this.dataStatus = false;
           this.isRippleLoad = false;
+          let msg={
+            type : "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
           return error;
         }
       )
@@ -161,7 +174,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   getCourseData(i) {
     this.isRippleLoad = true;
-
+    this.dataStatus = true;
     this.queryParams.standard_id = i;
     this.queryParams.subject_id = "-1";
     this.queryParams.batch_id = "-1";
@@ -171,13 +184,19 @@ export class AttendanceReportComponent implements OnInit {
 
       this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
-
+          this.dataStatus = false;
           this.isRippleLoad = false;
           this.subjectPro = data.subjectLi;
           this.batchPro = data.batchLi;
         },
         (error: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false;
+          let msg={
+            type : "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
           return error;
         }
       )
@@ -185,12 +204,13 @@ export class AttendanceReportComponent implements OnInit {
       this.subjectPro = [];
     }
     else {
-
+      this.dataStatus = true;
       this.isRippleLoad = true;
       this.attendanceFetchForm.batch_id = "";
       this.attendanceFetchForm.course_id = "";
       this.reportService.getCourses(i).subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
@@ -200,7 +220,13 @@ export class AttendanceReportComponent implements OnInit {
         }
         ,
         (error: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false;
+          let msg={
+            type : "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
           return error;
         }
       )
@@ -215,12 +241,13 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   getSubjectData(i) {
     this.isRippleLoad = true;
-
+    this.dataStatus = true;
     this.queryParams.standard_id = this.queryParams.standard_id;
     if (this.isProfessional) {
 
       this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
@@ -229,7 +256,13 @@ export class AttendanceReportComponent implements OnInit {
           this.batchPro = data.batchLi;
         },
         (error: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false;
+          let msg={
+            type : "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
           return error;
         }
       )
@@ -239,6 +272,7 @@ export class AttendanceReportComponent implements OnInit {
       this.attendanceFetchForm.batch_id = "";
       this.reportService.getSubject(i).subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
@@ -255,7 +289,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   getBatchData(i) {
-
+    this.dataStatus = true;
     this.isRippleLoad = true;
     this.queryParams.standard_id = this.queryParams.standard_id;
     this.queryParams.batch_id = this.queryParams.batch_id;
@@ -263,6 +297,7 @@ export class AttendanceReportComponent implements OnInit {
 
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
@@ -275,6 +310,7 @@ export class AttendanceReportComponent implements OnInit {
     else {
       this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
           this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
           this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
@@ -306,7 +342,13 @@ export class AttendanceReportComponent implements OnInit {
 
         },
         (error: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false;
+          let msg={
+            type : "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
           return error;
         }
       )
@@ -328,7 +370,13 @@ export class AttendanceReportComponent implements OnInit {
           this.fetchTableDataByPage(this.PageIndex);
         },
         (error: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false;
+          let msg={
+            type : "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
           return error;
         }
       )
@@ -412,12 +460,18 @@ export class AttendanceReportComponent implements OnInit {
               }
               this.appc.popToast(msg);
               this.isRippleLoad = false;
+              this.dataStatus = false;
             }
 
           },
           (error: any) => {
             this.isRippleLoad = false;
             this.dataStatus = false;
+            let msg={
+              type : "error",
+              body: error.error.message
+            }
+            this.appc.popToast(msg);
             return error;
 
           }
@@ -463,7 +517,7 @@ export class AttendanceReportComponent implements OnInit {
         this.isRippleLoad = false;
       }
       else {
-        this.dataStatus = false;
+        this.dataStatus = true;
         this.typeAttendance = [];
         this.pageDetailedData = [];
         this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
@@ -493,11 +547,17 @@ export class AttendanceReportComponent implements OnInit {
               }
               this.appc.popToast(msg);
               this.isRippleLoad = false;
+              this.dataStatus = false;
             }
           },
           (error: any) => {
             this.isRippleLoad = false;
             this.dataStatus = false;
+            let msg={
+              type : "error",
+              body: error.error.message
+            }
+            this.appc.popToast(msg);
             return error;
 
           }

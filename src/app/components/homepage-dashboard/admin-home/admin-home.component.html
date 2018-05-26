@@ -604,7 +604,7 @@
 
     <div class="rescheduleWrapper" style="padding-left: 1%" widget-content>
 
-      <div class="row">
+      <div class="row dueDate" style="margin-left: -15px;">
 
         <div class="field-wrapper datePickerBox c-sm-4 c-md-4 c-lg-4" [ngClass]="{ 'has-value': reschedDate !='' }">
           <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
@@ -612,20 +612,20 @@
           <label for="reschDate">Reschedule Date</label>
         </div>
 
-        <div class="c-sm-4 c-md-4 c-lg-4">
+        <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:-15px;">
           <div class="form-wrapper timepick rescheduleTime" style="padding-left: 15px;">
             <label for="startTime">Start Time</label>
             <div class="tbox">
               <div class="times ">
-                <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
-                  <option [value]="time" *ngFor="let time of times">
+                <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime" style="height:38px;">
+                  <option [value]="time" *ngFor="let time of times" >
                     {{time}}
                   </option>
                 </select>
               </div>
               <div class="times">
-                <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
-                  <option *ngFor="let minute of minArr" [value]="minute">
+                <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute" style="height:38px;">
+                  <option *ngFor="let minute of minArr" [value]="minute" >
                     {{minute}}
                   </option>
                 </select>
@@ -634,20 +634,20 @@
           </div>
         </div>
 
-        <div class="c-sm-4 c-md-4 c-lg-4">
+        <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:-15px;">
           <div class="form-wrapper timepick rescheduleTime">
             <label for="endtime">End Time</label>
             <div class="tbox">
               <div class="times">
-                <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
-                  <option [value]="time" *ngFor="let time of times">
+                <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime" style="height:38px;">
+                  <option [value]="time" *ngFor="let time of times" >
                     {{time}}
                   </option>
                 </select>
               </div>
               <div class="times">
-                <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
-                  <option *ngFor="let minute of minArr" [value]="minute">
+                <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute" style="height:38px;">
+                  <option *ngFor="let minute of minArr" [value]="minute" >
                     {{minute}}
                   </option>
                 </select>

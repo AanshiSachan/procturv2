@@ -23,6 +23,8 @@ export class OnlinePaymentServiceService {
   }
 
   getAllPaymentRecords(obj){
+    obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
+    obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
     let url= this.baseUrl + "/api/v1/studentWise/fee/feesReport/onlinePayment/pastHistory/" + this.institute_id + "/details";
     return this.http.post(url ,obj, {headers:this.headers}).map(
       (data:any)=>{
