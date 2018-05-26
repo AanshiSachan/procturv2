@@ -22,6 +22,9 @@ export class OnlinePaymentHistoryComponent implements OnInit {
     { primaryKey: 'installment_nos', header: 'Inst No' },
     { primaryKey: 'razor_payment_id', header: 'Gateway Payment Id' },
     { primaryKey: 'payment_status', header: 'Payment Status' },
+    { primaryKey: 'transerable_amount', header: 'Transferrable Amt(in Rs)' },
+    { primaryKey: 'razor_payment_gateway_fees', header: 'Payment Gateway Commission(in Rs)' },
+    { primaryKey: 'razor_GST_fees', header: 'GST(in Rs)' },
     { primaryKey: 'paid_date', header: 'Paid Date' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
     { primaryKey: 'student_category', header: 'Student Category' },
@@ -106,7 +109,10 @@ export class OnlinePaymentHistoryComponent implements OnInit {
           this.dataGetPayload.map(
             (ele:any)=>{
               ele.razor_payment_id = ele.onlinePaymentJson.razor_payment_id,
-              ele.payment_status = ele.onlinePaymentJson.payment_status
+              ele.payment_status = ele.onlinePaymentJson.payment_status,
+              ele.transerable_amount = ele.onlinePaymentJson.transerable_amount,
+              ele.razor_payment_gateway_fees = ele.onlinePaymentJson.razor_payment_gateway_fees,
+              ele.razor_GST_fees = ele.onlinePaymentJson.razor_GST_fees
             }
           )
           console.log(this.dataGetPayload);

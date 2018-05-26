@@ -42,7 +42,7 @@
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])" >
+                                        <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
                                             {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header }}
                                         </li>
                                         <li class="option-menu" *ngIf="hasMenu">
@@ -50,7 +50,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                
+
                                 <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 1">
                                     <ul class="ul-body ct-ongoing" *ngFor="let dummy of dummyArr">
                                         <li *ngIf="isMulti">
@@ -67,7 +67,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                
+
                                 <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 2">
                                     <ul class="ul-body ct-ongoing">
                                         <li style="width: 100%;">
@@ -94,6 +94,5 @@
 </section>
 
 <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-[page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
-[count]="recordCount">
+    [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)" [count]="recordCount">
 </pagination>

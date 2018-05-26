@@ -67,7 +67,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'paid_date', header: 'Paid Date' },
     { primaryKey: 'reference_no', header: 'Ref No' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
-    { primaryKey: 'student_category', header: 'Student Category' },
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
   ];
 
@@ -112,6 +111,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     cheque_no: "",
     cheque_status_id: ""
   }
+
+  chequeDetails:any[] = [];
 
   temporaryRecords: any[] = [];
 
@@ -202,20 +203,15 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
-
-  fromDateClear() {
-    this.sendPayload.from_date = ""
-  }
-  toDateClear() {
-    this.sendPayload.to_date = ""
-  }
   editPerPersonData(ev, i) {
     let queryParameters = {
       financial_year: i.financial_year
     }
     this.addReportPopUp = true;
     this.payment.getPerPersonData(queryParameters, i).subscribe(
+
       (data: any) => {
+       
         this.perPersonData = data.feeSchedule_TxLst;
       },
       (error: any) => {
@@ -229,6 +225,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
     )
     console.log(this.perPersonData);
+    console.log(this.chequeDetails);
   }
 
 
@@ -272,49 +269,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
-
-
-  fetchTableDataByPage(index) {
-    this.PageIndex = index;
-    let startindex = this.pagedisplaysize * (index - 1);
-    this.paginatedPayment = this.getDataFromDataSource(startindex);
-  }
-
-
-
-
-  fetchNext() {
-    this.PageIndex++;
-    this.fetchTableDataByPage(this.PageIndex);
-  }
-
-
-
-
-  fetchPrevious() {
-    if (this.PageIndex != 1) {
-      this.PageIndex--;
-      this.fetchTableDataByPage(this.PageIndex);
-    }
-  }
-
-
-
-
-  getDataFromDataSource(startindex) {
-    if (this.searchflag) {
-      let t = this.searchData.slice(startindex, startindex + this.pagedisplaysize);
-      return t;
-    }
-    else {
-      let d = this.allPaymentRecords.slice(startindex, startindex + this.pagedisplaysize);
-      return d;
-    }
-  }
-
-
-
-
   futureDateValid(selectDate) {
     if (moment(selectDate).diff(moment()) > 0) {
       let msg = {
@@ -347,12 +301,9 @@ export class PaymentHistoryMainComponent implements OnInit {
           return 0;
         }
       });
-      this.PageIndex = 1;
-      this.fetchTableDataByPage(this.PageIndex);
+     
     }
   }
-
-
 
 
   getCaretVisiblity(e): boolean {
@@ -371,6 +322,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.personData = e.data;
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
+        this.chequeDetails = data.chequeDetailsJson;
         this.updationArray = data;
         if (data.feeSchedule_TxLst.length) {
 
@@ -380,6 +332,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             return e;
           });
           console.log(this.perPersonData);
+          console.log(this.chequeDetails);
           this.updatedResult.paymentMode = this.perPersonData[0].paymentMode;
           if(this.updatedResult.paymentMode == "Cheque/PDC/DD No."){
             this.isChequePayment = true;

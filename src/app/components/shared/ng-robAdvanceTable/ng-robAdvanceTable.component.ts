@@ -84,7 +84,6 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
     getColor(key, data) {
 
-
         if (key == "student_category") {
             let obj = {
                 'color': 'green'
@@ -92,9 +91,7 @@ export class RobAdvanceTableComponent implements OnChanges {
             let obj1 = {
                 'color': 'red'
             }
-            let obj2 = {
-                'color': 'brown'
-            }
+
             let obj3 = {
                 'color': 'blue'
             }
@@ -105,13 +102,11 @@ export class RobAdvanceTableComponent implements OnChanges {
             else if (data == "inactive") {
                 return obj1
             }
-            else if (data == "historical") {
-                return obj2
-            }
             else if (data == "archived") {
                 return obj3;
             }
         }
+
     }
 
     selectAllRows(ev) {
