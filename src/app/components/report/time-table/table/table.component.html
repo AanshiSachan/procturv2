@@ -1,5 +1,5 @@
 <section class="timetablewrapepr">
-
+    <h3 style="text-align:center">{{courseName}}</h3>
     <ul class="time-head" *ngIf="recordInput.length">
         <li class="head-item" *ngFor="let head of recordInput">
             <ul>
@@ -22,7 +22,7 @@
                     <li *ngIf="i.class_type=='Exam'" class="two" style="background-color:red">
                         (Exam)
                     </li>
-                    <li *ngIf="i.class_type=='REGULAR'" class="two" style="background-color:#04b8e6">
+                    <li *ngIf="i.class_type=='REGULAR' || i.class_type=='WEEK'" class="two" style="background-color:#04b8e6">
                         (Regular)
                     </li>
                     <!---->

@@ -12,7 +12,7 @@ import * as moment from 'moment';
 export class TimeTableComponent implements OnInit {
   flag: boolean = false;
   courseData: any = [];
-  notProTimeTable=[];
+  notProTimeTable = [];
   subjectData: any = [];
   emptytimeTable: boolean = false;
   masterCoursesData: any = [];
@@ -20,6 +20,7 @@ export class TimeTableComponent implements OnInit {
   timeTableObj: any;
   timeTablePrint: any = [];
   datesArr = [];
+  namesArr = [];
   timeTableArr = [];
   onlyMasterData: boolean = false;
   showtable: boolean;
@@ -33,7 +34,7 @@ export class TimeTableComponent implements OnInit {
   maxEntries = 0;
   startdateweek = moment().startOf('week').add(1, 'day').format('DD-MMM-YYYY');
   enddateweek = moment().endOf('week').add(1, 'day').format('DD-MMM-YYYY');
-
+  showFilters = true;;
   fetchFieldData = {
     batch_id: "-1",
     course_id: "-1",
@@ -139,7 +140,7 @@ export class TimeTableComponent implements OnInit {
   getSubjects(i) {
     if (this.isProfessional) {
       this.fetchFieldDataPro.batch_id = "-1";
-      this.onlyMasterData = false;
+
       this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
         (
         res => {
@@ -151,6 +152,7 @@ export class TimeTableComponent implements OnInit {
         )
     }
     else {
+      this.onlyMasterData = false;
       this.fetchFieldData.batch_id = "-1";
       this.timeTableServ.getSubjectData(i).subscribe
         (
@@ -179,9 +181,17 @@ export class TimeTableComponent implements OnInit {
       )
   }
 
+  toggleFilter() {
+    if (this.showFilters) {
+      this.showFilters = false;
+    } else {
+      this.showFilters = true;
+    }
+  }
+
   fetchTimeTableReport(flag) {
     this.datesArr = [];
-    if (this.fetchFieldData.master_course == "-1" && this.fetchFieldData.teacher_id == "-1") {
+    if (this.fetchFieldData.master_course == "" && this.fetchFieldData.teacher_id == "-1") {
       let obj = {
         type: "error",
         title: "Unable to Fetch Report",
@@ -203,27 +213,31 @@ export class TimeTableComponent implements OnInit {
       this.startdateweek = moment().startOf('week').add(1, 'day').format('DD-MMM-YYYY');
       this.enddateweek = moment().endOf('week').add(1, 'day').format('DD-MMM-YYYY');
     }
+    this.toggleFilter();
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-        this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
-      ( 
+    this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
+      (
       res => {
-        this.notProTimeTable=[];
+        this.notProTimeTable = [];
+        this.namesArr = [];
         this.datesArr = [];
         if (res.length != 0 && this.onlyMasterData) {
-         
-          res.map((element)=>{
-          this.timeTableObj=element.batchTimeTableList;
+
+          res.map((element) => {
+            this.namesArr.push(element.course_name);
+            this.timeTableObj = element.batchTimeTableList;
             this.maxEntries = 0;
             this.maxDataLengthCount();
             this.timetableDataConstructor();
-
           })
-        //  this.timeTableObj = res[0].batchTimeTableList;
+          console.log(this.namesArr);
+          //  this.timeTableObj = res[0].batchTimeTableList;
         }
 
         else {
           this.timeTableObj = res.batchTimeTableList;
+          this.namesArr.push(res.course_name);
           this.maxEntries = 0;
           this.maxDataLengthCount();
           this.timetableDataConstructor();
@@ -235,7 +249,7 @@ export class TimeTableComponent implements OnInit {
           }
           this.datesArr.push(obj);
         }
-      
+
         this.showtable = true;
       },
       err => {
@@ -302,10 +316,10 @@ export class TimeTableComponent implements OnInit {
       this.startdateweek = moment().startOf('week').add(1, 'day').format('DD-MMM-YYYY');
       this.enddateweek = moment().endOf('week').add(1, 'day').format('DD-MMM-YYYY');
     }
-
+    this.toggleFilter();
     this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-  
+
     this.timeTableServ.getTimeTable(this.fetchFieldDataPro).subscribe
       (
       res => {
@@ -364,7 +378,7 @@ export class TimeTableComponent implements OnInit {
         element.data.length = this.maxEntries;
       })
     }
-    if(!this.isProfessional){
+    if (!this.isProfessional) {
       this.notProTimeTable.push(this.timeTableArr);
     }
     console.log(this.timeTableArr);
@@ -377,9 +391,24 @@ export class TimeTableComponent implements OnInit {
       }
     }
   }
-  printTimeTableData(){
-  //  this.window.print();
-  
+
+  printTimeTableData() {
+    document.getElementById('header').style.display = "none";
+    document.getElementById('commonLeftNav').style.display = "none";
+    document.getElementById('filterWrap').style.display = "none";
+    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
+      el.style.display = 'none';
+    });
+    document.getElementById('tableHead').style.display = "block";
+    window.print();
+
+    document.getElementById('tableHead').style.display = "none";
+    document.getElementById('header').style.display = "block";
+    document.getElementById('commonLeftNav').style.display = "block";
+    document.getElementById('filterWrap').style.display = "block";
+    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
+      el.style.display = 'block';
+    });
   }
 
 }

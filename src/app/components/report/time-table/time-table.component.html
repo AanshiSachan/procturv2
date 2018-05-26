@@ -2,7 +2,7 @@
 </loaders-css>
 <div class="middle-section clear-fix">
     <aside class="middle-full">
-        <section class="middle-main clearFix attendance-container">
+        <section class="middle-main clearFix attendance-container" id="filterWrap">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
                     <a routerLink="/reports/home">
@@ -14,140 +14,155 @@
                 <aside class="pull-right">
                 </aside>
             </section>
-            <section class="filter-form">
-                <div class="row" style="text-align:center" *ngIf="isProfessional">
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3"></div>
-                    <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 col-val" style="width:7.66667%;margin-left:129px;">
-                        <div class="field-radio-wrapper row-val">
-                            <input class="form-radio" type="radio" name="filter" id='r1' (change)="radiochangeData('all')" checked="checked">
-                            <label for="r1" style="margin-left:21px">All</label>
+
+            <div *ngIf="showFilters">
+                <section class="filter-form">
+                    <div class="row" style="text-align:center" *ngIf="isProfessional">
+                        <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3"></div>
+                        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 col-val" style="width:7.66667%;margin-left:129px;">
+                            <div class="field-radio-wrapper row-val">
+                                <input class="form-radio" type="radio" name="filter" id='r1' (change)="radiochangeData('all')" checked="checked">
+                                <label for="r1" style="margin-left:21px">All</label>
+                            </div>
+
+                        </div>
+                        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 col-val" style="width:7.66667%">
+                            <div class="field-radio-wrapper row-val">
+                                <input class="form-radio" type="radio" name="filter" id='r2' (change)="radiochangeData('teacher')">
+                                <label for="r2" style="margin-left:23px">Teacher</label>
+                            </div>
+                        </div>
+                        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 col-val">
+                            <div class="field-radio-wrapper row-val">
+                                <input class="form-radio" type="radio" name="filter" id='r3' (change)="radiochangeData('batch')">
+                                <label for="r3" style="margin-right:90px;margin-left:20px">Batch</label>
+                            </div>
+                        </div>
+                        <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3"></div>
+                    </div>
+                    <div class="row" style="text-align:center; padding-bottom:28px;margin-top:-13px;" *ngIf="isProfessional && teacherBox">
+                        <hr style="margin-bottom: -3px">
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4"></div>
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
+                            <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldDataPro.teacher_id">
+                                <option value="-1">Teachers</option>
+                                <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
+                            </select>
+                        </div>
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4"></div>
+                    </div>
+                    <div class="row" style="text-align:center; margin-top: -13px;padding-bottom:28px" *ngIf="isProfessional && batchBox">
+                        <hr style="margin-bottom: -3px">
+                        <!-- <div class="c-sm-1 c-xs-1 c-lg-1 c-md-1"></div> -->
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
+                            <label>Master Course</label>
+                            <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldDataPro.standard_id" name="masterCourse" (ngModelChange)="getCourses($event)">
+                                <option value="-1"></option>
+                                <option *ngFor="let i of masterPro" [value]="i.standard_id">{{i.standard_name}}</option>
+                            </select>
+                        </div>
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
+                            <label>Course</label>
+                            <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldDataPro.subject_id" (ngModelChange)="getSubjects($event)">
+                                <option value="-1"></option>
+                                <option *ngFor="let i of coursePro" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
+                            </select>
+                        </div>
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
+                            <label>Batch</label>
+                            <select class="form-ctrl" id="three" [(ngModel)]="fetchFieldDataPro.batch_id">
+                                <option value="-1"></option>
+                                <option *ngFor="let i of batchPro" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+                            </select>
+                        </div>
+                        <!-- <div class="c-sm-1 c-xs-1 c-lg-1 c-md-1"></div> -->
+                    </div>
+                    <div class="row btn-wrap" *ngIf="isProfessional">
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                            <input type="button" class="normal-btn fullBlue btn" value="View" style="margin-bottom:-4px" (click)="fetchTimeTableReportPro('0')"
+                            />
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="!isProfessional">
+                        <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+                            <label>Master Course</label>
+                            <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.master_course" (ngModelChange)="getCourses($event)" name="masterCourse">
+                                <option value=""></option>
+                                <option *ngFor="let i of masterCoursesData" [value]="i.master_course">{{i.master_course}}</option>
+                            </select>
                         </div>
 
-                    </div>
-                    <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 col-val" style="width:7.66667%">
-                        <div class="field-radio-wrapper row-val">
-                            <input class="form-radio" type="radio" name="filter" id='r2' (change)="radiochangeData('teacher')">
-                            <label for="r2" style="margin-left:23px">Teacher</label>
+                        <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+                            <label>Course</label>
+                            <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.course_id" (ngModelChange)="getSubjects($event)">
+                                <option value="-1"></option>
+                                <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
+                            </select>
+                        </div>
+                        <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+                            <label>Subjects</label>
+                            <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id">
+                                <option value="-1"></option>
+                                <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+                            </select>
+                        </div>
+                        <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+                            <label>Teachers</label>
+                            <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.teacher_id">
+                                <option value="-1"></option>
+                                <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 col-val">
-                        <div class="field-radio-wrapper row-val">
-                            <input class="form-radio" type="radio" name="filter" id='r3' (change)="radiochangeData('batch')">
-                            <label for="r3" style="margin-right:90px;margin-left:20px">Batch</label>
+                    <div class="row btn-wrap" *ngIf="!isProfessional">
+                        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                            <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchTimeTableReport('0')" />
                         </div>
                     </div>
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3"></div>
-                </div>
-                <div class="row" style="text-align:center; padding-bottom:28px;margin-top:-13px;" *ngIf="isProfessional && teacherBox">
-                    <hr style="margin-bottom: -3px">
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4"></div>
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
-                        <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldDataPro.teacher_id">
-                            <option value="-1">Teachers</option>
-                            <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
-                        </select>
-                    </div>
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4"></div>
-                </div>
-                <div class="row" style="text-align:center; margin-top: -13px;padding-bottom:28px" *ngIf="isProfessional && batchBox">
-                    <hr style="margin-bottom: -3px">
-                    <!-- <div class="c-sm-1 c-xs-1 c-lg-1 c-md-1"></div> -->
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
-                        <label>Master Course</label>
-                        <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldDataPro.standard_id" name="masterCourse" (ngModelChange)="getCourses($event)">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of masterPro" [value]="i.standard_id">{{i.standard_name}}</option>
-                        </select>
-                    </div>
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
-                        <label>Course</label>
-                        <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldDataPro.subject_id" (ngModelChange)="getSubjects($event)">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of coursePro" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
-                        </select>
-                    </div>
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 field-wrapper">
-                        <label>Batch</label>
-                        <select class="form-ctrl" id="three" [(ngModel)]="fetchFieldDataPro.batch_id">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of batchPro" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
-                        </select>
-                    </div>
-                    <!-- <div class="c-sm-1 c-xs-1 c-lg-1 c-md-1"></div> -->
-                </div>
+                </section>
                 <div class="row btn-wrap" *ngIf="isProfessional">
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
-                        <input type="button" class="normal-btn fullBlue btn" value="View" style="margin-bottom:-4px" (click)="fetchTimeTableReportPro('0')"
+                    <div class="grid-data">
+                        <input type="button" class="fullBlue btn pull-right" value="Previous Week" (click)="fetchTimeTableReportPro('-1')" />
+                    </div>
+                    <div class="btn-frame">
+                        <input type="button" class="fullBlue btn button-display pull-right" id=shiftright value="Next Week" (click)="fetchTimeTableReportPro('1')"
                         />
                     </div>
-                </div>
-                <div class="row" *ngIf="!isProfessional">
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <label>Master Course</label>
-                        <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.master_course" (ngModelChange)="getCourses($event)" name="masterCourse">
-                            <option value=""></option>
-                            <option *ngFor="let i of masterCoursesData" [value]="i.master_course">{{i.master_course}}</option>
-                        </select>
+                    <div class="grid-datadisplay">
+                        <input type="button" class="fullBlue btn" value="Print TimeTable" (click)="printTimeTableData()" />
                     </div>
 
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <label>Course</label>
-                        <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldData.course_id" (ngModelChange)="getSubjects($event)">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
-                        </select>
-                    </div>
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <label>Subjects</label>
-                        <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
-                        </select>
-                    </div>
-                    <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-                        <label>Teachers</label>
-                        <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.teacher_id">
-                            <option value="-1"></option>
-                            <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="row btn-wrap" *ngIf="!isProfessional">
-                    <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
-                        <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchTimeTableReport('0')" />
+                    <div class="grid-data">
+                        <input type="button" class="fullBlue btn pull-right" value="Previous Week" (click)="fetchTimeTableReport('-1')" />
+                    </div>
+                    <div class="btn-frame">
+                        <input type="button" class="fullBlue btn  button-display pull-right" value="Next Week" (click)="fetchTimeTableReport('1')"
+                        />
+                    </div>
+
+                    <div class="grid-datadisplay">
+                        <input type="button" class="fullBlue btn" value="Print TimeTable" (click)="printTimeTableData()" />
                     </div>
                 </div>
-            </section>
-            <div class="row btn-wrap" *ngIf="isProfessional">
-                <div class="grid-data">
-                    <input type="button" class="fullBlue btn pull-right" value="Previous Week" (click)="fetchTimeTableReportPro('-1')" />
-                </div>
-                <div class="btn-frame">
-                    <input type="button" class="fullBlue btn button-display pull-right" id=shiftright value="Next Week" (click)="fetchTimeTableReportPro('1')"
-                    />
-                </div>
-                <div class="grid-datadisplay">
-                    <input type="button" class="fullBlue btn" value="Print TimeTable" (click)="printTimeTableData()" />
-                </div>
-
             </div>
-            <div class="row btn-wrap" *ngIf="!isProfessional">
-                <div class="grid-data">
-                    <input type="button" class="fullBlue btn pull-right" value="Previous Week" (click)="fetchTimeTableReport('-1')" />
-                </div>
-                <div class="btn-frame">
-                    <input type="button" class="fullBlue btn  button-display pull-right" value="Next Week" (click)="fetchTimeTableReport('1')"
+            <div *ngIf="!showFilters">
+                <!-- <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                </div> -->
+                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 showFilterBtn">
+                    <input type="button" class="normal-btn fullBlue btn" value="Show Filters" (click)="toggleFilter()"
                     />
                 </div>
-                <div class="grid-datadisplay">
-                    <input type="button" class="fullBlue btn" value="Print TimeTable" (click)="printTimeTableData()" />
-                </div>
+                <!-- <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                </div> -->
             </div>
         </section>
         <section class="clearFix calender-view1">
-            <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} - {{enddateweek}}</h4>
+            <h3 id="tableHead" style="text-align:center; display:none">Proctur Time-Table</h3>
+            <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} To {{enddateweek}}</h4>
             <div *ngIf="!isProfessional">
-                <time-table *ngFor="let rec of notProTimeTable" [recordInput]="rec">
+                <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
                 </time-table>
             </div>
             <div *ngIf="isProfessional">
