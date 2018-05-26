@@ -41,17 +41,24 @@ export class HomeComponent implements OnInit {
   }
 
   checkUserAccess() {
+    
     const permissionArray = sessionStorage.getItem('permissions');
     const userType = sessionStorage.getItem('userType');
     if (userType == '3') {
       this.isAdmin = false;
-    } else {
+    }
+    else if (userType == '0') {
       if (permissionArray == "" || permissionArray == null) {
         this.isAdmin = true;
-      } else {
-        this.isAdmin = false;
+      } 
+      else {
+        let perm: any[] = JSON.parse(permissionArray);
+        if (perm.indexOf('102') != -1) { 
+          this.isAdmin = true;
+        }
       }
     }
+    
   }
 
 }
