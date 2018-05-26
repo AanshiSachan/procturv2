@@ -19,6 +19,7 @@
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
           </h2>
           <a (click)="searchByName()" class="showFilter" style="float:right;" *ngIf="searchByDateVisible">Show Name Filter</a>
+          <a (click)="searchByDate()" class="showFilter" *ngIf="searchByNameVisible" style="float: right;">Hide Name Filter</a>
           <div class="row" *ngIf="searchByDateVisible">
 
             <div class="c-lg-12 field-made">
@@ -134,7 +135,7 @@
 
               <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
 
-              <a (click)="searchByDate()" class="showFilter">Remove Search By Name Filter</a>
+              
             </div>
           </div>
 
@@ -332,19 +333,19 @@
             <div class="c-lg-6 field-wrapper">
               <label>Bank Name</label>
               <span class="field-red">*</span>
-              <input type="text" [(ngModel)]="chequeDetailsJson.bank_name" class="form-ctrl" [value]="chequeDetails.bank_name">
+              <input type="text" [(ngModel)]="chequeDetails.bank_name" class="form-ctrl" >
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque No.</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_no" [value]="chequeDetails.cheque_no">
+              <input type="text" class="form-ctrl" name="cheque_no"  [(ngModel)]="chequeDetails.cheque_no">
             </div>
           </div>
           <div class="row">
             <div class="c-lg-6 field-wrapper datePickerBox">
               <label>Cheque Date</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date" [value]="chequeDetails.cheque_date">
+              <input type="text" class="form-ctrl"  name="cheque_date" bsDatepicker [(ngModel)]="chequeDetails.cheque_date" >
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>

@@ -9,7 +9,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 export class FeeReportHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
-  enable_online_payment_feature: number;
+  enable_online_payment: string = "";
 
 
   constructor(private auth: AuthenticatorService) { }
@@ -26,7 +26,7 @@ export class FeeReportHomeComponent implements OnInit {
         }
       }
     )
-    
+    this.enable_online_payment = JSON.parse(sessionStorage.getItem('institute_info')).enable_online_payment_feature
   }
 
 }
