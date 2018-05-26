@@ -897,12 +897,11 @@ div#enqChart {
                 display: inline-flex;
                 width: 200px;
                 margin: 0px 25px;
-                padding-top: 4px;
-                //height: 25px;
-                ul{
+                padding-top: 4px; //height: 25px;
+                ul {
                     list-style: none;
                     width: 100%;
-                    li{
+                    li {
                         background: #fff;
                         display: inline-block;
                         width: 45%;
@@ -910,7 +909,7 @@ div#enqChart {
                         border: 1px solid #0084f6;
                         cursor: pointer;
                         color: #0084f6;
-                        &.active{
+                        &.active {
                             background: #0084f6;
                             color: #fff;
                         }
@@ -2235,4 +2234,8 @@ div#enqChart {
         left: 35px !important;
         top: -30px !important;
     }
+}
+
+.paddingLess {
+    padding: 1px 5px !important;
 }

@@ -169,7 +169,7 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
-    
+
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.fetchWidgetPrefill();
@@ -939,6 +939,7 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.grid.refreshItems().layout();
         let tempArr: any[] = [];
         for (let o in res) {
@@ -964,6 +965,7 @@ export class AdminHomeComponent implements OnInit {
                 standard_id: res[o].standard_id,
                 standard_name: res[o].standard_name,
                 start_date: res[o].start_date,
+                isExam: false
               }
               tobj.is_attendance_marked = is_attendance_marked[i];
               tobj.course_ids = idArr[i];
@@ -976,10 +978,10 @@ export class AdminHomeComponent implements OnInit {
           }
         }
         this.courseLevelSchedule = tempArr;
-        this.isRippleLoad = false;
-        // this.isSubjectView = false;
+        this.generateCourseLevelExam();
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
         this.grid.refreshItems().layout();
       }
@@ -2233,13 +2235,17 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
       this.grid.refreshItems().layout();
       this.schedStat = data;
-      this.getExamSchedule(obj);
-      this.addKeyInData(this.schedStat.otherSchd, "isExam", false);
+      if (this.isProfessional) {
+        this.getExamSchedule(obj);
+        this.addKeyInData(this.schedStat.otherSchd, "isExam", false);
+      }
       this.classScheduleCount = this.schedStat.otherSchd.length;
     }, err => {
       this.classScheduleCount = 0;
       console.log(err);
-      this.getExamSchedule(obj);
+      if (this.isProfessional) {
+        this.getExamSchedule(obj);
+      }
     })
   }
 
@@ -2522,24 +2528,24 @@ export class AdminHomeComponent implements OnInit {
 
   // Send Reminder ///
 
-  // sendReminderForCourse(data) {
-  //   if (confirm('Are you sure, You want to notify?')) {
-  //     let obj = {
-  //       course_exam_schedule_id: data.course_exam_schedule_id,
-  //       course_id: data.course_id,
-  //       requested_date: moment(data.requested_date).format('YYYY-MM-DD')
-  //     }
-  //     this.widgetService.sendReminder(obj).subscribe(
-  //       res => {
-  //         this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
-  //       },
-  //       err => {
-  //         console.log(err);
-  //         this.messageNotifier('error', 'Error', err.error.message);
-  //       }
-  //     )
-  //   }
-  // }
+  sendReminderForCourse(data) {
+    if (confirm('Are you sure, You want to notify?')) {
+      let obj = {
+        course_exam_schedule_id: data.course_exam_schedule_id,
+        course_id: data.course_id,
+        requested_date: moment(data.requested_date).format('YYYY-MM-DD')
+      }
+      this.widgetService.sendReminder(obj).subscribe(
+        res => {
+          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
+        },
+        err => {
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
 
   // Exam Marks Update
 
@@ -2694,6 +2700,315 @@ export class AdminHomeComponent implements OnInit {
       return "hide";
     } else {
       return "";
+    }
+  }
+
+  /// Course Level Exam Schedule For Course Model
+
+  courseExamAttPopup: boolean = false;
+  courseExamMarkPopup: boolean = false;
+
+  generateCourseLevelExam() {
+    let obj = {
+      start_date: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
+      end_date: moment(this.courseLevelSchedDate).format('YYYY-MM-DD')
+    }
+    this.widgetService.getCourseExamFromServer(obj).subscribe(
+      res => {
+        console.log(res);
+        this.addKeyInData(res, "isExam", true);
+        let result = this.courseLevelSchedule.concat(res);
+        this.courseLevelSchedule = result;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  markAttendanceExamCourse(exam) {
+    this.tempData = exam;
+    this.courseExamAttPopup = true;
+    this.studentList = [];
+    this.getExamStudentList(exam.course_exam_schedule_id);
+  }
+
+  getExamStudentList(id) {
+    this.isRippleLoad = true;
+    this.widgetService.getExamStudentsList(id).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.studentList = this.addKeys(res, false);
+        if (this.courseExamMarkPopup) {
+          this.makeTableHeader();
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  markAttendaceExamCourse(event, rowData, index) {
+    if (event.target.innerText == "L") {
+      this.studentList[index].attendance = "L";
+      this.studentList[index].isAttendanceUpdated = "Y";
+    } else if (event.target.innerText == "A") {
+      this.studentList[index].attendance = "A";
+      this.studentList[index].isAttendanceUpdated = "Y";
+    } else {
+      this.studentList[index].attendance = "P";
+      this.studentList[index].isAttendanceUpdated = "Y";
+    }
+  }
+
+  markAttCourseExam() {
+    let data = this.constructJsonForAttendance();
+    if (data.length == 0) {
+      this.messageNotifier('error', 'Error', 'Please select student from student list');
+      return;
+    } else {
+      this.isRippleLoad = true;
+      this.widgetService.markStudentAttendance(data).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Marked', 'Attendance Marked Successfully');
+          this.closePopUpCommon();
+          this.generateCourseLevelWidget();
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  constructJsonForAttendance() {
+    let arr = [];
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].assigned) {
+        let obj: any = {};
+        obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
+        // obj.course_marks_update_level = this.studentList[i].course_marks_update_level;
+        obj.course_marks_update_level = '1';
+        obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
+        obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
+        obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
+        obj.student_id = this.studentList[i].student_id;
+        obj.isUpdated = this.studentList[i].isUpdated;
+        obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
+        obj.attendance = this.studentList[i].attendance;
+        obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+        obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
+        arr.push(obj);
+      }
+    }
+    return arr;
+  }
+
+  makeDataJSON(data) {
+    let arr = [];
+    for (let i = 0; i < data.length; i++) {
+      let obj: any = {};
+      obj.schd_id = data[i].schd_id;
+      obj.student_exam_det_id = data[i].student_exam_det_id;
+      obj.marks_obtained = data[i].marks_obtained;
+      obj.previous_marks_obtained = data[i].previous_marks_obtained;
+      arr.push(obj);
+    }
+    return arr;
+  }
+
+  closePopUpCommon() {
+    this.courseExamAttPopup = false;
+    this.tempData = "";
+    this.studentList = [];
+    this.courseExamMarkPopup = false;
+    this.subjectList = [];
+    this.totalExamMarks = 0;
+    this.examMarksLevel = 0;
+  }
+
+  examMarksUpdateCourse(data) {
+    this.examMarksLevel = 0;
+    this.subjectList = [];
+    this.totalExamMarks = 0;
+    this.tempData = data;
+    // this.examGradeFeature = data.is_exam_grad_feature;
+    this.courseExamMarkPopup = true;
+    this.getExamStudentList(data.course_exam_schedule_id);
+    if (this.examGradeFeature == 1) {
+      this.getAllExamGrades();
+    }
+  }
+
+  subjectList: any = [];
+  totalExamMarks: number = 0;
+  examMarksLevel: number = 0;
+
+  makeTableHeader() {
+    if (this.studentList.length > 0) {
+      this.subjectList = this.studentList[0].batchExamMarksLi;
+      this.totalExamMarks = this.studentList[0].cours_exam_total_marks;
+    } else {
+      this.subjectList = [];
+      this.totalExamMarks = 0;
+    }
+  }
+
+  updateMarksOnServerCourse(type) {
+    let data: any;
+    if (type == 'single') {
+      data = this.makeJsonForMarksUpdate();
+    } else {
+      data = this.fetchAllStudentJson();
+    }
+    if (data == false) {
+      return;
+    }
+    this.widgetService.markStudentMarks(data).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Saved', 'Marks Saved Successfully');
+        this.closePopUpCommon();
+      },
+      err => {
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  makeJsonForMarksUpdate() {
+    let arr = [];
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].assigned) {
+        let obj: any = {};
+        obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
+        obj.course_marks_update_level = this.examMarksLevel;
+        obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
+        obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].batchExamMarksLi);
+        if (obj.batchExamMarksLi == false) {
+          return false;
+        }
+        obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
+        obj.student_id = this.studentList[i].student_id;
+        obj.isUpdated = this.studentList[i].isUpdated;
+        obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
+        obj.attendance = this.studentList[i].attendance;
+        obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+        if (this.tempData.is_exam_grad_feature == 0) {
+          obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
+        } else {
+          if (this.studentList[i].grade_id == '-1') {
+            this.messageNotifier('error', 'Error', 'Please provide total grades');
+            return false;
+          }
+          obj.grade_id = this.studentList[i].grade_id;
+        }
+        arr.push(obj);
+      }
+    }
+    return arr;
+  }
+
+  fetchAllStudentJson() {
+    let arr = [];
+    for (let i = 0; i < this.studentList.length; i++) {
+      let obj: any = {};
+      obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
+      obj.course_marks_update_level = this.examMarksLevel;
+      obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
+      obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].batchExamMarksLi);
+      if (obj.batchExamMarksLi == false) {
+        return false;
+      }
+      obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
+      obj.student_id = this.studentList[i].student_id;
+      obj.isUpdated = this.studentList[i].isUpdated;
+      obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
+      obj.attendance = this.studentList[i].attendance;
+      obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+      if (this.tempData.is_exam_grad_feature == 0) {
+        obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
+      } else {
+        if (this.studentList[i].grade_id == '-1') {
+          this.messageNotifier('error', 'Error', 'Please provide total grades');
+          return false;
+        }
+        obj.grade_id = this.studentList[i].grade_id;
+      }
+      arr.push(obj);
+    }
+    return arr;
+  }
+
+  makeMarksDataJSON(data) {
+    let arr = [];
+    for (let i = 0; i < data.length; i++) {
+      let obj: any = {};
+      obj.schd_id = data[i].schd_id;
+      obj.student_exam_det_id = data[i].student_exam_det_id;
+      if (this.tempData.is_exam_grad_feature == 0) {
+        obj.marks_obtained = data[i].marks_obtained;
+        obj.previous_marks_obtained = data[i].previous_marks_obtained;
+      } else {
+        obj.grade_id = data[i].grade_id;
+        if (obj.grade_id == "-1" && this.examMarksLevel == 1) {
+          this.messageNotifier('error', 'Error', 'Please provide grades of subject');
+          return false;
+        }
+      }
+      arr.push(obj);
+    }
+    return arr;
+  }
+
+  checkSubjectMarks(student, data, event) {
+    let total: number = 0;
+    let number = Number(data.marks_obtained);
+    if (0 > number) {
+      this.messageNotifier('error', 'Error', 'Please provide valid value');
+      data.marks_obtained = 0;
+      return;
+    } else if (data.total_marks < number) {
+      this.messageNotifier('error', 'Error', 'Please provide mark less than total marks');
+      data.marks_obtained = 0;
+    } else {
+      for (let i = 0; i < student.batchExamMarksLi.length; i++) {
+        total = Number(student.batchExamMarksLi[i].marks_obtained) + total;
+      }
+      student.course_exam_marks_obtained = total;
+      student.isUpdated = "Y";
+    }
+  }
+
+  checkTotalMarks(data, event) {
+    let number = Number(data.course_exam_marks_obtained);
+    if (0 > number) {
+      this.messageNotifier('error', 'Error', 'Please provide valid value');
+      data.marks_obtained = 0;
+      return;
+    } else if (data.cours_exam_total_marks < number) {
+      this.messageNotifier('error', 'Error', 'Please provide mark less than total marks');
+      data.marks_obtained = 0;
+    }
+    data.isUpdated = "Y";
+  }
+
+  onRadioButtonSelction() {
+    if (this.examMarksLevel == 2) {
+      if (this.tempData.is_exam_grad_feature == 1) {
+        this.studentList.forEach(element => {
+          element.batchExamMarksLi.forEach(ele => {
+            ele.grade_id = '-1';
+          });
+          element.isUpdated = "Y";
+        });
+      }
     }
   }
 
