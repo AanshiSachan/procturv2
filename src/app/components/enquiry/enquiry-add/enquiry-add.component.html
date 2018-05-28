@@ -525,8 +525,7 @@
 
           <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == 'true'" [ngClass]="{'has-value': newEnqData.source_instituteId != '-1'}">
             <label for="selectBranch">Branch</label>
-            <select id="selectBranch" class="form-ctrl" [(ngModel)]="newEnqData.source_instituteId" name="selectBranch">
-              <option value="-1"></option>
+            <select id="selectBranch" class="form-ctrl" [(ngModel)]="newEnqData.source_instituteId" name="selectBranch" (ngModelChange)="branchUpdated($event)">
               <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>
             </select>
           </div>

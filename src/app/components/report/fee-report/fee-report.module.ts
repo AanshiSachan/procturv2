@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from '../../shared/shared.module';
 import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { TooltipModule  } from '../../../../assets/imported_modules/ngx-bootstrap/tooltip';
+import { TooltipModule } from '../../../../assets/imported_modules/ngx-bootstrap/tooltip';
 
 
 import { FeeReportComponent } from './fee-report.component';
@@ -34,6 +34,7 @@ import { PaymentHistoryMainComponent } from './payment-history-main/payment-hist
 import { PaymentHistoryMainService } from '../../../services/payment-history/payment-history-main.service';
 
 import { ExcelService } from '../../../services/excel.service';
+import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import { OnlinePaymentServiceService } from '../../../services/online-payment/online-payment-service.service';
 
 @NgModule({
@@ -63,14 +64,16 @@ import { OnlinePaymentServiceService } from '../../../services/online-payment/on
         ChequeReportComponent,
         DiscountReportComponent,
         FeeTypeReportComponent,
-        PaymentHistoryMainComponent
+        PaymentHistoryMainComponent,
+        FeeWidgetComponent
     ],
     entryComponents: [
         FeeReportHomeComponent,
         FeeReceiptComponent,
         NextDueDetailComponent,
         PaymentHistoryComponent,
-        ViewDetailComponent
+        ViewDetailComponent,
+        FeeWidgetComponent
     ],
     providers: [
         GetFeeService,

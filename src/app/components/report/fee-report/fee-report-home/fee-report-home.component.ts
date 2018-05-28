@@ -9,9 +9,8 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 export class FeeReportHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
+
   enable_online_payment_feature: number;
-
-
   constructor(private auth: AuthenticatorService) { }
 
   ngOnInit() {
