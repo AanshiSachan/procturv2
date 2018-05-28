@@ -223,6 +223,9 @@ export class CoreHeaderComponent implements OnInit {
         if (permissionArray.indexOf('508') != -1) {
           this.divClassRoomTag.nativeElement.style.display = '';
         }
+        if (this.settings == '1') {
+          this.divClassRoomTag.nativeElement.style.display = '';
+        }
       }
     }
   }
@@ -240,6 +243,8 @@ export class CoreHeaderComponent implements OnInit {
     this.divManageUsers.nativeElement.style.display = '';
     if (this.settings == '1') {
       this.divGradesTag.nativeElement.style.display = '';
+    } else {
+      this.divGradesTag.nativeElement.style.display = 'none';
     }
     if (this.isProfessional) {
       this.divSlotTag.nativeElement.style.display = '';
@@ -268,9 +273,7 @@ export class CoreHeaderComponent implements OnInit {
     this.divManageFormTag.nativeElement.style.display = 'none';
     this.divAreaAndMap.nativeElement.style.display = 'none';
     this.divManageUsers.nativeElement.style.display = 'none';
-    if (this.settings == '1') {
-      this.divGradesTag.nativeElement.style.display = '';
-    }
+    this.divGradesTag.nativeElement.style.display = 'none';
     this.divClassRoomTag.nativeElement.style.display = 'none';
     this.divManageTag.nativeElement.style.display = 'none';
   }
