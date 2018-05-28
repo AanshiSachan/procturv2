@@ -153,6 +153,7 @@ export class TimeTableComponent implements OnInit {
     }
     else {
       this.onlyMasterData = false;
+      
       this.fetchFieldData.batch_id = "-1";
       this.timeTableServ.getSubjectData(i).subscribe
         (
@@ -235,6 +236,7 @@ export class TimeTableComponent implements OnInit {
             this.timetableDataConstructor();
           })
           console.log(this.namesArr);
+          this.showFilters= false;
         }
         else {
           this.timeTableObj = res.batchTimeTableList;

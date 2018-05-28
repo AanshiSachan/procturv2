@@ -17,13 +17,22 @@
                 </ul>
                 <ul class="nonemptyClass" *ngIf="i != undefined">
                     <li class="one">
-                        <span *ngIf="i.class_type=='Exam'" class="dotto" style="border-color:red"></span>
-                        <span *ngIf="i.class_type=='REGULAR' || i.class_type=='WEEK'" class="dotto" style="border-color:black"></span>
-                        <span *ngIf="i.class_type=='DOUBT'" class="dotto" style="border-color:blue"></span>
+                        <!-- <span *ngIf="i.class_type=='Exam'" class="dotto" style="background-color:red"></span>
+                        <span *ngIf="i.class_type=='REGULAR'" class="dotto" style="background-color:black"></span> -->
+                        <!-- <span *ngIf="i.class_type=='DOUBT'" class="dotto" style="border-color:blue"></span>
                         <span *ngIf="i.class_type =='REVISION'" class="dotto" style="border-color:darkgreen"></span>
-                        <span *ngIf="i.class_type =='EXTRA'" class="dotto" style="border-color:yellow"></span>
+                        <span *ngIf="i.class_type =='EXTRA'" class="dotto" style="border-color:yellow"></span> -->
                         {{i.start_time}}-{{i.end_time}}
                     </li>
+
+                    <li *ngIf = "i.class_type =='REGULAR'" class= "three"  style= "background-color:#04b8e6;">
+                        ({{i.class_type}})
+                    </li>
+                    <li *ngIf = "i.class_type =='Exam'" class= "three"  style= "background-color:red">
+                            ({{i.class_type}})
+                        </li>
+                        <li *ngIf = "i.class_type == 'WEEK'" class= "three" style= "background-color:#04b8e6;">(Regular)
+                        </li>
 
                     <li class="three" title={{i.batchName}}>
                         {{splitBatchData(i.batchName)}}
