@@ -140,7 +140,6 @@ export class TimeTableComponent implements OnInit {
   getSubjects(i) {
     if (this.isProfessional) {
       this.fetchFieldDataPro.batch_id = "-1";
-
       this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
         (
         res => {
@@ -153,7 +152,7 @@ export class TimeTableComponent implements OnInit {
     }
     else {
       this.onlyMasterData = false;
-      
+      this.fetchFieldData.subject_id = "-1";
       this.fetchFieldData.batch_id = "-1";
       this.timeTableServ.getSubjectData(i).subscribe
         (
@@ -218,8 +217,8 @@ export class TimeTableComponent implements OnInit {
     }
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-    if(this.fetchFieldData.master_course== "-1"){
-      this.onlyMasterData= false;
+    if (this.fetchFieldData.master_course == "-1") {
+      this.onlyMasterData = false;
     }
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
       (
@@ -236,7 +235,7 @@ export class TimeTableComponent implements OnInit {
             this.timetableDataConstructor();
           })
           console.log(this.namesArr);
-          this.showFilters= false;
+          this.showFilters = false;
         }
         else {
           this.timeTableObj = res.batchTimeTableList;
@@ -339,12 +338,12 @@ export class TimeTableComponent implements OnInit {
     for (var i = 0; i < 7; i++) {
       this.flag = false;
       for (let prop in this.timeTableObj) {
-       if (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY") == moment(prop).format("DD-MM-YYYY") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
+        if (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY") == moment(prop).format("DD-MM-YYYY") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
           let obj = {
-       headerDate: moment(prop).format("DD"),
+            headerDate: moment(prop).format("DD"),
             headerDays: moment(prop).format("ddd"),
             data: this.timeTableObj[prop],
-                 }
+          }
 
           this.timeTableArr.push(obj);
           this.flag = true;
