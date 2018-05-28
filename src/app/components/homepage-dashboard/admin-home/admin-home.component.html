@@ -1380,6 +1380,11 @@
               <td>{{data.room_no}}</td>
               <td>{{data.custom_class_type}}</td>
             </tr>
+            <tr *ngIf="viewDetTable.length == 0">
+              <td colspan="7">
+                No Classes Found
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

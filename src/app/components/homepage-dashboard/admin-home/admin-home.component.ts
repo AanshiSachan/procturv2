@@ -483,10 +483,10 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
+          // document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
           e.dateLi[0].status = "P";
           e.dateLi[0].home_work_status = "Y"
           e.dateLi[0].isStatusModified = "Y"
@@ -498,9 +498,9 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
           e.dateLi[0].status = "A";
           e.dateLi[0].home_work_status = "N"
           e.dateLi[0].isStatusModified = "Y"
@@ -2373,10 +2373,10 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
-          document.getElementById('presentBtnCourse' + e.student_id).classList.add('classPresentBtn');
+          // document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('presentBtnCourse' + e.student_id).classList.add('classPresentBtn');
           e.dateLi[0].status = "P";
           e.dateLi[0].isStatusModified = "Y";
         }
@@ -2387,9 +2387,9 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
           e.dateLi[0].status = "A";
           e.dateLi[0].isStatusModified = "Y";
         }
