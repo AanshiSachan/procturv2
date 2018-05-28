@@ -1,0 +1,18 @@
+<section class="pie-wrapper">
+    <section class="row pie-filter">
+        <div class="field-wrapper">
+            <!-- <label for="duration">Duration</label> -->
+            <select name="" id="duration" [(ngModel)]="rangeSelected" (ngModelChange)="dateRangeUpdated($event)" class="form-ctrl">
+                <option value="1" selected="">Last 7 days</option>
+                <option value="2">This month</option>
+                <option value="3">Last 30 days</option>
+                <option value="4">Last month</option>
+                <option value="5">Last 3 months</option>
+            </select>
+        </div>
+    </section>
+    <section class="row">
+        <div id="pieContainer">
+        </div>
+    </section>
+</section>

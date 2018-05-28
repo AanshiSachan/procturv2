@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeeReportHomeComponent implements OnInit {
 
-  isProfessional:boolean = false;
+  isProfessional: boolean = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';

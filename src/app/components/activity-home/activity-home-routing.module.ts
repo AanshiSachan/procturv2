@@ -25,6 +25,11 @@ import {ManageExamModule} from './ptm-management/ptm-manangement.module'
                         loadChildren: 'app/components/activity-home/fee-activity/fee-activity.module#FeeActivityModule',
                         pathMatch: 'prefix'
                     },
+                    {
+                        path: 'monitoring-dashboard',
+                        loadChildren: 'app/components/activity-home/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
+                        pathMatch: 'prefix'
+                    }
                 ]
             }
         ])
