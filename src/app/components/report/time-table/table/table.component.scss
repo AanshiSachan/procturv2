@@ -77,10 +77,8 @@ ul {
         bottom: 18px;
         font-size: 14px;
     }
-    // .nonemptyClass{
-    //     padding-top: 14.5vw;
-    // }
 }
+
 @media screen and (min-width:540px)and (max-width:582px) {
     .emptyclass {
         padding-top: 114px;
@@ -88,9 +86,6 @@ ul {
         bottom: 18px;
         font-size: 14px;
     }
-    // .nonemptyClass{
-    //     padding-top: 10.8vw;
-    // }
 }
 
 @media screen and (min-width:582px)and (max-width:699px) {
@@ -100,9 +95,6 @@ ul {
         bottom: 18px;
         font-size: 14px;
     }
-    // .nonemptyClass{
-    //     padding-top: 14.8vw;
-    // }
 }
 
 @media screen and (min-width:1281px) {
@@ -113,17 +105,18 @@ ul {
         font-size: 14px;
     }
 }
+
 @media screen and (min-width :700px) and (max-width :768px) {
     .emptyclass {
         padding-top: 85px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
-    }
-    // .nonemptyClass{
+    } // .nonemptyClass{
     //     padding-top: 8vw;
     // }
 }
+
 @media screen and (min-width :1024px) and (max-width: 1280px) {
     .emptyclass {
         padding-top: 65px;
@@ -131,7 +124,7 @@ ul {
         bottom: 18px;
         font-size: 14px;
     }
-    .nonemptyClass{
+    .nonemptyClass {
         padding-top: 0.28vw;
     }
 }
@@ -143,53 +136,24 @@ ul {
         bottom: 18px;
         font-size: 14px;
     }
-    // .nonemptyClass{
-    //     padding-top: 2.65vw;
-    // }
-}
-
-@page
-{
-	size: landscape;
-	margin: 2cm;
-}
-@page 
-{ size: auto;  
-    margin: 5mm; 
 }
 
 @page {
-    size: auto;   
-     margin: 0; 
-    
+    margin: 0 !important
 }
 
-// @media print {
-//     .header, .hide { visibility: hidden }
-//     }
-
-@media print{
+@media print {
+    @page {
+        size: landscape;
+    }
     .emptyclass {
         padding-top: 28px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
-      }
-    //   .margin-control{ //margin-control invisible margin-control-top
-    //     visibility: hidden;
-    //       }
-   
-    //   .invisible{
-    //     visibility: hidden; 
-    //       }
-    //   .margin-control-top{
-    //     visibility: hidden; 
-    //       }
-    //       .margin-control-line{
-    //         visibility: hidden;
-    //       }
     }
-    
+}
+
 .dotto {
     display: inline-block;
     width: 1px;

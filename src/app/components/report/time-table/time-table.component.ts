@@ -30,7 +30,7 @@ export class TimeTableComponent implements OnInit {
   maxEntries = 0;
   startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
   enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
-  showFilters = true;
+  showFilters: boolean = true;
 
   fetchFieldData = {
     batch_id: "-1",
@@ -67,6 +67,7 @@ export class TimeTableComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     if (this.isProfessional) {
       this.fetchTimeTableReportPro('0');
+      this.showFilters = true;
     }
     else {
       this.getMasterCoursesData();
@@ -154,7 +155,7 @@ export class TimeTableComponent implements OnInit {
       this.onlyMasterData = false;
       this.fetchFieldData.subject_id = "-1";
       this.fetchFieldData.batch_id = "-1";
-      this.timeTableServ.getSubjectData(i).subscribe
+     this.timeTableServ.getSubjectData(i).subscribe
         (
         res => {
           this.subjectData = res.batchesList;
@@ -166,7 +167,7 @@ export class TimeTableComponent implements OnInit {
         )
     }
   }
-
+  
   getTeachersNameData() {
     this.onlyMasterData = false;
     this.timeTableServ.getTeachersName().subscribe
@@ -180,6 +181,7 @@ export class TimeTableComponent implements OnInit {
       }
       )
   }
+
 
   /*To show an hide filters */
   toggleFilter() {
@@ -201,20 +203,19 @@ export class TimeTableComponent implements OnInit {
       return;
     }
     if (flag == '-1') {
-      this.showFilters = false;
+
       this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
     }
     else if (flag == '1') {
-      this.showFilters = false;
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
     }
     else {
-      this.showFilters = true;
       this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
       this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
     }
+    this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
     if (this.fetchFieldData.master_course == "-1") {
@@ -234,8 +235,6 @@ export class TimeTableComponent implements OnInit {
             this.maxDataLengthCount();
             this.timetableDataConstructor();
           })
-          console.log(this.namesArr);
-          this.showFilters = false;
         }
         else {
           this.timeTableObj = res.batchTimeTableList;
@@ -275,6 +274,7 @@ export class TimeTableComponent implements OnInit {
   }
   /*fecthing report in Professional model */
   fetchTimeTableReportPro(data) {
+    console.log(data);
     if (this.selectData == "teacher") {
       if (this.fetchFieldDataPro.teacher_id == "-1") {
         let obj = {
@@ -298,20 +298,18 @@ export class TimeTableComponent implements OnInit {
       }
     }
     if (data == '-1') {
-      this.showFilters = false;
       this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
     }
     else if (data == '1') {
-      this.showFilters = false;
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
     }
     else {
-      this.showFilters = true;
       this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
       this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
     }
+    this.showFilters = false;
     this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
 
@@ -344,13 +342,11 @@ export class TimeTableComponent implements OnInit {
             headerDays: moment(prop).format("ddd"),
             data: this.timeTableObj[prop],
           }
-
           this.timeTableArr.push(obj);
           this.flag = true;
           break;
         }
       }
-
       if (this.flag == false) {
         let obj = {
           headerDate: (moment(this.startdateweek).add(i, 'day').format("DD")),
@@ -392,20 +388,21 @@ export class TimeTableComponent implements OnInit {
     document.getElementById('middle-sectionId').style.display = "none";
     document.getElementById('printTimeTable').style.display = "block";
     window.print();
-    document.getElementById('middle-sectionId').style.display = "block";
-    document.getElementById('printTimeTable').style.display = "none";
-    document.getElementById('tableHead').style.display = "none";
-    document.getElementById('header').style.display = "block";
-    document.getElementById('commonLeftNav').style.display = "block";
-    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
-      el.style.display = 'block';
-    });
     [].forEach.call(header, function (el) {
       el.classList.remove('hide');
     });
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
+      el.style.display = 'block';
+    });
+    document.getElementById('middle-sectionId').style.display = "block";
+    document.getElementById('printTimeTable').style.display = "none";
+    document.getElementById('tableHead').style.display = "none";
+
+
+
   }
 
 }

@@ -19,15 +19,15 @@
           <div class="row proFilterForm" *ngIf="isProfessional">
             <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 col-val">
               <div class="field-radio-wrapper row-val">
-                <input class="form-radio" type="radio" name="filter" id='r1' (change)="radiochangeData('all')" checked="checked">
+                <input class="form-radio" type="radio" name="filter" id='r1'  [checked]= "selectData=='all'" (change)="radiochangeData('all')">
                 <label for="r1">All</label>
               </div>
               <div class="field-radio-wrapper row-val">
-                <input class="form-radio" type="radio" name="filter" id='r2' (change)="radiochangeData('teacher')">
+                <input class="form-radio" type="radio" name="filter" id='r2' [checked]= "selectData=='teacher'" (change)="radiochangeData('teacher')">
                 <label for="r2">Teacher</label>
               </div>
               <div class="field-radio-wrapper row-val" style="margin-left: 23% !important;">
-                <input class="form-radio" type="radio" name="filter" id='r3' (change)="radiochangeData('batch')">
+                <input class="form-radio" type="radio" name="filter" id='r3' [checked]= "selectData=='batch'" (change)="radiochangeData('batch')">
                 <label for="r3">Batch</label>
               </div>
             </div>
