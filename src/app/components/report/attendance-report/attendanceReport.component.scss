@@ -34,7 +34,9 @@ $color-highlight: lighten($color-base, 7%);
         animation: progress 1s ease-in-out infinite;
     }
 }
-
+.showCursor:hover{
+    cursor: pointer;
+}
 .attendance-container{
     height: 85vh;
     background: #efefef;

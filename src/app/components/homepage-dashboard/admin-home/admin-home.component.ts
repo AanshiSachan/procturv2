@@ -483,10 +483,10 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
+          // document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
           e.dateLi[0].status = "P";
           e.dateLi[0].home_work_status = "Y"
           e.dateLi[0].isStatusModified = "Y"
@@ -498,9 +498,9 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
           e.dateLi[0].status = "A";
           e.dateLi[0].home_work_status = "N"
           e.dateLi[0].isStatusModified = "Y"
@@ -928,11 +928,12 @@ export class AdminHomeComponent implements OnInit {
       this.isSubjectView = false;
       document.getElementById('courseSelectButton').classList.add('active');
       document.getElementById('subjectSelectButton').classList.remove('active');
-      this.generateCourseLevelWidget();
+      // this.generateCourseLevelWidget();
     }
   }
 
   generateCourseLevelWidget() {
+    this.courseLevelSchedule = [];
     let obj = {
       inst_id: sessionStorage.getItem('institute_id'),
       requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
@@ -977,6 +978,7 @@ export class AdminHomeComponent implements OnInit {
             tempArr.push(res[o]);
           }
         }
+        this.courseLevelSchedule = [];
         this.courseLevelSchedule = tempArr;
         this.generateCourseLevelExam();
       },
@@ -2371,10 +2373,10 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
-          document.getElementById('presentBtnCourse' + e.student_id).classList.add('classPresentBtn');
+          // document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('presentBtnCourse' + e.student_id).classList.add('classPresentBtn');
           e.dateLi[0].status = "P";
           e.dateLi[0].isStatusModified = "Y";
         }
@@ -2385,9 +2387,9 @@ export class AdminHomeComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
+          // document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          // document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          // document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
           e.dateLi[0].status = "A";
           e.dateLi[0].isStatusModified = "Y";
         }
@@ -2715,11 +2717,9 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.getCourseExamFromServer(obj).subscribe(
       res => {
-        console.log(res);
         this.addKeyInData(res, "isExam", true);
         let result = this.courseLevelSchedule.concat(res);
         this.courseLevelSchedule = result;
-        console.log(res);
       },
       err => {
         console.log(err);
@@ -2795,7 +2795,7 @@ export class AdminHomeComponent implements OnInit {
         let obj: any = {};
         obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
         // obj.course_marks_update_level = this.studentList[i].course_marks_update_level;
-        obj.course_marks_update_level = '1';
+        obj.course_marks_update_level = '2';
         obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
         obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
         obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
@@ -2862,11 +2862,19 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateMarksOnServerCourse(type) {
+    if (this.examMarksLevel == 0) {
+      this.messageNotifier('error', 'Error', 'Please provide marks updation level');
+      return;
+    }
     let data: any;
     if (type == 'single') {
       data = this.makeJsonForMarksUpdate();
     } else {
       data = this.fetchAllStudentJson();
+    }
+    if (data.length == 0) {
+      this.messageNotifier('error', 'Error', 'Please select student from student list');
+      return;
     }
     if (data == false) {
       return;

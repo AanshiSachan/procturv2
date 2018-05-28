@@ -181,7 +181,7 @@ export class CoreSidednavComponent implements OnInit {
 
 
   hasActivity(permissions) {
-    if (permissions.includes('101') || permissions.includes('102') || permissions.includes('103') || permissions.includes('104') || permissions.includes('114') || permissions.includes('113')) {
+    if (permissions.includes('102') || permissions.includes('114') || permissions.includes('113')) {
       document.getElementById('lifour').classList.remove('hide');
     }
     else {
