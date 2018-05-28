@@ -333,19 +333,19 @@
             <div class="c-lg-6 field-wrapper">
               <label>Bank Name</label>
               <span class="field-red">*</span>
-              <input type="text" [(ngModel)]="chequeDetails.bank_name" class="form-ctrl" >
+              <input type="text" [(ngModel)]="chequeDetailsJson.bank_name" name="bank" class="form-ctrl" [ngClass]="{'has-value': chequeDetailsJson.bank_name != ''}" >
             </div>
-            <div class="c-lg-6 field-wrapper">
+            <div class="c-lg-6 field-wrapper" >
               <label>Cheque No.</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl" name="cheque_no"  [(ngModel)]="chequeDetails.cheque_no">
+              <input type="text" class="form-ctrl" name="cheque_no"  [(ngModel)]="chequeDetailsJson.cheque_no" [ngClass]="{'has-value': chequeDetailsJson.cheque_no != ''}" >
             </div>
           </div>
           <div class="row">
             <div class="c-lg-6 field-wrapper datePickerBox">
               <label>Cheque Date</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl"  name="cheque_date" bsDatepicker [(ngModel)]="chequeDetails.cheque_date" >
+              <input type="text" class="form-ctrl"  name="cheque_date" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date" [ngClass]="{'has-value': chequeDetailsJson.cheque_date != ''}">
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>

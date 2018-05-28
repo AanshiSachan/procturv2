@@ -237,8 +237,6 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   searchByName() {
-    this.sendPayload.from_date = "";
-    this.sendPayload.to_date = "";
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
   }
@@ -322,6 +320,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.personData = e.data;
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
+        this.chequeDetailsJson = data.chequeDetailsJson;
         this.chequeDetails = data.chequeDetailsJson;
         this.updationArray = data;
         if (data.feeSchedule_TxLst.length) {

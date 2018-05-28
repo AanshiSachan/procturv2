@@ -762,43 +762,30 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
-  dateValidationForFuture(e, key) {
-
-    let today = moment(new Date);
-    let selected = moment(e);
-
-    let diff = moment(selected.diff(today))['_i'];
-
-    if (diff <= 0) {
-    }
-    else {
+  futureDateValid(selectDate) {
+    if (moment(selectDate).diff(moment()) > 0) {
       let msg = {
         type: "info",
         body: "You cannot select future date"
       }
       this.appc.popToast(msg);
       this.isRippleLoad = false;
-
-      if (this.isProfessional) {
-        if (key == 'to') {
-          this.queryParams.to_date = moment(new Date()).format("YYYY-MM-DD");
-        }
-        if (key == 'from') {
-          this.queryParams.from_date = moment(new Date()).format('YYYY-MM-DD');
-        }
-      }
-      else {
-        if (key == 'to') {
-          this.attendanceFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
-        }
-        if (key == 'from') {
-          this.attendanceFetchForm.from_date = moment(new Date()).format('YYYY-MM-DD');
-
-        }
-      }
+      this.attendanceFetchForm.from_date = moment().format('YYYY-MM-DD');
+      this.attendanceFetchForm.to_date = moment().format('YYYY-MM-DD');
+      this.queryParams.from_date = moment().format('YYYY-MM-DD');
+      this.queryParams.to_date = moment().format('YYYY-MM-DD');
     }
+  }
 
 
+  clearFromDate(){
+    this.attendanceFetchForm.from_date = "";
+    this.queryParams.from_date = "";
+  }
+  
+  clearToDate(){
+    this.attendanceFetchForm.to_date = "";
+    this.queryParams.to_date = "";
   }
 
 }
