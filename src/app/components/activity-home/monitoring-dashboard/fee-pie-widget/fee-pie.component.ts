@@ -132,7 +132,8 @@ export class FeePieComponent {
           allowPointSelect: true,
           cursor: 'pointer',
           dataLabels: {
-            enabled: false
+            enabled: true,
+            format: '₹ {y}'
           },
           showInLegend: true
         }

@@ -12,7 +12,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { updateEnquiryForm } from '../../../model/update-enquiry-form';
-import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
 import { MenuItem } from 'primeng/primeng';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { SmsOptionComponent } from './sms-option.component';
@@ -40,7 +39,7 @@ export class CampaignHomeComponent implements OnInit {
   };
 
   /* Variable Declaration */
-  sourceCampaign: any[] = []; sourceCampaign_total = []; smsPopSource: LocalDataSource; busy: Subscription;
+  sourceCampaign: any[] = []; sourceCampaign_total = []; smsPopSource: any; busy: Subscription;
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
@@ -515,7 +514,7 @@ export class CampaignHomeComponent implements OnInit {
     this.postData.fetchAllSms().subscribe(
       data => {
         this.cd.markForCheck();
-        this.smsPopSource = new LocalDataSource(data);
+        this.smsPopSource = data;
         this.cd.markForCheck();
         this.smsDataLength = data.length;
         this.cd.markForCheck();

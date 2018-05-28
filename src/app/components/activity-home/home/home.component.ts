@@ -27,6 +27,9 @@ export class HomeComponent implements OnInit {
   isProfessional: boolean = false;
   isAdmin: boolean = false;
 
+  isFeeActivity:boolean = false;
+  isMonitorDashboard:boolean = false;
+
   constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
@@ -50,12 +53,15 @@ export class HomeComponent implements OnInit {
     else if (userType == '0') {
       if (permissionArray == "" || permissionArray == null) {
         this.isAdmin = true;
+        this.isFeeActivity = true;
       } 
       else {
         let perm: any[] = JSON.parse(permissionArray);
+ 
         if (perm.indexOf('102') != -1) { 
-          this.isAdmin = true;
+          this.isFeeActivity = true;
         }
+
       }
     }
     
