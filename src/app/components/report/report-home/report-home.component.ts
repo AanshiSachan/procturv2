@@ -89,7 +89,48 @@ export class ReportHomeComponent implements OnInit {
       }
     }
     else {
-      //console.log(permissions);
+            let perm: any[] = JSON.parse(permissions);
+
+      /* attendance */
+      if (perm.indexOf('201') != -1) { 
+        this.isAttendance = true;
+        this.isBiometric = true;
+      }
+
+      /* fee */
+      if (perm.indexOf('202') != -1) { 
+        this.isFee = true;
+      }
+
+      /* exam */
+      if (perm.indexOf('203') != -1) { 
+        this.isExam = true;
+      }
+
+      /* student report */
+      if (perm.indexOf('204') != -1) { 
+        this.isReportCard = true;
+      }
+
+      /* timetable */
+      if (perm.indexOf('205') != -1) { 
+        this.isTimetable = true;
+      }
+
+      /* sms */
+      if (perm.indexOf('206') != -1) { 
+        this.isSms = true;
+      }
+
+      /* email */
+      if (perm.indexOf('207') != -1) { 
+        this.isEmail = true;
+      }
+
+      /* profit and lodd */
+      if (perm.indexOf('208') != -1) { 
+        this.isProfitnloss = true;
+      }
     }
   }
 

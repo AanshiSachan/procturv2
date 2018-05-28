@@ -1840,5 +1840,4 @@ export class EnquiryAddComponent implements OnInit {
     );
   }
 
-
 }

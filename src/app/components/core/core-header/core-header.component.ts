@@ -114,9 +114,11 @@ export class CoreHeaderComponent implements OnInit {
 
     this.auth.isMainBranch.subscribe(
       (value: any) => {
-        this.isMainBranch = value;
-        if (this.isMainBranch == "Y") {
-          this.multiBranchInstituteFound();
+        if (this.isMainBranch != value) {
+          this.isMainBranch = value;
+          if (this.isMainBranch == "Y") {
+            this.multiBranchInstituteFound();
+          }
         }
       }
     )

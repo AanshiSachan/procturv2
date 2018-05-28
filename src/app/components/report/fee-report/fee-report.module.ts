@@ -35,6 +35,7 @@ import { PaymentHistoryMainService } from '../../../services/payment-history/pay
 
 import { ExcelService } from '../../../services/excel.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
+import { OnlinePaymentServiceService } from '../../../services/online-payment/online-payment-service.service';
 
 @NgModule({
     imports: [
@@ -78,7 +79,8 @@ import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
         GetFeeService,
         PostFeeService,
         PaymentHistoryMainService,
-        ExcelService
+        ExcelService,
+        OnlinePaymentServiceService
     ],
     exports: [
     ]
