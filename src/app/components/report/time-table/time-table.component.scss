@@ -65,11 +65,17 @@ p {
 
 .col-val {
     margin-top: 11px;
+    width: 20.66667% !important;
+    display: inline-flex !important;
 }
 
 .row-val {
     padding-left: 0px !important;
-    margin-left: -5px !important;
+    margin-left: 15px !important;
+    width: 16%;
+    label {
+        margin-left: 20px;
+    }
 }
 
 .filter-form {
@@ -1082,15 +1088,7 @@ p {
         h2 {
             text-align: center;
         }
-    } // .main-student-table {
-    //     ::-webkit-scrollbar {
-    //         display: block;
-    //     }
-    //     .student-table {
-    //         overflow-x: auto;
-    //         height: 400px;
-    //     }
-    // }
+    }
     .btn {
         display: inline-block;
         margin-left: 494px;
@@ -1522,6 +1520,7 @@ p {
 
 .grid-datadisplay {
     margin-left: 22px;
+    margin-top: 7px
 }
 
 .button-display {
@@ -1541,7 +1540,8 @@ p {
         top: 3px;
     }
     label {
-        margin-left: 10px;
+        // margin-left: 10px;
+        font-size: 1.09vw;
     }
 }
 
@@ -1551,7 +1551,162 @@ p {
 }
 
 #printbtn {
-    position:relative;
+    position: relative;
     top: 43px;
-    left:-24px;
+    left: -24px;
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.next {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.round {
+    border-radius: 50%;
+}
+
+.dot {
+    width: 1px;
+    display: inline-block; 
+        border-radius: 50%;
+    border: 4px solid;
+    margin-right: 3px;
+}
+
+.legend {
+    margin-top: 8px !important;
+    ul {
+        li {
+            display: inline-block !important;
+            padding-left: 7px;
+            font-size: 13px;
+        }
+    }
+}
+
+.directBtn {
+    text-decoration: none;
+    display: inline-block; 
+    padding-bottom: 10px;
+    padding-right: 13px;
+    border: 1px solid #0084f694;
+    border-radius: 50%;
+    /* padding: 11px; */
+    padding-left: 13px;
+}
+
+.directBtn:hover {
+    background-color: #ddd;
+    color: #0084f6; 
+    cursor: pointer
+}
+
+.directBtn:visited {
+    background-color: #23527c;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.next {
+    background-color: #f1f1f1;
+    color: black;
+    padding-top: 10px;
+}
+
+.next::after {
+    content: ""
+}
+
+.printMe {
+    text-decoration: none;
+    color: #0084f6;
+}
+
+.printMe:hover {
+    color: #23527c;
+    cursor: pointer;
+}
+
+.timetableWrap {
+    margin-top: 10px
+}
+
+.homeHead {
+    padding-top: 3px;
+    font-size: 14px;
+}
+
+.proFilterForm {
+    text-align: center;
+    padding-top: 13px;
+    padding-bottom: 11px;
+}
+
+.nonProFilterForm {
+    padding-bottom: 10px;
+}
+
+.teacherBox {
+    width: 39%;
+    margin-top: -8px;
+    margin-left: 73px;
+}
+
+.teachBatch {
+    width: 64% !important;
+}
+
+.batchBox {
+    margin-top: -19px;
+}
+
+.batchcols {
+    text-align: left !important;
+    label {
+        margin-left: 10px;
+    }
+}
+
+.proViewButton {
+    width: auto !important;
+    margin-left: 0px !important;
+    position: relative !important;
+    top: 6px !important;
+    left: 23% !important;
+}
+
+.notProViewButton {
+    margin-left: 0px !important;
+    width: auto !important;
+    position: relative !important;
+    top: 15px !important;
+}
+
+.legend-ul {
+    list-style-type: none;
+    display: inline
+}
+
+.printHead {
+    text-align: center;
+    display: none;
 }

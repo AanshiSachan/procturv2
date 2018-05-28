@@ -10,9 +10,7 @@ ul {
                 display: inline-block;
                 width: 14%;
                 padding: 10px 10px 10px;
-                border-bottom: 1px solid #efefef;
-                border-left: 1px solid #efefef;
-                border-top: 1px solid #efefef;
+                border: 1px solid #efefef;
             }
             &.inner-date {
                 font-size: 14px;
@@ -30,6 +28,7 @@ ul {
         padding: 10px 10px 10px;
         border-bottom: 1px solid #efefef;
         border-left: 1px solid #efefef;
+        border-right: 1px solid #efefef;
         li {
             &.time-item:not(:first-child) {
                 padding: 5px;
@@ -38,6 +37,7 @@ ul {
                 li {
                     &.one {
                         font-size: 14px;
+                        font-weight: 900;
                     }
                     &.two {
                         font-size: 12px;
@@ -55,6 +55,7 @@ ul {
                 li {
                     &.one {
                         font-size: 14px;
+                        font-weight: 900;
                     }
                     &.two {
                         font-size: 12px;
@@ -69,42 +70,102 @@ ul {
     }
 }
 
-@media screen and (min-width:470px)and (max-width:480px) {
+@media screen and (min-width:480px)and (max-width:539px) {
     .emptyclass {
-        padding-top: 150px;
+        padding-top: 29vw;
         position: relative;
         bottom: 18px;
+        font-size: 14px;
+    }
+    .nonemptyClass{
+        padding-top: 14.5vw;
+    }
+}
+@media screen and (min-width:540px)and (max-width:582px) {
+    .emptyclass {
+        padding-top: 24vw;
+        position: relative;
+        bottom: 18px;
+        font-size: 14px;
+    }
+    .nonemptyClass{
+        padding-top: 10.8vw;
     }
 }
 
-@media screen and (min-width:480px)and (max-width:600px) {
+@media screen and (min-width:582px)and (max-width:699px) {
     .emptyclass {
-        padding-top: 106px;
+        padding-top: 24vw;
         position: relative;
         bottom: 18px;
+        font-size: 14px;
+    }
+    .nonemptyClass{
+        padding-top: 14.8vw;
     }
 }
 
 @media screen and (min-width:1281px) {
     .emptyclass {
-        padding-top: 42px;
+        padding-top: 2vw;
         position: relative;
         bottom: 18px;
+        font-size: 14px;
+    }
+}
+@media screen and (min-width :700px) and (max-width :768px) {
+    .emptyclass {
+        padding-top: 14.4vw;
+        position: relative;
+        bottom: 18px;
+        font-size: 14px;
+    }
+    .nonemptyClass{
+        padding-top: 8vw;
+    }
+}
+@media screen and (min-width :1024px) and (max-width: 1280px) {
+    .emptyclass {
+        padding-top: 4.4vw;
+        position: relative;
+        bottom: 18px;
+        font-size: 14px;
+    }
+    .nonemptyClass{
+        padding-top: 0.28vw;
     }
 }
 
-@media screen and (min-width :601px) and (max-width :768px) {
+@media screen and (min-width :769px) and (max-width: 1023px) {
     .emptyclass {
-        padding-top: 85px;
+        padding-top: 7.5vw;
         position: relative;
         bottom: 18px;
+        font-size: 14px;
+    }
+    .nonemptyClass{
+        padding-top: 2.65vw;
     }
 }
 
-@media screen and (min-width :769px) and (max-width: 1280px) {
+@page
+{
+	size: landscape;
+	margin: 2cm;
+}
+
+@media print{
     .emptyclass {
-        padding-top: 74px;
+        padding-top: 28px;
         position: relative;
         bottom: 18px;
+        font-size: 14px;
+      }
     }
+    
+.dotto {
+    display: inline-block;
+    width: 1px;
+    border: 3px solid;
+    border-radius: 50%
 }

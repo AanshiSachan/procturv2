@@ -13,10 +13,6 @@ export class tableComponent {
   @Input() recordInput: any[] = [];
   @Input() courseName: any;
 
-
-  ngOnInit() {
-  }
-
   ngOnChanges() {
     this.recordInput;
   }
@@ -27,6 +23,15 @@ export class tableComponent {
     }
     else {
       return "#04b8e6";
+    }
+  }
+
+  splitBatchData(batch_name) {
+    if (batch_name.length >= 20) {
+      return (batch_name.slice(0, 16) + "..");
+    }
+    else {
+      return batch_name;
     }
   }
 }
