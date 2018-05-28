@@ -19,15 +19,15 @@
           <div class="row proFilterForm" *ngIf="isProfessional">
             <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 col-val">
               <div class="field-radio-wrapper row-val">
-                <input class="form-radio" type="radio" name="filter" id='r1' (change)="radiochangeData('all')" checked="checked">
+                <input class="form-radio" type="radio" name="filter" id='r1'  [checked]= "selectData=='all'" (change)="radiochangeData('all')">
                 <label for="r1">All</label>
               </div>
               <div class="field-radio-wrapper row-val">
-                <input class="form-radio" type="radio" name="filter" id='r2' (change)="radiochangeData('teacher')">
+                <input class="form-radio" type="radio" name="filter" id='r2' [checked]= "selectData=='teacher'" (change)="radiochangeData('teacher')">
                 <label for="r2">Teacher</label>
               </div>
               <div class="field-radio-wrapper row-val" style="margin-left: 23% !important;">
-                <input class="form-radio" type="radio" name="filter" id='r3' (change)="radiochangeData('batch')">
+                <input class="form-radio" type="radio" name="filter" id='r3' [checked]= "selectData=='batch'" (change)="radiochangeData('batch')">
                 <label for="r3">Batch</label>
               </div>
             </div>
@@ -117,7 +117,7 @@
             <a (click)="fetchTimeTableReportPro('1')" class="directBtn next">&#8250;</a>
           </div>
           <div class="legend pull-right">
-            <ul class="legend-ul">
+            <!-- <ul class="legend-ul">
               <li>
                 <span class="dot" style="color:black"></span>Regular
               </li>
@@ -133,7 +133,7 @@
               <li>
                 <span class="dot" style="color:green"></span>Revision
               </li>
-            </ul>
+            </ul> -->
           </div>
         </div>
       </div>
@@ -145,7 +145,7 @@
             <a (click)="fetchTimeTableReport('1')" class="directBtn next">&#8250;</a>
           </div>
           <div class="legend pull-right">
-            <ul class="legend-ul">
+            <!-- <ul class="legend-ul">
               <li>
                 <span class="dot" style="color:black"></span>Regular
               </li>
@@ -161,12 +161,12 @@
               <li>
                 <span class="dot" style="color:green"></span>Revision
               </li>
-            </ul>
+            </ul> -->
           </div>
         </div>
       </div>
-      <h3 id="tableHead" class="printHead" style="">Proctur Time-Table</h3>
-      <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} To {{enddateweek}}</h4>
+      <!-- <h3 id="tableHead" class="printHead" style="">Proctur Time-Table</h3>
+      <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} To {{enddateweek}}</h4> -->
       <div class="timetableWrap" *ngIf="!isProfessional">
         <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
         </time-table>
@@ -181,7 +181,7 @@
 </div>
 
 <section class="clearFix calender-view1" id="printTimeTable" style="display:none">
-  <h3 id="tableHead" style="text-align:center">Proctur Time-Table</h3>
+  <!-- <h3 id="tableHead" style="text-align:center">Proctur Time-Table</h3>-->
   <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} To {{enddateweek}}</h4>
   <div *ngIf="!isProfessional">
     <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
