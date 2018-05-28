@@ -2842,7 +2842,7 @@ export class AdminHomeComponent implements OnInit {
     // this.examGradeFeature = data.is_exam_grad_feature;
     this.courseExamMarkPopup = true;
     this.getExamStudentList(data.course_exam_schedule_id);
-    if (this.examGradeFeature == 1) {
+    if (data.is_exam_grad_feature == 1) {
       this.getAllExamGrades();
     }
   }

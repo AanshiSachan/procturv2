@@ -193,7 +193,7 @@
                             <span (click)="markAttendanceExamCourse(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance</span>
                             <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="sendReminderForCourse(class)" style="cursor:pointer">Send Reminder</span>
                             <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
-                            <span class="" (click)="examMarksUpdateCourse(class)" style="cursor:pointer">Exam Marks</span>
+                            <span class="" *ngIf="class.course_marks_update_level != '0'" (click)="examMarksUpdateCourse(class)" style="cursor:pointer">Exam Marks</span>
                           </div>
 
                         </div>
