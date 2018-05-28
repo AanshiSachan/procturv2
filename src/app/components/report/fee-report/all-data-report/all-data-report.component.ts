@@ -37,10 +37,10 @@ export class AllDataReportComponent implements OnInit {
     { primaryKey: 'student_total_fees', header: 'Total Fee' },
     { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid' },
     { primaryKey: 'total_balance_amt', header: 'Past Dues' },
-    { primaryKey: 'student_latest_fee_due_date', header: 'Future Due Date' },
-    { primaryKey: 'student_latest_fee_due_amount', header: 'Future Amount' },
+    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date' },
+    { primaryKey: 'student_latest_fee_due_amount', header: 'Next Due Amount' },
     { primaryKey: 'student_latest_pdc', header: 'PDC Date' },
-    { primaryKey: 'amount_still_payable', header: 'Amount Balance' }
+    { primaryKey: 'amount_still_payable', header: 'Balance Amount' }
   ];
 
   feeSettings2: ColumnData[] = [

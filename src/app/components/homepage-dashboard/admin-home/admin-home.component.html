@@ -191,8 +191,8 @@
 
                           <div *ngIf="class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('103')}">
                             <span (click)="markAttendanceExamCourse(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance</span>
-                            <span class="" (click)="sendReminderForCourse(class)" style="cursor:pointer">Send Reminder</span>
-                            <span class="" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
+                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="sendReminderForCourse(class)" style="cursor:pointer">Send Reminder</span>
+                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
                             <span class="" (click)="examMarksUpdateCourse(class)" style="cursor:pointer">Exam Marks</span>
                           </div>
 
@@ -618,14 +618,14 @@
             <div class="tbox">
               <div class="times ">
                 <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime" style="height:38px;">
-                  <option [value]="time" *ngFor="let time of times" >
+                  <option [value]="time" *ngFor="let time of times">
                     {{time}}
                   </option>
                 </select>
               </div>
               <div class="times">
                 <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute" style="height:38px;">
-                  <option *ngFor="let minute of minArr" [value]="minute" >
+                  <option *ngFor="let minute of minArr" [value]="minute">
                     {{minute}}
                   </option>
                 </select>
@@ -640,14 +640,14 @@
             <div class="tbox">
               <div class="times">
                 <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime" style="height:38px;">
-                  <option [value]="time" *ngFor="let time of times" >
+                  <option [value]="time" *ngFor="let time of times">
                     {{time}}
                   </option>
                 </select>
               </div>
               <div class="times">
                 <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute" style="height:38px;">
-                  <option *ngFor="let minute of minArr" [value]="minute" >
+                  <option *ngFor="let minute of minArr" [value]="minute">
                     {{minute}}
                   </option>
                 </select>
@@ -1379,6 +1379,11 @@
               <td>{{data.class_desc}}</td>
               <td>{{data.room_no}}</td>
               <td>{{data.custom_class_type}}</td>
+            </tr>
+            <tr *ngIf="viewDetTable.length == 0">
+              <td colspan="7">
+                No Classes Found
+              </td>
             </tr>
           </tbody>
         </table>

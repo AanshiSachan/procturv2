@@ -116,6 +116,9 @@ export class CourseEditComponent implements OnInit {
 
   updateEditedDetails() {
     let dataToSend: any = this.constructJsonToSend();
+    if (dataToSend == false) {
+      return
+    }
     this.apiService.updateDetailsInEdit(dataToSend).subscribe(
       res => {
         this.router.navigateByUrl('course/courselist');
@@ -194,7 +197,7 @@ export class CourseEditComponent implements OnInit {
       let test: any = {};
       if (this.mainTableDataSource[i].course_name == "" || this.mainTableDataSource[i].course_name == null) {
         this.messageToast('error', 'Error', "Please Fill Mandatory Details");
-        return;
+        return false;
       }
       test.course_name = this.mainTableDataSource[i].course_name;
       test.end_date = moment(this.mainTableDataSource[i].end_date).format("YYYY-MM-DD");
@@ -209,7 +212,7 @@ export class CourseEditComponent implements OnInit {
       let selectedSubjectRow = this.checkIfAnySubjectSelected(this.mainTableDataSource[i].batchesList);
       if (selectedSubjectRow.length == 0) {
         this.messageToast('error', 'Error', "You haven't selected any Subject");
-        return;
+        return false;
       }
       for (let y = 0; y < selectedSubjectRow.length; y++) {
         let trp: any = {};
@@ -220,6 +223,10 @@ export class CourseEditComponent implements OnInit {
         }
         trp.batch_name = this.selectedCourseDetails.master_course + '-' + this.mainTableDataSource[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
+        if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == '-1') {
+          this.messageToast('error', 'Error', 'Please provide teacher');
+          return false;
+        }
         trp.teacher_id = selectedSubjectRow[y].selected_teacher.toString();
         test.batchesList.push(trp);
       }
