@@ -2908,7 +2908,7 @@ export class AdminHomeComponent implements OnInit {
         obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
         obj.course_marks_update_level = this.examMarksLevel;
         obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
-        obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].batchExamMarksLi);
+        obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].attendance, this.studentList[i].batchExamMarksLi);
         if (obj.batchExamMarksLi == false) {
           return false;
         }
@@ -2940,7 +2940,7 @@ export class AdminHomeComponent implements OnInit {
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
       obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
-      obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].batchExamMarksLi);
+      obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].attendance, this.studentList[i].batchExamMarksLi);
       if (obj.batchExamMarksLi == false) {
         return false;
       }
@@ -2964,7 +2964,7 @@ export class AdminHomeComponent implements OnInit {
     return arr;
   }
 
-  makeMarksDataJSON(data) {
+  makeMarksDataJSON(attendance, data) {
     let arr = [];
     for (let i = 0; i < data.length; i++) {
       let obj: any = {};
@@ -2975,7 +2975,7 @@ export class AdminHomeComponent implements OnInit {
         obj.previous_marks_obtained = data[i].previous_marks_obtained;
       } else {
         obj.grade_id = data[i].grade_id;
-        if (obj.grade_id == "-1" && this.examMarksLevel == 1) {
+        if (obj.grade_id == "-1" && this.examMarksLevel == 1 && attendance == 'P') {
           this.messageNotifier('error', 'Error', 'Please provide grades of subject');
           return false;
         }
@@ -3008,11 +3008,11 @@ export class AdminHomeComponent implements OnInit {
     let number = Number(data.course_exam_marks_obtained);
     if (0 > number) {
       this.messageNotifier('error', 'Error', 'Please provide valid value');
-      data.marks_obtained = 0;
+      data.course_exam_marks_obtained = 0;
       return;
     } else if (data.cours_exam_total_marks < number) {
       this.messageNotifier('error', 'Error', 'Please provide mark less than total marks');
-      data.marks_obtained = 0;
+      data.course_exam_marks_obtained = 0;
     }
     data.isUpdated = "Y";
   }

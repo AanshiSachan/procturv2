@@ -25,9 +25,10 @@ export class AuthenticatorService {
     isMainBranch = new BehaviorSubject('N');
     institute_type = new BehaviorSubject('LANG');
 
-     public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-     //public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
+    //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+  
     constructor() {
         this.getAuthToken();
         this.getInstituteId();
@@ -46,9 +47,15 @@ export class AuthenticatorService {
 
 
     getAuthToken() {
-        let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-        if(institute_data != null && institute_data != undefined ){
-            let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+        let obj: any = {
+            userid: sessionStorage.getItem('userid'),
+            userType: sessionStorage.getItem('userType'),
+            password: sessionStorage.getItem('password'),
+            institution_id: sessionStorage.getItem('institute_id'),
+        }
+
+        if (obj != null && obj != undefined) {
+            let Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id);
             let token = Authorization;
             if (token != null) {
                 this.changeAuthenticationKey(token);
