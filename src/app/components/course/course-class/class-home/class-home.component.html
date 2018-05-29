@@ -141,7 +141,7 @@
                         <label for="selectsub">Select Subject</label>
                         <select id="selectsub" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
                           <option value="-1"></option>
-                          <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+                          <option [value]="subject.batch_id" *ngFor="let subject of subjectList">
                             {{subject.subject_name}}
                           </option>
                         </select>
