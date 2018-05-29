@@ -91,7 +91,7 @@ export class ClassRoomComponent {
         if (this.classRoomData[i].class_room_name == classRoomobj.class_room_name) {
           let obj = {
             type: "error",
-            title: "error",
+            title: "Error",
             body: 'Duplicate Entries are not Allowed',
           }
           this.AppC.popToast(obj);
@@ -103,8 +103,8 @@ export class ClassRoomComponent {
        if (Desc_ele.length > 500) {
         let data = {
           type: 'error',
-          title: "Description should not be greater than 500 Characters",
-          body: "error"
+          title: "Error",
+          body: "Description should not be greater than 500 Characters"
         }
         this.AppC.popToast(data);
         return;
@@ -141,7 +141,7 @@ export class ClassRoomComponent {
       let data = {
         type: 'error',
         title: "Error",
-        body: "Please fill classRoom name and Description."
+        body: "Please fill Mandatory Fields."
       }
       this.AppC.popToast(data);
       this.enterclassdata = "";
@@ -199,8 +199,8 @@ export class ClassRoomComponent {
         res => {
           let data = {
             type: 'success',
-            title: "Successfully",
-            body: "Updated Successfully."
+            title: "Updated",
+            body: "ClassRoom Updated Successfully."
           }
           this.AppC.popToast(data);
           this.getClassList();
@@ -302,6 +302,4 @@ export class ClassRoomComponent {
   }
 
 }
-
-/*class-css-Ayushi */
 
