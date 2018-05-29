@@ -224,8 +224,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       }
 
     )
-    console.log(this.perPersonData);
-    console.log(this.chequeDetails);
+
   }
 
 
@@ -318,6 +317,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   optionSelected(e) {
     this.personData = e.data;
+    this.chequeDetailsJson = [];
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
         if (data.chequeDetailsJson != null || data.chequeDetailsJson == "") {
@@ -331,8 +331,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             e.receipt_old_id = e.invoice_no;
             return e;
           });
-          console.log(this.perPersonData);
-          console.log(this.chequeDetails);
+
           this.updatedResult.paymentMode = this.perPersonData[0].paymentMode;
           if (this.updatedResult.paymentMode == "Cheque/PDC/DD No.") {
             this.isChequePayment = true;
@@ -367,7 +366,6 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   updationOfPerPersonData() {
-    console.log(this.perPersonData);
 
     if (this.personData.invoice_no != null && this.personData.invoice_no != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != 0) {
 
@@ -385,6 +383,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             this.appc.popToast(msg);
           }
           else {
+           
             let obj = {
               chequeDetailsJson: this.chequeDetailsJson,
               feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
@@ -398,11 +397,11 @@ export class PaymentHistoryMainComponent implements OnInit {
               remarks: this.updatedResult.remarks,
               student_id: this.perPersonData[0].student_id
             }
-
+            
             this.payment.updatePerPersonData(obj).subscribe(
 
               (data: any) => {
-                console.log(data);
+
                 let msg = {
                   type: "success",
                   body: "Fee reciept updated successfully"
@@ -437,7 +436,6 @@ export class PaymentHistoryMainComponent implements OnInit {
             remarks: this.updatedResult.remarks,
             student_id: this.perPersonData[0].student_id,
           }
-
           this.payment.updatePerPersonData(obj).subscribe(
             (data: any) => {
               let msg = {
@@ -499,7 +497,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   exportToExcel(event) {
     let exportedArray: any[] = [];
-    console.log(this.temporaryRecords);
+
     this.allPaymentRecords.map((data: any) => {
       let obj = {
         "Id": data.student_disp_id,
@@ -514,7 +512,7 @@ export class PaymentHistoryMainComponent implements OnInit {
         "Student_Category": data.student_category,
         "Counsellor": data.enquiry_counsellor_name
       }
-      console.log(obj);
+
       exportedArray.push(obj);
     })
     this.excelService.exportAsExcelFile(
