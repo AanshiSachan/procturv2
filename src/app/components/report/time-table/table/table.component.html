@@ -1,5 +1,4 @@
 <section class="timetablewrapepr">
-    <h3 style="text-align:center">{{courseName}}</h3>
     <ul class="time-head" *ngIf="recordInput.length">
         <li class="head-item" *ngFor="let head of recordInput">
             <ul>
@@ -14,7 +13,7 @@
             <ul class="time-body" *ngFor="let time of recordInput">
                 <li class="time-item" *ngFor="let i  of time.data">
                     <ul class="emptyclass" *ngIf="i == undefined">
-                        No Classes
+                        NA
                     </ul>
                     <ul class="nonemptyClass" *ngIf="i != undefined">
                         <li class="one">

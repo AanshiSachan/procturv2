@@ -18,9 +18,7 @@ export class ClassRoomService {
    constructor(private http: HttpClient, private auth1: AuthenticatorService) {
         this.auth1.currentAuthKey.subscribe( key => {
           this.Authorization = key;
-          this.headers = new Headers();
-          this.headers.append("Content-Type", "application/json");
-          this.headers.append("Authorization", this.Authorization);
+          this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
          }) 
         this.auth1.currentInstituteId.subscribe( id => {
           this.institute_id = id;
