@@ -82,7 +82,7 @@ export class StudentBulkComponent implements OnInit {
     for (let file of event.files) {
       //console.log(file);
       if (
-        file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+        file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
         file.type == 'application/vnd.ms-excel' ||
         file.type == 'text/csv' ||
         file.type == 'application/xls' ||
@@ -152,14 +152,19 @@ export class StudentBulkComponent implements OnInit {
       institute_id: sessionStorage.getItem('institute_id')
     }
     let base = this.auth.getBaseUrl();
-    let urlPostXlsDocument = base +"/api/v1/students/studentBulkUploadV2";
+    let urlPostXlsDocument = base + "/api/v1/students/studentBulkUploadV2";
 
     let xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.open("POST", urlPostXlsDocument, true);
 
     xhr.setRequestHeader("Content-Type", "application/json");
-    let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-    let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+    let auths: any = {
+      userid: sessionStorage.getItem('userid'),
+      userType: sessionStorage.getItem('userType'),
+      password: sessionStorage.getItem('password'),
+      institution_id: sessionStorage.getItem('institute_id'),
+    }
+    let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
     xhr.setRequestHeader("Authorization", Authorization);
 
     this.isUploadingXls = true;
