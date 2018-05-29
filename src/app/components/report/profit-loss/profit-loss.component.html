@@ -1,0 +1,56 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="clear-fix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix attendance-container">
+
+            <section class="middle-top mb0 clearFix sms-header">
+                <h2 class="pull-left">
+                    <a routerLink="/reports/home">
+                        Report
+                        <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
+                    </a>
+                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Profit and Loss Report
+                </h2>
+                <aside class="pull-right">
+                </aside>
+            </section>
+
+            <section class="filter-form">
+                <div class="row">
+                    <div class="c-lg-12">
+                        <div class="c-lg-6" style="margin-top:15px; margin-bottom: 15px;">
+                            <div class="c-lg-12">
+                                <div class="c-lg-6 field-radio-wrapper madeRadio">
+                                    <input type="radio" class="form-radio" id="currentMonth" [(ngModel)]="getExpenses.type" name="currentMonth" value="0" checked="true"> 
+                                    <label for="currentMonth">Current Month</label>
+                                </div>
+                                
+                                <div class="c-lg-6 field-radio-wrapper madeRadio">
+                                    <input type="radio" class="form-radio" id="dateRange" name="currentMonth" value="2" [(ngModel)]="getExpenses.type">
+                                    <label for="dateRange" >Date Range</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="c-lg-6">
+                            <div class="c-lg-12">
+                                <div class="c-lg-6  field-wrapper datePickerBox">
+                                    <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="getExpenses.enddate">
+                                </div>
+                                <div class="c-lg-6 field-wrapper datePickerBox">
+                                    <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="getExpenses.startdate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="c-lg-12">
+                        <div class="c-lg-10"></div>
+                        <div class="c-lg-2">
+                            <input type="button" class="btn fullBlue" value="GO" style="float:right;margin-right:34px;" (click)=" fetchAllData()">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </aside>
+</div>
