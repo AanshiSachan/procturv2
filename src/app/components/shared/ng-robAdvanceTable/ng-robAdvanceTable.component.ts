@@ -69,7 +69,6 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.defaultSort;
         this.menuOptions;
         this.recordCount = this.records.length;
-        console.log(this.records.length + "::" + this.dataStatus);
         this.updateTableBatchSize(this.displayBatchSize);
         this.refreshTable();
         if (this.settings) {
@@ -207,12 +206,12 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     requestSort(ev) {
         this.cd.markForCheck();
-
         this.caret = true;
         this.headerSort = ev;
         (this.asc) ? (this.asc = false) : (this.asc = true);
 
         let type = this.typeOfDataSelected(ev);
+        debugger;
 
         if (type === 0) {
             this.sortNumber(ev);
@@ -259,6 +258,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
     sortDate(e): any {
+
         if (this.asc) {
             this.records.sort((a, b) => {
                 return new Date(a[e]).getTime() - new Date(b[e]).getTime();
@@ -272,7 +272,11 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
     typeOfDataSelected(i: string): number {
-        if (i.includes('id')) {
+
+        if (i.includes('id') && i.length == 2) {
+            return 0
+        }
+        if (i.includes('no') && i.length == 2) {
             return 0
         }
         else if (i.includes('name')) {
@@ -284,6 +288,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         else if (i.includes('date')) {
             return 2
         }
+
         else {
             return 0
         }

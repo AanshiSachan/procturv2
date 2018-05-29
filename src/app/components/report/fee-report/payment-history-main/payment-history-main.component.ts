@@ -112,7 +112,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     cheque_status_id: ""
   }
 
-  chequeDetails:any[] = [];
+  chequeDetails: any[] = [];
 
   temporaryRecords: any[] = [];
 
@@ -136,11 +136,11 @@ export class PaymentHistoryMainComponent implements OnInit {
         this.sendPayload.student_name = this.searchName;
       }
       else {
-          this.sendPayload.student_name = "";
-          this.sendPayload.contact_no = this.searchName;
-        }
+        this.sendPayload.student_name = "";
+        this.sendPayload.contact_no = this.searchName;
       }
-    
+    }
+
     if (this.searchflag) {
       this.isRippleLoad = false;
       if (this.allPaymentRecords.length == 0) {
@@ -211,7 +211,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.payment.getPerPersonData(queryParameters, i).subscribe(
 
       (data: any) => {
-       
+
         this.perPersonData = data.feeSchedule_TxLst;
       },
       (error: any) => {
@@ -224,8 +224,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       }
 
     )
-    console.log(this.perPersonData);
-    console.log(this.chequeDetails);
+
   }
 
 
@@ -299,7 +298,7 @@ export class PaymentHistoryMainComponent implements OnInit {
           return 0;
         }
       });
-     
+
     }
   }
 
@@ -318,10 +317,12 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   optionSelected(e) {
     this.personData = e.data;
+    this.chequeDetailsJson = [];
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
-        this.chequeDetailsJson = data.chequeDetailsJson;
-        this.chequeDetails = data.chequeDetailsJson;
+        if (data.chequeDetailsJson != null || data.chequeDetailsJson == "") {
+          this.chequeDetailsJson = data.chequeDetailsJson;
+        }
         this.updationArray = data;
         if (data.feeSchedule_TxLst.length) {
 
@@ -330,13 +331,12 @@ export class PaymentHistoryMainComponent implements OnInit {
             e.receipt_old_id = e.invoice_no;
             return e;
           });
-          console.log(this.perPersonData);
-          console.log(this.chequeDetails);
+
           this.updatedResult.paymentMode = this.perPersonData[0].paymentMode;
-          if(this.updatedResult.paymentMode == "Cheque/PDC/DD No."){
+          if (this.updatedResult.paymentMode == "Cheque/PDC/DD No.") {
             this.isChequePayment = true;
           }
-          else{
+          else {
             this.isChequePayment = false;
           }
           this.addReportPopUp = true;
@@ -366,7 +366,6 @@ export class PaymentHistoryMainComponent implements OnInit {
 
 
   updationOfPerPersonData() {
-    console.log(this.perPersonData);
 
     if (this.personData.invoice_no != null && this.personData.invoice_no != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != 0) {
 
@@ -378,12 +377,13 @@ export class PaymentHistoryMainComponent implements OnInit {
             this.chequeDetailsJson.cheque_date == "" || this.chequeDetailsJson.cheque_status_id == "") {
             let msg = {
               type: "error",
-            
+
               body: "All bank details are required"
             }
             this.appc.popToast(msg);
           }
           else {
+           
             let obj = {
               chequeDetailsJson: this.chequeDetailsJson,
               feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
@@ -397,11 +397,11 @@ export class PaymentHistoryMainComponent implements OnInit {
               remarks: this.updatedResult.remarks,
               student_id: this.perPersonData[0].student_id
             }
-
+            
             this.payment.updatePerPersonData(obj).subscribe(
 
               (data: any) => {
-                console.log(data);
+
                 let msg = {
                   type: "success",
                   body: "Fee reciept updated successfully"
@@ -436,7 +436,6 @@ export class PaymentHistoryMainComponent implements OnInit {
             remarks: this.updatedResult.remarks,
             student_id: this.perPersonData[0].student_id,
           }
-
           this.payment.updatePerPersonData(obj).subscribe(
             (data: any) => {
               let msg = {
@@ -498,22 +497,22 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   exportToExcel(event) {
     let exportedArray: any[] = [];
-    console.log(this.temporaryRecords);
-    this.allPaymentRecords.map((data:any)=>{
-      let obj={
-        "Id" : data.student_disp_id,
-        "Name" : data.student_name,
-        "Reciept No" : data.display_invoice_no,
-        "Payment Mode" : data.paymentMode,
-        "Fee Type" : data.fee_type_name,
-        "Inst No" : data.installment_nos,
-        "Paid Date" : data.paid_date,
-        "Reference No" : data.reference_no,
-        "Amount Paid" : data.amount_paid,
-        "Student_Category" : data.student_category,
-        "Counsellor" : data.enquiry_counsellor_name
-      } 
-      console.log(obj);
+
+    this.allPaymentRecords.map((data: any) => {
+      let obj = {
+        "Id": data.student_disp_id,
+        "Name": data.student_name,
+        "Reciept No": data.display_invoice_no,
+        "Payment Mode": data.paymentMode,
+        "Fee Type": data.fee_type_name,
+        "Inst No": data.installment_nos,
+        "Paid Date": data.paid_date,
+        "Reference No": data.reference_no,
+        "Amount Paid": data.amount_paid,
+        "Student_Category": data.student_category,
+        "Counsellor": data.enquiry_counsellor_name
+      }
+
       exportedArray.push(obj);
     })
     this.excelService.exportAsExcelFile(

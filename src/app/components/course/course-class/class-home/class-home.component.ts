@@ -97,7 +97,7 @@ export class ClassHomeComponent implements OnInit {
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService
     ) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }

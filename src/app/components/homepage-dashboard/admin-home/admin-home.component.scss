@@ -17,7 +17,7 @@
     .field-wrapper {
         position: relative;
         &.datePickerBox {
-                &::after{
+            &::after {
                 content: '';
                 background: url('/./assets/images/calendar.svg') no-repeat;
                 position: absolute;
@@ -1099,7 +1099,8 @@ div#enqChart {
             &.cls-type {
                 width: 15%;
                 &.batch {
-                    width: 45% !important;
+                    width: 30% !important;
+                    color: rgba(30, 35, 40, 0.7);
                 }
             }
             &:first-child {
@@ -1119,6 +1120,7 @@ div#enqChart {
             }
             &.batch {
                 width: 20% !important;
+                color: rgba(30, 35, 40, 0.7);
             }
             &.faculty {
                 width: 25% !important;
@@ -1160,6 +1162,12 @@ div#enqChart {
                 }
                 &.class_room {
                     width: 15% !important;
+                }
+                &.batch {
+                    &.cls-type {
+                        width: 30% !important;
+                        color: rgba(30, 35, 40, 0.7);
+                    }
                 }
                 &.batch {
                     width: 20% !important;
@@ -2256,4 +2264,20 @@ div#enqChart {
 
 .paddingLess {
     padding: 1px 5px !important;
+}
+
+.cancelExamWrapper {
+    .details {
+        margin: 10px -15px;
+    }
+    .content-wraper {
+        .button-Section {
+            margin: 10px 0px 10px -15px;
+        }
+        .cancel-table {
+            max-height: 150px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+    }
 }
