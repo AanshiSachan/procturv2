@@ -167,8 +167,8 @@
           </div>
         </div>
       </div>
-      <!-- <h3 id="tableHead" class="printHead" style="">Proctur Time-Table</h3>
-      <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} To {{enddateweek}}</h4> -->
+      <!-- <h3 id="tableHead" class="printHead" style="">Proctur Time-Table</h3>-->
+       <h4 class= "dateHeader">{{startdateweek}} To {{enddateweek}}</h4>
       <div class="timetableWrap" *ngIf="!isProfessional">
         <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
         </time-table>
@@ -184,7 +184,7 @@
 
 <section class="clearFix calender-view1" id="printTimeTable" style="display:none">
   <!-- <h3 id="tableHead" style="text-align:center">Proctur Time-Table</h3>-->
-  <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}} To {{enddateweek}}</h4>
+  <!-- <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{startdateweek}}  To  {{enddateweek}}</h4> -->
   <div *ngIf="!isProfessional">
     <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
     </time-table>

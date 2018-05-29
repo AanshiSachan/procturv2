@@ -3,6 +3,8 @@ import { ColumnSetting } from '../shared/custom-table/layout.model';
 import { ClassRoomService } from '../../services/class-roomService/class-roomlist.service';
 import { LoginService } from '../../services/login-services/login.service';
 import { AppComponent } from '../../app.component';
+import { AuthenticatorService } from '../../services/authenticator.service';
+
 
 @Component({
   selector: 'app-class-room',
@@ -13,6 +15,7 @@ export class ClassRoomComponent {
 
   classRoomData: any = [];
   totalRow = 0;
+  isProfessional: boolean;
   enterclassdataDesc: string = "";
   enterclassdata: string = "";
   pagedclassRoomData: any[] = [];
@@ -23,7 +26,7 @@ export class ClassRoomComponent {
   CreateNewList: boolean = false;
   displayBatchSize: number = 10;
 
-  
+
   searchText: string = "";
   searchflag: boolean = false;
   searchData: any = [];
@@ -33,7 +36,8 @@ export class ClassRoomComponent {
     (
     private ClassList: ClassRoomService,
     private login: LoginService,
-    private AppC: AppComponent
+    private AppC: AppComponent,
+    private auth: AuthenticatorService
     ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
@@ -42,8 +46,18 @@ export class ClassRoomComponent {
   }
 
   ngOnInit() {
-    this.getClassList();
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        }
+        else {
+          this.isProfessional = false;
+          this.getClassList();
+        }
+      })
   }
+
 
   /*=========================fetching class list========================================
   ====================================================================================== */
@@ -56,7 +70,7 @@ export class ClassRoomComponent {
         this.fetchTableDataByPage(this.pageIndex);
       }),
       err => {
-       }
+      }
   }
 
   /*=====================================================================================
@@ -82,7 +96,7 @@ export class ClassRoomComponent {
   ================================================================================= */
 
   addNewclassRoom(Room_ele, Desc_ele) {
-    if (Room_ele!="" && Desc_ele != "" && Room_ele !=null && Desc_ele != null ) {
+    if (Room_ele != "" && Desc_ele != "" && Room_ele != null && Desc_ele != null) {
       let classRoomobj = {
         class_room_desc: Desc_ele,
         class_room_name: Room_ele
@@ -99,8 +113,8 @@ export class ClassRoomComponent {
         }
 
       }
-  
-       if (Desc_ele.length > 500) {
+
+      if (Desc_ele.length > 500) {
         let data = {
           type: 'error',
           title: "Error",
@@ -124,7 +138,7 @@ export class ClassRoomComponent {
 
         },
         error => {
-         
+
           let msg = {
             type: "error",
             title: "Error",
@@ -135,8 +149,8 @@ export class ClassRoomComponent {
           this.AppC.popToast(msg);
         }
       )
-    } 
-   
+    }
+
     else {
       let data = {
         type: 'error',
@@ -159,12 +173,12 @@ export class ClassRoomComponent {
       class_room_id: row.class_room_id,
 
     }
-    
+
     for (var j = 0; j < this.classRoomData.length; j++) {
-      if(j==index){
+      if (j == index) {
         continue;
       }
-      else if(this.classRoomData[j].class_room_name === row.class_room_name) {
+      else if (this.classRoomData[j].class_room_name === row.class_room_name) {
         let data = {
           type: 'error',
           title: "Error",
@@ -173,8 +187,8 @@ export class ClassRoomComponent {
         this.AppC.popToast(data);
         return;
       }
-    } 
-     
+    }
+
     if (data.class_room_name != "" && data.class_room_name != null && data.class_room_desc != "" && data.class_room_desc != null) {
       if (data.class_room_desc.length > 500) {
         let data = {
@@ -185,16 +199,16 @@ export class ClassRoomComponent {
         this.AppC.popToast(data);
         return;
       }
-    /*  if (data.class_room_desc.length < 80) {
-        let data = {
-          type: 'error',
-          title: "Description should  be greater than 80 Characters",
-          body: "error"
+      /*  if (data.class_room_desc.length < 80) {
+          let data = {
+            type: 'error',
+            title: "Description should  be greater than 80 Characters",
+            body: "error"
+          }
+          this.AppC.popToast(data);
+          return;
         }
-        this.AppC.popToast(data);
-        return;
-      }
-    */
+      */
       this.ClassList.updateclassListData(data).subscribe(
         res => {
           let data = {
@@ -206,7 +220,7 @@ export class ClassRoomComponent {
           this.getClassList();
         },
         err => {
-         
+
         }
       );
     }
@@ -225,11 +239,11 @@ export class ClassRoomComponent {
     if (this.searchText != "" && this.searchText != null) {
       this.pageIndex = 1;
       let searchRes: any;
-     
-        searchRes = this.classRoomData.filter(item =>
-          Object.keys(item).some(
-            k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
-        );
+
+      searchRes = this.classRoomData.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
       this.searchData = searchRes;
       this.totalRow = searchRes.length;
       this.searchflag = true;
@@ -239,7 +253,7 @@ export class ClassRoomComponent {
       this.searchflag = false;
       this.fetchTableDataByPage(this.pageIndex);
       this.totalRow = this.classRoomData.length;
-      
+
     }
   }
 
