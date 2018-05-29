@@ -29,7 +29,7 @@ export class CoreHeaderComponent implements OnInit {
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   inputValue: any;
-  settings: string = "0";
+  settings: string;
   manageExamGrades: string = "";
   globalSearchForm: any = {
     name: '',
