@@ -560,5 +560,13 @@ export class WidgetService {
         )
     }
 
+    cancelExamScheduleCourse(obj) {
+        obj.inst_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/courseExamSchedule/cancel";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
 
 }

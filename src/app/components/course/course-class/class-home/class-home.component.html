@@ -150,7 +150,7 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.teacher_id != '-1'}">
-                        <label for="selectteacher">Select Teacher</label>
+                        <label for="selectteacher">Select Faculty</label>
                         <select id="selectteacher" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
                           <option value="-1"></option>
                           <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">

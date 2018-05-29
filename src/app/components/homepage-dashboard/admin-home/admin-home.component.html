@@ -123,7 +123,9 @@
                       </ul>
                       <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
                         <li class="batch">Master Course</li>
-                        <li class="batch">Courses</li>
+                        <li class="cls-type batch">Courses</li>
+                        <li class="batch cls-type">Timings</li>
+                        <li class="batch">Type</li>
                       </ul>
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li class="timings">Timings</li>
@@ -180,6 +182,19 @@
                                 {{class.course_name}}
                               </div>
                             </li>
+                            <li class="batch cls-type">
+                              <div *ngIf="class.isExam">
+                                {{class.course_exam_date}} ({{class.exam_start_time}} - {{class.exam_end_time}})
+                              </div>
+                            </li>
+                            <li class="batch">
+                              <div *ngIf="!class.isExam">
+                                Class
+                              </div>
+                              <div *ngIf="class.isExam">
+                                Exam
+                              </div>
+                            </li>
                           </ul>
                           <div *ngIf="!class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHideCourse()" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
@@ -192,7 +207,7 @@
                           <div *ngIf="class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('103')}">
                             <span (click)="markAttendanceExamCourse(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance</span>
                             <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="sendReminderForCourse(class)" style="cursor:pointer">Send Reminder</span>
-                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
+                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClickCourse(class)" style="cursor:pointer">Cancel Exam</span>
                             <span class="" *ngIf="class.course_marks_update_level != '0'" (click)="examMarksUpdateCourse(class)" style="cursor:pointer">Exam Marks</span>
                           </div>
 
@@ -1951,6 +1966,107 @@
           <input type="button" value="Update All And Send SMS" (click)="updateMarksOnServerCourse('all')" class="fullBlue btn">
         </aside>
       </div>
+    </div>
+  </proctur-widget>
+
+  <proctur-widget *ngIf="courseCommonExamCancelPopUP">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUpCommon()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="Attendance9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                    305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                    305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+    <h2 widget-header>Cancel Exam Schedule</h2>
+
+    <div class="cancelExamWrapper" widget-content>
+
+      <div class="details row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <h4>Master Course : {{tempData.master_course}} </h4>
+        </div>
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <h4>Exam Schedule Date : {{tempData.course_exam_date}} </h4>
+        </div>
+      </div>
+
+
+      <div class="content-wraper">
+        <div class="row button-Section">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <h4>Course Name: {{tempData.course_name}}</h4>
+          </div>
+          <div class="pull-right" *ngIf="showReasonSection == ''">
+            <button class="btn fullBlue" (click)="cancelExamCourseWise()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" *ngIf="showReasonSection == ''">
+        <table class="cancel-table">
+          <thead>
+            <tr>
+              <th>
+                Batch Name
+              </th>
+              <th>
+                Start Time
+              </th>
+              <th>
+                End Time
+              </th>
+              <th>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of tempData.batchExamSchdList">
+              <td>{{data.batch_name}}</td>
+              <td>{{data.exam_start_time}}</td>
+              <td>{{data.exam_end_time}}</td>
+              <td>
+                <a style="cursor: pointer;" (click)="cancelSubjectWiseExam(data)">Cancel Exam</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cancel-section" *ngIf="showReasonSection == 'Course' || showReasonSection == 'Subject'">
+        <div class="cancel-Class-Wrapper">
+          <div class="row attendance-Note">
+            <div class="c-sm-6 c-md-6 c-lg-6">
+              <div class="form-wrapper">
+                <label for="cancelTxtBx">Cancellation Reason*</label>
+                <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix" style="margin-top: 10px">
+            <aside class="pull-left" style="margin-top: 10px">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+                <label for="chkBxNotifyStudent">Notify Students</label>
+              </div>
+            </aside>
+            <aside class="pull-right popup-btn">
+              <input type="button" value="Close" class="btn" (click)="closePopUpCommon()">
+              <input type="button" value="Cancel Class" (click)="cancelExamCall()" class="fullBlue btn">
+            </aside>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </proctur-widget>
 

@@ -2535,7 +2535,7 @@ export class AdminHomeComponent implements OnInit {
       let obj = {
         course_exam_schedule_id: data.course_exam_schedule_id,
         course_id: data.course_id,
-        requested_date: moment(data.requested_date).format('YYYY-MM-DD')
+        requested_date: moment(data.course_exam_date).format('YYYY-MM-DD')
       }
       this.widgetService.sendReminder(obj).subscribe(
         res => {
@@ -2716,9 +2716,17 @@ export class AdminHomeComponent implements OnInit {
       end_date: moment(this.courseLevelSchedDate).format('YYYY-MM-DD')
     }
     this.widgetService.getCourseExamFromServer(obj).subscribe(
-      res => {
-        this.addKeyInData(res, "isExam", true);
-        let result = this.courseLevelSchedule.concat(res);
+      (res: any) => {
+        let dataArray: any = [];
+        res.map(ele => {
+          if (ele.batchExamSchdList != null) {
+            if (ele.batchExamSchdList.length > 0) {
+              ele['isExam'] = true;
+              dataArray.push(ele);
+            }
+          }
+        })
+        let result = this.courseLevelSchedule.concat(dataArray);
         this.courseLevelSchedule = result;
       },
       err => {
@@ -2832,6 +2840,8 @@ export class AdminHomeComponent implements OnInit {
     this.subjectList = [];
     this.totalExamMarks = 0;
     this.examMarksLevel = 0;
+    this.courseCommonExamCancelPopUP = false;
+    this.showReasonSection = "";
   }
 
   examMarksUpdateCourse(data) {
@@ -3017,6 +3027,83 @@ export class AdminHomeComponent implements OnInit {
           element.isUpdated = "Y";
         });
       }
+    }
+  }
+
+  courseCommonExamCancelPopUP = false;
+  showReasonSection: any = '';
+
+  onCancelExamClickCourse(data) {
+    this.tempData = data;
+    this.courseCommonExamCancelPopUP = true;
+  }
+
+  cancelExamCourseWise() {
+    this.showReasonSection = "Course";
+    this.cancelPopUpData = {
+      reason: "",
+      notify: true
+    };
+  }
+
+  cancelSubjectWiseExam(data) {
+    this.showReasonSection = "Subject";
+    this.tempData = data;
+    this.cancelPopUpData = {
+      reason: "",
+      notify: true
+    };
+  }
+
+  cancelExamCall() {
+    let notify: any;
+    if (this.cancelPopUpData.notify) {
+      notify = 'Y';
+    } else {
+      notify = 'N';
+    }
+    if (this.cancelPopUpData.reason.trim() == "" || null) {
+      this.messageNotifier('error', 'Error', 'Please provide reason');
+      return false;
+    }
+    if (this.showReasonSection == "Course") {
+      let obj = {
+        cancel_reason: this.cancelPopUpData.reason,
+        course_exam_schedule_id: this.tempData.course_exam_schedule_id,
+        course_id: this.tempData.course_id,
+        is_cancel_notify: notify,
+        requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
+      }
+      this.widgetService.cancelExamScheduleCourse(obj).subscribe(
+        res => {
+          this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
+          this.generateCourseLevelWidget();
+          this.closePopUpCommon();
+        },
+        err => {
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    } else {
+      let obj: any = {
+        batch_id: this.tempData.batch_id,
+        exam_freq: "OTHER",
+        cancelSchd: [{
+          schd_id: this.tempData.schd_id,
+          exam_desc: this.cancelPopUpData.reason,
+          is_notified: notify
+        }]
+      }
+      this.widgetService.cancelExamSchedule(obj).subscribe(
+        res => {
+          this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
+          this.generateCourseLevelWidget();
+          this.closePopUpCommon();
+        },
+        err => {
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
     }
   }
 
