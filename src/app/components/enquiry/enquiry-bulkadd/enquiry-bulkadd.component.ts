@@ -99,8 +99,13 @@ export class EnquiryBulkaddComponent implements OnInit {
       xhr.setRequestHeader("contentType", "false");
       xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
       xhr.setRequestHeader("enctype", "multipart/form-data");
-      let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-      let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
       xhr.setRequestHeader("Authorization", Authorization);
       this.isUploadingXls = true;
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
