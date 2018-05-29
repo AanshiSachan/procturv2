@@ -7,20 +7,29 @@ import { AuthenticatorService } from "../authenticator.service";
 
 @Injectable()
 export class timeTableService {
-
+  
     baseUrl: string = '';
     institute_id: string;
     Authorization: string;
     headers: HttpHeaders;
 
-    /* set default value for each url, header and autherization on service creation */
     constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
         this.Authorization = sessionStorage.getItem('Authorization');
         this.institute_id = sessionStorage.getItem('institute_id');
-        this.baseUrl = this.auth1.getBaseUrl();
-        this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
-    }
 
+        this.auth1.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+        });
+
+        this.auth1.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+
+        this.baseUrl = this.auth1.getBaseUrl();
+
+    }
+     
     getMasterCourses(): Observable<any> {
 
         let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";

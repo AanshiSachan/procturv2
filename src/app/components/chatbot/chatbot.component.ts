@@ -79,7 +79,9 @@ export class chatBotComponent {
         this.helpRequested();
       }     
     )
+    this.payload.ticket.description = "";
   }
+  
 
   posterData() {
     this.ZendeskLogin();

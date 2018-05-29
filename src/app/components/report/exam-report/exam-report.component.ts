@@ -18,6 +18,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 export class ExamReportComponent implements OnInit {
   isProfessional: boolean = true;
   pageIndex: number = 1;
+  isExamGrade: string;
   getSubjectData: any[] = [];
   batchExamRepo: any[] = [];
   totalRecords: number = 0;
@@ -85,7 +86,7 @@ export class ExamReportComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.isExamGrade = sessionStorage.getItem('is_exam_grad_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
@@ -332,7 +333,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "") {
+              if (this.examSource[0].grade == "" || this.isExamGrade =="0") {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
@@ -409,7 +410,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "") {
+              if (this.examSource[0].grade == "" || this.isExamGrade =="0") {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },

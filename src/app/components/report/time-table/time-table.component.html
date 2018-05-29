@@ -4,7 +4,7 @@
   <aside class="middle-full">
     <section class="middle-main clearFix attendance-container" id="filterWrap">
       <section class="middle-top mb0 clearFix sms-header">
-        <h2 class="pull-left homeHead">
+        <h2 class="pull-left">
           <a routerLink="/reports/home">
             Report
           </a>
@@ -19,15 +19,15 @@
           <div class="row proFilterForm" *ngIf="isProfessional">
             <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 col-val">
               <div class="field-radio-wrapper row-val">
-                <input class="form-radio" type="radio" name="filter" id='r1'  [checked]= "selectData=='all'" (change)="radiochangeData('all')">
+                <input class="form-radio" type="radio" name="filter" id='r1' [checked]="selectData=='all'" (change)="radiochangeData('all')">
                 <label for="r1">All</label>
               </div>
               <div class="field-radio-wrapper row-val">
-                <input class="form-radio" type="radio" name="filter" id='r2' [checked]= "selectData=='teacher'" (change)="radiochangeData('teacher')">
+                <input class="form-radio" type="radio" name="filter" id='r2' [checked]="selectData=='teacher'" (change)="radiochangeData('teacher')">
                 <label for="r2">Teacher</label>
               </div>
-              <div class="field-radio-wrapper row-val" style="margin-left: 23% !important;">
-                <input class="form-radio" type="radio" name="filter" id='r3' [checked]= "selectData=='batch'" (change)="radiochangeData('batch')">
+              <div class="field-radio-wrapper row-val" style="margin-left: 15% !important;">
+                <input class="form-radio" type="radio" name="filter" id='r3' [checked]="selectData=='batch'" (change)="radiochangeData('batch')">
                 <label for="r3">Batch</label>
               </div>
             </div>
@@ -46,14 +46,14 @@
                     <option *ngFor="let i of masterPro" [value]="i.standard_id">{{i.standard_name}}</option>
                   </select>
                 </div>
-                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 batchcols">
                   <label>Course</label>
                   <select class="form-ctrl" id="two" [(ngModel)]="fetchFieldDataPro.subject_id" (ngModelChange)="getSubjects($event)">
                     <option value="-1"></option>
                     <option *ngFor="let i of coursePro" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
                   </select>
                 </div>
-                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+                <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 batchcols">
                   <label>Batch</label>
                   <select class="form-ctrl" id="three" [(ngModel)]="fetchFieldDataPro.batch_id">
                     <option value="-1"></option>
@@ -86,7 +86,7 @@
               <label>Subjects</label>
               <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id">
                 <option value="-1"></option>
-                <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+                <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
               </select>
             </div>
             <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
@@ -111,7 +111,8 @@
     <section class="clearFix calender-view1">
       <div class="row btn-wrap" *ngIf="isProfessional">
         <div class="grid-datadisplay">
-          <a (click)="printTimeTableData()" class="printMe"> Print Time Table</a>
+          <i class="fa fa-print"  style= "font-size:32px;float:right;margin-right:20px" (click)="printTimeTableData()"></i>
+          <!-- <a (click)="printTimeTableData()" class="printMe"> Print Time Table</a> -->
           <div style="display: inline-block">
             <a (click)="fetchTimeTableReportPro('-1')" class="directBtn previous">&#8249;</a>
             <a (click)="fetchTimeTableReportPro('1')" class="directBtn next">&#8250;</a>
@@ -139,7 +140,8 @@
       </div>
       <div class="row btn-wrap" *ngIf="!isProfessional">
         <div class="grid-datadisplay">
-          <a (click)="printTimeTableData()" class="printMe"> Print Time Table</a>
+          <i class="fa fa-print" style= "font-size:32px;float:right;margin-right:20px" (click)="printTimeTableData()"></i>
+          <!-- <a (click)="printTimeTableData()" class="printMe"> Print Time Table</a> -->
           <div style="display: inline-block">
             <a (click)="fetchTimeTableReport('-1')" class="directBtn previous">&#8249;</a>
             <a (click)="fetchTimeTableReport('1')" class="directBtn next">&#8250;</a>
