@@ -30,8 +30,6 @@ export class postEmailService {
           this.auth.currentInstituteId.subscribe( id => {
             this.institute_id = id;
           });
-        // this.Authorization = sessionStorage.getItem('Authorization');
-        // this.institute_id = sessionStorage.getItem('institute_id');
         this.baseUrl = this.auth.getBaseUrl();
 
     }

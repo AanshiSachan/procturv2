@@ -16,7 +16,6 @@ export class monitoringService {
 
     /* set default value for each url, header and autherization on service creation */
     constructor(private http: HttpClient, private auth: AuthenticatorService, ) {
-        this.Authorization = sessionStorage.getItem('Authorization');
         this.institute_id = sessionStorage.getItem('institute_id');
 
         this.auth.currentAuthKey.subscribe(key => {

@@ -149,7 +149,7 @@ export class AdminHomeComponent implements OnInit {
     private widgetService: WidgetService,
     private auth: AuthenticatorService
   ) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
     this.schedDate[0] = new Date();

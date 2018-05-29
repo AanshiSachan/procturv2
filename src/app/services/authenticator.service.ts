@@ -29,7 +29,6 @@ export class AuthenticatorService {
      public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
     constructor() {
-        //console.log("Auth constructor called");
         this.getAuthToken();
         this.getInstituteId();
         this.getIsMainBranchValue();
@@ -38,20 +37,22 @@ export class AuthenticatorService {
 
 
     changeInstituteId(id: string) {
-        //console.log("institute id changed "+id);
         this.instituteId.next(id);
     }
 
     changeAuthenticationKey(key: string) {
-        //console.log("Auth changed " +key);
         this.authToken.next(key);
     }
 
 
     getAuthToken() {
-        let token = sessionStorage.getItem('Authorization');
-        if (token != null) {
-            this.changeAuthenticationKey(token);
+        let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+        if(institute_data != null && institute_data != undefined ){
+            let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+            let token = Authorization;
+            if (token != null) {
+                this.changeAuthenticationKey(token);
+            }
         }
     }
 

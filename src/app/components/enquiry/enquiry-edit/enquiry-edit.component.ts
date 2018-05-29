@@ -167,7 +167,7 @@ export class EnquiryEditComponent implements OnInit {
   constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
     private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute, private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       let data = {
         type: "error",
         title: "User not logged-in",
