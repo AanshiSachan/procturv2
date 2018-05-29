@@ -40,7 +40,6 @@ export class chatBotComponent {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    
   }
 
   ZendeskLogin() {
@@ -80,7 +79,9 @@ export class chatBotComponent {
         this.helpRequested();
       }     
     )
+    this.payload.ticket.description = "";
   }
+  
 
   posterData() {
     this.ZendeskLogin();
