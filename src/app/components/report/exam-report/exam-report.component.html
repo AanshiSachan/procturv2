@@ -85,7 +85,7 @@
 
                 </div>
             </section>
-            <div class="table table-responsive student-table stdnt-table" *ngIf="!isProfessional && Tdata">
+            <div class="table table-responsive student-table stdnt-table table-overflow" *ngIf="!isProfessional && Tdata">
                 <div class="search-filter-wrapper" id="adFilterExitVisible">
                     <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
@@ -118,7 +118,7 @@
             </div>
 
 
-            <div class="table table-responsive student-table stdnt-table" *ngIf="isProfessional && Tdata">
+            <div class="table table-responsive student-table stdnt-table " *ngIf="isProfessional && Tdata">
                 <div class="search-filter-wrapper" id="adFilterExitVisible">
                     <input #search type="text" class="normal-field" [(ngModel)]="searchText" style="font-size:12px" placeholder="Search" (keyup)="searchDatabase()">
                 </div>
@@ -178,7 +178,7 @@
             <i class="fa fa-file-excel-o" (click)=" downloadJsonToCSV()" style="color:blue; height:39px; float:right; font-size:31px"></i>
             <a class="hide" #xlsDownloader></a>
 
-            <div class="table table-responsive student-table made ">
+            <div class="table table-responsive student-table made" style="overflow:Hidden">
                 <table #examTable>
                     <thead>
                         <tr>
@@ -197,7 +197,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor='let det of pagedDetailExamSource'>
+                        <tr *ngFor='let det of detailSource'>
                             <td style="text-align:right;">{{det.student_display_id}}</td>
                             <td style="text-align:left;">{{det.student_name}}</td>
 
@@ -208,17 +208,17 @@
                             </td>
 
                         </tr>
-                        <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
+                        <tr *ngIf='detailSource.length==0'>No Students Founds</tr>
                     </tbody>
 
                 </table>
-                <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
+             <!--   <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                         <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
                             [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
                         </pagination>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -245,7 +245,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor='let det of pagedDetailExamSource'>
+                        <tr *ngFor='let det of detailSource'>
 
                             <td style="text-align:right;">{{det.student_display_id}}</td>
                             <td style="text-align:left;">{{det.student_name}}</td>
@@ -257,16 +257,16 @@
                             </td>
 
                         </tr>
-                        <tr *ngIf='pagedDetailExamSource.length==0'>No Students Founds</tr>
+                        <tr *ngIf='detailSource.length==0'>No Students Founds</tr>
                     </tbody>
                 </table>
-                <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
+              <!--  <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                         <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
                             [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
                         </pagination>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -274,8 +274,8 @@
 
     <div class="" popup-footer>
         <div class="clearfix">
-            <aside class="pull-right popup-btn" style="position: absolute;top: 90%;right: 1%;">
-                <input type="button" value="Close" class="btn" (click)="closeReportPopup()">
+            <aside class="pull-right popup-btn">
+                <input type="button" value="Close" class="btn" style= "margin-right:10px;margin-top:0px" (click)="closeReportPopup()">
             </aside>
         </div>
     </div>

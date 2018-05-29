@@ -21,6 +21,7 @@ import { AttendanceReportComponent } from './attendance-report/attendanceReport.
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { ReportCardComponent } from './report-card/report-card.component';
 import { TimeTableComponent } from './time-table/time-table.component';
+import { tableComponent } from './time-table/table/table.component';
 import { EmailReportComponent } from './email-report/email-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 
@@ -28,7 +29,7 @@ import { getSMSService } from '../../services/report-services/get-sms.service';
 import { getEmailService } from '../../services/report-services/get-email.service';
 import { ExamService } from '../../services/report-services/exam.service';
 import { postSMSService } from '../../services/report-services/post-sms.service';
-import {timeTableService} from '../../services/TimeTable/timeTable.service';
+import { timeTableService } from '../../services/TimeTable/timeTable.service';
 import { SharedModule } from '../shared/shared.module';
 import { postEmailService } from '../../services/report-services/post-email.service';
 
@@ -60,6 +61,7 @@ import { ReportWidgetComponent } from './report-widget/report-widget.component';
         ExamReportComponent,
         ReportCardComponent,
         TimeTableComponent,
+        tableComponent,
         EmailReportComponent,
         ProfitLossComponent,
         searchPipe,
@@ -68,14 +70,14 @@ import { ReportWidgetComponent } from './report-widget/report-widget.component';
         ReportWidgetComponent,
     ],
     entryComponents: [
-
+        tableComponent,
     ],
     providers: [
         getSMSService,
         postSMSService, ExamService,
         AttendanceReportServiceService,
         getEmailService,
-        postEmailService,timeTableService,
+        postEmailService, timeTableService,
         BiometricServiceService
     ],
     exports: [

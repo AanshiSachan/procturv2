@@ -13,6 +13,8 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 
 @Component({
@@ -22,6 +24,7 @@ import * as moment from 'moment';
 })
 export class EnquiryAddComponent implements OnInit {
 
+  isRippleLoad: boolean;
   isRegisterStudent: boolean;
   /* Variable Declarations */
   enqstatus: any = [];
@@ -79,7 +82,8 @@ export class EnquiryAddComponent implements OnInit {
     assigned_to: sessionStorage.getItem('userid'),
     followUpTime: "",
     lead_id: -1,
-    enqCustomLi: []
+    enqCustomLi: [],
+    source_instituteId: '-1'
   };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -160,10 +164,17 @@ export class EnquiryAddComponent implements OnInit {
   cityListDataSource: any = [];
   areaListDataSource: any = [];
 
+  // Main Branch
+  isMainBranch: any = "N";
+  branchesList: any = [];
+  subBranchSelected: any = false;
+
   constructor(private prefill: FetchprefilldataService, private router: Router,
-    private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
+    private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService,
+    private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService
+  ) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
@@ -237,11 +248,33 @@ export class EnquiryAddComponent implements OnInit {
       assigned_to: sessionStorage.getItem('userid'),
       followUpTime: "",
       lead_id: -1,
-      enqCustomLi: []
+      enqCustomLi: [],
+      source_instituteId: '-1'
     };
 
-  }
 
+    // Multi Branch Check
+    this.auth.isMainBranch.subscribe(
+      (value: any) => {
+        this.isMainBranch = value;
+        if (this.isMainBranch == "Y") {
+          this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
+          this.multiBranchInstituteFound();
+        }
+      }
+    );
+
+    this.multiBranchService.subBranchSelected.subscribe(
+      res => {
+        this.subBranchSelected = res;
+        if (this.subBranchSelected) {
+          this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
+          this.multiBranchInstituteFound();
+        }
+      }
+    )
+
+  }
 
 
 
@@ -847,12 +880,24 @@ export class EnquiryAddComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
+
         this.newEnqData.enqCustomLi = this.getCustomComponents();
-        //console.log(this.newEnqData.enqCustomLi);
+        
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
+
+        /* isMainBranch,subBranchSelected */
+        if(this.isMainBranch == "N" && this.subBranchSelected == false){
+          this.newEnqData.source_instituteId = '-1';
+        }
+        
+        else if(this.isMainBranch == "Y" && this.subBranchSelected == false){
+          this.newEnqData.source_instituteId = this.newEnqData.source_instituteId;
+        }
+
         this.newEnqData.dob = this.fetchDOB();
+
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
             this.enquiryConfirm = data;
@@ -868,7 +913,7 @@ export class EnquiryAddComponent implements OnInit {
                   dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
                   parent_email: this.newEnqData.parent_email,
                   school_name: this.newEnqData.school_id,
-                  standard_id:this.newEnqData.standard_id,
+                  standard_id: this.newEnqData.standard_id,
                   parent_name: this.newEnqData.parent_name,
                   parent_phone: this.newEnqData.parent_phone,
                   enquiry_id: instituteEnqId,
@@ -908,6 +953,7 @@ export class EnquiryAddComponent implements OnInit {
             this.appC.popToast(data);
           }
         );
+
       }
       else {
         let msg = {
@@ -1077,7 +1123,6 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
   /* fetch the data of last updated enquiry */
   updateLastUpdatedDetails() {
     this.prefill.fetchLastDetail().subscribe(data => {
@@ -1090,17 +1135,11 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
-
-
   /* Function to open confirmation popup on succesfull form submission  */
   openConfirmationPopup() {
     //  console.log("confirmation popup opened");
     this.confimationPop = true;
   }
-
-
-
 
 
   /* Function to close the confirmation popup */
@@ -1111,16 +1150,12 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-
-
   /* function to open update popup */
   openUpdatePopup() {
     this.closePopUp();
     this.updatePop = true;
     // console.log("edit popup opened");
   }
-
-
 
 
 
@@ -1149,10 +1184,6 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-
-
-
-
   /* function to show popup for adding reference */
   showAddReferPops() {
     this.isReferPop = true;
@@ -1165,11 +1196,6 @@ export class EnquiryAddComponent implements OnInit {
   hideAddReferPops() {
     this.isReferPop = false;
   }
-
-
-
-
-
 
 
   /* Reload the Enquiry Form and clear data */
@@ -1193,9 +1219,6 @@ export class EnquiryAddComponent implements OnInit {
     }
     )
   }
-
-
-
 
 
   /* --------------------------------------------------------------------------------------------------------- */
@@ -1364,11 +1387,6 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
-
-
-
-
   /* --------------------------------------------------------------------------------------------------------- */
   /* ---------------------------------------------- Reference Editor Logic ------------------------------------------------- */
   /* --------------------------------------------------------------------------------------------------------- */
@@ -1530,12 +1548,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
-
-
-
-
 
 
   /* --------------------------------------------------------------------------------------------------------- */
@@ -1796,6 +1808,36 @@ export class EnquiryAddComponent implements OnInit {
         }
       )
     }
+  }
+
+
+  // MultiBranch 
+
+  multiBranchInstituteFound() {
+    this.prefill.getAllSubBranches().subscribe(
+      (res: any) => {
+        this.branchesList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+
+  branchUpdated(e) {
+    this.isRippleLoad = true;
+    this.newEnqData.source_instituteId = e;
+    this.prefill.fetchAssignedToData(e).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.enqAssignTo = res;
+        this.newEnqData.assigned_to = "-1";
+      },
+      err => {
+        this.isRippleLoad = false;
+      }
+    );
   }
 
 }

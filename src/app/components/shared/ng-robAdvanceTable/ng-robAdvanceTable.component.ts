@@ -69,7 +69,6 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.defaultSort;
         this.menuOptions;
         this.recordCount = this.records.length;
-        console.log(this.records.length +"::" +this.dataStatus);
         this.updateTableBatchSize(this.displayBatchSize);
         this.refreshTable();
         if (this.settings) {
@@ -83,23 +82,31 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     }
     getColor(key, data) {
-       
+
         if (key == "student_category") {
+            let obj = {
+                'color': 'green'
+            }
+            let obj1 = {
+                'color': 'red'
+            }
+
+            let obj3 = {
+                'color': 'blue'
+            }
+
             if (data == "active") {
-                return 'green'
+                return obj
             }
             else if (data == "inactive") {
-                return 'red'
-            }
-            else if (data == "historical") {
-                return 'brown'
+                return obj1
             }
             else if (data == "archived") {
-                return 'blue';
+                return obj3;
             }
         }
-    }
 
+    }
 
     selectAllRows(ev) {
         this.cd.markForCheck();
@@ -199,12 +206,12 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     requestSort(ev) {
         this.cd.markForCheck();
-
         this.caret = true;
         this.headerSort = ev;
         (this.asc) ? (this.asc = false) : (this.asc = true);
 
         let type = this.typeOfDataSelected(ev);
+        debugger;
 
         if (type === 0) {
             this.sortNumber(ev);
@@ -251,6 +258,7 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
     sortDate(e): any {
+
         if (this.asc) {
             this.records.sort((a, b) => {
                 return new Date(a[e]).getTime() - new Date(b[e]).getTime();
@@ -264,7 +272,11 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
     typeOfDataSelected(i: string): number {
-        if (i.includes('id')) {
+
+        if (i.includes('id') && i.length == 2) {
+            return 0
+        }
+        if (i.includes('no') && i.length == 2) {
             return 0
         }
         else if (i.includes('name')) {
@@ -276,6 +288,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         else if (i.includes('date')) {
             return 2
         }
+
         else {
             return 0
         }

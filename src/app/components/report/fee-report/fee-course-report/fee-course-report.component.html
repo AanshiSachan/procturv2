@@ -9,10 +9,16 @@
                         <a routerLink="/reports">
                             Report
                         </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> <a routerLink="/reports/fee">
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                        <a routerLink="/reports/fee">
                             Fee Report
                         </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Fee Report
+                        <div *ngIf=!isProfessional style="display:inline-block;">
+                            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Batch wise report
+                        </div>
+                        <div *ngIf=isProfessional style="display:inline-block;">
+                            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Course wise report
+                        </div>
                     </h2>
                     <aside class="pull-left">
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">

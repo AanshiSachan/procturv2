@@ -18,6 +18,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 export class ExamReportComponent implements OnInit {
   isProfessional: boolean = true;
   pageIndex: number = 1;
+  isExamGrade: string;
   getSubjectData: any[] = [];
   batchExamRepo: any[] = [];
   totalRecords: number = 0;
@@ -85,7 +86,7 @@ export class ExamReportComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.isExamGrade = sessionStorage.getItem('is_exam_grad_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
@@ -332,7 +333,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "") {
+              if (this.examSource[0].grade == "" || this.isExamGrade =="0") {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
@@ -360,8 +361,8 @@ export class ExamReportComponent implements OnInit {
                 body: "No Data Found"
               }
               this.examSource = [];
-              
-              
+
+
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.appC.popToast(msg);
@@ -402,14 +403,14 @@ export class ExamReportComponent implements OnInit {
 
               this.examSource = res;
               this.Tdata = true;
-            
+
               this.HighestMarks = this.examSource[0].highest_marks;
               this.LowestMarks = this.examSource[0].lowest_marks;
               this.AverageMarks = this.examSource[0].average_marks;
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "") {
+              if (this.examSource[0].grade == "" || this.isExamGrade =="0") {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
@@ -475,8 +476,8 @@ export class ExamReportComponent implements OnInit {
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
                   this.isRippleLoad = false;
-                  this.totalRecords = this.detailSource.length;
-                  this.fetchTableDataByPagePopup(this.pageIndexPopup);
+                  //   this.totalRecords = this.detailSource.length;
+                  //  this.fetchTableDataByPagePopup(this.pageIndexPopup);
                 });
                 this.addReportPopup = true;
               }
@@ -518,8 +519,8 @@ export class ExamReportComponent implements OnInit {
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
                   this.isRippleLoad = false;
-                  this.totalRecords = this.detailSource.length;
-                  this.fetchTableDataByPagePopup(this.pageIndexPopup);
+                  // this.totalRecords = this.detailSource.length;
+                  //this.fetchTableDataByPagePopup(this.pageIndexPopup);
                 });
 
                 this.addReportPopup = true;

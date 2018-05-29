@@ -15,7 +15,7 @@
                             Fee Report
                          
                         </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Fee Report
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>All dues Report
                     </h2>
                     <aside class="pull-left">
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
@@ -141,7 +141,7 @@
                         <div class="c-lg-3" *ngIf="isCustomDate">
                             <div class="field-wrapper datePickerBox">
                                 <label for="ic">To Date</label>
-                                <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text" value="" readonly="true"
+                                <input [(ngModel)]="courseFetchForm.to_date" type="text" value="" readonly="true"
                                     class="form-ctrl bsDatepicker" bsDatepicker/>
                             </div>
                             <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>

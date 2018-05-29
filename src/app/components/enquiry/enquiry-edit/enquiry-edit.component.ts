@@ -15,7 +15,8 @@ import { PostEnquiryDataService } from '../../../services/enquiry-services/post-
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -81,7 +82,8 @@ export class EnquiryEditComponent implements OnInit {
     assigned_to: "-1",
     followUpTime: "",
     lead_id: -1,
-    enqCustomLi: []
+    enqCustomLi: [],
+    source_instituteId: -1
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -133,12 +135,6 @@ export class EnquiryEditComponent implements OnInit {
 
   }
 
-
-  // hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  // minArr: any[] = ['', '00', '15', '30', '45'];
-  // meridianArr: any[] = ['', "AM", "PM"];
-  // hour: string = ''; minute: string = ''; meridian: string = '';
-
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
@@ -162,13 +158,16 @@ export class EnquiryEditComponent implements OnInit {
   cityListDataSource: any = [];
   areaListDataSource: any = [];
 
-
+  actualAssignee: any;
+  isMainBranch: any = "N";
+  branchesList: any = [];
+  subBranchSelected: any = false;
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
-    private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute) {
+    private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute, private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       let data = {
         type: "error",
         title: "User not logged-in",
@@ -191,7 +190,29 @@ export class EnquiryEditComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.FetchEnquiryPrefilledData();
-    this.updateEnquiryData();
+    this.updateEnquiryData()
+
+    // Multi Branch Check
+    this.auth.isMainBranch.subscribe(
+      (value: any) => {
+        this.isMainBranch = value;
+        if (this.isMainBranch == "Y") {
+          this.editEnqData.source_instituteId = sessionStorage.getItem('institute_id');
+          this.multiBranchInstituteFound();
+        }
+      }
+    );
+
+    this.multiBranchService.subBranchSelected.subscribe(
+      res => {
+        this.subBranchSelected = res;
+        if (this.subBranchSelected) {
+          this.editEnqData.source_instituteId = sessionStorage.getItem('institute_id');
+          this.multiBranchInstituteFound();
+        }
+      }
+    )
+
   }
 
 
@@ -219,6 +240,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
+        this.actualAssignee = data.assigned_to;
         this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
         if (data.followUpTime != '') {
           let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
@@ -233,6 +255,9 @@ export class EnquiryEditComponent implements OnInit {
         this.fetchSubject(this.editEnqData.standard_id);
         if (data.city != "" && data.city != null) {
           this.onCitySelctionChanges(data.city);
+        }
+        if (this.isMainBranch == 'Y' || this.subBranchSelected == true) {
+          this.editEnqData.source_instituteId = sessionStorage.getItem('institute_id');
         }
       });
   }
@@ -333,8 +358,6 @@ export class EnquiryEditComponent implements OnInit {
       basic.add('active');
     }
   }
-
-
 
 
   /* Function to fetch prefill data for form creation */
@@ -732,6 +755,16 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.enqCustomLi = this.getCustomComponents();
         let dob = this.fetchDOB();
         this.editEnqData.dob = dob;
+        
+        /* isMainBranch,subBranchSelected */
+        if(this.isMainBranch == "N" && this.subBranchSelected == false){
+          this.editEnqData.source_instituteId = '-1';
+        }
+        
+        else if(this.isMainBranch == "Y" && this.subBranchSelected == false){
+          this.editEnqData.source_instituteId = this.editEnqData.source_instituteId;
+        }
+
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           data => {
             if (data.statusCode == 200) {
@@ -791,12 +824,7 @@ export class EnquiryEditComponent implements OnInit {
     }
     /* Do Nothing if the formData is Still Invalid  */
     else {
-      /* let msg = {
-        type: 'error',
-        title: 'Academic Details Incomplete',
-        body: 'Please fill all the required fields'
-      }
-      this.appC.popToast(msg); */
+
     }
   }
 
@@ -1121,6 +1149,37 @@ export class EnquiryEditComponent implements OnInit {
         }
       )
     }
+  }
+
+  multiBranchInstituteFound() {
+    this.prefill.getAllSubBranches().subscribe(
+      (res: any) => {
+        this.branchesList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+
+  branchUpdated(e) {
+    this.editEnqData.source_instituteId = e;
+    let sessid = sessionStorage.getItem('institute_id');
+    this.prefill.fetchAssignedToData(e).subscribe(
+      res => {
+        this.enqAssignTo = res;
+        if (sessid == e) {
+          this.editEnqData.assigned_to = this.actualAssignee;
+        }
+        else {
+          this.editEnqData.assigned_to = "-1";
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

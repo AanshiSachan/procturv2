@@ -13,6 +13,24 @@
     box-shadow: 0px 1px 1px 0.5px #777;
 }
 
+.dueDate {
+    .field-wrapper {
+        position: relative;
+        &.datePickerBox {
+            &::after {
+                content: '';
+                background: url('/./assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 19px;
+                top: 17px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
 .questionInfo {
     position: relative;
     left: 40%;
@@ -897,12 +915,11 @@ div#enqChart {
                 display: inline-flex;
                 width: 200px;
                 margin: 0px 25px;
-                padding-top: 4px;
-                //height: 25px;
-                ul{
+                padding-top: 4px; //height: 25px;
+                ul {
                     list-style: none;
                     width: 100%;
-                    li{
+                    li {
                         background: #fff;
                         display: inline-block;
                         width: 45%;
@@ -910,7 +927,7 @@ div#enqChart {
                         border: 1px solid #0084f6;
                         cursor: pointer;
                         color: #0084f6;
-                        &.active{
+                        &.active {
                             background: #0084f6;
                             color: #fff;
                         }
@@ -1082,7 +1099,8 @@ div#enqChart {
             &.cls-type {
                 width: 15%;
                 &.batch {
-                    width: 45% !important;
+                    width: 30% !important;
+                    color: rgba(30, 35, 40, 0.7);
                 }
             }
             &:first-child {
@@ -1102,6 +1120,7 @@ div#enqChart {
             }
             &.batch {
                 width: 20% !important;
+                color: rgba(30, 35, 40, 0.7);
             }
             &.faculty {
                 width: 25% !important;
@@ -1143,6 +1162,12 @@ div#enqChart {
                 }
                 &.class_room {
                     width: 15% !important;
+                }
+                &.batch {
+                    &.cls-type {
+                        width: 30% !important;
+                        color: rgba(30, 35, 40, 0.7);
+                    }
                 }
                 &.batch {
                     width: 20% !important;
@@ -2234,5 +2259,25 @@ div#enqChart {
     .tooltip-box-field {
         left: 35px !important;
         top: -30px !important;
+    }
+}
+
+.paddingLess {
+    padding: 1px 5px !important;
+}
+
+.cancelExamWrapper {
+    .details {
+        margin: 10px -15px;
+    }
+    .content-wraper {
+        .button-Section {
+            margin: 10px 0px 10px -15px;
+        }
+        .cancel-table {
+            max-height: 150px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
     }
 }

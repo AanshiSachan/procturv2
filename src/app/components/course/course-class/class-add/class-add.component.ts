@@ -160,7 +160,7 @@ export class ClassAddComponent implements OnInit {
     private classService: ClassScheduleService,
     private auth: AuthenticatorService
   ) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
@@ -923,13 +923,9 @@ export class ClassAddComponent implements OnInit {
 
   }
 
-  removeRowFromSchedule(i, row) {
+  removeRowFromSchedule(index, row) {
     if (confirm("Are you sure you want to delete?")) {
-      for (let i = 0; i < this.classScheduleArray.length; i++) {
-        if (this.classScheduleArray[i].class_schedule_id == row.class_schedule_id) {
-          this.classScheduleArray.splice(i, 1);
-        }
-      }
+      this.classScheduleArray.splice(index, 1);
     }
   }
 

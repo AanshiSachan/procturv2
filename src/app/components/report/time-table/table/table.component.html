@@ -1,0 +1,56 @@
+<section class="timetablewrapepr">
+    <ul class="time-head" *ngIf="recordInput.length">
+        <li class="head-item" *ngFor="let head of recordInput">
+            <ul>
+                <li class="inner-date">{{head.headerDate}}</li>
+                <li class="inner-day">{{head.headerDays}}</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="table-scroller" *ngIf="recordInput.length">
+        <div *ngIf="recordInput[0].data.length!=0">
+            <ul class="time-body" *ngFor="let time of recordInput">
+                <li class="time-item" *ngFor="let i  of time.data">
+                    <ul class="emptyclass" *ngIf="i == undefined">
+                        NA
+                    </ul>
+                    <ul class="nonemptyClass" *ngIf="i != undefined">
+                        <li class="one">
+                            <!-- <span *ngIf="i.class_type=='Exam'" class="dotto" style="background-color:red"></span>
+                        <span *ngIf="i.class_type=='REGULAR'" class="dotto" style="background-color:black"></span> -->
+                            <!-- <span *ngIf="i.class_type=='DOUBT'" class="dotto" style="border-color:blue"></span>
+                        <span *ngIf="i.class_type =='REVISION'" class="dotto" style="border-color:darkgreen"></span>
+                        <span *ngIf="i.class_type =='EXTRA'" class="dotto" style="border-color:yellow"></span> -->
+                            {{i.start_time}}-{{i.end_time}}
+                        </li>
+
+                        <li *ngIf="i.class_type =='REGULAR'" class="three" style="background-color:#04b8e6;">
+                            ({{i.class_type}})
+                        </li>
+                        <li *ngIf="i.class_type =='Exam'" class="three" style="background-color:red">
+                            ({{i.class_type}})
+                        </li>
+                        <li *ngIf="i.class_type == 'WEEK'|| i.class_type=='REVISION' || i.class_type=='DOUBT' || i.class_type=='EXTRA'" class="three"
+                            style="background-color:#04b8e6;">(Regular)
+                        </li>
+
+                        <li class="three" title={{i.batchName}}>
+                            {{splitBatchData(i.batchName)}}
+                        </li>
+                        <li class="three">
+                            {{i.teacher_name}}
+                        </li>
+                    </ul>
+                </li>
+                <div *ngIf="time.data.length == 0">
+                    No Schedule Available
+                </div>
+            </ul>
+        </div>
+        <div class="noSchedule" *ngIf="recordInput[0].data.length==0">No Schedule Available
+        </div>
+    </div>
+
+
+</section>

@@ -91,7 +91,7 @@ export class EnquiryWidgetComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.fetchEnqWidgetData();
+        // this.fetchEnqWidgetData();
     }
 
     openCalendar(id) {

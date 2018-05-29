@@ -24,7 +24,6 @@ import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
 import { AlertService } from './services/alert.service';
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
-import { Ng2SmartTableModule } from '../assets/imported_modules/ng2-smart-table';
 
 
 /* Interceptors */
@@ -71,7 +70,7 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     HttpModule,
     HelpHomeModule,
     BrowserAnimationsModule,
-    Ng2SmartTableModule, TreeTableModule,
+    TreeTableModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),

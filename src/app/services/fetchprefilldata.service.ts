@@ -46,7 +46,7 @@ export class FetchprefilldataService {
 
   /* set default value for each url, header and autherization on service creation */
   constructor(private http: Http, private auth: AuthenticatorService) {
-    this.auth.currentAuthKey.subscribe( key => {
+    this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
       this.headers = new Headers();
       this.headers.append("Content-Type", "application/json");
@@ -54,8 +54,8 @@ export class FetchprefilldataService {
       this.baseUrl = this.auth.getBaseUrl();
       this.headersPost = new Headers();
       this.headersPost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    }) 
-    this.auth.currentInstituteId.subscribe( id => {
+    })
+    this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
     // this.Authorization = this.auth.getAuthToken();
@@ -64,18 +64,38 @@ export class FetchprefilldataService {
   }
 
 
-  globalSearch(obj): Observable<any>{
-    obj.instituteId = this.institute_id;
-    obj.name = obj.name == ''? '': obj.name.trim();
 
-    let url = this.baseUrl +"/api/v1/students/globalSearch"
-    return this.http.post(url, obj, {headers: this.headers}).map(
+  fetchAssignedToData(id): Observable<any> {
+
+    let obj = {
+      user_Type: 0
+    }
+
+    let url = this.baseUrl + "/api/v1/profiles/" + id + "/" + this.institute_id;
+
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+    )
+
+  }
+
+  globalSearch(obj): Observable<any> {
+    obj.instituteId = this.institute_id;
+    obj.name = obj.name == '' ? '' : obj.name.trim();
+
+    let url = this.baseUrl + "/api/v1/students/globalSearch"
+    return this.http.post(url, obj, { headers: this.headers }).map(
       res => {
         let data = res['_body'];
-        if(data != null && data != ''){
+        if (data != null && data != '') {
           return res.json();
         }
-        else{
+        else {
           return [];
         }
 
@@ -547,7 +567,7 @@ export class FetchprefilldataService {
     );
   }
 
-  fetchUserCreatedComponentStudent(){
+  fetchUserCreatedComponentStudent() {
     let urlUserComponent = this.baseUrl + "/api/v1/instCustomComp/getAll/" + this.institute_id + "?page=2";
 
     return this.http.get(urlUserComponent, { headers: this.headers }).map(
@@ -607,6 +627,16 @@ export class FetchprefilldataService {
       err => {
         return err.json();
       }
+    )
+  }
+
+  /// Get All Branches Details
+
+  getAllSubBranches() {
+    let url = this.baseUrl + "/api/v1/institutes/all/Branches/" + this.institute_id;
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
     )
   }
 

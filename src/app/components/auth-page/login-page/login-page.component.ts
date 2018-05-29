@@ -92,7 +92,7 @@ export class LoginPageComponent {
     private toastCtrl: AppComponent, private auth: AuthenticatorService) {
 
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
-    if (sessionStorage.getItem('Authorization') != null) {
+    if (sessionStorage.getItem('userid') != null) {
       this.fullscreenLogin();
       this.loginDataForm = {
         alternate_email_id: "",
@@ -226,12 +226,10 @@ export class LoginPageComponent {
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
 
-      sessionStorage.setItem('Authorization', Authorization);
-      sessionStorage.setItem('institute_id', institute_data.institution_id);
-
       this.auth.changeAuthenticationKey(Authorization);
       this.auth.changeInstituteId(institute_data.institution_id);
 
+      sessionStorage.setItem('institute_id', institute_data.institution_id);
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('accountId', institute_data.accountId);
@@ -577,7 +575,11 @@ export class LoginPageComponent {
       }
       /* If Id Not set then recall the function as user has successfully logged in */
       else {
-        this.auth.changeAuthenticationKey(sessionStorage.getItem('Authorization'));
+        let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+        if(institute_data != null && institute_data != undefined){
+          let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+          this.auth.changeAuthenticationKey(Authorization);          
+        }
         this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
         this.createRoleBasedSidenav();
       }

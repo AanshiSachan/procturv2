@@ -476,14 +476,14 @@ export class WidgetService {
         )
     }
 
-    // sendReminder(obj) {
-    //     obj.inst_id = this.institute_id;
-    //     let url = this.baseUrl + "/api/v1/courseExamSchedule/sendReminder";
-    //     return this.http.post(url, obj, { headers: this.headers }).map(
-    //         res => { return res; },
-    //         err => { return err; }
-    //     )
-    // }
+    sendReminder(obj) {
+        obj.inst_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/courseExamSchedule/sendReminder";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
 
     fetchStudentList(data) {
         let url = this.baseUrl + "/api/v1/attendance/exam";
@@ -520,6 +520,50 @@ export class WidgetService {
     getExamGrades() {
         let url = this.baseUrl + "/api/v1/grade_manager/getDetail/" + this.institute_id;
         return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    //Course Model API
+
+    getCourseExamFromServer(obj) {
+        obj.inst_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/courseExamSchedule/fetchExamSchld";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    markStudentAttendance(obj) {
+        let url = this.baseUrl + "/api/v1/StdCourseExam/markAttendance";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    markStudentMarks(obj) {
+        let url = this.baseUrl + '/api/v1/StdCourseExam/updateMarks';
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    getExamStudentsList(id) {
+        let url = this.baseUrl + "/api/v1/StdCourseExam/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    cancelExamScheduleCourse(obj) {
+        obj.inst_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/courseExamSchedule/cancel";
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )

@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { AppComponent } from '../../app.component';
 import { searchPipe } from '../shared/pipes/searchBarPipe';
 import { LoginService } from '../../services/login-services/login.service';
+import { AuthenticatorService } from '../../services/authenticator.service';
 @Component({
   selector: 'app-event-managment',
   templateUrl: './event-managment.component.html',
@@ -76,6 +77,7 @@ export class EventManagmentComponent implements OnInit {
     private eve_mnge: EventManagmentService,
     private appc: AppComponent,
     private login: LoginService,
+    private auth: AuthenticatorService
   ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
@@ -84,9 +86,19 @@ export class EventManagmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if(res == "LANG"){
+          this.isProfessional = true;
+        }else{
+          this.isProfessional = false;
+        }
+      }
+    )
     this.getAllListData();
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
   }
+
+
   /*=====================================get list of records=================================
   ============================================================================================ */
   getAllListData() {

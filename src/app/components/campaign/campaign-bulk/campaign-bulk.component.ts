@@ -134,13 +134,19 @@ export class CampaignBulkComponent implements OnInit {
                 let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
     
                 let xhr: XMLHttpRequest = new XMLHttpRequest();
-    
+                let auths: any = {
+                  userid: sessionStorage.getItem('userid'),
+                  userType: sessionStorage.getItem('userType'),
+                  password: sessionStorage.getItem('password'),
+                  institution_id: sessionStorage.getItem('institute_id'),
+                }
+                let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
                 xhr.open("POST", urlPostXlsDocument, true);
                 xhr.setRequestHeader("processData", "false");
                 xhr.setRequestHeader("contentType", "false");
                 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
                 xhr.setRequestHeader("enctype", "multipart/form-data");
-                xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
+                xhr.setRequestHeader("Authorization", Authorization);
     
                 this.isUploadingXls = true;
     

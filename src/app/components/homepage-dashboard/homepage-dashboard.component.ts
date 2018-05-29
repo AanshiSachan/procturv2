@@ -11,16 +11,7 @@ export class HomepageDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.removeFullscreen();
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.add('active');
+    this.removeSelectionFromSideNav();
   }
 
 
@@ -35,6 +26,19 @@ export class HomepageDashboardComponent implements OnInit {
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+  }
+
+  removeSelectionFromSideNav() {
+    document.getElementById('lione').classList.remove('active');
+    document.getElementById('litwo').classList.remove('active');
+    document.getElementById('lithree').classList.remove('active');
+    document.getElementById('lifour').classList.remove('active');
+    document.getElementById('lifive').classList.remove('active');
+    document.getElementById('lisix').classList.remove('active');
+    document.getElementById('liseven').classList.remove('active');
+    document.getElementById('lieight').classList.remove('active');
+    document.getElementById('linine').classList.remove('active');
+    document.getElementById('lizero').classList.add('active');
   }
 
 }

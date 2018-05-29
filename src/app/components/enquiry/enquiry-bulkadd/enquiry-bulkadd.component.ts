@@ -28,7 +28,7 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService,
     private appC: AppComponent, private router: Router, private prefill: FetchprefilldataService, private login: LoginService, private auth: AuthenticatorService) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
@@ -99,7 +99,14 @@ export class EnquiryBulkaddComponent implements OnInit {
       xhr.setRequestHeader("contentType", "false");
       xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
       xhr.setRequestHeader("enctype", "multipart/form-data");
-      xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+      xhr.setRequestHeader("Authorization", Authorization);
       this.isUploadingXls = true;
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
         if (e.lengthComputable) {
