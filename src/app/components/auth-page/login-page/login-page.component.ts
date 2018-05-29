@@ -576,8 +576,10 @@ export class LoginPageComponent {
       /* If Id Not set then recall the function as user has successfully logged in */
       else {
         let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-        let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-        this.auth.changeAuthenticationKey(Authorization);
+        if(institute_data != null && institute_data != undefined){
+          let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+          this.auth.changeAuthenticationKey(Authorization);          
+        }
         this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
         this.createRoleBasedSidenav();
       }
