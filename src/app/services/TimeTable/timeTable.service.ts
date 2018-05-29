@@ -14,8 +14,6 @@ export class timeTableService {
     headers: HttpHeaders;
 
     constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
-        this.Authorization = sessionStorage.getItem('Authorization');
-        this.institute_id = sessionStorage.getItem('institute_id');
 
         this.auth1.currentAuthKey.subscribe(key => {
             this.Authorization = key;

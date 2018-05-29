@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { timeTableService } from '../../../services/TimeTable/timeTable.service';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-time-table',
@@ -60,19 +61,27 @@ export class TimeTableComponent implements OnInit {
     type: 2
   }
 
-  constructor(private timeTableServ: timeTableService, private appC: AppComponent) {
+  constructor(
+    private timeTableServ: timeTableService,
+    private appC: AppComponent,
+    private auth: AuthenticatorService
+  ) {
   }
 
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if (this.isProfessional) {
-      this.fetchTimeTableReportPro('0');
-      this.showFilters = true;
-    }
-    else {
-      this.getMasterCoursesData();
-      this.getTeachersNameData();
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+          this.fetchTimeTableReportPro('0');
+          this.showFilters = true;
+        } else {
+          this.isProfessional = false;
+          this.getMasterCoursesData();
+          this.getTeachersNameData();
+        }
+      }
+    )
   }
 
   /*========================================================================================================
@@ -155,7 +164,7 @@ export class TimeTableComponent implements OnInit {
       this.onlyMasterData = false;
       this.fetchFieldData.subject_id = "-1";
       this.fetchFieldData.batch_id = "-1";
-     this.timeTableServ.getSubjectData(i).subscribe
+      this.timeTableServ.getSubjectData(i).subscribe
         (
         res => {
           this.subjectData = res.batchesList;
@@ -167,7 +176,7 @@ export class TimeTableComponent implements OnInit {
         )
     }
   }
-  
+
   getTeachersNameData() {
     this.onlyMasterData = false;
     this.timeTableServ.getTeachersName().subscribe
