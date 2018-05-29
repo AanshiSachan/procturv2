@@ -197,7 +197,7 @@ export class TimeTableComponent implements OnInit {
       let obj = {
         type: "error",
         title: "Unable to Fetch Report",
-        body: "Select a Master Course or Teacher"
+        body: " Please Select a Master Course or Teacher"
       }
       this.appC.popToast(obj);
       return;
@@ -280,7 +280,7 @@ export class TimeTableComponent implements OnInit {
         let obj = {
           type: "error",
           title: "Unable to Fetch Report",
-          body: "Select a Teacher"
+          body: "Please Select a Teacher"
         }
         this.appC.popToast(obj);
         return;
@@ -291,7 +291,7 @@ export class TimeTableComponent implements OnInit {
         let obj = {
           type: "error",
           title: "Unable to Fetch Report",
-          body: "Select a Batch"
+          body: " Please Select a Batch"
         }
         this.appC.popToast(obj);
         return;
