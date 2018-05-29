@@ -101,13 +101,13 @@
                   <!-- city -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.city != -1}">
                     <label for="cityDdn">City
-                      <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
-                        <option value="-1"></option>
-                        <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
-                      </select>
-
                       <span *ngIf="isCityMandatory == 1">*</span>
                     </label>
+
+                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
+                      <option value="-1"></option>
+                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                    </select>
                   </div>
 
                   <!-- area -->

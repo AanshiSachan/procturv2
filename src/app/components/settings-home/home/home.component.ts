@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   isProfessional:boolean = false;
 
   constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }

@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   }
 
   constructor(private router: Router,  private appC: AppComponent, private login: LoginService, ) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }

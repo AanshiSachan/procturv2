@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationStart) {
         this.isRippleLoad = true;
         this.closeSearchArea();
-        if (sessionStorage.getItem('Authorization') != null) {
+        if (sessionStorage.getItem('userid') != null) {
           this.log.changeSidenavStatus('authorized');
         }
       }
@@ -104,14 +104,14 @@ export class AppComponent implements OnInit {
       else if (event instanceof NavigationCancel) {
         this.isRippleLoad = false;
         this.closeSearchArea();
-        if (sessionStorage.getItem('Authorization') != null) {
+        if (sessionStorage.getItem('userid') != null) {
           this.log.changeSidenavStatus('authorized');
         }
       }
       else if (event instanceof NavigationError) {
         this.isRippleLoad = false;
         this.closeSearchArea();
-        if (sessionStorage.getItem('Authorization') != null) {
+        if (sessionStorage.getItem('userid') != null) {
           this.log.changeSidenavStatus('authorized');
         }
       }

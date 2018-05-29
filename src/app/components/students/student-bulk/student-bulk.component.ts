@@ -25,7 +25,7 @@ export class StudentBulkComponent implements OnInit {
 
   constructor(private fetchData: FetchStudentService, private postData: PostStudentDataService,
     private appC: AppComponent, private router: Router, private auth: AuthenticatorService) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
@@ -158,7 +158,9 @@ export class StudentBulkComponent implements OnInit {
     xhr.open("POST", urlPostXlsDocument, true);
 
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
+    let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+    let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+    xhr.setRequestHeader("Authorization", Authorization);
 
     this.isUploadingXls = true;
 

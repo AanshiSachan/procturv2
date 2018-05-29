@@ -160,7 +160,7 @@ export class ClassAddComponent implements OnInit {
     private classService: ClassScheduleService,
     private auth: AuthenticatorService
   ) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }

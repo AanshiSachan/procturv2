@@ -330,7 +330,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
     private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute,
     private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
 
