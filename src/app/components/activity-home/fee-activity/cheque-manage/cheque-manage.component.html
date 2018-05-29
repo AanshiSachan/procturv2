@@ -5,6 +5,10 @@
             <section class="row header">
                 <div class="row">
                     <h2 class="pull-left">
+                        <a routerLink="/activity/dashboard">
+                            Activity
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
                         Manage Cheques
                     </h2>
                 </div>
@@ -28,7 +32,7 @@
                             <input [(ngModel)]="dateRange" type="text" name="range" class="form-ctrl bsDatepicker" id="range" readonly="true" bsDaterangepicker>
                             <span class="pull-right" style="color: rgb(245, 79, 79); cursor: pointer;" (click)="clearDateRange()">clear</span>
                         </div>
-                    </div>                  
+                    </div>
 
                     <div class="c-lg-3">
                         <div class="field-wrapper">
@@ -162,7 +166,7 @@
                                     </td>
                                     <td>
                                         <div *ngIf="c.total_balance_amt == c.toPay" class="field-wrapper">
-                                                {{c.balanceDueOn| date: 'dd-MMM-yyyy'}}
+                                            {{c.balanceDueOn| date: 'dd-MMM-yyyy'}}
                                         </div>
                                         <div *ngIf="c.total_balance_amt != c.toPay" class="field-wrapper">
                                             <input type="text" readonly="true" [(ngModel)]="c.balanceDueOn" class="form-ctrl" bsDatepicker>

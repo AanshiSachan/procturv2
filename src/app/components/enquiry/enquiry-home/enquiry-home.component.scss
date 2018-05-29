@@ -443,20 +443,6 @@ screen and (max-height: 768px) {
 
 /* =================================================================================== */
 
-:host /deep/ .table-data-overflow {
-    ng2-smart-table table {
-        tbody {
-            tr {
-                td:first-child {
-                    max-width: 0;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-            }
-        }
-    }
-}
 
 /* =================================================================================== */
 
@@ -464,90 +450,7 @@ screen and (max-height: 768px) {
 
 /* =================================================================================== */
 
-/* Data table Settings */
 
-:host /deep/ ng2-smart-table table>thead>tr:first-child {
-    background: #f7f7f7;
-    transition: all 0.5s;
-}
-
-:host /deep/ ng2-smart-table table>thead>tr:first-child>th {
-    padding: 10px 10px;
-    background: #004a7e;
-    color: #fff;
-    font-size: 11px;
-    font-weight: normal;
-    vertical-align: middle;
-    line-height: 20px;
-    .ng2-smart-title {
-        min-width: 70px;
-    }
-}
-
-:host /deep/ ng2-smart-table table>thead>tr:first-child>th {
-    input[type='checkbox'] {
-        border: 1px solid white;
-        width: 20px;
-        height: 20px;
-        margin: 0;
-        padding: 0;
-    }
-}
-
-:host /deep/ ng2-smart-table table>thead>tr:nth-child(even) {
-    display: none
-}
-
-:host /deep/ .ng2-smart-title a {
-    font-size: 11px !important;
-    font-weight: normal !important;
-    color: #fff !important;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
-    margin: 0;
-    padding: 0;
-}
-
-::ng-deep .ng2-smart-title a::after {
-    border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
-}
-
-:host /deep/ ng2-smart-table table>tbody>tr>td {
-    transition: all 0.5s;
-    font-size: 14px !important;
-    line-height: normal;
-    border-bottom: 1px solid #fff;
-    padding: 6px 2px;
-}
-
-:host /deep/ ng2-smart-table table>tbody>tr:nth-child(even) {
-    background: rgba(204, 204, 204, 0.36);
-    font-size: 11px !important;
-    font-weight: normal !important;
-}
-
-:host /deep/ ng2-smart-table table>tbody>tr:nth-child(odd) {
-    background: #FFF;
-    font-size: 11px !important;
-    font-weight: normal !important;
-}
-
-:host /deep/ ng2-smart-table table>thead>tr:first-child>th:first-child>div {
-    background: #004a7e;
-}
-
-::ng-deep .dropdown-menu {
-    left: -150px;
-}
-
-:host /deep/ ng2-smart-table table>tbody>tr:nth-child(even)>td:first-child>div {
-    background: none;
-}
-
-:host /deep/ ng2-smart-table table>tbody>tr:nth-child(odd)>td:first-child>div {
-    background: none;
-}
 
 .search-filter-wrapper {
     .normal-field {

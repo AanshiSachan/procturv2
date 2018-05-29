@@ -1577,9 +1577,9 @@ a:hover {
     color: white;
 }
 
-.round {
-    border-radius: 50%;
-}
+// .round {
+//     border-radius: 50%;
+// }
 
 .dot {
     width: 1px;
@@ -1605,9 +1605,11 @@ a:hover {
     display: inline-block; 
     padding-bottom: 10px;
     padding-right: 13px;
-    border: 1px solid #0084f694;
-    border-radius: 50%;
+   // border: 1px solid #0084f694;
+  //  border-radius: 50%;
     /* padding: 11px; */
+    font-size: 30px;
+    padding: 0px 10px 5px;
     padding-left: 13px;
 }
 
@@ -1624,16 +1626,27 @@ a:hover {
 .previous {
     background-color: #f1f1f1;
     color: black;
+   // font-size:13px;
+  //  font-weight:600px;
+   // padding-top: 10px;
 }
 
 .next {
     background-color: #f1f1f1;
     color: black;
-    padding-top: 10px;
+     font-weight:400;
+    // padding-top: 12px;
+    // font-size: 30px;
+    // padding: 0px 10px 5px;
+
 }
 
 .next::after {
     content: ""
+}
+
+.previous::before {
+ content: ""
 }
 
 .printMe {
