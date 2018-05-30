@@ -7,13 +7,8 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
-import { LoginService } from '../../../../services/login-services/login.service';
 import { document } from '../../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import { ColumnSetting } from '../../../shared/custom-table/layout.model';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -97,7 +92,7 @@ export class ClassHomeComponent implements OnInit {
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService
     ) {
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
@@ -274,11 +269,7 @@ export class ClassHomeComponent implements OnInit {
 
   makeJsonForSubmit() {
     let obj: any = {};
-    if (this.courseList.length > 0) {
-      obj.batch_id = this.getValueOfKey(this.courseList.coursesList, 'batch_id', this.fetchMasterCourseModule.course_id);
-    } else {
-      obj.batch_id = "-1";
-    }
+    obj.batch_id = this.fetchMasterCourseModule.subject_id;
     obj.course_id = this.fetchMasterCourseModule.course_id;
     obj.master_course = this.courseList.master_course;
     obj.subject_id = -1;
@@ -327,16 +318,6 @@ export class ClassHomeComponent implements OnInit {
   getStartDate(): string {
     let currentDate = moment(this.currentDate).format("YYYY-MM-DD");
     return moment(currentDate).weekday(1).format("YYYY-MM-DD");
-  }
-
-  getValueOfKey(data, key, value) {
-    let test = "-1";
-    for (let t = 0; t < data.length; t++) {
-      if (data[t][key] == value) {
-        test = data[t].batch_id;
-      }
-    }
-    return test;
   }
 
   getValueOfStandardID(data, key, value, ) {

@@ -72,100 +72,97 @@ ul {
 
 @media screen and (min-width:480px)and (max-width:539px) {
     .emptyclass {
-        padding-top: 29vw;
+        padding-top: 140px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
-    }
-    .nonemptyClass{
-        padding-top: 14.5vw;
     }
 }
+
 @media screen and (min-width:540px)and (max-width:582px) {
     .emptyclass {
-        padding-top: 24vw;
+        padding-top: 114px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
-    }
-    .nonemptyClass{
-        padding-top: 10.8vw;
     }
 }
 
 @media screen and (min-width:582px)and (max-width:699px) {
     .emptyclass {
-        padding-top: 24vw;
+        padding-top: 100px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
-    }
-    .nonemptyClass{
-        padding-top: 14.8vw;
     }
 }
 
 @media screen and (min-width:1281px) {
     .emptyclass {
-        padding-top: 2vw;
+        padding-top: 42px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
     }
 }
+
 @media screen and (min-width :700px) and (max-width :768px) {
     .emptyclass {
-        padding-top: 14.4vw;
+        padding-top: 85px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
-    }
-    .nonemptyClass{
-        padding-top: 8vw;
-    }
+    } // .nonemptyClass{
+    //     padding-top: 8vw;
+    // }
 }
+
 @media screen and (min-width :1024px) and (max-width: 1280px) {
     .emptyclass {
-        padding-top: 4.4vw;
+        padding-top: 65px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
     }
-    .nonemptyClass{
+    .nonemptyClass {
         padding-top: 0.28vw;
     }
 }
 
 @media screen and (min-width :769px) and (max-width: 1023px) {
     .emptyclass {
-        padding-top: 7.5vw;
+        padding-top: 72px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
     }
-    .nonemptyClass{
-        padding-top: 2.65vw;
+}
+
+@page {
+    margin: 0 !important
+}
+
+@media print {
+    @page {
+        size: landscape;
     }
-}
-
-@page
-{
-	size: landscape;
-	margin: 2cm;
-}
-
-@media print{
     .emptyclass {
-        padding-top: 28px;
+        padding-top: 35px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
-      }
     }
-    
+}
+
 .dotto {
     display: inline-block;
     width: 1px;
     border: 3px solid;
     border-radius: 50%
+}
+.noSchedule{
+    border: 1px solid #efefef;
+    width: 98%;
+    text-align: center;
+    padding: 10px;
 }

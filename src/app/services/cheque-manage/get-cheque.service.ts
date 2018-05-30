@@ -16,7 +16,6 @@ export class getCheque {
 
     /* set default value for each url, header and autherization on service creation */
     constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
-        this.Authorization = sessionStorage.getItem('Authorization');
         this.institute_id = sessionStorage.getItem('institute_id');
 
         this.auth1.currentAuthKey.subscribe(key => {

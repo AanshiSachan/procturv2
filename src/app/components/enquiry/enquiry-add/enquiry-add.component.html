@@ -101,13 +101,13 @@
                   <!-- city -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.city != -1}">
                     <label for="cityDdn">City
-                      <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
-                        <option value="-1"></option>
-                        <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
-                      </select>
-
                       <span *ngIf="isCityMandatory == 1">*</span>
                     </label>
+
+                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
+                      <option value="-1"></option>
+                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                    </select>
                   </div>
 
                   <!-- area -->
@@ -523,7 +523,7 @@
             <span style="right: 5px;" class="sourceI iconPlus" (click)="showAddReferPops()">+</span>
           </div>
 
-          <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == 'true'" [ngClass]="{'has-value': newEnqData.source_instituteId != '-1'}">
+          <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == true" [ngClass]="{'has-value': newEnqData.source_instituteId != '-1'}">
             <label for="selectBranch">Branch</label>
             <select id="selectBranch" class="form-ctrl" [(ngModel)]="newEnqData.source_instituteId" name="selectBranch" (ngModelChange)="branchUpdated($event)">
               <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>

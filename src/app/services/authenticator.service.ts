@@ -25,11 +25,11 @@ export class AuthenticatorService {
     isMainBranch = new BehaviorSubject('N');
     institute_type = new BehaviorSubject('LANG');
 
-    //  public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-     public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
+    //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+  
     constructor() {
-        //console.log("Auth constructor called");
         this.getAuthToken();
         this.getInstituteId();
         this.getIsMainBranchValue();
@@ -38,20 +38,28 @@ export class AuthenticatorService {
 
 
     changeInstituteId(id: string) {
-        //console.log("institute id changed "+id);
         this.instituteId.next(id);
     }
 
     changeAuthenticationKey(key: string) {
-        //console.log("Auth changed " +key);
         this.authToken.next(key);
     }
 
 
     getAuthToken() {
-        let token = sessionStorage.getItem('Authorization');
-        if (token != null) {
-            this.changeAuthenticationKey(token);
+        let obj: any = {
+            userid: sessionStorage.getItem('userid'),
+            userType: sessionStorage.getItem('userType'),
+            password: sessionStorage.getItem('password'),
+            institution_id: sessionStorage.getItem('institute_id'),
+        }
+
+        if (obj != null && obj != undefined) {
+            let Authorization = btoa(obj.userid + "|" + obj.userType + ":" + obj.password + ":" + obj.institution_id);
+            let token = Authorization;
+            if (token != null) {
+                this.changeAuthenticationKey(token);
+            }
         }
     }
 

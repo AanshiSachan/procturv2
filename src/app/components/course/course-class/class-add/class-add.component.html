@@ -254,8 +254,8 @@
                       </td>
 
                       <td class="cl-type">
-                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.customListData != '-1' && addClassDetails.customListData != '' }">
-                          <select id="" class="side-form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.customListData" style="background: transparent;">
+                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.custom_class_type != '-1' && addClassDetails.custom_class_type != '' }">
+                          <select id="" class="side-form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.custom_class_type" style="background: transparent;">
                             <option *ngFor="let opt of customListDataSource">
                               {{opt}}
                             </option>

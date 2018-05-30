@@ -174,7 +174,7 @@ export class EnquiryAddComponent implements OnInit {
     private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService
   ) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if (sessionStorage.getItem('Authorization') == null) {
+    if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }

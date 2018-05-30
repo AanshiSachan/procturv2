@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { timeTableService } from '../../../services/TimeTable/timeTable.service';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-time-table',
@@ -30,7 +31,7 @@ export class TimeTableComponent implements OnInit {
   maxEntries = 0;
   startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
   enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
-  showFilters = true;
+  showFilters: boolean = true;
 
   fetchFieldData = {
     batch_id: "-1",
@@ -60,18 +61,27 @@ export class TimeTableComponent implements OnInit {
     type: 2
   }
 
-  constructor(private timeTableServ: timeTableService, private appC: AppComponent) {
+  constructor(
+    private timeTableServ: timeTableService,
+    private appC: AppComponent,
+    private auth: AuthenticatorService
+  ) {
   }
 
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    if (this.isProfessional) {
-      this.fetchTimeTableReportPro('0');
-    }
-    else {
-      this.getMasterCoursesData();
-      this.getTeachersNameData();
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+          this.fetchTimeTableReportPro('0');
+          this.showFilters = true;
+        } else {
+          this.isProfessional = false;
+          this.getMasterCoursesData();
+          this.getTeachersNameData();
+        }
+      }
+    )
   }
 
   /*========================================================================================================
@@ -140,7 +150,6 @@ export class TimeTableComponent implements OnInit {
   getSubjects(i) {
     if (this.isProfessional) {
       this.fetchFieldDataPro.batch_id = "-1";
-
       this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
         (
         res => {
@@ -153,6 +162,7 @@ export class TimeTableComponent implements OnInit {
     }
     else {
       this.onlyMasterData = false;
+      this.fetchFieldData.subject_id = "-1";
       this.fetchFieldData.batch_id = "-1";
       this.timeTableServ.getSubjectData(i).subscribe
         (
@@ -181,6 +191,7 @@ export class TimeTableComponent implements OnInit {
       )
   }
 
+
   /*To show an hide filters */
   toggleFilter() {
     if (this.showFilters) {
@@ -195,30 +206,29 @@ export class TimeTableComponent implements OnInit {
       let obj = {
         type: "error",
         title: "Unable to Fetch Report",
-        body: "Select a Master Course or Teacher"
+        body: " Please Select a Master Course or Teacher"
       }
       this.appC.popToast(obj);
       return;
     }
     if (flag == '-1') {
-      this.showFilters = false;
+
       this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
     }
     else if (flag == '1') {
-      this.showFilters = false;
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
     }
     else {
-      this.showFilters = true;
       this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
       this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
     }
+    this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-    if(this.fetchFieldData.master_course== "-1"){
-      this.onlyMasterData= false;
+    if (this.fetchFieldData.master_course == "-1") {
+      this.onlyMasterData = false;
     }
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
       (
@@ -234,7 +244,6 @@ export class TimeTableComponent implements OnInit {
             this.maxDataLengthCount();
             this.timetableDataConstructor();
           })
-          console.log(this.namesArr);
         }
         else {
           this.timeTableObj = res.batchTimeTableList;
@@ -274,12 +283,13 @@ export class TimeTableComponent implements OnInit {
   }
   /*fecthing report in Professional model */
   fetchTimeTableReportPro(data) {
+    console.log(data);
     if (this.selectData == "teacher") {
       if (this.fetchFieldDataPro.teacher_id == "-1") {
         let obj = {
           type: "error",
           title: "Unable to Fetch Report",
-          body: "Select a Teacher"
+          body: "Please Select a Teacher"
         }
         this.appC.popToast(obj);
         return;
@@ -290,27 +300,25 @@ export class TimeTableComponent implements OnInit {
         let obj = {
           type: "error",
           title: "Unable to Fetch Report",
-          body: "Select a Batch"
+          body: " Please Select a Batch"
         }
         this.appC.popToast(obj);
         return;
       }
     }
     if (data == '-1') {
-      this.showFilters = false;
       this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
     }
     else if (data == '1') {
-      this.showFilters = false;
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
     }
     else {
-      this.showFilters = true;
       this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
       this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
     }
+    this.showFilters = false;
     this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
 
@@ -337,19 +345,17 @@ export class TimeTableComponent implements OnInit {
     for (var i = 0; i < 7; i++) {
       this.flag = false;
       for (let prop in this.timeTableObj) {
-       if (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY") == moment(prop).format("DD-MM-YYYY") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
+        if (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY") == moment(prop).format("DD-MM-YYYY") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
           let obj = {
-       headerDate: moment(prop).format("DD"),
+            headerDate: moment(prop).format("DD"),
             headerDays: moment(prop).format("ddd"),
             data: this.timeTableObj[prop],
-                 }
-
+          }
           this.timeTableArr.push(obj);
           this.flag = true;
           break;
         }
       }
-
       if (this.flag == false) {
         let obj = {
           headerDate: (moment(this.startdateweek).add(i, 'day').format("DD")),
@@ -391,20 +397,21 @@ export class TimeTableComponent implements OnInit {
     document.getElementById('middle-sectionId').style.display = "none";
     document.getElementById('printTimeTable').style.display = "block";
     window.print();
-    document.getElementById('middle-sectionId').style.display = "block";
-    document.getElementById('printTimeTable').style.display = "none";
-    document.getElementById('tableHead').style.display = "none";
-    document.getElementById('header').style.display = "block";
-    document.getElementById('commonLeftNav').style.display = "block";
-    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
-      el.style.display = 'block';
-    });
     [].forEach.call(header, function (el) {
       el.classList.remove('hide');
     });
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
+      el.style.display = 'block';
+    });
+    document.getElementById('middle-sectionId').style.display = "block";
+    document.getElementById('printTimeTable').style.display = "none";
+    document.getElementById('tableHead').style.display = "none";
+
+
+
   }
 
 }
