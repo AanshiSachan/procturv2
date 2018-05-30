@@ -2842,6 +2842,7 @@ export class AdminHomeComponent implements OnInit {
     this.examMarksLevel = 0;
     this.courseCommonExamCancelPopUP = false;
     this.showReasonSection = "";
+    this.courseTempData = '';
   }
 
   examMarksUpdateCourse(data) {
@@ -3032,9 +3033,11 @@ export class AdminHomeComponent implements OnInit {
 
   courseCommonExamCancelPopUP = false;
   showReasonSection: any = '';
+  courseTempData: any = '';
 
   onCancelExamClickCourse(data) {
     this.tempData = data;
+    this.courseTempData = data;
     this.courseCommonExamCancelPopUP = true;
   }
 
