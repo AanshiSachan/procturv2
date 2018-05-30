@@ -25,16 +25,22 @@
                             {{i.start_time}}-{{i.end_time}}
                         </li>
 
-                        <li *ngIf="i.class_type =='REGULAR'" class="three" style="background-color:#04b8e6;">
-                            ({{i.class_type}})
-                        </li>
-                        <li *ngIf="i.class_type =='Exam'" class="three" style="background-color:red">
-                            ({{i.class_type}})
-                        </li>
-                        <li *ngIf="i.class_type == 'WEEK'|| i.class_type=='REVISION' || i.class_type=='DOUBT' || i.class_type=='EXTRA'" class="three"
-                            style="background-color:#04b8e6;">(Regular)
+                        <li *ngIf="i.class_type =='REVISION'" class="three">
+                          (Revision)
                         </li>
 
+                        <li *ngIf = "i.class_type == 'DOUBT'" class="three">(Doubt)
+                        </li>
+
+                        <li *ngIf="i.class_type =='Exam'" class="three" style="background-color:orange">
+                            (Exam)
+                        </li>
+
+                           <li *ngIf="i.class_type =='EXTRA'" class="three" style="background-color:orange">
+                                (Extra)
+                            </li>
+
+                
                         <li class="three" title={{i.batchName}}>
                             {{splitBatchData(i.batchName)}}
                         </li>

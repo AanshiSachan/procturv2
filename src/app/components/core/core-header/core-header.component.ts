@@ -127,7 +127,6 @@ export class CoreHeaderComponent implements OnInit {
 
     this.multiBranchService.subBranchSelected.subscribe(
       res => {
-        console.log(res);
         this.showMainBranchBackBtn = res;
       }
     )
@@ -463,7 +462,7 @@ export class CoreHeaderComponent implements OnInit {
         this.branchesList = res;
       },
       err => {
-        console.log(err);
+        
       }
     )
   }
@@ -480,7 +479,7 @@ export class CoreHeaderComponent implements OnInit {
         this.router.navigateByUrl('/');
       },
       err => {
-        console.log(err);
+    
       }
     )
   }
@@ -519,6 +518,7 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('biometric_attendance_feature', res.biometric_attendance_feature);
     sessionStorage.setItem('courseType', res.courseType);
     sessionStorage.setItem('course_structure_flag', res.course_structure_flag);
+    this.auth.course_flag.next(res.course_structure_flag);
     sessionStorage.setItem('enable_fee_payment_mandatory_student_creation', res.enable_fee_payment_mandatory_student_creation);
     sessionStorage.setItem('enable_fee_templates', res.enable_fee_templates);
     sessionStorage.setItem('enable_tax_applicable_fee_installments', res.enable_tax_applicable_fee_installments);
@@ -526,7 +526,9 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('inst_email', res.inst_email);
     sessionStorage.setItem('inst_phone', res.inst_phone);
     sessionStorage.setItem('institute_type', res.institute_type);
+    this.auth.instituteType_name.next(res.institute_type);
     this.auth.institute_type.next(res.institute_type);
+    this.auth.makeInstituteType(res.institute_type, res.course_structure_flag);
     sessionStorage.setItem('institute_name', res.institute_name);
     sessionStorage.setItem('is_campaign_message_approve_feature', res.is_campaign_message_approve_feature);
     sessionStorage.setItem('is_main_branch', res.is_main_branch);
