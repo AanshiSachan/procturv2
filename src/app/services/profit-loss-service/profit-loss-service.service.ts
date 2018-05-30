@@ -27,8 +27,7 @@ export class ProfitLossServiceService {
 
 
   fetchExpenseDetails(obj){
-    obj.enddate = moment(obj.enddate).format('YYYY-MM-DD');
-    obj.startdate = moment(obj.startdate).format('YYYY-MM-DD');
+   
     let url = this.baseUrl + "/api/v1/expense/all/" + this.institute_id;
     return this.http.post(url , obj , {headers :this.headers}).map(
       (data:any)=>{
@@ -41,8 +40,7 @@ export class ProfitLossServiceService {
   }
 
   fetchProfitLossReport(obj){
-    obj.enddate = moment(obj.enddate).format('YYYY-MM-DD');
-    obj.startdate = moment(obj.startdate).format('YYYY-MM-DD');
+    
     let url = this.baseUrl + "/api/v1/inventory/item/getProfit_Lost/" +this.institute_id;
     return this.http.post(url , obj , {headers:this.headers}).map(
       (data:any)=>{
@@ -55,8 +53,7 @@ export class ProfitLossServiceService {
   }
 
   fetchIncomeFeesCollection(obj){
-    obj.enddate = moment(obj.enddate).format('YYYY-MM-DD');
-    obj.startdate = moment(obj.startdate).format('YYYY-MM-DD');
+  
     let url = this.baseUrl + "/api/v1/income/feesCollection/" + this.institute_id;
     return this.http.post(url , obj , {headers:this.headers}).map(
       (data:any)=>{
@@ -69,8 +66,6 @@ export class ProfitLossServiceService {
   }
 
   fetchIncomeDetails(obj){
-    obj.enddate = moment(obj.enddate).format('YYYY-MM-DD');
-    obj.startdate = moment(obj.startdate).format('YYYY-MM-DD');
     let url = this.baseUrl + "/api/v1/income/all/" + this.institute_id;
     return this.http.post(url , obj , {headers :this.headers}).map(
       (data:any)=>{

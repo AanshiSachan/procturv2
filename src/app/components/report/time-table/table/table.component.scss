@@ -147,10 +147,14 @@ ul {
         size: landscape;
     }
     .emptyclass {
-        padding-top: 35px;
+        padding-top: 42px;
         position: relative;
         bottom: 18px;
         font-size: 14px;
+        
+    }
+    body{
+        transform: scale(.7);
     }
 }
 
