@@ -15,6 +15,7 @@ export class ClassRoomComponent {
 
   classRoomData: any = [];
   totalRow = 0;
+  updateFlag: boolean = false;
   isProfessional: boolean;
   enterclassdataDesc: string = "";
   enterclassdata: string = "";
@@ -257,8 +258,15 @@ export class ClassRoomComponent {
     }
   }
 
+  /*====================update for vaid field==================================================== */
 
-  /*==================pagination================================================ */
+  // updateValidDataField() {
+  //   if (this.updateFlag == false) {
+
+  //   }
+  // }
+
+  /*==================pagination================================================================*/
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);

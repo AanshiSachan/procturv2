@@ -237,6 +237,7 @@ export class LoginPageComponent {
       sessionStorage.setItem('biometric_attendance_feature', institute_data.biometric_attendance_feature);
       sessionStorage.setItem('courseType', institute_data.courseType);
       sessionStorage.setItem('course_structure_flag', institute_data.course_structure_flag);
+      this.auth.course_flag.next(institute_data.course_structure_flag);
       sessionStorage.setItem('enable_fee_payment_mandatory_student_creation', institute_data.enable_fee_payment_mandatory_student_creation);
       sessionStorage.setItem('enable_fee_templates', institute_data.enable_fee_templates);
       sessionStorage.setItem('enable_tax_applicable_fee_installments', institute_data.enable_tax_applicable_fee_installments);
@@ -250,6 +251,8 @@ export class LoginPageComponent {
       sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
       sessionStorage.setItem('institute_type', institute_data.institute_type);
       this.auth.institute_type.next(institute_data.institute_type);
+      this.auth.instituteType_name.next(institute_data.institute_type);
+      this.auth.makeInstituteType(institute_data.institute_type, institute_data.course_structure_flag);
       sessionStorage.setItem('institution_footer', institute_data.institution_footer);
       sessionStorage.setItem('institution_header1', institute_data.institution_header1);
       sessionStorage.setItem('institution_header2', institute_data.institution_header2);
@@ -576,9 +579,9 @@ export class LoginPageComponent {
       /* If Id Not set then recall the function as user has successfully logged in */
       else {
         let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-        if(institute_data != null && institute_data != undefined){
+        if (institute_data != null && institute_data != undefined) {
           let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-          this.auth.changeAuthenticationKey(Authorization);          
+          this.auth.changeAuthenticationKey(Authorization);
         }
         this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
         this.createRoleBasedSidenav();

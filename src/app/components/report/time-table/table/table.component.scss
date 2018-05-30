@@ -10,7 +10,7 @@ ul {
                 display: inline-block;
                 width: 14%;
                 padding: 10px 10px 10px;
-                border: 1px solid #efefef;
+                border: 1px solid #846565;
             }
             &.inner-date {
                 font-size: 14px;
@@ -26,14 +26,14 @@ ul {
         display: inline-block;
         width: 14%;
         padding: 10px 10px 10px;
-        border-bottom: 1px solid #efefef;
-        border-left: 1px solid #efefef;
-        border-right: 1px solid #efefef;
+        border-bottom: 1px solid #846565;
+        border-left: 1px solid #846565;
+        border-right: 1px solid #846565;
         li {
             &.time-item:not(:first-child) {
                 padding: 5px;
                 text-align: center;
-                border-top: 1px solid #efefef;
+                border-top: 1px solid #846565;
                 li {
                     &.one {
                         font-size: 14px;
@@ -139,7 +139,8 @@ ul {
 }
 
 @page {
-    margin: 0 !important
+    margin: 0 !important;
+    // size: landscape;
 }
 
 @media print {
@@ -151,12 +152,13 @@ ul {
         position: relative;
         bottom: 18px;
         font-size: 14px;
-        
+       
     }
     body{
-        transform: scale(.7);
+        transform :scale(.6);
     }
 }
+
 
 .dotto {
     display: inline-block;
@@ -165,7 +167,7 @@ ul {
     border-radius: 50%
 }
 .noSchedule{
-    border: 1px solid #efefef;
+    border: 1px solid black;
     width: 98%;
     text-align: center;
     padding: 10px;
