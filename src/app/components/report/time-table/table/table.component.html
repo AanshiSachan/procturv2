@@ -15,7 +15,7 @@
                     <ul class="emptyclass" *ngIf="i == undefined">
                         NA
                     </ul>
-                    <ul class="nonemptyClass" *ngIf="i != undefined">
+                    <ul *ngIf="i != undefined">
                         <li class="one">
                             <!-- <span *ngIf="i.class_type=='Exam'" class="dotto" style="background-color:red"></span>
                         <span *ngIf="i.class_type=='REGULAR'" class="dotto" style="background-color:black"></span> -->
@@ -36,7 +36,7 @@
                             (Exam)
                         </li>
 
-                           <li *ngIf="i.class_type =='EXTRA'" class="three" style="background-color:orange">
+                           <li *ngIf="i.class_type =='EXTRA'" class="three">
                                 (Extra)
                             </li>
 
