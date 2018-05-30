@@ -109,7 +109,7 @@ export class AttendanceReportComponent implements OnInit {
     private login: LoginService,
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
-    private institute_id: AuthenticatorService
+    private auth: AuthenticatorService
   ) {
     //console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
   }
@@ -118,9 +118,18 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   ngOnInit() {
 
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.getMasterCourseData();
   }
 
@@ -140,8 +149,8 @@ export class AttendanceReportComponent implements OnInit {
         (error: any) => {
           this.isRippleLoad = false;
           this.dataStatus = false;
-          let msg={
-            type : "error",
+          let msg = {
+            type: "error",
             body: error.error.message
           }
           this.appc.popToast(msg);
@@ -159,8 +168,8 @@ export class AttendanceReportComponent implements OnInit {
         error => {
           this.dataStatus = false;
           this.isRippleLoad = false;
-          let msg={
-            type : "error",
+          let msg = {
+            type: "error",
             body: error.error.message
           }
           this.appc.popToast(msg);
@@ -192,8 +201,8 @@ export class AttendanceReportComponent implements OnInit {
         (error: any) => {
           this.dataStatus = false;
           this.isRippleLoad = false;
-          let msg={
-            type : "error",
+          let msg = {
+            type: "error",
             body: error.error.message
           }
           this.appc.popToast(msg);
@@ -222,8 +231,8 @@ export class AttendanceReportComponent implements OnInit {
         (error: any) => {
           this.dataStatus = false;
           this.isRippleLoad = false;
-          let msg={
-            type : "error",
+          let msg = {
+            type: "error",
             body: error.error.message
           }
           this.appc.popToast(msg);
@@ -258,8 +267,8 @@ export class AttendanceReportComponent implements OnInit {
         (error: any) => {
           this.dataStatus = false;
           this.isRippleLoad = false;
-          let msg={
-            type : "error",
+          let msg = {
+            type: "error",
             body: error.error.message
           }
           this.appc.popToast(msg);
@@ -344,8 +353,8 @@ export class AttendanceReportComponent implements OnInit {
         (error: any) => {
           this.dataStatus = false;
           this.isRippleLoad = false;
-          let msg={
-            type : "error",
+          let msg = {
+            type: "error",
             body: error.error.message
           }
           this.appc.popToast(msg);
@@ -372,8 +381,8 @@ export class AttendanceReportComponent implements OnInit {
         (error: any) => {
           this.dataStatus = false;
           this.isRippleLoad = false;
-          let msg={
-            type : "error",
+          let msg = {
+            type: "error",
             body: error.error.message
           }
           this.appc.popToast(msg);
@@ -467,8 +476,8 @@ export class AttendanceReportComponent implements OnInit {
           (error: any) => {
             this.isRippleLoad = false;
             this.dataStatus = false;
-            let msg={
-              type : "error",
+            let msg = {
+              type: "error",
               body: error.error.message
             }
             this.appc.popToast(msg);
@@ -553,8 +562,8 @@ export class AttendanceReportComponent implements OnInit {
           (error: any) => {
             this.isRippleLoad = false;
             this.dataStatus = false;
-            let msg={
-              type : "error",
+            let msg = {
+              type: "error",
               body: error.error.message
             }
             this.appc.popToast(msg);
@@ -778,12 +787,12 @@ export class AttendanceReportComponent implements OnInit {
   }
 
 
-  clearFromDate(){
+  clearFromDate() {
     this.attendanceFetchForm.from_date = "";
     this.queryParams.from_date = "";
   }
-  
-  clearToDate(){
+
+  clearToDate() {
     this.attendanceFetchForm.to_date = "";
     this.queryParams.to_date = "";
   }

@@ -127,7 +127,6 @@ export class CoreHeaderComponent implements OnInit {
 
     this.multiBranchService.subBranchSelected.subscribe(
       res => {
-        console.log(res);
         this.showMainBranchBackBtn = res;
       }
     )
@@ -463,7 +462,7 @@ export class CoreHeaderComponent implements OnInit {
         this.branchesList = res;
       },
       err => {
-        console.log(err);
+        
       }
     )
   }
@@ -480,7 +479,7 @@ export class CoreHeaderComponent implements OnInit {
         this.router.navigateByUrl('/');
       },
       err => {
-        console.log(err);
+    
       }
     )
   }

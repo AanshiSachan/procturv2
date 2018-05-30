@@ -39,6 +39,7 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
 import { BiometricComponent } from './biometric/biometric.component';
 import { BiometricServiceService } from '../../services/biometric-service/biometric-service.service';
 import { ReportWidgetComponent } from './report-widget/report-widget.component';
+import { ProfitLossServiceService } from '../../services/profit-loss-service/profit-loss-service.service';
 
 @NgModule({
     imports: [
@@ -78,7 +79,8 @@ import { ReportWidgetComponent } from './report-widget/report-widget.component';
         AttendanceReportServiceService,
         getEmailService,
         postEmailService, timeTableService,
-        BiometricServiceService
+        BiometricServiceService,
+        ProfitLossServiceService
     ],
     exports: [
         FilterPipe
