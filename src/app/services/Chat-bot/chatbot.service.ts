@@ -33,8 +33,8 @@ export class ZendAuth {
 
 
     ZendeskAuth(data) {
-      data.ticket.description = this.insId + "," + this.getEmailData + "," + this.getInsName + "," + data.ticket.description ;
-
+        data.ticket.description = "Institute Name: " + this.getInsName + ", " + " Institute Id: " + this.insId + ", " + "Email Id: " + this.getEmailData + ", " + "Description: " + data.ticket.description;
+        console.log(data);
         let decoded = btoa("nishant@proctur.com/token:1dS8xAwpu5rxeK0fJgdFlw965p0Lq10ohDcdVDsJ");
 
         let header = new HttpHeaders({
