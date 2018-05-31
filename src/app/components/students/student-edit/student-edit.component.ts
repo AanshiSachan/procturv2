@@ -15,6 +15,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { MenuItem } from 'primeng/primeng';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -194,7 +195,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   savedAssignedBatch: any[] = [];
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private route: ActivatedRoute, private login: LoginService, private appC: AppComponent, private fetchService: FetchStudentService) {
+  constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private route: ActivatedRoute, private login: LoginService, private appC: AppComponent, private fetchService: FetchStudentService, private auth: AuthenticatorService) {
     this.isRippleLoad = true;
     this.getInstType();
     this.student_id = this.route.snapshot.paramMap.get('id');
@@ -335,13 +336,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getInstType() {
-    let institute_type = sessionStorage.getItem('institute_type');
-    if (institute_type == 'LANG') {
-      this.isProfessional = true;
-    }
-    else {
-      this.isAcad = true;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+          this.isAcad = false;
+        } else {
+          this.isProfessional = false;
+          this.isAcad = true;
+        }
+      }
+    )
   }
 
   /* ============================================================================================================================ */

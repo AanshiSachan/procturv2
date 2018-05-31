@@ -83,33 +83,43 @@ export class BiometricComponent implements OnInit {
     user_id: ""
   }
   studentName: string = "";
-  teacherName:string = "";
-  customName:string = "";
+  teacherName: string = "";
+  customName: string = "";
   findName: any[] = [];
   masterCoursePro: any[] = [];
   batchPro: any[] = [];
   coursePro: any[] = [];
-  nameOfPeople : any[]=[];
-  studentId:string="";
-  teacherId:string="";
-  customId:string="";
+  nameOfPeople: any[] = [];
+  studentId: string = "";
+  teacherId: string = "";
+  customId: string = "";
 
   @ViewChild('biometricTable') biometricTable: ElementRef;
   @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
 
   constructor(private reportService: BiometricServiceService,
     private appc: AppComponent,
-    private institute_id: AuthenticatorService,
+    private auth: AuthenticatorService,
     private login: LoginService) { }
 
   ngOnInit() {
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.getInstitute();
     this.getMasterCourses();
   }
-  getMasterCourses() {
 
+  getMasterCourses() {
     this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
     this.dataStatus = true;
     this.batchPro = [];
@@ -193,7 +203,7 @@ export class BiometricComponent implements OnInit {
       }
     )
   }
-  
+
   fetchDataByName() {
     this.showTeacherButton = true;
     if (this.getData.user_Type == 1) {
@@ -293,7 +303,7 @@ export class BiometricComponent implements OnInit {
 
 
   viewOlderRecords(i) {
-  
+
     this.studentName = i.student_name;
     this.teacherName = i.teacher_name;
     this.customName = i.name;
@@ -400,7 +410,7 @@ export class BiometricComponent implements OnInit {
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
           //console.log(this.studentsData);
-          this.nameOfPeople=this.studentsData.map(
+          this.nameOfPeople = this.studentsData.map(
             data => data.student_name
           )
           if (data != null) {
@@ -449,7 +459,7 @@ export class BiometricComponent implements OnInit {
       this.showWeek = true;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
-          
+
           this.isRippleLoad = false;
           if (data != null) {
             this.addAcademicPopUp = true;
@@ -486,6 +496,7 @@ export class BiometricComponent implements OnInit {
     }
 
   }
+
   courseEmpty() {
     if (this.getData.name != "") {
       this.getData.standard_id = -1;
@@ -493,18 +504,9 @@ export class BiometricComponent implements OnInit {
       this.getData.subject_id = -1;
     }
   }
+  
   closeReportAcademicPopup() {
     this.addAcademicPopUp = false;
-  }
-
-  getInstitute() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == 'LANG') {
-      this.isProfessional = true;
-    }
-    else {
-      this.isProfessional = false;
-    }
   }
 
   showDataTable() {

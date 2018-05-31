@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import { FeeStrucService } from '../../../services/feeStruc.service';
 import 'rxjs/Rx';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-template-home',
@@ -66,7 +67,7 @@ export class TemplateHomeComponent implements OnInit {
   totalAmountCal: number = 0;
   templateName: any = "";
 
-  constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
+  constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -74,7 +75,16 @@ export class TemplateHomeComponent implements OnInit {
 
   ngOnInit() {
     this.enableTax = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchPrefill();
@@ -229,7 +239,7 @@ export class TemplateHomeComponent implements OnInit {
       test.schedule_id = this.installmentList[t].schedule_id.toString();
       test.is_referenced = this.installmentList[t].is_referenced;
       test.day_type = this.installmentList[t].day_type.toString();
-      test.days = this.installmentList[t].days.toString();
+      test.days = Number(this.installmentList[t].days).toString();
       this.totalAmount = this.totalAmount + this.installmentList[t].fees_amount;
       this.discountAmount = this.discountAmount + this.installmentList[t].fees_amount - this.installmentList[t].initial_fee_amount;
       data.push(test);
@@ -244,7 +254,7 @@ export class TemplateHomeComponent implements OnInit {
       test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
       test.day_type = this.otherInstList[t].day_type.toString();
-      test.days = this.otherInstList[t].days.toString();
+      test.days = Number(this.otherInstList[t].days).toString();
       this.totalAmount = this.totalAmount + this.otherInstList[t].fees_amount;
       this.discountAmount = this.discountAmount + this.otherInstList[t].fees_amount - this.otherInstList[t].initial_fee_amount;
       data.push(test);

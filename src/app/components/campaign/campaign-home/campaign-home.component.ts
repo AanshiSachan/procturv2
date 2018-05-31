@@ -17,7 +17,7 @@ import { CampaignService } from '../../../services/campaign-services/campaign.se
 import { SmsOptionComponent } from './sms-option.component';
 import { error } from 'util';
 import { NgForm } from '@angular/forms';
-
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 
@@ -128,14 +128,6 @@ export class CampaignHomeComponent implements OnInit {
     columns: {
       message: { title: 'Message', filter: false, show: true },
       statusValue: { title: 'Status.', filter: false, show: true },
-      //date: { title: 'Date.', filter: false, show: true },
-      //status: { title: 'Status Key', filter: false, show: false },
-      //campaign_list_id: { title: 'Campaign List.', filter: false, show: false },
-      //campaign_list_message_id: { title: 'Campaign List Id.', filter: false, show: false },
-      //feature_type: { title: 'Feature Type.', filter: false, show: false },
-      //institute_name: { title: 'Institute Name.', filter: false, show: false },
-      //message_id: { title: 'Message Id.', filter: false, show: false },
-      //sms_type: { title: 'Sms Type.', filter: false, show: false },
       action: {
         title: ' ', filter: false, type: 'custom',
         renderComponent: SmsOptionComponent
@@ -189,12 +181,20 @@ export class CampaignHomeComponent implements OnInit {
     private appC: AppComponent,
     private login: LoginService,
     private cd: ChangeDetectorRef,
-    private postData: CampaignService,
+    private postData: CampaignService, private auth: AuthenticatorService
   ) { }
 
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    //console.log(this.isProfessional);
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
 
     this.login.changeNameStatus(sessionStorage.getItem('name'));

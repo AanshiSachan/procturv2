@@ -9,6 +9,7 @@ import { PostFeeService } from '../../../../services/report-services/fee-service
 import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-fee-course-report',
@@ -30,7 +31,7 @@ export class FeeCourseReportComponent implements OnInit {
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
   dataStatus: number = 3;
-  
+
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -107,16 +108,17 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg:string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
+  helpMsg: string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
 
   @ViewChild('form') form: any;
 
   constructor(
-    private excelService:ExcelService,
+    private excelService: ExcelService,
     private login: LoginService,
     private appC: AppComponent,
     private getter: GetFeeService,
-    private putter: PostFeeService
+    private putter: PostFeeService,
+    private auth: AuthenticatorService
   ) {
     this.switchActiveView('fee');
   }
@@ -127,7 +129,15 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
@@ -181,7 +191,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   batchSelected() {
-    
+
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
@@ -477,7 +487,7 @@ export class FeeCourseReportComponent implements OnInit {
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
     this.courseFetchForm.type = "0";
-  
+
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -493,7 +503,7 @@ export class FeeCourseReportComponent implements OnInit {
       )
     }
     else {
-      let id = this.courseFetchForm.standard_id.replace(/ /g,"%20");
+      let id = this.courseFetchForm.standard_id.replace(/ /g, "%20");
       this.getter.getCourseData(id).subscribe(
         res => {
           this.isRippleLoad = false;
@@ -512,7 +522,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   fetchBatchList() {
     this.courseFetchForm.batch_id = -1;
-  
+
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
@@ -582,7 +592,7 @@ export class FeeCourseReportComponent implements OnInit {
         if (this.courseFetchForm.standard_id != '-1' && this.courseFetchForm.subject_id != '-1') {
           return true;
         }
-        else{
+        else {
           return false;
         }
       }
@@ -772,14 +782,14 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   sendBulkSms() {
-    if(confirm("Are you sure u want to send Fee Dues SMS to the selected students?")){
+    if (confirm("Are you sure u want to send Fee Dues SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
         return e.student_id;
       });
       let obj = {
         delivery_mode: 0,
         institution_id: '',
-        student_ids: arr.join(',') 
+        student_ids: arr.join(',')
       }
       this.putter.sendBulkSMS(obj).subscribe(
         res => {
@@ -805,7 +815,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   sendBulkFineSms() {
-    if(confirm("Are you sure u want to send Fine SMS to the selected students?")){
+    if (confirm("Are you sure u want to send Fine SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
         return e.student_id;
       });
@@ -813,7 +823,7 @@ export class FeeCourseReportComponent implements OnInit {
       let obj = {
         delivery_mode: 0,
         institution_id: '',
-        student_ids: arr.join(',') 
+        student_ids: arr.join(',')
       }
 
       this.putter.sendBulkFineSMS(obj).subscribe(

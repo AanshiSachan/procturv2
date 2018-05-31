@@ -3,6 +3,7 @@ import { FeeStrucService } from '../../../services/feeStruc.service';
 import { AppComponent } from '../../../app.component';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-fee-template-add',
@@ -51,14 +52,23 @@ export class FeeTemplateAddComponent implements OnInit {
     private apiService: FeeStrucService,
     private appC: AppComponent,
     private login: LoginService,
-    private route: Router
+    private route: Router,
+    private auth: AuthenticatorService
   ) {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   ngOnInit() {
-    this.checkInstituteType();
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
     this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.getAllMasterCourseList();
     this.getDetailOfFeeStructur()
@@ -380,7 +390,7 @@ export class FeeTemplateAddComponent implements OnInit {
       test.fees_amount = this.installMentTable[t].totalAmount;
       test.service_tax_applicable = this.installMentTable[t].service_tax_applicable;
       test.day_type = this.installMentTable[t].day_type.toString();
-      test.days = this.installMentTable[t].days.toString();
+      test.days = Number(this.installMentTable[t].days).toString();
       this.totalAmount = this.totalAmount + Number(test.fees_amount);
       data.push(test);
     }
@@ -398,7 +408,7 @@ export class FeeTemplateAddComponent implements OnInit {
       test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
       test.day_type = this.otherInstList[t].day_type.toString();
-      test.days = this.otherInstList[t].days.toString();
+      test.days = Number(this.otherInstList[t].days).toString();
       this.totalAmount = this.totalAmount + this.otherInstList[t].fees_amount;
       data.push(test);
     }
@@ -440,15 +450,6 @@ export class FeeTemplateAddComponent implements OnInit {
 
   deleteAdditionalRow(row, index) {
     this.otherInstList.splice(index, 1);
-  }
-
-  checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
   }
 
 }

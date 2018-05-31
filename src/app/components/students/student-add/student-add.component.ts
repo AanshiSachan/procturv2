@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/filter';
-
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-student-add',
@@ -328,7 +328,7 @@ export class StudentAddComponent implements OnInit {
     private postService: PostStudentDataService,
     private fetchService: FetchStudentService,
     private router: Router, private login: LoginService,
-    private appC: AppComponent) {
+    private appC: AppComponent, private auth: AuthenticatorService) {
     this.isRippleLoad = true
     this.getInstType();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
@@ -546,13 +546,17 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getInstType() {
-    let institute_type = sessionStorage.getItem('institute_type');
-    if (institute_type == 'LANG') {
-      this.isProfessional = true;
-    }
-    else {
-      this.isAcad = true;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+          this.isAcad = false;
+        } else {
+          this.isProfessional = false;
+          this.isAcad = true;
+        }
+      }
+    )
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -1187,11 +1191,11 @@ export class StudentAddComponent implements OnInit {
       }
     }
   }
-    validateDOB(): string{
-    if(this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date'){
+  validateDOB(): string {
+    if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date') {
       return '';
     }
-    else{
+    else {
       return moment(this.studentAddFormData.dob).format("YYYY-MM-DD");
     }
   }

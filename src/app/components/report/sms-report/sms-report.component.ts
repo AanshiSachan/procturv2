@@ -15,6 +15,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { getSMSService } from '../../../services/report-services/get-sms.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 import { postSMSService } from '../../../services/report-services/post-sms.service';
 
 @Component({
@@ -62,14 +63,23 @@ export class SmsReportComponent implements OnInit {
   }
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef,
-    private getSms: getSMSService, private postSms: postSMSService) {
+    private getSms: getSMSService, private postSms: postSMSService, private auth: AuthenticatorService) {
     this.switchActiveView('sms');
   }
 
 
 
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.getSmsReport(this.smsFetchForm);

@@ -390,8 +390,6 @@
       </section>
       <!-- ======================================================== -->
       <!-- ======================================================== -->
-
-
       <!-- ======================================================== -->
       <!-- ======================================================== -->
       <!-- ======================Other Form========================== -->
@@ -402,12 +400,6 @@
               Other Details
             </h1>
             <aside class="pull-right">
-              <!-- <div class="need-help">
-                <div class="questionInfo">
-                  <span class="qInfoIcon">?</span>
-                </div>
-                <a>Need help?</a>
-              </div> -->
             </aside>
           </section>
         </section>
@@ -490,16 +482,6 @@
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
           </aside>
           <aside class="pull-right">
-            <!-- <div style="display: inline-block;" class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
-              <label for="quickAddStudent">Quick Add Student</label>
-              <div class="questionInfo pos-rel">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Student fees and inventory details can be added later.
-                </div>
-              </div>
-            </div> -->
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn fullBlue"
               [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
@@ -856,7 +838,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <student-pop-up *ngIf="isNewInstituteEditor">
+  <proctur-popup *ngIf="isNewInstituteEditor">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -956,11 +938,11 @@
       </div>
 
     </div>
-  </student-pop-up>
+  </proctur-popup>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
-  <student-pop-up [isBig]="'y'" [hidden]="!isAssignBatch">
+  <proctur-popup [sizeWidth]="'large'" [hidden]="!isAssignBatch">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1050,11 +1032,11 @@
       </div>
     </div>
 
-  </student-pop-up>
+  </proctur-popup>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Duplicate Contact =============================== -->
-  <student-pop-up [hidden]="!isDuplicateStudent">
+  <proctur-popup [hidden]="!isDuplicateStudent">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isDuplicateContactClose()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1104,11 +1086,11 @@
         </aside>
       </div>
     </div>
-  </student-pop-up>
+  </proctur-popup>
   <!-- ======================================================== -->
   <!-- ========================User Selects a Template here================================ -->
   <!-- =============== Configure Fees =============================== -->
-  <student-pop-up *ngIf="isConfigureFees">
+  <proctur-popup *ngIf="isConfigureFees">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1161,7 +1143,7 @@
       </div>
     </div>
 
-  </student-pop-up>
+  </proctur-popup>
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
@@ -1177,7 +1159,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ===============Manage PDC ============================ -->
-  <student-pop-up [isBig]="'y'" *ngIf="isPdcApply">
+  <proctur-popup [sizeWidth]="'large'" *ngIf="isPdcApply">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePDCPop()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1364,12 +1346,12 @@
       </div>
     </div>
 
-  </student-pop-up>
+  </proctur-popup>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Fees Payment Manager=============================== -->
-  <student-pop-up *ngIf="isFeePaymentUpdate">
+  <proctur-popup [sizeWidth]="'small'" *ngIf="isFeePaymentUpdate">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePaymentDetails()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1532,11 +1514,11 @@
       </div>
     </div>
 
-  </student-pop-up>
+  </proctur-popup>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <student-pop-up *ngIf="isPartialPayment">
+  <proctur-popup [sizeWidth]="'small'" *ngIf="isPartialPayment">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePartialPayment()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1695,7 +1677,7 @@
       </div>
     </div>
 
-  </student-pop-up>
+  </proctur-popup>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
 </section>

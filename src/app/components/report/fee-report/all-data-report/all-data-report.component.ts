@@ -9,6 +9,7 @@ import { PostFeeService } from '../../../../services/report-services/fee-service
 import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-all-data-report',
@@ -116,7 +117,8 @@ export class AllDataReportComponent implements OnInit {
     private appC: AppComponent,
     private getter: GetFeeService,
     private putter: PostFeeService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private auth: AuthenticatorService
   ) {
     this.excelService = excelService;
     this.switchActiveView('fee');
@@ -128,7 +130,15 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { AuthenticatorService } from '../../services/authenticator.service';
 
 @Component({
   selector: 'app-chatbot',
@@ -28,7 +29,7 @@ export class chatBotComponent {
     }
   }
 
-  constructor(private router: Router, private auth: ZendAuth, private appC: AppComponent, private login: LoginService, ) {
+  constructor(private router: Router, private auth: ZendAuth, private appC: AppComponent, private login: LoginService, private authS: AuthenticatorService ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -37,19 +38,27 @@ export class chatBotComponent {
   }
 
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.authS.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   ZendeskLogin() {
     if (this.payload.ticket.subject == "" && this.payload.ticket.description == "") {
-   
+
       this.helpRequested();
       return;
 
     }
-     if (this.payload.ticket.subject == "" || this.payload.ticket.description == "" ) {
+    if (this.payload.ticket.subject == "" || this.payload.ticket.description == "") {
       let data = {
         type: 'error',
         title: "Error",
@@ -58,7 +67,7 @@ export class chatBotComponent {
       this.appC.popToast(data);
       return;
     }
-   if(this.payload.ticket.description.length > 499 ){
+    if (this.payload.ticket.description.length > 499) {
       let data = {
         type: 'error',
         title: "Description should not be greater than 500 Characters",
@@ -68,20 +77,20 @@ export class chatBotComponent {
       return;
     }
 
-    
+
     this.auth.ZendeskAuth(this.payload).subscribe(
       (data: any) => {
         this.flagData.emit(data);
-        this.helpRequested();       
+        this.helpRequested();
       },
-      (err: any)  => {
+      (err: any) => {
         this.flagData.emit(err);
         this.helpRequested();
-      }     
+      }
     )
     this.payload.ticket.description = "";
   }
-  
+
 
   posterData() {
     this.ZendeskLogin();

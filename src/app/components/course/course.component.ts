@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginService } from '../../services/login-services/login.service';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../services/authenticator.service';
@@ -11,6 +11,11 @@ import { AuthenticatorService } from '../../services/authenticator.service';
 export class CourseComponent implements OnInit {
 
   isLangInstitue: boolean = false;
+  @ViewChild('liStandard') liStandard: ElementRef;
+  @ViewChild('liSubject') liSubject: ElementRef;
+  @ViewChild('liManageBatch') liManageBatch: ElementRef;
+  @ViewChild('liClass') liClass: ElementRef;
+  @ViewChild('liExam') liExam: ElementRef;
 
   constructor(
     private router: Router,
@@ -74,13 +79,12 @@ export class CourseComponent implements OnInit {
   }
 
   switchActiveView(showId) {
+    this.liStandard.nativeElement.classList.remove('active');
+    this.liSubject.nativeElement.classList.remove('active');
+    this.liManageBatch.nativeElement.classList.remove('active');
+    this.liExam.nativeElement.classList.remove('active');
+    this.liClass.nativeElement.classList.remove('active');
     setTimeout(() => {
-      document.getElementById('liStandard').classList.remove('active');
-      document.getElementById('liSubject').classList.remove('active');
-      document.getElementById('liExam').classList.remove('active');
-      document.getElementById('liClass').classList.remove('active');
-      document.getElementById('liManageBatch').classList.remove('active');
-      // document.getElementById('liCourses').classList.remove('active');
       document.getElementById(showId).classList.add('active');
     }, 500)
   }
@@ -109,19 +113,19 @@ export class CourseComponent implements OnInit {
         this.hideAllTabs();
         if (permissionArray != null && permissionArray != "") {
           if (permissionArray.indexOf('501') != -1) {
-            document.getElementById('liStandard').classList.remove('hide');
+            this.liStandard.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('502') != -1) {
-            document.getElementById('liSubject').classList.remove('hide');
+            this.liSubject.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('505') != -1) {
-            document.getElementById('liManageBatch').classList.remove('hide');
+            this.liManageBatch.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('701') >= 0 || permissionArray.indexOf('704') >= 0) {
-            document.getElementById('liClass').classList.remove('hide');
+            this.liClass.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('702') >= 0) {
-            document.getElementById('liExam').classList.remove('hide');
+            this.liExam.nativeElement.classList.remove('hide');
           }
           this.routeToSubTabs(permissionArray);
         }
@@ -161,19 +165,19 @@ export class CourseComponent implements OnInit {
         this.hideAllTabs();
         if (permissionArray != null && permissionArray != "") {
           if (permissionArray.indexOf('501') != -1) {
-            document.getElementById('liStandard').classList.remove('hide');
+            this.liStandard.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('502') != -1) {
-            document.getElementById('liSubject').classList.remove('hide');
+            this.liSubject.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('401') != -1) {
-            document.getElementById('liManageBatch').classList.remove('hide');
+            this.liManageBatch.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('402') >= 0 || permissionArray.indexOf('704') >= 0) {
-            document.getElementById('liClass').classList.remove('hide');
+            this.liClass.nativeElement.classList.remove('hide');
           }
           if (permissionArray.indexOf('404') >= 0) {
-            document.getElementById('liExam').classList.remove('hide');
+            this.liExam.nativeElement.classList.remove('hide');
           }
           this.routeToSubTabsForLang(permissionArray);
         }
@@ -203,27 +207,25 @@ export class CourseComponent implements OnInit {
   }
 
   showAllTabs() {
-    document.getElementById('liStandard').classList.remove('hide');
-    document.getElementById('liSubject').classList.remove('hide');
-    document.getElementById('liManageBatch').classList.remove('hide');
-    // document.getElementById('liCourses').classList.remove('hide');
-    document.getElementById('liExam').classList.remove('hide');
-    document.getElementById('liClass').classList.remove('hide');
+    this.liStandard.nativeElement.classList.remove('hide');
+    this.liSubject.nativeElement.classList.remove('hide');
+    this.liManageBatch.nativeElement.classList.remove('hide');
+    this.liExam.nativeElement.classList.remove('hide');
+    this.liClass.nativeElement.classList.remove('hide');
   }
 
   hideAllTabs() {
-    document.getElementById('liStandard').classList.add('hide');
-    document.getElementById('liSubject').classList.add('hide');
-    document.getElementById('liManageBatch').classList.add('hide');
-    // document.getElementById('liCourses').classList.add('hide');
-    document.getElementById('liExam').classList.add('hide');
-    document.getElementById('liClass').classList.add('hide');
+    this.liStandard.nativeElement.classList.add('hide');
+    this.liSubject.nativeElement.classList.add('hide');
+    this.liManageBatch.nativeElement.classList.add('hide');
+    this.liExam.nativeElement.classList.add('hide');
+    this.liClass.nativeElement.classList.add('hide');
   }
 
   teacherLoginFound() {
     this.hideAllTabs();
-    document.getElementById('liManageBatch').classList.remove('hide');
-    document.getElementById('liClass').classList.remove('hide');
+    this.liManageBatch.nativeElement.classList.remove('hide');
+    this.liClass.nativeElement.classList.remove('hide');
     if (this.isLangInstitue) {
       this.router.navigateByUrl('course/managebatch');
       this.switchActiveView('liManageBatch');

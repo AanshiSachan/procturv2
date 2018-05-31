@@ -202,9 +202,9 @@
                             <td style="text-align:left;">{{det.student_name}}</td>
 
                             <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
-                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
+                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' && isExamGrade == '1'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && isExamGrade == '1'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade == '' || isExamGrade == '0'">{{marks.student_marks_obtained}}</label>
                             </td>
 
                         </tr>
@@ -212,7 +212,7 @@
                     </tbody>
 
                 </table>
-             <!--   <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
+                <!--   <div class="row filter-res pagination" style="width: 100%;" *ngIf="!isProfessional">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                         <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
                             [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
@@ -251,16 +251,20 @@
                             <td style="text-align:left;">{{det.student_name}}</td>
 
                             <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
-                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade == ''">{{marks.student_marks_obtained}}</label>
+                                <!-- <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' || isExamGrade == '1'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' || isExamGrade == '1'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave' && marks.grade!='Absent' ">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade == '' || isExamGrade == '0'">{{marks.student_marks_obtained}}</label> -->
+                                <label *ngIf="isExamGrade == '1'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="isExamGrade == '0'">{{marks.student_marks_obtained}}</label>
+
                             </td>
 
                         </tr>
                         <tr *ngIf='detailSource.length==0'>No Students Founds</tr>
                     </tbody>
                 </table>
-              <!--  <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
+                <!--  <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                         <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
                             [page]="pageIndexPopup" [perPage]="displayBatchSize" [count]="totalRecords">
@@ -275,7 +279,7 @@
     <div class="" popup-footer>
         <div class="clearfix">
             <aside class="pull-right popup-btn">
-                <input type="button" value="Close" class="btn" style= "margin-right:10px;margin-top:0px" (click)="closeReportPopup()">
+                <input type="button" value="Close" class="btn" style="margin-right:10px;margin-top:0px" (click)="closeReportPopup()">
             </aside>
         </div>
     </div>

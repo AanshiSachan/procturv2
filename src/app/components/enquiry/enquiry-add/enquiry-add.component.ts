@@ -173,7 +173,18 @@ export class EnquiryAddComponent implements OnInit {
     private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService,
     private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService
   ) {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
+
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -882,17 +893,17 @@ export class EnquiryAddComponent implements OnInit {
       if (this.validateTime()) {
 
         this.newEnqData.enqCustomLi = this.getCustomComponents();
-        
+
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
 
         /* isMainBranch,subBranchSelected */
-        if(this.isMainBranch == "N" && this.subBranchSelected == false){
+        if (this.isMainBranch == "N" && this.subBranchSelected == false) {
           this.newEnqData.source_instituteId = '-1';
         }
-        
-        else if(this.isMainBranch == "Y" && this.subBranchSelected == false){
+
+        else if (this.isMainBranch == "Y" && this.subBranchSelected == false) {
           this.newEnqData.source_instituteId = this.newEnqData.source_instituteId;
         }
 

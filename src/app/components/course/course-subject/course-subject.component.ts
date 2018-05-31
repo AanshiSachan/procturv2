@@ -311,7 +311,6 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {

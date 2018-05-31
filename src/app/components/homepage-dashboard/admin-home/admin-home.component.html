@@ -1990,10 +1990,10 @@
 
       <div class="details row">
         <div class="c-sm-4 c-md-4 c-lg-4">
-          <h4>Master Course : {{tempData.master_course}} </h4>
+          <h4>Master Course : {{courseTempData.master_course}} </h4>
         </div>
         <div class="c-sm-4 c-md-4 c-lg-4">
-          <h4>Exam Schedule Date : {{tempData.course_exam_date}} </h4>
+          <h4>Exam Schedule Date : {{courseTempData.course_exam_date}} </h4>
         </div>
       </div>
 
@@ -2001,7 +2001,7 @@
       <div class="content-wraper">
         <div class="row button-Section">
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <h4>Course : {{tempData.course_name}}</h4>
+            <h4>Course : {{courseTempData.course_name}}</h4>
           </div>
           <div class="pull-right" *ngIf="showReasonSection == ''">
             <button class="btn fullBlue" (click)="cancelExamCourseWise()">Cancel</button>

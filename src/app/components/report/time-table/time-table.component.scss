@@ -1722,7 +1722,7 @@ a:hover {
 
 .fa-print:hover {
     cursor: pointer;
-    color: crimson;
+    color: #0060A3;
 }
 .dateHeader{
 
@@ -1730,4 +1730,13 @@ a:hover {
     margin-top: -2%;
     margin-bottom: 2%;
     margin-left: -3px;
+}
+.inshead{
+    text-align:left;
+    margin-left:3px;
+}
+.insCont{
+    text-align:left;
+    margin-left:3px;
+    margin-top: 5px;
 }

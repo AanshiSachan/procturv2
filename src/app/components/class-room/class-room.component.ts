@@ -15,6 +15,7 @@ export class ClassRoomComponent {
 
   classRoomData: any = [];
   totalRow = 0;
+  updateFlag: boolean = false;
   isProfessional: boolean;
   enterclassdataDesc: string = "";
   enterclassdata: string = "";
@@ -26,6 +27,9 @@ export class ClassRoomComponent {
   CreateNewList: boolean = false;
   displayBatchSize: number = 10;
 
+  tempIndex = "";
+  tempObj: any;
+  editFlag = false;
 
   searchText: string = "";
   searchflag: boolean = false;
@@ -76,6 +80,18 @@ export class ClassRoomComponent {
   /*=====================================================================================
   ======================================================================================*/
   editRowTable(row, index) {
+    if (this.editFlag) {
+      this.pagedclassRoomData[this.tempIndex] = this.tempObj;
+      console.log(this.pagedclassRoomData[this.tempIndex]);
+      document.getElementById(("row" + this.tempIndex).toString()).classList.remove('editComp');
+      document.getElementById(("row" + this.tempIndex).toString()).classList.add('displayComp');
+    } else {
+      this.editFlag = true;
+    }
+    this.tempIndex = index;
+    console.log(this.tempIndex);
+    this.tempObj =  Object.assign({},row);
+    console.log(this.tempObj);
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
   }
@@ -217,6 +233,9 @@ export class ClassRoomComponent {
             body: "ClassRoom Updated Successfully."
           }
           this.AppC.popToast(data);
+          this.editFlag = false;
+          this.tempIndex = "";
+          this.tempObj = null;
           this.getClassList();
         },
         err => {
@@ -257,8 +276,15 @@ export class ClassRoomComponent {
     }
   }
 
+  /*====================update for vaid field==================================================== */
 
-  /*==================pagination================================================ */
+  // updateValidDataField() {
+  //   if (this.updateFlag == false) {
+
+  //   }
+  // }
+
+  /*==================pagination================================================================*/
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);

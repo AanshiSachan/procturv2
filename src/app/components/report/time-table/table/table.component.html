@@ -15,7 +15,7 @@
                     <ul class="emptyclass" *ngIf="i == undefined">
                         NA
                     </ul>
-                    <ul class="nonemptyClass" *ngIf="i != undefined">
+                    <ul class="nonemptyclass" *ngIf="i != undefined">
                         <li class="one">
                             <!-- <span *ngIf="i.class_type=='Exam'" class="dotto" style="background-color:red"></span>
                         <span *ngIf="i.class_type=='REGULAR'" class="dotto" style="background-color:black"></span> -->
@@ -25,16 +25,23 @@
                             {{i.start_time}}-{{i.end_time}}
                         </li>
 
-                        <li *ngIf="i.class_type =='REGULAR'" class="three" style="background-color:#04b8e6;">
-                            ({{i.class_type}})
-                        </li>
-                        <li *ngIf="i.class_type =='Exam'" class="three" style="background-color:red">
-                            ({{i.class_type}})
-                        </li>
-                        <li *ngIf="i.class_type == 'WEEK'|| i.class_type=='REVISION' || i.class_type=='DOUBT' || i.class_type=='EXTRA'" class="three"
-                            style="background-color:#04b8e6;">(Regular)
+                        <li *ngIf="i.class_type =='REVISION'" class="three">
+                            (Revision)
                         </li>
 
+                        <li *ngIf="i.class_type == 'DOUBT'" class="three">(Doubt)
+                        </li>
+
+                        <li *ngIf="i.class_type =='Exam'" class="three" style="background-color: #ff00009e">
+                            (Exam)
+                        </li>
+
+                        <li *ngIf="i.class_type =='EXTRA'" class="three">
+                            (Extra)
+                        </li>
+                        <li *ngIf=" !(i.class_type =='EXTRA' || i.class_type =='Exam' || i.class_type == 'DOUBT' || i.class_type =='REVISION')" class="three" style="visibility:hidden">
+                            (Regular)
+                        </li>
                         <li class="three" title={{i.batchName}}>
                             {{splitBatchData(i.batchName)}}
                         </li>
@@ -54,3 +61,4 @@
 
 
 </section>
+

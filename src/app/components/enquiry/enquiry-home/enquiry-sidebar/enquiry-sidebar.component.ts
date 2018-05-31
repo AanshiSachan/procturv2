@@ -8,6 +8,7 @@ import { updateEnquiryForm } from '../../../../model/update-enquiry-form';
 import * as moment from 'moment';
 import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'enquiry-sidebar',
@@ -101,9 +102,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
   sourceName: any = "";
-  isNotifyVisible:boolean = false;
+  isNotifyVisible: boolean = false;
 
-  constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent) {
+  constructor(
+    private prefill: FetchprefilldataService,
+    private cd: ChangeDetectorRef,
+    private appC: AppComponent,
+    private auth: AuthenticatorService
+  ) {
     this.isEnquiryAdministrator();
     this.checkInstituteType();
   }
@@ -174,14 +180,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;
       if (res.followUpDate != "" && res.followUpDate != null && res.followUpTime != "" && res.followUpTime != null) {
-        if(res.is_follow_up_time_notification == 1){
+        if (res.is_follow_up_time_notification == 1) {
           this.notifyme = true;
         }
-        else{
+        else {
           this.notifyme = false;
         }
 
-      }else{
+      } else {
         this.notifyme = false;
       }
       this.getSourceName(res.source_id);
@@ -497,33 +503,36 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   checkInstituteType() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == "LANG") {
-      this.isLangInstitute = true;
-    } else {
-      this.isLangInstitute = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isLangInstitute = true;
+        } else {
+          this.isLangInstitute = false;
+        }
+      }
+    )
   }
 
-  isNotifyDisplayed(){
+  isNotifyDisplayed() {
     this.cd.markForCheck();
-    if(this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate !="Invalid date"){
-      if(this.followUpTime != '' && this.followUpTime != null && this.followUpTime != undefined){
-        if(this.timeObj.fminute != '' && this.timeObj.fminute != null && this.timeObj.fminute != 'Invalid date'){
+    if (this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
+      if (this.followUpTime != '' && this.followUpTime != null && this.followUpTime != undefined) {
+        if (this.timeObj.fminute != '' && this.timeObj.fminute != null && this.timeObj.fminute != 'Invalid date') {
           this.cd.markForCheck();
           this.isNotifyVisible = true;
         }
-        else{
+        else {
           this.cd.markForCheck();
-          this.isNotifyVisible = false;          
+          this.isNotifyVisible = false;
         }
       }
-      else{
+      else {
         this.cd.markForCheck();
         this.isNotifyVisible = false;
       }
     }
-    else{
+    else {
       this.cd.markForCheck();
       this.isNotifyVisible = false;
     }

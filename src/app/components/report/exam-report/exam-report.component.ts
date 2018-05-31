@@ -7,6 +7,7 @@ import { lang } from 'moment';
 import { ViewChild } from '@angular/core';
 import { ElementRef, Directive } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -81,19 +82,33 @@ export class ExamReportComponent implements OnInit {
   property = "";
   direction = 0;
   sortingEnabled: boolean = true;
-  constructor(private login: LoginService, private examdata: ExamService, private appC: AppComponent) {
+  constructor(private login: LoginService, private examdata: ExamService,
+    private appC: AppComponent,
+    private auth: AuthenticatorService
+  ) {
     this.switchActiveView('exam');
+  }
+
+  professionalChecker() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
   }
 
   ngOnInit() {
     this.isExamGrade = sessionStorage.getItem('is_exam_grad_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.professionalChecker();
     if (this.isProfessional) {
       this.showTitle = true
       this.projectSettings = [
-
         { primaryKey: 'student_disp_id', header: 'Student ID' },
         { primaryKey: 'student_name', header: 'Student Name' },
         { primaryKey: 'student_phone', header: 'Contact No.' },
@@ -123,6 +138,7 @@ export class ExamReportComponent implements OnInit {
   closeReportPopup() {
     this.addReportPopup = false;
   }
+
 
   /* select exam repo fill master courses==================================================================================
   ================================================================================== */
@@ -333,7 +349,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "" || this.isExamGrade =="0") {
+              if (this.isExamGrade == "0") {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
@@ -410,7 +426,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "" || this.isExamGrade =="0") {
+              if (this.examSource[0].grade == "" || this.isExamGrade == "0") {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },

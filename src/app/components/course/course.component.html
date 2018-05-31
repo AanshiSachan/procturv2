@@ -3,25 +3,25 @@
     <section class="middle-main clearFix">
         <div class="common-tab">
             <ul>
-                <li id="liStandard" (click)="switchActiveView('liStandard')" class="active">
+                <li id="liStandard" #liStandard (click)="switchActiveView('liStandard')" class="active">
                     <a *ngIf="(isLangInstitue)" routerLink="/course">Master Course</a>
                     <a *ngIf="(!isLangInstitue)" routerLink="/course">Standard</a>
                 </li>
-                <li id="liSubject" (click)="switchActiveView('liSubject')" class="">
+                <li id="liSubject" #liSubject (click)="switchActiveView('liSubject')" class="">
                     <a *ngIf="(isLangInstitue)" routerLink="/course/subject">Course</a>
                     <a *ngIf="(!isLangInstitue)" routerLink="/course/subject">Subject</a>
                 </li>
                 <!-- <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
                     <a routerLink="/course/courselist">Courses</a>
                 </li> -->
-                <li id="liManageBatch" (click)="switchActiveView('liManageBatch')" class="">
+                <li id="liManageBatch" #liManageBatch (click)="switchActiveView('liManageBatch')" class="">
                     <a *ngIf="(isLangInstitue)" routerLink="/course/managebatch">Batch</a>
                     <a *ngIf="(!isLangInstitue)" routerLink="/course/courselist">Courses</a>
                 </li>
-                <li id="liClass" (click)="switchActiveView('liClass')" class="">
+                <li id="liClass" #liClass (click)="switchActiveView('liClass')" class="">
                     <a routerLink="/course/class">Class</a>
                 </li>
-                <li id="liExam" (click)="switchActiveView('liExam')" class="">
+                <li id="liExam" #liExam (click)="switchActiveView('liExam')" class="">
                     <a routerLink="/course/exam">Exam</a>
                 </li>
             </ul>
