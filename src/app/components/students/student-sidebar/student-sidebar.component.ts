@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { instituteInfo } from '../../../model/instituteinfo';
-
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'student-sidebar',
@@ -49,8 +49,17 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(private rend: Renderer2, private eRef: ElementRef) {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+  constructor(private rend: Renderer2, private eRef: ElementRef, private auth: AuthenticatorService) {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
    }
 
   ngOnInit() {

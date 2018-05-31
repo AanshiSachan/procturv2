@@ -15,6 +15,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-home',
@@ -25,14 +26,22 @@ export class HomeComponent implements OnInit {
 
   isProfessional:boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
 
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }

@@ -67,14 +67,14 @@ export class AuthenticatorService {
     getInstituteType() {
         let type = sessionStorage.getItem('institute_type');
         if (type != null && type != "" || type != undefined) {
-            this.institute_type.next(type);
+            //this.institute_type.next(type);
             this.instituteType_name.next(type);
         }
         let courseflag = sessionStorage.getItem('course_structure_flag');
         if (courseflag != null && courseflag != undefined) {
             this.course_flag.next(courseflag);
         }
-        this.makeInstituteType(type, this.course_flag);
+        this.makeInstituteType(type, courseflag);
     }
 
     getInstituteId() {

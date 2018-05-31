@@ -365,8 +365,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* OnInit Function */
   ngOnInit() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
 
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
     //this.prefill.getLeadSource().subscribe( (data)=>{ console.log(data)})

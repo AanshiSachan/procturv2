@@ -2,6 +2,7 @@ import {
     Component, EventEmitter, Input, Output, ElementRef,
     Renderer2, ViewChild, OnChanges, SimpleChanges, HostListener
 } from '@angular/core';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
     selector: 'quick-filter',
@@ -21,8 +22,16 @@ export class QuickFilterComponent implements OnChanges {
     @Output() selectedValue = new EventEmitter<any>();
 
 
-    constructor() {
-        this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    constructor(private auth: AuthenticatorService) {
+        this.auth.institute_type.subscribe(
+            res => {
+              if (res == 'LANG') {
+                this.isProfessional = true;
+              } else {
+                this.isProfessional = false;
+              }
+            }
+          )      
     }
 
 

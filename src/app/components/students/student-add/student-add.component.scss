@@ -53,7 +53,8 @@
     }
     .paymentForm {
         max-height: 400px;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         ::-webkit-scrollbar {
             display: block;
         }

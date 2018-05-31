@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-campaign-add',
@@ -25,8 +26,8 @@ export class CampaignAddComponent implements OnInit {
     gender: "",
     address: "",
     city: "",
-    referred:"",
-    source:""   
+    referred: "",
+    source: ""
   };
 
   private referralList: any[] = [];
@@ -34,13 +35,22 @@ export class CampaignAddComponent implements OnInit {
 
   isProfessional: boolean = false;
 
-  constructor(private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService ) { }
+  constructor(private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService, private auth: AuthenticatorService) { }
 
   ngOnInit() {
 
     this.fetchPrefillFormData();
 
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
 
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
 
@@ -59,9 +69,9 @@ export class CampaignAddComponent implements OnInit {
     });
 
   }
-    
-  
-    
+
+
+
 
 
 
@@ -83,7 +93,7 @@ export class CampaignAddComponent implements OnInit {
 
   }
 
-  addCampaign(form: NgForm){
+  addCampaign(form: NgForm) {
 
     if (form.valid) {
       /* Get slot data and store on form */
@@ -138,11 +148,11 @@ export class CampaignAddComponent implements OnInit {
       gender: "",
       address: "",
       city: "",
-      referred:"",
-      source:"" 
+      referred: "",
+      source: ""
     }
     this.fetchPrefillFormData();
-    
+
   }
 
 
