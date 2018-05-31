@@ -390,7 +390,7 @@ export class FeeTemplateAddComponent implements OnInit {
       test.fees_amount = this.installMentTable[t].totalAmount;
       test.service_tax_applicable = this.installMentTable[t].service_tax_applicable;
       test.day_type = this.installMentTable[t].day_type.toString();
-      test.days = this.installMentTable[t].days.toString();
+      test.days = Number(this.installMentTable[t].days).toString();
       this.totalAmount = this.totalAmount + Number(test.fees_amount);
       data.push(test);
     }
@@ -408,7 +408,7 @@ export class FeeTemplateAddComponent implements OnInit {
       test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
       test.day_type = this.otherInstList[t].day_type.toString();
-      test.days = this.otherInstList[t].days.toString();
+      test.days = Number(this.otherInstList[t].days).toString();
       this.totalAmount = this.totalAmount + this.otherInstList[t].fees_amount;
       data.push(test);
     }

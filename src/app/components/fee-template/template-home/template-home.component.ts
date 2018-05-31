@@ -239,7 +239,7 @@ export class TemplateHomeComponent implements OnInit {
       test.schedule_id = this.installmentList[t].schedule_id.toString();
       test.is_referenced = this.installmentList[t].is_referenced;
       test.day_type = this.installmentList[t].day_type.toString();
-      test.days = this.installmentList[t].days.toString();
+      test.days = Number(this.installmentList[t].days).toString();
       this.totalAmount = this.totalAmount + this.installmentList[t].fees_amount;
       this.discountAmount = this.discountAmount + this.installmentList[t].fees_amount - this.installmentList[t].initial_fee_amount;
       data.push(test);
@@ -254,7 +254,7 @@ export class TemplateHomeComponent implements OnInit {
       test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
       test.day_type = this.otherInstList[t].day_type.toString();
-      test.days = this.otherInstList[t].days.toString();
+      test.days = Number(this.otherInstList[t].days).toString();
       this.totalAmount = this.totalAmount + this.otherInstList[t].fees_amount;
       this.discountAmount = this.discountAmount + this.otherInstList[t].fees_amount - this.otherInstList[t].initial_fee_amount;
       data.push(test);
