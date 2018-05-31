@@ -481,7 +481,7 @@
           <aside class="pull-left">
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
           </aside>
-          <aside class="pull-right"
+          <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn fullBlue"
               [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
