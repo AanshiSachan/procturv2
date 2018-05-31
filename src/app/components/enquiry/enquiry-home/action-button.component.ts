@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2} from '@angular/core';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { Router } from '@angular/router';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'enquiry-actions',
@@ -23,7 +24,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
 
   @Output() eventSelected = new EventEmitter<string>();
 
-  constructor(private pops: PopupHandlerService, private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef) { }
+  constructor(private pops: PopupHandlerService, private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef, private auth: AuthenticatorService) { }
 
   /* OnInit function to listen the changes in message value from service */
   ngOnInit() { }
@@ -59,12 +60,16 @@ export class ActionButtonComponent implements OnInit, OnChanges {
   }
 
   professionalStatus() {
-    if (sessionStorage.getItem('institute_type') === 'LANG') {
-      this.isProfessional = true;
-    }
-    else {
-      this.isProfessional = false;
-    }
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
   }
 
   setRoleAccess() {

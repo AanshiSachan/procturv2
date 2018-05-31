@@ -43,9 +43,17 @@ export class CampaignBulkComponent implements OnInit {
   ngOnInit() {
 
     this.fetchPrefillFormData();
-    //filling drop downs
 
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
 
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
 

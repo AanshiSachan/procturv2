@@ -17,7 +17,7 @@ import { PostStudentDataService } from '../../../services/student-services/post-
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { WidgetService } from '../../../services/widget.service';
-
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-student-home',
@@ -137,7 +137,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     private studentFetch: FetchStudentService, private login: LoginService,
     private appC: AppComponent, private studentPrefill: AddStudentPrefillService,
     private widgetService: WidgetService,
-    private postService: PostStudentDataService, private actRoute: ActivatedRoute) {
+    private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService) {
 
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
@@ -170,7 +170,15 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         }
       }
       else {
-        this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+        this.auth.institute_type.subscribe(
+          res => {
+            if (res == 'LANG') {
+              this.isProfessional = true;
+            } else {
+              this.isProfessional = false;
+            }
+          }
+        )    
         if (this.isProfessional) {
           this.StudentSettings = [
             { primaryKey: 'student_disp_id', header: 'Student Id' },

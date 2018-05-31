@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { LoginService } from '../../../services/login-services/login.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-report-home',
@@ -24,13 +25,21 @@ export class ReportHomeComponent implements OnInit {
   biometricAttendanceEnable:boolean=true;
 
 
-  constructor(private router: Router, private appC: AppComponent, private login: LoginService) {
+  constructor(private router: Router, private appC: AppComponent, private login: LoginService, private auth: AuthenticatorService) {
     this.switchActiveView('home');
   }
 
   ngOnInit() {
     this.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchAndUpdatePermissions();

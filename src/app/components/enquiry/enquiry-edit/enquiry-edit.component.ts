@@ -166,7 +166,17 @@ export class EnquiryEditComponent implements OnInit {
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
     private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute, private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+
+      this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     if (sessionStorage.getItem('userid') == null) {
       let data = {
         type: "error",
@@ -755,13 +765,13 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData.enqCustomLi = this.getCustomComponents();
         let dob = this.fetchDOB();
         this.editEnqData.dob = dob;
-        
+
         /* isMainBranch,subBranchSelected */
-        if(this.isMainBranch == "N" && this.subBranchSelected == false){
+        if (this.isMainBranch == "N" && this.subBranchSelected == false) {
           this.editEnqData.source_instituteId = '-1';
         }
-        
-        else if(this.isMainBranch == "Y" && this.subBranchSelected == false){
+
+        else if (this.isMainBranch == "Y" && this.subBranchSelected == false) {
           this.editEnqData.source_instituteId = this.editEnqData.source_instituteId;
         }
 
