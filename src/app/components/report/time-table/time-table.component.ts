@@ -334,6 +334,7 @@ export class TimeTableComponent implements OnInit {
     }
     else if (this.selectData == "batch") {
       if (this.fetchFieldDataPro.batch_id == "-1") {
+        this.isRippleLoad = false;
         let obj = {
           type: "error",
           title: "Unable to Fetch Report",
