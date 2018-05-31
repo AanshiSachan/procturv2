@@ -5,6 +5,7 @@
 
   <section class="activity-page">
     <section class="clearFix row">
+
       <div class="activity-left pull-left">
         <div class="act-top clearfix">
           <h1 class="pull-left">Activity Dashboard</h1>
@@ -32,6 +33,7 @@
         <div class="act-bottom clearfix">
           <div class="grid-container">
             <ul class="actb-wrapper grid">
+
 
               <li class="enquiry-state item" [ngClass]="{hide : checkRoleMAnagement()}" data-id="2">
                 <div class="item-content">
@@ -273,6 +275,13 @@
                 <div class="item-content">
                   <general-widget></general-widget>
                 </div>
+              </li>
+
+
+              <li style="height: 150px;" data-id="5" [ngClass]="{hide : checkRoleMAnagement()}" class="hide">
+                
+                  <app-biometric-widget></app-biometric-widget>
+            
               </li>
 
             </ul>

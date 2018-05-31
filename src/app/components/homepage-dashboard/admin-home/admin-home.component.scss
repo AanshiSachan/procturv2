@@ -30,7 +30,43 @@
         }
     }
 }
-
+.arrow.arrow-top {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #0084f6;
+    position: absolute;
+    top: -7px;
+    left: calc(50% - 7px);
+  }
+  .message {      
+    color: white;
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 7px;
+    margin-bottom: 30px;
+    width: 30%;
+    position: relative;
+    
+    &:after {
+      bottom: 100%;
+      left: 1%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-bottom-color: green;
+      border-width: 10px;
+      margin-left: -10px;
+    }
+  }
+  
+  .my-message {
+    background: green;
+  }
+  
 .questionInfo {
     position: relative;
     left: 40%;

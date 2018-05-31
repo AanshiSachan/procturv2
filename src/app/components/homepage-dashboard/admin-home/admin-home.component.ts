@@ -19,6 +19,7 @@ import { Chart } from 'angular-highcharts';
 import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
 
 @Component({
   selector: 'admin-home',
@@ -147,7 +148,8 @@ export class AdminHomeComponent implements OnInit {
     private rd: Renderer2,
     private enquiryService: FetchenquiryService,
     private widgetService: WidgetService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private biometric:BiometricStatusServiceService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -159,6 +161,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
+    this.fetchBiometricStatus();
 
     this.auth.institute_type.subscribe(
       res => {
@@ -169,7 +172,7 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
-
+    
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.fetchWidgetPrefill();
@@ -194,7 +197,7 @@ export class AdminHomeComponent implements OnInit {
     this.grid.on('dragEnd', (item, event) => {
       this.getOrder();
     });
-
+   
   }
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -219,6 +222,17 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
+  }
+
+  fetchBiometricStatus(){
+    this.biometric.biometricStatus().subscribe(
+      (data:any)=>{
+
+      },
+      (error:any)=>{
+
+      }
+    )
   }
 
   fetchScheduleWidgetData() {
