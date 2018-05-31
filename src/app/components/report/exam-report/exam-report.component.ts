@@ -349,7 +349,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "" || this.isExamGrade == "0") {
+              if (this.isExamGrade == "0") {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
