@@ -125,9 +125,9 @@ export class AuthenticatorService {
         if (type == "LANG" && course_flag == '0') {
             this.institute_type.next('LANG');
         } else if (type == "ACAD" && course_flag == '0') {
-            this.institute_type.next('ACAD');
-        } else if (type == "ACAD" && course_flag == '1') {
             this.institute_type.next('LANG');
+        } else if (type == "ACAD" && course_flag == '1') {
+            this.institute_type.next('ACAD');
         } else if (type == "ACAD_COURSE" && course_flag == '0') {
             this.institute_type.next('LANG');
         } else if (type == "ACAD_COURSE" && course_flag == '1') {

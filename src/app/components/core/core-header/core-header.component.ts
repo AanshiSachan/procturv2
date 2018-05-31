@@ -527,7 +527,7 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('inst_phone', res.inst_phone);
     sessionStorage.setItem('institute_type', res.institute_type);
     this.auth.instituteType_name.next(res.institute_type);
-    this.auth.institute_type.next(res.institute_type);
+    // this.auth.institute_type.next(res.institute_type);
     this.auth.makeInstituteType(res.institute_type, res.course_structure_flag);
     sessionStorage.setItem('institute_name', res.institute_name);
     sessionStorage.setItem('is_campaign_message_approve_feature', res.is_campaign_message_approve_feature);
