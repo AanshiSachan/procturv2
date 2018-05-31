@@ -255,9 +255,8 @@
                                 <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' || isExamGrade == '1'">{{marks.grade | uppercase}}</label>
                                 <label *ngIf="marks.grade != 'Leave' && marks.grade!='Absent' ">{{marks.grade | uppercase}}</label>
                                 <label *ngIf="marks.grade == '' || isExamGrade == '0'">{{marks.student_marks_obtained}}</label> -->
-                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' && isExamGrade == '1'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && isExamGrade == '1'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade == '' || isExamGrade == '0'">{{marks.student_marks_obtained}}</label>
+                                <label *ngIf="isExamGrade == '1'">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="isExamGrade == '0'">{{marks.student_marks_obtained}}</label>
 
                             </td>
 
