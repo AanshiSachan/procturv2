@@ -12,10 +12,10 @@ export class CourseComponent implements OnInit {
 
   isLangInstitue: boolean = false;
   @ViewChild('liStandard') liStandard: ElementRef;
-  @ViewChild('liStandard') liSubject: ElementRef;
-  @ViewChild('liStandard') liManageBatch: ElementRef;
-  @ViewChild('liStandard') liClass: ElementRef;
-  @ViewChild('liStandard') liExam: ElementRef;
+  @ViewChild('liSubject') liSubject: ElementRef;
+  @ViewChild('liManageBatch') liManageBatch: ElementRef;
+  @ViewChild('liClass') liClass: ElementRef;
+  @ViewChild('liExam') liExam: ElementRef;
 
   constructor(
     private router: Router,
