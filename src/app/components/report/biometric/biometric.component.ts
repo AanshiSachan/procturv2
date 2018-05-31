@@ -114,7 +114,6 @@ export class BiometricComponent implements OnInit {
       }
     )
 
-
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.getMasterCourses();
@@ -497,6 +496,7 @@ export class BiometricComponent implements OnInit {
     }
 
   }
+
   courseEmpty() {
     if (this.getData.name != "") {
       this.getData.standard_id = -1;
@@ -504,18 +504,9 @@ export class BiometricComponent implements OnInit {
       this.getData.subject_id = -1;
     }
   }
+  
   closeReportAcademicPopup() {
     this.addAcademicPopUp = false;
-  }
-
-  getInstitute() {
-    let type: any = sessionStorage.getItem('institute_type');
-    if (type == 'LANG') {
-      this.isProfessional = true;
-    }
-    else {
-      this.isProfessional = false;
-    }
   }
 
   showDataTable() {

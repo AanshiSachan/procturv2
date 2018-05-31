@@ -338,7 +338,6 @@ export class ScheduleHomeComponent implements OnInit {
   checkInstituteType() {
     let userType: any = Number(sessionStorage.getItem('userType'));
     const permissionArray = sessionStorage.getItem('permissions');
-    let type: any = sessionStorage.getItem('institute_type');
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
