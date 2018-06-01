@@ -56,11 +56,13 @@ export class CourseCourseListComponent implements OnInit {
         this.totalRow = data.length;
         this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
-        setTimeout(
-          () => {
-            this.toggleTbodyClass(0);
-          }, 300
-        );
+        if (data.length > 0) {
+          setTimeout(
+            () => {
+              this.toggleTbodyClass(0);
+            }, 300
+          );
+        }
       },
       error => {
         this.isRippleLoad = false;
