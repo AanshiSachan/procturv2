@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { instituteInfo } from '../../model/instituteinfo';
 import { EnquiryCampaign } from '../../model/enquirycampaign';
 import { Observable } from 'rxjs/Observable';
@@ -18,8 +17,8 @@ export class FetchenquiryService {
   url: string;
   urlCampaign: string;
   Authorization: string;
-  headers: Headers;
-  headersEncoded: Headers;
+  headers: any;
+  headersEncoded: any;
   instituteFormData: any = {};
   row: any = [];
   filtered = [];
@@ -30,19 +29,17 @@ export class FetchenquiryService {
   baseUrl: string = "";
 
   /* initialize the value of variables on service call */
-  constructor(private http: Http, private auth: AuthenticatorService) {
-    this.auth.currentAuthKey.subscribe( key => {
+  constructor(private http: HttpClient, private auth: AuthenticatorService) {
+    this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
-      this.headers = new Headers();
-      this.headers.append("Content-Type", "application/json");
-      this.headers.append("Authorization", this.Authorization);
-  
-      this.headersEncoded = new Headers();
-      this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    }) 
-    this.auth.currentInstituteId.subscribe( id => {
+      this.headers = new HttpHeaders(
+        { "Content-Type": "application/json", "Authorization": this.Authorization });
+      this.headersEncoded = new HttpHeaders(
+        { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", "Authorization": this.Authorization });
+    });
+    this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
-    }); 
+    });
     this.baseUrl = this.auth.getBaseUrl();
     this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
 
@@ -64,7 +61,7 @@ export class FetchenquiryService {
       this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
       return this.http.post(this.urlCampaign, obj, { headers: this.headers })
         .map(res => {
-          this.row = res.json();
+          this.row = res;
           return this.row;
         });
     }
@@ -84,7 +81,7 @@ export class FetchenquiryService {
 
         return this.http.post(this.urlCampaign, obj, { headers: this.headers })
           .map(res => {
-            this.row = res.json();
+            this.row = res;
             return this.row;
           });
       }
@@ -102,7 +99,7 @@ export class FetchenquiryService {
 
         return this.http.post(this.urlCampaign, obj, { headers: this.headers })
           .map(res => {
-            this.row = res.json();
+            this.row = res;
             return this.row;
           });
       }
@@ -115,10 +112,8 @@ export class FetchenquiryService {
     this.urlDownloadTemplate = this.baseUrl + "/api/v2/enquiry_manager/download/bulkUploadEnquiriesTemplate";
 
     return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
-      data => { return data.json() },
-      err => {
-        return err.json();
-      }
+      data => { return data },
+      err => { return err; }
     );
   }
 
@@ -128,27 +123,22 @@ export class FetchenquiryService {
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/enquiry/all/download/" + this.institute_id;
 
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
-      data => { return data.json() },
+      data => { return data },
       err => {
-        return err.json();
+        return err;
       }
     );
   }
 
 
   fetchAllSms() {
-
-
     this.urlFetchAllSms = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/all";
-
     let data = {
       feature_type: 2,
       sms_type: "Transactional"
     }
-
-
     return this.http.post(this.urlFetchAllSms, data, { headers: this.headers }).map(
-      res => { return res.json() }
+      res => { return res }
     );
 
   }
@@ -160,7 +150,7 @@ export class FetchenquiryService {
 
     return this.http.get(urlEnquiryBulkReport, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       }
     )
   }
@@ -173,7 +163,7 @@ export class FetchenquiryService {
 
     return this.http.get(urlPdf, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       }
     )
   }
@@ -185,8 +175,8 @@ export class FetchenquiryService {
     return this.http.post(
       url, obj, { headers: this.headers }
     ).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 
@@ -198,8 +188,8 @@ export class FetchenquiryService {
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 
@@ -208,8 +198,8 @@ export class FetchenquiryService {
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 
@@ -219,8 +209,8 @@ export class FetchenquiryService {
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 
@@ -229,8 +219,8 @@ export class FetchenquiryService {
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 

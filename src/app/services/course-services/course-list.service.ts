@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
-import { error } from 'util';
 
 @Injectable()
 
@@ -23,10 +22,7 @@ export class CourseListService {
           this.auth.currentInstituteId.subscribe( id => {
             this.institute_id = id;
           });
-        // this.institute_id = this.auth.getInstituteId();
-        // this.Authorization = this.auth.getAuthToken();
         this.baseURL = this.auth.getBaseUrl();
-
     }
 
     getCourseListFromServer() {
