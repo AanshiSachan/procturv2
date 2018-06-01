@@ -630,7 +630,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     let status = this.prefill.getEnqStatus().subscribe(
       data => {
         this.enqstatus = data;
-        // console.log(this.enqstatus)
       }
     );
 
@@ -3632,12 +3631,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         let file = new Blob([byteArr], { type: 'application/pdf' });
         let url = URL.createObjectURL(file);
         let dwldLink = document.getElementById('reg-pdf-link');
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
-        dwldLink.click();
-        this.cd.markForCheck();
+        if (dwldLink.getAttribute('href') == "" || dwldLink.getAttribute('href') == null) {
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          dwldLink.click();
+          this.cd.markForCheck();
+        }
       },
-      err => { }
+      err => { 
+        this.isRippleLoad = false;
+      }
     )
 
   }
@@ -3815,7 +3818,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         temp = el.data_value;
       }
     });
-    //console.log(temp);
     return temp;
   }
 
