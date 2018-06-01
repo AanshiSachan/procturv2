@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import { StandardServices } from '../../../services/course-services/standard.service';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -311,30 +310,6 @@ export class ScheduleHomeComponent implements OnInit {
     this.fetchTableDataByPage(this.PageIndex);
   }
 
-  /* Customiized click detection strategy */
-  inputClickedCheck(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-
   checkInstituteType() {
     let userType: any = Number(sessionStorage.getItem('userType'));
     const permissionArray = sessionStorage.getItem('permissions');
@@ -412,7 +387,6 @@ export class ScheduleHomeComponent implements OnInit {
     document.getElementById('liStandard').classList.remove('active');
     document.getElementById('liSubject').classList.remove('active');
     document.getElementById('liManageBatch').classList.remove('active');
-    // document.getElementById('liCourses').classList.add('hide');
     document.getElementById('liExam').classList.remove('active');
     document.getElementById('liClass').classList.remove('active');
   }

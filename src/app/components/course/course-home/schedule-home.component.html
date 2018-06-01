@@ -26,15 +26,15 @@
                     <div class="row create-standard-field">
                         <div class="c-lg-8 c-md-6 c-ms-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : newStandardDetails.standard_name != ''}">
-                                    <label (click)="clickSN()" *ngIf="(isLangInstitue != true)" for="StdName">Standard Name
-                                            <span style="color: red">*</span>
-                                        </label>
-                                        <label (click)="clickSN()" *ngIf="(isLangInstitue == true)" for="StdName">Master Course Name
-                                            <span style="color: red">*</span>
-                                        </label>
+                                <label (click)="clickSN()" *ngIf="(isLangInstitue != true)" for="StdName">Standard Name
+                                    <span style="color: red">*</span>
+                                </label>
+                                <label (click)="clickSN()" *ngIf="(isLangInstitue == true)" for="StdName">Master Course Name
+                                    <span style="color: red">*</span>
+                                </label>
                                 <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name" name="standard_name" id="StdName" #standard_name="ngModel"
                                     required courseInput>
-                                
+
 
                                 <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched || no_standard_name)" class="alert invalid-alert">
                                     <div *ngIf="standard_name.errors.required">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="c-lg-4 c-md-4 c-ms-4">
                             <div class="field-checkbox-wrapper">
-                                   
+
                                 <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newStandardDetails.is_active" id="isAct">
                                 <label for="isAct">Is Active</label>
                             </div>
@@ -107,7 +107,7 @@
                                 </td>
                                 <td class="edit-comp">
                                     <div class="field-wrapper has-value">
-                                        <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active" style="margin: auto;" (focus)="inputClickedCheck($event)">
+                                        <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active" style="margin: auto;">
                                             <option value="Y">Yes</option>
                                             <option value="N">No</option>
                                         </select>

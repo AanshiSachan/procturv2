@@ -200,7 +200,7 @@
                     <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': nestedTableForm.course_name != ''}">
 
                       <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="nestedTableForm.course_name" id="masterCourse"
-                        class="form-ctrl" (focus)="inputClickedCheck($event)" />
+                        class="form-ctrl" />
                       <label for="masterCourse">Course Name
                         <span style="color:red">*</span>
                       </label>
@@ -208,7 +208,7 @@
                     <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': nestedTableForm.start_Date != ''}">
 
                       <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="nestedTableForm.start_Date"
-                        name="startDate" bsDatepicker (focus)="inputClickedCheck($event)" id="startDate">
+                        name="startDate" bsDatepicker id="startDate">
                       <label for="startDate">Start Date
                         <span style="color:red">*</span>
                       </label>
@@ -217,7 +217,7 @@
                     <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': courseDetails.end_Date != ''}">
 
                       <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="nestedTableForm.end_Date"
-                        name="endDate" bsDatepicker (focus)="inputClickedCheck($event)" id="endDate">
+                        name="endDate" bsDatepicker id="endDate">
                       <label for="endDate">End Date
                         <span style="color:red">*</span>
                       </label>
@@ -231,7 +231,7 @@
                   </div>
                 </aside>
                 <aside style="width:80%; height: 220px;" class="pull-right asideMainWrapper">
-                  <div class="asideWrapperNested" >
+                  <div class="asideWrapperNested">
                     <table class="nestedTableAsideWrapper">
                       <thead>
                         <tr>
