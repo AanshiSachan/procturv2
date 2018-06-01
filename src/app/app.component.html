@@ -2,7 +2,8 @@
 
     <overlay-menu *ngIf="isMenuVisible"></overlay-menu>
 
-    <core-header (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)" class="hide">
+    <core-header (changePassword)="changePasswordPopUp($event)" (otherAction)="otherAction($event)" (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)"
+        class="hide">
     </core-header>
 
     <div id="middleWrapper">
@@ -242,11 +243,6 @@
     <app-chatbot (flagData)="handler($event)" [ngClass]="{'hide': !isloggedInAdmin}">
     </app-chatbot>
 
-    <!-- Change Password Section -->
-
-    <core-header (changePassword)="changePasswordPopUp($event)" class="hide">
-    </core-header>
-
     <proctur-popup class="popupData" [sizeWidth]="'small'" *ngIf="popUpChangePassword">
 
 
@@ -323,4 +319,212 @@
 
     </proctur-popup>
 
+    <proctur-popup [sizeWidth]="'large'" class="popupData" *ngIf="isEnqUpdate">
+
+        <span class="closePopup pos-abs fbold show" (click)="closeEnquiryUpdate()" close-button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                    </g>
+                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                    />
+                </g>
+            </svg>
+
+        </span>
+
+        <h2 popup-header>Update Enquiry No: {{selectedEnquiry.enquiry_no}} | Enquirer: {{selectedEnquiry.name}}</h2>
+
+        <div class="update-enquiry-form" popup-content>
+
+            <aside class="pull-right form-wrapper right-aside-wrapper">
+
+                <div class="row">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                        <div class="field-wrapper has-value">
+                            <label for="priorityEdit">Priority</label>
+                            <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.priority" name="priority">
+                                <option></option>
+                                <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
+                                    {{priority.data_value}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                        <div class="field-wrapper has-value">
+                            <label for="selectFollowupEdit">Follow Up Type</label>
+                            <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type" name="follow_type">
+                                <option></option>
+                                <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
+                                    {{followT.data_value}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                        <div class="field-wrapper has-value datePickerBox">
+                            <label for="followUPdateEdit">Follow Up Date</label>
+                            <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
+                                (ngModelChange)="isNotifyDisplayed()" bsDatepicker readonly="true" />
+                            <span class="date-clear danger" name="followupdate" (click)="updateFormData.followUpDate = ''">clear</span>
+                        </div>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
+                        <div class="timepick">
+                            <label for="walkintime">Follow Up Time</label>
+                            <div class="tbox" style=" width: 100%;">
+                                <div class="times" style=" width: 85px; display: inline-block; ">
+                                    <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="hour" (ngModelChange)="isNotifyDisplayed()" name="walkintime">
+                                        <option [value]="time" *ngFor="let time of times">
+                                            {{time}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="times " style=" width: 45px; display: inline-block; ">
+                                    <select id="minute" class="side-form-ctrl mers" [(ngModel)]="minute" (ngModelChange)="isNotifyDisplayed()" name="minute"
+                                        style="width: 70px;">
+                                        <option *ngFor="let minute of minArr" [value]="minute">
+                                            {{minute}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="isNotifyVisible">
+                    <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
+                        <div class="form-checkbox-wrapper">
+                            <div class="field-checkbox-wrapper">
+
+                                <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox"
+                                />
+                                <label for="notifyme">Notify Me</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                        <div class="field-wrapper has-value">
+                            <label for="enquiryStatusEdit">Status</label>
+                            <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.status" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+                                <option></option>
+                                <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_key == updateFormData.status ? '' : null"
+                                    [hidden]="status.data_key == 12 ? true : false">
+                                    {{status.data_value}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                        <div class="form-wrapper" *ngIf="isEnquiryAdmin">
+                            <label for="assignedTo">Assigned To</label>
+                            <select id="assignedTo" class="side-form-ctrl" name="assignedTo" [(ngModel)]="updateFormData.assigned_to">
+                                <option value="-1"></option>
+                                <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                                    {{ assigned.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                        <div class="field-wrapper has-value datePickerBox">
+                            <label for="followUPdateEdit">Walkin Date</label>
+                            <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.walkin_followUpDate"
+                                id="" bsDatepicker readonly="true" />
+
+                            <span class="date-clear danger" name="walkinfollowUpDate" (click)="updateFormData.walkin_followUpDate = ''">clear</span>
+                        </div>
+                    </div>
+
+                    <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
+                        <div class="timepick">
+                            <label for="walkintime">Walkin Time</label>
+                            <div class="tbox" style=" width: 100%;">
+                                <div class="times " style=" width: 85px; display: inline-block; ">
+                                    <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="updateFormData.walkin_followUpTime.hour" name="walkintime">
+                                        <option [value]="time" *ngFor="let time of times">
+                                            {{time}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="times" style=" width: 45px; display: inline-block; ">
+                                    <select id="minute" class="side-form-ctrl mers" [(ngModel)]="updateFormData.walkin_followUpTime.minute" name="minute" style="width: 70px;">
+                                        <option *ngFor="let minute of minArr" [value]="minute">
+                                            {{minute}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="c-lg-12 c-md-12 c-sm-12">
+                        <div class="field-wrapper">
+                            <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 120px;" id="addcommentEdit"
+                                class="form-ctrl" [(ngModel)]="updateFormData.comment">
+                              </textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <aside class="pull-left table-wrapper left-aside-wrapper">
+                <h4>Comment History</h4>
+                <div class="enquiry-update-history table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Comment</th>
+                                <th>Commented On</th>
+                                <th>Commented By</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let item of updateFormComments; let i=index;">
+                                <td>{{updateFormComments[i]}}</td>
+                                <td>{{updateFormCommentsOn[i]| date:'dd-MM-yyyy hh:mm a'}}</td>
+                                <td>{{updateFormCommentsBy[i]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </aside>
+
+        </div>
+
+        <div class="" popup-footer>
+            <div class="clearfix">
+                <aside class="pull-left popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="closeEnquiryUpdate()">
+                    <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update & Register" class="fullBlue btn"
+                        (click)="updateRegisterEnquiry()">
+                    <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                </aside>
+            </div>
+        </div>
+
+    </proctur-popup>
+
+    
 </div>
