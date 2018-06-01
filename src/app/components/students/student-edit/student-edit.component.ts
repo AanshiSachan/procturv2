@@ -199,7 +199,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isRippleLoad = true;
     this.getInstType();
     this.student_id = this.route.snapshot.paramMap.get('id');
-     this.fetchPrefillFormData();
+    this.fetchPrefillFormData();
   }
 
   /* ============================================================================================================================ */
@@ -408,11 +408,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   updateStudentForm(id) {
     /* Fetching Student Details from server */
-    this.fetchService.getStudentById(id).subscribe(data => {
+    this.fetchService.getStudentById(id).subscribe((data: any) => {
       this.studentAddFormData = data;
       this.studentAddFormData.school_name = data.school_name;
       this.studentAddFormData.student_class = data.student_class_key;
-      this.fetchCourseFromMaster(data.standard_id);      
+      this.fetchCourseFromMaster(data.standard_id);
       if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
         this.studentAddFormData.assignedBatchescademicYearArray = [""];
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
@@ -519,7 +519,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   batchChangeAlert(value, index) {
     let ind = null;
-    
+
     let len = this.batchList.length;
 
     if (value) {
@@ -531,12 +531,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
         /* Check if selected ID exist on selected array list */
         this.studentAddFormData.assignedBatches.forEach(e => {
-          if(this.isProfessional){
+          if (this.isProfessional) {
             if (this.batchList[index].data.batch_id == e) {
               ind = e;
             }
           }
-          else{
+          else {
             if (this.batchList[index].data.course_id == e) {
               ind = e;
             }
@@ -946,7 +946,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
     this.prefill.getAllFinancialYear().subscribe(
-      data => {
+      (data: any) => {
         this.academicYear = data;
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
@@ -1046,11 +1046,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   /* ============================================================================================================================ */
-  getCustomComponentCheckboxValue(e): boolean{
-    if(e == 'Y'){
+  getCustomComponentCheckboxValue(e): boolean {
+    if (e == 'Y') {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -1132,7 +1132,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   updateMasterCourseList(id) {
     this.batchList = [];
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
-      data => {
+      (data: any) => {
         data.coursesList.forEach(el => {
           if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
             el.feeTemplateList.forEach(e => {
@@ -1355,7 +1355,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
-        res => {
+        (res: any) => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
             let alert = {
@@ -1618,7 +1618,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchCourseFromMaster(id) {
-    
+
     if (id == null || id == '') {
       this.courseList = [];
     }
@@ -1683,7 +1683,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   registerDuplicateStudent(form: NgForm) {
     this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
-      res => {
+      (res: any) => {
         let statusCode = res.statusCode;
         if (statusCode == 200) {
           let alert = {
@@ -2159,7 +2159,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  fetchDiscountData(e){
+  fetchDiscountData(e) {
     this.discountReason = e.reason;
     this.instalmentTableData = e.installment;
 
@@ -2170,11 +2170,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
     this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
 
-    this.updateDiscount(); 
+    this.updateDiscount();
   }
   /* ============================================================================================================================ */
-   /* ============================================================================================================================ */
-   closeDiscountApply() {
+  /* ============================================================================================================================ */
+  closeDiscountApply() {
     this.isDiscountApply = false;
   }
   /* ============================================================================================================================ */
@@ -2235,7 +2235,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     );
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */  
+  /* ============================================================================================================================ */
   applyDiscountCustomFeeSchedule() {
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
@@ -2426,8 +2426,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.isRippleLoad = true;
-       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
-        res => {
+      this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
+        (res: any) => {
           this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -2648,7 +2648,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
       obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
       this.postService.allocateStudentFees(obj).subscribe(
-        res => {
+        (res: any) => {
           if (this.genPdcAck || this.sendPdcAck) {
             if (this.genPdcAck) {
               let doc = res;

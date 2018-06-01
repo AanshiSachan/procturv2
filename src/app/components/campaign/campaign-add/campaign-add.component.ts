@@ -60,7 +60,7 @@ export class CampaignAddComponent implements OnInit {
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
 
-    let referralList = this.prefill.getLeadReffered().subscribe(data => {
+    let referralList = this.prefill.getLeadReffered().subscribe((data: any) => {
       this.referralList = data;
     });
 

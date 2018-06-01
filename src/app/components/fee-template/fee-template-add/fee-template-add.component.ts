@@ -76,7 +76,7 @@ export class FeeTemplateAddComponent implements OnInit {
 
   getDetailOfFeeStructur() {
     this.apiService.fetchFeeDetail(0).subscribe(
-      res => {
+      (res: any) => {
         this.feeStructure = res;
         this.fillFeeType(res.feeTypeMap);
       },

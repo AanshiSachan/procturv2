@@ -153,7 +153,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     }
     this.followUpTime = '';
     this.walkin_followUpTime = '';
-    this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
+    this.prefill.fetchAllDataEnquiry(id).subscribe((res: any) => {
       this.rowData.dob = res.dob;
       this.rowData.parent_name = res.parent_name;
       this.rowData.parent_email = res.parent_email;

@@ -40,7 +40,7 @@ export class EnquiryEditComponent implements OnInit {
   refferedBy: any = [];
   occupation: any = [];
   lastDetail: any = [];
-  confimationPop: boolean = false;
+  confimationPop: boolean = false; res
   updatePop: boolean = false;
   isProfessional: boolean = false;
   institute_enquiry_id: any = '';
@@ -167,7 +167,7 @@ export class EnquiryEditComponent implements OnInit {
   constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
     private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute, private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
 
-      this.auth.institute_type.subscribe(
+    this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
           this.isProfessional = true;
@@ -776,7 +776,7 @@ export class EnquiryEditComponent implements OnInit {
         }
 
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
-          data => {
+          (data: any) => {
             if (data.statusCode == 200) {
               let msg = {
                 type: "success",
@@ -1069,7 +1069,7 @@ export class EnquiryEditComponent implements OnInit {
   }
 
   fetchCommentData(id) {
-    this.prefill.fetchCommentsForEnquiry(id).subscribe(res => {
+    this.prefill.fetchCommentsForEnquiry(id).subscribe((res: any) => {
       this.updateFormData.priority = res.priority;
       this.updateFormData.follow_type = res.follow_type;
       this.updateFormData.statusValue = res.statusValue;

@@ -207,7 +207,7 @@ export class StudentBulkComponent implements OnInit {
   /* fetch the status of the data updated to server */
   fetchBulkUploadStatusData() {
     this.fetchData.fetchBulkUpdateStatusReport().subscribe(
-      res => {
+      (res: any) => {
         this.bulkUploadRecords = res;
       }
     )

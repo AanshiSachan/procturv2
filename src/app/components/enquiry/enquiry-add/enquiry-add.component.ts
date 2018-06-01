@@ -910,7 +910,7 @@ export class EnquiryAddComponent implements OnInit {
         this.newEnqData.dob = this.fetchDOB();
 
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
-          data => {
+          (data: any) => {
             this.enquiryConfirm = data;
             let instituteEnqId = data.generated_id;
             this.prefill.fetchLastDetail().subscribe(data => {
