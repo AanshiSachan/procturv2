@@ -54,13 +54,18 @@ ul {
             &.time-item:first-child {
                 // padding: 5px;
                 // padding-top: 1px;
-                padding-bottom: 13px;
-                padding-top: 13px;
+                padding-bottom: 7px;
+                padding-top: 7px;
                 text-align: center;
+                .nonemptyclass{
+                    padding-top: 2.7vw !important;
+                }
                 li {
                     &.one {
                         font-size: 1.10vw;
                         font-weight: 900;
+                        position: relative;
+                        top: -2.8vw;
                     }
                     &.two {
                         font-size: 0.9vw;
@@ -68,6 +73,8 @@ ul {
                     }
                     &.three {
                         font-size: 0.9vw;
+                        position: relative;
+                        top: -2.8vw;
                     }
                 }
             }
