@@ -27,8 +27,9 @@ import { LoaderHandlingService } from './services/loading-services/loader-handli
 
 
 /* Interceptors */
-import { LoadInterceptor } from './interceptors/load-interceptor';
+import { I1, I2 } from './interceptors/load-interceptor';
 import { AuthGuard } from './guards/auth.guard';
+
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
 import { ToasterModule } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
@@ -52,21 +53,19 @@ import { TopicServiceService } from './services/topic-service.service';
 import { FilterPipe } from './components/event-managment/filterpipe';
 import { MasterComponent } from './components/master/master.component';
 import { ManageExamModule } from './components/master/master.module';
-import {HelpHomeModule} from './components/help-home/help-home.module';
+import { HelpHomeModule } from './components/help-home/help-home.module';
 import { chatBotComponent } from './components/chatbot/chatbot.component';
 //import {ChatbotModule} from './components/chatbot/chatbot.module';
-import {ZendAuth} from './services/Chat-bot/chatbot.service';
+import { ZendAuth } from './services/Chat-bot/chatbot.service';
 import { MultiBranchDataService } from './services/multiBranchdata.service';
 
 @NgModule({
   imports: [
-    
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-  
     HttpModule,
     HelpHomeModule,
     BrowserAnimationsModule,
@@ -75,8 +74,7 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SharedModule,
-    Ng2OrderModule,
-   
+    Ng2OrderModule
   ],
   declarations: [
     AppComponent,
@@ -91,13 +89,11 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     chatBotComponent,
     EventManagmentComponent,
     CityAreaMapComponent,
-   
     TopicsComponent,
     SearchBoxComponent
   ],
   entryComponents: [
-    SearchBoxComponent,chatBotComponent
-    
+    SearchBoxComponent, chatBotComponent
   ],
   providers: [
     FetchenquiryService,
@@ -114,7 +110,18 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     EventManagmentService,
     TopicServiceService,
     Title,
-    MultiBranchDataService
+    MultiBranchDataService,
+    AlertService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: I2,               // <-- I2 first
+      multi: true
+  },
+  {
+      provide: HTTP_INTERCEPTORS,
+      useClass: I1,               // <-- And only then I1
+      multi: true
+  }
   ],
   bootstrap: [AppComponent]
 })
