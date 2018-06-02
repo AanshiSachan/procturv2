@@ -110,6 +110,9 @@ export class AppComponent implements OnInit {
     confirmPassword: '',
   }
 
+  hasStudent: boolean = false;
+  hasEnquiry: boolean = false;
+
   constructor
     (
     toasterService: ToasterService,
@@ -192,6 +195,34 @@ export class AppComponent implements OnInit {
       }
     });
 
+    this.log.currentPermissions.subscribe(e => {
+      if (e != '' && e != null && e != undefined && e != []) {
+        let perm = JSON.parse(sessionStorage.getItem('permissions'));
+        if (perm != '' && perm != null && perm != undefined && perm != []) {
+          let permissionArray: any[] = perm;
+          let id = '115';
+          let id2 = '110';
+          let id3 = '301';
+          let id4 = '303';
+          if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
+            this.hasEnquiry = true;
+          }
+          else if (permissionArray.indexOf(id3) != -1 || permissionArray.indexOf(id4) != -1) {
+            this.hasStudent = true;
+          }
+        }
+      }
+      else {
+        this.hasEnquiry = false;
+        this.hasStudent = false;
+        let type = sessionStorage.getItem('userType');
+        if (type == '0') {
+          this.hasEnquiry = true;
+          this.hasStudent = true;
+        }
+      }
+    });
+
   }
 
   public popToast(data) {
@@ -220,6 +251,34 @@ export class AppComponent implements OnInit {
   public searchViewMore(e) {
     if (e != null) {
       this.isSearchMore = true;
+      this.log.currentPermissions.subscribe(e => {
+        this.hasEnquiry = false;
+        this.hasStudent = false;
+        if (e != '' && e != null && e != undefined && e != []) {
+          let perm = JSON.parse(sessionStorage.getItem('permissions'));
+          if (perm != '' && perm != null && perm != undefined && perm != []) {
+            let permissionArray: any[] = perm;
+            let id = '115';
+            let id2 = '110';
+            let id3 = '301';
+            let id4 = '303';
+            debugger;
+            if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
+              this.hasEnquiry = true;
+            }
+            else if (permissionArray.indexOf(id3) != -1 || permissionArray.indexOf(id4) != -1) {
+              this.hasStudent = true;
+            }
+          }
+        }
+        else {
+          let type = sessionStorage.getItem('userType');
+          if (type == '0') {
+            this.hasEnquiry = true;
+            this.hasStudent = true;
+          }
+        }
+      });
       this.filterGlobal(e.input);
     }
     else {
@@ -329,7 +388,11 @@ export class AppComponent implements OnInit {
       }
       case 'enquiryUpdate': {
         this.closeSearchArea();
-        this.router.navigate(['/enquiry'], { queryParams: { id: d, action: a } });
+        let obj = {
+          action: a,
+          data: d
+        }
+        this.otherAction(obj);
         break;
       }
 
@@ -611,44 +674,44 @@ export class AppComponent implements OnInit {
       }
 
       this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
-          res => {
-            this.isRippleLoad = false;
-            let msg = {
-              type: 'success',
-              title: 'Enquiry Updated',
-              body: 'Your enquiry has been successfully updated'
+        res => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'success',
+            title: 'Enquiry Updated',
+            body: 'Your enquiry has been successfully updated'
+          }
+          this.popToast(msg);
+          if (this.isConvertToStudent) {
+            let obj = {
+              name: this.selectedEnquiry.name,
+              phone: this.selectedEnquiry.phone,
+              email: this.selectedEnquiry.email,
+              gender: this.selectedEnquiry.gender,
+              dob: moment(this.selectedEnquiry.dob).format("YYYY-MM-DD"),
+              parent_email: this.selectedEnquiry.parent_email,
+              parent_name: this.selectedEnquiry.parent_name,
+              parent_phone: this.selectedEnquiry.parent_phone,
+              enquiry_id: this.selectedEnquiry.institute_enquiry_id,
+              institute_enquiry_id: this.selectedEnquiry.institute_enquiry_id
             }
-            this.popToast(msg);
-            if (this.isConvertToStudent) {
-              let obj = {
-                name: this.selectedEnquiry.name,
-                phone: this.selectedEnquiry.phone,
-                email: this.selectedEnquiry.email,
-                gender: this.selectedEnquiry.gender,
-                dob: moment(this.selectedEnquiry.dob).format("YYYY-MM-DD"),
-                parent_email: this.selectedEnquiry.parent_email,
-                parent_name: this.selectedEnquiry.parent_name,
-                parent_phone: this.selectedEnquiry.parent_phone,
-                enquiry_id: this.selectedEnquiry.institute_enquiry_id,
-                institute_enquiry_id: this.selectedEnquiry.institute_enquiry_id
-              }
-              localStorage.setItem('studentPrefill', JSON.stringify(obj));
-              this.closeEnquiryUpdate();
-              this.router.navigate(['student/add']);
-            }
-            else {
-              this.closeEnquiryUpdate();
-            }
-          },
-          err => {
-            this.isRippleLoad = false;
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Enquiry',
-              body: 'There was an error processing your request'
-            }
-            this.popToast(alert);
-          });
+            localStorage.setItem('studentPrefill', JSON.stringify(obj));
+            this.closeEnquiryUpdate();
+            this.router.navigate(['student/add']);
+          }
+          else {
+            this.closeEnquiryUpdate();
+          }
+        },
+        err => {
+          this.isRippleLoad = false;
+          let alert = {
+            type: 'error',
+            title: 'Failed To Update Enquiry',
+            body: 'There was an error processing your request'
+          }
+          this.popToast(alert);
+        });
     }
     else {
       let msg = {

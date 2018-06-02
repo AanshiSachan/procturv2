@@ -92,19 +92,19 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="markers" (click)="performAction('studentEdit', student)">
+                                                    <a *ngIf="hasStudent" class="markers" (click)="performAction('studentEdit', student)">
                                                         Edit Student
                                                     </a>
-                                                    <a class="markers" (click)="performAction('studentFee', student)">
+                                                    <a *ngIf="hasStudent" class="markers" (click)="performAction('studentFee', student)">
                                                         Manage Fee
                                                     </a>
-                                                    <a class="markers" (click)="performAction('studentInventory', student)">
+                                                    <a *ngIf="hasStudent" class="markers" (click)="performAction('studentInventory', student)">
                                                         Manage Inventory
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('studentLeave', student)">
+                                                    <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentLeave', student)">
                                                         Mark Leave
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('studentDelete', student)">
+                                                    <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentDelete', student)">
                                                         Delete
                                                     </a>
                                                 </li>
@@ -136,13 +136,13 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="markers" (click)="performAction('enquiryEdit',enquiry)">
+                                                    <a *ngIf="hasEnquiry" class="markers" (click)="performAction('enquiryEdit',enquiry)">
                                                         Edit Enquiry
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('enquiryDelete')">
+                                                    <a *ngIf="hasEnquiry" class="markers hide" (click)="performAction('enquiryDelete')">
                                                         Delete Enquiry
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('enquiryUpdate',enquiry)">
+                                                    <a *ngIf="hasEnquiry" class="markers" (click)="performAction('enquiryUpdate',enquiry)">
                                                         Update Enquiry
                                                     </a>
                                                 </li>
