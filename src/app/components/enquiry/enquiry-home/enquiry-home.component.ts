@@ -39,7 +39,7 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
 export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
-  isConvertToStudent: boolean;
+  isConvertToStudent: boolean = false;
   sortBy: string = 'followUpDateTime';
   /* =========================================================================== */
   /* =========================================================================== */
@@ -67,7 +67,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   private customComponents: any[] = []; selectedSmsMessage: string = ''; slots: any[] = [];
   isSideBar: boolean = false;
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45'];
+  minArr: any[] = ['','00','05','10','15','20','25','30','35','40','45','50','55'];
   meridianArr: any[] = ['', "AM", "PM"];
   isRippleLoad: boolean = false;
   hour: string = ''; minute: string = ''; meridian: string = '';
