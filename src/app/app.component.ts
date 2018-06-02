@@ -632,9 +632,45 @@ export class AppComponent implements OnInit {
     }
   }
 
+  getFollowupTime(): any {
+    let hour: any = parseInt(moment(new Date()).format('hh'));
+    let min: any = moment(new Date()).format('mm');
+    let mer: any = moment(new Date()).format('A');
+
+    if (parseInt(min) % 5 != 0) {
+      min = Math.ceil(parseInt(min) / 5) * 5;
+      if (min >= 60) {
+        min = '00';
+        if (hour == 12) {
+          hour = '1';
+          if (mer == 'AM') {
+            mer = 'PM';
+          }
+          else {
+            mer = 'AM';
+          }
+        }
+        else {
+          hour += 1;
+          let formattedNumber = ("0" + hour).slice(-2);
+          hour = formattedNumber.toString();
+        }
+      }
+    }
+
+    return (hour + ":" + min + " " + mer);
+  }
+
+
+
   updateRegisterEnquiry() {
     this.isConvertToStudent = true;
-    this.pushUpdatedEnquiry();
+    this.updateFormData.follow_type = "Walkin";
+    this.updateFormData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.updateFormData.walkin_followUpTime = this.getFollowupTime();
+    if(this.updateFormData.walkin_followUpTime != '' && this.updateFormData.walkin_followUpTime != null){
+      this.pushUpdatedEnquiry();
+    }
   }
 
   pushUpdatedEnquiry() {
@@ -652,19 +688,21 @@ export class AppComponent implements OnInit {
       }
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
-      if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
-        let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
-        let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
-        this.updateFormData.walkin_followUpTime = walkin_followUpTime;
-      } else {
-        this.updateFormData.walkin_followUpTime = "";
-      }
-
-      if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
-        let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
-        this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
-      } else {
-        this.updateFormData.walkin_followUpDate = "";
+      if(this.isConvertToStudent === false){
+        if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
+          let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
+          let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
+          this.updateFormData.walkin_followUpTime = walkin_followUpTime;
+        } else {
+          this.updateFormData.walkin_followUpTime = "";
+        }
+  
+        if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
+          let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+          this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
+        } else {
+          this.updateFormData.walkin_followUpDate = "";
+        }
       }
 
       if (this.updateFormData.is_follow_up_time_notification) {
@@ -674,51 +712,65 @@ export class AppComponent implements OnInit {
         this.updateFormData.is_follow_up_time_notification = 0;
       }
 
-      this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
-        res => {
-          this.isRippleLoad = false;
-          let msg = {
-            type: 'success',
-            title: 'Enquiry Updated',
-            body: 'Your enquiry has been successfully updated'
-          }
-          this.popToast(msg);
-          if (this.isConvertToStudent) {
-            let obj = {
-              name: this.selectedEnquiry.name,
-              phone: this.selectedEnquiry.phone,
-              email: this.selectedEnquiry.email,
-              gender: this.selectedEnquiry.gender,
-              dob: moment(this.selectedEnquiry.dob).format("YYYY-MM-DD"),
-              parent_email: this.selectedEnquiry.parent_email,
-              parent_name: this.selectedEnquiry.parent_name,
-              parent_phone: this.selectedEnquiry.parent_phone,
-              enquiry_id: this.selectedEnquiry.institute_enquiry_id,
-              institute_enquiry_id: this.selectedEnquiry.institute_enquiry_id
+      if (this.updateFormData.followUpDate != "Invalid date"){
+        this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
+        this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
+          res => {
+            this.isRippleLoad = false;
+            let msg = {
+              type: 'success',
+              title: 'Enquiry Updated',
+              body: 'Your enquiry has been successfully updated'
             }
-            localStorage.setItem('studentPrefill', JSON.stringify(obj));
-            this.closeEnquiryUpdate();
-            this.router.navigate(['student/add']);
+            this.popToast(msg);
+            if (this.isConvertToStudent) {
+              let obj = {
+                name: this.selectedEnquiry.name,
+                phone: this.selectedEnquiry.phone,
+                email: this.selectedEnquiry.email,
+                gender: this.selectedEnquiry.gender,
+                dob: moment(this.selectedEnquiry.dob).format("YYYY-MM-DD"),
+                parent_email: this.selectedEnquiry.parent_email,
+                parent_name: this.selectedEnquiry.parent_name,
+                parent_phone: this.selectedEnquiry.parent_phone,
+                enquiry_id: this.selectedEnquiry.institute_enquiry_id,
+                institute_enquiry_id: this.selectedEnquiry.institute_enquiry_id
+              }
+              localStorage.setItem('studentPrefill', JSON.stringify(obj));
+              this.closeEnquiryUpdate();
+              this.router.navigate(['student/add']);
+            }
+            else {
+              this.closeEnquiryUpdate();
+            }
+          },
+          err => {
+            this.isRippleLoad = false;
+            let alert = {
+              type: 'error',
+              title: 'Failed To Update Enquiry',
+              body: 'There was an error processing your request'
+            }
+            this.popToast(alert);
           }
-          else {
-            this.closeEnquiryUpdate();
-          }
-        },
-        err => {
-          this.isRippleLoad = false;
-          let alert = {
-            type: 'error',
-            title: 'Failed To Update Enquiry',
-            body: 'There was an error processing your request'
-          }
-          this.popToast(alert);
-        });
+        );
+      }
+      else {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Invalid Date Time Input',
+          body: 'Please select a valid date time for follow up'
+        }
+        this.popToast(msg);
+      }      
     }
     else {
+      this.isRippleLoad = false;
       let msg = {
         type: 'error',
-        title: 'Invalid Time Input',
-        body: 'Please select a valid time for follow up'
+        title: 'Invalid Date Time Input',
+        body: 'Please select a valid date time for follow up'
       }
       this.popToast(msg);
     }
