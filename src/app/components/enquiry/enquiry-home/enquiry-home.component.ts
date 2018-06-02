@@ -464,7 +464,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     sessionStorage.setItem('displayBatchSize', this.displayBatchSize.toString());
-    
+
     this.checkMultiBranchStatus();
 
   }
@@ -694,12 +694,41 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       data => { this.paymentMode = data; }
     )
 
-    if (status != null && priority != null) {
-      /* Custom Components */
-      return this.prefill.fetchCustomComponentEmpty().subscribe(
+    this.fetchCustomComponentData();
+    // if (status != null && priority != null) {
+    //   /* Custom Components */
+    //   return this.prefill.fetchCustomComponentEmpty().subscribe(
+    //     data => {
+    //       data.forEach(el => {
+
+    //         let obj = {
+    //           data: el,
+    //           id: el.component_id,
+    //           is_required: el.is_required,
+    //           is_searchable: el.is_searchable,
+    //           label: el.label,
+    //           prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+    //           selected: [],
+    //           selectedString: '',
+    //           type: el.type,
+    //           value: el.enq_custom_value
+    //         }
+    //         this.customComponents.push(obj);
+
+    //       });
+    //       this.emptyCustomComponent = this.componentListObject;
+    //     }
+    //   );
+    // }
+
+  }
+
+  fetchCustomComponentData() {
+    this.customComponents = [];
+    this.prefill.fetchCustomComponentEmpty()
+      .subscribe(
         data => {
           data.forEach(el => {
-
             let obj = {
               data: el,
               id: el.component_id,
@@ -712,17 +741,91 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               type: el.type,
               value: el.enq_custom_value
             }
+            if (el.type == 4) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
+                selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+                selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+                type: el.type,
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              }
+            }
+            if (el.type == 3) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: "",
+                type: el.type,
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              }
+            }
+            if (el.type == 2) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: '',
+                type: el.type,
+                value: el.enq_custom_value == "" ? false : true,
+              }
+            }
+            else if (el.type != 2 && el.type != 4 && el.type != 3) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: '',
+                type: el.type,
+                value: el.enq_custom_value
+              }
+            }
             this.customComponents.push(obj);
-
           });
           this.emptyCustomComponent = this.componentListObject;
-        }
-      );
-    }
-
+        });
   }
 
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
+    let customPrefilled: any[] = [];
+    if (selected.length != 0 && selected[0] != "") {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: selected.includes(el)
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    else {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: def.indexOf(el) != -1
+        }
+        customPrefilled.push(obj);
+      });
+    }
 
+    return customPrefilled;
+  }
   /* =========================================================================== */
   /* =========================================================================== */
 
@@ -768,52 +871,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
       if (el.id == id) {
-        el.prefilled_data.forEach(com => {
-          //console.log(com);
-          if (com.data == data.data) {
-            /* Component checked */
-            if (com.checked) {
-              el.selected.push(com.data);
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              //console.log(com.selected);
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-            }
-            /* Component unchecked */
-            else {
-              if (el.selected.length > 1) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else if (el.selected.length == 0) {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              else if (el.selected.length == 1) {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              //console.log(com.selected);
-              var index = el.selected.indexOf(data.data);
-              if (index > -1) {
-                el.selected.splice(index, 1);
-              }
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-              /* var index2 = el.selected.indexOf(data.data);
-                if (index2 > -1) {
-                el.selected.splice(index, 1);
-                }
-                el.selectedString = el.selected.join(','); 
-              */
-            }
+        let x = []
+        let y = el.prefilled_data;
+        y.forEach(e => {
+          if (e.checked) {
+            x.push(e.data)
           }
         });
+        el.selected = x;
+        el.selectedString = el.selected.join(',');
+        el.value = el.selectedString;
       }
     });
-
   }
 
 
@@ -827,7 +896,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
+  getDefaultArr(d): any[] {
+    let a: any[] = [];
+    a.push(d);
+    return a;
+  }
 
   /* Function to toggle table data on checkbox click */
   statusFilter(checkerObj) {
@@ -2145,97 +2218,153 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   updateRegisterEnquiry() {
     this.isConvertToStudent = true;
+    this.updateFormData.follow_type = "Walkin";
+    this.updateFormData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.updateFormData.walkin_followUpTime = this.getFollowupTime();
     this.pushUpdatedEnquiry();
   }
 
+
+  getFollowupTime(): any {
+    let hour: any = parseInt(moment(new Date()).format('hh'));
+    let min: any = moment(new Date()).format('mm');
+    let mer: any = moment(new Date()).format('A');
+
+    if (parseInt(min) % 5 != 0) {
+      min = Math.ceil(parseInt(min) / 5) * 5;
+      if (min >= 60) {
+        min = '00';
+        if (hour == 12) {
+          hour = '1';
+          if (mer == 'AM') {
+            mer = 'PM';
+          }
+          else {
+            mer = 'AM';
+          }
+        }
+        else {
+          hour += 1;
+          let formattedNumber = ("0" + hour).slice(-2);
+          hour = formattedNumber.toString();
+        }
+      }
+    }
+
+    return (hour + ":" + min + " " + mer);
+  }
+
+
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-
     if (this.validateTime()) {
-      this.isRippleLoad = true;
-      this.updateFormData.comment = this.updateFormData.comment;
-      this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
-      this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
-      let followupdateTime: string = "";
-      if (this.hour != '' && this.hour != null && this.hour != undefined) {
-        let time = this.timeChanges(this.hour);
-        let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
-        followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
-        this.updateFormData.followUpTime = followUpTime;
-      }
-      followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+      if (this.updateFormData.followUpDate != "Invalid date") {
+        this.isRippleLoad = true;
+        this.updateFormData.comment = this.updateFormData.comment;
+        this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
+        this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
 
-      if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
-        let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
-        let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
-        this.updateFormData.walkin_followUpTime = walkin_followUpTime;
-      } else {
-        this.updateFormData.walkin_followUpTime = "";
-      }
+        let followupdateTime: string = "";
 
-      if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
-        let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
-        this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
-      } else {
-        this.updateFormData.walkin_followUpDate = "";
-      }
+        if (this.hour != '' && this.hour != null && this.hour != undefined) {
+          let time = this.timeChanges(this.hour);
+          let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
+          followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
+          this.updateFormData.followUpTime = followUpTime;
+        }
 
-      if (this.updateFormData.is_follow_up_time_notification) {
-        this.updateFormData.is_follow_up_time_notification = 1;
-      }
-      else if (!this.updateFormData.is_follow_up_time_notification) {
-        this.updateFormData.is_follow_up_time_notification = 0;
-      }
+        followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
-      this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
-        .subscribe(
-          res => {
-            this.isRippleLoad = false;
-            let msg = {
-              type: 'success',
-              title: 'Enquiry Updated',
-              body: 'Your enquiry has been successfully submitted'
-            }
-            this.appC.popToast(msg);
-            if (this.isConvertToStudent) {
-              let obj = {
-                name: this.selectedRow.name,
-                phone: this.selectedRow.phone,
-                email: this.selectedRow.email,
-                gender: this.selectedRow.gender,
-                dob: moment(this.selectedRow.dob).format("YYYY-MM-DD"),
-                parent_email: this.selectedRow.parent_email,
-                parent_name: this.selectedRow.parent_name,
-                parent_phone: this.selectedRow.parent_phone,
-                enquiry_id: this.selectedRow.institute_enquiry_id,
-                institute_enquiry_id: this.selectedRow.institute_enquiry_id
+        if(this.isConvertToStudent === false){
+          if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
+            let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
+            let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
+            this.updateFormData.walkin_followUpTime = walkin_followUpTime;
+          }
+          else {
+            this.updateFormData.walkin_followUpTime = "";
+          }
+          if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
+            let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+            this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
+          }
+          else {
+            this.updateFormData.walkin_followUpDate = "";
+          }
+        }
+
+        if (this.updateFormData.is_follow_up_time_notification) {
+          this.updateFormData.is_follow_up_time_notification = 1;
+        }
+        else if (!this.updateFormData.is_follow_up_time_notification) {
+          this.updateFormData.is_follow_up_time_notification = 0;
+        }
+
+        if (this.updateFormData.followUpDate != "Invalid date"){
+          this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
+          this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData).subscribe(
+            res => {
+              this.isRippleLoad = false;
+              let msg = {
+                type: 'success',
+                title: 'Enquiry Updated',
+                body: 'Your enquiry has been successfully submitted'
               }
-              localStorage.setItem('studentPrefill', JSON.stringify(obj));
-              this.router.navigate(['student/add']);
+              this.appC.popToast(msg);
+              if (this.isConvertToStudent) {
+                let obj = {
+                  name: this.selectedRow.name,
+                  phone: this.selectedRow.phone,
+                  email: this.selectedRow.email,
+                  gender: this.selectedRow.gender,
+                  dob: moment(this.selectedRow.dob).format("YYYY-MM-DD"),
+                  parent_email: this.selectedRow.parent_email,
+                  parent_name: this.selectedRow.parent_name,
+                  parent_phone: this.selectedRow.parent_phone,
+                  enquiry_id: this.selectedRow.institute_enquiry_id,
+                  institute_enquiry_id: this.selectedRow.institute_enquiry_id
+                }
+                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                this.router.navigate(['student/add']);
+              }
+              else {
+                this.closePopup();
+                this.loadTableDatatoSource(this.instituteData);
+              }
+            },
+            err => {
+              this.isRippleLoad = false;
+              let alert = {
+                type: 'error',
+                title: 'Failed To Update Enquiry',
+                body: 'There was an error processing your request'
+              }
+              this.appC.popToast(alert);
             }
-            else {
-              this.closePopup();
-              this.loadTableDatatoSource(this.instituteData);
-            }
-          },
-          err => {
-            this.isRippleLoad = false;
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Enquiry',
-              body: 'There was an error processing your request'
-            }
-            this.appC.popToast(alert);
-          })
-    }
-    else {
-      let msg = {
-        type: 'error',
-        title: 'Invalid Time Input',
-        body: 'Please select a valid time for follow up'
+          )
+        }
+        else {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'error',
+            title: 'Invalid Date Time Input',
+            body: 'Please select a valid date time for follow up'
+          }
+          this.appC.popToast(msg);
+        }
+
       }
-      this.appC.popToast(msg);
+      else {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Invalid Date Time Input',
+          body: 'Please select a valid date time for follow up'
+        }
+        this.appC.popToast(msg);
+      }
     }
+
   }
 
 
@@ -2246,6 +2375,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   validateTime(): boolean {
     /* some time selected by user or nothing*/
     let check = false;
+
     if ((this.hour != '' && this.minute != '') || (this.hour == '' && this.minute == '')) {
       check = true;
     }
@@ -2255,7 +2385,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
     if ((this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") || (this.updateFormData.walkin_followUpTime.hour == "" && this.updateFormData.walkin_followUpTime.minute == "")) {
       check = true;
-    } else {
+    }
+    else {
       check = false;
       return check;
     }
@@ -3638,7 +3769,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.cd.markForCheck();
         }
       },
-      err => { 
+      err => {
         this.isRippleLoad = false;
       }
     )

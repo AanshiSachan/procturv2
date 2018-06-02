@@ -54,9 +54,13 @@
                   <!-- phone -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone != ''}">
                     <label for="phone">Phone No*</label>
-                    <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
-                      name="phone" maxlength="10" OnlyNumber="true" />
-
+                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
+                      name="phone" maxlength="10" OnlyNumber="true" required/>
+                    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert invalid-alert">
+                      <div *ngIf="phone.errors.required">
+                        Phone No. is required.
+                      </div>
+                    </div>
                   </div>
 
                   <!-- fetch more details -->
@@ -254,17 +258,31 @@
 
                     <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+</a>
                   </div>
-                  <!-- standard -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
 
-
-                    <label *ngIf="!isProfessional" for="editStandard">Standard</label>
-                    <label *ngIf="isProfessional" for="editStandard">Master Course</label>
-                    <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
-
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': course_standard_id != '-1'}">
+                    <label for="editStandard">Standard</label>
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="course_standard_id" name="editStandard">
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+                    </select>
+                  </div>
 
+
+
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': course_mastercourse_id != '-1'}">
+                    <label for="editMC">Master Course</label>
+                    <select id="editMC" class="form-ctrl" [(ngModel)]="course_mastercourse_id" name="editMC">
+                      <option value="-1"></option>
+                    </select>
+                  </div>                                    
+
+
+                  <!-- MasterCourse Professional -->
+                  <div *ngIf="isProfessional" class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
+                    <label for="editStandard">Master Course</label>
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
+                      <option value="-1"></option>
+                      <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
                     <div class="questionInfo">
                       <span class="qInfoIcon" style="margin-top:-12px;">?</span>
@@ -273,15 +291,13 @@
                       </div>
                     </div>
                   </div>
-                  <!-- subject -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.subject_id != '-1'}">
-                    <label *ngIf="!isProfessional" for="forSubject">Subject</label>
-                    <label *ngIf="isProfessional" for="forSubject">Course</label>
+                  <!-- Course Professional-->
+                  <div *ngIf="isProfessional" class="field-wrapper" [ngClass]="{'has-value': newEnqData.subject_id != '-1'}">
+                    <label for="forSubject">Course</label>
                     <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" name="subject">
                       <option value="-1"></option>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
-
                     <div class="questionInfo">
                       <span class="qInfoIcon" style="margin-top:-12px;">?</span>
                       <div class="tooltip-box-field">
@@ -289,6 +305,9 @@
                       </div>
                     </div>
                   </div>
+
+
+
                   <!-- custom -->
                   <custom-enquiry *ngFor="let component of customComponents;let i= index;">
 
