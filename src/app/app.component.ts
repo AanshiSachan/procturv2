@@ -17,7 +17,7 @@ import { AlertService } from './services/alert.service';
 })
 export class AppComponent implements OnInit {
 
-  isConvertToStudent: boolean;
+  isConvertToStudent: boolean = false;
   isEnqUpdate: boolean;
   isloggedInAdmin: boolean;
 
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     follow_type: "",
     followUpDate: "",
     commentDate: moment().format('YYYY-MM-DD'),
-    followUpTime: "",
+    followUpTime: null,
     followUpDateTime: '',
     isEnquiryV2Update: "N",
     isRegisterFeeUpdate: "N",
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
   }
   isNotifyVisible: boolean = false;
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
-  minArr: any[] = ['', '00', '15', '30', '45'];
+  minArr: any[] = ['','00','05','10','15','20','25','30','35','40','45','50','55'];
   hour: string = ''; minute: string = ''; meridian: string = '';
 
   /* ToasterConfig ==> {
@@ -593,6 +593,33 @@ export class AppComponent implements OnInit {
 
   closeEnquiryUpdate() {
     this.isEnqUpdate = false;
+    this.updateFormData = {
+      comment: "",
+      status: "",
+      statusValue: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      isEnquiryUpdate: "Y",
+      closedReason: null,
+      slot_id: null,
+      priority: "",
+      follow_type: "",
+      followUpDate: "",
+      commentDate: moment().format('YYYY-MM-DD'),
+      followUpTime: null,
+      followUpDateTime: '',
+      isEnquiryV2Update: "N",
+      isRegisterFeeUpdate: "N",
+      amount: null,
+      paymentMode: null,
+      paymentDate: null,
+      reference: null,
+      walkin_followUpDate: '',
+      walkin_followUpTime: {
+        hour: '',
+        minute: '',
+      },
+      is_follow_up_time_notification: 0,
+    }
   }
 
   getFollowUp(id): string {
@@ -660,8 +687,6 @@ export class AppComponent implements OnInit {
 
     return (hour + ":" + min + " " + mer);
   }
-
-
 
   updateRegisterEnquiry() {
     this.isConvertToStudent = true;
