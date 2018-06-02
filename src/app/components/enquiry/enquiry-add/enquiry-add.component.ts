@@ -83,7 +83,9 @@ export class EnquiryAddComponent implements OnInit {
     followUpTime: "",
     lead_id: -1,
     enqCustomLi: [],
-    source_instituteId: '-1'
+    source_instituteId: '-1',
+    walkin_followUpDate: '',
+    walkin_followUpTime: ''
   };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -260,7 +262,9 @@ export class EnquiryAddComponent implements OnInit {
       followUpTime: "",
       lead_id: -1,
       enqCustomLi: [],
-      source_instituteId: '-1'
+      source_instituteId: '-1',
+      walkin_followUpDate: '',
+      walkin_followUpTime: ''
     };
 
 
@@ -791,7 +795,9 @@ export class EnquiryAddComponent implements OnInit {
       assigned_to: sessionStorage.getItem('userid'),
       followUpTime: "",
       lead_id: -1,
-      enqCustomLi: []
+      enqCustomLi: [],
+      walkin_followUpDate: '',
+      walkin_followUpTime: ''
     };
     this.hour = '';
     this.minute = '';
@@ -869,6 +875,7 @@ export class EnquiryAddComponent implements OnInit {
 
   submitRegisterForm(form: NgForm) {
     this.isRegisterStudent = true;
+    this.newEnqData.follow_type = "Walkin"
     this.submitForm(form);
   }
 
@@ -894,21 +901,30 @@ export class EnquiryAddComponent implements OnInit {
 
         this.newEnqData.enqCustomLi = this.getCustomComponents();
 
+        /* Check if user has entered any followup date time */
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
 
-        /* isMainBranch,subBranchSelected */
+        /* is Main Branch No,sub Branch Selected */
         if (this.isMainBranch == "N" && this.subBranchSelected == false) {
           this.newEnqData.source_instituteId = '-1';
         }
 
+        /* is Main Branch Yes,sub Branch Selected */
         else if (this.isMainBranch == "Y" && this.subBranchSelected == false) {
           this.newEnqData.source_instituteId = this.newEnqData.source_instituteId;
         }
 
+        /* convert dob to standard format */
         this.newEnqData.dob = this.fetchDOB();
 
+        if (this.newEnqData.follow_type == "Walkin") {
+          this.newEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+          this.newEnqData.walkin_followUpTime = this.getFollowupTime();
+        }
+
+        /* push data to server */
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
             this.enquiryConfirm = data;
@@ -979,6 +995,37 @@ export class EnquiryAddComponent implements OnInit {
       this.submitError = true;
     }
   }
+
+
+  getFollowupTime(): any {
+    let hour:any = parseInt(moment(new Date()).format('hh'));
+    let min:any = moment(new Date()).format('mm');
+    let mer:any = moment(new Date()).format('A');
+
+    if (parseInt(min)%5 != 0){
+      min = Math.ceil(parseInt(min)/5)*5;
+      if(min >= 60){
+        min = '00';
+        if(hour == 12){
+          hour = '1';
+          if(mer == 'AM'){
+            mer = 'PM';
+          }
+          else{
+            mer = 'AM';
+          }
+        }
+        else{
+          hour += 1;
+          let formattedNumber = ("0" + hour).slice(-2);
+          hour = formattedNumber.toString();
+        }
+      }
+    }
+
+    return (hour +":" +min +" " +mer);
+  }
+
 
   fetchDOB(): string {
     if (this.newEnqData.dob == null || this.newEnqData.dob == '' || this.newEnqData.dob == "Invalid date") {

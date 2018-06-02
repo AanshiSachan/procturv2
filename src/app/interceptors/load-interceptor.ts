@@ -32,7 +32,8 @@ export class I1 implements HttpInterceptor {
                                 title: err.error.message,
                                 body: ''
                             };
-                            this.alert.changeErrorObject(JSON.stringify(obj));
+                            //To generate a toaster error uncomment below line
+                            //this.alert.changeErrorObject(JSON.stringify(obj));
                         }
                         /* Not Found */
                         else if (err instanceof HttpErrorResponse && err.status === 404) {

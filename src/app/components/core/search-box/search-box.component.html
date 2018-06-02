@@ -67,13 +67,14 @@
           <span>
             In Students
           </span>
-          <a (click)="fullView('student')">View More</a>
+          <a *ngIf="hasStudent" (click)="fullView('student')">View More</a>
         </h5>
         <ul class="in-student-list">
           <li *ngFor="let student of studentResult">
             <ul class="holder">
               <li>
-                <a (click)="studentSelected(student)">
+                <!-- (click)="studentSelected(student)" -->
+                <a>
                   <img src="" alt="" />
                   <span class="sdb-right">
                     <label>
@@ -86,19 +87,19 @@
                 </a>
               </li>
               <li>
-                <a class="markers" (click)="performAction('studentEdit', student)">
+                <a *ngIf="hasStudent" class="markers" (click)="performAction('studentEdit', student)">
                   Edit Student
                 </a>
-                <a class="markers" (click)="performAction('studentFee', student)">
+                <a *ngIf="hasStudent" class="markers" (click)="performAction('studentFee', student)">
                   Manage Fee
                 </a>
-                <a class="markers" (click)="performAction('studentInventory', student)">
+                <a *ngIf="hasStudent" class="markers" (click)="performAction('studentInventory', student)">
                   Manage Inventory
                 </a>
-                <a class="markers hide" (click)="performAction('studentLeave', student)">
+                <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentLeave', student)">
                   Mark Leave
                 </a>
-                <a class="markers hide" (click)="performAction('studentDelete', student)">
+                <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentDelete', student)">
                   Delete
                 </a>
               </li>
@@ -111,13 +112,14 @@
           <span>
             In Enquiry
           </span>
-          <a (click)="fullView('enquiry')">View More</a>
+          <a *ngIf="hasEnquiry" (click)="fullView('enquiry')">View More</a>
         </h5>
         <ul class="in-student-list">
           <li *ngFor="let enquiry of enquiryResult">
             <ul class="holder">
               <li>
-                <a (click)="enquirySelected(enquiry)">
+                <!--  (click)="enquirySelected(enquiry)" -->
+                <a>
                   <img src="" alt="" />
                   <span class="sdb-right">
                     <label>
@@ -130,13 +132,13 @@
                 </a>
               </li>
               <li>
-                <a class="markers" (click)="performAction('enquiryEdit',enquiry)">
+                <a *ngIf="hasEnquiry" class="markers" (click)="performAction('enquiryEdit',enquiry)">
                   Edit Enquiry
                 </a>
-                <a class="markers hide" (click)="performAction('enquiryDelete')">
+                <a *ngIf="hasEnquiry" class="markers hide" (click)="performAction('enquiryDelete')">
                   Delete Enquiry
                 </a>
-                <a class="markers" (click)="performAction('enquiryUpdate',enquiry)">
+                <a *ngIf="hasEnquiry" class="markers" (click)="performAction('enquiryUpdate',enquiry)">
                   Update Enquiry
                 </a>
               </li>

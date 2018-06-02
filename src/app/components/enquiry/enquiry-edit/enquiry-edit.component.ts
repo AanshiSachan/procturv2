@@ -83,7 +83,9 @@ export class EnquiryEditComponent implements OnInit {
     followUpTime: "",
     lead_id: -1,
     enqCustomLi: [],
-    source_instituteId: -1
+    source_instituteId: -1,
+    walkin_followUpDate: '',
+    walkin_followUpTime: ''
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -735,6 +737,7 @@ export class EnquiryEditComponent implements OnInit {
 
   submitRegisterForm() {
     this.isConvertToStudent = true;
+    this.editEnqData.follow_type = "Walkin"
     this.submitForm();
   }
 
@@ -773,6 +776,11 @@ export class EnquiryEditComponent implements OnInit {
 
         else if (this.isMainBranch == "Y" && this.subBranchSelected == false) {
           this.editEnqData.source_instituteId = this.editEnqData.source_instituteId;
+        }
+
+        if(this.editEnqData.follow_type == "Walkin"){
+          this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+          this.editEnqData.walkin_followUpTime = this.getFollowupTime();
         }
 
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
@@ -837,6 +845,37 @@ export class EnquiryEditComponent implements OnInit {
 
     }
   }
+
+
+  getFollowupTime(): any {
+    let hour:any = parseInt(moment(new Date()).format('hh'));
+    let min:any = moment(new Date()).format('mm');
+    let mer:any = moment(new Date()).format('A');
+
+    if (parseInt(min)%5 != 0){
+      min = Math.ceil(parseInt(min)/5)*5;
+      if(min >= 60){
+        min = '00';
+        if(hour == 12){
+          hour = '1';
+          if(mer == 'AM'){
+            mer = 'PM';
+          }
+          else{
+            mer = 'AM';
+          }
+        }
+        else{
+          hour += 1;
+          let formattedNumber = ("0" + hour).slice(-2);
+          hour = formattedNumber.toString();
+        }
+      }
+    }
+
+    return (hour +":" +min +" " +mer);
+  }
+
 
 
   fetchDOB(): string {
@@ -998,7 +1037,9 @@ export class EnquiryEditComponent implements OnInit {
       assigned_to: "-1",
       followUpTime: "",
       lead_id: -1,
-      enqCustomLi: []
+      enqCustomLi: [],
+      walkin_followUpDate: '',
+      walkin_followUpTime: ''
     }
     this.customComponents.forEach(el => {
       el.value = '';

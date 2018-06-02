@@ -92,19 +92,19 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="markers" (click)="performAction('studentEdit', student)">
+                                                    <a *ngIf="hasStudent" class="markers" (click)="performAction('studentEdit', student)">
                                                         Edit Student
                                                     </a>
-                                                    <a class="markers" (click)="performAction('studentFee', student)">
+                                                    <a *ngIf="hasStudent" class="markers" (click)="performAction('studentFee', student)">
                                                         Manage Fee
                                                     </a>
-                                                    <a class="markers" (click)="performAction('studentInventory', student)">
+                                                    <a *ngIf="hasStudent" class="markers" (click)="performAction('studentInventory', student)">
                                                         Manage Inventory
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('studentLeave', student)">
+                                                    <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentLeave', student)">
                                                         Mark Leave
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('studentDelete', student)">
+                                                    <a *ngIf="hasStudent" class="markers hide" (click)="performAction('studentDelete', student)">
                                                         Delete
                                                     </a>
                                                 </li>
@@ -136,13 +136,13 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="markers" (click)="performAction('enquiryEdit',enquiry)">
+                                                    <a *ngIf="hasEnquiry" class="markers" (click)="performAction('enquiryEdit',enquiry)">
                                                         Edit Enquiry
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('enquiryDelete')">
+                                                    <a *ngIf="hasEnquiry" class="markers hide" (click)="performAction('enquiryDelete')">
                                                         Delete Enquiry
                                                     </a>
-                                                    <a class="markers hide" (click)="performAction('enquiryUpdate',enquiry)">
+                                                    <a *ngIf="hasEnquiry" class="markers" (click)="performAction('enquiryUpdate',enquiry)">
                                                         Update Enquiry
                                                     </a>
                                                 </li>
@@ -335,7 +335,7 @@
 
         </span>
 
-        <h2 popup-header>Update Enquiry No: {{selectedEnquiry.enquiry_no}} | Enquirer: {{selectedEnquiry.name}}</h2>
+        <h2 popup-header>Update Enquiry Status No: {{selectedEnquiry.enquiry_no}} | Enquirer: {{selectedEnquiry.name}}</h2>
 
         <div class="update-enquiry-form" popup-content>
 
@@ -517,7 +517,7 @@
             <div class="clearfix">
                 <aside class="pull-left popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closeEnquiryUpdate()">
-                    <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update & Register" class="fullBlue btn"
+                    <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update & Admit" class="fullBlue btn"
                         (click)="updateRegisterEnquiry()">
                     <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
                 </aside>
