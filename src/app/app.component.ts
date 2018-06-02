@@ -172,7 +172,7 @@ export class AppComponent implements OnInit {
       else {
         let p = sessionStorage.getItem('permissions');
         let user = sessionStorage.getItem('userType')
-
+        this.getEnquiryPrefiller();
         if (user == "0") {
           if (p == null || p == undefined || p == '') {
             this.isloggedInAdmin = true;
@@ -191,8 +191,6 @@ export class AppComponent implements OnInit {
         this.intercept.changeErrorObject('');
       }
     });
-
-    this.getEnquiryPrefiller();
 
   }
 

@@ -357,7 +357,7 @@
         </div>
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle" (click)="clearLocalAndRoute()">
-          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Save & Register Enquiry"
+          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Update & Admit Enquiry"
             [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
           <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Save Enquiry" [disabled]="!myForm.form.valid"
             class="btn fullBlue" (click)="submitForm()">
