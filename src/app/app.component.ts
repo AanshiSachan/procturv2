@@ -291,6 +291,7 @@ export class AppComponent implements OnInit {
 
   public closeSearchArea() {
     this.isSearchMore = false;
+    this.closeEnquiryUpdate();
   }
 
   public filterGlobal(value) {
@@ -390,7 +391,7 @@ export class AppComponent implements OnInit {
         this.closeSearchArea();
         let obj = {
           action: a,
-          data: d
+          data: data
         }
         this.otherAction(obj);
         break;
