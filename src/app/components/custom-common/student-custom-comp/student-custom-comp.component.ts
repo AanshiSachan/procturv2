@@ -65,14 +65,14 @@ export class StudentCustomComponent implements OnInit {
   fetchPrefillData() {
 
     this.prefill.fetchComponentGenerator().subscribe(
-      res => {
+      (res: any) => {
         this.componentShell = res;
       }
     );
 
 
     return this.prefill.fetchUserCreatedComponentStudent().subscribe(
-      res => {
+      (res: any) => {
         this.userCreatedComponent = res;
       }
     );

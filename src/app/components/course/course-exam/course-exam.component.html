@@ -121,9 +121,7 @@
                 <div class="row">
 
                     <div class="c-sm-6 c-md-6 c-lg-6">
-                        <span class="spanText">Batch Start Date : {{batchStartDate}}</span>
-                        &emsp;
-                        <span class="spanText">Batch End Date : {{batchEndDate}} </span>
+                        <span class="spanText">{{batchStartDate}} to {{batchEndDate}}</span>
                     </div>
 
                 </div>
@@ -508,7 +506,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="action-Menu"  *ngIf="row.isReferenced != 'Y'">
+                                            <div class="action-Menu" *ngIf="row.isReferenced != 'Y'">
                                                 <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
                                                     <i class="fa fa-trash-o " aria-hidden="true "></i>
                                                 </span>
