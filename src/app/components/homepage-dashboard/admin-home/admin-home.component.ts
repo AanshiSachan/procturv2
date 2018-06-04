@@ -136,6 +136,47 @@ export class AdminHomeComponent implements OnInit {
   examGradeFeature: any;
   gradesList: any = [];
   classScheduleCount: number = 0;
+  biometricWidget: boolean;
+
+  biometricData = [{
+    "deviceId": "111",
+    "deviceFName": "Harvin Academy",
+    "serialNumber": "OIN7040057041300450",
+    "ipAddress": "192.168.1.10",
+    "lastPing": 1527763822000,
+    "deviceLocation": "UP",
+    device_status: 1
+  },
+  {
+    "deviceId": "112",
+    "deviceFName": "Harvin Academy",
+    "serialNumber": "OIN7040057041300",
+    "ipAddress": "192.168.1.10",
+    "lastPing": 1527763822000,
+    "deviceLocation": "UP",
+    device_status: 2
+  },
+  {
+    "deviceId": "1122",
+    "deviceFName": "Harvin Academy",
+    "serialNumber": "OIN7040057041300",
+    "ipAddress": "192.168.1.10",
+    "lastPing": 1527763822000,
+    "deviceLocation": "UP",
+    device_status: 1
+  },
+  {
+    "deviceId": "1125",
+    "deviceFName": "Harvin Academy",
+    "serialNumber": "OIN7040057041300",
+    "ipAddress": "192.168.1.10",
+    "lastPing": 1527763822000,
+    "deviceLocation": "UP",
+    device_status: 2
+  }
+  ]
+
+  biometricEnable: string = "";
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -149,7 +190,7 @@ export class AdminHomeComponent implements OnInit {
     private enquiryService: FetchenquiryService,
     private widgetService: WidgetService,
     private auth: AuthenticatorService,
-    private biometric:BiometricStatusServiceService
+    private biometric: BiometricStatusServiceService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -161,8 +202,10 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-    this.fetchBiometricStatus();
-
+    this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
+    if (this.biometricEnable == "1") {
+      this.fetchBiometricStatus();
+    }
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -172,7 +215,7 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
-    
+
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.fetchWidgetPrefill();
@@ -197,7 +240,7 @@ export class AdminHomeComponent implements OnInit {
     this.grid.on('dragEnd', (item, event) => {
       this.getOrder();
     });
-   
+
   }
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -224,12 +267,12 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
-  fetchBiometricStatus(){
+  fetchBiometricStatus() {
     this.biometric.biometricStatus().subscribe(
-      (data:any)=>{
+      (data: any) => {
 
       },
-      (error:any)=>{
+      (error: any) => {
 
       }
     )
@@ -2263,6 +2306,16 @@ export class AdminHomeComponent implements OnInit {
         this.getExamSchedule(obj);
       }
     })
+  }
+
+  mouseEnter(div: string) {
+    this.biometricWidget = true;
+    console.log("mouse enter : " + div);
+  }
+
+  mouseLeave(div: string) {
+    this.biometricWidget = false;
+    console.log('mouse leave :' + div);
   }
 
   getExamSchedule(obj) {

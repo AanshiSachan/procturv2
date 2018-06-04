@@ -1,26 +1,63 @@
-<section class="bot-wrapper">
-  <div class="container clearfix">
-    <div class="people-list" id="people-list">
-      <div class="search">
-        <input type="text" placeholder="search" />
-        <i class="fa fa-search"></i>
-      </div>
-      <ul class="list">
-        <li class="clearfix">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
-          <div class="about">
-            <div class="name">Vincent Porter</div>
-            <div class="status">
-              <i class="fa fa-circle online"></i> online
-            </div>
-          </div>
-        </li>
+<div class="actb-top-header clearfix">
+  <span class="heading">
+    Biometric Device Status
+  </span>
+  <button class="pull-right drag-button hide">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493
+            0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85
+            6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683
+            1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494
+            0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494
+            0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z" />
+    </svg>
+  </button>
+
+</div>
+<div class="act-bottom clearfix">
+  <div class="grid-container">
+    <ul class="actb-wrapper grid">
+      <li class="general-state item" data-id="1" style="height:91px; width:85%; margin:16px;">
+        <app-biometric-material-widget></app-biometric-material-widget>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- <section class="bot-wrapper">
+  <div class="container">
+    <div class="test_popup">
+      <span class="arrow-left"></span>
+    
+      <ul style="list-style-type: none;" *ngFor="let i of biometricData">
+       <li>
+        Device Id: {{i.deviceId}}
+       </li>
+       <li>
+         Device Name : {{i.deviceFName}}
+       </li>
+       <li>
+         Serial Number : {{i.serialNumber}}
+       </li>
+       <li>
+         Ip Address : {{i.ipAddress}}
+       </li>
+       <li>
+         Last Ping : {{i.lastPing}}
+       </li>
+       <li>
+         Device Location : {{i.deviceLocation}}
+       </li>
+       <li>
+         Device Status : {{i.device_status}}
+       </li>
       </ul>
     </div>
   </div>
   <!-- <div #helpForm class="help-form popupContent"> -->
 
-  <!-- <div class="row pull-right">
+<!-- <div class="row pull-right">
       <span class="closePopup pos-abs fbold show">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
           <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -35,6 +72,36 @@
       </span>
     </div> -->
 
-  <!-- <h2>ghcghcghcgcghcgfc</h2> -->
-  <!-- </div> -->
-</section>
+<!-- <h2>ghcghcghcgcghcgfc</h2> -->
+<!-- </div> -->
+<!-- </section>  -->
+
+<!-- <h2 style="color:gray; text-align: center; padding-bottom: 10px; margin-top: 10px;">Biometric Device Status</h2>
+
+<ul *ngFor="let i of biometricData" class="status"
+  (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
+  <div style="float: left; width:23%; padding:10px;">
+    <img src="assets/images/biomatric-icon.png" style="width:83%;">
+  </div>
+  <div>
+    <li style="font-size: 15px; margin-top:6px;">
+      {{i.deviceFName}}
+    </li>
+    <li *ngIf="i.device_status == 1">
+      <i class="fa fa-circle online" style="font-family: 'FontAwesome'; color:rgb(85, 211, 85);"></i>
+      On
+    </li>
+    <li *ngIf="i.device_status == 2">
+      <i class="fa fa-circle online" style="font-family: 'FontAwesome'; color: rgb(224, 55, 55);"></i>
+      Off
+    </li>
+  </div>
+</ul> -->
+
+<!-- <!-- <div class="newInfo item-content">
+  <img src="assets/images/biomatric-icon.png" class="images" style="background: white; margin-left:8px; margin-top:8px;" (mouseenter)="mouseEnter('div a') "
+    (mouseleave)="mouseLeave('div A')">
+  <div> -->
+
+<!-- </div>
+</div> -->

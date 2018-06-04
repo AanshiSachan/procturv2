@@ -1,6 +1,7 @@
 .bot-wrapper {
     position: absolute;
-    right: 0;
+    top: 30%;
+    right: 31%;
     bottom: 0;
     z-index: 1000;
     .trigger {
@@ -83,8 +84,48 @@
 .container {
     margin: 0 auto;
     width: 750px;
-    background: #444753;
     border-radius: 5px;
+}
+.grid-container {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.test_popup {
+    
+    display: inline-block;
+    background: #fff;
+    opacity: 1;
+    visibility: visible;
+    outline: none;
+    text-align: center;
+    position: relative;
+    vertical-align: middle;
+    padding: 5px 5px;
+    transition: all .3s ease-out;
+    width: auto;
+    max-width: 320px;
+    transform: translateX(0) translateY(0);
+    top: -10px;
+    border: 1px solid #ccc;
+}
+
+div {
+    .arrow-left {
+        position: absolute;
+        left: -6px;
+        width: 0;
+        height: 0;
+        border-bottom: 5px solid transparent;
+        /* left arrow slant */
+        border-top: 5px solid transparent;
+        /* right arrow slant */
+        border-right: 5px solid gray;
+        /* bottom, add background color here */
+        font-size: 0;
+        line-height: 0;
+    }
 }
 
 .people-list {
@@ -95,4 +136,151 @@
         height: 14%;
         padding: 21px 8px;
     }
+}
+
+ul li {
+    color: gray;
+    text-align: left;
+    font-weight: 100;
+}
+
+.status {
+    list-style-type: none;
+    width: 48%;
+    height: 50px;
+    display: inline-block;
+    /* color: white; */
+    background: #efececb0;
+    margin: 5px;
+    border: 1px solid #ebe2e2;
+    border-radius: 8px;
+    box-shadow: 0px 5px 5px #7b737375;
+}
+
+
+.actb-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    &>li {
+        box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+        background: #fff;
+        margin-bottom: 16px;
+        width: 97%;
+        border-radius: 4px;
+        overflow: hidden;
+        &.enquiry-state,
+        &.fees-state {
+            width: 48%;
+            min-height: 250px;
+        }
+        .actb-top-header {
+            padding: 10px 12px;
+            background: #fafafa;
+            border-bottom: 1px solid #dedddd;
+            span.heading {
+                font-weight: 400;
+                font-size: 16px;
+                color: #414141;
+                text-transform: uppercase;
+                padding-top: 4px;
+                display: inline-block;
+            }
+            button {
+                background: transparent;
+                &.drag-button {
+                    cursor: all-scroll;
+                    margin-left: 16px;
+                }
+            }
+            .enquiry-state-date {
+                font-size: 14px;
+                color: #666;
+                margin-right: 10px;
+                padding-top: 4px;
+                display: inline-block;
+            }
+            .schedSwitcher {
+                display: inline-flex;
+                width: 200px;
+                margin: 0px 25px;
+                padding-top: 4px;
+                height: 25px;
+            }
+        }
+    }
+}
+
+.actb-top-header {
+    padding: 10px 12px;
+    background: #fafafa;
+    border-bottom: 1px solid #dedddd;
+    span.heading {
+        font-weight: 400;
+        font-size: 16px;
+        color: #414141;
+        text-transform: uppercase;
+        padding-top: 4px;
+        display: inline-block;
+    }
+    button {
+        background: transparent;
+        &.drag-button {
+            cursor: all-scroll;
+            margin-left: 16px;
+        }
+    }
+    .enquiry-state-date {
+        font-size: 14px;
+        color: #666;
+        margin-right: 10px;
+        padding-top: 4px;
+        display: inline-block;
+    }
+    .schedSwitcher {
+        display: inline-flex;
+        width: 200px;
+        margin: 0px 25px;
+        padding-top: 4px;
+        height: 25px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .enq-state-bottom>div {
+        width: 100%;
+        margin-top: 20px;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    .actb-wrapper>li {
+        &.schedule-state {
+            overflow-x: auto;
+            &>div {
+                min-width: 700px;
+            }
+        }
+    }
+    .general-state {
+        .general-s-bottom ul {
+            flex-wrap: wrap;
+            padding: 10px 0;
+            li {
+                width: 100%;
+                padding: 10px 24px 10px;
+            }
+        }
+    }
+}
+.item {
+    display: block;
+    position: absolute;
+    width: 100px; //max-height: 350px;
+    margin: 5px;
+    z-index: 1;
+    background: #000;
+    color: #fff
 }

@@ -1,6 +1,5 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-
 <section class="mainHomePage">
 
   <section class="activity-page">
@@ -8,7 +7,9 @@
 
       <div class="activity-left pull-left">
         <div class="act-top clearfix">
+
           <h1 class="pull-left">Activity Dashboard</h1>
+
           <div class="pull-right act-right-sec">
             <button class="btn hide" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
               <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
@@ -276,14 +277,9 @@
                   <general-widget></general-widget>
                 </div>
               </li>
-
-
-              <li style="height: 150px;" data-id="5" [ngClass]="{hide : checkRoleMAnagement()}" class="hide">
-                
-                  <app-biometric-widget></app-biometric-widget>
-            
+              <li [ngClass]="{hide : checkRoleMAnagement()}" class="general-state item newState" data-id="5" style="height: 170px; width:auto;">
+                <app-biometric-widget></app-biometric-widget>
               </li>
-
             </ul>
           </div>
         </div>
