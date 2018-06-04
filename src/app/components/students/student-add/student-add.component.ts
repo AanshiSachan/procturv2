@@ -832,7 +832,7 @@ export class StudentAddComponent implements OnInit {
                 is_required: el.is_required,
                 is_searchable: el.is_searchable,
                 label: el.label,
-                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
                 selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
                 selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                 type: el.type,
@@ -914,7 +914,7 @@ export class StudentAddComponent implements OnInit {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
     let customPrefilled: any[] = [];
     if (selected.length != 0 && selected[0] != "") {
       dataArr.forEach(el => {
@@ -929,7 +929,7 @@ export class StudentAddComponent implements OnInit {
       dataArr.forEach(el => {
         let obj = {
           data: el,
-          checked: el == def
+          checked: def.indexOf(el) != -1
         }
         customPrefilled.push(obj);
       });
@@ -1344,51 +1344,20 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateMultiSelect(data, id) {
-    //
     this.customComponents.forEach(el => {
-      if (el.id == id && el.type == 4) {
-        el.prefilled_data.forEach(com => {
-          //console.log(com);
-          if (com.data == data.data) {
-            /* Component checked */
-            if (com.checked) {
-              el.selected.push(com.data);
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              el.selectedString = this.concatDataWithComma(el.selected);
-              //el.value = el.selectedString;
-            }
-            /* Component unchecked */
-            else {
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else if (el.selected.length == 0) {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              //console.log(com.selected);
-              var index = el.selected.indexOf(data.data);
-              if (index > -1) {
-                el.selected.splice(index, 1);
-              }
-              el.selectedString = this.concatDataWithComma(el.selected);
-              el.value = el.selectedString;
-              /* var index2 = el.selected.indexOf(data.data);
-                if (index2 > -1) {
-                el.selected.splice(index, 1);
-                }
-                el.selectedString = el.selected.join(','); 
-              */
-            }
+      if (el.id == id) {
+        let x = []
+        let y = el.prefilled_data;
+        y.forEach(e => {
+          if (e.checked) {
+            x.push(e.data)
           }
         });
+        el.selected = x;
+        el.selectedString = el.selected.join(',');
+        el.value = el.selectedString;
       }
     });
-
   }
 
   concatDataWithComma(data) {

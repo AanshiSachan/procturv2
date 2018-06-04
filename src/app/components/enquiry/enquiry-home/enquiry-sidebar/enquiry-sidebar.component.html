@@ -205,7 +205,7 @@
                                     <div class="clearfix">
                                         <aside class="pull-left popup-btn">
                                             <input type="button" value="Cancel" class="btn" (click)="closeSideNav()">
-                                            <input type="button" value="Update" class="fullBlue btn" (click)="createUpdateForm()">
+                                            <input *ngIf="rowData.status != 12 && rowData.status != 1" type="button" value="Update" class="fullBlue btn" (click)="createUpdateForm()">
                                         </aside>
                                     </div>
                                 </div>

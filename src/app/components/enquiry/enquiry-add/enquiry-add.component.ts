@@ -83,7 +83,9 @@ export class EnquiryAddComponent implements OnInit {
     followUpTime: "",
     lead_id: -1,
     enqCustomLi: [],
-    source_instituteId: '-1'
+    source_instituteId: '-1',
+    walkin_followUpDate: '',
+    walkin_followUpTime: ''
   };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -117,14 +119,7 @@ export class EnquiryAddComponent implements OnInit {
   /* Institute List for edit and delete purpose */
   referList: any;
 
-  /*hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '15', '30', '45'];
-  meridianArr: any[] = ['', "AM", "PM"];
-  hour: string = ''; minute: string = ''; meridian: string = '';*/
-
-  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45'];
-  meridianArr: any[] = ['', "AM", "PM"];
   hour: string = '';
   minute: string = '';
   meridian: string = ''
@@ -163,6 +158,10 @@ export class EnquiryAddComponent implements OnInit {
   isCityMandatory: any;
   cityListDataSource: any = [];
   areaListDataSource: any = [];
+
+  course_standard_id: any = '-1';
+  course_mastercourse_id: any = '-1';
+
 
   // Main Branch
   isMainBranch: any = "N";
@@ -260,7 +259,9 @@ export class EnquiryAddComponent implements OnInit {
       followUpTime: "",
       lead_id: -1,
       enqCustomLi: [],
-      source_instituteId: '-1'
+      source_instituteId: '-1',
+      walkin_followUpDate: '',
+      walkin_followUpTime: ''
     };
 
 
@@ -370,7 +371,6 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
       err => {
-        //  console.log(err);
       }
     );
 
@@ -481,7 +481,7 @@ export class EnquiryAddComponent implements OnInit {
                 is_required: el.is_required,
                 is_searchable: el.is_searchable,
                 label: el.label,
-                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
                 selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
                 selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                 type: el.type,
@@ -545,7 +545,7 @@ export class EnquiryAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
     let customPrefilled: any[] = [];
     if (selected.length != 0 && selected[0] != "") {
       dataArr.forEach(el => {
@@ -560,11 +560,12 @@ export class EnquiryAddComponent implements OnInit {
       dataArr.forEach(el => {
         let obj = {
           data: el,
-          checked: el == def
+          checked: def.indexOf(el) != -1
         }
         customPrefilled.push(obj);
       });
     }
+
     return customPrefilled;
   }
   /* ============================================================================================================================ */
@@ -611,44 +612,18 @@ export class EnquiryAddComponent implements OnInit {
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
       if (el.id == id) {
-        el.prefilled_data.forEach(com => {
-          //console.log(com);
-          if (com.data == data.data) {
-            /* Component checked */
-            if (com.checked) {
-              el.selected.push(com.data);
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              //console.log(com.selected);
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-            }
-            /* Component unchecked */
-            else {
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else if (el.selected.length == 0) {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              //console.log(com.selected);
-              var index = el.selected.indexOf(data.data);
-              if (index > -1) {
-                el.selected.splice(index, 1);
-              }
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-
-            }
+        let x = []
+        let y = el.prefilled_data;
+        y.forEach(e => {
+          if (e.checked) {
+            x.push(e.data)
           }
         });
+        el.selected = x;
+        el.selectedString = el.selected.join(',');
+        el.value = el.selectedString;
       }
     });
-
   }
 
 
@@ -791,7 +766,9 @@ export class EnquiryAddComponent implements OnInit {
       assigned_to: sessionStorage.getItem('userid'),
       followUpTime: "",
       lead_id: -1,
-      enqCustomLi: []
+      enqCustomLi: [],
+      walkin_followUpDate: '',
+      walkin_followUpTime: ''
     };
     this.hour = '';
     this.minute = '';
@@ -869,13 +846,13 @@ export class EnquiryAddComponent implements OnInit {
 
   submitRegisterForm(form: NgForm) {
     this.isRegisterStudent = true;
+    this.newEnqData.follow_type = "Walkin";
     this.submitForm(form);
   }
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
     //Validates if the custom component required fields are selected or not
-    //let customComponentValidator = this.validateCustomComponent();
 
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
 
@@ -894,21 +871,30 @@ export class EnquiryAddComponent implements OnInit {
 
         this.newEnqData.enqCustomLi = this.getCustomComponents();
 
+        /* Check if user has entered any followup date time */
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
 
-        /* isMainBranch,subBranchSelected */
+        /* is Main Branch No,sub Branch Selected */
         if (this.isMainBranch == "N" && this.subBranchSelected == false) {
           this.newEnqData.source_instituteId = '-1';
         }
 
+        /* is Main Branch Yes,sub Branch Selected */
         else if (this.isMainBranch == "Y" && this.subBranchSelected == false) {
           this.newEnqData.source_instituteId = this.newEnqData.source_instituteId;
         }
 
+        /* convert dob to standard format */
         this.newEnqData.dob = this.fetchDOB();
 
+        if (this.newEnqData.follow_type == "Walkin") {
+          this.newEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+          this.newEnqData.walkin_followUpTime = this.getFollowupTime();
+        }
+
+        /* push data to server */
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
             this.enquiryConfirm = data;
@@ -979,6 +965,37 @@ export class EnquiryAddComponent implements OnInit {
       this.submitError = true;
     }
   }
+
+
+  getFollowupTime(): any {
+    let hour: any = parseInt(moment(new Date()).format('hh'));
+    let min: any = moment(new Date()).format('mm');
+    let mer: any = moment(new Date()).format('A');
+
+    if (parseInt(min) % 5 != 0) {
+      min = Math.ceil(parseInt(min) / 5) * 5;
+      if (min >= 60) {
+        min = '00';
+        if (hour == 12) {
+          hour = '1';
+          if (mer == 'AM') {
+            mer = 'PM';
+          }
+          else {
+            mer = 'AM';
+          }
+        }
+        else {
+          hour += 1;
+          let formattedNumber = ("0" + hour).slice(-2);
+          hour = formattedNumber.toString();
+        }
+      }
+    }
+
+    return (hour + ":" + min + " " + mer);
+  }
+
 
   fetchDOB(): string {
     if (this.newEnqData.dob == null || this.newEnqData.dob == '' || this.newEnqData.dob == "Invalid date") {
