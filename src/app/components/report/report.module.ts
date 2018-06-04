@@ -40,6 +40,10 @@ import { BiometricComponent } from './biometric/biometric.component';
 import { BiometricServiceService } from '../../services/biometric-service/biometric-service.service';
 import { ReportWidgetComponent } from './report-widget/report-widget.component';
 import { ProfitLossServiceService } from '../../services/profit-loss-service/profit-loss-service.service';
+import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
+import { EnquiryReportModule } from './enquiry-report/enquiry-report.module';
+import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-routing.module';
+
 
 @NgModule({
     imports: [
@@ -52,7 +56,8 @@ import { ProfitLossServiceService } from '../../services/profit-loss-service/pro
         FileUploadModule,
         SplitButtonModule,
         MenuModule,
-        SharedModule
+        SharedModule,
+        EnquiryReportModule
     ],
     declarations: [
         ReportComponent,
@@ -69,6 +74,7 @@ import { ProfitLossServiceService } from '../../services/profit-loss-service/pro
         arraySortPipe,
         BiometricComponent,
         ReportWidgetComponent,
+        EnquiryReportComponent
     ],
     entryComponents: [
         tableComponent,

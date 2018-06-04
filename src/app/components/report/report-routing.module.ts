@@ -11,6 +11,7 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { ReportCardComponent } from './report-card/report-card.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import {BiometricComponent} from './biometric/biometric.component';
+import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
 
 @NgModule({
     imports: [
@@ -65,6 +66,10 @@ import {BiometricComponent} from './biometric/biometric.component';
                         path: 'profitNloss',
                         component: ProfitLossComponent
                     },
+                    {
+                        path: 'enquiryReport' ,
+                        component: EnquiryReportComponent
+                    }
                 ]
             }
         ])
