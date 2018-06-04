@@ -13,6 +13,9 @@ export class SearchBoxComponent implements OnInit, OnChanges {
 
     private recentlySearched = new Set;
 
+    hasStudent: boolean = false;
+    hasEnquiry: boolean = false;
+
     @Input() searchValue: any;
 
     @Input() studentResult: any[] = [];
@@ -27,14 +30,42 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     @Output() viewAll = new EventEmitter<any>();
 
 
-    constructor(private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef) {
+    constructor(private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef, private log: LoginService) {
     }
 
     ngOnInit() {
-
         if (sessionStorage.getItem('recentSearch') != null && sessionStorage.getItem('recentSearch') != undefined && sessionStorage.getItem('recentSearch') != '' && this.recentlySearched.size == 0 && sessionStorage.getItem('recentSearch') != '{}') {
             this.recentlySearched = JSON.parse(sessionStorage.getItem('recentSearch'));
         }
+
+        this.log.currentPermissions.subscribe(e => {
+            if (e != '' && e != null && e != undefined && e != []) {
+                let perm = JSON.parse(sessionStorage.getItem('permissions'));
+                if (perm != '' && perm != null && perm != undefined && perm != []){
+                    let permissionArray: any[] = perm;
+                    let id = '115';
+                    let id2 = '110';
+                    let id3 = '301';
+                    let id4 = '303';
+                    debugger;
+                    if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
+                        this.hasEnquiry = true;
+                    }
+                    else if (permissionArray.indexOf(id3) != -1 || permissionArray.indexOf(id4) != -1) {
+                        this.hasStudent = true;
+                    }
+                }
+            }
+            else {
+                this.hasEnquiry = false;                    
+                this.hasStudent = false;
+                let type = sessionStorage.getItem('userType');
+                if(type == '0'){
+                    this.hasEnquiry = true;                    
+                    this.hasStudent = true;
+                }
+            }
+        });
     }
 
     ngOnChanges() {

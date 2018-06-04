@@ -439,7 +439,7 @@
           </svg>
         </span>
         <div class="popup-content" style="min-height: 400px; max-height: 500px; padding: 15px 15px 20px 15px;">
-          <h2>Update Enquiry No: {{selectedRow.enquiry_no}} | Enquirer: {{selectedRow.name}} </h2>
+          <h2>Update Enquiry Status No: {{selectedRow.enquiry_no}} | Enquirer: {{selectedRow.name}} </h2>
           <div class="update-enquiry-form overflowHidden">
 
             <aside class="pull-right form-wrapper right-aside-wrapper">
@@ -623,7 +623,7 @@
             <div class="clearfix">
               <aside class="pull-left popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Register" class="fullBlue btn"
+                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Admit" class="fullBlue btn"
                   (click)="updateRegisterEnquiry()">
                 <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
               </aside>

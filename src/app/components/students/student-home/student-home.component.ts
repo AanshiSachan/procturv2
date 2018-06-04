@@ -708,45 +708,20 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* if custom component is of type multielect then update the selected or unselected data*/
   updateMultiSelect(data, id) {
-
     this.customComponents.forEach(el => {
       if (el.id == id) {
-        el.prefilled_data.forEach(com => {
-          if (com.data == data.data) {
-            if (com.checked) {
-              el.selected.push(com.data);
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-
-            }
-            else {
-              if (el.selected.length > 1) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else if (el.selected.length == 0) {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              else if (el.selected.length == 1) {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              var index = el.selected.indexOf(data.data);
-              if (index > -1) {
-                el.selected.splice(index, 1);
-              }
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-            }
+        let x = []
+        let y = el.prefilled_data;
+        y.forEach(e => {
+          if (e.checked) {
+            x.push(e.data)
           }
         });
+        el.selected = x;
+        el.selectedString = el.selected.join(',');
+        el.value = el.selectedString;
       }
     });
-
   }
 
   /* When user select the master course or standard then fetch the sub or sub course for them */

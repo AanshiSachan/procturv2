@@ -6,7 +6,9 @@ import { LoaderHandlingService } from './services/loading-services/loader-handli
 import { LoginService } from './services/login-services/login.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { Title } from '@angular/platform-browser';
+import * as moment from 'moment';
 import { AuthenticatorService } from './services/authenticator.service';
+import { AlertService } from './services/alert.service';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +17,52 @@ import { AuthenticatorService } from './services/authenticator.service';
 })
 export class AppComponent implements OnInit {
 
+  isConvertToStudent: boolean = false;
+  isEnqUpdate: boolean;
   isloggedInAdmin: boolean;
 
   isSearchMore: boolean = false;
+
+  selectedEnquiry: any = {
+    enquiry_no: '',
+    name: '',
+    status: ''
+  }
+
+  enqstatus: any[] = []; enqPriority: any[] = [];
+  enqFollowType: any[] = []; enqAssignTo: any[] = [];
+
+  updateFormData: any = {
+    comment: "",
+    status: "",
+    statusValue: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    isEnquiryUpdate: "Y",
+    closedReason: null,
+    slot_id: null,
+    priority: "",
+    follow_type: "",
+    followUpDate: "",
+    commentDate: moment().format('YYYY-MM-DD'),
+    followUpTime: null,
+    followUpDateTime: '',
+    isEnquiryV2Update: "N",
+    isRegisterFeeUpdate: "N",
+    amount: null,
+    paymentMode: null,
+    paymentDate: null,
+    reference: null,
+    walkin_followUpDate: '',
+    walkin_followUpTime: {
+      hour: '',
+      minute: '',
+    },
+    is_follow_up_time_notification: 0,
+  }
+  isNotifyVisible: boolean = false;
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
+  minArr: any[] = ['','00','05','10','15','20','25','30','35','40','45','50','55'];
+  hour: string = ''; minute: string = ''; meridian: string = '';
 
   /* ToasterConfig ==> {
     animation: 'fade', 'flyLeft', 'flyRight', 'slideDown', and 'slideUp'
@@ -31,7 +76,7 @@ export class AppComponent implements OnInit {
 
   private toasterService: ToasterService;
   isMenuVisible: boolean = false;
-
+  updateFormComments: any = []; updateFormCommentsBy: any = []; updateFormCommentsOn: any = [];
   public config: ToasterConfig = new ToasterConfig({
     positionClass: 'toast-top-right',
     limit: 1,
@@ -65,6 +110,8 @@ export class AppComponent implements OnInit {
     confirmPassword: '',
   }
 
+  hasStudent: boolean = false;
+  hasEnquiry: boolean = false;
 
   constructor
     (
@@ -74,18 +121,18 @@ export class AppComponent implements OnInit {
     private log: LoginService,
     private fetchService: FetchprefilldataService,
     private titleService: Title,
-    private auth: AuthenticatorService
-    ) {
+    private auth: AuthenticatorService,
+    private intercept: AlertService) {
 
     this.toasterService = toasterService;
+
     this.auth.currentInstituteId.subscribe(id => {
       if (id != null && id != "") {
         this.institute_id = id;
       }
     });
+
   }
-
-
 
   ngOnInit() {
     this.router.events.subscribe(event => {
@@ -117,8 +164,6 @@ export class AppComponent implements OnInit {
       }
     });
 
-
-
     this.log.currentMenuState.subscribe(el => {
       this.isMenuVisible = el;
     })
@@ -130,7 +175,7 @@ export class AppComponent implements OnInit {
       else {
         let p = sessionStorage.getItem('permissions');
         let user = sessionStorage.getItem('userType')
-
+        this.getEnquiryPrefiller();
         if (user == "0") {
           if (p == null || p == undefined || p == '') {
             this.isloggedInAdmin = true;
@@ -142,9 +187,43 @@ export class AppComponent implements OnInit {
       }
     });
 
+    this.intercept.messageList.subscribe(e => {
+      if (e != '') {
+        let obj = JSON.parse(e);
+        this.popToast(obj);
+        this.intercept.changeErrorObject('');
+      }
+    });
+
+    this.log.currentPermissions.subscribe(e => {
+      if (e != '' && e != null && e != undefined && e != []) {
+        let perm = JSON.parse(sessionStorage.getItem('permissions'));
+        if (perm != '' && perm != null && perm != undefined && perm != []) {
+          let permissionArray: any[] = perm;
+          let id = '115';
+          let id2 = '110';
+          let id3 = '301';
+          let id4 = '303';
+          if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
+            this.hasEnquiry = true;
+          }
+          else if (permissionArray.indexOf(id3) != -1 || permissionArray.indexOf(id4) != -1) {
+            this.hasStudent = true;
+          }
+        }
+      }
+      else {
+        this.hasEnquiry = false;
+        this.hasStudent = false;
+        let type = sessionStorage.getItem('userType');
+        if (type == '0') {
+          this.hasEnquiry = true;
+          this.hasStudent = true;
+        }
+      }
+    });
+
   }
-
-
 
   public popToast(data) {
     var toast: Toast = {
@@ -154,7 +233,6 @@ export class AppComponent implements OnInit {
     };
     this.toasterService.pop(toast);
   }
-
 
   public removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
@@ -173,6 +251,34 @@ export class AppComponent implements OnInit {
   public searchViewMore(e) {
     if (e != null) {
       this.isSearchMore = true;
+      this.log.currentPermissions.subscribe(e => {
+        this.hasEnquiry = false;
+        this.hasStudent = false;
+        if (e != '' && e != null && e != undefined && e != []) {
+          let perm = JSON.parse(sessionStorage.getItem('permissions'));
+          if (perm != '' && perm != null && perm != undefined && perm != []) {
+            let permissionArray: any[] = perm;
+            let id = '115';
+            let id2 = '110';
+            let id3 = '301';
+            let id4 = '303';
+            debugger;
+            if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
+              this.hasEnquiry = true;
+            }
+            else if (permissionArray.indexOf(id3) != -1 || permissionArray.indexOf(id4) != -1) {
+              this.hasStudent = true;
+            }
+          }
+        }
+        else {
+          let type = sessionStorage.getItem('userType');
+          if (type == '0') {
+            this.hasEnquiry = true;
+            this.hasStudent = true;
+          }
+        }
+      });
       this.filterGlobal(e.input);
     }
     else {
@@ -185,6 +291,7 @@ export class AppComponent implements OnInit {
 
   public closeSearchArea() {
     this.isSearchMore = false;
+    this.closeEnquiryUpdate();
   }
 
   public filterGlobal(value) {
@@ -282,7 +389,11 @@ export class AppComponent implements OnInit {
       }
       case 'enquiryUpdate': {
         this.closeSearchArea();
-        this.router.navigate(['/enquiry'], { queryParams: { id: d, action: a } });
+        let obj = {
+          action: a,
+          data: data
+        }
+        this.otherAction(obj);
         break;
       }
 
@@ -375,7 +486,6 @@ export class AppComponent implements OnInit {
   }
 
   resetUserPassword() {
-
   }
 
   messageNotifier(type, title, message) {
@@ -386,5 +496,369 @@ export class AppComponent implements OnInit {
     };
     this.popToast(obj);
   }
+
+  otherAction(e) {
+    if (e.action == "enquiryUpdate") {
+      this.loadEnquiryData(e);
+    }
+  }
+
+  loadEnquiryData(e) {
+    this.isEnqUpdate = true;
+    this.fetchCommentData(e);
+    this.enquiryDataFetch(e);
+  }
+
+  fetchCommentData(e) {
+    this.fetchService.fetchCommentsForEnquiry(e.data.id).subscribe(
+      res => {
+        this.updateFormComments = res.comments;
+        this.updateFormCommentsOn = res.commentedOn;
+        this.updateFormCommentsBy = res.commentedBy;
+        this.updateFormData.assigned_to = res.assigned_to;
+        if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
+          let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
+          this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
+          this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
+        }
+        this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+
+      },
+      err => { }
+    );
+  }
+
+  enquiryDataFetch(e) {
+    this.fetchService.fetchEnquiryByInstituteID(e.data.id).subscribe(
+      res => {
+        this.selectedEnquiry = res;
+        this.updateFormData.priority = this.getPriority(res.priority);
+        this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
+        this.updateFormData.status = res.status;
+        this.updateFormData.followUpDate = moment(this.selectedEnquiry.followUpDate).format('YYYY-MM-DD');
+        if (res.followUpTime != '' && res.followUpTime != null) {
+          let timeObj = this.convertTimeToFormat(this.selectedEnquiry.followUpTime);
+          this.hour = timeObj.hour + " " + timeObj.meridian;
+          this.minute = timeObj.minute;
+        }
+        this.updateFormData.followUpTime = res.followUpTime;
+        if (res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != "") {
+          if (res.is_follow_up_time_notification == 1) {
+            this.updateFormData.is_follow_up_time_notification = true;
+          }
+          else {
+            this.updateFormData.is_follow_up_time_notification = false;
+          }
+        }
+        else {
+          this.updateFormData.is_follow_up_time_notification = false;
+        }
+      }
+    )
+  }
+
+  getEnquiryPrefiller() {
+
+    this.fetchService.getEnqStatus().subscribe(
+      data => {
+        this.enqstatus = data;
+      }
+    );
+
+    this.fetchService.getFollowupType().subscribe(
+      data => { this.enqFollowType = data }
+    );
+
+    this.fetchService.getEnqPriority().subscribe(
+      data => { this.enqPriority = data; }
+    );
+
+    this.fetchService.getAssignTo().subscribe(
+      data => { this.enqAssignTo = data; }
+    );
+
+
+
+  }
+
+  getPriority(id): string {
+    let temp: string = ""
+    this.enqPriority.forEach(el => {
+      if (el.data_key === id) {
+        temp = el.data_value;
+      }
+    });
+    return temp;
+  }
+
+  closeEnquiryUpdate() {
+    this.isEnqUpdate = false;
+    this.updateFormData = {
+      comment: "",
+      status: "",
+      statusValue: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      isEnquiryUpdate: "Y",
+      closedReason: null,
+      slot_id: null,
+      priority: "",
+      follow_type: "",
+      followUpDate: "",
+      commentDate: moment().format('YYYY-MM-DD'),
+      followUpTime: null,
+      followUpDateTime: '',
+      isEnquiryV2Update: "N",
+      isRegisterFeeUpdate: "N",
+      amount: null,
+      paymentMode: null,
+      paymentDate: null,
+      reference: null,
+      walkin_followUpDate: '',
+      walkin_followUpTime: {
+        hour: '',
+        minute: '',
+      },
+      is_follow_up_time_notification: 0,
+    }
+  }
+
+  getFollowUp(id): string {
+    let temp: string = ""
+    this.enqFollowType.forEach(el => {
+      if (el.data_key === id) {
+        temp = el.data_value;
+      }
+    });
+    return temp;
+  }
+
+  convertTimeToFormat(data) {
+    let time: any = {};
+    time.hour = data.split(':')[0];
+    time.minute = data.split(':')[1].split(" ")[0];
+    time.meridian = data.split(':')[1].split(" ")[1];
+    return time;
+  }
+
+  isNotifyDisplayed() {
+    if (this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
+      if (this.hour != '' && this.hour != null && this.hour != undefined) {
+        if (this.minute != '' && this.minute != null && this.minute != 'Invalid date') {
+          this.isNotifyVisible = true;
+        }
+        else {
+          this.isNotifyVisible = false;
+        }
+      }
+      else {
+        this.isNotifyVisible = false;
+      }
+    }
+    else {
+      this.isNotifyVisible = false;
+    }
+  }
+
+  getFollowupTime(): any {
+    let hour: any = parseInt(moment(new Date()).format('hh'));
+    let min: any = moment(new Date()).format('mm');
+    let mer: any = moment(new Date()).format('A');
+
+    if (parseInt(min) % 5 != 0) {
+      min = Math.ceil(parseInt(min) / 5) * 5;
+      if (min >= 60) {
+        min = '00';
+        if (hour == 12) {
+          hour = '1';
+          if (mer == 'AM') {
+            mer = 'PM';
+          }
+          else {
+            mer = 'AM';
+          }
+        }
+        else {
+          hour += 1;
+          let formattedNumber = ("0" + hour).slice(-2);
+          hour = formattedNumber.toString();
+        }
+      }
+    }
+
+    return (hour + ":" + min + " " + mer);
+  }
+
+  updateRegisterEnquiry() {
+    this.isConvertToStudent = true;
+    this.updateFormData.follow_type = "Walkin";
+    this.updateFormData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.updateFormData.walkin_followUpTime = this.getFollowupTime();
+    if(this.updateFormData.walkin_followUpTime != '' && this.updateFormData.walkin_followUpTime != null){
+      this.pushUpdatedEnquiry();
+    }
+  }
+
+  pushUpdatedEnquiry() {
+    if (this.validateTime()) {
+      this.isRippleLoad = true;
+      this.updateFormData.comment = this.updateFormData.comment;
+      this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
+      this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
+      let followupdateTime: string = "";
+      if (this.hour != '' && this.hour != null && this.hour != undefined) {
+        let time = this.timeChanges(this.hour);
+        let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
+        followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
+        this.updateFormData.followUpTime = followUpTime;
+      }
+      followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+
+      if(this.isConvertToStudent === false){
+        if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
+          let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
+          let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
+          this.updateFormData.walkin_followUpTime = walkin_followUpTime;
+        } else {
+          this.updateFormData.walkin_followUpTime = "";
+        }
+  
+        if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
+          let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+          this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
+        } else {
+          this.updateFormData.walkin_followUpDate = "";
+        }
+      }
+
+      if (this.updateFormData.is_follow_up_time_notification) {
+        this.updateFormData.is_follow_up_time_notification = 1;
+      }
+      else if (!this.updateFormData.is_follow_up_time_notification) {
+        this.updateFormData.is_follow_up_time_notification = 0;
+      }
+
+      if (this.updateFormData.followUpDate != "Invalid date"){
+        this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
+        this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
+          res => {
+            this.isRippleLoad = false;
+            let msg = {
+              type: 'success',
+              title: 'Enquiry Updated',
+              body: 'Your enquiry has been successfully updated'
+            }
+            this.popToast(msg);
+            if (this.isConvertToStudent) {
+              let obj = {
+                name: this.selectedEnquiry.name,
+                phone: this.selectedEnquiry.phone,
+                email: this.selectedEnquiry.email,
+                gender: this.selectedEnquiry.gender,
+                dob: moment(this.selectedEnquiry.dob).format("YYYY-MM-DD"),
+                parent_email: this.selectedEnquiry.parent_email,
+                parent_name: this.selectedEnquiry.parent_name,
+                parent_phone: this.selectedEnquiry.parent_phone,
+                enquiry_id: this.selectedEnquiry.institute_enquiry_id,
+                institute_enquiry_id: this.selectedEnquiry.institute_enquiry_id
+              }
+              localStorage.setItem('studentPrefill', JSON.stringify(obj));
+              this.closeEnquiryUpdate();
+              this.router.navigate(['student/add']);
+            }
+            else {
+              this.closeEnquiryUpdate();
+            }
+          },
+          err => {
+            this.isRippleLoad = false;
+            let alert = {
+              type: 'error',
+              title: 'Failed To Update Enquiry',
+              body: 'There was an error processing your request'
+            }
+            this.popToast(alert);
+          }
+        );
+      }
+      else {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Invalid Date Time Input',
+          body: 'Please select a valid date time for follow up'
+        }
+        this.popToast(msg);
+      }      
+    }
+    else {
+      this.isRippleLoad = false;
+      let msg = {
+        type: 'error',
+        title: 'Invalid Date Time Input',
+        body: 'Please select a valid date time for follow up'
+      }
+      this.popToast(msg);
+    }
+  }
+
+  validateTime(): boolean {
+    /* some time selected by user or nothing*/
+    let check = false;
+    if ((this.hour != '' && this.minute != '') || (this.hour == '' && this.minute == '')) {
+      check = true;
+    }
+    else {
+      check = false;
+      return check;
+    }
+    if ((this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") || (this.updateFormData.walkin_followUpTime.hour == "" && this.updateFormData.walkin_followUpTime.minute == "")) {
+      check = true;
+    } else {
+      check = false;
+      return check;
+    }
+    return check;
+  }
+
+  timeChanges(ev) {
+    let obj: any = {};
+    let time = ev.split(' ');
+    obj.hour = time[0];
+    obj.meridian = time[1];
+    return obj;
+  }
+
+  getFollowUpReverse(id): string {
+    let temp: string = ""
+    this.enqFollowType.forEach(el => {
+      if (el.data_value === id) {
+        temp = el.data_key;
+      }
+    });
+    return temp;
+  }
+
+
+  getPriorityReverse(id): string {
+    let temp: string = ""
+    this.enqPriority.forEach(el => {
+      if (el.data_value === id) {
+        temp = el.data_key;
+      }
+    });
+    //console.log(temp);
+    return temp;
+  }
+
+  notifyMe(e) {
+    if (e) {
+      this.updateFormData.is_follow_up_time_notification = 1;
+    }
+    else {
+      this.updateFormData.is_follow_up_time_notification = 0;
+    }
+  }
+
+
 
 }

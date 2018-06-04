@@ -127,18 +127,17 @@ export class FetchprefilldataService {
 
 
 
+  updateEnquiryForm(id, data) {
 
-  /* fetch prefill data scholarship */
-  /*  getScholarPrefillData(): any {
- 
-     this.urlScholarSub = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=Y&page=1";
- 
-     return this.http.get(this.urlScholarSub, { headers: this.headers })
-       .map(res => {
-         return res.json();
-       })
-   } */
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD');
+    data.commentDate = moment(data.commentDate).format('YYYY-MM-DD');
 
+    let url = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
+
+    return this.http.put(url, data, { headers: this.headers }).map(res => {
+      return res.json();  
+    });
+  }
 
 
 

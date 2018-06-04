@@ -83,7 +83,9 @@ export class EnquiryEditComponent implements OnInit {
     followUpTime: "",
     lead_id: -1,
     enqCustomLi: [],
-    source_instituteId: -1
+    source_instituteId: -1,
+    walkin_followUpDate: '',
+    walkin_followUpTime: ''
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -504,7 +506,7 @@ export class EnquiryEditComponent implements OnInit {
                 is_required: el.is_required,
                 is_searchable: el.is_searchable,
                 label: el.label,
-                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
                 selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
                 selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                 type: el.type,
@@ -571,7 +573,7 @@ export class EnquiryEditComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
     let customPrefilled: any[] = [];
     if (selected.length != 0 && selected[0] != "") {
       dataArr.forEach(el => {
@@ -586,7 +588,7 @@ export class EnquiryEditComponent implements OnInit {
       dataArr.forEach(el => {
         let obj = {
           data: el,
-          checked: el == def
+          checked: def.indexOf(el) != -1
         }
         customPrefilled.push(obj);
       });
@@ -636,49 +638,18 @@ export class EnquiryEditComponent implements OnInit {
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
       if (el.id == id) {
-        el.prefilled_data.forEach(com => {
-          //console.log(com);
-          if (com.data == data.data) {
-            /* Component checked */
-            if (com.checked) {
-              el.selected.push(com.data);
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              //console.log(com.selected);
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-            }
-            /* Component unchecked */
-            else {
-              if (el.selected.length != 0) {
-                document.getElementById(id + 'wrapper').classList.add('has-value');
-              }
-              else if (el.selected.length == 0) {
-                document.getElementById(id + 'wrapper').classList.remove('has-value');
-              }
-              //console.log(com.selected);
-              var index = el.selected.indexOf(data.data);
-              if (index > -1) {
-                el.selected.splice(index, 1);
-              }
-              el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
-              /* var index2 = el.selected.indexOf(data.data);
-                if (index2 > -1) {
-                el.selected.splice(index, 1);
-                }
-                el.selectedString = el.selected.join(','); 
-              */
-            }
+        let x = []
+        let y = el.prefilled_data;
+        y.forEach(e => {
+          if (e.checked) {
+            x.push(e.data)
           }
         });
+        el.selected = x;
+        el.selectedString = el.selected.join(',');
+        el.value = el.selectedString;
       }
     });
-
   }
 
 
@@ -735,6 +706,7 @@ export class EnquiryEditComponent implements OnInit {
 
   submitRegisterForm() {
     this.isConvertToStudent = true;
+    this.editEnqData.follow_type = "Walkin"
     this.submitForm();
   }
 
@@ -773,6 +745,11 @@ export class EnquiryEditComponent implements OnInit {
 
         else if (this.isMainBranch == "Y" && this.subBranchSelected == false) {
           this.editEnqData.source_instituteId = this.editEnqData.source_instituteId;
+        }
+
+        if(this.editEnqData.follow_type == "Walkin"){
+          this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+          this.editEnqData.walkin_followUpTime = this.getFollowupTime();
         }
 
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
@@ -837,6 +814,37 @@ export class EnquiryEditComponent implements OnInit {
 
     }
   }
+
+
+  getFollowupTime(): any {
+    let hour:any = parseInt(moment(new Date()).format('hh'));
+    let min:any = moment(new Date()).format('mm');
+    let mer:any = moment(new Date()).format('A');
+
+    if (parseInt(min)%5 != 0){
+      min = Math.ceil(parseInt(min)/5)*5;
+      if(min >= 60){
+        min = '00';
+        if(hour == 12){
+          hour = '1';
+          if(mer == 'AM'){
+            mer = 'PM';
+          }
+          else{
+            mer = 'AM';
+          }
+        }
+        else{
+          hour += 1;
+          let formattedNumber = ("0" + hour).slice(-2);
+          hour = formattedNumber.toString();
+        }
+      }
+    }
+
+    return (hour +":" +min +" " +mer);
+  }
+
 
 
   fetchDOB(): string {
@@ -998,7 +1006,9 @@ export class EnquiryEditComponent implements OnInit {
       assigned_to: "-1",
       followUpTime: "",
       lead_id: -1,
-      enqCustomLi: []
+      enqCustomLi: [],
+      walkin_followUpDate: '',
+      walkin_followUpTime: ''
     }
     this.customComponents.forEach(el => {
       el.value = '';
