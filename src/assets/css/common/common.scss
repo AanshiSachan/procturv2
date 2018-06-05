@@ -503,17 +503,10 @@ h3 {
     border-radius: 0;
     line-height: 24px;
     color: #000;
+    &.form-ctrl-multiple{
+        height: 100px;
+    }
 }
-
-/* .field-wrapper label {
-    position: absolute;
-    top: 22px;
-    font-size: 14px;
-    left: 0px;
-    z-index: 1;
-    transition: all 0.1s ease-in-out;
-    color: #777;
-} */
 
 .field-wrapper .form-ctrl:focus {
     //padding: 12px 0 6px;

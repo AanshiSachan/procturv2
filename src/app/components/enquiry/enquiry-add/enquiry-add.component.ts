@@ -77,8 +77,10 @@ export class EnquiryAddComponent implements OnInit {
     link: "",
     slot_id: null,
     closedReason: "",
+    master_course_name: "",
     demo_by_id: "",
     status: "0",
+    subjectIdArray: null,
     assigned_to: sessionStorage.getItem('userid'),
     followUpTime: "",
     lead_id: -1,
@@ -108,22 +110,15 @@ export class EnquiryAddComponent implements OnInit {
   busy: Subscription;
   isNewInstitute: boolean = true;
   private customComponents: any[] = [];
-  /* Institute List for edit and delete purpose */
   instituteList: any;
-
   isNewSource: boolean = true;
-  /* Institute List for edit and delete purpose */
   sourceList: any;
-
   isNewRefer: boolean = true;
-  /* Institute List for edit and delete purpose */
   referList: any;
-
   minArr: any[] = ['', '00', '15', '30', '45'];
   hour: string = '';
   minute: string = '';
   meridian: string = ''
-
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
   timeObj: any = {
     fhour: '',
@@ -134,45 +129,38 @@ export class EnquiryAddComponent implements OnInit {
     wmeridian: '',
   };
   followUpTime: any = "";
-
-
-  /* Model for Creating Institute */
   createInstitute = {
     instituteName: "",
     isActive: "Y"
   }
-
-  /* Model for Creating Source */
   createSource = {
     name: "",
     inst_id: sessionStorage.getItem('institute_id'),
   }
-
-  /* Model for Creating Reference */
   createReferer = {
     name: "",
     inst_id: sessionStorage.getItem('institute_id')
   }
-
-  // City And Area Changes
   isCityMandatory: any;
   cityListDataSource: any = [];
   areaListDataSource: any = [];
-
   course_standard_id: any = '-1';
+  course_subject: any[] = [];
   course_mastercourse_id: any = '-1';
-
-
-  // Main Branch
+  course_course: any[] = [];
   isMainBranch: any = "N";
   branchesList: any = [];
   subBranchSelected: any = false;
-
+  masterCourseData: any[] = [];
+  selectedCourseIds: any = null;
+  selectedSubjectIds: any = null;
+  isEnquirySubmit:boolean = false;
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService,
     private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService
   ) {
-
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -182,13 +170,12 @@ export class EnquiryAddComponent implements OnInit {
         }
       }
     )
-
-
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   timeChange(ev, id) {
     if (id === 'followUpTime') {
       if (ev.split(' ')[0] != '') {
@@ -211,12 +198,13 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
   }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* OnInit Initialized */
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
-    this.FetchEnquiryPrefilledData();
-
+    this.fetchEnquiryPrefilledData();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
@@ -238,9 +226,11 @@ export class EnquiryAddComponent implements OnInit {
       school_id: "-1",
       qualification: "",
       grade: "",
+      master_course_name: "",
       enquiry_date: moment().format('YYYY-MM-DD'),
       standard_id: "-1",
       subject_id: "-1",
+      subjectIdArray: null,
       referred_by: "-1",
       source_id: "-1",
       fee_committed: "",
@@ -264,7 +254,6 @@ export class EnquiryAddComponent implements OnInit {
       walkin_followUpTime: ''
     };
 
-
     // Multi Branch Check
     this.auth.isMainBranch.subscribe(
       (value: any) => {
@@ -287,9 +276,8 @@ export class EnquiryAddComponent implements OnInit {
     )
 
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function for Toggling Form Visibility */
   toggleForm(event) {
     let eleid = event.srcElement.id;
@@ -321,14 +309,10 @@ export class EnquiryAddComponent implements OnInit {
       basic.add('active');
     }
   }
-
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to fetch prefill data for form creation */
-  FetchEnquiryPrefilledData() {
-
+  fetchEnquiryPrefilledData() {
 
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
@@ -337,8 +321,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
       err => {
@@ -346,16 +328,10 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
-      err => {
-        //  console.log(err); 
-      }
+      err => { }
     );
-
-
 
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
@@ -364,17 +340,11 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
-
-
-
-
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
       err => {
       }
     );
-
-
 
     this.prefill.getSchoolDetails().subscribe(
       data => {
@@ -390,8 +360,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getLeadSource().subscribe(
       data => {
         this.sourceLead = data;
@@ -404,8 +372,6 @@ export class EnquiryAddComponent implements OnInit {
         //   console.log(err);
       }
     );
-
-
 
     this.prefill.getLeadReffered().subscribe(
       data => {
@@ -421,16 +387,12 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getOccupation().subscribe(
       data => { this.occupation = data; },
       err => {
         //   console.log(err); 
       }
     );
-
-
 
     this.prefill.fetchLastDetail().subscribe(
       data => {
@@ -442,7 +404,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
-
     this.prefill.getCityList().subscribe(
       data => {
         this.cityListDataSource = data;
@@ -453,8 +414,22 @@ export class EnquiryAddComponent implements OnInit {
     )
 
     this.fetchCustomComponentData();
-  }
 
+    if (!this.isProfessional) {
+      this.fetchMasterCourseDetails();
+    }
+
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  fetchMasterCourseDetails() {
+    this.prefill.getMasterCourseData().subscribe(
+      res => {
+        this.masterCourseData = res;
+      });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   fetchCustomComponentData() {
     this.customComponents = [];
     this.prefill.fetchCustomComponentEmpty()
@@ -535,7 +510,6 @@ export class EnquiryAddComponent implements OnInit {
           this.emptyCustomComponent = this.componentListObject;
         });
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getDefaultArr(d): any[] {
@@ -570,9 +544,6 @@ export class EnquiryAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-
-
-
   /* Custom Compoenent array creater */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
@@ -586,10 +557,8 @@ export class EnquiryAddComponent implements OnInit {
 
     return customPrefilled;
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
@@ -602,12 +571,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
   }
-
-
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* if custom component is of type multielect then update the selected or unselected data*/
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
@@ -625,26 +590,14 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
-
-
-
-
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to Toggle visibility of additional details div */
   showAdditionDetails() {
     this.additionDetails = !this.additionDetails;
   }
-
-
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* On Phone Number input by user update model and fetch lead records if any */
   updatePhoneFetchRecords() {
     this.prefill.fetchLeadDetails(this.newEnqData.phone).subscribe(
@@ -652,12 +605,8 @@ export class EnquiryAddComponent implements OnInit {
       err => { }
     );
   }
-
-
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to fetch lead details on basis of the phone number provided by user */
   getLeadDetails() {
     //console.log(this.newEnqData.phone);
@@ -675,11 +624,8 @@ export class EnquiryAddComponent implements OnInit {
       );
     }
   }
-
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to validate the number provided by user  and return data back to getLeadDetails*/
   validatePhone(num) {
     //console.log(num);
@@ -687,10 +633,8 @@ export class EnquiryAddComponent implements OnInit {
       return this.newEnqData.phone.length === 10;
     }
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Update the form fields onn basis of the data retreived from getLeadDetails*/
   updateForm(data) {
     this.newEnqData.curr_address = data.address;
@@ -702,10 +646,8 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.referred_by = data.referred_by;
     this.newEnqData.source_id = data.source_id;
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
     if (value != null && value != '' && value != '-1') {
@@ -720,14 +662,13 @@ export class EnquiryAddComponent implements OnInit {
     }
     else {
       this.newEnqData.subject_id = '-1';
+      this.newEnqData.subjectIdArray = null;
       this.enqSub = [];
     }
 
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to clear the form data */
   clearFormData() {
     this.newEnqData = {
@@ -746,9 +687,11 @@ export class EnquiryAddComponent implements OnInit {
       school_id: "-1",
       qualification: "",
       grade: "",
+      master_course_name: "",
       enquiry_date: moment().format('YYYY-MM-DD'),
       standard_id: "-1",
       subject_id: "-1",
+      subjectIdArray: null,
       referred_by: "-1",
       source_id: "-1",
       fee_committed: "",
@@ -770,6 +713,11 @@ export class EnquiryAddComponent implements OnInit {
       walkin_followUpDate: '',
       walkin_followUpTime: ''
     };
+    this.course_standard_id = '-1'
+    this.selectedSubjectIds = null;
+    this.course_mastercourse_id = '-1';
+    this.selectedCourseIds = null;
+    this.enqSub = [];
     this.hour = '';
     this.minute = '';
     this.meridian = '';
@@ -778,7 +726,8 @@ export class EnquiryAddComponent implements OnInit {
     });
     this.fetchCustomComponentData();
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   updateCustomComponent(v, comp) {
     if (v) {
       this.customComponents.forEach(e => {
@@ -795,7 +744,8 @@ export class EnquiryAddComponent implements OnInit {
       })
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getCustomComponents(): any[] {
     let tempArr: any[] = [];
     this.customComponents.forEach(e => {
@@ -843,17 +793,19 @@ export class EnquiryAddComponent implements OnInit {
     });
     return tempArr;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   submitRegisterForm(form: NgForm) {
     this.isRegisterStudent = true;
     this.newEnqData.follow_type = "Walkin";
     this.submitForm(form);
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
     //Validates if the custom component required fields are selected or not
-
+    this.isEnquirySubmit = true;
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
 
     /* Validate the predefine required fields of the form */
@@ -868,7 +820,6 @@ export class EnquiryAddComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
-
         this.newEnqData.enqCustomLi = this.getCustomComponents();
 
         /* Check if user has entered any followup date time */
@@ -887,72 +838,179 @@ export class EnquiryAddComponent implements OnInit {
         }
 
         /* convert dob to standard format */
-        this.newEnqData.dob = this.fetchDOB();
+        this.newEnqData.dob = this.fetchDate(this.newEnqData.dob);
+        this.newEnqData.enquiry_date = this.fetchDate(this.newEnqData.enquiry_date);
+        this.newEnqData.followUpDate = this.fetchDate(this.newEnqData.followUpDate);
 
         if (this.newEnqData.follow_type == "Walkin") {
           this.newEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
           this.newEnqData.walkin_followUpTime = this.getFollowupTime();
         }
 
-        /* push data to server */
-        this.poster.postNewEnquiry(this.newEnqData).subscribe(
-          data => {
-            this.enquiryConfirm = data;
-            let instituteEnqId = data.generated_id;
-            this.prefill.fetchLastDetail().subscribe(data => {
-              this.lastDetail = data;
-              if (this.isRegisterStudent) {
-                let obj = {
-                  name: this.newEnqData.name,
-                  phone: this.newEnqData.phone,
-                  email: this.newEnqData.email,
-                  gender: this.newEnqData.gender,
-                  dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
-                  parent_email: this.newEnqData.parent_email,
-                  school_name: this.newEnqData.school_id,
-                  standard_id: this.newEnqData.standard_id,
-                  parent_name: this.newEnqData.parent_name,
-                  parent_phone: this.newEnqData.parent_phone,
-                  enquiry_id: instituteEnqId,
-                  institute_enquiry_id: instituteEnqId
-                }
-                localStorage.setItem('studentPrefill', JSON.stringify(obj));
-                this.router.navigate(['student/add']);
-              }
-              else {
-                if (this.addNextCheck) {
-                  let msg = {
-                    type: "success",
-                    title: "New Enquiry Added",
-                    body: "Your enquiry has been submitted"
+        if (!this.isProfessional) {
+          let obj = {
+            area: this.newEnqData.area,
+            assigned_to: this.newEnqData.assigned_to,
+            city: this.newEnqData.city,
+            closedReason: this.newEnqData.closedReason,
+            courseIdArray: this.selectedCourseIds,
+            curr_address: this.newEnqData.curr_address,
+            demo_by_id: this.newEnqData.demo_by_id,
+            discount_offered: this.newEnqData.discount_offered,
+            dob: this.newEnqData.dob,
+            email: this.newEnqData.email,
+            email2: this.newEnqData.email2,
+            enqCustomLi: this.newEnqData.enqCustomLi,
+            enquiry: this.newEnqData.enquiry,
+            enquiry_date: this.newEnqData.enquiry_date,
+            fee_committed: this.newEnqData.fee_committed,
+            followUpDate: this.newEnqData.followUpDate,
+            followUpTime: this.newEnqData.followUpTime,
+            follow_type: this.newEnqData.follow_type,
+            gender: this.newEnqData.gender,
+            grade: this.newEnqData.grade,
+            lead_id: this.newEnqData.lead_id,
+            link: this.newEnqData.link,
+            name: this.newEnqData.name,
+            occupation_id: this.newEnqData.occupation_id,
+            parent_email: this.newEnqData.parent_email,
+            parent_name: this.newEnqData.parent_name,
+            parent_phone: this.newEnqData.parent_phone,
+            phone: this.newEnqData.phone,
+            phone2: this.newEnqData.phone2,
+            priority: this.newEnqData.priority,
+            qualification: this.newEnqData.qualification,
+            referred_by: this.newEnqData.referred_by,
+            religion: this.newEnqData.religion,
+            school_id: this.newEnqData.school_id,
+            slot_id: this.newEnqData.slot_id,
+            source_id: this.newEnqData.source_id,
+            source_instituteId: this.newEnqData.source_instituteId,
+            status: this.newEnqData.status,
+            subjectIdArray: this.selectedSubjectIds,
+            walkin_followUpDate: this.newEnqData.walkin_followUpDate,
+            walkin_followUpTime: this.newEnqData.walkin_followUpTime
+          }
+          this.poster.postNewEnquiry(obj).subscribe(
+            data => {
+              this.isEnquirySubmit = false;
+              this.enquiryConfirm = data;
+              let instituteEnqId = data.generated_id;
+              this.prefill.fetchLastDetail().subscribe(data => {
+                this.lastDetail = data;
+                if (this.isRegisterStudent) {
+                  let obj = {
+                    name: this.newEnqData.name,
+                    phone: this.newEnqData.phone,
+                    email: this.newEnqData.email,
+                    gender: this.newEnqData.gender,
+                    dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+                    parent_email: this.newEnqData.parent_email,
+                    school_name: this.newEnqData.school_id,
+                    standard_id: this.newEnqData.standard_id,
+                    parent_name: this.newEnqData.parent_name,
+                    parent_phone: this.newEnqData.parent_phone,
+                    enquiry_id: instituteEnqId,
+                    institute_enquiry_id: instituteEnqId
                   }
-                  //form.reset();
-                  this.appC.popToast(msg);
-                  this.clearFormData();
+                  localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                  this.router.navigate(['student/add']);
                 }
                 else {
-                  this.openConfirmationPopup();
-                  this.clearFormData();
+                  if (this.addNextCheck) {
+                    let msg = {
+                      type: "success",
+                      title: "New Enquiry Added",
+                      body: "Your enquiry has been submitted"
+                    }
+                    //form.reset();
+                    this.appC.popToast(msg);
+                    this.clearFormData();
+                  }
+                  else {
+                    this.openConfirmationPopup();
+                    this.clearFormData();
+                  }
+
                 }
+              },
+                err => {
 
-              }
+                });
             },
-              err => {
-
-              });
-          },
-          err => {
-            let data = {
-              type: "error",
-              title: "Error Posting New Enquiry",
-              body: err.message + " mobile number is already in use, please provide another primary contact"
+            err => {
+              this.isEnquirySubmit = false;
+              let data = {
+                type: "error",
+                title: "Error Posting New Enquiry",
+                body: err.message + " mobile number is already in use, please provide another primary contact"
+              }
+              this.appC.popToast(data);
             }
-            this.appC.popToast(data);
-          }
-        );
+          );
+        }
+        else {
+          this.poster.postNewEnquiry(this.newEnqData).subscribe(
+            data => {
+              this.isEnquirySubmit = false;
+              this.enquiryConfirm = data;
+              let instituteEnqId = data.generated_id;
+              this.prefill.fetchLastDetail().subscribe(data => {
+                this.lastDetail = data;
+                if (this.isRegisterStudent) {
+                  let obj = {
+                    name: this.newEnqData.name,
+                    phone: this.newEnqData.phone,
+                    email: this.newEnqData.email,
+                    gender: this.newEnqData.gender,
+                    dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+                    parent_email: this.newEnqData.parent_email,
+                    school_name: this.newEnqData.school_id,
+                    standard_id: this.newEnqData.standard_id,
+                    parent_name: this.newEnqData.parent_name,
+                    parent_phone: this.newEnqData.parent_phone,
+                    enquiry_id: instituteEnqId,
+                    institute_enquiry_id: instituteEnqId
+                  }
+                  localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                  this.router.navigate(['student/add']);
+                }
+                else {
+                  if (this.addNextCheck) {
+                    let msg = {
+                      type: "success",
+                      title: "New Enquiry Added",
+                      body: "Your enquiry has been submitted"
+                    }
+                    //form.reset();
+                    this.appC.popToast(msg);
+                    this.clearFormData();
+                  }
+                  else {
+                    this.openConfirmationPopup();
+                    this.clearFormData();
+                  }
 
+                }
+              },
+                err => {
+
+                });
+            },
+            err => {
+              this.isEnquirySubmit = false;
+              let data = {
+                type: "error",
+                title: "Error Posting New Enquiry",
+                body: err.message + " mobile number is already in use, please provide another primary contact"
+              }
+              this.appC.popToast(data);
+            }
+          );
+        }
       }
       else {
+        this.isEnquirySubmit = false;
         let msg = {
           type: 'error',
           title: 'Invalid Time Input',
@@ -962,11 +1020,12 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else {
+      this.isEnquirySubmit = false;
       this.submitError = true;
     }
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getFollowupTime(): any {
     let hour: any = parseInt(moment(new Date()).format('hh'));
     let min: any = moment(new Date()).format('mm');
@@ -995,17 +1054,18 @@ export class EnquiryAddComponent implements OnInit {
 
     return (hour + ":" + min + " " + mer);
   }
-
-
-  fetchDOB(): string {
-    if (this.newEnqData.dob == null || this.newEnqData.dob == '' || this.newEnqData.dob == "Invalid date") {
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  fetchDate(e): string {
+    if (e == null || e == '' || e == "Invalid date") {
       return '';
     }
     else {
-      return moment(this.newEnqData.dob).format('YYYY-MM-DD');
+      return moment(e).format('YYYY-MM-DD');
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1) {
       if (this.newEnqData.city == '-1') {
@@ -1023,20 +1083,22 @@ export class EnquiryAddComponent implements OnInit {
       return true;
     }
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   validateTime(): boolean {
     /* some time selected by user or nothing*/
     if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
+      if(this.hour == "Invalid date"){ this.hour = '';}
+      if(this.minute == "Invalid date"){ this.minute = '';}
+      if(this.meridian == "INVALID DATE"){ this.meridian = '';}
       return true;
     }
     else {
       return false;
     }
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getCustomValid(element): boolean {
 
@@ -1073,7 +1135,8 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
     if (
@@ -1137,7 +1200,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   validateEnquiryDate() {
     let a = moment();
     let b = moment(this.newEnqData.enquiry_date);
@@ -1149,8 +1213,8 @@ export class EnquiryAddComponent implements OnInit {
       return true;
     }
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* fetch the data of last updated enquiry */
   updateLastUpdatedDetails() {
     this.prefill.fetchLastDetail().subscribe(data => {
@@ -1161,85 +1225,74 @@ export class EnquiryAddComponent implements OnInit {
       }
     )
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to open confirmation popup on succesfull form submission  */
   openConfirmationPopup() {
     //  console.log("confirmation popup opened");
     this.confimationPop = true;
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to close the confirmation popup */
   closePopUp() {
     // console.log("confirmation popup closed");
     this.confimationPop = false;
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to open update popup */
   openUpdatePopup() {
     this.closePopUp();
     this.updatePop = true;
     // console.log("edit popup opened");
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Function to close update popup */
   closeUpdatePopup() {
     this.updatePop = false;
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to open popup to add source */
   showAddSourcePops() {
     //console.log('clicked');
     this.isSourcePop = true;
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to hide popup to add source */
   hideAddSourcePops() {
     this.isSourcePop = false;
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to show popup for adding reference */
   showAddReferPops() {
     this.isReferPop = true;
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to hide popup for adding reference */
   hideAddReferPops() {
     this.isReferPop = false;
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Reload the Enquiry Form and clear data */
   reloadEnquiryForm() {
     this.clearFormData();
     this.closePopUp();
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   customComponentUpdated(val, data) {
     this.componentListObject[data.component_id].enq_custom_value = val;
     // console.log(this.componentListObject);
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   navigateToEdit() {
     let val: any;
     this.prefill.fetchLastDetail().subscribe(el => {
@@ -1247,17 +1300,15 @@ export class EnquiryAddComponent implements OnInit {
     }
     )
   }
-
-
   /* --------------------------------------------------------------------------------------------------------- */
   /* ---------------------------------------------- Institute Editor Logic ------------------------------------------------- */
   /* --------------------------------------------------------------------------------------------------------- */
-
   /* function to open popup to add institute */
   openAddInstitute() {
     this.isInstitutePop = true;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to hide popup to add institute */
   closeInstituteAdder() {
     this.isInstitutePop = false;
@@ -1265,7 +1316,8 @@ export class EnquiryAddComponent implements OnInit {
     this.createInstitute.instituteName = '';
     this.fetchInstituteInfo();
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to set-unset isActive status for add institute */
   toggleInstituteActive(event) {
     if (event) {
@@ -1274,9 +1326,9 @@ export class EnquiryAddComponent implements OnInit {
     else {
       this.createInstitute.isActive = "N";
     }
-
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to add institute data to server */
   addInstituteData() {
     this.prefill.createNewInstitute(this.createInstitute).subscribe(
@@ -1318,10 +1370,10 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* toggle visibility of new institute form */
   toggleInstituteAdd() {
-
     let icon = document.getElementById('add-institute-icon').innerHTML;
     if (icon == '+') {
       this.isNewInstitute = true;
@@ -1333,14 +1385,16 @@ export class EnquiryAddComponent implements OnInit {
       document.getElementById('add-institute-icon').innerHTML = '+';
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* close add new institute */
   closeAddInstitute() {
     this.isNewInstitute = false;
     document.getElementById('add-institute-icon').innerHTML = '+';
     this.createInstitute.instituteName = '';
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   fetchInstituteInfo() {
     this.prefill.getSchoolDetails().subscribe(
       data => {
@@ -1352,7 +1406,8 @@ export class EnquiryAddComponent implements OnInit {
       },
     )
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   editInstitute(id) {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
@@ -1360,11 +1415,13 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   cancelEditInstitute(id) {
     this.fetchInstituteInfo();
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   updateInstitute(id) {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
@@ -1390,7 +1447,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   deleteInstitute(id) {
     this.poster.deleteInstitute(id).subscribe(
       res => {
@@ -1413,18 +1471,15 @@ export class EnquiryAddComponent implements OnInit {
       }
     )
   }
-
-
   /* --------------------------------------------------------------------------------------------------------- */
   /* ---------------------------------------------- Reference Editor Logic ------------------------------------------------- */
   /* --------------------------------------------------------------------------------------------------------- */
-
-
   /* function to open popup to add Reference */
   openAddRefer() {
     this.isReferPop = true;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to hide popup to add Reference */
   closeReferAdder() {
     this.isReferPop = false;
@@ -1432,8 +1487,8 @@ export class EnquiryAddComponent implements OnInit {
     this.createReferer.name = '';
     this.fetchReferInfo();
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to add Reference data to server */
   addReferData() {
     this.prefill.createReferer(this.createReferer).subscribe(
@@ -1455,12 +1510,10 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* toggle visibility of new Reference form */
   toggleReferAdd() {
-
     let icon = document.getElementById('add-refer-icon').innerHTML;
     if (icon == '+') {
       this.isNewRefer = true;
@@ -1472,18 +1525,16 @@ export class EnquiryAddComponent implements OnInit {
       document.getElementById('add-refer-icon').innerHTML = '+';
     }
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* close add new Reference */
   closeAddRefer() {
     this.isNewRefer = false;
     document.getElementById('add-refer-icon').innerHTML = '+';
     this.createReferer.name = '';
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   fetchReferInfo() {
     this.prefill.getLeadReffered().subscribe(
       data => {
@@ -1495,9 +1546,8 @@ export class EnquiryAddComponent implements OnInit {
       },
     )
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   editRefer(id) {
     this.referList.forEach(el => {
       if (el.id == id) {
@@ -1505,15 +1555,13 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   cancelEditRefer(id) {
     this.fetchReferInfo();
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   updateRefer(id) {
     this.referList.forEach(el => {
       if (el.id == id) {
@@ -1544,9 +1592,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   deleteRefer(id) {
     this.referList.forEach(el => {
       if (el.id == id) {
@@ -1576,17 +1623,15 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
   /* --------------------------------------------------------------------------------------------------------- */
   /* ---------------------------------------------- Source Editor Logic ------------------------------------------------- */
   /* --------------------------------------------------------------------------------------------------------- */
-
   /* function to open popup to add Source */
   openAddSource() {
     this.isSourcePop = true;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to hide popup to add Source */
   closeSourceAdder() {
     this.isSourcePop = false;
@@ -1594,10 +1639,8 @@ export class EnquiryAddComponent implements OnInit {
     this.createSource.name = '';
     this.fetchSourceInfo();
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* function to add Source data to server */
   addSourceData() {
     this.prefill.createSource(this.createSource).subscribe(
@@ -1610,9 +1653,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* toggle visibility of new Source form */
   toggleSourceAdd() {
 
@@ -1627,17 +1669,16 @@ export class EnquiryAddComponent implements OnInit {
       document.getElementById('add-source-icon').innerHTML = '+';
     }
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* close add new Source */
   closeAddSource() {
     this.isNewSource = false;
     document.getElementById('add-source-icon').innerHTML = '+';
     this.createSource.name = '';
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Source fetch via API*/
   fetchSourceInfo() {
     this.prefill.getLeadSource().subscribe(
@@ -1650,8 +1691,8 @@ export class EnquiryAddComponent implements OnInit {
       },
     )
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Source edit open*/
   editSource(id) {
     this.sourceList.forEach(el => {
@@ -1660,13 +1701,14 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Source edit cancel*/
   cancelEditSource(id) {
     this.fetchSourceInfo();
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Source update*/
   updateSource(id) {
     this.sourceList.forEach(el => {
@@ -1697,23 +1739,20 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   timeChanges(ev, id) {
-    // 
     if (ev.split(' ')[0] != '') {
       this.hour = ev.split(' ')[0];
       this.meridian = ev.split(' ')[1];
-
-      //console.log(this.hour + "" +this.meridian)
     }
     else {
       this.hour = '';
       this.meridian = '';
     }
-
-
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Source delete*/
   deleteSource(id) {
     this.sourceList.forEach(el => {
@@ -1745,9 +1784,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Customiized click detection strategy */
   inputClicked(ev) {
     if (ev.target.classList.contains('form-ctrl')) {
@@ -1772,10 +1810,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
   }
-
-
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   isEnquiryAdministrator() {
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       this.isEnquiryAdmin = true;
@@ -1793,34 +1829,38 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getLastAddName(): string {
     //console.log(this.lastDetail.name);
     return this.lastDetail.name;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getLastEnqNum() {
     return this.lastDetail.enquiry_no;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getLastUpdateTime() {
     //console.log(this.lastDetail);
     return moment(this.lastDetail.enquiry_creation_datetime).fromNow();
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   clearAddEnquiryDate() {
     this.newEnqData.enquiry_date = "";
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   clearAddFollowUpDate() {
     this.newEnqData.followUpDate = "";
     this.hour = '';
     this.minute = '';
     this.meridian = '';
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   onCitySelctionChanges(event) {
     this.areaListDataSource = [];
     if (event != -1) {
@@ -1837,10 +1877,8 @@ export class EnquiryAddComponent implements OnInit {
       )
     }
   }
-
-
-  // MultiBranch 
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   multiBranchInstituteFound() {
     this.prefill.getAllSubBranches().subscribe(
       (res: any) => {
@@ -1851,8 +1889,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     )
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   branchUpdated(e) {
     this.isRippleLoad = true;
     this.newEnqData.source_instituteId = e;
@@ -1868,4 +1906,25 @@ export class EnquiryAddComponent implements OnInit {
     );
   }
 
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  courseMasterChange(e) {
+    if (e != '-1') {
+      this.masterCourseData.map(el => {
+        if (el.master_course == e) {
+          if (el.coursesList == null || el.coursesList.length == 0) {
+            this.course_course = [];
+          }
+          else {
+            this.course_course = el.coursesList;
+          }
+        }
+      });
+    }
+    else {
+      this.course_course = [];
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
 }
