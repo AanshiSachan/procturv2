@@ -2987,7 +2987,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           temp.push(obj);
         });
         this.chequePdcList = temp;
-      })
+      }
+    )
 
   }
   /* ============================================================================================================================ */
@@ -3486,6 +3487,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   )
                 }
               }
+              this.getPdcChequeList();
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -3528,7 +3530,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
             }
           );
-
         }
         else {
           let msg = {
@@ -3624,6 +3625,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.isFeeApplied = false;
             this.pdcSelectedForPayment = "";
+            this.getPdcChequeList();
             this.closePaymentDetails();
           },
           err => {
@@ -3767,6 +3769,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               }
               this.isFeeApplied = false;
               this.pdcSelectedForPayment = "";
+              this.getPdcChequeList();
               this.closePartialPayment();
             },
             err => {
@@ -3896,6 +3899,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.isFeeApplied = false;
             this.pdcSelectedForPayment = "";
+            this.getPdcChequeList();
             this.closePartialPayment();
           },
           err => {

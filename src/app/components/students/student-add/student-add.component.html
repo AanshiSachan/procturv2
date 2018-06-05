@@ -1424,19 +1424,18 @@
             <div class="c-lg-12">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
                 <label for="pMode">Select PDC Cheque</label>
-
+                <div class="questionInfo pos-rel">
+                  <span class="qInfoIcon">?</span>
+                  <div class="tooltip-box-field">
+                    Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are added using Manage Cheques
+                  </div>
+                </div>
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
                     {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
                   </option>
                 </select>
-              </div>
-              <div class="questionInfo pos-rel">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are added using Manage Cheques
-                </div>
               </div>
             </div>
           </div>
@@ -1591,19 +1590,18 @@
             <div class="c-lg-12">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
                 <label for="pMode">Select PDC Cheque</label>
-
+                <div class="questionInfo pos-rel">
+                  <span class="qInfoIcon">?</span>
+                  <div class="tooltip-box-field">
+                    Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are added using Manage Cheques
+                  </div>
+                </div>
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
                     {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
                   </option>
                 </select>
-              </div>
-              <div class="questionInfo pos-rel">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are added using Manage Cheques
-                </div>
               </div>
             </div>
           </div>

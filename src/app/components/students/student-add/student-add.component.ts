@@ -3818,8 +3818,7 @@ export class StudentAddComponent implements OnInit {
           temp.push(obj);
         });
         this.chequePdcList = temp;
-      })
-
+      });
   }
 
   /* ============================================================================================================================ */
@@ -4696,6 +4695,7 @@ export class StudentAddComponent implements OnInit {
               }
               this.isFeeApplied = false;
               this.pdcSelectedForPayment = "";
+              this.getPdcChequeList();
               this.closePaymentDetails();
             },
             err => {
@@ -4816,6 +4816,7 @@ export class StudentAddComponent implements OnInit {
             }
             this.isFeeApplied = false;
             this.pdcSelectedForPayment = "";
+            this.getPdcChequeList();
             this.closePaymentDetails();
             this.updateStudentFeeDetails();
           },
@@ -4959,6 +4960,7 @@ export class StudentAddComponent implements OnInit {
               }
               this.isFeeApplied = false;
               this.pdcSelectedForPayment = "";
+              this.getPdcChequeList();
               this.closePartialPayment();
             },
             err => {
@@ -5087,6 +5089,7 @@ export class StudentAddComponent implements OnInit {
             }
             this.isFeeApplied = false;
             this.pdcSelectedForPayment = "";
+            this.getPdcChequeList();
             this.closePartialPayment();
           },
           err => {

@@ -2316,15 +2316,15 @@ input[type=number]::-webkit-outer-spin-button {
 
 .paymentWrapper {
     border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
-    max-height: 400px;
-    overflow: hidden;
+    // max-height: 400px;
+    // overflow: hidden;
     ::-webkit-scrollbar {
         display: block;
     }
     .paymentForm {
-        max-height: 400px;
-        overflow-y: auto;
-        overflow-x: hidden;
+        // max-height: 400px;
+        // overflow-y: auto;
+        // overflow-x: hidden;
         ::-webkit-scrollbar {
             display: block;
         }

@@ -141,7 +141,7 @@ export class FetchprefilldataService {
     let url = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 
     return this.http.put(url, data, { headers: this.headers }).map(res => {
-      return res.json();  
+      return res.json();
     });
   }
 
@@ -637,6 +637,14 @@ export class FetchprefilldataService {
       res => { return res.json(); },
       err => { return err.json(); }
     )
+  }
+
+  getMasterCourseData() {
+    let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    );
   }
 
 
