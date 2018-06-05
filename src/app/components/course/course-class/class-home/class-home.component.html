@@ -242,7 +242,31 @@
                           <td style="width:15%">{{sc.subject_name}}</td>
                           <td style="width:12.5%">{{sc.start_time}}</td>
                           <td style="width:12.5%">{{sc.end_time}}</td>
-                          <td style="width:15%">{{sc.teacher_name}}</td>
+                          <td style="width:15%" class="editTeacherTd">
+
+                            <div *ngIf="sc.class_type != 'Exam'" class="changeteacher">
+                              <span id="teacher{{sc.schd_id}}">{{sc.teacher_name}}
+                                <i (click)="changeTeacher(sc)" class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>
+                              </span>
+                              <span id="editTeacher{{sc.schd_id}}" class="hide spanSection">
+                                <div class="field-wrapper editSection">
+                                  <select id="teacherList" class="form-ctrl ddnChangeTeacher" [(ngModel)]="allotedTeacher">
+                                    <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
+                                      {{subject.teacher_name}}
+                                    </option>
+                                  </select>
+                                </div>
+                                <i (click)="updateTeacher(sc)" class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;margin-left:0px 2px"
+                                  title="Update"></i>
+                                <i (click)="cancelChangeTeacher(sc)" class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+                              </span>
+                            </div>
+
+                            <div *ngIf="sc.class_type == 'Exam'">
+                              {{sc.teacher_name}}
+                            </div>
+
+                          </td>
                           <td style="width:15%">{{sc.topics_covered}}</td>
                           <td style="width:15%">
                             <div class="action-box" *ngIf="!isLangInstitute">
@@ -280,7 +304,7 @@
             <div class="pull-left ">
               <span class="class-cancel yellow ">x</span>Cancelled Exam</div>
           </div> -->
-            
+
         </section>
       </section>
     </aside>

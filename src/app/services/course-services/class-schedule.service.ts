@@ -334,7 +334,15 @@ export class ClassScheduleService {
         )
     }
 
+    ///// Change Teacher 
 
+    changeClassTeacher(obj) {
+        let url = this.baseURL + "/api/v1/coursePlanner";
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
 
 
 
