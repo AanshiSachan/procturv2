@@ -130,7 +130,8 @@
                           <td>
                             <div class="field-checkbox-wrapper">
 
-                              <input id="{{row.subject_id}}" [(ngModel)]="row.uiSelected" type="checkbox" value="" class="form-checkbox">
+                              <input id="{{row.subject_id}}" [disabled]="row.uiSelected == true && row.isAssigned == 'N'" [(ngModel)]="row.uiSelected"
+                                type="checkbox" value="" class="form-checkbox">
                               <label for="{{row.subject_id}}"></label>
                             </div>
                           </td>

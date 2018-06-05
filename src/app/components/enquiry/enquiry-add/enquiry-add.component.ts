@@ -271,7 +271,7 @@ export class EnquiryAddComponent implements OnInit {
         this.isMainBranch = value;
         if (this.isMainBranch == "Y") {
           this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          this.multiBranchInstituteFound(this.newEnqData.source_instituteId);
         }
       }
     );
@@ -281,7 +281,10 @@ export class EnquiryAddComponent implements OnInit {
         this.subBranchSelected = res;
         if (this.subBranchSelected) {
           this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          const mainBranchId = sessionStorage.getItem('mainBranchId');
+          if (mainBranchId != null) {
+            this.multiBranchInstituteFound(mainBranchId);
+          }
         }
       }
     )
@@ -1841,8 +1844,8 @@ export class EnquiryAddComponent implements OnInit {
 
   // MultiBranch 
 
-  multiBranchInstituteFound() {
-    this.prefill.getAllSubBranches().subscribe(
+  multiBranchInstituteFound(id) {
+    this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
         this.branchesList = res;
       },

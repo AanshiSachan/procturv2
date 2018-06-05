@@ -67,7 +67,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   private customComponents: any[] = []; selectedSmsMessage: string = ''; slots: any[] = [];
   isSideBar: boolean = false;
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['','00','05','10','15','20','25','30','35','40','45','50','55'];
+  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"];
   isRippleLoad: boolean = false;
   hour: string = ''; minute: string = ''; meridian: string = '';
@@ -155,6 +155,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       minute: '',
     },
     is_follow_up_time_notification: 0,
+    source_instituteId: '-1'
   }
 
   customCompid: any;
@@ -315,6 +316,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('optMenu') optMenu: ElementRef;
 
   isNotifyVisible: boolean = false;
+  insttitueId: any = '';
 
   // Sub Branch
   isMainBranch: any = 'N';
@@ -372,6 +374,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         } else {
           this.isProfessional = false;
         }
+      }
+    )
+
+    this.auth.currentInstituteId.subscribe(
+      res => {
+        this.insttitueId = res;
       }
     )
 
@@ -2275,7 +2283,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
-        if(this.isConvertToStudent === false){
+        if (this.isConvertToStudent === false) {
           if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
             let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
             let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
@@ -2300,7 +2308,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.updateFormData.is_follow_up_time_notification = 0;
         }
 
-        if (this.updateFormData.followUpDate != "Invalid date"){
+        if (this.updateFormData.followUpDate != "Invalid date") {
           this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
           this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData).subscribe(
             res => {
@@ -4236,7 +4244,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         (value: any) => {
           this.isMainBranch = value;
           if (this.isMainBranch == "Y") {
-            this.multiBranchInstituteFound();
+            this.updateFormData.source_instituteId = this.insttitueId;
+            this.multiBranchInstituteFound(this.insttitueId);
+            this.branchUpdated(this.updateFormData.source_instituteId);
           }
         }
       );
@@ -4244,7 +4254,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.multiBranchService.subBranchSelected.subscribe(
         res => {
           this.subBranchSelected = res;
-          this.multiBranchInstituteFound();
+          if (res == true) {
+            this.updateFormData.source_instituteId = this.insttitueId;
+            const mainBranchId = sessionStorage.getItem('mainBranchId');
+            if (mainBranchId != null) {
+              this.multiBranchInstituteFound(mainBranchId);
+              this.branchUpdated(this.updateFormData.source_instituteId);
+            }
+          }
         }
       )
     } else {
@@ -4253,8 +4270,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  multiBranchInstituteFound() {
-    this.prefill.getAllSubBranches().subscribe(
+  multiBranchInstituteFound(id) {
+    this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
         this.branchesList = res;
       },
@@ -4262,6 +4279,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         console.log(err);
       }
     )
+  }
+
+  branchUpdated(e) {
+    this.enqAssignTo = [];
+    this.prefill.fetchAssignedToData(e).subscribe(
+      res => {
+        this.enqAssignTo = res;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

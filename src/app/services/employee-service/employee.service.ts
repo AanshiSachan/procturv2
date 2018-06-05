@@ -55,4 +55,20 @@ export class EmployeeService {
         )
     }
 
+    designationList() {
+        let url = this.baseUrl + "/api/v1/masterData/type/EMPLOYEE_DESIGNATION";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    userList(obj) {
+        let url = this.baseUrl + "/api/v1/emp_manager/getUsers/" + this.institute_id;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
 }

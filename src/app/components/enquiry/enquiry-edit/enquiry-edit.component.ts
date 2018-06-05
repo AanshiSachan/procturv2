@@ -210,7 +210,7 @@ export class EnquiryEditComponent implements OnInit {
         this.isMainBranch = value;
         if (this.isMainBranch == "Y") {
           this.editEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          this.multiBranchInstituteFound(this.editEnqData.source_instituteId);
         }
       }
     );
@@ -220,7 +220,10 @@ export class EnquiryEditComponent implements OnInit {
         this.subBranchSelected = res;
         if (this.subBranchSelected) {
           this.editEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          const mainBranchID = sessionStorage.getItem('mainBranchId');
+          if (mainBranchID != null) {
+            this.multiBranchInstituteFound(mainBranchID);
+          }
         }
       }
     )
@@ -747,7 +750,7 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.source_instituteId = this.editEnqData.source_instituteId;
         }
 
-        if(this.editEnqData.follow_type == "Walkin"){
+        if (this.editEnqData.follow_type == "Walkin") {
           this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
           this.editEnqData.walkin_followUpTime = this.getFollowupTime();
         }
@@ -817,24 +820,24 @@ export class EnquiryEditComponent implements OnInit {
 
 
   getFollowupTime(): any {
-    let hour:any = parseInt(moment(new Date()).format('hh'));
-    let min:any = moment(new Date()).format('mm');
-    let mer:any = moment(new Date()).format('A');
+    let hour: any = parseInt(moment(new Date()).format('hh'));
+    let min: any = moment(new Date()).format('mm');
+    let mer: any = moment(new Date()).format('A');
 
-    if (parseInt(min)%5 != 0){
-      min = Math.ceil(parseInt(min)/5)*5;
-      if(min >= 60){
+    if (parseInt(min) % 5 != 0) {
+      min = Math.ceil(parseInt(min) / 5) * 5;
+      if (min >= 60) {
         min = '00';
-        if(hour == 12){
+        if (hour == 12) {
           hour = '1';
-          if(mer == 'AM'){
+          if (mer == 'AM') {
             mer = 'PM';
           }
-          else{
+          else {
             mer = 'AM';
           }
         }
-        else{
+        else {
           hour += 1;
           let formattedNumber = ("0" + hour).slice(-2);
           hour = formattedNumber.toString();
@@ -842,7 +845,7 @@ export class EnquiryEditComponent implements OnInit {
       }
     }
 
-    return (hour +":" +min +" " +mer);
+    return (hour + ":" + min + " " + mer);
   }
 
 
@@ -1171,8 +1174,8 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
-  multiBranchInstituteFound() {
-    this.prefill.getAllSubBranches().subscribe(
+  multiBranchInstituteFound(id) {
+    this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
         this.branchesList = res;
       },

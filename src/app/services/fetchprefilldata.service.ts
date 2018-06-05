@@ -135,7 +135,7 @@ export class FetchprefilldataService {
     let url = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 
     return this.http.put(url, data, { headers: this.headers }).map(res => {
-      return res.json();  
+      return res;
     });
   }
 
@@ -475,15 +475,14 @@ export class FetchprefilldataService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data;
-          }
-          else {
+          if (data == null || data == '') {
             return [];
+          } else {
+            return data;
           }
         },
         err => {
-          return err.json();
+          return err;
         }
       );
   }
@@ -497,11 +496,10 @@ export class FetchprefilldataService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data;
-          }
-          else {
+          if (data == null || data == '') {
             return [];
+          } else {
+            return data;
           }
         },
         err => {
@@ -625,8 +623,8 @@ export class FetchprefilldataService {
 
   /// Get All Branches Details
 
-  getAllSubBranches() {
-    let url = this.baseUrl + "/api/v1/institutes/all/Branches/" + this.institute_id;
+  getAllSubBranches(id) {
+    let url = this.baseUrl + "/api/v1/institutes/all/Branches/" + id;
     return this.http.get(url, { headers: this.headers }).map(
       res => { return res; },
       err => { return err; }

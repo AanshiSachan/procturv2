@@ -244,7 +244,7 @@ export class CourseAddComponent implements OnInit {
         let msg = {
           type: "success",
           title: "Course Creation",
-          body: "Couse Creation Successfull."
+          body: "Course Creation Successfull."
         }
         this.toastCtrl.popToast(msg);
         this.route.navigateByUrl('/course/courselist');

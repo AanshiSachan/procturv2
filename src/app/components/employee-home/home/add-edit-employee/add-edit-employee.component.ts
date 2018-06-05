@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EmployeeService } from '../../../../services/employee-service/employee.service';
@@ -15,7 +15,7 @@ export class AddEditEmployeeComponent implements OnInit {
   employeeDetails: any = {
     address: '',
     attendance_device_id: '',
-    designation: '',
+    designation: '1',
     email_pri: '',
     email_sec: '',
     emp_name: '',
@@ -28,6 +28,9 @@ export class AddEditEmployeeComponent implements OnInit {
     profile_pic: '',
     user_id: ''
   };
+  containerWidth: any = "200px";
+  @ViewChild('idCardEmployee') idCardEmployee: ElementRef; userList
+  designationList: any = [];
 
   constructor(
     private auth: AuthenticatorService,
@@ -47,6 +50,7 @@ export class AddEditEmployeeComponent implements OnInit {
         }
       }
     )
+    this.getDesignationList();
   }
 
   getEmployeeDetails(res) {
@@ -59,5 +63,37 @@ export class AddEditEmployeeComponent implements OnInit {
       }
     )
   }
+
+  getDesignationList() {
+    this.apiService.designationList().subscribe(
+      res => {
+        this.designationList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  setImage(e) {
+    this.employeeDetails.profile_pic = e;
+  }
+
+  uploadIdCard() {
+    this.idCardEmployee.nativeElement.click();
+  }
+
+  onChangeIdCardUpload() {
+    let fileBrowser = this.idCardEmployee.nativeElement;
+    this.idCardEmployee.nativeElement.innerHTML = fileBrowser.files[0].name;
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      let reader = new FileReader();
+      reader.readAsDataURL(fileBrowser.files[0]);
+      reader.onload = () => {
+        this.employeeDetails.photo_id_card = reader.result.split(',')[1];
+      }
+    }
+  }
+
 
 }

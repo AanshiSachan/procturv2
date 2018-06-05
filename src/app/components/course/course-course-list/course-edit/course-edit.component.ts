@@ -140,7 +140,8 @@ export class CourseEditComponent implements OnInit {
       if (row.hasOwnProperty('otherDetails')) {
         this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
           data => {
-            this.mainTableDataSource[mainTableIndex].batchesList.splice(nestedTableIndex, 1);
+            this.mainTableDataSource[mainTableIndex].batchesList[nestedTableIndex].uiSelected = false;
+            this.mainTableDataSource[mainTableIndex].batchesList[nestedTableIndex].selected_teacher = '-1';
             this.checkIfAnySelectedRowExist(this.mainTableDataSource[mainTableIndex], mainTableIndex);
             this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
           },
