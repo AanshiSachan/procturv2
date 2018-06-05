@@ -20,8 +20,26 @@ biometricData = [{
   "deviceLocation": "UP",
   device_status: 1
 },
-]
+{
+  "deviceId": "111",
+  "deviceFName": "Harvin Academy",
+  "serialNumber": "OIN7040057041300450",
+  "ipAddress": "192.168.1.10",
+  "lastPing": 1527763822000,
+  "deviceLocation": "UP",
+  device_status: 2
+},
+{
+  "deviceId": "111",
+  "deviceFName": "Harvin Academy",
+  "serialNumber": "OIN7040057041300450",
+  "ipAddress": "192.168.1.10",
+  "lastPing": 1527763822000,
+  "deviceLocation": "UP",
+  device_status: 1
+}
 
+]
 @Output() changeWidth: EventEmitter<any> = new EventEmitter();
 
   constructor() { }

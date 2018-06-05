@@ -282,8 +282,11 @@ export class AdminHomeComponent implements OnInit {
     else if(event.length == 0){
       this.ref.nativeElement.className = "hide";
     }
-    else{
+    else if(event.length == 3){
       this.ref.nativeElement.className = "dataThird";
+    }
+    else{
+      this.ref.nativeElement.className = "dataLast";
     }
   }
 
