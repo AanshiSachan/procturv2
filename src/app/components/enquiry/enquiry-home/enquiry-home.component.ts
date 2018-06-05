@@ -3249,7 +3249,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     this.customComponents.forEach(el => {
       if (el.is_searchable == 'Y' && el.value != "") {
-
+        debugger
         if (el.type == '5') {
           let obj = {
             component_id: el.id,
@@ -3271,6 +3271,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     if (tempCustomArr.length != 0) {
       this.advancedFilterForm.enqCustomLi = tempCustomArr;
+    }
+    else if (tempCustomArr.length == 0){
+      this.advancedFilterForm.enqCustomLi = null;
     }
 
     this.sourceEnquiry = [];
