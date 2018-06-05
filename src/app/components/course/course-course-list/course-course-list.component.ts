@@ -52,6 +52,7 @@ export class CourseCourseListComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getCourseListFromServer().subscribe(
       (data: any) => {
+        this.dataStatus = 2;
         this.courseListDataSource = data;
         this.totalRow = data.length;
         this.fetchTableDataByPage(this.PageIndex);
