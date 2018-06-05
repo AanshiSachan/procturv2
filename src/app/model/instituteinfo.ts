@@ -13,6 +13,8 @@ export interface instituteInfo {
     subject_id?: any;
     course_id?: any;
     name?: any;
+    subjectIdArray?: any,
+    courseIdArray?: any,
     phone?: any;
     email?: any;
     enquiry_no?: any;
