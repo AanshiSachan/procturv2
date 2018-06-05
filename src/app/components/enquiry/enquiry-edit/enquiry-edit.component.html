@@ -267,9 +267,9 @@
                   </div>
 
                   <!-- subject Course -->
-                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': selectedSubjectIds != ''}">
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.subjectIdArray != ''}">
                     <label for="forSubject">Subject</label>
-                    <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="selectedSubjectIds" name="subject">
+                    <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.subjectIdArray" name="subject">
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
                     <div class="questionInfo">
@@ -290,9 +290,9 @@
                   </div>
 
                   <!-- course course-->
-                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': selectedCourseIds != ''}">
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.courseIdArray != ''}">
                     <label for="editCC">Course</label>
-                    <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="selectedCourseIds" name="editCC" multiple>
+                    <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.courseIdArray" name="editCC" multiple>
                       <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
                     </select>
                   </div>
@@ -413,7 +413,7 @@
           <input type="button" value="Cancel" class="btn cancle" (click)="clearLocalAndRoute()">
           <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Update & Admit Enquiry"
             [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
-          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Save Enquiry" [disabled]="!myForm.form.valid"
+          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Save Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit"
             class="btn fullBlue" (click)="submitForm()">
         </aside>
       </section>

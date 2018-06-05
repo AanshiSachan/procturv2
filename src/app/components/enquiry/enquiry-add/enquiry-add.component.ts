@@ -154,6 +154,7 @@ export class EnquiryAddComponent implements OnInit {
   masterCourseData: any[] = [];
   selectedCourseIds: any = '';
   selectedSubjectIds: any = '';
+  isEnquirySubmit:boolean = false;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(private prefill: FetchprefilldataService, private router: Router,
@@ -804,7 +805,7 @@ export class EnquiryAddComponent implements OnInit {
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
     //Validates if the custom component required fields are selected or not
-
+    this.isEnquirySubmit = true;
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
 
     /* Validate the predefine required fields of the form */
@@ -819,7 +820,6 @@ export class EnquiryAddComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
-
         this.newEnqData.enqCustomLi = this.getCustomComponents();
 
         /* Check if user has entered any followup date time */
@@ -893,6 +893,7 @@ export class EnquiryAddComponent implements OnInit {
           }
           this.poster.postNewEnquiry(obj).subscribe(
             data => {
+              this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
               this.prefill.fetchLastDetail().subscribe(data => {
@@ -938,6 +939,7 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
+              this.isEnquirySubmit = false;
               let data = {
                 type: "error",
                 title: "Error Posting New Enquiry",
@@ -948,9 +950,9 @@ export class EnquiryAddComponent implements OnInit {
           );
         }
         else {
-
           this.poster.postNewEnquiry(this.newEnqData).subscribe(
             data => {
+              this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
               this.prefill.fetchLastDetail().subscribe(data => {
@@ -996,6 +998,7 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
+              this.isEnquirySubmit = false;
               let data = {
                 type: "error",
                 title: "Error Posting New Enquiry",
@@ -1007,6 +1010,7 @@ export class EnquiryAddComponent implements OnInit {
         }
       }
       else {
+        this.isEnquirySubmit = false;
         let msg = {
           type: 'error',
           title: 'Invalid Time Input',
@@ -1016,6 +1020,7 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else {
+      this.isEnquirySubmit = false;
       this.submitError = true;
     }
   }

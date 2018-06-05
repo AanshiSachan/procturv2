@@ -171,9 +171,8 @@ export class EnquiryEditComponent implements OnInit {
   course_mastercourse_id: any = '-1';
   course_course: any[] = [];
   masterCourseData: any[] = [];
-  selectedCourseIds: any = '';
-  selectedSubjectIds: any = '';
 
+  isEnquirySubmit:boolean = false;
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
@@ -263,11 +262,9 @@ export class EnquiryEditComponent implements OnInit {
         this.editEnqData = data;
         if(this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length){
           this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el)});
-          this.selectedCourseIds = this.editEnqData.courseIdArray;
         }
         if(this.editEnqData.subjectIdArray != null && this.editEnqData.subjectIdArray.length){
           this.editEnqData.subjectIdArray = this.editEnqData.subjectIdArray.map(el => { return parseInt(el)});
-          this.selectedSubjectIds = this.editEnqData.subjectIdArray;
         }
         this.actualAssignee = data.assigned_to;
         this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
@@ -286,6 +283,9 @@ export class EnquiryEditComponent implements OnInit {
           this.prefill.getMasterCourseData().subscribe(
             res => {
               this.masterCourseData = res;
+              if(this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length){
+                this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el)});
+              }
               this.courseMasterChange(this.editEnqData.master_course_name)
             });
         }
@@ -730,7 +730,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Function to submit validated form data */
   submitForm() {
-
+    this.isEnquirySubmit = true;
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
 
@@ -742,7 +742,6 @@ export class EnquiryEditComponent implements OnInit {
     if (validate == false) {
       return;
     }
-
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
@@ -772,6 +771,7 @@ export class EnquiryEditComponent implements OnInit {
 
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           data => {
+            this.isEnquirySubmit = false;
             if (data.statusCode == 200) {
               let msg = {
                 type: "success",
@@ -809,6 +809,7 @@ export class EnquiryEditComponent implements OnInit {
             }
           },
           err => {
+            this.isEnquirySubmit = false;
             let data = {
               type: "error",
               title: "Error updating Enquiry",
@@ -819,6 +820,7 @@ export class EnquiryEditComponent implements OnInit {
         );
       }
       else {
+        this.isEnquirySubmit = false;
         let msg = {
           type: 'error',
           title: 'Invalid Time Input',
@@ -829,7 +831,7 @@ export class EnquiryEditComponent implements OnInit {
     }
     /* Do Nothing if the formData is Still Invalid  */
     else {
-
+      this.isEnquirySubmit = false;
     }
   }
 
@@ -1034,9 +1036,7 @@ export class EnquiryEditComponent implements OnInit {
       walkin_followUpTime: ''
     }
     this.course_standard_id = '-1'
-    this.selectedSubjectIds = [];
     this.course_mastercourse_id = '-1';
-    this.selectedCourseIds = [];
     this.hour = '';
     this.minute = '';
     this.meridian = '';
