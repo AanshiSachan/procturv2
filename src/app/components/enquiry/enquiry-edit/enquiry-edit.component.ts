@@ -56,6 +56,7 @@ export class EnquiryEditComponent implements OnInit {
     parent_name: "",
     parent_phone: "",
     parent_email: "",
+    master_course_name: "",
     city: -1,
     area: -1,
     occupation_id: "-1",
@@ -65,6 +66,7 @@ export class EnquiryEditComponent implements OnInit {
     enquiry_date: moment().format('YYYY-MM-DD'),
     standard_id: "-1",
     subject_id: "-1",
+    subjectIdArray: [],
     referred_by: "-1",
     source_id: "-1",
     fee_committed: "",
@@ -164,12 +166,20 @@ export class EnquiryEditComponent implements OnInit {
   isMainBranch: any = "N";
   branchesList: any = [];
   subBranchSelected: any = false;
+  course_standard_id: any = '-1';
+  course_subject: any[] = [];
+  course_mastercourse_id: any = '-1';
+  course_course: any[] = [];
+  masterCourseData: any[] = [];
+  selectedCourseIds: any = '';
+  selectedSubjectIds: any = '';
+
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
     private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute, private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
 
-      this.auth.institute_type.subscribe(
+    this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
           this.isProfessional = true;
@@ -245,13 +255,20 @@ export class EnquiryEditComponent implements OnInit {
   }
   /* set the enquiry feilds for Form */
   updateEnquiryData() {
-    //
     this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
     this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
     let id = this.institute_enquiry_id;
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
+        if(this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length){
+          this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el)});
+          this.selectedCourseIds = this.editEnqData.courseIdArray;
+        }
+        if(this.editEnqData.subjectIdArray != null && this.editEnqData.subjectIdArray.length){
+          this.editEnqData.subjectIdArray = this.editEnqData.subjectIdArray.map(el => { return parseInt(el)});
+          this.selectedSubjectIds = this.editEnqData.subjectIdArray;
+        }
         this.actualAssignee = data.assigned_to;
         this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
         if (data.followUpTime != '') {
@@ -265,6 +282,16 @@ export class EnquiryEditComponent implements OnInit {
         }
         this.updateCustomComponent(id);
         this.fetchSubject(this.editEnqData.standard_id);
+        if (!this.isProfessional) {
+          this.prefill.getMasterCourseData().subscribe(
+            res => {
+              this.masterCourseData = res;
+              this.courseMasterChange(this.editEnqData.master_course_name)
+            });
+        }
+        else if (this.isProfessional) {
+
+        }
         if (data.city != "" && data.city != null) {
           this.onCitySelctionChanges(data.city);
         }
@@ -273,7 +300,16 @@ export class EnquiryEditComponent implements OnInit {
         }
       });
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  fetchMasterCourseDetails() {
+    this.prefill.getMasterCourseData().subscribe(
+      res => {
+        this.masterCourseData = res;
+      });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getCustomComponents(): any[] {
     let tempArr: any[] = [];
     this.customComponents.forEach(e => {
@@ -375,15 +411,12 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to fetch prefill data for form creation */
   FetchEnquiryPrefilledData() {
 
-
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
       err => {
         //  console.log(err);
       }
     );
-
-
 
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
@@ -392,16 +425,12 @@ export class EnquiryEditComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
       err => {
         //  console.log(err); 
       }
     );
-
-
 
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
@@ -410,16 +439,12 @@ export class EnquiryEditComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
       err => {
         //  console.log(err);
       }
     );
-
-
 
     this.prefill.getSchoolDetails().subscribe(
       data => { this.school = data; },
@@ -428,16 +453,12 @@ export class EnquiryEditComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getLeadSource().subscribe(
       data => { this.sourceLead = data; },
       err => {
         //  console.log(err);
       }
     );
-
-
 
     this.prefill.getLeadReffered().subscribe(
       data => { this.refferedBy = data; },
@@ -446,16 +467,12 @@ export class EnquiryEditComponent implements OnInit {
       }
     );
 
-
-
     this.prefill.getOccupation().subscribe(
       data => { this.occupation = data; },
       err => {
         //  console.log(err);
       }
     );
-
-
 
     this.prefill.fetchLastDetail().subscribe(
       data => {
@@ -669,7 +686,6 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
     if (value != null && value != '' && value != '-1') {
-      //this.editEnqData.subject_id = '-1';
       this.enqSub = [];
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
@@ -680,6 +696,7 @@ export class EnquiryEditComponent implements OnInit {
     }
     else {
       this.editEnqData.subject_id = '-1';
+      this.editEnqData.subjectIdArray = [];
       this.enqSub = [];
     }
   }
@@ -735,8 +752,9 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
         this.editEnqData.enqCustomLi = this.getCustomComponents();
-        let dob = this.fetchDOB();
-        this.editEnqData.dob = dob;
+        this.editEnqData.dob = this.fetchDate(this.editEnqData.dob);
+        this.editEnqData.enquiry_date = this.fetchDate(this.editEnqData.enquiry_date);
+        this.editEnqData.followUpDate = this.fetchDate(this.editEnqData.followUpDate);
 
         /* isMainBranch,subBranchSelected */
         if (this.isMainBranch == "N" && this.subBranchSelected == false) {
@@ -747,7 +765,7 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.source_instituteId = this.editEnqData.source_instituteId;
         }
 
-        if(this.editEnqData.follow_type == "Walkin"){
+        if (this.editEnqData.follow_type == "Walkin") {
           this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
           this.editEnqData.walkin_followUpTime = this.getFollowupTime();
         }
@@ -767,7 +785,7 @@ export class EnquiryEditComponent implements OnInit {
                   phone: this.editEnqData.phone,
                   email: this.editEnqData.email,
                   gender: this.editEnqData.gender,
-                  dob: this.fetchDOB(),
+                  dob: this.fetchDate(this.editEnqData.dob),
                   parent_email: this.editEnqData.parent_email,
                   parent_name: this.editEnqData.parent_name,
                   parent_phone: this.editEnqData.parent_phone,
@@ -817,24 +835,24 @@ export class EnquiryEditComponent implements OnInit {
 
 
   getFollowupTime(): any {
-    let hour:any = parseInt(moment(new Date()).format('hh'));
-    let min:any = moment(new Date()).format('mm');
-    let mer:any = moment(new Date()).format('A');
+    let hour: any = parseInt(moment(new Date()).format('hh'));
+    let min: any = moment(new Date()).format('mm');
+    let mer: any = moment(new Date()).format('A');
 
-    if (parseInt(min)%5 != 0){
-      min = Math.ceil(parseInt(min)/5)*5;
-      if(min >= 60){
+    if (parseInt(min) % 5 != 0) {
+      min = Math.ceil(parseInt(min) / 5) * 5;
+      if (min >= 60) {
         min = '00';
-        if(hour == 12){
+        if (hour == 12) {
           hour = '1';
-          if(mer == 'AM'){
+          if (mer == 'AM') {
             mer = 'PM';
           }
-          else{
+          else {
             mer = 'AM';
           }
         }
-        else{
+        else {
           hour += 1;
           let formattedNumber = ("0" + hour).slice(-2);
           hour = formattedNumber.toString();
@@ -842,17 +860,17 @@ export class EnquiryEditComponent implements OnInit {
       }
     }
 
-    return (hour +":" +min +" " +mer);
+    return (hour + ":" + min + " " + mer);
   }
 
 
 
-  fetchDOB(): string {
-    if (this.editEnqData.dob == null || this.editEnqData.dob == '' || this.editEnqData.dob == "Invalid date") {
+  fetchDate(e): string {
+    if (e == null || e == '' || e == "Invalid date") {
       return '';
     }
     else {
-      return moment(this.editEnqData.dob).format('YYYY-MM-DD');
+      return moment(e).format('YYYY-MM-DD');
     }
   }
 
@@ -860,6 +878,9 @@ export class EnquiryEditComponent implements OnInit {
   validateTime(): boolean {
     /* some time selected by user or nothing*/
     if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
+      if(this.hour == "Invalid date"){ this.hour = '';}
+      if(this.minute == "Invalid date"){ this.minute = '';}
+      if(this.meridian == "INVALID DATE"){ this.meridian = '';}
       return true;
     }
     else {
@@ -983,12 +1004,14 @@ export class EnquiryEditComponent implements OnInit {
       area: -1,
       occupation_id: "-1",
       school_id: "-1",
+      master_course_name: "",
       qualification: "",
       grade: "",
       enquiry_date: moment().format('YYYY-MM-DD'),
       dob: '',
       standard_id: "-1",
       subject_id: "-1",
+      subjectIdArray: [],
       referred_by: "-1",
       source_id: "-1",
       fee_committed: "",
@@ -1010,6 +1033,13 @@ export class EnquiryEditComponent implements OnInit {
       walkin_followUpDate: '',
       walkin_followUpTime: ''
     }
+    this.course_standard_id = '-1'
+    this.selectedSubjectIds = [];
+    this.course_mastercourse_id = '-1';
+    this.selectedCourseIds = [];
+    this.hour = '';
+    this.minute = '';
+    this.meridian = '';
     this.customComponents.forEach(el => {
       el.value = '';
     });
@@ -1201,5 +1231,25 @@ export class EnquiryEditComponent implements OnInit {
       }
     );
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  courseMasterChange(e) {
+    if (e != '-1') {
+      this.masterCourseData.map(el => {
+        if (el.master_course == e) {
+          if (el.coursesList == null || el.coursesList.length == 0) {
+            this.course_course = [];
+          }
+          else {
+            this.course_course = el.coursesList;
+          }
+        }
+      });
+    }
+    else {
+      this.course_course = [];
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
 }

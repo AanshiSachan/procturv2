@@ -965,7 +965,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         priority: "",
         status: -1,
         follow_type: "",
-        followUpDate: this.searchBarDate,
+        followUpDate: moment(new Date()).format("YYYY-MM-DD"),
         enquiry_date: "",
         assigned_to: -1,
         standard_id: -1,

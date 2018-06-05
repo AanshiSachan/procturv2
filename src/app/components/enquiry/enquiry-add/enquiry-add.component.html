@@ -242,6 +242,7 @@
               </div>
               <div class="accordian-content">
                 <div class="form-type2">
+                  
                   <!-- school -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.school_id != '-1'}">
                     <label for="institutionName">Institution Name</label>
@@ -251,20 +252,15 @@
                         {{institute.school_name}}
                       </option>
                     </select>
-
                     <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+</a>
                   </div>
-                  <!-- standard -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
-
-
-                    <label *ngIf="!isProfessional" for="editStandard">Standard</label>
-                    <label *ngIf="isProfessional" for="editStandard">Master Course</label>
-                    <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
-
+                  
+                  <!-- standard Course-->
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': course_standard_id != '-1'}">
+                    <label for="editStandard">Standard</label>
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="course_standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
-
                     </select>
                     <div class="questionInfo">
                       <span class="qInfoIcon" style="margin-top:-12px;">?</span>
@@ -273,15 +269,13 @@
                       </div>
                     </div>
                   </div>
-                  <!-- subject -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.subject_id != '-1'}">
-                    <label *ngIf="!isProfessional" for="forSubject">Subject</label>
-                    <label *ngIf="isProfessional" for="forSubject">Course</label>
-                    <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" name="subject">
-                      <option value="-1"></option>
+
+                  <!-- subject Course -->
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': selectedSubjectIds != ''}">
+                    <label for="forSubject">Subject</label>
+                    <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="selectedSubjectIds" name="subject">
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
-
                     <div class="questionInfo">
                       <span class="qInfoIcon" style="margin-top:-12px;">?</span>
                       <div class="tooltip-box-field">
@@ -289,6 +283,47 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- masterCourse course -->
+                  <div *ngIf="!isProfessional" class="field-wrapper">
+                    <label for="editMc">Master Course</label>
+                    <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="course_mastercourse_id" (ngModelChange)="courseMasterChange($event)">
+                      <option value="-1"></option>
+                      <option *ngFor="let master of masterCourseData" [value]="master.master_course">{{master.master_course}}</option>
+                    </select>
+                  </div>
+
+                  <!-- course course-->
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': selectedCourseIds != ''}">
+                    <label for="editCC">Course</label>
+                    <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="selectedCourseIds" name="editCC" multiple>
+                      <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
+                    </select>
+                  </div>
+
+                  <!-- master Professional -->
+                  <div *ngIf="isProfessional" class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
+                    <label for="editStandard">Master Course</label>
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
+                      <option value="-1"></option>
+                      <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+                    </select>
+                    <div class="questionInfo">
+                      <span class="qInfoIcon" style="margin-top:-12px;">?</span>
+                      <div class="tooltip-box-field tooltip-size">
+                        Enquirer select a standard to fetch related subject
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- course Professional -->
+                  <div *ngIf="isProfessional" class="field-wrapper" [ngClass]="{'has-value': newEnqData.subjectIdArray != '-1'}">
+                    <label for="forSubject">Course</label>
+                    <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="newEnqData.subjectIdArray" name="subject" multiple>
+                      <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                    </select>
+                  </div>
+
                   <!-- custom -->
                   <custom-enquiry *ngFor="let component of customComponents;let i= index;">
 
@@ -356,6 +391,7 @@
                     </div>
 
                   </custom-enquiry>
+
                 </div>
               </div>
             </li>
