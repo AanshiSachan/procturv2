@@ -252,9 +252,9 @@
                   </div>
 
                   <!-- standard Course-->
-                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': this.editEnqData.standard_id != '-1'}">
+                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.standard_id != '-1'}">
                     <label for="editStandard">Standard</label>
-                    <select id="editStandard" class="form-ctrl" [(ngModel)]="this.editEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
@@ -283,7 +283,7 @@
                   <!-- masterCourse course -->
                   <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="editMc">Master Course</label>
-                    <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="this.editEnqData.master_course_name" (ngModelChange)="courseMasterChange($event)">
+                    <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="editEnqData.master_course_name" (ngModelChange)="courseMasterChange($event)">
                       <option value="-1"></option>
                       <option *ngFor="let master of masterCourseData" [value]="master.master_course">{{master.master_course}}</option>
                     </select>
