@@ -80,7 +80,7 @@ export class EnquiryAddComponent implements OnInit {
     master_course_name: "",
     demo_by_id: "",
     status: "0",
-    subjectIdArray: [],
+    subjectIdArray: null,
     assigned_to: sessionStorage.getItem('userid'),
     followUpTime: "",
     lead_id: -1,
@@ -152,8 +152,8 @@ export class EnquiryAddComponent implements OnInit {
   branchesList: any = [];
   subBranchSelected: any = false;
   masterCourseData: any[] = [];
-  selectedCourseIds: any = '';
-  selectedSubjectIds: any = '';
+  selectedCourseIds: any = null;
+  selectedSubjectIds: any = null;
   isEnquirySubmit:boolean = false;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -230,7 +230,7 @@ export class EnquiryAddComponent implements OnInit {
       enquiry_date: moment().format('YYYY-MM-DD'),
       standard_id: "-1",
       subject_id: "-1",
-      subjectIdArray: [],
+      subjectIdArray: null,
       referred_by: "-1",
       source_id: "-1",
       fee_committed: "",
@@ -662,7 +662,7 @@ export class EnquiryAddComponent implements OnInit {
     }
     else {
       this.newEnqData.subject_id = '-1';
-      this.newEnqData.subjectIdArray = [];
+      this.newEnqData.subjectIdArray = null;
       this.enqSub = [];
     }
 
@@ -691,7 +691,7 @@ export class EnquiryAddComponent implements OnInit {
       enquiry_date: moment().format('YYYY-MM-DD'),
       standard_id: "-1",
       subject_id: "-1",
-      subjectIdArray: [],
+      subjectIdArray: null,
       referred_by: "-1",
       source_id: "-1",
       fee_committed: "",
@@ -714,9 +714,9 @@ export class EnquiryAddComponent implements OnInit {
       walkin_followUpTime: ''
     };
     this.course_standard_id = '-1'
-    this.selectedSubjectIds = [];
+    this.selectedSubjectIds = null;
     this.course_mastercourse_id = '-1';
-    this.selectedCourseIds = [];
+    this.selectedCourseIds = null;
     this.enqSub = [];
     this.hour = '';
     this.minute = '';

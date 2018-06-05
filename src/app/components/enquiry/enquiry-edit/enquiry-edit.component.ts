@@ -66,7 +66,7 @@ export class EnquiryEditComponent implements OnInit {
     enquiry_date: moment().format('YYYY-MM-DD'),
     standard_id: "-1",
     subject_id: "-1",
-    subjectIdArray: [],
+    subjectIdArray: null,
     referred_by: "-1",
     source_id: "-1",
     fee_committed: "",
@@ -87,7 +87,8 @@ export class EnquiryEditComponent implements OnInit {
     enqCustomLi: [],
     source_instituteId: -1,
     walkin_followUpDate: '',
-    walkin_followUpTime: ''
+    walkin_followUpTime: '',
+    courseIdArray: null
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -769,6 +770,9 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.walkin_followUpTime = this.getFollowupTime();
         }
 
+
+
+        console.log(this.editEnqData);
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           data => {
             this.isEnquirySubmit = false;
