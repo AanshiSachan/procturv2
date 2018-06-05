@@ -852,6 +852,12 @@ div#enqChart {
     height: 100%;
 }
 
+.biometric-content{
+    position: relative;
+    width: auto;
+    height: 100%;
+}
+
 // css for activity page
 .activity-page {
     background: #f2f2f2;
@@ -923,6 +929,23 @@ div#enqChart {
     }
 }
 
+.dataFirst{
+   
+    width:20% !important;
+    height:250px !important;
+}
+
+.dataSecond{
+    
+    width:50% !important;
+    height:250px !important;
+}
+
+.dataThird{
+    
+    width:97% !important;
+    height:250px !important;
+}
 .actb-wrapper {
     display: flex;
     justify-content: space-between;

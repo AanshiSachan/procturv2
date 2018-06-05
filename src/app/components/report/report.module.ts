@@ -73,8 +73,7 @@ import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-rout
         searchPipe,
         arraySortPipe,
         BiometricComponent,
-        ReportWidgetComponent,
-        EnquiryReportComponent
+        ReportWidgetComponent
     ],
     entryComponents: [
         tableComponent,

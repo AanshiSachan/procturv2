@@ -45,7 +45,7 @@ export class AdminHomeComponent implements OnInit {
 
   is_notified: any = 'Y';
   public selectedRow: number = null;
-  public order: string[] = ['1', '2', '3', '4'];
+  public order: string[] = ['1', '2', '3', '4', '5'];
   public schedSelected: boolean = false;
   public isOptionVisible: boolean = false;
   public enquiryDate: any[] = [];
@@ -56,6 +56,7 @@ export class AdminHomeComponent implements OnInit {
   public homework: string = "";
   public studentAttList: any = [];
   public cancellationReason: string = '';
+  
   resheduleNotified: any = "Y";
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '15', '30', '45'];
@@ -175,9 +176,12 @@ export class AdminHomeComponent implements OnInit {
     device_status: 2
   }
   ]
-
+ 
   biometricEnable: string = "";
 
+
+  @ViewChild('ref')
+  private ref: ElementRef;
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -241,6 +245,7 @@ export class AdminHomeComponent implements OnInit {
       this.getOrder();
     });
 
+     
   }
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -265,6 +270,21 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
+  }
+
+  recieveData(event){
+    if(event.length == 1){
+      this.ref.nativeElement.className = "dataFirst";
+    }
+    else if(event.length == 2){
+      this.ref.nativeElement.className = "dataSecond";
+    }
+    else if(event.length == 0){
+      this.ref.nativeElement.className = "hide";
+    }
+    else{
+      this.ref.nativeElement.className = "dataThird";
+    }
   }
 
   fetchBiometricStatus() {

@@ -19,6 +19,7 @@ import { BiometricWidgetComponent } from './biometric-widget/biometric-widget.co
 import { BiometricStatusServiceService } from '../../services/biometric-status/biometric-status-service.service';
 import { BiometricMaterialWidgetComponent } from './biometric-material-widget/biometric-material-widget.component';
 
+
 @NgModule({
     imports: [
         FormsModule,

@@ -127,7 +127,14 @@ div {
         line-height: 0;
     }
 }
-
+.pulsate{
+    border: 1px solid #a79d9d8c;
+    /* display: inline-block; */
+    width: 24px;
+    margin: 1% 5%;
+    border-radius: 50%;
+    height:24px;
+}
 .people-list {
     width: 260px;
     float: left;
@@ -137,7 +144,44 @@ div {
         padding: 21px 8px;
     }
 }
-
+.general-s-bottom {
+    ul {
+        display: flex;
+        li {
+            padding: 26px 24px 18px;
+            label {
+                display: block;
+                color: rgba(102, 102, 102, 0.6);
+                font-size: 12px;
+                margin-bottom: 8px;
+                text-transform: uppercase;
+            }
+            a {
+                font-size: 18px;
+                font-weight: 600;
+                color: #0c8af6;
+            }
+            div {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1e2328;
+            }
+        }
+    }
+}
+.newState{
+    border: 1px solid #a79d9d8c;
+    /* border: 1px solid; */
+    display: inline-block;
+    /* margin: 3%; */
+    margin: 1%;
+    border-radius: 3%;
+    box-shadow: 4px 5px 5px #a79d9d8c;
+}
+.outer{
+    overflow:auto;
+    height:205px;
+}
 ul li {
     color: gray;
     text-align: left;

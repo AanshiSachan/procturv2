@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as Muuri from 'muuri/muuri';
 @Component({
-  selector: 'app-biometric-widget',
+  selector: 'biometric-widget',
   templateUrl: './biometric-widget.component.html',
   styleUrls: ['./biometric-widget.component.scss']
 })
@@ -20,34 +20,9 @@ biometricData = [{
   "deviceLocation": "UP",
   device_status: 1
 },
-{
-  "deviceId": "112",
-  "deviceFName": "Harvin Academy",
-  "serialNumber": "OIN7040057041300",
-  "ipAddress": "192.168.1.10",
-  "lastPing": 1527763822000,
-  "deviceLocation": "UP",
-  device_status: 2
-},
-{
-  "deviceId": "1122",
-  "deviceFName": "Harvin Academy",
-  "serialNumber": "OIN7040057041300",
-  "ipAddress": "192.168.1.10",
-  "lastPing": 1527763822000,
-  "deviceLocation": "UP",
-  device_status: 1
-},
-{
-  "deviceId": "1125",
-  "deviceFName": "Harvin Academy",
-  "serialNumber": "OIN7040057041300",
-  "ipAddress": "192.168.1.10",
-  "lastPing": 1527763822000,
-  "deviceLocation": "UP",
-  device_status: 2
-}
 ]
+
+@Output() changeWidth: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -72,11 +47,14 @@ biometricData = [{
     this.grid.on('dragEnd', (item, event) => {
       this.getOrder();
     });
-
+    this.sendDataToHome();
   }
 
   getOrder() {
     this.order = this.grid.getItems().map(item => item.getElement().getAttribute('data-id'));
   }
 
+  sendDataToHome(){
+    this.changeWidth.emit(this.biometricData);
+  }
 }

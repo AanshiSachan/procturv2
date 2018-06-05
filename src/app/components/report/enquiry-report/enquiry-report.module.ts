@@ -1,7 +1,7 @@
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { BsDatepickerModule } from "../../../../assets/imported_modules/ngx-bootstrap";
+import { BsDatepickerModule, TooltipModule } from "../../../../assets/imported_modules/ngx-bootstrap";
 import { ReferredByComponent } from "./referred-by/referred-by.component";
 import { SourceComponent } from "./source/source.component";
 import { CounsellorReportComponent } from "./counsellor-report/counsellor-report.component";
@@ -15,20 +15,27 @@ import { EnquiryReportComponent } from "./enquiry-report.component";
         ReactiveFormsModule,
         CommonModule,
         BsDatepickerModule,
+        TooltipModule.forRoot(),
         EnquiryReportRoutingModule
+    ],
+    exports: [
 
     ],
-    exports:[
-
+    entryComponents: [
+        EnquiryHomeComponent,
+        ReferredByComponent,
+        SourceComponent,
+        CounsellorReportComponent
     ],
-    declarations :[
+    declarations: [
         ReferredByComponent,
         SourceComponent,
         CounsellorReportComponent,
-        EnquiryHomeComponent
-    ]
+        EnquiryHomeComponent,
+        EnquiryReportComponent
+    ],
 })
 
-export class EnquiryReportModule{
+export class EnquiryReportModule {
 
 }
