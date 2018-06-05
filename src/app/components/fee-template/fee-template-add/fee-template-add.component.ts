@@ -437,7 +437,7 @@ export class FeeTemplateAddComponent implements OnInit {
   userChangeAdditionalFeeAmount(data, event) {
     let input = Math.floor(Number(event.currentTarget.value))
     if (data.service_tax > 0) {
-      let tax = Math.floor(input * 0.01 * data.service_tax);
+      let tax = Math.floor(input - Math.floor(Number(input) * 100 / (100 + data.service_tax)));
       data.initial_fee_amount = Math.floor(input - tax);
       if (Number(data.initial_fee_amount + tax) != input) {
         data.initial_fee_amount = Math.floor(data.initial_fee_amount + input - Number(data.initial_fee_amount + tax));
