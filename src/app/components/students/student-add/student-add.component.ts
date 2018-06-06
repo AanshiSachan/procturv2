@@ -1000,51 +1000,13 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* align the user selected batch into input and update the data into array to be updated to server */
-  assignBatch() {
-    let batchString: any[] = [];
-    this.studentAddFormData.assignedBatches = [];
-    this.studentAddFormData.batchJoiningDates = [];
-    this.studentAddFormData.assignedBatchescademicYearArray = [""];
-    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
-    for (let i in this.batchList) {
-      if (this.batchList[i].isSelected) {
-        if (this.batchList[i].assignDate != "" && this.batchList[i].assignDate != null && this.batchList[i].assignDate != "Invalid date") {
-          if (this.isProfessional) {
-            this.studentAddFormData.assignedBatches.push(this.batchList[i].data.batch_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(this.batchList[i].assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(this.batchList[i].data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(this.batchList[i].data.selected_fee_template_id);
-            batchString.push(this.batchList[i].data.batch_name);
-          }
-          else {
-            this.studentAddFormData.assignedBatches.push(this.batchList[i].data.course_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(this.batchList[i].assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(this.batchList[i].data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(this.batchList[i].data.selected_fee_template_id);
-            batchString.push(this.batchList[i].data.course_name);
-          }
-        }
-        else {
-          let alert = {
-            type: 'error',
-            title: 'Assign Date Required',
-            body: 'Please select a joining date for selected option'
-          }
-          this.appC.popToast(alert);
-        }
-      }
-    }
-
-    if (batchString.length != 0) {
-      document.getElementById('assignCoursesParent').classList.add('has-value');
-      this.assignedBatchString = batchString.join(',');
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
-    else {
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
+  getassignedBatchList(e){
+    this.studentAddFormData.assignedBatches = e.assignedBatches;
+    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
+    this.assignedBatchString = e.assignedBatchString;
+    this.isAssignBatch = e.isAssignBatch;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
