@@ -206,10 +206,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-    this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
-    if (this.biometricEnable == "1") {
-      this.fetchBiometricStatus();
-    }
+    
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {

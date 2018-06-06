@@ -8,6 +8,8 @@ import { CounsellorReportComponent } from "./counsellor-report/counsellor-report
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { EnquiryReportRoutingModule } from "./enquiry-report-routing.module";
 import { EnquiryReportComponent } from "./enquiry-report.component";
+import { CounsellorServiceService } from "../../../services/counsellor-service/counsellor-service.service";
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
     imports: [
@@ -16,7 +18,8 @@ import { EnquiryReportComponent } from "./enquiry-report.component";
         CommonModule,
         BsDatepickerModule,
         TooltipModule.forRoot(),
-        EnquiryReportRoutingModule
+        EnquiryReportRoutingModule,
+        SharedModule
     ],
     exports: [
 
@@ -32,8 +35,13 @@ import { EnquiryReportComponent } from "./enquiry-report.component";
         SourceComponent,
         CounsellorReportComponent,
         EnquiryHomeComponent,
-        EnquiryReportComponent
+        EnquiryReportComponent,
+        
     ],
+
+    providers : [
+        CounsellorServiceService
+    ]
 })
 
 export class EnquiryReportModule {

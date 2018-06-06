@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as Muuri from 'muuri/muuri';
+import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
 @Component({
   selector: 'biometric-widget',
   templateUrl: './biometric-widget.component.html',
@@ -10,7 +11,7 @@ export class BiometricWidgetComponent implements OnInit {
 
 public grid: any;
 public order: string[] = ['1', '2', '3', '4'];
-
+biometricEnable:string;
 biometricData = [{
   "deviceId": "111",
   "deviceFName": "Harvin Academy",
@@ -40,31 +41,39 @@ biometricData = [{
 }
 
 ]
+
+getTimeInterval:any;
+
 @Output() changeWidth: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor( private biometric :BiometricStatusServiceService) { }
 
   ngOnInit() {
-
-    this.grid = new Muuri('.grid', {
-      dragEnabled: false,
-      layout: {
-        fillGaps: true,
-        rounding: true
-      },
-      layoutOnResize: true,
-      layoutOnInit: false,
-      sortData: {
-        id: (item, element) => {
-          // return parseFloat(element.getAttribute('data-id'));
-          return this.order.indexOf(element.getAttribute('data-id'));
-        }
+    this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
+    
+      if (this.biometricEnable == "1") {
+        this.fetchBiometricStatus();
       }
-    });
-    this.grid.sort('id');
-    this.grid.on('dragEnd', (item, event) => {
-      this.getOrder();
-    });
+    
+    // this.grid = new Muuri('.grid', {
+    //   dragEnabled: false,
+    //   layout: {
+    //     fillGaps: true,
+    //     rounding: true
+    //   },
+    //   layoutOnResize: true,
+    //   layoutOnInit: false,
+    //   sortData: {
+    //     id: (item, element) => {
+    //       // return parseFloat(element.getAttribute('data-id'));
+    //       return this.order.indexOf(element.getAttribute('data-id'));
+    //     }
+    //   }
+    // });
+    // this.grid.sort('id');
+    // this.grid.on('dragEnd', (item, event) => {
+    //   this.getOrder();
+    // });
     this.sendDataToHome();
   }
 
@@ -72,7 +81,20 @@ biometricData = [{
     this.order = this.grid.getItems().map(item => item.getElement().getAttribute('data-id'));
   }
 
+  
+  
   sendDataToHome(){
     this.changeWidth.emit(this.biometricData);
+  }
+
+  fetchBiometricStatus() {
+    this.biometric.biometricStatus().subscribe(
+      (data: any) => {
+
+      },
+      (error: any) => {
+
+      }
+    )
   }
 }

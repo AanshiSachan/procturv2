@@ -937,14 +937,21 @@ div#enqChart {
 
 .dataSecond{
     
-    width:38% !important;
+    width:40% !important;
     height:250px !important;
 }
 
 .dataThird{
     
-    width:58% !important;
+    width:60% !important;
     height:250px !important;
+}
+
+.widthChange{
+    margin-left: 0px;
+    height: 250px;
+    display: block;
+    width:auto;
 }
 
 .dataLast{

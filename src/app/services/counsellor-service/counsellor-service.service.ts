@@ -40,5 +40,17 @@ export class CounsellorServiceService {
     )
   }
 
+  counsellorDetails(obj){
+    let url = this.baseUrl + "/api/v1/enquiry/report/" + this.institute_id;
+    return this.http.post(url , obj , {headers : this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
 
 }
