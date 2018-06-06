@@ -12,7 +12,6 @@ import { EmployeeService } from '../../../services/employee-service/employee.ser
 })
 export class HomeComponent implements OnInit {
 
-  isProfessional: boolean = false;
   employeeListDataSource: any = [];
   employeeList: any = [];
   PageIndex: number = 1;
@@ -23,11 +22,13 @@ export class HomeComponent implements OnInit {
   totalRow: number = 0;
   searchValue: string = '';
   selectedRow: number = null;
+  daysList: any = [];
+  tempData: any = "";
+  workingDayPopUp: boolean = false;
 
   constructor(
     private router: Router,
     private appC: AppComponent,
-    private auth: AuthenticatorService,
     private apiService: EmployeeService
   ) {
     if (sessionStorage.getItem('userid') == null) {
@@ -36,15 +37,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.institute_type.subscribe(
-      res => {
-        if (res == 'LANG') {
-          this.isProfessional = true;
-        } else {
-          this.isProfessional = false;
-        }
-      }
-    )
     this.fetchEmployeeList();
   }
 
@@ -57,6 +49,95 @@ export class HomeComponent implements OnInit {
         this.totalRow = res.length;
         this.dataStatus = 2;
         this.fetchTableDataByPage(this.PageIndex);
+      }
+    )
+  }
+
+  //Working Days PopUp 
+
+  manageWorkingDays(data) {
+    this.workingDayPopUp = true;
+    this.tempData = data;
+    if (this.daysList.length == 0) {
+      this.fetchWorkingDays(data)
+    } else {
+      setTimeout(() => {
+        this.makeTableJson(this.daysList, data);
+      }, 500)
+    }
+  }
+
+  fetchWorkingDays(data) {
+    this.apiService.getDaysList().subscribe(
+      res => {
+        this.daysList = res;
+        this.makeTableJson(res, data);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  makeTableJson(weekDays, data) {
+    let arr: any = [];
+    weekDays.map(
+      ele => {
+        if (data.workingDays.includes(ele.data_key)) {
+          if ((document.getElementById('idDay-' + ele.data_key).classList).contains('l-text')) {
+            document.getElementById('idDay-' + ele.data_key).classList.remove('l-text');
+            document.getElementById('idDay-' + ele.data_key).classList.add('p-text');
+          }
+        }
+      }
+    )
+  }
+
+  closePopup() {
+    this.workingDayPopUp = false;
+    this.tempData = "";
+  }
+
+  onWeekDaysSelection(event) {
+    if ((document.getElementById(event.target.id).classList).contains('l-text')) {
+      document.getElementById(event.target.id).classList.remove('l-text');
+      document.getElementById(event.target.id).classList.add('p-text');
+    } else {
+      document.getElementById(event.target.id).classList.add('l-text');
+      document.getElementById(event.target.id).classList.remove('p-text');
+    }
+  }
+
+  getSelectedDaysOfWeek() {
+    let arr = [];
+    let elementArray = document.getElementsByClassName('p-text');
+    for (let t = 0; t < elementArray.length; t++) {
+      arr.push(elementArray[t].id.split('-')[1].trim());
+    }
+    return arr;
+  }
+
+  updateEmployeeWorkingDays() {
+    let data: any = this.getSelectedDaysOfWeek();
+    if (data.length == 0) {
+      this.messageNotifier('warning', 'Warning', "You haven't selected any day");
+      data = "";
+    } else {
+      data = data.join(',');
+    }
+    let obj: any = {
+      emp_id: this.tempData.emp_id,
+      workingDays: data
+    };
+    this.apiService.updateWorkingDays(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Updated Successfully', 'Working days updated successfully');
+        this.fetchEmployeeList();
+        this.closePopup();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
       }
     )
   }
@@ -110,6 +191,15 @@ export class HomeComponent implements OnInit {
 
   rowSelectEvent(i) {
     this.selectedRow = i;
+  }
+
+  messageNotifier(type, title, msg) {
+    let data = {
+      type: type,
+      title: title,
+      body: msg
+    }
+    this.appC.popToast(data);
   }
 
 }

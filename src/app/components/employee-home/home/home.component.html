@@ -81,7 +81,7 @@
                                     <i class="fa fa-trash" aria-hidden="true" title="Delete" style="margin-right:5px"></i>Delete
                                 </a> -->
                             </td>
-                            <td class="anchorTags">
+                            <td class="anchorTags" (click)="manageWorkingDays(row)">
                                 <a class="anchorTagCursor">
                                     Edit
                                 </a>
@@ -118,3 +118,53 @@
     </section>
 
 </div>
+
+<proctur-popup *ngIf="workingDayPopUp">
+
+    <span class="closePopup pos-abs fbold show" (click)="closePopup()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header>Update Employee Working Days</h2>
+
+    <div popup-content>
+        <div class="row" style="margin: 10px 15px 10px 0px;">
+            <div class="c-sm-6 c-md-6 c-lg-6">
+                <span>Employee Name : {{tempData.emp_name}}</span>
+            </div>
+            <div class="c-sm-6 c-md-6 c-lg-6">
+                <span>Designation : {{tempData.designation_name}}</span>
+            </div>
+        </div>
+
+        <div id="divWeekDays" class="row side-circles" style="margin: 10px 15px;">
+            <span id="idDay-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday ">S</span>
+            <span id="idDay-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday ">M</span>
+            <span id="idDay-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday ">T</span>
+            <span id="idDay-3" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Wednesday ">W</span>
+            <span id="idDay-4" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Thursday ">T</span>
+            <span id="idDay-5" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Friday ">F</span>
+            <span id="idDay-6" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Saturday ">S</span>
+        </div>
+
+    </div>
+
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+                <input type="button" value="Update" class="fullBlue btn" (click)="updateEmployeeWorkingDays()">
+            </aside>
+        </div>
+    </div>
+
+</proctur-popup>

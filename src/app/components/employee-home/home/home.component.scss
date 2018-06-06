@@ -221,3 +221,31 @@ $color-highlight: lighten($color-base, 7%);
         transform: translate3d(100%, 0, 0);
     }
 }
+
+.side-circles span {
+    margin-right: 5px;
+}
+
+.l-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 12px;
+    display: inline-block;
+    padding: 6px;
+    text-align: center;
+}
+
+.l-text {
+    color: rgba(0, 0, 0, 0.7);
+    background: #fff;
+    font-weight: 700;
+    border: 1px solid rgba(25, 31, 34, 0.1568627450980392);
+}
+
+.p-text {
+    background: #0084f6;
+    color: #fff;
+    font-weight: 700;
+    padding: 7px 7px;
+}

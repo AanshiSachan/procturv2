@@ -35,6 +35,21 @@ export class EmployeeService {
         )
     }
 
+    getDaysList() {
+        let url = this.baseUrl + "/api/v1/masterData/type/DAY_OF_WEEK";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; }
+        )
+    }
+
+    updateWorkingDays(obj) {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/emp_manager/updateWorkingDays";
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res }
+        )
+    }
+
     //Add Edit Employee Api
 
 
