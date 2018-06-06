@@ -41,7 +41,16 @@ export class EmployeeService {
     addNewEmployee(obj) {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/emp_manager/create";
-        return this.http.post(url, obj, { headers: this.headers }).subscribe(
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    updateEmployee(obj) {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/emp_manager/update";
+        return this.http.put(url, obj, { headers: this.headers }).map(
             res => { return res },
             err => { return err }
         )

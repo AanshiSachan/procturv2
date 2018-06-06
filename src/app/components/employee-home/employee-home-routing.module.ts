@@ -22,6 +22,10 @@ import { AddEditEmployeeComponent } from './home/add-edit-employee/add-edit-empl
                         component: HomeComponent
                     },
                     {
+                        path: 'addedit',
+                        component: AddEditEmployeeComponent
+                    },
+                    {
                         path: 'addedit/:id',
                         component: AddEditEmployeeComponent
                     }

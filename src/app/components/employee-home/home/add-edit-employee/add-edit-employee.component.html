@@ -21,7 +21,6 @@
 
       <div class="field-wrapper">
         <label for="contNumber">Secondary Contact Number
-          <span style="color:red">*</span>
         </label>
         <input type="text" maxlength="10" class="form-ctrl" [(ngModel)]="employeeDetails.phone_sec" name="contNumber">
       </div>
@@ -40,6 +39,7 @@
 
       <div class="field-wrapper">
         <label for="CurrentAddress">Address
+          <span style="color:red">*</span>
         </label>
         <input type="text" class="form-ctrl" [(ngModel)]="employeeDetails.address" name="CurrentAddress">
       </div>
@@ -66,15 +66,36 @@
       </div>
 
       <div class="field-wrapper">
-        <label for="salary">Designation
+        <label for="ddnDesignation">Designation
+          <span style="color:red">*</span>
         </label>
-        <input type="text" class="form-ctrl" name="salary" [(ngModel)]="employeeDetails.user_id">
+        <select id="ddnDesignation" [disabled]="employeeId != '-1'" name="ddnDesignation" class="form-ctrl" [(ngModel)]="employeeDetails.designation"
+          (ngModelChange)="onDesignationChanges($event)">
+          <option value="-1"></option>user_id
+          <option [value]="des.data_key" *ngFor="let  des of designationList">
+            {{des.data_value}}
+          </option>
+        </select>
       </div>
 
-      <div class="row">
+      <div class="field-wrapper" #profileDiv>
+        <label for="ddnUser">User profile
+          <span style="color:red">*</span>
+        </label>
+        <select *ngIf="employeeId == '-1'" id="ddnUser" name="ddnUser" class="form-ctrl" [(ngModel)]="employeeDetails.user_id">
+          <option value="-1"></option>
+          <option [value]="des.userid" *ngFor="let  des of userListData">
+            {{des.name}}
+          </option>
+        </select>
+        <input type="text" *ngIf="employeeId != '-1'" class="form-ctrl" [(ngModel)]="employeeDetails.username">
+      </div>
+
+      <div class="row" style="margin-top:10px">
         <div class="pull-right">
           <button routerLink="/employee/home" class="btn">Cancel</button>
-          <button class="btn fullBlue" style="font-size: 16px;height: 40px;" type="submit">Save</button>
+          <button class="btn fullBlue" *ngIf="employeeId == '-1'" (click)="addNewEmployee()">Save</button>
+          <button class="btn fullBlue" *ngIf="employeeId != '-1'" (click)="upadateEmployeeDet()">Update</button>
         </div>
       </div>
     </div>
