@@ -29,7 +29,7 @@
     <div class="c-lg-8 c-sm-8 c-md-8">
       <div class="row create-standard-field">
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.standard_id != '-1'}">
+        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
           <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
             <span style="color:red">*</span>
           </label>
@@ -46,7 +46,7 @@
           <p>* Example English, Science</p>
         </div>
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.subject_name != ''}">
+        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
           <label *ngIf="(isLangInstitue != true )" for="subname">
             Subject Name
           </label>
@@ -59,17 +59,18 @@
           <p>(Eg. Maths or Science or Accounts)</p>
         </div>
 
-        <div class="field-checkbox-wrapper c-lg-4 c-sm-4 c-md-4">
-
-          <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active" id="isAct">
-          <label for="isAct">Is Active</label>
+        <div class="c-lg-4 c-sm-4 c-md-4" style="padding-top: 10px">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active" id="isAct">
+            <label for="isAct">Is Active</label>
+          </div>
         </div>
 
       </div>
     </div>
-    <div class="c-lg-4 c-sm-4 c-md-4 pull-right">
-      <aside class="pull-left create-cancel-small">
-        <input type="button" value="Cancel" class="btn" style="font-size: 16px;height: 40px;" (click)="toggleCreateNewSubject()">
+    <div class="c-lg-4 c-sm-4 c-md-4" style="padding-top: 20px">
+      <aside class="">
+        <input type="button" value="Cancel" class="btn" (click)="toggleCreateNewSubject()">
         <input type="button" value="Create" class="btn fullBlue" (click)="addNewSubject()">
       </aside>
     </div>

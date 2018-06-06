@@ -17,17 +17,16 @@
     <div *ngIf="divCreateNewCourse" class="create-standard-form wrapperForm">
       <div class="row" style="margin-left:20px">
         <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.master_course_name != ''}">
+          <div class="field-wrapper">
             <label for="idMasterCourse">Master Course
               <span style="color:red">*</span>
             </label>
             <input type="text" id="idMasterCourse" #masterCourseInput name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name"
               class="form-ctrl" />
-
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.standard_id != '-1'}">
+          <div class="field-wrapper">
             <label for="idStandardName">Standard Name
               <span style="color:red">*</span>
             </label>
@@ -40,8 +39,8 @@
 
           </div>
         </div>
-        <div class="c-lg-3 c-md-3 c-sm-3">
-          <input type="button" value="Go" class="btn fullBlue" style="margin-top: 7%" (click)="btnGoClickCreateCourse()">
+        <div class="c-lg-3 c-md-3 c-sm-3" style="margin-top: 25px">
+          <input type="button" value="Go" class="btn fullBlue" (click)="btnGoClickCreateCourse()">
         </div>
       </div>
 
