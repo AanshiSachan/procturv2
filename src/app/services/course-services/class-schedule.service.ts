@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
-import { error } from 'util';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
 
 @Injectable()
 export class ClassScheduleService {
@@ -27,8 +22,6 @@ export class ClassScheduleService {
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
         });
-        // this.institute_id = this.auth.getInstituteId();
-        // this.Authorization = this.auth.getAuthToken();
         this.baseURL = this.auth.getBaseUrl();
     }
 
@@ -321,7 +314,7 @@ export class ClassScheduleService {
     }
 
     getCombinedDataFromServer(standard_id, subject_id) {
-        let url = this.baseURL + "/api/v1/batches/fetchCombinedBatchData/"+this.institute_id +"?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=N";
+        let url = this.baseURL + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=N";
         return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
@@ -341,7 +334,15 @@ export class ClassScheduleService {
         )
     }
 
+    ///// Change Teacher 
 
+    changeClassTeacher(obj) {
+        let url = this.baseURL + "/api/v1/coursePlanner";
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
 
 
 

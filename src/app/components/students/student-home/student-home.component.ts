@@ -141,13 +141,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
-        if(e.action == undefined ||e.action == undefined || e.action == ''){
+        if (e.action == undefined || e.action == undefined || e.action == '') {
           this.router.navigate(['/student/edit/' + e.id]);
         }
-        else{
+        else {
           switch (e.action) {
             case 'studentEdit': {
-              this.router.navigate(['/student/edit/' + e.id]);              
+              this.router.navigate(['/student/edit/' + e.id]);
               break;
             }
             case 'studentFee': {
@@ -178,7 +178,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
               this.isProfessional = false;
             }
           }
-        )    
+        )
         if (this.isProfessional) {
           this.StudentSettings = [
             { primaryKey: 'student_disp_id', header: 'Student Id' },
@@ -409,10 +409,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   deleteStudentOpen(row) {
     this.selectedRow = row;
-    if(this.selectedRow.noOfBatchesAssigned == 0){
+    if (this.selectedRow.noOfBatchesAssigned == 0) {
       this.isDeleteStudentPrompt = true;
     }
-    else{
+    else {
       let msg = {
         type: 'error',
         title: "Unable to Delete Student",
@@ -591,7 +591,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
 
     this.studentFetch.downloadStudentTableasXls(this.instituteData).subscribe(
-      res => {
+      (res: any) => {
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;

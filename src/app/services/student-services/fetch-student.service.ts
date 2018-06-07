@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
-import { HttpRequest, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpRequest, HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { instituteInfo } from '../../model/instituteinfo';
 import { Students } from '../../model/student-data';
 import { Observable } from 'rxjs/Observable';
@@ -20,22 +19,18 @@ export class FetchStudentService {
   baseUrl: string = '';
   authorization: string;
   institute_id: number;
-  headers: Headers;
+  headers: any;
 
-  constructor(private http: Http, private auth: AuthenticatorService) {
-    this.auth.currentAuthKey.subscribe( key => {
+  constructor(private http: HttpClient, private auth: AuthenticatorService) {
+    this.auth.currentAuthKey.subscribe(key => {
       this.authorization = key;
-      this.headers = new Headers();
-      this.headers.append("Content-Type", "application/json");
-      this.headers.append("Authorization", this.authorization);
-    }) 
-    this.auth.currentInstituteId.subscribe( id => {
+      this.headers = new HttpHeaders(
+        { "Content-Type": "application/json", "Authorization": this.authorization });
+    })
+    this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
-    // this.authorization = this.auth.getAuthToken();
-    // this.institute_id = this.auth.getInstituteId();
     this.baseUrl = this.auth.getBaseUrl();
-
   }
 
   fetchAllStudentDetails(instituteData: instituteInfo): any {
@@ -44,7 +39,7 @@ export class FetchStudentService {
     let urlStudentList = this.baseUrl + "/api/v1/students/manage/v2/" + this.institute_id;
     return this.http.post(urlStudentList, instituteData, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       });
   }
 
@@ -53,10 +48,10 @@ export class FetchStudentService {
 
     return this.http.post(urlDownloadXlsStudent, form, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
 
@@ -68,7 +63,7 @@ export class FetchStudentService {
 
     return this.http.get(urlStudentId, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       }
     )
   }
@@ -79,7 +74,7 @@ export class FetchStudentService {
     let obj = { func_type: "studentBulkUpload" };
 
     return this.http.post(urlstudentReport, obj, { headers: this.headers }).map(
-      res => { return res.json() }
+      res => { return res }
     )
   }
 
@@ -89,7 +84,7 @@ export class FetchStudentService {
 
     return this.http.get(urlStudentUploadTemplate, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       }
     )
 
@@ -101,11 +96,11 @@ export class FetchStudentService {
 
     return this.http.get(urlFeeById, { headers: this.headers }).map(
       res => {
-        this.studentFees = res.json();
-        return res.json();
+        this.studentFees = res;
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       })
   }
 
@@ -118,8 +113,8 @@ export class FetchStudentService {
     let url = this.baseUrl + "/api/v1/bulkUpload/100058/success/download/" + id;
 
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     );
 
   }
@@ -129,8 +124,8 @@ export class FetchStudentService {
     let url = this.baseUrl + "/api/v1/bulkUpload/100058/download/" + id;
 
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     );
 
   }
@@ -141,8 +136,8 @@ export class FetchStudentService {
     let url = this.baseUrl + "/api/v1/studentleaves/" + id;
 
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     );
   }
 
@@ -150,10 +145,10 @@ export class FetchStudentService {
     let url = this.baseUrl + "/api/v1/studentleaves";
     return this.http.post(url, obj, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -162,36 +157,36 @@ export class FetchStudentService {
     let url = this.baseUrl + "/api/v1/studentleaves/cancel/" + id;
     return this.http.delete(url, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
 
-  getFeeReceiptById(sid,id, yr) {
-    let url = this.baseUrl + "/api/v1/studentWise/fee/" +sid + "/feeReceipt/" + id + "/download"
+  getFeeReceiptById(sid, id, yr) {
+    let url = this.baseUrl + "/api/v1/studentWise/fee/" + sid + "/feeReceipt/" + id + "/download"
     //?fin_yr=17-18;
     return this.http.get(url, { headers: this.headers }).map(
       res => {
         return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
 
-  emailReceiptById(sid,id, yr): any {
-    let url =this.baseUrl +"/api/v1/studentWise/fee/"+sid +"/feeReceipt/" +id +"/download?emailSent=Y";
+  emailReceiptById(sid, id, yr): any {
+    let url = this.baseUrl + "/api/v1/studentWise/fee/" + sid + "/feeReceipt/" + id + "/download?emailSent=Y";
     //fin_yr=18-19& 
-    return this.http.get(url, {headers: this.headers}).map(
+    return this.http.get(url, { headers: this.headers }).map(
       res => {
         return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }

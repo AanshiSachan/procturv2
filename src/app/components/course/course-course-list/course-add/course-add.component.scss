@@ -200,3 +200,56 @@
         height: 7px;
     }
 }
+
+.add-section-wrapper {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    .name-section {
+        margin-bottom: 5px;
+    }
+    .table-section {
+        margin-top: 5px;
+        max-height: 200px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
+        }
+        table {
+            max-height: 190px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            tr {
+                td {
+                    padding: 0px 0px !important;
+                    .field-wrapper {
+                        width: 200px;
+                        padding: 5px 0px !important;
+                        .form-ctrl {
+                            height: 25px !important;
+                            padding: 0px 0px !important;
+                        }
+                    }
+                    .field-checkbox-wrapper {
+                        margin-left: 20px !important;
+                        margin-bottom: 0px !important;
+                    }
+                }
+            }
+        }
+    }
+    .btn-section {
+        margin-top: 5px;
+        .btn {
+            &.fullBlue {
+                margin-right: 25px;
+            }
+        }
+    }
+}
+
+.main-Table-Wrapper {
+    margin-top: 10px;
+}

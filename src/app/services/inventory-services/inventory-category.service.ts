@@ -24,7 +24,6 @@ export class InventoryCategoryService {
     this.auth.currentInstituteId.subscribe( id => {
       this.institute_id = id;
     });
-    // this.Authorization = this.auth.getAuthToken();
     this.baseUrl = this.auth.getBaseUrl();
 
   } 
@@ -59,7 +58,6 @@ export class InventoryCategoryService {
 
   // to update the existing row
   updateExisting(data: any){
-
     let url = this.baseUrl + '/api/v1/inventory/category';
     return this.http.put(url, data, { headers: this.headers }).map(
       success => {

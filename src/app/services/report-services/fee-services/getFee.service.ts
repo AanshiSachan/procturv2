@@ -2,10 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../../authenticator.service";
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
 
 @Injectable()
 export class GetFeeService {
@@ -30,10 +26,8 @@ export class GetFeeService {
 
 
     fetchLastMonthFee(obj): Observable<any> {
-
         let url = this.baseUrl + "/api/v1/studentWise/fee/students/highChartsRender";
-
-        return this.http.post(url, obj, {headers: this.headers}).map(
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
             },
@@ -41,7 +35,6 @@ export class GetFeeService {
                 return err;
             }
         )
-
     }
 
     getPaymentHistory(id): Observable<any> {
@@ -53,62 +46,44 @@ export class GetFeeService {
     }
 
     getBatchDetails(obj): Observable<any> {
-
-        let url = this.baseUrl + '/api/v1/batches/fetchCombinedBatchData/' + this.institute_id + '?standard_id=' + obj.standard_id + '&subject_id=' + obj.subject_id + '&assigned=N'
-
+        let url = this.baseUrl + '/api/v1/batches/fetchCombinedBatchData/' + this.institute_id + '?standard_id=' + obj.standard_id + '&subject_id=' + obj.subject_id + '&assigned=N';
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
-
     }
 
     getCourseData(id): Observable<any> {
-
         let url = this.baseUrl + '/api/v1/courseMaster/fetch/' + this.institute_id + '/' + id;
-
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
-
     }
 
-
     getMasterCourses(): Observable<any> {
-
         let url = this.baseUrl + '/api/v1/courseMaster/fetch/' + this.institute_id + '/all'
-
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
-
     }
 
     getFeeReportData(obj): Observable<any> {
-
         let url = this.baseUrl + '/api/v1/studentWise/fee/students/' + this.institute_id
-
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
-
     }
 
-
     getinstallmentData(): Observable<any> {
-
         let url = this.baseUrl + '/api/v1/studentWise/fee/fetchInstallments/' + this.institute_id;
-
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
-
     }
-
 
     getFeeReceipts(id): Observable<any> {
         let url = this.baseUrl + "/api/v1/studentWise/fee/feesReport/feeReceipts/" + this.institute_id + "/" + id;
@@ -128,7 +103,6 @@ export class GetFeeService {
 
     getFutureDues(id): Observable<any> {
         let url = this.baseUrl + "/api/v1/studentWise/fee/feesReport/futureDues/" + this.institute_id + "/" + id;
-
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }

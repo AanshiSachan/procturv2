@@ -29,47 +29,48 @@
     <div class="c-lg-8 c-sm-8 c-md-8">
       <div class="row create-standard-field">
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.standard_id != '-1'}">
-            <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
-                <span style="color:red">*</span>
-              </label>
-              <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
-                <span style="color:red">*</span>
-              </label>
+        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
+          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
+            <span style="color:red">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
+            <span style="color:red">*</span>
+          </label>
           <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
             <option value="-1"> </option>
             <option *ngFor="let opt of standardList" [value]="opt.standard_id">
               {{opt.standard_name}}
             </option>
           </select>
-          
+
           <p>* Example English, Science</p>
         </div>
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.subject_name != ''}">
-            <label *ngIf="(isLangInstitue != true )" for="subname">
-                Subject Name
-              </label>
-              <label *ngIf="(isLangInstitue == true )" for="subname">
-                Course Name
-                <span style="color:red">*</span>
-              </label>
+        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
+          <label *ngIf="(isLangInstitue != true )" for="subname">
+            Subject Name
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="subname">
+            Course Name
+            <span style="color:red">*</span>
+          </label>
           <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
-          
+
           <p>(Eg. Maths or Science or Accounts)</p>
         </div>
 
-        <div class="field-checkbox-wrapper c-lg-4 c-sm-4 c-md-4">
-           
-          <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active" id="isAct">
-          <label for="isAct">Is Active</label>
+        <div class="c-lg-4 c-sm-4 c-md-4" style="padding-top: 10px">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active" id="isAct">
+            <label for="isAct">Is Active</label>
+          </div>
         </div>
 
       </div>
     </div>
-    <div class="c-lg-4 c-sm-4 c-md-4 pull-right">
-      <aside class="pull-left create-cancel-small">
-        <input type="button" value="Cancel" class="btn" style="font-size: 16px;height: 40px;" (click)="toggleCreateNewSubject()">
+    <div class="c-lg-4 c-sm-4 c-md-4" style="padding-top: 20px">
+      <aside class="">
+        <input type="button" value="Cancel" class="btn" (click)="toggleCreateNewSubject()">
         <input type="button" value="Create" class="btn fullBlue" (click)="addNewSubject()">
       </aside>
     </div>
@@ -128,7 +129,7 @@
             </td>
             <td class="edit-comp">
               <div class="field-wrapper has-value">
-                <select id="issearchable" class="form-ctrl" name="issearchable" style="margin:auto" [(ngModel)]="row.is_active" (focus)="inputClickedCheck($event)">
+                <select id="issearchable" class="form-ctrl" name="issearchable" style="margin:auto" [(ngModel)]="row.is_active">
                   <option value="Y">Yes</option>
                   <option value="N">No</option>
                 </select>

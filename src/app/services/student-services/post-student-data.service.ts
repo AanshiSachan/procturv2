@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service';
 
@@ -14,23 +11,19 @@ export class PostStudentDataService {
 
     authorization: string;
     institute_id: number;
-    headers: Headers;
+    headers: any;
     baseUrl: string = '';
 
-    constructor(private http: Http, private auth: AuthenticatorService) {
+    constructor(private http: HttpClient, private auth: AuthenticatorService) {
         this.auth.currentAuthKey.subscribe(key => {
             this.authorization = key;
-            this.headers = new Headers();
-            this.headers.append("Content-Type", "application/json");
-            this.headers.append("Authorization", this.authorization);
+            this.headers = new HttpHeaders(
+                { "Content-Type": "application/json", "Authorization": this.authorization });
         })
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
         });
-        // this.authorization = this.auth.getAuthToken();
-        // this.institute_id = this.auth.getInstituteId();
         this.baseUrl = this.auth.getBaseUrl();
-
     }
 
     quickAddStudent(form) {
@@ -41,10 +34,10 @@ export class PostStudentDataService {
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
         return this.http.post(urlQuickAdd, form, { headers: this.headers }).map(
             res => {
-                return res.json();
+                return res;
             },
             err => {
-                return err.json();
+                return err;
             }
         )
     }
@@ -58,10 +51,10 @@ export class PostStudentDataService {
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
         return this.http.put(urlQuickEdit, form, { headers: this.headers }).map(
             res => {
-                return res.json();
+                return res;
             },
             err => {
-                return err.json();
+                return err;
             }
         )
     }
@@ -71,8 +64,8 @@ export class PostStudentDataService {
         let urlDeleteStudent = this.baseUrl + '/api/v1/archive/students';
 
         return this.http.post(urlDeleteStudent, obj, { headers: this.headers }).map(
-            res => { return res.json() },
-            err => { return err.json() }
+            res => { return res },
+            err => { return err }
         )
     }
 
@@ -81,8 +74,8 @@ export class PostStudentDataService {
         let urlUpdateComment = this.baseUrl + '/api/v1/students/comment/' + id;
 
         return this.http.put(urlUpdateComment, obj, { headers: this.headers }).map(
-            res => { return res.json() },
-            err => { return err.json() }
+            res => { return res },
+            err => { return err }
         )
     }
 
@@ -98,7 +91,7 @@ export class PostStudentDataService {
         }
 
         return this.http.put(urlInstituteUpdater, data, { headers: this.headers }).map(
-            res => { return res.json(); }
+            res => { return res }
         )
 
     }
@@ -110,7 +103,7 @@ export class PostStudentDataService {
         let urlInstituteDeleter = this.baseUrl + "/api/v1/schools/" + id;
 
         return this.http.delete(urlInstituteDeleter, { headers: this.headers }).map(
-            res => { return res.json(); }
+            res => { return res; }
         )
     }
 
@@ -122,10 +115,10 @@ export class PostStudentDataService {
 
         return this.http.post(urlInventory, obj, { headers: this.headers }).map(
             res => {
-                return res.json();
+                return res;
             },
             err => {
-                return err.json();
+                return err;
             }
         );
     }
@@ -138,10 +131,10 @@ export class PostStudentDataService {
 
         return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).map(
             res => {
-                return res.json();
+                return res;
             },
             err => {
-                return err.json();
+                return err;
             });
     }
 
@@ -150,8 +143,8 @@ export class PostStudentDataService {
         let urlAddCheque: string = this.baseUrl + "/api/v1/student_cheque/createList";
 
         return this.http.post(urlAddCheque, obj, { headers: this.headers }).map(
-            res => { return res.json(); },
-            err => { return err.json(); }
+            res => { return res; },
+            err => { return err; }
         )
     }
 
@@ -161,8 +154,8 @@ export class PostStudentDataService {
         let urlUpdateFee = this.baseUrl + "/api/v1/student_cheque/update";
 
         return this.http.put(urlUpdateFee, obj, { headers: this.headers }).map(
-            res => { return res.json(); },
-            err => { return err.json(); }
+            res => { return res },
+            err => { return err }
         )
     }
 
@@ -170,8 +163,8 @@ export class PostStudentDataService {
     deletePdcById(id): Observable<any> {
         let urlDeletePdc = this.baseUrl + "/api/v1/student_cheque/delete/" + this.institute_id + "/" + id;
         return this.http.delete(urlDeletePdc, { headers: this.headers }).map(
-            res => { return res.json(); },
-            err => { return err.json(); }
+            res => { return res },
+            err => { return err }
         )
     }
 
@@ -179,8 +172,8 @@ export class PostStudentDataService {
     generateAcknowledge(chid, id, email): Observable<any> {
         let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + chid + "&sendEmail=" + email;
         return this.http.post(urlsend, null, { headers: this.headers }).map(
-            res => { return res.json(); },
-            err => { return err.json(); }
+            res => { return res },
+            err => { return err }
         )
     }
 
@@ -188,8 +181,8 @@ export class PostStudentDataService {
         let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + chid + "&sendEmail=Y";
 
         return this.http.post(urlsend, null, { headers: this.headers }).map(
-            res => { return res.json(); },
-            err => { return err.json(); }
+            res => { return res },
+            err => { return err }
         )
     }
 
@@ -197,8 +190,8 @@ export class PostStudentDataService {
         let urlPostXlsDocument = this.baseUrl + "/api/v1/students/studentBulkUploadV2";
 
         return this.http.post(urlPostXlsDocument, obj, { headers: this.headers }).map(
-            res => { return res.json(); },
-            err => { return err.json(); }
+            res => { return res },
+            err => { return err }
         )
     }
 
@@ -218,7 +211,7 @@ export class PostStudentDataService {
         let url = this.baseUrl + "/api/v1/studentWise/fee/students/" + this.institute_id + "/save";
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
-                return res.json();
+                return res;
             },
             err => {
                 return err;
