@@ -217,6 +217,8 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
+    this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
+
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.fetchWidgetPrefill();
@@ -273,10 +275,13 @@ export class AdminHomeComponent implements OnInit {
     if(event.length == 1){
       this.ref.nativeElement.className = "dataFirst";
     }
+    else if(event.length == 0){
+      this.ref.nativeElement.className = "dataZero";
+    }
     else if(event.length == 2){
       this.ref.nativeElement.className = "dataSecond";
     }
-    else if(event.length == 0){
+    else if(this.biometricEnable == "0"){
       this.ref.nativeElement.className = "hide";
     }
     else if(event.length == 3){

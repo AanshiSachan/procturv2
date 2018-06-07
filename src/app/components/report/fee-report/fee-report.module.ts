@@ -4,9 +4,6 @@ import { CommonModule } from '@angular/common';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from '../../shared/shared.module';
-import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { TooltipModule } from '../../../../assets/imported_modules/ngx-bootstrap/tooltip';
-
 
 import { FeeReportComponent } from './fee-report.component';
 import { FeeCourseReportComponent } from './fee-course-report/fee-course-report.component';
@@ -42,9 +39,6 @@ import { OnlinePaymentServiceService } from '../../../services/online-payment/on
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BsDatepickerModule,
-        TooltipModule.forRoot(),
-        SharedModule,
         FeeReportRoutingModule,
         SplitButtonModule,
         MenuModule,
