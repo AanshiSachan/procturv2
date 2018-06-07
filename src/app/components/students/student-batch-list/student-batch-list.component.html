@@ -18,12 +18,24 @@
 
     <div class="batch-wrapper" popup-content>
         <div style="margin-bottom: 10px;" class="row">
-            <div class="c-lg-6"></div>
             <div class="c-lg-6">
-                <div class="c-lg-6"></div>
+                <p style="padding: 20px 10px 0px;">* Fee will be mapped automatically if fee schedules are defined at course level.</p>
+            </div>
+            <div class="c-lg-6">
+                <div class="c-lg-6">
+                    <div *ngIf="!isProfessional" class="field-wrapper header-select">
+                        <select name="" id="" [(ngModel)]="currentStd" (ngModelChange)="fetchDataCustom($event)" class="form-ctrl">
+                            <option value="-1">Select Standard</option>
+                            <option [value]="standard.standard_id" *ngFor="let standard of standardList">
+                                {{standard.standard_name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
                 <div class="c-lg-6">
                     <div class="field-wrapper">
                         <input type="text" name="" class="form-ctrl" [ngModel]="model" (ngModelChange)="changed($event)" placeholder="Search" id="">
+
                     </div>
                 </div>
             </div>
@@ -57,26 +69,26 @@
                         </td>
 
                         <td *ngIf="!isProfessional">{{batch.data.master_course}}</td>
-                        
+
                         <td *ngIf="!isProfessional">{{batch.data.course_name}}</td>
-                        
+
                         <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
-                        
+
                         <td *ngIf="!isProfessional">{{batch.data.end_date}}</td>
 
                         <td *ngIf="isProfessional">{{batch.data.batch_name}}</td>
-                        
+
                         <td *ngIf="isProfessional">{{batch.data.start_date}}</td>
-                        
+
                         <td *ngIf="isProfessional">{{batch.data.end_date}}</td>
-                        
+
                         <td>
                             <div class="field-wrapper datePickerBox has-value">
                                 <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" readonly="true" class="form-ctrl bsDatepicker"
                                     bsDatepicker>
                             </div>
                         </td>
-                        
+
                         <td>
                             <div class="field-wrapper">
                                 <select name="acadyr" id="acadyr" [(ngModel)]="batch.data.academic_year_id" class="form-ctrl">
@@ -84,7 +96,7 @@
                                 </select>
                             </div>
                         </td>
-                        
+
                         <td>
                             <div class="field-wrapper">
                                 <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl">

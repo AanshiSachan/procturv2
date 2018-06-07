@@ -922,9 +922,8 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
-  
   <student-batch-list [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)" *ngIf="isAssignBatch" [dataList]="batchList"
-  [isEdit]="true" [academicYear]="academicYear"></student-batch-list>
+  [isEdit]="true" [standardList]="standardList" [academicYear]="academicYear"></student-batch-list>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->

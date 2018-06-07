@@ -943,7 +943,7 @@
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
   <student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)" *ngIf="isAssignBatch" [dataList]="batchList"
-  [academicYear]="academicYear"></student-batch-list>
+  [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear" [standardList]="standardList"></student-batch-list>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Duplicate Contact =============================== -->

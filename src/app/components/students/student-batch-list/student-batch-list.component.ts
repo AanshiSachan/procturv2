@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable'
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { templateJitUrl } from '@angular/compiler';
 
 @Component({
     selector: 'student-batch-list',
@@ -23,6 +24,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     @Input() academicYear: any[] = [];
     @Input() assignedBatches: any;
     @Input() isEdit: boolean = false;
+    @Input() standardList: any[] = [];
+    @Input() defaultAcadYear: any;
+
 
     @Output() assignList = new EventEmitter<any>();
     @Output() closeBatch = new EventEmitter<boolean>();
@@ -30,6 +34,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     batchList: any[] = [];
     model: string;
     modelChanged: Subject<string> = new Subject<string>();
+    currentStd: string = '-1';
 
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eRef: ElementRef, private appC: AppComponent, private studentPrefillService: AddStudentPrefillService, private auth: AuthenticatorService) {
         this.auth.institute_type.subscribe(
@@ -207,14 +212,118 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     }
                 });
             }
+            this.cd.markForCheck();
             this.batchList = temp;
             this.cd.markForCheck();
         }
         else {
             this.cd.markForCheck();
             this.batchList = this.dataList;
+            this.cd.markForCheck();
         }
     }
-    
 
+    fetchDataCustom(id) {
+        if (id == '-1') {
+            this.batchList = this.dataList;
+        }
+        else {
+            this.cd.markForCheck();
+            this.cd.detectChanges();
+            this.getResult(id);
+        }
+    }
+
+    getResult(id) {
+        let temp: any[] = [];
+        this.batchList = [];
+        if (!this.isProfessional) {
+            this.studentPrefillService.fetchCourseMasterById(id).subscribe(
+                (data: any) => {
+                    this.cd.markForCheck();
+                    this.cd.detectChanges();
+                    if (data.coursesList != null && data.coursesList != 0) {
+                        data.coursesList.forEach(el => {
+                            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                                el.feeTemplateList.forEach(e => {
+                                    if (e.is_default == 1) {
+                                        el.selected_fee_template_id = e.template_id;
+                                    }
+                                })
+                            }
+                            if (el.academic_year_id == '-1') {
+                                el.academic_year_id = this.defaultAcadYear;
+                            }
+                            let obj = {
+                                isSelected: false,
+                                data: el,
+                                assignDate: moment().format('YYYY-MM-DD')
+                            }
+                            temp.push(obj);
+                        });
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                        this.batchList = temp;
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                    }
+                },
+                err => {
+                    this.cd.markForCheck();
+                    this.cd.detectChanges();
+                    this.batchList = temp;
+                    let al = {
+                        type: 'error',
+                        title: err.error.message,
+                        body: ''
+                    }
+                    this.appC.popToast(al);
+                    this.cd.markForCheck();
+                    this.cd.detectChanges();
+                }
+            );
+        }
+        else {
+            this.studentPrefillService.fetchBatchDetails().subscribe(
+                data => {
+                    data.forEach(el => {
+                        if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                            el.feeTemplateList.forEach(e => {
+                                if (e.is_default == 1) {
+                                    el.selected_fee_template_id = e.template_id;
+                                }
+                            })
+                        }
+                        if (el.academic_year_id == '-1') {
+                            el.academic_year_id = this.defaultAcadYear;
+                        }
+                        let obj = {
+                            isSelected: false,
+                            data: el,
+                            assignDate: moment().format('YYYY-MM-DD')
+                        }
+                        temp.push(obj);
+                    });
+                    this.cd.markForCheck();
+                    this.cd.detectChanges();
+                    this.batchList = temp;
+                    this.cd.markForCheck();
+                    this.cd.detectChanges();
+                },
+                err => {
+                    this.cd.markForCheck();
+                    this.cd.detectChanges();
+                    this.batchList = temp;
+                    let al = {
+                        type: 'error',
+                        title: err.error.message,
+                        body: ''
+                    }
+                    this.appC.popToast(al);
+                    this.cd.markForCheck();
+                    this.cd.detectChanges();
+                }
+            );
+        }
+    }
 }
