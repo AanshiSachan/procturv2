@@ -230,28 +230,6 @@
     float: right;
 }
 
-.main {
-    width: 100%;
-    margin-top: 10px;
-    .radio-main {
-        width: 30%;
-        display: inline-block;
-        .field-radio-wrapper {
-            display: inline-block;
-            width: 25%;
-        }
-    }
-    .field-main {
-        width: 69%;
-        display: inline-block;
-        .field-wrapper {
-            display: inline-block;
-            margin-left: 10px;
-            width: 30%;
-        }
-    }
-}
-
 .add-edit {
     margin-bottom: 0;
     margin-top: 20px;
@@ -457,9 +435,6 @@
         }
         .field-wrapper {
             margin-top: -10px;
-        }
-        .fullBlue.btn {
-            width: 120px;
         }
     }
 }
@@ -1326,7 +1301,7 @@
     bottom: 0;
 }
 
-.radio-options {
+.radio-main {
     .field-radio-wrapper {
         .form-radio:checked+label:before {
             content: '';
@@ -1528,5 +1503,23 @@
                 }
             }
         }
+    }
+}
+
+.advanceDateFilter {
+    display: flex;
+    .btn-wrapper {
+        padding-top: 25px;
+    }
+    .goBack-wrapper {
+        margin: auto;
+    }
+}
+
+.radio-main {
+    display: inline-flex;
+    width: 100%;
+    .field-radio-wrapper {
+        margin-right: 10px;
     }
 }
