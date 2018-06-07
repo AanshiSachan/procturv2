@@ -154,37 +154,6 @@
                     {{ follow.data_value }}
                   </option>
                 </select>
-
-              </div>
-            </div>
-
-            <!-- Standard -->
-            <div class="c-lg-4 c-md-4 c-sm-4">
-              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
-                <label *ngIf="!isProfessional" for="standard">Standard</label>
-                <label *ngIf="isProfessional" for="standard">Master Course</label>
-                <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()">
-                  <option value="-1"></option>
-                  <option *ngFor="let std of enqStd" [value]="std.standard_id">
-                    {{ std.standard_name }}
-                  </option>
-                </select>
-
-              </div>
-            </div>
-
-            <!-- Subject -->
-            <div class="c-lg-4 c-md-4 c-sm-4">
-              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
-                <label *ngIf="!isProfessional" for="selectSub">Subject</label>
-                <label *ngIf="isProfessional" for="selectSub">Course</label>
-                <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject">
-                  <option value="-1"></option>
-                  <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
-                    {{ subject.subject_name }}
-                  </option>
-                </select>
-
               </div>
             </div>
 
@@ -288,6 +257,71 @@
                   <option *ngFor="let school of schools" [value]="school.school_id">{{school.school_name}}</option>
                 </select>
               </div>
+            </div>
+
+            <!-- standard Course-->
+            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <label for="editStandard">Standard</label>
+                <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
+                  name="editStandard">
+                  <option value="-1"></option>
+                  <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <!-- subject Course -->
+            <div class="field-wrapper">
+              <label for="forSubject">Subject</label>
+              <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject">
+                <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
+              </select>
+            </div>              
+            </div>
+
+            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <!-- masterCourse course -->
+            <div class="field-wrapper">
+              <label for="editMc">Master Course</label>
+              <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="courseMasterChange($event)">
+                <option value="-1"></option>
+                <option *ngFor="let master of masterCourseData" [value]="master.master_course">{{master.master_course}}</option>
+              </select>
+            </div>              
+            </div>
+
+            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <!-- course course-->
+            <div class="field-wrapper">
+              <label for="editCC">Course</label>
+              <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.courseIdArray" name="editCC" multiple>
+                <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
+              </select>
+            </div>              
+            </div>
+
+            <div *ngIf="isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <!-- master Professional -->
+            <div class="field-wrapper">
+              <label for="editStandard">Master Course</label>
+              <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
+                name="editStandard">
+                <option value="-1"></option>
+                <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+              </select>
+            </div>              
+            </div>
+
+            <div *ngIf="isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <!-- course Professional -->
+            <div class="field-wrapper">
+              <label for="forSubject">Course</label>
+              <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject" multiple>
+                <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
+              </select>
+            </div>              
             </div>
 
             <!-- Custom Component -->

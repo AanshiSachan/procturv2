@@ -1208,74 +1208,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* align the user selected batch into input and update the data into array to be updated to server */
-  assignBatch() {
-    let batchString: any[] = [];
-    this.studentAddFormData.assignedBatches = [];
-    this.studentAddFormData.batchJoiningDates = [];
-    this.studentAddFormData.assignedBatchescademicYearArray = [""];
-    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""]
-    this.batchList.forEach(el => {
-      if (el.isSelected) {
-        if (el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date") {
-          if (this.isProfessional) {
-            this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-            batchString.push(el.data.batch_name);
-          }
-          else {
-            this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-            batchString.push(el.data.course_name);
-          }
-        }
-        else {
-          let alert = {
-            type: 'error',
-            title: 'Assign Date Required',
-            body: 'Please select a joining date for selected option'
-          }
-          this.appC.popToast(alert);
-        }
-      }
-      else {
-        // if (this.isProfessional) {
-        //   let index = 
-        //   this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-        //   this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-        //   this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-        //   this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-        //   batchString.push(el.data.batch_name);
-        // }
-        // else {  
-        //   this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
-        //   this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-        //   this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-        //   this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-        //   batchString.push(el.data.course_name);
-        // }
-      }
-    });
-    if (batchString.length != 0) {
-      document.getElementById('assignCoursesParent').classList.add('has-value');
-      this.assignedBatchString = batchString.join(',');
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
-    else {
-      this.assignedBatchString = "";
-      this.studentAddFormData.assignedBatches = [];
-      this.studentAddFormData.batchJoiningDates = [];
-      this.studentAddFormData.assignedBatchescademicYearArray = [];
-      this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
+  getassignedBatchList(e){
+    this.studentAddFormData.assignedBatches = e.assignedBatches;
+    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
+    this.assignedBatchString = e.assignedBatchString;
+    this.isAssignBatch = e.isAssignBatch;
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
@@ -1402,7 +1342,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     }
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   customComponentValid(): boolean {
@@ -2987,7 +2926,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           temp.push(obj);
         });
         this.chequePdcList = temp;
-      })
+      }
+    )
 
   }
   /* ============================================================================================================================ */
@@ -3486,6 +3426,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   )
                 }
               }
+              this.getPdcChequeList();
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -3528,7 +3469,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
             }
           );
-
         }
         else {
           let msg = {
@@ -3624,6 +3564,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.isFeeApplied = false;
             this.pdcSelectedForPayment = "";
+            this.getPdcChequeList();
             this.closePaymentDetails();
           },
           err => {
@@ -3767,6 +3708,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               }
               this.isFeeApplied = false;
               this.pdcSelectedForPayment = "";
+              this.getPdcChequeList();
               this.closePartialPayment();
             },
             err => {
@@ -3896,6 +3838,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.isFeeApplied = false;
             this.pdcSelectedForPayment = "";
+            this.getPdcChequeList();
             this.closePartialPayment();
           },
           err => {

@@ -128,6 +128,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   };
   smsSearchData: string = ""; isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false; isClosed: boolean = false; isAssignEnquiry: boolean = false; availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false; selectedRowCount: number = 0;
 
+  course_standard_id: any = '-1';
+  course_subject: any[] = [];
+  course_mastercourse_id: any = '-1';
+  course_course: any[] = [];
+  masterCourseData: any[] = [];
+
   /* Model for Enquiry Update Popup Form */
   updateFormData: any = {
     comment: "",
@@ -228,7 +234,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     followUpDate: moment().format('YYYY-MM-DD'),
     enquiry_date: "",
     assigned_to: -1,
-    standard_id: -1,
+    standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
     subject_id: -1,
     is_recent: "Y",
     slot_id: -1,
@@ -262,7 +268,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     followUpDate: "",
     enquiry_date: "",
     assigned_to: -1,
-    standard_id: -1,
+    standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
     subject_id: -1,
     is_recent: "Y",
     slot_id: -1,
@@ -703,32 +709,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     )
 
     this.fetchCustomComponentData();
-    // if (status != null && priority != null) {
-    //   /* Custom Components */
-    //   return this.prefill.fetchCustomComponentEmpty().subscribe(
-    //     data => {
-    //       data.forEach(el => {
 
-    //         let obj = {
-    //           data: el,
-    //           id: el.component_id,
-    //           is_required: el.is_required,
-    //           is_searchable: el.is_searchable,
-    //           label: el.label,
-    //           prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-    //           selected: [],
-    //           selectedString: '',
-    //           type: el.type,
-    //           value: el.enq_custom_value
-    //         }
-    //         this.customComponents.push(obj);
+    if (!this.isProfessional) {
+      this.fetchMasterCourseDetails();
+    }
 
-    //       });
-    //       this.emptyCustomComponent = this.componentListObject;
-    //     }
-    //   );
-    // }
+  }
 
+  fetchMasterCourseDetails() {
+    this.prefill.getMasterCourseData().subscribe(
+      res => {
+        this.masterCourseData = res;
+      });
   }
 
   fetchCustomComponentData() {
@@ -936,7 +928,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -973,10 +965,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         priority: "",
         status: -1,
         follow_type: "",
-        followUpDate: this.searchBarDate,
+        followUpDate: moment(new Date()).format("YYYY-MM-DD"),
         enquiry_date: "",
         assigned_to: -1,
-        standard_id: -1,
+        standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
         subject_id: -1,
         is_recent: "Y",
         slot_id: -1,
@@ -1015,7 +1007,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1060,7 +1052,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1094,7 +1086,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1137,7 +1129,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: this.searchBarDate,
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1182,7 +1174,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1215,7 +1207,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1256,7 +1248,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: this.searchBarDate,
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1299,7 +1291,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1332,7 +1324,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1375,7 +1367,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: this.searchBarDate,
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1420,7 +1412,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1453,7 +1445,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1496,7 +1488,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: this.searchBarDate,
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1540,7 +1532,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1573,7 +1565,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: this.searchBarDate,
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1645,7 +1637,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1678,7 +1670,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1711,7 +1703,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1744,7 +1736,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1777,7 +1769,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1810,7 +1802,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
-          standard_id: -1,
+          standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
           subject_id: -1,
           is_recent: "Y",
           slot_id: -1,
@@ -1869,7 +1861,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         followUpDate: "",
         enquiry_date: "",
         assigned_to: -1,
-        standard_id: -1,
+        standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
         subject_id: -1,
         is_recent: "Y",
         slot_id: -1,
@@ -1903,7 +1895,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         followUpDate: "",
         enquiry_date: "",
         assigned_to: -1,
-        standard_id: -1,
+        standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
         subject_id: -1,
         is_recent: "N",
         slot_id: -1,
@@ -1941,7 +1933,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -1988,7 +1980,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -2023,7 +2015,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "Y",
             slot_id: -1,
@@ -2064,7 +2056,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "N",
             slot_id: -1,
@@ -2111,7 +2103,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "N",
             slot_id: -1,
@@ -2146,7 +2138,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
-            standard_id: -1,
+            standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
             subject_id: -1,
             is_recent: "N",
             slot_id: -1,
@@ -3265,7 +3257,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     this.customComponents.forEach(el => {
       if (el.is_searchable == 'Y' && el.value != "") {
-
+        debugger
         if (el.type == '5') {
           let obj = {
             component_id: el.id,
@@ -3287,6 +3279,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     if (tempCustomArr.length != 0) {
       this.advancedFilterForm.enqCustomLi = tempCustomArr;
+    }
+    else if (tempCustomArr.length == 0){
+      this.advancedFilterForm.enqCustomLi = null;
     }
 
     this.sourceEnquiry = [];
@@ -3350,7 +3345,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       followUpDate: "",
       enquiry_date: "",
       assigned_to: -1,
-      standard_id: -1,
+      standard_id: -1,subjectIdArray: null,master_course_name: '',courseIdArray: null,
       subject_id: -1,
       is_recent: "Y",
       slot_id: -1,
@@ -3373,6 +3368,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       el.selected = [];
       el.value = '';
     });
+    
+    this.enqSubject = [];
+    this.course_course = [];
     this.cd.markForCheck();
   }
 
@@ -3461,13 +3459,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   fetchEnquirySubject() {
     this.isRippleLoad = true;
     if (this.advancedFilterForm.standard_id != null || this.advancedFilterForm.standard_id != '-1') {
-      this.advancedFilterForm.subject_id = '-1';
+      this.advancedFilterForm.subjectIdArray = null;
       this.enqSubject = [];
       this.prefill.getEnqSubjects(this.advancedFilterForm.standard_id).subscribe(
         data => {
           this.isRippleLoad = false;
           this.enqSubject = data;
           this.cd.markForCheck();
+        },
+        err => {
+          this.isRippleLoad = false;
         }
       );
     }
@@ -3479,7 +3480,23 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
+  courseMasterChange(e) {
+    if (e != '-1') {
+      this.masterCourseData.map(el => {
+        if (el.master_course == e) {
+          if (el.coursesList == null || el.coursesList.length == 0) {
+            this.course_course = [];
+          }
+          else {
+            this.course_course = el.coursesList;
+          }
+        }
+      });
+    }
+    else {
+      this.course_course = [];
+    }
+  }
   /* =========================================================================== */
   /* =========================================================================== */
 

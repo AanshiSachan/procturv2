@@ -46,15 +46,15 @@
 
 .paymentWrapper {
     border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
-    max-height: 400px;
-    overflow: hidden;
+    // max-height: 400px;
+    // overflow: hidden;
     ::-webkit-scrollbar {
         display: block;
     }
     .paymentForm {
-        max-height: 400px;
-        overflow-y: auto;
-        overflow-x: hidden;
+        // max-height: 400px;
+        // overflow-y: auto;
+        // overflow-x: hidden;
         ::-webkit-scrollbar {
             display: block;
         }
@@ -1363,107 +1363,9 @@
         max-height: 340px;
         overflow-x: hidden;
         overflow-y: scroll;
-        tr {
-            td {
-                .field-checkbox-wrapper {
-                    background: transparent;
-                }
-            }
-        }
+        
     }
-    th {
-        text-align: left;
-        padding: 15px;
-    }
-    td {
-        padding: 10px 5px;
-        text-align: left;
-        .field-wrapper {
-            position: relative;
-            padding-top: 0px;
-            &.datePickerBox {
-                .bsDatepicker {
-                    cursor: pointer;
-                    position: relative;
-                    z-index: 1;
-                    background: transparent;
-                    width: 120px;
-                }
-                &:after {
-                    content: '';
-                    background: url("../../../../assets/images/calendar.svg") no-repeat;
-                    position: absolute;
-                    left: 97px;
-                    top: 10px;
-                    width: 21px;
-                    height: 21px;
-                    z-index: 0;
-                }
-            }
-            .date-clear {
-                position: absolute;
-                right: 60%;
-                top: 50px;
-                cursor: pointer;
-                color: #0084f6;
-            }
-            .form-ctrl {
-                background: transparent;
-                border-bottom: 1px solid $common-blue;
-            }
-        }
-        .field-checkbox-wrapper .form-checkbox {
-            opacity: 0;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            z-index: 1;
-        }
-        .field-checkbox-wrapper .form-checkbox+label {
-            vertical-align: middle;
-            font-size: 14px;
-            display: inline-block;
-        }
-        .field-checkbox-wrapper .form-checkbox+label:after {
-            content: '';
-            width: 16px;
-            height: 16px;
-            border: 2px solid #ccc;
-            border-radius: 2px;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label:after {
-            border: 2px solid $common-blue;
-        }
-        .field-checkbox-wrapper .form-checkbox+label:before {
-            width: 1px;
-            height: 1px;
-            left: 8px;
-            top: 9px;
-            position: absolute;
-            content: '';
-            border-top: 0;
-            border-right: 0;
-            border-left: 2px solid transparent;
-            border-bottom: 2px solid transparent;
-            transform: rotate(-45deg);
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label:before {
-            border-left: 2px solid $common-blue;
-            border-bottom: 2px solid $common-blue;
-            width: 12px;
-            height: 5px;
-            left: 2px;
-            top: 5px;
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label {
-            color: $common-blue;
-        }
-    }
+    
 }
 
 input[type='number'] {

@@ -10,7 +10,7 @@ import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstr
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 
 import { StudentRoutingModule } from './student-routing.module';
-
+import { StudentBatchListComponent } from './student-batch-list/student-batch-list.component';
 import { StudentsComponent } from './students.component';
 import { StudentAddComponent } from './student-add/student-add.component'
 import { StudentHomeComponent } from './student-home/student-home.component';
@@ -49,6 +49,7 @@ import { OnlyNumber } from './student-directives/onlynumber.directive';
         StudentEditComponent,
         StudentBulkComponent,
         StudentSidebarComponent,
+        StudentBatchListComponent,
         SortPipe,
         OnlyNumber,
         StudentFeeTableComponent,
@@ -63,7 +64,8 @@ import { OnlyNumber } from './student-directives/onlynumber.directive';
     entryComponents: [
         UserStudentComponent,
         StudentFeeTableComponent,
-        StudentDiscountComponent
+        StudentDiscountComponent,
+        StudentBatchListComponent
     ]
 })
 export class StudentModule {
