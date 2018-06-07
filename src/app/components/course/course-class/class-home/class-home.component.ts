@@ -83,8 +83,7 @@ export class ClassHomeComponent implements OnInit {
     startdate: moment().subtract(1, 'months').format('YYYY-MM-DD'),
     enddate: moment().format('YYYY-MM-DD'),
     type: '3',
-    isExamIncludedInTimeTable: 'Y',
-
+    isExamIncludedInTimeTable: 'Y'
   }
 
   constructor
