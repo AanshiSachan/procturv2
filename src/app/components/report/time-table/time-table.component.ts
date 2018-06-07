@@ -244,6 +244,7 @@ export class TimeTableComponent implements OnInit {
         body: " Please Select a Master Course or Teacher"
       }
       this.appC.popToast(obj);
+      this.isRippleLoad = false;
       return;
     }
     if (flag == '-1') {
@@ -274,6 +275,7 @@ export class TimeTableComponent implements OnInit {
         if (res.length != 0 && this.onlyMasterData) {
 
           res.map((element) => {
+           
             this.namesArr.push(element.course_name);
             this.timeTableObj = element.batchTimeTableList;
             this.maxEntries = 0;
@@ -282,6 +284,7 @@ export class TimeTableComponent implements OnInit {
           })
         }
         else {
+          this.isRippleLoad = false;
           this.timeTableObj = res.batchTimeTableList;
           this.namesArr.push(res.course_name);
           this.maxEntries = 0;
@@ -291,6 +294,7 @@ export class TimeTableComponent implements OnInit {
         this.showtable = true;
       },
       err => {
+        
         this.isRippleLoad = false;
         console.log(err);
       }
@@ -329,6 +333,7 @@ export class TimeTableComponent implements OnInit {
           body: "Please Select a Teacher"
         }
         this.appC.popToast(obj);
+        this.isRippleLoad = false;
         return;
       }
     }
@@ -341,6 +346,7 @@ export class TimeTableComponent implements OnInit {
           body: " Please Select a Batch"
         }
         this.appC.popToast(obj);
+        this.isRippleLoad = false;
         return;
       }
     }
