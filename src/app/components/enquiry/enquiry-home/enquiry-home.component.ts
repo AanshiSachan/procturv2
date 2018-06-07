@@ -718,7 +718,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe(
-      res => {
+      (res: any) => {
         this.masterCourseData = res;
       });
   }

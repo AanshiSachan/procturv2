@@ -285,7 +285,7 @@ export class EnquiryEditComponent implements OnInit {
         this.fetchSubject(this.editEnqData.standard_id);
         if (!this.isProfessional) {
           this.prefill.getMasterCourseData().subscribe(
-            res => {
+            (res: any) => {
               this.masterCourseData = res;
               if(this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length){
                 this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el)});
@@ -308,7 +308,7 @@ export class EnquiryEditComponent implements OnInit {
   /* ============================================================================================================================ */
   fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe(
-      res => {
+      (res: any) => {
         this.masterCourseData = res;
       });
   }

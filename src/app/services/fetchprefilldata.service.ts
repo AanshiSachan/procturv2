@@ -634,8 +634,8 @@ export class FetchprefilldataService {
   getMasterCourseData() {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res },
+      err => { return err }
     );
   }
 
