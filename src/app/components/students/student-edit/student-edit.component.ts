@@ -2820,6 +2820,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         schedule_id: el.schedule_id,
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
+        student_fee_template_mapping_id: el.student_fee_template_mapping_id
       }
       temp.push(obj);
     });
@@ -4099,7 +4100,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   fetchCustomFeeSchedule(e) {
     this.isRippleLoad = true;
-
     this.userCustommizedFee = e;
     this.totalTaxAmount = 0;
     this.totalInitalAmount = 0;
@@ -4159,6 +4159,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         uiSelected: el.is_referenced == "Y" ? true : false,
         isPaid: el.is_referenced == "Y" ? true : false
       }
+
       this.paymentStatusArr.push(obj);
 
     });

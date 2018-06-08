@@ -36,6 +36,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     batch_id: 0,
     created_by: null,
     created_date: null,
+    course_subject_name: null,
     day_type: 0,
     days: 0,
     discount: 0,
@@ -81,6 +82,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     student_id: 0,
     student_name: null,
     student_phone: "",
+    student_fee_template_mapping_id: '-1',
     tax: 0,
     update_date: null,
     updated_by: null
@@ -163,7 +165,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     this.feeTemplateData;
     this.courseDropdown;
     this.updateTableAndFields();
-    console.log(this.courseDropdown);
   }
   /* ============================================================================================== */
   /* ============================================================================================== */
@@ -224,7 +225,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
 
   updateTableAndFields() {
     this.service_tax = this.feeTemplateData.registeredServiceTax;
-    console.log(this.courseDropdown);
   }
   /* ============================================================================================== */
   /* ============================================================================================== */
@@ -249,20 +249,31 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       }
     }
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
+      
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.addFeeInstallment.service_tax = 0;
       }
+
       this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_type = 0;
+
+      if(this.addFeeInstallment.student_fee_template_mapping_id != '-1'){
+
+        let id = this.addFeeInstallment.student_fee_template_mapping_id.split(',')[0];
+        let name = this.addFeeInstallment.student_fee_template_mapping_id.split(',')[1];
+
+        this.addFeeInstallment.student_fee_template_mapping_id = id;
+        this.addFeeInstallment.course_subject_name = name;
+      }
+
       this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
       this.addFeeInstallment.amount_paid = 0;
       this.addFeeInstallment.balance_amount = 0;
       this.installmentData.push(this.addFeeInstallment);
-
       this.addFeeInstallment = {
         amount_paid: '',
         amount_paid_inRs: null,
@@ -315,6 +326,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         student_id: 0,
         student_name: null,
         student_phone: "",
+        student_fee_template_mapping_id: '-1',
         tax: 0,
         update_date: null,
         updated_by: null
