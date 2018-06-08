@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { CLASS_NAME, DISMISS_REASONS, ModalOptions, TRANSITION_DURATIONS } from './modal-options.class';
-import { BsModalService } from './bs-modal.service';
+//import { BsModalService } from './bs-modal.service';
 import { isBs3 } from '../utils/theme-provider';
 var ModalContainerComponent = (function () {
     function ModalContainerComponent(options, _element, bsModalService, _renderer) {

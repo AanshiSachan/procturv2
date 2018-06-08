@@ -27,6 +27,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   @Input() installmentData: any[] = [];
   @Input() additionalData: any[] = [];
   @Input() feeTemplateData: any;
+  @Input() courseDropdown: any = null;
 
   addFeeInstallment: any = {
     amount_paid: '',
@@ -160,9 +161,9 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     this.installmentData;
     this.additionalData;
     this.feeTemplateData;
-
+    this.courseDropdown;
     this.updateTableAndFields();
-
+    console.log(this.courseDropdown);
   }
   /* ============================================================================================== */
   /* ============================================================================================== */
@@ -223,6 +224,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
 
   updateTableAndFields() {
     this.service_tax = this.feeTemplateData.registeredServiceTax;
+    console.log(this.courseDropdown);
   }
   /* ============================================================================================== */
   /* ============================================================================================== */

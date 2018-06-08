@@ -190,6 +190,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     previous_balance_amt: "",
     total_amt_paid: ""
   }
+  courseDropdown: any = null;
   enableBiometric: any = "";
   academicYear: any[] = [];
   savedAssignedBatch: any[] = [];
@@ -422,7 +423,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
       this.updateStudentFeeDetails();
       this.isRippleLoad = false;
-
+      this.getCourseDropdown(id);
       /* For Batch Model Fetch the Student Batches */
       if (this.isProfessional) {
         /* Fetching the student Slots */
@@ -460,7 +461,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.appC.popToast(obj);
             //alert("Error Fetching Student Batch");
-          });
+          }
+        );
+
       }
       /* For Course Model fetch the Student Courses */
       else {
@@ -495,11 +498,26 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               body: ""
             }
             this.appC.popToast(obj);
-          })
+          }
+        );
+
       }
     });
   }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getCourseDropdown(id) {
+    this.fetchService.getStudentCourseDetails(id).subscribe(
+      res => {
+        this.courseDropdown = res;
+        console.log(this.courseDropdown);
+      },
+      err => {
 
+      }
+    )
+  }
+  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getAssignDate(e): string {
     if (e == '' || e == null) {
@@ -1208,7 +1226,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* align the user selected batch into input and update the data into array to be updated to server */
-  getassignedBatchList(e){
+  getassignedBatchList(e) {
     this.studentAddFormData.assignedBatches = e.assignedBatches;
     this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
@@ -3223,8 +3241,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
     this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
-      res => {
-        let body = JSON.parse(res['_body']);
+      (res: any) => {
+        //let body = JSON.parse(res['_body']);
+        let body = res;
         let byteArr = this.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
