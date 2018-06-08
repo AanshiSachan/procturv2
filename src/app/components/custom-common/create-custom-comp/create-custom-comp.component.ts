@@ -71,14 +71,14 @@ export class CreateCustomCompComponent implements OnInit {
   fetchPrefillData() {
 
     this.prefill.fetchComponentGenerator().subscribe(
-      res => {
+      (res: any) => {
         this.componentShell = res;
       }
     );
 
 
     return this.prefill.fetchUserCreatedComponent().subscribe(
-      res => {
+      (res: any) => {
         this.userCreatedComponent = res;
 
       }

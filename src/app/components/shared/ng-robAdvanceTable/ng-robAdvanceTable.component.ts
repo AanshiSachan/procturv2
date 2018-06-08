@@ -82,7 +82,9 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     }
     getColor(key, data) {
-
+        let obj3 = {
+            'color': 'blue'
+        }
         if (key == "student_category") {
             let obj = {
                 'color': 'green'
@@ -91,9 +93,7 @@ export class RobAdvanceTableComponent implements OnChanges {
                 'color': 'red'
             }
 
-            let obj3 = {
-                'color': 'blue'
-            }
+            
 
             if (data == "active") {
                 return obj
@@ -102,6 +102,12 @@ export class RobAdvanceTableComponent implements OnChanges {
                 return obj1
             }
             else if (data == "archived") {
+                return obj3;
+            }
+        }
+
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqcount"){
+            if (data != "0"){
                 return obj3;
             }
         }
@@ -211,7 +217,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         (this.asc) ? (this.asc = false) : (this.asc = true);
 
         let type = this.typeOfDataSelected(ev);
-        debugger;
+      
 
         if (type === 0) {
             this.sortNumber(ev);

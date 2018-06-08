@@ -99,7 +99,7 @@ export class TemplateHomeComponent implements OnInit {
   getFeeStructures() {
     this.isRippleLoad = true;
     this.fetchService.fetchFeeStruc().subscribe(
-      res => {
+      (res: any) => {
         this.isRippleLoad = false;
         this.source = res;
       },
@@ -116,7 +116,7 @@ export class TemplateHomeComponent implements OnInit {
     this.isEditFee = true;
     this.isRippleLoad = true;
     this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
-      res => {
+      (res: any) => {
         this.isRippleLoad = false;
         this.feeStructure = res;
         if (res.is_default == "1") {

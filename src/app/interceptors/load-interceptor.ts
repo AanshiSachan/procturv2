@@ -34,6 +34,7 @@ export class I1 implements HttpInterceptor {
                             };
                             //To generate a toaster error uncomment below line
                             //this.alert.changeErrorObject(JSON.stringify(obj));
+                            return Observable.throw(err);
                         }
                         /* Not Found */
                         else if (err instanceof HttpErrorResponse && err.status === 404) {
@@ -57,9 +58,9 @@ export class I1 implements HttpInterceptor {
                         }
                         /* Gateway Timeout */
                         else if (err instanceof HttpErrorResponse && err.status === 504) {
-                            
+
                         }
-                        
+
                         return Observable.throw({ error: 'No retry' });
                     })
                     .take(1)

@@ -360,7 +360,7 @@ export class StudentAddComponent implements OnInit {
       }
       this.updateMasterCourseList(this.studentAddFormData.student_class);
       this.isRippleLoad = true;
-      this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe(data => {
+      this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe((data: any) => {
         this.batchList = [];
         data.coursesList.forEach(el => {
           if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -563,7 +563,7 @@ export class StudentAddComponent implements OnInit {
   updateMasterCourseList(id) {
     this.batchList = [];
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
-      data => {
+      (data: any) => {
         data.coursesList.forEach(el => {
           if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
             el.feeTemplateList.forEach(e => {
@@ -787,7 +787,7 @@ export class StudentAddComponent implements OnInit {
     );
 
     this.prefill.getAllFinancialYear().subscribe(
-      data => {
+      (data: any) => {
         this.academicYear = data;
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
@@ -1000,51 +1000,13 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* align the user selected batch into input and update the data into array to be updated to server */
-  assignBatch() {
-    let batchString: any[] = [];
-    this.studentAddFormData.assignedBatches = [];
-    this.studentAddFormData.batchJoiningDates = [];
-    this.studentAddFormData.assignedBatchescademicYearArray = [""];
-    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
-    for (let i in this.batchList) {
-      if (this.batchList[i].isSelected) {
-        if (this.batchList[i].assignDate != "" && this.batchList[i].assignDate != null && this.batchList[i].assignDate != "Invalid date") {
-          if (this.isProfessional) {
-            this.studentAddFormData.assignedBatches.push(this.batchList[i].data.batch_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(this.batchList[i].assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(this.batchList[i].data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(this.batchList[i].data.selected_fee_template_id);
-            batchString.push(this.batchList[i].data.batch_name);
-          }
-          else {
-            this.studentAddFormData.assignedBatches.push(this.batchList[i].data.course_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(this.batchList[i].assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(this.batchList[i].data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(this.batchList[i].data.selected_fee_template_id);
-            batchString.push(this.batchList[i].data.course_name);
-          }
-        }
-        else {
-          let alert = {
-            type: 'error',
-            title: 'Assign Date Required',
-            body: 'Please select a joining date for selected option'
-          }
-          this.appC.popToast(alert);
-        }
-      }
-    }
-
-    if (batchString.length != 0) {
-      document.getElementById('assignCoursesParent').classList.add('has-value');
-      this.assignedBatchString = batchString.join(',');
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
-    else {
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
+  getassignedBatchList(e){
+    this.studentAddFormData.assignedBatches = e.assignedBatches;
+    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
+    this.assignedBatchString = e.assignedBatchString;
+    this.isAssignBatch = e.isAssignBatch;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -1129,7 +1091,7 @@ export class StudentAddComponent implements OnInit {
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
-        res => {
+        (res: any) => {
           this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -1467,7 +1429,7 @@ export class StudentAddComponent implements OnInit {
       }
 
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
-        res => {
+        (res: any) => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
 
@@ -3302,7 +3264,7 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.student_sex = "M";
       }
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
-        res => {
+        (res: any) => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
 
@@ -3489,7 +3451,7 @@ export class StudentAddComponent implements OnInit {
     obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
     obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
     this.postService.allocateStudentFees(obj).subscribe(
-      res => {
+      (res: any) => {
         if (this.genPdcAck || this.sendPdcAck) {
           if (this.genPdcAck) {
             let doc = res;

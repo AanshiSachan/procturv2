@@ -22,7 +22,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
-  minArr: any[] = ['','00','05','10','15','20','25','30','35','40','45','50','55'];
+  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"];
   timeObj: any = {
     fhour: '',
@@ -44,9 +44,13 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @Input() row: any;
   @Input() customComp: any[];
   @Input() sourceList: any[];
+  @Input() mainBranchAdmin: any;
+  @Input() subBranchAdmin: any;
+  @Input() branchesList: any[];
 
   @Output() updateEnq = new EventEmitter<any>();
   @Output() cancelUpdate = new EventEmitter<any>();
+  @Output() getUserList = new EventEmitter<any>();
 
   @ViewChild('acc') acc: ElementRef;
   @ViewChild('one') one: ElementRef;
@@ -130,6 +134,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.updateFormData.follow_type = "";
     this.updateFormData.statusValue = "";
     this.getDetailsById(this.instituteEnqId);
+    this.branchesList;
+    this.enqAssignTo;
+    this.mainBranchAdmin;
+    this.subBranchAdmin;
   }
 
 
@@ -153,7 +161,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     }
     this.followUpTime = '';
     this.walkin_followUpTime = '';
-    this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
+    this.prefill.fetchAllDataEnquiry(id).subscribe((res: any) => {
       this.rowData.dob = res.dob;
       this.rowData.parent_name = res.parent_name;
       this.rowData.parent_email = res.parent_email;
@@ -536,6 +544,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.cd.markForCheck();
       this.isNotifyVisible = false;
     }
+  }
+
+  changeAssignList(event) {
+    this.getUserList.emit(event);
   }
 
 }

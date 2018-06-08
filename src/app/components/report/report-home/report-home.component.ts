@@ -23,7 +23,7 @@ export class ReportHomeComponent implements OnInit {
   isBiometric: boolean
   isAttendance: boolean
   biometricAttendanceEnable:boolean=true;
-
+  reportEnquiry:boolean;
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private auth: AuthenticatorService) {
     this.switchActiveView('home');
@@ -56,6 +56,8 @@ export class ReportHomeComponent implements OnInit {
     document.getElementById('time').classList.remove('active');
     document.getElementById('email').classList.remove('active');
     document.getElementById('profit').classList.remove('active');
+    
+    
     switch (id) {
       case 'home': { document.getElementById('home').classList.add('active'); break; }
       case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
@@ -84,6 +86,7 @@ export class ReportHomeComponent implements OnInit {
         this.isFee = true;
         this.isBiometric = true;
         this.isAttendance = true;
+        this.reportEnquiry = true;
       }
       else if (sessionStorage.getItem('userType') == '3') {
         this.isProfitnloss = false;
@@ -95,6 +98,7 @@ export class ReportHomeComponent implements OnInit {
         this.isBiometric = true;
         this.isAttendance = true;
         this.isSms = false;
+        this.reportEnquiry = false;
       }
     }
     else {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { instituteInfo } from '../model/instituteinfo';
 import { EnquiryCampaign } from '../model/enquirycampaign';
 import { Observable } from 'rxjs/Observable';
@@ -40,27 +39,22 @@ export class FetchprefilldataService {
   getCampaignsURL: string; //url for getting Campaigns
   baseUrl: string = '';
   Authorization: string;
-  headers: Headers;
-  headersPost: Headers;
+  headers: any;
+  headersPost: any;
   institute_id: number;
 
   /* set default value for each url, header and autherization on service creation */
-  constructor(private http: Http, private auth: AuthenticatorService) {
+  constructor(private http: HttpClient, private auth: AuthenticatorService) {
+
+    this.baseUrl = this.auth.getBaseUrl();
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
-      this.headers = new Headers();
-      this.headers.append("Content-Type", "application/json");
-      this.headers.append("Authorization", this.Authorization);
-      this.baseUrl = this.auth.getBaseUrl();
-      this.headersPost = new Headers();
-      this.headersPost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+      this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+      this.headersPost = new HttpHeaders({ "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", "Authorization": this.Authorization });
     })
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
-    // this.Authorization = this.auth.getAuthToken();
-    // this.institute_id = this.auth.getInstituteId();
-
   }
 
 
@@ -75,10 +69,10 @@ export class FetchprefilldataService {
 
     return this.http.post(url, obj, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
 
@@ -93,7 +87,7 @@ export class FetchprefilldataService {
       res => {
         let data = res['_body'];
         if (data != null && data != '') {
-          return res.json();
+          return res;
         }
         else {
           return [];
@@ -101,7 +95,7 @@ export class FetchprefilldataService {
 
       },
       err => {
-        return err.json();
+        return err;
       }
     );
   }
@@ -111,8 +105,8 @@ export class FetchprefilldataService {
     let url = this.baseUrl + "/api/v1/academicYear/all/" + this.institute_id;
 
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 
@@ -126,7 +120,7 @@ export class FetchprefilldataService {
     let content = JSON.stringify({ "user_Type": 0 });
     return this.http.post(this.urlAssignTo, content, { headers: this.headers })
       .map(res => {
-        return res.json()
+        return res
       });
   }
 
@@ -141,7 +135,7 @@ export class FetchprefilldataService {
     let url = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 
     return this.http.put(url, data, { headers: this.headers }).map(res => {
-      return res.json();
+      return res;
     });
   }
 
@@ -155,7 +149,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlEnqsta, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -170,7 +164,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlEnqPri, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -185,7 +179,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlFollType, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -199,7 +193,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlStdSub, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -211,7 +205,7 @@ export class FetchprefilldataService {
 
     this.urlSubject = this.baseUrl + "/api/v1/subjects/standards/" + id;
     return this.http.get(this.urlSubject, { headers: this.headers }).map(res => {
-      return res.json();
+      return res;
     })
   }
 
@@ -225,7 +219,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlSchool, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       },
         err => {
           return err.json();
@@ -242,7 +236,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlLeadSource, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -257,7 +251,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlLeadReffered, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -265,10 +259,10 @@ export class FetchprefilldataService {
     this.getCampaignsURL = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id;
     return this.http.post(this.getCampaignsURL, {}, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       },
         err => {
-          return err.json();
+          return err;
         })
   }
 
@@ -289,7 +283,7 @@ export class FetchprefilldataService {
     };
     let responseData: any;
     return this.http.post(this.addCampaignURL, addCampaignForm, { headers: this.headers }).map(res => {
-      responseData = res.json();
+      responseData = res;
 
       return responseData;
     });
@@ -305,7 +299,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlOccupation, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -319,7 +313,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlLastDetail, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       });
   }
 
@@ -332,7 +326,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlLeadDetails, { headers: this.headers })
       .map(res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -349,7 +343,7 @@ export class FetchprefilldataService {
     };
     let responseData: any;
     return this.http.post(this.urlInstituteCreate, newInstituteForm, { headers: this.headers }).map(res => {
-      responseData = res.json();
+      responseData = res;
 
       return responseData;
     });
@@ -402,7 +396,7 @@ export class FetchprefilldataService {
     this.urlSubmitNewEnquiry = this.baseUrl + "/api/v1/enquiry/" + this.institute_id;
 
     return this.http.post(this.urlSubmitNewEnquiry, newFormData, { headers: this.headers }).map(res => {
-      responseData = res.json();
+      responseData = res;
       return responseData;
     });
   }
@@ -416,7 +410,7 @@ export class FetchprefilldataService {
     let response: any = null;
     this.urlAddSource = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source";
     return this.http.post(this.urlAddSource, data, { headers: this.headers }).map(res => {
-      response = res.json();
+      response = res;
       return response;
     })
   }
@@ -429,7 +423,7 @@ export class FetchprefilldataService {
     let response: any = null;
     this.urlAddReferer = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
     return this.http.post(this.urlAddReferer, data, { headers: this.headers }).map(res => {
-      response = res.json();
+      response = res;
       return response;
     })
   }
@@ -443,7 +437,7 @@ export class FetchprefilldataService {
     this.urlPaymentModes = this.baseUrl + "/api/v2/enquiry_manager/getAllConfiguredEnquiryFeePaymentModes";
 
     return this.http.get(this.urlPaymentModes, { headers: this.headers }).map(
-      data => { return data.json() },
+      data => { return data },
     )
   }
 
@@ -455,7 +449,7 @@ export class FetchprefilldataService {
     this.urlFetchComments = this.baseUrl + "/api/v1/enquiry/comments/" + this.institute_id + "/" + id;
     return this.http.get(this.urlFetchComments, { headers: this.headers })
       .map(data => {
-        return data.json();
+        return data;
       })
   }
 
@@ -467,7 +461,7 @@ export class FetchprefilldataService {
     this.urlFetchComments = this.baseUrl + "/api/v1/enquiry/v2/" + this.institute_id + "/" + id;
     return this.http.get(this.urlFetchComments, { headers: this.headers })
       .map(data => {
-        return data.json();
+        return data;
       })
   }
 
@@ -481,15 +475,14 @@ export class FetchprefilldataService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data.json();
-          }
-          else {
+          if (data == null || data == '') {
             return [];
+          } else {
+            return data;
           }
         },
         err => {
-          return err.json();
+          return err;
         }
       );
   }
@@ -503,11 +496,10 @@ export class FetchprefilldataService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data.json();
-          }
-          else {
+          if (data == null || data == '') {
             return [];
+          } else {
+            return data;
           }
         },
         err => {
@@ -522,7 +514,7 @@ export class FetchprefilldataService {
     this.urlEnquiryByID = this.baseUrl + "/api/v1/enquiry/" + this.institute_id + "/" + id;
 
     return this.http.get(this.urlEnquiryByID, { headers: this.headers }).map(res => {
-      return res.json();
+      return res;
     },
       err => {
       });
@@ -537,7 +529,7 @@ export class FetchprefilldataService {
     }
 
     return this.http.post(urlRegistrationFeeDetail, data, { headers: this.headers }).map(
-      res => { return res.json() }
+      res => { return res }
     )
   }
 
@@ -552,7 +544,7 @@ export class FetchprefilldataService {
     }
 
     return this.http.post(urlBulkUpdateStatus, data, { headers: this.headers }).map(
-      res => { return res.json() }
+      res => { return res }
     )
   }
 
@@ -562,7 +554,7 @@ export class FetchprefilldataService {
     let urlComponentGenerator = this.baseUrl + '/api/v1/masterData/type/CUSTOM_COMPONENT_TYPE';
 
     return this.http.get(urlComponentGenerator, { headers: this.headers }).map(
-      res => { return res.json() }
+      res => { return res }
     );
   }
 
@@ -571,7 +563,7 @@ export class FetchprefilldataService {
 
     return this.http.get(urlUserComponent, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       }
     );
   }
@@ -581,7 +573,7 @@ export class FetchprefilldataService {
 
     return this.http.get(urlUserComponent, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       }
     );
   }
@@ -592,10 +584,10 @@ export class FetchprefilldataService {
 
     return this.http.get(urlSlots, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -608,10 +600,10 @@ export class FetchprefilldataService {
 
     return this.http.get(urlSlots, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -621,7 +613,7 @@ export class FetchprefilldataService {
     let urlSlots = this.baseUrl + "/api/v1/cityArea/" + this.institute_id;
     return this.http.post(urlSlots, obj, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
         return err.json();
@@ -631,19 +623,19 @@ export class FetchprefilldataService {
 
   /// Get All Branches Details
 
-  getAllSubBranches() {
-    let url = this.baseUrl + "/api/v1/institutes/all/Branches/" + this.institute_id;
+  getAllSubBranches(id) {
+    let url = this.baseUrl + "/api/v1/institutes/all/Branches/" + id;
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 
   getMasterCourseData() {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
     return this.http.get(url, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res },
+      err => { return err }
     );
   }
 

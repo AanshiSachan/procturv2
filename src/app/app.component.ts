@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
   }
   isNotifyVisible: boolean = false;
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
-  minArr: any[] = ['','00','05','10','15','20','25','30','35','40','45','50','55'];
+  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   hour: string = ''; minute: string = ''; meridian: string = '';
 
   /* ToasterConfig ==> {
@@ -511,7 +511,7 @@ export class AppComponent implements OnInit {
 
   fetchCommentData(e) {
     this.fetchService.fetchCommentsForEnquiry(e.data.id).subscribe(
-      res => {
+      (res: any) => {
         this.updateFormComments = res.comments;
         this.updateFormCommentsOn = res.commentedOn;
         this.updateFormCommentsBy = res.commentedBy;
@@ -693,7 +693,7 @@ export class AppComponent implements OnInit {
     this.updateFormData.follow_type = "Walkin";
     this.updateFormData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
     this.updateFormData.walkin_followUpTime = this.getFollowupTime();
-    if(this.updateFormData.walkin_followUpTime != '' && this.updateFormData.walkin_followUpTime != null){
+    if (this.updateFormData.walkin_followUpTime != '' && this.updateFormData.walkin_followUpTime != null) {
       this.pushUpdatedEnquiry();
     }
   }
@@ -713,7 +713,7 @@ export class AppComponent implements OnInit {
       }
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
-      if(this.isConvertToStudent === false){
+      if (this.isConvertToStudent === false) {
         if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
           let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
           let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
@@ -721,7 +721,7 @@ export class AppComponent implements OnInit {
         } else {
           this.updateFormData.walkin_followUpTime = "";
         }
-  
+
         if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
           let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
           this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
@@ -737,7 +737,7 @@ export class AppComponent implements OnInit {
         this.updateFormData.is_follow_up_time_notification = 0;
       }
 
-      if (this.updateFormData.followUpDate != "Invalid date"){
+      if (this.updateFormData.followUpDate != "Invalid date") {
         this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
         this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
           res => {
@@ -788,7 +788,7 @@ export class AppComponent implements OnInit {
           body: 'Please select a valid date time for follow up'
         }
         this.popToast(msg);
-      }      
+      }
     }
     else {
       this.isRippleLoad = false;

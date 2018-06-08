@@ -1,0 +1,41 @@
+// .icon{
+//     -webkit-animation: pulse 2s ease-in;
+//     -moz-animation: pulse 2s ease-in;
+//      animation: pulse 2s ease-in;
+//     -webkit-animation-iteration-count: infinite;
+//     -moz-animation-iteration-count: infinite;
+//     animation-iteration-count: infinite;
+// }
+
+
+// @keyframes pulse {
+//   0% {
+//     -webkit-transform: scale(0.5);
+//     opacity: 0.1;
+//  }
+//  25% {
+//     -webkit-transform: scale(0.75);
+//     opacity: 0.3;
+//  }
+//  50% {
+//     -webkit-transform: scale(1.2);
+//     opacity: 0.5;
+//  }
+//  75% {
+//     -webkit-transform: scale(1.55);
+//     opacity: 0.3;
+//  }
+//  100% {
+//     -webkit-transform: scale(1.9);
+//     opacity: 0.1;
+//  }
+// }
+.pulsate{
+    border: 1px solid #a79d9d8c;
+    /* display: inline-block; */
+    width: 19%;
+    margin: 3% 5%;
+    border-radius: 50%;
+    padding: 3px;
+    padding-top: 6px;
+}

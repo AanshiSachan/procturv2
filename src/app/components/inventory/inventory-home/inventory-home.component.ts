@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
     this.isRippleLoad = true;
     this.itemTableDatasource = [];
     this.inventoryApi.fetchAllItems().subscribe(
-      data => {
+      (data: any) => {
         this.isRippleLoad = false;
         this.totalRow = data.length;
         this.itemTableDatasource = data;

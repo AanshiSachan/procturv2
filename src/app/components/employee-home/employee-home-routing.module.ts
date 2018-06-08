@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EmployeeHomeComponent } from './employee-home.component';
 import { HomeComponent } from './home/home.component';
+import { AddEditEmployeeComponent } from './home/add-edit-employee/add-edit-employee.component';
 
 
 @NgModule({
@@ -19,6 +20,14 @@ import { HomeComponent } from './home/home.component';
                     {
                         path: 'home',
                         component: HomeComponent
+                    },
+                    {
+                        path: 'addedit',
+                        component: AddEditEmployeeComponent
+                    },
+                    {
+                        path: 'addedit/:id',
+                        component: AddEditEmployeeComponent
                     }
                 ]
             }

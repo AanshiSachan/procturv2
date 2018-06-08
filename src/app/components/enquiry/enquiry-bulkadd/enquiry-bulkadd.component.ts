@@ -43,7 +43,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   /* base64 data to be converted to xls file */
   downloadTemplate() {
     this.fetchData.fetchDownloadTemplate().subscribe(
-      res => {
+      (res: any) => {
 
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
@@ -88,11 +88,11 @@ export class EnquiryBulkaddComponent implements OnInit {
   /* function to upload the xls file as formdata */
   uploadHandler(event) {
     for (let file of event.files) {
-      
+
       let formdata = new FormData();
       formdata.append("file", file);
       let base = this.auth.getBaseUrl();
-      let urlPostXlsDocument = base +"/api/v2/enquiry_manager/bulkUploadEnquiries";
+      let urlPostXlsDocument = base + "/api/v2/enquiry_manager/bulkUploadEnquiries";
       let xhr: XMLHttpRequest = new XMLHttpRequest();
       xhr.open("POST", urlPostXlsDocument, true);
       xhr.setRequestHeader("processData", "false");
@@ -170,7 +170,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   /* download the xls status report for a particular file uploaded */
   downloadBulkStatusReport(el) {
     this.fetchData.fetchBulkReport(el.list_id).subscribe(
-      res => {
+      (res: any) => {
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
@@ -182,14 +182,14 @@ export class EnquiryBulkaddComponent implements OnInit {
         dwldLink.setAttribute("download", fileName);
         dwldLink.innerText = 'Download Report';
       },
-       err => { 
-         let obj ={
-           type: "error",
-           title: "error downloading file",
-           body: ""
-         }
-         this.appC.popToast(obj);
-       }
+      err => {
+        let obj = {
+          type: "error",
+          title: "error downloading file",
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
     )
   }
 

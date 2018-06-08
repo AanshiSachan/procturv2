@@ -1,15 +1,8 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { document } from '../../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 
@@ -84,6 +77,14 @@ export class ClassHomeComponent implements OnInit {
   is_notified: any = 'Y';
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   showManageClass: boolean = false;
+  allotedTeacher: any = '-1';
+  showAdvanceFilter: boolean = false;
+  advanceFilter: any = {
+    startdate: moment().subtract(1, 'months').format('YYYY-MM-DD'),
+    enddate: moment().format('YYYY-MM-DD'),
+    type: '3',
+    isExamIncludedInTimeTable: 'Y'
+  }
 
   constructor
     (
@@ -221,10 +222,14 @@ export class ClassHomeComponent implements OnInit {
     if (this.isLangInstitute) {
       dataList = this.timeTableResponse.batchTimeTableList;
     } else {
-      if (this.fetchMasterCourseModule.master_course != "" && this.fetchMasterCourseModule.course_id == "-1" && this.fetchMasterCourseModule.teacher_id == "-1" && this.fetchMasterCourseModule.subject_id == "-1") {
-        dataList = this.timeTableResponse[0].batchTimeTableList;
-      } else {
+      if (this.showAdvanceFilter) {
         dataList = this.timeTableResponse.batchTimeTableList;
+      } else {
+        if (this.fetchMasterCourseModule.master_course != "" && this.fetchMasterCourseModule.course_id == "-1" && this.fetchMasterCourseModule.teacher_id == "-1" && this.fetchMasterCourseModule.subject_id == "-1") {
+          dataList = this.timeTableResponse[0].batchTimeTableList;
+        } else {
+          dataList = this.timeTableResponse.batchTimeTableList;
+        }
       }
     }
     for (let key in dataList) {
@@ -263,6 +268,7 @@ export class ClassHomeComponent implements OnInit {
       },
       err => {
         //console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -717,4 +723,128 @@ export class ClassHomeComponent implements OnInit {
   printTimeTableData() {
 
   }
+
+  changeTeacher(data) {
+    document.getElementById('teacher' + data.schd_id).classList.add('hide');
+    document.getElementById('editTeacher' + data.schd_id).classList.remove('hide');
+  }
+
+  cancelChangeTeacher(data) {
+    document.getElementById('teacher' + data.schd_id).classList.remove('hide');
+    document.getElementById('editTeacher' + data.schd_id).classList.add('hide');
+    this.allotedTeacher = '-1';
+  }
+
+  updateTeacher(data) {
+    if (confirm('Are you sure you want to change the teacher?')) {
+      let obj = {
+        alloted_teacher_id: this.allotedTeacher,
+        batch_id: data.batch_id,
+        class_schedule_id: data.schd_id,
+        cousre_planner_update_operation: 'teacher',
+        is_exam_schedule: 'N',
+      };
+      this.classService.changeClassTeacher(obj).subscribe(
+        res => {
+          this.messageToast('success', 'Updated', 'Teacher updated successfully');
+          this.allotedTeacher = '-1';
+          this.cancelChangeTeacher(data);
+          this.submitMasterCourse();
+        },
+        err => {
+          console.log(err);
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  //Advance Filter Functionality
+
+  advanceFilterView() {
+    let validate = this.validateAllFields();
+    if (validate) {
+      let dataToSend: any = this.makeJsonForAdvanceFilter();
+      this.classService.getTimeTable(dataToSend).subscribe(
+        res => {
+          this.timeTableResponse = res;
+          this.showContent = true;
+          this.weekScheduleList = this.getClassList();
+        },
+        err => {
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  makeJsonForAdvanceFilter() {
+    let data: any;
+    if (this.isLangInstitute) {
+      data = this.makeJsonForBatch();
+    } else {
+      data = this.makeJsonForSubmit();
+    }
+    data.type = this.advanceFilter.type;
+    data.startdate = this.advanceFilter.startdate;
+    data.enddate = this.advanceFilter.enddate;
+    return data;
+  }
+
+  validateAllFields() {
+    let days: number = 0;
+    days = moment(this.advanceFilter.enddate).diff(moment(this.advanceFilter.startdate), 'days');
+    if (days > 31) {
+      this.messageToast('error', 'Error', 'Please provide date range of 30 days only');
+      return false;
+    } else {
+      this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('YYYY-MM-DD');
+      this.advanceFilter.enddate = moment(this.advanceFilter.enddate).format('YYYY-MM-DD');
+    }
+    if (this.isLangInstitute) {
+      if (this.batchData.standard_id == -1) {
+        this.messageToast('error', 'Error', 'Please provide Master Course');
+        return false;
+      }
+      if (this.batchData.subject_id == -1) {
+        this.messageToast('error', 'Error', 'Please provide Course');
+        return false;
+      }
+      if (this.batchData.batch_id == -1) {
+        this.messageToast('error', 'Error', 'Please provide Batch');
+        return false;
+      }
+    } else {
+      if (this.fetchMasterCourseModule.master_course == "-1") {
+        this.messageToast('error', 'Error', 'Please provide Master Course');
+        return false
+      }
+      if (this.fetchMasterCourseModule.course_id == "-1") {
+        this.messageToast('error', 'Error', 'Please provide Course');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  showhideAdvanceFilter(key) {
+    if (key == '0') {
+      this.showAdvanceFilter = false;
+    } else {
+      this.showAdvanceFilter = true;
+    }
+    this.showContent = false;
+    this.fetchMasterCourseModule = {
+      master_course: "-1",
+      course_id: "-1",
+      subject_id: '-1',
+      teacher_id: '-1',
+    }
+    this.batchData = {
+      standard_id: -1,
+      subject_id: -1,
+      batch_id: -1,
+    }
+  }
+
 }

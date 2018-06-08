@@ -11,6 +11,8 @@ import 'hammerjs';
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
+import { EmployeeService } from '../../services/employee-service/employee.service';
+import { AddEditEmployeeComponent } from './home/add-edit-employee/add-edit-employee.component';
 
 
 @NgModule({
@@ -27,11 +29,13 @@ import { HomeComponent } from './home/home.component';
     ],
     declarations: [
         EmployeeHomeComponent,
-        HomeComponent
-    ], 
-    entryComponents: [        
+        HomeComponent,
+        AddEditEmployeeComponent
     ],
-    providers: [  
+    entryComponents: [
+    ],
+    providers: [
+        EmployeeService
     ]
 })
 export class EmployeeHomeModule {
