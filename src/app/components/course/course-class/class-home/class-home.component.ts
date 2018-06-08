@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
@@ -158,6 +158,7 @@ export class ClassHomeComponent implements OnInit {
         //console.log('master', res);
       },
       err => {
+        this.messageToast('error', 'Error', err.error.message);
         //console.log(err);
       }
     )
@@ -173,6 +174,7 @@ export class ClassHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -196,6 +198,7 @@ export class ClassHomeComponent implements OnInit {
         //console.log(err);
         this.courseList = [];
         this.isRippleLoad = false;
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -210,6 +213,7 @@ export class ClassHomeComponent implements OnInit {
         this.subjectList = res.batchesList;
       },
       err => {
+        this.messageToast('error', 'Error', err.error.message);
         this.isRippleLoad = false;
         //console.log(err);
       }
@@ -236,6 +240,13 @@ export class ClassHomeComponent implements OnInit {
       let obj = {
         id: key,
         data: dataList[key]
+      }
+      if (dataList[key].length > 0) {
+        let schList = dataList[key];
+        for (let i = 0; i < schList.length; i++) {
+          schList[i]['selected'] = false;
+          schList[i]['date'] = key;
+        }
       }
       temp.push(obj);
     }
@@ -847,4 +858,17 @@ export class ClassHomeComponent implements OnInit {
     }
   }
 
+}
+
+@Pipe({
+  name: 'dateMonthYearFromat'
+})
+export class DateFormat implements PipeTransform {
+  public transform(value) {
+    if (value != "" && value != null && value != undefined) {
+      return moment(value).format('DD-MMM-YYYY');
+    } else {
+      return value
+    }
+  }
 }

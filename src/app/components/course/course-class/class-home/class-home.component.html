@@ -165,7 +165,7 @@
               </div>
 
               <div class="row" style="margin-top: 10px">
-                <a class="pull-right" (click)="showhideAdvanceFilter('1');">Advance Date Range Filter</a>
+                <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Date Range Filter</a>
               </div>
 
             </div>
@@ -274,7 +274,7 @@
               </div>
 
               <div class="row" style="margin-top: 10px;">
-                <a class="pull-right" (click)="showhideAdvanceFilter('0');">Go Back</a>
+                <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('0');">Back</a>
               </div>
             </div>
 
@@ -294,7 +294,7 @@
             <div class="c-lg-8 c-md-8 c-sm-8 align-center  vcd-l date-arrow">
               <div>
                 <span *ngIf="!showAdvanceFilter" class="">{{weekStart}} to {{weekEnd}}</span>
-                <span *ngIf="showAdvanceFilter" class="">{{advanceFilter.startdate}} to {{advanceFilter.enddate}}</span>
+                <span *ngIf="showAdvanceFilter" class="">{{advanceFilter.startdate | dateMonthYearFromat}} to {{advanceFilter.enddate | dateMonthYearFromat}}</span>
               </div>
             </div>
             <div class="c-lg-2 c-md-2 c-sm-2 align-right filter-search">
@@ -311,10 +311,11 @@
             <table>
               <thead>
                 <tr>
-                  <th style="width:15%">Type</th>
+                  <th style="width:10%"></th>
+                  <th style="width:10%">Type</th>
                   <th style="width:15%">Subject</th>
-                  <th style="width:12.5%">Start Date</th>
-                  <th style="width:12.5%">End Date</th>
+                  <th style="width:10%">Start Date</th>
+                  <th style="width:10%">End Date</th>
                   <th style="width:15%">Faculty</th>
                   <th style="width:15%">Topic</th>
                   <!-- <th>Home Work</th>
@@ -324,7 +325,7 @@
               </thead>
               <tbody id="tbodyItem{{i}}" class="table-accor-head" *ngFor="let class of weekScheduleList; let i=index;">
                 <tr>
-                  <td colspan="7">
+                  <td colspan="8">
                     <div class="accordian-heading">
                       <h4 class="clearFix ">
                         <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
@@ -344,14 +345,20 @@
                   </td>
                 </tr>
                 <tr id="tbodyView{{i}}" class="hide">
-                  <td colspan="7">
+                  <td colspan="8">
                     <table>
                       <tbody class="table-accor-view ">
                         <tr *ngFor="let sc of class.data; let y= index;">
-                          <td style="width:15%">{{sc.class_type}}</td>
+                          <td style="width:10%">
+                              <div class="field-checkbox-wrapper">
+                                  <input type="checkbox" name="uiSelected" class="form-checkbox" [(ngModel)]="sc.selected" id="uiSelected">
+                                  <label for="uiSelected"></label>
+                              </div>
+                          </td>
+                          <td style="width:10%">{{sc.class_type}}</td>
                           <td style="width:15%">{{sc.subject_name}}</td>
-                          <td style="width:12.5%">{{sc.start_time}}</td>
-                          <td style="width:12.5%">{{sc.end_time}}</td>
+                          <td style="width:10%">{{sc.start_time}}</td>
+                          <td style="width:10%">{{sc.end_time}}</td>
                           <td style="width:15%" class="editTeacherTd">
 
                             <div *ngIf="sc.class_type != 'Exam'" class="changeteacher">
@@ -396,7 +403,7 @@
               </tbody>
               <tbody *ngIf="weekScheduleList.length==0">
                 <tr>
-                  <td colspan="7">
+                  <td colspan="8">
                     No Classes Found
                   </td>
                 </tr>

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CourseClassRouting } from './course-class.routing.module';
 import { CourseClassComponent } from './course-class.component';
-import { ClassHomeComponent } from './class-home/class-home.component';
+import { ClassHomeComponent, DateFormat } from './class-home/class-home.component';
 import { ClassAddComponent } from './class-add/class-add.component';
 import 'moment';
 import 'hammerjs';
@@ -31,7 +31,8 @@ import { ClassScheduleService } from '../../../services/course-services/class-sc
     declarations: [
         CourseClassComponent,
         ClassHomeComponent,
-        ClassAddComponent
+        ClassAddComponent,
+        DateFormat
     ],
     providers: [
         ClassScheduleService
