@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from "../../../../services/authenticator.service";
 import * as moment from 'moment';
 import { LoginService } from '../../../../services/login-services/login.service';
-import { CounsellorServiceService } from '../../../../services/counsellor-service/counsellor-service.service';
+
 import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { EnquiryReportService } from '../../../../services/counsellor-service/counsellor-service.service';
 
 @Component({
   selector: 'app-counsellor-report',
   templateUrl: './counsellor-report.component.html',
   styleUrls: ['./counsellor-report.component.scss']
 })
-export class CounsellorReportComponent implements OnInit {
+export class CounsellorReportComponent implements OnInit{
 
   counsellorInfo = {
     user_Type: 0
@@ -45,7 +46,7 @@ export class CounsellorReportComponent implements OnInit {
 
   ];
 
-  constructor(private counsellor: CounsellorServiceService,
+  constructor(private counsellor: EnquiryReportService,
     private appc: AppComponent,
     private auth: AuthenticatorService,
     private login: LoginService) { }
@@ -105,7 +106,6 @@ export class CounsellorReportComponent implements OnInit {
             ele.studentAdmitted = ele.statusMap["Student Admitted"];
           }
         )
-        console.log(this.getCounsellorDetails);
         if(this.getCounsellorDetails.length == 0){
           this.dataStatus = 2;
         }
