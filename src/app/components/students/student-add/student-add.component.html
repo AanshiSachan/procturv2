@@ -1058,7 +1058,7 @@
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" (closePopup)="closeAllFeePops($event)" (apply)="fetchCustomFeeSchedule($event)" [installmentData]="instalmentTableData"
+  <student-fee-table *ngIf="isDefineFees" (closePopup)="closeAllFeePops($event)" (apply)="fetchCustomFeeSchedule($event)" [courseDropdown]="courseDropdown" [installmentData]="instalmentTableData"
     [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById">
   </student-fee-table>
   <!-- ======================================================== -->

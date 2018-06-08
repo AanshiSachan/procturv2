@@ -191,4 +191,16 @@ export class FetchStudentService {
     )
   }
 
+  getStudentCourseDetails(id): any {
+    let url = this.baseUrl +"/api/v1/studentWise/fee/" +this.institute_id +"/" +id;
+    return this.http.get(url, {headers: this.headers}).map(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
 }

@@ -341,7 +341,7 @@
 
               <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
                 class="form-checkbox" id="isStudentActive">
-                <label for="isStudentActive">Is Active Student</label>
+              <label for="isStudentActive">Is Active Student</label>
             </div>
           </div>
           <aside class="pull-right">
@@ -396,8 +396,8 @@
                   <div class="field-checkbox-wrapper">
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                       value="{{component.value}}">
-                      <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
@@ -427,7 +427,7 @@
                           <div class="field-checkbox-wrapper">
                             <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                               class="form-checkbox">
-                              <label for="opt.data">{{opt.data}}</label>
+                            <label for="opt.data">{{opt.data}}</label>
                           </div>
                         </li>
                       </ul>
@@ -922,8 +922,8 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
-  <student-batch-list [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)" *ngIf="isAssignBatch" [dataList]="batchList"
-  [isEdit]="true" [standardList]="standardList" [academicYear]="academicYear"></student-batch-list>
+  <student-batch-list [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)"
+    *ngIf="isAssignBatch" [dataList]="batchList" [isEdit]="true" [standardList]="standardList" [academicYear]="academicYear"></student-batch-list>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
@@ -1038,8 +1038,8 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" (closePopup)="closeAllFeePops($event)" (apply)="fetchCustomFeeSchedule($event)" [installmentData]="instalmentTableData"
-    [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById">
+  <student-fee-table *ngIf="isDefineFees" [courseDropdown]="courseDropdown" (closePopup)="closeAllFeePops($event)" (apply)="fetchCustomFeeSchedule($event)"
+    [installmentData]="instalmentTableData" [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById">
   </student-fee-table>
 
   <!-- ======================================================== -->

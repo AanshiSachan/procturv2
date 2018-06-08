@@ -320,6 +320,8 @@ export class StudentAddComponent implements OnInit {
   enableBiometric: any;
   academicYear: any[] = [];
   enquiryCustomComp: any[] = [];
+
+  courseDropdown:any = null;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
