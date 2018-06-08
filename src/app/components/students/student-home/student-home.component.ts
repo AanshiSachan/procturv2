@@ -536,6 +536,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
+    this.PageIndex = 1;
     this.studentdisplaysize = parseInt(num);
     this.bulkActionFunction();
     this.instituteData.batch_size = this.studentdisplaysize;
