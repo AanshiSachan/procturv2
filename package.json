@@ -8,7 +8,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prod": "ng build --prod --aot=false  --named-chunks --output-hashing=false  --base-href ./"
   },
   "private": true,
   "dependencies": {
@@ -39,7 +40,6 @@
     "highcharts": "^6.1.0",
     "highcharts-angular": "^1.0.2",
     "js-base64": "^2.3.2",
-    "material-design-icons": "^3.0.1",
     "moment": "^2.22.1",
     "muuri": "^0.5.4",
     "ng2-completer": "^1.6.3",
