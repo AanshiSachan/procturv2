@@ -152,16 +152,28 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
 
-    userRowClicked($event, ev, row) {
+    userRowClicked($event, ev, row, key) {
         this.cd.markForCheck();
         $event.preventDefault();
         $event.stopPropagation();
         this.selectedRow = ev;
-        this.userRowSelect.emit(row);
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqcount"){
+            this.userRowSelect.emit(
+                {
+                    key:key,
+                    data:row[key]
+                }
+            );
+        }
+        else{
+            this.userRowSelect.emit(row);
+        }
+        
+
         this.getSelectedRows();
-        console.log(ev);
-        console.log(row);
-        console.log($event)
+        // console.log(ev);
+        // console.log(row);
+        // console.log($event)
     }
 
 
