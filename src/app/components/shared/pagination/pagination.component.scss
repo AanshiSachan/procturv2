@@ -1,0 +1,146 @@
+.pagination {}
+
+:host {
+    flex: 0 0 30px;
+    display: flex;
+    .pagination {
+        width: 100%;
+        position: relative;
+        flex: 1;
+        background: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .description {
+            float: left;
+            font-weight: 700;
+            font-size: 14px;
+            .page-counts {
+                margin-right: 20px;
+            }
+        }
+        .batch-size {
+            float: left;
+            padding-left: 70px;
+            /* ======================== DropDown Menu ================================= */
+            /* Dropdown Button */
+            .bulk-dropbtn {
+                padding: 0px 0px 3px 0px;
+                background: #efefef;
+                border: none;
+                margin-left: 10px;
+                display: inline-block;
+                font-size: 14px;
+                font-weight: 600;
+                box-sizing: border-box;
+                height: 35px;
+                cursor: pointer;
+            }
+            /* The container <div> - needed to position the dropdown content */
+            .bulk-dropdown {
+                position: relative;
+                display: inline-block;
+                .bulk-dropbtn {
+                    padding: 0px 0px 3px 0px;
+                    background: #efefef;
+                    border: none;
+                    margin-left: 10px;
+                    display: inline-block;
+                    font-size: 14px;
+                    font-weight: 600;
+                    box-sizing: border-box;
+                    height: 35px;
+                    cursor: pointer;
+                    .caret {
+                        margin-left: 5px;
+                        display: inline-block;
+                        width: 0;
+                        height: 0;
+                        vertical-align: middle;
+                        border-top: 4px dashed;
+                        border-right: 4px solid transparent;
+                        border-left: 4px solid transparent;
+                        box-sizing: border-box;
+                        font-size: 14px;
+                        font-weight: 400;
+                        line-height: 1.42857143;
+                        text-align: center;
+                        white-space: nowrap;
+                        cursor: pointer;
+                        user-select: none;
+                        font-family: inherit;
+                        text-transform: none;
+                        text-indent: 0px;
+                        text-shadow: none;
+                    }
+                }
+                .bulk-dropbtn-border {
+                    padding: 7px 12px;
+                    background: #fff;
+                    border: 2px solid rgba(204, 204, 204, 0.61);
+                    margin-left: 10px;
+                    display: inline-block;
+                    font-size: 14px;
+                    font-weight: 600;
+                    box-sizing: border-box;
+                    height: 35px;
+                    cursor: pointer;
+                    color: #0084f6;
+                    &:active {
+                        box-shadow: none;
+                    }
+                    &::focus {
+                        outline: none;
+                    }
+                }
+                /* Dropdown Content (Hidden by Default) */
+                .bulk-dropdown-content {
+                    display: block;
+                    position: absolute;
+                    background-color: #f9f9f9;
+                    min-width: 70px;
+                    left: 70%;
+                    bottom:30px;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    z-index: 1;
+                    text-align: left;
+                    cursor: pointer;
+                }
+                /* Links inside the dropdown */
+                .bulk-dropdown-content a {
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                }
+                /* Change color of dropdown links on hover */
+                .bulk-dropdown-content a:hover {
+                    background-color: #f1f1f1
+                }
+            }
+        }
+        .numbers {
+            display: block;
+            text-align: right;
+            flex: 1;
+            button {
+                flex: 0 0 auto;
+                outline: none;
+                border: 0;
+                padding: 0 5px;
+                background: transparent;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 800;
+                &.active {
+                    background: #0084f6;
+                    font-size: 18px;
+                    color: white;
+                }
+                &.disabled {
+                    color: grey
+                }
+            }
+        }
+    }
+}

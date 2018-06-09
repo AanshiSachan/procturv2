@@ -1,0 +1,30 @@
+<section class="middle-top clearFix">
+    <div class="row">
+        <h1 class="pull-left">
+            Zendesk
+        </h1>
+    </div>
+
+</section>
+
+<section class="middle-main clearFix" id="middleMain">
+    <div class="add-new-enquiry-form accordian-section">
+
+
+        <div class="field-wrapper">
+            <label for="phone">Subject</label>
+            <input type="text" value="" class="form-ctrl" [(ngModel)]= "payload.ticket.subject"/>
+        </div>
+
+
+        <div class="field-wrapper">
+            <label for="phone">Description</label>
+            <input type="text" value=""  class="form-ctrl"[(ngModel)]= "payload.ticket.description"/>
+        </div>
+        <div>
+        <button class="btn fullBlue btnclass pull-right" (click)="posterData()">Submit</button>
+        <i class="far fa-arrow-alt-circle-right"></i>
+    </div>
+
+    </div>
+</section>

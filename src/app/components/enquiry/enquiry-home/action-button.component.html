@@ -1,0 +1,57 @@
+<button aria-expanded="true" class="dropdown-trigger" (click)="openMenu()">
+    <span class="svg-icon-wrap">
+        <span class="visually-hidden"></span>
+        <div aria-hidden="true" type="ellipsis-horizontal-icon">
+            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                focusable="false">
+                <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+            </svg>
+        </div>
+    </span>
+</button>
+
+<div class="dd-list-container" *ngIf="showMenu">
+    <div class="dropdown-list">
+        <div class="dd-list-inner">
+            <ul class="actions-menu">
+
+                <li class="action-item" (click)="openPopup('update')">
+                    <a class="enq-act enq-act--one">
+                        <img src="./assets/images/update_enquiry.svg" height="10" width="20"> Update Enquiry
+                    </a>
+                </li>
+
+                <li class="action-item" (click)="NavigateToEdit()">
+                    <a class="enq-act enq-act--two">
+                        <img src="./assets/images/edit_details.svg" height="10" width="20">Edit Enquiry
+                    </a>
+                </li>
+
+                <li class="action-item" *ngIf="rowData.status ==0" (click)="openPopup('delete')">
+                    <a class="enq-act enq-act--three">
+                        <img src="./assets/images/delete_entry.svg" height="10" width="20">Delete Enquiry
+                    </a>
+                </li>
+
+                <li class="action-item" *ngIf="rowData.status !=12 && hasStudentAccess" (click)="openPopup('convert')">
+                    <a class="enq-act enq-act--four">
+                        <img src="./assets/images/convert_student.svg" height="10" width="20">Convert to Admission
+                    </a>
+                </li>
+
+                <li class="action-item" *ngIf="isProfessional && (rowData.status == 12|| rowData.status ==11)" (click)="openPopup('payment')">
+                    <a class="enq-act enq-act--five">
+                        <img src="./assets/images/reciept_preview.svg" height="10" width="20">Registration Fees
+                    </a>
+                </li>
+
+                <li class="action-item" (click)="openPopup('sms')">
+                    <a class="enq-act enq-act--six">
+                        <img src="./assets/images/send_email.svg" height="10" width="20">Send SMS
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>

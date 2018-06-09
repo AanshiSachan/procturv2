@@ -1,0 +1,44 @@
+<div class="middle-section clearFix">
+    <section class="middle-main clearFix">
+        <div class="common-tab hide">
+            <ul>
+                <li id="home" (click)="switchActiveView('home')" class="">
+                    <a routerLink="/reports/home">Home</a>
+                </li>
+                <li id="attendance" (click)="switchActiveView('attendance')" class="">
+                    <a routerLink="/reports/attendance">Attendance</a>
+                </li>
+
+                <li id="biometric" *ngIf=biometricAttendanceEnable (click)="switchActiveView('biometric')" class="">
+                    <a routerLink="/reports/biometric">Biometric Attendance</a>
+                </li>
+
+                <li id="sms" (click)="switchActiveView('sms')">
+                    <a routerLink="/reports/sms">SMS</a>
+                </li>
+                <li id="fee" (click)="switchActiveView('fee')" class="">
+                    <a routerLink="/reports/fee">Fee</a>
+                </li>
+                <li id="exam" (click)="switchActiveView('exam')" class="">
+                    <a routerLink="/reports/exam">Exam</a>
+                </li>
+                <li id="report" (click)="switchActiveView('report')" class="hide">
+                    <a routerLink="/reports/reportCard">Report Card</a>
+                </li>
+                <li id="time" (click)="switchActiveView('time')" class="">
+                    <a routerLink="/reports/timeTable">Time Table</a>
+                </li>
+                <li id="email" (click)="switchActiveView('email')" class="">
+                    <a routerLink="/reports/email">Email</a>
+                </li>
+                <li id="profit" (click)="switchActiveView('profit')" class="hide">
+                    <a routerLink="/reports/profitNloss">Profit and Loss</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>

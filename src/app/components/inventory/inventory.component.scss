@@ -1,0 +1,78 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.router-container {
+    border: 1px solid #deeaee;
+    width: 100%;
+    height: 80vh;
+}
+
+.common-tab {
+    padding-top: 5px;
+    ul {
+        font-size: 0;
+        border-bottom: 1px solid #f1f1f1;
+        li {
+            margin-right: 1px;
+            display: inline-block;
+            width: 10%;
+            max-width: 158px;
+            cursor: pointer;
+            a {
+                display: block;
+                padding: 10px 5px;
+                background: #eff7ff;
+                border: 1px solid #cccdcd;
+                color: $common-blue;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            &:hover,
+            &.active {
+                a {
+                    background: $common-blue;
+                    color: $bg-white;
+                    border-color: $common-blue;
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .common-tab ul li {
+        width: auto;
+        a {
+            font-size: 10px;
+        }
+    }
+    .field-checkbox-wrapper .form-checkbox+label {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width:767px) {
+    .common-tab ul li {
+        margin-right: 0;
+        width: 20%;
+        a {
+            padding: 5px 5px;
+            font-size: 12px;
+        }
+    }
+}
+
+.boxPadding15 {
+    box-sizing: $border-box;
+    padding: 0 15px;
+}
+
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}

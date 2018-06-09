@@ -1,0 +1,98 @@
+<section class="activity-page">
+    <section class="clearFix row">
+        <div class="activity-left">
+            <div class="act-bottom clearfix">
+                <ul class="actb-wrapper">
+                    <li class="schedule-state">
+                        <div>
+                            <div class="schedule-bottom">
+
+
+                                <ul class="sche-head">
+                                    <li *ngIf="isMulti">
+                                        <div class="field-checkbox-wrapper" style="background: transparent;">
+                                            <input #headerCheckbox type="checkbox" value="" name="check" [checked]="isAllChecked()" (change)="selectAllRows($event)"
+                                                class="form-checkbox">
+                                            <label></label>
+                                        </div>
+                                    </li>
+                                    <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)">
+                                        {{ map.header }}
+                                        <div *ngIf="isSorted(map)" style="display: inline-block">
+                                            <div *ngIf="asc;then ascending else descending">
+                                            </div>
+                                            <ng-template #ascending>
+                                                <div class="fa fa-caret-down"></div>
+                                            </ng-template>
+                                            <ng-template #descending>
+                                                <div class="fa fa-caret-up"></div>
+                                            </ng-template>
+                                        </div>
+                                    </li>
+                                    <li *ngIf="hasMenu"></li>
+                                </ul>
+
+
+                                <div class="schedule-scroller" *ngIf="records.length != 0">
+                                    <ul class="ul-body ct-ongoing" *ngFor="let record of recordsTrimmed; let i = index;" [class.selected]="i == selectedRow">
+                                        <li *ngIf="isMulti">
+                                            <div class="field-checkbox-wrapper" style="background: transparent;">
+                                                <input type="checkbox" name="recordcb[]" value="" name="check" class="rowCheckbox form-checkbox" [(ngModel)]="record.uiSelected"
+                                                    (ngModelChange)="rowCheckboxChange(record)">
+                                                <label></label>
+                                            </div>
+                                        </li>
+                                        <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
+                                            {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header }}
+                                        </li>
+                                        <li class="option-menu" *ngIf="hasMenu">
+                                            <drop-menu [dropType]="dropType" [info]="record" [menuOptions]="menuOptions" (selectedRecord)="recordSelected($event)"></drop-menu>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 1">
+                                    <ul class="ul-body ct-ongoing" *ngFor="let dummy of dummyArr">
+                                        <li *ngIf="isMulti">
+                                            <div class="skeleton">
+                                            </div>
+                                        </li>
+                                        <li class="{{c.primaryKey}}" *ngFor="let c of columnMaps">
+                                            <div class="skeleton">
+                                            </div>
+                                        </li>
+                                        <li *ngIf="hasMenu">
+                                            <div class="skeleton">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 2">
+                                    <ul class="ul-body ct-ongoing">
+                                        <li style="width: 100%;">
+                                            <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus == 3">
+                                    <ul class="ul-body ct-ongoing">
+                                        <li style="width: 100%;">
+                                            <label style="font-size: 16px;font-weight: 600;">Enter Detail to Search</label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</section>
+
+<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+    [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)" [count]="recordCount">
+</pagination>

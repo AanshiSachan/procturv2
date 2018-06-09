@@ -1,0 +1,504 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+
+@media screen and (max-width: 767px) {
+    .dropdown-trigger {
+        margin-top: 30px !important;
+    }
+}
+
+.dropdown-trigger {
+    background: white;
+    position: absolute;
+    right: 60px;
+    top: 10px;
+    margin-top: 6px;
+    z-index: 100;
+}
+
+.svg-icon-wrap {
+    display: inline-block;
+}
+
+.visually-hidden {
+    display: block;
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.dd-list-container {
+    position: absolute;
+    top: 40px;
+    border: 1px solid rgba(119, 119, 119, 0.29);
+    right: 50px;
+    z-index: 100;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    background: white;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.611764705882353);
+    .dropdown-list {}
+}
+
+.actions-menu {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+    padding: 5px;
+    .action-item {
+        padding: 10px;
+        background: white;
+        cursor: pointer;
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-right: 8px;
+        }
+        &:hover {
+            background: #eff1f5;
+        }
+    }
+}
+
+.sidebar-wrapper {
+    .update-form-wrapper {
+        .sixty {
+            .field-wrapper {
+                position: relative;
+                padding-top: 20px;
+                &.datePickerBox {
+                    .bsDatepicker {
+                        cursor: pointer;
+                        position: relative;
+                        z-index: 1;
+                        background: transparent;
+                    }
+                    &:after {
+                        content: '';
+                        background: url("/./assets/images/calendar.svg") no-repeat;
+                        position: absolute;
+                        right: 40%;
+                        top: 18px;
+                        width: 21px;
+                        height: 21px;
+                        z-index: 0;
+                    }
+                }
+                .date-clear {
+                    position: absolute;
+                    right: 60%;
+                    top: 50px;
+                    cursor: pointer;
+                    color: #0084f6;
+                }
+            }
+            .field-wrapper .form-ctrl {
+                display: block;
+                width: 75%;
+                box-sizing: border-box;
+                padding: 10px 0 5px;
+                outline: none;
+                border: 0;
+                border-bottom: solid 1px #e2ebee;
+                height: 36px;
+                font: 400 13.3333px Arial;
+                box-shadow: none;
+                border-radius: 0;
+                line-height: 24px;
+            }
+            .field-wrapper label {
+                position: absolute;
+                top: 22px;
+                font-size: 14px;
+                left: 0px;
+                transition: all 0.1s ease-in-out;
+                color: #777;
+            }
+            .field-wrapper .form-ctrl:focus {
+                padding: 12px 0 6px;
+                border-bottom: solid 2px $common-blue;
+                box-shadow: none;
+                line-height: 26px;
+            }
+            .field-wrapper.has-value .form-ctrl+label,
+            .field-wrapper .form-ctrl:focus+label {
+                font-size: 8px;
+                top: 6px;
+                left: 0px;
+            }
+            .field-wrapper.has-value .form-ctrl+label,
+            .field-wrapper .form-ctrl:focus+label {
+                color: $common-blue;
+                font-size: 13px;
+            }
+        }
+        .time-picker {
+            .field-wrapper {
+                position: relative;
+                padding-top: 20px;
+            }
+            .field-wrapper .form-ctrl {
+                display: block;
+                box-sizing: border-box;
+                padding: 10px 0 5px;
+                outline: none;
+                border: 0;
+                border-bottom: solid 1px #e2ebee;
+                height: 36px;
+                font: 400 13.3333px Arial;
+                box-shadow: none;
+                border-radius: 0;
+                line-height: 24px;
+            }
+            .field-wrapper label {
+                position: absolute;
+                top: 22px;
+                font-size: 14px;
+                left: 0px;
+                transition: all 0.1s ease-in-out;
+                color: #777;
+            }
+            .field-wrapper .form-ctrl:focus {
+                padding: 12px 0 6px;
+                border-bottom: solid 2px $common-blue;
+                box-shadow: none;
+                line-height: 26px;
+            }
+            .field-wrapper.has-value .form-ctrl+label,
+            .field-wrapper .form-ctrl:focus+label {
+                font-size: 8px;
+                top: 6px;
+                left: 0px;
+            }
+            .field-wrapper.has-value .form-ctrl+label,
+            .field-wrapper .form-ctrl:focus+label {
+                color: $common-blue;
+                font-size: 13px;
+            }
+        }
+    }
+    .row {
+        margin: 5px 0px;
+    }
+    .header-row {
+        .student-details-wrapper {
+            width: 50%;
+            padding: 10px 0px 0px 15px;
+            display: inline-block;
+        }
+        .profile-details-wrapper {
+            width: 20%;
+            display: inline-block;
+            .profile-wrapper {
+                height: 50px;
+                width: 50px;
+                padding: 0px;
+                float: right;
+                border: 3px solid #0060A3;
+                border-radius: 50%;
+                background: #4b9cd3;
+                overflow: hidden;
+                .no-img {
+                    background-image: url("../../../../assets/images/studentblue.png");
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    width: 100%;
+                    z-index: 1;
+                    height: 100%;
+                }
+                .image-disp {
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    width: 100%;
+                    z-index: 10;
+                    height: 100%;
+                }
+            }
+        }
+        ul {
+            list-style: none;
+            li {
+                padding: 5px 0px 0px 0px;
+                max-height: 50px;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+
+/* Style the buttons that are used to open and close the accordion panel */
+
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+
+.active,
+.accordion:hover {
+    background-color: #ccc;
+}
+
+
+/* Style the accordion panel. Note: hidden by default */
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+}
+
+.submitter {
+    margin: 10px 0px;
+}
+
+.acc-wrapper {
+    display: inline-block;
+    /* position: relative;
+    left: 50%; */
+    margin: 10px 0;
+    padding: 0px 5px;
+    width: 100%;
+    height: 100%;
+    .detail-wrapper {
+        .form-wrapper {
+            background: transparent;
+            margin: 5px 0px;
+            &.datepicker {
+                span {
+                    position: absolute;
+                    top: 35px;
+                    right: 20px;
+                    font-weight: 600;
+                    font-size: 16px;
+                    color: red;
+                    cursor: pointer;
+                    width: 20px;
+                    text-align: center;
+                    /* &::before {
+                        content: '';
+                        background: url('/assets/images/calendar.svg') no-repeat;
+                        position: absolute;
+                        right: 25px;
+                        top: 0px;
+                        width: 21px;
+                        height: 21px;
+                        z-index: 0;
+                    } */
+                }
+            }
+            label {
+                font-size: 12px;
+                font-weight: 400; 
+                color: rgba(0, 0, 0, 0.77);
+                padding-bottom: 2px;
+                text-decoration: none;
+                text-transform: uppercase;
+                -webkit-font-smoothing: antialiased;
+            }
+            .side-form-ctrl {
+                background: #efefef;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 2px 5px;
+                border-radius: 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+                cursor: context-menu;
+                &.bsDatepicker {
+                    padding: 5px;
+                    width: 100%;
+                }
+            }
+            &.timepick {
+                width: 50%;
+                padding: 1px 15px;
+                .tbox {
+                    width: 100%;
+                    .times {
+                        display: inline-block;
+                    }
+                    .side-form-ctrl {
+                        background: #efefef;
+                        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                        width: 100%;
+                        padding: 8px 5px;
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: black;
+                        cursor: context-menu;
+                        &.mins {
+                            width: 80px;
+                        }
+                        &.mers {
+                            width: 50px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    i {
+        position: absolute;
+        transform: translate(-6px, 0);
+        margin-top: 12px;
+        right: 10px;
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            background-color: #000000;
+            width: 3px;
+            height: 9px;
+        }
+        &:before {
+            transform: translate(-2px, 0) rotate(45deg);
+        }
+        &:after {
+            transform: translate(2px, 0) rotate(-45deg);
+        }
+    }
+    .liclosed {
+        i {
+            &:before {
+                transform: translate(2px, 0) rotate(45deg);
+            }
+            &:after {
+                transform: translate(-2px, 0) rotate(-45deg);
+            }
+        }
+        section {
+            height: 0;
+        }
+    }
+    section {
+        color: rgba(25, 27, 29, 0.8);
+        line-height: 26px;
+        letter-spacing: 1px; //background: #efefef;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 100%;
+        opacity: 1;
+        transform: translate(0, 0);
+        margin-top: 0px;
+        z-index: 2;
+    }
+    .row {
+        margin: 0;
+        &.lihead {
+            h2 {
+                font-size: 14px;
+                line-height: 40px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                display: block;
+                background-color: #ffffff;
+                color: rgba(0, 0, 0, 0.72);
+                padding-left: 10px;
+                border-radius: 0px;
+                margin: 0;
+                border-bottom: 1px solid rgba(218, 218, 218, 0.74);
+                border-top: 1px solid rgba(218, 218, 218, 0.74);
+                cursor: pointer;
+            }
+        }
+    }
+    section {
+        //transition: all 0.25s ease-in-out;
+        .comment-card {
+            .comby {
+                font-size: 10px;
+                font-weight: 700;
+                text-decoration: underline;
+                text-overflow: ellipsis;
+                text-transform: capitalize;
+            }
+            .comdate {
+                font-size: 8px;
+                color: black;
+            }
+            .commess {
+                font-size: 13px;
+                font-weight: 500;
+                text-align: left;
+                padding-bottom: 5px;
+                color: black;
+            }
+        }
+        .basic-wrapper {
+            .label {
+                font-size: 12px;
+                color: black;
+                text-align: left;
+            }
+            .data {
+                font-size: 12px;
+                color: black;
+                text-align: left;
+            }
+        }
+        .other-wrapper {
+            .label {
+                font-size: 12px;
+                color: black;
+                text-align: left;
+            }
+            .data {
+                font-size: 12px;
+                color: black;
+                text-align: left;
+            }
+        }
+    }
+    h1,
+    h2 {
+        color: #000000;
+    }
+    h1 {
+        text-transform: uppercase;
+        font-size: 36px;
+        line-height: 42px;
+        letter-spacing: 3px;
+        font-weight: 100;
+    }
+    ul {
+        list-style: none;
+        perspective: 900;
+        padding: 0;
+        margin: 0;
+        li {
+            position: relative;
+            padding: 0;
+            margin: 0;
+            padding-bottom: 3px 5px;
+            border-top: 2px solid rgba(218, 218, 218, 0.44);
+        }
+    }
+}

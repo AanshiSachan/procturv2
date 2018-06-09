@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3872.5 2200.5 18 18">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #95989a;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        fill: #0084f6;
+      }
+    </style>
+  </defs>
+  <g id="Group_1424" data-name="Group 1424" transform="translate(2798 1737)">
+    <g id="Group_1414" data-name="Group 1414" transform="translate(-174 -64)">
+      <g id="Group_1453" data-name="Group 1453">
+        <ellipse id="Ellipse_63" data-name="Ellipse 63" class="cls-1" cx="2.595" cy="2.595" rx="2.595" ry="2.595" transform="translate(1260.811 530)"/>
+        <path id="Path_547" data-name="Path 547" class="cls-1" d="M15.7,9.838v4.541a1.735,1.735,0,0,1-1.73,1.73H2.73A1.735,1.735,0,0,1,1,14.378V5.73A1.735,1.735,0,0,1,2.73,4h7.308" transform="translate(1249 527.297)"/>
+        <path id="Path_548" data-name="Path 548" class="cls-1" d="M1,8l7.351,4.324,3.027-1.73" transform="translate(1249 525.027)"/>
+      </g>
+      <circle id="Ellipse_64" data-name="Ellipse 64" class="cls-2" cx="1.73" cy="1.73" r="1.73" transform="translate(1261.676 530.865)"/>
+    </g>
+    <path id="Path_552" data-name="Path 552" class="cls-3" d="M.5.5h18v18H.5Z" transform="translate(1074 463)"/>
+  </g>
+</svg>

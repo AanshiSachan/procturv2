@@ -1,0 +1,110 @@
+ 
+ <div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <div class="row">
+      <h1 class="pull-left">
+        Topics
+      </h1>
+    </div>
+
+    <section class="middle-main clearFix">
+      <div class="row">
+        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2"></div>
+        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+          <div class="form-wrapper">
+            <label>Standard Name*</label>
+            <select class="side-form-ctrl" [(ngModel)]="TopicPayload.standard_id" (ngModelChange)="getSubjectData($event)" name="StandardCourses">
+              <option value="-1" selected>--Select Standard--</option>
+              <option *ngFor="let i of StandardCourses" [value]="i.standard_id">{{i.standard_name}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+          <div class="form-wrapper">
+            <label style="padding-left:0px;">Subject Name*</label>
+            <select class="side-form-ctrl" style="margin-left:0px;" [(ngModel)]="TopicPayload.subject_id" name="SubjectCourses">
+              <option value="-1" selected>--Select Subject--</option>
+              <option *ngFor="let i of SubjectCourses" [value]="i.subject_id">{{i.subject_name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2"></div>
+      </div>
+
+
+      <section class="middle-main clearFix">
+
+        <div class="clearFix add-edit">
+          <a (click)="toggleCreateNewTopic()">
+            <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+            <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+            <span>Add Topics</span>
+          </a>
+        </div>
+        <section class="clearFix create-standard-form" *ngIf="createNewTopic">
+          <div class="row">
+            <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
+              <div class="form-wrapper label-set">
+                <label style="padding-left:0px"> Topic/SubTopic Name*</label>
+                <select class="side-form-ctrl left-shift" [(ngModel)]="addingTopicPayload.parent_topic_id">
+                  <option value="-1" selected>--Select Topic/SubTopic Name--</option>
+                  <option *ngFor="let topic of topicsArr" [value]="topic.institute_topic_id">{{topic.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3">
+              <div class="field-wrapper" [ngClass]="{'has-value': TopicData!= ''}">
+                <input type="text" class="form-ctrl" [(ngModel)]="addingTopicPayload.name" name="Topic/SubTopic Name">
+                <label for="Topic/SubTopic Name"> Topic/SubTopic Name*</label>
+              </div>
+            </div>
+            <div class="c-lg-4 c-md-4 c-sm-4 c-sx-4">
+              <div class="field-wrapper" [ngClass]="{'has-value': TopicDesc!= ''}">
+                <input type="text" class="form-ctrl" [(ngModel)]="addingTopicPayload.description" name="Topic/SubTopic Desc">
+                <label for="Topic/SubTopic Desc">Topic/SubTopic Description*</label>
+              </div>
+            </div>
+            <div class="c-lg-1 c-md-1 c-sm-1 c-sx-1">
+              <button class="btn pull-right fullBlue btnclass pulldown" (click)="createTopic()">Save</button>
+            </div>
+          </div>
+        </section>  
+        <div class="filter-box clearFix">
+          <button *ngIf="selectedRows.length > 1" class="btn pull-right fullBlue btnclass pull-left" style="margin-top: 11px;margin-left: 5px;">
+            Delete Selected
+          </button>
+
+          <div class="pull-right">
+            <div class="search-filter-wrapper">
+              <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+            </div>
+          </div> 
+          
+      </div>
+
+        <p-treeTable [value]="pagedTopicsArr" selectionMode="checkbox" [(selection)]="selectedRows">
+          <p-column field="institute_topic_id" header="Topic/SubTopic Id"></p-column>
+          <p-column field="name" header="Topic/SubTopic Name"></p-column>
+          <p-column field="update_date" header="Update Date"></p-column>
+          <p-column header="Edit" styleClass="primehead">
+            <ng-template let-col let-node="rowData" pTemplate="body">
+              <span (click)="editTopicNode()"><i class="fa fa-edit" style="font-size:24px"></i>Edit</span>
+            </ng-template>
+          </p-column>
+          <p-column header="Delete">
+            <ng-template let-col let-node="rowData" pTemplate="body">
+              <span (click)="deleteTopicNode()"><i class="fa fa-trash-o" style="font-size:24px"></i>Delete</span>
+            </ng-template>
+          </p-column>
+
+        </p-treeTable>
+
+        <!-- Paginator Here  -->
+        <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+            </pagination>
+          </div>
+        </div>

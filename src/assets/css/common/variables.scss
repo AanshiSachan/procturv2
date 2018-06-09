@@ -1,0 +1,78 @@
+$pull-L: left;
+$pull-R: right;
+$pull-none: none;
+$full-width: 100%;
+$border-box: border-box;
+$border-color: #deeaee;
+$bg-white: #fff;
+$error-color: #ff0000;
+$common-blue: #0084f6;
+$primary-color: #333;
+$border-common:#eaeaeb;
+
+/* ===============================header colors=======================*/
+
+$header-bg:#0060A3;
+$header-border:#eaeaeb;
+$leftMenuBg:#fafafa;
+$leftMenuHoverBg:#0084f6;
+$leftMenuTextHoverColor:#fff;
+$redBtn:#f44336;
+$borderccc:#ccc;
+$lightBlue:#eff7ff;
+$tableHeadingBgColor: #004a7e;
+.table-format-first {
+    .table-responsive {
+        table {
+            th,
+            td {
+                text-align: center;
+                padding: 10px 5px;
+            }
+            th {
+                text-transform: capitalize;
+                font-size: 14px;
+            }
+            tbody {
+                tr {
+                    td {
+                        .field-checkbox-wrapper {
+                            display: inline-block;
+                            overflow: initial;
+                            margin-left: 0;
+                            width: auto;
+                            position: relative;
+                            background: transparent;
+                            .form-checkbox {
+                                z-index: 2;
+                            }
+                            .form-checkbox+label {
+                                font-size: 16px;
+                                margin-left: 7px;
+                                font-weight: 600;
+                                vertical-align: middle;
+                                &:after,
+                                &:before {
+                                    z-index: 1;
+                                }
+                            }
+                            &:after {
+                                content: '';
+                                width: 20px;
+                                height: 20px;
+                                background: #fff;
+                                left: 0;
+                                top: 0;
+                                position: absolute;
+                            }
+                        }
+                        .fa-trash-o {
+                            color: $redBtn;
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

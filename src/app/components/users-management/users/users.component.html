@@ -1,0 +1,217 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+
+<section class="middle-section clearFix">
+  <div class="content-container">
+
+    <div class="head">
+      <div class="row">
+        <div class="pull-left">
+          <div class="header-wrapper">
+            <h3 style="display: inline-flex">User List
+              <div style="margin-top: -8px">
+                <rob-tooltip [textMessage]="'?'" [message]="toottip" [placement]="'left'" [customClass]="'left'">
+                </rob-tooltip>
+              </div>
+            </h3>
+          </div>
+        </div>
+        <div class="btnWrapper">
+          <button class="btn pull-right" routerLink='addedit'>
+            <div class="option-wrap">
+              <img src="assets/images/plus.png" alt="Add User" style="vertical-align: -webkit-baseline-middle;">
+              <span class="tooltip tooltipWrapper">
+                Add User
+              </span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="filter-section">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <div class="field-wrapper">
+            <label for="userType">User Type</label>
+            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.role">
+              <option value="-1"></option>
+              <option value="100">Admin</option>
+              <option value="0">Custom</option>
+              <option value="3">Teacher</option>
+              <option value="1">Student</option>
+              <option value="5">Parent</option>
+              <option value="99">Open App User</option>
+              <option value="1000">Others</option>
+            </select>
+          </div>
+        </div>
+        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 35px;">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="dataFilter.is_active" id="isAct">
+            <label for="isAct">Is Active</label>
+          </div>
+        </div>
+        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 30px;">
+          <button class="btn fullBlue" (click)="getAllUserList()">Go</button>
+        </div>
+        <div class="">
+          <div class="pull-right" style="margin-top: 30px;margin-right: 15px;">
+            <div class="search-filter-wrapper">
+              <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-table-wrapper" *ngIf="showUserTable">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Contact No</th>
+              <th>Name</th>
+              <th>Alternate Email Login Id</th>
+              <th>Is Active</th>
+              <!-- <th>Added Date</th> -->
+              <th>User Role</th>
+              <th>User Type</th>
+              <th>Allocate Inventory</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of usersList; let i = index; trackBy: i">
+              <td>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (click)="userSelectedEvent($event , data)">
+                  <label></label>
+                </div>
+              </td>
+              <td>{{data.username}}</td>
+              <td>{{data.name}}</td>
+              <td>{{data.alternate_email_id}}</td>
+              <td>{{data.is_active}}</td>
+              <!-- <td>{{data.created_date}}</td> -->
+              <td>{{data.role_name}}</td>
+              <td>{{data.userType}}</td>
+              <td>
+                <a (click)="allocateItemToUser(data)">Allocate</a>
+              </td>
+              <td class="action-menu">
+                <a [routerLink]='["addedit" , data.user_id]'>Edit</a>
+                <!-- <a (click)="deleteUser(data)">Delete</a> -->
+              </td>
+            </tr>
+            <tr *ngIf="usersList.length == 0">
+              <td colspan="9">
+                No User Data Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
+
+    <div class="btn-group pull-right" *ngIf="usersList.length > 0">
+      <button (click)="sendSmsForApp('1')" class="btn fullBlue">SMS For APP Download</button>
+      <button (click)="sendSmsForApp('2')" class="btn fullBlue">SMS For APP Upgradation</button>
+      <button (click)="sendSmsForApp('3')" class="btn fullBlue">SMS For APP Alternate Login Registration</button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="allocateItemPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUp()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228 " data-name="Group 1228" transform="translate(8298 1888) ">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77)rotate(45)" />
+              <line id="Line_275 " data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77)rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content allocation-popup">
+        <h2>Allocate Inventory Item</h2>
+        <div class="row filler-section">
+          <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="field-wrapper">
+              <label for="">Item*</label>
+              <select id="" class="form-ctrl" [(ngModel)]="allocateInventory.item_id" (ngModelChange)="onitemSelction()">
+                <option value="-1"></option>
+                <option *ngFor="let opt of inventoryList" [value]="opt.item_id">
+                  {{opt.item_name}} ({{opt.category_name}})
+                </option>
+              </select>
+              <p *ngIf="showUnit">Available Units:{{availableunit}}</p>
+            </div>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="field-wrapper">
+              <label for="unitInv">Unit*</label>
+              <input type="text" class="form-ctrl" [(ngModel)]="allocateInventory.alloted_units" id="unitInv" name="unitInv">
+            </div>
+          </div>
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <button class="btn fullBlue" (click)="allocateItem()" style="margin-top: 25px">Allocate</button>
+          </div>
+        </div>
+
+        <h3>Item Allocation History</h3>
+        <div class="table-wrapper-user table-histrory">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of inventoryAllocated">
+                <td>{{s.created_date}}</td>
+                <td>{{s.item_name}}</td>
+                <td>{{s.category_name}}</td>
+                <td>{{s.alloted_units}}</td>
+                <td>
+                  <a (click)="deleteInventoryItem(s)">Delete</a>
+                </td>
+              </tr>
+              <tr *ngIf="inventoryAllocated.length == 0">
+                <td colspan="5">
+                  No Item Allocated To User
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

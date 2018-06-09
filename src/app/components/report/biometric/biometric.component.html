@@ -1,0 +1,797 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="clear-fix background">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+
+      <section class="middle-top mb0 clearFix sms-header">
+        <h2 class="pull-left">
+          <a routerLink="/reports/home">
+            Report
+            <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Biometric Report
+        </h2>
+        <div class="c-lg-2 hide" *ngIf="showButton" style="float:right;">
+          <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
+        </div>
+        <aside class="pull-right">
+        </aside>
+        <section class="filter-form ">
+
+          <div class="filterSectionWrapper">
+
+            <div class="row">
+              <div class="c-lg-3">
+                <div class="form-wrapper" style="padding-left:none; margin-left:none">
+                  <label>Role</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.user_Type" (ngModelChange)="showMaster($event)">
+                    <option selected [value]="1">Students</option>
+                    <option [value]="3">Teachers</option>
+                    <option [value]="0">Custom</option>
+                    <option [value]="1000">Others</option>
+                    <option [value]="100">Admin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="c-lg-3 prepare" style="margin-top:0px;">
+                <div class="form-wrapper datePickerBox">
+                  <label> Select Date</label>
+                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date" (ngModelChange)="dateValidationForFuture($event)">
+                </div>
+              </div>
+              <div class="c-lg-3">
+                <div class="form-wrapper">
+                  <label> Name</label>
+                  <input type="text" placeholder="Name" class="side-form-ctrl" (change)="courseEmpty()" [(ngModel)]="getData.name" [value]="getData.is_active_status">
+                </div>
+              </div>
+              <div class="c-lg-3">
+                <button class="btn fullBlue" (click)="fetchDataByName()" style="margin-top: 27px;">GO</button>
+              </div>
+            </div>
+
+            <hr style="width:45%; display:inline-block;  border:1px inset; margin-left:26px;" *ngIf="masterCourseNames">
+            <h2 style="display:inline-block;  margin-top:-24px;" *ngIf="masterCourseNames">OR</h2>
+            <hr style="width:45%; display:inline-block;  border:1px inset;" *ngIf="masterCourseNames">
+
+            <div class="row">
+              <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames  && !isProfessional">
+                <div class="form-wrapper">
+                  <label>Master Course</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of masterCourse" [value]="i.master_course">
+                      {{i.master_course}}
+                    </option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames  && !isProfessional">
+                <div class="form-wrapper">
+                  <label> Course</label>
+                  <select class="side-form-ctrl" (click)="courseChange()" [(ngModel)]="getData.course_id">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of courses" [value]="i.course_id">
+                      {{i.course_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames && isProfessional">
+                <div class="form-wrapper">
+                  <label>Master Course</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.standard_id" (ngModelChange)="getCourses($event)">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">
+                      {{i.standard_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
+                <div class="form-wrapper">
+                  <label> Course</label>
+                  <select class="side-form-ctrl" (click)="courseChange()" [(ngModel)]="getData.subject_id">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of coursePro" [value]="i.subject_id">
+                      {{i.subject_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
+                <div class="form-wrapper">
+                  <label>Batch</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.batch_id">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of batchPro" [value]="i.batch_id">
+                      {{i.batch_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="c-lg-3" *ngIf="isProfessional">
+              </div>
+              <div class="c-lg-6" *ngIf="!isProfessional">
+              </div>
+            </div>
+          </div>
+          <!-- 
+              <div class="filter-box c-lg-2">
+                <div id="basic-search">
+                  <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                </div>
+              </div>
+           -->
+
+          <div class="common-field" *ngIf="showTeachersTable">
+
+            <div class="table table-responsive student-table">
+              <div class="filter-box">
+                <div id="basic-search">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                    (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+                </div>
+              </div>
+              <div class="common-elements">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Teacher id
+                      </th>
+                      <th>
+                        Teacher Name
+                      </th>
+                      <th>
+                        Mobile
+                      </th>
+                      <th>
+                        Is active
+                      </th>
+                      <th>
+                        In time
+                      </th>
+                      <th>
+                        Out Time
+                      </th>
+                      <th>
+                        View Older Records
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="studentsDisplayData.length != 0 ">
+
+                    <tr *ngFor="let i of studentsDisplayData">
+                      <td>
+                        {{i.teacher_id}}
+                      </td>
+                      <td>
+                        {{i.teacher_name}}
+                      </td>
+                      <td>
+                        {{i.teacher_phone}}
+                      </td>
+
+                      <td>
+
+                        {{i.is_active}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{out_time}}
+                      </td>
+                      <td>
+                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMaps" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === false" class="records">
+                    <tr>
+                      <td colspan="7" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Paginator Here -->
+            <div class="row filter-res pagination" style="width: 100%;">
+              <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                </pagination>
+              </div>
+            </div>
+          </div>
+
+          <div class="students" *ngIf="showStudentTable">
+            <div class="table table-responsive student-table">
+              <div class="filter-box">
+                <div id="basic-search">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                    (keyup)="searchDatabase()">
+                </div>
+              </div>
+              <div class="student-elements">
+                <table>
+                  <thead>
+                    <tr>
+                      <th (click)="sortedData('student_disp_id') ">
+
+                        Student Id &nbsp;
+                        <i class="fa fa-caret-up caret" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
+                        <i class="fa fa-caret-down caret" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
+                      </th>
+                      <th (click)="sortedData('student_name')">
+
+                        Student Name &nbsp;
+                        <i class="fa fa-caret-up caret" *ngIf="getCaretVisiblity('student_name') && direction == 1 "></i>
+                        <i class="fa fa-caret-down caret" *ngIf="getCaretVisiblity('student_name') && direction != 1 "></i>
+                      </th>
+                      <th (click)="sortedData('student_phone')">
+
+                        Mobile &nbsp;
+                        <i class="fa fa-caret-up caret" *ngIf="getCaretVisiblity('student_phone') && direction == 1  "></i>
+                        <i class="fa fa-caret-down caret" *ngIf="getCaretVisiblity('student_phone') && direction != 1"></i>
+                      </th>
+                      <th>
+                        Is active
+                      </th>
+                      <th>
+                        In time
+                      </th>
+                      <th>
+                        Out
+                      </th>
+                      <th>
+                        View Older Records
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="studentsDisplayData.length != 0 ">
+
+                    <tr *ngFor="let i of studentsDisplayData">
+                      <td>
+                        {{i.student_disp_id}}
+                      </td>
+                      <td>
+                        {{i.student_name}}
+                      </td>
+                      <td>
+                        {{i.student_phone}}
+                      </td>
+
+                      <td>
+                        {{i.is_active}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                      <td>
+                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMaps" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === false" class="records">
+                    <tr>
+                      <td colspan="7" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Paginator Here -->
+            <div class="row filter-res pagination" style="width: 100%;">
+              <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                </pagination>
+              </div>
+            </div>
+          </div>
+          <div class="common-field" *ngIf="showCustomTable">
+            <div class="table table-responsive student-table">
+              <div class="filter-box box">
+                <div id="basic-search">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                    (keyup)="searchDatabase()">
+                </div>
+              </div>
+              <div class="common-elements">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Id
+                      </th>
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Contact No.
+                      </th>
+                      <th>
+                        Is active
+                      </th>
+                      <th>
+                        In time
+                      </th>
+                      <th>
+                        Out Time
+                      </th>
+                      <th>
+                        View Older Records
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="studentsDisplayData.length != 0 ">
+
+                    <tr *ngFor="let i of studentsDisplayData">
+                      <td>
+                        {{i.userid}}
+                      </td>
+                      <td>
+                        {{i.name}}
+                      </td>
+                      <td>
+                        {{i.username}}
+                      </td>
+
+                      <td>
+                        {{i.is_active}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                      <td>
+                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus == true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMaps" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus == false" class="records">
+                    <tr>
+                      <td colspan="7" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Paginator Here -->
+            <div class="row filter-res pagination" style="width: 100%;">
+              <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                </pagination>
+              </div>
+            </div>
+          </div>
+
+
+          <proctur-popup [sizeWidth]="'small'" *ngIf="addReportPopUp">
+
+            <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                  </g>
+                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                  />
+                </g>
+              </svg>
+            </span>
+
+            <div popup-header class="popup-header-content">
+              <h2 style=" font-size:23px;">Older Records</h2>
+            </div>
+            <div popup-content class="main-student-table">
+              <div class="row">
+                <div class="c-lg-2">
+                </div>
+                <div class="c-lg-5">
+                  <div class="form-field form-wrapper">
+                    <select class="side-form-ctrl" [(ngModel)]="popupCtrl">
+                      <option [value]="0">Previous Month</option>
+                      <option [value]="1">Previous Week </option>
+                      <option [value]="2">By Range</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-2" style="padding: 15px;">
+                  <button class="btn fullBlue" style="margin-top:-3px;" (click)="popupChange()">Go</button>
+                </div>
+              </div>
+            </div>
+
+          </proctur-popup>
+
+          <proctur-popup [sizeWidth]="'large'" *ngIf="addAcademicPopUp">
+
+            <span class="closePopup pos-abs fbold show" (click)="closeReportAcademicPopup()" close-button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                  </g>
+                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                  />
+                </g>
+              </svg>
+            </span>
+
+            <div popup-header class="popup-header-content" *ngIf="showMonth">
+              <h2 style=" font-size:20px; ">Previous Month:
+               
+                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
+                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
+                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
+              
+                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
+                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
+                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
+              </h2>
+
+            </div>
+            <div popup-content class="main-student-table" *ngIf="showMonth">
+              <a class="fa fa-file-excel-o excel" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
+              <a class="hide" #xlsDownloader></a>
+              <div class="table table-responsive tablePopup">
+                <table #biometricTable>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        In Time
+                      </th>
+                      <th>
+                        Out time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="monthAttendance.length != 0">
+                    <tr *ngFor="let i of monthAttendance">
+                      <td>
+                        {{i.attendance_date}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="monthAttendance.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="monthAttendance.length == 0 && dataStatus === false">
+                    <tr>
+                      <td colspan="3" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+
+            <div popup-header class="popup-header-content" *ngIf="showRange">
+              <h2 style=" font-size:20px;">Select Range:
+               
+                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
+                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
+                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
+              
+                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
+                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
+                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
+              </h2>
+            </div>
+            <div popup-content class="main-student-table" *ngIf="showRange">
+              <div class="c-lg-4">
+                <div class="form-field form-wrapper datePickerBox">
+                  <label for="from">From</label>
+                  <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date" (ngModelChange)="futureDateValid($event)">
+                </div>
+              </div>
+              <div class="c-lg-4">
+                <div class="form-field form-wrapper datePickerBox">
+                  <label for="to">To</label>
+                  <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
+                </div>
+              </div>
+              <div class="c-lg-4" style="padding: 27px 0px 0px 0px">
+                <button class="btn fullBlue" (click)="showDataTable()">Go</button>
+              </div>
+              <a class="fa fa-file-excel-o excel" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
+              <a class="hide" #xlsDownloader></a>
+              <div class="table table-responsive tablePopup" *ngIf="showTable">
+                <table>
+                  <thead #biometricTable>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        In Time
+                      </th>
+                      <th>
+                        Out time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="range.length != 0">
+                    <tr *ngFor="let i of range">
+                      <td>
+                        {{i.attendance_date}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="range.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="range.length == 0 && dataStatus === false">
+                    <tr>
+                      <td colspan="3" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+            <div popup-header class="popup-header-content" *ngIf="showWeek">
+              <h2 style=" font-size:20px; ">Previous Week Records:
+                
+                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
+                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
+                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
+             
+                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
+                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
+                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
+              </h2>
+            </div>
+            <div popup-content class="main-student-table" *ngIf="showWeek">
+              <a class="fa fa-file-excel-o excel" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
+              <a class="hide" #xlsDownloader></a>
+              <div class="table table-responsive tablePopup">
+                <table #biometricTable>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        In Time
+                      </th>
+                      <th>
+                        Out time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="weekAttendance.length!=0">
+                    <tr *ngFor="let i of weekAttendance">
+                      <td>
+                        {{i.attendance_date}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="weekAttendance.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="weekAttendance.length == 0 && dataStatus === false">
+                    <tr>
+                      <td colspan="3" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+          </proctur-popup>
+
+          <proctur-popup [sizeWidth]="'large'" *ngIf="addAbsentiesPopup">
+
+            <span class="closePopup pos-abs fbold show" (click)="closeAbsentiesPopup()" close-button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                  </g>
+                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                  />
+                </g>
+              </svg>
+            </span>
+
+            <div popup-header class="popup-header-content">
+              <h2 style=" font-size:23px;">SMS to absent students</h2>
+            </div>
+
+            <div popup-content class="main-student-table">
+              <div class="c-lg-12" style="margin-top:-20px;">
+                <div class="c-lg-3">
+                  <div class="form-field form-wrapper">
+                    <label>Master Course</label>
+
+                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name" (ngModelChange)="getCourses($event)">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of masterCourse" [value]="i.master_course">
+                        {{i.master_course}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-3">
+                  <div class="form-field form-wrapper">
+                    <label> Course</label>
+                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.course_id" (ngModelChange)="getSubjects($event)">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of courses" [value]="i.course_id">
+                        {{i.course_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-3">
+                  <div class="form-field form-wrapper">
+                    <label> Subject</label>
+                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.subject_id">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of subjects" [value]="i.subject_id">
+                        {{i.subject_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-3 main" style="margin-top:0px;">
+                  <div class="form-field form-wrapper datePickerBox" style="padding-top:0px;">
+                    <label>Date</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getAbsentiesData.from_date">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-5">
+
+                </div>
+                <div class="c-lg-3">
+                  <div class="form-field form-wrapper">
+                    <button class="btn fullBlue" (click)="viewAbsentiesRecord()">View</button>
+                  </div>
+                </div>
+              </div>
+              <div class="table table-responsive tablePopup" *ngIf="absentTable">
+                <div class="absentView">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+
+                          Student ID
+                        </th>
+                        <th>
+                          Student Name
+                        </th>
+                        <th>
+                          Joining Date
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="view">
+                      <tr *ngFor="let i of absentiesRecords">
+                        <td>
+
+                          {{i.student_disp_id}}
+
+                        </td>
+                        <td>
+                          {{i.student_name}}
+                        </td>
+                        <td>
+                          {{i.doj}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="c-lg-12" *ngIf="absentTable">
+                <div class="c-lg-5">
+                </div>
+                <div class="c-lg-3 fix">
+                  <div class="form-field form-wrapper ">
+                    <button class="btn fullBlue">Send SMS</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </proctur-popup>
+
+        </section>
+      </section>
+    </section>
+  </aside>
+</div>

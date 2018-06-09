@@ -1,0 +1,24 @@
+<section class="popupWrapper fadeIn">
+    <div #popupContainer class="popup pos-abs">
+        <div class="popup-wrapper pos-rel">
+            <!-- Project content for close button here -->
+            <ng-content select="[close-button]"></ng-content>
+
+            <div class="popup-content">
+                <!-- project content for header here -->
+                <ng-content select="[popup-header]"></ng-content>
+
+                <div class="overflowHidden">
+
+                    <div class="popup-body">
+                        <!-- project content for popup here -->
+                        <ng-content select="[popup-content]"></ng-content>
+                    </div>
+                    <!-- project footer for popup here -->
+                    <ng-content select="[popup-footer]"></ng-content>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

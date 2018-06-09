@@ -1,0 +1,60 @@
+.report-header {
+    .field-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 19px;
+                top: 32px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+    .makeAdjust{
+        label{
+            &::before{
+                left:3px;
+                top:3px;
+            }
+        }
+    }
+}
+.showFilter:hover{
+
+    cursor: pointer;
+}
+@media screen and (max-width:480px) {
+    .report-header {
+        .field-wrapper {
+            position: relative;
+            &.datePickerBox {
+                .form-ctrl {
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
+                    background: transparent;
+                }
+                &:after {
+                    content: '';
+                    background: url('../../../../../assets/images/calendar.svg') no-repeat;
+                    position: absolute;
+                    right: 19px;
+                    top: 32px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+        }
+    }
+}

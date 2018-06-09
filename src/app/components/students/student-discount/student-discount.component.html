@@ -1,0 +1,72 @@
+<proctur-popup [sizeWidth]="'small'">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopups()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Add Discount</h2>
+
+    <div class="discount-wrapper" popup-content>
+
+        <div class="row">
+
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.type != ''}">
+                    <label for="dtype">Discount Type*</label>
+
+                    <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
+                        <option value="amount">Amount</option>
+                        <option value="percentage">Percentage</option>
+                    </select>
+                </div>
+                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.value != ''}">
+                    <label for="ref">Discount Value*</label>
+
+                    <input type="text" OnlyNumber="true" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+                </div>
+
+                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.reason != ''}">
+                    <label for="rema">Discount Reason*</label>
+
+                    <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+                </div>
+
+                <div style="margin: 15px 0px">
+                    <h4>Total Discount Amount : &#8377; {{getTotalDiscountAmount()}}</h4>
+                </div>
+
+                <div class="" style="margin-top:10px;">
+                    <div class="field-radio-wrapper">
+                        <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
+                        <label for="r1">Equal in all installment</label>
+                    </div>
+
+                    <div class="field-radio-wrapper">
+                        <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
+                        <label for="r2">In last installment</label>
+                    </div>
+                </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            </div>
+        </div>
+    </div>
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closePopups()">
+                <input type="button" value="Apply" (click)="applyAction()" class="fullBlue btn">
+            </aside>
+        </div>
+    </div>
+
+</proctur-popup>

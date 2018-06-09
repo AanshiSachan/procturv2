@@ -1,0 +1,1365 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<section class="middle-section clearFix">
+  <section class="cal-view">
+    <aside class="boxPadding15">
+      <!-- ==================================================================================== -->
+      <!-- ==================================================================================== -->
+      <!-- ========================== Header Section ========================================== -->
+      <!-- ==================================================================================== -->
+      <!-- ==================================================================================== -->
+      <!-- ========================== Body Section ============================================ -->
+      <section class="schedule-class-box">
+        <!-- ==================================================================================== -->
+        <!-- ==================================================================================== -->
+        <!-- ========================== Search bar ============================================== -->
+        <section class="common-search-filter">
+          <div class="filter-search">
+            <div class="filter-box clearFix">
+              <div class="row">
+                <div class="c-lg-12 c-md-12 c-sm-12">
+                  <div class="search-filter-wrapper" *ngIf="isProfessional">
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
+                        <label for="smc">Select Master Course</label>
+                        <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id" (ngModelChange)="updateSubjectList($event)">
+                          <option value="-1"></option>
+                          <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
+                            {{std.standard_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
+                        <label for="sc">Select Course</label>
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id" (ngModelChange)="filterSubjectBatches($event)">
+                          <option value="-1"></option>
+                          <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
+                            {{subject.subject_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.batch_id != '-1'}">
+                        <label for="bn">Select Batch Name</label>
+                        <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
+                          <option value="-1"></option>
+                          <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
+                            {{batch.batch_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                    <div class="c-lg-1 c-md-1 c-sm-1" style="margin-top: 15px">
+                      <button class="btn fullBlue" (click)="submitMasterBatch()">Go</button>
+                    </div>
+                  </div>
+                  <div class="search-filter-wrapper" *ngIf="!isProfessional">
+                    <div class="row" style="margin-left:15px">
+                      <div class="c-lg-3 c-md-3 c-sm-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
+                          <label for="smc">Select Master Course
+                            <span style="color:red">*</span>
+                          </label>
+                          <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
+                            <option value="-1"></option>
+                            <option [value]="master.master_course" *ngFor="let  master of masterCourse">
+                              {{master.master_course}}
+                            </option>
+                          </select>
+
+                        </div>
+                      </div>
+                      <div class="c-lg-3 c-md-3 c-sm-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
+                          <label for="sc">Select Course
+                            <span style="color:red">*</span>
+                          </label>
+                          <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="onCourseListSelection($event)">
+                            <option value="-1"></option>
+                            <option [value]="course.course_id" *ngFor="let course of courseList">
+                              {{course.course_name}}
+                            </option>
+                          </select>
+
+                        </div>
+                      </div>
+                      <div class="c-lg-3 c-md-3 c-sm-3">
+                        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
+                          <label for="csd">Class Schedule Date
+                            <span style="color:red">*</span>
+                          </label>
+                          <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="fetchMasterCourseModule.requested_date"
+                            readonly="true" name="csd" bsDatepicker>
+
+                          <!-- <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span> -->
+                        </div>
+                      </div>
+                      <div class="c-lg-3 c-md-3 c-sm-3">
+                        <input type="button" class="fullBlue btn" style="margin-top:5%;" value="Go" (click)="submitMasterCourse()">
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="courseStartDate" style="margin-top:10px;margin-left:15px">
+                      <span>Course Duration: </span>
+                      <span style="font-size: 12px;">{{courseStartDate}} - </span>
+                      <span style="font-size: 12px;">{{courseEndDate}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- ==================================================================================== -->
+        <!-- ==================================================================================== -->
+        <!-- ========================== View Type List/Calendar ================================= -->
+        <section class="schedule-class" *ngIf="isClassFormFilled">
+          <div class="row">
+            <div class="c-lg-7 c-sm-7 c-md-7 c-xs-12">
+              <div class="schedule-class-left">
+                <label>Schedule Class</label>
+              </div>
+            </div>
+            <div class="c-lg-5 c-sm-5 c-md-5 c-xs-12 align-right">
+              <!-- <input type="button" value="Calendar View fullBlue" class="btn fullBlue">
+                <input type="button" value="List View" class="btn "> -->
+            </div>
+          </div>
+        </section>
+        <!-- ==================================================================================== -->
+        <!-- ==================================================================================== -->
+        <!-- ========================== Account 5 Course Schedule ================================= -->
+        <section class="" *ngIf="isClassFormFilled && !isProfessional">
+
+          <div class="table-wrapper tableStyling">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive classScheduleTable">
+                <table class="table-main">
+                  <thead>
+                    <tr>
+                      <th class="subj">
+                        Subject
+                        <span style="color:red">*</span>
+                      </th>
+                      <th>
+                        Start Time
+                        <span style="color:red">*</span>
+                      </th>
+                      <th>
+                        End Time
+                        <span style="color:red">*</span>
+                      </th>
+                      <th>
+                        Select Faculty
+                        <span style="color:red">*</span>
+                      </th>
+                      <th class="desc">
+                        Description
+                      </th>
+                      <th class="room">
+                        Room No.
+                      </th>
+                      <th class="cl-type">
+                        Class Type
+                      </th>
+                      <th>
+                        Repeat
+                      </th>
+                      <th>
+
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    <tr class="adder">
+
+                      <td class="subj">
+                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.subject_id != '-1' && addClassDetails.subject_id != '' }">
+                          <select id="subjectSelctionDDN" class="side-form-ctrl" name="row.subject_id" [(ngModel)]="addClassDetails.subject_id" (ngModelChange)="onSubjectSelection($event)">
+                            <option value="-1"> </option>
+                            <option *ngFor="let opt of subjectListDataSource" [value]="opt.subject_id">
+                              {{opt.subject_name}}
+                            </option>
+                          </select>
+                        </div>
+                      </td>
+
+                      <td class="">
+                        <div class="timePickerParent">
+                          <div class="form-wrapper">
+                            <select id="followuptime" class="side-form-ctrl field-wrapper hourTime" [(ngModel)]="addClassDetails.start_hour" name="followuptime">
+                              <option [value]="time" *ngFor="let time of times">
+                                {{time}}
+                              </option>
+                            </select>
+                          </div>
+                          <div class="form-wrapper">
+                            <select id="minute" class="side-form-ctrl fields-wrapper minuteTime" [(ngModel)]="addClassDetails.start_minute" name="minute">
+                              <option *ngFor="let minute of minArr" [value]="minute">
+                                {{minute}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="">
+                        <div class="timePickerParent">
+                          <div class="form-wrapper">
+                            <select id="followuptime" class="side-form-ctrl field-wrapper hourTime" [(ngModel)]="addClassDetails.end_hour" name="followuptime">
+                              <option [value]="time" *ngFor="let time of times">
+                                {{time}}
+                              </option>
+                            </select>
+                          </div>
+                          <div class="form-wrapper">
+                            <select id="minute" class="side-form-ctrl fields-wrapper minuteTime" [(ngModel)]="addClassDetails.end_minute" name="minute">
+                              <option *ngFor="let minute of minArr" [value]="minute">
+                                {{minute}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+
+
+                      <td>
+                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.teacher_id != '-1' && addClassDetails.teacher_id != '' }">
+                          <select id="" class="side-form-ctrl viewClass" name="row.category_id" [(ngModel)]="addClassDetails.teacher_id">
+                            <option value="-1"></option>
+                            <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
+                              {{opt.teacher_name}}
+                            </option>
+                          </select>
+                        </div>
+                      </td>
+
+                      <td class="desc">
+                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
+                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc" style="height: 31px;">
+                        </div>
+                      </td>
+
+                      <td class="room">
+                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.room_no != '' && addClassDetails.room_no != null }">
+                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no" style="height: 31px;">
+                        </div>
+                      </td>
+
+                      <td class="cl-type">
+                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.custom_class_type != '-1' && addClassDetails.custom_class_type != '' }">
+                          <select id="" class="side-form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.custom_class_type" style="background: transparent;">
+                            <option *ngFor="let opt of customListDataSource">
+                              {{opt}}
+                            </option>
+                          </select>
+                        </div>
+                      </td>
+
+                      <!-- Recurrence to be empty by default -->
+                      <td>
+                      </td>
+
+                      <td>
+                        <button class="btn" (click)="addClassSchedule()">
+                          <a>Add</a>
+                        </button>
+                      </td>
+
+                    </tr>
+
+                    <tr id="row{{i}}" *ngFor="let row of classScheduleArray; let i= index ; trackBy : index">
+                      <td class="subj">
+                        {{row.subject_name}}
+                      </td>
+                      <td>
+                        {{row.start_time}}
+                      </td>
+                      <td>
+                        {{row.end_time}}
+                      </td>
+                      <td>
+                        <div class="form-wrapper">
+                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.teacher_id">
+                            <option value="-1"></option>
+                            <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
+                              {{opt.teacher_name}}
+                            </option>
+                          </select>
+                        </div>
+                      </td>
+                      <td class="desc">
+                        <div class="form-wrapper">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label">
+                        </div>
+                      </td>
+                      <td class="room">
+                        <div class="form-wrapper">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label">
+                        </div>
+                      </td>
+
+                      <td class="cl-type">
+                        <div class="form-wrapper">
+                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.custom_class_type">
+                            <option *ngFor="let opt of customListDataSource" [value]="opt">
+                              {{opt}}
+                            </option>
+                          </select>
+                        </div>
+                      </td>
+
+                      <td>
+                        <div class="form-wrapper">
+                          <select *ngIf="(row.class_schedule_id != 0)" id="" style="background: transparent" class="side-form-ctrl" name="row.category_id"
+                            (change)="weeklyScheduleChange($event , row)">
+                            <option value="1">Does Not Repeat</option>
+                            <option value="2">Select Dates</option>
+                            <option value="3">Custom</option>
+                          </select>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="action-box">
+                          <span *ngIf="(row.class_schedule_id != 0)" class="mail-notification" title="Send Reminder" (click)="sendReminder()"></span>
+                          <span *ngIf="(row.class_schedule_id != 0)" class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
+                          <span (click)="removeRowFromSchedule(i , row)" title="Delete" class="delete-btn">
+                            <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>
+                          </span>
+                          <!-- <span class="edit-icon"></span> -->
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                  <tbody *ngIf="classScheduleArray.length ==0">
+                    <tr>
+                      <td colspan="9">
+                        No Schedule For Current Date Found
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="extraMargin row  pull-right" style="margin-right: 15px">
+            <button class="btn" routerLink="/course/class/home">Cancel</button>
+            <button class="btn fullBlue" (click)="saveCourseSchedule()">Save</button>
+          </div>
+        </section>
+
+        <!-- ==================================================================================== -->
+        <!-- ========================== Account 4 Batch Schedule ================================= -->
+        <section class="batch-schedule" *ngIf="isClassFormFilled && isProfessional">
+
+          <div class="filter-Section">
+            <div class="row">
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <select class="side-form-ctrl" name="row.category_id" (ngModelChange)="scheduleSelection($event)" [(ngModel)]="batchFrequency">
+                  <option value="1">Weekly</option>
+                  <option value="2">Custom</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="weekly-Schedule" *ngIf="batchFrequency == '1'">
+
+            <div class="weeklyDiv">
+
+              <div class="row weeklyAdd">
+                <div class="c-sm-2 c-md-2 c-lg-2">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">Start Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="mainStartTime.hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="mainStartTime.minute" name="minute">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="c-sm-2 c-md-2 c-lg-2">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">End Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="mainEndTime.hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="mainEndTime.minute" name="minute">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pull-right btnGroup">
+                  <button class="btn fullBlue" (click)="applyButtonClick()">Apply</button>
+                  <button class="btn fullBlue" *ngIf="showCancelWeeklyBtn" (click)="cancelWeeklyScheduledClass()">Cancel Weekly Scheduled Class</button>
+                </div>
+              </div>
+
+              <div class="table-scroll-wrapper">
+                <div class="table-responsive">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+                          Week Days
+                        </th>
+                        <th>
+                          Start Time
+                        </th>
+                        <th>
+                          End Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of weekDaysTable; let i=index ; trackBy : index ">
+                        <td>
+                          <div class="field-checkbox-wrapper">
+
+                            <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected" class="form-checkbox">
+                            <label for="checkbx{{i}}">
+                              {{row.data_value}}
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-wrapper timepick">
+                            <div class="tbox">
+                              <div class="times">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="row.start_time.hour" name="startTime">
+                                  <option [value]="time" *ngFor="let time of times">
+                                    {{time}}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="times">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="row.start_time.minute" name="minute">
+                                  <option *ngFor="let minute of minArr" [value]="minute">
+                                    {{minute}}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-wrapper timepick">
+                            <div class="tbox">
+                              <div class="times">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="row.end_time.hour" name="startTime">
+                                  <option [value]="time" *ngFor="let time of times">
+                                    {{time}}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="times">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="row.end_time.minute" name="minute">
+                                  <option *ngFor="let minute of minArr" [value]="minute">
+                                    {{minute}}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr *ngIf="weekDaysTable.length == 0">
+                        <td colspan="3" style="text-align: center">
+                          No Schedule Of Week Found
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="row btn-table" style="margin-top: 5px;">
+                <button class="btn fullBlue pull-right" (click)="updateWeeklySchedule()">Update</button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="custom-Schedule" *ngIf="batchFrequency == '2'">
+
+            <div class="row adderCustom">
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': custom.date!=''}">
+                  <label for="csd">Date
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date" readonly="true" name="csd"
+                    bsDatepicker>
+
+                </div>
+              </div>
+
+              <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
+                <div class="form-wrapper timepick">
+                  <label for="startTime">Start Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl" [(ngModel)]="custom.start_hour" name="startTime">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl" [(ngModel)]="custom.start_minute" name="minute">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
+                <div class="form-wrapper timepick">
+                  <label for="startTime">End Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl" [(ngModel)]="custom.end_hour" name="startTime">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl" [(ngModel)]="custom.end_minute" name="minute">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper" [ngClass]="{'has-value' : custom.desc != ''}">
+                  <label for="customDescTxt">Description</label>
+                  <textarea class="form-ctrl" [(ngModel)]="custom.desc" id="customDescTxt" name="customDescTxt"></textarea>
+
+                </div>
+              </div>
+
+              <div class="" style="margin-top: 25px">
+                <button class="btn fullBlue" (click)="addNewCustomClass()">Add</button>
+              </div>
+            </div>
+
+            <div class="table-scroll-wrapper">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Start Time
+                      </th>
+                      <th>
+                        End Time
+                      </th>
+                      <th>
+                        Class Description
+                      </th>
+                      <th>
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of customTable; let i=index ; trackBy : index">
+                      <td>
+                        {{row.class_date}}
+                      </td>
+                      <td>
+                        {{row.start_time}}
+                      </td>
+                      <td>
+                        {{row.end_time}}
+                      </td>
+                      <td>
+                        {{row.note}}
+                      </td>
+                      <td>
+                        <a style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , index)">Delete</a>
+                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)">Notify</a>
+                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)">Cancel Class</a>
+                      </td>
+                    </tr>
+                    <tr *ngIf="customTable.length == 0">
+                      <td colspan="5">
+                        No Custom Schedule Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="row">
+              <button class="btn fullBlue pull-right" style="margin-right: 15px" (click)="updateCustomClass()">Update</button>
+            </div>
+
+          </div>
+
+          <div class="common-section" *ngIf="showHideCommonSection()">
+
+            <div class="divExtraClass">
+
+              <h4>Extra Class</h4>
+
+              <div class="row adder-Row">
+
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                  <div class="field-wrapper datePickerBox has-value">
+                    <label for="csd">Date
+                      <span style="color:red">*</span>
+                    </label>
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
+                      bsDatepicker>
+
+                  </div>
+                </div>
+
+                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">Start Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="addExtraClass.start_hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="addExtraClass.start_minute" name="minute">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 10px">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">End Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="addExtraClass.end_hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="addExtraClass.end_minute" name="minute">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                  <div class="field-wrapper" [ngClass]="{'has-value':addExtraClass.desc != ''}">
+                    <label for="divDesc">Class Description</label>
+                    <textarea class="form-ctrl textBox" id="divDesc" name="desc" [(ngModel)]="addExtraClass.desc"></textarea>
+
+                  </div>
+                </div>
+
+                <div style="padding-top: 25px">
+                  <button class="btn fullBlue" (click)="addNewExtraClass()">Add</button>
+                </div>
+
+              </div>
+
+              <div class="extraClass">
+                <div class="table-scroll-wrapper">
+                  <div class="table-responsive">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>
+                            Date
+                          </th>
+                          <th>
+                            Start Time
+                          </th>
+                          <th>
+                            End Time
+                          </th>
+                          <th>
+                            Class Description
+                          </th>
+                          <th>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of extraClassTable; let i=index ; trackBy : index">
+                          <td>
+                            {{row.class_date}}
+                          </td>
+                          <td>
+                            {{row.start_time}}
+                          </td>
+                          <td>
+                            {{row.end_time}}
+                          </td>
+                          <td>
+                            {{row.note}}
+                          </td>
+                          <td>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)">Cancel</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)">Notify</a>
+                            <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)">Delete</a>
+                          </td>
+                        </tr>
+                        <tr *ngIf="extraClassTable.length == 0">
+                          <td colspan="5" style="text-align: center">
+                            No Extra Class Schedule Found
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row btn-table">
+                <button class="btn fullBlue pull-right" style="margin-right: 10px" (click)="updateExtraClass()">Update</button>
+              </div>
+
+            </div>
+
+            <div class="divCancelClass">
+              <h4>Cancelled Class</h4>
+
+              <div class="table-scroll-wrapper cancelTable">
+                <div class="table table-responsive">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+                          Date
+                        </th>
+                        <th>
+                          Start Time
+                        </th>
+                        <th>
+                          End Time
+                        </th>
+                        <th>
+                          Cancel Reason
+                        </th>
+                        <th>
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of canceLClassTable; let i=index ; trackBy : index">
+                        <td>
+                          {{row.class_date}}
+                        </td>
+                        <td>
+                          {{row.start_time}}
+                        </td>
+                        <td>
+                          {{row.end_time}}
+                        </td>
+                        <td>
+                          {{row.cancel_note}}
+                        </td>
+                        <td>
+                          <a style="cursor:pointer;margin-right: 5px" (click)="notifyOfCancelClass(row)">Notify</a>
+                          <span>Last Notified</span> {{row.last_notify_sent_time}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="canceLClassTable.length == 0">
+                        <td colspan="5" style="text-align: center">
+                          No Cancelled Class Schedule Found
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </section>
+
+
+      </section>
+      <!-- ==================================================================================== -->
+      <!-- ==================================================================================== -->
+    </aside>
+  </section>
+</section>
+
+
+
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showPopUpRecurence">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2 style="margin-left: 10px">Custom Recurrence for class {{selctedScheduledClass.subject_name}}</h2>
+
+        <div class="row extraMargin">
+          <div class=" c-sm-6 c-md-6 c-lg-6">
+            <div class="form-wrapper timepick">
+              <label for="startTime">Start Time</label>
+              <div class="tbox">
+                <div class="times ">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=" c-sm-6 c-md-6 c-lg-6 ">
+            <div class="form-wrapper timepick">
+              <label for="startTime">End Time</label>
+              <div class="tbox">
+                <div class="times ">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
+          <h3>Repeat On</h3>
+        </div>
+
+        <div id="divWeekDays" class="row extraMargin side-circles">
+          <span id="idSunday-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday ">S</span>
+          <span id="idMonday-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday ">M</span>
+          <span id="idTuesday-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday ">T</span>
+          <span id="idWednesday-3" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Wednesday ">W</span>
+          <span id="idThursday-4" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Thursday ">T</span>
+          <span id="idFriday-5" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Friday ">F</span>
+          <span id="idSaturday-6" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Saturday ">S</span>
+        </div>
+
+        <!-- <div class="row extraMargin ">
+          <h3>Ends</h3>
+        </div> -->
+
+        <!-- <div class="row extraMargin ">
+
+          <div class="radio-options ">
+            <div class="row extraMargin ">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6 ">
+                <input type="radio " name="sFilter " class="form-radio " (click)="radioButtonClick($event) " value="false
+                    " id="idCourseEndDate ">
+                <label for="active ">Course End Date</label>
+              </div>
+              <div class="field-wrapper datePickerBox c-sm-3 c-md-3 c-lg-3 " [ngClass]="{ 'disabled': customRec.radioEndDate.radioEndDateSelection==false } ">
+                <input type="text " value=" " readonly="true " [(ngModel)]="customRec.radioEndDate.radioDate " class="form-ctrl
+                    bsDatepicker " name="endDate " bsDatepicker>
+              </div>
+            </div>
+            <div class="row extraMargin ">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6 ">
+                <input type="radio " name="sFilter " class="form-radio " value="false " (click)="radioButtonClick($event)
+                    " id="idOn ">
+                <label for="active ">On</label>
+              </div>
+              <div class="c-sm-3 c-md-3 c-lg-3 " [ngClass]="{ 'disabled': customRec.radioOn.radioONSelection==false } ">
+                <div class="field-wrapper datePickerBox ">
+                  <input type="text " value=" " readonly="true " [(ngModel)]="customRec.radioOn.radioOnDate " class="form-ctrl
+                    bsDatepicker " name="endDate " bsDatepicker>
+                </div>
+              </div>
+            </div>
+            <div class="row extraMargin ">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6 ">
+                <input type="radio " name="sFilter " class="form-radio " (click)="radioButtonClick($event) " value="false
+                    " id="idAfter ">
+                <label for="active ">After</label>
+              </div>
+              <div class="field-wrapper c-sm-3 c-md-3 c-lg-3 ">
+                <input type="number " [readonly]="customRec.radioAfter.radioAfterSelection==false" #idSlot class="form-ctrl
+                    halfwidth " name="slotNew " [(ngModel)]="customRec.radioAfter.occurenceValue ">
+              </div>
+              <span>occurrences</span>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row extraMargin">
+          <aside class="pull-left">
+            <span style="font-weight: 600">This selection will add future classes till course end date.</span>
+          </aside>
+          <aside class="pull-right" style="margin-right: 15px">
+            <button class="btn" (click)="closePopup()">Cancel</button>
+            <button class="btn fullBlue" (click)="saveCustomRecurrences() ">Save</button>
+          </aside>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUp">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                    rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                    rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                    " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+
+      <div class="popup-content popup-date-selection">
+
+        <h2>Select Dates for Class</h2>
+
+        <div class="">
+          <label>Edit Selected Schedule</label>
+        </div>
+
+        <div class="row">
+          <div class="form-wrapper has-value c-sm-6 c-md-6 c-lg-6">
+            <label for="row.category_id ">Teacher Name</label>
+            <select id=" " class=" form-ctrl side-form-ctrl " name="row.category_id " [(ngModel)]="selctedScheduledClass.teacher_id ">
+              <option value="-1 "></option>
+              <option *ngFor="let opt of teacherListDataSource " [value]="opt.teacher_id ">
+                {{opt.teacher_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="c-sm-3 c-md-3 c-lg-3 paddingFive">
+            <div class="form-wrapper timepick">
+              <label for="startTime">Start Time</label>
+              <div class="tbox">
+                <div class="times">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-sm-3 c-md-3 c-lg-3 dig1 paddingFive">
+            <div class="form-wrapper timepick">
+              <label for="startTime">End Time</label>
+              <div class="tbox">
+                <div class="times">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="form-wrapper has-value">
+              <label for="label">Room No</label>
+              <input type="text" id="label" class="side-form-ctrl" name="label" [(ngModel)]="selctedScheduledClass.room_no">
+            </div>
+          </div>
+
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="form-wrapper has-value">
+              <label for="row.category_id ">Class Type</label>
+              <select id="row.category_id" class="form-ctrl side-form-ctrl" name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
+                <option *ngFor="let opt of customListDataSource ">
+                  {{opt}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row desc">
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="form-wrapper has-value">
+              <label for="label">Description</label>
+              <input type="textbox" class="form-ctrl side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.class_desc ">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="table-selectdate-wrapper">
+          <div class="row extraMargin table-warpper-custom">
+            <div class="table-scroll-wrapper ">
+              <div class="table table-responsive ">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Schedule Date
+                      </th>
+                      <th>
+                        Action
+                      </th>
+                      <th>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="field-wrapper datePickerBox">
+                          <input type="textbox" value="" readonly="true" [(ngModel)]="addDates.selectedDate" class="form-ctrl bsDatepicker" name="endDate"
+                            bsDatepicker>
+                        </div>
+                      </td>
+                      <td>
+                        <a style="font-size: 24px;font-weight: 600;" alt="Add " title="Add" (click)="addDateToArray() ">+</a>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr *ngFor="let row of selectedDateArray; let i=index ; trackBy : index ">
+                      <td>
+                        {{row.selectedDate}}
+                      </td>
+                      <td>
+                        <i class="fas fa fa-trash " (click)="removeDateToArray(i, row) " style="font-size: 19px; font-family:
+                      FontAwesome; " alt="Remove " title="Remove "></i>
+                      </td>
+                      <td style="color:#0084f6">
+                        {{row.error}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div style="margin-top: 5px;">
+          <button class="btn fullBlue pull-right " (click)="saveSelectedDateSchedule()">Save Class Schedule</button>
+          <button class="btn pull-right" (click)="closePopup()">Cancel</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- //////////////////////////////////////// Cancellation PopUp ///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUpCancellation">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                    rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                    rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                    " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content cancelWraper">
+        <h2 *ngIf="isProfessional">Cancel Schedule {{cancelRowSelected.batch_name}}</h2>
+        <h2 *ngIf="!isProfessional">Cancel Schedule {{cancelRowSelected.subject_name}}</h2>
+        <div class="row" style="margin:20px 10px">
+          <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
+            <textarea class="textBox" id="idTexboxReason" placeholder="Cancellation Reason"></textarea>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
+          <div class="field-checkbox-wrapper pull-left">
+
+            <input type="checkbox" checked name="enableSMS" class="form-checkbox" id="idChkbxEnable">
+            <label for="idChkbxEnable">Notify students</label>
+          </div>
+          <div class="pull-right" *ngIf="!isProfessional" style="margin-right: 15px">
+            <button class="btn" (click)="closePopup()">Close</button>
+            <button class="btn fullBlue" (click)="cancelCourseSchedule()">Cancel</button>
+          </div>
+          <div class="pull-right" *ngIf="isProfessional" style="margin-right: 15px">
+            <button class="btn" (click)="closePopup()">Close</button>
+            <button class="btn fullBlue" (click)="cancelBatchSchedule()">Cancel Class</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showWarningPopup">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeWarningPopUp()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                      rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                      rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                      " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div class="" *ngIf="batchFrequency == '1'">
+          <div class="row warningNote ">
+            <h5>
+              Weekly Schedule already exist for the batch.You are trying to modify the batch schedule from weekly to other.If you do so,
+              changes (mentioned below) will be applied.
+              <br> -Extra Classes (except who have not been scheduled) will be deleted.
+              <br> -Already existing cancelled classes will be deleted.
+              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes will be
+              moved to extra classes. Other Schedule already exist for the batch.
+              <br> You are trying to modify the batch schedule from other to weekly.
+              <br> If you do so, changes (mentioned below) will be applied.
+              <br> -Extra Classes (except who have not been scheduled) will be deleted.
+              <br> -Already existing cancelled classes will be deleted.
+              <br> -Custom classes (except who have not been scheduled) will be deleted and rest of the custom classes will be
+              moved to extra classes
+            </h5>
+          </div>
+          <div class="row">
+            <div class="pull-right" style="margin-right: 20px;">
+              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()">
+              <input class="btn fullBlue" type="button" value="Add" (click)="createWeeklySchedule()">
+            </div>
+          </div>
+        </div>
+        <div class="" *ngIf="batchFrequency == '2'">
+          <div class="row warningNote">
+            <h5>
+              Weekly Schedule already exist for the batch.
+              <br> You are trying to modify the batch schedule from weekly to other.
+              <br> If you do so,changes (mentioned below) will be applied.
+              <br> -Extra Classes (except who have not been scheduled) will be deleted.
+              <br> -Already existing cancelled classes will be deleted.
+              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes will be
+              moved to extra classes
+            </h5>
+          </div>
+          <div class="row">
+            <div class="pull-right" style="margin-right: 20px;">
+              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()">
+              <input class="btn fullBlue" type="button" value="Add" (click)="createCustomClasses()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- //////////////////////////////////////// Cancel Weekly Schedule ///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="cancelWeeklySchedulePop">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeWeeklySchedulePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                    rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                    rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                    " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content cancelWraper">
+        <h2 *ngIf="isProfessional">Batch Weekly Schedule Cancellation</h2>
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="field-wrapper datePickerBox has-value">
+              <label for="dateWee">Date
+                <span style="color:red">*</span>
+              </label>
+              <input type="text" value="" id="dateWee" class="form-ctrl bsDatepicker" [(ngModel)]="weeklyScheduleCan.date" readonly="true"
+                name="csd" bsDatepicker>
+
+            </div>
+          </div>
+          <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
+            <textarea class="textBox" id="idTexboxReason" [(ngModel)]="weeklyScheduleCan.cancel_note" placeholder="Cancellation Reason"></textarea>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
+          <div class="field-checkbox-wrapper pull-left">
+
+            <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox" id="NotifyStusde">
+            <label for="NotifyStusde">Notify students</label>
+          </div>
+          <div class="pull-right" style="margin-right: 15px">
+            <button class="btn" (click)="closeWeeklySchedulePopup()">Close</button>
+            <button class="btn fullBlue" (click)="cancelWeeklySchedule()">Cancel Class</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

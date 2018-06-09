@@ -1,0 +1,66 @@
+<div class="middle-section clearFix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix report-box">
+            <section class="">
+
+                <div class="c-lg-4" *ngIf="isFeeActivity">
+                    <ul class="card" routerLink="../manage">
+                        <li>
+                            Fee Activity
+                        </li>
+                        <li>
+                            Manage Student Wise Fees and Cheque Payments
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="c-lg-4 hide" *ngIf="isAdmin">
+                    <ul class="card" routerLink="../monitoring-dashboard">
+                        <li>
+                            Monitoring Dashboard
+                        </li>
+                        <li>
+                            Monitor the growth of your institute through our state of the art reporting system.
+                        </li>
+                    </ul>
+                </div>
+
+                
+                <div class="c-lg-4 hide">
+                    <ul class="card" routerLink="../archiving">
+                        <li>
+                            Archiving
+                        </li>
+                        <li>
+                            ...
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="c-lg-4 hide">
+                    <ul class="card" routerLink="../ptm">
+                        <li>
+                            PTM Management
+                        </li>
+                        <li>
+                            Create, Organize PTM Keeping Parents And Students Updated
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="c-lg-4 hide">
+                    <ul class="card" routerLink="../file_manager">
+                        <li>
+                            File Manager
+                        </li>
+                        <li>
+                            Manage Storage Of Uploaded And Downloaded Files By Catergory.
+                        </li>
+                    </ul>
+                </div>
+
+            </section>
+        </section>
+    </aside>
+</div>

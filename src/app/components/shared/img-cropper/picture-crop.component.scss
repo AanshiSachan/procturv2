@@ -1,0 +1,67 @@
+.broder {
+    border: 1px solid lightblue;
+}
+
+.circle {
+    border-radius: 100%;
+    position: relative;
+    overflow: hidden;
+    &.small {
+        img {
+            width: 90%;
+            height: 100%;
+        }        
+    }
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.overlay {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    border-radius: 100%;
+    top: 0;
+    left: 0;
+    color: white;
+    height: 100%;
+    width: 100%;
+    background: rgba(29, 106, 154, 0.72);
+    transition: opacity .2s, visibility .2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.circle:hover .overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.list {
+    display: flex;
+    position: absolute;
+    max-width: 200px;
+    padding: 0px 15px;
+    top: 50%;
+    left: 20%;
+    max-width: 200px;
+    padding: 0px 20px;
+}
+
+.list .btn{
+    margin-left: 0px !important;
+}
+
+.btn {
+    width: 150px !important;
+}
+
+
+.video {
+    max-width: 100%;
+}

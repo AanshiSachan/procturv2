@@ -1,0 +1,202 @@
+@import "./src/assets/css/common/variables.scss";
+.courseAdd {
+    table {
+        tr {
+            background: white;
+            th {
+                text-align: left;
+                padding: 10px 10px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            td {
+                text-align: left;
+                padding: 5px 10px;
+            }
+        }
+        &.adderTable {
+            tr {
+                td {
+                    .field-wrapper {
+                        padding-top: 0px;
+                        .form-ctrl {
+                            padding: 5px 0 0px;
+                            height: 30px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.asideWrapperNested {
+    table {
+        tr {
+            background: white;
+            th {
+                text-align: left;
+                padding: 10px 10px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            td {
+                text-align: left;
+                padding: 0px 10px;
+            }
+        }
+    }
+}
+
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.marginTopTwenty {
+    margin-top: 20px;
+}
+
+.marginBottomTen {
+    margin-bottom: 10px;
+}
+
+.tableWrapper {
+    max-width: 75%;
+    margin-top: 20px;
+    margin-left: 70px;
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 0px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+}
+
+.closeBtnClass {
+    line-height: 11px !important;
+}
+
+.add-edit {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    i {
+        // border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+.asideWrapper {
+    background: #efefef;
+    max-height: 220px;
+    overflow: hidden;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.asideTableWrapper {
+    border-bottom: 1px solid #d8d8d8; //border-left: 1px solid #d8d8d8;
+    max-height: 155px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-top: 20px; // .tableDiv {}
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.leftform {
+    .row {
+        margin: 0;
+        padding: 15px;
+        .field-wrapper {
+            width: 80%;
+        }
+    }
+}
+
+.nestedTable {
+    max-height: 220px;
+    overflow: scroll;
+}
+
+.nestedTableHide {
+    display: none;
+}
+
+.nestedTableShow {
+    display: '';
+}
+
+.asideWrapperNested {
+    max-height: 180px;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.asideMainWrapper {
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.nestedTableAsideWrapper {
+    border-bottom: 1px solid #d8d8d8; //border-left: 1px solid #d8d8d8;
+    margin-top: 10px;
+}
+
+.hideVisibility {
+    visibility: hidden;
+}
+
+.editCourseWrapper {
+    max-height: 500px;
+    overflow: hidden;
+    .middle-main {
+        max-height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}

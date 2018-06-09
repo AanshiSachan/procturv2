@@ -1,0 +1,110 @@
+<div id="divCategory" class="c-lg-12 c-md-12 c-sm-12">
+  <section>
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreateNewSlot()">
+        <i id="showAddBtn" class="addBtnClass" style="border: none">+</i>
+        <i id="showCloseBtn" style="display:none; border:none;" class="closeBtnClass">-</i>
+        <span>Add Category</span>
+      </a>
+    </div>
+    <div class="clearFix create-standard-form" *ngIf="createNewCategory" style="margin-top: 5px;margin-bottom: 10px;">
+      <div class="c-sm-3">
+        <div class="field-wrapper">
+          <label for="ctgryName">Category Name
+            <span style="color:red">*</span>
+          </label>
+          <input id="ctgryName" type="text" #categoryName class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
+
+        </div>
+      </div>
+      <div class="c-sm-3">
+        <div class="field-wrapper">
+            <label for="ctgrydesc">Category Description
+              </label>
+          <input id="ctgrydesc" type="text" #categoryDesc class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
+          
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="c-sm-3" style="padding-top: 10px; margin-top:16px;">
+        <button class="btn fullBlue" (click)="addNewCategoryRow(categoryName ,categoryDesc )">Add</button>
+      </div>
+      <div class="c-sm-3">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div id="category-table">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table id="tbLCategory">
+            <thead>
+              <tr>
+                <th>
+                  Category Name
+                </th>
+                <th>
+                  Category Description
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tbodyCategory">
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of categoryList; 
+              let i = index; trackBy: i;">
+                <td class="view-comp">
+                  {{row.category_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.category_name" name="label">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.desc}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  <a style="cursor:pointer" (click)="editRow(i)">
+                    <i class="edit-icon" aria-hidden="true" title="Edit"></i>Edit
+                  </a>
+                </td>
+                <td class="edit-comp">
+                  <a style="cursor:pointer ; margin-right:10px" (click)="updateTableRow(row , i)">
+                    <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
+                  </a>
+                  <a style="cursor:pointer" (click)="cancelTableRow(row)">
+                    <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+                  </a>
+                </td>
+              </tr>
+              <tr *ngIf="categoryList.length == 0">
+                <td colspan="3" style="text-align: center">
+                  No Data Found
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width:100%">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
+  </section>
+</div>

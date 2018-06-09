@@ -1,0 +1,254 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    border-radius: 5px;
+    box-sizing: border-box;
+    ::-webkit-scrollbar {
+        display: block;
+    }
+}
+
+.middle-main {
+    .row {
+        margin: 5px -15px
+    }
+    .editCellInput {
+        background: transparent;
+    }
+    .filler-setcion {
+        .checkBoxAllignment {
+            margin-left: 10px;
+        }
+        .question-wrapper {
+            margin-left: 10px;
+        }
+        .spanSection {
+            span {
+                font-weight: 600;
+                margin-left: 5px;
+                padding-left: 8px;
+                margin: 10px 0px;
+            }
+        }
+    }
+    .installment-section {
+        margin-top: 10px;
+        border-top: 2px solid #efefef;
+        .installmentSection {
+            h3 {
+                margin-top: 10px;
+            }
+            margin-bottom: 10px;
+        }
+        .additionalFeeSection {
+            border-top: 2px solid #efefef;
+            h3 {
+                margin-top: 10px;
+            }
+        }
+        .btnGroup {
+            margin-top: 10px !important;
+        }
+    }
+}
+
+.row {
+    .btn {
+        float: right;
+        margin-right: 20px;
+    }
+}
+
+.code-wrapper {
+    background-color: #efefef;
+    border-radius: 6px;
+    max-height: 900px;
+    overflow: scroll;
+}
+
+.field-wrapper {
+    .form-ctrl {
+        background: transparent;
+    }
+}
+
+////// Turn off spinner
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.table-scroll-wrapper {
+    table {
+        thead {
+            tr {
+                th {
+                    padding: 10px 10px;
+                    margin: 0px 0px;
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    margin: 0px 0px;
+                    text-align: center;
+                    padding: 10px 10px;
+                }
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////
+.form-wrapper {
+    background: transparent;
+    margin: 5px 0px;
+    width: 100%;
+    &.datepicker {
+        padding-top: 3px;
+        span {
+            // 
+            position: relative;
+            right: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            color: red;
+            cursor: pointer;
+            width: 20px;
+            text-align: center;
+            /* &::before {
+                content: '';
+                background: url('/assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 25px;
+                top: 0px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            } */
+        }
+    }
+    label {
+        padding-left: 10px;
+        font-size: 12px;
+        font-weight: 400;
+        color: 0084f6;
+        text-decoration: none;
+        // text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+        width: 100%;
+    }
+    .side-form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 60%;
+        padding-left: 10px;
+        margin-left: 10px;
+        height: 30px;
+        padding: 0px 5px;
+        font-weight: 600;
+        font-size: 14px;
+        color: black;
+        &.bsDatepicker {
+            width: 60%;
+        }
+    }
+    &.timepick {
+        width: 100%;
+        padding-top: 0px;
+        .tbox {
+            width: 100%;
+            .times {
+                display: inline-block;
+            }
+            .side-form-ctrl {
+                background: white;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 0px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+                &.mins {
+                    width: 100%;
+                }
+                &.mers {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
+.question-wrapper {
+    .field-radio-wrapper {
+        .form-radio:checked+label:before {
+            left: 3px;
+            top: 3px;
+        }
+    }
+}
+
+.qInfoIcon {
+    width: 20px;
+    margin-left: 5px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px 0px #ccc inset;
+    color: #888;
+    transition: all 0.2s linear;
+    &:hover {
+        border-color: $header-bg;
+        box-shadow: 0px 0px 1px 0px $header-bg inset;
+        color: $header-bg;
+    }
+}
+
+.tooltip-box-field {
+    width: 170px;
+    white-space: nowrap;
+    min-height: 41px;
+    line-height: 18px;
+    padding: 5px 5px;
+    overflow: visible;
+    color: black;
+    font-weight: bold;
+    &.lg {
+        width: 200px;
+        white-space: nowrap;
+        min-height: 50px;
+        line-height: 20px;
+        padding: 5px 5px;
+    }
+    &.sm {
+        width: 100px;
+        white-space: nowrap;
+        min-height: 40px;
+        padding: 5px 5px;
+    }
+}

@@ -1,0 +1,722 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<section class="middle-section clearFix">
+  <div class="boxPadding15">
+    <aside class="middle-full row">
+      <!-- Header and Navigation -->
+      <section class="clearFix">
+
+
+        <!-- Export and Toggler Here -->
+        <div class="row" style="margin-top: -5px;margin-bottom: 5px;">
+          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+            <div class="field-wrapper">
+              <div class="btnWrapper">
+                <button class="btn pull-right" (click)="addItemDetails()">
+                  <div class="option-wrap">
+                    <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
+                    <span class="tooltip tooltipSpan">
+                      Add Item
+                    </span>
+                  </div>
+                </button>
+              </div>
+
+            </div>
+            <div class="search-filter-wrapper">
+              <input #search type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px; margin: 0px 5px 2px -5px;width: 30%"
+                id="search" name="searchData" (keyup)="searchDatabase(search)">
+            </div>
+          </div>
+        </div>
+
+        <!-- Enquiry DataTable -->
+        <div class="table table-responsive inventory-table" #ActionInv>
+          <table id="item-Table" class="align-center">
+            <thead>
+              <tr id="table-header" class="displayComp">
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.source.title)">{{header.master_course.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.created_date.title)">{{header.course.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.status.title)">{{header.total_units.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.total_count.title)">{{header.cost.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon">Low Stock Indicator Units</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon">Manage Unit</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
+                  </label>
+                </th>
+
+              </tr>
+            </thead>
+            <tbody class="" *ngIf="itemList.length != 0">
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of itemList; let i = index; trackBy: i;">
+
+                <td class="view-comp">
+                  {{row.item_name}}
+                </td>
+                <td class="edit-comp ">
+                  <div class="field-wrapper editCellAllignment">
+                    <input type="text" class="form-ctrl" [(ngModel)]="row.item_name" name="label">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.category_name}}
+                </td>
+                <td class="edit-comp ">
+                  <div class="field-wrapper editCellAllignment">
+                    <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.category_id">
+                      <option *ngFor="let opt of categoryList" [value]="opt.category_id">
+                        {{opt.category_name}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+
+                <td class="view-comp ">
+                  <div class="field-wrapper">
+                    {{row.desc}}
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="row.desc" name="label">
+                  </div>
+                </td>
+
+                <td>
+                  {{row.standard_name}}
+                </td>
+                <td>
+                  {{row.subject_name}}
+                </td>
+
+                <td>
+                  {{row.alloted_units}}
+                </td>
+                <td [ngClass]="{lowquantity : row.available_units <= row.out_of_stock_indicator_units}">
+                  {{row.available_units}}
+                </td>
+
+                <td class="view-comp">
+                  <div class="field-wrapper">
+                    {{row.unit_cost}}
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
+                  </div>
+                </td>
+
+
+                <td class="view-comp">
+                  <div class="field-wrapper">
+                    {{row.out_of_stock_indicator_units}}
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <input type="number" class="form-ctrl" style="margin:auto" [(ngModel)]="row.out_of_stock_indicator_units" name="label">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  <div class="displayAddItem" id="add-item{{i}}">
+                    <a class="view-addItem" (click)="addItemsEnable(i)" style="cursor: pointer;">
+                      <img src="assets/images/plus.png" title="Add Quantity">
+                    </a>
+                    <a class="view-addItem" (click)="subtractItemsEnable(i)" style="cursor: pointer;">
+                      <i class="fas fa-minus" style="font-family: FontAwesome;size: 19px" title="Subtract Quantity"></i>
+                    </a>
+                    <div class="field-wrapper edit-addItem">
+                      <input type="number" class="form-ctrl addQuantityInput" style="display: inline-block" [(ngModel)]="row.units_added" name="label">
+                      <a style="cursor:pointer ; margin-right:10px; display: inline-block" (click)="addItemsQuantity(row)">
+                        <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px; display: inline-block;" title="Update"></i>
+                      </a>
+                      <a style="cursor:pointer" (click)="cancelItem(i)">
+                        <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;  display: inline-block;" title="Cancel"></i>
+                      </a>
+                    </div>
+                  </div>
+                </td>
+                <td class="edit-comp" *ngIf="!isAddUnit">
+                </td>
+                <td class="edit-comp" *ngIf="isAddUnit">
+                  <div class="field-wrapper">
+                    <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
+                  </div>
+                </td>
+                <td class="table-action edit-comp">
+                  <a style="cursor:pointer" (click)="updateRow(row , i)">
+                    <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
+                  </a>
+                  <a style="cursor:pointer" (click)="cancelRow(i)">
+                    <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+                  </a>
+                </td>
+                <td class="enquiry-action table-action view-comp">
+                  <div>
+                    <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu(i)">
+                      <span class="svg-icon-wrap">
+                        <span class="visually-hidden"></span>
+                        <div aria-hidden="true" type="ellipsis-horizontal-icon">
+                          <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                            focusable="false">
+                            <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                          </svg>
+                        </div>
+                      </span>
+                    </button>
+
+                    <div id="menuList{{i}}" class="dd-list-container hide">
+                      <div class="dropdown-list">
+                        <div class="dd-list-inner">
+                          <ul class="actions-menu">
+                            <li class="action-item " (click)="editRow(i,row.item_id)">
+                              <span class="textContent">
+                                Edit Details
+                              </span>
+                            </li>
+                            <li class="action-item" *ngIf="row.is_delete" (click)="deleteRow(row, i)">
+                              <span class="textContent">
+                                Delete Entry
+                              </span>
+                            </li>
+                            <li class="action-item" (click)="allocationDetails(row , i)">
+                              <span class="textContent">
+                                Allocation History
+                              </span>
+                            </li>
+                            <li class="action-item" *ngIf="showAllocateOption" (click)="allocateQuantityToSubBranches(row)">
+                              <span class="textContent">
+                                Allocate To Sub Branches
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+            <tbody *ngIf="itemList.length == 0">
+              <tr>
+                <td colspan="10" style="text-align: center">
+                  No Data Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        <!-- Paginator Here -->
+        <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+            </pagination>
+          </div>
+        </div>
+
+      </section>
+    </aside>
+  </div>
+</section>
+
+<!-- Delete PopUp -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="deleteItemPopUp">
+  <div class="popup pos-abs">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2>Delete Inventory Item - Item Name: {{deleteRowDetails.item_name}}</h2>
+        <div class="update-enquiry-form overflowHidden">
+          <div class="enquiry-update-history">
+            <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
+          </div>
+          <div class="">
+            <div class="clearfix">
+              <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closeDeletePopup()">
+                <input type="button" value="Delete" class="redBtn btn" (click)="deleteStudent()">
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Create Item Pop Up -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="createItemPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCreatePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div class="">
+          <h2>Add Inventory Item</h2>
+          <button class="btn pull-right" routerLink="/inventory/category">Add Category</button>
+        </div>
+
+        <div class="row">
+          <form [formGroup]="addItemForm" novalidate (ngSubmit)="saveItemDetails()">
+
+
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
+                <div class="field-wrapper">
+                  <label for="In">Item Name
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" class="form-ctrl" formControlName="item_name" id="In" name="item">
+
+                  <div *ngIf="addItemForm.controls['item_name'].invalid && (addItemForm.controls['item_name'].dirty || addItemForm.controls['item_name'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="addItemForm.controls['item_name'].hasError('required')">
+                      Item Name is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <label for="label">Item Description
+                  </label>
+                  <input type="text" class="form-ctrl" formControlName="desc" id="label" name="label">
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <label for="cat">Category
+                    <span style="color:red">*</span>
+                  </label>
+                  <select id="cat" class="form-ctrl" formControlName="categoryDet">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of categoryList" [value]="opt.category_id">
+                      {{opt.category_name}}
+                    </option>
+                  </select>
+
+                  <div *ngIf="addItemForm.controls['categoryDet'].invalid && (addItemForm.controls['categoryDet'].dirty || addItemForm.controls['categoryDet'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="addItemForm.controls['categoryDet'].hasError('required')">
+                      Category Name is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <label for="Unit">Available Unit
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="number" class="form-ctrl" formControlName="alloted_units" id="Unit" name="Unit">
+
+                  <div *ngIf="addItemForm.controls['alloted_units'].invalid && (addItemForm.controls['alloted_units'].dirty || addItemForm.controls['alloted_units'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="addItemForm.controls['alloted_units'].hasError('required')">
+                      Units is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <label for="master">Master Course
+                  </label>
+                  <select id="master" class="form-ctrl" formControlName="standardDet" (change)="masterCourseSelected()">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
+                      {{opt.standard_name}}
+                    </option>
+                  </select>
+
+                </div>
+              </div>
+
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <label for="course">Course
+                  </label>
+                  <select id="course" class="form-ctrl" formControlName="subjectDet">
+                    <option value="-1"></option>
+                    <option *ngFor="let opt of courseList" [value]="opt.subject_id">
+                      {{opt.subject_name}}
+                    </option>
+                  </select>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <label for="UnitCost">Unit Cost
+                  </label>
+                  <input type="number" class="form-ctrl" min="0" id="UnitCost" formControlName="unit_cost" name="UnitCost">
+
+                </div>
+              </div>
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 madeDate" style="margin-top:0px;">
+                <div class="field-wrapper datePickerBox">
+                  <label for="followupdate">Date
+                  </label>
+                  <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="created_date" style="cursor: pointer;" name="createdDate"
+                    readonly="true" bsDatepicker/>
+                  <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <label for="lowUnit">Low Stock Indicator Units
+                  </label>
+                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" id="lowUnit" name="lowUnit">
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row pull-right" style="margin-right:40px">
+              <button [disabled]='!addItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Save </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Allocate Item Sub Branch -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showAllocationBranchPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocateSubBranchPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <h2>Item Name : {{allocateItemRowClicked.item_name}} </h2>
+          </div>
+          <div>
+            <h2>Available Unit : {{allocateItemRowClicked.available_units}}</h2>
+          </div>
+        </div>
+
+        <div class="">
+          <h3>Allocate Inventory Item To Sub Branch</h3>
+        </div>
+
+        <form [formGroup]="allocateItemForm" novalidate (ngSubmit)="allocateItemToBranches()">
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper has-value">
+                <label for="item">Sub Branch
+                  <span style="color:red">*</span>
+                </label>
+                <select id="" class="form-ctrl" formControlName="sub_branch_id" (change)="onSubBranchSelection()">
+                  <option value="-1"></option>
+                  <option *ngFor="let opt of subBranchList" [value]="opt.institute_id">
+                    {{opt.institute_name}}
+                  </option>
+                </select>
+
+                <div *ngIf="allocateItemForm.controls['sub_branch_id'].invalid && (allocateItemForm.controls['sub_branch_id'].dirty || allocateItemForm.controls['sub_branch_id'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['sub_branch_id'].hasError('required')">
+                    Sub Branch Name is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="label">Sub Branch Item
+                  <span style="color:red">*</span>
+                </label>
+                <select id="" class="form-ctrl" formControlName="sub_branch_item_id" (click)="onSelectSubBranchItem()">
+                  <option *ngFor="let opt of subBranchItemList" [value]="opt.item_id">
+                    {{opt.item_name}}({{opt.category_name}})
+                  </option>
+                </select>
+
+                <span *ngIf="showAvailableUnits">Units available in Sub Branch: {{availabelItemCount}}</span>
+                <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].invalid && (allocateItemForm.controls['sub_branch_item_id'].dirty || allocateItemForm.controls['sub_branch_item_id'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].hasError('required')">
+                    Sub Branch Item is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="item">Allocate Unit
+                  <span style="color:red">*</span>
+                </label>
+                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item">
+
+                <div *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['alloted_units'].hasError('required')">
+                    Alloted Unit is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="label">Transport
+                </label>
+                <input type="text" class="form-ctrl" formControlName="transport" name="label">
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="item">Challan No.
+                </label>
+                <input type="number" class="form-ctrl" formControlName="challan_no" name="item">
+
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper datePickerBox">
+                <label for="createdDate">Challan Date</label>
+                <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date" style="cursor: pointer;" name="createdDate"
+                  readonly="true" bsDatepicker/>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="item">Challan Amount (Rs)
+                </label>
+                <input type="number" class="form-ctrl" formControlName="challan_amount" name="item">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row pull-right" style="margin-right:40px">
+            <button id="btnSave" class="btn fullBlue" type="submit"> Allocate </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Allocation Item History -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showAllocationHistoryPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocationItemHistoryPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div>
+          <h2>Inventory Item Transaction History</h2>
+        </div>
+        <div>
+          <h3>Item Name : {{itemName}} </h3>
+        </div>
+
+        <div style="margin-top: 15px;max-height: 250px;overflow: scroll;">
+          <table>
+            <thead>
+              <th>
+                S No.
+              </th>
+              <th>
+                Date
+              </th>
+              <th>
+                From/To
+              </th>
+              <th>
+                Contact No.
+              </th>
+              <th>
+                Quantity
+              </th>
+              <th>
+                IN/OUT
+              </th>
+              <th>
+                Others
+              </th>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of allocationHistoryList; let i = index; trackBy: i;">
+                <td>
+                  {{i + 1}}
+                </td>
+                <td>
+                  {{row.created_date}}
+                </td>
+                <td>
+                  {{row.user_name}}
+                </td>
+                <td>
+                  {{row.contact_no}}
+                </td>
+                <td>
+                  {{row.alloted_units}}
+                </td>
+                <td>
+                  <span *ngIf="(row.inventory_type == 1)"> IN </span>
+                  <span *ngIf="(row.inventory_type == 2)"> OUT </span>
+                </td>
+                <td>
+                  <span [innerHTML]="row.other_details" style="float: left; text-align: left"></span>
+                </td>
+              </tr>
+              <tr *ngIf="(allocationHistoryList.length == 0)">
+                <td colspan="7">
+                  No Data Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

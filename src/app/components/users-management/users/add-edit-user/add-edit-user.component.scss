@@ -1,0 +1,17 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+
+
+.middle-section {
+    padding: 10px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.row{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

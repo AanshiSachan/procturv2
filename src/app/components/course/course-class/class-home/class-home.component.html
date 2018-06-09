@@ -1,0 +1,471 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<section class="middle-section clearFix">
+  <section class="cal-view">
+    <aside class="boxPadding15">
+      <!-- ==================================================================================== -->
+      <!-- ==================================================================================== -->
+      <!-- ========================== Header Section ========================================== -->
+      <section class="middle-top clearFix">
+        <div class="row" style="margin-left: 0px;">
+          <h1 class="pull-left">
+            Class Schedule
+          </h1>
+          <aside class="pull-right" style="margin-right: 15px">
+            <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Add/Edit Class" class="btn">
+          </aside>
+        </div>
+        <h4>Choose filter to view class schedule</h4>
+      </section>
+      <!-- ==================================================================================== -->
+      <!-- ==================================================================================== -->
+      <!-- ========================== Body Section ============================================ -->
+      <section class="schedule-class-box">
+        <!-- ==================================================================================== -->
+        <!-- ==================================================================================== -->
+        <!-- ========================== Search bar ============================================== -->
+        <section class="common-search-filter">
+          <div class="filter-search">
+            <div class="filter-box clearFix">
+
+
+              <!-- Batch Module -->
+              <div class="search-filter-wrapper main" *ngIf="isLangInstitute">
+
+                <div class="radio-options">
+                  <div class="radio-main">
+                    <div class="field-radio-wrapper">
+
+                      <input type="radio" checked (click)="checkInputType($event)" name="sFilter" class="form-radio" value="Automatic" id="idAll">
+                      <label for="active">All</label>
+                    </div>
+                    <div class="field-radio-wrapper">
+
+                      <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idTeacher">
+                      <label for="Inactive">Faculty</label>
+                    </div>
+                    <div class="field-radio-wrapper">
+
+                      <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idBatch">
+                      <label for="Inactive">Batch</label>
+                    </div>
+                  </div>
+                  <div class="field-main">
+                    <div *ngIf="selectedRadioButton == 'Teacher'">
+                      <div class="field-wrapper fieldPro" [ngClass]="{'has-value': fetchBatchModule.teacher_id != '-1'}">
+                        <label for="sc">Select Faculty</label>
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchBatchModule.teacher_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
+                            {{subject.teacher_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+
+                    <div *ngIf="selectedRadioButton == 'Batch'" class="field-main">
+
+                      <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '0' && batchData.standard_id != '-1'}">
+                        <label for="smc">Select Master Course</label>
+                        <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
+                          <option value="0"></option>
+                          <option [value]="master.standard_id" *ngFor="let  master of batchMasterCourse">
+                            {{master.standard_name}}
+                          </option>
+                        </select>
+
+                      </div>
+
+
+                      <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '0' && batchData.subject_id != '-1'}">
+                        <label for="sc">Select Course</label>
+                        <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onSubjectSelection($event)">
+                          <option value="0"></option>
+                          <option [value]="course.subject_id" *ngFor="let course of subjectListBatch">
+                            {{course.subject_name}}
+                          </option>
+                        </select>
+
+                      </div>
+
+
+                      <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '0' && batchData.batch_id != '-1'}">
+                        <label for="sc">Batch</label>
+                        <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
+                          <option value="0"></option>
+                          <option [value]="subject.batch_id" *ngFor="let subject of batchList">
+                            {{subject.batch_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <input type="button" class="fullBlue btn btn-new" value="View" (click)="submitMasterCourse()">
+                </div>
+              </div>
+
+              <!-- Course Module -->
+              <div class="search-filter-wrapper" *ngIf="!isLangInstitute">
+                <div class="c-lg-10 c-md-10 c-sm-10">
+                  <div class="row">
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
+                        <label for="smc">Select Master Course</label>
+                        <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
+                          <option value="-1"></option>
+                          <option [value]="master.master_course" *ngFor="let  master of masterCourse">
+                            {{master.master_course}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
+                        <label for="sc">Select Course</label>
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
+                          <option value="-1"></option>
+                          <option [value]="course.course_id" *ngFor="let course of courseList.coursesList">
+                            {{course.course_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.subject_id != '-1'}">
+                        <label for="selectsub">Select Subject</label>
+                        <select id="selectsub" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.batch_id" *ngFor="let subject of subjectList">
+                            {{subject.subject_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.teacher_id != '-1'}">
+                        <label for="selectteacher">Select Faculty</label>
+                        <select id="selectteacher" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
+                            {{subject.teacher_name}}
+                          </option>
+                        </select>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <input type="button" class="fullBlue btn" value="View" (click)="submitMasterCourse()" style="margin-top:1%;">
+
+              </div>
+
+
+            </div>
+          </div>
+
+        </section>
+        <!-- ==================================================================================== -->
+        <!-- ==================================================================================== -->
+        <!-- ========================== Weeks Tabs and Navigator ================================ -->
+        <section class="calender-course clearFix view-c-detail" *ngIf="showContent">
+          <div class="row">
+            <div class="c-lg-2 c-md-2 c-sm-2 vcd-l">
+              <label>
+
+              </label>
+            </div>
+            <div class="c-lg-8 c-md-8 c-sm-8 align-center  vcd-l date-arrow">
+              <div>
+                <span class="">{{weekStart}} to {{weekEnd}}</span>
+              </div>
+            </div>
+            <div class="c-lg-2 c-md-2 c-sm-2 align-right filter-search">
+            </div>
+          </div>
+          <div class="cal-left c-control" (click)="gotoPreviousWeek()"></div>
+          <div class="cal-right c-control" (click)="gotoNextWeek()"></div>
+        </section>
+        <!-- ==================================================================================== -->
+        <!-- ==================================================================================== -->
+        <!-- ========================== Class Schedule Table ==================================== -->
+        <section class="clearFix calender-view1" *ngIf="showContent">
+          <div class="table-responsive ">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:15%">Type</th>
+                  <th style="width:15%">Subject</th>
+                  <th style="width:12.5%">Start Date</th>
+                  <th style="width:12.5%">End Date</th>
+                  <th style="width:15%">Faculty</th>
+                  <th style="width:15%">Topic</th>
+                  <!-- <th>Home Work</th>
+                  <th width="100 ">Status</th> -->
+                  <th style="width:15%">Action</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyItem{{i}}" class="table-accor-head" *ngFor="let class of weekScheduleList; let i=index;">
+                <tr>
+                  <td colspan="7">
+                    <div class="accordian-heading">
+                      <h4 class="clearFix ">
+                        <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
+                        <span class="open-accor" (click)="toggleTbodyClass(i)">+</span>
+                        <span class="date-c" (click)="toggleTbodyClass(i)">{{class.id}}</span>
+                        <!-- <span class="pull-right delete-icon" style="font-family: FontAwesome;" (click)="delete('course', i, null)">
+                          <i class="fa fa-trash-o " aria-hidden="true"></i>
+                        </span> -->
+                        <span class="pull-right">
+                          <span *ngIf="!isLangInstitute" class="" (click)="editClass(class)" title="Edit">
+                            <i class="fas fa-edit" style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
+                          </span>
+                          <span *ngIf="!isLangInstitute" class="mail-notification" (click)="notify(class)" title="Send Reminder"></span>
+                        </span>
+                      </h4>
+                    </div>
+                  </td>
+                </tr>
+                <tr id="tbodyView{{i}}" class="hide">
+                  <td colspan="7">
+                    <table>
+                      <tbody class="table-accor-view ">
+                        <tr *ngFor="let sc of class.data; let y= index;">
+                          <td style="width:15%">{{sc.class_type}}</td>
+                          <td style="width:15%">{{sc.subject_name}}</td>
+                          <td style="width:12.5%">{{sc.start_time}}</td>
+                          <td style="width:12.5%">{{sc.end_time}}</td>
+                          <td style="width:15%">{{sc.teacher_name}}</td>
+                          <td style="width:15%">{{sc.topics_covered}}</td>
+                          <td style="width:15%">
+                            <div class="action-box" *ngIf="!isLangInstitute">
+                              <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
+                              <span class="reschedule-icon" (click)="rescheduleClassData(sc)" title="Reschedule"></span>
+                              <span class="delete-btn" style="font-family: FontAwesome;" (click)="CancelClass(sc)" title="Cancel Class">
+                                <i class="fa fa-trash-o " aria-hidden="true "></i>
+                              </span>
+                              <!-- <span class="edit-icon "></span> -->
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="weekScheduleList.length==0">
+                <tr>
+                  <td colspan="7">
+                    No Classes Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="fullwidth clearFix ledgend-footer ">
+            <label class="pull-left ">Ledgend</label>
+            <div class="pull-left ">
+              <span class="class-is "></span>Class</div>
+            <div class="pull-left ">
+              <span class="exam-is "></span>Exam</div>
+            <div class="pull-left ">
+              <span class="class-cancel blue ">x</span>Cancelled Class</div>
+            <div class="pull-left ">
+              <span class="class-cancel yellow ">x</span>Cancelled Exam</div>
+          </div> -->
+            
+        </section>
+      </section>
+    </aside>
+  </section>
+</section>
+
+
+
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+
+<section id="popup" class="popupWrapper fadeIn" *ngIf="reschedulePopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRescheduleClass()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content" style="padding-left: 15px;">
+
+        <h2 widget-header>Reschedule - {{rescheduleDet.batchName}}</h2>
+
+        <div class="rescheduleWrapper" widget-content>
+          <div class="row">
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': reschedDate != ''}">
+                <label for="reschDate" style="color: black">Reschedule Date</label>
+                <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
+                  bsDatepicker>
+
+              </div>
+            </div>
+
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="form-wrapper timepick rescheduleTime">
+                <label for="startTime">Start Time</label>
+                <div class="tbox">
+                  <div class="times">
+                    <select class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
+                      <option [value]="time" *ngFor="let time of times">
+                        {{time}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="times">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="form-wrapper timepick rescheduleTime">
+                <label for="endtime">End Time</label>
+                <div class="tbox">
+                  <div class="times ">
+                    <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
+                      <option [value]="time" *ngFor="let time of times">
+                        {{time}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="times">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="field-wrapper" style="width: 50%;">
+              <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"
+                class="form-ctrl textbox">
+                </textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="" widget-footer>
+          <div class="clearfix">
+            <aside class="pull-left" style="margin-top: 10px;">
+              <div class="field-checkbox-wrapper">
+
+                <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
+                  (change)="notifyRescheduleUpdate($event)">
+                <label for="is_reshedule_notified">Notify Students
+                  <div class="questionInfo lefts" style="margin-left: 30px;">
+                    <span class="qInfoIcon">?</span>
+                    <div class="tooltip-box-field">
+                      Reschedule SMS will be sent to student.
+                    </div>
+                  </div>
+                </label>
+
+              </div>
+            </aside>
+            <aside class="pull-right popup-btn">
+              <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
+              <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">
+            </aside>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- //////////////////////////////////Cancel///////////////////////////////// -->
+<!-- //////////////////////////////////Cancel///////////////////////////////// -->
+<!-- //////////////////////////////////Cancel///////////////////////////////// -->
+<!-- //////////////////////////////////Cancel///////////////////////////////// -->
+<!-- //////////////////////////////////Cancel///////////////////////////////// -->
+
+
+<section id="popup" class="popupWrapper fadeIn" *ngIf="isCourseCancel">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseCancelClass()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+
+        <h2 widget-header>Cancel Class </h2>
+
+        <div class="CancelWrapper" widget-content>
+          <div class="row cancelField">
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="field-wrapper">
+                <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
+            </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row notifyChkbx">
+          </div>
+        </div>
+
+        <div class="" widget-footer>
+          <div class="clearfix">
+            <aside class="pull-left">
+              <div class="field-checkbox-wrapper">
+
+                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
+                <label for="notifyCancel">Notify Students</label>
+
+              </div>
+            </aside>
+            <aside class="pull-right popup-btn">
+              <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
+              <input type="button" value="Save" (click)="cancelClass()" class="btn fullBlue">
+            </aside>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

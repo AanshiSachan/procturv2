@@ -1,0 +1,26 @@
+<div class="procturqf quick-filter-wrapper">
+    <button id="quick-filterer" class="procturqf quick-filter-text" (click)="isDropdown = true">
+        <span class="procturqf " id="quick-filter-caret" (click)="isDropdown = true">
+            <div class="procturqf quick-filter-label" *ngIf="!selectedOptions.length" (click)="isDropdown = true"    >
+                <label class="procturqf " (click)="isDropdown = true">Quick Filter</label>
+            </div>
+            <div class="procturqf quick-filter-label" *ngIf="selectedOptions.length" (click)="isDropdown = true">
+                <label id="selectedP" style="color:rgb(0, 162, 255);" (click)="toggleD($event)"> 
+                    {{selectedOptionsString}}
+                </label>
+            </div>
+        </span>
+        <i class="procturqf fa fa-chevron-down fa-chevron-open" *ngIf="isDropdown" (click)="isDropdown = true"></i>
+        <i class="procturqf fa fa-chevron-down" *ngIf="!isDropdown" (click)="isDropdown = true"></i>
+    </button>
+    <div class="procturqf quick-filter-list" *ngIf="isDropdown">
+        <ul class="procturqf quick-filter-inner">
+            <li class="procturqf quick-filter-item" [ngClass]="{'hide': isProReg(item)}" *ngFor="let item of inputList">
+                <div class="procturqf field-checkbox-wrapper">
+                    <input id="{{item.value}}" type="checkbox" value="" name="check" class="procturqf form-checkbox" [(ngModel)]="item.checked" (ngModelChange)="checkBoxUpdated(item)">
+                    <label for="{{item.value}}" class="procturqf ">{{item.value}}</label>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

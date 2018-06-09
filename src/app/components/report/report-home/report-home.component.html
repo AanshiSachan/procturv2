@@ -1,0 +1,117 @@
+<div class="middle-section clearFix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix report-box">
+            <section>
+
+                <!-- SMS -->
+                <div *ngIf="isSms" class="c-lg-4">
+                    <ul class="card" routerLink="/reports/sms">
+                        <li>
+                            SMS
+                        </li>
+                        <li>
+                            This Report depicts the daily SMS sent to prospects, students and parents
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Attendance -->
+                <div *ngIf="isAttendance" class="c-lg-4">
+                    <ul class="card" routerLink="/reports/attendance">
+                        <li>
+                            Attendance
+                        </li>
+                        <li>
+                            Attendance report for students.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Biometric -->
+                <div *ngIf="isBiometric && biometricAttendanceEnable" class="c-lg-4">
+                    <ul class="card" routerLink="/reports/biometric">
+                        <li>
+                            Biometric Attendance
+                        </li>
+                        <li>
+                            Report for attendance report with institute that has biometric system installed.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Fee -->
+                <div *ngIf="isFee" class="c-lg-4">
+                    <ul class="card" routerLink="/reports/fee">
+                        <li>
+                            Fee
+                        </li>
+                        <li>
+                            Fee report of institute as per the amount collected and due amount.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Exam -->
+                <div *ngIf="isExam" class="c-lg-4">
+                    <ul class="card" routerLink="/reports/exam">
+                        <li>
+                            Exam
+                        </li>
+                        <li>
+                            Exam report of student as per their performance.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Report Card -->
+                <div *ngIf="isReportCard" class="c-lg-4 hide">
+                    <ul class="card" routerLink="/reports/reportCard">
+                        <li>
+                            Report Card
+                        </li>
+                        <li>
+                            Student based report card depicting thier marks and performance.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Timetable -->
+                <div *ngIf="isTimetable" class="c-lg-4">
+                    <ul class="card" routerLink="/reports/timeTable">
+                        <li>
+                            Time Table
+                        </li>
+                        <li>
+                            Time table as per the subject on weekly and monthly basis
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Email -->
+                <div *ngIf="isEmail" class="c-lg-4">
+                    <ul class="card" routerLink="/reports/email">
+                        <li>
+                            Email
+                        </li>
+                        <li>
+                            Details of emails sent to prospect, student and parent on selected date range.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- profit n loss -->
+                <div *ngIf="isProfitnloss" class="c-lg-4 hide">
+                    <ul class="card" routerLink="/reports/profitNloss">
+                        <li>
+                            Profit and Loss
+                        </li>
+                        <li>
+                            Detailed report of amount earned as profit or loses.
+                        </li>
+                    </ul>
+                </div>
+
+            </section>
+        </section>
+    </aside>
+</div>
