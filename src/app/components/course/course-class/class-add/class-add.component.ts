@@ -1,17 +1,10 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../../services/login-services/login.service';
-import { document } from '../../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import { ColumnSetting } from '../../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
@@ -152,11 +145,8 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   constructor(
     private router: Router,
-    private fb: FormBuilder,
     private appC: AppComponent,
     private login: LoginService,
-    private rd: Renderer2,
-    private cd: ChangeDetectorRef,
     private classService: ClassScheduleService,
     private auth: AuthenticatorService
   ) {
@@ -862,12 +852,12 @@ export class ClassAddComponent implements OnInit {
   }
 
   makeCancelClassJson() {
-    let text = document.getElementById('idTexboxReason').value;
+    let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
       this.messageToast('error', 'Error', 'Please provide cancellation reason');
       return false;
     }
-    let chkbxValue = document.getElementById('idChkbxEnable').checked;
+    let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
     if (chkbxValue == true) {
       chkbxValue = "Y";
     } else {
@@ -1725,12 +1715,12 @@ export class ClassAddComponent implements OnInit {
 
 
   makeJSONToSendBatchDet() {
-    let text = document.getElementById('idTexboxReason').value;
+    let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
       this.messageToast('error', 'Error', 'Please provide cancellation reason');
       return false;
     }
-    let chkbxValue = document.getElementById('idChkbxEnable').checked;
+    let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
     if (chkbxValue == true) {
       chkbxValue = "Y";
     } else {

@@ -11,7 +11,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { addCampaign } from '../../../model/add-campaign';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import {AuthenticatorService} from '../../../services/authenticator.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-campaign-bulk',
@@ -29,8 +29,8 @@ export class CampaignBulkComponent implements OnInit {
 
   private campaignAddFormData: addCampaign = {
     name: "",
-    referred:"",
-    source:""   
+    referred: "",
+    source: ""
   };
 
   private referralList: any[] = [];
@@ -62,14 +62,14 @@ export class CampaignBulkComponent implements OnInit {
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
-    
-        let referralList = this.prefill.getLeadReffered().subscribe(data => {
-          this.referralList = data;
-        });
-    
-        let sourceList = this.prefill.getLeadSource().subscribe(data => {
-          this.sourceList = data;
-        });    
+
+    let referralList = this.prefill.getLeadReffered().subscribe((data: any) => {
+      this.referralList = data;
+    });
+
+    let sourceList = this.prefill.getLeadSource().subscribe(data => {
+      this.sourceList = data;
+    });
   }
 
   /* Customiized click detection strategy */
@@ -94,53 +94,53 @@ export class CampaignBulkComponent implements OnInit {
   }
 
   /* convert base64 string to byte array */
-  convertBase64ToArray(val) {    
+  convertBase64ToArray(val) {
     var binary_string = window.atob(val);
     var len = binary_string.length;
     var bytes = new Uint8Array(len);
     for (var i = 0; i < len; i++) {
       bytes[i] = binary_string.charCodeAt(i);
     }
-    return bytes.buffer;    
+    return bytes.buffer;
   }
 
   /* function to upload the xls file as formdata */
-  uploadHandler(event,form: NgForm) {
+  uploadHandler(event, form: NgForm) {
 
     if (form.valid) {
 
       let response;
       this.fetchData.verifyUploadFileName(this.campaignAddFormData.name).subscribe(
         res => {
-          response= res;  
-          if (response.statusCode >= 200 && response.statusCode < 300) {                
+          response = res;
+          if (response.statusCode >= 200 && response.statusCode < 300) {
             for (let file of event.files) {
-              if(
-                file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+              if (
+                file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
                 file.type == 'application/vnd.ms-excel' ||
                 file.type == 'text/csv' ||
                 file.type == 'application/xls' ||
                 file.type == 'application/excel' ||
                 file.type == 'application/msexcel' ||
                 file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-                file.type == 'application/x-excel' 
-              ){
+                file.type == 'application/x-excel'
+              ) {
                 let formdata = new FormData();
-    
+
                 formdata.append("campaign_list_file", file);
-    
+
                 //Append the rest of the detail
-                formdata.append("campaign_list_name",this.campaignAddFormData.name);
-                formdata.append("campaign_list_desc","");
-                formdata.append("file_extn","xls");
-                formdata.append("is_ajax","Y");
-                formdata.append("referred_by",this.campaignAddFormData.referred);
-                formdata.append("source",this.campaignAddFormData.source);       
-    
+                formdata.append("campaign_list_name", this.campaignAddFormData.name);
+                formdata.append("campaign_list_desc", "");
+                formdata.append("file_extn", "xls");
+                formdata.append("is_ajax", "Y");
+                formdata.append("referred_by", this.campaignAddFormData.referred);
+                formdata.append("source", this.campaignAddFormData.source);
+
                 //
-    
+
                 let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
-    
+
                 let xhr: XMLHttpRequest = new XMLHttpRequest();
                 let auths: any = {
                   userid: sessionStorage.getItem('userid'),
@@ -155,9 +155,9 @@ export class CampaignBulkComponent implements OnInit {
                 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
                 xhr.setRequestHeader("enctype", "multipart/form-data");
                 xhr.setRequestHeader("Authorization", Authorization);
-    
+
                 this.isUploadingXls = true;
-    
+
                 xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
                   if (e.lengthComputable) {
                     this.progress = Math.round((e.loaded * 100) / e.total);
@@ -165,7 +165,7 @@ export class CampaignBulkComponent implements OnInit {
                     this.fileLoading = file.name;
                   }
                 }, false);
-    
+
                 //Call function when onload.
                 xhr.onreadystatechange = () => {
                   if (xhr.readyState == 4) {
@@ -181,9 +181,9 @@ export class CampaignBulkComponent implements OnInit {
                       //   body: xhr.response.fileName
                       // }
                       // this.appC.popToast(data);
-    
-                      
-                      this.bulkUploadStep2(xhr.response,form);
+
+
+                      this.bulkUploadStep2(xhr.response, form);
                     } else {
                       this.isUploadingXls = false;
                       let data = {
@@ -196,25 +196,25 @@ export class CampaignBulkComponent implements OnInit {
                     }
                   }
                 }
-    
+
                 xhr.send(formdata);
-    
-              }else{
+
+              } else {
                 let data = {
                   type: 'error',
                   title: "Invalid File Type",
 
                 }
-    
-                this.appC.popToast(data);  
+
+                this.appC.popToast(data);
               }
-            
-              
+
+
             }
             event.files = [];
           } else {
-                   
-          }   
+
+          }
         },
         error => {
           this.isUploadingXls = false;
@@ -222,21 +222,21 @@ export class CampaignBulkComponent implements OnInit {
             type: 'error',
             title: "Name already exist"
           }
-          this.appC.popToast(data); 
+          this.appC.popToast(data);
         }
       )
 
-      
-      
 
-        
 
-    }else{
+
+
+
+    } else {
       let data = {
         type: 'error',
         title: "Please provide mandatory information.",
       }
-      this.appC.popToast(data);  
+      this.appC.popToast(data);
     }
   }
 
@@ -249,35 +249,35 @@ export class CampaignBulkComponent implements OnInit {
       }
     )
 
-       
+
   }
 
-  verifyUploadFileName(data){
+  verifyUploadFileName(data) {
     let response;
     this.fetchData.verifyUploadFileName(data).subscribe(
       res => {
-        response= res;
+        response = res;
 
-        if (response.statusCode >= 200 && response.statusCode < 300) {                
+        if (response.statusCode >= 200 && response.statusCode < 300) {
         } else {
           this.isUploadingXls = false;
           let data = {
             type: 'error',
             title: "File uploaded Failed"
           }
-          this.appC.popToast(data);        
-        }   
+          this.appC.popToast(data);
+        }
       }
     )
   }
 
-  bulkUploadStep2(data,form: NgForm){
+  bulkUploadStep2(data, form: NgForm) {
     let response;
     this.fetchData.uploadFileStep2(data).subscribe(
       res => {
-        response= res;
+        response = res;
 
-        if (response.statusCode >= 200 && response.statusCode < 300) {  
+        if (response.statusCode >= 200 && response.statusCode < 300) {
 
           let data = {
             type: 'success',
@@ -286,17 +286,17 @@ export class CampaignBulkComponent implements OnInit {
           }
           this.appC.popToast(data);
           this.clearFormAndMove();
-          form.reset();     
+          form.reset();
         } else {
           this.isUploadingXls = false;
           let data = {
             type: 'error',
             title: "File uploaded Failed"
           }
-          this.appC.popToast(data);        
-        }        
+          this.appC.popToast(data);
+        }
       }
-    )    
+    )
   }
 
   /* toggle visibility of tabular displayy of bulk data upload */
@@ -332,11 +332,11 @@ export class CampaignBulkComponent implements OnInit {
     // this.navigateTo('studentForm');
     this.campaignAddFormData = {
       name: "",
-      referred:"",
-      source:"" 
+      referred: "",
+      source: ""
     }
     this.fetchPrefillFormData();
-    
+
   }
 
 

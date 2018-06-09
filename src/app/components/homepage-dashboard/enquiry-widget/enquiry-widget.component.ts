@@ -105,7 +105,7 @@ export class EnquiryWidgetComponent implements OnInit {
             updateDateTo: moment(this.enquiryDate[1]).format("YYYY-MM-DD")
         }
         this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
-            res => {
+            (res: any) => {
                 this.enquiryStat = res;
                 if (res.totalcount == 0) {
                     this.enquiryZero = true;
@@ -135,7 +135,7 @@ export class EnquiryWidgetComponent implements OnInit {
             updateDateTo: moment(e[1]).format("YYYY-MM-DD")
         }
         this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
-            res => {
+            (res: any) => {
                 this.cd.markForCheck();
                 this.enquiryStat = res;
                 if (res.totalcount == 0) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../../services/login-services/login.service';
 
 @Component({
   selector: 'app-employee-home',
@@ -7,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeeHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private login: LoginService
+  ) { }
 
   ngOnInit() {
     this.removeFullscreen();
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
 

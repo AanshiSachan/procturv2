@@ -214,7 +214,7 @@ export class CoreHeaderComponent implements OnInit {
           this.divGeneralSettingTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('115') != -1) {
-          //this.divManageFormTag.nativeElement.style.display = '';
+          // this.divManageFormTag.nativeElement.style.display = '';
           this.divAreaAndMap.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('601') != -1) {

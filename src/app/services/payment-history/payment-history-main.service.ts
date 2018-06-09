@@ -10,8 +10,11 @@ export class PaymentHistoryMainService {
   Authorization: any;
   headers;
   institute_id;
-  constructor(private http: HttpClient, private auth: AuthenticatorService) { 
 
+  constructor(
+    private http: HttpClient,
+    private auth: AuthenticatorService
+  ) {
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
       this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -19,17 +22,14 @@ export class PaymentHistoryMainService {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
-   
     this.baseUrl = this.auth.getBaseUrl();
- 
-
   }
 
-  getPaymentData(obj){
+  getPaymentData(obj) {
     obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
     obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
     let url = this.baseUrl + "/api/v1/studentWise/fee/feesReport/pastHistory/" + this.institute_id + "/details"
-    return this.http.post(url, obj , { headers: this.headers }).map(
+    return this.http.post(url, obj, { headers: this.headers }).map(
       data => {
         return data;
       },
@@ -39,25 +39,25 @@ export class PaymentHistoryMainService {
     )
   }
 
-  getPerPersonData(fin , i){
-    let url=this.baseUrl + "/api/v1/studentWise/fee/fetchTransactionsForFeeReceipt/" +i + "?financial_year=" + fin;
-    return this.http.get(url , {headers : this.headers}).map(
-      data =>{
+  getPerPersonData(fin, i) {
+    let url = this.baseUrl + "/api/v1/studentWise/fee/fetchTransactionsForFeeReceipt/" + i + "?financial_year=" + fin;
+    return this.http.get(url, { headers: this.headers }).map(
+      data => {
         return data;
       },
-      error =>{
+      error => {
         return error;
       }
     )
   }
 
-  updatePerPersonData(obj){
+  updatePerPersonData(obj) {
     let url = this.baseUrl + "/api/v1/studentWise/fee/updateFeeReceipt/" + this.institute_id + "/save";
-    return this.http.post(url , obj ,{headers:this.headers}).map(
-      (data:any)=>{
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      (data: any) => {
         return data;
       },
-      (error:any)=>{
+      (error: any) => {
         return error;
       }
     )

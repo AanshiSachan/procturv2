@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs';
@@ -7,13 +6,14 @@ import 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AuthenticatorService } from '../authenticator.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Injectable()
 export class LoginService {
 
   urlLogin: string;
-  headers: Headers;
+  headers: any;
   validateOTPurl: string;
   regenerateOTPurl: string;
   forgotPasswordURL: string;
@@ -63,34 +63,34 @@ export class LoginService {
     this.overlayMenu.next(menu);
   }
 
-  constructor(private http: Http, private auth: AuthenticatorService) {
+  constructor(private http: HttpClient, private auth: AuthenticatorService) {
     this.baseUrl = this.auth.getBaseUrl();
     this.urlLogin = this.baseUrl + "/api/v1/alternateLogin";
-    this.headers = new Headers();
-    this.headers.append("Content-Type", "application/json");
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
+      this.headers = new HttpHeaders(
+        { "Content-Type": "application/json", "Authorization": this.Authorization });
     })
   }
 
 
   postLoginDetails(data): any {
     return this.http.post(this.urlLogin, data, { headers: this.headers }).map(res => {
-      return res.json();
+      return res;
     });
   }
 
   validateOTPCode(data) {
     this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register/validateOTP";
     return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
-      return res.json();
+      return res;
     })
   }
 
   regenerateOTP(data) {
     this.regenerateOTPurl = this.baseUrl + "/api/v1/authenticate/regenerateOTP";
     return this.http.post(this.regenerateOTPurl, data, { headers: this.headers }).map(res => {
-      return res.json();
+      return res;
     })
   }
 
@@ -98,7 +98,7 @@ export class LoginService {
     this.forgotPasswordURL = this.baseUrl + "/api/v1/alternateLogin/forgotPswd";
     return this.http.post(this.forgotPasswordURL, data, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       })
   }
 
@@ -119,9 +119,7 @@ export class LoginService {
 
   changePasswordService(obj) {
     let url = this.baseUrl + "/api/v1/changePwd";
-    let head = new Headers(
-      { "Content-Type": "application/json", "Authorization": this.Authorization });
-    return this.http.post(url, obj, { headers: head }).map(
+    return this.http.post(url, obj, { headers: this.headers }).map(
       res => { return res; },
       err => { return err; }
     )

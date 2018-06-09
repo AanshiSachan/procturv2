@@ -154,7 +154,6 @@
                     {{ follow.data_value }}
                   </option>
                 </select>
-
               </div>
             </div>
 
@@ -452,7 +451,8 @@
       <!-- <div class="skeleton" #skelton *ngIf="!isSideBar"></div> -->
       <enquiry-sidebar *ngIf="isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority"
         [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
-        (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()">
+        (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" [mainBranchAdmin]="isMainBranch"
+        [subBranchAdmin]="subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)">
       </enquiry-sidebar>
     </div>
   </aside>
@@ -540,8 +540,8 @@
                 </div>
               </div>
 
-              <div class="row" *ngIf="isNotifyVisible">
-                <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px" *ngIf="isNotifyVisible">
                   <div class="form-checkbox-wrapper">
                     <div class="field-checkbox-wrapper">
 
@@ -549,6 +549,14 @@
                       />
                       <label for="notifyme">Notify Me</label>
                     </div>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="isMainBranch == 'Y' || subBranchSelected == true">
+                  <div class="field-wrapper">
+                    <label for="selectBranch">Branch</label>
+                    <select id="selectBranch" class="form-ctrl" [(ngModel)]="updateFormData.source_instituteId" name="selectBranch" (ngModelChange)="branchUpdated($event)">
+                      <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>
+                    </select>
                   </div>
                 </div>
               </div>

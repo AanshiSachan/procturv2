@@ -1,12 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "./authenticator.service";
-import { forkJoin } from "rxjs/observable/forkJoin";
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
 
 @Injectable()
 export class FeeStrucService {
@@ -34,8 +28,7 @@ export class FeeStrucService {
     }
 
 
-    fetchFeeStruc(): Observable<any> {
-
+    fetchFeeStruc() {
         let url = this.baseUrl + "/api/v1/student_wise/feeStructure/fetchAll/" + this.institute_id;
         return this.http.get(url, { headers: this.headers }).map(
             res => {
@@ -45,7 +38,6 @@ export class FeeStrucService {
                 return err;
             }
         )
-
     }
 
 
@@ -78,7 +70,7 @@ export class FeeStrucService {
         )
     }
 
-    fetchFeeDetail(id): Observable<any> {
+    fetchFeeDetail(id) {
         let url = this.baseUrl + "/api/v1/student_wise/feeStructure/fetch/" + this.institute_id + "/" + id;
 
         return this.http.get(url, { headers: this.headers }).map(

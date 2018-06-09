@@ -68,7 +68,7 @@ export class ClassRoomComponent {
 
   getClassList() {
     this.ClassList.fetchClassList().subscribe(
-      res => {
+      (res: any) => {
         this.classRoomData = res;
         this.totalRow = res.length;
         this.fetchTableDataByPage(this.pageIndex);
@@ -90,7 +90,7 @@ export class ClassRoomComponent {
     }
     this.tempIndex = index;
     console.log(this.tempIndex);
-    this.tempObj =  Object.assign({},row);
+    this.tempObj = Object.assign({}, row);
     console.log(this.tempObj);
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');

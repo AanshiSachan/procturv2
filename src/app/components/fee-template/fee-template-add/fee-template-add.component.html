@@ -47,7 +47,7 @@
           </div>
 
           <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
-            <label for="masterCourse">Master Course
+            <label for="masterCourse">Standard
               <span style="color: red">*</span>
             </label>
             <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse" (ngModelChange)="onMasterCourseSelection()">
@@ -59,7 +59,7 @@
           </div>
 
           <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
-            <label for="CourseDdn">Course
+            <label for="CourseDdn">Subject
               <span style="color: red">*</span>
             </label>
             <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">

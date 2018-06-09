@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SubjectApiService } from '../../../services/course-services/subject.service';
 import { AppComponent } from '../../../app.component';
-import { error } from 'util';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
@@ -321,30 +320,5 @@ export class CourseSubjectComponent implements OnInit {
       }
     )
   }
-
-  /* Customiized click detection strategy */
-  inputClickedCheck(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-
 
 }

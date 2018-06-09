@@ -73,6 +73,17 @@
                                 </select>
                             </div>
 
+                            <!-- Branch -->
+                            <div class="form-wrapper " *ngIf="mainBranchAdmin == 'Y' || subBranchAdmin == true">
+                                <label for="brchList">Branch</label>
+                                <select id="brchList" class="side-form-ctrl" name="brchList" [(ngModel)]="updateFormData.source_instituteId" (ngModelChange)="changeAssignList($event)">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let branch of branchesList" [value]="branch.institute_id">
+                                        {{ branch.institute_name }}
+                                    </option>
+                                </select>
+                            </div>
+
                             <!-- Assigned To -->
                             <div class="form-wrapper " *ngIf="isEnquiryAdmin">
                                 <label for="assignedTo">Assigned To</label>
@@ -88,7 +99,7 @@
                             <div class="form-wrapper datepicker ">
                                 <label for="followUPdateEdit">Follow Up Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
-                                (ngModelChange)="isNotifyDisplayed()" id="followUPdateEdit" readonly="true" bsDatepicker/>
+                                    (ngModelChange)="isNotifyDisplayed()" id="followUPdateEdit" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
                             </div>
 
@@ -101,7 +112,7 @@
                                         <div class="tbox">
                                             <div class="times">
                                                 <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')"
-                                                   (change)="isNotifyDisplayed()" name="followuptime">
+                                                    (change)="isNotifyDisplayed()" name="followuptime">
                                                     <option [value]="time" *ngFor="let time of times">
                                                         {{time}}
                                                     </option>
@@ -117,11 +128,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div *ngIf="isNotifyVisible">
                                     <div class="form-checkbox-wrapper">
                                         <div class="field-checkbox-wrapper">
-                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;" id="notifyMe">
+                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;"
+                                                id="notifyMe">
                                             <label for="notifyme">Notify Me</label>
                                             <div class="questionInfo">
                                                 <span class="qInfoIcon">!</span>
