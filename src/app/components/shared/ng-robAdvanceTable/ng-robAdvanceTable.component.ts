@@ -3,6 +3,7 @@ import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
 import { DropData, DropMapData } from './dropmenu/dropmenu.model';
 import { CustomizingPipe } from './customizing.pipe';
+import { CellHoverEvent } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker/models';
 
 @Component({
     selector: 'rob-table',
@@ -106,9 +107,13 @@ export class RobAdvanceTableComponent implements OnChanges {
             }
         }
 
-        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqcount"){
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqCount"){
             if (data != "0"){
-                return obj3;
+                let obj= {
+                    'color' : 'blue',
+                    'text-decoration' : 'underline'
+                }
+                return obj;
             }
         }
 
@@ -157,11 +162,13 @@ export class RobAdvanceTableComponent implements OnChanges {
         $event.preventDefault();
         $event.stopPropagation();
         this.selectedRow = ev;
-        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqcount"){
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqCount"){
             this.userRowSelect.emit(
                 {
                     key:key,
-                    data:row[key]
+                    data:row[key],
+                    source:row.key,
+                    status:row.data.status
                 }
             );
         }
@@ -171,9 +178,8 @@ export class RobAdvanceTableComponent implements OnChanges {
         
 
         this.getSelectedRows();
-        // console.log(ev);
-        // console.log(row);
-        // console.log($event)
+        console.log(row);
+    
     }
 
 

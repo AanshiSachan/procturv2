@@ -36,8 +36,8 @@ export class CounsellorReportComponent implements OnInit{
   popupDataEnquiries:any[];
 
   feeSettings1: ColumnData[] = [
-    { primaryKey: 'uniqueCatName', header: 'Counsellor' },
-    { primaryKey: 'newEnqcount', header: 'New Enquiries' },
+    { primaryKey: 'source', header: 'Counsellor' },
+    { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
     { primaryKey: 'inProgress', header: 'InProgress' },
     { primaryKey: 'Converted', header: 'Converted' },
@@ -57,6 +57,12 @@ export class CounsellorReportComponent implements OnInit{
     'Closed': '1',
     'totalcount': '-1'
   }      
+
+  newObject={
+    key:"",
+    data:""
+  }
+  newArray:any[] = []
 
   constructor(private counsellor: EnquiryReportService,
     private appc: AppComponent,
@@ -95,37 +101,50 @@ export class CounsellorReportComponent implements OnInit{
 
   fetchAllCounsellorDataDetails() {
     this.getCounsellorDetails = [];
-    this.mappedCounsellor = [];
+    this.newArray = [];
     this.dataStatus = 1;
     this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
       (data: any) => {
-        console.log(data);
-        // this.getCounsellorDetails = arr;
-        // console.log(this.getCounsellorDetails);
-        // console.log(data);
-        for (let i in data) {
-          this.mappedCounsellor.push(data[i]);
 
+        for (var prop in data) {
+          if (data.hasOwnProperty(prop)) {
+            let innerObj = {};
+            innerObj[prop] = data[prop];
+            this.getCounsellorDetails.push(innerObj)
+          }
         }
 
-        this.getCounsellorDetails = this.mappedCounsellor;
+        for (let a of this.getCounsellorDetails) {
+          for (let prop in a) {
+            this.newObject = {
+              key: prop,
+              data: a[prop]
+            }
+          }
+          this.newArray.push(this.newObject);
+        }
+
+        this.getCounsellorDetails = this.newArray;
         this.getCounsellorDetails.map(
           (ele: any) => {
-            ele.Closed = ele.statusMap.Closed;
-            ele.open = ele.statusMap.Open;
-            ele.inProgress = ele.statusMap["In Progress"];
-            ele.Converted = ele.statusMap.Converted;
-            ele.studentAdmitted = ele.statusMap["Student Admitted"];
+            ele.newEnqCount = ele.data.newEnqcount;
+            ele.totalcount = ele.data.totalcount;
+            ele.source_id = ele.key
+            ele.source = ele.data.uniqueCatName
+            ele.Closed = ele.data.statusMap.Closed;
+            ele.open = ele.data.statusMap.Open;
+            ele.inProgress = ele.data.statusMap["In Progress"];
+            ele.Converted = ele.data.statusMap.Converted;
+            ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
           }
         )
-        if(this.getCounsellorDetails.length == 0){
+        if (this.getCounsellorDetails.length == 0) {
           this.dataStatus = 2;
         }
-        else{
+        else {
           this.dataStatus = 0;
         }
         this.searchMyRecords = this.getCounsellorDetails;
-        console.log(this.getCounsellorDetails);
       },
       (error: any) => {
         this.dataStatus = 2;
@@ -135,7 +154,6 @@ export class CounsellorReportComponent implements OnInit{
         }
         this.appc.popToast(msg);
       }
-      
     )
   }
 
@@ -158,16 +176,17 @@ export class CounsellorReportComponent implements OnInit{
   reportHandler(dataObj) {
     console.log(dataObj);
     if (dataObj.data > 0) {
-      if (dataObj.key == "newEnqcount") {
+      if (dataObj.key == "newEnqCount") {
         let payload = {
-          assigned_to: "",
+          assigned_to: dataObj.source,
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: "",
-          enquireDateTo: ""
+          enquireDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          enquireDateTo: moment().format('YYYY-MM-DD')
         }
-        console.log(payload);
+       
+        this.popupDataEnquiries = [];
         this.counsellor.enquiryCategorySearch(payload).subscribe(
           (data:any)=>{
               this.popupDataEnquiries = data;
@@ -179,13 +198,14 @@ export class CounsellorReportComponent implements OnInit{
       }
       else {
         let payload = {
-          assigned_to: "",
+          assigned_to: dataObj.source,
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          updateDateFrom: "",
-          updateDateTo: ""
+          updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          updateDateTo: moment().format('YYYY-MM-DD')
         }
+        this.popupDataEnquiries = [];
         this.counsellor.enquiryCategorySearch(payload).subscribe(
           (data:any)=>{
             this.popupDataEnquiries = data;
@@ -194,14 +214,14 @@ export class CounsellorReportComponent implements OnInit{
 
           }
         )
-        console.log(payload);
+       
       }
       this.showPopup = true;
     }
 
   }
 
-
+  
   popupToggler()
   {
     this.showPopup = false;
