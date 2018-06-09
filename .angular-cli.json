@@ -6,11 +6,7 @@
   "apps": [
     {
       "root": "src",
-<<<<<<< HEAD
       "outDir": "preview",
-=======
-      "outDir": "dist",
->>>>>>> b82eb12e165a7258cb434a99ef7e8bf9a6b9b4a8
       "assets": [
         "assets",
         "favicon.ico"
