@@ -84,12 +84,7 @@ export class AddStudentPrefillService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data;
-          }
-          else {
-            return [];
-          }
+          return data;
         },
         err => {
           return err;
@@ -103,12 +98,7 @@ export class AddStudentPrefillService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data;
-          }
-          else {
-            return [];
-          }
+          return data;
         },
         err => {
           return err;
@@ -122,12 +112,7 @@ export class AddStudentPrefillService {
     return this.http.get(url, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data;
-          }
-          else {
-            return [];
-          }
+          return data;
         },
         err => {
           return err;

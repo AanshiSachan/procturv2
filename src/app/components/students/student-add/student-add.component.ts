@@ -3938,7 +3938,6 @@ export class StudentAddComponent implements OnInit {
 
     this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
       (res: any) => {
-        //let body = JSON.parse(res['_body']);
         let body = res;
         let byteArr = this.convertBase64ToArray(body.document);
         let format = body.format;
@@ -4882,8 +4881,8 @@ export class StudentAddComponent implements OnInit {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                  let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;

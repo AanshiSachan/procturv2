@@ -2559,8 +2559,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let id = doc.other;
               let link = document.getElementById("payMultiReciept");
               this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                r => {
-                  let body = JSON.parse(r['_body']);
+                (res: any) => {
+                  let body = res;
                   let byteArr = this.convertBase64ToArray(body.document);
                   let format = body.format;
                   let fileName = body.docTitle;
@@ -3220,7 +3220,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
       (res: any) => {
-        //let body = JSON.parse(res['_body']);
         let body = res;
         let byteArr = this.convertBase64ToArray(body.document);
         let format = body.format;
@@ -3262,7 +3261,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     this.fetchService.emailReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
       (res: any) => {
-        //let body = JSON.parse(res['_body']);
         let body = res;
         let obj = {
           type: "success",
@@ -3383,8 +3381,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (res: any) => {
+                      let body = res;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -3504,8 +3502,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                    let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -3648,8 +3646,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (res: any) => {
+                      let body = res;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -3778,8 +3776,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                    let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
