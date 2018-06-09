@@ -3284,9 +3284,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
     this.fetchService.emailReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
-      res => {
-        let body = JSON.parse(res['_body']);
-
+      (res: any) => {
+        //let body = JSON.parse(res['_body']);
+        let body = res;
         let obj = {
           type: "success",
           title: "Reciept Sent",

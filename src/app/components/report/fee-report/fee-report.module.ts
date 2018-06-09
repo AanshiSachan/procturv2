@@ -34,6 +34,9 @@ import { ExcelService } from '../../../services/excel.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import { OnlinePaymentServiceService } from '../../../services/online-payment/online-payment-service.service';
 
+import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { TooltipModule } from '../../../../assets/imported_modules/ngx-bootstrap/tooltip';
+
 @NgModule({
     imports: [
         FormsModule,
@@ -42,6 +45,9 @@ import { OnlinePaymentServiceService } from '../../../services/online-payment/on
         FeeReportRoutingModule,
         SplitButtonModule,
         MenuModule,
+        SharedModule,
+        BsDatepickerModule,
+        TooltipModule.forRoot()
     ],
     declarations: [
         FeeReportComponent,
