@@ -39,6 +39,19 @@ export class SourceComponent implements OnInit {
 
   ];
 
+  statusKeys = {
+    'newEnqcount': '-1',
+    'open': '0',
+    'inProgress': '3',
+    'Converted': '2',
+    'studentAdmitted': '12',
+    'Closed': '1',
+    'totalcount': '-1'
+  }      
+  
+  showPopup:boolean = false;
+  popupDataEnquiries:any[];
+
   constructor(private service: EnquiryReportService,
     private appc: AppComponent) { }
 
@@ -75,9 +88,18 @@ export class SourceComponent implements OnInit {
     this.dataStatus = 1;
     this.service.counsellorDetails(this.sourceInfoDetails).subscribe(
       (data: any) => {
+      
+        for (var prop in data) {
+          if (data.hasOwnProperty(prop)) {
+            let innerObj = {};
+            innerObj[prop] = data[prop];
+            this.getSourceDetails.push(innerObj)
+          }
+        }
+        console.log(this.getSourceDetails);
+  
         for (let i in data) {
           this.mappedSource.push(data[i]);
-
         }
         this.getSourceDetails = this.mappedSource;
         this.getSourceDetails.map(
@@ -123,5 +145,58 @@ export class SourceComponent implements OnInit {
       this.getSourceDetails = this.searchMyRecords
       this.searchflag = false;
     }
+  }
+
+  reportHandler(dataObj) {
+    console.log(dataObj);
+    if (dataObj.data > 0) {
+      if (dataObj.key == "newEnqcount") {
+        let payload = {
+          assigned_to: "",
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          enquireDateFrom: "",
+          enquireDateTo: ""
+        }
+        console.log(payload);
+        this.service.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+              this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        ) 
+      }
+      else {
+        let payload = {
+          assigned_to: "",
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          updateDateFrom: "",
+          updateDateTo: ""
+        }
+        this.service.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+              this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        ) 
+       
+        console.log(payload);
+      }
+      this.showPopup = true;
+    }
+
+  }
+
+
+  popupToggler()
+  {
+    this.showPopup = false;
   }
 }

@@ -39,6 +39,19 @@ export class ReferredByComponent implements OnInit {
 
   ];
 
+  showPopup:boolean = false;
+
+  statusKeys = {
+    'newEnqcount': '-1',
+    'open': '0',
+    'inProgress': '3',
+    'Converted': '2',
+    'studentAdmitted': '12',
+    'Closed': '1',
+    'totalcount': '-1'
+  }      
+
+
   constructor(private service: EnquiryReportService,
     private appc: AppComponent) { }
 
@@ -124,6 +137,44 @@ export class ReferredByComponent implements OnInit {
       this.getreferredByDetails = this.searchMyRecords
       this.searchflag = false;
     }
+  }
+
+  reportHandler(dataObj) {
+    console.log(dataObj);
+    if (dataObj.data > 0) {
+      if (dataObj.key == "newEnqcount") {
+        let payload = {
+          assigned_to: "",
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          enquireDateFrom: "",
+          enquireDateTo: ""
+        }
+        console.log(payload);
+        // this.service.enquiryCategorySearch(payload).subscribe()
+      }
+      else {
+        let payload = {
+          assigned_to: "",
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          updateDateFrom: "",
+          updateDateTo: ""
+        }
+        // this.counsellor.enquiryCategorySearch(payload).subscribe()
+        console.log(payload);
+      }
+      this.showPopup = true;
+    }
+
+  }
+
+
+  popupToggler()
+  {
+    this.showPopup = false;
   }
 }
 

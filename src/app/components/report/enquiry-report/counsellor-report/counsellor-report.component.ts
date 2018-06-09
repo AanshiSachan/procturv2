@@ -33,6 +33,7 @@ export class CounsellorReportComponent implements OnInit{
   searchText: string = "";
   searchflag: boolean;
   searchMyRecords: any[];
+  popupDataEnquiries:any[];
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'uniqueCatName', header: 'Counsellor' },
@@ -45,6 +46,17 @@ export class CounsellorReportComponent implements OnInit{
     { primaryKey: 'totalcount', header: 'Total Assigned' },
 
   ];
+  showPopup:boolean = false;
+
+  statusKeys = {
+    'newEnqcount': '-1',
+    'open': '0',
+    'inProgress': '3',
+    'Converted': '2',
+    'studentAdmitted': '12',
+    'Closed': '1',
+    'totalcount': '-1'
+  }      
 
   constructor(private counsellor: EnquiryReportService,
     private appc: AppComponent,
@@ -87,7 +99,7 @@ export class CounsellorReportComponent implements OnInit{
     this.dataStatus = 1;
     this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
       (data: any) => {
-
+        console.log(data);
         // this.getCounsellorDetails = arr;
         // console.log(this.getCounsellorDetails);
         // console.log(data);
@@ -113,6 +125,7 @@ export class CounsellorReportComponent implements OnInit{
           this.dataStatus = 0;
         }
         this.searchMyRecords = this.getCounsellorDetails;
+        console.log(this.getCounsellorDetails);
       },
       (error: any) => {
         this.dataStatus = 2;
@@ -122,7 +135,7 @@ export class CounsellorReportComponent implements OnInit{
         }
         this.appc.popToast(msg);
       }
-
+      
     )
   }
 
@@ -140,6 +153,58 @@ export class CounsellorReportComponent implements OnInit{
       this.getCounsellorDetails = this.searchMyRecords
       this.searchflag = false;
     }
+  }
+
+  reportHandler(dataObj) {
+    console.log(dataObj);
+    if (dataObj.data > 0) {
+      if (dataObj.key == "newEnqcount") {
+        let payload = {
+          assigned_to: "",
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          enquireDateFrom: "",
+          enquireDateTo: ""
+        }
+        console.log(payload);
+        this.counsellor.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+              this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        ) 
+      }
+      else {
+        let payload = {
+          assigned_to: "",
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          updateDateFrom: "",
+          updateDateTo: ""
+        }
+        this.counsellor.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+            this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        )
+        console.log(payload);
+      }
+      this.showPopup = true;
+    }
+
+  }
+
+
+  popupToggler()
+  {
+    this.showPopup = false;
   }
 
 }
