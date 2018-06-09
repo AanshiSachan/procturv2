@@ -600,10 +600,15 @@ export class ManageBatchComponent implements OnInit {
     if (userType != 3) {
       if (permissionArray == "" || permissionArray == null) {
         return false;
-      } else {
+      } 
+      else if(permissionArray.indexOf('401') != -1){
+        return false;
+      }
+      else {
         return true;
       }
-    } else {
+    } 
+    else if (userType == 3) {
       return true;
     }
   }
