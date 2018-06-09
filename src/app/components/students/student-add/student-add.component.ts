@@ -1092,6 +1092,7 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
+      debugger
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
           this.isRippleLoad = false;
@@ -1105,6 +1106,7 @@ export class StudentAddComponent implements OnInit {
               body: 'Student details Updated Successfully'
             }
             this.appC.popToast(msg);
+            this.getCourseDropdown(res.generated_id);
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
               this.navigateTo('feeDetails');
@@ -1179,34 +1181,6 @@ export class StudentAddComponent implements OnInit {
     }
     return this.customComponents.every(isValid)
   }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-
-    if (ev.target.classList.contains('form-ctrl')) {
-
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getSlots() {
@@ -1435,7 +1409,7 @@ export class StudentAddComponent implements OnInit {
 
             this.removeImage = true;
             this.student_id = res.generated_id;
-
+            this.getCourseDropdown(res.generated_id);
             /* Inventory Allocated*/
             if (this.allotInventoryArr.length > 0) {
               this.allocateInventory(res.generated_id);
@@ -3173,7 +3147,6 @@ export class StudentAddComponent implements OnInit {
         (res: any) => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-
             this.removeImage = true;
             this.student_id = res.generated_id;
             this.getCourseDropdown(res.generated_id);
@@ -3203,7 +3176,14 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          // console.log(err);
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
         });
     }
     else {
@@ -3365,8 +3345,8 @@ export class StudentAddComponent implements OnInit {
             let id = doc.other;
             let link = document.getElementById("payMultiReciept");
             this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-              r => {
-                let body = JSON.parse(r['_body']);
+              (r: any) => {
+                let body = r;
                 let byteArr = this.convertBase64ToArray(body.document);
                 let format = body.format;
                 let fileName = body.docTitle;
@@ -3945,7 +3925,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
     let yr: any;
-    let link = document.getElementById("downloadEditFeeReciept" + ins.invoice_no);
+    let link = document.getElementById("downloadAddFeeReciept" + ins.invoice_no);
 
     if (ins.financial_year == null) {
       ins.financial_year = this.defaultAcadYear
@@ -4508,8 +4488,8 @@ export class StudentAddComponent implements OnInit {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (r: any) => {
+                      let body = r;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -4630,8 +4610,8 @@ export class StudentAddComponent implements OnInit {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (r: any) => {
+                    let body = r;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -4773,8 +4753,8 @@ export class StudentAddComponent implements OnInit {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (r: any) => {
+                      let body = r;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;

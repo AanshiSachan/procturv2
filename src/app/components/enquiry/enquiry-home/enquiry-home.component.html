@@ -66,7 +66,7 @@
     <!-- Enquiry Page Start here -->
     <section class="middle-main clearFix" id="middleMainForEnquiryList">
       <!-- Search bar and Advance Filter -->
-      <section class="common-search-filter" id="searchFilter" (click)="inputClicked($event)">
+      <section class="common-search-filter" id="searchFilter">
         <div class="filter-search">
           <div class="filter-box clearFix">
             <!-- Search Bar -->
@@ -415,7 +415,7 @@
         <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
             <div class="table table-responsive enquiry-table">
-              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="EnquirySettings"
+              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="enquirySettings"
                 (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage"
                 [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)"
                 (sortDirection)="getDirection($event)">
@@ -458,7 +458,7 @@
   </aside>
 
   <!-- Update PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'" (click)="inputClicked($event)">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'" >
     <div class="popup pos-abs" style="max-width: 80%;">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -680,7 +680,7 @@
   </section>
 
   <!-- Delete PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'" (click)="inputClicked($event)">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'" >
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -716,7 +716,7 @@
   </section>
 
   <!-- Convert PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'" (click)="inputClicked($event)">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'" >
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -774,7 +774,7 @@
   </section>
 
   <!--Registration Payment PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'" (click)="inputClicked($event)">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'" >
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -953,7 +953,7 @@
   </section>
 
   <!-- Bulk Assign PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry" (click)="inputClicked($event)">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry" >
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
@@ -998,7 +998,7 @@
   </section>
 
   <!-- SMS PopUp Single-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'" (click)="inputClicked($event)">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'" >
     <!-- -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -1215,7 +1215,7 @@
   </section>
 
   <!-- SMS PopUp MultiRow Selected-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms" (click)="inputClicked($event)">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms" >
     <!--  -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -1462,10 +1462,9 @@
                     <option value="3">Previous Month</option>
                     <option value="4">Last Two Month</option>
                   </select>
-
                 </div>
               </div>
-              <div class="c-sm-4 c-lg-4 c-lg-4">
+              <div style="padding-top: 16px;" class="c-sm-6 c-lg-6 c-lg-6">
                 <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px">Download</button>
               </div>
             </div>

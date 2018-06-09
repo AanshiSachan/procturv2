@@ -454,7 +454,6 @@
             <label for="">Enquiry Date</label>
             <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.enquiry_date" name="enqDate" readonly="true"
               bsDatepicker>
-
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
             <label for="eStatus">Enquiry Status</label>
@@ -640,7 +639,7 @@
 
 
 <!-- Add New institute -->
-<enquiry-pop-up [hidden]="!isInstitutePop">
+<proctur-popup [hidden]="!isInstitutePop">
 
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -759,12 +758,12 @@
 
   </div>
 
-</enquiry-pop-up>
+</proctur-popup>
 
 
 
 <!-- Add New Source -->
-<enquiry-pop-up [hidden]="!isSourcePop">
+<proctur-popup [hidden]="!isSourcePop">
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="hideAddSourcePops()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -866,13 +865,13 @@
 
   </div>
 
-</enquiry-pop-up>
+</proctur-popup>
 
 
 
 
 <!-- Add New Reference -->
-<enquiry-pop-up [hidden]="!isReferPop">
+<proctur-popup [hidden]="!isReferPop">
 
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="hideAddReferPops()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -975,4 +974,5 @@
 
   </div>
 
-</enquiry-pop-up>
+</proctur-popup>
+

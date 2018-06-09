@@ -169,18 +169,22 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   /* download the xls status report for a particular file uploaded */
   downloadBulkStatusReport(el) {
+
+    let fileId: string = el.list_id.toString();
+    let dwldLink = document.getElementById(fileId);
     this.fetchData.fetchBulkReport(el.list_id).subscribe(
       (res: any) => {
+
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
-        let fileId: string = el.list_id.toString();
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById(fileId);
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
-        dwldLink.innerText = 'Download Report';
+        if (dwldLink.getAttribute('href') == "" || dwldLink.getAttribute('href') == null) {
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          dwldLink.click();
+        }
       },
       err => {
         let obj = {
@@ -193,29 +197,4 @@ export class EnquiryBulkaddComponent implements OnInit {
     )
   }
 
-
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
 }
