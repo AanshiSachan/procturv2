@@ -760,7 +760,11 @@ export class ClassHomeComponent implements OnInit {
           this.messageToast('success', 'Updated', 'Teacher updated successfully');
           this.allotedTeacher = '-1';
           this.cancelChangeTeacher(data);
-          this.submitMasterCourse();
+          if(this.showAdvanceFilter){
+            this.advanceFilterView();
+          }else{
+            this.submitMasterCourse();
+          }
         },
         err => {
           console.log(err);
@@ -856,6 +860,61 @@ export class ClassHomeComponent implements OnInit {
       subject_id: -1,
       batch_id: -1,
     }
+  }
+
+  /// Delete Schedule
+
+  deleteMultipleSchedule() {
+    if (confirm('All the selected future class and exam schedule will be deleted. Do you want to continue?')) {
+      let dataToSend: any = this.makeMultipleDelete();
+      if (dataToSend == false) {
+        return false;
+      }
+      this.classService.deleteMultiple(dataToSend).subscribe(
+        res => {
+          this.messageToast('success', 'Deleted Successfully', '');
+          if (this.showAdvanceFilter) {
+            this.advanceFilterView();
+          } else {
+            this.submitMasterCourse();
+          }
+        },
+        err => {
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  makeMultipleDelete() {
+    let obj: any = {
+      examSchldId: [],
+      classSchldId: []
+    }
+    for (let key in this.weekScheduleList) {
+      if (moment(this.weekScheduleList[key].id) > moment()) {
+        let data = this.weekScheduleList[key].data;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].selected) {
+            if (moment(data[i].date) > moment()) {
+              if (data[i].class_type == "Exam") {
+                obj.examSchldId.push(data[i].schd_id);
+              } else {
+                obj.classSchldId.push(data[i].schd_id);
+              }
+            } else {
+              this.messageToast('error', 'Error', "Past Date Schedule Can't Deleted");
+              return false;
+            }
+          }
+        }
+      }
+    }
+    if (obj.examSchldId.length == 0 && obj.classSchldId.length == 0) {
+      this.messageToast('error', 'Error', "You haven't selected any future schedule");
+      return false;
+    }
+    return obj;
   }
 
 }
