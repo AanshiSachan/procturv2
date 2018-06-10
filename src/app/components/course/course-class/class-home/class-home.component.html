@@ -297,7 +297,7 @@
                 <span *ngIf="showAdvanceFilter" class="">{{advanceFilter.startdate | dateMonthYearFromat}} to {{advanceFilter.enddate | dateMonthYearFromat}}</span>
               </div>
             </div>
-            <button class="btn" (click)="deleteMultipleSchedule()">Delete</button>
+            <button class="btn" (click)="deleteMultipleSchedule()" *ngIf="showDeleteBTN()">Delete</button>
             <div class="c-lg-2 c-md-2 c-sm-2 align-right filter-search">
             </div>
           </div>
@@ -352,7 +352,7 @@
                         <tr *ngFor="let sc of class.data; let y= index;">
                           <td style="width:10%">
                               <div class="field-checkbox-wrapper">
-                                  <input type="checkbox" name="uiSelected" class="form-checkbox" [(ngModel)]="sc.selected" id="uiSelected">
+                                  <input type="checkbox" name="uiSelected" class="form-checkbox" [(ngModel)]="sc.selected" id="uiSelected" (ngModelChange)="userSelectedData($event , sc)"> 
                                   <label for="uiSelected"></label>
                               </div>
                           </td>

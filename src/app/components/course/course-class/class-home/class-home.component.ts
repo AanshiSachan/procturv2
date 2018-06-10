@@ -85,6 +85,10 @@ export class ClassHomeComponent implements OnInit {
     type: '3',
     isExamIncludedInTimeTable: 'Y'
   }
+  selectedArray: any = {
+    examSchldId: [],
+    classSchldId: []
+  };
 
   constructor
     (
@@ -760,9 +764,9 @@ export class ClassHomeComponent implements OnInit {
           this.messageToast('success', 'Updated', 'Teacher updated successfully');
           this.allotedTeacher = '-1';
           this.cancelChangeTeacher(data);
-          if(this.showAdvanceFilter){
+          if (this.showAdvanceFilter) {
             this.advanceFilterView();
-          }else{
+          } else {
             this.submitMasterCourse();
           }
         },
@@ -860,6 +864,10 @@ export class ClassHomeComponent implements OnInit {
       subject_id: -1,
       batch_id: -1,
     }
+    this.selectedArray = {
+      examSchldId: [],
+      classSchldId: []
+    };
   }
 
   /// Delete Schedule
@@ -915,6 +923,38 @@ export class ClassHomeComponent implements OnInit {
       return false;
     }
     return obj;
+  }
+
+  userSelectedData(event, data) {
+    if (event) {
+      if (moment(data.date) > moment()) {
+        if (data.class_type == "Exam") {
+          this.selectedArray.examSchldId.push(data.schd_id);
+        } else {
+          this.selectedArray.classSchldId.push(data.schd_id);
+        }
+      }
+    } else {
+      if (data.class_type == "Exam") {
+        if (this.selectedArray.examSchldId.indexOf(data.schd_id) > -1) {
+          this.selectedArray.examSchldId.splice(this.selectedArray.examSchldId.indexOf(data.schd_id), 1);
+        }
+      } else {
+        if (this.selectedArray.classSchldId.indexOf(data.schd_id) > -1) {
+          this.selectedArray.classSchldId.splice(this.selectedArray.classSchldId.indexOf(data.schd_id), 1);
+        }
+      }
+    }
+  }
+
+  showDeleteBTN(){
+    if(this.selectedArray.examSchldId.length > 0){
+      return true;
+    }
+    if(this.selectedArray.classSchldId.length > 0){
+      return true;
+    }
+    return false;
   }
 
 }
