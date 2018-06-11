@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ActivityHomeComponent } from './activity-home.component';
 import { HomeComponent } from './home/home.component';
-import {ManageExamModule} from './ptm-management/ptm-manangement.module'
+import { PtmManagementComponent } from './ptm-management/ptm-management.component';
+
 
 @NgModule({
     imports: [
@@ -19,6 +20,10 @@ import {ManageExamModule} from './ptm-management/ptm-manangement.module'
                     {
                         path: 'dashboard',
                         component: HomeComponent
+                    },
+                    {
+                        path : 'ptm',
+                        component :PtmManagementComponent
                     },
                     {
                         path: 'manage',

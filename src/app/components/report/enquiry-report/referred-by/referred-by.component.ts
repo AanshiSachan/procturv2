@@ -86,7 +86,8 @@ export class ReferredByComponent implements OnInit {
           this.dataStatus = 0;
         }
         this.getreferredByData = data;
-      },
+      }
+    },
       (error: any) => {
         let msg = {
           type: "error",

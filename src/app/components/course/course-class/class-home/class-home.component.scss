@@ -8,10 +8,9 @@
 /* ========================================================================================= */
 
 .cal-view {
-    margin: 10px;
+    margin: 0px 10px;
     .common-search-filter {
-        margin-top: 5px;
-        padding: 15px 5px 10px 5px;
+        padding: 5px 5px 0px 5px;
         background: #efefef;
         .field-wrapper {
             background: transparent;
@@ -475,7 +474,6 @@
 }
 
 .view-c-detail {
-    margin-top: 5px;
     .filter-search {
         margin-bottom: 0;
         .export-print {
@@ -492,8 +490,6 @@
 }
 
 .calender-course {
-    margin-bottom: 15px;
-    margin-top: 8px;
     position: relative;
     .c-control {
         position: absolute;
@@ -594,6 +590,8 @@
 }
 
 .calender-view1 {
+    max-height: 295px;
+    overflow: scroll;
     th {
         padding: 10px;
         font-size: 13px;
