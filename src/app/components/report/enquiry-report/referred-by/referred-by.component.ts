@@ -182,8 +182,8 @@ export class ReferredByComponent implements OnInit {
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-          enquireDateTo: moment().format('YYYY-MM-DD')
+          enquireDateFrom: this.referredByInfoDetails.updateDateFrom,
+          enquireDateTo: this.referredByInfoDetails.updateDateTo
         }
         this.popupDataEnquiries = [];
         this.service.enquiryCategorySearch(payload).subscribe(
@@ -201,8 +201,8 @@ export class ReferredByComponent implements OnInit {
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-          updateDateTo: moment().format('YYYY-MM-DD')
+          updateDateFrom: this.referredByInfoDetails.updateDateFrom,
+          updateDateTo: this.referredByInfoDetails.updateDateTo
         }
         this.popupDataEnquiries = [];
         this.service.enquiryCategorySearch(payload).subscribe(
