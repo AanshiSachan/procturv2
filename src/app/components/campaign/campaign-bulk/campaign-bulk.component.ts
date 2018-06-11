@@ -67,7 +67,7 @@ export class CampaignBulkComponent implements OnInit {
       this.referralList = data;
     });
 
-    let sourceList = this.prefill.getLeadSource().subscribe(data => {
+    let sourceList = this.prefill.getLeadSource().subscribe((data : any) => {
       this.sourceList = data;
     });
   }

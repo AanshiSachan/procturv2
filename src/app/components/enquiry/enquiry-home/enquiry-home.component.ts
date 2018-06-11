@@ -3942,8 +3942,11 @@ export class EnquiryHomeComponent implements OnInit {
       this.subBranchSelected = false;
     }
   }
+
   /* =========================================================================== */
   /* =========================================================================== */
+  
+  
   multiBranchInstituteFound(id) {
     this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
@@ -3954,8 +3957,7 @@ export class EnquiryHomeComponent implements OnInit {
       }
     )
   }
-  /* =========================================================================== */
-  /* =========================================================================== */
+
   branchUpdated(e) {
     this.enqAssignTo = [];
     this.prefill.fetchAssignedToData(e).subscribe(
@@ -3967,8 +3969,7 @@ export class EnquiryHomeComponent implements OnInit {
       }
     );
   }
-  /* =========================================================================== */
-  /* =========================================================================== */
+
 }
 
 

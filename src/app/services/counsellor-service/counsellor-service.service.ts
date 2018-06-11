@@ -76,4 +76,16 @@ export class EnquiryReportService {
     )
   }
 
+  enquiryCategorySearch(payload){
+    let url = this.baseUrl + "/api/v1/enquiry_manager/search/" + this.institute_id;
+    return this.http.post(url , payload,{headers : this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
 }

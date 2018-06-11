@@ -19,7 +19,7 @@ import { BsDatepickerModule } from "../../../../assets/imported_modules/ngx-boot
         CommonModule,
         EnquiryReportRoutingModule,
         SharedModule,
-        BsDatepickerModule
+        BsDatepickerModule,
     ],
     exports: [
 

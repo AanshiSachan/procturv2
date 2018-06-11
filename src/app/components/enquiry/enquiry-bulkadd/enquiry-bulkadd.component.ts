@@ -174,7 +174,6 @@ export class EnquiryBulkaddComponent implements OnInit {
     let dwldLink = document.getElementById(fileId);
     this.fetchData.fetchBulkReport(el.list_id).subscribe(
       (res: any) => {
-
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;

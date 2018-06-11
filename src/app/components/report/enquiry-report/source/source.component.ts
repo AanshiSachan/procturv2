@@ -19,17 +19,19 @@ export class SourceComponent implements OnInit {
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD')
   }
-  getSourceData :any=[];
-  getSourceDetails:any = {};
-  mappedSource:any = [];
-  dataStatus:number;
-  searchMyRecords:any = [];
-  searchText:string = "";
-  searchflag:boolean;
+
+  getSourceData: any = [];
+  getSourceDetails: any = {};
+  mappedSource: any = [];
+  dataStatus: number;
+  searchMyRecords: any = [];
+  searchText: string = "";
+  searchflag: boolean;
+  source:{};
 
   feeSettings1: ColumnData[] = [
-    { primaryKey: 'uniqueCatName', header: 'Source' },
-    { primaryKey: 'newEnqcount', header: 'New Enquiries' },
+    { primaryKey: 'source', header: 'Source' },
+    { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
     { primaryKey: 'inProgress', header: 'InProgress' },
     { primaryKey: 'Converted', header: 'Converted' },
@@ -38,6 +40,25 @@ export class SourceComponent implements OnInit {
     { primaryKey: 'totalcount', header: 'Total Assigned' },
 
   ];
+
+  statusKeys = {
+    'newEnqcount': '-1',
+    'open': '0',
+    'inProgress': '3',
+    'Converted': '2',
+    'studentAdmitted': '12',
+    'Closed': '1',
+    'totalcount': '-1'
+  }
+
+  showPopup: boolean = false;
+  popupDataEnquiries: any[];
+  newObject: any = {
+    key: "",
+    data: ""
+  }
+
+  newArray: any[] = [];
 
   constructor(private service: EnquiryReportService,
     private appc: AppComponent) { }
@@ -51,10 +72,10 @@ export class SourceComponent implements OnInit {
     this.dataStatus = 1;
     this.service.sourceData().subscribe(
       (data: any) => {
-        if(data.length == 0){
+        if (data.length == 0) {
           this.dataStatus = 2;
         }
-        else{
+        else {
           this.dataStatus = 0;
         }
         this.getSourceData = data;
@@ -68,31 +89,52 @@ export class SourceComponent implements OnInit {
       }
     )
   }
-
+  
   sourceDataDetails() {
     this.getSourceDetails = [];
-    this.mappedSource = [];
+    this.newArray = [];
     this.dataStatus = 1;
     this.service.counsellorDetails(this.sourceInfoDetails).subscribe(
       (data: any) => {
-        for (let i in data) {
-          this.mappedSource.push(data[i]);
 
+        for (var prop in data) {
+          if (data.hasOwnProperty(prop)) {
+            let innerObj = {};
+            innerObj[prop] = data[prop];
+            this.getSourceDetails.push(innerObj)
+          }
         }
-        this.getSourceDetails = this.mappedSource;
+        console.log(this.getSourceDetails);
+
+        for (let a of this.getSourceDetails) {
+          for (let prop in a) {
+            this.newObject = {
+              key: prop,
+              data: a[prop]
+            }
+          }
+          this.newArray.push(this.newObject);
+        }
+
+        this.getSourceDetails = this.newArray;
         this.getSourceDetails.map(
           (ele: any) => {
-            ele.Closed = ele.statusMap.Closed;
-            ele.open = ele.statusMap.Open;
-            ele.inProgress = ele.statusMap["In Progress"];
-            ele.Converted = ele.statusMap.Converted;
-            ele.studentAdmitted = ele.statusMap["Student Admitted"];
+            ele.newEnqCount = ele.data.newEnqcount;
+            ele.totalcount = ele.data.totalcount;
+            ele.source_id = ele.key
+            ele.source = ele.data.uniqueCatName
+            ele.Closed = ele.data.statusMap.Closed;
+            ele.open = ele.data.statusMap.Open;
+            ele.inProgress = ele.data.statusMap["In Progress"];
+            ele.Converted = ele.data.statusMap.Converted;
+            ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
           }
         )
-        if(this.getSourceDetails.length == 0){
+        console.log(this.getSourceDetails);
+        if (this.getSourceDetails.length == 0) {
           this.dataStatus = 2;
         }
-        else{
+        else {
           this.dataStatus = 0;
         }
         this.searchMyRecords = this.getSourceDetails;
@@ -108,7 +150,7 @@ export class SourceComponent implements OnInit {
     )
 
   }
-  
+
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       // let searchData: any;
@@ -124,4 +166,62 @@ export class SourceComponent implements OnInit {
       this.searchflag = false;
     }
   }
+
+  reportHandler(dataObj) {
+    
+    console.log(dataObj);
+      if (dataObj.key == "newEnqCount") {
+        let payload = {
+          source_id: dataObj.source,
+          institution_id: this.service.institute_id,
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          enquireDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          enquireDateTo: moment().format('YYYY-MM-DD')
+        }
+        console.log(payload);
+        this.popupDataEnquiries = [];
+        this.service.enquiryCategorySearch(payload).subscribe(
+          (data: any) => {
+            this.popupDataEnquiries = data;
+          },
+          (error: any) => {
+
+          }
+        )
+      }
+      else {
+        let payload = {
+          source_id: dataObj.source,
+          institution_id: this.service.institute_id,
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          updateDateTo: moment().format('YYYY-MM-DD')
+        }
+        this.popupDataEnquiries = [];
+        this.service.enquiryCategorySearch(payload).subscribe(
+          (data: any) => {
+            this.popupDataEnquiries = data;
+          },
+          (error: any) => {
+
+          }
+        )
+
+        console.log(payload);
+      }
+      this.showPopup = true;
+    }
+
+  
+
+  popupToggler() {
+    this.showPopup = false;
+  }
+
+  userRowClicked($event,ev,row,key){
+    console.log(row);
+  }
+
 }

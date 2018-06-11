@@ -423,11 +423,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.updateStudentFeeDetails();
       this.isRippleLoad = false;
       this.getCourseDropdown(id);
-
       if(data.is_active == "Y"){
         this.formIsActive = true;
       }
-
       /* For Batch Model Fetch the Student Batches */
       if (this.isProfessional) {
         /* Fetching the student Slots */

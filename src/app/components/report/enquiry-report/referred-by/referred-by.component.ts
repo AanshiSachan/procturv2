@@ -19,17 +19,18 @@ export class ReferredByComponent implements OnInit {
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD')
   }
-  getreferredByData :any=[];
-  getreferredByDetails:any = {};
-  mappedreferredBy:any = [];
-  dataStatus:number;
-  searchMyRecords:any = [];
-  searchText:string = "";
-  searchflag:boolean;
+
+  getreferredByData: any = [];
+  getreferredByDetails: any = {};
+  mappedreferredBy: any = [];
+  dataStatus: number;
+  searchMyRecords: any = [];
+  searchText: string = "";
+  searchflag: boolean;
 
   feeSettings1: ColumnData[] = [
-    { primaryKey: 'uniqueCatName', header: 'Source' },
-    { primaryKey: 'newEnqcount', header: 'New Enquiries' },
+    { primaryKey: 'source', header: 'Source' },
+    { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
     { primaryKey: 'inProgress', header: 'InProgress' },
     { primaryKey: 'Converted', header: 'Converted' },
@@ -38,6 +39,28 @@ export class ReferredByComponent implements OnInit {
     { primaryKey: 'totalcount', header: 'Total Assigned' },
 
   ];
+
+  showPopup: boolean = false;
+
+  newObject = {
+    key: "",
+    data: ""
+  }
+  newArray:any[] = [];
+
+  statusKeys = {
+    'newEnqcount': '-1',
+    'open': '0',
+    'inProgress': '3',
+    'Converted': '2',
+    'studentAdmitted': '12',
+    'Closed': '1',
+    'totalcount': '-1'
+  }
+
+  popupDataEnquiries:any[] = [];
+
+
 
   constructor(private service: EnquiryReportService,
     private appc: AppComponent) { }
@@ -51,6 +74,11 @@ export class ReferredByComponent implements OnInit {
     this.dataStatus = 1;
     this.service.referredByDetails().subscribe(
       (data: any) => {
+
+        if (data.length == 0) {
+          this.dataStatus = 2;
+        }
+        else {
         if(data.length == 0){
           this.dataStatus = 2;
         }
@@ -71,28 +99,47 @@ export class ReferredByComponent implements OnInit {
 
   referredByDetails() {
     this.getreferredByDetails = [];
-    this.mappedreferredBy = [];
+    this.newArray = [];
     this.dataStatus = 1;
     this.service.counsellorDetails(this.referredByInfoDetails).subscribe(
       (data: any) => {
-        for (let i in data) {
-          this.mappedreferredBy.push(data[i]);
 
+        for (var prop in data) {
+          if (data.hasOwnProperty(prop)) {
+            let innerObj = {};
+            innerObj[prop] = data[prop];
+            this.getreferredByDetails.push(innerObj)
+          }
         }
-        this.getreferredByDetails = this.mappedreferredBy;
+
+        for (let a of this.getreferredByDetails) {
+          for (let prop in a) {
+            this.newObject = {
+              key: prop,
+              data: a[prop]
+            }
+          }
+          this.newArray.push(this.newObject);
+        }
+
+        this.getreferredByDetails = this.newArray;
         this.getreferredByDetails.map(
           (ele: any) => {
-            ele.Closed = ele.statusMap.Closed;
-            ele.open = ele.statusMap.Open;
-            ele.inProgress = ele.statusMap["In Progress"];
-            ele.Converted = ele.statusMap.Converted;
-            ele.studentAdmitted = ele.statusMap["Student Admitted"];
+            ele.newEnqCount = ele.data.newEnqcount;
+            ele.totalcount = ele.data.totalcount;
+            ele.source_id = ele.key
+            ele.source = ele.data.uniqueCatName
+            ele.Closed = ele.data.statusMap.Closed;
+            ele.open = ele.data.statusMap.Open;
+            ele.inProgress = ele.data.statusMap["In Progress"];
+            ele.Converted = ele.data.statusMap.Converted;
+            ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
           }
         )
-        if(this.getreferredByDetails.length == 0){
+        if (this.getreferredByDetails.length == 0) {
           this.dataStatus = 2;
         }
-        else{
+        else {
           this.dataStatus = 0;
         }
         this.searchMyRecords = this.getreferredByDetails;
@@ -106,7 +153,6 @@ export class ReferredByComponent implements OnInit {
         this.appc.popToast(msg);
       }
     )
-
   }
 
 
@@ -125,6 +171,58 @@ export class ReferredByComponent implements OnInit {
       this.searchflag = false;
     }
   }
+
+  reportHandler(dataObj) {
+   
+    if (dataObj.data > 0) {
+      if (dataObj.key == "newEnqcount") {
+        let payload = {
+          referred_by: -1,
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          enquireDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          enquireDateTo: moment().format('YYYY-MM-DD')
+        }
+        this.popupDataEnquiries = [];
+        this.service.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+              this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        ) 
+      }
+      else {
+        let payload = {
+          referred_by: -1,
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          updateDateTo: moment().format('YYYY-MM-DD')
+        }
+        this.popupDataEnquiries = [];
+        this.service.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+            this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        )
+      }
+      this.showPopup = true;
+    }
+
+  }
+
+
+  popupToggler() {
+    this.showPopup = false;
+  }
+
 }
 
 
