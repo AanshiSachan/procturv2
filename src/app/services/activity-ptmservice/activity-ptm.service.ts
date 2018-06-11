@@ -24,7 +24,31 @@ export class ActivityPtmService {
 
   getBatches(obj){
     let isActive = obj.is_active == 1 ? "Y" : "N";
-    let url = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?";
+    let url = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?" + isActive;
+    return this.http.get(url , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
+  loadPtm(obj){
+    let url = this.baseUrl + "/api/v1/ptm/batch/" + obj.batch_id + "/schedules"
+    return this.http.post(url , obj , {headers :this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
+  viewStudents(obj){
+    let url = this.baseUrl + "/api/v1/ptm/" + obj.ptm_id  + "/details"
     return this.http.get(url , {headers:this.headers}).map(
       (data:any)=>{
         return data;

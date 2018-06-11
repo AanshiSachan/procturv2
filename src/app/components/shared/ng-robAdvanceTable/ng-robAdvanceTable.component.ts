@@ -111,7 +111,6 @@ export class RobAdvanceTableComponent implements OnChanges {
             if (data != "0"){
                 let obj= {
                     'color' : 'blue',
-                    'text-decoration' : 'underline'
                 }
                 return obj;
             }
@@ -168,7 +167,8 @@ export class RobAdvanceTableComponent implements OnChanges {
                     key:key,
                     data:row[key],
                     source:row.key,
-                    status:row.data.status
+                    status:row.data.status,
+                    referred_by : row.data.referred_by
                 }
             );
         }
@@ -304,6 +304,9 @@ export class RobAdvanceTableComponent implements OnChanges {
             return 0
         }
         else if (i.includes('name')) {
+            return 1
+        }
+        else if(i.includes('source')){
             return 1
         }
         else if (i.includes('email')) {
