@@ -103,7 +103,6 @@ export class SourceComponent implements OnInit {
             this.getSourceDetails.push(innerObj)
           }
         }
-        console.log(this.getSourceDetails);
 
         for (let a of this.getSourceDetails) {
           for (let prop in a) {
@@ -114,7 +113,7 @@ export class SourceComponent implements OnInit {
           }
           this.newArray.push(this.newObject);
         }
-
+      
         this.getSourceDetails = this.newArray;
         this.getSourceDetails.map(
           (ele: any) => {
@@ -129,7 +128,6 @@ export class SourceComponent implements OnInit {
             ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
           }
         )
-        console.log(this.getSourceDetails);
         if (this.getSourceDetails.length == 0) {
           this.dataStatus = 2;
         }

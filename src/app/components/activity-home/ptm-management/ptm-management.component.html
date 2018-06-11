@@ -1,3 +1,51 @@
-<p>
-  ptm-management works!
-</p>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="clear-fix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix attendance-container">
+
+      <section class="middle-top mb0 clearFix sms-header">
+        <h2 class="pull-left">
+          <a routerLink="/activity/dashboard">
+            Report
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> PTM management
+        </h2>
+      </section>
+
+      <section class="filter-form">
+        <div class="row">
+          <div class="c-lg-9" style="margin-bottom: 2%;">
+            <div class="c-lg-12">
+              <div class="c-lg-4 field-wrapper">
+                <label>Batches</label>
+                <select class="form-ctrl">
+                  <option value="-1">
+                  </option>
+                </select>
+              </div>
+              <div class="c-lg-4 field-wrapper">
+                <label>PTM Schedule</label>
+                <select class="form-ctrl">
+                  <option value="-1">
+                  </option>
+                </select>
+              </div>
+              <div class="c-lg-1" style="margin-top:2%;">
+                <button class="btn fullBlue">View</button>
+              </div>
+              <div class="c-lg-2" style="margin-top:2%;">
+                <button class="btn fullBlue">Create PTM</button>
+              </div>
+              <div class="c-lg-1" style="margin-top:2%;">
+                <button class="btn fullBlue">Send Notification</button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </section>
+    </section>
+  </aside>
+</div>
