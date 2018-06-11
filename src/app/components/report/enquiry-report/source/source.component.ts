@@ -174,8 +174,8 @@ export class SourceComponent implements OnInit {
           institution_id: this.service.institute_id,
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-          enquireDateTo: moment().format('YYYY-MM-DD')
+          enquireDateFrom: this.sourceInfoDetails.updateDateFrom,
+          enquireDateTo: this.sourceInfoDetails.updateDateTo
         }
         console.log(payload);
         this.popupDataEnquiries = [];
@@ -194,8 +194,8 @@ export class SourceComponent implements OnInit {
           institution_id: this.service.institute_id,
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-          updateDateTo: moment().format('YYYY-MM-DD')
+          updateDateFrom: this.sourceInfoDetails.updateDateFrom,
+          updateDateTo: this.sourceInfoDetails.updateDateTo
         }
         this.popupDataEnquiries = [];
         this.service.enquiryCategorySearch(payload).subscribe(

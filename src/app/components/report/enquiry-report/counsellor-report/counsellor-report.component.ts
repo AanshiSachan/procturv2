@@ -12,7 +12,7 @@ import { EnquiryReportService } from '../../../../services/counsellor-service/co
   templateUrl: './counsellor-report.component.html',
   styleUrls: ['./counsellor-report.component.scss']
 })
-export class CounsellorReportComponent implements OnInit{
+export class CounsellorReportComponent implements OnInit {
 
   counsellorInfo = {
     user_Type: 0
@@ -23,7 +23,8 @@ export class CounsellorReportComponent implements OnInit{
     reportType: "assigned",
     assigned_to: -1,
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-    updateDateTo: moment().format('YYYY-MM-DD')
+    updateDateTo: moment().format('YYYY-MM-DD'),
+
   }
 
   getCounsellorDetails: any = {};
@@ -34,7 +35,7 @@ export class CounsellorReportComponent implements OnInit{
   searchflag: boolean;
   searchMyRecords: any[];
 
-  popupDataEnquiries:any[];
+  popupDataEnquiries: any[];
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'source', header: 'Counsellor' },
@@ -47,7 +48,7 @@ export class CounsellorReportComponent implements OnInit{
     { primaryKey: 'totalcount', header: 'Total Assigned' },
 
   ];
-  showPopup:boolean = false;
+  showPopup: boolean = false;
 
   statusKeys = {
     'newEnqcount': '-1',
@@ -57,13 +58,13 @@ export class CounsellorReportComponent implements OnInit{
     'studentAdmitted': '12',
     'Closed': '1',
     'totalcount': '-1'
-  }      
-
-  newObject={
-    key:"",
-    data:""
   }
-  newArray:any[] = []
+
+  newObject = {
+    key: "",
+    data: ""
+  }
+  newArray: any[] = []
 
   constructor(private counsellor: EnquiryReportService,
     private appc: AppComponent,
@@ -182,19 +183,19 @@ export class CounsellorReportComponent implements OnInit{
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          enquireDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-          enquireDateTo: moment().format('YYYY-MM-DD')
+          enquireDateFrom: this.counsellorInfoDetails.updateDateFrom,
+          enquireDateTo: this.counsellorInfoDetails.updateDateTo
         }
-       
+
         this.popupDataEnquiries = [];
         this.counsellor.enquiryCategorySearch(payload).subscribe(
-          (data:any)=>{
-              this.popupDataEnquiries = data;
+          (data: any) => {
+            this.popupDataEnquiries = data;
           },
-          (error:any)=>{
+          (error: any) => {
 
           }
-        ) 
+        )
       }
       else {
         let payload = {
@@ -202,28 +203,27 @@ export class CounsellorReportComponent implements OnInit{
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-          updateDateTo: moment().format('YYYY-MM-DD')
+          updateDateFrom: this.counsellorInfoDetails.updateDateFrom,
+          updateDateTo: this.counsellorInfoDetails.updateDateTo
         }
         this.popupDataEnquiries = [];
         this.counsellor.enquiryCategorySearch(payload).subscribe(
-          (data:any)=>{
+          (data: any) => {
             this.popupDataEnquiries = data;
           },
-          (error:any)=>{
+          (error: any) => {
 
           }
         )
-       
+
       }
       this.showPopup = true;
     }
 
   }
 
-  
-  popupToggler()
-  {
+
+  popupToggler() {
     this.showPopup = false;
   }
 
