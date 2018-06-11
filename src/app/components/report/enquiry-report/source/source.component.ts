@@ -19,6 +19,7 @@ export class SourceComponent implements OnInit {
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD')
   }
+
   getSourceData: any = [];
   getSourceDetails: any = {};
   mappedSource: any = [];

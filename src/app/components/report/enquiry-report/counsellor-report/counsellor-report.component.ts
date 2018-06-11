@@ -33,6 +33,7 @@ export class CounsellorReportComponent implements OnInit{
   searchText: string = "";
   searchflag: boolean;
   searchMyRecords: any[];
+
   popupDataEnquiries:any[];
 
   feeSettings1: ColumnData[] = [
@@ -105,7 +106,6 @@ export class CounsellorReportComponent implements OnInit{
     this.dataStatus = 1;
     this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
       (data: any) => {
-
         for (var prop in data) {
           if (data.hasOwnProperty(prop)) {
             let innerObj = {};

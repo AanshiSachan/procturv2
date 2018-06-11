@@ -214,16 +214,13 @@ export class CoreHeaderComponent implements OnInit {
           this.divGeneralSettingTag.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('115') != -1) {
-          //this.divManageFormTag.nativeElement.style.display = '';
+          // this.divManageFormTag.nativeElement.style.display = '';
           this.divAreaAndMap.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('601') != -1) {
           this.divManageUsers.nativeElement.style.display = '';
         }
         if (permissionArray.indexOf('508') != -1) {
-          this.divClassRoomTag.nativeElement.style.display = '';
-        }
-        if (this.settings == '1') {
           this.divClassRoomTag.nativeElement.style.display = '';
         }
       }
@@ -241,6 +238,7 @@ export class CoreHeaderComponent implements OnInit {
     this.divGeneralSettingTag.nativeElement.style.display = '';
     this.divManageFormTag.nativeElement.style.display = '';
     this.divManageUsers.nativeElement.style.display = '';
+    this.divClassRoomTag.nativeElement.style.display = '';
     if (this.settings == '1') {
       this.divGradesTag.nativeElement.style.display = '';
     } else {
@@ -444,11 +442,11 @@ export class CoreHeaderComponent implements OnInit {
     if (d.data.source == "Student") {
       this.router.navigate(['/student'], { queryParams: { id: d.data.id, action: d.action } });
     }
-    else if (d.data.source == "Enquiry"){
-      if(d.action == "enquiryUpdate"){
-          this.otherAction.emit(d);
+    else if (d.data.source == "Enquiry") {
+      if (d.action == "enquiryUpdate") {
+        this.otherAction.emit(d);
       }
-      else{
+      else {
         this.router.navigate(['/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
       }
     }
@@ -468,7 +466,7 @@ export class CoreHeaderComponent implements OnInit {
         this.branchesList = res;
       },
       err => {
-        
+
       }
     )
   }
@@ -485,7 +483,7 @@ export class CoreHeaderComponent implements OnInit {
         this.router.navigateByUrl('/');
       },
       err => {
-    
+
       }
     )
   }

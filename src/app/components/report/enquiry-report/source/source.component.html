@@ -41,7 +41,6 @@
             <label>To Date</label>
             <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="sourceInfoDetails.updateDateTo">
           </div>
-
           <div class="c-lg-3 " style="margin-top:2%;">
             <button class="btn fullBlue" (click)="sourceDataDetails()">Go</button>
           </div>
@@ -51,7 +50,6 @@
           <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
             (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
         </div>
-
         <rob-table [isMulti]="false" [records]="getSourceDetails" [dataStatus]="dataStatus" (userRowSelect)="reportHandler($event)"
           [tableName]="'feereport'" [settings]="feeSettings1">
         </rob-table>
