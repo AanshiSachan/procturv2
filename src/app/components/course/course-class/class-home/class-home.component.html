@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<section class="middle-section clearFix">
+<section class="middle-section clearFix" style="padding: 5px 0px">
   <section class="cal-view">
     <aside class="boxPadding15">
       <!-- ==================================================================================== -->
@@ -11,7 +11,9 @@
           <h1 class="pull-left">
             Class Schedule
           </h1>
+
           <aside class="pull-right" style="margin-right: 15px">
+              <p-button label="Multiple Delete" (click)="deleteMultipleSchedule()" *ngIf="showDeleteBTN()" icon="fa fa-times" iconPos="left"></p-button>
             <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Add/Edit Class" class="btn">
           </aside>
         </div>
@@ -165,7 +167,7 @@
               </div>
 
               <div class="row" style="margin-top: 10px">
-                <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Date Range Filter</a>
+                <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Filter</a>
               </div>
 
             </div>
@@ -297,7 +299,6 @@
                 <span *ngIf="showAdvanceFilter" class="">{{advanceFilter.startdate | dateMonthYearFromat}} to {{advanceFilter.enddate | dateMonthYearFromat}}</span>
               </div>
             </div>
-            <button class="btn" (click)="deleteMultipleSchedule()" *ngIf="showDeleteBTN()">Delete</button>
             <div class="c-lg-2 c-md-2 c-sm-2 align-right filter-search">
             </div>
           </div>
