@@ -3,6 +3,7 @@ import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
 import { DropData, DropMapData } from './dropmenu/dropmenu.model';
 import { CustomizingPipe } from './customizing.pipe';
+import { CellHoverEvent } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker/models';
 
 @Component({
     selector: 'rob-table',
@@ -82,7 +83,9 @@ export class RobAdvanceTableComponent implements OnChanges {
 
     }
     getColor(key, data) {
-
+        let obj3 = {
+            'color': 'blue'
+        }
         if (key == "student_category") {
             let obj = {
                 'color': 'green'
@@ -91,9 +94,7 @@ export class RobAdvanceTableComponent implements OnChanges {
                 'color': 'red'
             }
 
-            let obj3 = {
-                'color': 'blue'
-            }
+            
 
             if (data == "active") {
                 return obj
@@ -103,6 +104,15 @@ export class RobAdvanceTableComponent implements OnChanges {
             }
             else if (data == "archived") {
                 return obj3;
+            }
+        }
+
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqCount"){
+            if (data != "0"){
+                let obj= {
+                    'color' : 'blue',
+                }
+                return obj;
             }
         }
 
@@ -146,16 +156,30 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
 
-    userRowClicked($event, ev, row) {
+    userRowClicked($event, ev, row, key) {
         this.cd.markForCheck();
         $event.preventDefault();
         $event.stopPropagation();
         this.selectedRow = ev;
-        this.userRowSelect.emit(row);
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqCount"){
+            this.userRowSelect.emit(
+                {
+                    key:key,
+                    data:row[key],
+                    source:row.key,
+                    status:row.data.status,
+                    referred_by : row.data.referred_by
+                }
+            );
+        }
+        else{
+            this.userRowSelect.emit(row);
+        }
+        
+
         this.getSelectedRows();
-        console.log(ev);
         console.log(row);
-        console.log($event)
+    
     }
 
 
@@ -211,7 +235,7 @@ export class RobAdvanceTableComponent implements OnChanges {
         (this.asc) ? (this.asc = false) : (this.asc = true);
 
         let type = this.typeOfDataSelected(ev);
-        debugger;
+      
 
         if (type === 0) {
             this.sortNumber(ev);
@@ -280,6 +304,9 @@ export class RobAdvanceTableComponent implements OnChanges {
             return 0
         }
         else if (i.includes('name')) {
+            return 1
+        }
+        else if(i.includes('source')){
             return 1
         }
         else if (i.includes('email')) {

@@ -40,7 +40,7 @@ export class EnquiryEditComponent implements OnInit {
   refferedBy: any = [];
   occupation: any = [];
   lastDetail: any = [];
-  confimationPop: boolean = false;
+  confimationPop: boolean = false; res
   updatePop: boolean = false;
   isProfessional: boolean = false;
   institute_enquiry_id: any = '';
@@ -220,7 +220,7 @@ export class EnquiryEditComponent implements OnInit {
         this.isMainBranch = value;
         if (this.isMainBranch == "Y") {
           this.editEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          this.multiBranchInstituteFound(this.editEnqData.source_instituteId);
         }
       }
     );
@@ -230,7 +230,10 @@ export class EnquiryEditComponent implements OnInit {
         this.subBranchSelected = res;
         if (this.subBranchSelected) {
           this.editEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          const mainBranchID = sessionStorage.getItem('mainBranchId');
+          if (mainBranchID != null) {
+            this.multiBranchInstituteFound(mainBranchID);
+          }
         }
       }
     )
@@ -282,7 +285,7 @@ export class EnquiryEditComponent implements OnInit {
         this.fetchSubject(this.editEnqData.standard_id);
         if (!this.isProfessional) {
           this.prefill.getMasterCourseData().subscribe(
-            res => {
+            (res: any) => {
               this.masterCourseData = res;
               if(this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length){
                 this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el)});
@@ -305,7 +308,7 @@ export class EnquiryEditComponent implements OnInit {
   /* ============================================================================================================================ */
   fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe(
-      res => {
+      (res: any) => {
         this.masterCourseData = res;
       });
   }
@@ -774,7 +777,7 @@ export class EnquiryEditComponent implements OnInit {
 
         console.log(this.editEnqData);
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
-          data => {
+          (data: any) => {
             this.isEnquirySubmit = false;
             if (data.statusCode == 200) {
               let msg = {
@@ -1058,32 +1061,6 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-
-
   commentHandlerOpen() {
     this.isUpdateComment = true;
   }
@@ -1113,7 +1090,7 @@ export class EnquiryEditComponent implements OnInit {
   }
 
   fetchCommentData(id) {
-    this.prefill.fetchCommentsForEnquiry(id).subscribe(res => {
+    this.prefill.fetchCommentsForEnquiry(id).subscribe((res: any) => {
       this.updateFormData.priority = res.priority;
       this.updateFormData.follow_type = res.follow_type;
       this.updateFormData.statusValue = res.statusValue;
@@ -1205,8 +1182,8 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
-  multiBranchInstituteFound() {
-    this.prefill.getAllSubBranches().subscribe(
+  multiBranchInstituteFound(id) {
+    this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
         this.branchesList = res;
       },

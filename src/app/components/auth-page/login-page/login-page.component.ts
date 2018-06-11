@@ -431,7 +431,7 @@ export class LoginPageComponent {
       }
       this.toastCtrl.popToast(data);
     } else {
-      this.login.validateOTPCode(this.otpVerificationInfo).subscribe(el => {
+      this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {
         //console.log(el);
         if (el.otp_status == 1) {
           //console.log("OTP Expired");

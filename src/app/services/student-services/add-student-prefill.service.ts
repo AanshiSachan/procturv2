@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AddStudentPrefillService {
 
   studentFees: any;
   Authorization: string;
-  headers: Headers;
+  headers: any;
   institute_id: number;
 
   private urlinventory: string;
@@ -26,18 +26,15 @@ export class AddStudentPrefillService {
 
 
 
-  constructor(private http: Http, private auth: AuthenticatorService) {
-    this.auth.currentAuthKey.subscribe( key => {
+  constructor(private http: HttpClient, private auth: AuthenticatorService) {
+    this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
-      this.headers = new Headers();
-      this.headers.append("Content-Type", "application/json");
-      this.headers.append("Authorization", this.Authorization);
-    }) 
-    this.auth.currentInstituteId.subscribe( id => {
+      this.headers = new HttpHeaders(
+        { "Content-Type": "application/json", "Authorization": this.Authorization });
+    })
+    this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
-    // this.Authorization = this.auth.getAuthToken();
-    // this.institute_id = this.auth.getInstituteId();
     this.baseUrl = this.auth.getBaseUrl();
 
   }
@@ -49,25 +46,21 @@ export class AddStudentPrefillService {
     this.urlinventory = this.baseUrl + "/api/v1/inventory/item/fetchForStudentAllocationWhileCreation";
     let data = { standard_id: null, subject_id: null };
     return this.http.post(this.urlinventory, data, { headers: this.headers })
-      .map(el => {
-        return el.json();
-      },
-        err => {
-          return err.json();
-        });
+      .map(
+        el => { return el; },
+        err => { return err; }
+      );
   }
 
 
   fetchInventoryListById(id): Observable<any> {
     let urlinventoryByid = this.baseUrl + "/api/v1/inventory/item/fetchForStudentAllocation/" + id;
 
-    return this.http.get(urlinventoryByid, { headers: this.headers }).map(
-      el => {
-        return el.json();
-      },
-      err => {
-        return err.json();
-      });
+    return this.http.get(urlinventoryByid, { headers: this.headers })
+      .map(
+        el => { return el; },
+        err => { return err; }
+      );
   }
 
   fetchInventoryListHistory(id): Observable<any> {
@@ -76,10 +69,10 @@ export class AddStudentPrefillService {
 
     return this.http.get(urlinventoryHistory, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
 
@@ -91,15 +84,10 @@ export class AddStudentPrefillService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data.json();
-          }
-          else {
-            return [];
-          }
+          return data;
         },
         err => {
-          return err.json();
+          return err;
         }
       );
   }
@@ -110,15 +98,10 @@ export class AddStudentPrefillService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data.json();
-          }
-          else {
-            return [];
-          }
+          return data;
         },
         err => {
-          return err.json();
+          return err;
         }
       );
   }
@@ -129,15 +112,10 @@ export class AddStudentPrefillService {
     return this.http.get(url, { headers: this.headers })
       .map(
         data => {
-          if (data['_body'] != '') {
-            return data.json();
-          }
-          else {
-            return [];
-          }
+          return data;
         },
         err => {
-          return err.json();
+          return err;
         }
       );
   }
@@ -146,12 +124,11 @@ export class AddStudentPrefillService {
   /* return the list of batch for students  */
   fetchBatchDetails(): Observable<any> {
     this.urlBatchData = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y&isFeeTemplates=Y"
-
     return this.http.get(this.urlBatchData, { headers: this.headers })
       .map(
-        data => { return data.json(); },
+        data => { return data; },
         err => {
-          return err.json();
+          return err;
         }
       );
   }
@@ -160,12 +137,11 @@ export class AddStudentPrefillService {
   /* return the list of Fee Structure */
   fetchFeeStructure(): Observable<any> {
     this.urlFeeStructure = this.baseUrl + "/api/v1/student_wise/feeStructure/fetchAll/" + this.institute_id;
-
     return this.http.get(this.urlFeeStructure, { headers: this.headers })
       .map(
-        data => { return data.json(); },
+        data => { return data; },
         err => {
-          return err.json();
+          return err;
         })
   }
 
@@ -178,9 +154,9 @@ export class AddStudentPrefillService {
 
     return this.http.get(this.urlFeeSchedule, { headers: this.headers })
       .map(
-        data => { return data.json(); },
+        data => { return data; },
         err => {
-          return err.json();
+          return err;
         }
       )
   }
@@ -190,12 +166,11 @@ export class AddStudentPrefillService {
   /* return installment data for selected fee structure */
   fetchFeeInstallmentDetails(id, data): Observable<any> {
     this.urlFeeInstallment = this.baseUrl + "/api/v1/student_wise/feeStructure/fetch/" + this.institute_id + "/" + id;
-
     return this.http.post(this.urlFeeInstallment, data, { headers: this.headers })
       .map(
-        data => { return data.json(); },
+        data => { return data; },
         err => {
-          return err.json();
+          return err;
         }
       )
   }
@@ -206,9 +181,9 @@ export class AddStudentPrefillService {
     this.urlAdditionalFeeDetails = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + id + "/details";
     return this.http.get(this.urlAdditionalFeeDetails, { headers: this.headers })
       .map(
-        data => { return data.json(); },
+        data => { return data; },
         err => {
-          return err.json();
+          return err;
         }
       )
   }
@@ -219,10 +194,10 @@ export class AddStudentPrefillService {
 
     return this.http.get(urlFetchSlot, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -232,9 +207,9 @@ export class AddStudentPrefillService {
     let urlLangStatus = this.baseUrl + "/api/v1/masterData/type/LANG_STUDENT_STATUS";
 
     return this.http.get(urlLangStatus, { headers: this.headers }).map(
-      res => { return res.json(); },
+      res => { return res; },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -244,9 +219,9 @@ export class AddStudentPrefillService {
     let urlLangBatch = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y";
 
     return this.http.get(urlLangBatch, { headers: this.headers }).map(
-      res => { return res.json(); },
+      res => { return res; },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -258,9 +233,9 @@ export class AddStudentPrefillService {
     let urlCourses = this.baseUrl + "/api/v1/subjects/standards/" + id;
 
     return this.http.get(urlCourses, { headers: this.headers }).map(
-      res => { return res.json(); },
+      res => { return res; },
       err => {
-        return err.json();
+        return err;
       }
     )
 
@@ -270,9 +245,9 @@ export class AddStudentPrefillService {
   fetchMasterCourse(): Observable<any> {
     let urlMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
     return this.http.get(urlMaster, { headers: this.headers }).map(
-      res => { return res.json(); },
+      res => { return res; },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -283,10 +258,10 @@ export class AddStudentPrefillService {
 
     return this.http.get(urlFeeStruc, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       });
   }
 
@@ -296,11 +271,11 @@ export class AddStudentPrefillService {
 
     return this.http.post(urlFeebyId, obj, { headers: this.headers }).map(
       res => {
-        this.studentFees = res.json();
-        return res.json();
+        this.studentFees = res;
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       });
   }
 
@@ -311,11 +286,11 @@ export class AddStudentPrefillService {
 
     return this.http.get(urlFeeById, { headers: this.headers }).map(
       res => {
-        this.studentFees = res.json();
-        return res.json();
+        this.studentFees = res;
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       })
 
   }
@@ -330,23 +305,23 @@ export class AddStudentPrefillService {
 
     return this.http.get(urlFeebyId, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       });
   }
 
   fetchStudentBatchDetails(id): Observable<any> {
-    let urlBatchById = this.baseUrl + "/api/v1/studentBatchMap/" + id +"?isFeeTemplates=Y";
+    let urlBatchById = this.baseUrl + "/api/v1/studentBatchMap/" + id + "?isFeeTemplates=Y";
     return this.http.get(urlBatchById, { headers: this.headers }).map(
       res => {
         if (res != null) {
-          return res.json();
+          return res;
         }
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -357,11 +332,11 @@ export class AddStudentPrefillService {
     return this.http.get(urlCourseById, { headers: this.headers }).map(
       res => {
         if (res != null) {
-          return res.json();
+          return res;
         }
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }
@@ -371,34 +346,30 @@ export class AddStudentPrefillService {
     let urlCourseMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/complete?standard_id=" + stndrid + "&isFeeTemplates=Y";
     return this.http.get(urlCourseMaster, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       })
   }
 
   getChequeStatus(): Observable<any> {
     let urlChequeStatus = this.baseUrl + "/api/v1/masterData/type/CHEQUE_STATUS"
-
     return this.http.get(urlChequeStatus, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
   }
 
 
   getPdcList(id, obj): Observable<any> {
-
     obj.cheque_date_from = obj.cheque_date_from == "Invalid date" ? '' : obj.cheque_date_from;
     obj.cheque_date_to = obj.cheque_date_to == "Invalid date" ? '' : obj.cheque_date_to;
     let urlPdcList = this.baseUrl + "/api/v1/student_cheque/getAll/" + this.institute_id + "/" + id;
-
     return this.http.post(urlPdcList, obj, { headers: this.headers }).map(
-      res => { return res.json(); },
-      err => { return err.json(); }
+      res => { return res; },
+      err => { return err; }
     )
-
   }
 
 
@@ -406,10 +377,10 @@ export class AddStudentPrefillService {
     let url = this.baseUrl + "/api/v1/studentWise/fee/" + 11791 + "/feeReceipt/" + id + "/download?fin_yr=17-18";
     return this.http.get(url, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
-        return err.json();
+        return err;
       }
     )
   }

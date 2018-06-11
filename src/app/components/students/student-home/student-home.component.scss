@@ -1169,6 +1169,11 @@ ul.customDropdown li:hover {
 .notification-content-wrapper {
     .marginTenPixel {
         margin: 10px 0px;
+
+        .btn{
+            margin-bottom: 5px;
+        }
+
         .radio-options {
             .field-checkbox-wrapper,
             .field-radio-wrapper {
@@ -1224,7 +1229,18 @@ ul.customDropdown li:hover {
             .field-radio-wrapper .form-radio:checked+label {
                 color: #0084f6;
             }
+
+
+
         }
+
+        .field-checkbox-wrapper .form-checkbox+label {
+            vertical-align: middle;
+            font-size: 14px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+       
     }
     .content-delivery {
         .message-table-wrapper {

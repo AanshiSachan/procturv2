@@ -1,0 +1,125 @@
+<div class="clearfix">
+  <div class="row">
+    <h2 class="pull-left" style="margin-left:15px">Add Employee</h2>
+  </div>
+
+  <div class="row">
+    <div class="c-sm-6 c-md-6 c-lg-6">
+      <div class="field-wrapper">
+        <label for="name">Name
+          <span style="color:red">*</span>
+        </label>
+        <input type="text" class="form-ctrl" [(ngModel)]="employeeDetails.emp_name" name="name">
+      </div>
+
+      <div class="field-wrapper">
+        <label for="contNumber">Primary Contact Number
+          <span style="color:red">*</span>
+        </label>
+        <input type="text" maxlength="10" class="form-ctrl" [(ngModel)]="employeeDetails.phone_pro" name="contNumber">
+      </div>
+
+      <div class="field-wrapper">
+        <label for="contNumber">Secondary Contact Number
+        </label>
+        <input type="text" maxlength="10" class="form-ctrl" [(ngModel)]="employeeDetails.phone_sec" name="contNumber">
+      </div>
+
+      <div class="field-wrapper">
+        <label for="emailID">Primary Email Id
+        </label>
+        <input type="email" class="form-ctrl" name="emailID" [(ngModel)]="employeeDetails.email_pri">
+      </div>
+
+      <div class="field-wrapper">
+        <label for="emailID">Secondary Email Id
+        </label>
+        <input type="email" class="form-ctrl" name="emailID" [(ngModel)]="employeeDetails.email_sec">
+      </div>
+
+      <div class="field-wrapper">
+        <label for="CurrentAddress">Address
+          <span style="color:red">*</span>
+        </label>
+        <input type="text" class="form-ctrl" [(ngModel)]="employeeDetails.address" name="CurrentAddress">
+      </div>
+
+      <div class="field-wrapper">
+        <div class="field-wrapper datePickerBox">
+          <label for="joiningDate">Joining Date
+            <span style="color:red">*</span>
+          </label>
+          <input type="text" value="" id="joiningDate" class="form-ctrl bsDatepicker" [(ngModel)]="employeeDetails.joining_date" readonly="true"
+            name="csd" bsDatepicker>
+          <!-- <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span> -->
+        </div>
+      </div>
+
+      <div class="field-wrapper">
+        <div class="field-wrapper datePickerBox">
+          <label for="LeavingDate">Leaving Date
+          </label>
+          <input type="text" value="" id="LeavingDate" class="form-ctrl bsDatepicker" [(ngModel)]="employeeDetails.leaving_date" readonly="true"
+            name="csd" bsDatepicker>
+          <span class="date-clear" name="LeavingDate" (click)="employeeDetails.leaving_date = ''">clear</span>
+        </div>
+      </div>
+
+      <div class="field-wrapper">
+        <label for="ddnDesignation">Designation
+          <span style="color:red">*</span>
+        </label>
+        <select id="ddnDesignation" [disabled]="employeeId != '-1'" name="ddnDesignation" class="form-ctrl" [(ngModel)]="employeeDetails.designation"
+          (ngModelChange)="onDesignationChanges($event)">
+          <option value="-1"></option>user_id
+          <option [value]="des.data_key" *ngFor="let  des of designationList">
+            {{des.data_value}}
+          </option>
+        </select>
+      </div>
+
+      <div class="field-wrapper" #profileDiv>
+        <label for="ddnUser">User profile
+          <span style="color:red">*</span>
+        </label>
+        <select *ngIf="employeeId == '-1'" id="ddnUser" name="ddnUser" class="form-ctrl" [(ngModel)]="employeeDetails.user_id">
+          <option value="-1"></option>
+          <option [value]="des.userid" *ngFor="let  des of userListData">
+            {{des.name}}
+          </option>
+        </select>
+        <input type="text" *ngIf="employeeId != '-1'" class="form-ctrl" [(ngModel)]="employeeDetails.username">
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <div class="pull-right">
+          <button routerLink="/employee/home" class="btn">Cancel</button>
+          <button class="btn fullBlue" *ngIf="employeeId == '-1'" (click)="addNewEmployee()">Save</button>
+          <button class="btn fullBlue" *ngIf="employeeId != '-1'" (click)="upadateEmployeeDet()">Update</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-sm-6 c-md-6 c-lg-6">
+
+      <proctur-image [serverImg]="employeeDetails.profile_pic" [containerWidth]="containerWidth" (setImage)="setImage($event)">
+
+      </proctur-image>
+
+      <!-- <br />
+      <br />
+      <span class="head">Upload Button Re-Imagined</span>
+      <br />
+      <br />
+
+      <div class="fileUpload blue-btn btn width100">
+        <span>ID Card</span>
+        <input #idCardEmployee type="file" class="uploadlogo hide" accept="image/gif,image/jpeg,image/jpg,image/png" (change)="onChangeIdCardUpload()"
+        />
+      </div> -->
+
+    </div>
+
+  </div>
+
+</div>

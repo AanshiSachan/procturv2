@@ -8,10 +8,9 @@
 /* ========================================================================================= */
 
 .cal-view {
-    margin: 10px;
+    margin: 0px 10px;
     .common-search-filter {
-        margin-top: 5px;
-        padding: 15px 5px 10px 5px;
+        padding: 5px 5px 0px 5px;
         background: #efefef;
         .field-wrapper {
             background: transparent;
@@ -225,38 +224,11 @@
         margin: 0 5px;
     }
 }
-.btn-new{
-    float:right;
+
+.btn-new {
+    float: right;
 }
-.main{
-    
-    width:100%;
-    margin-top:10px;
-    .radio-main{
-        width:30%;
-        display: inline-block;
-    
-        .field-radio-wrapper{
-            display: inline-block;
-         
-            width:25%;
-        }
-        
-    }
-    
-    .field-main{
-        width:69%;
-        display: inline-block;
-        
-        .field-wrapper{
-            display: inline-block;
-            margin-left: 10px;
-            width:30%;
-            
-            
-        }
-    }
-}
+
 .add-edit {
     margin-bottom: 0;
     margin-top: 20px;
@@ -463,9 +435,6 @@
         .field-wrapper {
             margin-top: -10px;
         }
-        .fullBlue.btn {
-            width: 120px;
-        }
     }
 }
 
@@ -505,7 +474,6 @@
 }
 
 .view-c-detail {
-    margin-top: 5px;
     .filter-search {
         margin-bottom: 0;
         .export-print {
@@ -522,8 +490,6 @@
 }
 
 .calender-course {
-    margin-bottom: 15px;
-    margin-top: 8px;
     position: relative;
     .c-control {
         position: absolute;
@@ -624,6 +590,8 @@
 }
 
 .calender-view1 {
+    max-height: 295px;
+    overflow: scroll;
     th {
         padding: 10px;
         font-size: 13px;
@@ -1331,7 +1299,7 @@
     bottom: 0;
 }
 
-.radio-options {
+.radio-main {
     .field-radio-wrapper {
         .form-radio:checked+label:before {
             content: '';
@@ -1517,5 +1485,39 @@
                 }
             }
         }
+    }
+}
+
+.editTeacherTd {
+    .changeteacher {
+        .spanSection {
+            display: inline-flex;
+            .editSection {
+                width: 120px;
+                padding: 0px 0px !important;
+                .ddnChangeTeacher {
+                    height: 25px !important;
+                    padding: 0px 0px !important;
+                }
+            }
+        }
+    }
+}
+
+.advanceDateFilter {
+    display: flex;
+    .btn-wrapper {
+        padding-top: 25px;
+    }
+    .goBack-wrapper {
+        margin: auto;
+    }
+}
+
+.radio-main {
+    display: inline-flex;
+    width: 100%;
+    .field-radio-wrapper {
+        margin-right: 10px;
     }
 }

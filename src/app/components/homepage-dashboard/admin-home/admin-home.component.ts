@@ -19,6 +19,7 @@ import { Chart } from 'angular-highcharts';
 import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
 
 @Component({
   selector: 'admin-home',
@@ -40,11 +41,12 @@ export class AdminHomeComponent implements OnInit {
   public isRippleLoad: boolean = false;
   public AllPresent: boolean = true;
   public teacher_id: number = -1;
+  @ViewChild('biometricDiv') bioAd : ElementRef;
   public schedStat: any = {};
 
   is_notified: any = 'Y';
   public selectedRow: number = null;
-  public order: string[] = ['1', '2', '3', '4'];
+  public order: string[] = ['1', '2', '3', '4', '5'];
   public schedSelected: boolean = false;
   public isOptionVisible: boolean = false;
   public enquiryDate: any[] = [];
@@ -55,6 +57,7 @@ export class AdminHomeComponent implements OnInit {
   public homework: string = "";
   public studentAttList: any = [];
   public cancellationReason: string = '';
+
   resheduleNotified: any = "Y";
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '15', '30', '45'];
@@ -135,7 +138,12 @@ export class AdminHomeComponent implements OnInit {
   examGradeFeature: any;
   gradesList: any = [];
   classScheduleCount: number = 0;
+  biometricWidget: boolean;
+  biometricEnable: string = "";
 
+
+  @ViewChild('ref')
+  private ref: ElementRef;
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -147,7 +155,8 @@ export class AdminHomeComponent implements OnInit {
     private rd: Renderer2,
     private enquiryService: FetchenquiryService,
     private widgetService: WidgetService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private biometric: BiometricStatusServiceService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -169,6 +178,8 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+
+    this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
 
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
@@ -195,6 +206,18 @@ export class AdminHomeComponent implements OnInit {
       this.getOrder();
     });
 
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType == 0) {
+      let permissionArray = sessionStorage.getItem('permissions');
+      if (permissionArray == "" || permissionArray == null) {
+        let ss = sessionStorage.getItem('biometric_attendance_feature');
+        if (ss != '1') {
+          this.bioAd.nativeElement.style.display = 'none';
+        }
+      }
+    } 
+
+
   }
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -219,6 +242,38 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
+  }
+
+  recieveData(event) {
+    if (event.length == 1) {
+      this.ref.nativeElement.className = "dataFirst";
+    }
+    else if (event.length == 0) {
+      this.ref.nativeElement.className = "dataZero";
+    }
+    else if (event.length == 2) {
+      this.ref.nativeElement.className = "dataSecond";
+    }
+    else if (this.biometricEnable == "0") {
+      this.ref.nativeElement.className = "hide";
+    }
+    else if (event.length == 3) {
+      this.ref.nativeElement.className = "dataThird";
+    }
+    else {
+      this.ref.nativeElement.className = "dataLast";
+    }
+  }
+
+  fetchBiometricStatus() {
+    this.biometric.biometricStatus().subscribe(
+      (data: any) => {
+
+      },
+      (error: any) => {
+
+      }
+    )
   }
 
   fetchScheduleWidgetData() {
@@ -2249,6 +2304,16 @@ export class AdminHomeComponent implements OnInit {
         this.getExamSchedule(obj);
       }
     })
+  }
+
+  mouseEnter(div: string) {
+    this.biometricWidget = true;
+    console.log("mouse enter : " + div);
+  }
+
+  mouseLeave(div: string) {
+    this.biometricWidget = false;
+    console.log('mouse leave :' + div);
   }
 
   getExamSchedule(obj) {

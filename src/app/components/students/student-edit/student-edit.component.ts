@@ -81,7 +81,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_id: 0
   }
   studentAddnMove: boolean; studentServerImage: string = ''; newPdcArr: any[] = []; pdcSelectedArr: any[] = [];
-  formIsActive: boolean = true; studentImage: string = ''; private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false;
+  formIsActive: boolean = false; studentImage: string = ''; private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false;
   private isAssignBatch: boolean = false; private isAcad: boolean = false; private isProfessional: boolean = false; private multiOpt: boolean = false;
   private isDuplicateStudent: boolean = false; isUpdateFeeAndExit: boolean = false; private instituteList: any[] = [];
   private standardList: any[] = []; private courseList: any[] = []; private batchList: any[] = []; private slots: any[] = [];
@@ -190,6 +190,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     previous_balance_amt: "",
     total_amt_paid: ""
   }
+  courseDropdown: any = null;
   enableBiometric: any = "";
   academicYear: any[] = [];
   savedAssignedBatch: any[] = [];
@@ -199,7 +200,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isRippleLoad = true;
     this.getInstType();
     this.student_id = this.route.snapshot.paramMap.get('id');
-     this.fetchPrefillFormData();
+    this.fetchPrefillFormData();
   }
 
   /* ============================================================================================================================ */
@@ -408,21 +409,23 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   updateStudentForm(id) {
     /* Fetching Student Details from server */
-    this.fetchService.getStudentById(id).subscribe(data => {
+    this.fetchService.getStudentById(id).subscribe((data: any) => {
       this.studentAddFormData = data;
       this.studentAddFormData.school_name = data.school_name;
       this.studentAddFormData.student_class = data.student_class_key;
-      this.fetchCourseFromMaster(data.standard_id);      
+      this.fetchCourseFromMaster(data.standard_id);
       if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
         this.studentAddFormData.assignedBatchescademicYearArray = [""];
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
       }
       this.studentServerImage = data.photo;
-
       /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
       this.updateStudentFeeDetails();
       this.isRippleLoad = false;
-
+      this.getCourseDropdown(id);
+      if(data.is_active == "Y"){
+        this.formIsActive = true;
+      }
       /* For Batch Model Fetch the Student Batches */
       if (this.isProfessional) {
         /* Fetching the student Slots */
@@ -460,7 +463,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.appC.popToast(obj);
             //alert("Error Fetching Student Batch");
-          });
+          }
+        );
+
       }
       /* For Course Model fetch the Student Courses */
       else {
@@ -495,11 +500,26 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               body: ""
             }
             this.appC.popToast(obj);
-          })
+          }
+        );
+
       }
     });
   }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getCourseDropdown(id) {
+    this.fetchService.getStudentCourseDetails(id).subscribe(
+      res => {
+        this.courseDropdown = res;
+        console.log(this.courseDropdown);
+      },
+      err => {
 
+      }
+    )
+  }
+  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getAssignDate(e): string {
     if (e == '' || e == null) {
@@ -519,7 +539,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   batchChangeAlert(value, index) {
     let ind = null;
-    
+
     let len = this.batchList.length;
 
     if (value) {
@@ -531,12 +551,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
         /* Check if selected ID exist on selected array list */
         this.studentAddFormData.assignedBatches.forEach(e => {
-          if(this.isProfessional){
+          if (this.isProfessional) {
             if (this.batchList[index].data.batch_id == e) {
               ind = e;
             }
           }
-          else{
+          else {
             if (this.batchList[index].data.course_id == e) {
               ind = e;
             }
@@ -946,7 +966,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
     this.prefill.getAllFinancialYear().subscribe(
-      data => {
+      (data: any) => {
         this.academicYear = data;
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
@@ -1046,11 +1066,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   /* ============================================================================================================================ */
-  getCustomComponentCheckboxValue(e): boolean{
-    if(e == 'Y'){
+  getCustomComponentCheckboxValue(e): boolean {
+    if (e == 'Y') {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -1132,7 +1152,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   updateMasterCourseList(id) {
     this.batchList = [];
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
-      data => {
+      (data: any) => {
         data.coursesList.forEach(el => {
           if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
             el.feeTemplateList.forEach(e => {
@@ -1208,74 +1228,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* align the user selected batch into input and update the data into array to be updated to server */
-  assignBatch() {
-    let batchString: any[] = [];
-    this.studentAddFormData.assignedBatches = [];
-    this.studentAddFormData.batchJoiningDates = [];
-    this.studentAddFormData.assignedBatchescademicYearArray = [""];
-    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""]
-    this.batchList.forEach(el => {
-      if (el.isSelected) {
-        if (el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date") {
-          if (this.isProfessional) {
-            this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-            batchString.push(el.data.batch_name);
-          }
-          else {
-            this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-            batchString.push(el.data.course_name);
-          }
-        }
-        else {
-          let alert = {
-            type: 'error',
-            title: 'Assign Date Required',
-            body: 'Please select a joining date for selected option'
-          }
-          this.appC.popToast(alert);
-        }
-      }
-      else {
-        // if (this.isProfessional) {
-        //   let index = 
-        //   this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-        //   this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-        //   this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-        //   this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-        //   batchString.push(el.data.batch_name);
-        // }
-        // else {  
-        //   this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
-        //   this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-        //   this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-        //   this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-        //   batchString.push(el.data.course_name);
-        // }
-      }
-    });
-    if (batchString.length != 0) {
-      document.getElementById('assignCoursesParent').classList.add('has-value');
-      this.assignedBatchString = batchString.join(',');
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
-    else {
-      this.assignedBatchString = "";
-      this.studentAddFormData.assignedBatches = [];
-      this.studentAddFormData.batchJoiningDates = [];
-      this.studentAddFormData.assignedBatchescademicYearArray = [];
-      this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
-      this.isAssignBatch = false;
-      //this.closeBatchAssign();
-    }
+  getassignedBatchList(e) {
+    this.studentAddFormData.assignedBatches = e.assignedBatches;
+    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
+    this.assignedBatchString = e.assignedBatchString;
+    this.isAssignBatch = e.isAssignBatch;
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
@@ -1355,7 +1315,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
-        res => {
+        (res: any) => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
             let alert = {
@@ -1402,7 +1362,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     }
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   customComponentValid(): boolean {
@@ -1419,33 +1378,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     return this.customComponents.every(isValid)
   }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getSlots() {
@@ -1587,7 +1519,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchCourseFromMaster(id) {
-    
+
     if (id == null || id == '') {
       this.courseList = [];
     }
@@ -1652,7 +1584,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   registerDuplicateStudent(form: NgForm) {
     this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
-      res => {
+      (res: any) => {
         let statusCode = res.statusCode;
         if (statusCode == 200) {
           let alert = {
@@ -2128,7 +2060,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  fetchDiscountData(e){
+  fetchDiscountData(e) {
     this.discountReason = e.reason;
     this.instalmentTableData = e.installment;
 
@@ -2139,11 +2071,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
     this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
 
-    this.updateDiscount(); 
+    this.updateDiscount();
   }
   /* ============================================================================================================================ */
-   /* ============================================================================================================================ */
-   closeDiscountApply() {
+  /* ============================================================================================================================ */
+  closeDiscountApply() {
     this.isDiscountApply = false;
   }
   /* ============================================================================================================================ */
@@ -2204,7 +2136,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     );
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */  
+  /* ============================================================================================================================ */
   applyDiscountCustomFeeSchedule() {
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
@@ -2395,8 +2327,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.isRippleLoad = true;
-       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
-        res => {
+      this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
+        (res: any) => {
           this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -2617,7 +2549,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
       obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
       this.postService.allocateStudentFees(obj).subscribe(
-        res => {
+        (res: any) => {
           if (this.genPdcAck || this.sendPdcAck) {
             if (this.genPdcAck) {
               let doc = res;
@@ -2625,8 +2557,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let id = doc.other;
               let link = document.getElementById("payMultiReciept");
               this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                r => {
-                  let body = JSON.parse(r['_body']);
+                (res: any) => {
+                  let body = res;
                   let byteArr = this.convertBase64ToArray(body.document);
                   let format = body.format;
                   let fileName = body.docTitle;
@@ -2863,6 +2795,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         schedule_id: el.schedule_id,
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
+        student_fee_template_mapping_id: el.student_fee_template_mapping_id
       }
       temp.push(obj);
     });
@@ -3284,8 +3217,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
     this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
-      res => {
-        let body = JSON.parse(res['_body']);
+      (res: any) => {
+        let body = res;
         let byteArr = this.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
@@ -3325,9 +3258,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
     this.fetchService.emailReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
-      res => {
-        let body = JSON.parse(res['_body']);
-
+      (res: any) => {
+        let body = res;
         let obj = {
           type: "success",
           title: "Reciept Sent",
@@ -3447,8 +3379,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (res: any) => {
+                      let body = res;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -3568,8 +3500,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                    let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -3712,8 +3644,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (res: any) => {
+                      let body = res;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -3842,8 +3774,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                    let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -4141,7 +4073,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   fetchCustomFeeSchedule(e) {
     this.isRippleLoad = true;
-
     this.userCustommizedFee = e;
     this.totalTaxAmount = 0;
     this.totalInitalAmount = 0;
@@ -4201,6 +4132,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         uiSelected: el.is_referenced == "Y" ? true : false,
         isPaid: el.is_referenced == "Y" ? true : false
       }
+
       this.paymentStatusArr.push(obj);
 
     });

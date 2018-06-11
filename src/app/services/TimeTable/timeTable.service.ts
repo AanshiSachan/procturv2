@@ -1,37 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import * as moment from 'moment';
 import { AuthenticatorService } from "../authenticator.service";
 
 @Injectable()
 export class timeTableService {
-  
+
     baseUrl: string = '';
     institute_id: string;
     Authorization: string;
     headers: HttpHeaders;
 
     constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
-
         this.auth1.currentAuthKey.subscribe(key => {
             this.Authorization = key;
             this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
         });
-
         this.auth1.currentInstituteId.subscribe(id => {
             this.institute_id = id;
         });
-
         this.baseUrl = this.auth1.getBaseUrl();
-
     }
-     
-    getMasterCourses(): Observable<any> {
 
+    getMasterCourses() {
         let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
-
         return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;

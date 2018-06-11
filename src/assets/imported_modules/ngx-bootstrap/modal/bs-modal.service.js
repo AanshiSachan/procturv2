@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter, RendererFactory2 } from '@angular/core';
 import { ComponentLoaderFactory } from '../component-loader/component-loader.factory';
 import { ModalBackdropComponent } from './modal-backdrop.component';
-import { ModalContainerComponent } from './modal-container.component';
+//import { ModalContainerComponent } from './modal-container.component';
 import { CLASS_NAME, modalConfigDefaults, ModalOptions, TRANSITION_DURATIONS } from './modal-options.class';
 import { BsModalRef } from './bs-modal-ref.service';
 var BsModalService = (function () {

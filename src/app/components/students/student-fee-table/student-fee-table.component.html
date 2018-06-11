@@ -40,6 +40,19 @@
                                     [(ngModel)]="addFeeInstallment.due_date" bsDatepicker>
                             </div>
                         </li>
+
+                        <li>
+                            <div class="form-wrapper">
+                                <label for="courseType">Course</label>
+                                <select class="form-ctrl" name="courseType" [(ngModel)]="addFeeInstallment.student_fee_template_mapping_id" id="courseType">
+                                    <option value="-1"></option>
+                                    <option [value]="course.template_mapping_idWithCourseOrSubjectName" *ngFor="let course of courseDropdown">
+                                        {{course.courseOrSubject_name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </li>                        
+
                         <li>
                             <div class="form-wrapper">
                                 <label for="amountinst">Amount</label>
@@ -47,6 +60,7 @@
                                     name="amountinst">
                             </div>
                         </li>
+ 
                         <li>
                             <button type="submit" class="btn fee-adder" (click)="addNewInstallmentFee()">
                                 <i></i>
@@ -58,16 +72,17 @@
 
                 <div class="installment-table">
                     <ul class="table-header">
-                        <li [ngClass]="{'bigger': taxEnableCheck == '0'}">#</li>
+                        <li class="id" [ngClass]="{'bigger': taxEnableCheck == '0'}">#</li>
                         <li class="date" [ngClass]="{'bigger': taxEnableCheck == '0'}">Due Date</li>
-                        <li [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
-                        <li [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
-                        <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
-                        <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
+                        <li class="course" >Course</li>
+                        <li class="amount" [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
+                        <li class="tax" [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
+                        <li class="feeTax" [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
+                        <li class="action" [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
                     </ul>
                     <div class="table-data">
                         <ul class="table-row" *ngFor="let fee of installmentData; let i = index;">
-                            <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
+                            <li class="id" [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
                             <li class="date">
                                 <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
                                     <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="updateTableInstallment()"
@@ -77,24 +92,29 @@
                                     <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                                 </div>
                             </li>
-                            <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                            <li class="course">
+                                <div class="form-wrapper disable">
+                                    <input type="text" class="form-ctrl" readonly="true" name="course" [ngModel]="fee.course_subject_name">
+                                </div>
+                            </li>
+                            <li class="amount" [ngClass]="{'hide': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
                                     <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
                                 </div>
                             </li>
-                            <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                            <li class="tax" [ngClass]="{'hide': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
                                     <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                                 </div>
                             </li>
-                            <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                            <li class="feeTax" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
                                     <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
                                     <input *ngIf="fee.is_referenced == 'N'" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount"
                                         (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
                                 </div>
                             </li>
-                            <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                            <li class="action" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <a *ngIf="fee.is_referenced == 'N'" (click)="deleteInstallment(i)">
                                     <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                                 </a>
@@ -103,6 +123,7 @@
                         </ul>
                     </div>
                 </div>
+                
             </div>
 
             <div class="additional-container">

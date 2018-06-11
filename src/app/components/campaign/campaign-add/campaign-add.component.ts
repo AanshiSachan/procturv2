@@ -60,7 +60,7 @@ export class CampaignAddComponent implements OnInit {
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
 
-    let referralList = this.prefill.getLeadReffered().subscribe(data => {
+    let referralList = this.prefill.getLeadReffered().subscribe((data: any) => {
       this.referralList = data;
     });
 
@@ -70,28 +70,6 @@ export class CampaignAddComponent implements OnInit {
 
   }
 
-
-
-
-
-
-
-
-
-  /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
-
-  }
 
   addCampaign(form: NgForm) {
 

@@ -46,6 +46,7 @@ $color-highlight: lighten($color-base, 7%);
     overflow: hidden;
 }
 
+
 .act-top {
     padding-bottom: 10px;
     border-bottom: 1px solid #d3d4d5;
@@ -205,16 +206,17 @@ $color-highlight: lighten($color-base, 7%);
             background: #fff;
             li {
                 width: 15%;
-                padding: 20px 0px 10px 0px;
+                padding: 20px 0px 10px 10px;
                 text-transform: uppercase;
                 color: black;
                 background: transparent;
                 font-size: 12px;
                 font-weight: 600;
-                text-align: center;
+                text-align: left;
                 &:first-child {
-                    width: 5%;
-                    padding: 20px 0px 10px 20px;
+                    text-align: left;
+                    width: 10%;
+                    padding: 20px 0px 10px 10px;
                 }
                 &.Name {
                     text-align: left;
@@ -299,7 +301,8 @@ $color-highlight: lighten($color-base, 7%);
                 text-align: left;
                 padding: 10px 0px 0px 10px;
                 &:first-child {
-                    width: 5%;
+                    text-align: left;
+                    width: 10%;
                 }
                 &.Name {
                     text-align: left;

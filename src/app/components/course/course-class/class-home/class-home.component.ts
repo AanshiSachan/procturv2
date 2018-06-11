@@ -1,15 +1,8 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { document } from '../../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 
@@ -84,6 +77,18 @@ export class ClassHomeComponent implements OnInit {
   is_notified: any = 'Y';
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   showManageClass: boolean = false;
+  allotedTeacher: any = '-1';
+  showAdvanceFilter: boolean = false;
+  advanceFilter: any = {
+    startdate: moment().subtract(1, 'months').format('YYYY-MM-DD'),
+    enddate: moment().format('YYYY-MM-DD'),
+    type: '3',
+    isExamIncludedInTimeTable: 'Y'
+  }
+  selectedArray: any = {
+    examSchldId: [],
+    classSchldId: []
+  };
 
   constructor
     (
@@ -157,6 +162,7 @@ export class ClassHomeComponent implements OnInit {
         //console.log('master', res);
       },
       err => {
+        this.messageToast('error', 'Error', err.error.message);
         //console.log(err);
       }
     )
@@ -172,6 +178,7 @@ export class ClassHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -195,6 +202,7 @@ export class ClassHomeComponent implements OnInit {
         //console.log(err);
         this.courseList = [];
         this.isRippleLoad = false;
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -209,6 +217,7 @@ export class ClassHomeComponent implements OnInit {
         this.subjectList = res.batchesList;
       },
       err => {
+        this.messageToast('error', 'Error', err.error.message);
         this.isRippleLoad = false;
         //console.log(err);
       }
@@ -221,18 +230,42 @@ export class ClassHomeComponent implements OnInit {
     if (this.isLangInstitute) {
       dataList = this.timeTableResponse.batchTimeTableList;
     } else {
-      if (this.fetchMasterCourseModule.master_course != "" && this.fetchMasterCourseModule.course_id == "-1" && this.fetchMasterCourseModule.teacher_id == "-1" && this.fetchMasterCourseModule.subject_id == "-1") {
-        dataList = this.timeTableResponse[0].batchTimeTableList;
-      } else {
+      if (this.showAdvanceFilter) {
         dataList = this.timeTableResponse.batchTimeTableList;
+      } else {
+        if (this.fetchMasterCourseModule.master_course != "" && this.fetchMasterCourseModule.course_id == "-1" && this.fetchMasterCourseModule.teacher_id == "-1" && this.fetchMasterCourseModule.subject_id == "-1") {
+          dataList = this.timeTableResponse[0].batchTimeTableList;
+        } else {
+          dataList = this.timeTableResponse.batchTimeTableList;
+        }
       }
     }
     for (let key in dataList) {
+      let arr = [];
       let obj = {
         id: key,
-        data: dataList[key]
+        data: arr
       }
-      temp.push(obj);
+      if (dataList[key].length > 0) {
+        let schList = dataList[key];
+        schList.map(
+          ele => {
+            if (ele.class_type != "Exam") {
+              ele['selected'] = false;
+              ele['date'] = key;
+              arr.push(ele);
+            }
+          }
+        )
+
+        // for (let i = 0; i < schList.length; i++) {
+        //   schList[i]['selected'] = false;
+        //   schList[i]['date'] = key;
+        // }
+      }
+      if (obj.data.length > 0) {
+        temp.push(obj);
+      }
     }
     return temp;
   }
@@ -263,6 +296,7 @@ export class ClassHomeComponent implements OnInit {
       },
       err => {
         //console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -716,5 +750,237 @@ export class ClassHomeComponent implements OnInit {
 
   printTimeTableData() {
 
+  }
+
+  changeTeacher(data) {
+    document.getElementById('teacher' + data.schd_id).classList.add('hide');
+    document.getElementById('editTeacher' + data.schd_id).classList.remove('hide');
+  }
+
+  cancelChangeTeacher(data) {
+    document.getElementById('teacher' + data.schd_id).classList.remove('hide');
+    document.getElementById('editTeacher' + data.schd_id).classList.add('hide');
+    this.allotedTeacher = '-1';
+  }
+
+  updateTeacher(data) {
+    if (confirm('Are you sure you want to change the teacher?')) {
+      let obj = {
+        alloted_teacher_id: this.allotedTeacher,
+        batch_id: data.batch_id,
+        class_schedule_id: data.schd_id,
+        cousre_planner_update_operation: 'teacher',
+        is_exam_schedule: 'N',
+      };
+      this.classService.changeClassTeacher(obj).subscribe(
+        res => {
+          this.messageToast('success', 'Updated', 'Teacher updated successfully');
+          this.allotedTeacher = '-1';
+          this.cancelChangeTeacher(data);
+          if (this.showAdvanceFilter) {
+            this.advanceFilterView();
+          } else {
+            this.submitMasterCourse();
+          }
+        },
+        err => {
+          console.log(err);
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  //Advance Filter Functionality
+
+  advanceFilterView() {
+    let validate = this.validateAllFields();
+    if (validate) {
+      let dataToSend: any = this.makeJsonForAdvanceFilter();
+      this.classService.getTimeTable(dataToSend).subscribe(
+        res => {
+          this.timeTableResponse = res;
+          this.showContent = true;
+          this.weekScheduleList = this.getClassList();
+        },
+        err => {
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  makeJsonForAdvanceFilter() {
+    let data: any;
+    if (this.isLangInstitute) {
+      data = this.makeJsonForBatch();
+    } else {
+      data = this.makeJsonForSubmit();
+    }
+    data.type = this.advanceFilter.type;
+    data.startdate = this.advanceFilter.startdate;
+    data.enddate = this.advanceFilter.enddate;
+    return data;
+  }
+
+  validateAllFields() {
+    let days: number = 0;
+    days = moment(this.advanceFilter.enddate).diff(moment(this.advanceFilter.startdate), 'days');
+    if (days > 31) {
+      this.messageToast('error', 'Error', 'Please provide date range of 30 days only');
+      return false;
+    } else {
+      this.advanceFilter.startdate = moment(this.advanceFilter.startdate).format('YYYY-MM-DD');
+      this.advanceFilter.enddate = moment(this.advanceFilter.enddate).format('YYYY-MM-DD');
+    }
+    if (this.isLangInstitute) {
+      if (this.batchData.standard_id == -1) {
+        this.messageToast('error', 'Error', 'Please provide Master Course');
+        return false;
+      }
+      if (this.batchData.subject_id == -1) {
+        this.messageToast('error', 'Error', 'Please provide Course');
+        return false;
+      }
+      if (this.batchData.batch_id == -1) {
+        this.messageToast('error', 'Error', 'Please provide Batch');
+        return false;
+      }
+    } else {
+      if (this.fetchMasterCourseModule.master_course == "-1") {
+        this.messageToast('error', 'Error', 'Please provide Master Course');
+        return false
+      }
+      if (this.fetchMasterCourseModule.course_id == "-1") {
+        this.messageToast('error', 'Error', 'Please provide Course');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  showhideAdvanceFilter(key) {
+    if (key == '0') {
+      this.showAdvanceFilter = false;
+    } else {
+      this.showAdvanceFilter = true;
+    }
+    this.showContent = false;
+    this.fetchMasterCourseModule = {
+      master_course: "-1",
+      course_id: "-1",
+      subject_id: '-1',
+      teacher_id: '-1',
+    }
+    this.batchData = {
+      standard_id: -1,
+      subject_id: -1,
+      batch_id: -1,
+    }
+    this.selectedArray = {
+      examSchldId: [],
+      classSchldId: []
+    };
+  }
+
+  /// Delete Schedule
+
+  deleteMultipleSchedule() {
+    if (confirm('All the selected future class and exam schedule will be deleted. Do you want to continue?')) {
+      let dataToSend: any = this.makeMultipleDelete();
+      if (dataToSend == false) {
+        return false;
+      }
+      this.classService.deleteMultiple(dataToSend).subscribe(
+        res => {
+          this.messageToast('success', 'Deleted Successfully', '');
+          if (this.showAdvanceFilter) {
+            this.advanceFilterView();
+          } else {
+            this.submitMasterCourse();
+          }
+        },
+        err => {
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  makeMultipleDelete() {
+    let obj: any = {
+      examSchldId: [],
+      classSchldId: []
+    }
+    for (let key in this.weekScheduleList) {
+      if (moment(this.weekScheduleList[key].id) > moment()) {
+        let data = this.weekScheduleList[key].data;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].selected) {
+            if (moment(data[i].date) > moment()) {
+              if (data[i].class_type == "Exam") {
+                obj.examSchldId.push(data[i].schd_id);
+              } else {
+                obj.classSchldId.push(data[i].schd_id);
+              }
+            } else {
+              this.messageToast('error', 'Error', "Past Date Schedule Can't Deleted");
+              return false;
+            }
+          }
+        }
+      }
+    }
+    if (obj.examSchldId.length == 0 && obj.classSchldId.length == 0) {
+      this.messageToast('error', 'Error', "You haven't selected any future schedule");
+      return false;
+    }
+    return obj;
+  }
+
+  userSelectedData(event, data) {
+    if (event) {
+      if (moment(data.date) > moment()) {
+        if (data.class_type == "Exam") {
+          this.selectedArray.examSchldId.push(data.schd_id);
+        } else {
+          this.selectedArray.classSchldId.push(data.schd_id);
+        }
+      }
+    } else {
+      if (data.class_type == "Exam") {
+        if (this.selectedArray.examSchldId.indexOf(data.schd_id) > -1) {
+          this.selectedArray.examSchldId.splice(this.selectedArray.examSchldId.indexOf(data.schd_id), 1);
+        }
+      } else {
+        if (this.selectedArray.classSchldId.indexOf(data.schd_id) > -1) {
+          this.selectedArray.classSchldId.splice(this.selectedArray.classSchldId.indexOf(data.schd_id), 1);
+        }
+      }
+    }
+  }
+
+  showDeleteBTN() {
+    if (this.selectedArray.examSchldId.length > 0) {
+      return true;
+    }
+    if (this.selectedArray.classSchldId.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
+}
+
+@Pipe({
+  name: 'dateMonthYearFromat'
+})
+export class DateFormat implements PipeTransform {
+  public transform(value) {
+    if (value != "" && value != null && value != undefined) {
+      return moment(value).format('DD-MMM-YYYY');
+    } else {
+      return value
+    }
   }
 }

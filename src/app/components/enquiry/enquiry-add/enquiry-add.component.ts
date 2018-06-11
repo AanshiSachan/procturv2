@@ -154,7 +154,7 @@ export class EnquiryAddComponent implements OnInit {
   masterCourseData: any[] = [];
   selectedCourseIds: any = null;
   selectedSubjectIds: any = null;
-  isEnquirySubmit:boolean = false;
+  isEnquirySubmit: boolean = false;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(private prefill: FetchprefilldataService, private router: Router,
@@ -260,7 +260,7 @@ export class EnquiryAddComponent implements OnInit {
         this.isMainBranch = value;
         if (this.isMainBranch == "Y") {
           this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          this.multiBranchInstituteFound(this.newEnqData.source_instituteId);
         }
       }
     );
@@ -270,7 +270,10 @@ export class EnquiryAddComponent implements OnInit {
         this.subBranchSelected = res;
         if (this.subBranchSelected) {
           this.newEnqData.source_instituteId = sessionStorage.getItem('institute_id');
-          this.multiBranchInstituteFound();
+          const mainBranchId = sessionStorage.getItem('mainBranchId');
+          if (mainBranchId != null) {
+            this.multiBranchInstituteFound(mainBranchId);
+          }
         }
       }
     )
@@ -424,7 +427,7 @@ export class EnquiryAddComponent implements OnInit {
   /* ============================================================================================================================ */
   fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe(
-      res => {
+      (res: any) => {
         this.masterCourseData = res;
       });
   }
@@ -718,6 +721,7 @@ export class EnquiryAddComponent implements OnInit {
     this.course_mastercourse_id = '-1';
     this.selectedCourseIds = null;
     this.enqSub = [];
+    this.followUpTime = "";
     this.hour = '';
     this.minute = '';
     this.meridian = '';
@@ -847,6 +851,7 @@ export class EnquiryAddComponent implements OnInit {
           this.newEnqData.walkin_followUpTime = this.getFollowupTime();
         }
 
+
         if (!this.isProfessional) {
           let obj = {
             area: this.newEnqData.area,
@@ -892,7 +897,7 @@ export class EnquiryAddComponent implements OnInit {
             walkin_followUpTime: this.newEnqData.walkin_followUpTime
           }
           this.poster.postNewEnquiry(obj).subscribe(
-            data => {
+            (data: any) => {
               this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
@@ -951,7 +956,7 @@ export class EnquiryAddComponent implements OnInit {
         }
         else {
           this.poster.postNewEnquiry(this.newEnqData).subscribe(
-            data => {
+            (data: any) => {
               this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
@@ -1088,9 +1093,9 @@ export class EnquiryAddComponent implements OnInit {
   validateTime(): boolean {
     /* some time selected by user or nothing*/
     if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
-      if(this.hour == "Invalid date"){ this.hour = '';}
-      if(this.minute == "Invalid date"){ this.minute = '';}
-      if(this.meridian == "INVALID DATE"){ this.meridian = '';}
+      if (this.hour == "Invalid date") { this.hour = ''; }
+      if (this.minute == "Invalid date") { this.minute = ''; }
+      if (this.meridian == "INVALID DATE") { this.meridian = ''; }
       return true;
     }
     else {
@@ -1786,32 +1791,6 @@ export class EnquiryAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   isEnquiryAdministrator() {
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       this.isEnquiryAdmin = true;
@@ -1877,10 +1856,10 @@ export class EnquiryAddComponent implements OnInit {
       )
     }
   }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  multiBranchInstituteFound() {
-    this.prefill.getAllSubBranches().subscribe(
+
+  // MultiBranch 
+  multiBranchInstituteFound(id) {
+    this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
         this.branchesList = res;
       },

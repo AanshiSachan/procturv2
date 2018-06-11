@@ -220,7 +220,7 @@ export class CampaignHomeComponent implements OnInit {
     /* start index of object passed is zero then create pagination */
     if (obj.start_index == 0) {
       return this.postData.campaignUploadList(obj).subscribe(
-        data => {
+        (data: any) => {
           if (data.length != 0) {
             data = data.sort(function (a, b) {
               return moment(a.created_date).unix() - moment(b.created_date).unix();
@@ -283,7 +283,7 @@ export class CampaignHomeComponent implements OnInit {
         });
     }
     else {
-      return this.postData.campaignUploadList(obj).subscribe(data => {
+      return this.postData.campaignUploadList(obj).subscribe((data: any) => {
         if (data.length != 0) {
           if (this.indexJSON.length != 0) {
             data.forEach(el => {
@@ -372,28 +372,6 @@ export class CampaignHomeComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
-
-  /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
-
-  }
 
 
   /* Function to toggle smart table column on click event */
@@ -512,7 +490,7 @@ export class CampaignHomeComponent implements OnInit {
   smsServicesInvoked() {
     /* store the data from server and update table */
     this.postData.fetchAllSms().subscribe(
-      data => {
+      (data: any) => {
         this.cd.markForCheck();
         this.smsPopSource = data;
         this.cd.markForCheck();
@@ -742,7 +720,7 @@ export class CampaignHomeComponent implements OnInit {
 
     //console.log(data.data.list_name);
     this.postData.downloadFailureListFile(data.data.list_id).subscribe(
-      res => {
+      (res: any) => {
 
         let byteArr = this.convertBase64ToArray(res.document);
         //console.log(byteArr);

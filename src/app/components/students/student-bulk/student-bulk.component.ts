@@ -207,7 +207,7 @@ export class StudentBulkComponent implements OnInit {
   /* fetch the status of the data updated to server */
   fetchBulkUploadStatusData() {
     this.fetchData.fetchBulkUpdateStatusReport().subscribe(
-      res => {
+      (res: any) => {
         this.bulkUploadRecords = res;
       }
     )
@@ -267,31 +267,6 @@ export class StudentBulkComponent implements OnInit {
       },
       err => { }
     )
-  }
-
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
   }
 
 }

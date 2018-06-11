@@ -20,8 +20,6 @@ export class InstituteDetailService {
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
         });
-        // this.institute_id = this.auth.getInstituteId();
-        // this.Authorization = this.auth.getAuthToken();
         this.baseURL = this.auth.getBaseUrl();
 
     }

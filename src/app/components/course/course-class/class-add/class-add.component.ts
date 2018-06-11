@@ -1,17 +1,10 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../../services/login-services/login.service';
-import { document } from '../../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import { ColumnSetting } from '../../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
@@ -152,11 +145,8 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   constructor(
     private router: Router,
-    private fb: FormBuilder,
     private appC: AppComponent,
     private login: LoginService,
-    private rd: Renderer2,
-    private cd: ChangeDetectorRef,
     private classService: ClassScheduleService,
     private auth: AuthenticatorService
   ) {
@@ -591,6 +581,7 @@ export class ClassAddComponent implements OnInit {
 
   getAllSubjectListFromServer(data) {
     this.isClassFormFilled = true;
+    this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD');
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
@@ -627,8 +618,8 @@ export class ClassAddComponent implements OnInit {
             obj.class_desc = courseScheduleList[i].class_desc;
             obj.room_no = courseScheduleList[i].room_no;
             obj.course_id = data.coursesList[0].course_id;
-            obj.start_date = data.coursesList[0].start_date;
-            obj.end_date = data.coursesList[0].end_date;
+            obj.start_date = moment(data.coursesList[0].start_date).format('YYYY-MM-DD');
+            obj.end_date = moment(data.coursesList[0].end_date).format('YYYY-MM-DD');
             arr.push(obj);
           }
         }
@@ -862,12 +853,12 @@ export class ClassAddComponent implements OnInit {
   }
 
   makeCancelClassJson() {
-    let text = document.getElementById('idTexboxReason').value;
+    let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
       this.messageToast('error', 'Error', 'Please provide cancellation reason');
       return false;
     }
-    let chkbxValue = document.getElementById('idChkbxEnable').checked;
+    let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
     if (chkbxValue == true) {
       chkbxValue = "Y";
     } else {
@@ -890,7 +881,7 @@ export class ClassAddComponent implements OnInit {
     if (confirm("Are you sure, You want to notify?")) {
       let obj: any = {};
       obj.course_id = this.fetchedCourseData.coursesList[0].course_id;
-      obj.requested_date = this.fetchedCourseData.requested_date;
+      obj.requested_date = moment(this.fetchedCourseData.requested_date).format('YYYY-MM-DD');
       this.classService.sendReminderToServer(obj).subscribe(
         res => {
           this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
@@ -1437,7 +1428,7 @@ export class ClassAddComponent implements OnInit {
       class_freq: 'WEEK',
       cancelSchd: [{
         cancel_note: this.weeklyScheduleCan.cancel_note,
-        class_date: this.weeklyScheduleCan.date,
+        class_date: moment(this.weeklyScheduleCan.date).format('YYYY-MM-DD'),
         schd_id: 0,
         is_notified: notify,
       }]
@@ -1517,7 +1508,7 @@ export class ClassAddComponent implements OnInit {
     if (this.customTable.length > 0) {
       for (let i = 0; i < this.customTable.length; i++) {
         let t: any = {};
-        t.class_date = this.customTable[i].class_date;
+        t.class_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
@@ -1637,7 +1628,7 @@ export class ClassAddComponent implements OnInit {
     if (this.extraClassTable.length > 0) {
       for (let i = 0; i < this.extraClassTable.length; i++) {
         let t: any = {};
-        t.class_date = this.extraClassTable[i].class_date;
+        t.class_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.extraClassTable[i].start_time;
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;
@@ -1725,12 +1716,12 @@ export class ClassAddComponent implements OnInit {
 
 
   makeJSONToSendBatchDet() {
-    let text = document.getElementById('idTexboxReason').value;
+    let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
       this.messageToast('error', 'Error', 'Please provide cancellation reason');
       return false;
     }
-    let chkbxValue = document.getElementById('idChkbxEnable').checked;
+    let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
     if (chkbxValue == true) {
       chkbxValue = "Y";
     } else {
