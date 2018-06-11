@@ -45,7 +45,6 @@ import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-rout
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
 
-
 @NgModule({
     imports: [
         FormsModule,

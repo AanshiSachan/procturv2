@@ -19,6 +19,7 @@ export class ReferredByComponent implements OnInit {
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD')
   }
+
   getreferredByData: any = [];
   getreferredByDetails: any = {};
   mappedreferredBy: any = [];
@@ -60,6 +61,7 @@ export class ReferredByComponent implements OnInit {
   popupDataEnquiries:any[] = [];
 
 
+
   constructor(private service: EnquiryReportService,
     private appc: AppComponent) { }
 
@@ -72,10 +74,15 @@ export class ReferredByComponent implements OnInit {
     this.dataStatus = 1;
     this.service.referredByDetails().subscribe(
       (data: any) => {
+
         if (data.length == 0) {
           this.dataStatus = 2;
         }
         else {
+        if(data.length == 0){
+          this.dataStatus = 2;
+        }
+        else{
           this.dataStatus = 0;
         }
         this.getreferredByData = data;
@@ -215,6 +222,7 @@ export class ReferredByComponent implements OnInit {
   popupToggler() {
     this.showPopup = false;
   }
+
 }
 
 

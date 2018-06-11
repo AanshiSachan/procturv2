@@ -171,7 +171,7 @@
 
 
 <!-- SMS PopUp Single-->
-<section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="message === 'sms'" (click)="inputClicked($event)">
+<section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="message === 'sms'">
   <!-- tab 1 for sms-->
   <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === false">
     <div class="popup-wrapper pos-rel">
@@ -401,7 +401,7 @@
 
 <!-- Add Edit PRomotional SMS -->
 <!-- SMS PopUp Single-->
-<section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="addEditPromotional" (click)="inputClicked($event)">
+<section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="addEditPromotional">
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
 

@@ -599,7 +599,7 @@
                         <div class="marginTenPixel">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
-                                    id="">
+                                    id="loginMessage">
                                 <label for="loginMessage">Send Login Message</label>
                             </div>
                         </div>
@@ -610,26 +610,26 @@
                             <div class="row marginTenPixel">
                                 <div id="" class="c-sm-4 c-md-4 c-lg-4">
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                                        <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="">
-                                        <label for="sms">SMS</label>                                        
+                                        <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="smsC">
+                                        <label for="smsC">SMS</label>                                        
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="">
-                                        <label for="mail">Mail</label>
+                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="mailC">
+                                        <label for="mailC">Mail</label>
                                     </div>
                                 </div>
                                 <div id="" class="c-sm-6 c-md-6 c-lg-6">
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value="" name="student" class="form-checkbox" id="">
-                                        <label for="student">Student</label>
+                                        <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value="" name="student" class="form-checkbox" id="studentC">
+                                        <label for="studentC">Student</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <input type="checkbox" value="" name="parent" [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox" id="">
-                                        <label for="parent">Parent</label>
+                                        <input type="checkbox" value="" name="parent" [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox" id="parentC">
+                                        <label for="parentC">Parent</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="">
-                                        <label for="guardian">Guardian</label>
+                                        <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="guardianC">
+                                        <label for="guardianC">Guardian</label>
                                     </div>
                                 </div>
                             </div>
@@ -638,7 +638,7 @@
 
                                 <div class="form-wrapper datepicker c-sm-6 c-xs-6">
                                     <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
-                                    <input type="text" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                                    <input type="text" id="subject" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
                                         id="divSubjectMessage" />
                                 </div>
 
@@ -709,10 +709,10 @@
                             </div>
 
                             <div class="marginTenPixel">
-                                <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
-                                <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
-                                <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>
-                                <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
+                                <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                                <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
+                                <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
+                                <button class="btn" (click)="sendSmsForApp('4')">SMS Credentials</button>
                             </div>
                         </div>
 
