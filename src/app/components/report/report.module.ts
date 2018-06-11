@@ -9,8 +9,7 @@ import 'moment';
 import 'hammerjs';
 
 import { FilterPipe } from './exam-report/filter.pipe';
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
+
 
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 
@@ -43,7 +42,8 @@ import { ProfitLossServiceService } from '../../services/profit-loss-service/pro
 import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
 import { EnquiryReportModule } from './enquiry-report/enquiry-report.module';
 import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-routing.module';
-
+import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
+import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
 
 @NgModule({
     imports: [

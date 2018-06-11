@@ -41,6 +41,7 @@ export class AdminHomeComponent implements OnInit {
   public isRippleLoad: boolean = false;
   public AllPresent: boolean = true;
   public teacher_id: number = -1;
+  @ViewChild('biometricDiv') bioAd : ElementRef;
   public schedStat: any = {};
 
   is_notified: any = 'Y';
@@ -56,7 +57,7 @@ export class AdminHomeComponent implements OnInit {
   public homework: string = "";
   public studentAttList: any = [];
   public cancellationReason: string = '';
-  
+
   resheduleNotified: any = "Y";
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '15', '30', '45'];
@@ -176,7 +177,7 @@ export class AdminHomeComponent implements OnInit {
     device_status: 2
   }
   ]
- 
+
   biometricEnable: string = "";
 
 
@@ -206,7 +207,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
-    
+
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -216,6 +217,8 @@ export class AdminHomeComponent implements OnInit {
         }
       }
     )
+
+    this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
 
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
@@ -242,7 +245,19 @@ export class AdminHomeComponent implements OnInit {
       this.getOrder();
     });
 
-     
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType == 0) {
+      debugger;
+      let permissionArray = sessionStorage.getItem('permissions');
+      if (permissionArray == "" || permissionArray == null) {
+        let ss = sessionStorage.getItem('biometric_attendance_feature');
+        if (ss != '1') {
+          this.bioAd.nativeElement.style.display = 'none';
+        }
+      }
+    } 
+
+
   }
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -269,20 +284,23 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
-  recieveData(event){
-    if(event.length == 1){
+  recieveData(event) {
+    if (event.length == 1) {
       this.ref.nativeElement.className = "dataFirst";
     }
-    else if(event.length == 2){
+    else if (event.length == 0) {
+      this.ref.nativeElement.className = "dataZero";
+    }
+    else if (event.length == 2) {
       this.ref.nativeElement.className = "dataSecond";
     }
-    else if(event.length == 0){
+    else if (this.biometricEnable == "0") {
       this.ref.nativeElement.className = "hide";
     }
-    else if(event.length == 3){
+    else if (event.length == 3) {
       this.ref.nativeElement.className = "dataThird";
     }
-    else{
+    else {
       this.ref.nativeElement.className = "dataLast";
     }
   }

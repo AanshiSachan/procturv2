@@ -374,28 +374,6 @@ export class CampaignHomeComponent implements OnInit {
 
 
 
-
-
-
-
-
-
-  /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
-
-  }
-
-
   /* Function to toggle smart table column on click event */
   toggleOptionChange(bool, id) {
 

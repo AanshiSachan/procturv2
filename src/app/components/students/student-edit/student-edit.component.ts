@@ -81,7 +81,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_id: 0
   }
   studentAddnMove: boolean; studentServerImage: string = ''; newPdcArr: any[] = []; pdcSelectedArr: any[] = [];
-  formIsActive: boolean = true; studentImage: string = ''; private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false;
+  formIsActive: boolean = false; studentImage: string = ''; private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false;
   private isAssignBatch: boolean = false; private isAcad: boolean = false; private isProfessional: boolean = false; private multiOpt: boolean = false;
   private isDuplicateStudent: boolean = false; isUpdateFeeAndExit: boolean = false; private instituteList: any[] = [];
   private standardList: any[] = []; private courseList: any[] = []; private batchList: any[] = []; private slots: any[] = [];
@@ -419,11 +419,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
       }
       this.studentServerImage = data.photo;
-
       /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
       this.updateStudentFeeDetails();
       this.isRippleLoad = false;
       this.getCourseDropdown(id);
+      if(data.is_active == "Y"){
+        this.formIsActive = true;
+      }
       /* For Batch Model Fetch the Student Batches */
       if (this.isProfessional) {
         /* Fetching the student Slots */
@@ -1376,33 +1378,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     return this.customComponents.every(isValid)
   }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getSlots() {
@@ -2582,8 +2557,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let id = doc.other;
               let link = document.getElementById("payMultiReciept");
               this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                r => {
-                  let body = JSON.parse(r['_body']);
+                (res: any) => {
+                  let body = res;
                   let byteArr = this.convertBase64ToArray(body.document);
                   let format = body.format;
                   let fileName = body.docTitle;
@@ -2820,6 +2795,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         schedule_id: el.schedule_id,
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
+        student_fee_template_mapping_id: el.student_fee_template_mapping_id
       }
       temp.push(obj);
     });
@@ -3242,7 +3218,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
       (res: any) => {
-        //let body = JSON.parse(res['_body']);
         let body = res;
         let byteArr = this.convertBase64ToArray(body.document);
         let format = body.format;
@@ -3283,9 +3258,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
     this.fetchService.emailReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
-      res => {
-        let body = JSON.parse(res['_body']);
-
+      (res: any) => {
+        let body = res;
         let obj = {
           type: "success",
           title: "Reciept Sent",
@@ -3405,8 +3379,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (res: any) => {
+                      let body = res;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -3526,8 +3500,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                    let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -3670,8 +3644,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (res: any) => {
+                      let body = res;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -3800,8 +3774,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                    let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -4099,7 +4073,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   fetchCustomFeeSchedule(e) {
     this.isRippleLoad = true;
-
     this.userCustommizedFee = e;
     this.totalTaxAmount = 0;
     this.totalInitalAmount = 0;
@@ -4159,6 +4132,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         uiSelected: el.is_referenced == "Y" ? true : false,
         isPaid: el.is_referenced == "Y" ? true : false
       }
+
       this.paymentStatusArr.push(obj);
 
     });

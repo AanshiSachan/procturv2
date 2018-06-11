@@ -9,52 +9,26 @@ import { BiometricStatusServiceService } from '../../../services/biometric-statu
 export class BiometricWidgetComponent implements OnInit {
 
 
-public grid: any;
-public order: string[] = ['1', '2', '3', '4'];
-biometricEnable:string;
-biometricData = [{
-  "deviceId": "111",
-  "deviceFName": "Harvin Academy",
-  "serialNumber": "OIN7040057041300450",
-  "ipAddress": "192.168.1.10",
-  "lastPing": 1527763822000,
-  "deviceLocation": "UP",
-  device_status: 1
-},
-{
-  "deviceId": "111",
-  "deviceFName": "Harvin Academy",
-  "serialNumber": "OIN7040057041300450",
-  "ipAddress": "192.168.1.10",
-  "lastPing": 1527763822000,
-  "deviceLocation": "UP",
-  device_status: 2
-},
-{
-  "deviceId": "111",
-  "deviceFName": "Harvin Academy",
-  "serialNumber": "OIN7040057041300450",
-  "ipAddress": "192.168.1.10",
-  "lastPing": 1527763822000,
-  "deviceLocation": "UP",
-  device_status: 1
-}
+  public grid: any;
+  public order: string[] = ['1', '2', '3', '4'];
+  count: number;
+  biometricEnable: string;
+  biometricData: any = [];
+  mappedBiometric: any = [];
+  getTimeInterval: any;
+  sum: number = 0;
 
-]
+  @Output() changeWidth: EventEmitter<any> = new EventEmitter();
 
-getTimeInterval:any;
-
-@Output() changeWidth: EventEmitter<any> = new EventEmitter();
-
-  constructor( private biometric :BiometricStatusServiceService) { }
+  constructor(private biometric: BiometricStatusServiceService) { }
 
   ngOnInit() {
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
     
-      if (this.biometricEnable == "1") {
-        this.fetchBiometricStatus();
-      }
-    
+    if (this.biometricEnable == "1") {
+      this.fetchBiometricStatus();
+    }
+
     // this.grid = new Muuri('.grid', {
     //   dragEnabled: false,
     //   layout: {
@@ -81,20 +55,28 @@ getTimeInterval:any;
     this.order = this.grid.getItems().map(item => item.getElement().getAttribute('data-id'));
   }
 
-  
-  
-  sendDataToHome(){
+
+
+  sendDataToHome() {
     this.changeWidth.emit(this.biometricData);
   }
 
   fetchBiometricStatus() {
     this.biometric.biometricStatus().subscribe(
       (data: any) => {
+        for (let i in data) {
+          this.mappedBiometric.push(data[i]);
 
+        }
+        this.biometricData = this.mappedBiometric;
+        this.count = this.biometricData.length;
+        console.log(this.sum);
+        console.log(this.biometricData);
       },
       (error: any) => {
 
       }
     )
   }
+
 }

@@ -67,22 +67,8 @@ export class CampaignBulkComponent implements OnInit {
       this.referralList = data;
     });
 
-    let sourceList = this.prefill.getLeadSource().subscribe(data => {
+    let sourceList = this.prefill.getLeadSource().subscribe((data : any) => {
       this.sourceList = data;
-    });
-  }
-
-  /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
     });
   }
 

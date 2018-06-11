@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomepageDashboardComponent } from './homepage-dashboard.component';
 import { HomepageDashboardRoutingModule } from "./homepage-dashboard-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+
 import 'moment';
 import 'hammerjs';
 import { ProcturWidgetComponent } from './proctur-widget/proctur-widget.component';
@@ -17,7 +17,8 @@ import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import { GeneralWidgetComponent } from './general-widget/general-widget.component';
 import { BiometricWidgetComponent } from './biometric-widget/biometric-widget.component';
 import { BiometricStatusServiceService } from '../../services/biometric-status/biometric-status-service.service';
-import { BiometricMaterialWidgetComponent } from './biometric-material-widget/biometric-material-widget.component';
+
+import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
 
 
 @NgModule({
@@ -39,7 +40,6 @@ import { BiometricMaterialWidgetComponent } from './biometric-material-widget/bi
         FeeWidgetComponent,
         GeneralWidgetComponent,
         BiometricWidgetComponent,
-        BiometricMaterialWidgetComponent
     ],
     entryComponents: [
         ProcturWidgetComponent,

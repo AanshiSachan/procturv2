@@ -1,16 +1,16 @@
 .fee-definations {
     width: 100%;
-    max-height: 400px;
-    overflow: hidden;
+    // max-height: 400px;
+    // overflow: hidden;
     border-top: 2px solid rgba(119, 119, 119, 0.12);
     ::-webkit-scrollbar {
         display: block;
     }
     .fee-container {
         padding-top: 10px;
-        max-height: 400px;
-        overflow-x: hidden;
-        overflow-y: auto;
+        // max-height: 400px;
+        // overflow-x: hidden;
+        // overflow-y: auto;
         ul {
             li {
                 a {
@@ -125,12 +125,6 @@
                 ul {
                     li {
                         display: inline-flex;
-                        &:first-child {
-                            width: 5% !important;
-                        }
-                        &.date {
-                            width: 20% !important;
-                        }
                     }
                     .form-wrapper {
                         position: relative;
@@ -225,8 +219,47 @@
                             margin-left: 12px;
                             text-transform: uppercase;
                             color: #777;
-                            &.bigger {
-                                width: 20%;
+                            &.id {
+                                width: 5% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                }
+                            }
+                            &.date {
+                                width: 15% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                }
+                            }
+                            &.course {
+                                width: 20% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                }
+                            }
+                            &.amount {
+                                width: 12% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                }
+                            }
+                            &.tax {
+                                width: 9% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                }
+                            }
+                            &.feeTax {
+                                width: 11% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                }
+                            }
+                            &.action {
+                                width: 15% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                }
                             }
                         }
                     }
@@ -240,10 +273,67 @@
                             padding: 2px 12px;
                             margin-left: 10px;
                             text-align: center;
-                            &.bigger {
-                                width: 20%;
-                                a {
-                                    margin-left: 40px;
+                            &.id {
+                                width: 5% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                    a {
+                                        margin-left: 40px;
+                                    }
+                                }
+                            }
+                            &.date {
+                                width: 15% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                    a {
+                                        margin-left: 40px;
+                                    }
+                                }
+                            }
+                            &.course {
+                                width: 20% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                    a {
+                                        margin-left: 40px;
+                                    }
+                                }
+                            }
+                            &.amount {
+                                width: 12% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                    a {
+                                        margin-left: 40px;
+                                    }
+                                }
+                            }
+                            &.tax {
+                                width: 9% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                    a {
+                                        margin-left: 40px;
+                                    }
+                                }
+                            }
+                            &.feeTax {
+                                width: 12% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                    a {
+                                        margin-left: 40px;
+                                    }
+                                }
+                            }
+                            &.action {
+                                width: 15% !important;
+                                &.bigger {
+                                    width: 20% !important;
+                                    a {
+                                        margin-left: 40px;
+                                    }
                                 }
                             }
                         }

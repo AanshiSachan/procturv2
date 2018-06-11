@@ -1092,6 +1092,7 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
+      debugger
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
           this.isRippleLoad = false;
@@ -1105,6 +1106,7 @@ export class StudentAddComponent implements OnInit {
               body: 'Student details Updated Successfully'
             }
             this.appC.popToast(msg);
+            this.getCourseDropdown(res.generated_id);
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
               this.navigateTo('feeDetails');
@@ -1179,34 +1181,6 @@ export class StudentAddComponent implements OnInit {
     }
     return this.customComponents.every(isValid)
   }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-
-    if (ev.target.classList.contains('form-ctrl')) {
-
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
-    }
-  }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getSlots() {
@@ -1435,7 +1409,7 @@ export class StudentAddComponent implements OnInit {
 
             this.removeImage = true;
             this.student_id = res.generated_id;
-
+            this.getCourseDropdown(res.generated_id);
             /* Inventory Allocated*/
             if (this.allotInventoryArr.length > 0) {
               this.allocateInventory(res.generated_id);
@@ -2239,100 +2213,6 @@ export class StudentAddComponent implements OnInit {
           }
         );
         this.closePaymentDetails();
-      }
-    }
-  }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  addNewInstallmentFee() {
-    if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null || isNaN(this.addFeeInstallment.initial_fee_amount) || this.addFeeInstallment.initial_fee_amount == "" || this.addFeeInstallment.initial_fee_amount <= 0) {
-      if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null) {
-        let msg = {
-          type: 'error',
-          title: 'Invalid Date',
-          body: 'Please select a due date'
-        }
-        this.appC.popToast(msg);
-      }
-      else if (isNaN(this.addFeeInstallment.initial_fee_amount) || this.addFeeInstallment.initial_fee_amount == "" || this.addFeeInstallment.initial_fee_amount <= 0) {
-        let msg = {
-          type: 'error',
-          title: 'Invalid Amount',
-          body: 'Please select valid installment amount'
-        }
-        this.appC.popToast(msg);
-      }
-    }
-    else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        this.addFeeInstallment.service_tax = this.feeTemplateById.registeredServiceTax;
-      }
-      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-        this.addFeeInstallment.service_tax = 0;
-      }
-      this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
-      this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
-      this.addFeeInstallment.fee_type = 0;
-      this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
-      this.addFeeInstallment.amount_paid = 0;
-      this.addFeeInstallment.balance_amount = 0;
-      this.instalmentTableData.push(this.addFeeInstallment);
-
-      this.addFeeInstallment = {
-        amount_paid: '',
-        amount_paid_inRs: null,
-        balance_amount: 0,
-        batch_id: 0,
-        created_by: null,
-        created_date: null,
-        day_type: 0,
-        days: 0,
-        discount: 0,
-        due_date: moment().format("YYYY-MM-DD"),
-        enquiry_counsellor_name: "",
-        enquiry_id: 0,
-        feeTypes: null,
-        fee_date: null,
-        fee_payment_edit_history: null,
-        fee_type: null,
-        fee_type_name: "",
-        fee_type_tax_configured: 0,
-        fees_amount: 0,
-        fineAmount: 0,
-        fine_type: null,
-        initial_fee_amount: 0,
-        installment_no: null,
-        installment_nos: "",
-        invoice_no: 0,
-        is_fee_receipt_generate: 0,
-        is_paid: 0,
-        is_referenced: "N",
-        latest_due_date: "",
-        onlinePaymentJson: null,
-        paid_date: null,
-        paid_full: "N",
-        paymentDate: null,
-        paymentMode: null,
-        paymentModeAmountMap: null,
-        payment_creation_date: null,
-        payment_reference_id: 0,
-        payment_status: 0,
-        payment_tx_id: 0,
-        pdc_cheque_id: -1,
-        reference_no: null,
-        remarks: null,
-        scheduleType: null,
-        schedule_id: 0,
-        service_tax: null,
-        service_tax_applicable: "",
-        student_category: "",
-        student_disp_id: null,
-        student_id: 0,
-        student_name: null,
-        student_phone: "",
-        tax: 0,
-        update_date: null,
-        updated_by: null
       }
     }
   }
@@ -3267,10 +3147,9 @@ export class StudentAddComponent implements OnInit {
         (res: any) => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-
             this.removeImage = true;
             this.student_id = res.generated_id;
-
+            this.getCourseDropdown(res.generated_id);
             /* Inventory Allocated*/
             if (this.allotInventoryArr.length > 0) {
               this.allocateInventory(res.generated_id);
@@ -3297,7 +3176,14 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          // console.log(err);
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
         });
     }
     else {
@@ -3459,8 +3345,8 @@ export class StudentAddComponent implements OnInit {
             let id = doc.other;
             let link = document.getElementById("payMultiReciept");
             this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-              r => {
-                let body = JSON.parse(r['_body']);
+              (r: any) => {
+                let body = r;
                 let byteArr = this.convertBase64ToArray(body.document);
                 let format = body.format;
                 let fileName = body.docTitle;
@@ -3670,6 +3556,7 @@ export class StudentAddComponent implements OnInit {
         schedule_id: el.schedule_id,
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
+        student_fee_template_mapping_id: el.student_fee_template_mapping_id
       }
       temp.push(obj);
     })
@@ -4038,7 +3925,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
     let yr: any;
-    let link = document.getElementById("downloadEditFeeReciept" + ins.invoice_no);
+    let link = document.getElementById("downloadAddFeeReciept" + ins.invoice_no);
 
     if (ins.financial_year == null) {
       ins.financial_year = this.defaultAcadYear
@@ -4050,8 +3937,8 @@ export class StudentAddComponent implements OnInit {
     });
 
     this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
-      res => {
-        let body = JSON.parse(res['_body']);
+      (res: any) => {
+        let body = res;
         let byteArr = this.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
@@ -4600,8 +4487,8 @@ export class StudentAddComponent implements OnInit {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (r: any) => {
+                      let body = r;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -4722,8 +4609,8 @@ export class StudentAddComponent implements OnInit {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (r: any) => {
+                    let body = r;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -4865,8 +4752,8 @@ export class StudentAddComponent implements OnInit {
                   let id = doc.other;
                   let link = document.getElementById("payMultiReciept");
                   this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    r => {
-                      let body = JSON.parse(r['_body']);
+                    (r: any) => {
+                      let body = r;
                       let byteArr = this.convertBase64ToArray(body.document);
                       let format = body.format;
                       let fileName = body.docTitle;
@@ -4994,8 +4881,8 @@ export class StudentAddComponent implements OnInit {
                 let id = doc.other;
                 let link = document.getElementById("payMultiReciept");
                 this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                  r => {
-                    let body = JSON.parse(r['_body']);
+                  (res: any) => {
+                  let body = res;
                     let byteArr = this.convertBase64ToArray(body.document);
                     let format = body.format;
                     let fileName = body.docTitle;
@@ -5103,7 +4990,17 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
+  getCourseDropdown(id) {
+    this.fetchService.getStudentCourseDetails(id).subscribe(
+      res => {
+        this.courseDropdown = res;
+        console.log(this.courseDropdown);
+      },
+      err => {
 
+      }
+    )
+  }
 
 }
 

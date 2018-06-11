@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from "../../../../services/authenticator.service";
 import * as moment from 'moment';
 import { LoginService } from '../../../../services/login-services/login.service';
-import { CounsellorServiceService } from '../../../../services/counsellor-service/counsellor-service.service';
+
 import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { EnquiryReportService } from '../../../../services/counsellor-service/counsellor-service.service';
 
 @Component({
   selector: 'app-counsellor-report',
   templateUrl: './counsellor-report.component.html',
   styleUrls: ['./counsellor-report.component.scss']
 })
-export class CounsellorReportComponent implements OnInit {
+export class CounsellorReportComponent implements OnInit{
 
   counsellorInfo = {
     user_Type: 0
@@ -33,9 +34,11 @@ export class CounsellorReportComponent implements OnInit {
   searchflag: boolean;
   searchMyRecords: any[];
 
+  popupDataEnquiries:any[];
+
   feeSettings1: ColumnData[] = [
-    { primaryKey: 'uniqueCatName', header: 'Counsellor' },
-    { primaryKey: 'newEnqcount', header: 'New Enquiries' },
+    { primaryKey: 'source', header: 'Counsellor' },
+    { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
     { primaryKey: 'inProgress', header: 'InProgress' },
     { primaryKey: 'Converted', header: 'Converted' },
@@ -44,8 +47,25 @@ export class CounsellorReportComponent implements OnInit {
     { primaryKey: 'totalcount', header: 'Total Assigned' },
 
   ];
+  showPopup:boolean = false;
 
-  constructor(private counsellor: CounsellorServiceService,
+  statusKeys = {
+    'newEnqcount': '-1',
+    'open': '0',
+    'inProgress': '3',
+    'Converted': '2',
+    'studentAdmitted': '12',
+    'Closed': '1',
+    'totalcount': '-1'
+  }      
+
+  newObject={
+    key:"",
+    data:""
+  }
+  newArray:any[] = []
+
+  constructor(private counsellor: EnquiryReportService,
     private appc: AppComponent,
     private auth: AuthenticatorService,
     private login: LoginService) { }
@@ -82,34 +102,46 @@ export class CounsellorReportComponent implements OnInit {
 
   fetchAllCounsellorDataDetails() {
     this.getCounsellorDetails = [];
-    this.mappedCounsellor = [];
+    this.newArray = [];
     this.dataStatus = 1;
     this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
       (data: any) => {
-
-        // this.getCounsellorDetails = arr;
-        // console.log(this.getCounsellorDetails);
-        // console.log(data);
-        for (let i in data) {
-          this.mappedCounsellor.push(data[i]);
-
+        for (var prop in data) {
+          if (data.hasOwnProperty(prop)) {
+            let innerObj = {};
+            innerObj[prop] = data[prop];
+            this.getCounsellorDetails.push(innerObj)
+          }
         }
 
-        this.getCounsellorDetails = this.mappedCounsellor;
+        for (let a of this.getCounsellorDetails) {
+          for (let prop in a) {
+            this.newObject = {
+              key: prop,
+              data: a[prop]
+            }
+          }
+          this.newArray.push(this.newObject);
+        }
+
+        this.getCounsellorDetails = this.newArray;
         this.getCounsellorDetails.map(
           (ele: any) => {
-            ele.Closed = ele.statusMap.Closed;
-            ele.open = ele.statusMap.Open;
-            ele.inProgress = ele.statusMap["In Progress"];
-            ele.Converted = ele.statusMap.Converted;
-            ele.studentAdmitted = ele.statusMap["Student Admitted"];
+            ele.newEnqCount = ele.data.newEnqcount;
+            ele.totalcount = ele.data.totalcount;
+            ele.source_id = ele.key
+            ele.source = ele.data.uniqueCatName
+            ele.Closed = ele.data.statusMap.Closed;
+            ele.open = ele.data.statusMap.Open;
+            ele.inProgress = ele.data.statusMap["In Progress"];
+            ele.Converted = ele.data.statusMap.Converted;
+            ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
           }
         )
-        console.log(this.getCounsellorDetails);
-        if(this.getCounsellorDetails.length == 0){
+        if (this.getCounsellorDetails.length == 0) {
           this.dataStatus = 2;
         }
-        else{
+        else {
           this.dataStatus = 0;
         }
         this.searchMyRecords = this.getCounsellorDetails;
@@ -122,7 +154,6 @@ export class CounsellorReportComponent implements OnInit {
         }
         this.appc.popToast(msg);
       }
-
     )
   }
 
@@ -140,6 +171,60 @@ export class CounsellorReportComponent implements OnInit {
       this.getCounsellorDetails = this.searchMyRecords
       this.searchflag = false;
     }
+  }
+
+  reportHandler(dataObj) {
+    console.log(dataObj);
+    if (dataObj.data > 0) {
+      if (dataObj.key == "newEnqCount") {
+        let payload = {
+          assigned_to: dataObj.source,
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          enquireDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          enquireDateTo: moment().format('YYYY-MM-DD')
+        }
+       
+        this.popupDataEnquiries = [];
+        this.counsellor.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+              this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        ) 
+      }
+      else {
+        let payload = {
+          assigned_to: dataObj.source,
+          institution_id: "",
+          isRport: "Y",
+          status: this.statusKeys[dataObj.key],
+          updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
+          updateDateTo: moment().format('YYYY-MM-DD')
+        }
+        this.popupDataEnquiries = [];
+        this.counsellor.enquiryCategorySearch(payload).subscribe(
+          (data:any)=>{
+            this.popupDataEnquiries = data;
+          },
+          (error:any)=>{
+
+          }
+        )
+       
+      }
+      this.showPopup = true;
+    }
+
+  }
+
+  
+  popupToggler()
+  {
+    this.showPopup = false;
   }
 
 }

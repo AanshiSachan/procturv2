@@ -182,6 +182,27 @@ div {
     overflow:auto;
     height:205px;
 }
+
+.newState1{
+    height: 59px;
+    border: 1px solid #a79d9d8c;
+    display: inline-block;
+    margin: 4%;
+    border-radius: 3%;
+    -webkit-box-shadow: 4px 5px 5px #a79d9d8c;
+    box-shadow: 4px 5px 5px #a79d9d8c;
+    width: 91%;
+    position: relative;
+    top: 2%;
+    
+    ul{
+    position: relative;
+    top: 21%;
+    text-align: center;
+    font-size: 19px;
+    color: gray;
+    }
+}
 ul li {
     color: gray;
     text-align: left;

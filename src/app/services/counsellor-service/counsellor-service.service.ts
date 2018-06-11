@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
 
 @Injectable()
-export class CounsellorServiceService {
+export class EnquiryReportService {
 
 
   baseUrl: string = '';
@@ -52,5 +52,40 @@ export class CounsellorServiceService {
     )
   }
 
+  sourceData(){
+    let url =this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source/" + this.institute_id + "/all"
+    return this.http.get(url , {headers : this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
+  referredByDetails(){
+    let url = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by/" + this.institute_id + "/all"
+    return this.http.get(url , {headers : this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
+  enquiryCategorySearch(payload){
+    let url = this.baseUrl + "/api/v1/enquiry_manager/search/" + this.institute_id;
+    return this.http.post(url , payload,{headers : this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
 
 }

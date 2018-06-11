@@ -3,6 +3,7 @@ import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
 import { DropData, DropMapData } from './dropmenu/dropmenu.model';
 import { CustomizingPipe } from './customizing.pipe';
+import { CellHoverEvent } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker/models';
 
 @Component({
     selector: 'rob-table',
@@ -106,9 +107,13 @@ export class RobAdvanceTableComponent implements OnChanges {
             }
         }
 
-        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqcount"){
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqCount"){
             if (data != "0"){
-                return obj3;
+                let obj= {
+                    'color' : 'blue',
+                    'text-decoration' : 'underline'
+                }
+                return obj;
             }
         }
 
@@ -152,16 +157,29 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
 
-    userRowClicked($event, ev, row) {
+    userRowClicked($event, ev, row, key) {
         this.cd.markForCheck();
         $event.preventDefault();
         $event.stopPropagation();
         this.selectedRow = ev;
-        this.userRowSelect.emit(row);
+        if(key == "Closed" || key == "open" || key == "inProgress" || key == "Converted" || key == "studentAdmitted" || key == "totalcount" || key == "newEnqCount"){
+            this.userRowSelect.emit(
+                {
+                    key:key,
+                    data:row[key],
+                    source:row.key,
+                    status:row.data.status
+                }
+            );
+        }
+        else{
+            this.userRowSelect.emit(row);
+        }
+        
+
         this.getSelectedRows();
-        console.log(ev);
         console.log(row);
-        console.log($event)
+    
     }
 
 

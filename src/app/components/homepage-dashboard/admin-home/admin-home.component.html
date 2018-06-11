@@ -36,19 +36,19 @@
             <ul class="actb-wrapper grid">
 
 
-              <li class="enquiry-state item" [ngClass]="{hide : checkRoleMAnagement()}" data-id="3">
+              <li class="enquiry-state item" [ngClass]="{'hide' : checkRoleMAnagement()}" data-id="2">
                 <div class="item-content">
                   <enquiry-widget></enquiry-widget>
                 </div>
               </li>
 
-              <li [ngClass]="{hide : checkRoleMAnagement()}" class="fees-state item" data-id="4">
+              <li class="fees-state item" [ngClass]="{'hide' : checkRoleMAnagement()}" data-id="3">
                 <div class="item-content">
                   <fee-widget></fee-widget>
                 </div>
               </li>
 
-              <li class="schedule-state item" data-id="2">
+              <li class="schedule-state item" data-id="1">
                 <div class="item-content">
                   <div>
                     <div class="actb-top-header clearfix">
@@ -272,15 +272,15 @@
                 </div>
               </li>
 
-              <li [ngClass]="{hide : checkRoleMAnagement()}" class="general-state item" style="height: 150px;" data-id="5">
+              <li [ngClass]="{'hide' : checkRoleMAnagement() }" class="general-state item" style="height: 150px;" data-id="4">
                 <div class="item-content">
                   <general-widget></general-widget>
                 </div>
               </li>
 
-              <li [ngClass]="{hide : checkRoleMAnagement()}" class="enquiry-state item widthChange" data-id="1" #ref>
-                <div class="biometric-content" >
-                  <biometric-widget (changeWidth) = "recieveData($event)" ></biometric-widget>
+              <li #biometricDiv class="schedule-state item widthChange" data-id="5" #ref>
+                <div class="biometric-content">
+                  <biometric-widget (changeWidth)="recieveData($event)"></biometric-widget>
                 </div>
               </li>
 

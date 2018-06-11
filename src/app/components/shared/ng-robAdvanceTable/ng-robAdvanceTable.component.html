@@ -42,7 +42,7 @@
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
+                                        <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record  , map.primaryKey)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
                                             {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header }}
                                         </li>
                                         <li class="option-menu" *ngIf="hasMenu">
