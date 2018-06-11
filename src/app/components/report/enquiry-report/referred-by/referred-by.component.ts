@@ -29,7 +29,7 @@ export class ReferredByComponent implements OnInit {
   searchflag: boolean;
 
   feeSettings1: ColumnData[] = [
-    { primaryKey: 'source', header: 'Source' },
+    { primaryKey: 'source', header: 'ReferredBy' },
     { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
     { primaryKey: 'inProgress', header: 'InProgress' },
@@ -49,7 +49,7 @@ export class ReferredByComponent implements OnInit {
   newArray:any[] = [];
 
   statusKeys = {
-    'newEnqcount': '-1',
+    'status': '-1',
     'open': '0',
     'inProgress': '3',
     'Converted': '2',
@@ -174,12 +174,13 @@ export class ReferredByComponent implements OnInit {
   }
 
   reportHandler(dataObj) {
+    console.log(dataObj);
    
     if (dataObj.data > 0) {
       if (dataObj.key == "newEnqcount") {
         let payload = {
-          referred_by: -1,
-          institution_id: "",
+          referred_by: dataObj.source,
+          institution_id: this.service.institute_id,
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
           enquireDateFrom: this.referredByInfoDetails.updateDateFrom,
@@ -197,8 +198,8 @@ export class ReferredByComponent implements OnInit {
       }
       else {
         let payload = {
-          referred_by: -1,
-          institution_id: "",
+          referred_by: dataObj.source,
+          institution_id: this.service.institute_id,
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
           updateDateFrom: this.referredByInfoDetails.updateDateFrom,
