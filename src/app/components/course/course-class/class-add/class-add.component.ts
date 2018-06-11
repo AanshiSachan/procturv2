@@ -581,6 +581,7 @@ export class ClassAddComponent implements OnInit {
 
   getAllSubjectListFromServer(data) {
     this.isClassFormFilled = true;
+    this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD');
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
@@ -617,8 +618,8 @@ export class ClassAddComponent implements OnInit {
             obj.class_desc = courseScheduleList[i].class_desc;
             obj.room_no = courseScheduleList[i].room_no;
             obj.course_id = data.coursesList[0].course_id;
-            obj.start_date = data.coursesList[0].start_date;
-            obj.end_date = data.coursesList[0].end_date;
+            obj.start_date = moment(data.coursesList[0].start_date).format('YYYY-MM-DD');
+            obj.end_date = moment(data.coursesList[0].end_date).format('YYYY-MM-DD');
             arr.push(obj);
           }
         }
@@ -880,7 +881,7 @@ export class ClassAddComponent implements OnInit {
     if (confirm("Are you sure, You want to notify?")) {
       let obj: any = {};
       obj.course_id = this.fetchedCourseData.coursesList[0].course_id;
-      obj.requested_date = this.fetchedCourseData.requested_date;
+      obj.requested_date = moment(this.fetchedCourseData.requested_date).format('YYYY-MM-DD');
       this.classService.sendReminderToServer(obj).subscribe(
         res => {
           this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
@@ -1427,7 +1428,7 @@ export class ClassAddComponent implements OnInit {
       class_freq: 'WEEK',
       cancelSchd: [{
         cancel_note: this.weeklyScheduleCan.cancel_note,
-        class_date: this.weeklyScheduleCan.date,
+        class_date: moment(this.weeklyScheduleCan.date).format('YYYY-MM-DD'),
         schd_id: 0,
         is_notified: notify,
       }]
@@ -1507,7 +1508,7 @@ export class ClassAddComponent implements OnInit {
     if (this.customTable.length > 0) {
       for (let i = 0; i < this.customTable.length; i++) {
         let t: any = {};
-        t.class_date = this.customTable[i].class_date;
+        t.class_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
@@ -1627,7 +1628,7 @@ export class ClassAddComponent implements OnInit {
     if (this.extraClassTable.length > 0) {
       for (let i = 0; i < this.extraClassTable.length; i++) {
         let t: any = {};
-        t.class_date = this.extraClassTable[i].class_date;
+        t.class_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.extraClassTable[i].start_time;
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;
