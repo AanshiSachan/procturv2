@@ -506,12 +506,17 @@ export class BiometricComponent implements OnInit {
   }
   
   closeReportAcademicPopup() {
+    this.getAllData.from_date = "";
+    this.getAllData.to_date = "";
+    this.range = [];
+    this.monthAttendance = [];
+    this.weekAttendance = [];
     this.addAcademicPopUp = false;
+    this.dataStatus = false;
   }
 
   showDataTable() {
-    this.range = [];
-    this.dataStatus = true;
+   
     this.getAllData = {
       from_date: moment(this.getAllData.from_date).format('YYYY-MM-DD'),
       institute_id: this.reportService.institute_id,
@@ -557,39 +562,34 @@ export class BiometricComponent implements OnInit {
     }
 
     else {
+      this.dataStatus = true;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
-
+          if(data.length!=0){
+            this.range = data;
+            this.dataStatus = false;
+            this.showTable = true;
+          }
+          else {
+            let msg = {
+              type: "info",
+              title: "No Data Found",
+              body: "We could not find any data in this range"
+            }
+            this.isRippleLoad = false;
+            this.appc.popToast(msg);
+            this.dataStatus = false;
+          }
           this.studentsData.map(
             (data: any) => {
+              this.dataStatus = false;
               this.findName = data.student_name;
             },
             (error: any) => {
               return error;
             }
           )
-          if (data != null) {
-            this.addAcademicPopUp = true;
-            this.dataStatus = false;
-            this.range = data;
-          }
-          else {
-
-            let msg = {
-              type: "info",
-              title: "No Data Found",
-              body: "We could not find any data in this range"
-            }
-
-
-            this.isRippleLoad = false;
-            this.appc.popToast(msg);
-            this.dataStatus = false;
-            this.range = [];
-
-          }
-
-
+          
         },
         (error) => {
           this.dataStatus = false;
@@ -598,8 +598,6 @@ export class BiometricComponent implements OnInit {
         }
 
       )
-      this.showTable = true;
-
     }
   }
   fetchAbsentiesReport() {

@@ -41,7 +41,7 @@ export class CounsellorReportComponent implements OnInit {
     { primaryKey: 'source', header: 'Counsellor' },
     { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
-    { primaryKey: 'inProgress', header: 'InProgress' },
+    { primaryKey: 'inProgress', header: 'In Progress' },
     { primaryKey: 'Converted', header: 'Converted' },
     { primaryKey: 'studentAdmitted', header: 'Student Admitted' },
     { primaryKey: 'Closed', header: 'Closed' },

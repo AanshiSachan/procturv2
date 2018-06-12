@@ -29,10 +29,10 @@ export class ReferredByComponent implements OnInit {
   searchflag: boolean;
 
   feeSettings1: ColumnData[] = [
-    { primaryKey: 'source', header: 'ReferredBy' },
+    { primaryKey: 'source', header: 'Referred By' },
     { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
-    { primaryKey: 'inProgress', header: 'InProgress' },
+    { primaryKey: 'inProgress', header: 'In Progress' },
     { primaryKey: 'Converted', header: 'Converted' },
     { primaryKey: 'studentAdmitted', header: 'Student Admitted' },
     { primaryKey: 'Closed', header: 'Closed' },

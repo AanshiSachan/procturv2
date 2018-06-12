@@ -1,135 +1,29 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<div class="clear-fix">
+<div class="clear-fix background">
   <aside class="middle-full">
-    <section class="middle-main clearFix attendance-container">
-
+    <section class="middle-main clearFix">
       <section class="middle-top mb0 clearFix sms-header">
         <h2 class="pull-left">
           <a routerLink="/activity/dashboard">
-            Report
+            Activity
           </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> PTM management
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Manage PTM
         </h2>
       </section>
-
-      <section class="filter-form">
-        <div class="row">
-          <div class="c-lg-9" style="margin-bottom: 2%;">
-            <div class="c-lg-12">
-              <div class="c-lg-4 field-wrapper">
-                <label>Batches</label>
-                <select class="form-ctrl" [(ngModel)]="getptmDates.batch_id" (ngModelChange)="loadPtmDates($event)">
-                  <option value="-1">
-                  </option>
-                  <option *ngFor="let i of getAllBatches" [value]="i.batch_id">
-                    {{i.batch_name}}
-                  </option>
-                </select>
-              </div>
-              <div class="c-lg-4 field-wrapper">
-                <label>PTM Schedule</label>
-                <select class="form-ctrl" [(ngModel)]="ptmId.ptm_id">
-                  <option value="-1">
-                  </option>
-                  <option *ngFor="let i of getPtmDates" [value]="i.ptm_id">
-                    {{i.ptm_date}}
-                  </option>
-                </select>
-              </div>
-              <div class="c-lg-1" style="margin-top:3%;" (click)="viewStudentsData($event)">
-                <button class="btn fullBlue">View</button>
-              </div>
-              <div class="c-lg-2" style="margin-top:3%;">
-                <button class="btn fullBlue">Create PTM</button>
-              </div>
-              <div class="c-lg-1" style="margin-top:3%;">
-                <button class="btn fullBlue">Send Notification</button>
-              </div>
-            </div>
-          </div>
+      <div class="row">
+        <div class="c-lg-3 field-wrapper">
+          <input type="text" class="form-ctrl">
         </div>
-
-      </section>
-
-      <div class="table table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>
-                Student Id
-              </th>
-              <th>
-                Student Name
-              </th>
-              <th>
-                Attendance
-              </th>
-              <th>
-                Parents Remarks
-              </th>
-              <th>
-                Teacher/Institution Remarks
-              </th>
-              <th>
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let i of viewStudents">
-              <td>
-                {{i.student_disp_id}}
-              </td>
-              <td>
-                {{i.student_name}}
-              </td>
-              <td>
-                <div class="form-wrapper">
-                  <select class="side-form-ctrl">
-                    <option>
-                      A
-                    </option>
-                    <option>
-                      P
-                    </option>
-                  </select>
-                </div>
-              </td>
-              <td>
-                <div class="form-wrapper">
-                  <input type="textarea" value="{{i.parent_remark}}" class="side-form-ctrl" style="height: 58px;">
-                </div>
-              </td>
-              <td>
-                <div class="form-wrapper">
-                  <input type="textarea" value="{{i.teacher_remark}}" class="side-form-ctrl" style="height: 58px;">
-                </div>
-              </td>
-              <td>
-                <div class="form-wrapper">
-                  <select class="side-form-ctrl">
-                    <option>
-                      Pending
-                    </option>
-                    <option>
-                      In Progress
-                    </option>
-                    <option>
-                      Resolved
-                    </option>
-                  </select>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="6">
-                <button class="btn fullBlue">Update</button>
-                <button class="btn fullBlue">Cancel</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="c-lg-3 field-wrapper">
+          <input type="text" class="form-ctrl">
+        </div>
+        <div class="c-lg-3 field-wrapper">
+          <input type="text" class="form-ctrl">
+        </div>
+        <div class="c-lg-3 field-wrapper">
+          <button class="btn fullBlue" (click)="fetchDetails()">Go</button>
+        </div>
       </div>
     </section>
   </aside>
