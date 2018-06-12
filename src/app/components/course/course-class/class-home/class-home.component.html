@@ -336,7 +336,7 @@
                         <!-- <span class="pull-right delete-icon" style="font-family: FontAwesome;" (click)="delete('course', i, null)">
                           <i class="fa fa-trash-o " aria-hidden="true"></i>
                         </span> -->
-                        <span class="pull-right" *ngIf="showAdvanceFilter == false && isLangInstitute == false">
+                        <span class="pull-right" *ngIf="isLangInstitute == false">
                           <span class="" (click)="editClass(class)" title="Edit">
                             <i class="fas fa-edit" style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
                           </span>
@@ -388,7 +388,7 @@
                           </td>
                           <td style="width:15%">{{sc.topics_covered}}</td>
                           <td style="width:15%">
-                            <div class="action-box" *ngIf="!isLangInstitute && !showAdvanceFilter">
+                            <div class="action-box" *ngIf="!isLangInstitute">
                               <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
                               <span class="reschedule-icon" (click)="rescheduleClassData(sc)" title="Reschedule"></span>
                               <span class="delete-btn" style="font-family: FontAwesome;" (click)="CancelClass(sc)" title="Cancel Class">

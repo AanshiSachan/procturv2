@@ -46,7 +46,7 @@ export class I1 implements HttpInterceptor {
                         }
                         /* Internal Server Error */
                         else if (err instanceof HttpErrorResponse && err.status === 500) {
-
+                            return Observable.throw(err);
                         }
                         /* Bad Gateway */
                         else if (err instanceof HttpErrorResponse && err.status === 502) {

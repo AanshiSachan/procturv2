@@ -241,18 +241,31 @@ export class ClassHomeComponent implements OnInit {
       }
     }
     for (let key in dataList) {
+      let arr = [];
       let obj = {
         id: key,
-        data: dataList[key]
+        data: arr
       }
       if (dataList[key].length > 0) {
         let schList = dataList[key];
-        for (let i = 0; i < schList.length; i++) {
-          schList[i]['selected'] = false;
-          schList[i]['date'] = key;
-        }
+        schList.map(
+          ele => {
+            if (ele.class_type != "Exam") {
+              ele['selected'] = false;
+              ele['date'] = key;
+              arr.push(ele);
+            }
+          }
+        )
+
+        // for (let i = 0; i < schList.length; i++) {
+        //   schList[i]['selected'] = false;
+        //   schList[i]['date'] = key;
+        // }
       }
-      temp.push(obj);
+      if (obj.data.length > 0) {
+        temp.push(obj);
+      }
     }
     return temp;
   }
@@ -947,11 +960,11 @@ export class ClassHomeComponent implements OnInit {
     }
   }
 
-  showDeleteBTN(){
-    if(this.selectedArray.examSchldId.length > 0){
+  showDeleteBTN() {
+    if (this.selectedArray.examSchldId.length > 0) {
       return true;
     }
-    if(this.selectedArray.classSchldId.length > 0){
+    if (this.selectedArray.classSchldId.length > 0) {
       return true;
     }
     return false;
