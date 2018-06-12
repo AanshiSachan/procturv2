@@ -18,11 +18,11 @@
         </div>
       </div>
     </div>
-    <section class="clearFix create-standard-form " *ngIf="createNewBatch">
+    <section class="clearFix add-batch-section" *ngIf="createNewBatch">
 
       <div class="row">
-        <div class="c-lg-6 c-sm-6 c-md-6">
-          <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.standard_id != ''}">
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper">
             <label>Master Course
               <span style="color:red">*</span>
             </label>
@@ -32,11 +32,10 @@
                 {{opt.standard_name}}
               </option>
             </select>
-
           </div>
         </div>
-        <div class="c-lg-6 c-sm-6 c-md-6">
-          <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.subject_id != ''}">
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper">
             <label>Course
               <span style="color:red">*</span>
             </label>
@@ -49,11 +48,42 @@
 
           </div>
         </div>
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper">
+            <label>Faculty Name
+              <span style="color:red">*</span>
+            </label>
+            <select id="" class="form-ctrl halfwidth" name="row.teacher_id" [(ngModel)]="addNewBatch.teacher_id">
+              <option value="-1"></option>
+              <option *ngFor="let opt of teacherList" [value]="opt.teacher_id">
+                {{opt.teacher_name}}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div class="row">
-        <div class="c-lg-6 c-sm-6 c-md-6">
-          <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.class_room_id != ''}">
+
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper">
+            <label for="slotNew ">Batch Name
+              <span style="color:red">* </span>(Eg - IX-Math-TTS-5-6)
+            </label>
+            <input type="text" #idSlot class="form-ctrl halfwidth" name="slotNew" [(ngModel)]="addNewBatch.batch_name">
+          </div>
+        </div>
+
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper">
+            <label for="slotNew ">Batch Code (For Student Bulk uplaod)
+            </label>
+            <input type="text" #idSlot class="form-ctrl halfwidth" name="slotNew" [(ngModel)]="addNewBatch.batch_code">
+          </div>
+        </div>
+
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper">
             <label>Class Room
             </label>
             <select id="" class="form-ctrl halfwidth" name="row.class_room_id" [(ngModel)]="addNewBatch.class_room_id">
@@ -65,95 +95,58 @@
 
           </div>
         </div>
-        <div class="c-lg-6 c-sm-6 c-md-6">
-          <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.teacher_id != ''}">
-            <label>Faculty Name
-              <span style="color:red">*</span>
-            </label>
-            <select id="" class="form-ctrl halfwidth" name="row.teacher_id" [(ngModel)]="addNewBatch.teacher_id">
-              <option value="-1"></option>
-              <option *ngFor="let opt of teacherList" [value]="opt.teacher_id">
-                {{opt.teacher_name}}
-              </option>
-            </select>
 
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="c-lg-6 c-sm-6 c-md-6">
-          <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.batch_name != ''}">
-            <label for="slotNew ">Batch Name
-              <span style="color:red">* </span>(Eg - IX-Math-TTS-5-6)
-            </label>
-            <input type="text" #idSlot class="form-ctrl halfwidth" name="slotNew" [(ngModel)]="addNewBatch.batch_name">
-
-          </div>
-        </div>
-        <div class="c-lg-6 c-sm-6 c-md-6">
-          <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.batch_code != ''}">
-            <label for="slotNew ">Batch Code (For Student Bulk uplaod)
-            </label>
-            <input type="text" #idSlot class="form-ctrl halfwidth" name="slotNew" [(ngModel)]="addNewBatch.batch_code">
-          </div>
-        </div>
       </div>
 
       <div class="row">
 
-        <div class="c-lg-3 c-sm-3 c-md-3">
-          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value' : addNewBatch.start_date != ''}">
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper datePickerBox">
             <label for="endDate">Start Date
               <span style="color:red">*</span>
             </label>
-            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="addNewBatch.start_date" name="endDate"
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.start_date" name="endDate"
               bsDatepicker>
-
           </div>
         </div>
-        
-        <div class="c-lg-3 c-sm-3 c-md-3">
-          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value' : addNewBatch.end_date != ''}">
+
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper datePickerBox">
             <label for="endDate">End Date
               <span style="color:red">*</span>
             </label>
-            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="addNewBatch.end_date" name="endDate"
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.end_date" name="endDate"
               bsDatepicker>
-
           </div>
         </div>
-        <div class="c-lg-3 c-sm-3 c-md-3">
 
+        <div class="c-lg-4 c-sm-4 c-md-4">
         </div>
+
       </div>
 
       <div class="row" style="margin-top: 15px;">
-        <div class="c-lg-6 c-sm-6 c-md-6">
-          <div class="field-checkbox-wrapper">
 
+        <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-checkbox-wrapper">
             <input type="checkbox" id="isActiveCH" name="isActiveCH" class="form-checkbox" [(ngModel)]="addNewBatch.is_active">
             <label for="isActiveCH">Is Active</label>
           </div>
         </div>
-        <div class="c-lg-6 c-sm-6 c-md-6" *ngIf="examGradeFeature == '1'">
-          <div class="field-checkbox-wrapper">
 
+        <div class="c-lg-4 c-sm-4 c-md-4" *ngIf="examGradeFeature == '1'">
+          <div class="field-checkbox-wrapper">
             <input id="enableChkBX" name="enableChkBX" type="checkbox" class="form-checkbox" [(ngModel)]="addNewBatch.is_exam_grad_feature">
             <label for="enableChkBX">Enable Exam Grading System</label>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="c-lg-6 c-sm-6 c-md-6">
-
-        </div>
-        <div class="c-lg-6 c-sm-6 c-md-6">
+        <div class="c-lg-4 c-sm-4 c-md-4">
           <aside class="pull-left">
             <button class="btn fullBlue" (click)="addNewBatchToList()">Add</button>
           </aside>
         </div>
+
       </div>
 
     </section>

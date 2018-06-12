@@ -1385,7 +1385,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       return 0;
     } else if (this.sendNotification.studentChkbx == false && this.sendNotification.parentChkbx == true && this.sendNotification.gaurdianChkbx == false) {
       return 1;
-    } else if (this.sendNotification.studentChkbx = false && this.sendNotification.parentChkbx == false && this.sendNotification.gaurdianChkbx == true) {
+    } else if (this.sendNotification.studentChkbx == false && this.sendNotification.parentChkbx == false && this.sendNotification.gaurdianChkbx == true) {
       return 3;
     } else if (this.sendNotification.studentChkbx && this.sendNotification.parentChkbx && this.sendNotification.gaurdianChkbx == false) {
       return 2;
@@ -1481,8 +1481,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     if (confirm("Are you sure you want to send SMS to selected users?")) {
       let obj = {
         app_sms_type: Number(value),
-        studentArray: this.getListOfIds(this.selectedRowGroup),
-        userArray: this.getListOfIds(this.selectedUserId),
+        studentArray: this.selectedRowGroup,
+        userArray: this.selectedUserId,
         user_role: this.loginField.checkBox
       }
       this.widgetService.smsForAddDownload(obj).subscribe(
