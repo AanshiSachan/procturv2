@@ -907,6 +907,10 @@ export class ClassHomeComponent implements OnInit {
           } else {
             this.submitMasterCourse();
           }
+          this.selectedArray = {
+            examSchldId: [],
+            classSchldId: []
+          };
         },
         err => {
           this.messageToast('error', 'Error', err.error.message);
