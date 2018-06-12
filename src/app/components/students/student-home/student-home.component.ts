@@ -672,12 +672,97 @@ export class StudentHomeComponent implements OnInit, OnChanges {
             type: el.type,
             value: el.enq_custom_value
           }
+          if (el.type == 4) {
+            obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
+              selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+              selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+              type: el.type,
+              value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+            }
+          }
+          if (el.type == 3) {
+            obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: "",
+              type: el.type,
+              value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+            }
+          }
+          if (el.type == 2) {
+            obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: '',
+              type: el.type,
+              value: el.enq_custom_value == "" ? false : true,
+            }
+          }
+          else if (el.type != 2 && el.type != 4 && el.type != 3) {
+            obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: '',
+              type: el.type,
+              value: el.enq_custom_value
+            }
+          }
           this.customComponents.push(obj);
         });
       });
       //console.log(this.customComponents);
       return customComp;
     }
+  }
+
+  getDefaultArr(d): any[] {
+    let a: any[] = [];
+    a.push(d);
+    return a;
+  }
+
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
+    let customPrefilled: any[] = [];
+    if (selected.length != 0 && selected[0] != "") {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: selected.includes(el)
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    else {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: def.indexOf(el) != -1
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    return customPrefilled;
   }
 
   /* Custom Compoenent array creater */
