@@ -488,7 +488,11 @@ export class ClassHomeComponent implements OnInit {
         meridian: ''
       }
     }
-    this.submitMasterCourse();
+    if (this.showAdvanceFilter) {
+      this.advanceFilterView();
+    } else {
+      this.submitMasterCourse();
+    }
   }
 
   notifyRescheduleUpdate(e) {
@@ -694,7 +698,11 @@ export class ClassHomeComponent implements OnInit {
   closeCourseCancelClass() {
     this.isCourseCancel = false;
     this.cancellationReason = '';
-    this.submitMasterCourse();
+    if (this.showAdvanceFilter) {
+      this.advanceFilterView();
+    } else {
+      this.submitMasterCourse();
+    }
   }
 
   cancelClass() {
