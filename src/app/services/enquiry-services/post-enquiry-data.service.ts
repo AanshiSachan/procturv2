@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import 'rxjs/Rx';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service'
-import { RequestOptions } from '@angular/http';
+import { Http, Response, Request, Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class PostEnquiryDataService {
@@ -24,7 +24,11 @@ export class PostEnquiryDataService {
   baseUrl: string = '';
 
   /* Instantiate http Object at load */
-  constructor(private http: HttpClient, private auth: AuthenticatorService) {
+  constructor(
+    private httpOnly: Http,
+    private http: HttpClient,
+    private auth: AuthenticatorService,
+  ) {
     this.auth.currentAuthKey.subscribe(key => {
       this.Authorization = key;
       this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -135,18 +139,16 @@ export class PostEnquiryDataService {
 
   deleteEnquiryBulk(data) {
     let urlDeleteBulk = this.baseUrl + '/api/v1/enquiry/' + this.institute_id + '/bulkDeleteEnquiries';
-    // let options = new RequestOptions(
-    //   {
-    //     headers: this.headers,
-    //     body: data
-    //   }
-    // );
-    const requestOption = {
-      params: new HttpParams()
-    }
-    requestOption.params.set('header', this.headers);
-    requestOption.params.set('body', data);
-    return this.http.delete(urlDeleteBulk, requestOption).map(
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", this.Authorization);
+    let options = new RequestOptions(
+      {
+        headers: headers,
+        body: data
+      }
+    );
+    return this.httpOnly.delete(urlDeleteBulk, options).map(
       res => { return res; }
     )
   }
