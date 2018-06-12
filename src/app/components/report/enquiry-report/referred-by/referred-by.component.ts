@@ -46,7 +46,7 @@ export class ReferredByComponent implements OnInit {
     key: "",
     data: ""
   }
-  newArray:any[] = [];
+  newArray: any[] = [];
 
   statusKeys = {
     'status': '-1',
@@ -58,7 +58,7 @@ export class ReferredByComponent implements OnInit {
     'totalcount': '-1'
   }
 
-  popupDataEnquiries:any[] = [];
+  popupDataEnquiries: any[] = [];
 
 
 
@@ -79,15 +79,15 @@ export class ReferredByComponent implements OnInit {
           this.dataStatus = 2;
         }
         else {
-        if(data.length == 0){
-          this.dataStatus = 2;
+          if (data.length == 0) {
+            this.dataStatus = 2;
+          }
+          else {
+            this.dataStatus = 0;
+          }
+          this.getreferredByData = data;
         }
-        else{
-          this.dataStatus = 0;
-        }
-        this.getreferredByData = data;
-      }
-    },
+      },
       (error: any) => {
         let msg = {
           type: "error",
@@ -175,7 +175,7 @@ export class ReferredByComponent implements OnInit {
 
   reportHandler(dataObj) {
     console.log(dataObj);
-   
+
     if (dataObj.data > 0) {
       if (dataObj.key == "newEnqcount") {
         let payload = {
@@ -188,13 +188,13 @@ export class ReferredByComponent implements OnInit {
         }
         this.popupDataEnquiries = [];
         this.service.enquiryCategorySearch(payload).subscribe(
-          (data:any)=>{
-              this.popupDataEnquiries = data;
+          (data: any) => {
+            this.popupDataEnquiries = data;
           },
-          (error:any)=>{
+          (error: any) => {
 
           }
-        ) 
+        )
       }
       else {
         let payload = {
@@ -207,10 +207,10 @@ export class ReferredByComponent implements OnInit {
         }
         this.popupDataEnquiries = [];
         this.service.enquiryCategorySearch(payload).subscribe(
-          (data:any)=>{
+          (data: any) => {
             this.popupDataEnquiries = data;
           },
-          (error:any)=>{
+          (error: any) => {
 
           }
         )
