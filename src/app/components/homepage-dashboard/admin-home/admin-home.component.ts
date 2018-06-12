@@ -139,45 +139,6 @@ export class AdminHomeComponent implements OnInit {
   gradesList: any = [];
   classScheduleCount: number = 0;
   biometricWidget: boolean;
-
-  biometricData = [{
-    "deviceId": "111",
-    "deviceFName": "Harvin Academy",
-    "serialNumber": "OIN7040057041300450",
-    "ipAddress": "192.168.1.10",
-    "lastPing": 1527763822000,
-    "deviceLocation": "UP",
-    device_status: 1
-  },
-  {
-    "deviceId": "112",
-    "deviceFName": "Harvin Academy",
-    "serialNumber": "OIN7040057041300",
-    "ipAddress": "192.168.1.10",
-    "lastPing": 1527763822000,
-    "deviceLocation": "UP",
-    device_status: 2
-  },
-  {
-    "deviceId": "1122",
-    "deviceFName": "Harvin Academy",
-    "serialNumber": "OIN7040057041300",
-    "ipAddress": "192.168.1.10",
-    "lastPing": 1527763822000,
-    "deviceLocation": "UP",
-    device_status: 1
-  },
-  {
-    "deviceId": "1125",
-    "deviceFName": "Harvin Academy",
-    "serialNumber": "OIN7040057041300",
-    "ipAddress": "192.168.1.10",
-    "lastPing": 1527763822000,
-    "deviceLocation": "UP",
-    device_status: 2
-  }
-  ]
-
   biometricEnable: string = "";
 
 
@@ -247,7 +208,6 @@ export class AdminHomeComponent implements OnInit {
 
     let userType: any = Number(sessionStorage.getItem('userType'));
     if (userType == 0) {
-      debugger;
       let permissionArray = sessionStorage.getItem('permissions');
       if (permissionArray == "" || permissionArray == null) {
         let ss = sessionStorage.getItem('biometric_attendance_feature');

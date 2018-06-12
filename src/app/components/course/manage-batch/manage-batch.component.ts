@@ -315,7 +315,7 @@ export class ManageBatchComponent implements OnInit {
       batch_code: '',
       start_date: '',
       end_date: '',
-      is_active: false,
+      is_active: true,
     }
   }
 
