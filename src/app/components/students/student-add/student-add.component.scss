@@ -67,8 +67,8 @@
     }
     .questionInfo {
         position: relative;
-        left: 56%;
-        top: -30px;
+        left: 45%;
+        top: -17px;
         height: 20px;
         width: 20px;
         z-index: 2;
@@ -1004,7 +1004,37 @@
                             .view-comp {
                                 display: none
                             }
-                            .edit-comp {}
+                            .edit-comp {
+                                .field-wrapper {
+                                    position: relative;
+                                    /* padding-top: 20px; */
+                                    &.datePickerBox {
+                                        .bsDatepicker {
+                                            cursor: pointer;
+                                            position: relative;
+                                            z-index: 1;
+                                            background: transparent;
+                                        }
+                                        &:after {
+                                            content: '';
+                                            background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                            position: absolute;
+                                            right: 0px;
+                                            top: 18px;
+                                            width: 21px;
+                                            height: 21px;
+                                            z-index: 0;
+                                        }
+                                    }
+                                    .date-clear {
+                                        position: absolute;
+                                        right: 60%;
+                                        top: 50px;
+                                        cursor: pointer;
+                                        color: #0084f6;
+                                    }
+                                }
+                            }
                         }
                         &.actions {
                             a {

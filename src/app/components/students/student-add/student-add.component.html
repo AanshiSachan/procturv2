@@ -445,8 +445,7 @@
                     <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
-                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                      readonly="true" />
+                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl" readonly="true" />
                   </div>
                   <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                     <div class="multiselect-wrapper-inner">

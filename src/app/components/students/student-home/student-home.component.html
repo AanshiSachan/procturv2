@@ -288,8 +288,7 @@
                                 <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                                     <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                                         <label for="{{component.id}}">{{component.label}} </label>
-                                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                                        />
+                                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl" readonly="true" />
                                     </div>
                                     <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                                         <div class="multiselect-wrapper-inner">
@@ -298,7 +297,7 @@
                                                     <div class="field-checkbox-wrapper">
                                                         <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                                                             class="form-checkbox">
-                                                        <label for="{{component.id}}">{{component.data}}</label>
+                                                        <label for="{{component.id}}">{{opt.data}}</label>
                                                     </div>
                                                 </li>
                                             </ul>

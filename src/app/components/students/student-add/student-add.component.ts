@@ -883,7 +883,6 @@ export class StudentAddComponent implements OnInit {
                 value: el.enq_custom_value
               }
             }
-
             this.customComponents.push(obj);
           });
           this.isRippleLoad = false;
