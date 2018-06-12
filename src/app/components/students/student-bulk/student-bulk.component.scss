@@ -5,36 +5,33 @@
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/course/course-home/schedule-home.component.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
-
-
-
-
-  .bulk-update-report{
-     max-height: 400px !important;
-     overflow-y: scroll !important; 
-     overflow-x: hidden !important; 
+.bulk-update-report {
+    max-height: 400px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
     max-width: 98% !important;
-  }
-#bulk-head{
-    padding-top: 20px;   
 }
 
-.bulk-enquiry-form{
+#bulk-head {
+    padding-top: 20px;
+}
+
+.bulk-enquiry-form {
     padding-top: 30px;
-    table{
-        thead{
-            tr{
+    table {
+        thead {
+            tr {
                 line-height: 25px;
             }
         }
-        tbody{
-            tr{
-               line-height: 20px;
-                td{
+        tbody {
+            tr {
+                line-height: 20px;
+                td {
                     text-overflow: ellipsis;
-                    .download-icon{
+                    .download-icon {
                         cursor: pointer;
-                        &::after{
+                        &::after {
                             content: "\f0ed";
                             font-family: FontAwesome;
                         }
@@ -100,14 +97,11 @@
     visibility: visible;
 }
 
-  
-.bulk-header{
-    .row{
+.bulk-header {
+    .row {
         margin: 0px 15px;
     }
 }
-
-
 
 .file-upload-box {
     padding: 35px 20px;
@@ -232,17 +226,17 @@
     padding-left: 35px;
 }
 
-::ng-deep .ui-fileupload{
+::ng-deep .ui-fileupload {
     width: 100%;
     cursor: pointer;
 }
 
-::ng-deep .ui-fileupload-buttonbar{
+::ng-deep .ui-fileupload-buttonbar {
     background: $header-bg;
     width: 70vw;
 }
 
-::ng-deep .ui-fileupload-content{
+::ng-deep .ui-fileupload-content {
     min-height: 200px;
     width: 70vw;
     padding: 5px;
@@ -251,7 +245,7 @@
     border-bottom: 3px dashed $border-common;
     border-left: 3px dashed $border-common;
     cursor: pointer;
-    &::after{
+    &::after {
         content: "Drag & Drop Files Here";
         color: rgba(0, 0, 0, 0.09);
         position: absolute;
