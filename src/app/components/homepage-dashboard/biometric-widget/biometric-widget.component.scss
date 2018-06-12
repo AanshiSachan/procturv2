@@ -174,11 +174,14 @@ div {
     /* border: 1px solid; */
     display: inline-block;
     /* margin: 3%; */
-    margin: 1%;
+    margin: 4%;
     border-radius: 3%;
     box-shadow: 4px 5px 5px #a79d9d8c;
 }
 .outer{
+    ::-webkit-scrollbar{
+        display: block;
+    }
     overflow:auto;
     height:205px;
 }
