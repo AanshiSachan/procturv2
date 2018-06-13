@@ -1481,8 +1481,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     if (confirm("Are you sure you want to send SMS to selected users?")) {
       let obj = {
         app_sms_type: Number(value),
-        studentArray: this.getListOfIds(this.selectedRowGroup),
-        userArray: this.getListOfIds(this.selectedUserId),
+        studentArray: this.selectedRowGroup,
+        userArray: this.selectedUserId,
         user_role: this.loginField.checkBox
       }
       this.widgetService.smsForAddDownload(obj).subscribe(

@@ -693,7 +693,7 @@
                             <div class="marginTenPixel">
                                 <div class="radio-options">
                                     <div class="field-radio-wrapper">
-                                        <input type="radio" checked="checked" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
+                                        <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
                                         <label for="student">Student Only</label>
                                     </div>
                                     <div class="field-radio-wrapper">
