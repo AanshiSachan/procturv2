@@ -1385,7 +1385,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       return 0;
     } else if (this.sendNotification.studentChkbx == false && this.sendNotification.parentChkbx == true && this.sendNotification.gaurdianChkbx == false) {
       return 1;
-    } else if (this.sendNotification.studentChkbx = false && this.sendNotification.parentChkbx == false && this.sendNotification.gaurdianChkbx == true) {
+    } else if (this.sendNotification.studentChkbx == false && this.sendNotification.parentChkbx == false && this.sendNotification.gaurdianChkbx == true) {
       return 3;
     } else if (this.sendNotification.studentChkbx && this.sendNotification.parentChkbx && this.sendNotification.gaurdianChkbx == false) {
       return 2;
