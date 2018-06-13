@@ -1468,7 +1468,7 @@
                 <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px">Download</button>
               </div>
             </div>
-            <div id="divRangeSelection" *ngIf="showDateRange" class="select-dates">
+            <div id="divRangeSelection" *ngIf="showDateRange" class="row select-dates">
               <div class="c-sm-4 c-lg-4 c-lg-4">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':summaryReport.from_date != ''}">
                   <label for="fromDate">From Date</label>
@@ -1485,7 +1485,7 @@
 
                 </div>
               </div>
-              <div class="c-sm-4 c-lg-4 c-lg-4">
+              <div class="c-sm-4 c-lg-4 c-lg-4" style="margin-top: 15px;">
                 <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px">Download</button>
               </div>
             </div>
