@@ -134,6 +134,7 @@ export class RobTableComponent implements OnChanges {
             this.rowIdArr.emit(this.rowSelectedId);
             this.rowsSelected.emit(this.rowSelectedCount);
         }
+        this.getSelectedRows();
     }
 
     refreshTable() {

@@ -219,12 +219,12 @@ export class PostEnquiryDataService {
   deleteRefer(data) {
     let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
 
-    // let options = new RequestOptions(
-    //   {
-    //     headers: this.headers,
-    //     body: data
-    //   }
-    // );
+    let options = new RequestOptions(
+      {
+        headers: this.headers,
+        body: data
+      }
+    );
 
     const requestOption = {
       params: new HttpParams()

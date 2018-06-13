@@ -103,15 +103,11 @@
         overflow-x: hidden;
         overflow-y: scroll;
     }
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
     }
-}
-
-.halfwidth {
-    width: 50%;
 }
 
 table {
@@ -173,9 +169,7 @@ table {
     margin-left: 30px;
 }
 
-
 /*=====================================mobile head menu css===========================*/
-
 
 /* popUp Scss */
 
@@ -357,4 +351,31 @@ $color-highlight: lighten($color-base, 7%);
     100% {
         transform: translate3d(100%, 0, 0);
     }
+}
+
+.add-batch-section {
+    margin: 0px 0px 10px -15px;
+    padding: 0px 15px 5px 15px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    margin-bottom: 10px;
+    .halfwidth {
+        width: 200px;
+        &.bsDatepicker {
+            background: white;
+        }
+    }
+    .field-wrapper{
+        &.datePickerBox:after{
+            content: '';
+            background: url(/./assets/images/calendar.svg) no-repeat;
+            position: absolute;
+            left: 175px;
+            top: 35px;
+            width: 21px;
+            height: 21px;
+            z-index: 999999;
+        }
+    }
+    
 }
