@@ -18,17 +18,21 @@ export class FeeWidgetComponent implements OnInit {
     totalCollected: any[] = [0, 0, 0];
     totalDue: any[] = [0, 0, 0];
 
+    total_fees_collected: any[] = [];
+    total_dues_pending: any[] = [];
+    total_future_dues: any[] = [];
+    total_fees: any = 0;
+
     @ViewChild('chartWrap') chartWrap: ElementRef;
 
     constructor(private getService: GetFeeService) {
     }
 
     ngOnInit() {
-
-        this.fetchDuesData();
-        this.createChart();
-        this.generateChartData();
-
+        // this.fetchDuesData();
+        // this.createChart();
+        // this.generateChartData();
+        this.fetchAllFeeData();
     }
 
     fetchDuesData() {
@@ -92,7 +96,6 @@ export class FeeWidgetComponent implements OnInit {
         )
     }
 
-
     generateChartData() {
 
         let lastEstimated: number = 0;
@@ -128,9 +131,6 @@ export class FeeWidgetComponent implements OnInit {
         this.totalCollected = [lastCollected, currentCollected, nextCollected];
         this.totalDue = [lastDue, currentDue, nextDue];
         this.totalEstimated = [lastEstimated, currentEstimated, nextEstimated];
-        console.log(this.totalCollected);
-        console.log(this.totalDue);
-        console.log(this.totalEstimated);
         this.createChart();
 
     }
@@ -192,7 +192,105 @@ export class FeeWidgetComponent implements OnInit {
                     name: 'Total Fee Due',
                     data: this.totalDue
                 }
-            ]   
+            ]
+        });
+    }
+
+
+    fetchAllFeeData() {
+        let obj = {
+            standard_id: -1,
+            batch_id: -1,
+            type: 0,
+            from_date: null,
+            to_date: null,
+            installment_id: -1,
+            subject_id: -1,
+            master_course_name: '',
+            course_id: -1,
+            student_name: '',
+            contact_no: '',
+            is_fee_report_view: 1
+        }
+        this.getService.getFeeReportData(obj).subscribe(
+            res => {
+                this.total_fees = res[0].total_fees;
+                let col: any[] = [];
+                let pend: any[] = [];
+                let fut: any[] = [];
+                col.push(res[0].total_fees_collected);
+                pend.push(res[0].total_dues_pending);
+                fut.push(res[0].total_future_dues);
+                this.total_fees_collected = col;
+                this.total_dues_pending = pend;
+                this.total_future_dues = fut;
+
+                this.createCompareChart(col, pend, fut);
+            },
+            err => {
+
+            }
+        )
+    }
+
+    createCompareChart(c, p, f) {
+        Highcharts.chart('chartWrap', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Fee Report',
+            },
+            xAxis: {
+                categories: ['Total Fees Collection', 'Total Dues', 'Future Dues']
+            },
+            yAxis: {
+                gridLineWidth: 0,
+                minorGridLineWidth: 0,
+                labels: {
+                    enabled: false
+                },
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -30,
+                verticalAlign: 'top',
+                y: 25,
+                floating: true,
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                headerFormat: '<b>{point.x}</b><br/>',
+                pointFormat: '{series.name}: ₹ {point.y}<br/>Total: ₹ {point.stackTotal}'
+            },
+            plotOptions: {    
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        format: ' ₹ {y}'
+                    }
+                }
+            },
+            series: [
+                { 
+                    name: 'Total Fees Collection',
+                    data: c
+                },
+                {
+                    name: 'Total Dues',
+                    data: p
+                },
+                {
+                    name: 'Future Dues',
+                    data: f
+                }
+            ]
         });
     }
 }

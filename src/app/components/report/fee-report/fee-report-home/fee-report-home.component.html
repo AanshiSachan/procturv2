@@ -1,12 +1,21 @@
 <div class="middle-section clearFix">
   <aside class="middle-full">
     <section class="middle-main clearFix report-box">
-      <section class="chart-section hide">
-        <fee-widget></fee-widget>
+
+      <section class="chart-section">
+        <div class="c-lg-4">
+          <fee-widget></fee-widget>
+        </div>
+        <div class="c-lg-4">
+
+        </div>
+        <div class="c-lg-4">
+
+        </div>
       </section>
+
       <section>
 
-        <!-- SMS -->
         <div class="c-lg-4">
           <ul class="card" routerLink="./allData">
             <li>
@@ -28,7 +37,7 @@
             </li>
           </ul>
         </div>
-        
+
         <div class="c-lg-4" *ngIf="!isProfessional">
           <ul class="card" routerLink="./courseReport">
             <li>
@@ -51,7 +60,7 @@
           </ul>
         </div>
 
-        <div class="c-lg-4 hide">
+        <div class="c-lg-4">
           <ul class="card" routerLink="./inactive">
             <li>
               Inactive/Archive Student Data Report
@@ -72,7 +81,7 @@
             </li>
           </ul>
         </div>
-       
+
         <div class="c-lg-4" *ngIf="enable_online_payment == 1">
           <ul class="card" routerLink="./onlinePayment">
             <li>
@@ -105,7 +114,7 @@
             </li>
           </ul>
         </div>
-        
+
         <div class="c-lg-4 hide">
           <ul class="card" routerLink="./feeType">
             <li>

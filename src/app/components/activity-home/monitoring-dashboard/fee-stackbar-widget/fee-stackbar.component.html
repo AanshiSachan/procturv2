@@ -1,5 +1,10 @@
 <section class="stackwrapper">
-<div id="feestackbar">
 
-</div>
+    <div [ngClass]="{'hide': !isDataLoaded}" id="feestackbar">
+    </div>
+
+    <div style="padding: 5px;" [ngClass]="{'hide': isDataLoaded}">
+        Loading Data...
+    </div>
+
 </section>

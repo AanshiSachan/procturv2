@@ -40,7 +40,11 @@ export class EnquiryAddComponent implements OnInit {
   sourceLead: any = [];
   refferedBy: any = [];
   occupation: any = [];
-  lastDetail: any = [];
+  lastDetail: any = {
+    name: '',
+    enquiry_no: null,
+    enquiry_creation_datetime: null,
+  };
   enquiryConfirm: any = [];
   confimationPop: boolean = false;
   updatePop: boolean = false;
@@ -400,7 +404,6 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(
       data => {
         this.lastDetail = data;
-        //console.log(this.lastDetail);
       },
       err => {
         // console.log(err);
@@ -1694,6 +1697,9 @@ export class EnquiryAddComponent implements OnInit {
           el.edit = false;
         });
       },
+      err =>{
+        this.sourceList = [];
+      }
     )
   }
   /* ============================================================================================================================ */
@@ -1811,19 +1817,32 @@ export class EnquiryAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getLastAddName(): string {
-    //console.log(this.lastDetail.name);
-    return this.lastDetail.name;
+    if (this.lastDetail != null) {
+      return this.lastDetail.name;
+    }
+    else {
+      return "";
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getLastEnqNum() {
-    return this.lastDetail.enquiry_no;
+    if (this.lastDetail != null) {
+      return this.lastDetail.enquiry_no;
+    }
+    else {
+      return "";
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getLastUpdateTime() {
-    //console.log(this.lastDetail);
-    return moment(this.lastDetail.enquiry_creation_datetime).fromNow();
+    if (this.lastDetail != null) {
+      return moment(this.lastDetail.enquiry_creation_datetime).fromNow();
+    }
+    else {
+      return "";
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */

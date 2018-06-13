@@ -184,25 +184,26 @@ export class PostEnquiryDataService {
   deleteSource(data) {
     let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source";
 
-    // let options = new RequestOptions(
-    //   {
-    //     headers: this.headers,
-    //     body: data
-    //   }
-    // );
+    let head = new Headers({ "Content-Type": "application/json", "Authorization": this.Authorization });
 
-    const requestOption = {
-      params: new HttpParams()
-    }
-    requestOption.params.set('header', this.headers);
-    requestOption.params.set('body', data);
+    let options = new RequestOptions(
+      {
+        headers: head,
+        body: data
+      }
+    );
 
-    return this.http.delete(urlDelete, requestOption).map(
+    // const requestOption = {
+    //   params: new HttpParams()
+    // }
+    // requestOption.params.set('header', this.headers);
+    // requestOption.params.set('body', data);
+
+    return this.httpOnly.delete(urlDelete, options).map(
       res => {
         return res;
       }
     )
-
   }
 
   updateReferDetails(data) {

@@ -12,6 +12,8 @@ import * as Highcharts from 'highcharts';
 })
 export class FeeStackbarComponent implements OnInit {
 
+  isDataLoaded: boolean = false;
+
   constructor(private getService: monitoringService) {
   }
 
@@ -20,13 +22,17 @@ export class FeeStackbarComponent implements OnInit {
   ngOnInit() {
     this.fetchFeeStackMonitor();
   }
-
+ 
   fetchFeeStackMonitor() {
     this.getService.fetchFeeStackMonitor().subscribe(
       res => {
-        this.generateChartData(res);
+        this.isDataLoaded = true;
+        if(this.isDataLoaded){
+          this.generateChartData(res);
+        }
       },
       err => {
+        this.isDataLoaded = false;
       }
     )
   }
@@ -52,13 +58,11 @@ export class FeeStackbarComponent implements OnInit {
         },
         backgroundColor: '#FFF',
       },
-
       title: {
         text: ''
       },
-
       xAxis: {
-        categories: ['Fee in Rs'],
+        categories: ['Future dues', "Dues in next 30 days", "Past dues", "Paid in last 30 days" ],
         labels: {
           skew3d: true,
           style: {
@@ -66,7 +70,6 @@ export class FeeStackbarComponent implements OnInit {
           }
         }
       },
-
       yAxis: {
         visible: false,
         allowDecimals: false,
@@ -76,12 +79,10 @@ export class FeeStackbarComponent implements OnInit {
           skew3d: true
         }
       },
-
       tooltip: {
         headerFormat: '<b>{point.key}</b><br>',
         pointFormat: '{series.name}: ₹ {point.y}'
       },
-
       plotOptions: {
         column: {
           dataLabels: {
@@ -94,12 +95,19 @@ export class FeeStackbarComponent implements OnInit {
           depth: 40
         }
       },
-      colors: ['#80cbc4', '#37474f' , '#536DFE', '#2e7d32'],
       series: [
-        { name: 'Future Dues', data: [fd], crisp: false },
-        { name: 'Dues in Next 30 Days', data: [n], crisp: false },
-        { name: 'Past Dues', data: [pd], crisp: false },
-        { name: 'Paid in Last 30 Days', data: [p], crisp: false },
+        {
+          data: [
+                {y: fd, name: 'Future dues', color: '#80cbc4'},
+                {y: n, name: 'Dues in next 30 days', color: '#37474f'},
+                {y: pd, name: 'Past dues', color: '#536DFE'},
+                {y: p, name: 'Paid in last 30 days', color: '#2e7d32'}
+            ]
+        }
+        // { name: 'Future Dues', data: [fd], crisp: false },
+        // { name: 'Dues in Next 30 Days', data: [n], crisp: false },
+        // { name: 'Past Dues', data: [pd], crisp: false },
+        // { name: 'Paid in Last 30 Days', data: [p], crisp: false },
       ]
     });
   }
