@@ -181,6 +181,25 @@ export class PostEnquiryDataService {
     )
   }
 
+  deleteRefer(data) {
+    let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
+
+    let head = new Headers({ "Content-Type": "application/json", "Authorization": this.Authorization });
+
+    let options = new RequestOptions(
+      {
+        headers: head,
+        body: data
+      }
+    );
+
+    return this.httpOnly.delete(urlDelete, options).map(
+      res => {
+        return res;
+      }
+    )
+  }
+
   deleteSource(data) {
     let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source";
 
@@ -193,17 +212,12 @@ export class PostEnquiryDataService {
       }
     );
 
-    // const requestOption = {
-    //   params: new HttpParams()
-    // }
-    // requestOption.params.set('header', this.headers);
-    // requestOption.params.set('body', data);
-
     return this.httpOnly.delete(urlDelete, options).map(
       res => {
         return res;
       }
     )
+
   }
 
   updateReferDetails(data) {
@@ -216,28 +230,7 @@ export class PostEnquiryDataService {
 
   }
 
-  deleteRefer(data) {
-    let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
 
-    let options = new RequestOptions(
-      {
-        headers: this.headers,
-        body: data
-      }
-    );
-
-    const requestOption = {
-      params: new HttpParams()
-    }
-    requestOption.params.set('header', this.headers);
-    requestOption.params.set('body', data);
-
-    return this.http.delete(urlDelete, requestOption).map(
-      res => {
-        return res;
-      }
-    )
-  }
 
   addNewCustomComponent(req) {
     let urlCreateCustomComponent = this.baseUrl + "/api/v1/instCustomComp/create";
