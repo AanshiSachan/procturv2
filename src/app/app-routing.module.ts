@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, PreloadAllModules } from '@angular/router';
+import { RouterModule, PreloadAllModules, NoPreloading } from '@angular/router';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -8,11 +8,10 @@ import { AuthGuard } from './guards/auth.guard';
     imports: [
         RouterModule.forRoot(
             [
-                { path: '', redirectTo: '/authPage', pathMatch: 'full', },
+                { path: '', redirectTo: '/authPage', pathMatch: 'full' },
                 {
                     path: 'authPage',
                     loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule'
-
                 },
                 {
                     path: 'view',
@@ -21,7 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
             ],
             {
                 useHash: true,
-                //preloadingStrategy: PreloadAllModules
+                preloadingStrategy: NoPreloading
             }
         )
     ],
