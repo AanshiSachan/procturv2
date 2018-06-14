@@ -67,6 +67,14 @@ export class TemplateHomeComponent implements OnInit {
   totalAmountCal: number = 0;
   templateName: any = "";
 
+  PageIndex: number = 0;
+  displayBatchSize: number = 10;
+  tabkeList: any = [];
+  searchDataFlag: boolean = false;
+  searchedData: any = [];
+  totalRow: number = 0;
+  searchText: string = '';
+
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -98,10 +106,13 @@ export class TemplateHomeComponent implements OnInit {
 
   getFeeStructures() {
     this.isRippleLoad = true;
+    this.PageIndex = 1;
     this.fetchService.fetchFeeStruc().subscribe(
       (res: any) => {
         this.isRippleLoad = false;
+        this.totalRow = res.length;
         this.source = res;
+        this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
         this.isRippleLoad = false;
@@ -584,6 +595,55 @@ export class TemplateHomeComponent implements OnInit {
       data.initial_fee_amount = data.fees_amount - data.tax;
     }
     this.calculateTotalAmount();
+  }
+
+
+  // pagination functions 
+
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.tabkeList = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let data = [];
+    if (this.searchDataFlag == true) {
+      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      data = this.source.slice(startindex, startindex + this.displayBatchSize);
+    }
+    return data;
+  }
+
+  searchInList() {
+    if (this.searchText.trim() != "" && this.searchText.trim() != null) {
+      let searchData = this.source.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.searchedData = searchData;
+      this.totalRow = searchData.length;
+      this.searchDataFlag = true;
+      this.PageIndex = 1;
+      this.fetchTableDataByPage(this.PageIndex);
+    } else {
+      this.searchDataFlag = false;
+      this.fetchTableDataByPage(this.PageIndex);
+      this.totalRow = this.source.length;
+    }
   }
 
 }
