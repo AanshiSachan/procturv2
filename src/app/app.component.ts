@@ -345,12 +345,12 @@ export class AppComponent implements OnInit {
 
   public studentSelected(s) {
     this.closeSearchArea();
-    this.router.navigate(['/student'], { queryParams: { id: s.id } });
+    this.router.navigate(['/view/student'], { queryParams: { id: s.id } });
   }
 
   public enquirySelected(e) {
     this.closeSearchArea();
-    this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
+    this.router.navigate(['/view/enquiry'], { queryParams: { id: e.id } });
   }
 
   public performAction(a: string, data) {
@@ -359,32 +359,32 @@ export class AppComponent implements OnInit {
     switch (a) {
       case 'studentEdit': {
         this.closeSearchArea();
-        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentFee': {
         this.closeSearchArea();
-        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentInventory': {
         this.closeSearchArea();
-        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentLeave': {
         this.closeSearchArea();
-        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentDelete': {
         this.closeSearchArea();
-        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'enquiryEdit': {
         this.closeSearchArea();
-        this.router.navigate(['/enquiry'], { queryParams: { id: d, action: a } });
+        this.router.navigate(['/view/enquiry'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'enquiryUpdate': {
@@ -763,7 +763,7 @@ export class AppComponent implements OnInit {
               }
               localStorage.setItem('studentPrefill', JSON.stringify(obj));
               this.closeEnquiryUpdate();
-              this.router.navigate(['student/add']);
+              this.router.navigate(['/view/student/add']);
             }
             else {
               this.closeEnquiryUpdate();

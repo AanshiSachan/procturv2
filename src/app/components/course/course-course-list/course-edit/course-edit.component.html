@@ -1,7 +1,7 @@
 <div class="middle-section clearFix head editCourseWrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
-      <a routerLink="/course/courselist">Course</a> / Edit
+      <a routerLink="/view/course/courselist">Course</a> / Edit
       <u> {{selectedCourseDetails.master_course}}</u>
     </h1>
   </section>
@@ -171,7 +171,7 @@
     </div>
 
     <div class="row pull-right btn-group">
-      <button class="btn" routerLink='/course/courselist'>Cancel</button>
+      <button class="btn" routerLink='/view/course/courselist'>Cancel</button>
       <button class="btn fullBlue" *ngIf="mainTableDataSource.length >0" (click)="updateEditedDetails()">Save</button>
     </div>
   </div>

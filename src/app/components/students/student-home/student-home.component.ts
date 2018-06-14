@@ -142,12 +142,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
-          this.router.navigate(['/student/edit/' + e.id]);
+          this.router.navigate(['/view/student/edit/' + e.id]);
         }
         else {
           switch (e.action) {
             case 'studentEdit': {
-              this.router.navigate(['/student/edit/' + e.id]);
+              this.router.navigate(['/view/student/edit/' + e.id]);
               break;
             }
             case 'studentFee': {
@@ -370,7 +370,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   /* navigate the user to edit page for the specific student */
   editStudent(id) {
     localStorage.setItem('studentId', id);
-    this.router.navigate(['/student/edit/' + id]);
+    this.router.navigate(['/view/student/edit/' + id]);
   }
 
   /* Delete the student selected or archieve the student selected */
@@ -1229,13 +1229,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   editFeePDCDetails(event) {
     sessionStorage.setItem('editPdc', "true");
     localStorage.setItem('studentId', event);
-    this.router.navigate(['/student/edit/' + event]);
+    this.router.navigate(['/view/student/edit/' + event]);
   }
 
   editInventory(e) {
     sessionStorage.setItem('editInv', "true");
     localStorage.setItem('studentId', e);
-    this.router.navigate(['/student/edit/' + e]);
+    this.router.navigate(['/view/student/edit/' + e]);
   }
 
   notifySelectedStudent() {

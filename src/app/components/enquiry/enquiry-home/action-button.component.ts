@@ -56,7 +56,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
 
   /* if user select edit navigate him to edit page directly from here */
   NavigateToEdit() {
-    this.router.navigate(['/enquiry/edit/' +this.rowData.institute_enquiry_id ]);
+    this.router.navigate(['/view/enquiry/edit/' +this.rowData.institute_enquiry_id ]);
   }
 
   professionalStatus() {

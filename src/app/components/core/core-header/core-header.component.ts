@@ -159,7 +159,7 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   goToHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/view/home']);
   }
 
 
@@ -416,12 +416,12 @@ export class CoreHeaderComponent implements OnInit {
 
   selectedStudent(s) {
     this.closeSearch(false);
-    this.router.navigate(['/student'], { queryParams: { id: s.id } });
+    this.router.navigate(['/view/student'], { queryParams: { id: s.id } });
   }
 
   selectedEnquiry(e) {
     this.closeSearch(false);
-    this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
+    this.router.navigate(['/view/enquiry'], { queryParams: { id: e.id } });
   }
 
   searchAgain(e) {
@@ -440,21 +440,21 @@ export class CoreHeaderComponent implements OnInit {
   actionSelected(d) {
     this.closeSearch(false);
     if (d.data.source == "Student") {
-      this.router.navigate(['/student'], { queryParams: { id: d.data.id, action: d.action } });
+      this.router.navigate(['/view/student'], { queryParams: { id: d.data.id, action: d.action } });
     }
     else if (d.data.source == "Enquiry") {
       if (d.action == "enquiryUpdate") {
         this.otherAction.emit(d);
       }
       else {
-        this.router.navigate(['/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
+        this.router.navigate(['/view/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
       }
     }
   }
 
   viewTeacherProfile() {
     localStorage.setItem('teacherID', this.teacherId);
-    this.router.navigateByUrl('teacher/edit');
+    this.router.navigateByUrl('/view/teacher/edit');
   }
 
   // Multi Branch Case Handling
@@ -480,7 +480,7 @@ export class CoreHeaderComponent implements OnInit {
         this.fillSessionStorageCommonFields(res);
         sessionStorage.setItem('mainBranchId', this.mainBranchId);
         sessionStorage.setItem('permissions', '');
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/authPage');
       },
       err => {
 
@@ -506,7 +506,7 @@ export class CoreHeaderComponent implements OnInit {
   mainBranchLogin(res) {
     sessionStorage.setItem('religion_feature', res.religion_feature);
     sessionStorage.setItem('permissions', '');
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/authPage');
   }
 
 

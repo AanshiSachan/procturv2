@@ -32,7 +32,7 @@ export class TeacherEditComponent implements OnInit {
     if (localStorage.getItem('teacherID')) {
       this.selectedTeacherId = localStorage.getItem('teacherID');
     } else {
-      this.route.navigateByUrl('teacher');
+      this.route.navigateByUrl('/view/teacher');
     }
   }
 
@@ -167,7 +167,7 @@ export class TeacherEditComponent implements OnInit {
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
-        this.route.navigateByUrl('teacher');
+        this.route.navigateByUrl('/view/teacher');
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);

@@ -96,7 +96,7 @@ export class AddEditUserComponent implements OnInit {
     this.apiService.createUser(this.roleDetails).subscribe(
       res => {
         this.messageNotifier('success', 'Added Successfully', 'User Added Successfully');
-        this.route.navigateByUrl('/manage/user');
+        this.route.navigateByUrl('/view/manage/user');
       },
       err => {
         console.log(err);
@@ -126,7 +126,7 @@ export class AddEditUserComponent implements OnInit {
     this.apiService.updateUserDetails(obj, this.userId).subscribe(
       res => {
         this.messageNotifier('success', 'Updated Successfully', 'Details Updated Successfully');
-        this.route.navigateByUrl('/manage/user');
+        this.route.navigateByUrl('/view/manage/user');
       },
       err => {
         console.log(err);

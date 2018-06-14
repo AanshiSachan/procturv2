@@ -340,12 +340,12 @@ export class EnquiryHomeComponent implements OnInit {
       //console.log(e);
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
-          this.router.navigate(['/enquiry/edit/' + e.id]);
+          this.router.navigate(['/view/enquiry/edit/' + e.id]);
         }
         else {
           switch (e.action) {
             case 'enquiryEdit': {
-              this.router.navigate(['/enquiry/edit/' + e.id]);
+              this.router.navigate(['/view/enquiry/edit/' + e.id]);
               break;
             }
             case 'enquiryUpdate': {
@@ -2262,7 +2262,7 @@ export class EnquiryHomeComponent implements OnInit {
                   institute_enquiry_id: this.selectedRow.institute_enquiry_id
                 }
                 localStorage.setItem('studentPrefill', JSON.stringify(obj));
-                this.router.navigate(['student/add']);
+                this.router.navigate(['/view/student/add']);
               }
               else {
                 this.closePopup();
@@ -3538,7 +3538,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* Convert enquiry to student */
   convertRow(ev) {
     localStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
-    this.router.navigate(['student/add'])
+    this.router.navigate(['/view/student/add'])
     this.closePopup();
     this.cd.markForCheck();
   }

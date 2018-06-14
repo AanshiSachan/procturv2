@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="btnWrapper">
-          <button class="btn pull-right" routerLink='addedit'>
+          <button class="btn pull-right" routerLink='./addedit'>
             <div class="option-wrap">
               <img src="assets/images/plus.png" alt="Add User" style="vertical-align: -webkit-baseline-middle;">
               <span class="tooltip tooltipWrapper">
@@ -103,7 +103,7 @@
                 <a (click)="allocateItemToUser(data)">Allocate</a>
               </td>
               <td class="action-menu">
-                <a [routerLink]='["addedit" , data.user_id]'>Edit</a>
+                <a [routerLink]='["./addedit" , data.user_id]'>Edit</a>
                 <!-- <a (click)="deleteUser(data)">Delete</a> -->
               </td>
             </tr>

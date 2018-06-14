@@ -98,7 +98,7 @@ export class AddEditRoleComponent implements OnInit {
       this.apiService.createRole(data).subscribe(
         res => {
           this.messageNotifier('success', 'Success', 'Role Added Successfully');
-          this.route.navigateByUrl('manage/role');
+          this.route.navigateByUrl('/view/manage/role');
         },
         err => {
           this.messageNotifier('error', 'error', err.error.message);
@@ -117,7 +117,7 @@ export class AddEditRoleComponent implements OnInit {
       this.apiService.updateRole(data, this.userData.role_id).subscribe(
         res => {
           this.messageNotifier('success', 'Success', 'Role Updated Successfully');
-          this.route.navigateByUrl('manage/role');
+          this.route.navigateByUrl('/view/manage/role');
         },
         err => {
           console.log(err);

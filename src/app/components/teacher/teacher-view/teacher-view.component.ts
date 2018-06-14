@@ -44,7 +44,7 @@ export class TeacherViewComponent implements OnInit {
     if (localStorage.getItem('teacherID')) {
       this.selectedTeacherId = localStorage.getItem('teacherID');
     } else {
-      this.route.navigateByUrl('teacher');
+      this.route.navigateByUrl('/view/teacher');
     }
   }
 
@@ -124,7 +124,7 @@ export class TeacherViewComponent implements OnInit {
   }
 
   cancelViewDetails() {
-    this.route.navigateByUrl('teacher');
+    this.route.navigateByUrl('/view/teacher');
   }
 
   getPerticularKeyValue(data, dataKey, splitOpearator) {

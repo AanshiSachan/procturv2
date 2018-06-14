@@ -25,7 +25,7 @@
                     </div>
                 </td>
                 <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]" [style.color]="getColor(map.primaryKey , record[map.access(record)])">
-                    {{ record[map.access(record)] | formatCell:map.format }} 
+                    <div [innerHTML]="record[map.access(record)]"></div> 
                 </td>
             </tr>
         </tbody>

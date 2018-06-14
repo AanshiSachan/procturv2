@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="btnWrapper">
-          <button class="btn pull-right" routerLink='addedit'>
+          <button class="btn pull-right" routerLink='./addedit'>
             <div class="option-wrap">
               <img src="assets/images/plus.png" alt="Add User" style="vertical-align: -webkit-baseline-middle;">
               <span class="tooltip tooltipWrapper">
@@ -49,7 +49,7 @@
               </td>
               <td>
                 <div class="action-menu">
-                  <a [routerLink]='["addedit" , data.role_id]'>Edit</a>
+                  <a [routerLink]='["./addedit" , data.role_id]'>Edit</a>
                   <a (click)="deleteRole(data)">Delete</a>
                 </div>
               </td>
