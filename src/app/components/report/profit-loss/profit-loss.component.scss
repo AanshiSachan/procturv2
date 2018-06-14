@@ -67,26 +67,61 @@ p {
     
 }
 .table-format{
+    width: 32.99%;
+    display: inline-block;
     background: white;
+    text-align: center;
+}
+.table-display{
+    margin-top: 2px;
+    display: inline-block;
+    background: white;
+    width:100%;
 }
 .table-inner{
     height:30px;
     font-weight: bold;
 }
 .table-made{
-    padding:10px;
+    padding: 10px;
     height: 44px;
-    width:29.33%;
+    width: 32.33%;
     margin-left: 5px;
     display: inline-block;
     font-weight: bold;
     text-align: center;
 }
 .table-formation{
-    padding:10px;
+    padding: 10px;
     height: 44px;
-    width:29.33%;
+    width: 100.33%;
     margin-left: 5px;
     text-align: center;
     border-bottom: #efefef;
+}
+.hrTag{
+    margin: 14px -6px 0px -18px;
+}
+.table-form{
+    width: 99.99%;
+    /* display: inline-block; */
+    background: white;
+    text-align: center;
+    font-size: 15px;
+}
+.table-for{
+    width:100%;
+    padding: 10px 0px 10px 0px;
+}
+.scrollB{
+    margin-top:5vh;
+    height: 486px;
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .scrollIn{
+        height: 486px;
+        overflow: auto;
+        border: 1px solid #b7abab36;
+    }
 }

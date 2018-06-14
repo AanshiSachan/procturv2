@@ -65,7 +65,9 @@ export class BiometricWidgetComponent implements OnInit {
           this.mappedBiometric.push(data[i]);
 
         }
+
         this.biometricData = this.mappedBiometric;
+        console.log(this.biometricData);
         this.count = this.biometricData.length;
         this.changeWidth.emit(this.biometricData);
       },
