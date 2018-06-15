@@ -124,7 +124,6 @@ export class CounsellorReportComponent implements OnInit {
           }
           this.newArray.push(this.newObject);
         }
-
         this.getCounsellorDetails = this.newArray;
         this.getCounsellorDetails.map(
           (ele: any) => {

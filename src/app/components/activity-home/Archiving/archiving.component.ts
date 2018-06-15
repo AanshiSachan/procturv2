@@ -1,17 +1,15 @@
-// import { Component, NgModule } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { AppComponent } from '../../../app.component';
-// import { LoginService } from '../../../services/login-services/login.service';
-// import { Observable } from 'rxjs/Rx';
-// import { Subscription } from 'rxjs';
-// import 'rxjs/Rx';
+import { Component, OnInit } from '@angular/core';
 
-// @Component({
-//   selector: 'app-archive',
-//   templateUrl: './archive.component.html',
-//   styleUrls: ['./archive.component.scss']
-// })
-// export class archiveComponent {
+@Component({
+  selector: 'app-archiving',
+  templateUrl: './archiving.component.html',
+  styleUrls: ['./archiving.component.scss']
+})
+export class ArchivingComponent implements OnInit {
 
-    
-// }
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
