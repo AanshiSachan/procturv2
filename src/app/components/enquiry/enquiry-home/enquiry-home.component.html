@@ -652,7 +652,7 @@
 
                   <tbody>
                     <tr *ngFor="let item of updateFormComments; let i=index;">
-                      <td>{{updateFormComments[i]}}</td>
+                      <td> <div [innerHTML]="updateFormComments[i]"></div></td>
                       <td>{{updateFormCommentsOn[i]| date:'dd-MM-yyyy hh:mm a'}}</td>
                       <td>{{updateFormCommentsBy[i]}}</td>
                     </tr>

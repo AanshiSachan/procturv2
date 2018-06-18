@@ -32,7 +32,7 @@ export class CourseEditComponent implements OnInit {
         if (params.course_name != undefined && params.course_name != "" && params.course_name != null) {
           this.courseName = params.course_name;
         } else {
-          this.router.navigateByUrl('course/courselist');
+          this.router.navigateByUrl('/view/course/courselist');
         }
       }
     )
@@ -121,7 +121,7 @@ export class CourseEditComponent implements OnInit {
     }
     this.apiService.updateDetailsInEdit(dataToSend).subscribe(
       res => {
-        this.router.navigateByUrl('course/courselist');
+        this.router.navigateByUrl('/view/course/courselist');
         this.messageToast('success', 'Course Updated', 'Course updated sucessfully.')
       },
       err => {

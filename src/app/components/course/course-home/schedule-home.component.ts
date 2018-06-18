@@ -336,33 +336,33 @@ export class ScheduleHomeComponent implements OnInit {
 
   routeToSubTabsForLang(data) {
     if (data.indexOf('501') != -1) {
-      this.route.navigateByUrl('course/standardlist');
+      this.route.navigateByUrl('/view/course/standardlist');
     } else if (data.indexOf('502') != -1) {
-      this.route.navigateByUrl('course/subject');
+      this.route.navigateByUrl('/view/course/subject');
     } else if (data.indexOf('401') != -1) {
-      this.route.navigateByUrl('course/managebatch');
+      this.route.navigateByUrl('/view/course/managebatch');
     } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
-      this.route.navigateByUrl('course/class');
+      this.route.navigateByUrl('/view/course/class');
     }
   }
 
   routeToSubTabsForNotLang(data) {
     if (data.indexOf('501') != -1) {
-      this.route.navigateByUrl('course/standardlist');
+      this.route.navigateByUrl('/view/course/standardlist');
     } else if (data.indexOf('502') != -1) {
-      this.route.navigateByUrl('course/subject');
+      this.route.navigateByUrl('/view/course/subject');
     } else if (data.indexOf('505') != -1) {
-      this.route.navigateByUrl('course/courselist');
+      this.route.navigateByUrl('/view/course/courselist');
     } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
-      this.route.navigateByUrl('course/class');
+      this.route.navigateByUrl('/view/course/class');
     }
   }
 
   teacherLoginFound() {
     if (this.isLangInstitue) {
-      this.route.navigateByUrl('course/managebatch');
+      this.route.navigateByUrl('/view/course/managebatch');
     } else {
-      this.route.navigateByUrl('course/courselist');
+      this.route.navigateByUrl('/view/course/courselist');
     }
   }
 

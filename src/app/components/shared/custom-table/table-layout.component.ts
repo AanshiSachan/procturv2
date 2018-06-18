@@ -29,10 +29,6 @@ export class TableLayoutComponent implements OnChanges {
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef) { }
 
     ngOnChanges() {
-        console.log(this.viewText,this.text);
-
-
-
         this.sortingEnabled;
         if (this.settings) {
             this.columnMaps = this.settings
@@ -44,10 +40,8 @@ export class TableLayoutComponent implements OnChanges {
         }
 
     }
-ngOnInit()
-{
-    console.log(this.viewText,this.text);
-}
+
+    ngOnInit() { }
 
     selectAllRows(ev) {
         if (ev) {
@@ -68,8 +62,6 @@ ngOnInit()
             this.sortedBy = ev;
             this.sortData.emit(ev);
         }
-        //console.log(ev);
-        console.log(this.columnMaps);
     }
 
 
@@ -81,18 +73,18 @@ ngOnInit()
         else {
             return false;
         }
-  
+
     }
-    getColor(key , data) {
-      
-           if(data == "Absent"){
-             return 'red'
-               
-           }
-           else if(data == "Leave"){
-            return 'blue'
-           }
-          
+    getColor(key, data) {
+
+        if (data == "Absent") {
+            return 'red'
+
         }
-        
+        else if (data == "Leave") {
+            return 'blue'
+        }
+
+    }
+
 }

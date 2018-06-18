@@ -247,7 +247,7 @@ export class CourseAddComponent implements OnInit {
           body: "Course Creation Successfull."
         }
         this.toastCtrl.popToast(msg);
-        this.route.navigateByUrl('/course/courselist');
+        this.route.navigateByUrl('/view/course/courselist');
       },
       error => {
         //console.log(error);

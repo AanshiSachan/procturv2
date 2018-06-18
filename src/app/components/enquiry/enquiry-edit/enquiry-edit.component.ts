@@ -800,7 +800,7 @@ export class EnquiryEditComponent implements OnInit {
                   institute_enquiry_id: this.institute_enquiry_id
                 }
                 localStorage.setItem('studentPrefill', JSON.stringify(obj));
-                this.router.navigate(['student/add']);
+                this.router.navigate(['/view/student/add']);
               }
               else {
                 this.clearLocalAndRoute()
@@ -1057,7 +1057,7 @@ export class EnquiryEditComponent implements OnInit {
   clearLocalAndRoute() {
     this.clearFormData();
     localStorage.removeItem('institute_enquiry_id');
-    this.router.navigateByUrl('/enquiry');
+    this.router.navigateByUrl('/view/enquiry');
   }
 
 

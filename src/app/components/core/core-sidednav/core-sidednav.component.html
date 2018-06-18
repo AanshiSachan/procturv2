@@ -1,7 +1,7 @@
 <aside class="common-nav" id="commonLeftNav">
     <nav>
         <ul class="nav-list">
-            <li routerLink="home" class="" id="lizero" (click)="setActive($event)">
+            <li routerLink="/view/home" class="" id="lizero" (click)="setActive($event)">
                 <i class="icon" id="li0">
                     <svg id="li0" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         x="0px" y="0px" width="28px" height="24px" viewBox="0 0 28 24" xml:space="preserve">
@@ -19,7 +19,7 @@
                 </i>
                 <span id="li0">Home</span>
             </li>
-            <li routerLink="enquiry" class="hide" id="lione" (click)="setActive($event)">
+            <li routerLink="/view/enquiry" class="hide" id="lione" (click)="setActive($event)">
                 <i class="icon" id="li1">
                     <svg xmlns="http://www.w3.org/2000/svg" id="li1" viewBox="-29 58 28 24">
                         <defs>
@@ -54,7 +54,7 @@
                 </i>
                 <span id="li1">Enquiry</span>
             </li>
-            <li routerLink="student" class="hide" id="litwo" (click)="setActive($event)">
+            <li routerLink="/view/student" class="hide" id="litwo" (click)="setActive($event)">
                 <i class="icon" id="li2">
                     <svg xmlns="http://www.w3.org/2000/svg" id="li2" viewBox="-29 119 28 24">
                         <g id="Group_1187" data-name="Group 1187" transform="translate(-46 -16)">
@@ -70,7 +70,7 @@
                 </i>
                 <span id="li2">Student</span>
             </li>
-            <li routerLink="course" class="hide" id="lithree" (click)="setActive($event)">
+            <li routerLink="/view/course" class="hide" id="lithree" (click)="setActive($event)">
                 <i class="icon" id="li3">
                     <svg xmlns="http://www.w3.org/2000/svg" id="li3" viewBox="-29 180 28 24">
                         <g id="Group_1186" data-name="Group 1186" transform="translate(-46 -16)">
@@ -107,7 +107,7 @@
                 <span *ngIf="isLangInstitute" id="li3">Batch</span>
                 <span *ngIf="!isLangInstitute" id="li3">Course</span>
             </li>
-            <li routerLink="activity" class="hide" id="lifour" (click)="setActive($event)">
+            <li routerLink="/view/activity" class="hide" id="lifour" (click)="setActive($event)">
                 <i class="icon" id="li4">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 241 28 24" id="li4">
                         <g id="Group_1185" data-name="Group 1185" transform="translate(-46 -16)">
@@ -127,7 +127,7 @@
                 </i>
                 <span id="li4">Activity</span>
             </li>
-            <li routerLink="employee" class="hide" id="lifive" (click)="setActive($event)" style="display: none;" >
+            <li routerLink="/view/employee" class="hide" id="lifive" (click)="setActive($event)" style="display: none;" >
                 <i class="icon" id="li5">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 119 28 24" id="li5">
 
@@ -144,7 +144,7 @@
                 </i>
                 <span id="li5">Employee</span>
             </li>
-            <li routerLink="reports" class="hide" id="lisix" (click)="setActive($event)">
+            <li routerLink="/view/reports" class="hide" id="lisix" (click)="setActive($event)">
                 <i class="icon" id="li6">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 364 28 24" id="li6">
                         <g id="Group_1183" data-name="Group 1183" transform="translate(-46 -16)">
@@ -164,7 +164,7 @@
                 </i>
                 <span id="li6">Reports</span>
             </li>
-            <li routerLink="inventory" class="hide" id="liseven" (click)="setActive($event)">
+            <li routerLink="/view/inventory" class="hide" id="liseven" (click)="setActive($event)">
                 <i class="icon" id="li7">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 421 28 24" id="li7">
                         <g id="Group_1182" data-name="Group 1182" transform="translate(-46 -16)">
@@ -182,7 +182,7 @@
                 </i>
                 <span id="li7">Inventory</span>
             </li>
-            <li routerLink="expense" class="hide" id="lieight" (click)="setActive($event)" style="display: none;">
+            <li routerLink="/view/expense" class="hide" id="lieight" (click)="setActive($event)" style="display: none;">
                 <i class="icon" id="li8">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 484 28 24" id="li8">
                         <g id="Group_1181" data-name="Group 1181" transform="translate(-46 -16)">
@@ -206,7 +206,7 @@
                 </i>
                 <span id="li8">Expense</span>
             </li>
-            <li routerLink="campaign" class="hide" id="linine" (click)="setActive($event)">
+            <li routerLink="/view/campaign" class="hide" id="linine" (click)="setActive($event)">
                 <i class="icon" id="li9">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 545 28 24" id="li9">
                         <g id="Group_1180" data-name="Group 1180" transform="translate(-46 -16)">
@@ -233,32 +233,6 @@
                 </i>
                 <span id="li9">Campaign</span>
             </li>
-            <!-- <li routerLink="exams" class="hide" id="liten" (click)="setActive($event)">
-                <i class="icon" id="liX">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 605 28 24" id="liX">
-                        <g id="Group_1179" data-name="Group 1179" transform="translate(-46 -16)">
-                            <g id="Group_1167" data-name="Group 1167" transform="translate(1 -1)">
-                                <line id="Line_52" data-name="Line 52" class="cls-1" x2="2.174" transform="translate(29.13 641.956)" />
-                                <path id="Path_94" data-name="Path 94" class="cls-1" d="M21.391,15.783V22.3H4V11.87A.872.872,0,0,1,4.87,11H8.783" transform="translate(17.304 618.348)"
-                                />
-                                <path id="Path_95" data-name="Path 95" class="cls-1" d="M21,37H1v.87a1.744,1.744,0,0,0,1.739,1.739H19.261A1.744,1.744,0,0,0,21,37.87Z"
-                                    transform="translate(19 603.652)" />
-                                <path id="Path_96" data-name="Path 96" class="cls-1" d="M17,6.652V2.3A1.281,1.281,0,0,1,18.3,1H28.739a1.281,1.281,0,0,1,1.3,1.3V7.957a1.281,1.281,0,0,1-1.3,1.3H25.261l-3.174,3.174a.435.435,0,0,1-.739-.3V9.261H19.609"
-                                    transform="translate(9.957 624)" />
-                                <path id="Path_97" data-name="Path 97" class="cls-1" d="M15.957,31.043v-1.13C15.957,28.7,13.435,28,12.478,28S9,28.7,9,29.913v1.13"
-                                    transform="translate(14.478 608.739)" />
-                                <path id="Path_98" data-name="Path 98" class="cls-1" d="M14.739,16A1.744,1.744,0,0,0,13,17.739v.435a1.739,1.739,0,1,0,3.478,0v-.435A1.744,1.744,0,0,0,14.739,16Z"
-                                    transform="translate(12.217 615.522)" />
-                                <line id="Line_53" data-name="Line 53" class="cls-1" x2="0.87" transform="translate(31.304 629.348)" />
-                                <line id="Line_54" data-name="Line 54" class="cls-1" x2="0.87" transform="translate(33.043 629.348)" />
-                                <line id="Line_55" data-name="Line 55" class="cls-1" x2="0.87" transform="translate(34.783 629.348)" />
-                            </g>
-                            <rect id="Rectangle_677" data-name="Rectangle 677" class="cls-2" width="28" height="24" transform="translate(17 621)" />
-                        </g>
-                    </svg>
-                </i>
-                <span id="liX">Online Exam</span>
-            </li> -->
         </ul>
     </nav>
 </aside>

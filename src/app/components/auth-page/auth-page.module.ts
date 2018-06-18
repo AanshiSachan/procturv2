@@ -8,7 +8,6 @@ import {AuthPageRoutingModule} from './auth-page-routing.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginPageComponent } from './login-page/login-page.component';
 import { AuthListPopupComponent } from './auth-list-popup/auth-list-popup.component';
-import { LoginInput } from './auth-directives/auth-directives.directive';
 
 @NgModule({
     imports: [
@@ -20,8 +19,7 @@ import { LoginInput } from './auth-directives/auth-directives.directive';
     declarations: [
         AuthPageComponent,
         LoginPageComponent,
-        AuthListPopupComponent,
-        LoginInput
+        AuthListPopupComponent
     ],
     entryComponents: [
       ],

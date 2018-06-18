@@ -366,7 +366,7 @@ export class FeeTemplateAddComponent implements OnInit {
           body: "Fee Structure created Successfully"
         }
         this.appC.popToast(msg);
-        this.route.navigateByUrl('/fee');
+        this.route.navigateByUrl('/view/fee');
       },
       err => {
         let msg = {

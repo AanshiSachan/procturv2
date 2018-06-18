@@ -753,7 +753,7 @@ export class ClassHomeComponent implements OnInit {
       date: data.id.split('(')[0]
     }
     sessionStorage.setItem('editClass', JSON.stringify(obj));
-    this.router.navigateByUrl('course/class/add');
+    this.router.navigateByUrl('/view/course/class/add');
   }
 
   printTimeTableData() {

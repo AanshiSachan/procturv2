@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
-      this.router.navigate(['/authPage']);
+      this.router.navigateByUrl('/authPage');
     }
   }
 

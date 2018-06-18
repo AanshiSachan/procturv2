@@ -699,7 +699,7 @@
                             Paid Date
                           </label>
                           <span>
-                            {{installment.paid_date | date:"dd-MMM-yyyy"}}
+                            {{installment.paid_date | date:"dd MMM yyyy"}}
                           </span>
                         </li>
 
@@ -1481,13 +1481,11 @@
 
           <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.reference_no != ''}">
             <label for="ref">Reference No.</label>
-
             <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="partialPayObj.reference_no" name="ref" />
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.remarks != ''}">
             <label for="rema">Remarks</label>
-
             <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="partialPayObj.remarks" name="rema" />
           </div>
 
@@ -1495,7 +1493,6 @@
         <!-- Cheque Payment PDC updates -->
         <div style="margin: 5px -5px;" class="row pdcChequePayment" *ngIf="isPaymentPdc">
           <h5></h5>
-
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
             <div class="c-lg-12">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">

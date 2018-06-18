@@ -60,12 +60,12 @@ export class TeacherListComponent implements OnInit {
 
   editTeacherDeatils(row) {
     localStorage.setItem('teacherID', row.teacher_id);
-    this.route.navigateByUrl('teacher/edit');
+    this.route.navigateByUrl('/view/teacher/edit');
   }
 
   viewTeacherActivity(row) {
     localStorage.setItem('teacherID', row.teacher_id);
-    this.route.navigateByUrl('teacher/view');
+    this.route.navigateByUrl('/view/teacher/view');
   }
 
   deleteTeacherDeatils(row){

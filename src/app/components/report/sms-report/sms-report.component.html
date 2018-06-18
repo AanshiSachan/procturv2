@@ -9,16 +9,13 @@
         <section class="middle-top mb0 clearFix sms-header">
 
           <h1 class="pull-left">
-            <a routerLink="/reports/home">
+            <a routerLink="/view/reports/home">
               Report
-              <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> SMS Report
           </h1>
 
           <aside class="pull-right">
-            <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
-            <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
           </aside>
 
         </section>
@@ -68,23 +65,9 @@
       <section class="sms-table-wrapper">
 
         <div class="table table-responsive student-table">
-
           <proctur-table [dataStatus]="dataStatus" [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
           </proctur-table>
-
         </div>
-
-
-        <!-- Paginator Here-->
-        <!-- <div class="filter-res pagination" style="width: 100%;">
-            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-              <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-              </pagination>
-            </div>
-  
-          </div> -->
-
       </section>
 
     </section>

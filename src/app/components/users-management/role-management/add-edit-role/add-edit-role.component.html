@@ -53,7 +53,7 @@
     </div>
 
     <div class="btn-section pull-right">
-      <button routerLink='/manage/role' class="btn">Cancel</button>
+      <button routerLink='/view/manage/role' class="btn">Cancel</button>
       <button class="btn fullBlue" *ngIf="roleId == '-1'" (click)="createNewRole()">Save</button>
       <button class="btn fullBlue" *ngIf="roleId != '-1'" (click)="updateRole()">Update</button>
     </div>

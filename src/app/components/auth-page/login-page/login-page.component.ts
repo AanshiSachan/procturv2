@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import { LoginService } from '../../../services/login-services/login.service';
 import { LoginAuth } from '../../../model/login-auth';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
-import { LoaderHandlingService } from '../../../services/loading-services/loader-handling.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
@@ -148,7 +145,6 @@ export class LoginPageComponent {
     }
     else {
       this.login.postLoginDetails(this.loginDataForm).subscribe(el => {
-        //console.log(el);
         this.checkForAuthOptions(el);
       });
     }
@@ -563,7 +559,7 @@ export class LoginPageComponent {
       if (id != null) {
         if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
           this.login.changeSidenavStatus('authorized');
-          this.route.navigateByUrl('home');
+          this.route.navigateByUrl('/view/home');
         }
         else if (sessionStorage.getItem('userType') == '1') {
           sessionStorage.setItem('student_id', JSON.stringify(this.serverUserData.data.studentId));
