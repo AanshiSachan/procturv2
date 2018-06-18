@@ -59,6 +59,7 @@ import { chatBotComponent } from './components/chatbot/chatbot.component';
 import { ZendAuth } from './services/Chat-bot/chatbot.service';
 import { MultiBranchDataService } from './services/multiBranchdata.service';
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -90,7 +91,7 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     EventManagmentComponent,
     CityAreaMapComponent,
     TopicsComponent,
-    SearchBoxComponent
+    SearchBoxComponent,
   ],
   entryComponents: [
     SearchBoxComponent, chatBotComponent
