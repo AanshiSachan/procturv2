@@ -254,9 +254,6 @@ export class AdminHomeComponent implements OnInit {
     else if (event.length == 2) {
       this.ref.nativeElement.className = "dataSecond";
     }
-    else if (this.biometricEnable == "0") {
-      this.ref.nativeElement.className = "hide";
-    }
     else if (event.length == 3) {
       this.ref.nativeElement.className = "dataThird";
     }

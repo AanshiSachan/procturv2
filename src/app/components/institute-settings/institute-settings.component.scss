@@ -528,7 +528,6 @@ input[type=number]::-webkit-outer-spin-button {
     background: transparent;
     margin: 5px 0px;
     label {
-        color: #309bf8 !important;
         font-size: 12px;
         font-weight: 400;
         color: rgba(0, 0, 0, 0.77);
@@ -694,4 +693,10 @@ tr {
         width: 480px;
         // top: -5px;
     }
+}
+
+.interval-box{
+    padding: 3px 5px !important;
+    margin-top: -5px !important;
+    background: transparent;
 }

@@ -15,7 +15,7 @@
         .field-wrapper {
             background: transparent;
             .form-ctrl {
-                background: transparent;
+                background: white;
             }
         }
     }
@@ -622,7 +622,8 @@
         padding: 0;
         background: #fff;
     }
-    .accordian-heading h4 {
+    .accordian-heading {
+        margin: 0px 0px;
         padding: 3px !important;
         color: #444;
         border: 1px solid #eaecee;
@@ -630,41 +631,43 @@
         margin: 4px 0 2px;
         background: #e6f2fe;
         text-align: left;
-        .open-accor,
-        .close-accor {
-            float: left;
-        }
-        .close-accor {
-            width: 18px;
-            height: 18px;
-            line-height: 11px;
-            margin-top: 0;
-        }
-        .open-accor {
-            width: 18px;
-            height: 18px;
-            line-height: 16px;
-            margin-top: 0;
-        }
-        .date-c {
-            font-size: 13px;
-            line-height: 20px;
-            margin-left: 10px;
-            font-weight: 600;
-        }
-        .delete-icon {
-            font-size: 18px;
-            color: #f44336;
-            margin-left: 10px;
-            margin-right: 9px;
-            cursor: pointer;
-            svg {
-                width: 15px;
-                vertical-align: top;
-                display: inline-block;
-                margin-top: 3px;
-                line {
-                    stroke-width: 2;
+        .headingDiv {
+            .open-accor,
+            .close-accor {
+                float: left;
+            }
+            .close-accor {
+                width: 18px;
+                height: 18px;
+                line-height: 11px;
+                margin-top: 0;
+            }
+            .open-accor {
+                width: 18px;
+                height: 18px;
+                line-height: 16px;
+                margin-top: 0;
+            }
+            .date-c {
+                font-size: 13px;
+                line-height: 20px;
+                margin-left: 10px;
+                font-weight: 600;
+            }
+            .delete-icon {
+                font-size: 18px;
+                color: #f44336;
+                margin-left: 10px;
+                margin-right: 9px;
+                cursor: pointer;
+                svg {
+                    width: 15px;
+                    vertical-align: top;
+                    display: inline-block;
+                    margin-top: 3px;
+                    line {
+                        stroke-width: 2;
+                    }
                 }
             }
         }

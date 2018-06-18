@@ -48,7 +48,6 @@ export class BiometricWidgetComponent implements OnInit {
     // this.grid.on('dragEnd', (item, event) => {
     //   this.getOrder();
     // });
-    this.sendDataToHome();
   }
 
   getOrder() {
@@ -57,9 +56,7 @@ export class BiometricWidgetComponent implements OnInit {
 
 
 
-  sendDataToHome() {
-    this.changeWidth.emit(this.biometricData);
-  }
+  
 
   fetchBiometricStatus() {
     this.biometric.biometricStatus().subscribe(
@@ -68,10 +65,11 @@ export class BiometricWidgetComponent implements OnInit {
           this.mappedBiometric.push(data[i]);
 
         }
+
         this.biometricData = this.mappedBiometric;
-        this.count = this.biometricData.length;
-        console.log(this.sum);
         console.log(this.biometricData);
+        this.count = this.biometricData.length;
+        this.changeWidth.emit(this.biometricData);
       },
       (error: any) => {
 

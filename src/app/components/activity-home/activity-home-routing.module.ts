@@ -22,8 +22,8 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
                         component: HomeComponent
                     },
                     {
-                        path : 'ptm',
-                        component :PtmManagementComponent
+                        path: 'ptm',
+                        component: PtmManagementComponent
                     },
                     {
                         path: 'manage',
@@ -33,6 +33,11 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
                     {
                         path: 'monitoring-dashboard',
                         loadChildren: 'app/components/activity-home/monitoring-dashboard/monitoring-dashboard.module#MonitoringDashboardModule',
+                        pathMatch: 'prefix'
+                    },
+                    {
+                        path:'archiving',
+                        loadChildren: 'app/components/activity-home/archiving/archiving.module#ArchivingModule',
                         pathMatch: 'prefix'
                     }
                 ]

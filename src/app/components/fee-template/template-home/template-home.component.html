@@ -3,7 +3,7 @@
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager>
   <!-- Main View -->
   <aside class="middle-full">
-    <section class="middle-top mb0 clearFix">
+    <section class="middle-top clearFix">
       <h1 class="pull-left">
         Manage Fee Structures
       </h1>
@@ -18,62 +18,69 @@
       </aside>
     </section>
 
+    <div class="row" style="margin:10px 0px">
+      <div class="search-filter-wrapper">
+        <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
+      </div>
+    </div>
+
+
     <!-- Fee Table Container -->
-    <section class="middle-main clearFix" id="middleMainForEnquiryList">
+    <section class="table-content clearFix" id="">
       <!-- Data Table and Pagination -->
-      <section class="search-data">
-        <div class="" id="table-main">
-          <div class="table-scroll-wrapper">
-            <div class="table table-responsive enquiry-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Fee Structure Name</th>
-                    <th>Master Course Name</th>
-                    <th>Course</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let fee of source">
-                    <td>
-                      <label>
-                        {{fee.template_name}}
-                      </label>
-                    </td>
-                    <td>
-                      {{fee.master_course_standard_name}}
-                    </td>
-                    <td>
-                      {{fee.course_subject_name}}
-                    </td>
-                    <td class="feeactions">
-                      <ul>
-                        <li (click)="editFee(fee)">
-                          <a>Edit</a>
-                        </li>
-                        <!-- <li>
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table class="structure-table">
+            <thead>
+              <tr>
+                <th>Fee Structure</th>
+                <th>Master Course</th>
+                <th>Course</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fee of tabkeList">
+                <td>
+                  <label>
+                    {{fee.template_name}}
+                  </label>
+                </td>
+                <td>
+                  {{fee.master_course_standard_name}}
+                </td>
+                <td>
+                  {{fee.course_subject_name}}
+                </td>
+                <td class="feeactions">
+                  <ul>
+                    <li (click)="editFee(fee)">
+                      <a>Edit</a>
+                    </li>
+                    <!-- <li>
                           <a>Delete</a>
                         </li> -->
-                      </ul>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+                  </ul>
+                </td>
+              </tr>
+              <tr *ngIf="tabkeList.length == 0">
+                <td colspan="4">
+                  No Fee Structure Available
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        <!-- Paginator Here -->
-        <!-- <div class="row filter-res pagination" id="pager" style="width: 100%;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
-              [count]="totalEnquiry">
-            </pagination>
-          </div>
-        </div> -->
-      </section>
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
+
     </section>
 
 
