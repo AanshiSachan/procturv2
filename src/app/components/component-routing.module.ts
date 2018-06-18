@@ -3,12 +3,6 @@ import { RouterModule } from '@angular/router';
 import { ComponentsComponent } from './components.component';
 import { AuthGuard } from '../guards/auth.guard';
 
-import { SlotComponent } from '../components/slot/slot.component';
-import { CityAreaMapComponent } from '../components/city-area-map/city-area-map.component';
-import { ClassRoomComponent } from '../components/class-room/class-room.component';
-import { EventManagmentComponent } from '../components/event-managment/event-managment.component';
-import { TopicsComponent } from '../components/topics/topics.component';
-
 @NgModule({
     imports: [
         RouterModule.forChild(
@@ -116,31 +110,7 @@ import { TopicsComponent } from '../components/topics/topics.component';
                             path: 'manage',
                             loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
                         },
-                        {
-                            path: 'slot',
-                            component: SlotComponent,
-                            canLoad: [AuthGuard]
-                        },
-                        {
-                            path: 'classroom',
-                            component: ClassRoomComponent,
-                            canLoad: [AuthGuard]
-                        },
-                        {
 
-                            path: 'Topics',
-                            component: TopicsComponent,
-                            canLoad: [AuthGuard]
-                        },
-                        {
-                            path: 'eventManagment',
-                            component: EventManagmentComponent,
-                            canLoad: [AuthGuard]
-                        },
-                        {
-                            path: 'areaCity',
-                            component: CityAreaMapComponent,
-                        }
                     ]
                 },
             ]
