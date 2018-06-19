@@ -1,7 +1,11 @@
 .middle-section {
-    padding: 5px 15px;
+    padding: 0px 0px 0px 15px;
     width: 100%;
     box-sizing: border-box;
+    display: inline-flex;
+    .table-Content {
+        width: 100%;
+    }
 }
 
 .headEnq {
@@ -248,4 +252,14 @@ $color-highlight: lighten($color-base, 7%);
     color: #fff;
     font-weight: 700;
     padding: 7px 7px;
+}
+
+.side-Nav {
+    position: relative;
+    top: -20px;
+    margin-left: 1%;
+    z-index: 9999999;
+    box-shadow: -3px 0px 6px rgba(119, 119, 119, 0.26);
+    padding: 10px 0px 10px 10px;
+    border-left: 1px solid rgba(211, 212, 213, 0.5)
 }
