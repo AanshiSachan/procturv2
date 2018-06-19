@@ -387,8 +387,7 @@
         font-size: 22px;
     }
     h4 {
-        margin: px 0 15px;
-        font-weight: 520;
+        margin: 0px 0px;
     }
 }
 
@@ -523,7 +522,7 @@
 }
 
 .sms-popup-content {
-    max-height: 400px !important;
+    max-height: 375px !important;
     display: flex !important;
     overflow-x: hidden;
     overflow-y: auto;
@@ -533,9 +532,9 @@
         background: transparent;
         
     }
-    ::-webkit-scrollbar {
-        display: block;
-    }
+    // ::-webkit-scrollbar {
+    //     display: block;
+    // }
 }
 
 .sms-update {
