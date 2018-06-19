@@ -100,8 +100,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     reference: null,
   }
 
-
-
   updateFormComments: any[] = [];
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
@@ -548,6 +546,20 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
   changeAssignList(event) {
     this.getUserList.emit(event);
+  }
+
+  walkinChanges(e){
+    if(e != "Invalid date" && e != null){
+      //valid date detected
+      if(this.walkin_followUpTime == "" && this.timeObj.wminute == ""){
+        this.walkin_followUpTime = "12 PM";
+        this.timeObj.wminute = "00";
+      }
+    }
+    else{
+      this.walkin_followUpTime = "";
+      this.timeObj.wminute = "";
+    }
   }
 
 }

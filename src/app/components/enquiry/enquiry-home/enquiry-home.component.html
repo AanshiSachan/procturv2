@@ -414,7 +414,7 @@
         <!-- Enquiry DataTable -->
         <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
-            <div class="table table-responsive enquiry-table">
+            <div class="">
               <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="enquirySettings"
                 (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage"
                 [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)"

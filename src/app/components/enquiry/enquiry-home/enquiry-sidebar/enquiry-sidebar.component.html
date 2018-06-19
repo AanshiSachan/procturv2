@@ -158,7 +158,7 @@
                             <div class="form-wrapper datepicker">
                                 <label for="walkindate">Walkin Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
-                                    id="walkindate" readonly="true" bsDatepicker/>
+                                   (ngModelChange)="walkinChanges($event)" id="walkindate" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="walkindate" (click)="updateFormData.walkin_followUpDate =''">X</span>
                             </div>
 
