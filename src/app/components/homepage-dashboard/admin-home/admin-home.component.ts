@@ -41,7 +41,7 @@ export class AdminHomeComponent implements OnInit {
   public isRippleLoad: boolean = false;
   public AllPresent: boolean = true;
   public teacher_id: number = -1;
-  @ViewChild('biometricDiv') bioAd : ElementRef;
+  @ViewChild('biometricDiv') bioAd: ElementRef;
   public schedStat: any = {};
 
   is_notified: any = 'Y';
@@ -215,7 +215,7 @@ export class AdminHomeComponent implements OnInit {
           this.bioAd.nativeElement.style.display = 'none';
         }
       }
-    } 
+    }
 
 
   }
@@ -1031,7 +1031,9 @@ export class AdminHomeComponent implements OnInit {
           }
         }
         this.courseLevelSchedule = [];
-        this.courseLevelSchedule = tempArr;
+        if (tempArr.length > 0) {
+          this.courseLevelSchedule = tempArr;
+        }
         this.generateCourseLevelExam();
       },
       err => {
