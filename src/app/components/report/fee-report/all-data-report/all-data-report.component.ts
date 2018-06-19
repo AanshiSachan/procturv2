@@ -91,7 +91,8 @@ export class AllDataReportComponent implements OnInit {
     contact_no: '',
     type: '0',
     installment_id: -1,
-    is_fee_report_view: 1
+    is_fee_report_view: 1,
+    academic_year_id: []
   }
 
   isRippleLoad: boolean = false;
@@ -112,6 +113,8 @@ export class AllDataReportComponent implements OnInit {
 
   @ViewChild('form') form: any;
 
+  getAllAcademic: any[] = [];
+
   constructor(
     private login: LoginService,
     private appC: AppComponent,
@@ -130,6 +133,7 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
+    this.getAcademicYear();
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -164,6 +168,17 @@ export class AllDataReportComponent implements OnInit {
         this.searchDB();
       });
 
+  }
+
+  getAcademicYear() {
+    this.getter.getAcademicYear().subscribe(
+      (res: any) => {
+        this.getAllAcademic = res;
+      },
+      (error: any) => {
+
+      }
+    )
   }
 
 
@@ -269,7 +284,8 @@ export class AllDataReportComponent implements OnInit {
         course_id: this.courseFetchForm.course_id,
         student_name: this.courseFetchForm.student_name,
         contact_no: this.courseFetchForm.contact_no,
-        is_fee_report_view: this.courseFetchForm.is_fee_report_view
+        is_fee_report_view: this.courseFetchForm.is_fee_report_view,
+        academic_year_id: this.courseFetchForm.academic_year_id
       }
       //console.log(obj);
       this.generateReport(obj);
@@ -287,7 +303,8 @@ export class AllDataReportComponent implements OnInit {
         course_id: this.courseFetchForm.subject_id,
         student_name: this.courseFetchForm.student_name,
         contact_no: this.courseFetchForm.contact_no,
-        is_fee_report_view: this.courseFetchForm.is_fee_report_view
+        is_fee_report_view: this.courseFetchForm.is_fee_report_view,
+        academic_year_id: this.courseFetchForm.academic_year_id
       }
       //console.log(obj);
       this.generateReport(obj);

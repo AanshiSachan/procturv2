@@ -16,53 +16,126 @@
     <h2 popup-header>Payment History {{feeData.student_name}} ( {{feeData.student_disp_id}} )</h2>
 
     <div class="history-wrapper" popup-content>
-            <div class="table-container">
-                    <div class="table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Paid On</th>
-                                    <th>Course</th>
-                                    <th>Academic Year</th>
-                                    <th>Receipt #</th>
-                                    <th>Installment #</th>
-                                    <th>Fee Type</th>
-                                    <th>Amount</th>
-                                    <th>Tax</th>
-                                    <th>Total Amount</th>
-                                    <th>Amount Paid</th>
-                                    <th>Amount Due</th>
-                                    <th>Payment Mode</th>
-                                    <th>Ref #</th>
-                                    <th>Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody *ngIf="pastHIstoryData.length">
-                                <tr *ngFor="let p of pastHIstoryData; let i= index;">
-                                    <td>{{p.paid_date}}</td>
-                                    <td>{{p.course_subject_name}}</td>
-                                    <td>{{p.academic_year}}</td>
-                                    <td>{{p.display_invoice_no}}</td>
-                                    <td>{{p.installment_no}}</td>
-                                    <td>{{p.fee_type_name}}</td>
-                                    <td>{{p.total_initial_amount}}</td>
-                                    <td>{{p.total_tax_applied}}</td>
-                                    <td>{{p.total_amount_after_discount_after_tax}}</td>
-                                    <td>{{p.total_amt_paid}}</td>
-                                    <td>{{p.total_balance_amt}}</td>
-                                    <td>{{p.paymentMode}}</td>
-                                    <td>{{p.reference_no}}</td>
-                                    <td>{{p.remarks}}</td>
-                                </tr>
-                            </tbody>
-                            <tbody *ngIf="pastHIstoryData.length == 0">
-                                <tr>
-                                    <td colspan="14">No Data Found</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+        <div class="table-container">
+            <div class="table">
+                <h6>Payment History</h6>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Paid On</th>
+                            <th>Course</th>
+                            <th>Academic Year</th>
+                            <th>Receipt #</th>
+                            <th>Installment #</th>
+                            <th>Fee Type</th>
+                            <th>Amount</th>
+                            <th>Tax</th>
+                            <th>Total Amount</th>
+                            <th>Amount Paid</th>
+                            <th>Amount Due</th>
+                            <th>Payment Mode</th>
+                            <th>Ref #</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="pastHIstoryData.length">
+                        <tr *ngFor="let p of pastHIstoryData; let i= index;">
+                            <td>{{p.paid_date}}</td>
+                            <td>{{p.course_subject_name}}</td>
+                            <td>{{p.academic_year}}</td>
+                            <td>{{p.display_invoice_no}}</td>
+                            <td>{{p.installment_no}}</td>
+                            <td>{{p.fee_type_name}}</td>
+                            <td> ₹{{p.total_initial_amount.toLocaleString('en-IN')}}</td>
+                            <td> {{p.total_tax_applied}}</td>
+                            <td> ₹{{p.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
+                            <td> ₹{{p.total_amt_paid.toLocaleString('en-IN')}}</td>
+                            <td> ₹{{p.total_balance_amt.toLocaleString('en-IN')}}</td>
+                            <td>{{p.paymentMode}}</td>
+                            <td>{{p.reference_no}}</td>
+                            <td>{{p.remarks}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="pastHIstoryData.length == 0">
+                        <tr>
+                            <td colspan="14">No Data Found</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h6 style="margin-top:15px;">Future Dues</h6>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Installemt #</th>
+                            <th>Course</th>
+                            <th>Academic Year</th>
+                            <th>Fee Type</th>
+                            <th>Due Date</th>
+                            <th>Amount</th>
+                            <th>Tax</th>
+                            <th>Total Amount</th>
+                            <th>Amount Paid</th>
+                            <th>Amount Due</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="nextDuesData.length">
+                        <tr *ngFor="let d of nextDuesData; let i = index;">
+                            <td>{{d.installment_no}}</td>
+                            <td>{{d.course_subject_name}}</td>
+                            <td>{{d.academic_year}}</td>
+                            <td>{{d.fee_type_name}}</td>
+                            <td>{{d.due_date}}</td>
+                            <td>₹{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
+                            <td>{{d.total_tax_applied}}</td>
+                            <td>₹{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
+                            <td>₹{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
+                            <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="nextDuesData.length == 0">
+                        <tr>
+                            <td colspan="10">No Data Found</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h6 style="margin-top:15px;">Past Dues</h6>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Installemt #</th>
+                            <th>Course</th>
+                            <th>Academic Year</th>
+                            <th>Fee Type</th>
+                            <th>Due Date</th>
+                            <th>Amount</th>
+                            <th>Tax</th>
+                            <th>Total Amount</th>
+                            <th>Amount Paid</th>
+                            <th>Amount Due</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="pastDues.length">
+                        <tr *ngFor="let d of pastDues; let i = index;">
+                            <td>{{d.installment_no}}</td>
+                            <td>{{d.course_subject_name}}</td>
+                            <td>{{d.academic_year}}</td>
+                            <td>{{d.fee_type_name}}</td>
+                            <td>{{d.due_date}}</td>
+                            <td>₹{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
+                            <td>{{d.total_tax_applied}}</td>
+                            <td>₹{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
+                            <td>₹{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
+                            <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="pastDues.length == 0">
+                        <tr>
+                            <td colspan="10">No Data Found</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
     </div>
 
     <!-- <div class="" popup-footer>

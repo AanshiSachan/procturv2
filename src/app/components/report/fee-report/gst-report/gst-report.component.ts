@@ -10,7 +10,9 @@ import * as moment from 'moment';
 export class GstReportComponent implements OnInit {
 
 
-  selectMonth:any [] = ["January" , "February" , "March" , "April" , "May" , "June" , "July" , "August" , "September" , "October" , "November" , "December"];
+  selectMonth: any[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
@@ -20,6 +22,9 @@ export class GstReportComponent implements OnInit {
     { primaryKey: 'fee_type_name', header: 'Fee Type' },
     { primaryKey: 'installment_nos', header: 'Inst No' },
     { primaryKey: 'paid_date', header: 'Paid Date' },
+    { primaryKey: 'cgst', header: 'CGST Amount' },
+    { primaryKey: 'sgst', header: 'SGST Amount' },
+    { primaryKey: 'tax', header: 'Tax Amount' },
     { primaryKey: 'reference_no', header: 'Ref No' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
@@ -33,21 +38,35 @@ export class GstReportComponent implements OnInit {
     student_name: "",
     contact_no: ""
   }
-  getPaymentRecords:any[]=[];
+  getPaymentRecords: any[] = [];
 
-  constructor(private gst:PaymentHistoryMainService) { }
+  constructor(private gst: PaymentHistoryMainService) { }
 
   ngOnInit() {
-    this.getGstReport();
+    this.getGstReport(event);
   }
 
-  getGstReport(){
-   
+
+  getGstReport(event) {
+    let date = new Date()
+    let y = date.getFullYear()
+    let m = date.getMonth();
+    let firstDay = new Date(y,m, 1);
+    let lastDay = new Date(y, m + 1, 0);
+    console.log(moment().endOf(event));
+    this.sendPayload = {
+      institute_id: this.gst.institute_id,
+      from_date: moment().startOf(event).format('YYYY-MM-DD'),
+      to_date: moment().endOf(event).format('YYYY-MM-DD'),
+      payment_history_student_category_option: 0,
+      student_name: "",
+      contact_no: ""
+    }
     this.gst.getPaymentData(this.sendPayload).subscribe(
-      (data:any)=>{
+      (data: any) => {
         this.getPaymentRecords = data;
       },
-      (error:any)=>{
+      (error: any) => {
         return error;
       }
     )
