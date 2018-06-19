@@ -27,59 +27,95 @@ export class AuthGuard implements CanActivate, CanLoad {
 
 
     checkLogin(string): boolean {
+
         if ((sessionStorage.getItem('userid') != null) && sessionStorage.getItem('institute_id') != null) {
+
+            
             if (string.indexOf('enquiry') >= 0) {
                 return this.hasEnquiryAccess();
             }
+
+
             else if (string.indexOf('student') >= 0) {
 
                 return this.hasStudentAccess();
             }
+
             else if (string.indexOf('course') >= 0) {
                 return this.hasCourseAccess();
             }
+            
             else if (string.indexOf('activity') >= 0) {
                 return this.hasActivityAccess();
             }
+
             else if (string.indexOf('employee') >= 0) {
                 return this.hasEmployeeAccess();
             }
+            
             else if (string.indexOf('reports') >= 0) {
                 return this.hasReportAccess();
             }
+
             else if (string.indexOf('inventory') >= 0) {
                 return this.hasInventoryAccess();
             }
+
             else if (string.indexOf('expense') >= 0) {
                 return this.hasExpenseAccess();
             }
+            
             else if (string.indexOf('campaign') >= 0) {
                 return this.hasCampaignAccess();
             }
+
             else if (string.indexOf('exams') >= 0) {
                 return this.hasExamAccess();
             }
+
             else if (string.indexOf('help') >= 0) {
                 return true;
             }
+
             else if (string.indexOf('slot') >= 0) {
                 return true;
             }
+
             else if (string.indexOf('formField') >= 0) {
                 return true;
             }
+
             else if (string.indexOf('teacher') >= 0) {
                 return this.hasTeacher();
             }
+
             else if (string.indexOf('fee') >= 0) {
                 return this.hasFeeAccess();
             }
+
             else if (string.indexOf('classroom') >= 0) {
                 return this.hasTeacher();
             }
+
             else if (string.indexOf('academic') >= 0) {
                 return true;
             }
+            
+            else if (string.indexOf('master') >= 0) {
+                return true;
+            }
+                        
+            else if (string.indexOf('setting') >= 0) {
+                return true;
+            }            
+
+            else if (string.indexOf('account') >= 0) {
+                return true;
+            }            
+
+            else if (string.indexOf('manage') >= 0) {
+                return true;
+            }            
         }
         else {
             return false;
