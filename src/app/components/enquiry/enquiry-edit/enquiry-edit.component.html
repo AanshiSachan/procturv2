@@ -322,9 +322,7 @@
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
                         <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"
-                        />
-
+                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"/>
                       </div>
                     </div>
 
@@ -348,7 +346,6 @@
                           <option value=""></option>
                           <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                         </select>
-
                       </div>
                     </div>
 
@@ -381,11 +378,8 @@
                         <label for="component.id">{{component.label}} </label>
                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                           name="{{component.label}}" bsDatepicker/>
-
                       </div>
                     </div>
-
-
                   </custom-enquiry>
 
                 </div>
