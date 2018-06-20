@@ -27,7 +27,7 @@
                                 </div>
 
                                 <div class="c-lg-4 field-radio-wrapper madeRadio">
-                                    <input type="radio" class="form-radio" id="tillDate" [(ngModel)]="getExpenses.type" name="currentMonth" value="1">
+                                    <input type="radio" class="form-radio" id="tillDate" [(ngModel)]="getExpenses.type" name="currentMonth" value="1" checked="true">
                                     <label for="tillDate">Till Date</label>
                                 </div>
 
@@ -119,8 +119,8 @@
                                     </ul>
                                     <hr style="margin: 0px;">
                                     <ul class="table-form">
-                                        <li class="table-for">
-                                            Total Expenses : ₹{{(i.expense_inventory + i.amount).toLocaleString('en-IN')}}
+                                        <li class="table-for" *ngFor="let k of expenseData">
+                                            Total Expenses : ₹{{(i.expense_inventory + k.amount).toLocaleString('en-IN')}}
                                         </li>
                                     </ul>
                                     <hr style="margin:0px;">
