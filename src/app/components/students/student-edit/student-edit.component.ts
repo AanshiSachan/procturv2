@@ -1130,7 +1130,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el,
+        data: el.toLowerCase(),
         checked: false
       }
       //console.log(obj)

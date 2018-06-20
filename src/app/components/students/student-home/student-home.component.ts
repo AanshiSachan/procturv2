@@ -770,7 +770,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el,
+        data: el.toLowerCase(),
         checked: false
       }
       customPrefilled.push(obj);
