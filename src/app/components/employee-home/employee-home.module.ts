@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { EmployeeService } from '../../services/employee-service/employee.service';
 import { AddEditEmployeeComponent } from './home/add-edit-employee/add-edit-employee.component';
+import { EmployeeSidenavComponent } from './employee-sidenav/employee-sidenav.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { AddEditEmployeeComponent } from './home/add-edit-employee/add-edit-empl
     declarations: [
         EmployeeHomeComponent,
         HomeComponent,
-        AddEditEmployeeComponent
+        AddEditEmployeeComponent,
+        EmployeeSidenavComponent
     ],
     entryComponents: [
     ],

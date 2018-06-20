@@ -20,7 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
             ],
             {
                 useHash: true,
-                preloadingStrategy: NoPreloading
+                preloadingStrategy: PreloadAllModules
             }
         )
     ],

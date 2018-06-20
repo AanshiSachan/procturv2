@@ -202,11 +202,11 @@
               <div class="row">
                 <div class="c-lg-3 c-md-3 c-sm-3">
                   <div class="field-wrapper has-value">
-                      <label for="ddnSelect">Lead Name</label>
+                    <label for="ddnSelect">Lead Name</label>
                     <select class="form-ctrl" name="ddnSelect">
                       <option value={{smsSelectedRows.data.list_name}}>{{smsSelectedRows.data.list_name}}</option>
                     </select>
-                  
+
                   </div>
                 </div>
               </div>
@@ -214,41 +214,41 @@
               <div class="row">
                 <div class="c-lg-3 c-md-3 c-sm-3">
                   <div class="field-wrapper datePickerBox has-value">
-                      <label for="followupdate">Campaign Date</label>
+                    <label for="followupdate">Campaign Date</label>
                     <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;"
                       (keyup.enter)="searchDatabase()" readonly="true" name="followupdate" bsDatepicker/>
-                  
+
                     <span class="date-clear" name="followupdate" (click)="clearDate($event)"></span>
                   </div>
                 </div>
 
                 <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
                   <div class="field-wrapper has-value">
-                      <label for="hour">Hour</label>
+                    <label for="hour">Hour</label>
                     <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour">
                       <option *ngFor="let hour of hourArr" [value]="hour">
                         {{hour}}
                       </option>
                     </select>
-                   
+
                   </div>
                   <div class="field-wrapper has-value">
-                      <label for="minute">Minute</label>
+                    <label for="minute">Minute</label>
                     <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute">
                       <option *ngFor="let minute of minArr" [value]="minute">
                         {{minute}}
                       </option>
                     </select>
-                    
+
                   </div>
                   <div class="field-wrapper has-value">
-                      <label for="meridian">Meridian</label>
+                    <label for="meridian">Meridian</label>
                     <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian">
                       <option *ngFor="let meridian of meridianArr" [value]="meridian">
                         {{meridian}}
                       </option>
                     </select>
-                    
+
                   </div>
                   <p>Note: Please specify the time window between 9 AM to 9 PM for scheduling campaign.</p>
                 </div>
@@ -287,18 +287,12 @@
         </div>
 
         <div class="row" popup-footer>
-          <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 5px;">
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn" style="margin-top: 0px;">
-                  <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="closePopup()">
-                  <input type="button" value="Save" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
-                  <!-- <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()"> -->
-                  <input type="button" value="Send Test SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
-                </aside>
-              </div>
-            </div>
-          </div>
+          <aside class="pull-right popup-btn" style="margin: 10px 20px 0px 0px;">
+            <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="closePopup()">
+            <input type="button" value="Save" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
+            <!-- <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()"> -->
+            <input type="button" value="Send Test SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+          </aside>
         </div>
 
 
@@ -335,10 +329,10 @@
                 <div class="row">
                   <div class="c-lg-4 c-md-4 c-sm-4">
                     <div class="field-wrapper">
-                        <label for="cNumber">Contact Number*</label>
+                      <label for="cNumber">Contact Number*</label>
                       <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="phone" name="cNumber" maxlength="10" minlength="10"
                         #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
-                     
+
                       <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                         <div *ngIf="cNumber.errors.required">
                           phone number is required.

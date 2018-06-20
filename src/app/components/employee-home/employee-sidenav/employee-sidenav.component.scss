@@ -1,0 +1,49 @@
+.employee-sidebar {
+    padding: 10px 0px;
+}
+
+.closebtn {
+    float: right;
+    color: black;
+}
+
+.header-section {
+    padding: 10px 10px;
+    border-bottom: 1px solid #c7c7c7;
+    .row {
+        display: flex;
+    }
+    .profile-pic {
+        width: 40%;
+    }
+    .user-info {
+        width: 55%;
+        margin: auto;
+        span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+    }
+    .btn-group {
+        display: flex;
+        margin: auto;
+        i {
+            margin: 0px 5px;
+        }
+    }
+}
+
+.info-section {
+    margin-top: 10px;
+    .row {
+        margin: 0px 0px;
+    }
+    .field-wrapper {
+        .form-ctrl {
+            width: 200px;
+        }
+    }
+    .educational-details {
+        margin-top: 10px;
+    }
+}

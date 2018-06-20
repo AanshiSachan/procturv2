@@ -496,7 +496,7 @@ export class StudentCustomComponent implements OnInit {
         let alert = {
           type: 'error',
           title: 'Failed To Delete Form-Field',
-          body: JSON.parse(err._body).message
+          body: err.error.message
         }
         this.appC.popToast(alert);
         this.isDelete = false;

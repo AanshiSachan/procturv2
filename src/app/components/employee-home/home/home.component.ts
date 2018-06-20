@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
-import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
 import { EmployeeService } from '../../../services/employee-service/employee.service';
 
@@ -25,6 +23,9 @@ export class HomeComponent implements OnInit {
   daysList: any = [];
   tempData: any = "";
   workingDayPopUp: boolean = false;
+  @ViewChild('tableContent') tableContent: ElementRef;
+  @ViewChild('sideNav') sideNav: ElementRef;
+  selectedEmpData: any = '';
 
   constructor(
     private router: Router,
@@ -191,6 +192,10 @@ export class HomeComponent implements OnInit {
 
   rowSelectEvent(i) {
     this.selectedRow = i;
+    this.tableContent.nativeElement.style.width = "70%";
+    this.sideNav.nativeElement.style.width = "29%";
+    this.sideNav.nativeElement.classList.remove('hide');
+    this.selectedEmpData = this.employeeList[i];
   }
 
   messageNotifier(type, title, msg) {
@@ -200,6 +205,14 @@ export class HomeComponent implements OnInit {
       body: msg
     }
     this.appC.popToast(data);
+  }
+
+  closeSideNav(event) {
+    this.selectedRow = null;
+    this.tableContent.nativeElement.style.width = "100%";
+    this.sideNav.nativeElement.style.width = "0%";
+    this.sideNav.nativeElement.classList.add('hide');
+    this.selectedEmpData = '';
   }
 
 }

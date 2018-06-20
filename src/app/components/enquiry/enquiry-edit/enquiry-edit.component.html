@@ -55,7 +55,6 @@
                     <label for="phone">Phone No</label>
                     <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
                       minlength="10" OnlyNumber="true" />
-
                   </div>
 
                   <!-- Email -->
@@ -98,7 +97,6 @@
                       <option value="-1"></option>
                       <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
                     </select>
-
                   </div>
 
                   <!-- area -->
@@ -141,19 +139,11 @@
                     <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="editEnqData.curr_address" name="address" />
                   </div>
 
-                  <!-- City -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.city != ''}">
-                    <label for="userCity">City</label>
-                    <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="editEnqData.city" name="city" />
-
-                  </div>
-
                   <!-- Phone -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone2 != ''}">
                     <label for="phone2">Alternate Contact</label>
                     <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10" minlength="10"
                       OnlyNumber="true" />
-
                   </div>
 
                   <!-- Email -->
@@ -419,7 +409,6 @@
       </section>
 
     </aside>
-
     <!-- Right side form for Office purrpose only -->
     <aside class="pull-right middle-right" id="rightSideBar">
 
@@ -527,10 +516,7 @@
         </div>
       </section>
     </aside>
-
   </form>
-
-
   <!-- Update PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="isUpdateComment">
     <div class="popup pos-abs" style="max-width: 80%;">
@@ -608,6 +594,4 @@
       </div>
     </div>
   </section>
-
-
 </section>
