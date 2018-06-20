@@ -113,6 +113,7 @@ export class AuthenticatorService {
         this.institute_id = null;
         this.standard_id = null;
         this.institute_type.next('LANG');
+        this.isMainBranch.next('N');
         this.institution_type = null;
         this.course_flag.next('0');
         this.instituteType_name.next('LANG');

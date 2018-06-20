@@ -186,9 +186,9 @@ export class HomeComponent implements OnInit {
       let data: any = {};
       data.item_id = row.item_id;
       if (this.subtractFlag) {
-        data.units_added = "-" + row.units_added;
+        data.units_added = "-" + Math.floor(row.units_added);
       } else {
-        data.units_added = row.units_added;
+        data.units_added = Math.floor(row.units_added);
       }
       this.isRippleLoad = true;
       this.inventoryApi.addQuantityInStock(data).subscribe(
