@@ -53,7 +53,7 @@ export class EnquiryHomeComponent implements OnInit {
   sourceEnquiry: any[] = []; smsSourceApproved: any[] = []; smsSourceOpen: any[] = []; busy: Subscription;
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = []; sources: any[] = [];
-  enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; schools: any[] = []; commentFormData: any = {};
+  enqScholarship: any[] = []; paymentMode: any[] = []; schools: any[] = []; commentFormData: any = {};
   today: any = Date.now(); searchBarData: any = null; searchBarDate: any = "";
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;

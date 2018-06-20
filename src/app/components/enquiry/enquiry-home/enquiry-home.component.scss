@@ -1,12 +1,6 @@
-@import "./src/assets/css/style.scss";
-@import "./src/assets/css/wrapper.scss";
-@import "./src/assets/css/common/common.scss";
-@import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 /* =================================================================================== */
-
 /* =================================================================================== */
-
 .headEnq {
     .headerBtn {
         display: inline-flex;
@@ -157,108 +151,7 @@
         }
     }
 }
-
 /* =================================================================================== */
-
-.table-head-menu {
-    position: relative;
-}
-
-.table-head-menu span {
-    cursor: pointer;
-    padding: 9px 0px;
-    display: block;
-    height: 100%;
-    background: $common-blue;
-    width: 40px;
-    height: 50px;
-    box-sizing: border-box;
-    float: right;
-    position: relative;
-    img {
-        width: 28px;
-        height: 30px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin: auto;
-        transition: all 0.5s ease;
-        opacity: 1;
-        visibility: visible;
-        transform: rotate(0deg);
-    }
-    img+img {
-        opacity: 0;
-        visibility: hidden;
-        transform: rotate(90deg);
-        width: 24px;
-    }
-}
-
-.table-head-menu {
-    &:hover {
-        span {
-            img {
-                transform: rotate(90deg);
-                opacity: 0;
-                visibility: hidden;
-            }
-            img+img {
-                opacity: 1;
-                visibility: visible;
-                transform: rotate(0deg);
-            }
-        }
-    }
-}
-
-
-
-.table-heading-menu {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    background: #fff;
-    width: 200px;
-    text-align: left;
-    padding: 0px;
-    box-shadow: 0px 1px 2px 1px #dcdcdc;
-    visibility: hidden;
-    opacity: 0;
-    transition: all 0.1s;
-}
-
-.table-head-menu:hover .table-heading-menu {
-    visibility: visible;
-    opacity: 1;
-    top: 100%;
-}
-
-.table-heading-menu ul li {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 5px; //cursor: pointer;
-}
-
-.table-heading-menu ul li .field-checkbox-wrapper {
-    margin-bottom: 0;
-    cursor: pointer;
-}
-
-.table-heading-menu ul li .field-checkbox-wrapper label {
-    font-weight: normal;
-    cursor: pointer;
-}
-
-/* =================================================================================== */
-
-/* =================================================================================== */
-
-/* =================================================================================== */
-
-/* =================================================================================== */
-
 .tooltip-table {
     &:hover .tooltip-box-right {
         visibility: visible;
@@ -289,13 +182,7 @@
         overflow-x: hidden;
     }
 }
-
 /* =================================================================================== */
-
-/* =================================================================================== */
-
-/* =================================================================================== */
-
 #table-main {
     margin-left: 0px !important;
     margin-top: 0px;
@@ -308,7 +195,6 @@
         height: 7px;
     }
 }
-
 @media screen and (max-width: 767px) {
     .sidenav {
         margin-top: 20px !important;

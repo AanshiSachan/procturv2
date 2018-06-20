@@ -93,22 +93,27 @@ import { AuthGuard } from '../guards/auth.guard';
                         {
                             path: 'academic',
                             loadChildren: 'app/components/academic-year/academic-year.module#AcademicYearModule',
+                            canLoad: [AuthGuard]
                         },
                         {
                             path: 'master',
                             loadChildren: 'app/components/master/master.module#ManageExamModule',
+                            canLoad: [AuthGuard]
                         },
                         {
                             path: 'setting',
                             loadChildren: 'app/components/institute-settings/institutes-setting.module#InstituteSettingModule',
+                            canLoad: [AuthGuard]
                         },
                         {
                             path: 'account',
                             loadChildren: 'app/components/institute-details/institute-details.module#InstituteDetailsModule',
+                            canLoad: [AuthGuard]
                         },
                         {
                             path: 'manage',
                             loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
+                            canLoad: [AuthGuard]
                         },
 
                     ]

@@ -247,7 +247,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
             let alert = {
               type: 'info',
               title: 'No Records Found',
-              body: 'We did not find any enquiry for the specified query'
+              body: 'We did not find any student for the specified query'
             }
             this.appC.popToast(alert);
             this.loading_message = 2;
@@ -281,7 +281,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
             let alert = {
               type: 'info',
               title: 'No Records Found',
-              body: 'We did not find any enquiry for the specified query'
+              body: 'We did not find any student for the specified query'
             }
             this.loading_message = 2;
             this.studentDataSource = [];
@@ -556,7 +556,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           let alert = {
             type: 'info',
             title: 'No Records Found',
-            body: 'We did not find any enquiry for the specified query'
+            body: 'We did not find any student for the specified query'
           }
           this.loading_message = 2;
           this.appC.popToast(alert);

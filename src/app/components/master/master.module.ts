@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
-import {ExamGradeServiceService} from '../../services/examgradeservice/exam-grade-service.service';
+import { ExamGradeServiceService } from '../../services/examgradeservice/exam-grade-service.service';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { MasterComponent } from './master.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
@@ -20,23 +20,20 @@ import { CityAreaService } from '../../services/area-city-service/area-city.serv
 import { EventManagmentService } from '../../services/event-managment.service';
 import { ClassRoomService } from '../../services/class-roomService/class-roomlist.service';
 
+import { MasterRoutingModule } from './master-routing.module';
 import { TopicServiceService } from '../../services/topic-service.service';
 import { FilterPipe } from '../../components/event-managment/filterpipe';
 
 @NgModule({
     imports: [
-        RouterModule.forChild([
-            {
-
-            }
-        ]),
         SharedModule,
         FormsModule,
         BsDatepickerModule,
         TreeTableModule,
-        
+        MasterRoutingModule
     ],
     exports: [
+        SlotApiService
     ],
     declarations: [
         MasterComponent,
@@ -47,7 +44,7 @@ import { FilterPipe } from '../../components/event-managment/filterpipe';
         EventManagmentComponent,
         CityAreaMapComponent,
         TopicsComponent,
-],
+    ],
     providers: [
         ExamGradeServiceService,
         SlotApiService,
@@ -58,7 +55,7 @@ import { FilterPipe } from '../../components/event-managment/filterpipe';
     ]
 })
 
-export class ManageExamModule{
+export class ManageExamModule {
 
 
 
