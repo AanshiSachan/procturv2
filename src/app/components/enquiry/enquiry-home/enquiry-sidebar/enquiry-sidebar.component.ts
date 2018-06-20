@@ -47,6 +47,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @Input() mainBranchAdmin: any;
   @Input() subBranchAdmin: any;
   @Input() branchesList: any[];
+  @Input() masterCourseData: any[];
+  @Input() standardArr: any[];
+  @Input() subjectArr: any[];
 
   @Output() updateEnq = new EventEmitter<any>();
   @Output() cancelUpdate = new EventEmitter<any>();
@@ -57,6 +60,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @ViewChild('two') two: ElementRef;
   @ViewChild('three') three: ElementRef;
   @ViewChild('four') four: ElementRef;
+
+  proMc: string = "";
+  proC: string = "";
 
   isLangInstitute: boolean = false;
   notifyme: boolean = false;
@@ -98,25 +104,19 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     paymentMode: null,
     paymentDate: null,
     reference: null,
-  }
+  };
 
   updateFormComments: any[] = [];
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
   sourceName: any = "";
   isNotifyVisible: boolean = false;
+  courseIdArray: any;
 
-  constructor(
-    private prefill: FetchprefilldataService,
-    private cd: ChangeDetectorRef,
-    private appC: AppComponent,
-    private auth: AuthenticatorService
-  ) {
+  constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent, private auth: AuthenticatorService) {
     this.isEnquiryAdministrator();
     this.checkInstituteType();
   }
-
-
 
   ngOnChanges() {
     this.cd.markForCheck();
@@ -127,22 +127,20 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.row;
     this.customComp;
     this.instituteEnqId = this.enquiryRow;
+    this.masterCourseData;
     this.rowData = this.row;
-    this.updateFormData.priority = "";
-    this.updateFormData.follow_type = "";
-    this.updateFormData.statusValue = "";
-    this.getDetailsById(this.instituteEnqId);
     this.branchesList;
     this.enqAssignTo;
     this.mainBranchAdmin;
     this.subBranchAdmin;
+    this.updateFormData.priority = "";
+    this.updateFormData.follow_type = "";
+    this.updateFormData.statusValue = "";
+    this.getDetailsById(this.instituteEnqId);
   }
-
-
 
   ngOnDestroy() {
   }
-
 
   getDetailsById(id) {
     this.cd.markForCheck();
@@ -156,7 +154,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       whour: '',
       wminute: '',
       wmeridian: '',
-    }
+    };
     this.followUpTime = '';
     this.walkin_followUpTime = '';
     this.prefill.fetchAllDataEnquiry(id).subscribe((res: any) => {
@@ -193,13 +191,71 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
           this.notifyme = false;
         }
 
-      } else {
+      }
+      else {
         this.notifyme = false;
       }
       this.getSourceName(res.source_id);
+
+      if (!this.isLangInstitute) {
+        this.courseIdArray = this.getCourseArrayList(res);
+        this.rowData.master_course_name = res.master_course_name;
+      }
+      else if (this.isLangInstitute) {
+        this.proMc = this.getMasterCoursePro(res);
+        this.prefill.getEnqSubjects(res.standard_id).subscribe(
+          (sub: any[]) => {
+            this.subjectArr = sub;
+            this.proC = this.getCoursePro(res);
+          }
+        );
+      }
     });
   }
 
+
+  getMasterCoursePro(res): string {
+    let temp: string = "";
+    this.standardArr.forEach(s => {
+      if (s.standard_id == res.standard_id) {
+        temp = s.standard_name;
+      }
+    });
+    return temp;
+  }
+
+  getCoursePro(res): string {
+    let temp: any[] = [];
+
+    res.subjectIdArray.forEach( ss => {
+      this.subjectArr.forEach(su => {
+        if(ss == su.subject_id){
+          temp.push(su.subject_name);
+        }
+      });
+    });
+
+    return temp.join(",");
+  }
+
+  getCourseArrayList(res): string {
+    let courseArr = res.courseIdArray;
+    let temp: any[] = [];
+
+    /* finding course name */
+    this.masterCourseData.forEach(e => {
+      if (e.master_course == res.master_course_name) {
+        courseArr.forEach(ca => {
+          e.coursesList.forEach(c => {
+            if (c.course_id == ca) {
+              temp.push(c.course_name);
+            }
+          });
+        });
+      }
+    });
+    return temp.join(" , ");
+  }
 
   getPriority(id): string {
     let temp: string = ""
@@ -212,8 +268,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     return temp;
   }
 
-
-
   getStatus(id): string {
     let temp: string = ""
     this.statusArr.forEach(el => {
@@ -223,8 +277,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     });
     return temp;
   }
-
-
 
   getFollowUp(id): string {
     let temp: string = ""
@@ -281,12 +333,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   closeSideNav() {
-
     this.cancelUpdate.emit(null);
   }
 
   createUpdateForm() {
-
     if (this.validateTime()) {
       //console.log(this.updateFormData);
       if (this.updateFormData.follow_type == "Walkin") {
@@ -338,7 +388,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     }
   }
 
-
   validatewalkindatetime() {
     this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
     this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
@@ -352,6 +401,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       return true;
     }
   }
+
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry(obj) {
     this.updateEnq.emit(obj);
@@ -364,7 +414,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   getCommentDate(upDate): string {
     return moment(upDate).fromNow();
   }
-
 
   timeChanges(ev, id) {
     if (id === 'followUpTime') {
@@ -388,7 +437,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       }
     }
   }
-
 
   validateTime(): boolean {
     if (this.validatefollowuptime() && this.validatewalkintime()) {
@@ -548,15 +596,15 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.getUserList.emit(event);
   }
 
-  walkinChanges(e){
-    if(e != "Invalid date" && e != null){
+  walkinChanges(e) {
+    if (e != "Invalid date" && e != null) {
       //valid date detected
-      if(this.walkin_followUpTime == "" && this.timeObj.wminute == ""){
+      if (this.walkin_followUpTime == "" && this.timeObj.wminute == "") {
         this.walkin_followUpTime = "12 PM";
         this.timeObj.wminute = "00";
       }
     }
-    else{
+    else {
       this.walkin_followUpTime = "";
       this.timeObj.wminute = "";
     }

@@ -452,7 +452,8 @@
       <enquiry-sidebar *ngIf="isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority"
         [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
         (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" [mainBranchAdmin]="isMainBranch"
-        [subBranchAdmin]="subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)">
+        [subBranchAdmin]="subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)" [masterCourseData]="masterCourseData"
+        [standardArr]="enqStd" [subjectArr]="enqSubject">
       </enquiry-sidebar>
     </div>
   </aside>
@@ -474,7 +475,7 @@
           </svg>
         </span>
         <div class="popup-content" style="min-height: 400px; max-height: 500px; padding: 15px 15px 20px 15px;">
-          <h2>Update Enquiry Status No: {{selectedRow.enquiry_no}} | Enquirer: {{selectedRow.name}} </h2>
+          <h2>Update Enquiry #{{selectedRow.enquiry_no}} ( {{selectedRow.name}} )</h2>
           <div class="update-enquiry-form overflowHidden">
 
             <aside class="pull-right form-wrapper right-aside-wrapper">
@@ -641,7 +642,6 @@
               <h4>Comment History</h4>
               <div class="enquiry-update-history table-responsive">
                 <table>
-
                   <thead>
                     <tr>
                       <th>Comment</th>
@@ -649,12 +649,18 @@
                       <th>Commented By</th>
                     </tr>
                   </thead>
-
-                  <tbody>
+                  <tbody *ngIf="updateFormComments.length != 0">
                     <tr *ngFor="let item of updateFormComments; let i=index;">
                       <td> <div [innerHTML]="updateFormComments[i]"></div></td>
                       <td>{{updateFormCommentsOn[i]| date:'dd-MM-yyyy hh:mm a'}}</td>
                       <td>{{updateFormCommentsBy[i]}}</td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="updateFormComments.length == 0">
+                    <tr>
+                      <td colspan="3">
+                        No Comments
+                      </td>
                     </tr>
                   </tbody>
                 </table>

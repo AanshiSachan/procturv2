@@ -2,8 +2,8 @@
 
     <overlay-menu *ngIf="isMenuVisible"></overlay-menu>
 
-    <core-header (changePassword)="changePasswordPopUp($event)" (otherAction)="otherAction($event)" (hideSearchPopup)="searchViewMore($event)" (searchViewMore)="searchViewMore($event)"
-        class="hide">
+    <core-header (changePassword)="changePasswordPopUp($event)" (otherAction)="otherAction($event)" (hideSearchPopup)="searchViewMore($event)"
+        (searchViewMore)="searchViewMore($event)" class="hide">
     </core-header>
 
     <div id="middleWrapper">
@@ -171,8 +171,6 @@
     </proctur-popup>
 
     <proctur-popup class="popupData" *ngIf="addReportPopup">
-
-
         <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                 <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -190,11 +188,9 @@
         </div>
         <div popup-content>
             <br>
-
             <h1>
                 Thanks You For Contacting Us.
             </h1>
-
             <br>
 
             <h6>
@@ -244,8 +240,6 @@
     </app-chatbot>
 
     <proctur-popup class="popupData" [sizeWidth]="'small'" *ngIf="popUpChangePassword">
-
-
         <span class="closePopup pos-abs fbold show" (click)="closeChangePasswordPopup()" close-button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                 <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -320,7 +314,6 @@
     </proctur-popup>
 
     <proctur-popup [sizeWidth]="'large'" class="popupData" *ngIf="isEnqUpdate">
-
         <span class="closePopup pos-abs fbold show" (click)="closeEnquiryUpdate()" close-button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                 <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -334,13 +327,9 @@
             </svg>
 
         </span>
-
-        <h2 popup-header>Update Enquiry Status No: {{selectedEnquiry.enquiry_no}} | Enquirer: {{selectedEnquiry.name}}</h2>
-
+        <h2 popup-header>Update Enquiry #{{selectedEnquiry.enquiry_no}} ( {{selectedEnquiry.name}} )</h2>
         <div class="update-enquiry-form" popup-content>
-
             <aside class="pull-right form-wrapper right-aside-wrapper">
-
                 <div class="row">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                         <div class="field-wrapper has-value">
@@ -418,7 +407,8 @@
                     <div class="c-lg-6 c-md-6 c-sm-6">
                         <div class="field-wrapper has-value">
                             <label for="enquiryStatusEdit">Status</label>
-                            <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.status" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+                            <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.status" name="statusValue"
+                                [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
                                 <option></option>
                                 <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_key == updateFormData.status ? '' : null"
                                     [hidden]="status.data_key == 12 ? true : false">
@@ -499,12 +489,18 @@
                                 <th>Commented By</th>
                             </tr>
                         </thead>
-
-                        <tbody>
+                        <tbody *ngIf="updateFormComments.length != 0">
                             <tr *ngFor="let item of updateFormComments; let i=index;">
                                 <td>{{updateFormComments[i]}}</td>
                                 <td>{{updateFormCommentsOn[i]| date:'dd-MM-yyyy hh:mm a'}}</td>
                                 <td>{{updateFormCommentsBy[i]}}</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="updateFormComments.length == 0">
+                            <tr>
+                                <td colspan="3">
+                                    No Comments
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -519,11 +515,10 @@
                     <input type="button" value="Cancel" class="btn" (click)="closeEnquiryUpdate()">
                     <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update & Admit" class="fullBlue btn"
                         (click)="updateRegisterEnquiry()">
-                    <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                    <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update" class="fullBlue btn"
+                        (click)="pushUpdatedEnquiry()">
                 </aside>
             </div>
         </div>
-
     </proctur-popup>
-        
 </div>
