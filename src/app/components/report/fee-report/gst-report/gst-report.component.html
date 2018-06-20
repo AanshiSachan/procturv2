@@ -14,7 +14,7 @@
                         <a routerLink="/reports/fee">
                             Fee Report
                         </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Gst Report
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Gst Report
                     </h2>
                     <div class="row">
                         <div class="c-lg-12">
@@ -23,16 +23,16 @@
                             </div>
                             <div class="c-lg-3 field-wrapper">
                                 <label>Select Month</label>
-                                <select class="form-ctrl" [(ngModel)]="sendPayload.from_date" (ngModelChange)="getGstReport($event)">
-                                    <option>
+                                <select class="form-ctrl" [(ngModel)]="sendPayload.from_date" >
+                                    <option value=-1>
                                     </option>
-                                    <option *ngFor="let i of selectMonth" [value]="i">
-                                        {{i}}
+                                    <option *ngFor="let i of selectMonth" [value]="i.key">
+                                        {{i.month}}
                                     </option>
                                 </select>
                             </div>
                             <div class="c-lg-2" style="margin-top: 2%;">
-                                <button class="btn fullBlue" (click)="getGstReport($event)">GO</button>
+                                <button class="btn fullBlue" (click)="getGstReport(sendPayload.from_date)">GO</button>
                             </div>
                         </div>
                     </div>
@@ -43,12 +43,12 @@
                 </div>
 
                 <div class="table-content">
-                    <div style="margin: 10px;">
-                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+                    <div style="margin: 10px;" class="pointer">
+                        <a (click)="downloadToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>
-                    <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="1" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
+                    <rob-table [isMulti]='false' [hasMenu]="false" 
                         [records]="getPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
                     </rob-table>
                 </div>
