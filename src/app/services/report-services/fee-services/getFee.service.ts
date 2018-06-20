@@ -109,4 +109,16 @@ export class GetFeeService {
         )
     }
 
+    getAcademicYear(){
+        let url = this.baseUrl + "/api/v1/academicYear/all/" + this.institute_id;
+        return this.http.get(url , {headers:this.headers}).map(
+            (data:any)=>{
+                return data;
+            },
+            (error:any)=>{
+                return error;
+            }
+        )
+    }
+
 }

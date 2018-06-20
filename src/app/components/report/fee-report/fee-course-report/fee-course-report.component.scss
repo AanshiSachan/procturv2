@@ -29,6 +29,16 @@
     cursor: pointer;
 }
 
+.sky-form{
+    height: -18px;
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .sky-inner{
+        height: 32px;
+        overflow:auto;
+    }
+}
 .header{
     box-shadow: 0px 3px 3px 0px #777;
     background: white;

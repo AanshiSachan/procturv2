@@ -23,16 +23,16 @@
                             </div>
                             <div class="c-lg-3 field-wrapper">
                                 <label>Select Month</label>
-                                <select class="form-ctrl">
-                                    <option [value]="i">
+                                <select class="form-ctrl" [(ngModel)]="sendPayload.from_date" (ngModelChange)="getGstReport($event)">
+                                    <option>
                                     </option>
-                                    <option *ngFor="let i of selectMonth">
+                                    <option *ngFor="let i of selectMonth" [value]="i">
                                         {{i}}
                                     </option>
                                 </select>
                             </div>
                             <div class="c-lg-2" style="margin-top: 2%;">
-                                <button class="btn fullBlue">GO</button>
+                                <button class="btn fullBlue" (click)="getGstReport($event)">GO</button>
                             </div>
                         </div>
                     </div>

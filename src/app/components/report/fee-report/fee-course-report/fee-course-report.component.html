@@ -95,6 +95,19 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="c-lg-3 sky-form field-wrapper">
+                            <label>ACADEMIC YEAR</label>
+                            <select name="academic_year_id" id="academic_year_id" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
+                                class="form-ctrl sky-inner" multiple="multiple">
+                                <option value="-1" class="fa fa-caret-up" style="display: block; text-align: right;margin-bottom: -8px;">
+                                </option>
+                                <option value="-1" class="fa fa-caret-down" style="display: block; text-align: right; margin-bottom: -8px;">
+                                </option>
+                                <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
+                                    {{i.inst_acad_year}}
+                                </option>
+                            </select>
+                        </div>
 
                         <div class="c-lg-3">
                             <div class="field-wrapper hide">
@@ -150,9 +163,6 @@
                             <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
                         </div>
 
-                        <div class="c-lg-2 filter-btn">
-                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                        </div>
 
                         <div class="c-lg-1 filter-btn hide">
                             <div class="filter-right pull-right">
@@ -162,52 +172,53 @@
 
                     </div>
                 </div>
+                <div class="row">
+                    <div class="c-lg-2 filter-btn" style="margin-left: -10px;">
+                        <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                    </div>
+                </div>
             </div>
 
             <section class="fee-info">
-
-                <div class="c-lg-8 hide">
-                    <div class="c-lg-1"></div>
-                    <div class="c-lg-4">
-                        <ul>
-                            <li class="key">
-                                Total Fees Collection
-                            </li>
-                            <li class="value">
-
-                            </li>
-                        </ul>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="c-lg-12">
+                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
+                            <span>
+                                Total fees Collection:₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}
+                            </span>
+                        </div>
+                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
+                            <span>
+                                Total fees Collection(Others):₹{{feeDataSource1[0].total_fees_collected_other.toLocaleString('en-IN')}}
+                            </span>
+                        </div>
+                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
+                            <span >
+                                Total dues:₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}
+                            </span>
+                        </div>
                     </div>
-                    <div class="c-lg-4">
-                        <ul>
-                            <li class="key">
-                                Total Fees collection others
-                            </li>
-                            <li class="value">
-
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="c-lg-3">
-                        <ul>
-                            <li class="key">
-                                Total Dues
-                            </li>
-                            <li class="value">
-
-                            </li>
-                        </ul>
+                    <div class="c-lg-12" style="margin-top: 4vh;" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
+                        <div class="c-lg-4">
+                            <span>
+                                Future dues:₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}
+                            </span>
+                        </div>
+                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
+                            <span>
+                                Total Fees:₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}
+                            </span>
+                        </div>
                     </div>
                 </div>
-
                 <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
                     <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
                 </div>
 
-                <div class="c-lg-4">
+                <div class="c-lg-4" >
                     <div class="form-wrapper">
                         <form autocomplete="off" #form="ngForm">
-                            <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar">
+                            <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="margin-top: 22px; margin-bottom: -24px;">
                         </form>
                     </div>
                 </div>

@@ -25,14 +25,27 @@
         color: black;
     }
 }
-.download:hover{
+
+.sky-form{
+    height: -18px;
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .sky-inner{
+        height: 32px;
+        overflow:auto;
+    }
+}
+
+.download:hover {
     cursor: pointer;
 }
-.header{
+
+.header {
     box-shadow: 0px 3px 3px 0px #777;
     background: white;
     padding: 5px 10px;
-    .row{
+    .row {
         margin: 0px;
     }
 }
@@ -40,7 +53,7 @@
 .fee-filter {
     background: #fff;
     width: 100%;
-    &.long{
+    &.long {
         .filter-btn {
             padding: 25px 0px 0px 0px;
         }
@@ -48,7 +61,7 @@
     .filter-btn {
         padding: 10px 0px 0px 0px;
     }
-    .radio-group{
+    .radio-group {
         padding-top: 30px;
         .field-radio-wrapper .form-radio:checked+label:before {
             content: '';
@@ -60,7 +73,6 @@
         }
     }
     .field-wrapper {
-
         &.datePickerBox {
             &:after {
                 content: '';
@@ -74,27 +86,26 @@
             }
         }
     }
-    
 }
 
 .fee-info {
     width: 100%;
-    ul{
+    ul {
         padding: 20px 5px;
-        li{
+        li {
             display: inline-block;
-            &.key{
+            &.key {
                 font-weight: 400;
                 color: #777;
                 text-transform: capitalize;
             }
-            &.value{
+            &.value {
                 font-weight: 600;
                 color: #000;
             }
         }
     }
-    .form-ctrl{
+    .form-ctrl {
         width: 50%;
         float: right;
     }
