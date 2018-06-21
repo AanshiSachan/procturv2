@@ -129,9 +129,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   /* open action menu on click */
-  openMenu(ev) {
-    this.cd.markForCheck();
+  openMenu() {
+    this.cd.reattach();
     this.showMenu = !this.showMenu;
+    this.cd.detectChanges();
+    this.cd.detach();
   }
 
   /* close action menu on events  */
