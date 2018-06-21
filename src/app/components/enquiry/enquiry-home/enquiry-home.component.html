@@ -272,56 +272,57 @@
             </div>
 
             <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-            <!-- subject Course -->
-            <div class="field-wrapper">
-              <label for="forSubject">Subject</label>
-              <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject">
-                <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
-              </select>
-            </div>              
+              <!-- subject Course -->
+              <div class="field-wrapper">
+                <label for="forSubject">Subject</label>
+                <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject">
+                  <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                </select>
+              </div>
             </div>
 
             <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-            <!-- masterCourse course -->
-            <div class="field-wrapper">
-              <label for="editMc">Master Course</label>
-              <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="courseMasterChange($event)">
-                <option value="-1"></option>
-                <option *ngFor="let master of masterCourseData" [value]="master.master_course">{{master.master_course}}</option>
-              </select>
-            </div>              
+              <!-- masterCourse course -->
+              <div class="field-wrapper">
+                <label for="editMc">Master Course</label>
+                <select id="editMc" class="form-ctrl" name="editMc" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="courseMasterChange($event)">
+                  <option value="-1"></option>
+                  <option *ngFor="let master of masterCourseData" [value]="master.master_course">{{master.master_course}}</option>
+                </select>
+              </div>
             </div>
 
             <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-            <!-- course course-->
-            <div class="field-wrapper">
-              <label for="editCC">Course</label>
-              <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.courseIdArray" name="editCC" multiple>
-                <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
-              </select>
-            </div>              
+              <!-- course course-->
+              <div class="field-wrapper">
+                <label for="editCC">Course</label>
+                <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.courseIdArray" name="editCC" multiple>
+                  <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
+                </select>
+              </div>
             </div>
 
             <div *ngIf="isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-            <!-- master Professional -->
-            <div class="field-wrapper">
-              <label for="editStandard">Master Course</label>
-              <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
-                name="editStandard">
-                <option value="-1"></option>
-                <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
-              </select>
-            </div>              
+              <!-- master Professional -->
+              <div class="field-wrapper">
+                <label for="editStandard">Master Course</label>
+                <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
+                  name="editStandard">
+                  <option value="-1"></option>
+                  <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+                </select>
+              </div>
             </div>
 
             <div *ngIf="isProfessional" class="c-lg-4 c-md-4 c-sm-4">
-            <!-- course Professional -->
-            <div class="field-wrapper">
-              <label for="forSubject">Course</label>
-              <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject" multiple>
-                <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
-              </select>
-            </div>              
+              <!-- course Professional -->
+              <div class="field-wrapper">
+                <label for="forSubject">Course</label>
+                <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="advancedFilterForm.subjectIdArray" name="subject"
+                  multiple>
+                  <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                </select>
+              </div>
             </div>
 
             <!-- Custom Component -->
@@ -459,7 +460,7 @@
   </aside>
 
   <!-- Update PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'" >
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'">
     <div class="popup pos-abs" style="max-width: 80%;">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -651,7 +652,9 @@
                   </thead>
                   <tbody *ngIf="updateFormComments.length != 0">
                     <tr *ngFor="let item of updateFormComments; let i=index;">
-                      <td> <div [innerHTML]="updateFormComments[i]"></div></td>
+                      <td>
+                        <div [innerHTML]="updateFormComments[i]"></div>
+                      </td>
                       <td>{{updateFormCommentsOn[i]| date:'dd-MM-yyyy hh:mm a'}}</td>
                       <td>{{updateFormCommentsBy[i]}}</td>
                     </tr>
@@ -686,7 +689,7 @@
   </section>
 
   <!-- Delete PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'" >
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -722,7 +725,7 @@
   </section>
 
   <!-- Convert PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'" >
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -780,7 +783,7 @@
   </section>
 
   <!--Registration Payment PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'" >
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -959,7 +962,7 @@
   </section>
 
   <!-- Bulk Assign PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry" >
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
@@ -1004,7 +1007,7 @@
   </section>
 
   <!-- SMS PopUp Single-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'" >
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'">
     <!-- -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -1221,7 +1224,7 @@
   </section>
 
   <!-- SMS PopUp MultiRow Selected-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms" >
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms">
     <!--  -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -1323,17 +1326,17 @@
                               <th></th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.message.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.message.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.date.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.date.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.action.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.action.title}}</a>
                                 </label>
                               </th>
                             </tr>
@@ -1374,8 +1377,12 @@
                               <td>
                                 {{row.date}}
                               </td>
-                              <td>
-                                <enquiry-sms-action>
+                              <td class="sms-Action-td">
+                                <div class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}">
+                                  <i class="fas fa-check" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                                  <i class="fa fa-times" (click)="approveRejectSms(row,'2')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
+                                </div>
+                                <enquiry-sms-action style="margin:auto">
                                 </enquiry-sms-action>
                               </td>
                             </tr>
