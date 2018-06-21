@@ -1,4 +1,4 @@
-<proctur-popup [sizeWidth]="'large'">
+<proctur-popup [sizeWidth]="'small'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopups()" close-button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -46,7 +46,7 @@
                             </td>
 
                             <td>
-                                {{r.total_amt_paid}}
+                                ₹{{r.total_amt_paid.toLocaleString('en-IN')}}
                             </td>
 
                             <td>
