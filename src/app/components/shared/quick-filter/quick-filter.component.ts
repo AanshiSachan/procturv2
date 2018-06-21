@@ -82,6 +82,7 @@ export class QuickFilterComponent implements OnChanges {
     }
 
     updateEnqArray(i) {
+        debugger;
         if (i.prop == "All") {
             this.selectedOptions = [];
             this.selectedOptionsString = '';
@@ -112,12 +113,23 @@ export class QuickFilterComponent implements OnChanges {
                 this.selectedOptionsString = this.selectedOptions.join(",");
                 this.selectedValue.emit(i);
             }
-            else {
-
+        }
+        if (i.prop == "Walkin") {
+            this.selectedOptions = [];
+            this.selectedOptionsString = '';
+            if (i.checked) {
+                this.inputList.forEach(el => {
+                    if (el.prop != "Walkin") {
+                        el.checked = false;
+                    }
+                });
+                this.selectedOptions.push(i.prop);
+                this.selectedOptionsString = this.selectedOptions.join(",");
+                this.selectedValue.emit(i);
             }
         }
-        else if (i.prop != "All" && i.prop != "Pending") {
-            if (this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("Pending") !== -1) {
+        else if (i.prop != "All" && i.prop != "Pending" && i.prop != "Walkin") {
+            if (this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("Pending") !== -1 || this.selectedOptions.indexOf("Walkin") !== -1) {
                 if (this.selectedOptions.indexOf("All") !== -1) {
                     let indexAll = this.selectedOptions.indexOf("All");
                     this.selectedOptions.splice(indexAll, 1);
@@ -126,8 +138,12 @@ export class QuickFilterComponent implements OnChanges {
                     let indextod = this.selectedOptions.indexOf("Pending");
                     this.selectedOptions.splice(indextod, 1);
                 }
+                if (this.selectedOptions.indexOf("Walkin") !== -1) {
+                    let indextod = this.selectedOptions.indexOf("Walkin");
+                    this.selectedOptions.splice(indextod, 1);
+                }
                 this.inputList.forEach(el => {
-                    if (el.prop == "All" || el.prop == 'Pending') {
+                    if (el.prop == "All" || el.prop == 'Pending' || el.prop == 'Walkin') {
                         el.checked = false;
                     }
                 });
@@ -146,7 +162,7 @@ export class QuickFilterComponent implements OnChanges {
             }
             else {
                 this.inputList.forEach(el => {
-                    if (el.prop == "All" || el.prop == "Pending") {
+                    if (el.prop == "All" || el.prop == "Pending" || el.prop == "Walkin") {
                         el.checked = false;
                     }
                 });

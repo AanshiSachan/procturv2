@@ -192,6 +192,7 @@ export class EnquiryHomeComponent implements OnInit {
     { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
     { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+    { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
   ];
 
 
@@ -849,20 +850,17 @@ export class EnquiryHomeComponent implements OnInit {
   /* Function to search data on smart table */
   searchDatabase() {
     this.clearFilterAdvanced();
-    // this.stats.All.checked = true;
-    // this.stats.Open.checked = false;
-    // this.stats.Registered.checked = false;
-    // this.stats.Student_Admitted.checked = false;
-    // this.stats.Registered.checked = false;
-    // this.stats.Inactive.checked = false;
     this.statusString = [];
+
     this.statFilter = [
       { value: 'All', prop: 'All', checked: true, disabled: false },
       { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-      { value: 'Open/In-Progress', prop: 'Open', checked: false, disabled: false },
+      { value: 'Open', prop: 'Open', checked: false, disabled: false },
+      { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
+      { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+      { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
     ];
     this.indexJSON = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
@@ -2129,20 +2127,16 @@ export class EnquiryHomeComponent implements OnInit {
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
     this.fetchingDataMessage = 1;
-    // this.stats.All.checked = true;
-    // this.stats.Open.checked = false;
-    // this.stats.Registered.checked = false;
-    // this.stats.Student_Admitted.checked = false;
-    // this.stats.Registered.checked = false;
-    // this.stats.Inactive.checked = false;
     this.statusString = [];
     this.statFilter = [
       { value: 'All', prop: 'All', checked: true, disabled: false },
       { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-      { value: 'Open/In-Progress', prop: 'Open', checked: false, disabled: false },
+      { value: 'Open', prop: 'Open', checked: false, disabled: false },
+      { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
+      { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+      { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
     ];
     this.isAllSelected = false;
     this.instituteData.filtered_statuses = this.statusString.join(',');
@@ -2407,19 +2401,16 @@ export class EnquiryHomeComponent implements OnInit {
     this.displayBatchSize = parseInt(num);
     this.instituteData.batch_size = this.displayBatchSize;
     this.instituteData.start_index = 0;
-    // this.stats.All.checked = true;
-    // this.stats.Open.checked = false;
-    // this.stats.Registered.checked = false;
-    // this.stats.Student_Admitted.checked = false;
-    // this.stats.Registered.checked = false;
     this.statusString = [];
     this.statFilter = [
       { value: 'All', prop: 'All', checked: true, disabled: false },
       { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-      { value: 'Open/In-Progress', prop: 'Open', checked: false, disabled: false },
+      { value: 'Open', prop: 'Open', checked: false, disabled: false },
+      { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
+      { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+      { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
     ];
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.loadTableDatatoSource(this.instituteData);
@@ -3020,11 +3011,8 @@ export class EnquiryHomeComponent implements OnInit {
       this.subBranchSelected = false;
     }
   }
-
   /* =========================================================================== */
   /* =========================================================================== */
-
-
   multiBranchInstituteFound(id) {
     this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
@@ -3035,7 +3023,8 @@ export class EnquiryHomeComponent implements OnInit {
       }
     )
   }
-
+  /* =========================================================================== */
+  /* =========================================================================== */
   branchUpdated(e) {
     this.enqAssignTo = [];
     this.prefill.fetchAssignedToData(e).subscribe(
@@ -3075,6 +3064,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.loadTableDatatoSource(this.instituteData);
@@ -3091,6 +3081,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
         this.instituteData = {
@@ -3600,7 +3591,6 @@ export class EnquiryHomeComponent implements OnInit {
         if (index !== -1) {
           this.statusString.splice(index, 1);
         }
-
         if (this.statusString.length == 0) {
           this.instituteData = {
             name: "",
@@ -3670,9 +3660,47 @@ export class EnquiryHomeComponent implements OnInit {
 
     }
 
-  }
+    else if (checkerObj.prop == "Walkin") {
+      if (checkerObj.checked) {
+        let stat = this.statusString.join(',');
+        this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
+        this.instituteData = { 
+          name: "", 
+          phone: "", 
+          email: "", 
+          enquiry_no: "", 
+          commentShow: 'false', 
+          priority: "", 
+          status: -1, 
+          follow_type: "Walkin", 
+          followUpDate: "", 
+          enquiry_date: "", 
+          assigned_to: -1, 
+          standard_id: -1, 
+          subjectIdArray: null, 
+          master_course_name: '', 
+          courseIdArray: null, 
+          subject_id: -1, 
+          is_recent: "Y", 
+          slot_id: -1,
+          filtered_statuses: stat,
+          filtered_slots: "", 
+          isDashbord: "N", 
+          enquireDateFrom: "", 
+          enquireDateTo: "", 
+          updateDate: "", 
+          updateDateFrom: "", 
+          updateDateTo: "", 
+          start_index: 0, 
+          batch_size: this.displayBatchSize, 
+          closedReason: "", 
+          enqCustomLi: null 
+        };
+        this.loadTableDatatoSource(this.instituteData);
+      }
+    }
 
-  /* =========================================================================== */
+  }
   /* =========================================================================== */
   /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
@@ -3684,6 +3712,7 @@ export class EnquiryHomeComponent implements OnInit {
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
       { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+      { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
     ];
 
     if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) {
@@ -3706,6 +3735,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.instituteData = {
           name: "",
@@ -3748,6 +3778,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: true, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.instituteData = {
           name: "",
@@ -3790,6 +3821,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: true, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.instituteData = {
           name: "",
@@ -3832,6 +3864,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.instituteData = {
           name: "",
@@ -3874,6 +3907,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.instituteData = {
           name: "",
@@ -3916,6 +3950,7 @@ export class EnquiryHomeComponent implements OnInit {
           { value: 'Registered', prop: 'Registered', checked: true, disabled: false },
           { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
           { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
         this.instituteData = {
           name: "",
@@ -3950,8 +3985,8 @@ export class EnquiryHomeComponent implements OnInit {
       }
     }
   }
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
   showApproveButtons(data) {
     let enableApprove = sessionStorage.getItem('allow_sms_approve_feature');
     const permissionArray = sessionStorage.getItem('permissions');
@@ -3965,7 +4000,8 @@ export class EnquiryHomeComponent implements OnInit {
       return false;
     }
   }
-
+  /* =========================================================================== */
+  /* =========================================================================== */
   approveRejectSms(data, statusCode) {
     let msg: any = "";
     if (statusCode == 1) {
@@ -4000,7 +4036,8 @@ export class EnquiryHomeComponent implements OnInit {
       )
     }
   }
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 }
 
 
