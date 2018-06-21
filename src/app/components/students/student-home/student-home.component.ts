@@ -185,7 +185,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
             { primaryKey: 'student_name', header: 'Name' },
             { primaryKey: 'student_phone', header: 'Contact No' },
             { primaryKey: 'student_class', header: 'Class' },
-            { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
+            { primaryKey: 'batchesAssigned', header: 'Batch Assigned' }
           ];
         }
         else {
@@ -194,7 +194,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
             { primaryKey: 'student_name', header: 'Name' },
             { primaryKey: 'student_phone', header: 'Contact No' },
             { primaryKey: 'student_class', header: 'Class' },
-            { primaryKey: 'noOfBatchesAssigned', header: 'Course Assigned' }
+            { primaryKey: 'batchesAssigned', header: 'Course Assigned' }
           ];
         }
       }
@@ -683,7 +683,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
               selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
               selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
               type: el.type,
-              value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              value: el.enq_custom_value
             }
           }
           if (el.type == 3) {
@@ -697,7 +697,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
               selected: [],
               selectedString: "",
               type: el.type,
-              value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              value: el.enq_custom_value
             }
           }
           if (el.type == 2) {
@@ -770,7 +770,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el,
+        data: el.toLowerCase(),
         checked: false
       }
       customPrefilled.push(obj);

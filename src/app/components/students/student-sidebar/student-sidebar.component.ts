@@ -1,11 +1,12 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild, ElementRef, Renderer2, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'student-sidebar',
   templateUrl: './student-sidebar.component.html',
-  styleUrls: ['./student-sidebar.component.scss']
+  styleUrls: ['./student-sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StudentSidebarComponent implements OnInit, OnChanges {
 
@@ -21,7 +22,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() leaveEvent = new EventEmitter<any>();
   @Output() pdcEdit = new EventEmitter<any>();
   @Output() invEdit = new EventEmitter<any>();
-  
+
   //@ViewChild('acc') acc: ElementRef;
   @ViewChild('one') one: ElementRef;
   @ViewChild('two') two: ElementRef;
@@ -49,7 +50,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(private rend: Renderer2, private eRef: ElementRef, private auth: AuthenticatorService) {
+  constructor(private rend: Renderer2, private eRef: ElementRef, private auth: AuthenticatorService, private cd: ChangeDetectorRef) {
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -60,7 +61,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
       }
     )
 
-   }
+  }
 
   ngOnInit() {
   }
@@ -70,40 +71,49 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.studentDetails;
     this.customComponent;
     //console.log(this.studentDetails);
+    this.cd.markForCheck();
     this.fetchStudentDetails(this.studentDetails);
   }
 
 
   emitEdit() {
+    this.cd.markForCheck();
     this.editStudent.emit(this.rowData.student_id);
   }
 
 
   emitDelete() {
+    this.cd.markForCheck();
     this.deleteStudent.emit(this.rowData);
   }
 
   emitLeave() {
+    this.cd.markForCheck();
     this.leaveEvent.emit(this.rowData.student_id);
   }
 
   emitEditLeave() {
+    this.cd.markForCheck();
     this.pdcEdit.emit(this.rowData.student_id);
   }
 
-  emitEditInv(){
+  emitEditInv() {
+    this.cd.markForCheck();
     this.invEdit.emit(this.rowData.student_id);
   }
 
   emitNotes() {
+    this.cd.markForCheck();
     this.editNotes.emit(this.rowData);
   }
 
   closeSideBar(ev) {
+    this.cd.markForCheck();
     this.closeSide.emit(null);
   }
 
   fetchStudentDetails(ev) {
+    this.cd.markForCheck();
     if (ev.photo != '' || ev.photo != null) {
       this.studentServerImage = ev.photo;
     }
@@ -120,15 +130,18 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   /* open action menu on click */
   openMenu(ev) {
+    this.cd.markForCheck();
     this.showMenu = !this.showMenu;
   }
 
   /* close action menu on events  */
   closeMenu() {
+    this.cd.markForCheck();
     this.showMenu = false;
   }
 
   toggleAccordian(id) {
+    this.cd.markForCheck();
     if (id === 'one') {
       this.one.nativeElement.classList.toggle('liclosed');
       this.two.nativeElement.classList.add('liclosed');
@@ -150,5 +163,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
 
+  getBatchListArr(): any[] {
+    this.cd.detach();
+    console.log("sideB");
+    return this.rowData.batchesAssigned.split(',')
+  }
 
 }
