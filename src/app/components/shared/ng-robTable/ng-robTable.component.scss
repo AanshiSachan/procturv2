@@ -144,7 +144,7 @@ $color-highlight: lighten($color-base, 7%);
     .schedule-scroller {
         min-height: 300px;
         max-height: 50vh;
-        overflow-x: auto;
+        overflow-x: hidden;
         overflow-y: auto;
         ::-webkit-scrollbar {
             display: block;
