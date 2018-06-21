@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { EmployeeService } from '../../../services/employee-service/employee.service';
+import { MenuItem } from 'primeng/primeng';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,8 @@ export class HomeComponent implements OnInit {
   employeeList: any = [];
   PageIndex: number = 1;
   displayBatchSize: number = 10;
-  searchDataFlag: boolean = false;
-  searchedData: any = [];
   dataStatus: number = 1;
   totalRow: number = 0;
-  searchValue: string = '';
   selectedRow: number = null;
   daysList: any = [];
   tempData: any = "";
@@ -26,6 +24,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('tableContent') tableContent: ElementRef;
   @ViewChild('sideNav') sideNav: ElementRef;
   selectedEmpData: any = '';
+  bulkActionItems: MenuItem[];
 
   constructor(
     private router: Router,
@@ -39,19 +38,51 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.fetchEmployeeList();
+    this.giveFullPermisionOfBulfAction();
+  }
+
+  giveFullPermisionOfBulfAction() {
+    this.bulkActionItems = [
+      {
+        label: 'Delete', icon: 'fa-trash-o', command: () => {
+          this.bulkDeleteEmployee();
+        }
+      },
+      {
+        label: 'Send Notification', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkSms();
+        }
+      },
+      {
+        label: 'Download ID Card', icon: 'fa-buysellads', command: () => {
+          this.downloadBulkIdCard();
+        }
+      }
+    ];
   }
 
   fetchEmployeeList() {
     this.PageIndex = 1;
-    this.searchValue = '';
     this.apiService.getEmployeeList().subscribe(
       (res: any) => {
-        this.employeeListDataSource = res;
+        this.employeeListDataSource = this.addKey(res);
         this.totalRow = res.length;
         this.dataStatus = 2;
         this.fetchTableDataByPage(this.PageIndex);
       }
     )
+  }
+
+  bulkDeleteEmployee(){
+
+  }
+
+  sendBulkSms(){
+
+  }
+
+  downloadBulkIdCard(){
+    
   }
 
   //Working Days PopUp 
@@ -164,30 +195,7 @@ export class HomeComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let data = [];
-    if (this.searchDataFlag == true) {
-      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
-    } else {
-      data = this.employeeListDataSource.slice(startindex, startindex + this.displayBatchSize);
-    }
-    return data;
-  }
-
-  searchTeacher() {
-    if (this.searchValue != "" && this.searchValue != null) {
-      let searchData = this.employeeListDataSource.filter(item =>
-        Object.keys(item).some(
-          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchValue.toLowerCase()))
-      );
-      this.searchedData = searchData;
-      this.totalRow = searchData.length;
-      this.searchDataFlag = true;
-      this.fetchTableDataByPage(this.PageIndex);
-    } else {
-      this.searchDataFlag = false;
-      this.fetchTableDataByPage(this.PageIndex);
-      this.totalRow = this.employeeListDataSource.length;
-    }
+    return this.employeeListDataSource.slice(startindex, startindex + this.displayBatchSize);
   }
 
   rowSelectEvent(i) {
@@ -213,6 +221,15 @@ export class HomeComponent implements OnInit {
     this.sideNav.nativeElement.style.width = "0%";
     this.sideNav.nativeElement.classList.add('hide');
     this.selectedEmpData = '';
+  }
+
+  addKey(res) {
+    res.map(
+      ele => {
+        ele['selected'] = false;
+      }
+    )
+    return res;
   }
 
 }
