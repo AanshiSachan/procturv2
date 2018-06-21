@@ -67,11 +67,7 @@ export class AllDataReportComponent implements OnInit {
     }, */
     {
       key: 'history',
-      header: 'Fee Payment History',
-    },
-    {
-      key: 'nextDue',
-      header: 'Next Due Details'
+      header: 'Dues Info',
     },
     {
       key: 'receipt',
@@ -675,11 +671,8 @@ export class AllDataReportComponent implements OnInit {
     if (action == 'View Detailed Report') {
       this.isViewDetailReport = true;
     }
-    else if (action == 'Fee Payment History') {
+    else if (action == 'Dues Info') {
       this.isFeepaymentHistory = true;
-    }
-    else if (action == 'Next Due Details') {
-      this.isNextDueDetail = true;
     }
     else if (action == 'Fee Receipts') {
       this.isFeeReceipt = true;
