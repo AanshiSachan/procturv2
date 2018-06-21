@@ -18,7 +18,7 @@ export class RobTableComponent implements OnChanges {
     @Input() key1: string;
     @Input() reset: boolean;
     @Input() defaultSort:string="";
-
+    @Input() batchListArr:any[] = [];
 
     @Output() userRowSelect = new EventEmitter();
     @Output() rowsSelected = new EventEmitter<number>();
@@ -34,6 +34,8 @@ export class RobTableComponent implements OnChanges {
     selectedRow: number;
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
+
+
     /* Number of line for skeleton screen */
     dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     userIdArray: any = [];
@@ -60,7 +62,6 @@ export class RobTableComponent implements OnChanges {
                 return new ColumnMap({ primaryKey: key });
             });
         }
-
     }
 
     selectAllRows(ev) {
@@ -153,6 +154,7 @@ export class RobTableComponent implements OnChanges {
             this.rowsSelected.emit(this.rowSelectedCount);
             this.getSelectedRows();
         }
+
     }
 
 
@@ -224,6 +226,12 @@ export class RobTableComponent implements OnChanges {
         else{
             return false;
         }
+    }
+
+    getBatchListArr(e: string){
+        this.cd.detach();
+        console.log("table");
+        return e.trim().split(",");
     }
 
 }

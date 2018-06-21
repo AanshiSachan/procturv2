@@ -21,7 +21,7 @@ export class RobTableCellDirective implements OnInit {
         }
         else if(this.ctStyleCell === 'width25'){
             this.renderer.setElementStyle(this.el.nativeElement,'text-align','left');
-            this.renderer.setElementStyle(this.el.nativeElement,'width','25%');
+            this.renderer.setElementStyle(this.el.nativeElement,'width','15%');
         }
         else if (this.ctStyleCell === 'right') {
         }

@@ -7,7 +7,6 @@
     height: 7px;
 }
 
-
 .footer-section {
     position: absolute;
     bottom: 0;
@@ -27,15 +26,14 @@
             }
         }
     }
-    
     a {
         color: #0084f6;
-    }    
+    }
 }
 
 /* Track */
 
-.danger{
+.danger {
     color: $error-color !important;
 }
 
@@ -59,7 +57,7 @@
 }
 
 :host /deep/ .tooltip-arrow {
- display: none;
+    display: none;
 }
 
 ::ng-deep .tooltip-arrow {
@@ -197,37 +195,6 @@ textarea {
     }
 }
 
-.breadc {
-    text-align: center;
-    padding: 0;
-    list-style: none;
-    overflow: hidden;
-    width: 100%;
-    li {
-        float: left;
-        margin: 6px 2px 0px 6px;
-        height: 30px;
-    }
-    a {
-        padding: 0px;
-        float: left;
-        cursor: pointer;
-        text-decoration: none;
-        color: #777;
-        text-shadow: 1px 1px 0 rgba(255, 255, 255, .9);
-        position: relative;
-    }
-    .bread-list {
-        text-decoration: underline;
-        &::after {
-            content: ' / ';
-        }
-    }
-    .current {
-        text-decoration: underline;
-    }
-}
-
 .time-picker {
     .field-wrapper {
         display: inline-block;
@@ -275,6 +242,73 @@ input[type="text"][disabled] {
     .report-header {
         background: #fff;
         padding: 5px;
+    }
+}
+
+.chipped {
+    color: white !important;
+    font-size: 14px;
+    background: #0084f6;
+    cursor: pointer;
+    border: 2px solid white;
+    border-radius: 32px;
+    display: inline-block;
+    margin: 0 !important;
+    font-weight: 400;
+    padding: 0.1rem 0.8rem;
+    outline: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    overflow: hidden;
+    position: relative;
+    transition: all .24s cubic-bezier(.4, 0, .2, 1);
+    will-change: padding;
+    i {
+        color: #99D154;
+        position: absolute;
+        top: 6px;
+        margin-left: 1rem;
+        font-size: 48px;
+        transition: all .24s cubic-bezier(.4, 0, .2, 1);
+        opacity: 0;
+        transform: translateX(1rem);
+        will-change: opacity, transform;
+    }
+    &.small {
+        color: white !important;
+        font-size: 12px !important;
+        background: #0084f6;
+        cursor: pointer;
+        border: 2px solid white;
+        border-radius: 32px;
+        display: inline-block;
+        margin: 0 !important;
+        font-weight: 400;
+        padding: 0.2rem 0.5rem;
+    }
+    &.intable {
+        color: rgba(30, 35, 40, 0.7) !important;
+        font-size: 12px !important;
+        background: transparent;
+        cursor: pointer;
+        border: 1px solid #64676b;
+        border-radius: 5px;
+        display: inline-block;
+        margin: 0px 2px 0px 0px !important;
+        font-weight: 400;
+        padding: 0.2rem 0.2rem;
+    }
+}
+
+.chipped.active {
+    background-color: #fff;
+    color: #333333;
+    padding-right: 4.5rem;
+    i {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
@@ -434,8 +468,6 @@ h3 {
     overflow: auto;
 }
 
-
-
 .filter-fields {
     .field-wrapper {
         &.has-value .form-ctrl+label,
@@ -446,8 +478,6 @@ h3 {
 }
 
 /* For DatePicker */
-
-
 
 .field-wrapper {
     position: relative;
@@ -503,7 +533,7 @@ h3 {
     border-radius: 0;
     line-height: 24px;
     color: #000;
-    &.form-ctrl-multiple{
+    &.form-ctrl-multiple {
         height: 100px;
     }
 }
@@ -704,32 +734,32 @@ th {
     &:first-child {
         border-top-left-radius: 5px; //border-top-right-radius: 5px;
     }
-    &.No{
+    &.No {
         text-align: right;
     }
-    &.Name{
+    &.Name {
         text-align: left;
     }
-    &.Contact{
+    &.Contact {
         text-align: right;
     }
-    &.Date{
+    &.Date {
         text-align: right;
     }
 }
 
 td {
     border-bottom: 1px solid #fff;
-    &.No{
+    &.No {
         text-align: right;
     }
-    &.Name{
+    &.Name {
         text-align: left;
     }
-    &.Contact{
+    &.Contact {
         text-align: right;
     }
-    &.Date{
+    &.Date {
         text-align: right;
     }
 }
