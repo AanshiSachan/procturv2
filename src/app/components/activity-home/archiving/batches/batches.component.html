@@ -69,8 +69,8 @@
             <tr *ngFor="let i of newPaginated">
               <td>
                 <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px;">
-                  <input type="checkbox" class="form-checkbox">
-                  <label></label>
+                  <input type="checkbox" class="form-checkbox" name={{i.course_id}} id={{i.course_id}} >
+                  <label for={{i.course_id}}></label>
                 </div>
                 {{i.course_name}}
               </td>
@@ -91,7 +91,7 @@
               </td>
             </tr>
             <tr>
-              <td colspan="6"> 
+              <td colspan="6">
                 <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData()">
               </td>
             </tr>

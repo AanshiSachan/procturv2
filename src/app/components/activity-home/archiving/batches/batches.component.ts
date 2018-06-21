@@ -15,14 +15,16 @@ export class BatchesComponent implements OnInit {
   PageIndexPopup: number = 1;
   pagedisplaysize: number = 10;
   pagedisplaysizePopup: number = 10;
-  totalRow: number =0 ;
+  totalRow: number = 0;
   newPaginated: any[] = [];
   searchText: string = ""
   searchData: any[] = [];
   searchflag: boolean = false;
-  sendPayload={
-    courseIds: '-1'
+  sendPayload = {
+    courseIds: [],
+    isSelected: false
   }
+  courseIds:any[] = []
 
   constructor(private auth: AuthenticatorService,
     private batch: CoursesServiceService) { }
@@ -51,20 +53,29 @@ export class BatchesComponent implements OnInit {
     )
   }
 
-  archiveData(){
-   this.batch.courses(this.sendPayload).subscribe(
-     (data:any)=>{
-      console.log(data);
-     },
-     (error:any)=>{
-
-     }
-   )
-  }
-
-  valueChange(event){
+  getValue(event){
     console.log(event);
+    this.courseIds.push(event);
+    this.sendPayload={
+      courseIds : this.courseIds,
+      isSelected: true
+    }
+    console.log(this.courseIds);
   }
+
+  archiveData() {
+    console.log(this.sendPayload);
+    this.batch.courses(this.sendPayload).subscribe(
+      (data: any) => {
+        console.log(data);
+      },
+      (error: any) => {
+
+      }
+    )
+  }
+
+ 
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;

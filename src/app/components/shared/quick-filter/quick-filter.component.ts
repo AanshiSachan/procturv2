@@ -16,11 +16,11 @@ export class QuickFilterComponent implements OnChanges {
     selectedOptionsString: string = "";
     dataMap: any[] = [];
     isProfessional: boolean = false;
+
     @Input() inputList: any[] = [];
     @Input() modelName: any;
 
     @Output() selectedValue = new EventEmitter<any>();
-
 
     constructor(private auth: AuthenticatorService) {
         this.auth.institute_type.subscribe(
@@ -179,6 +179,4 @@ export class QuickFilterComponent implements OnChanges {
             this.selectedOptionsString = this.selectedOptions.join(",");
         }
     }
-
-    
 }

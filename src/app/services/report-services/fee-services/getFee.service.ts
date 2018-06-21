@@ -121,4 +121,16 @@ export class GetFeeService {
         )
     }
 
+    getEmail(obj){
+        let url = this.baseUrl + "/api/v1/studentWise/fee/" + 71433 + "/feeReceipt/" + 218 + "/download?emailSent=Y"
+        return this.http.get(url , {headers:this.headers}).map(
+            (data:any)=>{
+                return data;
+            },
+            (error:any)=>{
+                return error;
+            }
+        )
+    }
+
 }
