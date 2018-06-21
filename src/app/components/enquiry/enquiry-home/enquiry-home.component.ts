@@ -34,8 +34,6 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnquiryHomeComponent implements OnInit {
-
-
   isConvertToStudent: boolean = false;
   sortBy: string = 'followUpDateTime';
   /* =========================================================================== */
