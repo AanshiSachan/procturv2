@@ -1,5 +1,8 @@
 .employee-sidebar {
     padding: 10px 0px;
+    max-height: 75vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .closebtn {
@@ -41,9 +44,36 @@
     .field-wrapper {
         .form-ctrl {
             width: 200px;
+            height: auto;
+            padding: 0.2em 0.8em;
         }
     }
     .educational-details {
         margin-top: 10px;
+    }
+    .leave-mangement {
+        margin-top: 10px;
+        .row {
+            padding-top: 10px;
+        }
+        .applied-leaves {
+            label {
+                padding-left: 20px;
+            }
+        }
+    }
+    .educational-details {
+        margin-top: 10px;
+        .row {
+            padding-top: 10px;
+        }
+    }
+}
+
+.btn-group {
+    .small-btn {
+        padding: 0px 5px;
+        height: 20px;
+        margin-right: 5px;
     }
 }

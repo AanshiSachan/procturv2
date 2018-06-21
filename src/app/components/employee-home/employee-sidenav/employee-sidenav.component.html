@@ -26,12 +26,6 @@
         </div>
       </div>
     </div>
-
-    <div class="btn-group">
-      <i class="edit-icon" aria-hidden="true" title="Edit"></i>
-      <i class="fa fa-id-card-o" aria-hidden="true"></i>
-    </div>
-
   </div>
 
   <div class="info-section">
@@ -40,7 +34,16 @@
 
       <div class="row">
         <div class="field-wrapper">
-          <label for="name">Name
+          <label for="name">Employee Manager
+            <span style="color:red">*</span>
+          </label>
+          <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field-wrapper">
+          <label for="name">Email ID
             <span style="color:red">*</span>
           </label>
           <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
@@ -56,27 +59,69 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="educational-details">
-      <h3>Educational Qualifications</h3>
-
       <div class="row">
         <div class="field-wrapper">
-          <label for="name">Name
+          <label for="name">Address
             <span style="color:red">*</span>
           </label>
           <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
         </div>
       </div>
 
+    </div>
+
+    <div class="leave-mangement">
+      <h3>Leaves</h3>
+
       <div class="row">
-        <div class="field-wrapper">
-          <label for="name">Name
-            <span style="color:red">*</span>
-          </label>
-          <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+        <label>Privilege Leave : </label>
+        <span>5</span>
+      </div>
+
+      <div class="row">
+        <label>Casual Leave : </label>
+        <span>5</span>
+      </div>
+
+      <div class="row">
+        <label>Approved Leave : </label>
+        <span>5</span>
+      </div>
+
+      <div class="row">
+        <label>Unapproved Leave : </label>
+        <span>5</span>
+      </div>
+
+      <div class="row">
+        <div class="applied-leaves">
+          <label class="pull-left">20-6-2018 : </label>
+          <div class="btn-group pull-right">
+            <button class="btn small-btn fullBlue">Approve</button>
+            <button class="btn small-btn fullBlue">Reject</button>
+          </div>
         </div>
+      </div>
+
+
+    </div>
+
+    <div class="educational-details">
+      <h3>Professional Qualification</h3>
+
+      <div class="row">
+        <label>Highest Qualification</label>
+        <span>5</span>
+      </div>
+
+      <div class="row">
+        <label>Year Of Experience</label>
+        <span>5</span>
+      </div>
+
+      <div class="row">
+        <label>Highest Qualification</label>
+        <span>5</span>
       </div>
 
     </div>

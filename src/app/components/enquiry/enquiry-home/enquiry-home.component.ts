@@ -3954,38 +3954,54 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
+  showApproveButtons(data) {
+    let enableApprove = sessionStorage.getItem('allow_sms_approve_feature');
+    const permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      if (enableApprove == '1' && data.statusValue == "Open") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  approveRejectSms(data, statusCode) {
+    let msg: any = "";
+    if (statusCode == 1) {
+      msg = "approve";
+    } else {
+      msg = "reject";
+    }
+    if (confirm('Are you sure, You want  to ' + msg + ' the message?')) {
+      this.prefill.changesSMSStatus({ 'status': statusCode }, data.message_id).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: '',
+            body: ''
+          }
+          if (statusCode == 1) {
+            msg.title = "SMS Approved"
+          } else {
+            msg.title = "SMS Rejected";
+          }
+          this.appC.popToast(msg);
+          this.smsServicesInvoked();
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          }
+          this.appC.popToast(msg);
+        }
+      )
+    }
+  }
 
 }
 
