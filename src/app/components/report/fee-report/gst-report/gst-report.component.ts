@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { PaymentHistoryMainService } from '../../../../services/payment-history/payment-history-main.service';
 import * as moment from 'moment';
@@ -72,9 +72,9 @@ export class GstReportComponent implements OnInit {
     { primaryKey: 'fee_type_name', header: 'Fee Type' },
     { primaryKey: 'installment_nos', header: 'Inst No' },
     { primaryKey: 'paid_date', header: 'Paid Date' },
-    { primaryKey: 'cgst', header: 'CGST Amount' },
-    { primaryKey: 'sgst', header: 'SGST Amount' },
-    { primaryKey: 'tax', header: 'Tax Amount' },
+    { primaryKey: 'cgst', header: 'CGST' },
+    { primaryKey: 'sgst', header: 'SGST' },
+    { primaryKey: 'tax', header: 'Tax' },
     { primaryKey: 'reference_no', header: 'Ref No' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
@@ -105,10 +105,11 @@ export class GstReportComponent implements OnInit {
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
-  searchName:string;
-  tempRecords:any[]=[];
+  searchName: string;
+  tempRecords: any[] = [];
+  records:string;
 
-  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService) { }
+  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService ,private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getGstReport(event);
@@ -116,7 +117,8 @@ export class GstReportComponent implements OnInit {
 
 
   getGstReport(event) {
-
+    this.records = ""
+    this.searchText = ""
     this.getPaymentRecords = [];
 
     let date = new Date()
@@ -154,6 +156,8 @@ export class GstReportComponent implements OnInit {
 
         this.getPaymentRecords = data;
         this.tempRecords = data;
+        this.records = this.tempRecords[0].totalGst;
+        console.log(this.records);
       },
       (error: any) => {
 
@@ -180,41 +184,34 @@ export class GstReportComponent implements OnInit {
     this.gst.downloadData(this.downloadService).subscribe(
 
       (data: any) => {
-        this.exportToExcel(data);
+        let byteArr = this.convertBase64ToArray(data.document);
+        let format = data.format;
+        let fileName = data.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('enq_download');
+        this.cd.markForCheck();
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        this.cd.markForCheck();
+        dwldLink.click();
+        this.cd.markForCheck();
       }
     )
   }
 
-  exportToExcel(event) {
-    let exportedArray: any[] = [];
-    this.getPaymentRecords.map(
-      (data: any) => {
-        let obj = {
-          "Id": data.student_disp_id,
-          "Name": data.student_name,
-          "Reciept No": data.display_invoice_no,
-          "Payment Mode": data.paymentMode,
-          "Fee Type": data.fee_type_name,
-          "Inst No": data.installment_nos,
-          "Paid Date": data.paid_date,
-          "Reference No": data.reference_no,
-          "Amount Paid": data.amount_paid,
-          'CGST Amount' : data.cgst ,
-          'SGST Amount' : data.sgst,
-          'Tax Amount' : data.tax ,
-          "Student_Category": data.student_category,
-          "Counsellor": data.enquiry_counsellor_name
-        }
-        exportedArray.push(obj);
-      }
-      
-    )
-    this.excelService.exportAsExcelFile(
-      exportedArray,
-      'Students'
-    )
+  convertBase64ToArray(val) {
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
   }
 
+  
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       // let searchData: any;

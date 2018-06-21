@@ -7,11 +7,11 @@
             <div class="middle-top mb0 clearFix header">
                 <div class="report-header" style="padding-bottom:1%">
                     <h2 style="padding: 5px;" class="pull-left">
-                        <a routerLink="/reports">
+                        <a routerLink="/view/reports">
                             Report
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-                        <a routerLink="/reports/fee">
+                        <a routerLink="/view/reports/fee">
                             Fee Report
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Gst Report
@@ -23,7 +23,7 @@
                             </div>
                             <div class="c-lg-3 field-wrapper">
                                 <label>Select Month</label>
-                                <select class="form-ctrl" [(ngModel)]="sendPayload.from_date" >
+                                <select class="form-ctrl" [(ngModel)]="sendPayload.from_date">
                                     <option value=-1>
                                     </option>
                                     <option *ngFor="let i of selectMonth" [value]="i.key">
@@ -37,19 +37,27 @@
                         </div>
                     </div>
                 </div>
-                <div id="basic-search" style="margin:5px; float:right;">
+
+
+                <div id="basic-search" style="margin:5px;">
+                    <ul style="text-align: center;margin-top: 17px; text-align: center; font-weight: bold; font-size: 17px;">
+                        <li>
+                            Total GST : ₹{{records.toLocaleString('en-IN')}}
+                        </li>
+                    </ul>
                     <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                        (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
+                        (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; float:right;">
                 </div>
 
                 <div class="table-content">
                     <div style="margin: 10px;" class="pointer">
+                        <a class="hide" id="enq_download"></a>
                         <a (click)="downloadToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>
-                    <rob-table [isMulti]='false' [hasMenu]="false" 
-                        [records]="getPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
+                    <rob-table [isMulti]='false' [hasMenu]="false" [records]="getPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'"
+                        [settings]="feeSettings1">
                     </rob-table>
                 </div>
             </div>

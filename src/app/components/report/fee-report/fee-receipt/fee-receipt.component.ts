@@ -20,7 +20,7 @@ export class FeeReceiptComponent implements OnChanges {
 
   receiptData: any[] = [];
 
-  constructor(private getter: GetFeeService, private putter: PostFeeService) { }
+  constructor(private getter: GetFeeService, private putter: PostFeeService , private appc:AppComponent) { }
 
   ngOnChanges() {
     this.feeData;
@@ -67,6 +67,22 @@ export class FeeReceiptComponent implements OnChanges {
   }
 
   emailReceipt(r) {
+    let obj = {
+      student_id: this.feeData.student_id,
+      disp_id: r.invoice_no,
+    }
+    this.getter.getEmail(obj).subscribe(
+      (data:any)=>{
+        let msg={
+          type:"success",
+          body:"Email Sent successfully"
+        }
+        this.appc.popToast(msg);
+      },
+      (error:any)=>{
+
+      }
+    )
   }
 
   closePopups(){
