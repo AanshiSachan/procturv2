@@ -677,6 +677,15 @@
                           </span>
                         </li>
 
+                        <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
+                          <label>
+                            Balance Due Date
+                          </label>
+                          <span>
+                            {{installment.latest_due_date | date:"dd MMM yyyy"}}
+                          </span>
+                        </li>
+
                         <li *ngIf="installment.is_referenced == 'Y'">
                           <label>
                             Paid Date
