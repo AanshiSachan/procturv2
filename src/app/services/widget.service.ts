@@ -569,4 +569,14 @@ export class WidgetService {
         )
     }
 
+    // SMS Approve/Reject
+
+    changesSMSStatus(obj, id) {
+        let url = this.baseUrl + "/api/v1/notification/message/" + this.institute_id + "/" + id;
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        );
+    }
+
 }

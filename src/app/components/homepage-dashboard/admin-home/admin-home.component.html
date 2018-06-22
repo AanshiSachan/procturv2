@@ -1249,10 +1249,20 @@
                 </div>
 
                 <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
-                  <span>Configured Notification Messages(showing last 30 days added messages):</span>
-                  <a class="pull-right" style="cursor: pointer;" (click)="getAllSavedMessages()">See All Message</a>
 
-                  <div class="row message-table-wrapper">
+                  <div class="schedSwitcher row" [ngClass]="{'hide' : checkRoleMAnagement() }">
+                    <ul>
+                      <li (click)="onTabChange('approved')" id="approvedSMSTab" class="active">Approved</li>
+                      <li (click)="onTabChange('open')" id="openSMSTab" class="">Open</li>
+                    </ul>
+                  </div>
+
+                  <div class="row" *ngIf="!openMessageFlag">
+                    <span>Configured Notification Messages(showing last 30 days added messages):</span>
+                    <a class="pull-right" style="cursor: pointer;" (click)="getAllSavedMessages()">See All Message</a>
+                  </div>
+
+                  <div class="row message-table-wrapper" *ngIf="!openMessageFlag">
                     <table class="message-table">
                       <thead>
                         <tr>
@@ -1283,6 +1293,43 @@
                           </td>
                           <td style="text-align: left">
                             {{row.message}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="messageList.length == 0">
+                          <td colspan="3">
+                            No Notification Available
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="row message-table-wrapper" *ngIf="openMessageFlag">
+                    <table class="message-table">
+                      <thead>
+                        <tr>
+                          <th class="dateSection">
+                            Date
+                          </th>
+                          <th style="text-align: left">
+                            Message
+                          </th>
+                          <th>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of openMessageList; let i = index; trackBy: i;">
+                          <td class="dateSection">
+                            {{row.date}}
+                          </td>
+                          <td style="text-align: left">
+                            {{row.message}}
+                          </td>
+                          <td>
+                            <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                            <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                           </td>
                         </tr>
                         <tr *ngIf="messageList.length == 0">
