@@ -995,6 +995,7 @@ export class ClassAddComponent implements OnInit {
   }
 
   customRecurrence() {
+    this.getWeeklyScheduleData()
     this.showPopUpRecurence = true;
   }
 
@@ -1005,6 +1006,24 @@ export class ClassAddComponent implements OnInit {
 
 
   //////// POPUP /////////////////////////
+
+  getWeeklyScheduleData() {
+    this.classService.getWeeklySchedule(this.selctedScheduledClass.batch_id).subscribe(
+      (res: any) => {
+        if (res.weekSchd.length > 0) {
+          this.selctedScheduledClass.startTime = this.getNewTimeFormatJson(res.weekSchd[0].start_time);
+          this.selctedScheduledClass.endTime = this.getNewTimeFormatJson(res.weekSchd[0].end_time);
+          res.weekSchd.forEach(element => {
+            document.getElementById('idDay-' + element.day_of_week).classList.remove('l-text');
+            document.getElementById('idDay-' + element.day_of_week).classList.add('p-text');
+          });
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
 
 
   closePopup() {
