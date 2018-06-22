@@ -57,9 +57,9 @@ p {
 }
 
 .attendance-container {
-    height: auto !important;
+    height: 85vh;
     background: #efefef;
-    padding: 0px;
+    padding: 5px;
     overflow: auto;
 }
 
@@ -1724,19 +1724,21 @@ a:hover {
     cursor: pointer;
     color: #0060A3;
 }
-.dateHeader{
 
-    text-align:center;
+.dateHeader {
+    text-align: center;
     margin-top: -2%;
     margin-bottom: 2%;
     margin-left: -3px;
 }
-.inshead{
-    text-align:left;
-    margin-left:3px;
+
+.inshead {
+    text-align: left;
+    margin-left: 3px;
 }
-.insCont{
-    text-align:left;
-    margin-left:3px;
+
+.insCont {
+    text-align: left;
+    margin-left: 3px;
     margin-top: 5px;
 }

@@ -88,7 +88,7 @@ export class FeeCourseReportComponent implements OnInit {
     type: '0',
     installment_id: -1,
     is_fee_report_view: 1,
-    academic_year_id: []
+    academic_year_id: ""
   }
 
   isRippleLoad: boolean = false;
@@ -105,11 +105,11 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
+  helpMsg: string = "We can filter data by selecting master course/ course/ batch along with the academic year"
 
   @ViewChild('form') form: any;
 
-  getAllAcademic:any[] = []
+  getAllAcademic: any[] = []
 
   constructor(
     private excelService: ExcelService,
@@ -260,12 +260,15 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   fetchFeeDetails() {
+    let arr = [];
+    arr.push(this.courseFetchForm.academic_year_id);
     /* Fetch By Master Course and Other Details */
     if (this.isFilterReversed) {
       /* Checks if user has filled the form correctly and selected a batch or master course course */
       if (this.courseFormValidator()) {
         if (this.dateRangeValid()) {
           if (this.isProfessional) {
+
             let obj = {
               standard_id: this.courseFetchForm.standard_id,
               batch_id: this.courseFetchForm.batch_id,
@@ -279,7 +282,7 @@ export class FeeCourseReportComponent implements OnInit {
               student_name: this.courseFetchForm.student_name,
               contact_no: this.courseFetchForm.contact_no,
               is_fee_report_view: this.courseFetchForm.is_fee_report_view,
-              academic_year_id:this.courseFetchForm.academic_year_id
+              academic_year_id: arr
 
             }
             //console.log(obj);
@@ -299,7 +302,7 @@ export class FeeCourseReportComponent implements OnInit {
               student_name: this.courseFetchForm.student_name,
               contact_no: this.courseFetchForm.contact_no,
               is_fee_report_view: this.courseFetchForm.is_fee_report_view,
-              academic_year_id:this.courseFetchForm.academic_year_id
+              academic_year_id: arr
 
             }
             //console.log(obj);
@@ -419,7 +422,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   generateReport(obj) {
     //console.log(obj);
-
+    this.feeDataSource1 = [];
     if (obj.from_date == 'Invalid date' || obj.from_date == '') {
       obj.from_date = '';
     }

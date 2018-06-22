@@ -26,14 +26,33 @@
     }
 }
 
-.sky-form{
+.made-in {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.made-out {
+    font-size: 14px;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.made {
+    position: relative;
+    margin-top: 17px;
+    left: 15%;
+    right: -15%;
+    bottom: -27px;
+}
+
+.sky-form {
     height: -18px;
-    ::-webkit-scrollbar{
+    ::-webkit-scrollbar {
         display: block;
     }
-    .sky-inner{
+    .sky-inner {
         height: 32px;
-        overflow:auto;
+        overflow: auto;
     }
 }
 

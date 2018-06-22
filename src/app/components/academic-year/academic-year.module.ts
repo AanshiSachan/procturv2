@@ -42,6 +42,10 @@ import { ManageExamModule } from '../master/master.module';
     ],
     providers: [
         AcademicyearService
+    ],
+    entryComponents:[
+        HomeComponent,
+        AcademicYearComponent
     ]
 })
 

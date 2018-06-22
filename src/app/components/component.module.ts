@@ -5,6 +5,7 @@ import { ComponentRoutingModule } from './component-routing.module';
 import { ComponentsComponent } from './components.component';
 import { SharedModule } from '../components/shared/shared.module';
 import { BsDatepickerModule } from '../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { ManageExamModule } from './master/master.module';
 
 @NgModule({
     imports: [

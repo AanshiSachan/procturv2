@@ -88,7 +88,7 @@ export class AllDataReportComponent implements OnInit {
     type: '0',
     installment_id: -1,
     is_fee_report_view: 1,
-    academic_year_id: []
+    academic_year_id: ""
   }
 
   isRippleLoad: boolean = false;
@@ -105,7 +105,7 @@ export class AllDataReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
+  helpMsg: string = "We can filter data by selecting dues along with date range filter and academic year"
 
   @ViewChild('form') form: any;
 
@@ -262,6 +262,8 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   fetchFeeDetails() {
+    let arr = [];
+    arr.push(this.courseFetchForm.academic_year_id);
     /* Fetch By Master Course and Other Details */
     // if (this.isFilterReversed) {
     //   /* Checks if user has filled the form correctly and selected a batch or master course course */
@@ -281,7 +283,7 @@ export class AllDataReportComponent implements OnInit {
         student_name: this.courseFetchForm.student_name,
         contact_no: this.courseFetchForm.contact_no,
         is_fee_report_view: this.courseFetchForm.is_fee_report_view,
-        academic_year_id: this.courseFetchForm.academic_year_id
+        academic_year_id: arr
       }
       //console.log(obj);
       this.generateReport(obj);
@@ -300,7 +302,7 @@ export class AllDataReportComponent implements OnInit {
         student_name: this.courseFetchForm.student_name,
         contact_no: this.courseFetchForm.contact_no,
         is_fee_report_view: this.courseFetchForm.is_fee_report_view,
-        academic_year_id: this.courseFetchForm.academic_year_id
+        academic_year_id: arr
       }
       //console.log(obj);
       this.generateReport(obj);
@@ -419,7 +421,8 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   generateReport(obj) {
     //console.log(obj);
-
+    this.feeDataSource1 = [];
+    this.feeDataSource2 = [];
     if (obj.from_date == 'Invalid date' || obj.from_date == '') {
       obj.from_date = '';
     }
