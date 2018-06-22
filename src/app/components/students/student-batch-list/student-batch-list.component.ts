@@ -143,6 +143,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     createUpdate(value, index) {
+        debugger;
         if (this.isEdit) {
             let ind = null;
             let len = this.dataList.length;

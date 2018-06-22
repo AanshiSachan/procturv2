@@ -49,6 +49,7 @@ export class RobTableComponent implements OnChanges {
 
 
     ngOnChanges() {
+        this.cd.reattach();        
         this.cd.markForCheck();
         this.dataStatus;
         this.key1;
@@ -62,6 +63,8 @@ export class RobTableComponent implements OnChanges {
                 return new ColumnMap({ primaryKey: key });
             });
         }
+        this.cd.detectChanges();
+        this.cd.detach();
     }
 
     selectAllRows(ev) {
@@ -139,8 +142,7 @@ export class RobTableComponent implements OnChanges {
     }
 
     refreshTable() {
-        this.cd.markForCheck();
-              
+        this.cd.markForCheck();     
         this.headerSort = this.defaultSort;
         if (!this.reset) {
             this.selectedRow = null;
@@ -161,7 +163,6 @@ export class RobTableComponent implements OnChanges {
     requestSort(ev) {
         this.cd.markForCheck();
         this.caret = true;
-
         this.headerSort=ev;
         (this.asc) ? (this.asc=false) : (this.asc=true);
         this.sortById.emit(ev);
@@ -230,7 +231,6 @@ export class RobTableComponent implements OnChanges {
 
     getBatchListArr(e: string){
         this.cd.detach();
-        console.log("table");
         return e.trim().split(",");
     }
 

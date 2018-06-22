@@ -117,7 +117,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     institution_id: sessionStorage.getItem('institute_id')
   }
   isPaymentDetailsValid: boolean = false;
+  isEdit: boolean = true;
   total_amt_tobe_paid: any = "";
+
   feeTemplateById: StudentFeeStructure = {
     feeTypeMap: "",
     customFeeSchedules: [],
@@ -423,7 +425,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.updateStudentFeeDetails();
       this.isRippleLoad = false;
       this.getCourseDropdown(id);
-      if(data.is_active == "Y"){
+      if (data.is_active == "Y") {
         this.formIsActive = true;
       }
       /* For Batch Model Fetch the Student Batches */
@@ -1057,7 +1059,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               value: el.enq_custom_value
             }
           }
-
           this.customComponents.push(obj);
         });
       });
@@ -1311,9 +1312,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
       }
       else if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
-        this.studentAddFormData.assignedBatchescademicYearArray.reverse();
-        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
+        this.studentAddFormData.assignedBatchescademicYearArray;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
+      console.log(this.studentAddFormData);
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
           let statusCode = res.statusCode;
@@ -2323,8 +2325,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
       }
       if (this.studentAddFormData.assignedBatches != null) {
-        this.studentAddFormData.assignedBatchescademicYearArray.reverse();
-        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
+        this.studentAddFormData.assignedBatchescademicYearArray;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
       this.isRippleLoad = true;
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(

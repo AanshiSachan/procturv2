@@ -1,16 +1,12 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
@@ -18,127 +14,38 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { StudentForm } from '../../../model/student-add-form';
+import { ISubscription } from "rxjs/Subscription";
 
 @Component({
   selector: 'app-student-home',
   templateUrl: './student-home.component.html',
   styleUrls: ['./student-home.component.scss']
 })
-export class StudentHomeComponent implements OnInit, OnChanges {
+export class StudentHomeComponent implements OnInit {
 
-  isConfirmBulkDelete: boolean;
-  isNotifyStudent: boolean;
-  isMarkLeave: boolean;
-  /* Variable declaration */
-  private rows: any = [];
-  private enqstatus: any = [];
-  private masterCourseList: any = [];
-  private schoolList: any = [];
-  private subjectList: any = [];
-  private studentStatusList: any = [];
-  private batchList: any = [];
-  private standardList: any = [];
-  private subCourseList: any = [];
-  private customComponent: any = [];
-  private studentDataSource: any[] = [];
-  private selectedRowGroup: any[] = [];
-  private optionsModel: any = null;
-  private customComponents: any[] = [];
-  private advancedFilter: boolean = false;
-  private studentdisplaysize: number = 50;
-  private isAllSelected: boolean = false;
-  private selectedRow: any;
-  studentDetailsById: any;
-  studentCustomComponent: any;
-  today: any = Date.now();
-  busy: Subscription;
-  busyPrefill: Subscription;
-  searchBarData: any = null;
-  sizeArr: any[] = [50, 100, 250, 500, 1000];
-  bulkActionItems: MenuItem[];
-  indexJSON: any[] = [];
-  isProfessional: boolean = false;
-  currentDirection: string = 'asc';
-  isDeleteStudentPrompt: boolean = false;
-  isAddComment: boolean = false;
-  perPage: number = 10;
-  PageIndex: number = 1;
-  maxPageSize: number = 0;
-  totalRow: number = 0;
-  private slots: any[] = [];
-  private selectedSlots: any[] = [];
-  private slotIdArr: any[] = [];
-  private selectedSlotsString: string = '';
-  loading_message: number = 1;
-  private selectedSlotsID: string = '';
-  selectedRowCount: number = 0;
-  isRippleLoad: boolean = false;
-  /* set true to see the sidebar */
-  isSideBar: boolean = false;
-  isOptions: boolean = false;
-  private editForm: any = {
-    comments: "",
-    institution_id: sessionStorage.getItem('institute_id')
-  }
 
-  StudentSettings: ColumnSetting[];
+  private enqstatus: any = []; private masterCourseList: any = []; private schoolList: any = []; private subjectList: any = []; private studentStatusList: any = []; private batchList: any = []; private standardList: any = []; private subCourseList: any = []; private customComponent: any = []; private studentDataSource: any[] = []; private selectedRowGroup: any[] = []; private optionsModel: any = null; private customComponents: any[] = []; private advancedFilter: boolean = false; private studentdisplaysize: number = 50; isConfirmBulkDelete: boolean; isNotifyStudent: boolean; isMarkLeave: boolean;
+  private isAllSelected: boolean = false; private selectedRow: any; studentDetailsById: any; studentCustomComponent: any; today: any = Date.now(); searchBarData: any = null; bulkActionItems: MenuItem[]; isProfessional: boolean = false; currentDirection: string = 'asc'; isDeleteStudentPrompt: boolean = false; isAddComment: boolean = false; perPage: number = 10; PageIndex: number = 1; maxPageSize: number = 0; totalRow: number = 0; private slots: any[] = [];
+  private selectedSlots: any[] = []; academicYear: any[] = []; defaultAcadYear: any; private slotIdArr: any[] = []; private selectedSlotsString: string = ''; loading_message: number = 1; private selectedSlotsID: string = ''; selectedRowCount: number = 0; isRippleLoad: boolean = false; isSideBar: boolean = false; isOptions: boolean = false;
+  private editForm: any = { comments: "", institution_id: sessionStorage.getItem('institute_id') }; StudentSettings: ColumnSetting[]; leaveDataArray: any = []; sortBy: string = "student_name";
+  @ViewChild('studentPage') studentPage: ElementRef; @ViewChild('mySidenav') mySidenav: ElementRef; @ViewChild('optMenu') optMenu: ElementRef; sizeArr: any[] = [50, 100, 250, 500, 1000];
+  instituteData: instituteInfo = { school_id: -1, standard_id: -1, batch_id: -1, name: "", is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+  advancedFilterForm: instituteInfo = { school_id: -1, standard_id: -1, batch_id: -1, name: "", is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+  applyLeave = { student_id: '', start_date: moment().format("YYYY-MM-DD"), end_date: moment().format("YYYY-MM-DD"), reason: '' };
+  sendNotification = { loginMessageChkbx: false, smsChkbx: true, emailChkbx: false, studentChkbx: true, parentChkbx: false, gaurdianChkbx: false, subjectMessage: '' }
+  loginField = { checkBox: 0 }; messageList: any = []; selectedUserId: any = [];
+  private studentAddFormData: StudentForm = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class_key: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], assignedCourse_Subject_FeeTemplateArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: "admitted", stuCustomLi: [] };
+  private assignedBatchString: string = ''; studentbatchList: any[] = []; private isAssignBatch: boolean = false; isEdit: boolean = true;
+  studentByIdcustomComponents: any[] = [];
+  private subscriptionStudent: ISubscription;
+  private subscriptionCustomComp: ISubscription;
 
-  @ViewChild('studentPage') studentPage: ElementRef;
-  @ViewChild('mySidenav') mySidenav: ElementRef;
-  @ViewChild('optMenu') optMenu: ElementRef;
-
-  /* Model for institute Data for fetching student enquiry */
-  instituteData: instituteInfo = {
-    school_id: -1,
-    standard_id: -1,
-    batch_id: -1,
-    name: "",
-    is_active_status: 1,
-    mobile: "",
-    language_inst_status: -1,
-    subject_id: -1,
-    slot_id: "",
-    master_course_name: "",
-    course_id: -1,
-    start_index: 0,
-    batch_size: this.studentdisplaysize,
-    sorted_by: '',
-    order_by: ''
-  };
-
-  advancedFilterForm: instituteInfo = {
-    school_id: -1,
-    standard_id: -1,
-    batch_id: -1,
-    name: "",
-    is_active_status: 1,
-    mobile: "",
-    language_inst_status: -1,
-    subject_id: -1,
-    slot_id: "",
-    master_course_name: "",
-    course_id: -1,
-    start_index: 0,
-    batch_size: this.studentdisplaysize,
-    sorted_by: '',
-    order_by: ''
-  }
-  leaveDataArray: any = [];
-  applyLeave = {
-    student_id: '',
-    start_date: moment().format("YYYY-MM-DD"),
-    end_date: moment().format("YYYY-MM-DD"),
-    reason: ''
-  }
-
-  sortBy: string = "student_name";
-
-  constructor(private prefill: FetchprefilldataService, private router: Router,
-    private studentFetch: FetchStudentService, private login: LoginService,
-    private appC: AppComponent, private studentPrefill: AddStudentPrefillService,
-    private widgetService: WidgetService,
-    private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService) {
-
+  /* =================================================================================================== */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
+  constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService) {
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
@@ -201,12 +108,16 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     });
   }
 
+
+
+
   /* OnInit function to set toggle default columns and load student data for table*/
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   ngOnInit() {
     this.isRippleLoad = true;
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    // this.loadTableDataSource(this.instituteData);
     this.fetchStudentPrefill();
     this.loading_message = 3;
     this.studentDataSource = [];
@@ -220,9 +131,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     ];
   }
 
-  ngOnChanges() { }
 
   /* Fetch data from server and convert to custom array */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   loadTableDataSource(obj) {
     this.isRippleLoad = true;
     this.selectedRow = null;
@@ -308,6 +220,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
+
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getDirection(e) {
     //console.log(this.currentDirection);
     if (e) {
@@ -322,6 +237,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
 
   /* fetch the data from server based on specific page number by converting the index into start_index */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   fectchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
@@ -333,47 +250,59 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* Fetch next set of data from server and update table */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   fetchNext() {
     this.PageIndex++;
     this.fectchTableDataByPage(this.PageIndex);
   }
 
   /* Fetch previous set of data from server and update table */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   fetchPrevious() {
     this.PageIndex--;
     this.fectchTableDataByPage(this.PageIndex);
   }
 
-  /* When user click on a row add class 
-    selected and check that row */
-  rowclicked(row) {
-    this.selectedRow = row;
-  }
+  // /* When user click on a row add class 
+  //   selected and check that row */
+  // /* =================================================================================================== */
+  // /* =================================================================================================== */
+  // rowclicked(row) {
+  //   this.selectedRow = row;
+  // }
 
-  /* update the checked status of the user selected rows checkbox on click */
-  rowCheckBoxClick(state, id, no) {
-    this.studentDataSource[id].isSelected = state;
-    let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
-    if (index !== -1) {
-      if (!state) {
-        this.selectedRowGroup.splice(index, 1);
-        this.isAllSelected = false;
-      }
-    }
-    else {
-      if (state) {
-        this.selectedRowGroup.push(this.studentDataSource[id]);
-      }
-    }
-  }
+  // /* update the checked status of the user selected rows checkbox on click */
+  // /* =================================================================================================== */
+  // /* =================================================================================================== */
+  // rowCheckBoxClick(state, id, no) {
+  //   this.studentDataSource[id].isSelected = state;
+  //   let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
+  //   if (index !== -1) {
+  //     if (!state) {
+  //       this.selectedRowGroup.splice(index, 1);
+  //       this.isAllSelected = false;
+  //     }
+  //   }
+  //   else {
+  //     if (state) {
+  //       this.selectedRowGroup.push(this.studentDataSource[id]);
+  //     }
+  //   }
+  // }
 
   /* navigate the user to edit page for the specific student */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   editStudent(id) {
     localStorage.setItem('studentId', id);
     this.router.navigate(['/view/student/edit/' + id]);
   }
 
   /* Delete the student selected or archieve the student selected */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   deleteStudent(id) {
 
     let obj = {
@@ -395,18 +324,27 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     );
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   confirmDeleteBulk() {
     this.isConfirmBulkDelete = true;
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   cancelDeleteBulk() {
     this.isConfirmBulkDelete = false;
   }
 
+
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   deleteBulkStudent() {
     //console.log(this.selectedRowGroup);
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   deleteStudentOpen(row) {
     this.selectedRow = row;
     if (this.selectedRow.noOfBatchesAssigned == 0) {
@@ -423,11 +361,17 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
+
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   closeDeletePopup() {
     this.isDeleteStudentPrompt = false;
   }
 
+
   /* Perform the bulk action for checcked row on basis of the id of selected LI */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   bulkActionPerformer(id) {
 
     if (id == 1) {
@@ -460,6 +404,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* Function to open advanced filter */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   openAdFilter() {
     this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
@@ -470,6 +416,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* Function to close advanced filter */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
     document.getElementById('adFilterExit').classList.add('hide');
@@ -479,6 +427,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* update the advanced filter forn */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   advancedSearch() {
 
     let tempCustomArr: any[] = [];
@@ -514,27 +464,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* If the user select the top checkbox and update its status, all the rows are selectedd or unselected on this basis*/
-  toggleSelectAll(status) {
-
-    let len = this.studentDataSource.length;
-
-    if (status) {
-      this.selectedRowGroup = [];
-      for (var i = 0; i < len; i++) {
-        document.getElementById('check' + i).checked = true;
-        this.selectedRowGroup.push(this.studentDataSource[i]);
-      }
-    }
-    else {
-      this.selectedRowGroup = [];
-      for (var i = 0; i < len; i++) {
-        document.getElementById('check' + i).checked = false;
-      }
-    }
-
-  }
-
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   /* Fetches Data as per the user selected batch size */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   updateTableBatchSize(num) {
     this.PageIndex = 1;
     this.studentdisplaysize = parseInt(num);
@@ -571,11 +505,15 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* Toggle page size menu on Click */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   bulkActionFunction() {
     document.getElementById("bulk-drop").classList.toggle("show");
   }
 
   /* Download the records for student as per the set institute data */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   downloadAllStudent() {
     let data = {
       school_id: -1,
@@ -616,6 +554,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* Converts base64 string into a byte[] */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   convertBase64ToArray(val) {
 
     var binary_string = window.atob(val);
@@ -629,9 +569,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* Store the prefill data for student add form component */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   fetchStudentPrefill() {
+
     this.isRippleLoad = false;
-    let standard = this.prefill.getEnqStardards().subscribe(data => {
+
+    this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
       //console.log(data);
     });
@@ -641,7 +585,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       //console.log(data);
     });
 
-    let batch = this.studentPrefill.fetchBatchDetails().subscribe(data => {
+    this.studentPrefill.fetchBatchDetails().subscribe(data => {
       this.batchList = data;
     });
 
@@ -657,10 +601,85 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       this.getSlots();
     }
 
-    if (standard != null) {
-      let customComp = this.studentPrefill.fetchCustomComponent().subscribe(data => {
-        data.forEach(el => {
-          let obj = {
+    this.prefill.getAllFinancialYear().subscribe(
+      (data: any) => {
+        this.academicYear = data;
+        this.academicYear.forEach(e => {
+          if (e.default_academic_year == 1) {
+            this.defaultAcadYear = e.inst_acad_year_id;
+          }
+        });
+      },
+      err => {
+        let msg = err.error.message;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
+    )
+
+    this.studentPrefill.fetchCustomComponent().subscribe(data => {
+      data.forEach(el => {
+        let obj = {
+          data: el,
+          id: el.component_id,
+          is_required: el.is_required,
+          is_searchable: el.is_searchable,
+          label: el.label,
+          prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+          selected: [],
+          selectedString: '',
+          type: el.type,
+          value: el.enq_custom_value
+        }
+        if (el.type == 4) {
+          obj = {
+            data: el,
+            id: el.component_id,
+            is_required: el.is_required,
+            is_searchable: el.is_searchable,
+            label: el.label,
+            prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
+            selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+            selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+            type: el.type,
+            value: el.enq_custom_value
+          }
+        }
+        if (el.type == 3) {
+          obj = {
+            data: el,
+            id: el.component_id,
+            is_required: el.is_required,
+            is_searchable: el.is_searchable,
+            label: el.label,
+            prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+            selected: [],
+            selectedString: "",
+            type: el.type,
+            value: el.enq_custom_value
+          }
+        }
+        if (el.type == 2) {
+          obj = {
+            data: el,
+            id: el.component_id,
+            is_required: el.is_required,
+            is_searchable: el.is_searchable,
+            label: el.label,
+            prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+            selected: [],
+            selectedString: '',
+            type: el.type,
+            value: el.enq_custom_value == "" ? false : true,
+          }
+        }
+        else if (el.type != 2 && el.type != 4 && el.type != 3) {
+          obj = {
             data: el,
             id: el.component_id,
             is_required: el.is_required,
@@ -672,76 +691,25 @@ export class StudentHomeComponent implements OnInit, OnChanges {
             type: el.type,
             value: el.enq_custom_value
           }
-          if (el.type == 4) {
-            obj = {
-              data: el,
-              id: el.component_id,
-              is_required: el.is_required,
-              is_searchable: el.is_searchable,
-              label: el.label,
-              prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
-              selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
-              selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-              type: el.type,
-              value: el.enq_custom_value
-            }
-          }
-          if (el.type == 3) {
-            obj = {
-              data: el,
-              id: el.component_id,
-              is_required: el.is_required,
-              is_searchable: el.is_searchable,
-              label: el.label,
-              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-              selected: [],
-              selectedString: "",
-              type: el.type,
-              value: el.enq_custom_value
-            }
-          }
-          if (el.type == 2) {
-            obj = {
-              data: el,
-              id: el.component_id,
-              is_required: el.is_required,
-              is_searchable: el.is_searchable,
-              label: el.label,
-              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-              selected: [],
-              selectedString: '',
-              type: el.type,
-              value: el.enq_custom_value == "" ? false : true,
-            }
-          }
-          else if (el.type != 2 && el.type != 4 && el.type != 3) {
-            obj = {
-              data: el,
-              id: el.component_id,
-              is_required: el.is_required,
-              is_searchable: el.is_searchable,
-              label: el.label,
-              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-              selected: [],
-              selectedString: '',
-              type: el.type,
-              value: el.enq_custom_value
-            }
-          }
-          this.customComponents.push(obj);
-        });
+        }
+        this.customComponents.push(obj);
       });
-      //console.log(this.customComponents);
-      return customComp;
-    }
+    });
+
   }
 
+
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getDefaultArr(d): any[] {
     let a: any[] = [];
     a.push(d);
     return a;
   }
 
+
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
     let customPrefilled: any[] = [];
     if (selected.length != 0 && selected[0] != "") {
@@ -766,6 +734,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* Custom Compoenent array creater */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
@@ -780,6 +750,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
     if (elid != null && elid != '') {
@@ -793,6 +765,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* if custom component is of type multielect then update the selected or unselected data*/
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
       if (el.id == id) {
@@ -811,6 +785,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* When user select the master course or standard then fetch the sub or sub course for them */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   updateSubCourse(course) {
     this.advancedFilterForm.course_id = '-1';
     this.subCourseList = [];
@@ -822,6 +798,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* when the user select the master course then fetch course for the related */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   fetchCourseForMaster(id) {
     this.advancedFilterForm.subject_id = '-1';
     this.subjectList = [];
@@ -832,8 +810,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   clearAdvancedFilterForm() {
-
     this.advancedFilterForm = {
       school_id: -1,
       standard_id: -1,
@@ -859,68 +838,23 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   searchDatabase() {
     /* If User has entered an empty value needs to be informed */
     if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
-      this.instituteData = {
-        school_id: -1,
-        standard_id: -1,
-        batch_id: -1,
-        name: '',
-        is_active_status: 1,
-        mobile: "",
-        language_inst_status: -1,
-        subject_id: -1,
-        slot_id: "",
-        master_course_name: "",
-        course_id: -1,
-        start_index: 0,
-        batch_size: this.studentdisplaysize,
-        sorted_by: '',
-        order_by: ''
-      };
+      this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
       this.loadTableDataSource(this.instituteData);
-    }/* valid input detected, check for type of input */
+    }
+    /* valid input detected, check for type of input */
     else {
       /* If input is of type string then validate string validity*/
       if (isNaN(this.searchBarData)) {
-        this.instituteData = {
-          school_id: -1,
-          standard_id: -1,
-          batch_id: -1,
-          name: this.searchBarData,
-          is_active_status: 1,
-          mobile: "",
-          language_inst_status: -1,
-          subject_id: -1,
-          slot_id: "",
-          master_course_name: "",
-          course_id: -1,
-          start_index: 0,
-          batch_size: this.studentdisplaysize,
-          sorted_by: '',
-          order_by: ''
-        };
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: this.searchBarData, is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
         this.loadTableDataSource(this.instituteData);
       }/* If not string then use the data as a number*/
       else {
-        this.instituteData = {
-          school_id: -1,
-          standard_id: -1,
-          batch_id: -1,
-          name: '',
-          is_active_status: 1,
-          mobile: this.searchBarData,
-          language_inst_status: -1,
-          subject_id: -1,
-          slot_id: "",
-          master_course_name: "",
-          course_id: -1,
-          start_index: 0,
-          batch_size: this.studentdisplaysize,
-          sorted_by: '',
-          order_by: ''
-        };
+        this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: this.searchBarData, language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
         this.loadTableDataSource(this.instituteData);
       }
 
@@ -928,21 +862,25 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   /* update the latest comment for the selected student */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   openEditComment(row) {
     this.selectedRow = row;
     this.isAddComment = true;
   }
 
   /* update the latest comment for the selected student */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   closeEditComment() {
     this.isAddComment = false;
   }
 
   /* update the latest comment for the selected student */
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   updateComment() {
-
     this.editForm.comments = this.selectedRow.comments;
-
     this.postService.updateComment(this.editForm, this.selectedRow.student_id).subscribe(
       res => {
         let msg = {
@@ -965,10 +903,14 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getMin(): number {
     return ((this.studentdisplaysize * this.PageIndex) - this.studentdisplaysize) + 1;
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getMax(): number {
     if (this.studentDataSource.length != 0) {
       let max = this.studentdisplaysize * this.PageIndex;
@@ -979,6 +921,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getSlots() {
     return this.studentPrefill.fetchSlots().subscribe(
       res => {
@@ -996,6 +940,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   updateSlotSelected(data) {
     /* slot checked */
     if (data.status) {
@@ -1038,37 +984,54 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getSelected(ev) {
-    //console.log(ev);
     this.selectedRowGroup = ev;
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getSelectedUserIDS(ev) {
     this.selectedUserId = ev;
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getRowCount(ev) {
     //console.log(ev);
     this.selectedRowCount = ev;
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   userRowSelect(ev) {
     if (ev != null) {
+      this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class_key: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], assignedCourse_Subject_FeeTemplateArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: "admitted", stuCustomLi: [] };
       this.openSideBar(ev);
       this.selectedRow = ev;
     }
+    if(this.isSideBar){
+      this.subscriptionStudent.unsubscribe();
+      this.subscriptionCustomComp.unsubscribe();      
+    }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   sortTableById(id) {
     this.sortBy = id;
     //console.log(id);
-    if (id != 'noOfBatchesAssigned') {
+    if (id != 'batchesAssigned') {
       this.instituteData.sorted_by = id;
       this.instituteData.order_by = this.currentDirection;
       this.loadTableDataSource(this.instituteData);
     }
   }
 
+
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   openSideBar(ev) {
     let mySidenavWidth = '29%';
     if (window.innerWidth < 768)
@@ -1081,21 +1044,244 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     let id = ev.student_id;
     this.isSideBar = false;
     this.isRippleLoad = true;
-    this.studentFetch.getStudentById(id).subscribe(
-      res => {
+    this.studentByIdcustomComponents = [];
+    this.subscriptionStudent = this.studentFetch.getStudentById(id).subscribe(
+      (res: any) => {
         this.studentDetailsById = res;
-        this.studentPrefill.fetchCustomComponentById(id).subscribe(
+        this.studentAddFormData = res;
+        this.studentAddFormData.student_class = res.student_class_key;
+        this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id).subscribe(
           cus => {
-            this.isRippleLoad = false;
             this.studentCustomComponent = cus;
-            this.isSideBar = true;
+            cus.forEach(el => {
+              let obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: '',
+                type: el.type,
+                value: el.enq_custom_value
+              }
+              if (el.type == 4) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
+                  selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+                  selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+                  type: el.type,
+                  value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                }
+              }
+              if (el.type == 3) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: "",
+                  type: el.type,
+                  value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                }
+              }
+              if (el.type == 2) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: this.getCustomComponentCheckboxValue(el.enq_custom_value),
+                }
+              }
+              else if (el.type != 2 && el.type != 4 && el.type != 3) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: el.enq_custom_value
+                }
+              }
+              this.studentByIdcustomComponents.push(obj);
+            });
+            this.studentBatchDetailsLoader(id);
+          },
+          err => {
+            this.isRippleLoad = false;
           }
         )
       }
     );
   }
 
+  /* ============================================================================================================================ */
+  getCustomComponentCheckboxValue(e): boolean {
+    if (e == 'Y') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
+  /* ============================================================================================================================ */
+
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getAssignDate(e): string {
+    if (e == '' || e == null) {
+      return moment().format('YYYY-MM-DD')
+    }
+    else {
+      return moment(e).format('YYYY-MM-DD')
+    }
+  }
+
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  updateAssignedBatches(arr: any[]) {
+    let batchString: any[] = [];
+    this.studentAddFormData.assignedBatches = [];
+    this.studentAddFormData.batchJoiningDates = [];
+    this.studentAddFormData.assignedBatchescademicYearArray = [""];
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
+    let temp: any[] = [];
+    let tempDate: any[] = [];
+    arr.forEach(el => {
+      if (el.isSelected) {
+        if (this.isProfessional) {
+          temp.push(el.data.batch_id.toString());
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
+          batchString.push(el.data.batch_name);
+          this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+          this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
+        }
+        else {
+          temp.push(el.data.course_id.toString());
+          tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
+          batchString.push(el.data.course_name);
+          this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+          this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
+        }
+      }
+    });
+    this.studentAddFormData.assignedBatches = temp;
+    this.studentAddFormData.batchJoiningDates = tempDate;
+    this.assignedBatchString = batchString.join(',');
+  }
+
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  studentBatchDetailsLoader(id) {
+    /* For Batch Model Fetch the Student Batches */
+    if (this.isProfessional) {
+      /* Fetching the student Slots */
+      this.studentPrefill.fetchStudentBatchDetails(id).subscribe(
+        data => {
+          this.studentbatchList = [];
+          data.forEach(el => {
+            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+              el.feeTemplateList.forEach(e => {
+                if (e.is_default == 1) {
+                  el.selected_fee_template_id = e.template_id;
+                }
+              })
+            }
+            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id != -1) {
+              el.feeTemplateList.forEach(e => {
+                if (e.is_default == 1) {
+                  el.selected_fee_template_id = e.template_id;
+                }
+              })
+            }
+            if (el.academic_year_id == '-1') {
+              el.academic_year_id = this.defaultAcadYear;
+            }
+            let obj = {
+              isSelected: el.isAssigned == "Y" ? true : false,
+              data: el,
+              assignDate: this.getAssignDate(el.created_date)
+            }
+            this.studentbatchList.push(obj);
+            this.updateAssignedBatches(this.studentbatchList);
+          });
+          this.isRippleLoad = false;
+          this.isSideBar = true;
+        },
+        err => {
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+          //alert("Error Fetching Student Batch");
+        }
+      );
+    }
+    /* For Course Model fetch the Student Courses */
+    else {
+      this.studentPrefill.fetchStudentCourseDetails(id, '-1').subscribe(
+        res => {
+          res.coursesList.forEach(el => {
+            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+              el.feeTemplateList.forEach(e => {
+                if (e.is_default == 1) {
+                  el.selected_fee_template_id = e.template_id;
+                }
+              })
+            }
+            if (el.academic_year_id == '-1') {
+              el.academic_year_id = this.defaultAcadYear;
+            }
+            let obj = {
+              isSelected: el.isAssigned == "Y" ? true : false,
+              data: el,
+              assignDate: this.getAssignDate(el.created_date)
+            }
+            this.studentbatchList.push(obj);
+            this.updateAssignedBatches(this.studentbatchList);
+          });
+        },
+        err => {
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      );
+
+    }
+  }
+
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   closeSideBar() {
     this.isSideBar = false;
     this.studentPage.nativeElement.style.width = "100%";
@@ -1105,16 +1291,16 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.optMenu.nativeElement.classList.remove('shorted');
   }
 
-  // markLeave() {
-  //   this.isMarkLeave = true;
-  // }
-
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   markStudentLeave(event) {
     this.applyLeave.student_id = event;
     this.isMarkLeave = true;
     this.fetchLEaveData();
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   fetchLEaveData() {
     this.leaveDataArray = [];
     this.isRippleLoad = true;
@@ -1130,6 +1316,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   closeMarkLeave() {
     this.isMarkLeave = false;
     this.applyLeave = {
@@ -1140,6 +1328,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   checkDatesSelection() {
     let currentDate: any = moment();
     let start_date: any = moment(this.applyLeave.start_date);
@@ -1160,6 +1350,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   updateMarkLeave() {
     let check = this.checkDatesSelection();
     if (check == false) {
@@ -1196,6 +1388,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   deletePerticularLeave(row) {
     //console.log(row);
     this.studentFetch.cancelLeaveOfDay(row.leave_id).subscribe(
@@ -1215,6 +1409,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   showDeleteBtn(data) {
     let currentDate = moment();
     let startDate = moment(data.start_date);
@@ -1226,18 +1422,24 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   editFeePDCDetails(event) {
     sessionStorage.setItem('editPdc', "true");
     localStorage.setItem('studentId', event);
     this.router.navigate(['/view/student/edit/' + event]);
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   editInventory(e) {
     sessionStorage.setItem('editInv', "true");
     localStorage.setItem('studentId', e);
     this.router.navigate(['/view/student/edit/' + e]);
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   notifySelectedStudent() {
     this.isNotifyStudent = true;
     this.getAllMessageFromServer();
@@ -1255,29 +1457,15 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   closeNotifyStudent() {
     this.isNotifyStudent = false;
   }
 
-
-
   // SEND NOTIFICATION POPUP
-
-  sendNotification = {
-    loginMessageChkbx: false,
-    smsChkbx: true,
-    emailChkbx: false,
-    studentChkbx: true,
-    parentChkbx: false,
-    gaurdianChkbx: false,
-    subjectMessage: ''
-  }
-  loginField = {
-    checkBox: 0
-  }
-  messageList: any = [];
-  selectedUserId: any = [];
-
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getAllMessageFromServer() {
     this.messageList = [];
     this.isRippleLoad = true;
@@ -1298,6 +1486,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getAllSavedMessages() {
     this.isRippleLoad = true;
     this.messageList = [];
@@ -1313,6 +1503,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getDeliveryModeValue() {
     if (this.sendNotification.smsChkbx == true && this.sendNotification.emailChkbx == true) {
       return 2;
@@ -1323,6 +1515,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   validateAllFields() {
     if (this.sendNotification.smsChkbx == false && this.sendNotification.emailChkbx == false) {
       let msg = {
@@ -1358,6 +1552,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getNotificationMessage() {
     let count = 0;
     for (let t = 0; t < this.messageList.length; t++) {
@@ -1380,6 +1576,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getDestinationValue() {
     if (this.sendNotification.studentChkbx == true && this.sendNotification.parentChkbx == false && this.sendNotification.gaurdianChkbx == false) {
       return 0;
@@ -1399,6 +1597,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   sendNotificationMessage() {
     let check = this.validateAllFields();
     if (check === false) {
@@ -1445,6 +1645,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   sendPushNotification() {
     let messageSelected = this.getNotificationMessage();
     if (messageSelected === false) {
@@ -1477,6 +1679,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   sendSmsForApp(value) {
     if (confirm("Are you sure you want to send SMS to selected users?")) {
       let obj = {
@@ -1507,6 +1711,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   addKeys(data, val) {
     data.forEach(
       element => {
@@ -1516,12 +1722,153 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     return data;
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getListOfIds(data) {
     return data.join(',');
   }
 
+  /* =================================================================================================== */
+  /* =================================================================================================== */
   getLeaveNumber(data) {
     return moment(data.end_date).diff(moment(data.start_date), 'days') + 1
+  }
+  /* =================================================================================================== */
+  /* =================================================================================================== */
+  /* Open batch assign popup */
+  openAssignBatch(e) {
+    this.isAssignBatch = true;
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  /* close batch assign popup */
+  closeBatchAssign() {
+    /* batch has been already selected */
+    if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
+      for (let i in this.studentbatchList) {
+        if (this.isProfessional) {
+          /* course has been assigned */
+          if (this.studentAddFormData.assignedBatches.includes(this.studentbatchList[i].data.batch_id.toString())) {
+            this.studentbatchList[i].isSelected = true;
+          }
+          else {
+            this.studentbatchList[i].isSelected = false;
+          }
+        }
+        else {
+          /* course has been assigned */
+          if (this.studentAddFormData.assignedBatches.includes(this.studentbatchList[i].data.course_id.toString())) {
+            this.studentbatchList[i].isSelected = true;
+          }
+          else {
+            this.studentbatchList[i].isSelected = false;
+          }
+        }
+      }
+      this.isAssignBatch = false;
+    }
+    else if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
+      for (let i in this.studentbatchList) {
+        this.studentbatchList[i].isSelected = false;
+      }
+      this.isAssignBatch = false;
+    }
+  }
+
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getassignedBatchList(e) {
+    this.studentAddFormData.assignedBatches = e.assignedBatches;
+    this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
+    this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
+    this.assignedBatchString = e.assignedBatchString;
+    this.isAssignBatch = e.isAssignBatch;
+    this.updateStudentDataOnServer();
+  }
+
+  updateStudentDataOnServer() {
+    let customArr = [];
+
+    this.studentByIdcustomComponents.forEach(el => {
+      /* Not Checkbox and value not empty */
+      if (el.value != '' && el.type != 2 && el.type != 5) {
+        let obj = {
+          component_id: el.id,
+          enq_custom_id: el.data.enq_custom_id,
+          enq_custom_value: el.value
+        }
+        customArr.push(obj);
+      }
+      /* Checkbox Custom Component */
+      else if (el.type == 2) {
+        if (el.value == "Y" || el.value == true) {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: el.data.enq_custom_id,
+            enq_custom_value: "Y"
+          }
+          customArr.push(obj);
+        }
+        else if (el.value == "N" || el.value == false) {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: el.data.enq_custom_id,
+            enq_custom_value: "N"
+          }
+          customArr.push(obj);
+        }
+      }
+      /* Date Type Custom Component */
+      else if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
+        let obj = {
+          component_id: el.id,
+          enq_custom_id: el.data.enq_custom_id,
+          enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+        }
+        customArr.push(obj);
+      }
+
+    });
+
+    /* Get slot data and store on form */
+    this.studentAddFormData.slot_id = this.selectedSlotsID;
+    this.studentAddFormData.stuCustomLi = customArr;
+
+    if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
+      this.studentAddFormData.assignedBatches = null
+      this.studentAddFormData.assignedBatchescademicYearArray = null;
+      this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
+    }
+
+    this.postService.quickEditStudent(this.studentAddFormData, this.selectedRow.student_id).subscribe(
+      (res: any) => {
+        console.log(res);
+        let alert = {
+          type: 'success',
+          title: 'Student Details Updated',
+          body: ''
+        }
+        this.appC.popToast(alert);
+        this.isSideBar = false;
+        this.studentPage.nativeElement.style.width = "100%";
+        this.studentPage.nativeElement.style.marginRight = "0";
+        this.mySidenav.nativeElement.style.width = "0";
+        this.mySidenav.nativeElement.style.display = 'none';
+        this.optMenu.nativeElement.classList.remove('shorted');
+        this.searchDatabase();
+      },
+      err => {
+        let msg = err.error.message;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
+    );
   }
 
 }
