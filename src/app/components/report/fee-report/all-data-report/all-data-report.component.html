@@ -15,7 +15,7 @@
                             Fee Report
 
                         </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>All dues Report
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> All dues Report
                     </h2>
                     <aside class="pull-left">
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
@@ -148,10 +148,8 @@
                         <div class="c-lg-3 field-wrapper sky-form">
                             <label>ACADEMIC YEAR</label>
                             <select name="academic_year_id" id="academic_year_id" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
-                                class="form-ctrl sky-inner" multiple="multiple">
-                                <option value="-1" class="fa fa-caret-up" style="display: block; text-align: right;margin-bottom: -8px;">
-                                </option>
-                                <option value="-1" class="fa fa-caret-down" style="display: block; text-align: right; margin-bottom: -8px;">
+                                class="form-ctrl sky-inner">
+                                <option value="-1">
                                 </option>
                                 <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
                                     {{i.inst_acad_year}}
@@ -173,48 +171,16 @@
                 </div>
             </div>
 
-            <section class="fee-info">
-                <div class="row" style="margin-top: 20px;">
-                    <div class="c-lg-12">
-                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
-                            <span>
-                                Total fees Collection:₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}
-                            </span>
-                        </div>
-                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
-                            <span>
-                                Total fees Collection(Others):₹{{feeDataSource1[0].total_fees_collected_other.toLocaleString('en-IN')}}
-                            </span>
-                        </div>
-                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
-                            <span>
-                                Total dues:₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="c-lg-12" style="margin-top: 4vh;" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
-                        <div class="c-lg-4">
-                            <span>
-                                Future dues:₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}
-                            </span>
-                        </div>
-                        <div class="c-lg-4" *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined">
-                            <span>
-                                Total Fees:₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+            <section>
+
                 <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
                     <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
                 </div>
 
-                <div class="c-lg-4">
-                    <div class="form-wrapper">
-                        <form autocomplete="off" #form="ngForm">
-                            <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="margin-top: 22px; margin-bottom: -24px;">
-                        </form>
-                    </div>
+                <div id="basic-search" style="margin:5px;">
+                    <form autocomplete="off" #form="ngForm">
+                        <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right;">
+                    </form>
                 </div>
 
             </section>
@@ -222,11 +188,21 @@
             <section class="fee-table">
 
                 <div class="table-content" *ngIf="isFilterReversed">
-                    <div style="margin: 10px;">
+                    <div style="margin-left: 10px;display: inline-block;">
                         <a (click)="exportToExcel()" class="download">Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>
+                    <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
+                        <li style="display: inline-block; margin-left: 11px;">
+                            <span class="made-out"> Total fees Collection </span>
+                            <span class="made-in"> : ₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</span>
+                        </li>
+                        <li style="display: inline-block; margin-left: 5vw;">
+                            <span class="made-out">Total dues</span>
+                            <span class="made-in"> : ₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</span>
+                        </li>
+                    </ul>
                     <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                         [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
                         [settings]="feeSettings1">

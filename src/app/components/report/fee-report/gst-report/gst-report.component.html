@@ -40,9 +40,10 @@
 
 
                 <div id="basic-search" style="margin:5px;">
-                    <ul style="text-align: center;margin-top: 17px; text-align: center; font-weight: bold; font-size: 17px;">
+                    <ul class="made" *ngIf="records.length !=0">
                         <li>
-                            Total GST : ₹{{records.toLocaleString('en-IN')}}
+                            <span class="made-out">Total GST</span>
+                            <span class="made-in"> : ₹{{records.toLocaleString('en-IN')}}</span>
                         </li>
                     </ul>
                     <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"

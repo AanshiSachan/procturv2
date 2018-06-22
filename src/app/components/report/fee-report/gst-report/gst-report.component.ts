@@ -107,9 +107,9 @@ export class GstReportComponent implements OnInit {
   searchflag: boolean = false;
   searchName: string;
   tempRecords: any[] = [];
-  records:string;
+  records: string;
 
-  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService ,private cd: ChangeDetectorRef) { }
+  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getGstReport(event);
@@ -117,6 +117,7 @@ export class GstReportComponent implements OnInit {
 
 
   getGstReport(event) {
+    console.log(event);
     this.records = ""
     this.searchText = ""
     this.getPaymentRecords = [];
@@ -130,19 +131,17 @@ export class GstReportComponent implements OnInit {
     let lastDay = new Date(y, t + 1, 0);
     this.dataStatus = 1;
 
-    this.sendPayload = {
+    let data = {
 
-      institute_id: this.gst.institute_id,
+      institute_id: this.sendPayload.institute_id,
       from_date: moment(firstDay).format('YYYY-MM-DD'),
       to_date: moment(lastDay).format('YYYY-MM-DD'),
-      payment_history_student_category_option: 0,
-      student_name: "",
-      contact_no: ""
-
+      payment_history_student_category_option: this.sendPayload.payment_history_student_category_option,
+      student_name: this.sendPayload.student_name,
+      contact_no: this.sendPayload.contact_no
     }
 
-
-    this.gst.getPaymentData(this.sendPayload).subscribe(
+    this.gst.getPaymentData(data).subscribe(
 
       (data: any) => {
 
@@ -211,7 +210,7 @@ export class GstReportComponent implements OnInit {
     return bytes.buffer;
   }
 
-  
+
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       // let searchData: any;
