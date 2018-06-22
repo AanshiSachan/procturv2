@@ -849,8 +849,8 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
       }
       else if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
-        this.studentAddFormData.assignedBatchescademicYearArray.reverse();
-        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
+        this.studentAddFormData.assignedBatchescademicYearArray;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";

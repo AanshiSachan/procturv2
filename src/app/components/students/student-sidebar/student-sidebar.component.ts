@@ -23,6 +23,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() pdcEdit = new EventEmitter<any>();
   @Output() invEdit = new EventEmitter<any>();
 
+  @Output() openCourseAssigned = new EventEmitter<boolean>();
+
   //@ViewChild('acc') acc: ElementRef;
   @ViewChild('one') one: ElementRef;
   @ViewChild('two') two: ElementRef;
@@ -167,8 +169,12 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   getBatchListArr(): any[] {
     this.cd.detach();
-    console.log("sideB");
     return this.rowData.batchesAssigned.split(',')
+  }
+
+
+  editCourseAllocated(){
+    this.openCourseAssigned.emit(true);
   }
 
 }
