@@ -146,7 +146,7 @@ $color-highlight: lighten($color-base, 7%);
     .schedule-scroller {
         min-height: 300px;
         max-height: 50vh;
-        overflow-x: hidden;
+        overflow-x: auto;
         overflow-y: auto;
     }
     ul {

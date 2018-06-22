@@ -829,10 +829,8 @@ div#enqChart {
     width: 50%;
     height: 50px;
     display: inline-block;
-    color:black;
+    color: black;
 }
-
-
 
 .item.muuri-item-releasing {
     z-index: 2;
@@ -848,7 +846,7 @@ div#enqChart {
     height: 100%;
 }
 
-.biometric-content{
+.biometric-content {
     position: relative;
     width: auto;
     height: 100%;
@@ -925,38 +923,38 @@ div#enqChart {
     }
 }
 
-.dataFirst{
-   
-    width:20% !important;
-    height:250px !important;
+.dataFirst {
+    width: 20% !important;
+    height: 250px !important;
 }
 
-.dataSecond{
-    
-    width:40% !important;
-    height:250px !important;
+.dataSecond {
+    width: 40% !important;
+    height: 250px !important;
 }
 
-.dataThird{
-    
-    width:65% !important;
-    height:250px !important;
+.dataThird {
+    width: 65% !important;
+    height: 250px !important;
 }
-.dataZero{
-    width:20% !important;
-    height:250px !important;
+
+.dataZero {
+    width: 20% !important;
+    height: 250px !important;
 }
-.widthChange{
+
+.widthChange {
     margin-left: 0px;
     height: 250px;
     display: block;
-    width:auto;
+    width: auto;
 }
 
-.dataLast{
-    width:97% !important;
+.dataLast {
+    width: 97% !important;
     height: 250px;
 }
+
 .actb-wrapper {
     display: flex;
     justify-content: space-between;
@@ -2343,7 +2341,7 @@ div#enqChart {
 }
 
 .send-notificaton-tooltip {
-    left: 160px !important;
+    left: 200px !important;
     .tooltip-box-field {
         left: 35px !important;
         top: -30px !important;
@@ -2366,6 +2364,30 @@ div#enqChart {
             max-height: 150px;
             overflow-x: hidden;
             overflow-y: scroll;
+        }
+    }
+}
+
+.schedSwitcher {
+    display: inline-flex;
+    width: 200px;
+    margin: 0px 25px;
+    padding-top: 4px; 
+    ul {
+        list-style: none;
+        width: 100%;
+        li {
+            background: #fff;
+            display: inline-block;
+            width: 45%;
+            padding: 6px 20px 6px;
+            border: 1px solid #0084f6;
+            cursor: pointer;
+            color: #0084f6;
+            &.active {
+                background: #0084f6;
+                color: #fff;
+            }
         }
     }
 }

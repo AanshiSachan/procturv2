@@ -408,7 +408,7 @@
                         <div class="field-wrapper has-value">
                             <label for="enquiryStatusEdit">Status</label>
                             <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.status" name="statusValue"
-                                [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+                                [disabled]="updateFormData.status == 1 || updateFormData.status  == 12">
                                 <option></option>
                                 <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_key == updateFormData.status ? '' : null"
                                     [hidden]="status.data_key == 12 ? true : false">
@@ -515,7 +515,7 @@
                     <input type="button" value="Cancel" class="btn" (click)="closeEnquiryUpdate()">
                     <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update & Admit" class="fullBlue btn"
                         (click)="updateRegisterEnquiry()">
-                    <input *ngIf="selectedEnquiry.status != 12 && selectedEnquiry.status != 1" type="button" value="Update" class="fullBlue btn"
+                    <input type="button" value="Update" class="fullBlue btn"
                         (click)="pushUpdatedEnquiry()">
                 </aside>
             </div>

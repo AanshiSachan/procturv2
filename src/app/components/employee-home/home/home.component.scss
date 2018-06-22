@@ -49,15 +49,13 @@
 }
 
 .teacher-wrapper {
-    max-height: 280px;
+    max-height: 325px;
     overflow-x: hidden;
     overflow-y: scroll;
     ::-webkit-scrollbar {
         display: block;
     }
     .teacherTable {
-        max-height: 275px;
-        overflow: scroll;
         thead {
             tr {
                 th {
@@ -241,7 +239,7 @@ $color-highlight: lighten($color-base, 7%);
     top: -20px;
     margin-left: 1%;
     box-shadow: -3px 0px 6px rgba(119, 119, 119, 0.26);
-    padding: 10px 0px 10px 10px;
+    padding: 10px;
     border-left: 1px solid rgba(211, 212, 213, 0.5)
 }
 

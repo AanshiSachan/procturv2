@@ -59,12 +59,12 @@
                             <th>
                                 Designation
                             </th>
-                            <th>
+                            <!-- <th>
                                 Edit
                             </th>
                             <th>
                                 Manage Working Days
-                            </th>
+                            </th> -->
                         </tr>
                     </thead>
                     <tbody *ngIf="employeeList.length != 0 ">
@@ -90,19 +90,16 @@
                             <td>
                                 {{row.designation_name}}
                             </td>
-                            <td class="anchorTags">
+                            <!-- <td class="anchorTags">
                                 <a class="anchorTagCursor" [routerLink]='["../addedit" , row.emp_id]'>
                                     <i class="edit-icon" aria-hidden="true" title="Edit"></i>Edit
                                 </a>
-                                <!-- <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
-                                                <i class="fa fa-trash" aria-hidden="true" title="Delete" style="margin-right:5px"></i>Delete
-                                            </a> -->
                             </td>
                             <td class="anchorTags" (click)="manageWorkingDays(row)">
                                 <a class="anchorTagCursor">
                                     Edit
                                 </a>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                     <tbody *ngIf="employeeList.length == 0 && dataStatus === 1">

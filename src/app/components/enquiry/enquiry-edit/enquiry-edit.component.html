@@ -395,9 +395,9 @@
         </div>
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle" (click)="clearLocalAndRoute()">
-          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Update & Admit Enquiry"
+          <input style="display: inline-block;" type="button" value="Update & Admit Enquiry"
             [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
-          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Save Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit"
+          <input  type="button" value="Save Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit"
             class="btn fullBlue" (click)="submitForm()">
         </aside>
       </section>
@@ -420,9 +420,9 @@
           </div>
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.status != '-1'}">
             <label for="eStatus">Enquiry Status</label>
-            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status">
+            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="editEnqData.status ==1 || editEnqData.status == 12">
               <option value="-1"></option>
-              <option *ngFor="let status of enqstatus" [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
+              <option *ngFor="let status of enqstatus"  [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
 
           </div>
@@ -545,7 +545,7 @@
                 <div class="clearfix">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()">
-                    <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                    <input  type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
                   </aside>
                 </div>
               </div>

@@ -23,6 +23,9 @@ import { ClassRoomService } from '../../services/class-roomService/class-roomlis
 import { MasterRoutingModule } from './master-routing.module';
 import { TopicServiceService } from '../../services/topic-service.service';
 import { FilterPipe } from '../../components/event-managment/filterpipe';
+import { AcademicYearModule } from '../academic-year/academic-year.module';
+import { AcademicYearComponent } from '../academic-year/academic-year.component';
+import { HomeComponent } from '../academic-year/home/home.component';
 
 @NgModule({
     imports: [
@@ -33,7 +36,7 @@ import { FilterPipe } from '../../components/event-managment/filterpipe';
         MasterRoutingModule
     ],
     exports: [
-        SlotApiService
+       
     ],
     declarations: [
         MasterComponent,
@@ -43,7 +46,7 @@ import { FilterPipe } from '../../components/event-managment/filterpipe';
         FilterPipe,
         EventManagmentComponent,
         CityAreaMapComponent,
-        TopicsComponent,
+        TopicsComponent
     ],
     providers: [
         ExamGradeServiceService,

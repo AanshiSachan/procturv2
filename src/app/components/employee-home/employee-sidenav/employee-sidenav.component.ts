@@ -11,6 +11,10 @@ export class EmployeeSidenavComponent implements OnInit {
   displayImage: any = '';
   @Input() employeeData = "";
   @Output() closeAside = new EventEmitter<any>();
+  basicDetailOpen: boolean = false;
+  leaveDetailOpen: boolean = false;
+  profDetailOpen: boolean = false;
+  showActionMenu: boolean = false;
 
   constructor() { }
 

@@ -20,11 +20,6 @@ import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grad
                     pathMatch: 'prefix',
                     children: [
                         {
-                            path: '',
-                            redirectTo: 'Topics',
-                            pathMatch: 'full'
-                        },
-                        {
                             path: 'manage-exam-grades',
                             component: ManageExamGradesComponent,
                             pathMatch: 'prefix',

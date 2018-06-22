@@ -344,7 +344,7 @@ export class ClassScheduleService {
         )
     }
 
-    deleteMultiple(obj){
+    deleteMultiple(obj) {
         obj.instituteId = this.institute_id;
         let url = this.baseURL + "/api/v1/timeTable/deleteSchld";
         return this.http.post(url, obj, { headers: this.headers }).map(
@@ -353,6 +353,14 @@ export class ClassScheduleService {
         )
     }
 
+
+    getWeeklySchedule(id) {
+        let url = `${this.baseURL}/api/v1/courseClassSchedule/getWeeklySubjectSchedule/${id}`;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
 
 
 }
