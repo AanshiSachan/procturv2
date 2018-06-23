@@ -1,0 +1,194 @@
+<div class="employee-sidebar">
+
+  <div class="row action-menu">
+    <div class="pull-right" style="display: inline-flex;">
+      <div class="three-dots">
+        <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu()" style="background: transparent">
+          <span class="svg-icon-wrap">
+            <span class="visually-hidden"></span>
+            <div aria-hidden="true" type="ellipsis-horizontal-icon">
+              <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                focusable="false">
+                <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+              </svg>
+            </div>
+          </span>
+        </button>
+
+        <div class="menu-list">
+          <ul>
+            <li [routerLink]='["../addedit" , employeeData.emp_id]'>
+              <i class="edit-icon" aria-hidden="true" title="Edit" style="width: 14px;height: 14px;"></i>
+              Edit
+            </li>
+            <li>
+              <i class="fas fa-trash" style="font-family: FontAwesome;font-size: 12px;"></i>
+              Delete
+            </li>
+            <li>Salary Structure</li>
+            <li>Work Timing</li>
+            <li>Inventory Manage</li>
+            <li>ID Card Download</li>
+            <li>Leaves</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cross-btn">
+        <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
+          <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+            focusable="false">
+            <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon"
+              style="fill: currentColor"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="header-section">
+    <div class="row">
+      <div class="profile-pic pull-left">
+        <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="displayImage" [readonly]="true" [defaultImg]="'assets/images/student_icon.png'">
+        </proctur-image>
+      </div>
+      <div class="user-info pull-right">
+        <div class="row">
+          <span>#{{employeeData.user_id}}</span>
+        </div>
+        <div class="row">
+          <span>{{employeeData.emp_name}}</span>
+        </div>
+        <div class="row">
+          <span>{{employeeData.designation_name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <div class="basic-details row">
+      <h3 class="title-name" (click)="basicDetailOpen = (!basicDetailOpen)">
+        <span class="pull-left">Basic Details</span>
+        <span class="pull-right" style="padding-right: 5px;">
+          <i *ngIf="!basicDetailOpen" class="fa fa-chevron-down" aria-hidden="true"></i>
+          <i *ngIf="basicDetailOpen" class="fa fa-chevron-up" aria-hidden="true"></i>
+        </span>
+      </h3>
+
+      <div class="content-details" *ngIf="basicDetailOpen">
+
+        <div class="row">
+          <div class="field-wrapper">
+            <label for="name">Employee Manager
+              <span style="color:red">*</span>
+            </label>
+            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field-wrapper">
+            <label for="name">Email ID
+              <span style="color:red">*</span>
+            </label>
+            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field-wrapper">
+            <label for="contNumber">Contact Number
+              <span style="color:red">*</span>
+            </label>
+            <input type="text" maxlength="10" class="form-ctrl" [(ngModel)]="employeeData.phone_pro" name="contNumber">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field-wrapper">
+            <label for="name">Address
+              <span style="color:red">*</span>
+            </label>
+            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="leave-mangement row">
+      <h3 class="title-name" (click)="leaveDetailOpen = (!leaveDetailOpen)">
+        <span class="pull-left">Leaves</span>
+        <span class="pull-right" style="padding-right: 5px;">
+          <i *ngIf="!leaveDetailOpen" class="fa fa-chevron-down" aria-hidden="true"></i>
+          <i *ngIf="leaveDetailOpen" class="fa fa-chevron-up" aria-hidden="true"></i>
+        </span>
+      </h3>
+
+      <div class="content-details" *ngIf="leaveDetailOpen">
+        <div class="row">
+          <label class="label-info">Privilege Leave</label>
+          <span class="span-info">5</span>
+        </div>
+
+        <div class="row">
+          <label class="label-info">Casual Leave</label>
+          <span class="span-info">5</span>
+        </div>
+
+        <div class="row">
+          <label class="label-info">Approved Leave</label>
+          <span class="span-info">5</span>
+        </div>
+
+        <div class="row">
+          <label class="label-info">Unapproved Leave</label>
+          <span class="span-info">5</span>
+        </div>
+
+        <div class="row">
+          <div class="applied-leaves">
+            <label class="pull-left">20-6-2018 : </label>
+            <div class="btn-group pull-right">
+              <button class="btn small-btn fullBlue">Approve</button>
+              <button class="btn small-btn fullBlue">Reject</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="educational-details row">
+      <h3 class="title-name" (click)="profDetailOpen = (!profDetailOpen)">
+        <span class="pull-left">Professional Qualification</span>
+        <span class="pull-right" style="padding-right: 5px;">
+          <i *ngIf="!profDetailOpen" class="fa fa-chevron-down" aria-hidden="true"></i>
+          <i *ngIf="profDetailOpen" class="fa fa-chevron-up" aria-hidden="true"></i>
+        </span>
+      </h3>
+
+      <div class="content-details" *ngIf="profDetailOpen">
+        <div class="row">
+          <label>Highest Qualification</label>
+          <span>5</span>
+        </div>
+
+        <div class="row">
+          <label>Year Of Experience</label>
+          <span>5</span>
+        </div>
+
+        <div class="row">
+          <label>Highest Qualification</label>
+          <span>5</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

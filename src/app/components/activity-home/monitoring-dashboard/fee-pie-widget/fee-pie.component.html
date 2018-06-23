@@ -1,5 +1,6 @@
 <section class="pie-wrapper">
-    <section class="row pie-filter">
+
+    <section class="row pie-filter" [ngClass]="{'hide': !isDataLoaded}">
         <div class="field-wrapper">
             <!-- <label for="duration">Duration</label> -->
             <select name="" id="duration" [(ngModel)]="rangeSelected" (ngModelChange)="dateRangeUpdated($event)" class="form-ctrl">
@@ -11,8 +12,13 @@
             </select>
         </div>
     </section>
-    <section class="row">
+    <section class="row" [ngClass]="{'hide': !isDataLoaded}">
         <div id="pieContainer">
         </div>
     </section>
+
+    <div style="padding: 5px;" [ngClass]="{'hide': isDataLoaded}">
+        Loading Data...
+    </div>
+
 </section>

@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { AcademicYearComponent } from './academic-year.component';
 import { AcademicyearService } from '../../services/academicYearService/academicyear.service';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { DatePipe } from '@angular/common';
-import {HomeComponent} from './home/home.component';
+import { HomeComponent } from './home/home.component';
+import { ManageExamModule } from '../master/master.module';
 
 @NgModule({
     imports: [
@@ -30,7 +30,8 @@ import {HomeComponent} from './home/home.component';
         ]),
         SharedModule,
         FormsModule,
-        BsDatepickerModule
+        BsDatepickerModule,
+        ManageExamModule
     ],
     exports: [
         RouterModule
@@ -38,13 +39,17 @@ import {HomeComponent} from './home/home.component';
     declarations: [
         AcademicYearComponent,
         HomeComponent
-],
+    ],
     providers: [
-         AcademicyearService
+        AcademicyearService
+    ],
+    entryComponents:[
+        HomeComponent,
+        AcademicYearComponent
     ]
 })
 
-export class AcademicYearModule{
+export class AcademicYearModule {
 
 
 

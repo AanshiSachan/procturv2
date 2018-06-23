@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Request, Headers, XHRBackend } from '@angular/http';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
@@ -14,16 +14,14 @@ export class getSMSService {
     baseUrl: string = '';
     institute_id: string;
     Authorization: string;
-    headers: Headers;
+    headers;
 
 
     /* set default value for each url, header and autherization on service creation */
-    constructor(private http: Http, private auth: AuthenticatorService, ) {
+    constructor(private http: HttpClient, private auth: AuthenticatorService, ) {
         this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;
-            this.headers = new Headers();
-            this.headers.append("Content-Type", "application/json");
-            this.headers.append("Authorization", this.Authorization);
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
         })
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
@@ -42,10 +40,10 @@ export class getSMSService {
 
         return this.http.post(urlSmsReport, obj, { headers: this.headers }).map(
             res => {
-                return res.json();
+                return res;
             },
             err => {
-                return err.json();
+                return err;
             }
         )
 

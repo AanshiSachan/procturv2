@@ -106,12 +106,12 @@
                 <section>
                     <div class="detail-wrapper">
                         <div class="form-wrapper c-xs-12">
-                            <div class="field-wrapper" style="padding-top: 25px;">
+                            <div class="field-wrapper" style="padding-top: 25px;" (click)="editCourseAllocated()">
                                 <label *ngIf="isProfessional" style="top: 0px;" for="Batches">Batches</label>
                                 <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">Courses</label>
-                                <textarea rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px; background: #efefef"
-                                    readonly="true" id="Batches" name="Batches" class="form-ctrl" [(ngModel)]="rowData.batchesAssigned">
-                                </textarea>
+                                <div [ngClass]="{'hide': batch == ''}" class="chipped" *ngFor="let batch of getBatchListArr()">
+                                    {{batch}}
+                                </div>
                             </div>
                         </div>
                         <div class="form-wrapper c-xs-12">

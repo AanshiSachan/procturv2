@@ -71,7 +71,7 @@
     <div class="c-lg-4 c-sm-4 c-md-4" style="padding-top: 20px">
       <aside class="">
         <input type="button" value="Cancel" class="btn" (click)="toggleCreateNewSubject()">
-        <input type="button" value="Create" class="btn fullBlue" (click)="addNewSubject()">
+        <input type="button" value="Add" class="btn fullBlue" (click)="addNewSubject()">
       </aside>
     </div>
   </section>
@@ -141,7 +141,7 @@
             </td>
 
             <td class="view-comp">
-              <a style="cursor: pointer;" (click)="editRow(i)">
+              <a style="cursor: pointer;" (click)="editRow(i)" style="margin-right: 10px;">
                 <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit"></i>Edit
               </a>
               <a style="cursor: pointer;" (click)="deleteRow(row)">
@@ -150,11 +150,11 @@
             </td>
             <td class="edit-comp">
               <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)">
-                <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
+                <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 15px;" title="Update"></i>
+                Update
               </a>
-              <label (click)="updateRow(row,i)">Save</label>
-              <a style="cursor: pointer;" (click)="cancelRow(i)">
-                <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+              <a style="cursor: pointer; margin-right: 10px;" (click)="cancelRow(i)">
+                <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 15px;" title="Cancel"></i>
                 Cancel
               </a>
             </td>

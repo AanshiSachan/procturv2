@@ -137,19 +137,19 @@ export class CourseComponent implements OnInit {
 
   routeToSubTabs(data) {
     if (data.indexOf('501') != -1) {
-      this.router.navigateByUrl('course/standardlist');
+      this.router.navigateByUrl('/view/course/standardlist');
       this.switchActiveView('liStandard');
     } else if (data.indexOf('502') != -1) {
-      this.router.navigateByUrl('course/subject');
+      this.router.navigateByUrl('/view/course/subject');
       this.switchActiveView('liSubject');
     } else if (data.indexOf('505') != -1) {
-      this.router.navigateByUrl('course/courselist');
+      this.router.navigateByUrl('/view/course/courselist');
       this.switchActiveView('liManageBatch');
     } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
-      this.router.navigateByUrl('course/class');
+      this.router.navigateByUrl('/view/course/class');
       this.switchActiveView('liClass');
     } else if (data.indexOf('702') >= 0) {
-      this.router.navigateByUrl('course/exam');
+      this.router.navigateByUrl('/view/course/exam');
       this.switchActiveView('liExam');
     }
   }
@@ -189,19 +189,19 @@ export class CourseComponent implements OnInit {
 
   routeToSubTabsForLang(data) {
     if (data.indexOf('501') != -1) {
-      this.router.navigateByUrl('course/standardlist');
+      this.router.navigateByUrl('/view/course/standardlist');
       this.switchActiveView('liStandard');
     } else if (data.indexOf('502') != -1) {
-      this.router.navigateByUrl('course/subject');
+      this.router.navigateByUrl('/view/course/subject');
       this.switchActiveView('liSubject');
     } else if (data.indexOf('401') != -1) {
-      this.router.navigateByUrl('course/managebatch');
+      this.router.navigateByUrl('/view/course/managebatch');
       this.switchActiveView('liManageBatch');
     } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
-      this.router.navigateByUrl('course/class');
+      this.router.navigateByUrl('/view/course/class');
       this.switchActiveView('liClass');
     } else if (data.indexOf('404') >= 0) {
-      this.router.navigateByUrl('course/exam');
+      this.router.navigateByUrl('/view/course/exam');
       this.switchActiveView('liExam');
     }
   }
@@ -227,10 +227,10 @@ export class CourseComponent implements OnInit {
     this.liManageBatch.nativeElement.classList.remove('hide');
     this.liClass.nativeElement.classList.remove('hide');
     if (this.isLangInstitue) {
-      this.router.navigateByUrl('course/managebatch');
+      this.router.navigateByUrl('/view/course/managebatch');
       this.switchActiveView('liManageBatch');
     } else {
-      this.router.navigateByUrl('course/courselist');
+      this.router.navigateByUrl('/view/course/courselist');
       this.switchActiveView('liManageBatch');
     }
   }

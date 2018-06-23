@@ -1,0 +1,20 @@
+.pointer:hover{
+    cursor: pointer;
+}
+.made{
+    position: relative;
+    margin-top: 17px;
+    left: 15%;
+    right: -15%;
+    bottom: -27px;
+    text-align: center;
+}
+.made-in{
+    font-size: 15px;
+    font-weight: bold;
+}
+.made-out{
+    font-size: 14px;
+    color: #666666;
+    text-transform: uppercase;
+}

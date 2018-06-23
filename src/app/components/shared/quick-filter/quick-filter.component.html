@@ -18,7 +18,7 @@
             <li class="procturqf quick-filter-item" [ngClass]="{'hide': isProReg(item)}" *ngFor="let item of inputList">
                 <div class="procturqf field-checkbox-wrapper">
                     <input id="{{item.value}}" type="checkbox" value="" name="check" class="procturqf form-checkbox" [(ngModel)]="item.checked" (ngModelChange)="checkBoxUpdated(item)">
-                    <label for="{{item.value}}" class="procturqf ">{{item.value}}</label>
+                    <label for="{{item.value}}" class="procturqf ">{{item.value | names }}</label>
                 </div>
             </li>
         </ul>

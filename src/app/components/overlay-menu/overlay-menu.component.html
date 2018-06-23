@@ -2,17 +2,17 @@
   <div id="myNav" class="overlay visible-xs" (click)="screenClicked()">
     <!-- Overlay content -->
     <div class="overlay-content">
-      <a routerLink="enquiry">Enquiry</a>
-      <a routerLink="student">Student</a>
-      <a routerLink="course">Courses</a>
-      <a routerLink="activity">Activity</a>
-      <a routerLink="employee">Employee</a>
-      <a routerLink="reports">Reports</a>
-      <a routerLink="inventory">Inventory</a>
-      <a routerLink="expense">Expense</a>
-      <a routerLink="campaign">Campaign</a>
-      <a routerLink="exams">Online Exam</a>
-      <a routerLink="help">Help Center</a>
+      <a #liEnquiry routerLink="/view/enquiry">Enquiry</a>
+      <a #liStudent routerLink="/view/student">Student</a>
+      <a #liCourse routerLink="/view/course">Courses</a>
+      <a #liActivity routerLink="/view/activity">Activity</a>
+      <a #liEmployee routerLink="/view/employee">Employee</a>
+      <a #liReports routerLink="/view/reports">Reports</a>
+      <a #liInventory routerLink="/view/inventory">Inventory</a>
+      <a #liCampaign routerLink="/view/campaign">Campaign</a>
+      <a #liHelp routerLink="/view/help">Help Center</a>
+      <a class="hide" #liExpense routerLink="expense">Expense</a>
+      <a class="hide" #liExams routerLink="exams">Online Exam</a>
     </div>
 
   </div>

@@ -113,7 +113,10 @@ export class FetchprefilldataService {
 
   /* fetch prefill data assigned to */
   getAssignTo(): any {
-
+    if (this.institute_id == null) {
+      console.error('Id Not Found');
+      return [];
+    }
     this.urlAssignTo = this.baseUrl + "/api/v1/profiles/" + this.institute_id;
 
     let content = JSON.stringify({ "user_Type": 0 });
@@ -638,5 +641,15 @@ export class FetchprefilldataService {
     );
   }
 
+
+  // SMS Approve/Reject
+
+  changesSMSStatus(obj, id) {
+    let url = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/" + id;
+    return this.http.put(url, obj, { headers: this.headers }).map(
+      res => { return res },
+      err => { return err }
+    );
+  }
 
 }

@@ -14,7 +14,7 @@ import * as h3d from 'highcharts/highcharts-3d';
 export class FeePieComponent {
 
   FeeDataData: any[] = [0, 0, 0, 0];
-
+  isDataLoaded: boolean = false;
   dateRange: any[] = [];
   rangeSelected: any = '2';
   constructor(private getService: monitoringService) {
@@ -67,9 +67,11 @@ export class FeePieComponent {
 
     this.getService.fetchFeeMonitor(obj).subscribe(
       res => {
+        this.isDataLoaded = true;
         this.generateChartData(res);
       },
       err => {
+        this.isDataLoaded = false;
       }
     )
   }

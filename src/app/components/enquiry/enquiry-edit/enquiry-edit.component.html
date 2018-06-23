@@ -55,7 +55,6 @@
                     <label for="phone">Phone No</label>
                     <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
                       minlength="10" OnlyNumber="true" />
-
                   </div>
 
                   <!-- Email -->
@@ -98,7 +97,6 @@
                       <option value="-1"></option>
                       <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
                     </select>
-
                   </div>
 
                   <!-- area -->
@@ -141,19 +139,11 @@
                     <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="editEnqData.curr_address" name="address" />
                   </div>
 
-                  <!-- City -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.city != ''}">
-                    <label for="userCity">City</label>
-                    <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="editEnqData.city" name="city" />
-
-                  </div>
-
                   <!-- Phone -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone2 != ''}">
                     <label for="phone2">Alternate Contact</label>
                     <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10" minlength="10"
                       OnlyNumber="true" />
-
                   </div>
 
                   <!-- Email -->
@@ -332,9 +322,7 @@
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
                         <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"
-                        />
-
+                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"/>
                       </div>
                     </div>
 
@@ -358,7 +346,6 @@
                           <option value=""></option>
                           <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                         </select>
-
                       </div>
                     </div>
 
@@ -391,11 +378,8 @@
                         <label for="component.id">{{component.label}} </label>
                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                           name="{{component.label}}" bsDatepicker/>
-
                       </div>
                     </div>
-
-
                   </custom-enquiry>
 
                 </div>
@@ -411,15 +395,14 @@
         </div>
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle" (click)="clearLocalAndRoute()">
-          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Update & Admit Enquiry"
+          <input style="display: inline-block;" type="button" value="Update & Admit Enquiry"
             [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
-          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Save Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit"
+          <input  type="button" value="Save Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit"
             class="btn fullBlue" (click)="submitForm()">
         </aside>
       </section>
 
     </aside>
-
     <!-- Right side form for Office purrpose only -->
     <aside class="pull-right middle-right" id="rightSideBar">
 
@@ -437,9 +420,9 @@
           </div>
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.status != '-1'}">
             <label for="eStatus">Enquiry Status</label>
-            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status">
+            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="editEnqData.status ==1 || editEnqData.status == 12">
               <option value="-1"></option>
-              <option *ngFor="let status of enqstatus" [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
+              <option *ngFor="let status of enqstatus"  [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
 
           </div>
@@ -527,10 +510,7 @@
         </div>
       </section>
     </aside>
-
   </form>
-
-
   <!-- Update PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="isUpdateComment">
     <div class="popup pos-abs" style="max-width: 80%;">
@@ -565,7 +545,7 @@
                 <div class="clearfix">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()">
-                    <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                    <input  type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
                   </aside>
                 </div>
               </div>
@@ -608,6 +588,4 @@
       </div>
     </div>
   </section>
-
-
 </section>

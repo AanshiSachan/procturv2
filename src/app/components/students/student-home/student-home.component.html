@@ -20,7 +20,7 @@
                     <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkActionItems" *ngIf="selectedRowCount != 0"></p-splitButton>
                 </div>
                 <ul style="display: inline-flex;">
-                    <li class="headerBtn" routerLink='add'>
+                    <li class="headerBtn" routerLink='./add'>
                         <i>
                             <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
                                 focusable="false">
@@ -49,7 +49,7 @@
                                     Export
                                 </li>
                                 <li class="upload-icon">
-                                    <label id="upload" routerLink='/student/bulk'>
+                                    <label id="upload" routerLink='/view/student/bulk'>
                                         Upload Student
                                     </label>
                                 </li>
@@ -288,7 +288,8 @@
                                 <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                                     <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                                         <label for="{{component.id}}">{{component.label}} </label>
-                                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl" readonly="true" />
+                                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                                            readonly="true" />
                                     </div>
                                     <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                                         <div class="multiselect-wrapper-inner">
@@ -379,14 +380,11 @@
                         style="fill: currentColor"></path>
                 </svg>
             </a>
-            <!-- <div *ngIf="!isSideBar" class="skeleton">
-                <div class="skel1"></div>
-                <div class="skel2"></div>
-            </div> -->
+
             <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
                 (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
                 (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)"
-                (invEdit)="editInventory($event)">
+                (invEdit)="editInventory($event)" (openCourseAssigned)="openAssignBatch($event)">
             </student-sidebar>
         </div>
     </aside>
@@ -610,7 +608,7 @@
                                 <div id="" class="c-sm-4 c-md-4 c-lg-4">
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                                         <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="smsC">
-                                        <label for="smsC">SMS</label>                                        
+                                        <label for="smsC">SMS</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                                         <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="mailC">
@@ -638,7 +636,7 @@
                                 <div class="form-wrapper datepicker c-sm-6 c-xs-6">
                                     <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
                                     <input type="text" id="subject" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
-                                      [(ngModel)]="sendNotification.subjectMessage"   id="divSubjectMessage" />
+                                        [(ngModel)]="sendNotification.subjectMessage" id="divSubjectMessage" />
                                 </div>
 
                             </div>
@@ -723,3 +721,8 @@
     </section>
 
 </section>
+
+<!-- =============== Assign Batch =============================== -->
+<student-batch-list *ngIf="isAssignBatch" [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)"
+    (assignList)="getassignedBatchList($event)" [dataList]="studentbatchList" [isEdit]="isEdit" [standardList]="standardList" [academicYear]="academicYear">
+</student-batch-list>

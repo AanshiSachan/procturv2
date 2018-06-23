@@ -1,76 +1,44 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+/* =================================================================================== */
+
+/* =================================================================================== */
+
 .middle-section {
-    padding: 5px 15px;
+    padding: 0px 0px 0px 15px;
     width: 100%;
     box-sizing: border-box;
+    display: inline-flex;
+    .table-Content {
+        width: 100%;
+    }
+    overflow: hidden;
 }
 
-.headEnq {
-    .field-wrapper {
-        padding: 0px !important;
-        .form-ctrl {
-            display: block;
-            box-sizing: border-box;
-            padding: 0px 0px 0px 5px;
-            outline: none;
-            border: 0;
-            height: 26px;
-            box-shadow: none;
-            border-radius: 0;
-            line-height: 25px;
-            background: transparent;
-            width: 80px;
-            text-align: center;
-            border-bottom: 1px solid #ccc;
-        }
+.headerBtn {
+    display: inline-flex;
+    border: 1px solid $common-blue;
+    height: 35px; //width: 150px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: $common-blue;
+    box-shadow: 0px 0px 1px #0084f6;
+    text-align: center;
+    i {
+        display: inline-block;
+        margin-right: 10px;
+        cursor: pointer;
     }
-    .option-wrap {
-        width: 20px;
-        height: 20px;
-    }
-    .btn {
-        padding: 2px 0px 0px 7px;
-        border: none;
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
-        .tooltip {
-            position: relative;
-            top: -20px;
-            right: 25px;
-            min-width: 80px;
-            font-size: 8px;
-            padding: 2px 0px 2px 18px;
-            height: auto;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.801);
-            color: white;
-            visibility: hidden;
-            opacity: 0;
-        }
-        &:hover {
-            background: rgb(216, 214, 214);
-            .tooltip {
-                position: relative;
-                top: 8px;
-                right: 25px;
-                min-width: 80px;
-                padding: 2px 0px 2px 18px;
-                border-radius: 8px;
-                font-size: 8px;
-                height: auto;
-                background: rgba(0, 0, 0, 0.801);
-                color: white;
-                visibility: visible;
-                opacity: 1;
-                transition: all 0.2s;
-            }
-        }
-        &:focus {
-            outline: none;
-        }
-        &:active {
-            box-shadow: none;
-        }
+    p {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: capitalize;
+        text-align: center;
+        cursor: pointer;
     }
 }
 
@@ -80,20 +48,36 @@
     }
 }
 
-.teacherTable {
-    thead {
-        tr {
-            th {
-                padding-top: 10px;
-                padding-bottom: 10px;
+.teacher-wrapper {
+    max-height: 325px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: block;
+    }
+    .teacherTable {
+        thead {
+            tr {
+                th {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    .field-checkbox-wrapper {
+                        label:after {
+                            left: 22px;
+                        }
+                    }
+                }
             }
         }
-    }
-    tbody {
-        tr {
-            td {
-                padding-top: 10px;
-                padding-bottom: 10px;
+        tbody {
+            tr {
+                td {
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    .field-checkbox-wrapper {
+                        margin-bottom: 0px;
+                    }
+                }
             }
         }
     }
@@ -162,7 +146,7 @@
     .normal-field {
         padding: 7px 10px;
         border: 1px solid #ccc;
-        width: 50%;
+        width: 200px;
         box-sizing: border-box;
         margin: 0;
         float: left;
@@ -248,4 +232,25 @@ $color-highlight: lighten($color-base, 7%);
     color: #fff;
     font-weight: 700;
     padding: 7px 7px;
+}
+
+.side-Nav {
+    position: relative;
+    top: -20px;
+    margin-left: 1%;
+    box-shadow: -3px 0px 6px rgba(119, 119, 119, 0.26);
+    padding: 10px;
+    border-left: 1px solid rgba(211, 212, 213, 0.5)
+}
+
+.spiltButton-label {
+    position: relative;
+    top: -10px;
+}
+
+.search-section {
+    border: 1px solid rgba(211, 212, 213, 0.5);
+    padding: 10px 10px;
+    margin: 0px 5px 5px 0px;
+    background: #efefef;
 }

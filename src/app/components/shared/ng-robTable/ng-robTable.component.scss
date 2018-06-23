@@ -28,7 +28,6 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
-
 // css for activity page
 .activity-page {
     background: #f2f2f2;
@@ -147,6 +146,23 @@ $color-highlight: lighten($color-base, 7%);
         max-height: 50vh;
         overflow-x: hidden;
         overflow-y: auto;
+        ::-webkit-scrollbar {
+            display: block;
+            width: 3px !important;
+            height: 3px !important;
+        }
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
@@ -212,34 +228,36 @@ $color-highlight: lighten($color-base, 7%);
                 background: transparent;
                 font-size: 12px;
                 font-weight: 600;
-                &:first-child{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                &:first-child {
                     width: 5%;
                 }
-                &.enquiry_no{
+                &.enquiry_no {
                     width: 9%;
                 }
-                &.updateDate{
+                &.updateDate {
                     width: 22%;
                 }
-                &.student_disp_id{
-                    width: 11%
+                &.student_disp_id {
+                    width: 9%
                 }
-                &.student_name{
-                    width: 25%;                    
+                &.student_name {
+                    width: 15%;
                 }
-                &.noOfBatchesAssigned{
-                    width: 25%;
+                &.batchesAssigned {
+                    width: 40%;
                 }
-                &.No{
+                &.No {
                     text-align: right;
                 }
-                &.Id{
+                &.Id {
                     text-align: right;
                 }
-                &.Date{
+                &.Date {
                     text-align: right;
                 }
-
             }
         }
         .class-type-status {
@@ -253,9 +271,26 @@ $color-highlight: lighten($color-base, 7%);
             vertical-align: middle;
             font-weight: 600;
         }
-        &.ul-body{
-            &.selected{
-                transform: scale(1.01,1);
+        &.ul-body {
+            ::-webkit-scrollbar {
+                display: block;
+                width: 7px;
+                height: 7px;
+            }
+            /* Track */
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                background: #888;
+            }
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            &.selected {
+                transform: scale(1.01, 1);
                 transition: 100ms ease-in;
                 background: #e3f7f5;
                 box-shadow: 0px 11px 8px -10px #CCC, 0px -11px 13px -9px #CCC;
@@ -267,34 +302,39 @@ $color-highlight: lighten($color-base, 7%);
                 color: black;
                 text-align: left;
                 font-size: 14px;
-                &:first-child{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                &:first-child {
                     width: 5%;
                 }
-                &.enquiry_no{
+                &.enquiry_no {
                     width: 9%;
                 }
-                &.updateDate{
+                &.updateDate {
                     width: 22%;
                 }
-                &.student_disp_id{
-                    width: 11%
+                &.student_disp_id {
+                    width: 9%
                 }
-                &.student_name{
-                    width: 25%;                    
+                &.student_name {
+                    width: 15%;
                 }
-                &.noOfBatchesAssigned{
-                    width: 25%;
+                &.batchesAssigned {
+                    width: 40%;
+                    padding: 8px 10px 0px;
+                    overflow-x: auto;
                 }
-                &.No{
+                &.No {
                     text-align: right;
                 }
-                &.Id{
+                &.Id {
                     text-align: right;
                 }
-                &.Date{
+                &.Date {
                     text-align: right;
                 }
-            }   
+            }
         }
         &.ct-ongoing {
             .class-type-status {
@@ -333,7 +373,6 @@ $color-highlight: lighten($color-base, 7%);
         }
     }
 }
-
 
 .general-s-bottom {
     ul {
@@ -432,7 +471,6 @@ $color-highlight: lighten($color-base, 7%);
     border-radius: 4px;
     font-size: 12px;
 }
-
 
 .notification-list:first-child {
     padding-top: 15px;

@@ -411,7 +411,7 @@
             <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
             <label for="addNextEnquiry">Add Next Enquiry</label>
           </div>
-          <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
+          <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" routerLink="/view/enquiry">
           <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button" value="Add & Admit Enquiry"
             [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
           <input style="display: inline-block;" type="button" value="Add Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit" class="btn fullBlue"
@@ -620,13 +620,13 @@
               <strong>{{todayDate | date }}</strong>
             </p>
             <p>If you like to view complete Enquiry List now, click
-              <a style="cursor:pointer" routerLink="/enquiry">More Info</a>
+              <a style="cursor:pointer" routerLink="/view/enquiry">More Info</a>
             </p>
           </div>
           <div>
             <div class="pull-right add-form-btns">
               <a style="cursor:pointer" (click)="reloadEnquiryForm()">Add new enquiry</a>
-              <a style="cursor:pointer" routerLink="/enquiry/upload">Add Bulk enquiry</a>
+              <a style="cursor:pointer" routerLink="/view/enquiry/upload">Add Bulk enquiry</a>
             </div>
           </div>
         </div>
@@ -679,7 +679,7 @@
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
-            <input type="button" value="Create" class="fullBlue btn" (click)="addInstituteData()">
+            <input type="button" value="Add" class="fullBlue btn" (click)="addInstituteData()">
           </aside>
         </div>
 
@@ -693,7 +693,7 @@
             <tr>
               <th>Institute Id</th>
               <th>Institute Name</th>
-              <th> Action </th>
+              <th>  </th>
             </tr>
           </thead>
           <tbody>
@@ -794,14 +794,13 @@
           <div class="field-wrapper" [ngClass]="{'has-value': createSource.name != ''}">
             <label for="sourceName">Source Name</label>
             <input type="text" value="" id="sourceName" class="form-ctrl" [(ngModel)]="createSource.name" name="sourceName" />
-
           </div>
         </div>
 
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn" (click)="closeAddSource()">
-            <input type="button" value="Create" class="fullBlue btn" (click)="addSourceData()">
+            <input type="button" value="Add" class="fullBlue btn" (click)="addSourceData()">
           </aside>
         </div>
 
@@ -813,8 +812,8 @@
         <table>
           <thead>
             <tr>
-              <th>Source Name</th>
-              <th> Action </th>
+              <th>Source</th>
+              <th>  </th>
             </tr>
           </thead>
           <tbody>
@@ -901,7 +900,7 @@
       <div class="row">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
           <div class="field-wrapper" [ngClass]="{'has-value': createReferer.name != ''}">
-            <label for="referName">Refer Name</label>
+            <label for="referName">Referrer Name</label>
             <input type="text" value="" id="referName" class="form-ctrl" [(ngModel)]="createReferer.name" name="referName" />
 
           </div>
@@ -910,7 +909,7 @@
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn" (click)="closeAddRefer()">
-            <input type="button" value="Create" class="fullBlue btn" (click)="addReferData()">
+            <input type="button" value="Add" class="fullBlue btn" (click)="addReferData()">
           </aside>
         </div>
 
@@ -922,8 +921,8 @@
         <table>
           <thead>
             <tr>
-              <th>Reference Name</th>
-              <th> Action </th>
+              <th>Referrer Name</th>
+              <th>  </th>
             </tr>
           </thead>
           <tbody>

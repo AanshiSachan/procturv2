@@ -404,7 +404,6 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(
       data => {
         this.lastDetail = data;
-        //console.log(this.lastDetail);
       },
       err => {
         // console.log(err);
@@ -556,7 +555,7 @@ export class EnquiryAddComponent implements OnInit {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el,
+        data: el.toLowerCase(),
         checked: false
       }
       customPrefilled.push(obj);
@@ -923,7 +922,7 @@ export class EnquiryAddComponent implements OnInit {
                     institute_enquiry_id: instituteEnqId
                   }
                   localStorage.setItem('studentPrefill', JSON.stringify(obj));
-                  this.router.navigate(['student/add']);
+                  this.router.navigate(['/view/student/add']);
                 }
                 else {
                   if (this.addNextCheck) {
@@ -982,7 +981,7 @@ export class EnquiryAddComponent implements OnInit {
                     institute_enquiry_id: instituteEnqId
                   }
                   localStorage.setItem('studentPrefill', JSON.stringify(obj));
-                  this.router.navigate(['student/add']);
+                  this.router.navigate(['/view/student/add']);
                 }
                 else {
                   if (this.addNextCheck) {
@@ -1305,7 +1304,7 @@ export class EnquiryAddComponent implements OnInit {
   navigateToEdit() {
     let val: any;
     this.prefill.fetchLastDetail().subscribe(el => {
-      this.router.navigate(['/enquiry/edit/' + el.institute_enquiry_id]);
+      this.router.navigate(['/view/enquiry/edit/' + el.institute_enquiry_id]);
     }
     )
   }

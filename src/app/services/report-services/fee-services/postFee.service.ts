@@ -47,4 +47,16 @@ export class PostFeeService {
         )
     }
 
+    sendPastDues(obj , student_id){
+        let url=this.baseUrl + "/api/v1/studentWise/fee/feesReport/pastDues/" + this.institute_id + "/" + student_id;
+        return this.http.post(url , obj , {headers:this.headers}).map(
+            (data:any)=>{
+                return data;
+            },
+            (error:any)=>{
+                return error;
+            }
+        )
+    }
+
 }

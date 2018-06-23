@@ -15,57 +15,69 @@ export class PtmManagementComponent implements OnInit {
   getAllBatches: any[] = []
 
   getptmDates = {
-    batch_id : -1
+    batch_id: -1
   }
 
-  ptmId= {
-    ptm_id : -1
+  ptmId = {
+    ptm_id: -1
   }
 
-  getPtmDates : any[] = []
-  viewStudents : any[] = [];
+  fetchPtmDates: any[] = []
+  viewStudents: any[] = [];
+  isRippleLoad: boolean = false;
 
   constructor(private ptmService: ActivityPtmService,
-              private appc: AppComponent) { }
+    private appc: AppComponent) { }
 
   ngOnInit() {
-    this.fetchBatchesList()
+    this.fetchBatchesList();
   }
 
   fetchBatchesList() {
+    this.isRippleLoad = true;
     this.ptmService.getBatches(this.batchQueryParam).subscribe(
       (data: any) => {
+        this.isRippleLoad = false;
         this.getAllBatches = data;
       },
       (error: any) => {
-
+        this.isRippleLoad = false;
       }
     )
   }
 
-  loadPtmDates(batch_id){
+  loadPtmDates(batch_id) {
+    this.isRippleLoad = true;
     this.getptmDates = {
-      batch_id : batch_id
+      batch_id: batch_id
     }
     this.ptmService.loadPtm(this.getptmDates).subscribe(
-      (data:any) =>{
-        this.getPtmDates = data;
+      (data: any) => {
+        this.isRippleLoad = false;
+        this.fetchPtmDates = data;
       },
-      (error:any)=>{
-
+      (error: any) => {
+        this.isRippleLoad = false;
       }
     )
   }
 
-  viewStudentsData(){
+  viewStudentsData() {
+    this.isRippleLoad = true;
     this.ptmService.viewStudents(this.ptmId).subscribe(
-      (data:any)=>{
+      (data: any) => {
+        this.isRippleLoad = false;
         this.viewStudents = data;
       },
-      (error:any)=>{
-
+      (error: any) => {
+        this.isRippleLoad = false;
       }
     )
+  }
+
+  fetchDetails(){
+    this.isRippleLoad = true;
+    
   }
 
 }

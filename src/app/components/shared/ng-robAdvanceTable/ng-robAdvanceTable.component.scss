@@ -146,7 +146,7 @@ $color-highlight: lighten($color-base, 7%);
     .schedule-scroller {
         min-height: 300px;
         max-height: 50vh;
-        overflow-x: hidden;
+        overflow-x: auto;
         overflow-y: auto;
     }
     ul {
@@ -179,9 +179,11 @@ $color-highlight: lighten($color-base, 7%);
             padding: 16px 24px 12px;
             &.cls-type {
                 width: 29%;
+                text-align: right;
             }
             &:first-child {
                 width: 16%;
+                text-align: right;
             }
             &:nth-last-child(2) {
                 width: 15%;
@@ -214,7 +216,6 @@ $color-highlight: lighten($color-base, 7%);
                 font-weight: 600;
                 text-align: left;
                 &:first-child {
-                    text-align: left;
                     width: 10%;
                     padding: 20px 0px 10px 10px;
                 }
@@ -232,7 +233,7 @@ $color-highlight: lighten($color-base, 7%);
                 }
                 &.Fee {
                     &.Type {
-
+                        text-align: left;
                     }
                     &.Total{
                         text-align: right;
@@ -243,13 +244,14 @@ $color-highlight: lighten($color-base, 7%);
                     text-align: left;
                 }
                 &.Amount {
-                    text-align: right;
+                    text-align: right !important;
                     padding: 20px 20px 10px 0px;
                 }
                 &.Date {
-
+                    text-align: right;
                 }
                 &.ID {
+                    text-align: right;
                     width: 7%;
                     padding: 20px 0px 10px  0px;
                 }
@@ -259,13 +261,19 @@ $color-highlight: lighten($color-base, 7%);
                     }
                 }
                 &.No {
+                    text-align: right;
                     &.Receipt {
+                        text-align: right;
                         width: 17% !important;
                     }
                 }
-                &.Dues {}
+                &.Dues {
+                    text-align: right;
+                }
                 &.Mode {
+                    text-align: left !important;s
                     &.Payment {
+                        text-align: right;
                         word-break: break-word;
                     }
                 }
@@ -298,10 +306,9 @@ $color-highlight: lighten($color-base, 7%);
                 overflow-wrap: break-word;
                 word-wrap: break-word;
                 word-break: break-all;
-                text-align: left;
                 padding: 10px 0px 0px 10px;
+                text-align: left;
                 &:first-child {
-                    text-align: left;
                     width: 10%;
                 }
                 &.Name {
@@ -320,7 +327,7 @@ $color-highlight: lighten($color-base, 7%);
                     text-align: right;
                     padding: 10px 10px 0px 0px;
                     &.Type {
-                        text-align: left;
+                        text-align: right;
                         padding: 10px 0px 0px 10px;
                     }
                 }
@@ -328,6 +335,7 @@ $color-highlight: lighten($color-base, 7%);
                     text-align: right;
                     padding: 10px 10px 0px 0px;
                     &.Paid {
+                        text-align: right;
                         color: #0084f6;
                     }
                 }
@@ -344,6 +352,7 @@ $color-highlight: lighten($color-base, 7%);
                     text-align: right;
                     padding: 10px 10px 0px 0px;
                     &.Past {
+                        text-align: right;
                         color: #ff0000;
                     }
                 }
@@ -351,6 +360,7 @@ $color-highlight: lighten($color-base, 7%);
                     text-align: right;
                     padding: 10px 10px 0px 0px;
                     &.Past {
+                        text-align: right;
                         color: #ff0000;
                     }
                 }
@@ -366,9 +376,10 @@ $color-highlight: lighten($color-base, 7%);
                     padding: 5px 10px 5px;
                 }
                 &.Mode {
-                    text-align: left;
+                    text-align: left !important;
                     padding: 10px 0px 0px 10px;
                     &.Payment {
+                        text-align: right;
                         word-break: break-word;
                     }
                 }

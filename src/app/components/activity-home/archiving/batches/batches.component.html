@@ -1,0 +1,110 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="report-wrapper clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+
+      <div class="middle-top mb0 clearFix header">
+        <div class="report-header" style="padding-bottom:1%">
+          <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/activity">
+              Activity
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/activity/archiving">
+              Archiving
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
+            <span *ngIf="!isProfessional">Courses</span>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
+            <span *ngIf="isProfessional">Courses</span>
+          </h2>
+          <div class="row">
+            <div class="c-lg-12">
+              <h2 *ngIf="!isProfessional">
+                Courses List
+              </h2>
+              <h2 *ngIf="isProfessional">
+                Batches List
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
+      <div id="basic-search" class="search-filter-wrapper">
+        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
+          style="padding: 10px;">
+      </div>
+    </div>
+    <section>
+
+      <div class="table table-responsive table-made">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Course
+              </th>
+              <th>
+                Master Course
+              </th>
+              <th>
+                Standard
+              </th>
+              <th>
+                Subjects
+              </th>
+              <th>
+                Start Date
+              </th>
+              <th>
+                End Date
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of newPaginated">
+              <td>
+                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px;">
+                  <input type="checkbox" class="form-checkbox" name={{i.course_id}} id={{i.course_id}} >
+                  <label for={{i.course_id}}></label>
+                </div>
+                {{i.course_name}}
+              </td>
+              <td>
+                {{i.master_course}}
+              </td>
+              <td>
+                {{i.standard_name}}
+              </td>
+              <td>
+                {{i.subjects}}
+              </td>
+              <td>
+                {{i.start_date}}
+              </td>
+              <td>
+                {{i.end_date}}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6">
+                <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData()">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
+    </section>
+  </aside>
+</div>

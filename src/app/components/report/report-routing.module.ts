@@ -67,7 +67,6 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                         component: ProfitLossComponent
                     },
                     {
-   
                         path: 'enquiryReport' ,                     
                         loadChildren:'app/components/report/enquiry-report/enquiry-report.module#EnquiryReportModule',            
                         pathMatch:'prefix'          

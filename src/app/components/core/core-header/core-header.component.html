@@ -3,7 +3,7 @@
   <img src="./assets/images/close.svg" id="menu-close" class="hide visible-xs humburgerMenu" alt="" (click)="triggerOverlayMenu()">
   <div class="">
     <div class="logo pull-left">
-      <a routerLink="/home">
+      <a routerLink="/view/home">
         <img src="./assets/images/logo.png" alt="COACHING INSTITUTE" title="COACHING INSTITUTE" />
         <span>{{instituteName}}</span>
       </a>
@@ -116,7 +116,7 @@
 
             <li class="pos-rel branch-wrapper" *ngIf="isMainBranch == 'Y' && checkAdmin">
               <span>Branches</span>
-              <div style="min-width:130px" class="dropdown">
+              <div style="min-width:200px" class="dropdown">
                 <ul class="user-detail">
                   <li *ngFor="let data of branchesList">
                     <a (click)="onSubBranchClick(data)">{{data.institute_name}}</a>
@@ -146,13 +146,13 @@
               <div style="min-width:130px" class="dropdown">
                 <ul class="user-detail">
                   <li *ngIf="hasEnquiry">
-                    <a routerLink="/enquiry/add">Add Enquiry</a>
+                    <a routerLink="/view/enquiry/add">Add Enquiry</a>
                   </li>
                   <li *ngIf="hasStudent">
-                    <a routerLink="/student/add">Add Student</a>
+                    <a routerLink="/view/student/add">Add Student</a>
                   </li>
                   <li *ngIf="hasClass">
-                    <a routerLink="/course/class/add">Add Class</a>
+                    <a routerLink="/view/course/class/add">Add Class</a>
                   </li>
                 </ul>
               </div>
@@ -183,7 +183,7 @@
 
                       <li #divMyAccountTag id="divMyAccountTag">
                         <strong>
-                          <a routerLink="/account">My Account</a>
+                          <a routerLink="/view/account">My Account</a>
                         </strong>
                       </li>
 
@@ -202,46 +202,48 @@
 
                             <li #divTeacherTag id="divTeacherTag">
                               <span>
-                                <a routerLink="/teacher">Faculty</a>
+                                <a routerLink="/view/teacher">Faculty</a>
                               </span>
                             </li>
 
                             <li #divFeeTag id="divFeeTag">
                               <span>
-                                <a routerLink="/fee">Fee</a>
+                                <a routerLink="/view/fee">Fee</a>
                               </span>
                             </li>
                             <li id="divTopicTag" style="display:none;">
                               <span>
-                                <a routerLink="/Topics">Topic</a>
+                                <a routerLink="/view/master/Topics">Topic</a>
                               </span>
                             </li>
 
                             <li #divSlotTag id="divSlotTag">
                               <span>
-                                <a routerLink="/slot">Slot</a>
+                                <a routerLink="/view/master/slot">Slot</a>
                               </span>
                             </li>
 
                             <li #divClassRoomTag id="divClassRoomTag">
                               <span>
-                                <a routerLink="/classroom">Class Room</a>
+                                <a routerLink="/view/master/classroom">Class Room</a>
                               </span>
                             </li>
+
                             <li #divManageTag id="divManageTag">
                               <span>
-                                <a routerLink="/eventManagment">Event</a>
+                                <a routerLink="/view/master/eventManagment">Event</a>
                               </span>
                             </li>
+
                             <li #divAcademicTag id="divAcademicTag">
                               <span>
-                                <a routerLink="/academic">Academic Year</a>
+                                <a routerLink="/view/academic/list">Academic Year</a>
                               </span>
                             </li>
 
                             <li #divGradesTag id="divGradesTag">
                               <span>
-                                <a routerLink="/master">Manage exam grades</a>
+                                <a routerLink="/view/master/manage-exam-grades">Manage exam grades</a>
                               </span>
                             </li>
                           </ul>
@@ -250,7 +252,7 @@
 
                       <li #divManageUsers class="" id="divManageUsers">
                         <strong>
-                          <a routerLink="/manage">Manage Users</a>
+                          <a routerLink="/view/manage">Manage Users</a>
                         </strong>
                       </li>
 
@@ -262,19 +264,22 @@
                           <ul>
                             <li #divGeneralSettingTag id="divGeneralSettingTag">
                               <span>
-                                <a routerLink="/setting">General Settings</a>
+                                <a routerLink="/view/setting">General Settings</a>
                               </span>
                             </li>
+
                             <li #divManageFormTag id="divManageFormTag">
                               <span>
-                                <a [routerLink]="['formField/home']">Manage Form Field</a>
+                                <a [routerLink]="['/view/formField/home']">Manage Form Field</a>
                               </span>
                             </li>
+
                             <li #divAreaAndMap id="divAreaAndMap">
                               <span>
-                                <a routerLink="/areaCity">City Area Map</a>
+                                <a routerLink="/view/master/areaCity">City Area Map</a>
                               </span>
                             </li>
+                            
                           </ul>
                         </div>
                       </li>

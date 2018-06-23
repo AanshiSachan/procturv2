@@ -15,7 +15,7 @@ export class FeeLineComponent {
   datelineRange: any[] = [];
   rangelineSelected: any = '2';
   rangeType: string = 'This Month'
-
+  isDataLoaded: boolean = false;
   constructor(private getService: monitoringService) {
     this.datelineRange[0] = moment(new Date()).startOf('month').format('DD-MMM-YYYY');
     this.datelineRange[1] = moment(new Date()).endOf('month').format('DD-MMM-YYYY');
@@ -72,9 +72,11 @@ export class FeeLineComponent {
 
     this.getService.fetchFeeMonitor(obj).subscribe(
       res => {
+        this.isDataLoaded = true;
         this.generateChartData(res);
       },
       err => {
+        this.isDataLoaded = true; 
       }
     )
   }

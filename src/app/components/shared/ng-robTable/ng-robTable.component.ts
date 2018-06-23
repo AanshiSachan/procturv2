@@ -18,7 +18,7 @@ export class RobTableComponent implements OnChanges {
     @Input() key1: string;
     @Input() reset: boolean;
     @Input() defaultSort:string="";
-
+    @Input() batchListArr:any[] = [];
 
     @Output() userRowSelect = new EventEmitter();
     @Output() rowsSelected = new EventEmitter<number>();
@@ -34,6 +34,8 @@ export class RobTableComponent implements OnChanges {
     selectedRow: number;
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
+
+
     /* Number of line for skeleton screen */
     dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     userIdArray: any = [];
@@ -47,6 +49,7 @@ export class RobTableComponent implements OnChanges {
 
 
     ngOnChanges() {
+        this.cd.reattach();        
         this.cd.markForCheck();
         this.dataStatus;
         this.key1;
@@ -60,7 +63,8 @@ export class RobTableComponent implements OnChanges {
                 return new ColumnMap({ primaryKey: key });
             });
         }
-
+        this.cd.detectChanges();
+        this.cd.detach();
     }
 
     selectAllRows(ev) {
@@ -138,8 +142,7 @@ export class RobTableComponent implements OnChanges {
     }
 
     refreshTable() {
-        this.cd.markForCheck();
-              
+        this.cd.markForCheck();     
         this.headerSort = this.defaultSort;
         if (!this.reset) {
             this.selectedRow = null;
@@ -153,13 +156,13 @@ export class RobTableComponent implements OnChanges {
             this.rowsSelected.emit(this.rowSelectedCount);
             this.getSelectedRows();
         }
+
     }
 
 
     requestSort(ev) {
         this.cd.markForCheck();
         this.caret = true;
-
         this.headerSort=ev;
         (this.asc) ? (this.asc=false) : (this.asc=true);
         this.sortById.emit(ev);
@@ -224,6 +227,11 @@ export class RobTableComponent implements OnChanges {
         else{
             return false;
         }
+    }
+
+    getBatchListArr(e: string){
+        this.cd.detach();
+        return e.trim().split(",");
     }
 
 }

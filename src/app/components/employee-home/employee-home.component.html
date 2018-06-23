@@ -1,1 +1,31 @@
-<router-outlet></router-outlet>
+<div class="middle-section clearFix">
+
+    <section class="middle-main clearFix">
+        <div class="common-tab">
+            <ul>
+                <li id="liEmplyoee" #liEmplyoee (click)="switchActiveView('liEmplyoee')" class="active">
+                    <a routerLink="/view/employee/home">Employee</a>
+                </li>
+                <li id="liUser" #liUser (click)="switchActiveView('liUser')" class="">
+                    <a routerLink="/view/course/subject">User</a>
+                </li>
+                <li id="liRole" #liRole (click)="switchActiveView('liRole')" class="">
+                    <a routerLink="/view/course/subject">Role</a>
+                </li>
+                <li id="liAttendance" #liAttendance (click)="switchActiveView('liAttendance')" class="">
+                    <a routerLink="/view/course/subject">Attendance</a>
+                </li>
+                <li id="liLeaves" #liLeaves (click)="switchActiveView('liLeaves')" class="">
+                    <a routerLink="/view/course/subject">Leaves</a>
+                </li>
+                <li id="liSalary" #liSalary (click)="switchActiveView('liSalary')" class="">
+                    <a routerLink="/view/course/subject">Salary</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>

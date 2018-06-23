@@ -20,6 +20,7 @@ import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 import { TooltipModule } from '../../../assets/imported_modules/ngx-bootstrap/tooltip';
 
 import { CustomizingPipe } from './ng-robAdvanceTable/customizing.pipe';
+import { CustomNamePipe } from './quick-filter/custom-name.pipe';
 
 /* Advanced Table Declaration */
 import { RobAdvanceTableComponent } from './ng-robAdvanceTable/ng-robAdvanceTable.component';
@@ -55,6 +56,7 @@ import { OnlyNumber } from './onlynumber.directive';
         ProcturPopUpComponent,
         SearchPipe,
         CustomizingPipe,
+        CustomNamePipe,
         DropMenuComponent,
         RobTooltipComponent,
         OnlyNumber
@@ -72,6 +74,7 @@ import { OnlyNumber } from './onlynumber.directive';
         ProcturPopUpComponent,
         SearchPipe,
         CustomizingPipe,
+        CustomNamePipe,
         DropMenuComponent,
         RobTooltipComponent,
         OnlyNumber

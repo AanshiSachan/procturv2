@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { PaymentHistoryMainService } from '../../../../services/payment-history/payment-history-main.service';
+import * as moment from 'moment';
+import { ExcelService } from '../../../../services/excel.service';
 @Component({
   selector: 'app-gst-report',
   templateUrl: './gst-report.component.html',
@@ -7,9 +10,222 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GstReportComponent implements OnInit {
 
-  constructor() { }
+
+  selectMonth: any[] = [
+    {
+      key: '0',
+      month: "January"
+    },
+    {
+      key: '1',
+      month: "February"
+    },
+    {
+      key: '2',
+      month: "March"
+    },
+    {
+      key: '3',
+      month: "April"
+    },
+    {
+      key: '4',
+      month: "May"
+    },
+    {
+      key: '5',
+      month: "June"
+    },
+    {
+      key: '6',
+      month: "July"
+    },
+    {
+      key: '7',
+      month: "August"
+    },
+    {
+      key: '8',
+      month: "September"
+    },
+    {
+      key: '9',
+      month: "October"
+    },
+    {
+      key: '10',
+      month: "November"
+    },
+    {
+      key: '11',
+      month: "December"
+    }
+  ]
+
+  dataStatus: number;
+
+  feeSettings1: ColumnData[] = [
+    { primaryKey: 'student_disp_id', header: 'ID' },
+    { primaryKey: 'student_name', header: 'Name' },
+    { primaryKey: 'display_invoice_no', header: 'Receipt No' },
+    { primaryKey: 'paymentMode', header: 'Payment Mode' },
+    { primaryKey: 'fee_type_name', header: 'Fee Type' },
+    { primaryKey: 'installment_nos', header: 'Inst No' },
+    { primaryKey: 'paid_date', header: 'Paid Date' },
+    { primaryKey: 'cgst', header: 'CGST' },
+    { primaryKey: 'sgst', header: 'SGST' },
+    { primaryKey: 'tax', header: 'Tax' },
+    { primaryKey: 'reference_no', header: 'Ref No' },
+    { primaryKey: 'amount_paid', header: 'Amount Paid' },
+    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
+  ];
+
+  sendPayload = {
+    institute_id: this.gst.institute_id,
+    from_date: moment().format('YYYY-MM-DD'),
+    to_date: moment().format('YYYY-MM-DD'),
+    payment_history_student_category_option: 0,
+    student_name: "",
+    contact_no: ""
+  }
+  getPaymentRecords: any[] = [];
+
+  downloadService = {
+
+    from_date: moment().format('YYYY-MM-DD'),
+    to_date: moment().format('YYYY-MM-DD'),
+    payment_history_student_category_option: 0,
+    student_name: "",
+    contact_no: "",
+    isExportGSTReport: "Y"
+  }
+
+  downloadFormatted: number;
+
+  searchText = "";
+  searchData = [];
+  searchflag: boolean = false;
+  searchName: string;
+  tempRecords: any[] = [];
+  records: string;
+
+  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.getGstReport(event);
   }
+
+
+  getGstReport(event) {
+    console.log(event);
+    this.records = ""
+    this.searchText = ""
+    this.getPaymentRecords = [];
+
+    let date = new Date()
+    let y = date.getFullYear()
+    let m = date.getMonth();
+    let firstDay = new Date(y, parseInt(event), 1);
+    let t = parseInt(event);
+    this.downloadFormatted = t;
+    let lastDay = new Date(y, t + 1, 0);
+    this.dataStatus = 1;
+
+    let data = {
+
+      institute_id: this.sendPayload.institute_id,
+      from_date: moment(firstDay).format('YYYY-MM-DD'),
+      to_date: moment(lastDay).format('YYYY-MM-DD'),
+      payment_history_student_category_option: this.sendPayload.payment_history_student_category_option,
+      student_name: this.sendPayload.student_name,
+      contact_no: this.sendPayload.contact_no
+    }
+
+    this.gst.getPaymentData(data).subscribe(
+
+      (data: any) => {
+
+        if (data.length == 0) {
+          this.dataStatus = 2;
+        }
+
+        else {
+          this.dataStatus = 0;
+        }
+
+        this.getPaymentRecords = data;
+        this.tempRecords = data;
+        this.records = this.tempRecords[0].totalGst;
+        console.log(this.records);
+      },
+      (error: any) => {
+
+        return error;
+      }
+    )
+  }
+
+
+
+  downloadToExcel() {
+
+    let date = new Date();
+
+    this.downloadService = {
+      from_date: moment(new Date(date.getFullYear(), this.downloadFormatted, 1)).format('YYYY-MM-DD'),
+      to_date: moment(new Date(date.getFullYear(), this.downloadFormatted + 1, 0)).format('YYYY-MM-DD'),
+      payment_history_student_category_option: 0,
+      student_name: "",
+      contact_no: "",
+      isExportGSTReport: "Y"
+    }
+
+    this.gst.downloadData(this.downloadService).subscribe(
+
+      (data: any) => {
+        let byteArr = this.convertBase64ToArray(data.document);
+        let format = data.format;
+        let fileName = data.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('enq_download');
+        this.cd.markForCheck();
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        this.cd.markForCheck();
+        dwldLink.click();
+        this.cd.markForCheck();
+      }
+    )
+  }
+
+  convertBase64ToArray(val) {
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
+
+
+  searchDatabase() {
+    if (this.searchText != "" && this.searchText != null) {
+      // let searchData: any;
+      this.getPaymentRecords = this.getPaymentRecords.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      // this.searchData = searchData;
+      this.searchflag = true;
+    }
+    else {
+      this.getPaymentRecords = this.tempRecords;
+      this.searchflag = false;
+    }
+  }
+
 
 }

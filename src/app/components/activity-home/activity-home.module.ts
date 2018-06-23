@@ -6,13 +6,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import 'moment';
 import 'hammerjs';
-
-//import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { ActivityPtmService } from '../../services/activity-ptmservice/activity-ptm.service';
 import { PtmManagementComponent } from './ptm-management/ptm-management.component';
-
+import { RouterModule } from '@angular/router';
+import { ArchivingComponent } from './archiving/archiving.component';
+import { ArchivingModule } from './archiving/archiving.module';
 
 @NgModule({
     imports: [
@@ -21,14 +21,15 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
         CommonModule,
         ActivityHomeRoutingModule,
         BsDatepickerModule,
-        SharedModule
+        SharedModule,
+        ArchivingModule
     ],
     declarations: [
         ActivityHomeComponent,
         HomeComponent,
         PtmManagementComponent
     ], 
-    entryComponents: [        
+    entryComponents: [  
     ],
     providers: [  
         ActivityPtmService

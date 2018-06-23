@@ -169,10 +169,11 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   calculateAmount(taxInclusive) {
-    this.addNewTemplate.tax_amount = Math.floor(Number(this.addNewTemplate.fee_amount)) - Math.floor(Number(this.addNewTemplate.fee_amount) * 100 / (100 + this.feeStructure.registeredServiceTax));
     if (taxInclusive == true) {
+      this.addNewTemplate.tax_amount = Math.floor(Number(this.addNewTemplate.fee_amount)) - Math.floor(Number(this.addNewTemplate.fee_amount) * 100 / (100 + this.feeStructure.registeredServiceTax));
       this.addNewTemplate.total_fee = Number(this.addNewTemplate.fee_amount);
     } else {
+      this.addNewTemplate.tax_amount = Math.floor(Number(this.addNewTemplate.fee_amount) * (this.feeStructure.registeredServiceTax) * .01);
       this.addNewTemplate.total_fee = Number(this.addNewTemplate.fee_amount + this.addNewTemplate.tax_amount);
     }
   }
@@ -366,7 +367,7 @@ export class FeeTemplateAddComponent implements OnInit {
           body: "Fee Structure created Successfully"
         }
         this.appC.popToast(msg);
-        this.route.navigateByUrl('/fee');
+        this.route.navigateByUrl('/view/fee');
       },
       err => {
         let msg = {

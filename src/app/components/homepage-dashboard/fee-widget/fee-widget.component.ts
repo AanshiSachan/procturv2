@@ -133,7 +133,7 @@ export class FeeWidgetComponent implements OnInit {
                 return this.feeStat[0].total_fees_collected;
             }
             else if (id === 'pending') {
-                return this.feeStat[0].total_fees_collected_other;
+                return this.feeStat[0].total_future_dues;
             }
             else if (id === 'past') {
                 return this.feeStat[0].total_dues_pending;

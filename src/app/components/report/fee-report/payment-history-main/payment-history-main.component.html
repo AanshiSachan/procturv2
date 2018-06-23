@@ -9,11 +9,11 @@
 
         <div class="report-header" style="padding-bottom:1%">
           <h2 style="padding: 5px;" class="pull-left">
-            <a routerLink="/reports">
+            <a routerLink="/view/reports">
               Report
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/reports/fee">
+            <a routerLink="/view/reports/fee">
               Fee Report
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
@@ -229,7 +229,7 @@
   </span>
 
   <div popup-header class="popup-header-content">
-    <h2>Update Fee Receipt for {{personData.student_name}}</h2>
+    <h2>Update Fee Receipt for {{personData.student_name}} <span style="font-size: 18px;">(#{{personData.student_disp_id}})</span></h2>
   </div>
 
   <div popup-content class="main-student-table">

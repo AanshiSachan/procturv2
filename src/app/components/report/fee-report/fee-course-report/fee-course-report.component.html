@@ -6,18 +6,18 @@
             <div class="middle-top mb0 clearFix header">
                 <div class="row report-header">
                     <h2 style="padding: 5px;" class="pull-left">
-                        <a routerLink="/reports">
+                        <a routerLink="/view/reports">
                             Report
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-                        <a routerLink="/reports/fee">
+                        <a routerLink="/view/reports/fee">
                             Fee Report
                         </a>
                         <div *ngIf=!isProfessional style="display:inline-block;">
-                            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Batch wise report
+                            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Course wise report
                         </div>
                         <div *ngIf=isProfessional style="display:inline-block;">
-                            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Course wise report
+                            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Batch wise report
                         </div>
                     </h2>
                     <aside class="pull-left">
@@ -26,8 +26,8 @@
                     </aside>
                 </div>
 
-                <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
-                    <!-- <div id="primary" *ngIf="!isFilterReversed">
+
+                <!-- <div id="primary" *ngIf="!isFilterReversed">
                         <div class="c-lg-4">
                             <div class="form-wrapper">
                                 <input [(ngModel)]='search_value' type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
@@ -53,60 +53,84 @@
                         <div class="c-lg-3"></div>
                     </div> -->
 
-                    <div id="secondary" *ngIf="isFilterReversed">
+                <div id="secondary" *ngIf="isFilterReversed">
 
-                        <div class="c-lg-3">
-                            <div class="field-wrapper" [ngClass]="{'has-value': true }">
-                                <label for="mc">Master Course</label>
-                                <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
-                                    name="mc" id="mc">
-                                    <option value="-1"></option>
-                                    <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
-                                </select>
-                                <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
-                                    name="mc" id="mc">
-                                    <option value="-1"></option>
-                                    <option *ngFor="let master of standardList" [value]="master.master_course">{{master.master_course}}</option>
-                                </select>
+                    <div class="c-lg-12" style="margin-left: -3%;">
+                        <div class="c-lg-10">
+                            <div class="c-lg-12">
+                                <div class="c-lg-3">
+                                    <div class="field-wrapper" [ngClass]="{'has-value': true }">
+                                        <label for="mc">Master Course</label>
+                                        <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
+                                            name="mc" id="mc">
+                                            <option value="-1"></option>
+                                            <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
+                                        </select>
+                                        <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
+                                            name="mc" id="mc">
+                                            <option value="-1"></option>
+                                            <option *ngFor="let master of standardList" [value]="master.master_course">{{master.master_course}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="c-lg-3">
+                                    <div class="field-wrapper">
+                                        <label for="cc">Course</label>
+                                        <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl"
+                                            name="cc" id="cc">
+                                            <option value="-1"></option>
+                                            <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
+                                        </select>
+                                        <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" name="cc" id="cc">
+                                            <option value="-1"></option>
+                                            <option *ngFor="let course of subjectList" [value]="course.course_id">{{course.course_name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="c-lg-3" *ngIf="isProfessional">
+                                    <div class="field-wrapper">
+                                        <label for="ba">Batch</label>
+                                        <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected()" name="" id="ba">
+                                            <option value="-1"></option>
+                                            <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="c-lg-3 sky-form field-wrapper">
+                                    <label>Academic Year</label>
+                                    <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
+                                        class="form-ctrl sky-inner">
+                                        <option value="-1">
+                                        </option>
+                                        <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
+                                            {{i.inst_acad_year}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="c-lg-3 filter-btn" *ngIf="!isProfessional" style="margin-top: 25px;">
+                                    <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="c-lg-3">
-                            <div class="field-wrapper">
-                                <label for="cc">Course</label>
-                                <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl"
-                                    name="cc" id="cc">
-                                    <option value="-1"></option>
-                                    <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
-                                </select>
-                                <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" name="cc" id="cc">
-                                    <option value="-1"></option>
-                                    <option *ngFor="let course of subjectList" [value]="course.course_id">{{course.course_name}}</option>
-                                </select>
-                            </div>
+                        <div class="c-lg-1 filter-btn" style="margin-top: 25px; margin-left:-3%;" *ngIf="isProfessional">
+                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
                         </div>
 
-                        <div class="c-lg-3">
-                            <div class="field-wrapper" *ngIf="isProfessional">
-                                <label for="ba">Batch</label>
-                                <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected()" name="" id="ba">
-                                    <option value="-1"></option>
-                                    <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
-                                </select>
-                            </div>
-                        </div>
+                    </div>
+                </div>
 
-                        <div class="c-lg-3">
-                            <div class="field-wrapper hide">
-                                <label for="ic">Installment</label>
-                                <select class="form-ctrl" name="" id="ic">
-                                    <option value="-1"></option>
-                                    <option [value]="i" *ngFor="let i of installmentList">{{i}}</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="c-lg-3">
+                    <div class="field-wrapper hide">
+                        <label for="ic">Installment</label>
+                        <select class="form-ctrl" name="" id="ic">
+                            <option value="-1"></option>
+                            <option [value]="i" *ngFor="let i of installmentList">{{i}}</option>
+                        </select>
+                    </div>
+                </div>
 
-                        <!-- <div class="c-lg-3">
+                <!-- <div class="c-lg-3">
                             <div class="form-wrapper">
                                 <label for="sd">Select Dues</label>
                                 <select [(ngModel)]="due_type" (ngModelChange)="dateRangeChanges($event)" name="sd" id="sd" class="form-ctrl">
@@ -120,107 +144,84 @@
                             </div>
                         </div> -->
 
-                        <div class="c-lg-3 radio-group hide">
-                            <div class="c-lg-6 field-radio-wrapper">
-                                <input class="form-radio" type="radio" name="dues" value="0" id='r1' [(ngModel)]="courseFetchForm.type" checked>
-                                <label for="r1">All Students</label>
-                            </div>
+                <div class="c-lg-3 radio-group hide">
+                    <div class="c-lg-6 field-radio-wrapper">
+                        <input class="form-radio" type="radio" name="dues" value="0" id='r1' [(ngModel)]="courseFetchForm.type" checked>
+                        <label for="r1">All Students</label>
+                    </div>
 
-                            <div class="c-lg-6 field-radio-wrapper">
-                                <input class="form-radio" type="radio" name="dues" value="1" [(ngModel)]="courseFetchForm.type" id='r2'>
-                                <label for="r2">Previous Dues</label>
-                            </div>
-                        </div>
-
-                        <div class="c-lg-3" *ngIf="isCustomDate">
-                            <div class="field-wrapper datePickerBox">
-                                <label for="ic">From Date</label>
-                                <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')" type="text" value="" readonly="true"
-                                    class="form-ctrl bsDatepicker" bsDatepicker/>
-                            </div>
-                            <span style="cursor: pointer; color: #ff0000;" (click)="courseFetchForm.from_date = ''">clear</span>
-                        </div>
-
-                        <div class="c-lg-3" *ngIf="isCustomDate">
-                            <div class="field-wrapper datePickerBox">
-                                <label for="ic">To Date</label>
-                                <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text" value="" readonly="true"
-                                    class="form-ctrl bsDatepicker" bsDatepicker/>
-                            </div>
-                            <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
-                        </div>
-
-                        <div class="c-lg-2 filter-btn">
-                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                        </div>
-
-                        <div class="c-lg-1 filter-btn hide">
-                            <div class="filter-right pull-right">
-                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
-                            </div>
-                        </div>
-
+                    <div class="c-lg-6 field-radio-wrapper">
+                        <input class="form-radio" type="radio" name="dues" value="1" [(ngModel)]="courseFetchForm.type" id='r2'>
+                        <label for="r2">Previous Dues</label>
                     </div>
                 </div>
+
+                <div class="c-lg-3" *ngIf="isCustomDate">
+                    <div class="field-wrapper datePickerBox">
+                        <label for="ic">From Date</label>
+                        <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')" type="text" value="" readonly="true"
+                            class="form-ctrl bsDatepicker" bsDatepicker/>
+                    </div>
+                    <span style="cursor: pointer; color: #ff0000;" (click)="courseFetchForm.from_date = ''">clear</span>
+                </div>
+
+                <div class="c-lg-3" *ngIf="isCustomDate">
+                    <div class="field-wrapper datePickerBox">
+                        <label for="ic">To Date</label>
+                        <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text" value="" readonly="true"
+                            class="form-ctrl bsDatepicker" bsDatepicker/>
+                    </div>
+                    <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
+                </div>
+
+
+                <div class="c-lg-1 filter-btn hide">
+                    <div class="filter-right pull-right">
+                        <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
+                    </div>
+                </div>
+
             </div>
 
-            <section class="fee-info">
 
-                <div class="c-lg-8 hide">
-                    <div class="c-lg-1"></div>
-                    <div class="c-lg-4">
-                        <ul>
-                            <li class="key">
-                                Total Fees Collection
-                            </li>
-                            <li class="value">
-
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="c-lg-4">
-                        <ul>
-                            <li class="key">
-                                Total Fees collection others
-                            </li>
-                            <li class="value">
-
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="c-lg-3">
-                        <ul>
-                            <li class="key">
-                                Total Dues
-                            </li>
-                            <li class="value">
-
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
+            <section>
                 <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
                     <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
                 </div>
-
-                <div class="c-lg-4">
-                    <div class="form-wrapper">
-                        <form autocomplete="off" #form="ngForm">
-                            <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar">
-                        </form>
-                    </div>
+                <div id="basic-search" style="margin:5px;">
+                    <form autocomplete="off" #form="ngForm">
+                        <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right;">
+                    </form>
                 </div>
-
             </section>
 
             <section class="fee-table">
                 <div class="table-content" *ngIf="isFilterReversed">
-                    <div style="margin: 10px;">
+                    <div style="margin: 10px; display: inline-block;">
                         <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
                         <span class="fa fa-cloud-download">
                         </span>
                     </div>
+                    <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:37%; text-align: right;">
+                        <li style="display: inline-block; margin-left: 11px;">
+                            <span class="made-out"> Total fees Collection </span>
+                            <span class="made-in"> : ₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</span>
+                        </li>
+                        <li style="display: inline-block; margin-left: 5vw;">
+                            <span class="made-out">Total dues</span>
+                            <span class="made-in"> : ₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</span>
+                        </li>
+                    </ul>
+                    <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:37%; text-align: left;">
+                        <li style="display: inline-block; margin-left: 11px;">
+                            <span class="made-out"> Total Future Dues </span>
+                            <span class="made-in"> : ₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</span>
+                        </li>
+                        <li style="display: inline-block; margin-left: 5vw;">
+                            <span class="made-out">Total Fees</span>
+                            <span class="made-in"> : ₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</span>
+                        </li>
+                    </ul>
                     <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                         [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
                         [settings]="feeSettings1">

@@ -1,0 +1,21 @@
+.table-made{
+    thead{
+        tr{
+            th{
+                text-align: left;
+            }
+        }
+    }
+    tbody{
+        tr{
+            td{
+                text-align: left;
+            }
+        }
+        tr:nth-child(11){
+            td{
+                text-align: center;
+            }
+        }
+    }
+}

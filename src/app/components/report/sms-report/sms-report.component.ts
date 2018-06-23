@@ -93,7 +93,7 @@ export class SmsReportComponent implements OnInit {
     this.dataStatus = true;
     if (obj.start_index == 0) {
       return this.getSms.fetchSmsReport(obj).subscribe(
-        res => {
+        (res: any) => {
           this.isRippleLoad = false;
           if (res.length != 0) {
             this.smsSource = res;
@@ -112,7 +112,7 @@ export class SmsReportComponent implements OnInit {
     }
     else {
       return this.getSms.fetchSmsReport(obj).subscribe(
-        res => {
+        (res: any) => {
           this.isRippleLoad = false;
           this.smsSource = res;
         }
@@ -204,7 +204,7 @@ export class SmsReportComponent implements OnInit {
     }
     else {
       this.getSms.fetchSmsReport(this.smsFetchForm).subscribe(
-        res => {
+        (res: any) => {
           this.smsSource = res;
           this.searchflag = false;
         }

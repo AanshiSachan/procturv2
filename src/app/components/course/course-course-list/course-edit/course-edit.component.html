@@ -1,7 +1,7 @@
 <div class="middle-section clearFix head editCourseWrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
-      <a routerLink="/course/courselist">Course</a> / Edit
+      <a routerLink="/view/course/courselist">Course</a> / Edit
       <u> {{selectedCourseDetails.master_course}}</u>
     </h1>
   </section>
@@ -15,7 +15,7 @@
             <span style="color:red">*</span>
           </label>
           <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
-          " name="masterCourse" class="form-ctrl" />
+          " name="masterCourse" class="form-ctrl" style="background: white" />
 
         </div>
       </div>
@@ -23,7 +23,7 @@
         <div class="field-wrapper has-value">
           <label for="idStanadardName">Standard Name
           </label>
-          <select id="idStanadardName" class="form-ctrl" disabled="true" [(ngModel)]="selectedCourseDetails.standard_id">
+          <select id="idStanadardName" class="form-ctrl" disabled="true" [(ngModel)]="selectedCourseDetails.standard_id" style="background: white">
             <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
               {{opt.standard_name}}
             </option>
@@ -171,7 +171,7 @@
     </div>
 
     <div class="row pull-right btn-group">
-      <button class="btn" routerLink='/course/courselist'>Cancel</button>
+      <button class="btn" routerLink='/view/course/courselist'>Cancel</button>
       <button class="btn fullBlue" *ngIf="mainTableDataSource.length >0" (click)="updateEditedDetails()">Save</button>
     </div>
   </div>

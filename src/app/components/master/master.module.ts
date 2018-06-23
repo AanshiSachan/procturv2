@@ -2,50 +2,63 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
-import {ExamGradeServiceService} from '../../services/examgradeservice/exam-grade-service.service';
+import { ExamGradeServiceService } from '../../services/examgradeservice/exam-grade-service.service';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { DatePipe } from '@angular/common';
 import { MasterComponent } from './master.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 
+import { SlotComponent } from '../../components/slot/slot.component';
+import { CityAreaMapComponent } from '../../components/city-area-map/city-area-map.component';
+import { ClassRoomComponent } from '../../components/class-room/class-room.component';
+import { EventManagmentComponent } from '../../components/event-managment/event-managment.component';
+import { TopicsComponent } from '../../components/topics/topics.component';
+import { TreeTableModule } from 'primeng/treetable';
+
+import { SlotApiService } from '../../services/slot-service/slot.service';
+import { CityAreaService } from '../../services/area-city-service/area-city.service';
+
+import { EventManagmentService } from '../../services/event-managment.service';
+import { ClassRoomService } from '../../services/class-roomService/class-roomlist.service';
+
+import { MasterRoutingModule } from './master-routing.module';
+import { TopicServiceService } from '../../services/topic-service.service';
+import { FilterPipe } from '../../components/event-managment/filterpipe';
+import { AcademicYearModule } from '../academic-year/academic-year.module';
+import { AcademicYearComponent } from '../academic-year/academic-year.component';
+import { HomeComponent } from '../academic-year/home/home.component';
 
 @NgModule({
     imports: [
-        RouterModule.forChild([
-            {
-                path: '',
-                component: MasterComponent,
-                pathMatch: 'prefix',
-                children: [
-                    {
-                        path: '',
-                        component: ManageExamGradesComponent
-                    },
-                    {
-                        path: 'manage-exam-grades',
-                        component: ManageExamGradesComponent,
-                        pathMatch: 'prefix',
-                    },
-                ]
-            }
-        ]),
         SharedModule,
         FormsModule,
-        BsDatepickerModule
+        BsDatepickerModule,
+        TreeTableModule,
+        MasterRoutingModule
     ],
     exports: [
-        RouterModule
+       
     ],
     declarations: [
         MasterComponent,
-        ManageExamGradesComponent
-],
+        ManageExamGradesComponent,
+        SlotComponent,
+        ClassRoomComponent,
+        FilterPipe,
+        EventManagmentComponent,
+        CityAreaMapComponent,
+        TopicsComponent
+    ],
     providers: [
-        ExamGradeServiceService
+        ExamGradeServiceService,
+        SlotApiService,
+        CityAreaService,
+        ClassRoomService,
+        EventManagmentService,
+        TopicServiceService,
     ]
 })
 
-export class ManageExamModule{
+export class ManageExamModule {
 
 
 

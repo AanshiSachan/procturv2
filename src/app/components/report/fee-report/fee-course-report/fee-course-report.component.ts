@@ -67,11 +67,7 @@ export class FeeCourseReportComponent implements OnInit {
     }, */
     {
       key: 'history',
-      header: 'Fee Payment History',
-    },
-    {
-      key: 'nextDue',
-      header: 'Next Due Details'
+      header: 'Dues Info',
     },
     {
       key: 'receipt',
@@ -91,7 +87,8 @@ export class FeeCourseReportComponent implements OnInit {
     contact_no: '',
     type: '0',
     installment_id: -1,
-    is_fee_report_view: 1
+    is_fee_report_view: 1,
+    academic_year_id: ""
   }
 
   isRippleLoad: boolean = false;
@@ -108,9 +105,11 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
+  helpMsg: string = "We can filter data by selecting master course/ course/ batch along with the academic year"
 
   @ViewChild('form') form: any;
+
+  getAllAcademic: any[] = []
 
   constructor(
     private excelService: ExcelService,
@@ -129,6 +128,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
+    this.getAcademicYear();
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
@@ -165,6 +165,16 @@ export class FeeCourseReportComponent implements OnInit {
 
   }
 
+  getAcademicYear() {
+    this.getter.getAcademicYear().subscribe(
+      (res: any) => {
+        this.getAllAcademic = res;
+      },
+      (error: any) => {
+
+      }
+    )
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
@@ -250,12 +260,15 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   fetchFeeDetails() {
+    let arr = [];
+    arr.push(this.courseFetchForm.academic_year_id);
     /* Fetch By Master Course and Other Details */
     if (this.isFilterReversed) {
       /* Checks if user has filled the form correctly and selected a batch or master course course */
       if (this.courseFormValidator()) {
         if (this.dateRangeValid()) {
           if (this.isProfessional) {
+
             let obj = {
               standard_id: this.courseFetchForm.standard_id,
               batch_id: this.courseFetchForm.batch_id,
@@ -268,7 +281,9 @@ export class FeeCourseReportComponent implements OnInit {
               course_id: this.courseFetchForm.course_id,
               student_name: this.courseFetchForm.student_name,
               contact_no: this.courseFetchForm.contact_no,
-              is_fee_report_view: this.courseFetchForm.is_fee_report_view
+              is_fee_report_view: this.courseFetchForm.is_fee_report_view,
+              academic_year_id: arr
+
             }
             //console.log(obj);
             this.generateReport(obj);
@@ -286,7 +301,9 @@ export class FeeCourseReportComponent implements OnInit {
               course_id: this.courseFetchForm.subject_id,
               student_name: this.courseFetchForm.student_name,
               contact_no: this.courseFetchForm.contact_no,
-              is_fee_report_view: this.courseFetchForm.is_fee_report_view
+              is_fee_report_view: this.courseFetchForm.is_fee_report_view,
+              academic_year_id: arr
+
             }
             //console.log(obj);
             this.generateReport(obj);
@@ -405,7 +422,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   generateReport(obj) {
     //console.log(obj);
-
+    this.feeDataSource1 = [];
     if (obj.from_date == 'Invalid date' || obj.from_date == '') {
       obj.from_date = '';
     }
@@ -657,11 +674,8 @@ export class FeeCourseReportComponent implements OnInit {
     if (action == 'View Detailed Report') {
       this.isViewDetailReport = true;
     }
-    else if (action == 'Fee Payment History') {
+    else if (action == 'Dues Info') {
       this.isFeepaymentHistory = true;
-    }
-    else if (action == 'Next Due Details') {
-      this.isNextDueDetail = true;
     }
     else if (action == 'Fee Receipts') {
       this.isFeeReceipt = true;

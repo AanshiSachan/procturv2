@@ -1,0 +1,67 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="report-wrapper clearFix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix">
+            <div class="middle-top mb0 clearFix header">
+                <div class="report-header" style="padding-bottom:1%">
+                    <h2 style="padding: 5px;" class="pull-left">
+                        <a routerLink="/view/reports">
+                            Report
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                        <a routerLink="/view/reports/fee">
+                            Fee Report
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Gst Report
+                    </h2>
+                    <div class="row">
+                        <div class="c-lg-12">
+                            <div class="c-lg-3">
+
+                            </div>
+                            <div class="c-lg-3 field-wrapper">
+                                <label>Select Month</label>
+                                <select class="form-ctrl" [(ngModel)]="sendPayload.from_date">
+                                    <option value=-1>
+                                    </option>
+                                    <option *ngFor="let i of selectMonth" [value]="i.key">
+                                        {{i.month}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="c-lg-2" style="margin-top: 2%;">
+                                <button class="btn fullBlue" (click)="getGstReport(sendPayload.from_date)">GO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="basic-search" style="margin:5px;">
+                    <ul class="made" *ngIf="records.length !=0">
+                        <li>
+                            <span class="made-out">Total GST</span>
+                            <span class="made-in"> : ₹{{records.toLocaleString('en-IN')}}</span>
+                        </li>
+                    </ul>
+                    <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                        (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; float:right;">
+                </div>
+
+                <div class="table-content">
+                    <div style="margin: 10px;" class="pointer">
+                        <a class="hide" id="enq_download"></a>
+                        <a (click)="downloadToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+                        <span class="fa fa-cloud-download">
+                        </span>
+                    </div>
+                    <rob-table [isMulti]='false' [hasMenu]="false" [records]="getPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'"
+                        [settings]="feeSettings1">
+                    </rob-table>
+                </div>
+            </div>
+        </section>
+    </aside>
+</div>

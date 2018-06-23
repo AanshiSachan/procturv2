@@ -18,10 +18,21 @@ export class ProfitLossComponent implements OnInit {
     type: 0
   }
   isRippleLoad: boolean = false;
-  expenseData:any[]=[];
-  incomeData:any[]=[];
-  collectionData:any[]=[];
-  profitLossData:any[]=[];
+  expenseData: any[] = [];
+  incomeData: any[] = [];
+  collectionData: any[] = [];
+  profitLossData: any[] = [];
+  mappedData: any[] = [];
+  totalIncome: number;
+  totalCollectedData: any[] = [];
+  sum:number = 0;
+  netIncome:number;
+  totalExpenseCollected:any[] = [];
+  sumExpense:number = 0;
+  helpMsg4: string = "Total fee collected from Inactive/Archived students or students whose fee structure is changed."
+  helpMsg3: string = "Sum of all collection excluding expenses";
+  helpMsg: string = "Sum of total fee collection ,Total fee collection(others) and income";
+  helpMsg2: string = "Sum of all collection excluding expenses";
 
   constructor(private profitLoss: ProfitLossServiceService,
     private appc: AppComponent,
@@ -31,15 +42,27 @@ export class ProfitLossComponent implements OnInit {
 
   ngOnInit() {
     this.getExpenses.type == 0;
-    this.fetchAllData();
+    this.fetchAllData(event);
   }
 
 
-  fetchAllData() {
-    this.fetchexpenseData(this.getExpenses.startdate, this.getExpenses.enddate);
-    this.fetchIncomeFees(this.getExpenses.startdate, this.getExpenses.enddate);
-    this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);
-    this.fetchIncome(this.getExpenses.startdate, this.getExpenses.enddate);
+  fetchAllData(event) {
+    if (event == "2") {
+      this.getExpenses.startdate = moment().format('YYYY-MM-DD');
+      this.getExpenses.enddate = moment().format('YYYY-MM-DD');
+      this.fetchIncome(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchIncomeFees(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchexpenseData(this.getExpenses.startdate, this.getExpenses.enddate);
+    }
+    else {
+      this.getExpenses.startdate = "";
+      this.getExpenses.enddate = "";
+      this.fetchIncome(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchIncomeFees(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchexpenseData(this.getExpenses.startdate, this.getExpenses.enddate);
+    }
   }
 
 
@@ -47,9 +70,14 @@ export class ProfitLossComponent implements OnInit {
   fetchexpenseData(startdate, enddate) {
 
     this.isRippleLoad = true;
+    this.sumExpense = 0;
     this.profitLoss.fetchExpenseDetails(this.getExpenses).subscribe(
       (data: any) => {
         this.expenseData = data;
+        this.totalExpenseCollected = data.map(ele => ele.amount);
+        for (let i in this.totalExpenseCollected) {
+          this.sumExpense = this.sumExpense + this.totalExpenseCollected[i];
+        }
         this.isRippleLoad = false;
       },
       (error: any) => {
@@ -67,10 +95,10 @@ export class ProfitLossComponent implements OnInit {
 
 
   fetchIncomeFees(startdate, enddate) {
-
+    this.collectionData = [];
     this.profitLoss.fetchIncomeFeesCollection(this.getExpenses).subscribe(
       (data: any) => {
-        this.collectionData = data;
+        this.collectionData.push(data);
         this.isRippleLoad = false;
       },
       (error: any) => {
@@ -88,11 +116,10 @@ export class ProfitLossComponent implements OnInit {
 
 
   fetchProfitLoss(startdate, enddate) {
-
+    this.profitLossData = [];
     this.profitLoss.fetchProfitLossReport(this.getExpenses).subscribe(
       (data: any) => {
-        this.profitLossData = data;
-        this.isRippleLoad = false;
+        this.profitLossData.push(data);
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -108,11 +135,15 @@ export class ProfitLossComponent implements OnInit {
 
 
   fetchIncome(startdate, enddate) {
-
+    this.sum = 0;
     this.profitLoss.fetchIncomeDetails(this.getExpenses).subscribe(
       (data: any) => {
         this.incomeData = data;
         this.isRippleLoad = false;
+        this.totalCollectedData = data.map(ele => ele.amount);
+        for (let i in this.totalCollectedData) {
+          this.sum = this.sum + this.totalCollectedData[i];
+        }
       },
       (error: any) => {
         this.isRippleLoad = false;
@@ -121,11 +152,11 @@ export class ProfitLossComponent implements OnInit {
           body: error.error.message
         }
         this.appc.popToast(msg);
-        return error;
       }
     )
   }
 
+  
   fetchByRange(event) {
     if (event == "2") {
       this.getExpenses.startdate = moment().format('YYYY-MM-DD');
@@ -135,13 +166,13 @@ export class ProfitLossComponent implements OnInit {
       this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);
       this.fetchexpenseData(this.getExpenses.startdate, this.getExpenses.enddate);
     }
-    else {     
-        this.getExpenses.startdate = "";
-        this.getExpenses.enddate = "";
-        this.fetchIncome(this.getExpenses.startdate, this.getExpenses.enddate);
-        this.fetchIncomeFees(this.getExpenses.startdate, this.getExpenses.enddate);
-        this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);
-        this.fetchexpenseData(this.getExpenses.startdate, this.getExpenses.enddate);
+    else {
+      this.getExpenses.startdate = "";
+      this.getExpenses.enddate = "";
+      this.fetchIncome(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchIncomeFees(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchProfitLoss(this.getExpenses.startdate, this.getExpenses.enddate);
+      this.fetchexpenseData(this.getExpenses.startdate, this.getExpenses.enddate);
     }
 
   }

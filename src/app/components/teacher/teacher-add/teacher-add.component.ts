@@ -90,7 +90,7 @@ export class TeacherAddComponent implements OnInit {
     this.teacherAPIService.addNewTeacherDetails(formData).subscribe(
       data => {
         this.messageToast('success', 'Added', 'Faculty Added Successfully.');
-        this.route.navigateByUrl('teacher');
+        this.route.navigateByUrl('/view/teacher');
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);

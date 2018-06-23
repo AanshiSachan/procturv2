@@ -41,7 +41,7 @@ export class AdminHomeComponent implements OnInit {
   public isRippleLoad: boolean = false;
   public AllPresent: boolean = true;
   public teacher_id: number = -1;
-  @ViewChild('biometricDiv') bioAd : ElementRef;
+  @ViewChild('biometricDiv') bioAd: ElementRef;
   public schedStat: any = {};
 
   is_notified: any = 'Y';
@@ -140,8 +140,8 @@ export class AdminHomeComponent implements OnInit {
   classScheduleCount: number = 0;
   biometricWidget: boolean;
   biometricEnable: string = "";
-
-
+  openMessageFlag: boolean = false;
+  openMessageList: any = [];
   @ViewChild('ref')
   private ref: ElementRef;
   /* ===================================================================================== */
@@ -215,7 +215,7 @@ export class AdminHomeComponent implements OnInit {
           this.bioAd.nativeElement.style.display = 'none';
         }
       }
-    } 
+    }
 
 
   }
@@ -253,9 +253,6 @@ export class AdminHomeComponent implements OnInit {
     }
     else if (event.length == 2) {
       this.ref.nativeElement.className = "dataSecond";
-    }
-    else if (this.biometricEnable == "0") {
-      this.ref.nativeElement.className = "hide";
     }
     else if (event.length == 3) {
       this.ref.nativeElement.className = "dataThird";
@@ -1034,7 +1031,9 @@ export class AdminHomeComponent implements OnInit {
           }
         }
         this.courseLevelSchedule = [];
-        this.courseLevelSchedule = tempArr;
+        if (tempArr.length > 0) {
+          this.courseLevelSchedule = tempArr;
+        }
         this.generateCourseLevelExam();
       },
       err => {
@@ -3170,6 +3169,84 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+
+  //SMS Approve AND Reject
+
+  onTabChange(tabname) {
+    this.openMessageFlag = false;
+    document.getElementById('approvedSMSTab').classList.remove('active');
+    document.getElementById('openSMSTab').classList.remove('active');
+    if (tabname == 'approved') {
+      document.getElementById('approvedSMSTab').classList.add('active');
+      this.getAllMessageFromServer();
+    } else {
+      document.getElementById('openSMSTab').classList.add('active');
+      this.getOpenStatusSMS();
+    }
+  }
+
+  getOpenStatusSMS() {
+    this.openMessageFlag = true;
+    this.openMessageList = [];
+    this.widgetService.getMessageList({}).subscribe(
+      res => {
+        this.openMessageList = res;
+      },
+      err => {
+        //console.log(err);
+      }
+    )
+  }
+
+  showApproveButtons(data) {
+    let enableApprove = sessionStorage.getItem('allow_sms_approve_feature');
+    const permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      if (enableApprove == '1' && data.statusValue == "Open") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  approveRejectSms(data, statusCode) {
+    let msg: any = "";
+    if (statusCode == 1) {
+      msg = "approve";
+    } else {
+      msg = "deleted";
+    }
+    if (confirm('Are you sure, You want  to ' + msg + ' the message?')) {
+      this.widgetService.changesSMSStatus({ 'status': statusCode }, data.message_id).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: '',
+            body: ''
+          }
+          if (statusCode == 1) {
+            msg.title = "SMS Approved"
+          } else {
+            msg.title = "SMS Deleted";
+          }
+          this.appC.popToast(msg);
+          this.getOpenStatusSMS();
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          }
+          this.appC.popToast(msg);
         }
       )
     }

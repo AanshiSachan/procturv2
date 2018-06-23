@@ -1,46 +1,54 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 <div class="middle-section clearFix">
-    <section class="middle-top mb0 clearFix" style="margin-bottom: 15px;">
-        <div class="pull-left" style="margin-top:20px;">
-            <h1>
-                Employee's
-            </h1>
-        </div>
-        <div class="">
-            <div class="field-wrapper">
-                <div class="btnWrapper">
-                    <button class="btn pull-right" routerLink='../addedit'>
-                        <div class="option-wrap">
-                            <img src="assets/images/plus.png" alt="Add Teacher" style="vertical-align: -webkit-baseline-middle;">
-                            <span class="tooltip tooltipWrapper">
-                                Add Employee
-                            </span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="search-filter-wrapper">
-                <input type="text" style="width:25%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
-                    [(ngModel)]="searchValue" (keyup)="searchTeacher()">
-            </div>
-        </div>
-    </section>
 
-    <section style="margin-top: 10px;">
-        <div class="table-scroll-wrapper">
-            <div class="table table-responsive enquiry-table">
+    <aside #tableContent class="table-Content">
+
+        <section class="header-section row">
+            <div class="pull-right" style="margin-right: 20px">
+                <p-splitButton class="spiltButton-label" label="Employee" [model]="bulkActionItems"></p-splitButton>
+                <li class="headerBtn" routerLink='../addedit'>
+                    <i>
+                        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                            focusable="false">
+                            <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
+                        </svg>
+                    </i>
+                    <p>
+                        Add Employee
+                    </p>
+                </li>
+            </div>
+        </section>
+
+        <section class="search-section row">
+            <div class="search-filter-wrapper">
+                <input type="text" class="normal-field" placeholder="Search Employee" [(ngModel)]="searchValue">
+            </div>
+            <div>
+                <button class="btn fullBlue">View</button>
+            </div>
+            <br />
+            <p>Search by Name, Contact Number or Employee ID</p>
+        </section>
+
+        <section class="table-wrapper" style="margin-right:5px;">
+
+            <div class="teacher-wrapper">
                 <table class="teacherTable">
                     <thead>
                         <tr>
+                            <th>
+                                <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" class="form-checkbox" (click)="onCheckoxSelction($event)">
+                                    <label></label>
+                                </div>
+                            </th>
                             <th>
                                 Employee ID
                             </th>
                             <th>
                                 Employee Name
-                            </th>
-                            <th>
-                                Designation
                             </th>
                             <th>
                                 Contact No
@@ -49,15 +57,24 @@
                                 Email ID
                             </th>
                             <th>
+                                Designation
+                            </th>
+                            <!-- <th>
                                 Edit
                             </th>
                             <th>
                                 Manage Working Days
-                            </th>
+                            </th> -->
                         </tr>
                     </thead>
                     <tbody *ngIf="employeeList.length != 0 ">
                         <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of employeeList; let i = index; trackBy: i;">
+                            <td>
+                                <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.selected">
+                                    <label></label>
+                                </div>
+                            </td>
                             <td>
                                 {{row.emp_id}}
                             </td>
@@ -65,27 +82,24 @@
                                 {{row.emp_name}}
                             </td>
                             <td>
-                                {{row.designation_name}}
-                            </td>
-                            <td>
                                 {{row.phone_pro}}
                             </td>
                             <td>
                                 {{row.email_pri}}
                             </td>
-                            <td class="anchorTags">
+                            <td>
+                                {{row.designation_name}}
+                            </td>
+                            <!-- <td class="anchorTags">
                                 <a class="anchorTagCursor" [routerLink]='["../addedit" , row.emp_id]'>
                                     <i class="edit-icon" aria-hidden="true" title="Edit"></i>Edit
                                 </a>
-                                <!-- <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
-                                    <i class="fa fa-trash" aria-hidden="true" title="Delete" style="margin-right:5px"></i>Delete
-                                </a> -->
                             </td>
                             <td class="anchorTags" (click)="manageWorkingDays(row)">
                                 <a class="anchorTagCursor">
                                     Edit
                                 </a>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                     <tbody *ngIf="employeeList.length == 0 && dataStatus === 1">
@@ -105,17 +119,21 @@
                     </tbody>
                 </table>
             </div>
-        </div>
 
-        <!-- Paginator Here -->
-        <div class="filter-res" style="width: 100%;">
-            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                    [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
-                </pagination>
+            <!-- Paginator Here -->
+            <div class="filter-res">
+                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                        [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+                    </pagination>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </aside>
+
+    <aside #sideNav class="hide side-Nav">
+        <app-employee-sidenav [employeeData]="selectedEmpData" (closeAside)="closeSideNav($event)"></app-employee-sidenav>
+    </aside>
 
 </div>
 

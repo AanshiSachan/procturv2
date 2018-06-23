@@ -603,6 +603,7 @@
             <div class="fee-inst-list">
               <ul>
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
+
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper" [ngClass]="{'hide': installment.is_referenced == 'Y'}">
                       <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected" (ngModelChange)="paymentValueUpdate($event, i)"
@@ -610,6 +611,7 @@
                       <label for="instl{{i}}"></label>
                     </div>
                   </div>
+
                   <div class="inst-detail">
                     <div class="inst-label">
                       Installment # {{installment.installment_no}}
@@ -675,18 +677,28 @@
                           </span>
                         </li>
 
+                        <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
+                          <label>
+                            Balance Due Date
+                          </label>
+                          <span>
+                            {{installment.latest_due_date | date:"dd MMM yyyy"}}
+                          </span>
+                        </li>
+
                         <li *ngIf="installment.is_referenced == 'Y'">
                           <label>
                             Paid Date
                           </label>
                           <span>
-                            {{installment.paid_date}}
+                            {{installment.paid_date | date:"dd MMM yyyy"}}
                           </span>
                         </li>
 
                       </ul>
                     </div>
                   </div>
+
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
                     <a id="downloadEditFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a>
                     <a (click)="emailFeeReceipt(installment)">E-mail receipt</a>
@@ -923,7 +935,7 @@
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
   <student-batch-list [assignedBatches]="studentAddFormData.assignedBatches" (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)"
-    *ngIf="isAssignBatch" [dataList]="batchList" [isEdit]="true" [standardList]="standardList" [academicYear]="academicYear"></student-batch-list>
+    *ngIf="isAssignBatch" [dataList]="batchList" [isEdit]="isEdit" [standardList]="standardList" [academicYear]="academicYear"></student-batch-list>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->

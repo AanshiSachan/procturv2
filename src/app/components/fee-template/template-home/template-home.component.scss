@@ -1,7 +1,3 @@
-@import "./src/assets/css/style.scss";
-@import "./src/assets/css/wrapper.scss";
-@import "./src/assets/css/common/common.scss";
-@import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 .feeManager {
     width: 100%;
@@ -625,97 +621,6 @@ screen and (max-height: 768px) {
     }
 }
 
-.table-scroll-wrapper {
-    max-height: 400px;
-    overflow-y: scroll;
-    overflow-x: auto;
-    ::-webkit-scrollbar {
-        display: block;
-        width: 7px;
-        height: 7px;
-    }
-    .enquiry-table {
-        overflow-y: visible;
-        overflow-x: visible;
-        table {
-            td,
-            th {
-                text-align: left !important;
-                padding: 15px;
-            }
-            .field-checkbox-wrapper {
-                width: 22px !important;
-                overflow: hidden;
-                box-sizing: border-box;
-                height: 22px !important;
-                padding-left: 25px !important;
-                margin-bottom: 0;
-                margin-left: 5px;
-                background: transparent;
-                border-radius: 2px;
-            }
-            .field-checkbox-wrapper .form-checkbox {
-                opacity: 0;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 22px;
-                height: 22px;
-                z-index: 1;
-            }
-            .field-checkbox-wrapper .form-checkbox+label {
-                vertical-align: middle;
-                transition: all 0s;
-                font-size: 14px;
-                display: inline-block;
-            }
-            .field-checkbox-wrapper .form-checkbox+label:after {
-                content: '';
-                width: 22px;
-                height: 22px;
-                border: 2px solid #ccc;
-                border-radius: 2px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                transition: all 0s;
-            }
-            .field-checkbox-wrapper .form-checkbox:checked+label:after {
-                border: 2px solid $common-blue;
-            }
-            .field-checkbox-wrapper .form-checkbox+label:before {
-                transition: all 0s;
-                width: 1px;
-                height: 1px;
-                left: 8px;
-                top: 9px;
-                position: absolute;
-                content: '';
-                border-top: 0;
-                border-right: 0;
-                border-left: 2px solid transparent;
-                border-bottom: 2px solid transparent;
-                transform: rotate(-45deg);
-            }
-            .field-checkbox-wrapper .form-checkbox:checked+label:before {
-                border-left: 2px solid $common-blue;
-                border-bottom: 2px solid $common-blue;
-                width: 12px;
-                height: 7px;
-                left: 5px;
-                top: 6px;
-            }
-            .field-checkbox-wrapper .form-checkbox:checked+label {
-                color: $common-blue;
-            }
-        }
-        .empty-table-wrapper {
-            height: 100px;
-            width: 100%;
-            text-align: center;
-        }
-    }
-}
 
 /* =================================================================================== */
 
@@ -738,91 +643,6 @@ screen and (max-height: 768px) {
 /* =================================================================================== */
 
 /* =================================================================================== */
-
-
-
-.search-filter-wrapper {
-    .normal-field {
-        padding: 7px 10px;
-        border: 1px solid #ccc;
-        width: 45%;
-        box-sizing: border-box;
-        margin: 0;
-        float: left;
-        height: 35px;
-        font-size: 14px;
-    }
-    .normal-btn {
-        padding: 8px 10px;
-        width: 15%;
-        box-sizing: border-box;
-        float: left;
-        cursor: pointer;
-    }
-    .field-wrapper {
-        position: relative;
-        padding-top: 0px !important;
-        width: 40%;
-        float: left !important;
-        .form-ctrl {
-            font: 400 13.3333px Arial;
-            border-top: none !important;
-            border-right: none !important;
-            border-left: none !important;
-        }
-    }
-    .field-wrapper label {
-        position: absolute !important;
-        left: 10% !important;
-        top: 1% !important;
-        &:after {
-            left: 85% !important;
-            top: 10px !important;
-        }
-    }
-    .field-wrapper {
-        position: relative;
-        padding-top: 1px;
-        &.datePickerBox {
-            .form-ctrl {
-                position: relative;
-                z-index: 1;
-                background: transparent;
-                padding: 7px 10px;
-                border: 1px solid #ccc;
-                box-sizing: border-box;
-                margin: 0;
-                float: left;
-                border-right: 0;
-                height: 35px;
-                font: 400 13.3333px Arial;
-                width: 85% !important;
-            }
-            label {
-                position: absolute !important;
-                left: 3% !important;
-                top: -25% !important;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                left: 75% !important;
-                top: 5px !important;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
-        .date-clear {
-            position: absolute;
-            right: 40px;
-            top: 36px;
-            cursor: pointer;
-            color: #0084f6;
-        }
-    }
-}
 
 .registration-table {
     padding: 30px 0px;
@@ -864,12 +684,10 @@ screen and (max-height: 768px) {
     cursor: pointer;
     color: #0084f6;
     padding: 0px;
-
     font-size: 14px;
     .ui-button {
         background: #fff;
         color: #0084f6 !important;
-
         font-size: 14px;
         height: 30px !important;
         font-weight: 600;
@@ -897,14 +715,11 @@ screen and (max-height: 768px) {
         left: 0px !important;
         outline: none;
         box-shadow: none;
-
         font-size: 14px;
         text-align: left;
         .ui-menu-list {
-
             font-size: 14px;
             .ui-menuitem {
-
                 font-size: 14px;
                 width: 100%;
                 min-width: 200px;
@@ -2152,4 +1967,26 @@ ul.customDropdown li:hover {
     border: 1px solid rgba(119, 119, 119, 0.34);
     border-radius: 5px; // background: #dddddd;
     text-align: center;
+}
+
+.search-filter-wrapper {
+    .normal-field {
+        margin-right: 10px;
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+        width:15%;
+    }
+}
+
+.structure-table{
+    tr{
+        th{
+            padding: 10px 10px !important;
+        }
+    }
 }
