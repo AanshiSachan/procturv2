@@ -1033,6 +1033,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openSideBar(ev) {
+    debugger;
     let mySidenavWidth = '29%';
     if (window.innerWidth < 768)
       mySidenavWidth = '100%';
@@ -1264,6 +1265,8 @@ export class StudentHomeComponent implements OnInit {
             this.studentbatchList.push(obj);
             this.updateAssignedBatches(this.studentbatchList);
           });
+          this.isRippleLoad = false;
+          this.isSideBar = true;
         },
         err => {
           let msg = err.error.message;

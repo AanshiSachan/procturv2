@@ -34,8 +34,6 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnquiryHomeComponent implements OnInit {
-  isConvertToStudent: boolean = false;
-  sortBy: string = 'followUpDateTime';
   /* =========================================================================== */
   /* =========================================================================== */
   /* =========================================================================== */
@@ -44,9 +42,8 @@ export class EnquiryHomeComponent implements OnInit {
   /* =========================================================================== */
   /* =========================================================================== */
   /* =========================================================================== */
-
-
-
+  isConvertToStudent: boolean = false;
+  sortBy: string = 'followUpDateTime';
   /* Variable Declaration */
   sourceEnquiry: any[] = []; smsSourceApproved: any[] = []; smsSourceOpen: any[] = []; busy: Subscription;
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList: any[] = [];
@@ -63,126 +60,25 @@ export class EnquiryHomeComponent implements OnInit {
   isSideBar: boolean = false;
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
-  meridianArr: any[] = ['', "AM", "PM"];
-  isRippleLoad: boolean = false;
-  hour: string = ''; minute: string = ''; meridian: string = '';
-  newSmsString = {
-    data: "",
-    length: 0,
-    type: "",
-  };
-
+  meridianArr: any[] = ['', "AM", "PM"]; isRippleLoad: boolean = false; hour: string = ''; minute: string = ''; meridian: string = ''; newSmsString = { data: "", length: 0, type: "", };
   statusString: any[] = []; smsSelectedRows: any; smsGroupSelected: any[] = [];
-
   private selectedSlots: any[] = [];
   private slotIdArr: any[] = [];
   private selectedSlotsString: string = '';
   private selectedSlotsID: string = '';
-
-  selectedOption: any = {
-    email: { show: false, id: 'email' },
-    Gender: { show: false, id: 'Gender' },
-    standard: { show: false, id: 'standard' },
-    subjects: { show: false, id: 'subjects' }
-  };
-
-
-  myOptions: any[] = [
-    { id: 'email', name: 'Email' },
-    { id: 'Gender', name: 'Gender' },
-    { id: 'standard', name: 'Standard' },
-    { id: 'subjects', name: 'Subject' }
-  ]
+  selectedOption: any = { email: { show: false, id: 'email' }, Gender: { show: false, id: 'Gender' }, standard: { show: false, id: 'standard' }, subjects: { show: false, id: 'subjects' } };
+  myOptions: any[] = [{ id: 'email', name: 'Email' }, { id: 'Gender', name: 'Gender' }, { id: 'standard', name: 'Standard' }, { id: 'subjects', name: 'Subject' }];
 
   /* items added on ngOnInit */
-  bulkAddItems: MenuItem[];
-  indexJSON = [];
-  selectedRow: any = {
-  };
-
-  isEnquiryOptions: boolean = false;
-
-  currentDirection = 'desc'; selectedRowGroup: any[] = []; componentPrefill: any = [];
-  componentListObject: any = {}; emptyCustomComponent: any; componentRenderer: any = []; customComponentResponse: any = [];
-  fetchingDataMessage: number = 1; smsBtnToggle: boolean = false;
-
-  selectedSMS: any = {
-    message: "",
-    message_id: "",
-    sms_type: "",
-    status: "",
-    statusValue: "",
-    date: "",
-    feature_type: "",
-    institute_name: "",
-  };
-
-  sendSmsFormData: any = {
-    baseIds: [],
-    messageArray: []
-  };
-  smsSearchData: string = ""; isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false; isClosed: boolean = false; isAssignEnquiry: boolean = false; availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false; selectedRowCount: number = 0;
-
-  course_standard_id: any = '-1';
-  course_subject: any[] = [];
-  course_mastercourse_id: any = '-1';
-  course_course: any[] = [];
-  masterCourseData: any[] = [];
+  bulkAddItems: MenuItem[]; indexJSON = []; selectedRow: any = {}; isEnquiryOptions: boolean = false; currentDirection = 'desc'; selectedRowGroup: any[] = []; componentPrefill: any = []; componentListObject: any = {}; emptyCustomComponent: any; componentRenderer: any = []; customComponentResponse: any = []; fetchingDataMessage: number = 1; smsBtnToggle: boolean = false; selectedSMS: any = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", }; sendSmsFormData: any = { baseIds: [], messageArray: [] }; smsSearchData: string = ""; isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false; isClosed: boolean = false; isAssignEnquiry: boolean = false; availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false; selectedRowCount: number = 0;
+  course_standard_id: any = '-1'; course_subject: any[] = []; course_mastercourse_id: any = '-1'; course_course: any[] = []; masterCourseData: any[] = [];
 
   /* Model for Enquiry Update Popup Form */
-  updateFormData: any = {
-    comment: "",
-    status: "",
-    statusValue: "",
-    institution_id: sessionStorage.getItem('institute_id'),
-    isEnquiryUpdate: "Y",
-    closedReason: null,
-    slot_id: null,
-    priority: "",
-    follow_type: "",
-    followUpDate: "",
-    commentDate: moment().format('YYYY-MM-DD'),
-    followUpTime: "",
-    followUpDateTime: '',
-    isEnquiryV2Update: "N",
-    isRegisterFeeUpdate: "N",
-    amount: null,
-    paymentMode: null,
-    paymentDate: null,
-    reference: null,
-    walkin_followUpDate: '',
-    walkin_followUpTime: {
-      hour: '',
-      minute: '',
-    },
-    is_follow_up_time_notification: 0,
-    source_instituteId: '-1'
-  }
-
-  customCompid: any;
+  updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: "", followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, source_instituteId: '-1' }; customCompid: any;
 
   /* Model For Registration, valid only for professional institute 
   where status is registred else will thow an error with status code 400 */
-  registrationForm = {
-    institute_enquiry_id: "",
-    amount: "",
-    paymentDate: moment().format('YYYY-MM-DD'),
-    paymentMode: "",
-    //remark: "",
-    reference: "",
-  }
-
-
-  /* Model for checkbox toggler to update data table */
-  // stats = {
-  //   All: { value: 'All', prop: 'All', checked: false, disabled: false },
-  //   Pending: { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
-  //   Open: { value: 'Open', prop: 'Open', checked: false, disabled: false },
-  //   In_Progress: { value: 'In-Progress', prop: 'In_Progress', checked: false, disabled: false },
-  //   Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-  //   Student_Admitted: { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-  //   Inactive: { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-  // };
+  registrationForm = { institute_enquiry_id: "", amount: "", paymentDate: moment().format('YYYY-MM-DD'), paymentMode: "", reference: "", };
 
   statFilter = [
     { value: 'All', prop: 'All', checked: false, disabled: false },
@@ -195,135 +91,34 @@ export class EnquiryHomeComponent implements OnInit {
     { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
   ];
 
-
   /* Variable to handle popups */
   message: string = '';
-
 
   /* Variable to store JSON.stringify value and update service for multi-component communication */
   selectedRowJson: string = '';
 
-
   /* Settings for SMS Table Display */
-  smsHeader = {
-    message: { title: 'Message', id: 'message', show: true },
-    statusValue: { title: 'Status.', id: 'statusValue', show: false },
-    date: { title: 'Date.', id: 'date', show: true },
-    action: { title: 'Action', id: 'action', show: true },
-    status: { title: 'Status Key', id: 'status', show: false },
-    feature_type: { title: 'Feature Type.', id: 'feature_type', show: false },
-    message_id: { title: 'Message Id.', id: 'message_id', show: false },
-    sms_type: { title: 'Sms Type.', id: 'sms_type', show: false },
-  };
-
+  smsHeader = { message: { title: 'Message', id: 'message', show: true }, statusValue: { title: 'Status.', id: 'statusValue', show: false }, date: { title: 'Date.', id: 'date', show: true }, action: { title: 'Action', id: 'action', show: true }, status: { title: 'Status Key', id: 'status', show: false }, feature_type: { title: 'Feature Type.', id: 'feature_type', show: false }, message_id: { title: 'Message Id.', id: 'message_id', show: false }, sms_type: { title: 'Sms Type.', id: 'sms_type', show: false }, };
 
   /* Model for institute Data */
-  instituteData: instituteInfo = {
-    name: "",
-    phone: "",
-    email: "",
-    enquiry_no: "",
-    priority: "",
-    status: -1,
-    filtered_statuses: "",
-    follow_type: "",
-    followUpDate: moment().format('YYYY-MM-DD'),
-    enquiry_date: "",
-    assigned_to: -1,
-    standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-    subject_id: -1,
-    is_recent: "Y",
-    slot_id: -1,
-    filtered_slots: "",
-    isDashbord: "N",
-    enquireDateFrom: "",
-    enquireDateTo: "",
-    updateDate: "",
-    updateDateFrom: "",
-    updateDateTo: "",
-    start_index: 0,
-    batch_size: this.displayBatchSize,
-    closedReason: "",
-    enqCustomLi: null,
-    sorted_by: "",
-    order_by: "",
-    commentShow: 'false'
-  };
+  instituteData: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
 
   /* Form for advanced filter  */
-  advancedFilterForm: instituteInfo = {
-    name: "",
-    phone: "",
-    email: "",
-    enquiry_no: "",
-    priority: "",
-    status: -1,
-    commentShow: 'false',
-    filtered_statuses: "",
-    follow_type: "",
-    followUpDate: "",
-    enquiry_date: "",
-    assigned_to: -1,
-    standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-    subject_id: -1,
-    is_recent: "Y",
-    slot_id: -1,
-    filtered_slots: "",
-    isDashbord: "N",
-    enquireDateFrom: "",
-    enquireDateTo: "",
-    updateDate: "",
-    updateDateFrom: "",
-    updateDateTo: "",
-    start_index: 0,
-    batch_size: this.displayBatchSize,
-    closedReason: "",
-    enqCustomLi: null,
-    source_id: "-1",
-    school_id: "-1",
-    list_id: "-1"
-  };
-
-  enquiryFullDetail: any;
-
-  enquirySettings: ColumnSetting[] = [
-    { primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.currentDirection },
-    { primaryKey: 'name', header: 'Name' },
-    { primaryKey: 'phone', header: 'Contact No' },
-    { primaryKey: 'statusValue', header: 'Status' },
-    { primaryKey: 'priority', header: 'Priority' },
-    { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.currentDirection },
-    { primaryKey: 'updateDate', header: 'Last Updated' },
-  ];
-
+  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" }; enquiryFullDetail: any;
+  enquirySettings: ColumnSetting[] = [{ primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.currentDirection }, { primaryKey: 'name', header: 'Name' }, { primaryKey: 'phone', header: 'Contact No' }, { primaryKey: 'statusValue', header: 'Status' }, { primaryKey: 'priority', header: 'Priority' }, { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.currentDirection }, { primaryKey: 'updateDate', header: 'Last Updated' },];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
-
-  assignMultipleForm: any = {
-    enqLi: [],/* array of institute enquiry ID */
-    assigned_to: "" /* Id of assignee */
-  };
-  summaryOptions: boolean = false;
-  downloadReportOption: any = 1;
-  summaryReport = {
-    from_date: "",
-    to_date: "",
-  };
-  showDateRange: boolean = false;
-
+  assignMultipleForm: any = { enqLi: [], assigned_to: "" }; summaryOptions: boolean = false; downloadReportOption: any = 1; summaryReport = { from_date: "", to_date: "", }; showDateRange: boolean = false;
   @ViewChild('skelton') skel: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;
   @ViewChild('enqPage') enqPage: ElementRef;
   @ViewChild('tablemain') tablemain: ElementRef;
   @ViewChild('pager') pager: ElementRef;
   @ViewChild('optMenu') optMenu: ElementRef;
+  isNotifyVisible: boolean = false; insttitueId: any = ''; isMainBranch: any = 'N'; subBranchSelected: boolean = false; branchesList: any = [];
 
-  isNotifyVisible: boolean = false;
-  insttitueId: any = '';
 
-  // Sub Branch
-  isMainBranch: any = 'N';
-  subBranchSelected: boolean = false;
-  branchesList: any = [];
+
+
   /* =========================================================================== */
   /* ===================== Declaration Fin ===================================== */
   /* =========================================================================== */
@@ -716,7 +511,7 @@ export class EnquiryHomeComponent implements OnInit {
                 selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
                 selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                 type: el.type,
-                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                value: el.enq_custom_value
               }
             }
             if (el.type == 3) {
@@ -730,7 +525,7 @@ export class EnquiryHomeComponent implements OnInit {
                 selected: [],
                 selectedString: "",
                 type: el.type,
-                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                value: el.enq_custom_value
               }
             }
             if (el.type == 2) {
@@ -2139,6 +1934,7 @@ export class EnquiryHomeComponent implements OnInit {
       { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
     ];
     this.isAllSelected = false;
+    this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
     this.instituteData.filtered_statuses = this.statusString.join(',');
     let tempCustomArr: any[] = [];
     this.customComponents.forEach(el => {
@@ -2427,37 +2223,7 @@ export class EnquiryHomeComponent implements OnInit {
   downloadAllEnquiries() {
     this.cd.markForCheck();
     this.isRippleLoad = true;
-    let obj = {
-      name: this.instituteData.name,
-      phone: this.instituteData.phone,
-      email: this.instituteData.email,
-      enquiry_no: this.instituteData.enquiry_no,
-      priority: this.advancedFilterForm.priority,
-      status: -1,
-      filtered_statuses: "",
-      follow_type: this.advancedFilterForm.follow_type,
-      followUpDate: this.advancedFilterForm.followUpDate == '' ? this.instituteData.followUpDate : this.advancedFilterForm.followUpDate,
-      enquiry_date: this.instituteData.enquiry_date,
-      assigned_to: this.advancedFilterForm.assigned_to,
-      standard_id: this.advancedFilterForm.standard_id,
-      subject_id: this.advancedFilterForm.subject_id,
-      is_recent: this.instituteData.is_recent,
-      slot_id: this.advancedFilterForm.slot_id,
-      filtered_slots: this.advancedFilterForm.filtered_slots,
-      isDashbord: this.instituteData.isDashbord,
-      enquireDateFrom: this.advancedFilterForm.enquireDateFrom,
-      enquireDateTo: this.advancedFilterForm.enquireDateTo,
-      updateDate: this.advancedFilterForm.updateDate,
-      updateDateFrom: this.advancedFilterForm.updateDateFrom,
-      updateDateTo: this.advancedFilterForm.updateDateTo,
-      start_index: 0,
-      batch_size: this.displayBatchSize,
-      closedReason: "",
-      enqCustomLi: this.advancedFilterForm.enqCustomLi,
-      sorted_by: "",
-      order_by: "",
-      commentShow: 'false'
-    };
+    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? this.instituteData.followUpDate : this.advancedFilterForm.followUpDate, enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: moment(this.advancedFilterForm.enquireDateFrom).format("YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo).format("YYYY-MM-DD"), updateDate: moment(this.advancedFilterForm.updateDate).format("YYYY-MM-DD"), updateDateFrom: moment(this.advancedFilterForm.updateDateFrom).format("YYYY-MM-DD"), updateDateTo: moment(this.advancedFilterForm.updateDateTo).format("YYYY-MM-DD"), start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
@@ -3664,37 +3430,37 @@ export class EnquiryHomeComponent implements OnInit {
       if (checkerObj.checked) {
         let stat = this.statusString.join(',');
         this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
-        this.instituteData = { 
-          name: "", 
-          phone: "", 
-          email: "", 
-          enquiry_no: "", 
-          commentShow: 'false', 
-          priority: "", 
-          status: -1, 
-          follow_type: "Walkin", 
-          followUpDate: "", 
-          enquiry_date: "", 
-          assigned_to: -1, 
-          standard_id: -1, 
-          subjectIdArray: null, 
-          master_course_name: '', 
-          courseIdArray: null, 
-          subject_id: -1, 
-          is_recent: "Y", 
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          commentShow: 'false',
+          priority: "",
+          status: -1,
+          follow_type: "Walkin",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subjectIdArray: null,
+          master_course_name: '',
+          courseIdArray: null,
+          subject_id: -1,
+          is_recent: "Y",
           slot_id: -1,
           filtered_statuses: stat,
-          filtered_slots: "", 
-          isDashbord: "N", 
-          enquireDateFrom: "", 
-          enquireDateTo: "", 
-          updateDate: "", 
-          updateDateFrom: "", 
-          updateDateTo: "", 
-          start_index: 0, 
-          batch_size: this.displayBatchSize, 
-          closedReason: "", 
-          enqCustomLi: null 
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
         };
         this.loadTableDatatoSource(this.instituteData);
       }
@@ -3704,16 +3470,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* =========================================================================== */
   /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
-    this.statFilter = [
-      { value: 'All', prop: 'All', checked: false, disabled: false },
-      { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
-      { value: 'Open', prop: 'Open', checked: false, disabled: false },
-      { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-      { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-      { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-      { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-    ];
+    this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
 
     if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) {
       return;
@@ -3727,260 +3484,39 @@ export class EnquiryHomeComponent implements OnInit {
       this.statusString = [];
       if (filter == "total") {
         this.statusString = [];
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: true, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-          { value: 'Open', prop: 'Open', checked: false, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-        ];
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          commentShow: 'false',
-          enquiry_no: "",
-          priority: "",
-          status: -1,
-          filtered_statuses: "",
-          follow_type: "",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
-          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.statFilter = [{ value: 'All', prop: 'All', checked: true, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
+        this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.loadTableDatatoSource(this.instituteData);
       }
       if (filter == "Admitted") {
         this.statusString.push('12');
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: false, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-          { value: 'Open', prop: 'Open', checked: false, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: true, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-        ];
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          commentShow: 'false',
-          enquiry_no: "",
-          priority: "",
-          status: -1,
-          filtered_statuses: "12",
-          follow_type: "",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
-          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: true, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
+        this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: "12", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.loadTableDatatoSource(this.instituteData);
       }
       if (filter == "Closed") {
         this.statusString.push('1');
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: false, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-          { value: 'Open', prop: 'Open', checked: false, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: true, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
+        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: true, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
         ];
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: "1",
-          follow_type: "",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
-          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "1", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.loadTableDatatoSource(this.instituteData);
       }
       if (filter == "Open") {
         this.statusString.push('0');
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: false, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-          { value: 'Open', prop: 'Open', checked: true, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-        ];
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: "0",
-          follow_type: "",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
-          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: true, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "0", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.loadTableDatatoSource(this.instituteData);
       }
       if (filter == "InProgress") {
         this.statusString.push('3');
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: false, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-          { value: 'Open', prop: 'Open', checked: false, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: true, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-        ];
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: "3",
-          follow_type: "",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
-          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: true, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "3", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.loadTableDatatoSource(this.instituteData);
       }
       if (filter == "Registered") {
         this.statusString.push('11');
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: false, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-          { value: 'Open', prop: 'Open', checked: false, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: true, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-        ];
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: "11",
-          follow_type: "",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
-          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: true, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "11", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.loadTableDatatoSource(this.instituteData);
       }
     }
