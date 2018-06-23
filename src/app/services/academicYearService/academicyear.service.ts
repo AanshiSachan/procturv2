@@ -78,4 +78,16 @@ export class AcademicyearService {
       })
       
   }
+
+  deleteAcademicYear(obj){
+    let url= this.baseUrl + "/api/v1/academicYear/" + obj ; 
+    return this.http.delete(url , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
 }
