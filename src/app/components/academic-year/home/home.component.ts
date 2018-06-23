@@ -169,6 +169,14 @@ export class HomeComponent implements OnInit {
     
   }
 
+  cancelEditRow(index) {
+    
+    document.getElementById(("row" + index).toString()).classList.add('displayComp');
+    document.getElementById(("row" + index).toString()).classList.remove('editComp');
+    this.getAllAcademicFromServer();
+  }
+
+
   saveAcademicYearInformation(row2, index) {
     let start_date_new = row2.start_date
     let end_date_new = row2.end_date
@@ -216,8 +224,10 @@ export class HomeComponent implements OnInit {
 
       this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
         res => {
+          
           this.cancelEditRow(index);
           this.getAllAcademicFromServer();
+          
         },
         error => {
           let acad = {
@@ -232,11 +242,28 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  cancelEditRow(index) {
-    document.getElementById(("row" + index).toString()).classList.add('displayComp');
-    document.getElementById(("row" + index).toString()).classList.remove('editComp');
+  deleteAcademicYear(row){
+    let inst_id = row.inst_acad_year_id
+    this.academicyearservice.deleteAcademicYear(inst_id).subscribe(
+      (data:any)=>{
+        let msg = {
+          type:'success',
+          body:'Academic year deleted successfully'
+        }
+        this.appC.popToast(msg);
+        this.getAllAcademicFromServer();
+      },
+      (error:any)=>{
+        let msg = {
+          type:'error',
+          body:error.error.message
+        }
+        this.appC.popToast(msg);
+      }
+    )
   }
 
+  
   toggleCreateNewAcademicYear() {
     if (this.createNewAcademicYear == false) {
       this.createNewAcademicYear = true;
