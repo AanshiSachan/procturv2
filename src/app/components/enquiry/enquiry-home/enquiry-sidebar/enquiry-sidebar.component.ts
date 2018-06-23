@@ -337,8 +337,8 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   createUpdateForm() {
+    debugger;
     if (this.validateTime()) {
-      //console.log(this.updateFormData);
       if (this.updateFormData.follow_type == "Walkin") {
         if (this.validatewalkindatetime()) {
           this.updateFormData.comment = this.updateFormData.comment;
@@ -389,6 +389,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   validatewalkindatetime() {
+
     this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
     this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
     let d = this.updateFormData.walkin_followUpDate;
@@ -416,6 +417,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   timeChanges(ev, id) {
+    debugger;
     if (id === 'followUpTime') {
       if (ev.split(' ')[0] != '') {
         this.timeObj.fhour = ev.split(' ')[0];
@@ -426,7 +428,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
         this.timeObj.fmeridian = '';
       }
     }
-    else {
+    else if( id == 'walkin_followUpTime' ) {
       if (ev.split(' ')[0] != '') {
         this.timeObj.whour = ev.split(' ')[0];
         this.timeObj.wmeridian = ev.split(' ')[1];
@@ -601,11 +603,15 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       //valid date detected
       if (this.walkin_followUpTime == "" && this.timeObj.wminute == "") {
         this.walkin_followUpTime = "12 PM";
+        this.timeObj.whour = "12";
+        this.timeObj.wmeridian = "PM";
         this.timeObj.wminute = "00";
       }
     }
     else {
       this.walkin_followUpTime = "";
+      this.timeObj.whour = "";
+      this.timeObj.wmeridian = "";
       this.timeObj.wminute = "";
     }
   }
