@@ -2817,67 +2817,23 @@ export class EnquiryHomeComponent implements OnInit {
   statusFilter(checkerObj) {
     this.searchBarData = '';
     this.updateStatFilterStatus(checkerObj.prop, checkerObj.checked);
-    this.advancedFilterForm.followUpDate = '';
+    this.advancedFilterForm = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" };
 
     if (checkerObj.prop == "All") {
       this.statusString = [];
       if (checkerObj.checked) {
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: true, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
-          { value: 'Open', prop: 'Open', checked: false, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-        ];
+        this.statFilter = [{ value: 'All', prop: 'All', checked: true, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
         this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
     }
 
     else if (checkerObj.prop == "Pending") {
       if (checkerObj.checked) {
-        this.statFilter = [
-          { value: 'All', prop: 'All', checked: false, disabled: false },
-          { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
-          { value: 'Open', prop: 'Open', checked: false, disabled: false },
-          { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
-          { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-          { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
-          { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
-          { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
-        ];
-        this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          follow_type: "",
-          followUpDate: moment(new Date()).format("YYYY-MM-DD"),
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }]; this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: moment(new Date()).format("YYYY-MM-DD"), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
     }
@@ -2886,35 +2842,8 @@ export class EnquiryHomeComponent implements OnInit {
       if (checkerObj.checked) {
         this.statusString.push('12');
         let stat = this.statusString.join(',');
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          commentShow: 'false',
-          enquiry_no: "",
-          priority: "",
-          status: -1,
-          filtered_statuses: stat,
-          follow_type: "",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
       else {
@@ -2924,68 +2853,15 @@ export class EnquiryHomeComponent implements OnInit {
         }
 
         if (this.statusString.length == 0) {
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            follow_type: "",
-            followUpDate: "",
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
 
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            filtered_statuses: stat,
-            follow_type: "",
-            followUpDate: "",
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
       }
@@ -2995,35 +2871,8 @@ export class EnquiryHomeComponent implements OnInit {
       if (checkerObj.checked) {
         this.statusString.push('1');
         let stat = this.statusString.join(',');
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: stat,
-          follow_type: "",
-          followUpDate: this.searchBarDate,
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
       else {
@@ -3032,67 +2881,14 @@ export class EnquiryHomeComponent implements OnInit {
           this.statusString.splice(index, 1);
         }
         if (this.statusString.length == 0) {
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            filtered_statuses: stat,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
       }
@@ -3103,35 +2899,8 @@ export class EnquiryHomeComponent implements OnInit {
       if (checkerObj.checked) {
         this.statusString.push('0');
         let stat = this.statusString.join(',');
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: stat,
-          follow_type: "",
-          followUpDate: this.searchBarDate,
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
       else {
@@ -3140,67 +2909,14 @@ export class EnquiryHomeComponent implements OnInit {
           this.statusString.splice(index, 1);
         }
         if (this.statusString.length == 0) {
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            filtered_statuses: stat,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
 
@@ -3212,35 +2928,8 @@ export class EnquiryHomeComponent implements OnInit {
       if (checkerObj.checked) {
         this.statusString.push('3');
         let stat = this.statusString.join(',');
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: stat,
-          follow_type: "",
-          followUpDate: this.searchBarDate,
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
       else {
@@ -3249,67 +2938,14 @@ export class EnquiryHomeComponent implements OnInit {
           this.statusString.splice(index2, 1);
         }
         if (this.statusString.length == 0) {
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            filtered_statuses: stat,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
 
@@ -3321,35 +2957,8 @@ export class EnquiryHomeComponent implements OnInit {
       if (checkerObj.checked) {
         this.statusString.push('11');
         let stat = this.statusString.join(',');
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          filtered_statuses: stat,
-          follow_type: "",
-          followUpDate: this.searchBarDate,
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
       else {
@@ -3358,67 +2967,14 @@ export class EnquiryHomeComponent implements OnInit {
           this.statusString.splice(index, 1);
         }
         if (this.statusString.length == 0) {
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
-          this.instituteData = {
-            name: "",
-            phone: "",
-            email: "",
-            enquiry_no: "",
-            commentShow: 'false',
-            priority: "",
-            status: -1,
-            filtered_statuses: stat,
-            follow_type: "",
-            followUpDate: this.searchBarDate,
-            enquiry_date: "",
-            assigned_to: -1,
-            standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null,
-            subject_id: -1,
-            is_recent: "Y",
-            slot_id: -1,
-            filtered_slots: "",
-            isDashbord: "N",
-            enquireDateFrom: "",
-            enquireDateTo: "",
-            updateDate: "",
-            updateDateFrom: "",
-            updateDateTo: "",
-            start_index: 0,
-            batch_size: this.displayBatchSize,
-            closedReason: "",
-            enqCustomLi: null
-          };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: stat, follow_type: "", followUpDate: this.searchBarDate, enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.advancedFilterForm = this.instituteData;
           this.loadTableDatatoSource(this.instituteData);
         }
 
@@ -3430,38 +2986,8 @@ export class EnquiryHomeComponent implements OnInit {
       if (checkerObj.checked) {
         let stat = this.statusString.join(',');
         this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
-        this.instituteData = {
-          name: "",
-          phone: "",
-          email: "",
-          enquiry_no: "",
-          commentShow: 'false',
-          priority: "",
-          status: -1,
-          follow_type: "Walkin",
-          followUpDate: "",
-          enquiry_date: "",
-          assigned_to: -1,
-          standard_id: -1,
-          subjectIdArray: null,
-          master_course_name: '',
-          courseIdArray: null,
-          subject_id: -1,
-          is_recent: "Y",
-          slot_id: -1,
-          filtered_statuses: stat,
-          filtered_slots: "",
-          isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
-          updateDate: "",
-          updateDateFrom: "",
-          updateDateTo: "",
-          start_index: 0,
-          batch_size: this.displayBatchSize,
-          closedReason: "",
-          enqCustomLi: null
-        };
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "Walkin", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_statuses: stat, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
     }
