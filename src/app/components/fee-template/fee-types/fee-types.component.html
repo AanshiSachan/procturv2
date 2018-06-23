@@ -26,42 +26,42 @@
       <a (click)="toggleCreate()">
         <i id="showAddBtn" class="addBtnClass">+</i>
         <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
-        <span>Create Fee Types</span>
+        <span>Add Fee Types</span>
       </a>
     </div>
     <section class="clearFix create-standard-form" *ngIf="createNewFeeType">
       <div class="row create-standard-field">
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type != '' }">
-              <label for="slotNew">Fee Type Name
-                </label>
+            <label for="slotNew">Fee Type Name
+            </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew">
-            
+
             <p>(Eg Registration Fee, Library)</p>
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_desc != '' }">
-              <label for="slotNew">Description
-                </label>
+            <label for="slotNew">Description
+            </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_desc" name="slotNew">
-           
+
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
-              <label for="slotNew">Amount
-                </label>
+            <label for="slotNew">Amount
+            </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount" name="slotNew">
-            
+
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
-              <label for="slotNew">Tax(%)
-                </label>
+            <label for="slotNew">Tax(%)
+            </label>
             <input type="number" max="99" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_tax" name="slotNew">
-           
+
           </div>
         </div>
         <div style="margin-top: 1.5%;" class="pull-left create-cancel-small">
