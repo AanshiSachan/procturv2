@@ -57,9 +57,9 @@ export class ClassRoomComponent {
         }
         else {
           this.isProfessional = false;
-          this.getClassList();
         }
       })
+    this.getClassList();
   }
 
 
