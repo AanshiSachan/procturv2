@@ -104,7 +104,7 @@
                           </div> -->
 
                         <div class="c-lg-3">
-                            <div class="form-wrapper">
+                            <div class="field-wrapper">
                                 <label for="sd">Select Dues</label>
                                 <select [(ngModel)]="due_type" (ngModelChange)="dateRangeChanges($event)" name="sd" id="sd" class="form-ctrl">
                                     <option value="-1"></option>
@@ -146,7 +146,7 @@
                             <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
                         </div>
                         <div class="c-lg-3 field-wrapper sky-form">
-                            <label>ACADEMIC YEAR</label>
+                            <label>Academic Year</label>
                             <select name="academic_year_id" id="academic_year_id" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
                                 class="form-ctrl sky-inner">
                                 <option value="-1">
@@ -203,6 +203,7 @@
                             <span class="made-in"> : ₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</span>
                         </li>
                     </ul>
+                    
                     <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                         [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
                         [settings]="feeSettings1">
