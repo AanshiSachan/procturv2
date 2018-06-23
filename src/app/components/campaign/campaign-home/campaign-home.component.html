@@ -128,7 +128,8 @@
                   {{row.data.failure_count}}
                 </td>
 
-                <td *ngIf="row.data.failure_count > 0" style="cursor:pointer" (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                <td *ngIf="row.data.failure_count > 0" title="Download Failure Report" style="cursor:pointer" (click)="downloadFailureListFile(row)"
+                  [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
                   <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
                 </td>
 
