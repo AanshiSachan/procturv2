@@ -569,6 +569,7 @@
                     <label for="enquiryStatusEdit">Status</label>
                     <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
                       name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+
                       <option></option>
                       <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
                         [hidden]="status.data_key == 12 ? true : false">
@@ -676,7 +677,7 @@
             <div class="clearfix">
               <aside class="pull-left popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Admit" class="fullBlue btn"
+                <input  type="button" value="Update & Admit" class="fullBlue btn"
                   (click)="updateRegisterEnquiry()">
                 <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
               </aside>
