@@ -2817,7 +2817,7 @@ export class EnquiryHomeComponent implements OnInit {
   statusFilter(checkerObj) {
     this.searchBarData = '';
     this.updateStatFilterStatus(checkerObj.prop, checkerObj.checked);
-    this.advancedFilterForm.followUpDate = '';
+    this.advancedFilterForm = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" };
 
     if (checkerObj.prop == "All") {
       this.statusString = [];
