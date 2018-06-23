@@ -107,8 +107,20 @@
                     <div class="detail-wrapper">
                         <div class="form-wrapper c-xs-12">
                             <div class="field-wrapper" style="padding-top: 25px;" (click)="editCourseAllocated()">
-                                <label *ngIf="isProfessional" style="top: 0px;" for="Batches">Batches</label>
-                                <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">Courses</label>
+                                <label *ngIf="isProfessional" style="top: 0px;" for="Batches">Batches <span style="
+                                    float: right;
+                                    font-size: 8px;
+                                    color: #0084f6;
+                                    text-transform: capitalize;
+                                    cursor: pointer;
+                                "> Click to edit</span></label>
+                                <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">Courses <span style="
+                                    float: right;
+                                    font-size: 8px;
+                                    color: #0084f6;
+                                    text-transform: capitalize;
+                                    cursor: pointer;
+                                "> Click to edit</span></label>
                                 <div [ngClass]="{'hide': batch == ''}" class="chipped" *ngFor="let batch of getBatchListArr()">
                                     {{batch}}
                                 </div>

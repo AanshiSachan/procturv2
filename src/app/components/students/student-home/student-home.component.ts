@@ -1246,6 +1246,7 @@ export class StudentHomeComponent implements OnInit {
     else {
       this.studentPrefill.fetchStudentCourseDetails(id, '-1').subscribe(
         res => {
+          this.studentbatchList = [];
           res.coursesList.forEach(el => {
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
               el.feeTemplateList.forEach(e => {
