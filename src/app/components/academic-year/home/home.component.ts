@@ -169,6 +169,12 @@ export class HomeComponent implements OnInit {
     
   }
 
+  cancelEditRow(index) {
+    document.getElementById(("row" + index).toString()).classList.add('displayComp');
+    document.getElementById(("row" + index).toString()).classList.remove('editComp');
+  }
+
+
   saveAcademicYearInformation(row2, index) {
     let start_date_new = row2.start_date
     let end_date_new = row2.end_date
@@ -216,8 +222,10 @@ export class HomeComponent implements OnInit {
 
       this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
         res => {
+          
           this.cancelEditRow(index);
           this.getAllAcademicFromServer();
+          
         },
         error => {
           let acad = {
@@ -232,11 +240,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  cancelEditRow(index) {
-    document.getElementById(("row" + index).toString()).classList.add('displayComp');
-    document.getElementById(("row" + index).toString()).classList.remove('editComp');
-  }
-
+  
   toggleCreateNewAcademicYear() {
     if (this.createNewAcademicYear == false) {
       this.createNewAcademicYear = true;
