@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
+import { concat } from 'rxjs/observable/concat';
+import { AppComponent } from '../../../../app.component';
 
 @Component({
   selector: 'app-batches',
@@ -21,13 +23,15 @@ export class BatchesComponent implements OnInit {
   searchData: any[] = [];
   searchflag: boolean = false;
   sendPayload = {
-    courseIds: [],
-    isSelected: false
+    courseIds: "",
+    checked: false
   }
-  courseIds:any[] = []
+  courseIds: any[] = []
+  checked: boolean = false;
 
   constructor(private auth: AuthenticatorService,
-    private batch: CoursesServiceService) { }
+    private batch: CoursesServiceService ,
+    private appc:AppComponent) { }
 
   ngOnInit() {
     this.auth.institute_type.subscribe(
@@ -43,39 +47,49 @@ export class BatchesComponent implements OnInit {
   }
 
   getCoursesList() {
-    this.batch.getCoursesList().subscribe(
-      (data: any) => {
-        this.getCourses = data;
-        this.totalRow = data.length;
-        this.PageIndex = 1;
-        this.fetchTableDataByPage(this.PageIndex);
-      }
-    )
-  }
-
-  getValue(event){
-    console.log(event);
-    this.courseIds.push(event);
-    this.sendPayload={
-      courseIds : this.courseIds,
-      isSelected: true
+    if (this.isProfessional) {
+      this.batch.getBatches().subscribe(
+        (data: any) => {
+          this.getCourses = data;
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
+        }
+      )
     }
-    console.log(this.courseIds);
+    else {
+      this.batch.getCoursesList().subscribe(
+        (data: any) => {
+          this.getCourses = data;
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
+        }
+      )
+    }
   }
 
-  archiveData() {
-    console.log(this.sendPayload);
+  notifyMe(e, f) {
+    this.courseIds.push(e);
+    let arr = this.courseIds.join(',');
+    this.sendPayload.courseIds = arr;
+    console.log(f);
+  }
+
+  archiveData(event) {
     this.batch.courses(this.sendPayload).subscribe(
       (data: any) => {
         console.log(data);
       },
       (error: any) => {
-
+        let msg={
+          type:"error",
+          body:error.error.message
+        }
+        this.appc.popToast(msg);
       }
     )
   }
-
- 
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;

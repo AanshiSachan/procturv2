@@ -20,8 +20,8 @@ export class ManageExamGradesComponent implements OnInit {
     grade_id: "",
     institution_id: sessionStorage.getItem('institute_id')
   }
-  deleteData:any = {
-    grade_id:""
+  deleteData: any = {
+    grade_id: ""
   }
   gotGrades: any[] = [];
   addArray: any[] = [];
@@ -141,32 +141,33 @@ export class ManageExamGradesComponent implements OnInit {
     document.getElementById(("row" + index).toString()).classList.remove('editComp');
   }
   // delete particular grade
-  deletingGrade(row , index){
-    
-    let data={
+  deletingGrade(row, index) {
+
+    let data = {
       grade_id: row.grade_id,
     }
-    this.gradeService.deleteRow(data).subscribe(
-      (data:any)=>{
+    if (confirm('Are you sure, you want to delete?')) {
+      this.gradeService.deleteRow(data).subscribe(
+        (data: any) => {
 
-        this.fetchGrades();
-        let msg = {
-          type: "success",
-          body: "Grade deleted successfully"
-        }
-        this.appC.popToast(msg);
+          this.fetchGrades();
+          let msg = {
+            type: "success",
+            body: "Grade deleted successfully"
+          }
+          this.appC.popToast(msg);
 
-      },
-      error => {
-        let acad = {
-          type: "error",
-          title: "Incorrect Details",
-          body: error.error.message
-        }
-        this.appC.popToast(acad);
-        this.fetchGrades();
-      })
-      }
-    
+        },
+        error => {
+          let acad = {
+            type: "error",
+            title: "Incorrect Details",
+            body: error.error.message
+          }
+          this.appC.popToast(acad);
+          this.fetchGrades();
+        })
+    }
   }
+}
 

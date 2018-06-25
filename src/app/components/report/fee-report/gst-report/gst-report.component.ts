@@ -117,7 +117,7 @@ export class GstReportComponent implements OnInit {
 
 
   getGstReport(event) {
-    console.log(event);
+
     this.records = ""
     this.searchText = ""
     this.getPaymentRecords = [];
@@ -156,7 +156,6 @@ export class GstReportComponent implements OnInit {
         this.getPaymentRecords = data;
         this.tempRecords = data;
         this.records = this.tempRecords[0].totalGst;
-        console.log(this.records);
       },
       (error: any) => {
 
