@@ -24,84 +24,11 @@
                 </div>
 
                 <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
-                    <!-- <div id="primary" *ngIf="!isFilterReversed">
-                          <div class="c-lg-4">
-                              <div class="form-wrapper">
-                                  <input [(ngModel)]='search_value' type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
-                              </div>
-                          </div>
-                          <div class="c-lg-2">
-                              <div class="form-wrapper">
-                                  <select [(ngModel)]="due_type" name="" id="" class="form-ctrl">
-                                      <option value="-1">Select Dues</option>
-                                      <option value="all_dues">All Dues</option>
-                                      <option value="next_month_dues">Next Month Dues</option>
-                                      <option value="this_month_dues">This Month Dues</option>
-                                      <option value="current_dues">Current Dues</option>
-                                  </select>
-                              </div>
-                          </div>
-                          <div class="c-lg-1 filter-btn">
-                              <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                          </div>
-                          <div style="margin-top: 10px" class="c-lg-2 filter-btn">
-                              <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
-                          </div>
-                          <div class="c-lg-3"></div>
-                      </div> -->
+                  
 
                     <div id="secondary">
 
-                        <!-- <div class="c-lg-3">
-                              <div class="field-wrapper" [ngClass]="{'has-value': true }">
-                                  <label for="mc">Master Course</label>
-                                  <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
-                                      name="mc" id="mc">
-                                      <option value="-1"></option>
-                                      <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
-                                  </select>
-                                  <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
-                                      name="mc" id="mc">
-                                      <option value="-1"></option>
-                                      <option *ngFor="let master of standardList" [value]="master.master_course">{{master.master_course}}</option>
-                                  </select>
-                              </div>
-                          </div>
-  
-                          <div class="c-lg-3">
-                              <div class="field-wrapper">
-                                  <label for="cc">Course</label>
-                                  <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl"
-                                      name="cc" id="cc">
-                                      <option value="-1"></option>
-                                      <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
-                                  </select>
-                                  <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" name="cc" id="cc">
-                                      <option value="-1"></option>
-                                      <option *ngFor="let course of subjectList" [value]="course.course_id">{{course.course_name}}</option>
-                                  </select>
-                              </div>
-                          </div>
-  
-                          <div class="c-lg-3">
-                              <div class="field-wrapper" *ngIf="isProfessional">
-                                  <label for="ba">Batch</label>
-                                  <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected()" name="" id="ba">
-                                      <option value="-1"></option>
-                                      <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
-                                  </select>
-                              </div>
-                          </div> -->
 
-                        <!-- <div class="c-lg-3">
-                              <div class="field-wrapper hide">
-                                  <label for="ic">Installment</label>
-                                  <select class="form-ctrl" name="" id="ic">
-                                      <option value="-1"></option>
-                                      <option [value]="i" *ngFor="let i of installmentList">{{i}}</option>
-                                  </select>
-                              </div>
-                          </div> -->
 
                         <div class="c-lg-3">
                             <div class="field-wrapper">
