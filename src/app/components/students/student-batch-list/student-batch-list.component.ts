@@ -135,7 +135,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         for (let i = 0; i < this.dataList.length; i++) {
             if (this.isProfessional) { }
             else {
-                if (this.dataList[i].course_id == batch.data.course_id) {
+                if (this.dataList[i].data.course_id == batch.data.course_id) {
                     this.createUpdate(value, i);
                 }
             }
@@ -143,7 +143,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     createUpdate(value, index) {
-        debugger;
         if (this.isEdit) {
             let ind = null;
             let len = this.dataList.length;
