@@ -476,7 +476,7 @@ export class StudentAddComponent implements OnInit {
   fetchPrefillFormData() {
     this.isRippleLoad = true;
 
-    let inventory = this.studentPrefillService.fetchInventoryList().subscribe(
+    this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
         this.isRippleLoad = false;
         this.inventoryItemsArr = data;
@@ -494,7 +494,7 @@ export class StudentAddComponent implements OnInit {
     );
 
     //this.isRippleLoad = true;
-    let institute = this.prefill.getSchoolDetails().subscribe(
+    this.prefill.getSchoolDetails().subscribe(
       data => {
         this.instituteList = data;
       },
@@ -513,9 +513,10 @@ export class StudentAddComponent implements OnInit {
 
     this.getFeeStructue();
 
-    let standard = this.prefill.getEnqStardards().subscribe(data => {
-      this.standardList = data;
-    },
+    this.prefill.getEnqStardards().subscribe(
+      data => {
+        this.standardList = data;
+      },
       err => {
         let msg = err.error.message;
         this.isRippleLoad = false;
@@ -567,9 +568,9 @@ export class StudentAddComponent implements OnInit {
       }
     )
 
-    if (inventory != null && institute != null && standard != null) {
-      let customComp = this.studentPrefillService.fetchCustomComponent().subscribe(
-        data => {
+    this.studentPrefillService.fetchCustomComponent().subscribe(
+      data => {
+        if(data != null){
           data.forEach(el => {
 
             let obj = {
@@ -642,24 +643,20 @@ export class StudentAddComponent implements OnInit {
             }
             this.customComponents.push(obj);
           });
-          this.isRippleLoad = false;
-        },
-        err => {
-          let msg = err.error.message;
-          this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: msg,
-            body: ""
-          }
-          this.appC.popToast(obj);
         }
-      );
-
-      //console.log(this.customComponents);
-      return customComp;
-    }
-
+        this.isRippleLoad = false;
+      },
+      err => {
+        let msg = err.error.message;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
+    );
   }
 
   /* ============================================================================================================================ */

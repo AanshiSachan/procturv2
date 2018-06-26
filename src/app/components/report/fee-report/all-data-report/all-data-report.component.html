@@ -104,7 +104,7 @@
                     <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
                 </div>
 
-                <div id="basic-search" style="margin:5px;">
+                <div id="basic-search" style="margin:5px;top: 25px;right: 5px;position: relative;">
                     <form autocomplete="off" #form="ngForm">
                         <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right;">
                     </form>

@@ -85,7 +85,7 @@ export class FeeCourseReportComponent implements OnInit {
     master_course_name: -1,
     course_id: -1,
     contact_no: '',
-    type: '0',
+    type: '-1',
     installment_id: -1,
     is_fee_report_view: 1,
     academic_year_id: ""
@@ -105,7 +105,7 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "We can filter data by selecting master course/ course/ batch along with the academic year"
+  helpMsg: string = "We can filter data by selecting master course/ course/ batch"
 
   @ViewChild('form') form: any;
 
@@ -205,7 +205,6 @@ export class FeeCourseReportComponent implements OnInit {
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
-    this.courseFetchForm.type = "0";
   }
 
 
