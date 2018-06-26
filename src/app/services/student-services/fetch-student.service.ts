@@ -13,7 +13,6 @@ import { AuthenticatorService } from '../authenticator.service';
 @Injectable()
 export class FetchStudentService {
 
-
   studentFees: any;
   url: string;
   baseUrl: string = '';
@@ -191,15 +190,23 @@ export class FetchStudentService {
     )
   }
 
-  getStudentCourseDetails(id): any {
-    let url = this.baseUrl +"/api/v1/studentWise/fee/" +this.institute_id +"/" +id;
-    return this.http.get(url, {headers: this.headers}).map(
+  getStudentCourseDetails(id): Observable<any> {
+    let url = this.baseUrl + "/api/v1/studentWise/fee/" + this.institute_id + "/" + id;
+    return this.http.get(url, { headers: this.headers }).map(
       res => {
         return res;
       },
       err => {
         return err;
       }
+    )
+  }
+
+  getStudentPartialPaymentHistory(student_id: any, schedule_id: any): Observable<any> {
+    let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/paymentHistory/fetch/" + this.institute_id + "/" + student_id + "/" + schedule_id;
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res; },
+      err => { return err; }
     )
   }
 

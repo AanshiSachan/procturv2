@@ -61,7 +61,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        this.batchList = this.dataList;
+        this.batchList = this.dataList.map( e => {return e} );
         this.isEdit;
     }
 
@@ -75,7 +75,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         let batchJoiningDates: any[] = [];
         let assignedBatchescademicYearArray: any[] = [];
         let assignedCourse_Subject_FeeTemplateArray: any[] = [];
-
         for (let i in this.dataList) {
             if (this.dataList[i].isSelected) {
                 if (this.dataList[i].assignDate != "" && this.dataList[i].assignDate != null && this.dataList[i].assignDate != "Invalid date") {
@@ -133,9 +132,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     batchChangeAlert(value, batch) {
         for (let i = 0; i < this.dataList.length; i++) {
-            if (this.isProfessional) { }
-            else {
-                if (this.dataList[i].course_id == batch.data.course_id) {
+            if (!this.isProfessional) {
+                if (this.dataList[i].data.course_id == batch.data.course_id) {
+                    //finding index on dataList
                     this.createUpdate(value, i);
                 }
             }
@@ -143,11 +142,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     createUpdate(value, index) {
-        debugger;
         if (this.isEdit) {
             let ind = null;
             let len = this.dataList.length;
-            /* Checked batch/course */
             if (value) {
                 this.dataList[index].isSelected = value;
             }
@@ -243,7 +240,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 (data: any) => {
                     this.cd.markForCheck();
                     this.cd.detectChanges();
-                    if (data.coursesList != null && data.coursesList != 0) {
+                    
+                    if (data.coursesList != null && data.coursesList.length != 0) {
                         data.coursesList.forEach(el => {
                             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
                                 el.feeTemplateList.forEach(e => {
@@ -256,7 +254,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                                 el.academic_year_id = this.defaultAcadYear;
                             }
                             let obj = {
-                                isSelected: false,
+                                isSelected: this.getChecked(el),
                                 data: el,
                                 assignDate: moment().format('YYYY-MM-DD')
                             }
@@ -327,4 +325,16 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             );
         }
     }
+
+    getChecked(el): boolean{
+        console.log(el);
+        let temp: boolean = false;
+        this.dataList.forEach( e => {
+            if(e.data.course_id == el.course_id){
+                temp = e.isSelected;                
+            }            
+        })
+        return temp;
+    }
+
 }

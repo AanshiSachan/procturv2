@@ -89,7 +89,7 @@
                   </th>
                   <th>Event Name
                   </th>
-                   <th>
+                  <th>
                     Event Type
                   </th>
                   <th>
@@ -112,11 +112,11 @@
                   <td>
                     {{i + 1}}
                   </td>
-                  
+
                   <td class="view-comp">
                     {{row.holiday_name}}
                   </td>
-                  
+
                   <td class="view-comp">
                     {{row.event_type_name}}
                   </td>
@@ -184,8 +184,8 @@
       </g>
     </svg>
   </span>
+  <h2 popup-header>Create Event</h2>
   <div class="updateevents" popup-content>
-    <h2 popup-header>Create Event</h2>
     <div class="makeEvents" popup-content>
       <div class="row margin-top">
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
@@ -319,15 +319,14 @@
       </g>
     </svg>
   </span>
+  <h2 popup-header>Update Event</h2>
   <div class="updateevents" popup-content>
-    <h2 popup-header>Update Event</h2>
     <div class="makeEvents">
-
-      <div class="row margin-top ">
+      <div class="row margin-top">
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
           <div class="form-wrapper">
             <label for="eventType">Event Type*</label>
-            <select class="side-form-ctrl" [(ngModel)]="newUpdateObj.event_type"  (ngModelChange)="eventTypeChange()">
+            <select class="side-form-ctrl" [(ngModel)]="newUpdateObj.event_type" (ngModelChange)="eventTypeChange()">
               <option *ngFor="let i of getEvent" [value]="i.data_key">{{i.data_value}}</option>
             </select>
           </div>
@@ -370,77 +369,77 @@
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12 datenameEvent" *ngIf="checker">
 
           <div class="form-wrapper datePickerBox" [ngClass]="{'has-value':newUpdateObj.event_end_date!= ''}">
-              <label for="eventenddate">Event End Date
-                  <span>*</span>
-                </label>
-                <input type="text" class="side-form-ctrl  bsDatepicker" name="eventenddate" bsDatepicker [(ngModel)]="newUpdateObj.event_end_date"
+            <label for="eventenddate">Event End Date
+              <span>*</span>
+            </label>
+            <input type="text" class="side-form-ctrl  bsDatepicker" name="eventenddate" bsDatepicker [(ngModel)]="newUpdateObj.event_end_date"
             />
-           </div>
-        </div>
-      </div>
-    
-
-    <div class="row" *ngIf="newUpdateObj.event_type == 2">
-      <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12" style="margin-left:20px">
-        <div class="field-checkbox-wrapper">
-          <input class="form-checkbox" name="enddatecheckbox" [(ngModel)]="checker" type="checkbox" />
-          <label for="enddatecheckbox">Add End Date</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
-        <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_desc!= ''}">
-          <label for="Desc">Description*</label>
-          <input type="text" class="side-form-ctrl" name="Desc" [(ngModel)]="newUpdateObj.holiday_desc" />
+          </div>
         </div>
       </div>
 
-      <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
-        <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_long_desc!= ''}">
-          <label style="padding-top: 10px;">Long Description*</label>
-          <textarea rows="5" style="height:95px; font-weight: 100" maxlength="500" name="l_desc" class="side-form-ctrl" name="eventName"
-            [(ngModel)]="newUpdateObj.holiday_long_desc"></textarea>
+
+      <div class="row" *ngIf="newUpdateObj.event_type == 2">
+        <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12" style="margin-left:20px">
+          <div class="field-checkbox-wrapper">
+            <input class="form-checkbox" name="enddatecheckbox" [(ngModel)]="checker" type="checkbox" />
+            <label for="enddatecheckbox">Add End Date</label>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" *ngIf="newUpdateObj.event_type == 2">
-      <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
-        <div class="form-wrapper">
-          <label for="help">Public Url
-            <div class="questionInfo inline-relative">
-              <span class="qInfoIcon i-class">?</span>
-              <div class="tooltip-box-field">
-                You can specify website URL
-                <br>for the Event. This URL
-                <br> will be displayed in Student
-                <br> Android/iOS APP as a part of
-                <br>Event Description
+      <div class="row">
+        <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
+          <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_desc!= ''}">
+            <label for="Desc">Description*</label>
+            <input type="text" class="side-form-ctrl" name="Desc" [(ngModel)]="newUpdateObj.holiday_desc" />
+          </div>
+        </div>
+
+        <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
+          <div class="form-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_long_desc!= ''}">
+            <label style="padding-top: 10px;">Long Description*</label>
+            <textarea rows="5" style="height:95px; font-weight: 100" maxlength="500" name="l_desc" class="side-form-ctrl" name="eventName"
+              [(ngModel)]="newUpdateObj.holiday_long_desc"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="newUpdateObj.event_type == 2">
+        <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
+          <div class="form-wrapper">
+            <label for="help">Public Url
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">?</span>
+                <div class="tooltip-box-field">
+                  You can specify website URL
+                  <br>for the Event. This URL
+                  <br> will be displayed in Student
+                  <br> Android/iOS APP as a part of
+                  <br>Event Description
+                </div>
               </div>
-            </div>
-          </label>
-          <input type="text" name="help" class="side-form-ctrl" [(ngModel)]="newUpdateObj.public_url" />
+            </label>
+            <input type="text" name="help" class="side-form-ctrl" [(ngModel)]="newUpdateObj.public_url" />
+          </div>
+        </div>
+
+        <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12" *ngIf="newUpdateObj.event_type == 2">
+          <div class="form-wrapper">
+            <label for="filename" style="width: auto">Upload File</label>
+            <img style="float:right; margin-right:8%;" [src]="newUpdateObj.image" alt="" height="30" width="38" id="imgUpdate">
+            <input type="file" id="fileAdd" (change)="fileUpload('imgUpdate')" name="filename" class="side-form-ctrl">
+            <p style="margin-left: 20px">Max Allowed Size : 1 MB
+              <br> File Format : jpg/jpeg/bmp/gif/png</p>
+          </div>
         </div>
       </div>
 
-      <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12" *ngIf="newUpdateObj.event_type == 2">
-        <div class="form-wrapper">
-          <label for="filename">Upload File</label>
-          <img style="float:right; margin-right:8%;" [src]="newUpdateObj.image" alt="" height="30" width="38" id="imgUpdate">
-          <input type="file" id="fileAdd" (change)="fileUpload('imgUpdate')" name="filename" class="side-form-ctrl">
-          <p style="margin-left: 20px">Max Allowed Size : 1 MB
-            <br> File Format : jpg/jpeg/bmp/gif/png</p>
-        </div>
-      </div>
+
+      <input type="button" class="fullBlue btn pull-right" style="margin-right: 5px;" value="Update" (click)="updatePopupData()"
+      />
+
     </div>
-
-
-    <input type="button" class="fullBlue btn pull-right" style="margin-right: 5px;" value="Update" (click)="updatePopupData()"
-    />
-
-  </div>
   </div>
 
 </proctur-popup>

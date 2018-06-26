@@ -1,18 +1,9 @@
 @import "./src/assets/css/common/variables.scss";
+
 .feeManager {
     width: 100%;
-    min-height: 400px;
-    max-height: 400px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-top: 20px;
-    ::-webkit-scrollbar {
-        display: block;
-        width: 7px;
-        height: 7px;
-    }
     .fee-content {
-        max-height: 440px;
+        max-height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -620,7 +611,6 @@ screen and (max-height: 768px) {
         }
     }
 }
-
 
 /* =================================================================================== */
 
@@ -1550,13 +1540,7 @@ ul.customDropdown li:hover {
         .enquiry-update-history {
             min-height: 370px;
             max-height: 400px;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            ::-webkit-scrollbar {
-                display: block;
-                width: 7px;
-                height: 7px;
-            }
+            overflow: auto;
         }
         table {
             th {
@@ -1979,13 +1963,13 @@ ul.customDropdown li:hover {
         float: left;
         height: 35px;
         font-size: 14px;
-        width:15%;
+        width: 15%;
     }
 }
 
-.structure-table{
-    tr{
-        th{
+.structure-table {
+    tr {
+        th {
             padding: 10px 10px !important;
         }
     }

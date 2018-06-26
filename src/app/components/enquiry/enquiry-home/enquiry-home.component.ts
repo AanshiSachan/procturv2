@@ -104,7 +104,7 @@ export class EnquiryHomeComponent implements OnInit {
   instituteData: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
 
   /* Form for advanced filter  */
-  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" }; enquiryFullDetail: any;
+  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" }; enquiryFullDetail: any;
   enquirySettings: ColumnSetting[] = [{ primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.currentDirection }, { primaryKey: 'name', header: 'Name' }, { primaryKey: 'phone', header: 'Contact No' }, { primaryKey: 'statusValue', header: 'Status' }, { primaryKey: 'priority', header: 'Priority' }, { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.currentDirection }, { primaryKey: 'updateDate', header: 'Last Updated' },];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
   assignMultipleForm: any = { enqLi: [], assigned_to: "" }; summaryOptions: boolean = false; downloadReportOption: any = 1; summaryReport = { from_date: "", to_date: "", }; showDateRange: boolean = false;
@@ -398,7 +398,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
     /* Status */
-    let status = this.prefill.getEnqStatus().subscribe(
+    this.prefill.getEnqStatus().subscribe(
       data => {
         this.enqstatus = data;
       }
@@ -487,63 +487,9 @@ export class EnquiryHomeComponent implements OnInit {
     this.prefill.fetchCustomComponentEmpty()
       .subscribe(
         data => {
-          data.forEach(el => {
-            let obj = {
-              data: el,
-              id: el.component_id,
-              is_required: el.is_required,
-              is_searchable: el.is_searchable,
-              label: el.label,
-              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-              selected: [],
-              selectedString: '',
-              type: el.type,
-              value: el.enq_custom_value
-            }
-            if (el.type == 4) {
-              obj = {
-                data: el,
-                id: el.component_id,
-                is_required: el.is_required,
-                is_searchable: el.is_searchable,
-                label: el.label,
-                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
-                selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
-                selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-                type: el.type,
-                value: el.enq_custom_value
-              }
-            }
-            if (el.type == 3) {
-              obj = {
-                data: el,
-                id: el.component_id,
-                is_required: el.is_required,
-                is_searchable: el.is_searchable,
-                label: el.label,
-                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-                selected: [],
-                selectedString: "",
-                type: el.type,
-                value: el.enq_custom_value
-              }
-            }
-            if (el.type == 2) {
-              obj = {
-                data: el,
-                id: el.component_id,
-                is_required: el.is_required,
-                is_searchable: el.is_searchable,
-                label: el.label,
-                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-                selected: [],
-                selectedString: '',
-                type: el.type,
-                value: el.enq_custom_value == "" ? false : true,
-              }
-            }
-            else if (el.type != 2 && el.type != 4 && el.type != 3) {
-              obj = {
+          if(data != null){
+            data.forEach(el => {
+              let obj = {
                 data: el,
                 id: el.component_id,
                 is_required: el.is_required,
@@ -555,9 +501,65 @@ export class EnquiryHomeComponent implements OnInit {
                 type: el.type,
                 value: el.enq_custom_value
               }
-            }
-            this.customComponents.push(obj);
-          });
+              if (el.type == 4) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: el.enq_custom_value
+                }
+              }
+              if (el.type == 3) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: "",
+                  type: el.type,
+                  value: el.enq_custom_value
+                }
+              }
+              if (el.type == 2) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: el.enq_custom_value == "" ? false : true,
+                }
+              }
+              else if (el.type != 2 && el.type != 4 && el.type != 3) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: el.enq_custom_value
+                }
+              }
+              this.customComponents.push(obj);
+            });
+          }
           this.emptyCustomComponent = this.componentListObject;
         });
   }
@@ -2223,7 +2225,8 @@ export class EnquiryHomeComponent implements OnInit {
   downloadAllEnquiries() {
     this.cd.markForCheck();
     this.isRippleLoad = true;
-    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? this.instituteData.followUpDate : this.advancedFilterForm.followUpDate, enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: moment(this.advancedFilterForm.enquireDateFrom).format("YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo).format("YYYY-MM-DD"), updateDate: moment(this.advancedFilterForm.updateDate).format("YYYY-MM-DD"), updateDateFrom: moment(this.advancedFilterForm.updateDateFrom).format("YYYY-MM-DD"), updateDateTo: moment(this.advancedFilterForm.updateDateTo).format("YYYY-MM-DD"), start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
+    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? moment(this.instituteData.followUpDate).format("YYYY-MM-DD") : moment(this.advancedFilterForm.followUpDate).format("YYYY-MM-DD"), enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: moment(this.advancedFilterForm.enquireDateFrom).format("YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo).format("YYYY-MM-DD"), updateDate: moment(this.advancedFilterForm.updateDate).format("YYYY-MM-DD"), updateDateFrom: moment(this.advancedFilterForm.updateDateFrom).format("YYYY-MM-DD"), updateDateTo: moment(this.advancedFilterForm.updateDateTo).format("YYYY-MM-DD"), start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
+
     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
@@ -2558,11 +2561,14 @@ export class EnquiryHomeComponent implements OnInit {
     this.optMenu.nativeElement.classList.add('shorted');
     this.isRippleLoad = true;
     this.cd.markForCheck();
+    this.customCompid = [];
     this.prefill.fetchCustomComponentById(id).subscribe(
       res => {
         this.isRippleLoad = false;
         this.cd.markForCheck();
-        this.customCompid = res;
+        if(res != null){
+          this.customCompid = res;
+        }
         this.isSideBar = true;
       },
       err => {
