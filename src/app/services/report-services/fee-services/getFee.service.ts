@@ -109,28 +109,37 @@ export class GetFeeService {
         )
     }
 
-    getAcademicYear(){
+    getAcademicYear() {
         let url = this.baseUrl + "/api/v1/academicYear/all/" + this.institute_id;
-        return this.http.get(url , {headers:this.headers}).map(
-            (data:any)=>{
+        return this.http.get(url, { headers: this.headers }).map(
+            (data: any) => {
                 return data;
             },
-            (error:any)=>{
+            (error: any) => {
                 return error;
             }
         )
     }
 
-    getEmail(obj){
+    getEmail(obj) {
         let url = this.baseUrl + "/api/v1/studentWise/fee/" + obj.student_id + "/feeReceipt/" + obj.disp_id + "/download?emailSent=Y"
-        return this.http.get(url , {headers:this.headers}).map(
-            (data:any)=>{
+        return this.http.get(url, { headers: this.headers }).map(
+            (data: any) => {
                 return data;
             },
-            (error:any)=>{
+            (error: any) => {
                 return error;
             }
         )
+    }
+
+
+    getFeeWidgetDataByDateRange(obj): Observable<any> {
+        let url = this.baseUrl +"/api/v1/studentWise/fee/feesummaryreport/" +this.institute_id;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        );
     }
 
 }

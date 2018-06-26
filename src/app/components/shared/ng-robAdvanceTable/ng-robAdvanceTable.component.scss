@@ -46,7 +46,6 @@ $color-highlight: lighten($color-base, 7%);
     overflow: hidden;
 }
 
-
 .act-top {
     padding-bottom: 10px;
     border-bottom: 1px solid #d3d4d5;
@@ -146,7 +145,7 @@ $color-highlight: lighten($color-base, 7%);
     .schedule-scroller {
         min-height: 300px;
         max-height: 50vh;
-        overflow-x: auto;
+        overflow-x: hidden;
         overflow-y: auto;
     }
     ul {
@@ -207,8 +206,8 @@ $color-highlight: lighten($color-base, 7%);
         &.sche-head {
             background: #fff;
             li {
-                width: 15%;
-                padding: 20px 0px 10px 10px;
+                width: 12%;
+                padding: 20px 10px 10px 0px;
                 text-transform: uppercase;
                 color: black;
                 background: transparent;
@@ -216,67 +215,63 @@ $color-highlight: lighten($color-base, 7%);
                 font-weight: 600;
                 text-align: left;
                 &:first-child {
-                    width: 10%;
-                    padding: 20px 0px 10px 10px;
+                    width: 10%; //padding: 20px 0px 10px 10px;
+                } 
+                &.selectCheckbox {
+                    width: 5% !important;
+                    padding: 20px 0px 10px 10px !important;
                 }
-                &.Name {
-                    text-align: left;
-                    padding: 20px 0px 10px 10px;
-                    &.Bank {
-                        text-align: left;
-                        padding: 20px 0px 10px 0px;
-                    }
-                    &.Student {
-                        text-align: left;
-                        padding: 20px 0px 10px 0px;
-                    }
-                }
+                // &.Name {
+                //     text-align: left;
+                //     padding: 20px 0px 10px 10px;
+                //     &.Bank {
+                //         text-align: left;
+                //         padding: 20px 0px 10px 0px;
+                //     }
+                //     &.Student {
+                //         text-align: left;
+                //         padding: 20px 0px 10px 0px;
+                //     }
+                // }
                 &.Fee {
                     &.Type {
                         text-align: left;
                     }
-                    &.Total{
-                        text-align: right;
-                        padding: 20px 15px 10px 0px;                        
+                    &.Total {
+                        text-align: right; //padding: 20px 15px 10px 0px;                        
                     }
-                }
-                &.Status {
-                    text-align: left;
-                }
+                } // &.Status {
+                //     text-align: left;
+                // }
                 &.Amount {
-                    text-align: right !important;
-                    padding: 20px 20px 10px 0px;
-                }
-                &.Date {
-                    text-align: right;
-                }
+                    text-align: right !important; //padding: 20px 20px 10px 0px;
+                } // &.Date {
+                //     text-align: right;
+                // }
                 &.ID {
                     text-align: right;
-                    width: 7%;
-                    padding: 20px 0px 10px  0px;
-                }
-                &.Category{
-                    &.Student{
-                        text-align: left;
-                    }
-                }
+                     width: 7%;
+                    // padding: 20px 0px 10px  0px;
+                } // &.Category{
+                //     &.Student{
+                //         text-align: left;
+                //     }
+                // }
                 &.No {
                     text-align: right;
                     &.Receipt {
-                        text-align: right;
-                        width: 17% !important;
+                        text-align: right; //width: 17% !important;
                     }
                 }
                 &.Dues {
                     text-align: right;
-                }
-                &.Mode {
-                    text-align: left !important;s
-                    &.Payment {
-                        text-align: right;
-                        word-break: break-word;
-                    }
-                }
+                } // &.Mode {
+                //     text-align: left !important;s
+                //     &.Payment {
+                //         text-align: right;
+                //         word-break: break-word;
+                //     }
+                // }
             }
         }
         .class-type-status {
@@ -298,91 +293,93 @@ $color-highlight: lighten($color-base, 7%);
                 box-shadow: 0px 11px 8px -10px #CCC, 0px -11px 13px -9px #CCC;
             }
             li {
-                width: 15%;
+                width: 12%;
                 text-transform: capitalize;
                 color: black;
                 margin-bottom: 5px;
                 font-size: 14px;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                word-break: break-all;
-                padding: 10px 0px 0px 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 10px 10px 0px 10px;
                 text-align: left;
                 &:first-child {
                     width: 10%;
+                } 
+                &.selectCheckbox {
+                    width: 5% !important;
+                    padding: 10px 0px 0px 10px !important;
                 }
-                &.Name {
-                    text-align: left;
-                    padding: 10px 0px 0px 10px;
-                    &.Bank {
-                        text-align: left;
-                        padding: 10px 0px 0px 20px;
-                    }
-                    &.Student {
-                        text-align: left;
-                        padding: 10px 0px 0px 20px;
-                    }
-                }
+                // &.Name {
+                //     text-align: left;
+                //     padding: 10px 0px 0px 10px;
+                //     &.Bank {
+                //         text-align: left;
+                //         padding: 10px 0px 0px 20px;
+                //     }
+                //     &.Student {
+                //         text-align: left;
+                //         padding: 10px 0px 0px 20px;
+                //     }
+                // }
                 &.Fee {
-                    text-align: right;
-                    padding: 10px 10px 0px 0px;
+                    text-align: right; //padding: 10px 10px 0px 0px;
                     &.Type {
-                        text-align: right;
-                        padding: 10px 0px 0px 10px;
+                        text-align: right; //padding: 10px 0px 0px 10px;
                     }
                 }
                 &.Amount {
-                    text-align: right;
-                    padding: 10px 10px 0px 0px;
+                    text-align: right; //padding: 10px 10px 0px 0px;
                     &.Paid {
                         text-align: right;
                         color: #0084f6;
                     }
-                }
-                &.Date {
-                    text-align: right;
-                    padding: 10px 10px 0px 0px;
-                }
+                } // &.Date {
+                //     text-align: right;
+                //     padding: 10px 10px 0px 0px;
+                // }
                 &.ID {
-                    width: 7%;
-                    padding: 10px 10px 0px 0px;
+                    //padding: 10px 10px 0px 0px;
                     text-align: right;
+                    width: 6%;
                 }
                 &.Dues {
-                    text-align: right;
-                    padding: 10px 10px 0px 0px;
+                    text-align: right; //padding: 10px 10px 0px 0px;
                     &.Past {
                         text-align: right;
                         color: #ff0000;
                     }
                 }
                 &.Due {
-                    text-align: right;
-                    padding: 10px 10px 0px 0px;
+                    text-align: right; //padding: 10px 10px 0px 0px;
                     &.Past {
                         text-align: right;
                         color: #ff0000;
                     }
+                    &.Date {
+                            text-align: left;
+                        }
                 }
                 &.No {
-                    text-align: right;
-                    padding: 10px 10px 0px 0px;
+                    text-align: right; //padding: 10px 10px 0px 0px;
                     &.Receipt {
-                        width: 15% !important;
-                        word-break: break-word;
+                        // width: 15% !important;
+                        // word-break: break-word;
                     }
-                }
+                } 
                 &.option-menu {
-                    padding: 5px 10px 5px;
+                    white-space: nowrap;
+                    overflow: visible;
+                    text-overflow: unset;
                 }
-                &.Mode {
-                    text-align: left !important;
-                    padding: 10px 0px 0px 10px;
-                    &.Payment {
-                        text-align: right;
-                        word-break: break-word;
-                    }
-                }
+                // &.Mode {
+                //     text-align: left !important;
+                //     padding: 10px 0px 0px 10px;
+                //     &.Payment {
+                //         text-align: right;
+                //         word-break: break-word;
+                //     }
+                // }
             }
         }
         &.ct-ongoing {

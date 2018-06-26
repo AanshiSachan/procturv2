@@ -47,7 +47,7 @@ export class StudentAddComponent implements OnInit {
   private isFeePaymentUpdate: boolean = false; private isDefineFees: boolean = false; private isFeeApplied: boolean = false; private isNewInstallment: boolean = false; private isDiscountApply: boolean = false; public is_undo: string = "N"; isUpdateFeeAndExit: boolean = false; total_amt_tobe_paid: any = ""; enquiryData: any = [];
   private addFeeInstallment: any = { amount_paid: '', amount_paid_inRs: null, balance_amount: 0, batch_id: 0, created_by: null, created_date: null, day_type: 0, days: 0, discount: 0, due_date: '', enquiry_counsellor_name: "", enquiry_id: 0, feeTypes: null, fee_date: null, fee_payment_edit_history: null, fee_type: null, fee_type_name: "INSTALLMENT", fee_type_tax_configured: 0, fees_amount: null, fineAmount: 0, fine_type: null, initial_fee_amount: 0, installment_no: null, installment_nos: "", invoice_no: 0, is_fee_receipt_generate: 0, is_paid: 0, is_referenced: "N", latest_due_date: "", onlinePaymentJson: null, paid_date: null, paid_full: "N", paymentDate: null, paymentMode: null, paymentModeAmountMap: null, payment_creation_date: null, payment_reference_id: 0, payment_status: 0, payment_tx_id: 0, pdc_cheque_id: -1, reference_no: null, remarks: null, scheduleType: null, schedule_id: 0, service_tax: 0, service_tax_applicable: "", student_category: "", student_disp_id: null, student_id: 0, student_name: null, student_phone: "", tax: 0, update_date: null, updated_by: null };
   public installmentMarkedForPayment: any[] = []; private addFeeOther: any = { amount_paid: '', amount_paid_inRs: null, balance_amount: 0, batch_id: 0, created_by: null, created_date: null, day_type: 0, days: 0, discount: 0, due_date: moment().format("YYYY-MM-DD"), enquiry_counsellor_name: "", enquiry_id: 0, feeTypes: null, fee_date: null, fee_payment_edit_history: null, fee_type: null, fee_type_name: "", fee_type_tax_configured: 0, fees_amount: null, fineAmount: 0, fine_type: null, initial_fee_amount: 0, installment_no: null, installment_nos: "", invoice_no: 0, is_fee_receipt_generate: 0, is_paid: 0, is_referenced: "N", latest_due_date: "", onlinePaymentJson: null, paid_date: null, paid_full: "N", paymentDate: null, paymentMode: null, paymentModeAmountMap: null, payment_creation_date: null, payment_reference_id: 0, payment_status: 0, payment_tx_id: 0, pdc_cheque_id: -1, reference_no: null, remarks: null, scheduleType: null, schedule_id: 0, service_tax: null, service_tax_applicable: "", student_category: "", student_disp_id: null, student_id: 0, student_name: null, student_phone: "", tax: 0, update_date: null, updated_by: null };
-  private feeStructureForm: any = { studentArray: ["-1"], template_effective_date: moment().format('YYYY-MM-DD') }; private createInstitute = { instituteName: "", isActive: "Y" }; private allocationForm: any = { alloted_units: "", item_id: "", student_id: 0, institution_id: sessionStorage.getItem('institute_id') };
+  private feeStructureForm: any = { studentArray: ["-1"], template_effective_date: moment().format('YYYY-MM-DD') }; private createInstitute = { instituteName: "", isActive: "Y" }; private allocationForm: any = { alloted_units: "", item_id: "", student_id: 0, institution_id: sessionStorage.getItem('institute_id') }; studentPartialPaymentData: any[] = []; isPartialPayHistory: boolean = false;
   private feeTemplateById: StudentFeeStructure = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", toCreate: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: "", is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
   private discountApplyForm: any = { type: 'amount', value: null, reason: '', state: 'all' }; public totalFeeWithTax: number = 0; totalDicountAmount: number = 0; public totalTaxAmount: number = 0; public totalAmountPaid: number = 0; public totalInitalAmount: number = 0; public totalAmountDue: number = 0; public totalPaidAmount: number = 0; public partialPayObj: any = { chequeDetailsJson: {}, paid_date: moment().format('YYYY-MM-DD'), paymentMode: "Cash", reference_no: '', remarks: "", studentFeeReportJsonList: [], student_id: this.student_id }; public studentFeeReportObj: any = { due_date: null, fee_schedule_id: 0, paid_full: "Y", previous_balance_amt: "", total_amt_paid: "" }; enableBiometric: any; academicYear: any[] = []; enquiryCustomComp: any[] = []; courseDropdown: any = null;
   /* ========================================================================================================== */
@@ -570,7 +570,7 @@ export class StudentAddComponent implements OnInit {
 
     this.studentPrefillService.fetchCustomComponent().subscribe(
       data => {
-        if(data != null){
+        if (data != null) {
           data.forEach(el => {
 
             let obj = {
@@ -4982,6 +4982,66 @@ export class StudentAddComponent implements OnInit {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+
+  updateStudentAllocatedInventory() {
+    let count: number = 0;
+    let temp: any[] = [];
+    this.allotInventoryArr.forEach(e => {
+      let obj = {
+        alloted_units: e.units_added,
+        institution_id: sessionStorage.getItem('institute_id'),
+        item_id: e.item_id,
+        student_id: this.student_id
+      }
+      temp.push(obj);
+    });
+    if (temp.length != 0) {
+      this.postService.allocateStudentInventory(temp).subscribe(
+        res => {
+          if (this.isFeeApplied) {
+            this.asssignCustomizedFee(this.student_id);
+          }
+          else {
+            this.studentAddedNotifier();
+          }
+        },
+        err => {
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      );
+    }
+    else {
+      if (this.isFeeApplied) {
+        this.asssignCustomizedFee(this.student_id);
+      }
+      else {
+        this.studentAddedNotifier();
+      }
+    }
+  }
+
+  getPartialPaymentHistory(inst) {
+    this.studentPartialPaymentData = [];
+    this.fetchService.getStudentPartialPaymentHistory(this.student_id, inst.schedule_id).subscribe(
+      res => {
+        this.studentPartialPaymentData = res;
+        this.isPartialPayHistory = true;
+      },
+      err => { }
+    )
+  }
+
+  closeHistory(event) {
+    this.isPartialPayHistory = false;
+  }
+
 
 
 }

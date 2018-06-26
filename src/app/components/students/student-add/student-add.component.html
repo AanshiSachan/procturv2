@@ -270,8 +270,7 @@
                 <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
                   <label for="standard">Standard</label>
 
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard"
-                    class="form-ctrl">
+                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -283,7 +282,7 @@
                   <label for="assignCourses">
                   </label>
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
-                  placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
+                    placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
                   <a style="cursor:pointer" (click)="openAssignBatch()">Assign Courses</a>
                 </div>
 
@@ -445,7 +444,8 @@
                     <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
-                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl" readonly="true" />
+                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                      readonly="true" />
                   </div>
                   <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                     <div class="multiselect-wrapper-inner">
@@ -454,7 +454,7 @@
                           <div class="field-checkbox-wrapper">
                             <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                               class="form-checkbox">
-                              <label for="opt.data">{{opt.data}}</label>
+                            <label for="opt.data">{{opt.data}}</label>
                           </div>
                         </li>
                       </ul>
@@ -716,8 +716,10 @@
                     </div>
                   </div>
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
-                    <a id="downloadAddFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                    <a (click)="emailFeeReceipt(installment)">E-mail receipt</a>
+                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')" (click)="getPartialPaymentHistory(installment)">
+                      View Payment History </a>
+                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" id="downloadAddFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a>
+                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" (click)="emailFeeReceipt(installment)">E-mail receipt</a>
                     <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
                 </li>
@@ -828,7 +830,7 @@
             <aside class="pull-right">
               <input type="button" (cancel)="cancelStudentUpload()" value="Cancel" class="btn cancle">
               <!-- <input type="button" value="Skip" class="btn cancle"> -->
-              <input type="button" value="Submit" (click)="addNewStudentFullView()" class="btn fullBlue">
+              <input type="button" value="Submit" (click)="updateStudentAllocatedInventory()" class="btn fullBlue">
             </aside>
           </section>
         </aside>
@@ -950,8 +952,8 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
-  <student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)" *ngIf="isAssignBatch" [dataList]="batchList"
-  [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear" [standardList]="standardList"></student-batch-list>
+  <student-batch-list (closeBatch)="closeBatchAssign($event)" (assignList)="getassignedBatchList($event)" *ngIf="isAssignBatch"
+    [dataList]="batchList" [defaultAcadYear]="defaultAcadYear" [academicYear]="academicYear" [standardList]="standardList"></student-batch-list>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Duplicate Contact =============================== -->
@@ -1005,7 +1007,7 @@
         </aside>
       </div>
     </div>
-  </proctur-popup> 
+  </proctur-popup>
   <!-- ======================================================== -->
   <!-- ========================User Selects a Template here================================ -->
   <!-- =============== Configure Fees =============================== -->
@@ -1066,8 +1068,8 @@
   <!-- ======================================================== -->
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" (closePopup)="closeAllFeePops($event)" (apply)="fetchCustomFeeSchedule($event)" [courseDropdown]="courseDropdown" [installmentData]="instalmentTableData"
-    [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById">
+  <student-fee-table *ngIf="isDefineFees" (closePopup)="closeAllFeePops($event)" (apply)="fetchCustomFeeSchedule($event)" [courseDropdown]="courseDropdown"
+    [installmentData]="instalmentTableData" [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById">
   </student-fee-table>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
@@ -1594,4 +1596,6 @@
   </proctur-popup>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [paymentHistory]="studentPartialPaymentData" [studentid]="student_id"></partial-pay-history>
+
 </section>
