@@ -2789,56 +2789,36 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getPaidFullVal(): string {
-
     if (this.partialPaySelected.balance_amount > this.total_amt_tobe_paid) {
       return "N"
     } else {
       return "Y";
     }
   }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   payPartial() {
     /* Error */
     if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode == null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Date and Mode Missing',
-        body: 'Please fill in the payment date and mode of payment'
-      }
+      let msg = { type: 'error', title: 'Payment Date and Mode Missing', body: 'Please fill in the payment date and mode of payment' };
       this.appC.popToast(msg);
     }
     /* Error */
     else if (this.feeTemplateById.paid_date != null && this.feeTemplateById.payment_mode == null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Mode Missing',
-        body: 'Please fill in the mode of payment'
-      }
+      let msg = { type: 'error', title: 'Payment Mode Missing', body: 'Please fill in the mode of payment' };
       this.appC.popToast(msg);
     }
     /* Error */
     else if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode != null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Date Missing',
-        body: 'Please fill in the payment date '
-      }
+      let msg = { type: 'error', title: 'Payment Date Missing', body: 'Please fill in the payment date ' };
       this.appC.popToast(msg);
     }
     else {
       /* PDC data to be verified */
       if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
         if (this.validatePdcObject()) {
-          let obj = {
-            chequeDetailsJson: {},
-            paid_date: "",
-            paymentMode: "",
-            reference_no: "",
-            remarks: "",
-            studentFeeReportJsonList: [],
-            student_id: this.student_id,
-          }
+          let obj = { chequeDetailsJson: {}, paid_date: "", paymentMode: "", reference_no: "", remarks: "", studentFeeReportJsonList: [], student_id: this.student_id, };
           this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
           obj.chequeDetailsJson = this.pdcSelectedForm;
           obj.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
@@ -2943,25 +2923,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           );
         }
         else {
-          let msg = {
-            type: 'error',
-            title: 'Incorrect PDC/Cheque Details',
-            body: 'Please provide correct input for the cheque data'
-          }
+          let msg = { type: 'error', title: 'Incorrect PDC/Cheque Details', body: 'Please provide correct input for the cheque data' };
           this.appC.popToast(msg);
         }
       }
       else {
-
-        let obj = {
-          chequeDetailsJson: {},
-          paid_date: "",
-          paymentMode: "",
-          reference_no: "",
-          remarks: "",
-          studentFeeReportJsonList: [],
-          student_id: this.student_id,
-        }
+        let obj = { chequeDetailsJson: {}, paid_date: "", paymentMode: "", reference_no: "", remarks: "", studentFeeReportJsonList: [], student_id: this.student_id, };
         obj.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
         obj.paymentMode = this.feeTemplateById.payment_mode;
         obj.reference_no = this.feeTemplateById.reference_no;
@@ -3059,44 +3026,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   payOnePartial() {
     /* Error */
     if (this.partialPayObj.paid_date == null && this.partialPayObj.paymentMode == null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Date and Mode Missing',
-        body: 'Please fill in the payment date and mode of payment'
-      }
+      let msg = { type: 'error', title: 'Payment Date and Mode Missing', body: 'Please fill in the payment date and mode of payment' };
       this.appC.popToast(msg);
     }
     /* Error */
     else if (this.partialPayObj.paid_date != null && this.partialPayObj.paymentMode == null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Mode Missing',
-        body: 'Please fill in the mode of payment'
-      }
+      let msg = { type: 'error', title: 'Payment Mode Missing', body: 'Please fill in the mode of payment' };
       this.appC.popToast(msg);
     }
     /* Error */
     else if (this.partialPayObj.paid_date == null && this.partialPayObj.paymentMode != null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Date Missing',
-        body: 'Please fill in the payment date '
-      }
+      let msg = { type: 'error', title: 'Payment Date Missing', body: 'Please fill in the payment date ' };
       this.appC.popToast(msg);
     }
     else {
       /* PDC data to be verified */
       if (this.partialPayObj.paymentMode == 'Cheque/PDC/DD No.') {
         if (this.validatePdcObject()) {
-          let obj = {
-            chequeDetailsJson: {},
-            paid_date: "",
-            paymentMode: "",
-            reference_no: "",
-            remarks: "",
-            studentFeeReportJsonList: [],
-            student_id: this.student_id,
-          }
+          let obj = { chequeDetailsJson: {}, paid_date: "", paymentMode: "", reference_no: "", remarks: "", studentFeeReportJsonList: [], student_id: this.student_id, };
           this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
           obj.chequeDetailsJson = this.pdcSelectedForm;
           this.studentFeeReportObj = {
@@ -3218,15 +3165,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       }
       else {
-        let obj = {
-          chequeDetailsJson: {},
-          paid_date: "",
-          paymentMode: "",
-          reference_no: "",
-          remarks: "",
-          studentFeeReportJsonList: [],
-          student_id: this.student_id,
-        }
+        let obj = { chequeDetailsJson: {}, paid_date: "", paymentMode: "", reference_no: "", remarks: "", studentFeeReportJsonList: [], student_id: this.student_id, };
 
         this.studentFeeReportObj = {
           due_date: this.partialPaySelected.due_date,
@@ -3332,11 +3271,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   totalPartialChange(e, v) {
     if (v == "payone") {
       if (e > this.totalFeePaid) {
-        let obj = {
-          type: "warning",
-          title: "Invalid Payment Amount",
-          body: ""
-        }
+        let obj = { type: "warning", title: "Invalid Payment Amount", body: "" };
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
         this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
@@ -3347,11 +3282,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     else if (v == "pay") {
       if (e > this.totalFeePaid) {
-        let obj = {
-          type: "warning",
-          title: "Invalid Payment Amount",
-          body: ""
-        }
+        let obj = { type: "warning", title: "Invalid Payment Amount", body: "" };
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
         this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
@@ -3362,8 +3293,348 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  splitCustomizedFee() {
+    this.instalmentTableData = [];
+    this.otherFeeTableData = [];
+    this.feeTemplateById.customFeeSchedules.forEach(el => {
+      el.due_date = new Date(el.due_date);
+      if (el.fee_type_name === "INSTALLMENT") {
+        this.instalmentTableData.push(el);
+      }
+      else if (el.fee_type_name != "INSTALLMENT") {
+        this.otherFeeTableData.push(el);
+      }
+    });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+
+  fetchCustomFeeSchedule(e) {
+    this.isRippleLoad = true;
+    this.userCustommizedFee = e;
+    this.totalTaxAmount = 0;
+    this.totalInitalAmount = 0;
+    this.totalFeeWithTax = 0;
+    this.totalAmountDue = 0;
+    this.totalPaidAmount = 0;
+    this.totalFeePaid = 0;
+
+    this.userCustommizedFee.forEach(el => {
+      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+      el.fees_amount = parseInt(el.fees_amount);
+      el.initial_fee_amount = parseInt(el.initial_fee_amount);
+
+      /* Taxes Here */
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        if (el.fee_type_name == "INSTALLMENT") {
+          let tax = el.initial_fee_amount * (this.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+        else {
+          let tax = el.initial_fee_amount * (el.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+      }
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        this.service_tax = 0;
+        this.totalTaxAmount = 0;
+      }
+
+      if (el.is_referenced == "N") {
+        this.totalAmountDue += el.fees_amount
+      }
+
+      /* AMount Paid */
+      else if (el.is_referenced == "Y") {
+        /* Partial Paid */
+        if (el.is_partially_paid == 1) {
+          this.totalPaidAmount += el.amount_paid;
+          this.totalAmountDue += el.balance_amount
+        }
+        /* Fully Paid */
+        else if (el.is_partially_paid == 0) {
+          this.totalPaidAmount += el.amount_paid;
+        }
+      }
+
+      this.totalInitalAmount += parseInt(el.initial_fee_amount);
+      this.totalFeeWithTax += parseInt(el.fees_amount);
+
+      let obj = {
+        uiSelected: el.is_referenced == "Y" ? true : false,
+        isPaid: el.is_referenced == "Y" ? true : false
+      }
+
+      this.paymentStatusArr.push(obj);
+
+    });
+
+    this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
+
+    this.feeTemplateById.studentwise_total_fees_amount = this.totalFeeWithTax;
+    this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
+    this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
+    this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
+
+    let obj = { customFeeSchedules: [], discount_fee_reason: "", is_delete_other_fee_types: 0, is_undo: this.is_undo, studentArray: [], studentwise_fees_tax_applicable: "", studentwise_total_fees_amount: "", studentwise_total_fees_discount: 0, template_effective_date: "", template_id: "" };
+
+    this.isFeeApplied = true;
+    this.isPaymentPdc = false;
+    obj.customFeeSchedules = this.getFeeStructure(this.userCustommizedFee);
+    obj.discount_fee_reason = this.discountReason;
+    obj.is_undo = this.is_undo;
+    obj.studentArray.push(this.student_id);
+    obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+    obj.studentwise_total_fees_amount = this.totalAmountDue.toString();
+    obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+    obj.template_effective_date = moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD");
+    obj.template_id = this.feeTemplateById.template_id;
+
+    this.postService.allocateStudentFees(obj).subscribe(
+      res => {
+        this.splitCustomizedFee();
+        this.updateStudentFeeDetails();
+        this.userHasFees = true;
+        this.isRippleLoad = false;
+        this.isDefineFees = false;
+      },
+      err => {
+        let msg = err.error.message;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
+    );
+
+  }
+
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  createCustomFeeSchedule() {
+    this.isRippleLoad = true;
+
+    this.instalmentTableData.sort(function (d1, d2) {
+      return moment(d1.due_date).unix() - moment(d2.due_date).unix();
+    });
+    for (var i = 0; i < this.instalmentTableData.length; i++) {
+      this.instalmentTableData[i].installment_no = i + 1;
+    }
+    for (var i = 0; i < this.otherFeeTableData.length; i++) {
+      this.otherFeeTableData[i].installment_no = this.instalmentTableData.length + i + 1;
+    }
+    this.userCustommizedFee = [];
+    this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
+    this.totalTaxAmount = 0;
+    this.totalInitalAmount = 0;
+    this.totalFeeWithTax = 0;
+    this.totalAmountDue = 0;
+    this.totalPaidAmount = 0;
+    this.totalFeePaid = 0;
+
+    this.userCustommizedFee.forEach(el => {
+      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+      el.fees_amount = parseInt(el.fees_amount);
+      el.initial_fee_amount = parseInt(el.initial_fee_amount);
+
+      /* Taxes Here */
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        if (el.fee_type_name == "INSTALLMENT") {
+          let tax = el.initial_fee_amount * (this.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+        else {
+          let tax = el.initial_fee_amount * (el.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+      }
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        this.service_tax = 0;
+        this.totalTaxAmount = 0;
+      }
+
+      if (el.is_referenced == "N") {
+        this.totalAmountDue += el.fees_amount
+      }
+
+      /* AMount Paid */
+      else if (el.is_referenced == "Y") {
+        /* Partial Paid */
+        if (el.is_partially_paid == 1) {
+          this.totalPaidAmount += el.amount_paid;
+          this.totalAmountDue += el.balance_amount
+        }
+        /* Fully Paid */
+        else if (el.is_partially_paid == 0) {
+          this.totalPaidAmount += el.amount_paid;
+        }
+      }
+
+      this.totalInitalAmount += parseInt(el.initial_fee_amount);
+      this.totalFeeWithTax += parseInt(el.fees_amount);
+
+      let obj = {
+        uiSelected: el.is_referenced == "Y" ? true : false,
+        isPaid: el.is_referenced == "Y" ? true : false
+      }
+
+      this.paymentStatusArr.push(obj);
+
+    });
+
+    this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
+
+    this.feeTemplateById.studentwise_total_fees_amount = this.totalFeeWithTax;
+    this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
+    this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
+    this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
+
+    let obj = { customFeeSchedules: [], discount_fee_reason: "", is_delete_other_fee_types: 0, is_undo: this.is_undo, studentArray: [], studentwise_fees_tax_applicable: "", studentwise_total_fees_amount: "", studentwise_total_fees_discount: 0, template_effective_date: "", template_id: "" };
+
+    this.isFeeApplied = true;
+    this.isPaymentPdc = false;
+    obj.customFeeSchedules = this.getFeeStructure(this.userCustommizedFee);
+    obj.discount_fee_reason = this.discountReason;
+    obj.is_undo = this.is_undo;
+    obj.studentArray.push(this.student_id);
+    obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+    obj.studentwise_total_fees_amount = this.totalAmountDue.toString();
+    obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+    obj.template_effective_date = moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD");
+    obj.template_id = this.feeTemplateById.template_id;
+
+    this.postService.allocateStudentFees(obj).subscribe(
+      res => {
+        this.splitCustomizedFee();
+        this.updateStudentFeeDetails();
+        this.userHasFees = true;
+        this.isRippleLoad = false;
+        this.isDefineFees = false;
+      },
+      err => {
+        let msg = err.error.message;
+        this.isRippleLoad = false;
+        let obj = { type: 'error', title: msg, body: "" };
+        this.appC.popToast(obj);
+      }
+    );
+  }
+
+  getStudentFeeReportJsonList(): any[] {
+    let temp: any[] = [];
+    let total = this.total_amt_tobe_paid;
+    let remaining = 0;
+
+    /* only installment whose checkboxes have been checked */
+    this.installmentMarkedForPayment.forEach(e => {
+      /* e gives the index of the fee installment on the array */
+      let paid = 0;
+      let previous = 0;
+      let full = "N";
+      /*  */
+      if (this.feeTemplateById.customFeeSchedules[e].is_referenced == "Y") {
+        previous = this.feeTemplateById.customFeeSchedules[e].balance_amount;
+
+        /* balance amount less than total */
+        if (this.feeTemplateById.customFeeSchedules[e].balance_amount < total) {
+          //fees_amount
+          paid = this.feeTemplateById.customFeeSchedules[e].balance_amount;
+          remaining = total - this.feeTemplateById.customFeeSchedules[e].balance_amount;
+          total = remaining;
+          full = "Y";
+        }
+
+        /* balance is equal to total */
+        else if (this.feeTemplateById.customFeeSchedules[e].balance_amount == total) {
+          paid = this.feeTemplateById.customFeeSchedules[e].balance_amount;
+          remaining = 0;
+          total = remaining;
+          full = "Y";
+        }
+
+        /* balance is less than total */
+        else if (this.feeTemplateById.customFeeSchedules[e].balance_amount > total) {
+          paid = total;
+          remaining = 0;
+          total = remaining;
+          full = "N";
+        }
+      }
+      else if (this.feeTemplateById.customFeeSchedules[e].is_referenced == "N") {
+        previous = this.feeTemplateById.customFeeSchedules[e].fees_amount;
+
+        /*  amount less than total */
+        if (this.feeTemplateById.customFeeSchedules[e].fees_amount < total) {
+          paid = this.feeTemplateById.customFeeSchedules[e].fees_amount;
+          remaining = total - this.feeTemplateById.customFeeSchedules[e].fees_amount;
+          total = remaining;
+          full = "Y";
+        }
+
+        /* amount is equal to total */
+        else if (this.feeTemplateById.customFeeSchedules[e].fees_amount == total) {
+          paid = this.feeTemplateById.customFeeSchedules[e].fees_amount;
+          remaining = 0;
+          total = remaining;
+          full = "Y";
+        }
+
+        /* amount is more than total */
+        else if (this.feeTemplateById.customFeeSchedules[e].fees_amount > total) {
+          paid = total;
+          remaining = 0;
+          total = remaining;
+          full = "N";
+        }
+      }
+
+      let obj = {
+        due_date: moment(this.feeTemplateById.customFeeSchedules[e].due_date).format("YYYY-MM-DD"),
+        fee_schedule_id: this.feeTemplateById.customFeeSchedules[e].schedule_id,
+        paid_full: full,
+        previous_balance_amt: previous,
+        total_amt_paid: paid,
+      }
+      if (obj.total_amt_paid != 0) {
+        temp.push(obj);
+      }
+    })
+    return temp;
+  }
 
 
+  getPartialPaymentHistory(inst) {
+    this.studentPartialPaymentData = [];
+    this.fetchService.getStudentPartialPaymentHistory(this.student_id, inst.schedule_id).subscribe(
+      res => {
+        console.log(res);
+        this.studentPartialPaymentData = res;
+        this.isPartialPayHistory = true;
+      },
+      err => { }
+    )
+  }
+
+  closeHistory(event){
+    this.isPartialPayHistory = false;
+  }
 
 
 
@@ -3434,11 +3705,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   inventoryItemUpdated(value, index, total) {
     if (value > total) {
-      let msg = {
-        type: 'warning',
-        title: 'Incorrect Quantity',
-        body: 'The quantity allocated cannot be higher than total available units'
-      }
+      let msg = { type: 'warning', title: 'Incorrect Quantity', body: 'The quantity allocated cannot be higher than total available units' };
       this.appC.popToast(msg);
       this.inventoryItemsArr[index].units_added = total;
       if (this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id) !== -1) {
@@ -3461,11 +3728,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   studentAddedNotifier() {
-    let msg = {
-      type: 'success',
-      title: 'Student Registered',
-      body: 'Student details have been updated'
-    }
+    let msg = { type: 'success', title: 'Student Registered', body: 'Student details have been updated' };
     this.appC.popToast(msg);
     this.router.navigate(['/view/student']);
   }
@@ -3476,12 +3739,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let count: number = 0;
     let temp: any[] = [];
     this.allotInventoryArr.forEach(e => {
-      let obj = {
-        alloted_units: e.units_added,
-        institution_id: sessionStorage.getItem('institute_id'),
-        item_id: e.item_id,
-        student_id: this.student_id
-      }
+      let obj = { alloted_units: e.units_added, institution_id: sessionStorage.getItem('institute_id'), item_id: e.item_id, student_id: this.student_id };
       temp.push(obj);
     });
     if (temp.length != 0) {
@@ -3497,11 +3755,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         err => {
           let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: msg,
-            body: ""
-          }
+          let obj = { type: 'error', title: msg, body: "" };
           this.appC.popToast(obj);
         }
       );
@@ -3785,13 +4039,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
 
-
-
-
-
-
-
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   // checkIfRowSelcted(data) {
@@ -3807,556 +4054,119 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  validatePaymentDetails($event) {
-    $event.preventDefault();
-    /* Error */
-    if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode == "" && this.feeTemplateById.payment_mode == null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Date and Mode Missing',
-        body: 'Please fill in the payment date and mode of payment'
-      }
-      this.appC.popToast(msg);
-    }
-    /* Error */
-    else if (this.feeTemplateById.paid_date != null && this.feeTemplateById.payment_mode == "" && this.feeTemplateById.payment_mode == null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Mode Missing',
-        body: 'Please fill in the mode of payment'
-      }
-      this.appC.popToast(msg);
-    }
-    /* Error */
-    else if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode != "" && this.feeTemplateById.payment_mode != null) {
-      let msg = {
-        type: 'error',
-        title: 'Payment Date Missing',
-        body: 'Please fill in the payment date '
-      }
-      this.appC.popToast(msg);
-    }
-    else {
-      /* PDC data to be verified */
-      if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
-        if (this.validatePdcObject()) {
-          let obj = {
-            chequeDetailsJson: {},
-            customFeeSchedules: [],
-            discount_fee_reason: "",
-            is_delete_other_fee_types: 0,
-            is_undo: this.is_undo,
-            paid_date: "",
-            payment_mode: "",
-            reference_no: "",
-            remarks: "",
-            studentArray: [],
-            studentwise_fees_tax_applicable: "",
-            studentwise_total_fees_amount: "",
-            studentwise_total_fees_discount: 0,
-            template_effective_date: "",
-            template_id: ""
-          }
-          this.isFeeApplied = true;
-          this.isPaymentPdc = false;
-          this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
-          obj.chequeDetailsJson = this.pdcSelectedForm;
-          obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-          obj.discount_fee_reason = this.discountReason;
-          obj.is_undo = this.is_undo;
-          obj.paid_date = this.feeTemplateById.paid_date;
-          obj.payment_mode = this.feeTemplateById.payment_mode;
-          obj.reference_no = this.feeTemplateById.reference_no;
-          obj.remarks = this.feeTemplateById.remarks;
-          obj.studentArray.push(this.student_id);
-          obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-          obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
-          obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-          this.postService.allocateStudentFees(obj).subscribe(
-            res => {
-              let msg = {
-                type: 'success',
-                title: 'Fees Updated',
-                body: 'Fee details has been updated'
-              }
-              this.appC.popToast(msg);
-              this.pdcSelectedForm = {
-                bank_name: '',
-                cheque_amount: this.totalFeePaid,
-                cheque_date: moment().format("YYYY-MM-DD"),
-                cheque_no: '',
-                pdc_cheque_id: ''
-              }
-              this.isFeeApplied = false;
-              this.pdcSelectedForPayment = "";
-              this.studentAddedGetFee(this.student_id);
-              this.closePaymentDetails();
-            },
-            err => {
-              let msg = {
-                type: 'error',
-                title: 'Incorrect PDC/Cheque Details',
-                body: 'Cheque amount does not match the selected installment'
-              }
-              this.appC.popToast(msg);
-            }
-          );
-        }
-        else {
-          let msg = {
-            type: 'error',
-            title: 'Incorrect PDC/Cheque Details',
-            body: 'Please provide correct input for the cheque data'
-          }
-          this.appC.popToast(msg);
-        }
-      }
-      else {
-        let obj = {
-          chequeDetailsJson: {},
-          customFeeSchedules: [],
-          discount_fee_reason: "",
-          is_delete_other_fee_types: 0,
-          is_undo: this.is_undo,
-          paid_date: "",
-          payment_mode: "",
-          reference_no: "",
-          remarks: "",
-          studentArray: [],
-          studentwise_fees_tax_applicable: "",
-          studentwise_total_fees_amount: "",
-          studentwise_total_fees_discount: 0,
-          template_effective_date: "",
-          template_id: ""
-        }
-        this.isFeeApplied = true;
-        this.isPaymentPdc = false;
-        obj.chequeDetailsJson = this.feeTemplateById.chequeDetailsJson;
-        obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-        obj.discount_fee_reason = this.discountReason;
-        obj.is_undo = this.is_undo;
-        obj.paid_date = this.feeTemplateById.paid_date;
-        obj.payment_mode = this.feeTemplateById.payment_mode;
-        obj.reference_no = this.feeTemplateById.reference_no;
-        obj.remarks = this.feeTemplateById.remarks;
-        obj.studentArray.push(this.student_id);
-        obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-        obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
-        obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-        this.postService.allocateStudentFees(obj).subscribe(
-          res => {
-            let msg = {
-              type: 'success',
-              title: 'Fees Updated',
-              body: 'Fee details has been updated'
-            }
-            this.appC.popToast(msg);
-            this.pdcSelectedForm = {
-              bank_name: '',
-              cheque_amount: this.totalFeePaid,
-              cheque_date: moment().format("YYYY-MM-DD"),
-              cheque_no: '',
-              pdc_cheque_id: ''
-            }
-            this.isFeeApplied = false;
-            this.pdcSelectedForPayment = "";
-            this.studentAddedGetFee(this.student_id);
-            this.closePaymentDetails();
-          },
-          err => {
-            let msg = {
-              type: 'error',
-              title: 'Incorrect PDC/Cheque Details',
-              body: 'Cheque amount does not match the selected installment'
-            }
-            this.appC.popToast(msg);
-          }
-        );
-        this.closePaymentDetails();
-      }
-    }
-  }
+  // validatePaymentDetails($event) {
+  //   $event.preventDefault();
+  //   /* Error */
+  //   if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode == "" && this.feeTemplateById.payment_mode == null) {
+  //     let msg = { type: 'error', title: 'Payment Date and Mode Missing', body: 'Please fill in the payment date and mode of payment' };
+  //     this.appC.popToast(msg);
+  //   }
+  //   /* Error */
+  //   else if (this.feeTemplateById.paid_date != null && this.feeTemplateById.payment_mode == "" && this.feeTemplateById.payment_mode == null) {
+  //     let msg = { type: 'error', title: 'Payment Mode Missing', body: 'Please fill in the mode of payment' };
+  //     this.appC.popToast(msg);
+  //   }
+  //   /* Error */
+  //   else if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode != "" && this.feeTemplateById.payment_mode != null) {
+  //     let msg = { type: 'error', title: 'Payment Date Missing', body: 'Please fill in the payment date ' };
+  //     this.appC.popToast(msg);
+  //   }
+  //   else {
+  //     /* PDC data to be verified */
+  //     if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
+  //       if (this.validatePdcObject()) {
+  //         let obj = { chequeDetailsJson: {}, customFeeSchedules: [], discount_fee_reason: "", is_delete_other_fee_types: 0, is_undo: this.is_undo, paid_date: "", payment_mode: "", reference_no: "", remarks: "", studentArray: [], studentwise_fees_tax_applicable: "", studentwise_total_fees_amount: "", studentwise_total_fees_discount: 0, template_effective_date: "", template_id: "" };
+  //         this.isFeeApplied = true;
+  //         this.isPaymentPdc = false;
+  //         this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
+  //         obj.chequeDetailsJson = this.pdcSelectedForm;
+  //         obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
+  //         obj.discount_fee_reason = this.discountReason;
+  //         obj.is_undo = this.is_undo;
+  //         obj.paid_date = this.feeTemplateById.paid_date;
+  //         obj.payment_mode = this.feeTemplateById.payment_mode;
+  //         obj.reference_no = this.feeTemplateById.reference_no;
+  //         obj.remarks = this.feeTemplateById.remarks;
+  //         obj.studentArray.push(this.student_id);
+  //         obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+  //         obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
+  //         obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+  //         this.postService.allocateStudentFees(obj).subscribe(
+  //           res => {
+  //             let msg = { type: 'success', title: 'Fees Updated', body: 'Fee details has been updated' };
+  //             this.appC.popToast(msg);
+  //             this.pdcSelectedForm = { bank_name: '', cheque_amount: this.totalFeePaid, cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
+  //             this.isFeeApplied = false;
+  //             this.pdcSelectedForPayment = "";
+  //             this.studentAddedGetFee(this.student_id);
+  //             this.closePaymentDetails();
+  //           },
+  //           err => {
+  //             let msg = { type: 'error', title: 'Incorrect PDC/Cheque Details', body: 'Cheque amount does not match the selected installment' };
+  //             this.appC.popToast(msg);
+  //           }
+  //         );
+  //       }
+  //       else {
+  //         let msg = { type: 'error', title: 'Incorrect PDC/Cheque Details', body: 'Please provide correct input for the cheque data' };
+  //         this.appC.popToast(msg);
+  //       }
+  //     }
+  //     else {
+  //       let obj = { chequeDetailsJson: {}, customFeeSchedules: [], discount_fee_reason: "", is_delete_other_fee_types: 0, is_undo: this.is_undo, paid_date: "", payment_mode: "", reference_no: "", remarks: "", studentArray: [], studentwise_fees_tax_applicable: "", studentwise_total_fees_amount: "", studentwise_total_fees_discount: 0, template_effective_date: "", template_id: "" };
+  //       this.isFeeApplied = true;
+  //       this.isPaymentPdc = false;
+  //       obj.chequeDetailsJson = this.feeTemplateById.chequeDetailsJson;
+  //       obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
+  //       obj.discount_fee_reason = this.discountReason;
+  //       obj.is_undo = this.is_undo;
+  //       obj.paid_date = this.feeTemplateById.paid_date;
+  //       obj.payment_mode = this.feeTemplateById.payment_mode;
+  //       obj.reference_no = this.feeTemplateById.reference_no;
+  //       obj.remarks = this.feeTemplateById.remarks;
+  //       obj.studentArray.push(this.student_id);
+  //       obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+  //       obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
+  //       obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+  //       this.postService.allocateStudentFees(obj).subscribe(
+  //         res => {
+  //           let msg = { type: 'success', title: 'Fees Updated', body: 'Fee details has been updated' };
+  //           this.appC.popToast(msg);
+  //           this.pdcSelectedForm = { bank_name: '', cheque_amount: this.totalFeePaid, cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
+  //           this.isFeeApplied = false;
+  //           this.pdcSelectedForPayment = "";
+  //           this.studentAddedGetFee(this.student_id);
+  //           this.closePaymentDetails();
+  //         },
+  //         err => {
+  //           let msg = { type: 'error', title: 'Incorrect PDC/Cheque Details', body: 'Cheque amount does not match the selected installment' };
+  //           this.appC.popToast(msg);
+  //         }
+  //       );
+  //       this.closePaymentDetails();
+  //     }
+  //   }
+  // }
+
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  splitCustomizedFee() {
-    this.instalmentTableData = [];
-    this.otherFeeTableData = [];
-    this.feeTemplateById.customFeeSchedules.forEach(el => {
-      el.due_date = new Date(el.due_date);
-      if (el.fee_type_name === "INSTALLMENT") {
-        this.instalmentTableData.push(el);
-      }
-      else if (el.fee_type_name != "INSTALLMENT") {
-        this.otherFeeTableData.push(el);
-      }
-    });
-  }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  fetchCustomFeeSchedule(e) {
-    this.isRippleLoad = true;
-    this.userCustommizedFee = e;
-    this.totalTaxAmount = 0;
-    this.totalInitalAmount = 0;
-    this.totalFeeWithTax = 0;
-    this.totalAmountDue = 0;
-    this.totalPaidAmount = 0;
-    this.totalFeePaid = 0;
+  // getCustomizedFee(arr: any[]): any[] {
+  //   let temp: any[] = [];
+  //   arr.forEach(e => {
+  //     let obj = {
+  //       fee_date: moment(e.due_date).format("YYYY-MM-DD"),
+  //       fee_type: e.fee_type,
+  //       fees_amount: e.fees_amount,
+  //       initial_fee_amount: e.initial_fee_amount,
+  //       is_paid: e.is_paid,
+  //       service_tax: e.service_tax,
+  //       service_tax_applicable: e.service_tax_applicable
+  //     }
+  //     temp.push(obj);
+  //   });
+  //   return temp;
+  // }
 
-    this.userCustommizedFee.forEach(el => {
-      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-      el.fees_amount = parseInt(el.fees_amount);
-      el.initial_fee_amount = parseInt(el.initial_fee_amount);
-
-      /* Taxes Here */
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        if (el.fee_type_name == "INSTALLMENT") {
-          let tax = el.initial_fee_amount * (this.service_tax / 100);
-          this.totalTaxAmount += this.precisionRound(tax, -1);
-          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
-          }
-        }
-        else {
-          let tax = el.initial_fee_amount * (el.service_tax / 100);
-          this.totalTaxAmount += this.precisionRound(tax, -1);
-          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
-          }
-        }
-      }
-      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-        this.service_tax = 0;
-        this.totalTaxAmount = 0;
-      }
-
-      if (el.is_referenced == "N") {
-        this.totalAmountDue += el.fees_amount
-      }
-
-      /* AMount Paid */
-      else if (el.is_referenced == "Y") {
-        /* Partial Paid */
-        if (el.is_partially_paid == 1) {
-          this.totalPaidAmount += el.amount_paid;
-          this.totalAmountDue += el.balance_amount
-        }
-        /* Fully Paid */
-        else if (el.is_partially_paid == 0) {
-          this.totalPaidAmount += el.amount_paid;
-        }
-      }
-
-      this.totalInitalAmount += parseInt(el.initial_fee_amount);
-      this.totalFeeWithTax += parseInt(el.fees_amount);
-
-      let obj = {
-        uiSelected: el.is_referenced == "Y" ? true : false,
-        isPaid: el.is_referenced == "Y" ? true : false
-      }
-
-      this.paymentStatusArr.push(obj);
-
-    });
-
-    this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
-
-    this.feeTemplateById.studentwise_total_fees_amount = this.totalFeeWithTax;
-    this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
-    this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
-    this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
-
-    let obj = {
-      customFeeSchedules: [],
-      discount_fee_reason: "",
-      is_delete_other_fee_types: 0,
-      is_undo: this.is_undo,
-      studentArray: [],
-      studentwise_fees_tax_applicable: "",
-      studentwise_total_fees_amount: "",
-      studentwise_total_fees_discount: 0,
-      template_effective_date: "",
-      template_id: ""
-    }
-
-    this.isFeeApplied = true;
-    this.isPaymentPdc = false;
-    obj.customFeeSchedules = this.getFeeStructure(this.userCustommizedFee);
-    obj.discount_fee_reason = this.discountReason;
-    obj.is_undo = this.is_undo;
-    obj.studentArray.push(this.student_id);
-    obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-    obj.studentwise_total_fees_amount = this.totalAmountDue.toString();
-    obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-    obj.template_effective_date = moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD");
-    obj.template_id = this.feeTemplateById.template_id;
-
-    this.postService.allocateStudentFees(obj).subscribe(
-      res => {
-        this.splitCustomizedFee();
-        this.updateStudentFeeDetails();
-        this.userHasFees = true;
-        this.isRippleLoad = false;
-        this.isDefineFees = false;
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    );
-
-  }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  createCustomFeeSchedule() {
-    this.isRippleLoad = true;
-
-    this.instalmentTableData.sort(function (d1, d2) {
-      return moment(d1.due_date).unix() - moment(d2.due_date).unix();
-    });
-    for (var i = 0; i < this.instalmentTableData.length; i++) {
-      this.instalmentTableData[i].installment_no = i + 1;
-    }
-    for (var i = 0; i < this.otherFeeTableData.length; i++) {
-      this.otherFeeTableData[i].installment_no = this.instalmentTableData.length + i + 1;
-    }
-    this.userCustommizedFee = [];
-    this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
-    this.totalTaxAmount = 0;
-    this.totalInitalAmount = 0;
-    this.totalFeeWithTax = 0;
-    this.totalAmountDue = 0;
-    this.totalPaidAmount = 0;
-    this.totalFeePaid = 0;
-
-    this.userCustommizedFee.forEach(el => {
-      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-      el.fees_amount = parseInt(el.fees_amount);
-      el.initial_fee_amount = parseInt(el.initial_fee_amount);
-
-      /* Taxes Here */
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        if (el.fee_type_name == "INSTALLMENT") {
-          let tax = el.initial_fee_amount * (this.service_tax / 100);
-          this.totalTaxAmount += this.precisionRound(tax, -1);
-          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
-          }
-        }
-        else {
-          let tax = el.initial_fee_amount * (el.service_tax / 100);
-          this.totalTaxAmount += this.precisionRound(tax, -1);
-          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
-          }
-        }
-      }
-      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-        this.service_tax = 0;
-        this.totalTaxAmount = 0;
-      }
-
-      if (el.is_referenced == "N") {
-        this.totalAmountDue += el.fees_amount
-      }
-
-      /* AMount Paid */
-      else if (el.is_referenced == "Y") {
-        /* Partial Paid */
-        if (el.is_partially_paid == 1) {
-          this.totalPaidAmount += el.amount_paid;
-          this.totalAmountDue += el.balance_amount
-        }
-        /* Fully Paid */
-        else if (el.is_partially_paid == 0) {
-          this.totalPaidAmount += el.amount_paid;
-        }
-      }
-
-      this.totalInitalAmount += parseInt(el.initial_fee_amount);
-      this.totalFeeWithTax += parseInt(el.fees_amount);
-
-      let obj = {
-        uiSelected: el.is_referenced == "Y" ? true : false,
-        isPaid: el.is_referenced == "Y" ? true : false
-      }
-
-      this.paymentStatusArr.push(obj);
-
-    });
-
-    this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
-
-    this.feeTemplateById.studentwise_total_fees_amount = this.totalFeeWithTax;
-    this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
-    this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
-    this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
-
-    let obj = {
-      customFeeSchedules: [],
-      discount_fee_reason: "",
-      is_delete_other_fee_types: 0,
-      is_undo: this.is_undo,
-      studentArray: [],
-      studentwise_fees_tax_applicable: "",
-      studentwise_total_fees_amount: "",
-      studentwise_total_fees_discount: 0,
-      template_effective_date: "",
-      template_id: ""
-    }
-
-    this.isFeeApplied = true;
-    this.isPaymentPdc = false;
-    obj.customFeeSchedules = this.getFeeStructure(this.userCustommizedFee);
-    obj.discount_fee_reason = this.discountReason;
-    obj.is_undo = this.is_undo;
-    obj.studentArray.push(this.student_id);
-    obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-    obj.studentwise_total_fees_amount = this.totalAmountDue.toString();
-    obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-    obj.template_effective_date = moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD");
-    obj.template_id = this.feeTemplateById.template_id;
-
-    this.postService.allocateStudentFees(obj).subscribe(
-      res => {
-        this.splitCustomizedFee();
-        this.updateStudentFeeDetails();
-        this.userHasFees = true;
-        this.isRippleLoad = false;
-        this.isDefineFees = false;
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    );
-  }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  getCustomizedFee(arr: any[]): any[] {
-    let temp: any[] = [];
-    arr.forEach(e => {
-      let obj = {
-        fee_date: moment(e.due_date).format("YYYY-MM-DD"),
-        fee_type: e.fee_type,
-        fees_amount: e.fees_amount,
-        initial_fee_amount: e.initial_fee_amount,
-        is_paid: e.is_paid,
-        service_tax: e.service_tax,
-        service_tax_applicable: e.service_tax_applicable
-      }
-      temp.push(obj);
-    });
-    return temp;
-  }
-
-  getStudentFeeReportJsonList(): any[] {
-    let temp: any[] = [];
-    let total = this.total_amt_tobe_paid;
-    let remaining = 0;
-
-    /* only installment whose checkboxes have been checked */
-    this.installmentMarkedForPayment.forEach(e => {
-      /* e gives the index of the fee installment on the array */
-      let paid = 0;
-      let previous = 0;
-      let full = "N";
-      /*  */
-      if (this.feeTemplateById.customFeeSchedules[e].is_referenced == "Y") {
-        previous = this.feeTemplateById.customFeeSchedules[e].balance_amount;
-
-        /* balance amount less than total */
-        if (this.feeTemplateById.customFeeSchedules[e].balance_amount < total) {
-          //fees_amount
-          paid = this.feeTemplateById.customFeeSchedules[e].balance_amount;
-          remaining = total - this.feeTemplateById.customFeeSchedules[e].balance_amount;
-          total = remaining;
-          full = "Y";
-        }
-
-        /* balance is equal to total */
-        else if (this.feeTemplateById.customFeeSchedules[e].balance_amount == total) {
-          paid = this.feeTemplateById.customFeeSchedules[e].balance_amount;
-          remaining = 0;
-          total = remaining;
-          full = "Y";
-        }
-
-        /* balance is less than total */
-        else if (this.feeTemplateById.customFeeSchedules[e].balance_amount > total) {
-          paid = total;
-          remaining = 0;
-          total = remaining;
-          full = "N";
-        }
-      }
-      else if (this.feeTemplateById.customFeeSchedules[e].is_referenced == "N") {
-        previous = this.feeTemplateById.customFeeSchedules[e].fees_amount;
-
-        /*  amount less than total */
-        if (this.feeTemplateById.customFeeSchedules[e].fees_amount < total) {
-          paid = this.feeTemplateById.customFeeSchedules[e].fees_amount;
-          remaining = total - this.feeTemplateById.customFeeSchedules[e].fees_amount;
-          total = remaining;
-          full = "Y";
-        }
-
-        /* amount is equal to total */
-        else if (this.feeTemplateById.customFeeSchedules[e].fees_amount == total) {
-          paid = this.feeTemplateById.customFeeSchedules[e].fees_amount;
-          remaining = 0;
-          total = remaining;
-          full = "Y";
-        }
-
-        /* amount is more than total */
-        else if (this.feeTemplateById.customFeeSchedules[e].fees_amount > total) {
-          paid = total;
-          remaining = 0;
-          total = remaining;
-          full = "N";
-        }
-      }
-
-      let obj = {
-        due_date: moment(this.feeTemplateById.customFeeSchedules[e].due_date).format("YYYY-MM-DD"),
-        fee_schedule_id: this.feeTemplateById.customFeeSchedules[e].schedule_id,
-        paid_full: full,
-        previous_balance_amt: previous,
-        total_amt_paid: paid,
-      }
-      if (obj.total_amt_paid != 0) {
-        temp.push(obj);
-      }
-    })
-    return temp;
-  }
-
-
-  getPartialPaymentHistory(inst) {
-    this.studentPartialPaymentData = [];
-    this.fetchService.getStudentPartialPaymentHistory(this.student_id, inst.schedule_id).subscribe(
-      res => {
-        console.log(res);
-        this.studentPartialPaymentData = res;
-        this.isPartialPayHistory = true;
-      },
-      err => { }
-    )
-  }
 
 }

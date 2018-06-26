@@ -68,6 +68,7 @@ export class RobTableComponent implements OnChanges {
     }
 
     selectAllRows(ev) {
+        this.cd.reattach();
         this.cd.markForCheck();
         ev.preventDefault();
         ev.stopPropagation();
@@ -83,6 +84,8 @@ export class RobTableComponent implements OnChanges {
             this.rowsSelected.emit(this.rowSelectedCount);
             this.getSelectedRows();
         }
+        this.cd.detectChanges();
+        this.cd.detach();
     }
 
 

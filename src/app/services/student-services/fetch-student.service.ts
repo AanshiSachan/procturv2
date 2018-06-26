@@ -203,7 +203,7 @@ export class FetchStudentService {
   }
 
   getStudentPartialPaymentHistory(student_id: any, schedule_id: any): Observable<any> {
-    let url = this.baseUrl + "api/v1/studentWise/fee/schedule/paymentHistory/fetch/" + this.institute_id + "/" + student_id + "/" + schedule_id;
+    let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/paymentHistory/fetch/" + this.institute_id + "/" + student_id + "/" + schedule_id;
     return this.http.get(url, { headers: this.headers }).map(
       res => { return res; },
       err => { return err; }

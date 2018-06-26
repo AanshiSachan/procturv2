@@ -1596,4 +1596,6 @@
   </proctur-popup>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [paymentHistory]="studentPartialPaymentData" [studentid]="student_id"></partial-pay-history>
+
 </section>
