@@ -178,61 +178,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  // getBatchSelected(i) {
-  //   return this.batchList[i].isSelected;
-  // }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // batchChangeAlert(value, index) {
-  //   let ind = null;
-
-  //   let len = this.batchList.length;
-
-  //   if (value) {
-  //     this.batchList[index].isSelected = value;
-  //   }
-
-  //   else {
-  //     if (this.studentAddFormData.assignedBatches != null) {
-
-  //       /* Check if selected ID exist on selected array list */
-  //       this.studentAddFormData.assignedBatches.forEach(e => {
-  //         if (this.isProfessional) {
-  //           if (this.batchList[index].data.batch_id == e) {
-  //             ind = e;
-  //           }
-  //         }
-  //         else {
-  //           if (this.batchList[index].data.course_id == e) {
-  //             ind = e;
-  //           }
-  //         }
-  //       });
-
-  //       /* if index is not null */
-  //       if (ind != null) {
-  //         if (confirm("If you unassign the student from course then corresponding fee instalments will be deleted.")) {
-  //           this.batchList[index].isSelected = false;
-  //         }
-  //         else {
-  //           this.batchList[index].isSelected = true;
-  //           document.getElementById('batchcheck' + index).checked = true;
-  //         }
-  //       }
-  //       /* else */
-  //       else if (ind == null) {
-  //         this.batchList[index].isSelected = false;
-  //       }
-  //     }
-  //     else {
-  //       this.batchList[index].isSelected = false;
-  //     }
-  //   }
-  // }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateSlotsByStudent() {
     if (this.studentAddFormData.slot_id != '') {
@@ -435,7 +380,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(
       data => {
-        if(data != null){
+        if (data != null) {
           data.forEach(el => {
             let obj = {
               data: el,
@@ -944,53 +889,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
   /* ======================          Student basic details and custom component updaters         =============================================== */
@@ -1495,83 +1398,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
-  /* ==================================================          Student Fee Related Methods         ======================================================== */
-  /* ========================  These methods are used to update the fee structure, make payment and manage PDC data  ===================== */
   /* =========================================================================================================================================== */
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // studentamountpaid(student) {
-  //   let amountpaid = 0;
-  //   student.customFeeSchedules.map((installment) => {
-  //     if (installment.is_referenced === 'Y') {
-  //       if (installment.paid_full === 'Y') {
-  //         amountpaid += installment.amount_paid;
-  //       }
-  //       else if (installment.paid_full === 'N') {
-  //         amountpaid += (installment.fees_amount - installment.balance_amount);
-  //       }
-  //     }
-  //   });
-  //   return amountpaid;
-  // }
-
+  /* =========================================================================================================================================== */
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   studentAddedGetFee(id) {
@@ -3634,50 +3464,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     )
   }
 
-  closeHistory(event){
+  closeHistory(event) {
     this.isPartialPayHistory = false;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
 
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
@@ -3779,396 +3573,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // sortTableByDate(i) {
-  //   this.updateTableInstallment();
-  // }
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // addNewStudentFullView() {
-  //   let fee = this.feeTemplateById.customFeeSchedules;
-  //   /* Payment Details Have been updated proceed to upload student */
-  //   if (this.totalFeePaid == 0) {
-  //     this.addNewStudentFull();
-  //   }
-  //   /* Payment Details not found */
-  //   else if (this.totalFeePaid != 0) {
-  //     let isPaid = this.paymentStatusArr.every(function (element, index, array) {
-  //       return (element.uiSelected === element.isPaid);
-  //     });
-  //     /* No Payment has been selected for updation */
-  //     if (isPaid) {
-  //       this.addNewStudentFull();
-  //     } /* Payment Selected For updation */
-  //     else {
-  //       this.isFeePaymentUpdate = true;
-  //     }
-  //   }
-  // }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // addNewStudentFull() {
-  //   //console.log("validate student form and generate id");
-  //   this.studentAdder();
-  // }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // studentAdder() {
-  //   /* Both Form are Valid Else there seems to be an error on custom component */
-  //   let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
-  //   let formValid: boolean = this.formfullValidator();
-  //   //console.log(isCustomComponentValid);
-  //   if (isCustomComponentValid && formValid) {
-  //     let customArr = [];
-  //     this.customComponents.forEach(el => {
-  //       /* Not Checkbox and value not empty */
-  //       if (el.value != '' && el.type != 2 && el.type != 5) {
-  //         let obj = {
-  //           component_id: el.id,
-  //           enq_custom_id: "0",
-  //           enq_custom_value: el.value
-  //         }
-  //         customArr.push(obj);
-  //       }
-  //       /* Checkbox Custom Component */
-  //       else if (el.type == 2) {
-  //         if (el.value == "Y" || el.value == true) {
-  //           let obj = {
-  //             component_id: el.id,
-  //             enq_custom_id: "0",
-  //             enq_custom_value: "Y"
-  //           }
-  //           customArr.push(obj);
-  //         }
-  //         else if (el.value == "N" || el.value == false) {
-  //           let obj = {
-  //             component_id: el.id,
-  //             enq_custom_id: "0",
-  //             enq_custom_value: "N"
-  //           }
-  //           customArr.push(obj);
-  //         }
-  //       }
-  //       /* Date Type Custom Component */
-  //       else if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
-  //         let obj = {
-  //           component_id: el.id,
-  //           enq_custom_id: "0",
-  //           enq_custom_value: moment(el.value).format("YYYY-MM-DD")
-  //         }
-  //         customArr.push(obj);
-  //       }
-  //     });
-  //     /* Get slot data and store on form */
-  //     this.studentAddFormData.slot_id = this.selectedSlotsID;
-  //     this.studentAddFormData.stuCustomLi = customArr;
-  //     this.studentAddFormData.photo = this.studentServerImage;
-  //     this.additionalBasicDetails = false;
-  //     if (this.studentAddFormData.assignedBatches == null) {
-  //       this.studentAddFormData.assignedBatchescademicYearArray = null;
-  //       this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
-  //     }
-  //     if (this.studentAddFormData.assignedBatches != null) {
-  //       this.studentAddFormData.assignedBatchescademicYearArray;
-  //       this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
-  //     }
-  //     this.isRippleLoad = true;
-  //     this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
-  //       (res: any) => {
-  //         this.isRippleLoad = false;
-  //         let statusCode = res.statusCode;
-  //         if (statusCode == 200) {
-  //           this.removeImage = true;
-  //           /* Inventory defined and fee as well */
-  //           if (this.allotInventoryArr.length != 0 && this.isFeeApplied == true) {
-  //             this.allocateInventory(this.student_id);
-  //           }
-  //           /* Inventory is not defined but fee is defined*/
-  //           else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == true) {
-  //             this.asssignCustomizedFee(this.student_id);
-  //           }
-  //           /* Inventory defined but fee is not*/
-  //           else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
-  //             this.allocateInventory(this.student_id);
-  //           }
-  //           /* Inventory and fee both are not defined */
-  //           else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
-  //             this.studentAddedNotifier();
-  //           }
-  //         }
-  //         else if (statusCode == 2) {
-  //           let alert = {
-  //             type: 'error',
-  //             title: 'Contact Number In Use',
-  //             body: 'An enquiry with the same contact number seems to exist'
-  //           }
-  //           this.removeImage = true;
-  //           this.appC.popToast(alert);
-  //           this.isDuplicateContactOpen();
-  //         }
-  //       },
-  //       err => {
-  //         this.isRippleLoad = false;
-  //         let alert = {
-  //           type: 'error',
-  //           title: 'Error Updating Student Details',
-  //           body: ''
-  //         }
-  //         this.appC.popToast(alert);
-  //       });
-  //   }
-  //   else {
-  //     if (!isCustomComponentValid) {
-  //       //console.log("invalid custom component");
-  //       let alert = {
-  //         type: 'error',
-  //         title: 'Required Fields not filled',
-  //         body: 'Please fill all the required fields on other details tab'
-  //       }
-  //       this.appC.popToast(alert);
-  //     }
-  //     else if (!formValid) {
-  //       //console.log("invalid name number");
-  //       let alert = {
-  //         type: 'error',
-  //         title: 'Personal Details Invalid/Incorrect',
-  //         body: 'Please provide valid name and contact number on personal details tab'
-  //       }
-  //       this.appC.popToast(alert);
-  //     }
-  //   }
-  // }
-
-
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // allocateInventory(id) {
-  //   let count: number = 0;
-  //   let temp: any[] = [];
-  //   this.allotInventoryArr.forEach(e => {
-  //     let obj = {
-  //       alloted_units: e.units_added,
-  //       institution_id: sessionStorage.getItem('institute_id'),
-  //       item_id: e.item_id,
-  //       student_id: id
-  //     }
-  //     temp.push(obj);
-  //   });
-  //   if (temp.length != 0) {
-  //     this.postService.allocateStudentInventory(temp).subscribe(
-  //       res => {
-  //         if (this.isFeeApplied) {
-  //           this.asssignCustomizedFee(id);
-  //         }
-  //         else {
-  //           this.studentAddedNotifier();
-  //         }
-  //       },
-  //       err => {
-  //         let msg = err.error.message;
-  //         this.isRippleLoad = false;
-  //         let obj = {
-  //           type: 'error',
-  //           title: msg,
-  //           body: ""
-  //         }
-  //         this.appC.popToast(obj);
-  //       }
-  //     );
-  //   }
-  //   else {
-  //     if (this.isFeeApplied) {
-  //       this.asssignCustomizedFee(id);
-  //     }
-  //     else {
-  //       this.studentAddedNotifier();
-  //     }
-  //   }
-  // }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // checkIfRowSelcted(data) {
-  //   let selected: any = [];
-  //   for (let i = 0; i < data.length; i++) {
-  //     if (data[i].uiSelected) {
-  //       selected.push(data[i].cheque_id);
-  //     }
-  //   }
-  //   return selected;
-  // }
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // validatePaymentDetails($event) {
-  //   $event.preventDefault();
-  //   /* Error */
-  //   if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode == "" && this.feeTemplateById.payment_mode == null) {
-  //     let msg = { type: 'error', title: 'Payment Date and Mode Missing', body: 'Please fill in the payment date and mode of payment' };
-  //     this.appC.popToast(msg);
-  //   }
-  //   /* Error */
-  //   else if (this.feeTemplateById.paid_date != null && this.feeTemplateById.payment_mode == "" && this.feeTemplateById.payment_mode == null) {
-  //     let msg = { type: 'error', title: 'Payment Mode Missing', body: 'Please fill in the mode of payment' };
-  //     this.appC.popToast(msg);
-  //   }
-  //   /* Error */
-  //   else if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode != "" && this.feeTemplateById.payment_mode != null) {
-  //     let msg = { type: 'error', title: 'Payment Date Missing', body: 'Please fill in the payment date ' };
-  //     this.appC.popToast(msg);
-  //   }
-  //   else {
-  //     /* PDC data to be verified */
-  //     if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
-  //       if (this.validatePdcObject()) {
-  //         let obj = { chequeDetailsJson: {}, customFeeSchedules: [], discount_fee_reason: "", is_delete_other_fee_types: 0, is_undo: this.is_undo, paid_date: "", payment_mode: "", reference_no: "", remarks: "", studentArray: [], studentwise_fees_tax_applicable: "", studentwise_total_fees_amount: "", studentwise_total_fees_discount: 0, template_effective_date: "", template_id: "" };
-  //         this.isFeeApplied = true;
-  //         this.isPaymentPdc = false;
-  //         this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
-  //         obj.chequeDetailsJson = this.pdcSelectedForm;
-  //         obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-  //         obj.discount_fee_reason = this.discountReason;
-  //         obj.is_undo = this.is_undo;
-  //         obj.paid_date = this.feeTemplateById.paid_date;
-  //         obj.payment_mode = this.feeTemplateById.payment_mode;
-  //         obj.reference_no = this.feeTemplateById.reference_no;
-  //         obj.remarks = this.feeTemplateById.remarks;
-  //         obj.studentArray.push(this.student_id);
-  //         obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-  //         obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
-  //         obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-  //         this.postService.allocateStudentFees(obj).subscribe(
-  //           res => {
-  //             let msg = { type: 'success', title: 'Fees Updated', body: 'Fee details has been updated' };
-  //             this.appC.popToast(msg);
-  //             this.pdcSelectedForm = { bank_name: '', cheque_amount: this.totalFeePaid, cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
-  //             this.isFeeApplied = false;
-  //             this.pdcSelectedForPayment = "";
-  //             this.studentAddedGetFee(this.student_id);
-  //             this.closePaymentDetails();
-  //           },
-  //           err => {
-  //             let msg = { type: 'error', title: 'Incorrect PDC/Cheque Details', body: 'Cheque amount does not match the selected installment' };
-  //             this.appC.popToast(msg);
-  //           }
-  //         );
-  //       }
-  //       else {
-  //         let msg = { type: 'error', title: 'Incorrect PDC/Cheque Details', body: 'Please provide correct input for the cheque data' };
-  //         this.appC.popToast(msg);
-  //       }
-  //     }
-  //     else {
-  //       let obj = { chequeDetailsJson: {}, customFeeSchedules: [], discount_fee_reason: "", is_delete_other_fee_types: 0, is_undo: this.is_undo, paid_date: "", payment_mode: "", reference_no: "", remarks: "", studentArray: [], studentwise_fees_tax_applicable: "", studentwise_total_fees_amount: "", studentwise_total_fees_discount: 0, template_effective_date: "", template_id: "" };
-  //       this.isFeeApplied = true;
-  //       this.isPaymentPdc = false;
-  //       obj.chequeDetailsJson = this.feeTemplateById.chequeDetailsJson;
-  //       obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-  //       obj.discount_fee_reason = this.discountReason;
-  //       obj.is_undo = this.is_undo;
-  //       obj.paid_date = this.feeTemplateById.paid_date;
-  //       obj.payment_mode = this.feeTemplateById.payment_mode;
-  //       obj.reference_no = this.feeTemplateById.reference_no;
-  //       obj.remarks = this.feeTemplateById.remarks;
-  //       obj.studentArray.push(this.student_id);
-  //       obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-  //       obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
-  //       obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-  //       this.postService.allocateStudentFees(obj).subscribe(
-  //         res => {
-  //           let msg = { type: 'success', title: 'Fees Updated', body: 'Fee details has been updated' };
-  //           this.appC.popToast(msg);
-  //           this.pdcSelectedForm = { bank_name: '', cheque_amount: this.totalFeePaid, cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
-  //           this.isFeeApplied = false;
-  //           this.pdcSelectedForPayment = "";
-  //           this.studentAddedGetFee(this.student_id);
-  //           this.closePaymentDetails();
-  //         },
-  //         err => {
-  //           let msg = { type: 'error', title: 'Incorrect PDC/Cheque Details', body: 'Cheque amount does not match the selected installment' };
-  //           this.appC.popToast(msg);
-  //         }
-  //       );
-  //       this.closePaymentDetails();
-  //     }
-  //   }
-  // }
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  // getCustomizedFee(arr: any[]): any[] {
-  //   let temp: any[] = [];
-  //   arr.forEach(e => {
-  //     let obj = {
-  //       fee_date: moment(e.due_date).format("YYYY-MM-DD"),
-  //       fee_type: e.fee_type,
-  //       fees_amount: e.fees_amount,
-  //       initial_fee_amount: e.initial_fee_amount,
-  //       is_paid: e.is_paid,
-  //       service_tax: e.service_tax,
-  //       service_tax_applicable: e.service_tax_applicable
-  //     }
-  //     temp.push(obj);
-  //   });
-  //   return temp;
-  // }
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
+  /* =========================================================================================================================================== */
 
 
 }
