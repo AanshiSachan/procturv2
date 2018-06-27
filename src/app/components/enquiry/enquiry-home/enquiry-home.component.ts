@@ -487,63 +487,9 @@ export class EnquiryHomeComponent implements OnInit {
     this.prefill.fetchCustomComponentEmpty()
       .subscribe(
         data => {
-          data.forEach(el => {
-            let obj = {
-              data: el,
-              id: el.component_id,
-              is_required: el.is_required,
-              is_searchable: el.is_searchable,
-              label: el.label,
-              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-              selected: [],
-              selectedString: '',
-              type: el.type,
-              value: el.enq_custom_value
-            }
-            if (el.type == 4) {
-              obj = {
-                data: el,
-                id: el.component_id,
-                is_required: el.is_required,
-                is_searchable: el.is_searchable,
-                label: el.label,
-                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
-                selected: [],
-                selectedString: '',
-                type: el.type,
-                value: el.enq_custom_value
-              }
-            }
-            if (el.type == 3) {
-              obj = {
-                data: el,
-                id: el.component_id,
-                is_required: el.is_required,
-                is_searchable: el.is_searchable,
-                label: el.label,
-                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-                selected: [],
-                selectedString: "",
-                type: el.type,
-                value: el.enq_custom_value
-              }
-            }
-            if (el.type == 2) {
-              obj = {
-                data: el,
-                id: el.component_id,
-                is_required: el.is_required,
-                is_searchable: el.is_searchable,
-                label: el.label,
-                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-                selected: [],
-                selectedString: '',
-                type: el.type,
-                value: el.enq_custom_value == "" ? false : true,
-              }
-            }
-            else if (el.type != 2 && el.type != 4 && el.type != 3) {
-              obj = {
+          if(data != null){
+            data.forEach(el => {
+              let obj = {
                 data: el,
                 id: el.component_id,
                 is_required: el.is_required,
@@ -555,9 +501,65 @@ export class EnquiryHomeComponent implements OnInit {
                 type: el.type,
                 value: el.enq_custom_value
               }
-            }
-            this.customComponents.push(obj);
-          });
+              if (el.type == 4) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: el.enq_custom_value
+                }
+              }
+              if (el.type == 3) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: "",
+                  type: el.type,
+                  value: el.enq_custom_value
+                }
+              }
+              if (el.type == 2) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: el.enq_custom_value == "" ? false : true,
+                }
+              }
+              else if (el.type != 2 && el.type != 4 && el.type != 3) {
+                obj = {
+                  data: el,
+                  id: el.component_id,
+                  is_required: el.is_required,
+                  is_searchable: el.is_searchable,
+                  label: el.label,
+                  prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                  selected: [],
+                  selectedString: '',
+                  type: el.type,
+                  value: el.enq_custom_value
+                }
+              }
+              this.customComponents.push(obj);
+            });
+          }
           this.emptyCustomComponent = this.componentListObject;
         });
   }
@@ -2223,7 +2225,8 @@ export class EnquiryHomeComponent implements OnInit {
   downloadAllEnquiries() {
     this.cd.markForCheck();
     this.isRippleLoad = true;
-    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? this.instituteData.followUpDate : this.advancedFilterForm.followUpDate, enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: moment(this.advancedFilterForm.enquireDateFrom).format("YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo).format("YYYY-MM-DD"), updateDate: moment(this.advancedFilterForm.updateDate).format("YYYY-MM-DD"), updateDateFrom: moment(this.advancedFilterForm.updateDateFrom).format("YYYY-MM-DD"), updateDateTo: moment(this.advancedFilterForm.updateDateTo).format("YYYY-MM-DD"), start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
+    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? moment(this.instituteData.followUpDate).format("YYYY-MM-DD") : moment(this.advancedFilterForm.followUpDate).format("YYYY-MM-DD"), enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: moment(this.advancedFilterForm.enquireDateFrom).format("YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo).format("YYYY-MM-DD"), updateDate: moment(this.advancedFilterForm.updateDate).format("YYYY-MM-DD"), updateDateFrom: moment(this.advancedFilterForm.updateDateFrom).format("YYYY-MM-DD"), updateDateTo: moment(this.advancedFilterForm.updateDateTo).format("YYYY-MM-DD"), start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
+
     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
@@ -2558,11 +2561,14 @@ export class EnquiryHomeComponent implements OnInit {
     this.optMenu.nativeElement.classList.add('shorted');
     this.isRippleLoad = true;
     this.cd.markForCheck();
+    this.customCompid = [];
     this.prefill.fetchCustomComponentById(id).subscribe(
       res => {
         this.isRippleLoad = false;
         this.cd.markForCheck();
-        this.customCompid = res;
+        if(res != null){
+          this.customCompid = res;
+        }
         this.isSideBar = true;
       },
       err => {

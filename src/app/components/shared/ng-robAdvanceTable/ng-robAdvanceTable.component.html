@@ -6,10 +6,8 @@
                     <li class="schedule-state">
                         <div>
                             <div class="schedule-bottom">
-
-
                                 <ul class="sche-head">
-                                    <li *ngIf="isMulti">
+                                    <li class="selectCheckbox" *ngIf="isMulti">
                                         <div class="field-checkbox-wrapper" style="background: transparent;">
                                             <input #headerCheckbox type="checkbox" value="" name="check" [checked]="isAllChecked()" (change)="selectAllRows($event)"
                                                 class="form-checkbox">
@@ -35,14 +33,14 @@
 
                                 <div class="schedule-scroller" *ngIf="records.length != 0">
                                     <ul class="ul-body ct-ongoing" *ngFor="let record of recordsTrimmed; let i = index;" [class.selected]="i == selectedRow">
-                                        <li *ngIf="isMulti">
+                                        <li class="selectCheckbox" *ngIf="isMulti">
                                             <div class="field-checkbox-wrapper" style="background: transparent;">
                                                 <input type="checkbox" name="recordcb[]" value="" name="check" class="rowCheckbox form-checkbox" [(ngModel)]="record.uiSelected"
                                                     (ngModelChange)="rowCheckboxChange(record)">
                                                 <label></label>
                                             </div>
                                         </li>
-                                        <li class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record  , map.primaryKey)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
+                                        <li title="{{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header }}" class="{{map.header}}" *ngFor="let map of columnMaps" (click)="userRowClicked($event, i, record  , map.primaryKey)" [ngStyle]="getColor(map.primaryKey , record[map.access(record)])">
                                             {{ record[map.access(record)] | typeFormatter:true:'1.0':true:map.header }}
                                         </li>
                                         <li class="option-menu" *ngIf="hasMenu">

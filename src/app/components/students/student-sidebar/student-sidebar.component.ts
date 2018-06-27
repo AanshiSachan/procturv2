@@ -160,9 +160,13 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
+
     if (this.eRef.nativeElement.contains(event.target)) {
     } else {
+      this.cd.reattach();
       this.showMenu = false;
+      this.cd.detectChanges();
+      this.cd.detach();
     }
   }
 
@@ -173,7 +177,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
 
-  editCourseAllocated(){
+  editCourseAllocated() {
     this.openCourseAssigned.emit(true);
   }
 

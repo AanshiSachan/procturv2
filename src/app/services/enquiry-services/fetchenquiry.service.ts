@@ -119,10 +119,17 @@ export class FetchenquiryService {
 
 
   /* return the json to construct a list of student enquiry to xls */
-  fetchAllEnquiryAsXls(data) {
+  fetchAllEnquiryAsXls(obj) {
+    obj.enquireDateFrom = obj.enquireDateFrom == 'Invalid date' ? "" : obj.enquireDateFrom;
+    obj.enquireDateTo = obj.enquireDateTo == 'Invalid date' ? "" : obj.enquireDateTo;
+    obj.enquiry_date = obj.enquiry_date == 'Invalid date' ? "" : obj.enquiry_date;
+    obj.updateDateFrom = obj.updateDateFrom == 'Invalid date' ? "" : obj.updateDateFrom;
+    obj.updateDateTo = obj.updateDateTo == 'Invalid date' ? "" : obj.updateDateTo;
+    obj.updateDate = obj.updateDate == 'Invalid date' ? "" : obj.updateDate;
+    obj.followUpDate = obj.followUpDate == 'Invalid date' ? "" : obj.followUpDate;
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/enquiry/all/download/" + this.institute_id;
 
-    return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
+    return this.http.post(this.urlDownloadAllEnquiry, obj, { headers: this.headers }).map(
       data => { return data },
       err => {
         return err;

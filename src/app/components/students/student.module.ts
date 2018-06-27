@@ -20,6 +20,7 @@ import { StudentBulkComponent } from './student-bulk/student-bulk.component';
 import { StudentSidebarComponent } from './student-sidebar/student-sidebar.component';
 import { StudentFeeTableComponent } from './student-fee-table/student-fee-table.component';
 import { StudentDiscountComponent } from './student-discount/student-discount.component';
+import { PartialPayHistoryComponent } from './partial-pay-history/partial-pay-history.component';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -53,7 +54,8 @@ import { OnlyNumber } from './student-directives/onlynumber.directive';
         SortPipe,
         OnlyNumber,
         StudentFeeTableComponent,
-        StudentDiscountComponent
+        StudentDiscountComponent,
+        PartialPayHistoryComponent
     ],
     providers: [
         AddStudentPrefillService,
@@ -65,7 +67,8 @@ import { OnlyNumber } from './student-directives/onlynumber.directive';
         UserStudentComponent,
         StudentFeeTableComponent,
         StudentDiscountComponent,
-        StudentBatchListComponent
+        StudentBatchListComponent,
+        PartialPayHistoryComponent
     ]
 })
 export class StudentModule {

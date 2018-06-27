@@ -728,8 +728,9 @@ export class AllDataReportComponent implements OnInit {
       this.courseFetchForm.type = "1";
     }
     else if (this.due_type == 'custom') {
-      this.courseFetchForm.from_date = '';
-      this.courseFetchForm.to_date = '';
+      this.courseFetchForm.from_date = moment().format('YYYY-MM-DD');
+      this.courseFetchForm.to_date = moment().format('YYYY-MM-DD');
+
       this.courseFetchForm.type = "1";
       this.isCustomDate = true;
     }

@@ -105,7 +105,7 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "We can filter data by selecting master course/ course/ batch along with the academic year"
+  helpMsg: string = "We can filter data by selecting master course/ course/ batch"
 
   @ViewChild('form') form: any;
 
