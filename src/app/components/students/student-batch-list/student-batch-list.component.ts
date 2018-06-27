@@ -142,7 +142,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     createUpdate(value, index) {
-        if (this.isEdit) {
+
             let ind = null;
             let len = this.dataList.length;
             if (value) {
@@ -184,7 +184,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     this.dataList[index].isSelected = false;
                 }
             }
-        }
+        
     }
 
     changed(text: string) {
