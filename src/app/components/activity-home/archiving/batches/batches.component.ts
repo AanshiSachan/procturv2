@@ -147,6 +147,7 @@ export class BatchesComponent implements OnInit {
   }
 
   archiveData(event) {
+
     if (!this.isProfessional) {
       if (this.sendPayload.courseIds == "" || this.sendPayload.courseIds == null) {
         let msg = {
@@ -156,18 +157,20 @@ export class BatchesComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-        this.batch.courses(this.sendPayload).subscribe(
-          (data: any) => {
-            this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-          },
-          (error: any) => {
-            let msg = {
-              type: "error",
-              body: error.error.message
+        if (confirm('Are you sure, you want to Archive?')) {
+          this.batch.courses(this.sendPayload).subscribe(
+            (data: any) => {
+              this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+            },
+            (error: any) => {
+              let msg = {
+                type: "error",
+                body: error.error.message
+              }
+              this.appc.popToast(msg);
             }
-            this.appc.popToast(msg);
-          }
-        )
+          )
+        }
       }
     }
     else {
@@ -179,18 +182,20 @@ export class BatchesComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-        this.batch.batches(this.sendPayloadBatch).subscribe(
-          (data: any) => {
-            this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-          },
-          (error: any) => {
-            let msg = {
-              type: "error",
-              body: error.error.message
+        if (confirm('Are you sure, you want to Archive?')) {
+          this.batch.batches(this.sendPayloadBatch).subscribe(
+            (data: any) => {
+              this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+            },
+            (error: any) => {
+              let msg = {
+                type: "error",
+                body: error.error.message
+              }
+              this.appc.popToast(msg);
             }
-            this.appc.popToast(msg);
-          }
-        )
+          )
+        }
       }
     }
   }

@@ -59,8 +59,7 @@ export class GstReportComponent implements OnInit {
     {
       key: '11',
       month: "December"
-    }
-  ]
+    }]
 
   selectYear: any[] = [2017, 2018, 2019]
   getYear: number;
@@ -230,10 +229,6 @@ export class GstReportComponent implements OnInit {
       this.getPaymentRecords = this.tempRecords;
       this.searchflag = false;
     }
-  }
-
-  getMonth() {
-
   }
 
 }
