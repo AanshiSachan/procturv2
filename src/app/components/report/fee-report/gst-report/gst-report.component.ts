@@ -62,6 +62,9 @@ export class GstReportComponent implements OnInit {
     }
   ]
 
+  selectYear: any[] = [2017, 2018, 2019]
+  getYear: number;
+
   dataStatus: number;
 
   feeSettings1: ColumnData[] = [
@@ -80,13 +83,15 @@ export class GstReportComponent implements OnInit {
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
   ];
 
+  date = new Date();
+
   sendPayload = {
     institute_id: this.gst.institute_id,
     from_date: moment().format('YYYY-MM-DD'),
     to_date: moment().format('YYYY-MM-DD'),
     payment_history_student_category_option: 0,
     student_name: "",
-    contact_no: ""
+    contact_no: "",
   }
   getPaymentRecords: any[] = [];
 
@@ -108,27 +113,28 @@ export class GstReportComponent implements OnInit {
   searchName: string;
   tempRecords: any[] = [];
   records: string;
-
+  year: number
   constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.getGstReport(event);
+    this.getGstReport(event, this.year);
   }
 
 
-  getGstReport(event) {
+  getGstReport(event, f) {
 
     this.records = ""
     this.searchText = ""
     this.getPaymentRecords = [];
 
     let date = new Date()
-    let y = date.getFullYear()
+    let y = date.getFullYear();
     let m = date.getMonth();
-    let firstDay = new Date(y, parseInt(event), 1);
+    let firstDay = new Date(parseInt(f), parseInt(event), 1);
     let t = parseInt(event);
+    this.year = f
     this.downloadFormatted = t;
-    let lastDay = new Date(y, t + 1, 0);
+    let lastDay = new Date(parseInt(f), t + 1, 0);
     this.dataStatus = 1;
 
     let data = {
@@ -138,7 +144,7 @@ export class GstReportComponent implements OnInit {
       to_date: moment(lastDay).format('YYYY-MM-DD'),
       payment_history_student_category_option: this.sendPayload.payment_history_student_category_option,
       student_name: this.sendPayload.student_name,
-      contact_no: this.sendPayload.contact_no
+      contact_no: this.sendPayload.contact_no,
     }
 
     this.gst.getPaymentData(data).subscribe(
@@ -171,8 +177,8 @@ export class GstReportComponent implements OnInit {
     let date = new Date();
 
     this.downloadService = {
-      from_date: moment(new Date(date.getFullYear(), this.downloadFormatted, 1)).format('YYYY-MM-DD'),
-      to_date: moment(new Date(date.getFullYear(), this.downloadFormatted + 1, 0)).format('YYYY-MM-DD'),
+      from_date: moment(new Date(this.year, this.downloadFormatted, 1)).format('YYYY-MM-DD'),
+      to_date: moment(new Date(this.year, this.downloadFormatted + 1, 0)).format('YYYY-MM-DD'),
       payment_history_student_category_option: 0,
       student_name: "",
       contact_no: "",
@@ -226,5 +232,8 @@ export class GstReportComponent implements OnInit {
     }
   }
 
+  getMonth() {
+
+  }
 
 }

@@ -1,3 +1,118 @@
-<p>
-  batches-archived-report works!
-</p>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="report-wrapper clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+
+      <div class="middle-top mb0 clearFix header">
+        <div class="report-header" style="padding-bottom:1% ; height:7vh;">
+          <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/view/activity">
+              Activity
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/activity/archiving">
+              Archiving
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
+            <span *ngIf="!isProfessional">Courses Archived Report</span>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
+            <span *ngIf="isProfessional">Batches Archived Report</span>
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
+        <div id="basic-search" class="search-filter-wrapper">
+          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
+            style="padding: 10px;">
+        </div>
+      </div>
+      <div class="table table-responsive" style="margin-top:5vh;">
+        <table>
+          <thead>
+            <tr>
+              <th *ngIf="!isProfessional" style="text-align: left;">
+                Course
+              </th>
+              <th *ngIf="isProfessional" style="text-align: left;">
+                Batch
+              </th>
+              <th style="text-align: left;">
+                Master Course
+              </th>
+              <th *ngIf="!isProfessional" style="text-align: left;">
+                Standard
+              </th>
+              <th *ngIf="isProfessional" style="text-align: left;">
+                Course
+              </th>
+              <th *ngIf="!isProfessional" style="text-align: left;">
+                Subjects
+              </th>
+              <th *ngIf="!isProfessional" style="text-align: right;">
+                Start Date
+              </th>
+              <th *ngIf="!isProfessional" style="text-align: right;">
+                End Date
+              </th>
+              <th style="text-align: left;">
+                Status
+              </th>
+              <th style="text-align: right;">
+                Archived Date Time
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of newPaginated">
+              <td *ngIf="!isProfessional" style="text-align: left;">
+                {{i.course_name}}
+              </td>
+              <td *ngIf="isProfessional" style="text-align: left;">
+                {{i.batch_name}}
+              </td>
+              <td *ngIf="!isProfessional" style="text-align: left;">
+                {{i.master_course}}
+              </td>
+              <td *ngIf="!isProfessional" style="text-align: left;">
+                {{i.standard_name}}
+              </td>
+              <td *ngIf="isProfessional" style="text-align: left;">
+                {{i.standard_name}}
+              </td>
+              <td *ngIf="!isProfessional" style="text-align: left;">
+                {{i.subjects}}
+              </td>
+              <td *ngIf="isProfessional" style="text-align: left;">
+                {{i.subject_name}}
+              </td>
+              <td *ngIf="!isProfessional" style="text-align: right;">
+                {{i.start_date}}
+              </td>
+              <td *ngIf="!isProfessional" style="text-align: right;">
+                {{i.end_date}}
+              </td>
+              <td style="text-align: left;">
+                {{i.status}}
+              </td>
+              <td style="text-align: right;">
+                {{i.archived_date}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
+    </section>
+  </aside>
+</div>
