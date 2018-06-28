@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <proctur-popup [sizeWidth]="'large'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
@@ -17,14 +19,41 @@
     <h2 popup-header style="margin-bottom: 10px;" *ngIf="isProfessional">Batch Assignment</h2>
 
     <div class="batch-wrapper" popup-content>
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="c-lg-6">
-                <p style="padding: 20px 10px 0px;">* Fee will be mapped automatically if fee schedules are defined at course level.</p>
+        <div class="filter-row row">
+            <div class="c-lg-5 radio-filter">
+                <!-- <p style="padding: 20px 10px 0px;">* Fee will be mapped automatically if fee schedules are defined at course level.</p> -->
+                <div class="c-lg-2">
+                    <a (click)="getOnlyAssigned()" title="click to view assigned" style="cursor: pointer;">
+                        <h3>
+                            {{assignedCount}}/{{dataList.length}}
+                        </h3>
+                    </a>
+                </div>
+                <div class="c-lg-10">
+                    <div class="radio-options">
+                        <div class="field-radio-wrapper">
+                            <input [(ngModel)]="batchFilter.state" (ngModelChange)="newMultiFilterFetchBatch()" type="radio" value="0" name="bFilter"
+                                class="form-radio" id="both" checked>
+                            <label for="both">Both</label>
+                        </div>
+                        <div class="field-radio-wrapper">
+                            <input [(ngModel)]="batchFilter.state" (ngModelChange)="newMultiFilterFetchBatch()" type="radio" value="1" name="bFilter"
+                                class="form-radio" id="assigned">
+                            <label for="assigned">Assigned</label>
+                        </div>
+                        <div class="field-radio-wrapper">
+                            <input [(ngModel)]="batchFilter.state" (ngModelChange)="newMultiFilterFetchBatch()" type="radio" value="2" name="bFilter"
+                                class="form-radio" id="unassigned">
+                            <label for="unassigned">Unassigned</label>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="c-lg-6">
+            <div class="c-lg-7">
                 <div class="c-lg-6">
                     <div *ngIf="!isProfessional" class="field-wrapper header-select">
-                        <select name="" id="" [(ngModel)]="currentStd" (ngModelChange)="fetchDataCustom($event)" class="form-ctrl">
+                        <select name="" id="" [(ngModel)]="batchFilter.currentStd" (ngModelChange)="fetchDataCustom($event)" class="form-ctrl">
                             <option value="-1">Select Standard</option>
                             <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                                 {{standard.standard_name}}
@@ -34,8 +63,7 @@
                 </div>
                 <div class="c-lg-6">
                     <div class="field-wrapper">
-                        <input type="text" name="" class="form-ctrl" [ngModel]="model" (ngModelChange)="changed($event)" placeholder="Search" id="">
-
+                        <input type="text" name="" class="form-ctrl" [(ngModel)]="model" (ngModelChange)="changed($event)" placeholder="Search" id="">
                     </div>
                 </div>
             </div>
@@ -56,7 +84,11 @@
                         <th>Fee Template</th>
                     </tr>
                 </thead>
-                <tbody>
+            </table>
+        </div>
+        <div class="batch-table row">
+            <table>
+                <tbody *ngIf="batchList.length != 0">
                     <tr *ngFor="let batch of batchList; let i = index">
                         <td>
                             <div class="inst-no">
@@ -103,6 +135,13 @@
                                     <option [value]="fee.template_id" [selected]="batch.data.selected_fee_template_id == fee.template_id" *ngFor="let fee of batch.data.feeTemplateList">{{fee.template_name}}</option>
                                 </select>
                             </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="batchList.length == 0">
+                    <tr>
+                        <td colspan="7">
+                            No Data Found
                         </td>
                     </tr>
                 </tbody>

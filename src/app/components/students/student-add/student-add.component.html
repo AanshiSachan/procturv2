@@ -718,7 +718,7 @@
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
                     <a (click)="getPartialPaymentHistory(installment)">
                       View Payment History </a>
-                    <!-- <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" id="downloadAddFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a> -->
+                    <a class="hide" id="downloadAddFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a>
                     <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" (click)="emailFeeReceipt(installment)">E-mail receipt</a>
                     <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
