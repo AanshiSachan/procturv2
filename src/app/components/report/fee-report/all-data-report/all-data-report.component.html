@@ -36,6 +36,9 @@
                                 <select [(ngModel)]="due_type" (ngModelChange)="dateRangeChanges($event)" name="sd" id="sd" class="form-ctrl">
                                     <option value="-1"></option>
                                     <option value="all_dues">All Dues</option>
+                                    <option value="seven_days_dues" selected>Last 7 days dues</option>
+                                    <option value="thirty_days_dues">Last 30 days dues</option>
+                                    <option value="ninty_days_dues">Last 90 month dues</option>
                                     <option value="next_month_dues">Next Month Dues</option>
                                     <option value="this_month_dues">This Month Dues</option>
                                     <option value="current_dues">Current Dues</option>
