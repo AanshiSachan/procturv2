@@ -129,6 +129,8 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
+    this.due_type = "seven_days_dues"
+    this.dateRangeChanges(event);
     this.getAcademicYear();
     this.auth.institute_type.subscribe(
       res => {
