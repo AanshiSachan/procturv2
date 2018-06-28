@@ -1,7 +1,6 @@
-.batch-wrapper{
+.batch-wrapper {
     tr {
-        td {
-        }
+        td {}
         th {
             text-align: left;
             padding: 15px;
@@ -40,12 +39,40 @@
                 }
                 .form-ctrl {
                     background: transparent;
-
                 }
             }
         }
     }
-    .row{
+    .row {
         margin: 0px;
     }
+}
+
+.radio-filter {
+    padding: 20px 5px 10px;
+    .field-radio-wrapper {
+        display: inline;
+        margin-right: 20px;
+        margin-left: 15px;
+    }
+    .field-radio-wrapper .form-radio+label {
+        vertical-align: text-top;
+    }
+}
+
+.filter-row {
+    margin: 5px 5px 10px 5px !important;
+    background: #efefef;
+    padding: 0px 0px 6px 0px;
+    box-sizing: border-box;
+    width: 99%;
+    box-shadow: 0px 0px 5px 1px #777;
+}
+
+.batch-table {
+    height: 260px;
+    overflow-y: auto;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #efefef;
+    border-top: 1px solid #efefef;
 }

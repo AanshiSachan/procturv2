@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { templateJitUrl } from '@angular/compiler';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'student-batch-list',
@@ -33,8 +34,15 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     batchList: any[] = [];
     model: string;
+    assignedCount: number = 0;
     modelChanged: Subject<string> = new Subject<string>();
-    currentStd: string = '-1';
+
+    isRippleLoad: boolean = false;
+
+    batchFilter: any = {
+        currentStd: '-1',
+        state: '0'
+    }
 
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eRef: ElementRef, private appC: AppComponent, private studentPrefillService: AddStudentPrefillService, private auth: AuthenticatorService) {
         this.auth.institute_type.subscribe(
@@ -61,8 +69,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        this.batchList = this.dataList.map( e => {return e} );
+        this.batchList = this.dataList.map(e => { return e });
         this.isEdit;
+        this.getAssignedCount();
     }
 
     closeBatchAssign() {
@@ -143,52 +152,56 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
     createUpdate(value, index) {
 
-            let ind = null;
-            let len = this.dataList.length;
-            if (value) {
-                this.dataList[index].isSelected = value;
-            }
-            /* unchecked batch/course */
-            else {
-                if (this.assignedBatches != null) {
-                    /* Check if selected ID exist on selected array list */
-                    this.assignedBatches.forEach(e => {
-                        if (this.isProfessional) {
-                            if (this.dataList[index].data.batch_id == e) {
-                                ind = e;
-                            }
-                        }
-                        else {
-                            if (this.dataList[index].data.course_id == e) {
-                                ind = e;
-                            }
-                        }
-                    });
-
-                    /* if index is not null */
-                    if (ind != null) {
-                        if (confirm("If you unassign the student from course then corresponding fee instalments will be deleted.")) {
-                            this.dataList[index].isSelected = false;
-                        }
-                        else {
-                            this.dataList[index].isSelected = true;
-                            //document.getElementById('batchcheck' + index).checked = true;
+        let ind = null;
+        let len = this.dataList.length;
+        if (value) {
+            this.dataList[index].isSelected = value;
+        }
+        /* unchecked batch/course */
+        else {
+            if (this.assignedBatches != null) {
+                /* Check if selected ID exist on selected array list */
+                this.assignedBatches.forEach(e => {
+                    if (this.isProfessional) {
+                        if (this.dataList[index].data.batch_id == e) {
+                            ind = e;
                         }
                     }
-                    /* else */
-                    else if (ind == null) {
+                    else {
+                        if (this.dataList[index].data.course_id == e) {
+                            ind = e;
+                        }
+                    }
+                });
+
+                /* if index is not null */
+                if (ind != null) {
+                    if (confirm("If you unassign the student from course then corresponding fee instalments will be deleted.")) {
                         this.dataList[index].isSelected = false;
                     }
+                    else {
+                        this.dataList[index].isSelected = true;
+                        //document.getElementById('batchcheck' + index).checked = true;
+                    }
                 }
-                else {
+                /* else */
+                else if (ind == null) {
                     this.dataList[index].isSelected = false;
                 }
             }
-        
+            else {
+                this.dataList[index].isSelected = false;
+            }
+        }
+        this.getAssignedCount();
+        this.cd.markForCheck();
+        this.cd.detectChanges();
     }
 
     changed(text: string) {
-        this.modelChanged.next(text);
+        this.batchFilter.state = "0";
+        this.batchFilter.currentStd = "-1";
+        this.modelChanged.next(text.trim());
         this.cd.markForCheck();
     }
 
@@ -222,119 +235,140 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     fetchDataCustom(id) {
+        this.batchFilter.state = "0";
+        this.model = "";
         if (id == '-1') {
             this.batchList = this.dataList;
         }
         else {
+            this.newMultiFilterFetchBatch();
             this.cd.markForCheck();
             this.cd.detectChanges();
-            this.getResult(id);
         }
     }
 
-    getResult(id) {
-        let temp: any[] = [];
-        this.batchList = [];
-        if (!this.isProfessional) {
-            this.studentPrefillService.fetchCourseMasterById(id).subscribe(
-                (data: any) => {
-                    this.cd.markForCheck();
-                    this.cd.detectChanges();
-                    
-                    if (data.coursesList != null && data.coursesList.length != 0) {
-                        data.coursesList.forEach(el => {
-                            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-                                el.feeTemplateList.forEach(e => {
-                                    if (e.is_default == 1) {
-                                        el.selected_fee_template_id = e.template_id;
-                                    }
-                                })
-                            }
-                            if (el.academic_year_id == '-1') {
-                                el.academic_year_id = this.defaultAcadYear;
-                            }
-                            let obj = {
-                                isSelected: this.getChecked(el),
-                                data: el,
-                                assignDate: moment().format('YYYY-MM-DD')
-                            }
-                            temp.push(obj);
-                        });
-                        this.cd.markForCheck();
-                        this.cd.detectChanges();
-                        this.batchList = temp;
-                        this.cd.markForCheck();
-                        this.cd.detectChanges();
-                    }
-                },
-                err => {
-                    this.cd.markForCheck();
-                    this.cd.detectChanges();
-                    this.batchList = temp;
-                    let al = {
-                        type: 'error',
-                        title: err.error.message,
-                        body: ''
-                    }
-                    this.appC.popToast(al);
-                    this.cd.markForCheck();
-                    this.cd.detectChanges();
-                }
-            );
-        }
-        else {
-            this.studentPrefillService.fetchBatchDetails().subscribe(
-                data => {
-                    data.forEach(el => {
-                        if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-                            el.feeTemplateList.forEach(e => {
-                                if (e.is_default == 1) {
-                                    el.selected_fee_template_id = e.template_id;
-                                }
-                            })
-                        }
-                        if (el.academic_year_id == '-1') {
-                            el.academic_year_id = this.defaultAcadYear;
-                        }
-                        let obj = {
-                            isSelected: false,
-                            data: el,
-                            assignDate: moment().format('YYYY-MM-DD')
-                        }
-                        temp.push(obj);
-                    });
-                    this.cd.markForCheck();
-                    this.cd.detectChanges();
-                    this.batchList = temp;
-                    this.cd.markForCheck();
-                    this.cd.detectChanges();
-                },
-                err => {
-                    this.cd.markForCheck();
-                    this.cd.detectChanges();
-                    this.batchList = temp;
-                    let al = {
-                        type: 'error',
-                        title: err.error.message,
-                        body: ''
-                    }
-                    this.appC.popToast(al);
-                    this.cd.markForCheck();
-                    this.cd.detectChanges();
-                }
-            );
-        }
-    }
-
-    getChecked(el): boolean{
-        console.log(el);
+    getChecked(el): boolean {
         let temp: boolean = false;
-        this.dataList.forEach( e => {
-            if(e.data.course_id == el.course_id){
-                temp = e.isSelected;                
-            }            
+        this.dataList.forEach(e => {
+            if (e.data.course_id == el.course_id) {
+                temp = e.isSelected;
+            }
         })
         return temp;
     }
 
+    filterDataSource(e: any) {
+        switch (e) {
+            case '0': {
+                console.log(e);
+                console.log(this.batchList);
+                this.cd.markForCheck();
+                this.cd.detectChanges();
+                break;
+            }
+            case '1': {
+                let list: any[] = []
+                this.batchList.forEach(e => { if (e.isSelected) { list.push(e); } });
+                this.batchList = list;
+                this.cd.markForCheck();
+                this.cd.detectChanges();
+                break;
+            }
+            case '2': {
+                let list: any[] = []
+                this.batchList.forEach(e => { if (!e.isSelected) { list.push(e); } });
+                this.batchList = list;
+                this.cd.markForCheck();
+                this.cd.detectChanges();
+                break;
+            }
+        }
+    }
+
+    newMultiFilterFetchBatch() {
+        let temp: any[] = [];
+        this.cd.markForCheck();
+        this.cd.detectChanges();
+        if (!this.isProfessional) {
+            if (this.batchFilter.currentStd != '-1') {
+                this.isRippleLoad = true;
+                this.studentPrefillService.fetchCourseMasterById(this.batchFilter.currentStd).subscribe(
+                    (data: any) => {
+                        this.isRippleLoad = false;
+                        temp = [];
+                        if (data.coursesList != null && data.coursesList.length != 0) {
+                            data.coursesList.forEach(el => {
+                                if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                                    el.feeTemplateList.forEach(e => {
+                                        if (e.is_default == 1) {
+                                            el.selected_fee_template_id = e.template_id;
+                                        }
+                                    })
+                                }
+                                if (el.academic_year_id == '-1') {
+                                    el.academic_year_id = this.defaultAcadYear;
+                                }
+                                let obj = {
+                                    isSelected: this.getChecked(el),
+                                    data: el,
+                                    assignDate: moment().format('YYYY-MM-DD')
+                                }
+                                this.cd.markForCheck();
+                                this.cd.detectChanges();
+                                temp.push(obj);
+                                this.cd.markForCheck();
+                                this.cd.detectChanges();
+                            });
+                        }
+                        this.batchList = temp;
+                        this.filterDataSource(this.batchFilter.state);
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                    },
+                    err => {
+                        this.isRippleLoad = false;
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                        this.batchList = temp;
+                        let al = { type: 'error', title: err.error.message, body: '' };
+                        this.appC.popToast(al);
+                        this.batchList = temp;
+                        this.filterDataSource(this.batchFilter.state);
+                        this.cd.markForCheck();
+                        this.cd.detectChanges();
+                    }
+                );
+            }
+            else {
+                this.batchList = this.dataList;
+                this.filterDataSource(this.batchFilter.state);
+                this.cd.markForCheck();
+                this.cd.detectChanges();
+            }
+        }
+        else {
+            this.cd.markForCheck();
+            this.cd.detectChanges();
+            this.batchList = this.dataList;
+            this.filterDataSource(this.batchFilter.state);
+            this.cd.markForCheck();
+            this.cd.detectChanges();
+        }
+    }
+
+    getAssignedCount() {
+        this.assignedCount = 0;
+        this.dataList.forEach(e => {
+            if (e.isSelected) {
+                this.assignedCount++
+            }
+        });
+    }
+
+    getOnlyAssigned() {
+        this.batchFilter.state = "1";
+        this.batchFilter.currentStd = "-1";
+        this.model = "";
+        this.newMultiFilterFetchBatch();
+    }
 }

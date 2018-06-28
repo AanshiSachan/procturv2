@@ -1005,7 +1005,6 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openSideBar(ev) {
-    debugger;
     let mySidenavWidth = '29%';
     if (window.innerWidth < 768)
       mySidenavWidth = '100%';
