@@ -773,8 +773,8 @@ export class AllDataReportComponent implements OnInit {
       let begin = moment().format('YYYY-MM-DD');
       let end = moment().subtract('days', 7).format('YYYY-MM-DD');
 
-      this.courseFetchForm.from_date = begin;
-      this.courseFetchForm.to_date = end;
+      this.courseFetchForm.from_date = end;
+      this.courseFetchForm.to_date = begin;
       this.courseFetchForm.type = "1";
 
       console.log(this.courseFetchForm);
@@ -784,8 +784,8 @@ export class AllDataReportComponent implements OnInit {
       let begin = moment().format('YYYY-MM-DD');
       let end =  moment().subtract('months', 1).format('YYYY-MM-DD');
 
-      this.courseFetchForm.from_date = begin;
-      this.courseFetchForm.to_date = end;
+      this.courseFetchForm.from_date = end;
+      this.courseFetchForm.to_date = begin;
       this.courseFetchForm.type = "1";
     }
 
@@ -793,8 +793,8 @@ export class AllDataReportComponent implements OnInit {
       let begin = moment().format('YYYY-MM-DD');
       let end =  moment().subtract('months', 3).format('YYYY-MM-DD');
 
-      this.courseFetchForm.from_date = begin;
-      this.courseFetchForm.to_date = end;
+      this.courseFetchForm.from_date = end;
+      this.courseFetchForm.to_date = begin;
       this.courseFetchForm.type = "1";
     }
 
