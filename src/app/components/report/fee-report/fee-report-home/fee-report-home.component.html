@@ -19,23 +19,18 @@
           </ul>
         </div>
 
-        <div class="c-lg-4" *ngIf="isProfessional">
+        <div class="c-lg-4">
           <ul class="card" routerLink="./courseReport">
-            <li>
+            <li *ngIf="isProfessional">
               Batch Wise
             </li>
-            <li>
+            <li *ngIf="!isProfessional">
+              Course Wise
+            </li>
+            <li *ngIf="isProfessional">
               This Report depicts records of fees paid or dues of a particular batch.
             </li>
-          </ul>
-        </div>
-
-        <div class="c-lg-4" *ngIf="!isProfessional">
-          <ul class="card" routerLink="./courseReport">
-            <li>
-             Course Wise
-            </li>
-            <li>
+            <li *ngIf="!isProfessional">
               This Report depicts records of fees paid or dues of a particular course.
             </li>
           </ul>

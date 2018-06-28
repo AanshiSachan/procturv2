@@ -8,17 +8,17 @@
       <div class="middle-top mb0 clearFix header">
         <div class="report-header" style="padding-bottom:1%">
           <h2 style="padding: 5px;" class="pull-left">
-            <a routerLink="/activity">
+            <a routerLink="/view/activity">
               Activity
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <a routerLink="/activity/archiving">
+            <a routerLink="/view/activity/archiving">
               Archiving
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="!isProfessional"></i>
             <span *ngIf="!isProfessional">Courses</span>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right" *ngIf="isProfessional"></i>
-            <span *ngIf="isProfessional">Courses</span>
+            <span *ngIf="isProfessional">Batches</span>
           </h2>
           <div class="row">
             <div class="c-lg-12">
@@ -45,54 +45,85 @@
         <table>
           <thead>
             <tr>
-              <th>
+              <th style="text-align: left;">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Course
               </th>
-              <th>
+              <th style="text-align: left;">
                 Master Course
               </th>
-              <th>
+              <th *ngIf="!isProfessional" style="text-align: left;">
                 Standard
               </th>
-              <th>
+              <th *ngIf="isProfessional" style="text-align: left;">
+                Course
+              </th>
+              <th *ngIf="!isProfessional" style="text-align: left;">
                 Subjects
               </th>
-              <th>
+              <th style="text-align: right;">
                 Start Date
               </th>
-              <th>
+              <th style="text-align: right;">
                 End Date
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let i of newPaginated">
-              <td>
+          <tbody *ngIf="newPaginated!=0">
+            <tr *ngFor="let i of newPaginated ; let j=index;">
+              <td *ngIf="!isProfessional" style="text-align: left;">
                 <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px;">
-                  <input type="checkbox" class="form-checkbox" name={{i.course_id}} id={{i.course_id}} >
+                  <input type="checkbox" class="form-checkbox" name={{i.course_id}} id={{i.course_id}} [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)">
                   <label for={{i.course_id}}></label>
                 </div>
                 {{i.course_name}}
               </td>
-              <td>
+              <td *ngIf="isProfessional" style="text-align: left;">
+                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px;">
+                  <input type="checkbox" class="form-checkbox" name={{i.batch_id}} id={{i.batch_id}} [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)">
+                  <label for={{i.batch_id}}></label>
+                </div>
+                {{i.batch_name}}
+              </td>
+              <td *ngIf="!isProfessional" style="text-align: left;">
                 {{i.master_course}}
               </td>
-              <td>
+              <td *ngIf="isProfessional" style="text-align: left;">
                 {{i.standard_name}}
               </td>
-              <td>
+              <td *ngIf="!isProfessional" style="text-align: left;">
+                {{i.standard_name}}
+              </td>
+              <td *ngIf="!isProfessional" style="text-align: left;">
                 {{i.subjects}}
               </td>
-              <td>
+              <td *ngIf="isProfessional" style="text-align: left;">
+                {{i.subject_name}}
+              </td>
+              <td style="text-align: right;">
                 {{i.start_date}}
               </td>
-              <td>
+              <td style="text-align: right;">
                 {{i.end_date}}
               </td>
             </tr>
             <tr>
               <td colspan="6">
-                <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData()">
+                <input type="button" class="btn fullBlue" value="Archive" (click)="archiveData($event)">
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="newPaginated.length == 0 && dataStatus === true">
+            <tr *ngFor="let dummy of dummyArr">
+              <td *ngFor="let c of columnMaps" style="padding:10px;">
+                <div class="skeleton">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="newPaginated.length == 0 && dataStatus === false" class="records">
+            <tr>
+              <td colspan="6" class="records">
+                No Records Found
               </td>
             </tr>
           </tbody>

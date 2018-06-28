@@ -46,4 +46,51 @@ export class CoursesServiceService {
     )
   }
 
+  batches(obj){
+    let url= this.baseUrl + "/api/v1/archive/batch"
+    return this.http.post(url , obj , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+  getBatches(){
+    let url = this.baseUrl + "/api/v1/batches/all/" + this.institute_id;
+    return this.http.get(url , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
+  courseArchiveStatus(){
+    let url = this.baseUrl + "/api/v1/archive/course/report/" + this.institute_id;
+    return this.http.get(url , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
+  batchArchiveStatus(){
+    let url = this.baseUrl + "/api/v1/archive/batch/report/" + this.institute_id;
+    return this.http.get(url , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
 }
