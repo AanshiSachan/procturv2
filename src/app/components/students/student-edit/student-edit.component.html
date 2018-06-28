@@ -700,14 +700,13 @@
                   </div>
 
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
-                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')" (click)="getPartialPaymentHistory(installment)">
-                    View Payment History </a>
-                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" id="downloadEditFeeReciept{{installment.invoice_no}}"
-                      (click)="downloadFeeReceipt(installment)">Download receipt</a>
+                    <a (click)="getPartialPaymentHistory(installment)">
+                      View Payment History </a>
+                    <a class="hide" id="downloadEditFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a>
                     <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" (click)="emailFeeReceipt(installment)">E-mail receipt</a>
                     <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
-                  
+
                 </li>
               </ul>
             </div>
@@ -1576,6 +1575,7 @@
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [paymentHistory]="studentPartialPaymentData" [studentid]="student_id"></partial-pay-history>
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [paymentHistory]="studentPartialPaymentData"
+    [studentid]="student_id"></partial-pay-history>
 
 </section>

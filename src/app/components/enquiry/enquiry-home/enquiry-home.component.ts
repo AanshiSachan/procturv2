@@ -661,7 +661,7 @@ export class EnquiryHomeComponent implements OnInit {
     ];
     this.indexJSON = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
-
+    this.PageIndex = 1;
     /* Both are empty */
     if ((this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) &&
       (this.searchBarDate === "" || this.searchBarDate === " " || this.searchBarDate === null)) {
@@ -1936,6 +1936,7 @@ export class EnquiryHomeComponent implements OnInit {
       { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
     ];
     this.isAllSelected = false;
+    this.PageIndex = 1;
     this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
     this.instituteData.filtered_statuses = this.statusString.join(',');
     let tempCustomArr: any[] = [];
@@ -2046,7 +2047,7 @@ export class EnquiryHomeComponent implements OnInit {
       el.selected = [];
       el.value = '';
     });
-
+    this.PageIndex = 1;
     this.enqSubject = [];
     this.course_course = [];
     this.cd.markForCheck();
@@ -2824,7 +2825,7 @@ export class EnquiryHomeComponent implements OnInit {
     this.searchBarData = '';
     this.updateStatFilterStatus(checkerObj.prop, checkerObj.checked);
     this.advancedFilterForm = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" };
-
+    this.PageIndex = 1;
     if (checkerObj.prop == "All") {
       this.statusString = [];
       if (checkerObj.checked) {
@@ -3003,7 +3004,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
     this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
-
+    this.PageIndex = 1;
     if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) {
       return;
     }

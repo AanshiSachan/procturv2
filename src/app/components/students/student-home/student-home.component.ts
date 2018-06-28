@@ -136,23 +136,20 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   loadTableDataSource(obj) {
+    console.log(obj);
     this.isRippleLoad = true;
     this.selectedRow = null;
     this.selectedRowGroup = [];
     this.closeSideBar();
     this.loading_message = 1;
     this.isAllSelected = false;
-    //console.log("start index at launch" +obj.start_index);
     if (obj.start_index == 0) {
-      //console.log("start index 0");
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
           this.isRippleLoad = false;
           /* records */
           if (res.length != 0) {
-            //console.log("data found");
             this.totalRow = res[0].total_student_count;
-            //console.log(this.totalRow);
             this.studentDataSource = res;
           }
           else {
@@ -215,9 +212,6 @@ export class StudentHomeComponent implements OnInit {
         }
       )
     }
-
-
-
   }
 
 
@@ -264,33 +258,6 @@ export class StudentHomeComponent implements OnInit {
     this.PageIndex--;
     this.fectchTableDataByPage(this.PageIndex);
   }
-
-  // /* When user click on a row add class 
-  //   selected and check that row */
-  // /* =================================================================================================== */
-  // /* =================================================================================================== */
-  // rowclicked(row) {
-  //   this.selectedRow = row;
-  // }
-
-  // /* update the checked status of the user selected rows checkbox on click */
-  // /* =================================================================================================== */
-  // /* =================================================================================================== */
-  // rowCheckBoxClick(state, id, no) {
-  //   this.studentDataSource[id].isSelected = state;
-  //   let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
-  //   if (index !== -1) {
-  //     if (!state) {
-  //       this.selectedRowGroup.splice(index, 1);
-  //       this.isAllSelected = false;
-  //     }
-  //   }
-  //   else {
-  //     if (state) {
-  //       this.selectedRowGroup.push(this.studentDataSource[id]);
-  //     }
-  //   }
-  // }
 
   /* navigate the user to edit page for the specific student */
   /* =================================================================================================== */
@@ -430,9 +397,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   advancedSearch() {
-
     let tempCustomArr: any[] = [];
-
     this.customComponents.forEach(el => {
       //console.log(el);
       if (el.is_searchable == 'Y' && el.value != "") {
@@ -459,6 +424,8 @@ export class StudentHomeComponent implements OnInit {
 
     this.advancedFilterForm.is_active_status = parseInt(this.advancedFilterForm.is_active_status);
     this.instituteData = this.advancedFilterForm;
+    this.PageIndex = 1;
+    this.instituteData.start_index = 0;
     this.loadTableDataSource(this.instituteData);
     this.closeAdFilter();
   }
@@ -474,6 +441,7 @@ export class StudentHomeComponent implements OnInit {
     this.studentdisplaysize = parseInt(num);
     this.bulkActionFunction();
     this.instituteData.batch_size = this.studentdisplaysize;
+    this.PageIndex = 1;
     this.instituteData.start_index = 0;
     this.studentDataSource = [];
     this.isRippleLoad = true;
@@ -481,9 +449,7 @@ export class StudentHomeComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         if (res.length != 0) {
-          //console.log("data found");
           this.totalRow = res[0].total_student_count;
-          //console.log(this.totalRow);
           this.studentDataSource = res;
         }
         else {
@@ -843,6 +809,8 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   searchDatabase() {
+    this.PageIndex = 1;
+    this.instituteData.start_index = 0;
     /* If User has entered an empty value needs to be informed */
     if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
       this.instituteData = { school_id: -1, standard_id: -1, batch_id: -1, name: '', is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
@@ -1027,6 +995,8 @@ export class StudentHomeComponent implements OnInit {
     if (id != 'batchesAssigned') {
       this.instituteData.sorted_by = id;
       this.instituteData.order_by = this.currentDirection;
+      this.PageIndex = 1;
+      this.instituteData.start_index = 0;
       this.loadTableDataSource(this.instituteData);
     }
   }
@@ -1035,7 +1005,6 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   openSideBar(ev) {
-    debugger;
     let mySidenavWidth = '29%';
     if (window.innerWidth < 768)
       mySidenavWidth = '100%';
