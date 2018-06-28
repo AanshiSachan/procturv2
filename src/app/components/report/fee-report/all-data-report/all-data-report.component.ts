@@ -328,7 +328,7 @@ export class AllDataReportComponent implements OnInit {
         obj.student_name = '';
       }
 
-      this.generateReport(obj);
+      // this.generateReport(obj);
 
     }
     else if(this.due_type == "seven_days_dues"){
@@ -346,7 +346,7 @@ export class AllDataReportComponent implements OnInit {
         obj.student_name = '';
       }
 
-      this.generateReport(obj);
+      // this.generateReport(obj);
     }
 
     else if(this.due_type == "thirty_days_dues"){
@@ -364,7 +364,7 @@ export class AllDataReportComponent implements OnInit {
         obj.student_name = '';
       }
 
-      this.generateReport(obj);
+      // this.generateReport(obj);
     }
 
     else if(this.due_type == "ninty_days_dues"){
@@ -382,7 +382,7 @@ export class AllDataReportComponent implements OnInit {
         obj.student_name = '';
       }
 
-      this.generateReport(obj);
+      // this.generateReport(obj);
     }
 
     else if (this.due_type == 'next_month_dues') {

@@ -23,6 +23,10 @@ export class BatchesArchivedReportComponent implements OnInit {
   searchText: string = ""
   searchData: any[] = [];
   searchflag: boolean = false;
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  dataStatus: boolean;
+
 
   constructor(private course: CoursesServiceService,
     private auth: AuthenticatorService,
@@ -42,10 +46,12 @@ export class BatchesArchivedReportComponent implements OnInit {
   }
 
   getCoursesArchived() {
+    this.dataStatus = true;
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.course.batchArchiveStatus().subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false
           this.archivedData = data;
           this.totalRow = data.length;
@@ -53,6 +59,7 @@ export class BatchesArchivedReportComponent implements OnInit {
           this.fetchTableDataByPage(this.PageIndex);
         },
         (error: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false
           let msg = {
             type: "error",
@@ -66,6 +73,7 @@ export class BatchesArchivedReportComponent implements OnInit {
       this.isRippleLoad = true;
       this.course.courseArchiveStatus().subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false
           this.archivedData = data;
           this.totalRow = data.length;
@@ -73,6 +81,7 @@ export class BatchesArchivedReportComponent implements OnInit {
           this.fetchTableDataByPage(this.PageIndex);
         },
         (error: any) => {
+          this.dataStatus = false;
           this.isRippleLoad = false
           let msg = {
             type: "error",
