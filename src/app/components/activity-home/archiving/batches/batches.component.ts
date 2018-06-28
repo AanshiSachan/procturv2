@@ -162,14 +162,14 @@ export class BatchesComponent implements OnInit {
             (data: any) => {
               this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
               let msg={
-                type:"error",
+                type:"success",
                 body:"Course(s) archived successfully"
               }
               this.appc.popToast(msg);
             },
             (error: any) => {
               let msg = {
-                type: "error",
+                type: "success",
                 body: error.error.message
               }
               this.appc.popToast(msg);
@@ -192,7 +192,7 @@ export class BatchesComponent implements OnInit {
             (data: any) => {
               this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
               let msg={
-                type:"error",
+                type:"success",
                 body:"Batch(s) archived successfully"
               }
               this.appc.popToast(msg);
