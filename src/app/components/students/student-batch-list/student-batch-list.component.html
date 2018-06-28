@@ -73,9 +73,9 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th *ngIf="!isProfessional">Master Course</th>
-                        <th *ngIf="!isProfessional">Course</th>
-                        <th *ngIf="isProfessional">Batch Name</th>
+                        <th class="mcourse" *ngIf="!isProfessional">Master Course</th>
+                        <th class="courseN" *ngIf="!isProfessional">Course</th>
+                        <th class="mcourse" *ngIf="isProfessional">Batch Name</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th *ngIf="!isProfessional">Course Assign Date</th>
@@ -100,9 +100,9 @@
                             </div>
                         </td>
 
-                        <td *ngIf="!isProfessional">{{batch.data.master_course}}</td>
+                        <td class="mcourse" *ngIf="!isProfessional">{{batch.data.master_course}}</td>
 
-                        <td *ngIf="!isProfessional">{{batch.data.course_name}}</td>
+                        <td class="courseN" *ngIf="!isProfessional">{{batch.data.course_name}}</td>
 
                         <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
 
