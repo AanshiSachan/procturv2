@@ -93,4 +93,16 @@ export class CoursesServiceService {
     )
   }
 
+  studentsArchiveData(){
+    let url = this.baseUrl + "/api/v1/archive/students/" + this.institute_id;
+    return this.http.get(url , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
 }

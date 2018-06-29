@@ -1,3 +1,119 @@
-<p>
-  students works!
-</p>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="report-wrapper clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+
+      <div class="middle-top mb0 clearFix header">
+        <div class="report-header" style="padding-bottom:1% ; height:7vh;">
+          <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/view/activity">
+              Activity
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/activity/archiving">
+              Archiving
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span *ngIf="!isProfessional">Students Archived report</span>
+          </h2>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
+        <div id="basic-search" class="search-filter-wrapper">
+          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"
+            style="padding: 10px;">
+        </div>
+      </div>
+      <div class="table table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: left;">
+                <div class="field-checkbox-wrapper" style="display: inline-block;">
+                  <input type="checkbox" class="form-checkbox">
+                  <label></label>
+                </div>
+                Student ID
+              </th>
+              <th style="text-align: left;">
+                Alumni
+              </th>
+              <th style="text-align: left;">
+                Student Name
+              </th>
+              <th style="text-align: right;">
+                Contact No.
+              </th>
+              <th style="text-align: right;">
+                Joining date
+              </th>
+              <th style="text-align: right;">
+                DOB
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="newPaginated.length !=0">
+            <tr *ngFor="let i of newPaginated">
+              <td style="text-align: left;">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" class="form-checkbox">
+                  <label></label>
+                </div>
+                {{i.student_disp_id}}
+              </td>
+              <td class="field-wrapper" style="width:14%; text-align: left;">
+                <select class="form-ctrl" style="width:27% ">
+                  <option>Y</option>
+                  <option>N</option>
+                </select>
+              </td>
+              <td style="text-align: left;">
+                {{i.student_name}}
+              </td>
+              <td style="text-align: right;">
+                {{i.student_phone}}
+              </td>
+              <td style="text-align: right;">
+                {{i.doj}}
+              </td>
+              <td style="text-align: right;">
+                {{i.dob}}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6">
+                <input type="button" value="Archive" class="btn fullBlue">
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="newPaginated.length == 0 && dataStatus === true">
+            <tr *ngFor="let dummy of dummyArr">
+              <td *ngFor="let c of columnMaps" style="padding:10px;">
+                <div class="skeleton">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="newPaginated.length == 0 && dataStatus === false" class="records">
+            <tr>
+              <td colspan="6" class="records">
+                No Records Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
+    </section>
+  </aside>
+</div>
