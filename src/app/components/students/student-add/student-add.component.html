@@ -114,6 +114,16 @@
                       #cardId="ngModel" />
                   </div>
 
+                  <div *ngIf="isManualDisplayId" class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
+                    <label for="manualId">Student Roll Number*</label>
+                    <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel" required>
+                    <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
+                      <div *ngIf="manualId.errors.required">
+                        name is required.
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                     <label for="userGender">Gender</label>
 
@@ -1596,6 +1606,7 @@
   </proctur-popup>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [paymentHistory]="studentPartialPaymentData" [studentid]="student_id"></partial-pay-history>
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [paymentHistory]="studentPartialPaymentData"
+    [studentid]="student_id"></partial-pay-history>
 
 </section>
