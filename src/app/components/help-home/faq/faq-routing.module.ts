@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { FAQHeadComponent } from './faq-head/faq-head.component';
 import { FAQHomeComponent } from './faq-home/faq-home.component'
+import { FAQSidenavComponent } from './faq-sidenav/faq-sidenav.component';
 import { FAQComponent } from './faq.component';
 
 @NgModule({
@@ -13,13 +15,23 @@ import { FAQComponent } from './faq.component';
                 pathMatch: 'prefix',
                 children: [
                     {
-                        path: '',
+                        path: "",
                         redirectTo: 'home'
                     },
                     {
                         path: 'home',
-                        component: FAQHomeComponent
-                    }
+                        component: FAQHomeComponent,
+                    },
+                    {
+                        path: "",
+                        component: FAQSidenavComponent,
+                        outlet: "sidebar"
+                    },
+                    {
+                        path: "",
+                        component: FAQHeadComponent,
+                        outlet: "header"
+                    },
                 ]
             }
         ])
@@ -29,5 +41,5 @@ import { FAQComponent } from './faq.component';
     ]
 })
 export class FAQRoutingModule {
-    
+
 }

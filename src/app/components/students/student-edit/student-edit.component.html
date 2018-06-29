@@ -85,12 +85,6 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
-                    <label for="attCard">Attendance Card ID</label>
-                    <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
-                      #cardId="ngModel" />
-                  </div>
-
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
                     <label for="sEmail">Email ID</label>
                     <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
@@ -101,6 +95,24 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
+                      <label for="attCard">Attendance Card ID</label>
+                      <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
+                        #cardId="ngModel" />
+                    </div>
+
+                  
+                  <div *ngIf="isManualDisplayId" class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
+                      <label for="manualId">Student Roll Number*</label>
+                      <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel" required>
+                      <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
+                        <div *ngIf="manualId.errors.required">
+                          Roll Number is Mandatory.
+                        </div>
+                      </div>
+                    </div>
+  
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                     <label for="userGender">Gender</label>

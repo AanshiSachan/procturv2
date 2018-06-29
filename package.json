@@ -49,6 +49,7 @@
     "ngx-bootstrap": "^2.0.4",
     "primeng": "~5.2.6",
     "rxjs": "^5.5.0",
+    "web-animations-js": "^2.3.1",
     "xlsx": "^0.12.12",
     "xlsx-style": "^0.8.13",
     "zone.js": "^0.8.26"

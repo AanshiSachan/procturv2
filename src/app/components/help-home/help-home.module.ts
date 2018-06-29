@@ -8,7 +8,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import 'moment';
 import 'hammerjs';
 import { SharedModule } from '../shared/shared.module';
-import { HomeComponent } from './home/home.component';
+//import { HomeComponent } from './home/home.component';
 // import {ChatbotModule} from '../chatbot/chatbot.module';
 // import {ZendAuth} from '../../services/Chat-bot/chatbot.service';
 @NgModule({
@@ -25,8 +25,7 @@ import { HomeComponent } from './home/home.component';
         SharedModule
     ],
     declarations: [
-        HelpHomeComponent,
-        HomeComponent
+        HelpHomeComponent
     ], 
     entryComponents: [        
     ],
