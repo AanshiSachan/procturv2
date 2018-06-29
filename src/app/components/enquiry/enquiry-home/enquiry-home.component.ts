@@ -1711,7 +1711,7 @@ export class EnquiryHomeComponent implements OnInit {
             let msg = {
               type: 'error',
               title: 'Unable to Delete Enquiries',
-              body: 'Only open enquiries can be deleted'
+              body: 'Only open and InProgress enquiries can be deleted'
             }
             this.appC.popToast(msg);
           }
@@ -1771,7 +1771,7 @@ export class EnquiryHomeComponent implements OnInit {
               let msg = {
                 type: 'error',
                 title: 'Unable to Delete Enquiries',
-                body: 'Only open enquiries can be deleted'
+                body: 'Only open and InProgress enquiries can be deleted'
               }
               this.appC.popToast(msg);
             }
@@ -1813,7 +1813,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     let passed = temp.every(isOpenEnquiry);
     function isOpenEnquiry(element, index, array) {
-      return (element.status == 0);
+      return (element.status == 0 || element.status == 3);
     }
 
     return passed;
