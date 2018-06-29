@@ -239,6 +239,9 @@ export class CourseAddComponent implements OnInit {
 
   submitCourseDetails() {
     let dataToSend = this.constructJsonToSend();
+    if (dataToSend == false) {
+      return;
+    };
     this.apiService.saveCourseDetails(dataToSend).subscribe(
       res => {
         let msg = {
@@ -282,7 +285,17 @@ export class CourseAddComponent implements OnInit {
         let trp: any = {};
         trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
         trp.subject_id = selectedSubjectRow[y].subject_id.toString();
-        trp.teacher_id = selectedSubjectRow[y].selected_teacher.toString();
+        if (selectedSubjectRow[y].selected_teacher == "" || selectedSubjectRow[y].selected_teacher == null || selectedSubjectRow[y].selected_teacher == "-1") {
+          let err = {
+            type: "error",
+            title: "Error",
+            body: "Please provide teacher for the subject."
+          }
+          this.toastCtrl.popToast(err);
+          return false;
+        } else {
+          trp.teacher_id = selectedSubjectRow[y].selected_teacher.toString();
+        }
         test.batchesList.push(trp);
       }
       obj.coursesList.push(test);
