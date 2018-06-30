@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { updateEnquiryForm } from '../../../model/update-enquiry-form';
@@ -61,11 +59,7 @@ export class EnquiryHomeComponent implements OnInit {
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"]; isRippleLoad: boolean = false; hour: string = ''; minute: string = ''; meridian: string = ''; newSmsString = { data: "", length: 0, type: "", };
-  statusString: any[] = []; smsSelectedRows: any; smsGroupSelected: any[] = [];
-  private selectedSlots: any[] = [];
-  private slotIdArr: any[] = [];
-  private selectedSlotsString: string = '';
-  private selectedSlotsID: string = '';
+  statusString: any[] = []; smsSelectedRows: any; smsGroupSelected: any[] = [];  private selectedSlots: any[] = [];  private slotIdArr: any[] = [];  private selectedSlotsString: string = '';  private selectedSlotsID: string = '';
   selectedOption: any = { email: { show: false, id: 'email' }, Gender: { show: false, id: 'Gender' }, standard: { show: false, id: 'standard' }, subjects: { show: false, id: 'subjects' } };
   myOptions: any[] = [{ id: 'email', name: 'Email' }, { id: 'Gender', name: 'Gender' }, { id: 'standard', name: 'Standard' }, { id: 'subjects', name: 'Subject' }];
 
@@ -987,7 +981,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* =========================================================================== */
   /* Custom validation suited only for indian mobile numbers*/
   validateNumber(data) {
-    return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/.test(data);;
+    return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[123456789]\d{9}$/.test(data);;
   }
   /* =========================================================================== */
   /* =========================================================================== */
@@ -2053,6 +2047,45 @@ export class EnquiryHomeComponent implements OnInit {
     this.cd.markForCheck();
   }
   /* =========================================================================== */
+  closeUpdatePop(e) {
+    this.pops.changeMessage('');
+    this.hour = "";
+    this.minute = "";
+    this.meridian = "";
+    this.isApprovedTab = true;
+    this.isOpenTab = false;
+    this.isMessageAddOpen = false;
+    this.smsBtnToggle = false;
+    this.newSmsString.data = "";
+    this.newSmsString.length = 0;
+    this.smsSelectedRows = null;
+    this.updateFormData = {
+      comment: "",
+      status: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      isEnquiryUpdate: "Y",
+      closedReason: null,
+      slot_id: null,
+      priority: "",
+      follow_type: "",
+      followUpDate: "",
+      commentDate: moment().format('YYYY-MM-DD'),
+      followUpTime: "",
+      isEnquiryV2Update: "N",
+      isRegisterFeeUpdate: "N",
+      amount: null,
+      paymentMode: null,
+      paymentDate: null,
+      reference: null,
+      walkin_followUpDate: '',
+      walkin_followUpTime: {
+        hour: '',
+        minute: '',
+      },
+      is_follow_up_time_notification: 0,
+    }
+    this.loadTableDatatoSource(this.instituteData);
+  }
   /* =========================================================================== */
   /* common function to close popups */
   closePopup() {
