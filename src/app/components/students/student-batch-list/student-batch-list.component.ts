@@ -71,6 +71,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     ngOnChanges() {
         this.batchList = this.dataList.map(e => { return e });
         this.isEdit;
+        if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {
+            this.defaultAcadYear = "-1";
+        }
         this.getAssignedCount();
     }
 
@@ -90,16 +93,26 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     if (this.isProfessional) {
                         assignedBatches.push(this.dataList[i].data.batch_id.toString());
                         batchJoiningDates.push(moment(this.dataList[i].assignDate).format('YYYY-MM-DD'));
-                        assignedBatchescademicYearArray.push(this.dataList[i].data.academic_year_id);
                         assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id);
                         batchString.push(this.dataList[i].data.batch_name);
+                        if (this.dataList[i].data.academic_year_id == null || this.dataList[i].data.academic_year_id == undefined) {
+                            assignedBatchescademicYearArray.push(this.defaultAcadYear);
+                        }
+                        else {
+                            assignedBatchescademicYearArray.push(this.dataList[i].data.academic_year_id);
+                        }
                     }
                     else {
                         assignedBatches.push(this.dataList[i].data.course_id.toString());
                         batchJoiningDates.push(moment(this.dataList[i].assignDate).format('YYYY-MM-DD'));
-                        assignedBatchescademicYearArray.push(this.dataList[i].data.academic_year_id);
                         assignedCourse_Subject_FeeTemplateArray.push(this.dataList[i].data.selected_fee_template_id);
                         batchString.push(this.dataList[i].data.course_name);
+                        if (this.dataList[i].data.academic_year_id == null || this.dataList[i].data.academic_year_id == undefined) {
+                            assignedBatchescademicYearArray.push(this.defaultAcadYear);
+                        }
+                        else {
+                            assignedBatchescademicYearArray.push(this.dataList[i].data.academic_year_id);
+                        }
                     }
                 }
                 else {
