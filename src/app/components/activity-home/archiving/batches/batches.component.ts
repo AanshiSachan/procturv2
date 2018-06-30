@@ -36,7 +36,12 @@ export class BatchesComponent implements OnInit {
   getId: any[] = [];
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  columnMaps2: any[] = [0, 1, 2, 3, 4, 5 ,6, 7];
   dataStatus: boolean;
+
+  sortedenabled: boolean = true;
+  sortedBy: string = "";
+  direction = 0;
 
   constructor(private auth: AuthenticatorService,
     private batch: CoursesServiceService,
@@ -169,7 +174,7 @@ export class BatchesComponent implements OnInit {
             },
             (error: any) => {
               let msg = {
-                type: "success",
+                type: "error",
                 body: error.error.message
               }
               this.appc.popToast(msg);
@@ -207,6 +212,39 @@ export class BatchesComponent implements OnInit {
           )
         }
       }
+    }
+  }
+
+  sortedData(ev) {
+    this.sortedenabled = true;
+    if (this.sortedenabled) {
+      (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1);
+      this.sortedBy = ev;
+      this.getCourses = this.getCourses.sort((a: any, b: any) => {
+        if (a[ev] < b[ev]) {
+          return -1 * this.direction;
+        }
+        else if (a[ev] > b[ev]) {
+          return this.direction;
+        }
+        else {
+          return 0;
+        }
+      });
+
+      this.PageIndex = 1;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getCaretVisiblity(e): boolean {
+
+    if (this.sortedenabled && this.sortedBy == e) {
+      return true;
+    }
+
+    else {
+      return false;
     }
   }
 
