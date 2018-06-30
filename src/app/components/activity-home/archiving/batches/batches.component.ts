@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { CoursesServiceService } from '../../../../services/archiving-service/courses-service.service';
+import { concat } from 'rxjs/observable/concat';
+import { AppComponent } from '../../../../app.component';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-batches',
@@ -21,13 +25,28 @@ export class BatchesComponent implements OnInit {
   searchData: any[] = [];
   searchflag: boolean = false;
   sendPayload = {
-    courseIds: [],
-    isSelected: false
+    courseIds: "",
   }
-  courseIds:any[] = []
+  sendPayloadBatch = {
+    batchIds: "",
+  }
+  courseIds: any[] = []
+  checked: boolean;
+  getArr: any[] = [];
+  getId: any[] = [];
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  columnMaps2: any[] = [0, 1, 2, 3, 4, 5 ,6, 7];
+  dataStatus: boolean;
+
+  sortedenabled: boolean = true;
+  sortedBy: string = "";
+  direction = 0;
 
   constructor(private auth: AuthenticatorService,
-    private batch: CoursesServiceService) { }
+    private batch: CoursesServiceService,
+    private appc: AppComponent,
+    private router: Router) { }
 
   ngOnInit() {
     this.auth.institute_type.subscribe(
@@ -43,39 +62,191 @@ export class BatchesComponent implements OnInit {
   }
 
   getCoursesList() {
-    this.batch.getCoursesList().subscribe(
-      (data: any) => {
-        this.getCourses = data;
-        this.totalRow = data.length;
-        this.PageIndex = 1;
-        this.fetchTableDataByPage(this.PageIndex);
-      }
-    )
-  }
+    this.dataStatus = true;
+    if (this.isProfessional) {
+      this.batch.getBatches().subscribe(
+        (data: any) => {
+          this.dataStatus = false;
+          this.getCourses = data;
+          this.getCourses.map(
+            (ele) => {
+              ele.status = false
+            }
+          )
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
 
-  getValue(event){
-    console.log(event);
-    this.courseIds.push(event);
-    this.sendPayload={
-      courseIds : this.courseIds,
-      isSelected: true
+        },
+        (error: any) => {
+          this.dataStatus = false;
+          let msg = {
+            type: "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
+        }
+      )
     }
-    console.log(this.courseIds);
+    else {
+      this.dataStatus = true;
+      this.batch.getCoursesList().subscribe(
+        (data: any) => {
+          this.dataStatus = false;
+          this.getCourses = data;
+          this.getCourses.map(
+            (ele) => {
+              ele.status = false
+            }
+          )
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
+        },
+        (error: any) => {
+          this.dataStatus = false;
+          let msg = {
+            type: "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
+        }
+      )
+    }
   }
 
-  archiveData() {
-    console.log(this.sendPayload);
-    this.batch.courses(this.sendPayload).subscribe(
-      (data: any) => {
-        console.log(data);
-      },
-      (error: any) => {
-
+  notifyMe(e) {
+    let str = ""
+    if (!this.isProfessional) {
+      if (this.newPaginated[e].status == true) {
+        this.getArr.push(this.newPaginated[e].course_id)
       }
-    )
+      else {
+        this.getArr = this.getArr.filter((ele) => {
+          if (ele == this.newPaginated[e].course_id) {
+            return false;
+          } else {
+            return true;
+          }
+        })
+      }
+      str = this.getArr.join(',');
+      this.sendPayload.courseIds = str
+    }
+    else {
+      if (this.newPaginated[e].status) {
+        this.getArr.push(this.newPaginated[e].batch_id)
+      }
+      else {
+        this.getArr = this.getArr.filter((ele) => {
+          if (ele == this.newPaginated[e].batch_id) {
+            return false;
+          } else {
+            return true;
+          }
+        })
+      }
+      str = this.getArr.join(',');
+      this.sendPayloadBatch.batchIds = str
+    }
   }
 
- 
+  archiveData(event) {
+
+    if (!this.isProfessional) {
+      if (this.sendPayload.courseIds == "" || this.sendPayload.courseIds == null) {
+        let msg = {
+          type: "error",
+          body: "At least one course should be selected"
+        }
+        this.appc.popToast(msg);
+      }
+      else {
+        if (confirm('Are you sure, you want to Archive?')) {
+          this.batch.courses(this.sendPayload).subscribe(
+            (data: any) => {
+              this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+              let msg={
+                type:"success",
+                body:"Course(s) archived successfully"
+              }
+              this.appc.popToast(msg);
+            },
+            (error: any) => {
+              let msg = {
+                type: "error",
+                body: error.error.message
+              }
+              this.appc.popToast(msg);
+            }
+          )
+        }
+      }
+    }
+    else {
+      if (this.sendPayloadBatch.batchIds == "" || this.sendPayloadBatch.batchIds == null) {
+        let msg = {
+          type: "error",
+          body: "At least one Batch should be selected"
+        }
+        this.appc.popToast(msg);
+      }
+      else {
+        if (confirm('Are you sure, you want to Archive?')) {
+          this.batch.batches(this.sendPayloadBatch).subscribe(
+            (data: any) => {
+              this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+              let msg={
+                type:"success",
+                body:"Batch(s) archived successfully"
+              }
+              this.appc.popToast(msg);
+            },
+            (error: any) => {
+              let msg = {
+                type: "error",
+                body: error.error.message
+              }
+              this.appc.popToast(msg);
+            }
+          )
+        }
+      }
+    }
+  }
+
+  sortedData(ev) {
+    this.sortedenabled = true;
+    if (this.sortedenabled) {
+      (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1);
+      this.sortedBy = ev;
+      this.getCourses = this.getCourses.sort((a: any, b: any) => {
+        if (a[ev] < b[ev]) {
+          return -1 * this.direction;
+        }
+        else if (a[ev] > b[ev]) {
+          return this.direction;
+        }
+        else {
+          return 0;
+        }
+      });
+
+      this.PageIndex = 1;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getCaretVisiblity(e): boolean {
+
+    if (this.sortedenabled && this.sortedBy == e) {
+      return true;
+    }
+
+    else {
+      return false;
+    }
+  }
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;

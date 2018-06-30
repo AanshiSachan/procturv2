@@ -96,7 +96,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="c-lg-3 sky-form field-wrapper  hide">
+                                <div class="c-lg-1 filter-btn" *ngIf="!isProfessional" style="margin-top: 25px;">
+                                    <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                </div>
+                                <div class="c-lg-1 filter-btn" *ngIf="isProfessional" style="margin-top: 25px;">
+                                    <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                </div>
+                                <!-- <div class="c-lg-3 sky-form field-wrapper  hide">
                                     <label>Academic Year</label>
                                     <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
                                         class="form-ctrl sky-inner">
@@ -106,17 +112,10 @@
                                             {{i.inst_acad_year}}
                                         </option>
                                     </select>
-                                </div>
-                                <div class="c-lg-3 filter-btn" *ngIf="!isProfessional" style="margin-top: 25px;">
-                                    <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                                </div>
+                                </div> -->
+
                             </div>
                         </div>
-
-                        <div class="c-lg-1 filter-btn" style="margin-top: 25px; margin-left:-3%;" *ngIf="isProfessional">
-                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                        </div>
-
                     </div>
                 </div>
 

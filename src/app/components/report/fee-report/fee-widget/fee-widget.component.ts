@@ -89,14 +89,13 @@ export class FeeWidgetComponent implements OnInit {
     fetchAllFeeData() {
         this.isRippleLoad = true;
         this.getService.getFeeWidgetDataByDateRange(this.chartDate).subscribe(
-            res => {this.generateChartData(res); this.isRippleLoad = false;},
+            res => { this.generateChartData(res); this.isRippleLoad = false; },
             err => this.isRippleLoad = false
         );
 
     }
 
     generateChartData(res) {
-        console.log(res);
         let feeCollectedArr: any[] = [];
         let feeDueArr: any[] = [];
         let upcomingDueArr: any[] = [];
@@ -134,11 +133,19 @@ export class FeeWidgetComponent implements OnInit {
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} Rs</b></td></tr>',
-                footerFormat: '</table>',
                 shared: true,
+                pointFormatter: function () {
+                    var pointer = function (x) {
+                        var formatted = x.toLocaleString('en-IN', {
+                            maximumFractionDigits: 2,
+                            style: 'currency',
+                            currency: 'INR'
+                        }).slice(0, -3);
+                        return this.symbol + formatted;
+                    }, localVar = { symbol: " " };
+                    var text = pointer.call(localVar, this.y);
+                    return '<span style="font-size:10px"></span><table><tr><td style="color:' + this.series.color + ';padding:5px">' + this.series.name + '</td><td style="padding:5px"><b> ' + text + '</b></td></tr></table>';
+                },
                 useHTML: true
             },
             plotOptions: {
@@ -159,4 +166,9 @@ export class FeeWidgetComponent implements OnInit {
             }]
         });
     }
+
+    // pointerValue(e): string{
+    //     console.log(e);
+    //     return "wallah habibi";
+    // }
 }

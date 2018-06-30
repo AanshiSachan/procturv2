@@ -129,6 +129,8 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   ngOnInit() {
+    this.due_type = "seven_days_dues"
+    this.dateRangeChanges(event);
     this.getAcademicYear();
     this.auth.institute_type.subscribe(
       res => {
@@ -328,9 +330,63 @@ export class AllDataReportComponent implements OnInit {
         obj.student_name = '';
       }
 
-      this.generateReport(obj);
+      // this.generateReport(obj);
 
     }
+    else if(this.due_type == "seven_days_dues"){
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+      // this.generateReport(obj);
+    }
+
+    else if(this.due_type == "thirty_days_dues"){
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+      // this.generateReport(obj);
+    }
+
+    else if(this.due_type == "ninty_days_dues"){
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+      // this.generateReport(obj);
+    }
+
     else if (this.due_type == 'next_month_dues') {
       let obj: any = {
         from_date: '',
@@ -694,6 +750,7 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   dateRangeChanges(e) {
+    console.log(this.due_type);
     this.isCustomDate = false;
     this.courseFetchForm.standard_id = '-1';
     this.courseFetchForm.subject_id = '-1';
@@ -711,6 +768,35 @@ export class AllDataReportComponent implements OnInit {
 
       this.courseFetchForm.from_date = begin;
       this.courseFetchForm.to_date = end;
+      this.courseFetchForm.type = "1";
+    }
+
+    else if(this.due_type == 'seven_days_dues'){
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('days', 7).format('YYYY-MM-DD');
+
+      this.courseFetchForm.from_date = end;
+      this.courseFetchForm.to_date = begin;
+      this.courseFetchForm.type = "1";
+
+      console.log(this.courseFetchForm);
+    }
+
+    else if(this.due_type == 'thirty_days_dues'){
+      let begin = moment().format('YYYY-MM-DD');
+      let end =  moment().subtract('months', 1).format('YYYY-MM-DD');
+
+      this.courseFetchForm.from_date = end;
+      this.courseFetchForm.to_date = begin;
+      this.courseFetchForm.type = "1";
+    }
+
+    else if(this.due_type == 'ninty_days_dues'){
+      let begin = moment().format('YYYY-MM-DD');
+      let end =  moment().subtract('months', 3).format('YYYY-MM-DD');
+
+      this.courseFetchForm.from_date = end;
+      this.courseFetchForm.to_date = begin;
       this.courseFetchForm.type = "1";
     }
 

@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { updateEnquiryForm } from '../../../model/update-enquiry-form';
@@ -61,11 +59,7 @@ export class EnquiryHomeComponent implements OnInit {
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"]; isRippleLoad: boolean = false; hour: string = ''; minute: string = ''; meridian: string = ''; newSmsString = { data: "", length: 0, type: "", };
-  statusString: any[] = []; smsSelectedRows: any; smsGroupSelected: any[] = [];
-  private selectedSlots: any[] = [];
-  private slotIdArr: any[] = [];
-  private selectedSlotsString: string = '';
-  private selectedSlotsID: string = '';
+  statusString: any[] = []; smsSelectedRows: any; smsGroupSelected: any[] = [];  private selectedSlots: any[] = [];  private slotIdArr: any[] = [];  private selectedSlotsString: string = '';  private selectedSlotsID: string = '';
   selectedOption: any = { email: { show: false, id: 'email' }, Gender: { show: false, id: 'Gender' }, standard: { show: false, id: 'standard' }, subjects: { show: false, id: 'subjects' } };
   myOptions: any[] = [{ id: 'email', name: 'Email' }, { id: 'Gender', name: 'Gender' }, { id: 'standard', name: 'Standard' }, { id: 'subjects', name: 'Subject' }];
 
@@ -661,7 +655,7 @@ export class EnquiryHomeComponent implements OnInit {
     ];
     this.indexJSON = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
-
+    this.PageIndex = 1;
     /* Both are empty */
     if ((this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) &&
       (this.searchBarDate === "" || this.searchBarDate === " " || this.searchBarDate === null)) {
@@ -987,7 +981,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* =========================================================================== */
   /* Custom validation suited only for indian mobile numbers*/
   validateNumber(data) {
-    return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/.test(data);;
+    return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[123456789]\d{9}$/.test(data);;
   }
   /* =========================================================================== */
   /* =========================================================================== */
@@ -1693,6 +1687,7 @@ export class EnquiryHomeComponent implements OnInit {
                 }
                 this.appC.popToast(alert);
                 this.selectedRowGroup = [];
+                this.statusFilter({ value: 'In_Progress', prop: 'In_Progress', checked: true, disabled: false });
                 this.statusFilter({ value: 'Open', prop: 'Open', checked: true, disabled: false });
               },
               err => {
@@ -1711,7 +1706,7 @@ export class EnquiryHomeComponent implements OnInit {
             let msg = {
               type: 'error',
               title: 'Unable to Delete Enquiries',
-              body: 'Only open enquiries can be deleted'
+              body: 'Only open and InProgress enquiries can be deleted'
             }
             this.appC.popToast(msg);
           }
@@ -1771,7 +1766,7 @@ export class EnquiryHomeComponent implements OnInit {
               let msg = {
                 type: 'error',
                 title: 'Unable to Delete Enquiries',
-                body: 'Only open enquiries can be deleted'
+                body: 'Only open and InProgress enquiries can be deleted'
               }
               this.appC.popToast(msg);
             }
@@ -1813,7 +1808,7 @@ export class EnquiryHomeComponent implements OnInit {
 
     let passed = temp.every(isOpenEnquiry);
     function isOpenEnquiry(element, index, array) {
-      return (element.status == 0);
+      return (element.status == 0 || element.status == 3);
     }
 
     return passed;
@@ -1936,6 +1931,7 @@ export class EnquiryHomeComponent implements OnInit {
       { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
     ];
     this.isAllSelected = false;
+    this.PageIndex = 1;
     this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
     this.instituteData.filtered_statuses = this.statusString.join(',');
     let tempCustomArr: any[] = [];
@@ -2046,12 +2042,51 @@ export class EnquiryHomeComponent implements OnInit {
       el.selected = [];
       el.value = '';
     });
-
+    this.PageIndex = 1;
     this.enqSubject = [];
     this.course_course = [];
     this.cd.markForCheck();
   }
   /* =========================================================================== */
+  closeUpdatePop(e) {
+    this.pops.changeMessage('');
+    this.hour = "";
+    this.minute = "";
+    this.meridian = "";
+    this.isApprovedTab = true;
+    this.isOpenTab = false;
+    this.isMessageAddOpen = false;
+    this.smsBtnToggle = false;
+    this.newSmsString.data = "";
+    this.newSmsString.length = 0;
+    this.smsSelectedRows = null;
+    this.updateFormData = {
+      comment: "",
+      status: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      isEnquiryUpdate: "Y",
+      closedReason: null,
+      slot_id: null,
+      priority: "",
+      follow_type: "",
+      followUpDate: "",
+      commentDate: moment().format('YYYY-MM-DD'),
+      followUpTime: "",
+      isEnquiryV2Update: "N",
+      isRegisterFeeUpdate: "N",
+      amount: null,
+      paymentMode: null,
+      paymentDate: null,
+      reference: null,
+      walkin_followUpDate: '',
+      walkin_followUpTime: {
+        hour: '',
+        minute: '',
+      },
+      is_follow_up_time_notification: 0,
+    }
+    this.loadTableDatatoSource(this.instituteData);
+  }
   /* =========================================================================== */
   /* common function to close popups */
   closePopup() {
@@ -2824,7 +2859,7 @@ export class EnquiryHomeComponent implements OnInit {
     this.searchBarData = '';
     this.updateStatFilterStatus(checkerObj.prop, checkerObj.checked);
     this.advancedFilterForm = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" };
-
+    this.PageIndex = 1;
     if (checkerObj.prop == "All") {
       this.statusString = [];
       if (checkerObj.checked) {
@@ -3003,7 +3038,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
     this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
-
+    this.PageIndex = 1;
     if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) {
       return;
     }

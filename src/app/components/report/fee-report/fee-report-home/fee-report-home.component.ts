@@ -8,7 +8,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class FeeReportHomeComponent implements OnInit {
 
-  isProfessional: boolean = false;
+  isProfessional: boolean;
 
   enable_online_payment: string = "";
 
@@ -19,10 +19,9 @@ export class FeeReportHomeComponent implements OnInit {
     
     this.auth.institute_type.subscribe(
       res => {
-        if (res == "Lang") {
+        if (res == 'LANG') {
           this.isProfessional = true;
-        }
-        else {
+        } else {
           this.isProfessional = false;
         }
       }

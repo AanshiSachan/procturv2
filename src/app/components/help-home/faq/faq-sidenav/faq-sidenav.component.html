@@ -1,0 +1,16 @@
+<div class="help-sidenav">
+    <ul>
+        <li class="main-element" #MainElement *ngFor="let item of helpList; let i = index;">
+            <div id="{{item.id}}" (click)="toggleVisiblity(i)" class="main-item">
+                {{item.name}}
+            </div>
+
+            <ul class="sub-element-holder hide">
+                <li id="{{child.id}}" class="sub-element" *ngFor="let child of item.children">
+                    {{child.name}}
+                </li>
+            </ul>
+
+        </li>
+    </ul>
+</div>

@@ -18,10 +18,7 @@
                     </h2>
                     <div class="row">
                         <div class="c-lg-12">
-                            <div class="c-lg-3">
-
-                            </div>
-                            <div class="c-lg-3 field-wrapper">
+                            <div class="c-lg-2 field-wrapper">
                                 <label>Select Month</label>
                                 <select class="form-ctrl" [(ngModel)]="sendPayload.from_date">
                                     <option value=-1>
@@ -31,15 +28,25 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="c-lg-1 field-wrapper">
+                                <label>Select Year</label>
+                                <select class="form-ctrl" [(ngModel)]="getYear">
+                                    <option value=-1>
+                                    </option>
+                                    <option *ngFor="let i of selectYear" [value]="i">
+                                        {{i}}
+                                    </option>
+                                </select>
+                            </div>
                             <div class="c-lg-2" style="margin-top: 2%;">
-                                <button class="btn fullBlue" (click)="getGstReport(sendPayload.from_date)">GO</button>
+                                <button class="btn fullBlue" (click)="getGstReport(sendPayload.from_date , getYear)">GO</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div id="basic-search" style="margin:5px;">
+                <div id="basic-search" style="margin:3px;">
                     <ul class="made" *ngIf="records.length !=0">
                         <li>
                             <span class="made-out">Total GST</span>

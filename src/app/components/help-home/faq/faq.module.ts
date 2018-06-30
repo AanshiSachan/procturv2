@@ -7,10 +7,12 @@ import { SharedModule } from '../../shared/shared.module'
 
 import { FAQRoutingModule } from './faq-routing.module';
 
+
 import { FAQHomeComponent } from './faq-home/faq-home.component'
 import { FAQComponent } from './faq.component';
 import { FAQCardComponent } from './faq-card/faq-card.component';
-
+import { FAQSidenavComponent } from './faq-sidenav/faq-sidenav.component';
+import { FAQHeadComponent } from './faq-head/faq-head.component';
 
 @NgModule({
     imports: [
@@ -25,10 +27,14 @@ import { FAQCardComponent } from './faq-card/faq-card.component';
     declarations: [
         FAQHomeComponent,
         FAQCardComponent,
-        FAQComponent
+        FAQComponent,
+        FAQSidenavComponent,
+        FAQHeadComponent
     ],
     entryComponents: [
-        FAQCardComponent
+        FAQCardComponent,
+        FAQSidenavComponent,
+        FAQHeadComponent
     ],
     providers: [
 
