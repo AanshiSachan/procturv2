@@ -1687,6 +1687,7 @@ export class EnquiryHomeComponent implements OnInit {
                 }
                 this.appC.popToast(alert);
                 this.selectedRowGroup = [];
+                this.statusFilter({ value: 'In_Progress', prop: 'In_Progress', checked: true, disabled: false });
                 this.statusFilter({ value: 'Open', prop: 'Open', checked: true, disabled: false });
               },
               err => {

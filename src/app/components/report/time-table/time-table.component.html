@@ -188,7 +188,7 @@
   <h2 class="inshead">{{insName}}</h2>
   <h4 class="insCont">{{insContact}}</h4>
   <h1 id="tableHead" style="text-align:center;padding-bottom:1%">Time-Table</h1>
-  <!-- <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{dateFormat(startdateweek)}} - {{dateFormat(enddateweek)}}</h4> -->
+  <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{dateFormat(startdateweek)}} - {{dateFormat(enddateweek)}}</h4>
   <div *ngIf="!isProfessional">
     <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
     </time-table>

@@ -9,7 +9,7 @@ import { AppComponent } from '../../../../app.component';
 })
 export class StudentsComponent implements OnInit {
 
-  getStudents:any[]=[];
+  getStudents: any[] = [];
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
   pagedisplaysize: number = 10;
@@ -22,8 +22,13 @@ export class StudentsComponent implements OnInit {
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   dataStatus: boolean;
+  courseFetchForm = {
+    studentAlumniArrayString: "",
+    studentIds: ""
+  }
 
-
+  status: boolean;
+  getArr: any[] = []
   constructor(private students: CoursesServiceService,
     private appc: AppComponent) { }
 
@@ -33,16 +38,80 @@ export class StudentsComponent implements OnInit {
 
   studentsData() {
     this.dataStatus = true;
-     this.students.studentsArchiveData().subscribe(
+    this.students.studentsArchiveData().subscribe(
       (data: any) => {
         this.dataStatus = false;
         this.getStudents = data;
+        this.getStudents.map(
+          (ele: any) => ele.status = false
+        )
+        this.getStudents.map(
+          (ele: any) => ele.getAlumni = "-1"
+        )
         this.totalRow = data.length;
         this.PageIndex = 1;
         this.fetchTableDataByPage(this.PageIndex);
       },
       (error: any) => {
         this.dataStatus = false;
+        let msg = {
+          type: "error",
+          body: error.error.message
+        }
+        this.appc.popToast(msg);
+      }
+    )
+  }
+
+
+  getStatusValue(e) {
+    let str = ""
+    if (this.newPaginated[e].status == true) {
+      this.getArr.push(this.newPaginated[e].student_id)
+    }
+    else {
+      this.getArr = this.getArr.filter((ele) => {
+        if (ele == this.newPaginated[e].student_id) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+    }
+    str = this.getArr.join(',');
+    this.courseFetchForm.studentIds = str
+  }
+
+  valueChange(event, data, j) {
+
+    let arr = [];
+    let arr1 = [];
+    let obj = {
+      id: data.student_id,
+      value: event
+    }
+    this.getArr.push(obj);
+    arr = Array.from(new Set(this.getArr));
+    this.getArr.push(obj);
+    // arr = [(new Set(this.getArr.map(({ id }) => id)))];
+    console.log(this.getArr[j].id);
+    for (let i = 0; i < this.getArr.length; i++) {
+      for (let j = 0; j < this.getArr.length; j++) {
+        if (this.getArr[i].id != this.getArr[j].id) {
+          return arr.push(this.getArr[i]);
+        }
+      }
+    }
+    console.log(arr);
+  }
+
+  studentsDataPost() {
+
+    this.students.archiveStudents(this.courseFetchForm).subscribe(
+      (data: any) => {
+        console.log(data);
+      },
+      (error: any) => {
         let msg = {
           type: "error",
           body: error.error.message
