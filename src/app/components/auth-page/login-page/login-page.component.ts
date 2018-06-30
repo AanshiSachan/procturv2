@@ -216,15 +216,14 @@ export class LoginPageComponent {
       return
     }
     else {
+
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       this.toastCtrl.informFooter();
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-
       this.auth.changeAuthenticationKey(Authorization);
       this.auth.changeInstituteId(institute_data.institution_id);
-
       sessionStorage.setItem('institute_id', institute_data.institution_id);
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
@@ -558,8 +557,17 @@ export class LoginPageComponent {
       /* If Id has been updated to the services then proceed */
       if (id != null) {
         if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
-          this.login.changeSidenavStatus('authorized');
-          this.route.navigateByUrl('/view/home');
+          this.login.storeInstituteInfoToSession().subscribe(
+            (res: any) => {
+              sessionStorage.setItem('manual_student_disp_id', res.is_student_displayId_manual);
+              this.login.changeSidenavStatus('authorized');
+              this.route.navigateByUrl('/view/home');
+            },
+            err => {
+              this.login.changeSidenavStatus('authorized');
+              this.route.navigateByUrl('/view/home');
+            }
+          );
         }
         else if (sessionStorage.getItem('userType') == '1') {
           sessionStorage.setItem('student_id', JSON.stringify(this.serverUserData.data.studentId));

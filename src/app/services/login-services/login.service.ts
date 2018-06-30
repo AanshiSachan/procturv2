@@ -125,4 +125,12 @@ export class LoginService {
     )
   }
 
+  storeInstituteInfoToSession() {
+    let url = this.baseUrl + "/api/v1/institutes/" + sessionStorage.getItem('institute_id');
+    return this.http.get(url, {headers: this.headers}).map(
+      res => { return res; },
+      err => { return err; }
+    );
+  }
+
 }

@@ -70,3 +70,8 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Need to import at least one locale-data with intl.
  */
 // import 'intl/locale-data/jsonp/en';
+
+/* 
+ *polyfill support for muuri.js as safari does not support web animations.
+*/
+require('web-animations-js/web-animations.min');
