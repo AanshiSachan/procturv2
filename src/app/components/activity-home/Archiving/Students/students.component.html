@@ -57,18 +57,19 @@
             </tr>
           </thead>
           <tbody *ngIf="newPaginated.length !=0">
-            <tr *ngFor="let i of newPaginated">
+            <tr *ngFor="let i of newPaginated , let j=index;">
               <td style="text-align: left;">
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" class="form-checkbox">
+                  <input type="checkbox" class="form-checkbox" [(ngModel)]="i.status" (ngModelChange)="getStatusValue(j)">
                   <label></label>
                 </div>
                 {{i.student_disp_id}}
               </td>
               <td class="field-wrapper" style="width:14%; text-align: left;">
-                <select class="form-ctrl" style="width:27% ">
-                  <option>Y</option>
-                  <option>N</option>
+                <select class="form-ctrl" style="width:27% " [(ngModel)]="i.is_alumni" (ngModelChange)="valueChange($event , i ,j)">
+                  <option value = -1></option>
+                  <option value="Y">Y</option>
+                  <option value="N">N</option>
                 </select>
               </td>
               <td style="text-align: left;">
@@ -86,7 +87,7 @@
             </tr>
             <tr>
               <td colspan="6">
-                <input type="button" value="Archive" class="btn fullBlue">
+                <input type="button" value="Archive" class="btn fullBlue" (click)="studentsDataPost($event)">
               </td>
             </tr>
           </tbody>
