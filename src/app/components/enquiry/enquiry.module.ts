@@ -12,10 +12,10 @@ import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component
 import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
+import { EnquiryUpdatepComponent } from './enquiry-update/enquiry-update.component';
+
 /* Modules */
-import { FormsModule, ReactiveFormsModule,FormBuilder,Validators,FormControl } from "@angular/forms";
-import 'moment';
-import 'hammerjs';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
@@ -23,7 +23,6 @@ import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { SharedModule } from '../shared/shared.module';
 import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
-
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
 
 @NgModule({
@@ -47,6 +46,7 @@ import { PopupHandlerService } from '../../services/enquiry-services/popup-handl
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
+        EnquiryUpdatepComponent,
         EnquiryInput,
         EnquiryDateInput,
         UserEnquiryComponent,
@@ -62,7 +62,7 @@ import { PopupHandlerService } from '../../services/enquiry-services/popup-handl
         UserEnquiryComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent,
-        
+        EnquiryUpdatepComponent
     ],
     providers: [
         PopupHandlerService,

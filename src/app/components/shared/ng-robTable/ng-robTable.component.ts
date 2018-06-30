@@ -112,6 +112,8 @@ export class RobTableComponent implements OnChanges {
         $event.preventDefault();
         $event.stopPropagation();
         this.selectedRow = ev;
+        console.log(this.selectedRow);
+        this.cd.detectChanges();
         this.userRowSelect.emit(row);
         this.getSelectedRows();
     }
