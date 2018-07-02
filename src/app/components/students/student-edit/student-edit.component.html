@@ -97,22 +97,23 @@
                   </div>
 
                   <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
-                      <label for="attCard">Attendance Card ID</label>
-                      <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
-                        #cardId="ngModel" />
-                    </div>
+                    <label for="attCard">Attendance Card ID</label>
+                    <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
+                      #cardId="ngModel" />
+                  </div>
 
-                  
+
                   <div *ngIf="isManualDisplayId" class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
-                      <label for="manualId">Student Roll Number*</label>
-                      <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId" maxlength="50" #manualId="ngModel" required>
-                      <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
-                        <div *ngIf="manualId.errors.required">
-                          Roll Number is Mandatory.
-                        </div>
+                    <label for="manualId">Student Roll Number*</label>
+                    <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId"
+                      maxlength="50" #manualId="ngModel" required>
+                    <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
+                      <div *ngIf="manualId.errors.required">
+                        Roll Number is Mandatory.
                       </div>
                     </div>
-  
+                  </div>
+
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                     <label for="userGender">Gender</label>
@@ -539,7 +540,7 @@
                 <label>Fee Amt Incl Taxes</label>
                 <div class="gray">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{(totalFeeWithTax-totalDicountAmount) | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0"> {{(totalFeeWithTax-totalDicountAmount) | commaSeprator}}</span>
                 </div>
               </li>
 
@@ -547,7 +548,7 @@
                 <label>Taxes</label>
                 <div class="yellow">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalTaxAmount | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0"> {{totalTaxAmount | commaSeprator}}</span>
                 </div>
               </li>
 
@@ -555,7 +556,7 @@
                 <label>Fee Amount</label>
                 <div class="blue">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalInitalAmount | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0"> {{totalInitalAmount | commaSeprator}}</span>
                 </div>
               </li>
 
@@ -563,7 +564,7 @@
                 <label>Discount</label>
                 <div class="purple">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalDicountAmount | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0"> {{totalDicountAmount | commaSeprator}}</span>
                   <a *ngIf="totalAmountDue != 0" (click)="openDiscountApply()">Add</a>
                 </div>
               </li>
@@ -573,7 +574,7 @@
                 <label>Amount Paid</label>
                 <div class="green">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalPaidAmount | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0"> {{totalPaidAmount | commaSeprator}}</span>
                 </div>
               </li>
 
@@ -581,7 +582,7 @@
                 <label>Amount Due</label>
                 <div class="red">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalAmountDue | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0"> {{totalAmountDue | commaSeprator}}</span>
                 </div>
               </li>
 
@@ -640,7 +641,7 @@
                             Fee Amount
                           </label>
                           <span>
-                            &#8377; {{installment.fees_amount | commaSeprator}}
+                            {{installment.fees_amount | commaSeprator}}
                           </span>
                         </li>
 
@@ -658,7 +659,7 @@
                             Tax amount
                           </label>
                           <span>
-                            &#8377; {{getTaxAmounted(installment) | commaSeprator}}
+                            {{getTaxAmounted(installment) | commaSeprator}}
                           </span>
                         </li>
 
@@ -734,7 +735,7 @@
 
           <aside class="pull-right">
             <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalFeePaid != 0">
-              Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
+              Payment for {{totalFeePaid | commaSeprator}} to be updated
             </div>
             <div style="display: inline-block;" class="">
               <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
@@ -1195,7 +1196,7 @@
 
                 <!-- Cheque date -->
                 <li class="view-comp">
-                  {{ch.cheque_date| date:"dd-MMM-yyyy"}}
+                  {{ch.cheque_date| procturDate}}
                 </li>
                 <li class="edit-comp ">
                   <div class="field-wrapper datePickerBox">
@@ -1206,7 +1207,7 @@
 
                 <!-- Clearing Date -->
                 <li class="view-comp">
-                  {{ch.clearing_date| date:"dd-MMM-yyyy"}}
+                  {{ch.clearing_date| procturDate}}
                 </li>
                 <li class="edit-comp ">
                   <div class="field-wrapper datePickerBox">
@@ -1292,7 +1293,7 @@
     </span>
 
     <h2 popup-header style="padding: 10px 5px;">Student Fee Payment
-      <span>(Payment Details for &#8377; {{totalFeePaid}})</span>
+      <span>(Payment Details for  {{totalFeePaid| commaSeprator}})</span>
     </h2>
 
     <div class="paymentWrapper" popup-content>
@@ -1354,7 +1355,7 @@
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
-                    {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
+                    {{opt.cheque_date| procturDate}} (  {{opt.cheque_amount| commaSeprator}} )
                   </option>
                 </select>
               </div>
@@ -1454,7 +1455,7 @@
       <div class="paymentForm">
 
         <div class="row">
-          <h4>Payment Details for &#8377; {{totalFeePaid}}</h4>
+          <h4>Payment Details for  {{totalFeePaid| commaSeprator}}</h4>
         </div>
 
         <div class="row">
@@ -1511,7 +1512,7 @@
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
-                    {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
+                    {{opt.cheque_date| procturDate}} (  {{opt.cheque_amount| commaSeprator}} )
                   </option>
                 </select>
               </div>

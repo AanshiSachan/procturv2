@@ -9,6 +9,9 @@ import { Title } from '@angular/platform-browser';
 import * as moment from 'moment';
 import { AuthenticatorService } from './services/authenticator.service';
 import { AlertService } from './services/alert.service';
+import { MultiBranchDataService } from './services/multiBranchdata.service';
+
+
 
 @Component({
   selector: 'app-root',
@@ -17,53 +20,33 @@ import { AlertService } from './services/alert.service';
 })
 export class AppComponent implements OnInit {
 
-  isConvertToStudent: boolean = false;
-  isEnqUpdate: boolean;
-  isloggedInAdmin: boolean;
 
-  isSearchMore: boolean = false;
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+  /* 
+  * Variable Declaration for Global search, Enquiry update and Password Change  
+  */
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
 
-  selectedEnquiry: any = {
-    enquiry_no: '',
-    name: '',
-    status: ''
-  }
-
-  enqstatus: any[] = []; enqPriority: any[] = [];
-  enqFollowType: any[] = []; enqAssignTo: any[] = [];
-
-  updateFormData: any = {
-    comment: "",
-    status: "",
-    statusValue: "",
-    institution_id: sessionStorage.getItem('institute_id'),
-    isEnquiryUpdate: "Y",
-    closedReason: null,
-    slot_id: null,
-    priority: "",
-    follow_type: "",
-    followUpDate: "",
-    commentDate: moment().format('YYYY-MM-DD'),
-    followUpTime: null,
-    followUpDateTime: '',
-    isEnquiryV2Update: "N",
-    isRegisterFeeUpdate: "N",
-    amount: null,
-    paymentMode: null,
-    paymentDate: null,
-    reference: null,
-    walkin_followUpDate: '',
-    walkin_followUpTime: {
-      hour: '',
-      minute: '',
-    },
-    is_follow_up_time_notification: 0,
-  }
-  isNotifyVisible: boolean = false;
+  /* Enquiry Declarations */
+  isConvertToStudent: boolean = false; isEnqUpdate: boolean = false; isloggedInAdmin: boolean = false; isSearchMore: boolean = false;
+  selectedEnquiry: any = { enquiry_no: '', name: '', status: '' };
+  enqstatus: any[] = []; enqPriority: any[] = []; enqFollowType: any[] = []; enqAssignTo: any[] = [];
+  updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: null, followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, };
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   hour: string = ''; minute: string = ''; meridian: string = '';
+  updateFormComments: any = []; updateFormCommentsBy: any = []; updateFormCommentsOn: any = [];
+  isEnquiryAdmin: boolean = false; isMainBranch: string = "N"; isMultiBranch: boolean = false;
+  subBranchSelected: boolean = false; branchesList: any[] = []; isNotifyVisible: boolean = false;
 
+
+
+  isMenuVisible: boolean = false;
+  isRippleLoad: boolean = true;
+
+  /* Toaster handlers */
   /* ToasterConfig ==> {
     animation: 'fade', 'flyLeft', 'flyRight', 'slideDown', and 'slideUp'
     limit: number
@@ -73,67 +56,57 @@ export class AppComponent implements OnInit {
     timeout: 2000
     mouseoverTimerStop: false
   } */
-
   private toasterService: ToasterService;
-  isMenuVisible: boolean = false;
-  updateFormComments: any = []; updateFormCommentsBy: any = []; updateFormCommentsOn: any = [];
-  public config: ToasterConfig = new ToasterConfig({
-    positionClass: 'toast-top-right',
-    limit: 1,
-    timeout: 5000,
-    mouseoverTimerStop: true,
-  });
+  public config: ToasterConfig = new ToasterConfig({ positionClass: 'toast-top-right', limit: 1, timeout: 5000, mouseoverTimerStop: true, });
 
+
+  /* Variable for Zendesk */
   helpLoader: boolean = false;
   ticketId = "";
   addReportPopup: boolean = false;
   closechatbot: boolean = true;
-  enquiryResult: any[] = [];
-  studentResult: any[] = [];
-  searchResult: any[] = [];
 
-  globalSearchForm: any = {
-    name: '',
-    phone: '',
-    instituteId: sessionStorage.getItem('institute_id'),
-    start_index: '-1',
-    batch_size: '-1'
-  }
 
-  isRippleLoad: boolean = true;
-  institute_id: boolean = false;
+  /* Change Password  */
+  institute_id: any = false;
   popUpChangePassword: boolean = false;
-  changePass: any = {
-    username: '',
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  }
+  changePass: any = { username: '', oldPassword: '', newPassword: '', confirmPassword: '', };
 
-  hasStudent: boolean = false;
-  hasEnquiry: boolean = false;
 
-  constructor
-    (
-    toasterService: ToasterService,
-    private router: Router,
-    private load: LoaderHandlingService,
-    private log: LoginService,
-    private fetchService: FetchprefilldataService,
-    private titleService: Title,
-    private auth: AuthenticatorService,
-    private intercept: AlertService) {
 
+  /* Global Search variable */
+  globalSearchForm: any = { name: '', phone: '', instituteId: sessionStorage.getItem('institute_id'), start_index: '-1', batch_size: '-1' };
+  enquiryResult: any[] = []; studentResult: any[] = []; searchResult: any[] = [];
+  hasStudent: boolean = false; hasEnquiry: boolean = false;
+
+
+  
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+  /* 
+  * Constructor declaration for injecting services and dependencies
+  */
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+  constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title, private auth: AuthenticatorService, private intercept: AlertService, private multiBranchService: MultiBranchDataService) {
     this.toasterService = toasterService;
-
     this.auth.currentInstituteId.subscribe(id => {
       if (id != null && id != "") {
         this.institute_id = id;
       }
     });
-
   }
 
+
+
+
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+  /* 
+  * Lifecycle Init
+  */
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
   ngOnInit() {
     this.router.events.subscribe(event => {
       this.popUpChangePassword = false;
@@ -168,6 +141,7 @@ export class AppComponent implements OnInit {
       this.isMenuVisible = el;
     })
 
+
     this.auth.currentInstituteId.subscribe(e => {
       if (e == null || e == undefined || e == '') {
         this.isloggedInAdmin = false;
@@ -187,6 +161,7 @@ export class AppComponent implements OnInit {
       }
     });
 
+
     this.intercept.messageList.subscribe(e => {
       if (e != '') {
         let obj = JSON.parse(e);
@@ -194,6 +169,7 @@ export class AppComponent implements OnInit {
         this.intercept.changeErrorObject('');
       }
     });
+
 
     this.log.currentPermissions.subscribe(e => {
       if (e != '' && e != null && e != undefined && e != []) {
@@ -224,6 +200,24 @@ export class AppComponent implements OnInit {
     });
 
   }
+
+
+
+
+
+
+
+
+
+
+
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+  /* 
+  * Global Search and general mothods used for zendesk and others 
+  */
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
 
   public popToast(data) {
     var toast: Toast = {
@@ -407,6 +401,30 @@ export class AppComponent implements OnInit {
   informFooter() {
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+  /* 
+  * Methods for Change Password  
+  */
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+
+
   handler(f) {
     let flag: any = f;
 
@@ -503,8 +521,33 @@ export class AppComponent implements OnInit {
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+  /* 
+  * Enquiry Update Methods
+  */
+  /* =========================================================================================================== */
+  /* =========================================================================================================== */
+
   loadEnquiryData(e) {
-    this.isEnqUpdate = true;
+    this.isRippleLoad = true;
+    this.isEnquiryAdministrator();
+    this.checkForMultiBranch();
     this.fetchCommentData(e);
     this.enquiryDataFetch(e);
   }
@@ -512,10 +555,20 @@ export class AppComponent implements OnInit {
   fetchCommentData(e) {
     this.fetchService.fetchCommentsForEnquiry(e.data.id).subscribe(
       (res: any) => {
-        this.updateFormComments = res.comments;
-        this.updateFormCommentsOn = res.commentedOn;
-        this.updateFormCommentsBy = res.commentedBy;
+
+        if(res.comments != null){
+          this.updateFormComments = res.comments;
+          this.updateFormCommentsOn = res.commentedOn;
+          this.updateFormCommentsBy = res.commentedBy;
+        }
+        else if(res.comments == null){
+          this.updateFormComments = [];
+          this.updateFormCommentsOn = [];
+          this.updateFormCommentsBy = [];
+        }
+
         this.updateFormData.assigned_to = res.assigned_to;
+
         if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
           let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
           this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
@@ -524,7 +577,9 @@ export class AppComponent implements OnInit {
         this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
 
       },
-      err => { }
+      err => {
+        this.popToast({ type: "error", title: "Error Fetching Enquiry Comments", body: "" });
+       }
     );
   }
 
@@ -553,8 +608,78 @@ export class AppComponent implements OnInit {
         else {
           this.updateFormData.is_follow_up_time_notification = false;
         }
+        this.isEnqUpdate = true;
+        this.isRippleLoad = false;
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.popToast({ type: "error", title: "Error Fetching Enquiry Data", body: "" });
       }
-    )
+
+    );
+  }
+
+  checkForMultiBranch() {
+    let insttitueId = sessionStorage.getItem("institute_id");
+    const permissionArray = sessionStorage.getItem('permissions');
+
+    if (permissionArray == "" || permissionArray == null) {
+      this.auth.isMainBranch.subscribe(
+        (value: any) => {
+          this.isMainBranch = value;
+          if (this.isMainBranch == "Y") {
+            this.updateFormData.source_instituteId = insttitueId;
+            this.multiBranchInstituteFound(insttitueId);
+            this.branchUpdated(this.updateFormData.source_instituteId);
+            this.updateBranchVisibility();
+          }
+        }
+      );
+
+      this.multiBranchService.subBranchSelected.subscribe(
+        res => {
+          this.subBranchSelected = res;
+          if (res == true) {
+            this.updateFormData.source_instituteId = insttitueId;
+            const mainBranchId = sessionStorage.getItem('mainBranchId');
+            if (mainBranchId != null) {
+              this.multiBranchInstituteFound(mainBranchId);
+              this.branchUpdated(this.updateFormData.source_instituteId);
+              this.updateBranchVisibility();
+            }
+          }
+        }
+      )
+    }
+    else {
+      this.isMainBranch = "N";
+      this.subBranchSelected = false;
+      this.updateBranchVisibility();
+    }
+  }
+
+  updateBranchVisibility() {
+    if (this.isMainBranch == 'Y' || this.subBranchSelected == true) {
+      this.isMultiBranch = true;
+    }
+  }
+
+  isEnquiryAdministrator() {
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.isEnquiryAdmin = true;
+    }
+    else {
+      let permissions: any[] = [];
+      permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      /* User has permission to view all enquiries */
+      if (permissions.includes('115')) {
+        this.isEnquiryAdmin = true;
+      }
+      /* User is not authorized as enquiry admin and see only enquiry assigned to him */
+      else {
+        this.isEnquiryAdmin = false;
+      }
+    }
   }
 
   getEnquiryPrefiller() {
@@ -593,33 +718,7 @@ export class AppComponent implements OnInit {
 
   closeEnquiryUpdate() {
     this.isEnqUpdate = false;
-    this.updateFormData = {
-      comment: "",
-      status: "",
-      statusValue: "",
-      institution_id: sessionStorage.getItem('institute_id'),
-      isEnquiryUpdate: "Y",
-      closedReason: null,
-      slot_id: null,
-      priority: "",
-      follow_type: "",
-      followUpDate: "",
-      commentDate: moment().format('YYYY-MM-DD'),
-      followUpTime: null,
-      followUpDateTime: '',
-      isEnquiryV2Update: "N",
-      isRegisterFeeUpdate: "N",
-      amount: null,
-      paymentMode: null,
-      paymentDate: null,
-      reference: null,
-      walkin_followUpDate: '',
-      walkin_followUpTime: {
-        hour: '',
-        minute: '',
-      },
-      is_follow_up_time_notification: 0,
-    }
+    this.updateFormData = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: null, followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, };
   }
 
   getFollowUp(id): string {
@@ -700,34 +799,44 @@ export class AppComponent implements OnInit {
 
   pushUpdatedEnquiry() {
     if (this.validateTime()) {
+
       this.isRippleLoad = true;
       this.updateFormData.comment = this.updateFormData.comment;
       this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
+
       let followupdateTime: string = "";
+
       if (this.hour != '' && this.hour != null && this.hour != undefined) {
         let time = this.timeChanges(this.hour);
         let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
         followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
         this.updateFormData.followUpTime = followUpTime;
       }
+
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
       if (this.isConvertToStudent === false) {
+
+
         if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
           let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
           let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
           this.updateFormData.walkin_followUpTime = walkin_followUpTime;
-        } else {
+        }
+        else {
           this.updateFormData.walkin_followUpTime = "";
         }
 
         if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
           let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
           this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
-        } else {
+        }
+        else {
           this.updateFormData.walkin_followUpDate = "";
         }
+
+
       }
 
       if (this.updateFormData.is_follow_up_time_notification) {
@@ -742,25 +851,10 @@ export class AppComponent implements OnInit {
         this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
           res => {
             this.isRippleLoad = false;
-            let msg = {
-              type: 'success',
-              title: 'Enquiry Updated',
-              body: 'Your enquiry has been successfully updated'
-            }
+            let msg = { type: 'success', title: 'Enquiry Updated', body: 'Your enquiry has been successfully updated' };
             this.popToast(msg);
             if (this.isConvertToStudent) {
-              let obj = {
-                name: this.selectedEnquiry.name,
-                phone: this.selectedEnquiry.phone,
-                email: this.selectedEnquiry.email,
-                gender: this.selectedEnquiry.gender,
-                dob: moment(this.selectedEnquiry.dob).format("YYYY-MM-DD"),
-                parent_email: this.selectedEnquiry.parent_email,
-                parent_name: this.selectedEnquiry.parent_name,
-                parent_phone: this.selectedEnquiry.parent_phone,
-                enquiry_id: this.selectedEnquiry.institute_enquiry_id,
-                institute_enquiry_id: this.selectedEnquiry.institute_enquiry_id
-              }
+              let obj = { name: this.selectedEnquiry.name, phone: this.selectedEnquiry.phone, email: this.selectedEnquiry.email, gender: this.selectedEnquiry.gender, dob: moment(this.selectedEnquiry.dob).format("YYYY-MM-DD"), parent_email: this.selectedEnquiry.parent_email, parent_name: this.selectedEnquiry.parent_name, parent_phone: this.selectedEnquiry.parent_phone, enquiry_id: this.selectedEnquiry.institute_enquiry_id, institute_enquiry_id: this.selectedEnquiry.institute_enquiry_id };
               localStorage.setItem('studentPrefill', JSON.stringify(obj));
               this.closeEnquiryUpdate();
               this.router.navigate(['/view/student/add']);
@@ -771,32 +865,20 @@ export class AppComponent implements OnInit {
           },
           err => {
             this.isRippleLoad = false;
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Enquiry',
-              body: 'There was an error processing your request'
-            }
+            let alert = { type: 'error', title: 'Failed To Update Enquiry', body: 'There was an error processing your request' };
             this.popToast(alert);
           }
         );
       }
       else {
         this.isRippleLoad = false;
-        let msg = {
-          type: 'error',
-          title: 'Invalid Date Time Input',
-          body: 'Please select a valid date time for follow up'
-        }
+        let msg = { type: 'error', title: 'Invalid Date Time Input', body: 'Please select a valid date time for follow up' };
         this.popToast(msg);
       }
     }
     else {
       this.isRippleLoad = false;
-      let msg = {
-        type: 'error',
-        title: 'Invalid Date Time Input',
-        body: 'Please select a valid date time for follow up'
-      }
+      let msg = { type: 'error', title: 'Invalid Date Time Input', body: 'Please select a valid date time for follow up' };
       this.popToast(msg);
     }
   }
@@ -859,6 +941,31 @@ export class AppComponent implements OnInit {
     }
   }
 
+  multiBranchInstituteFound(id) {
+    this.fetchService.getAllSubBranches(id).subscribe(
+      (res: any) => {
+        this.branchesList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 
+
+  branchUpdated(e) {
+    this.enqAssignTo = [];
+    this.isRippleLoad = true;
+    this.fetchService.fetchAssignedToData(e).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.enqAssignTo = res;
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    );
+  }
 
 }

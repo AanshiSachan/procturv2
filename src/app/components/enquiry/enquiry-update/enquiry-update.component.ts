@@ -44,9 +44,6 @@ export class EnquiryUpdatepComponent implements OnChanges {
     if (this.isMainBranch == 'Y' || this.subBranchSelected == true) {
       this.isMultiBranch = true;
     }
-
-    console.log(this.branchesList);
-
   }
 
   /* =========================================================================== */
