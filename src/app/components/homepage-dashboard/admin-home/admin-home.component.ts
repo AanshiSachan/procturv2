@@ -2983,6 +2983,7 @@ export class AdminHomeComponent implements OnInit {
         obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
         obj.attendance = this.studentList[i].attendance;
         obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+        obj.cours_exam_total_marks = this.studentList[i].cours_exam_total_marks;
         if (this.tempData.is_exam_grad_feature == 0) {
           obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
         } else {
@@ -3011,6 +3012,7 @@ export class AdminHomeComponent implements OnInit {
       }
       obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
       obj.student_id = this.studentList[i].student_id;
+      obj.cours_exam_total_marks = this.studentList[i].cours_exam_total_marks;
       obj.isUpdated = this.studentList[i].isUpdated;
       obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
       obj.attendance = this.studentList[i].attendance;
