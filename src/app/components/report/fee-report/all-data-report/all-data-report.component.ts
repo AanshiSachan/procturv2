@@ -942,11 +942,29 @@ export class AllDataReportComponent implements OnInit {
 
 
   exportToExcel(event) {
+    let arr = []
+    this.feeDataSource1.map(
+      (ele: any) => {
+        let json = {
+          "Student Id": ele.student_disp_id,
+          "Student Name": ele.student_name,
+          "Total Fee": ele.student_total_fees,
+          "Amount Paid": ele.student_toal_fees_paid,
+          "Past Dues": ele.total_balance_amt,
+          "Next Due Date": ele.student_latest_fee_due_date,
+          "Next Amount Date": ele.student_latest_fee_due_amount,
+          "PDC Date": ele.student_latest_pdc,
+          "Balance Amount": ele.amount_still_payable
+        }
+        arr.push(json);
+      }
+    )
     this.excelService.exportAsExcelFile(
-      this.feeDataSource1,
-      'persons'
+      arr,
+      'students'
     )
   }
+
 
 }
 
