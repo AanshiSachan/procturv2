@@ -2910,7 +2910,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   examMarksUpdateCourse(data) {
-    this.examMarksLevel = 0;
+    this.examMarksLevel = data.course_marks_update_level.toString();
     this.subjectList = [];
     this.totalExamMarks = 0;
     this.tempData = data;
