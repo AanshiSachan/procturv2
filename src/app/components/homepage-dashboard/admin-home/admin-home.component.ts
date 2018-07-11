@@ -563,9 +563,9 @@ export class AdminHomeComponent implements OnInit {
   }
 
 
-  checkIfStudentIsAbsent() {
-    for (let i = 0; i < this.studentAttList.length; i++) {
-      if (this.studentAttList[i].dateLi[0].status == "A") {
+  checkIfStudentIsAbsent(data) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].dateLi[0].status == "A") {
         return true;
       }
     }
@@ -573,7 +573,7 @@ export class AdminHomeComponent implements OnInit {
 
   updateAttendance() {
     let sendSms = "N";
-    let check = this.checkIfStudentIsAbsent();
+    let check = this.checkIfStudentIsAbsent(this.studentAttList);
     if (check) {
       let checkboxAbsentees = document.getElementById("EnableSmsAbsentees").checked;
       if (checkboxAbsentees) {
@@ -1218,6 +1218,20 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateCourseAttendance() {
+    let isNotify = 'N';
+    let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
+    if (checkAbsent) {
+      if (confirm('Do you want to send SMS Alert to Absent students ?')) {
+        isNotify = 'Y';
+        this.makeServerCallForUpdateMarks(isNotify);
+      } else {
+        isNotify = "N";
+        this.makeServerCallForUpdateMarks(isNotify);
+      }
+    }
+  }
+
+  makeServerCallForUpdateMarks(isNotify) {
     let arr = [];
     this.courseLevelStudentAtt.forEach(element => {
       let temp = {
@@ -1230,7 +1244,7 @@ export class AdminHomeComponent implements OnInit {
           "home_work_status": element.dateLi[0].home_work_status,
           "is_home_work_status_changed": element.dateLi[0].is_home_work_status_changed
         }],
-        "isNotify": element.isNotify,
+        "isNotify": isNotify,
         "is_home_work_enabled": element.is_home_work_enabled,
       }
       arr.push(temp);
@@ -1255,7 +1269,6 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       }
     )
-
   }
 
   getTopicsUpdate() {
