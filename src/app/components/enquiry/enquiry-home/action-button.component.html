@@ -26,7 +26,7 @@
                         <img src="./assets/images/edit_details.svg" height="10" width="20">Edit Enquiry
                     </a>
                 </li>
-                <li class="action-item" *ngIf="rowData.status ==0 || rowData.status == 3" (click)="openPopup('delete')">
+                <li class="action-item" *ngIf="rowData.status == 0 || rowData.status == 3 && hasDeleteAccess" (click)="openPopup('delete')">
                     <a class="enq-act enq-act--three">
                         <img src="./assets/images/delete_entry.svg" height="10" width="20">Delete Enquiry
                     </a>

@@ -23,6 +23,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
   message: string = "";
 
   @Output() eventSelected = new EventEmitter<string>();
+  hasDeleteAccess: boolean = false;
 
   constructor(private pops: PopupHandlerService, private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef, private auth: AuthenticatorService) { }
 
@@ -75,15 +76,22 @@ export class ActionButtonComponent implements OnInit, OnChanges {
   setRoleAccess() {
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       this.hasStudentAccess = true;
+      this.hasDeleteAccess = true;
     }
     else {
       let permissions: any[] = [];
       permissions = JSON.parse(sessionStorage.getItem('permissions'));
       if (permissions.includes('301')) {
         this.hasStudentAccess = true;
+        this.hasDeleteAccess = false;
+      }
+      else if (permissions.includes('115')) {
+        this.hasStudentAccess = false;
+        this.hasDeleteAccess = true;
       }
       else {
         this.hasStudentAccess = false;
+        this.hasDeleteAccess = false;
       }
     }
   }
