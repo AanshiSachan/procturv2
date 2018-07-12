@@ -1,7 +1,6 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { CourseListService } from '../../../../services/course-services/course-list.service';
 import { AppComponent } from '../../../../app.component';
-import { document } from '../../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 
@@ -31,7 +30,6 @@ export class CourseAddComponent implements OnInit {
   standardNameList;
   activeTeachers: any;
   dummyArrayOfSubjectList: any[] = [];
-  showTable: boolean = false;
   mainArrayForTable: any[] = new Array;
   divCreateNewCourse: boolean = false;
 
@@ -74,8 +72,6 @@ export class CourseAddComponent implements OnInit {
           } else {
             this.subjectListDataSource = data;
             let rawData = this.addKeyInData(data);
-            // document.getElementById("idMasterCourse").setAttribute("readonly", true);
-            // document.getElementById("idStanadardName").disabled = true;
             this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
             this.StandardName.nativeElement.disabled = true;
             this.subjectList = rawData;
@@ -130,56 +126,9 @@ export class CourseAddComponent implements OnInit {
     )
   }
 
-
-  onTeacherSelection(event, rowData) {
-    if (rowData.selected_teacher != "" && rowData.selected_teacher != undefined && rowData.selected_teacher != null && rowData.selected_teacher != -1) {
-      if (rowData.uiSelected == true) {
-        this.updateTableDataSourceData(rowData);
-      }
-      else {
-        let warning = {
-          type: "warning",
-          title: "",
-          body: "You haven't selected checkbox."
-        }
-        this.toastCtrl.popToast(warning);
-      }
-    }
-  }
-
-  updateTableDataSourceData(rowData) {
-    let check = false;
-    if (this.dummyArrayOfSubjectList.length > 0) {
-      for (let i = 0; i < this.dummyArrayOfSubjectList.length; i++) {
-        if (this.dummyArrayOfSubjectList[i].subject_id == rowData.subject_id) {
-          this.dummyArrayOfSubjectList[i] = rowData;
-          check = false;
-        } else {
-          check = true;
-        }
-      }
-    } else {
-      this.dummyArrayOfSubjectList.push(rowData);
-    }
-    if (check) {
-      this.dummyArrayOfSubjectList.push(rowData);
-    }
-  }
-
-  tableCheckBox(rowDetails, index) {
-    if (rowDetails.uiSelected == true) {
-      if (rowDetails.selected_teacher != -1 && rowDetails.selected_teacher != '') {
-        this.updateTableDataSourceData(rowDetails);
-      }
-    } else {
-      this.dummyArrayOfSubjectList.splice(index, 1);
-      //console.log('Splice at work', this.dummyArrayOfSubjectList)
-    }
-  }
-
   addDataToTable() {
-    let seletedRows: any = this.checkIfAnySubjectSelected(this.subjectList);
-    if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != "" && this.courseDetails.end_Date != '') {
+    debugger
+    if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != "" && this.courseDetails.start_Date != null && this.courseDetails.end_Date != '' && this.courseDetails.end_Date != null) {
       if (this.courseDetails.start_Date > this.courseDetails.end_Date) {
         let err = {
           type: "error",
@@ -188,16 +137,11 @@ export class CourseAddComponent implements OnInit {
         }
         this.toastCtrl.popToast(err);
         return
-      } else if (seletedRows.length == 0 || this.dummyArrayOfSubjectList.length == 0) {
-        let err = {
-          type: "error",
-          title: "Allocation Error",
-          body: "Please specify atleast one subject for the course."
-        }
-        this.toastCtrl.popToast(err);
-        return
       } else {
-        this.showTable = true;
+        let validateData = this.validateAllFields(this.subjectList);
+        if (validateData == false) {
+          return;
+        }
         let obj: any = {};
         obj.course_name = this.courseDetails.course_name;
         obj.start_Date = moment(this.courseDetails.start_Date).format("YYYY-MM-DD");
@@ -205,7 +149,6 @@ export class CourseAddComponent implements OnInit {
         obj.allow_exam_grades = this.courseDetails.allow_exam_grades;
         obj.subjectListArray = this.keepCloning(this.subjectList);
         this.mainArrayForTable.push(obj);
-        this.dummyArrayOfSubjectList = [];
         this.clearAllFormsData();
         this.toggleCreateNewSlot();
       }
@@ -216,6 +159,33 @@ export class CourseAddComponent implements OnInit {
         body: "You haven't filled mandatory details."
       }
       this.toastCtrl.popToast(warning);
+    }
+  }
+
+  validateAllFields(data) {
+    let selected: number = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].uiSelected == true) {
+        selected = +1;
+        if (data[i].selected_teacher == "" || data[i].selected_teacher == '-1') {
+          let err = {
+            type: "error",
+            title: "Teacher not selected",
+            body: "Please specify teacher of subject."
+          }
+          this.toastCtrl.popToast(err);
+          return false;
+        }
+      }
+    }
+    if (selected == 0) {
+      let err = {
+        type: "error",
+        title: "Error",
+        body: "You have not selected any subject."
+      }
+      this.toastCtrl.popToast(err);
+      return false;
     }
   }
 
@@ -345,24 +315,11 @@ export class CourseAddComponent implements OnInit {
     document.getElementById(("show" + index).toString()).classList.remove('nestedTableHide');
     document.getElementById(("viewComp" + index).toString()).style.display = 'none';
     document.getElementById(("editComp" + index).toString()).style.display = '';
-
-    this.fillNestedTableData(index);
-  }
-
-  fillNestedTableData(index) {
-    this.nestedTableForm = {
-      course_name: this.mainArrayForTable[index].course_name,
-      start_Date: this.mainArrayForTable[index].start_Date,
-      end_Date: this.mainArrayForTable[index].end_Date,
-      allow_exam_grades: this.mainArrayForTable[index].allow_exam_grades,
-    };
-    this.nestedTableDataSource = this.mainArrayForTable[index].subjectListArray;
   }
 
   updateDataOfNestedTable(row, index) {
-    let seletedRows: any = this.checkIfAnySubjectSelected(this.nestedTableDataSource);
-    if (this.nestedTableForm.course_name != "" && this.nestedTableForm.start_Date != "" && this.nestedTableForm.end_Date != '') {
-      if (this.nestedTableForm.start_Date > this.nestedTableForm.end_Date) {
+    if (row.course_name != "" && row.start_Date != "" && row.end_Date != '') {
+      if (row.start_Date > row.end_Date) {
         let err = {
           type: "error",
           title: "Date Selection",
@@ -370,24 +327,25 @@ export class CourseAddComponent implements OnInit {
         }
         this.toastCtrl.popToast(err);
         return
-      } else if (seletedRows.length == 0) {
-        let err = {
-          type: "error",
-          title: "Allocation Error",
-          body: "Please specify atleast one subject for the course."
-        }
-        this.toastCtrl.popToast(err);
-        return
       } else {
+        let validateData = this.validateAllFields(row.subjectListArray);
+        if (validateData == false) {
+          let err = {
+            type: "error",
+            title: "Allocation Error",
+            body: "Please specify atleast one subject for the course."
+          }
+          this.toastCtrl.popToast(err);
+          return;
+        }
         let obj: any = {};
-        obj.course_name = this.nestedTableForm.course_name;
-        obj.start_Date = moment(this.nestedTableForm.start_Date).format("YYYY-MM-DD");
-        obj.end_Date = moment(this.nestedTableForm.end_Date).format("YYYY-MM-DD");
-        obj.allow_exam_grades = this.nestedTableForm.allow_exam_grades;
-        obj.subjectListArray = this.nestedTableDataSource;
+        obj.course_name = row.course_name;
+        obj.start_Date = moment(row.start_Date).format("YYYY-MM-DD");
+        obj.end_Date = moment(row.end_Date).format("YYYY-MM-DD");
+        obj.allow_exam_grades = row.allow_exam_grades;
+        obj.subjectListArray = row.subjectListArray;
         this.mainArrayForTable[index] = obj;
         document.getElementById("show" + index).style.display = 'none';
-        //console.log('updateArrayMainArrayTable', this.mainArrayForTable);
         document.getElementById(("viewComp" + index).toString()).style.display = '';
         document.getElementById(("editComp" + index).toString()).style.display = 'none';
       }
@@ -413,4 +371,17 @@ export class CourseAddComponent implements OnInit {
     return arr;
   }
 
+}
+
+@Pipe({
+  name: 'datePipe'
+})
+export class DateMonthFormatter implements PipeTransform {
+  public transform(value) {
+    if (value != "" && value != null && value != undefined) {
+      return moment(value).format('DD-MMM-YYYY');
+    } else {
+      return value
+    }
+  }
 }

@@ -8,7 +8,7 @@ import { CourseListService } from '../../../services/course-services/course-list
 import { CourseCourseListComponent } from './course-course-list.component';
 import { CourseListRouting } from './course-list.routing.module';
 import { CourseEditComponent } from './course-edit/course-edit.component';
-import { CourseAddComponent } from './course-add/course-add.component';
+import { CourseAddComponent, DateMonthFormatter } from './course-add/course-add.component';
 
 @NgModule({
     imports: [
@@ -23,7 +23,8 @@ import { CourseAddComponent } from './course-add/course-add.component';
     declarations: [
         CourseCourseListComponent,
         CourseEditComponent,
-        CourseAddComponent
+        CourseAddComponent,
+        DateMonthFormatter
     ],
     providers: [
         CourseListService
