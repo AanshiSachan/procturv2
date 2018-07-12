@@ -2372,7 +2372,7 @@ div#enqChart {
     display: inline-flex;
     width: 200px;
     margin: 0px 25px;
-    padding-top: 4px; 
+    padding-top: 4px;
     ul {
         list-style: none;
         width: 100%;
@@ -2387,6 +2387,144 @@ div#enqChart {
             &.active {
                 background: #0084f6;
                 color: #fff;
+            }
+        }
+    }
+}
+
+.schedule-bottom {
+    ul {
+        &.subjectViewHead {
+            background: #e0eaec;
+            display: flex;
+            li {
+                padding: 20px 24px 12px;
+                text-transform: capitalize;
+                text-transform: uppercase;
+                color: black;
+                background: transparent;
+                font-size: 12px;
+                font-size: 12px;
+            }
+            .timings {
+                width: 25%;
+            }
+            .cls-type {
+                width: 15%;
+            }
+            .cls-name {
+                width: 15%;
+            }
+            .course-name {
+                width: 15%;
+            }
+            .master-course-name {
+                width: 15%
+            }
+            .faculty-name {
+                width: 15%;
+            }
+        }
+    }
+    .subjectViewContent {
+        .ct-ongoing {
+            border-bottom: 2px solid rgba(211, 212, 213, 0.5);
+            cursor: pointer;
+            background: white;
+            display: flex;
+            li {
+                padding: 5px 24px 0px;
+                div {
+                    color: rgba(30, 35, 40, 0.7);
+                    font-size: 14px;
+                    margin-bottom: 8px;
+                }
+            }
+            .timings {
+                width: 25%;
+            }
+            .cls-type {
+                width: 15%;
+            }
+            .cls-name {
+                width: 15%;
+                div {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-width: inherit;
+                    white-space: nowrap;
+                }
+            }
+            .course-name {
+                width: 15%;
+                div {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-width: inherit;
+                    white-space: nowrap;
+                }
+            }
+            .master-course-name {
+                width: 15%;
+                div {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-width: inherit;
+                    white-space: nowrap;
+                }
+            }
+            .faculty-name {
+                width: 15%;
+            }
+        }
+        .che-action {
+            width: 100%;
+            position: absolute;
+            display: none; //height: 0%;
+            bottom: 2px;
+            right: 0px;
+            text-align: right;
+            margin-right: 30px;
+            &.display {
+                //height: 100%;
+                display: block !important;
+            }
+            span {
+                margin-left: 5%;
+                font-size: 14px;
+                font-weight: 600;
+                color: black;
+            }
+        }
+        &:hover {
+            ul {
+                &.ct-ongoing {
+                    background: rgba(27, 96, 163, 0.16);
+                    li {
+                        padding: 10px 10px 10px;
+                    }
+                    &.subject {
+                        background: rgba(27, 96, 163, 0.16);
+                        li {
+                            padding: 5px 24px 0px !important;
+                        }
+                    }
+                }
+            }
+            .che-action {
+                width: 100%;
+                position: relative;
+                display: block;
+                bottom: 18px;
+                right: 8px;
+                text-align: right;
+                margin-right: 30;
+                span {
+                    margin-left: 5%;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: black;
+                }
             }
         }
     }

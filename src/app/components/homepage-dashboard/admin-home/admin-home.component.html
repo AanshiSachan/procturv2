@@ -118,11 +118,13 @@
                       </ul>
                     </div>
                     <div class="schedule-bottom">
-                      <ul class="sche-head" *ngIf="!isProfessional && isSubjectView">
-                        <li>Timings</li>
+                      <ul class="subjectViewHead" *ngIf="!isProfessional && isSubjectView">
+                        <li class="timings">Timings</li>
                         <li class="cls-type">Class type</li>
-                        <li class="cls-name">Subject/Course</li>
-                        <li>Faculty</li>
+                        <li class="cls-name">Subject</li>
+                        <li class="course-name">Course</li>
+                        <li class="master-course-name">Master Course</li>
+                        <li class="faculty-name">Faculty</li>
                       </ul>
                       <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
                         <li class="batch">Master Course</li>
@@ -138,9 +140,9 @@
                         <li class="faculty">Faculty</li>
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
-                        <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
+                        <div class="subjectViewContent" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
-                            <li>
+                            <li class="timings">
                               <div *ngIf="!class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.class_date}})</div>
                               <p>{{class.class_room_name}}</p>
                             </li>
@@ -151,9 +153,15 @@
                               </div>
                             </li>
                             <li class="cls-name">
-                              <div>{{class.batch_name}}</div>
+                              <div title="{{class.subject_name}}">{{class.subject_name}}</div>
                             </li>
-                            <li>
+                            <li class="course-name">
+                              <div title="{{class.course_name}}">{{class.course_name}}</div>
+                            </li>
+                            <li class="master-course-name">
+                              <div title="{{class.master_course_name}}">{{class.master_course_name}}</div>
+                            </li>
+                            <li class="faculty-name">
                               <div *ngIf="!class.isExam">{{class.teacher_name}}</div>
                             </li>
                           </ul>
@@ -1913,13 +1921,13 @@
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="radio-options">
             <div class="field-radio-wrapper">
-              <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" value="1"
-                name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
+              <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" value="1" name="sujectWise" class="form-radio"
+                (ngModelChange)="onRadioButtonSelction()">
               <label for="student">Subject Wise</label>
             </div>
             <div class="field-radio-wrapper">
-              <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'"
-                name="courseWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
+              <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" name="courseWise" class="form-radio"
+                (ngModelChange)="onRadioButtonSelction()">
               <label for="both">Course Wise</label>
             </div>
           </div>
