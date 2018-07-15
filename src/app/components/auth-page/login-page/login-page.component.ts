@@ -343,8 +343,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
-        window.location.href = url;
+        window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
       }
       else if (sessionStorage.getItem('userType') == '5') {
         sessionStorage.setItem('student_id', res.data.parentStudentList[0].student_id);
@@ -353,8 +352,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
-        window.location.href = url;
+        window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
       }
     }
   }
@@ -653,8 +651,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-          let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
-          window.location.href = url;
+          window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
         }
         else if (sessionStorage.getItem('userType') == '5') {
           // sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
@@ -666,9 +663,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-
-          let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
-          window.location.href = url;
+          window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
         }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
