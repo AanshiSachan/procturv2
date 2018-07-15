@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../app.component';
@@ -13,11 +13,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent {
-
-
-
-
+export class LoginPageComponent implements OnInit, OnDestroy {
 
   serverUserData: any;
   /* Variable Declaration */
@@ -33,7 +29,7 @@ export class LoginPageComponent {
   countDown: any;
   counter: number = 30;
   no_email_found: boolean = false;
-
+  isProcturVisible: boolean = true;
 
 
   instituteListObj: instituteList = {
@@ -87,7 +83,6 @@ export class LoginPageComponent {
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent, private auth: AuthenticatorService) {
-
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
     if (sessionStorage.getItem('userid') != null) {
       this.fullscreenLogin();
@@ -107,6 +102,33 @@ export class LoginPageComponent {
     }
 
   }
+
+
+
+  ngOnInit() {
+    this.checkWebUrlForGenerics();
+  }
+
+
+
+  ngOnDestroy() {
+    this.isProcturVisible = true;
+  }
+
+
+  checkWebUrlForGenerics() {
+    let url: string = window.location.href;
+    console.log(url);
+
+    let test = url.split("/")[2];
+    console.log(test);
+
+    if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
+      this.isProcturVisible = false;
+    }
+
+  }
+
 
   /* Function to hide element with tag name header and sidebar */
   fullscreenLogin() {
@@ -149,6 +171,9 @@ export class LoginPageComponent {
       });
     }
   }
+
+
+
   //END - 0
 
   //Method to decide where to take user when he/she Logs in (START - 1)
@@ -175,6 +200,9 @@ export class LoginPageComponent {
         break;
     }
   }
+
+
+
   //End - 1
 
   //if login is fails ( Start - 2)
@@ -218,6 +246,7 @@ export class LoginPageComponent {
     else {
 
       this.serverUserData = res;
+      console.log(res);
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       this.toastCtrl.informFooter();
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
@@ -303,22 +332,36 @@ export class LoginPageComponent {
         this.login.changePermissions(JSON.stringify(res.data.permissions.split(',')));
       }
 
+
       if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
         this.createRoleBasedSidenav();
       }
       else if (sessionStorage.getItem('userType') == '1') {
-        sessionStorage.setItem('student_id', JSON.stringify(res.data.studentId));
+        sessionStorage.setItem('student_id', res.data.studentId);
+        sessionStorage.setItem('institution_id', res.institution_id);
         sessionStorage.setItem('user_type_name', 'Student');
-        window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+        sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
+        sessionStorage.setItem('institution_name', res.data.institute_name);
+        sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
+        let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
+        window.location.href = url;
       }
       else if (sessionStorage.getItem('userType') == '5') {
-        sessionStorage.setItem('student_id', JSON.stringify(res.data.parentStudentList[0].student_id));
+        sessionStorage.setItem('student_id', res.data.parentStudentList[0].student_id);
         sessionStorage.setItem('user_type_name', 'Parent');
-        window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+        sessionStorage.setItem('institution_id', res.institution_id);
+        sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
+        sessionStorage.setItem('institution_name', res.data.institute_name);
+        sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
+        let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
+        window.location.href = url;
       }
     }
   }
   //End - 3
+
+
+
 
   //if login email is not verified ( Start - 4 )
   alternateLoginEmailNotVerified() {
@@ -330,6 +373,9 @@ export class LoginPageComponent {
     this.toastCtrl.popToast(data);
   }
   //End - 4
+
+
+
 
   //if login email is registered in multi insititute ( Start - 5 )
   alternateLoginMultiInstitute(data) {
@@ -348,6 +394,8 @@ export class LoginPageComponent {
   //End - 5
 
 
+
+
   alternateLoginMultiInstituteData(u_id, inst_id) {
     this.multiInstituteLoginInfo.userid = u_id;
     this.multiInstituteLoginInfo.institution_id = inst_id;
@@ -360,6 +408,8 @@ export class LoginPageComponent {
       this.checkForAuthOptions(el);
     });
   }
+
+
 
 
   //if user mobile no. is not verified ( Start - 6 )
@@ -378,6 +428,9 @@ export class LoginPageComponent {
       .map(() => --this.counter);
   }
   //END - 6
+
+
+
 
   //if login email is registered as multi user ( Start - 7 )
   alternateLoginMultiUser(data) {
@@ -400,6 +453,8 @@ export class LoginPageComponent {
   }
 
 
+
+
   alternateLoginMultiUserData(u_id, u_role, inst_id) {
     this.multiUserLoginInfo.userid = u_id;
     this.multiUserLoginInfo.user_role = u_role;
@@ -413,6 +468,9 @@ export class LoginPageComponent {
     });
   }
   //END - 7
+
+
+
 
 
   alternateLoginOTPVerification() {
@@ -454,6 +512,8 @@ export class LoginPageComponent {
   }
 
 
+
+
   alternateLoginOTPRegenerate() {
     //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
@@ -463,6 +523,8 @@ export class LoginPageComponent {
       this.OTPVerification(el);
     })
   }
+
+
 
 
   forgotPassword() {
@@ -497,9 +559,13 @@ export class LoginPageComponent {
   }
 
 
+
+
   showInstituteList() {
     this.isInstituteListPop = true;
   }
+
+
 
 
   showUserList() {
@@ -507,9 +573,13 @@ export class LoginPageComponent {
   }
 
 
+
+
   closeUserList() {
     this.isUserListPop = false;
   }
+
+
 
 
   /* function to hide isInstituteList popup */
@@ -518,15 +588,21 @@ export class LoginPageComponent {
   }
 
 
+
+
   showOTPValidationModal() {
     this.OTPVerificationPopUp = true;
   }
+
+
 
 
   /* function to hide popup to add institute */
   closeOTPValidationModal() {
     this.OTPVerificationPopUp = false;
   }
+
+
 
 
   openGetAdvice() {
@@ -550,12 +626,10 @@ export class LoginPageComponent {
   }
 
 
-
-
   createRoleBasedSidenav() {
     this.auth.currentInstituteId.subscribe(id => {
       /* If Id has been updated to the services then proceed */
-      if (id != null) {
+      if (id != null && id != "null") {
         if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
           this.login.storeInstituteInfoToSession().subscribe(
             (res: any) => {
@@ -570,27 +644,63 @@ export class LoginPageComponent {
           );
         }
         else if (sessionStorage.getItem('userType') == '1') {
-          sessionStorage.setItem('student_id', JSON.stringify(this.serverUserData.data.studentId));
+          //sessionStorage.setItem('student_id', this.serverUserData.data.studentId);
+          //sessionStorage.setItem('user_type_name', 'Student');
+          //window.location.href = "http://127.0.0.1:8001/sPortal/dashboard.html#/Dashboard";
+          sessionStorage.setItem('student_id', this.serverUserData.data.studentId);
+          sessionStorage.setItem('institution_id', this.serverUserData.institution_id);
           sessionStorage.setItem('user_type_name', 'Student');
-          window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+          sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
+          sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
+          sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
+          let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
+          window.location.href = url;
         }
         else if (sessionStorage.getItem('userType') == '5') {
-          sessionStorage.setItem('student_id', JSON.stringify(this.serverUserData.data.parentStudentList[0].student_id));
+          // sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
+          // sessionStorage  .setItem('user_type_name', 'Parent');
+
+           sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
           sessionStorage.setItem('user_type_name', 'Parent');
-          window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+          sessionStorage.setItem('institution_id', this.serverUserData.institution_id);
+          sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
+          sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
+          sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
+
+          let url = this.getBaseUrlStudent() + "/sPortal/dashboard.html#/Dashboard";
+          window.location.href = url;
         }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
       else {
-        let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-        if (institute_data != null && institute_data != undefined) {
-          let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-          this.auth.changeAuthenticationKey(Authorization);
-        }
-        this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
-        this.createRoleBasedSidenav();
+        setTimeout(this.reCheckLogin(), 3000);
       }
     });
+  }
+
+
+  reCheckLogin() {
+    let id = sessionStorage.getItem('institute_id');
+    let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+    if (id != null && id != "null") {
+      if (institute_data != null && institute_data != undefined) {
+        let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+        this.auth.changeAuthenticationKey(Authorization);
+      }
+      this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
+      this.createRoleBasedSidenav();
+    }
+  }
+
+  getBaseUrlStudent(): string {
+    let test = window.location.href.split("/")[2];
+
+    if (test === "webtest.proctur.com") {
+      return "http://webtest.proctur.com";
+    }
+    else if (test === "web.proctur.com") {
+      return "https://web.proctur.com";
+    }
   }
 
 }
