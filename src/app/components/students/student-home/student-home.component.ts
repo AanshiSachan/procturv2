@@ -589,7 +589,7 @@ export class StudentHomeComponent implements OnInit {
     )
 
     this.studentPrefill.fetchCustomComponent().subscribe(data => {
-      if(data != null){
+      if (data != null) {
         data.forEach(el => {
           let obj = {
             data: el,
@@ -981,9 +981,9 @@ export class StudentHomeComponent implements OnInit {
       this.openSideBar(ev);
       this.selectedRow = ev;
     }
-    if(this.isSideBar){
+    if (this.isSideBar) {
       this.subscriptionStudent.unsubscribe();
-      this.subscriptionCustomComp.unsubscribe();      
+      this.subscriptionCustomComp.unsubscribe();
     }
   }
 
@@ -1024,7 +1024,7 @@ export class StudentHomeComponent implements OnInit {
         this.studentAddFormData.student_class = res.student_class_key;
         this.subscriptionCustomComp = this.studentPrefill.fetchCustomComponentById(id).subscribe(
           cus => {
-            if(cus != null){
+            if (cus != null) {
               this.studentCustomComponent = cus;
               cus.forEach(el => {
                 let obj = {
@@ -1099,7 +1099,7 @@ export class StudentHomeComponent implements OnInit {
               });
               this.studentBatchDetailsLoader(id);
             }
-            else{
+            else {
               this.studentBatchDetailsLoader(id);
             }
           },
@@ -1177,6 +1177,11 @@ export class StudentHomeComponent implements OnInit {
         data => {
           this.studentbatchList = [];
           data.forEach(el => {
+
+            /* 
+              if batch is not havng any templete by selected by default then we select the 
+              default template provided for the selected course
+             */
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
               el.feeTemplateList.forEach(e => {
                 if (e.is_default == 1) {
@@ -1184,24 +1189,37 @@ export class StudentHomeComponent implements OnInit {
                 }
               })
             }
+
+            /* 
+            If the user has selected any fee template be previous interaction then we do not apply any template for the user
+            */
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id != -1) {
-              el.feeTemplateList.forEach(e => {
-                if (e.is_default == 1) {
-                  el.selected_fee_template_id = e.template_id;
-                }
-              })
+              // el.feeTemplateList.forEach(e => {
+              //   if (e.is_default == 1) {
+              //     el.selected_fee_template_id = e.template_id;
+              //   }
+              // })
             }
+
+            /*  
+               If the user has not selected any academic year than we set the academic for the selected user by default
+            */
             if (el.academic_year_id == '-1') {
               el.academic_year_id = this.defaultAcadYear;
             }
+
+
             let obj = {
               isSelected: el.isAssigned == "Y" ? true : false,
               data: el,
               assignDate: this.getAssignDate(el.created_date)
             }
+
             this.studentbatchList.push(obj);
-            this.updateAssignedBatches(this.studentbatchList);
           });
+
+          this.updateAssignedBatches(this.studentbatchList);
+
           this.isRippleLoad = false;
           this.isSideBar = true;
         },

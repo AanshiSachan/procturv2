@@ -1499,7 +1499,7 @@ export class StudentAddComponent implements OnInit {
           let tax = el.initial_fee_amount * (this.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+            el.initial_fee_amount = this.precisionRound(el.fees_amount - tax, -1);
           }
         }
         else {
@@ -1577,7 +1577,7 @@ export class StudentAddComponent implements OnInit {
                 let tax = el.initial_fee_amount * (this.service_tax / 100);
                 this.totalTaxAmount += this.precisionRound(tax, -1);
                 if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-                  el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+                  el.initial_fee_amount = this.precisionRound(el.fees_amount - tax, -1);
                 }
               }
               else {
@@ -2043,14 +2043,14 @@ export class StudentAddComponent implements OnInit {
           let tax = el.initial_fee_amount * (this.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+            el.initial_fee_amount = this.precisionRound(el.fees_amount - tax, -1);
           }
         }
         else {
           let tax = el.initial_fee_amount * (el.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+            el.initial_fee_amount = this.precisionRound(el.fees_amount - tax, -1);
           }
         }
       }
@@ -2161,14 +2161,14 @@ export class StudentAddComponent implements OnInit {
           let tax = el.initial_fee_amount * (this.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+            el.initial_fee_amount = this.precisionRound(el.fees_amount - tax, -1);
           }
         }
         else {
           let tax = el.initial_fee_amount * (el.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+            el.initial_fee_amount = this.precisionRound(el.fees_amount - tax, -1);
           }
         }
       }
@@ -2376,7 +2376,7 @@ export class StudentAddComponent implements OnInit {
                 let tax = el.initial_fee_amount * (this.service_tax / 100);
                 this.totalTaxAmount += this.precisionRound(tax, -1);
                 if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-                  el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+                  el.initial_fee_amount = this.precisionRound(el.fees_amount - tax, -1);
                 }
               }
               else {
