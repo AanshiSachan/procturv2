@@ -569,6 +569,7 @@ export class AdminHomeComponent implements OnInit {
         return true;
       }
     }
+    return false;
   }
 
   updateAttendance() {
@@ -1228,6 +1229,8 @@ export class AdminHomeComponent implements OnInit {
         isNotify = "N";
         this.makeServerCallForUpdateMarks(isNotify);
       }
+    } else {
+      this.makeServerCallForUpdateMarks(isNotify);
     }
   }
 
