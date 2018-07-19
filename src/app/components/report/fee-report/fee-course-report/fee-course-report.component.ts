@@ -105,7 +105,7 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "We can filter data by selecting master course/ course/ batch"
+  helpMsg: string = "Fee details are shown based on Master Course/Course filter applied."
 
   @ViewChild('form') form: any;
 

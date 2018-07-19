@@ -105,7 +105,7 @@ export class AllDataReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "We can filter data by selecting dues along with date range filter and academic year"
+  helpMsg: string = "Fee details are shown based on academic year filter applied."
 
   @ViewChild('form') form: any;
 
