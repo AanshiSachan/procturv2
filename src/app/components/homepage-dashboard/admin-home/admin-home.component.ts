@@ -41,7 +41,6 @@ export class AdminHomeComponent implements OnInit {
   public isRippleLoad: boolean = false;
   public AllPresent: boolean = true;
   public teacher_id: number = -1;
-  @ViewChild('biometricDiv') bioAd: ElementRef;
   public schedStat: any = {};
 
   is_notified: any = 'Y';
@@ -139,7 +138,7 @@ export class AdminHomeComponent implements OnInit {
   gradesList: any = [];
   classScheduleCount: number = 0;
   biometricWidget: boolean;
-  biometricEnable: string = "";
+  biometricEnable: string = "0";
   openMessageFlag: boolean = false;
   openMessageList: any = [];
   @ViewChild('ref')
@@ -205,20 +204,8 @@ export class AdminHomeComponent implements OnInit {
     this.grid.on('dragEnd', (item, event) => {
       this.getOrder();
     });
-
-    let userType: any = Number(sessionStorage.getItem('userType'));
-    if (userType == 0) {
-      let permissionArray = sessionStorage.getItem('permissions');
-      if (permissionArray == "" || permissionArray == null) {
-        let ss = sessionStorage.getItem('biometric_attendance_feature');
-        if (ss != '1') {
-          this.bioAd.nativeElement.style.display = 'none';
-        }
-      }
-    }
-
-
   }
+
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
