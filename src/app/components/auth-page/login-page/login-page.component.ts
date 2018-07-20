@@ -166,9 +166,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.toastCtrl.popToast(data);
     }
     else {
-      this.login.postLoginDetails(this.loginDataForm).subscribe(el => {
-        this.checkForAuthOptions(el);
-      });
+      this.login.postLoginDetails(this.loginDataForm).subscribe(
+        res => {
+          this.checkForAuthOptions(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
     }
   }
 
@@ -657,7 +662,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           // sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
           // sessionStorage  .setItem('user_type_name', 'Parent');
 
-           sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
+          sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
           sessionStorage.setItem('user_type_name', 'Parent');
           sessionStorage.setItem('institution_id', this.serverUserData.institution_id);
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);

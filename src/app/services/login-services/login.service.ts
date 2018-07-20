@@ -75,9 +75,15 @@ export class LoginService {
 
 
   postLoginDetails(data): any {
-    return this.http.post(this.urlLogin, data, { headers: this.headers }).map(res => {
-      return res;
-    });
+    let header = new HttpHeaders({ "Content-Type": "application/json" });
+    return this.http.post(this.urlLogin, data, { headers: header }).map(
+      res => {
+        return res;
+      },
+      err => {
+        return err;
+      }
+    );
   }
 
   validateOTPCode(data) {
@@ -127,7 +133,7 @@ export class LoginService {
 
   storeInstituteInfoToSession() {
     let url = this.baseUrl + "/api/v1/institutes/" + sessionStorage.getItem('institute_id');
-    return this.http.get(url, {headers: this.headers}).map(
+    return this.http.get(url, { headers: this.headers }).map(
       res => { return res; },
       err => { return err; }
     );
