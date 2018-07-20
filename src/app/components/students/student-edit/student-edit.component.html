@@ -258,8 +258,7 @@
                 <!-- Academic Model For student Update -->
                 <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
                   <label for="standard">Standards</label>
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" (ngModelChange)="updateMasterCourseList($event)" name="standard"
-                    class="form-ctrl">
+                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -1293,7 +1292,7 @@
     </span>
 
     <h2 popup-header style="padding: 10px 5px;">Student Fee Payment
-      <span>(Payment Details for  {{totalFeePaid| commaSeprator}})</span>
+      <span>(Payment Details for {{totalFeePaid| commaSeprator}})</span>
     </h2>
 
     <div class="paymentWrapper" popup-content>
@@ -1355,7 +1354,7 @@
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
-                    {{opt.cheque_date| procturDate}} (  {{opt.cheque_amount| commaSeprator}} )
+                    {{opt.cheque_date| procturDate}} ( {{opt.cheque_amount| commaSeprator}} )
                   </option>
                 </select>
               </div>
@@ -1455,7 +1454,7 @@
       <div class="paymentForm">
 
         <div class="row">
-          <h4>Payment Details for  {{totalFeePaid| commaSeprator}}</h4>
+          <h4>Payment Details for {{totalFeePaid| commaSeprator}}</h4>
         </div>
 
         <div class="row">
@@ -1512,7 +1511,7 @@
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
-                    {{opt.cheque_date| procturDate}} (  {{opt.cheque_amount| commaSeprator}} )
+                    {{opt.cheque_date| procturDate}} ( {{opt.cheque_amount| commaSeprator}} )
                   </option>
                 </select>
               </div>
