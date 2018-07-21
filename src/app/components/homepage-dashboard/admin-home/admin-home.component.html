@@ -148,7 +148,8 @@
                             </li>
                             <li class="cls-type">
                               <div *ngIf="!class.isExam">
-                                <span>{{class.custom_class_type}}</span>
+                                <span *ngIf="class.custom_class_type== 'Regular' || class.custom_class_type== 'Extra' || class.custom_class_type== 'Doubt' ">{{class.custom_class_type}}</span>
+                                <span *ngIf="!(class.custom_class_type== 'Regular' || class.custom_class_type== 'Extra' || class.custom_class_type== 'Doubt')">Revision</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
