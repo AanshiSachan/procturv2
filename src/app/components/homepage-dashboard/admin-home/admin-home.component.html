@@ -148,7 +148,8 @@
                             </li>
                             <li class="cls-type">
                               <div *ngIf="!class.isExam">
-                                <span>{{class.custom_class_type}}</span>
+                                <span *ngIf="class.custom_class_type== 'Regular' || class.custom_class_type== 'Extra' || class.custom_class_type== 'Doubt' ">{{class.custom_class_type}}</span>
+                                <span *ngIf="!(class.custom_class_type== 'Regular' || class.custom_class_type== 'Extra' || class.custom_class_type== 'Doubt')">Revision</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
@@ -232,8 +233,8 @@
                             </li>
                             <li class="cls-type">
                               <div *ngIf="!class.isExam">
-                                <span *ngIf="(class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)'">Regular</span>
-                                <span *ngIf="!((class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)')">Extra</span>
+                                <span *ngIf="(class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular'">Regular</span>
+                                <span *ngIf="!((class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                               <div *ngIf="class.isExam">
@@ -285,7 +286,7 @@
                 </div>
               </li>
 
-              <li #biometricDiv class="schedule-state item widthChange" *ngIf="biometricEnable == '1'" data-id="5" #ref>
+              <li class="schedule-state item widthChange" [ngClass]="{'hide' : biometricEnable != '1' }" data-id="5" #ref>
                 <div class="biometric-content">
                   <biometric-widget (changeWidth)="recieveData($event)"></biometric-widget>
                 </div>
@@ -480,7 +481,7 @@
           </div>
 
           <div class="checkboxGroup">
-            <div class="field-checkbox-wrapper" *ngIf="settingInfo.home_work_feature_enable==1">
+            <div class="field-checkbox-wrapper" [ngClass]="{'hide': settingInfo.home_work_feature_enable != 1}">
               <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
                 (change)="updateHomework($event)">
               <label for="EnableHomeWorkSms">Send Homework SMS
@@ -497,8 +498,8 @@
                 (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" *ngIf="(settingInfo.sms_absent_notification > 0)" value="" class="form-checkbox" id="EnableSmsAbsentees">
+            <div class="field-checkbox-wrapper" [ngClass]="{'hide':settingInfo.sms_absent_notification == 0}">
+              <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Send SMS for Absentees
                 <div class="questionInfo lefts" style="margin-left: 30px;">
                   <span class="qInfoIcon">?</span>
@@ -519,6 +520,8 @@
         <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
         <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"
           class="fullBlue btn">
+        <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'N'" value="Update Attendance"
+          (click)="updateAttendance()" class="fullBlue btn">
         <input type="button" *ngIf="!isProfessional" value="Mark Attendance" (click)="updateAttendance()" class="fullBlue btn">
       </aside>
     </div>
