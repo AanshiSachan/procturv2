@@ -232,8 +232,8 @@
                             </li>
                             <li class="cls-type">
                               <div *ngIf="!class.isExam">
-                                <span *ngIf="(class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)'">Regular</span>
-                                <span *ngIf="!((class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)')">Extra</span>
+                                <span *ngIf="(class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular'">Regular</span>
+                                <span *ngIf="!((class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                               <div *ngIf="class.isExam">
@@ -519,6 +519,8 @@
         <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
         <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"
           class="fullBlue btn">
+        <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'N'" value="Update Attendance"
+          (click)="updateAttendance()" class="fullBlue btn">
         <input type="button" *ngIf="!isProfessional" value="Mark Attendance" (click)="updateAttendance()" class="fullBlue btn">
       </aside>
     </div>
