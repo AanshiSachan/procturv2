@@ -480,7 +480,7 @@
           </div>
 
           <div class="checkboxGroup">
-            <div class="field-checkbox-wrapper" *ngIf="settingInfo.home_work_feature_enable==1">
+            <div class="field-checkbox-wrapper" [ngClass]="{'hide': settingInfo.home_work_feature_enable != 1}">
               <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
                 (change)="updateHomework($event)">
               <label for="EnableHomeWorkSms">Send Homework SMS
@@ -497,8 +497,8 @@
                 (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" *ngIf="(settingInfo.sms_absent_notification > 0)" value="" class="form-checkbox" id="EnableSmsAbsentees">
+            <div class="field-checkbox-wrapper" [ngClass]="{'hide':settingInfo.sms_absent_notification == 0}">
+              <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Send SMS for Absentees
                 <div class="questionInfo lefts" style="margin-left: 30px;">
                   <span class="qInfoIcon">?</span>
