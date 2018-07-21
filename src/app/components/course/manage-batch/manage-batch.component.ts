@@ -284,7 +284,7 @@ export class ManageBatchComponent implements OnInit {
       return;
     }
     if (rowDetails.teacher_id == 0 || rowDetails.teacher_id == null || rowDetails.teacher_id == "") {
-      this.messageToast('error', 'Error', 'Please provide the teacher for the batch.');
+      this.messageToast('error', 'Error', 'Please provide the faculty for the batch.');
       return;
     }
     this.isRippleLoad = true;

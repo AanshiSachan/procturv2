@@ -69,7 +69,10 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
+        console.log('ngOnChanges', this.batchList);
+        this.batchList = [];
         this.batchList = this.dataList.map(e => { return e });
+        console.log('ngOnChanges 2', this.batchList);
         this.isEdit;
         if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {
             this.defaultAcadYear = "-1";
@@ -78,6 +81,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     closeBatchAssign() {
+        this.batchList = [];
         this.closeBatch.emit(false);
     }
 
@@ -333,6 +337,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                                 this.cd.detectChanges();
                             });
                         }
+                        console.log('newMultiFilterFetchBatch', this.batchList);
                         this.batchList = temp;
                         this.filterDataSource(this.batchFilter.state);
                         this.cd.markForCheck();
@@ -343,6 +348,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                         this.cd.markForCheck();
                         this.cd.detectChanges();
                         this.batchList = temp;
+                        console.log('newMultiFilterFetchBatch Err', this.batchList);
                         let al = { type: 'error', title: err.error.message, body: '' };
                         this.appC.popToast(al);
                         this.batchList = temp;
@@ -353,6 +359,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 );
             }
             else {
+                console.log('newMultiFilterFetchBatch Else', this.batchList);
                 this.batchList = this.dataList;
                 this.filterDataSource(this.batchFilter.state);
                 this.cd.markForCheck();
@@ -366,6 +373,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.filterDataSource(this.batchFilter.state);
             this.cd.markForCheck();
             this.cd.detectChanges();
+            console.log('newMultiFilterFetchBatch else 2', this.batchList);
         }
     }
 
