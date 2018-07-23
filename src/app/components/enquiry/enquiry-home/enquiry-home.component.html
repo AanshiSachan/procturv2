@@ -194,13 +194,35 @@
             </div>
 
             <!-- Update Date -->
-            <div class="c-lg-4 c-md-4 c-sm-4">
+            <div class="c-lg-4 c-md-4 c-sm-4 hide">
               <div class="field-wrapper datePickerBox">
                 <label for="updateDate">Update Date</label>
                 <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDate"
                   name="UD" readonly="true" bsDatepicker/>
 
                 <span class="date-clear" name="followupdate" (click)="clearadfilterUpdateDate()">clear</span>
+              </div>
+            </div>
+
+            <!-- Update Date From -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper datePickerBox">
+                <label for="enquiryDateTo">Enquiry Changes From</label>
+                <input type="text" value="" id="enquiryDateTo" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateFrom"
+                  name="enquiryDateTo" readonly="true" bsDatepicker/>
+
+                <span class="date-clear" name="followupdate" (click)="advancedFilterForm.updateDateFrom = ''">clear</span>
+              </div>
+            </div>
+
+            <!-- Update Date To -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper datePickerBox">
+                <label for="enquiryDateFrom">Enquiry Changes To</label>
+                <input type="text" value="" id="enquiryDateFrom" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDateTo"
+                  name="enquiryDateFrom" readonly="true" bsDatepicker/>
+
+                <span class="date-clear" name="followupdate" (click)="advancedFilterForm.updateDateTo = ''">clear</span>
               </div>
             </div>
 
@@ -255,6 +277,28 @@
                 <select id="schoolList" class="form-ctrl" [(ngModel)]="advancedFilterForm.school_id" name="school">
                   <option value="-1"></option>
                   <option *ngFor="let school of schools" [value]="school.school_id">{{school.school_name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- City List  -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <label for="cityList">City</label>
+                <select id="cityList" class="form-ctrl" [(ngModel)]="advancedFilterForm.city" name="cityList" (ngModelChange)="onCitySelection($event)">
+                  <option value=""></option>
+                  <option *ngFor="let obj of cityList" [value]="obj.city">{{obj.city}}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Area List  -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <label for="areaList">Area</label>
+                <select id="areaList" class="form-ctrl" [(ngModel)]="advancedFilterForm.area" name="areaList">
+                  <option value=""></option>
+                  <option *ngFor="let obj of areaList" [value]="obj.area">{{obj.area}}</option>
                 </select>
               </div>
             </div>
@@ -688,10 +732,10 @@
     </div>
   </section> -->
   <enquiry-update *ngIf="message === 'update'" [updateFormData]="updateFormData" [enqPriority]="enqPriority" [enqFollowType]="enqFollowType"
-    [hour]="hour" [times]="times" [minute]="minute" [minArr]="minArr" [isNotifyVisible]="isNotifyVisible" [isMainBranch]="isMainBranch" [meridian]="meridian"
-    [subBranchSelected]="subBranchSelected" [branchesList]="branchesList" [enqstatus]="enqstatus" [isEnquiryAdmin]="isEnquiryAdmin" [branchesList]="branchesList" [selectedRow]="selectedRow"
-    [enqAssignTo]="enqAssignTo" [updateFormComments]="updateFormComments" [updateFormCommentsOn]="updateFormCommentsOn" [updateFormCommentsBy]="updateFormCommentsBy"
-    (close)="closeUpdatePop($event)">
+    [hour]="hour" [times]="times" [minute]="minute" [minArr]="minArr" [isNotifyVisible]="isNotifyVisible" [isMainBranch]="isMainBranch"
+    [meridian]="meridian" [subBranchSelected]="subBranchSelected" [branchesList]="branchesList" [enqstatus]="enqstatus" [isEnquiryAdmin]="isEnquiryAdmin"
+    [branchesList]="branchesList" [selectedRow]="selectedRow" [enqAssignTo]="enqAssignTo" [updateFormComments]="updateFormComments"
+    [updateFormCommentsOn]="updateFormCommentsOn" [updateFormCommentsBy]="updateFormCommentsBy" (close)="closeUpdatePop($event)">
   </enquiry-update>
 
 

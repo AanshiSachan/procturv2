@@ -772,30 +772,35 @@ export class ClassHomeComponent implements OnInit {
   }
 
   updateTeacher(data) {
-    if (confirm('Are you sure you want to change the teacher?')) {
-      let obj = {
-        alloted_teacher_id: this.allotedTeacher,
-        batch_id: data.batch_id,
-        class_schedule_id: data.schd_id,
-        cousre_planner_update_operation: 'teacher',
-        is_exam_schedule: 'N',
-      };
-      this.classService.changeClassTeacher(obj).subscribe(
-        res => {
-          this.messageToast('success', 'Updated', 'Teacher updated successfully');
-          this.allotedTeacher = '-1';
-          this.cancelChangeTeacher(data);
-          if (this.showAdvanceFilter) {
-            this.advanceFilterView();
-          } else {
-            this.submitMasterCourse();
+    if (this.allotedTeacher == "-1" || this.allotedTeacher == null) {
+      this.messageToast('error', 'Error', 'Please provide teacher');
+      return false;
+    } else {
+      if (confirm('Are you sure you want to change the teacher?')) {
+        let obj = {
+          alloted_teacher_id: this.allotedTeacher,
+          batch_id: data.batch_id,
+          class_schedule_id: data.schd_id,
+          cousre_planner_update_operation: 'teacher',
+          is_exam_schedule: 'N',
+        };
+        this.classService.changeClassTeacher(obj).subscribe(
+          res => {
+            this.messageToast('success', 'Updated', 'Teacher updated successfully');
+            this.allotedTeacher = '-1';
+            this.cancelChangeTeacher(data);
+            if (this.showAdvanceFilter) {
+              this.advanceFilterView();
+            } else {
+              this.submitMasterCourse();
+            }
+          },
+          err => {
+            console.log(err);
+            this.messageToast('error', 'Error', err.error.message);
           }
-        },
-        err => {
-          console.log(err);
-          this.messageToast('error', 'Error', err.error.message);
-        }
-      )
+        )
+      }
     }
   }
 
@@ -980,6 +985,37 @@ export class ClassHomeComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  // Expand All 
+
+  expandAllRows() {
+    let count = this.weekScheduleList.length;
+    for (let i = 0; i < count; i++) {
+      this.toggleTbodyClass(i);
+    }
+  }
+
+  checkAllCheckbox() {
+    this.expandAllRows();
+    if (this.weekScheduleList.length > 0) {
+      for (let i = 0; i < this.weekScheduleList.length; i++) {
+        if (this.weekScheduleList[i].data.length > 0) {
+          document.getElementById('tbodyItem' + i).classList.add("active");
+          document.getElementById('tbodyView' + i).classList.remove("hide");
+          this.weekScheduleList[i].data.forEach(
+            sch => {
+              if (sch.class_type != "Exam") {
+                if (sch.selected == false) {
+                  sch.selected = true;
+                  this.selectedArray.classSchldId.push(sch.schd_id);
+                }
+              }
+            }
+          )
+        }
+      }
+    }
   }
 
 }

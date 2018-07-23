@@ -74,6 +74,8 @@ export class ManageBatchComponent implements OnInit {
 
   getAllBatchesList() {
     this.isRippleLoad = true;
+    this.batchesListDataSource = [];
+    this.tableData = [];
     this.apiService.getBatchListFromServer().subscribe(
       (res: any) => {
         this.batchesListDataSource = res;

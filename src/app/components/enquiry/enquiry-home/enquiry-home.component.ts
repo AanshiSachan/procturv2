@@ -98,8 +98,9 @@ export class EnquiryHomeComponent implements OnInit {
   instituteData: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
 
   /* Form for advanced filter  */
-  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1" }; enquiryFullDetail: any;
-  enquirySettings: ColumnSetting[] = [{ primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.currentDirection }, { primaryKey: 'name', header: 'Name' }, { primaryKey: 'phone', header: 'Contact No' }, { primaryKey: 'statusValue', header: 'Status' }, { primaryKey: 'priority', header: 'Priority' }, { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.currentDirection }, { primaryKey: 'updateDate', header: 'Last Updated' },];
+  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1", city: '', area: '' };
+  enquiryFullDetail: any;
+  enquirySettings: ColumnSetting[] = [{ primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.currentDirection }, { primaryKey: 'name', header: 'Name' }, { primaryKey: 'phone', header: 'Contact No' }, { primaryKey: 'statusValue', header: 'Status' }, { primaryKey: 'priority', header: 'Priority' }, { primaryKey: 'source_name', header: 'Source' }, { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.currentDirection }, { primaryKey: 'updateDate', header: 'Last Updated' }];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
   assignMultipleForm: any = { enqLi: [], assigned_to: "" }; summaryOptions: boolean = false; downloadReportOption: any = 1; summaryReport = { from_date: "", to_date: "", }; showDateRange: boolean = false;
   @ViewChild('skelton') skel: ElementRef;
@@ -109,7 +110,8 @@ export class EnquiryHomeComponent implements OnInit {
   @ViewChild('pager') pager: ElementRef;
   @ViewChild('optMenu') optMenu: ElementRef;
   isNotifyVisible: boolean = false; insttitueId: any = ''; isMainBranch: any = 'N'; subBranchSelected: boolean = false; branchesList: any = [];
-
+  cityList: any = [];
+  areaList: any = [];
 
 
 
@@ -450,6 +452,10 @@ export class EnquiryHomeComponent implements OnInit {
     /* Master Course / Standard */
     if (!this.isProfessional) { this.fetchMasterCourseDetails(); };
 
+    // City Area Fetch //
+
+    this.prefill.getCityList().subscribe(res => { this.cityList = res; });
+
   }
 
 
@@ -570,7 +576,6 @@ export class EnquiryHomeComponent implements OnInit {
   searchDatabase() {
     this.clearFilterAdvanced();
     this.statusString = [];
-    debugger;
     this.statFilter = [{ value: 'All', prop: 'All', checked: true, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
     this.indexJSON = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
@@ -1477,7 +1482,31 @@ export class EnquiryHomeComponent implements OnInit {
     this.selectedRow = null;
     this.closeEnquiryFullDetails();
     this.isSideBar = false;
-    this.isRippleLoad = true;
+
+    //Update Date To And From Filter
+    if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null && this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
+      if (moment(this.advancedFilterForm.updateDateFrom) <= moment(this.advancedFilterForm.updateDateTo)) {
+        this.advancedFilterForm.updateDateFrom = moment(this.advancedFilterForm.updateDateFrom).format('YYYY-MM-DD');
+        this.advancedFilterForm.updateDateTo = moment(this.advancedFilterForm.updateDateTo).format('YYYY-MM-DD');
+      } else {
+        this.messageToast('error', 'Error', 'Please provide valid Enquiry Changes From and To Dates');
+        return;
+      }
+    } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
+      if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
+        this.messageToast('error', 'Error', 'Please provide valid Enquiry Changes To Dates');
+        return;
+      }
+    } else if (this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
+      if (this.advancedFilterForm.updateDateFrom == "" || this.advancedFilterForm.updateDateFrom == null) {
+        this.messageToast('error', 'Error', 'Please provide valid Enquiry Changes From Dates');
+        return;
+      }
+    }
+    else {
+      this.advancedFilterForm.updateDateFrom = "";
+      this.advancedFilterForm.updateDateTo = "";
+    }
 
 
 
@@ -1488,7 +1517,7 @@ export class EnquiryHomeComponent implements OnInit {
       this.advancedFilterForm.is_recent = "Y";
     }
 
-
+    this.isRippleLoad = true;
     this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         this.isRippleLoad = false;
@@ -2464,7 +2493,7 @@ export class EnquiryHomeComponent implements OnInit {
   checkIfRoutedFromEnquiry() {
     this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
     this.PageIndex = 1;
-    if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) {      return;    }
+    if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) { return; }
 
     else {
       let obj = JSON.parse(sessionStorage.getItem('dashBoardParam'));
@@ -2568,9 +2597,41 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-  
+
   /* =========================================================================== */
   /* =========================================================================== */
+
+  // Advance filter City Selection
+
+  onCitySelection(event) {
+    this.areaList = [];
+    if (event != "") {
+      let obj = {
+        city: event
+      }
+      this.prefill.getAreaList(obj).subscribe(
+        res => {
+          this.areaList = res;
+        },
+        err => {
+          //console.log(err);
+        }
+      )
+    }
+  }
+
+
+  messageToast(type, title, mess) {
+    let msg = {
+      type: type,
+      title: title,
+      body: mess
+    }
+    this.appC.popToast(msg);
+  }
+
+
+
 }
 
 
