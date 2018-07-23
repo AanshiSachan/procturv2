@@ -105,8 +105,8 @@
             <label for="endDate">Start Date
               <span style="color:red">*</span>
             </label>
-            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.start_date" name="endDate"
-              bsDatepicker>
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.start_date"
+              name="endDate" bsDatepicker>
           </div>
         </div>
 
@@ -249,7 +249,8 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper editCellAllignment">
-                    <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="editRowDetails.teacher_id">
+                    <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.teacher_id">
+                      <option value="0"></option>
                       <option *ngFor="let opt of teacherList" [value]="opt.teacher_id">
                         {{opt.teacher_name}}
                       </option>

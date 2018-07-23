@@ -265,7 +265,7 @@ export class ManageBatchComponent implements OnInit {
       start_date: moment(rowDetails.start_date).format("YYYY-MM-DD"),
       end_date: moment(rowDetails.end_date).format("YYYY-MM-DD"),
       subject_id: this.editRowDetails.subject_id,
-      teacher_id: this.editRowDetails.teacher_id,
+      teacher_id: Number(rowDetails.teacher_id),
       is_active: rowDetails.is_active,
       isStudentToBeInactivated: this.editRowDetails.isStudentToBeInactivated,
       class_room_id: this.editRowDetails.class_room_id,
@@ -281,6 +281,10 @@ export class ManageBatchComponent implements OnInit {
     }
     if (rowDetails.batch_code.length > 4) {
       this.messageToast('error', 'Error', 'Batch Code can not be greater than 4 digits.');
+      return;
+    }
+    if (rowDetails.teacher_id == 0 || rowDetails.teacher_id == null || rowDetails.teacher_id == "") {
+      this.messageToast('error', 'Error', 'Please provide the faculty for the batch.');
       return;
     }
     this.isRippleLoad = true;
@@ -600,14 +604,14 @@ export class ManageBatchComponent implements OnInit {
     if (userType != 3) {
       if (permissionArray == "" || permissionArray == null) {
         return false;
-      } 
-      else if(permissionArray.indexOf('401') != -1){
+      }
+      else if (permissionArray.indexOf('401') != -1) {
         return false;
       }
       else {
         return true;
       }
-    } 
+    }
     else if (userType == 3) {
       return true;
     }
