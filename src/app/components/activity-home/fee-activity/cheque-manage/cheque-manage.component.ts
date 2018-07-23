@@ -44,15 +44,16 @@ export class ChequeManageComponent implements OnInit {
   chequeDataSource: any[] = [];
   dataStatus: number = 1;
   chequeSetting: ColumnData[] = [
+    { primaryKey: 'student_display_id', header: 'Id' },
+    { primaryKey: 'student_name', header: 'Student Name' },
+    { primaryKey: 'parent_name', header: 'Parent Name' },
     { primaryKey: 'display_invoice_no', header: 'Receipt No' },
     { primaryKey: 'cheque_no', header: 'Cheque No' },
     { primaryKey: 'bank_name', header: 'Bank Name' },
-    { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'contact_no', header: 'Contact No' },
     { primaryKey: 'cheque_date', header: 'Cheque Date' },
     { primaryKey: 'cheque_amount', header: 'Amount' },
-    { primaryKey: 'cheque_status', header: 'Status' },
-    { primaryKey: 'parent_name', header: 'Parent Name'}
+    { primaryKey: 'cheque_status', header: 'Status' }
   ];
 
   menuList: DropData[] = [
@@ -94,7 +95,7 @@ export class ChequeManageComponent implements OnInit {
         if (res == null || res.length == 0) {
           this.dataStatus = 2;
         }
-        else{
+        else {
           this.dataStatus = 0;
         }
       },
@@ -194,7 +195,7 @@ export class ChequeManageComponent implements OnInit {
             this.appC.popToast(msg);
           }
         }
-        else{
+        else {
           let obj = {
             type: 'info',
             title: "No Installment To Make Payment Towards",
@@ -367,11 +368,11 @@ export class ChequeManageComponent implements OnInit {
                 }
               )
             }
-            
+
             else if (this.chequePaymentModel.isSendEmail) {
               this.getter.downloadResource(obj).subscribe(
                 res => {
-                  let ob ={
+                  let ob = {
                     type: 'success',
                     title: "Receipt Shared Over Email",
                     body: ""
@@ -487,15 +488,16 @@ export class ChequeManageComponent implements OnInit {
 
     temp = this.chequeDataSource.map(e => {
       let obj: any = {
+        id: e.student_display_id,
+        student_name: e.student_name,
+        parent_name: e.parent_name,
         receipt_no: e.display_invoice_no,
         cheque_number: e.cheque_no,
         bank_name: e.bank_name,
-        student_name: e.student_name,
         contact_nnumber: e.contact_no,
         cheque_date: e.cheque_date,
         amount: e.cheque_amount,
         cheque_status: e.cheque_status,
-        parent_name:e.parent_name
       }
       return obj;
     });
@@ -506,7 +508,7 @@ export class ChequeManageComponent implements OnInit {
     )
   }
 
-  downloadReceipt(r){
+  downloadReceipt(r) {
     let link = document.getElementById("invoiceDownloader");
     let body = r;
     let byteArr = this.convertBase64ToArray(body.document);
@@ -521,17 +523,17 @@ export class ChequeManageComponent implements OnInit {
     }
   }
 
-    /* Converts base64 string into a byte[] */
-    convertBase64ToArray(val) {
+  /* Converts base64 string into a byte[] */
+  convertBase64ToArray(val) {
 
-      var binary_string = window.atob(val);
-      var len = binary_string.length;
-      var bytes = new Uint8Array(len);
-      for (var i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
-      }
-      return bytes.buffer;
-  
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
     }
+    return bytes.buffer;
+
+  }
 
 }
