@@ -9,9 +9,9 @@
       <aside class="pull-right">
         <input type="button" value="Upload Status Report" (click)="bulkStatusReporter()" class="btn" />
         <a id="template_link">
-          <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" />
+          <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" id="btnDownloadTemplate" /> 
         </a>
-        <input type="button" value="Add Enquiry" routerLink='/view/enquiry/add' class="btn" />
+        <input type="button" value="Add Enquiry" routerLink='/view/enquiry/add' class="btn" id="btnAddEnquiry" />
       </aside>
     </div>
 
@@ -97,7 +97,7 @@
                 <td>{{record.success_count}}</td>
                 <td>{{record.failure_count}}</td>
                 <td>
-                  <a *ngIf="record.failure_count != 0" [id]="record.list_id" class="download-icon" (click)="downloadBulkStatusReport(record)">
+                  <a *ngIf="record.failure_count != 0" [id]="record.list_id" class="download-icon" (click)="downloadBulkStatusReport(record)" id="generateAnch5">
                     Generate Report
                   </a>
                 </td>

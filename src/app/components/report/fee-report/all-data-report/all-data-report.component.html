@@ -3,9 +3,11 @@
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
         <section class="middle-main clearFix">
-            <div class="middle-top mb0 clearFix header">
-                <div class="row report-header">
-                    <h2 style="padding: 5px;" class="pull-left">
+            <div class="middle-top mb0 clearFix header" style="width: 99%;
+            margin-left: 10px;
+            padding-bottom: 20px;">
+                <div class="row">
+                    <h2 style="padding: 16px 0px 3px 32px;" class="pull-left">
                         <a routerLink="/view/reports">
                             Report
 
@@ -17,18 +19,14 @@
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> All dues Report
                     </h2>
-                    <aside class="pull-left">
+                    <aside class="pull-left" style="position:relative; top:10px;">
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
                         </rob-tooltip>
                     </aside>
                 </div>
 
-                <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
-                  
-
+                <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}" style="margin-left: 0px;">
                     <div id="secondary">
-
-
 
                         <div class="c-lg-3">
                             <div class="field-wrapper">
@@ -103,48 +101,44 @@
 
             <section>
 
-                <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
+                <!-- <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
                     <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
-                </div>
-
-                <div id="basic-search" style="margin:5px;top: 25px;right: 5px;position: relative;">
+                </div> -->
+                <div id="basic-search" style="margin:10px">
                     <form autocomplete="off" #form="ngForm">
-                        <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right;">
+                        <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right; margin-bottom: 10px;">
                     </form>
                 </div>
 
             </section>
 
-            <section class="fee-table">
+            <div class="table-content" *ngIf="isFilterReversed">
+                <div style="margin-left: 10px;display: inline-block; margin-top: 10px;">
+                    <a (click)="exportToExcel()" class="download">Download To Excel</a>
+                    <span class="fa fa-cloud-download">
+                    </span>
+                </div>
+                <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
+                    <li style="display: inline-block; margin-left: 11px;">
+                        <span class="made-out"> Total fees Collection</span>
+                        <div class="made-in"> ₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
+                    </li>
+                    <li style="display: inline-block; margin-left: 5vw; ">
+                        <span class="made-out">Total dues</span>
+                        <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
+                    </li>
+                </ul>
 
-                <div class="table-content" *ngIf="isFilterReversed">
-                    <div style="margin-left: 10px;display: inline-block;">
-                        <a (click)="exportToExcel()" class="download">Download To Excel</a>
-                        <span class="fa fa-cloud-download">
-                        </span>
-                    </div>
-                    <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
-                        <li style="display: inline-block; margin-left: 11px;">
-                            <span class="made-out"> Total fees Collection </span>
-                            <span class="made-in"> : ₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</span>
-                        </li>
-                        <li style="display: inline-block; margin-left: 5vw;">
-                            <span class="made-out">Total dues</span>
-                            <span class="made-in"> : ₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</span>
-                        </li>
-                    </ul>
-                    
-                    <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
-                        [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
-                        [settings]="feeSettings1">
-                    </rob-table>
-                </div>
-                <div class="table-content" *ngIf="!isFilterReversed">
-                    <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'"
-                        [dataStatus]="dataStatus" [settings]="feeSettings2">
-                    </rob-table>
-                </div>
-            </section>
+                <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
+                    [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
+                    [settings]="feeSettings1">
+                </rob-table>
+            </div>
+            <div class="table-content" *ngIf="!isFilterReversed">
+                <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'"
+                    [dataStatus]="dataStatus" [settings]="feeSettings2">
+                </rob-table>
+            </div>
         </section>
     </aside>
 
@@ -152,7 +146,7 @@
 
     <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail"></next-due-detail>
 
-    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory"></payment-history>
+    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory" ></payment-history>
 
     <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport"></view-detail-report>
 

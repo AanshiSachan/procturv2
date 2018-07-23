@@ -105,7 +105,7 @@ export class AllDataReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "Fee details are shown based on academic year filter applied."
+  helpMsg: string = "Student fee details are shown based on dues and academic year filter applied."
 
   @ViewChild('form') form: any;
 
@@ -333,7 +333,7 @@ export class AllDataReportComponent implements OnInit {
       // this.generateReport(obj);
 
     }
-    else if(this.due_type == "seven_days_dues"){
+    else if (this.due_type == "seven_days_dues") {
       let obj: any = {
         from_date: '',
         to_date: '',
@@ -351,7 +351,7 @@ export class AllDataReportComponent implements OnInit {
       // this.generateReport(obj);
     }
 
-    else if(this.due_type == "thirty_days_dues"){
+    else if (this.due_type == "thirty_days_dues") {
       let obj: any = {
         from_date: '',
         to_date: '',
@@ -369,7 +369,7 @@ export class AllDataReportComponent implements OnInit {
       // this.generateReport(obj);
     }
 
-    else if(this.due_type == "ninty_days_dues"){
+    else if (this.due_type == "ninty_days_dues") {
       let obj: any = {
         from_date: '',
         to_date: '',
@@ -771,7 +771,7 @@ export class AllDataReportComponent implements OnInit {
       this.courseFetchForm.type = "1";
     }
 
-    else if(this.due_type == 'seven_days_dues'){
+    else if (this.due_type == 'seven_days_dues') {
       let begin = moment().format('YYYY-MM-DD');
       let end = moment().subtract('days', 7).format('YYYY-MM-DD');
 
@@ -782,18 +782,18 @@ export class AllDataReportComponent implements OnInit {
       console.log(this.courseFetchForm);
     }
 
-    else if(this.due_type == 'thirty_days_dues'){
+    else if (this.due_type == 'thirty_days_dues') {
       let begin = moment().format('YYYY-MM-DD');
-      let end =  moment().subtract('months', 1).format('YYYY-MM-DD');
+      let end = moment().subtract('months', 1).format('YYYY-MM-DD');
 
       this.courseFetchForm.from_date = end;
       this.courseFetchForm.to_date = begin;
       this.courseFetchForm.type = "1";
     }
 
-    else if(this.due_type == 'ninty_days_dues'){
+    else if (this.due_type == 'ninty_days_dues') {
       let begin = moment().format('YYYY-MM-DD');
-      let end =  moment().subtract('months', 3).format('YYYY-MM-DD');
+      let end = moment().subtract('months', 3).format('YYYY-MM-DD');
 
       this.courseFetchForm.from_date = end;
       this.courseFetchForm.to_date = begin;

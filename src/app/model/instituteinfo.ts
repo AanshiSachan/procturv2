@@ -38,8 +38,8 @@ export interface instituteInfo {
     language_inst_status?: any;
     slot_id?: any;
     master_course_name?: any;
-    start_index ?: any;
-    batch_size ?: any;
+    start_index?: any;
+    batch_size?: any;
     closedReason?: any;
     enqCustomLi?: any;
     sorted_by?: any;
@@ -48,4 +48,6 @@ export interface instituteInfo {
     commentShow?: any;
     source_id?: any;
     list_id?: any;
+    city?: any;
+    area?: any;
 }

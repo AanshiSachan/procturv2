@@ -586,7 +586,7 @@
 }
 
 .calender-view1 {
-    max-height: 295px;
+    max-height: 260px;
     overflow: scroll;
     th {
         padding: 10px;
@@ -635,7 +635,7 @@
             .close-accor {
                 width: 18px;
                 height: 18px;
-                line-height: 11px;
+                line-height: 15px;
                 margin-top: 0;
             }
             .open-accor {
@@ -1518,5 +1518,24 @@
     width: 100%;
     .field-radio-wrapper {
         margin-right: 10px;
+    }
+}
+
+.extra-button {
+    margin-top: 5px;
+    margin-right: 15px;
+    .btn {
+        padding: 5px 5px;
+        background: #fff;
+        border: 1px solid #ccc;
+        margin-left: 10px;
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        height: auto;
+        cursor: pointer;
+        color: #0084f6;
     }
 }

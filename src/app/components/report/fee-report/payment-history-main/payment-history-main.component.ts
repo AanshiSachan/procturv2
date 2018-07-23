@@ -65,9 +65,11 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'fee_type_name', header: 'Fee Type' },
     { primaryKey: 'installment_nos', header: 'Inst No' },
     { primaryKey: 'paid_date', header: 'Paid Date' },
+    { primaryKey: 'remarks', header: 'Remarks' },
     { primaryKey: 'reference_no', header: 'Ref No' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
-    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
+    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' },
+    { primaryKey: 'parent_name', header: "Parent Name" }
   ];
 
   menuOptions: DropData[] = [
@@ -383,7 +385,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             this.appc.popToast(msg);
           }
           else {
-           
+
             let obj = {
               chequeDetailsJson: this.chequeDetailsJson,
               feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
@@ -397,7 +399,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               remarks: this.updatedResult.remarks,
               student_id: this.perPersonData[0].student_id
             }
-            
+
             this.payment.updatePerPersonData(obj).subscribe(
 
               (data: any) => {
@@ -510,7 +512,8 @@ export class PaymentHistoryMainComponent implements OnInit {
         "Reference No": data.reference_no,
         "Amount Paid": data.amount_paid,
         "Student_Category": data.student_category,
-        "Counsellor": data.enquiry_counsellor_name
+        "Counsellor": data.enquiry_counsellor_name,
+        "Parent Name": data.parent_name
       }
 
       exportedArray.push(obj);

@@ -25,13 +25,13 @@ export class QuickFilterComponent implements OnChanges {
     constructor(private auth: AuthenticatorService) {
         this.auth.institute_type.subscribe(
             res => {
-              if (res == 'LANG') {
-                this.isProfessional = true;
-              } else {
-                this.isProfessional = false;
-              }
+                if (res == 'LANG') {
+                    this.isProfessional = true;
+                } else {
+                    this.isProfessional = false;
+                }
             }
-          )      
+        )
     }
 
 
@@ -82,7 +82,6 @@ export class QuickFilterComponent implements OnChanges {
     }
 
     updateEnqArray(i) {
-        debugger;
         if (i.prop == "All") {
             this.selectedOptions = [];
             this.selectedOptionsString = '';

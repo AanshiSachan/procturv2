@@ -646,6 +646,35 @@ export class TemplateHomeComponent implements OnInit {
     }
   }
 
+  ////Delete Fee Structure
+
+  deleteFeeStructure(fee) {
+    if (confirm('Are you sure, you want to delete Fee Structure?')) {
+      this.isRippleLoad = true;
+      this.fetchService.deleteFeeStructure(fee.template_id).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'success',
+            title: 'Deleted',
+            body: "Fee Structure Deleted Successfully"
+          }
+          this.appC.popToast(msg);
+          this.getFeeStructures();
+        },
+        err => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          }
+          this.appC.popToast(msg);
+        }
+      )
+    }
+  }
+
 }
 
 

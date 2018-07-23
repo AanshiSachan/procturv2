@@ -308,6 +308,14 @@
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
         <!-- ========================== Class Schedule Table ==================================== -->
+
+        <div class="row" *ngIf="weekScheduleList.length > 0">
+          <div class="pull-right extra-button">
+            <button class="btn" (click)="expandAllRows()">Expand/Collapse All</button>
+            <button class="btn" (click)="checkAllCheckbox()">Check All</button>
+          </div>
+        </div>
+
         <section class="clearFix calender-view1" *ngIf="showContent">
           <div class="table-responsive ">
             <table>
@@ -316,8 +324,8 @@
                   <th style="width:10%"></th>
                   <th style="width:10%">Type</th>
                   <th style="width:15%">Subject</th>
-                  <th style="width:10%">Start Date</th>
-                  <th style="width:10%">End Date</th>
+                  <th style="width:10%">Start Time</th>
+                  <th style="width:10%">End Time</th>
                   <th style="width:15%">Faculty</th>
                   <th style="width:15%">Topic</th>
                   <!-- <th>Home Work</th>

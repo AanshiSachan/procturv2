@@ -13,7 +13,8 @@
         </svg>
     </span>
 
-    <h2 popup-header>Payment History {{feeData.student_name}} ( {{feeData.student_disp_id}} )</h2>
+    <h2 popup-header>Payment History </h2>
+    <h2 popup-header style="color: #8a6c6c; font-size: 14px;"> {{feeData.student_name}} ( # {{feeData.student_disp_id}} )</h2>
 
     <div class="history-wrapper" popup-content>
         <div class="table-container">
@@ -40,7 +41,7 @@
                     </thead>
                     <tbody *ngIf="pastHIstoryData.length">
                         <tr *ngFor="let p of pastHIstoryData; let i= index;">
-                            <td>{{p.paid_date}}</td>
+                            <td style="width:10%;">{{p.paid_date}}</td>
                             <td>{{p.course_subject_name}}</td>
                             <td>{{p.academic_year}}</td>
                             <td>{{p.display_invoice_no}}</td>
@@ -56,7 +57,15 @@
                             <td>{{p.remarks}}</td>
                         </tr>
                     </tbody>
-                    <tbody *ngIf="pastHIstoryData.length == 0">
+                    <tbody *ngIf="pastHIstoryData.length == 0 && dataStatus === true">
+                        <tr *ngFor="let dummy of dummyArr">
+                            <td *ngFor="let c of columnMaps" style="padding:10px;">
+                                <div class="skeleton">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="pastHIstoryData.length == 0 && dataStatus === false">
                         <tr>
                             <td colspan="14">No Data Found</td>
                         </tr>
@@ -92,7 +101,15 @@
                             <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
                         </tr>
                     </tbody>
-                    <tbody *ngIf="nextDuesData.length == 0">
+                    <tbody *ngIf="nextDuesData.length == 0 && dataStatus === true">
+                        <tr *ngFor="let dummy of dummyArr">
+                            <td *ngFor="let c of columnMaps2" style="padding:10px;">
+                                <div class="skeleton">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="nextDuesData.length == 0 && dataStatus === false">
                         <tr>
                             <td colspan="10">No Data Found</td>
                         </tr>
@@ -128,7 +145,15 @@
                             <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
                         </tr>
                     </tbody>
-                    <tbody *ngIf="pastDues.length == 0">
+                    <tbody *ngIf="pastDues.length == 0 && dataStatus === true">
+                        <tr *ngFor="let dummy of dummyArr">
+                            <td *ngFor="let c of columnMaps2" style="padding:10px;">
+                                <div class="skeleton">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="pastDues.length == 0 && dataStatus === false">
                         <tr>
                             <td colspan="10">No Data Found</td>
                         </tr>

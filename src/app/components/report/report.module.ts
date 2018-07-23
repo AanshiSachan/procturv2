@@ -44,6 +44,7 @@ import { EnquiryReportModule } from './enquiry-report/enquiry-report.module';
 import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-routing.module';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
+import { ExcelService } from '../../services/excel.service';
 
 @NgModule({
     imports: [
@@ -85,7 +86,8 @@ import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap
         getEmailService,
         postEmailService, timeTableService,
         BiometricServiceService,
-        ProfitLossServiceService
+        ProfitLossServiceService,
+        ExcelService
     ],
     exports: [
         FilterPipe

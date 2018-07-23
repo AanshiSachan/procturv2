@@ -12,7 +12,7 @@
             Add New Enquiry
           </h1>
           <aside class="pull-right">
-            <input type="button" value="Upload Enquiry" [routerLink]="['../upload']" class="btn">
+            <input type="button" value="Upload Enquiry" [routerLink]="['../upload']" class="btn" id="btnUpload">
           </aside>
         </div>
 
@@ -54,18 +54,20 @@
                   <!-- phone -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone != ''}">
                     <label for="phone">Phone No*</label>
-                    <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone"name="phone" maxlength="10" OnlyNumber="true"/>
+                    <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" name="phone" maxlength="10" OnlyNumber="true"
+                    />
                   </div>
 
                   <!-- fetch more details -->
                   <div class="more-detail">
-                    <a (click)="getLeadDetails()" style="cursor:pointer">Fetch Lead Details</a>
+                    <a (click)="getLeadDetails()" style="cursor:pointer" id="getLeadAnch8">Fetch Lead Details</a>
                   </div>
 
                   <!-- email enq -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.email != ''}">
                     <label for="email">Email ID</label>
-                    <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"/>
+                    <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
+                    />
 
                     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
                       <div *ngIf="email.errors.pattern">
@@ -132,8 +134,8 @@
                   <!-- Additional details -->
                   <div class="more-detail">
                     <b>
-                      <a *ngIf="!additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer">+ &nbsp; Add Additional Details</a>
-                      <a *ngIf="additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer">- &nbsp; Add Additional Details</a>
+                      <a *ngIf="!additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer" id="additionAnch9">+ &nbsp; Add Additional Details</a>
+                      <a *ngIf="additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer" id="additionAnch0">- &nbsp; Add Additional Details</a>
                     </b>
                   </div>
 
@@ -239,7 +241,7 @@
               </div>
               <div class="accordian-content">
                 <div class="form-type2">
-                  
+
                   <!-- school -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.school_id != '-1'}">
                     <label for="institutionName">Institution Name</label>
@@ -249,9 +251,9 @@
                         {{institute.school_name}}
                       </option>
                     </select>
-                    <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+</a>
+                    <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer" id="openinstAnchor4">+</a>
                   </div>
-                  
+
                   <!-- standard Course-->
                   <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': course_standard_id != '-1'}">
                     <label for="editStandard">Standard</label>
@@ -369,7 +371,7 @@
                             <li *ngFor="let opt of component.prefilled_data">
                               <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
-                                  class="form-checkbox">
+                                  class="form-checkbox" id="{{opt.data}}">
                                 <label for="opt.data">{{opt.data}}</label>
                               </div>
                             </li>
@@ -399,7 +401,7 @@
       <section class="middle-bottom clearFix">
         <div class="pull-left" style="margin-left: 25px;">
           <div class="clear-detail" style="padding: 20px 10px;">
-            <a (click)="clearFormData()" style="color: red;font-weight: 600;cursor:pointer">Clear Details</a>
+            <a (click)="clearFormData()" style="color: red;font-weight: 600;cursor:pointer" id="clearFormAnch7">Clear Details</a>
           </div>
         </div>
         <aside class="pull-right">
@@ -408,11 +410,11 @@
             <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
             <label for="addNextEnquiry">Add Next Enquiry</label>
           </div>
-          <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" routerLink="/view/enquiry">
+          <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" routerLink="/view/enquiry" id="btnCancel2">
           <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button" value="Add & Admit Enquiry"
-            [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
-          <input style="display: inline-block;" type="button" value="Add Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit" class="btn fullBlue"
-            (click)="submitForm(myForm)">
+            [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()" id="btnAddUpdate">
+          <input style="display: inline-block;" type="button" value="Add Enquiry" [disabled]="!myForm.form.valid && isEnquirySubmit"
+            class="btn fullBlue" (click)="submitForm(myForm)" id="btnSubmitForm">
         </aside>
       </section>
     </aside>
@@ -428,7 +430,7 @@
                 <dfn>{{getLastAddName()}}</dfn>
               </span>
               <span class="view-details">
-                <a style="cursor:pointer" (click)="navigateToEdit()">View details</a>
+                <a style="cursor:pointer" (click)="navigateToEdit()" id="navigateAnch10">View details</a>
               </span>
             </li>
             <li>
@@ -449,8 +451,8 @@
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': newEnqData.enquiry_date != 'Invalid date'}">
             <label for="">Enquiry Date</label>
-            <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.enquiry_date" name="enqDate" readonly="true"
-              bsDatepicker>
+            <input type="text" value="" id="idNewEnqData" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.enquiry_date" name="enqDate"
+              readonly="true" bsDatepicker>
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
             <label for="eStatus">Enquiry Status</label>
@@ -608,7 +610,7 @@
           <div class="">
             <p>Thank you for submitting New Enquiry.</p>
             <p>If you like to make any changes to the last submitted enquiry, kindly click
-              <a style="cursor:pointer" (click)="navigateToEdit()">Edit</a>
+              <a style="cursor:pointer" (click)="navigateToEdit()" id="navigateanch11">Edit</a>
             </p>
           </div>
           <div class="">
@@ -617,13 +619,13 @@
               <strong>{{todayDate | date }}</strong>
             </p>
             <p>If you like to view complete Enquiry List now, click
-              <a style="cursor:pointer" routerLink="/view/enquiry">More Info</a>
+              <a style="cursor:pointer" routerLink="/view/enquiry" id="enquiryAnch6">More Info</a>
             </p>
           </div>
           <div>
             <div class="pull-right add-form-btns">
-              <a style="cursor:pointer" (click)="reloadEnquiryForm()">Add new enquiry</a>
-              <a style="cursor:pointer" routerLink="/view/enquiry/upload">Add Bulk enquiry</a>
+              <a style="cursor:pointer" (click)="reloadEnquiryForm()" id="reloadEnquiryAnch12">Add new enquiry</a>
+              <a style="cursor:pointer" routerLink="/view/enquiry/upload" id="uploadAnch13">Add Bulk enquiry</a>
             </div>
           </div>
         </div>
@@ -656,7 +658,7 @@
   <div class="institute-editor" popup-content>
 
     <div class="row clearFix add-edit">
-      <a class="expend-box" (click)="toggleInstituteAdd()">
+      <a class="expend-box" (click)="toggleInstituteAdd()" id="addInstAnch14">
         <i id="add-institute-icon">-</i>
         <span>Create New Institute</span>
       </a>
@@ -675,8 +677,8 @@
 
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
           <aside class="pull-right">
-            <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
-            <input type="button" value="Add" class="fullBlue btn" (click)="addInstituteData()">
+            <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()" id="cancel3">
+            <input type="button" value="Add" class="fullBlue btn" (click)="addInstituteData()" id="add3">
           </aside>
         </div>
 
@@ -690,7 +692,7 @@
             <tr>
               <th>Institute Id</th>
               <th>Institute Name</th>
-              <th>  </th>
+              <th> </th>
             </tr>
           </thead>
           <tbody>
@@ -716,33 +718,33 @@
               </td>
 
               <td *ngIf="sch.edit">
-                <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" />
+                <div class="field-wrapper">
+                  <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" id="schoolName" />
                 </div>
               </td>
 
               <td class="edit-view-btn" *ngIf="!sch.edit">
                 <div class="">
-                  <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
-                    <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                  <a (click)="editInstitute(sch.school_id)" style="cursor:pointer" id="anchEdit">
+                    <i class="edit-icon cursor-icon" aria-hidden="true" id="iconEdit"></i>Edit
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
-                    <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                  <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer" id="deletedAnch">
+                    <i class="view-icon cursor-icon" aria-hidden="true" id="iconView"></i>Delete
                   </a>
                 </div>
               </td>
 
               <td class="edit-view-btn" *ngIf="sch.edit">
                 <div class="">
-                  <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
-                    <i class="edit-icon" aria-hidden="true"></i>Cancel
+                  <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer" id="cancxelAnch">
+                    <i class="edit-icon" aria-hidden="true" class="icon2"></i>Cancel
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
-                    <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                  <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer" id="updateAnch">
+                    <i class="view-icon update-icon" aria-hidden="true" id="icon3"></i>Update
                   </a>
                 </div>
               </td>
@@ -779,7 +781,7 @@
   <div class="institute-editor" popup-content>
 
     <div class="row clearFix add-edit">
-      <a class="expend-box" (click)="toggleSourceAdd()">
+      <a class="expend-box" (click)="toggleSourceAdd()" id="icon4">
         <i id="add-source-icon">-</i>
         <span>Create New Source</span>
       </a>
@@ -796,8 +798,8 @@
 
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
           <aside class="pull-right">
-            <input type="button" value="Cancel" class="btn" (click)="closeAddSource()">
-            <input type="button" value="Add" class="fullBlue btn" (click)="addSourceData()">
+            <input type="button" value="Cancel" class="btn" (click)="closeAddSource()" id="btnCancel4">
+            <input type="button" value="Add" class="fullBlue btn" (click)="addSourceData()" id="btnAdd4">
           </aside>
         </div>
 
@@ -810,7 +812,7 @@
           <thead>
             <tr>
               <th>Source</th>
-              <th>  </th>
+              <th> </th>
             </tr>
           </thead>
           <tbody>
@@ -823,31 +825,31 @@
 
               <td *ngIf="sch.edit">
                 <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" />
+                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" id="schName" />
                 </div>
               </td>
 
               <td class="edit-view-btn" *ngIf="!sch.edit">
                 <div class="">
-                  <a (click)="editSource(sch.id)" style="cursor:pointer">
+                  <a (click)="editSource(sch.id)" style="cursor:pointer" id="editAnchor">
                     <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="deleteSource(sch.id)" style="cursor:pointer">
-                    <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                  <a (click)="deleteSource(sch.id)" style="cursor:pointer" id="deleteAnchor">
+                    <i class="view-icon cursor-icon" aria-hidden="true" id="deleteIcon3"></i>Delete
                   </a>
                 </div>
               </td>
 
               <td class="edit-view-btn" *ngIf="sch.edit">
                 <div class="">
-                  <a (click)="cancelEditSource(sch.id)" style="cursor:pointer">
-                    <i class="edit-icon" aria-hidden="true"></i>Cancel
+                  <a (click)="cancelEditSource(sch.id)" style="cursor:pointer" id="cancelEditAnch4">
+                    <i class="edit-icon" aria-hidden="true" id="icon5"></i>Cancel
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="updateSource(sch.id)" style="cursor:pointer">
+                  <a (click)="updateSource(sch.id)" style="cursor:pointer" id="anch5">
                     <i class="view-icon update-icon" aria-hidden="true"></i>Update
                   </a>
                 </div>
@@ -887,7 +889,7 @@
   <div class="institute-editor" popup-content>
 
     <div class="row clearFix add-edit">
-      <a class="expend-box" (click)="toggleReferAdd()">
+      <a class="expend-box" (click)="toggleReferAdd()" id="toggleAnch">
         <i id="add-refer-icon">-</i>
         <span>Create New Reference</span>
       </a>
@@ -905,8 +907,8 @@
 
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
           <aside class="pull-right">
-            <input type="button" value="Cancel" class="btn" (click)="closeAddRefer()">
-            <input type="button" value="Add" class="fullBlue btn" (click)="addReferData()">
+            <input type="button" value="Cancel" class="btn" (click)="closeAddRefer()" id="btnCancel5">
+            <input type="button" value="Add" class="fullBlue btn" (click)="addReferData()" id="btnAdd5">
           </aside>
         </div>
 
@@ -919,7 +921,7 @@
           <thead>
             <tr>
               <th>Referrer Name</th>
-              <th>  </th>
+              <th> </th>
             </tr>
           </thead>
           <tbody>
@@ -932,32 +934,32 @@
 
               <td *ngIf="sch.edit">
                 <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" />
+                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName"  id="sourceName" />
                 </div>
               </td>
 
               <td class="edit-view-btn" *ngIf="!sch.edit">
                 <div class="">
-                  <a (click)="editRefer(sch.id)" style="cursor:pointer">
-                    <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                  <a (click)="editRefer(sch.id)" style="cursor:pointer" id="editAnch5">
+                    <i class="edit-icon cursor-icon" aria-hidden="true" id="editIcon5"></i>Edit
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="deleteRefer(sch.id)" style="cursor:pointer">
-                    <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                  <a (click)="deleteRefer(sch.id)" style="cursor:pointer" id="deleteAnch5">
+                    <i class="view-icon cursor-icon" aria-hidden="true" id="deleteIcon5"></i>Delete
                   </a>
                 </div>
               </td>
 
               <td class="edit-view-btn" *ngIf="sch.edit">
                 <div class="">
-                  <a (click)="cancelEditRefer(sch.id)" style="cursor:pointer">
-                    <i class="edit-icon" aria-hidden="true"></i>Cancel
+                  <a (click)="cancelEditRefer(sch.id)" style="cursor:pointer" id="cancelAnch6">
+                    <i class="edit-icon" aria-hidden="true" id="cancelIcon6"></i>Cancel
                   </a>
                 </div>
                 <div class="">
-                  <a (click)="updateRefer(sch.id)" style="cursor:pointer">
-                    <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                  <a (click)="updateRefer(sch.id)" style="cursor:pointer" id="updateAnch7">
+                    <i class="view-icon update-icon" aria-hidden="true" id="updateIcon7"></i>Update
                   </a>
                 </div>
               </td>
@@ -971,4 +973,3 @@
   </div>
 
 </proctur-popup>
-

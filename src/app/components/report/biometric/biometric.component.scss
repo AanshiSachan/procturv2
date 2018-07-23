@@ -1,6 +1,4 @@
 @import "./src/assets/css/common/variables.scss";
-
-
 .filter-form {
     padding-top: 30px;
 }
@@ -8,36 +6,42 @@
 p {
     font-weight: 300;
 }
-.caret{
+
+.caret {
     font-family: FontAwesome;
 }
-.excel{
+
+.excel {
     font-family: FontAwesome;
 }
-.userDisplay{
-    font-weight:100;
-    font-size:19px;
-    color:blue;
+
+.userDisplay {
+    font-weight: 100;
+    font-size: 19px;
+    color: blue;
 }
-.userIdDisplay{
+
+.userIdDisplay {
     font-weight: 80;
-    font-size:13px;
-    color:blue;
+    font-size: 13px;
+    color: blue;
 }
-.searchName{
-    height:35px;
-    width:200px;
+
+.searchName {
+    height: 35px;
+    width: 200px;
     padding: 7px 10px;
     float: right;
     margin-bottom: 5px;
-    margin-top:-30px;
+    margin-top: -30px;
 }
-.btnStudent{
-    margin:5px;
-}
-.box{
 
+.btnStudent {
+    margin: 5px;
 }
+
+.box {}
+
 .popup-content {
     position: relative;
     left: 5%;
@@ -117,6 +121,75 @@ p {
     }
 }
 
+.form-date {
+    .field-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 21px;
+                top: 31px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
+.form:hover {
+    cursor: pointer;
+}
+
+.change {
+    .field-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .form-ctrl {
+                &:after {
+                    content: '';
+                    background: url('../../../../assets/images/calendar.svg') no-repeat;
+                    position: absolute;
+                    right: 21px;
+                    top: 31px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+        }
+    }
+}
+
+
+.dateBox{
+    .field-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .form-ctrl {
+                &:after {
+                    content: '';
+                    background: url('../../../../assets/images/calendar.svg') no-repeat;
+                    position: absolute;
+                    right: 21px;
+                    top: 32px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+        }
+    }
+}
+
 .main {
     margin-top: -25px;
     .form-wrapper {
@@ -164,13 +237,9 @@ p {
 }
 
 .filter-box {
-  
     margin-bottom: 7px;
     /* background: #efefef; */
     margin-top: 40px;
-   
-   
-
 }
 
 .search-filter-wrapper {
@@ -192,11 +261,13 @@ p {
         width: 10%;
     }
 }
+
 .records {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
 }
+
 .popup-header-content {
     h2 {
         text-align: center;
@@ -210,21 +281,23 @@ p {
     }
 }
 
-.filterSectionWrapper{
+.filterSectionWrapper {
     background: white;
     box-shadow: 0px 0px 2px 2px #dadada;
     border-radius: 10px;
     margin-bottom: 10px;
 }
-.background{
+
+.background {
     background: #efefef;
     height: 100%;
-    padding:5px;
+    padding: 5px;
     overflow: auto;
     ::-webkit-scrollbar {
         display: block;
     }
 }
+
 .middle-section {
     padding: 5px 15px;
     width: 100%;
@@ -234,7 +307,7 @@ p {
             color: black;
             font-weight: unset;
             padding-top: 20px;
-        }   
+        }
     }
 }
 
@@ -451,7 +524,7 @@ p {
 }
 
 .common-field {
-    margin-top:0px;
+    margin-top: 0px;
     height: 500px;
     background-color: #efefef;
     .student-table {
@@ -521,8 +594,7 @@ p {
             top: 10%;
             left: 0px;
             bottom: 10%;
-            width: 100%;
-            //height: 300px;
+            width: 100%; //height: 300px;
             overflow-y: auto;
         }
     }
@@ -554,9 +626,7 @@ p {
 
 .popupWrapperMob.showPopupMob .popup-mob {
     bottom: 0;
-}
-
-///////////
+} ///////////
 .popup-content {
     ::-webkit-scrollbar {
         display: block;
