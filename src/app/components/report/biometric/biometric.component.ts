@@ -4,6 +4,7 @@ import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
 import * as moment from 'moment';
 import { LoginService } from '../../../services/login-services/login.service';
+import { ExcelService } from '../../../services/excel.service';
 
 @Component({
   selector: 'app-biometric',
@@ -16,7 +17,7 @@ export class BiometricComponent implements OnInit {
   studentsData: any[] = [];
   master: any = "";
   courses: any[] = [];
-  masterCourseNames: boolean = true;
+  masterCourseNames: boolean = false;
   students: any = "";
   isProfessional: boolean = true;
   addReportPopUp: boolean = false;
@@ -93,6 +94,10 @@ export class BiometricComponent implements OnInit {
   studentId: string = "";
   teacherId: string = "";
   customId: string = "";
+  showTableEvent: boolean = false;
+  showRangeValue: boolean = false;
+  showNameFilter: boolean = true;
+  showCourseFilter: boolean = true;
 
   @ViewChild('biometricTable') biometricTable: ElementRef;
   @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
@@ -100,7 +105,8 @@ export class BiometricComponent implements OnInit {
   constructor(private reportService: BiometricServiceService,
     private appc: AppComponent,
     private auth: AuthenticatorService,
-    private login: LoginService) { }
+    private login: LoginService,
+    private excelService: ExcelService) { }
 
   ngOnInit() {
 
@@ -153,6 +159,29 @@ export class BiometricComponent implements OnInit {
       )
     }
   }
+
+  switchFilter() {
+    this.studentsData = [];
+    this.getData.name = "";
+    this.masterCourseNames = true;
+    this.showNameFilter = false;
+    this.totalRow = this.studentsData.length;
+    this.PageIndex = 1;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  showNameWiseFilter() {
+    this.studentsData = [];
+    this.getData.standard_id = -1;
+    this.getData.master_course_name = "";
+    this.getData.course_id = -1;
+    this.masterCourseNames = false;
+    this.showNameFilter = true;
+    this.totalRow = this.studentsData.length;
+    this.PageIndex = 1;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
   getCourses(i) {
     this.dataStatus = true;
     this.getData.name = "";
@@ -233,8 +262,6 @@ export class BiometricComponent implements OnInit {
       else {
         this.reportService.getAttendanceReport(this.getData).subscribe(
           (data: any) => {
-            this.getData.master_course_name = "";
-            this.getData.course_id = -1;
             this.isRippleLoad = false;
             this.dataStatus = false;
             this.studentsData = data;
@@ -261,8 +288,6 @@ export class BiometricComponent implements OnInit {
       this.reportService.getAttendanceReportTeachers(this.getData).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.getData.master_course_name = "";
-          this.getData.course_id = -1;
           this.isRippleLoad = false;
           this.studentsData = data;
           this.totalRow = data.length;
@@ -284,8 +309,6 @@ export class BiometricComponent implements OnInit {
       this.reportService.getAttendanceReportOthers(this.getData).subscribe(
         (data: any) => {
           this.dataStatus = false;
-          this.getData.master_course_name = "";
-          this.getData.course_id = -1;
           this.isRippleLoad = false;
           this.studentsData = data;
           this.totalRow = data.length;
@@ -310,7 +333,7 @@ export class BiometricComponent implements OnInit {
     this.studentId = i.student_disp_id;
     this.teacherId = i.teacher_id;
     this.customId = i.userid;
-    //console.log(this.teacherName);
+    console.log(this.teacherName);
     this.getAllData.user_id = i.user_id;
     this.addReportPopUp = true;
     this.dataStatus = true;
@@ -334,24 +357,20 @@ export class BiometricComponent implements OnInit {
   }
   closeReportPopup() {
     this.addReportPopUp = false;
+    this.range = [];
   }
 
   showMaster(i) {
     if (i == 1) {
-      this.showTeacherButton = true;
-      this.showTeachersTable = false;
-      this.masterCourseNames = true;
-      this.showCustomTable = false;
-      this.showButton = true;
+      this.showCourseFilter = true;
+      this.studentsData = [];
     }
     else {
       this.getData.standard_id = -1;
       this.getData.subject_id = -1;
       this.getData.batch_id = -1;
-      this.showTeacherButton = true;
-      this.showStudentTable = false;
-      this.masterCourseNames = false;
-      this.showButton = false;
+      this.showCourseFilter = false;
+      this.studentsData = [];
     }
   }
 
@@ -379,123 +398,6 @@ export class BiometricComponent implements OnInit {
     }
   }
 
-  popupChange() {
-    this.monthAttendance = [];
-    this.weekAttendance = [];
-    this.dataStatus = true;
-    if (this.popupCtrl == 2) {
-      this.isRippleLoad = false;
-      this.addReportPopUp = false;
-      this.addAcademicPopUp = true;
-      this.showRange = true;
-      this.showMonth = false;
-      this.showWeek = false;
-
-    }
-    else if (this.popupCtrl == 0) {
-      this.isRippleLoad = false;
-      this.monthAttendance = [];
-      this.dataStatus = true;
-      this.getAllData = {
-        from_date: moment().subtract('months', 1).format('YYYY-MM-DD'),
-        institute_id: this.reportService.institute_id,
-        to_date: moment().format('YYYY-MM-DD'),
-        user_id: this.getAllData.user_id
-      }
-
-      this.addReportPopUp = false;
-      this.showMonth = true;
-      this.showRange = false;
-      this.showWeek = false;
-      this.reportService.getAllFinalReport(this.getAllData).subscribe(
-        (data: any) => {
-          //console.log(this.studentsData);
-          this.nameOfPeople = this.studentsData.map(
-            data => data.student_name
-          )
-          if (data != null) {
-            this.addAcademicPopUp = true;
-            this.dataStatus = false;
-            this.monthAttendance = data;
-          }
-          else {
-
-            let msg = {
-              type: "info",
-              title: "No Data Found",
-              body: "We could not find any data in this range"
-            }
-            this.dataStatus = false;
-            this.appc.popToast(msg);
-            this.isRippleLoad = false;
-          }
-
-        },
-        (error: any) => {
-          let msg = {
-            type: "error",
-            title: "Incorrect Details",
-            body: error.error.message
-          }
-          this.dataStatus = false;
-          this.appc.popToast(msg);
-          this.isRippleLoad = false;
-        }
-      )
-    }
-    else if (this.popupCtrl == 1) {
-      this.weekAttendance = [];
-      this.dataStatus = true;
-      this.getAllData = {
-        from_date: moment().subtract('days', 7).format('YYYY-MM-DD'),
-        institute_id: this.reportService.institute_id,
-        to_date: moment().format('YYYY-MM-DD'),
-        user_id: this.getAllData.user_id
-      }
-      this.addReportPopUp = false;
-      this.addAcademicPopUp = true;
-      this.showMonth = false;
-      this.showRange = false;
-      this.showWeek = true;
-      this.reportService.getAllFinalReport(this.getAllData).subscribe(
-        (data: any) => {
-
-          this.isRippleLoad = false;
-          if (data != null) {
-            this.addAcademicPopUp = true;
-            this.dataStatus = false;
-            this.weekAttendance = data;
-          }
-          else {
-
-            let msg = {
-              type: "info",
-              title: "No Data Found",
-              body: "We could not find any data in this range"
-            }
-            this.appc.popToast(msg);
-            this.dataStatus = false;
-            this.weekAttendance = [];
-            this.isRippleLoad = false;
-          }
-
-
-
-        },
-        (error: any) => {
-          let msg = {
-            type: "info",
-            title: "No Data Found",
-            body: "We could not find any data in this range"
-          }
-          this.appc.popToast(msg);
-          this.isRippleLoad = false;
-        }
-      )
-
-    }
-
-  }
 
   courseEmpty() {
     if (this.getData.name != "") {
@@ -504,110 +406,7 @@ export class BiometricComponent implements OnInit {
       this.getData.subject_id = -1;
     }
   }
-  
-  closeReportAcademicPopup() {
-    this.getAllData.from_date = "";
-    this.getAllData.to_date = "";
-    this.range = [];
-    this.monthAttendance = [];
-    this.weekAttendance = [];
-    this.addAcademicPopUp = false;
-    this.dataStatus = false;
-  }
 
-  showDataTable() {
-   
-    this.getAllData = {
-      from_date: moment(this.getAllData.from_date).format('YYYY-MM-DD'),
-      institute_id: this.reportService.institute_id,
-      to_date: moment(this.getAllData.to_date).format('YYYY-MM-DD'),
-      user_id: this.getAllData.user_id
-    }
-    //console.log(this.getAllData.from_date);
-    let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
-    let futureDate = moment(this.getAllData.to_date).add('days', 1).format('YYYY-MM-DD');
-    //console.log(futureDate);
-    //console.log(this.getAllData.to_date);
-    if (diff < -2) {
-      let msg = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "Range should not be more than 2 months"
-      }
-      this.dataStatus = false;
-      this.isRippleLoad = false;
-      this.appc.popToast(msg);
-    }
-    else if (this.getAllData.from_date == null || this.getAllData.from_date == ""
-      || this.getAllData.to_date == "" || this.getAllData.to_date == null ||
-      this.getAllData.from_date == "Invalid date" || this.getAllData.to_date == "Invalid date") {
-      let msg = {
-        type: "info",
-        title: "No records Found",
-        body: "Please select specific date range"
-      }
-      this.dataStatus = false;
-      this.isRippleLoad = false;
-      this.appc.popToast(msg);
-    }
-    else if (this.getAllData.from_date > this.getAllData.to_date) {
-      let msg = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "From date cannot be Greater than to date"
-      }
-      this.dataStatus = false;
-      this.isRippleLoad = false;
-      this.appc.popToast(msg);
-    }
-
-    else {
-      this.dataStatus = true;
-      this.reportService.getAllFinalReport(this.getAllData).subscribe(
-        (data: any) => {
-          if(data.length!=0){
-            this.range = data;
-            this.dataStatus = false;
-            this.showTable = true;
-          }
-          else {
-            let msg = {
-              type: "info",
-              title: "No Data Found",
-              body: "We could not find any data in this range"
-            }
-            this.isRippleLoad = false;
-            this.appc.popToast(msg);
-            this.dataStatus = false;
-          }
-          this.studentsData.map(
-            (data: any) => {
-              this.dataStatus = false;
-              this.findName = data.student_name;
-            },
-            (error: any) => {
-              return error;
-            }
-          )
-          
-        },
-        (error) => {
-          this.dataStatus = false;
-          this.isRippleLoad = false;
-          return error;
-        }
-
-      )
-    }
-  }
-  fetchAbsentiesReport() {
-    this.addAbsentiesPopup = true;
-  }
-
-  closeAbsentiesPopup() {
-
-    this.addAbsentiesPopup = false;
-  }
 
   sortedData(ev) {
     this.sortedenabled = true;
@@ -663,30 +462,8 @@ export class BiometricComponent implements OnInit {
     }
   }
 
-  viewAbsentiesRecord() {
-    this.absentTable = true;
-    if (this.getAbsentiesData.from_date == "") {
-      let msg = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "Please specify absent date"
-      }
-      this.isRippleLoad = false;
-      this.appc.popToast(msg);
-    }
-    else {
-      this.reportService.fetchAbsentiesData(this.getAbsentiesData).subscribe(
-        (data: any) => {
-          this.isRippleLoad = false;
-          this.absentiesRecords = data;
-        },
-        (error: any) => {
-          this.isRippleLoad = false;
-          return error;
-        }
-      )
-    }
-  }  //pagination functions
+
+  //pagination functions
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.pagedisplaysize * (index - 1);
@@ -746,15 +523,108 @@ export class BiometricComponent implements OnInit {
 
   }
   // ====================================================================================================================
-  DownloadJsonToCsv() {
 
-    let link = this.xlsDownloader.nativeElement;
-    let outer = this.biometricTable.nativeElement.outerHTML.replace(/ /g, '%20');
-    let data_type = 'data:application/vnd.ms-excel';
+  getAllDataService(from_date, to_date) {
+    this.range = [];
+    this.dataStatus = true;
+    this.showTableEvent = false;
 
-    link.setAttribute('href', data_type + ',' + outer);
-    link.setAttribute('download', 'test.xls');
-    link.click();
+    let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
+
+    if (this.getAllData.from_date == "" || this.getAllData.from_date == null || this.getAllData.to_date == "" || this.getAllData.to_date == null) {
+      let msg = {
+        type: "Info",
+        body: "Please select date range"
+      }
+      this.appc.popToast(msg);
+    }
+    else if (diff < -2) {
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Range should not be more than 2 months"
+      }
+      this.appc.popToast(msg);
+    }
+    else {
+      this.reportService.getAllFinalReport(this.getAllData).subscribe(
+        (data: any) => {
+          this.showTableEvent = true;
+          if (data != null) {
+            this.range = data;
+            this.dataStatus = false;
+          }
+          else {
+            this.range = [];
+            this.dataStatus = false;
+          }
+        },
+        (error: any) => {
+          this.dataStatus = false;
+          let msg = {
+            type: "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
+        }
+      )
+    }
+  }
+
+  popupCtrlChange(event) {
+
+
+    if (event == 0) {
+
+      this.getAllData.from_date = moment().subtract('months', 1).format('YYYY-MM-DD')
+      this.getAllData.to_date = moment().format('YYYY-MM-DD')
+      this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
+      this.showRangeValue = false;
+    }
+
+    else if (event == 1) {
+
+      this.getAllData.from_date = moment().subtract('days', 7).format('YYYY-MM-DD')
+      this.getAllData.to_date = moment().format('YYYY-MM-DD');
+      this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
+      this.showRangeValue = false;
+    }
+
+    else if (event == 2) {
+
+      this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
+
+    }
+  }
+
+  getPopupEvent(event) {
+    if (event == 2) {
+      this.showRangeValue = true;
+    }
+    else {
+      this.showRangeValue = false;
+    }
+  }
+
+  exportToExcel(event) {
+
+    let arr = []
+
+    this.range.map((ele: any) => {
+      let json = {
+        "Date": ele.attendance_date,
+        "In Time": ele.in_time,
+        "Out Time": ele.out_time
+      }
+      arr.push(json);
+    }
+
+    )
+
+    this.excelService.exportAsExcelFile(
+      arr,
+      'biometric'
+    )
   }
 
 

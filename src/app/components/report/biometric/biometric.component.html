@@ -19,112 +19,116 @@
         </aside>
         <section class="filter-form ">
 
-          <div class="filterSectionWrapper">
+          <div class="filterSectionWrapper" style="padding-top: 1%;  padding-bottom: 2%;">
 
-            <div class="row">
-              <div class="c-lg-3">
-                <div class="form-wrapper" style="padding-left:none; margin-left:none">
-                  <label>Role</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.user_Type" (ngModelChange)="showMaster($event)">
-                    <option selected [value]="1">Students</option>
-                    <option [value]="3">Teachers</option>
-                    <option [value]="0">Custom</option>
-                    <option [value]="1000">Others</option>
-                    <option [value]="100">Admin</option>
-                  </select>
+            <div class="row" *ngIf="showNameFilter">
+              <div class="c-lg-12">
+                <div class="c-lg-10">
+                  <div class="c-lg-12">
+                    <div class="c-lg-4">
+                      <div class="field-wrapper" style="padding-left:none; margin-left:none">
+                        <label>Role</label>
+                        <select class="form-ctrl" [(ngModel)]="getData.user_Type" (ngModelChange)="showMaster($event)">
+                          <option selected [value]="1">Students</option>
+                          <option [value]="3">Teachers</option>
+                          <option [value]="0">Custom</option>
+                          <option [value]="1000">Others</option>
+                          <option [value]="100">Admin</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="c-lg-4 dateBox">
+                      <div class="field-wrapper datePickerBox">
+                        <label> Select Date</label>
+                        <input type="text" class="form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date" (ngModelChange)="dateValidationForFuture($event)">
+                      </div>
+                    </div>
+                    <div class="c-lg-4 field-wrapper">
+                      <label> Name</label>
+                      <input type="text" placeholder="Name" class="form-ctrl" (change)="courseEmpty()" [(ngModel)]="getData.name" [value]="getData.is_active_status">
+                    </div>
+                  </div>
+                </div>
+                <div class="c-lg-1">
+                  <button class="btn fullBlue" (click)="fetchDataByName()" style="margin-top: 27px;">GO</button>
+                </div>
+                <div class="c-lg-1 form" style="margin-top: 2%" (click)="switchFilter()" *ngIf="showCourseFilter">
+                  <a *ngIf="!isProfessional">Show Course Filter</a>
+                  <a *ngIf="isProfessional">Show Batch Filter</a>
                 </div>
               </div>
-              <div class="c-lg-3 prepare" style="margin-top:0px;">
-                <div class="form-wrapper datePickerBox">
-                  <label> Select Date</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date" (ngModelChange)="dateValidationForFuture($event)">
-                </div>
-              </div>
-              <div class="c-lg-3">
-                <div class="form-wrapper">
-                  <label> Name</label>
-                  <input type="text" placeholder="Name" class="side-form-ctrl" (change)="courseEmpty()" [(ngModel)]="getData.name" [value]="getData.is_active_status">
-                </div>
-              </div>
-              <div class="c-lg-3">
-                <button class="btn fullBlue" (click)="fetchDataByName()" style="margin-top: 27px;">GO</button>
-              </div>
+
+
             </div>
 
-            <hr style="width:45%; display:inline-block;  border:1px inset; margin-left:26px;" *ngIf="masterCourseNames">
-            <h2 style="display:inline-block;  margin-top:-24px;" *ngIf="masterCourseNames">OR</h2>
-            <hr style="width:45%; display:inline-block;  border:1px inset;" *ngIf="masterCourseNames">
+            <div class="row" *ngIf="masterCourseNames">
+              <div class="c-lg-12">
+                <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames  && !isProfessional">
+                  <div class="field-wrapper">
+                    <label>Master Course</label>
+                    <select class="form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of masterCourse" [value]="i.master_course">
+                        {{i.master_course}}
+                      </option>
+                    </select>
 
-            <div class="row">
-              <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames  && !isProfessional">
-                <div class="form-wrapper">
-                  <label>Master Course</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)">
-                    <option value="-1"></option>
-                    <option *ngFor="let i of masterCourse" [value]="i.master_course">
-                      {{i.master_course}}
-                    </option>
-                  </select>
-
+                  </div>
                 </div>
-              </div>
-              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames  && !isProfessional">
-                <div class="form-wrapper">
-                  <label> Course</label>
-                  <select class="side-form-ctrl" (click)="courseChange()" [(ngModel)]="getData.course_id">
-                    <option value="-1"></option>
-                    <option *ngFor="let i of courses" [value]="i.course_id">
-                      {{i.course_name}}
-                    </option>
-                  </select>
+                <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames  && !isProfessional">
+                  <div class="field-wrapper">
+                    <label> Course</label>
+                    <select class="form-ctrl" (click)="courseChange()" [(ngModel)]="getData.course_id">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of courses" [value]="i.course_id">
+                        {{i.course_name}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames && isProfessional">
-                <div class="form-wrapper">
-                  <label>Master Course</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.standard_id" (ngModelChange)="getCourses($event)">
-                    <option value="-1"></option>
-                    <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">
-                      {{i.standard_name}}
-                    </option>
-                  </select>
+                <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames && isProfessional">
+                  <div class="field-wrapper">
+                    <label>Master Course</label>
+                    <select class="form-ctrl" [(ngModel)]="getData.standard_id" (ngModelChange)="getCourses($event)">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">
+                        {{i.standard_name}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
-                <div class="form-wrapper">
-                  <label> Course</label>
-                  <select class="side-form-ctrl" (click)="courseChange()" [(ngModel)]="getData.subject_id">
-                    <option value="-1"></option>
-                    <option *ngFor="let i of coursePro" [value]="i.subject_id">
-                      {{i.subject_name}}
-                    </option>
-                  </select>
+                <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
+                  <div class="field-wrapper">
+                    <label> Course</label>
+                    <select class="form-ctrl" (click)="courseChange()" [(ngModel)]="getData.subject_id">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of coursePro" [value]="i.subject_id">
+                        {{i.subject_name}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
-                <div class="form-wrapper">
-                  <label>Batch</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.batch_id">
-                    <option value="-1"></option>
-                    <option *ngFor="let i of batchPro" [value]="i.batch_id">
-                      {{i.batch_name}}
-                    </option>
-                  </select>
+                <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
+                  <div class="field-wrapper">
+                    <label>Batch</label>
+                    <select class="form-ctrl" [(ngModel)]="getData.batch_id">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of batchPro" [value]="i.batch_id">
+                        {{i.batch_name}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="c-lg-3" *ngIf="isProfessional">
-              </div>
-              <div class="c-lg-6" *ngIf="!isProfessional">
+                <button class="btn fullBlue" (click)="fetchDataByName()" style="display: inline-block; margin-top: 2%;" *ngIf="isProfessional">GO</button>
+                <button class="btn fullBlue" (click)="fetchDataByName()" style="display: inline-block; margin-top: 2%;" *ngIf="!isProfessional">GO</button>
+                <a (click)="showNameWiseFilter()" style="float: right;
+                margin-top: 2%;
+                margin-right: 1%; display: inline-block;" class="form">Show Name Filter
+                </a>
+               
               </div>
             </div>
           </div>
-          <!-- 
-              <div class="filter-box c-lg-2">
-                <div id="basic-search">
-                  <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
-                </div>
-              </div>
-           -->
 
           <div class="common-field" *ngIf="showTeachersTable">
 
@@ -139,14 +143,20 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>
-                        Teacher id
+                      <th (click)="sortedData('teacher_id') ">
+                        Teacher id &nbsp;
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('teacher_id') && direction == 1"></i>
+                        <i class="fa fa-caret-down caret" *ngIf="getCaretVisiblity('teacher_id') && direction != 1"></i>
                       </th>
-                      <th>
-                        Teacher Name
+                      <th (click)="sortedData('teacher_name') ">
+                        Teacher Name &nbsp;
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('teacher_name') && direction == 1"></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('teacher_name') && direction != 1"></i>
                       </th>
-                      <th>
-                        Mobile
+                      <th (click)="sortedData('teacher_phone') ">
+                        Mobile &nbsp;
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('teacher_phone') && direction == 1"></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('teacher_phone') && direction != 1"></i>
                       </th>
                       <th>
                         Is active
@@ -233,20 +243,20 @@
                       <th (click)="sortedData('student_disp_id') ">
 
                         Student Id &nbsp;
-                        <i class="fa fa-caret-up caret" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
-                        <i class="fa fa-caret-down caret" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
                       </th>
                       <th (click)="sortedData('student_name')">
 
                         Student Name &nbsp;
-                        <i class="fa fa-caret-up caret" *ngIf="getCaretVisiblity('student_name') && direction == 1 "></i>
-                        <i class="fa fa-caret-down caret" *ngIf="getCaretVisiblity('student_name') && direction != 1 "></i>
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_name') && direction == 1 "></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_name') && direction != 1 "></i>
                       </th>
                       <th (click)="sortedData('student_phone')">
 
                         Mobile &nbsp;
-                        <i class="fa fa-caret-up caret" *ngIf="getCaretVisiblity('student_phone') && direction == 1  "></i>
-                        <i class="fa fa-caret-down caret" *ngIf="getCaretVisiblity('student_phone') && direction != 1"></i>
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_phone') && direction == 1  "></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_phone') && direction != 1"></i>
                       </th>
                       <th>
                         Is active
@@ -255,7 +265,7 @@
                         In time
                       </th>
                       <th>
-                        Out
+                        Out time
                       </th>
                       <th>
                         View Older Records
@@ -328,14 +338,20 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>
-                        Id
+                      <th (click)="sortedData('userid') ">
+                        Id &nbsp;
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('userid') && direction == 1"></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('userid') && direction != 1"></i>
                       </th>
-                      <th>
-                        Name
+                      <th (click)="sortedData('name') ">
+                        Name &nbsp;
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('name') && direction == 1"></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('name') && direction != 1"></i>
                       </th>
-                      <th>
-                        Contact No.
+                      <th (click)="sortedData('username') ">
+                        Contact No. &nbsp;
+                        <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('username') && direction == 1"></i>
+                        <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('username') && direction != 1"></i>
                       </th>
                       <th>
                         Is active
@@ -407,7 +423,7 @@
           </div>
 
 
-          <proctur-popup [sizeWidth]="'small'" *ngIf="addReportPopUp">
+          <proctur-popup [sizeWidth]="'medium'" *ngIf="addReportPopUp">
 
             <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -423,62 +439,55 @@
             </span>
 
             <div popup-header class="popup-header-content">
-              <h2 style=" font-size:23px;">Older Records</h2>
             </div>
             <div popup-content class="main-student-table">
-              <div class="row">
-                <div class="c-lg-2">
-                </div>
-                <div class="c-lg-5">
-                  <div class="form-field form-wrapper">
-                    <select class="side-form-ctrl" [(ngModel)]="popupCtrl">
+              <div class="row" style=" text-align: left;">
+                <div class="c-lg-3">
+                  <div class="form-field field-wrapper">
+                    <label>Select Filter</label>
+                    <select class="form-ctrl" [(ngModel)]="popupCtrl" (ngModelChange)="getPopupEvent($event)">
                       <option [value]="0">Previous Month</option>
                       <option [value]="1">Previous Week </option>
                       <option [value]="2">By Range</option>
                     </select>
                   </div>
                 </div>
-                <div class="c-lg-2" style="padding: 15px;">
-                  <button class="btn fullBlue" style="margin-top:-3px;" (click)="popupChange()">Go</button>
+                <div class="c-lg-8 form-date" *ngIf="showRangeValue" style="width:60%; margin-left: -8%;">
+                  <div class="c-lg-12">
+                    <div class="c-lg-6 field-wrapper datePickerBox">
+                      <label>From Date</label>
+                      <input class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="getAllData.from_date">
+                    </div>
+                    <div class="c-lg-6 field-wrapper datePickerBox">
+                      <label>To Date</label>
+                      <input class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="getAllData.to_date">
+                    </div>
+                  </div>
+                </div>
+                <div class="c-lg-1" style="margin-top: 29px;
+                margin-left: -38px;">
+                  <button class="btn fullBlue" style="margin-top:-3px;" (click)="popupCtrlChange(popupCtrl)">Go</button>
                 </div>
               </div>
-            </div>
-
-          </proctur-popup>
-
-          <proctur-popup [sizeWidth]="'large'" *ngIf="addAcademicPopUp">
-
-            <span class="closePopup pos-abs fbold show" (click)="closeReportAcademicPopup()" close-button>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                  </g>
-                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                  />
-                </g>
-              </svg>
-            </span>
-
-            <div popup-header class="popup-header-content" *ngIf="showMonth">
-              <h2 style=" font-size:20px; ">Previous Month:
-               
-                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
-                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
-                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
-              
-                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
-                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
-                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
-              </h2>
-
-            </div>
-            <div popup-content class="main-student-table" *ngIf="showMonth">
-              <a class="fa fa-file-excel-o excel" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
-              <a class="hide" #xlsDownloader></a>
-              <div class="table table-responsive tablePopup">
-                <table #biometricTable>
+              <div class="table table-responsive" *ngIf="showTableEvent" style="margin-top:2%">
+                <span *ngIf="getData.user_Type == 1">
+                  <span style="font-size: 17px; font-weight: bold;"> {{studentName}} </span>
+                  <span style="font-size: 12px;">#{{studentId}}</span>
+                </span>
+                <span *ngIf="getData.user_Type == 3">
+                  <span style="font-size: 17px; font-weight: bold;"> {{teacherName}} </span>
+                  <span style="font-size: 12px;">#{{teacherId}}</span>
+                </span>
+                <span *ngIf="getData.user_Type == 0 || getData.user_Type == 1000 || getData.user_Type == 100">
+                  <span style="font-size: 17px; font-weight: bold;"> {{customName}} </span>
+                  <span style="font-size: 12px;">#{{customId}}</span>
+                </span>
+                <div style="margin-left: 10px;display: inline-block; float: right;">
+                  <a (click)="exportToExcel()" class="form">Download To Excel</a>
+                  <span class="fa fa-cloud-download">
+                  </span>
+                </div>
+                <table>
                   <thead>
                     <tr>
                       <th>
@@ -488,91 +497,11 @@
                         In Time
                       </th>
                       <th>
-                        Out time
+                        Out Time
                       </th>
                     </tr>
                   </thead>
-                  <tbody *ngIf="monthAttendance.length != 0">
-                    <tr *ngFor="let i of monthAttendance">
-                      <td>
-                        {{i.attendance_date}}
-                      </td>
-                      <td>
-                        {{i.in_time}}
-                      </td>
-                      <td>
-                        {{i.out_time}}
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody *ngIf="monthAttendance.length == 0 && dataStatus === true">
-                    <tr *ngFor="let dummy of dummyArr">
-                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
-                        <div class="skeleton">
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                  <tbody *ngIf="monthAttendance.length == 0 && dataStatus === false">
-                    <tr>
-                      <td colspan="3" class="records">
-                        No Records Found
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
-
-
-            <div popup-header class="popup-header-content" *ngIf="showRange">
-              <h2 style=" font-size:20px;">Select Range:
-               
-                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
-                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
-                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
-              
-                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
-                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
-                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
-              </h2>
-            </div>
-            <div popup-content class="main-student-table" *ngIf="showRange">
-              <div class="c-lg-4">
-                <div class="form-field form-wrapper datePickerBox">
-                  <label for="from">From</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date" (ngModelChange)="futureDateValid($event)">
-                </div>
-              </div>
-              <div class="c-lg-4">
-                <div class="form-field form-wrapper datePickerBox">
-                  <label for="to">To</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
-                </div>
-              </div>
-              <div class="c-lg-4" style="padding: 27px 0px 0px 0px">
-                <button class="btn fullBlue" (click)="showDataTable()">Go</button>
-              </div>
-              <a class="fa fa-file-excel-o excel" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
-              <a class="hide" #xlsDownloader></a>
-              <div class="table table-responsive tablePopup" *ngIf="showTable">
-                <table>
-                  <thead #biometricTable>
-                    <tr>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        In Time
-                      </th>
-                      <th>
-                        Out time
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="range.length != 0">
+                  <tbody *ngIf="range.length!=0">
                     <tr *ngFor="let i of range">
                       <td>
                         {{i.attendance_date}}
@@ -585,7 +514,14 @@
                       </td>
                     </tr>
                   </tbody>
-                  <tbody *ngIf="range.length == 0 && dataStatus === true">
+                  <tbody *ngIf="range.length==0 && dataStatus == false">
+                    <tr>
+                      <td colspan="3">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="range.length == 0 && dataStatus == true">
                     <tr *ngFor="let dummy of dummyArr">
                       <td *ngFor="let c of columnMapRecords" style="padding:10px;">
                         <div class="skeleton">
@@ -593,201 +529,10 @@
                       </td>
                     </tr>
                   </tbody>
-
-                  <tbody *ngIf="range.length == 0 && dataStatus === false">
-                    <tr>
-                      <td colspan="3" class="records">
-                        No Records Found
-                      </td>
-                    </tr>
-                  </tbody>
                 </table>
               </div>
-
-            </div>
-            <div popup-header class="popup-header-content" *ngIf="showWeek">
-              <h2 style=" font-size:20px; ">Previous Week Records:
-                
-                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
-                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
-                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
-             
-                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
-                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
-                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
-              </h2>
-            </div>
-            <div popup-content class="main-student-table" *ngIf="showWeek">
-              <a class="fa fa-file-excel-o excel" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
-              <a class="hide" #xlsDownloader></a>
-              <div class="table table-responsive tablePopup">
-                <table #biometricTable>
-                  <thead>
-                    <tr>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        In Time
-                      </th>
-                      <th>
-                        Out time
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="weekAttendance.length!=0">
-                    <tr *ngFor="let i of weekAttendance">
-                      <td>
-                        {{i.attendance_date}}
-                      </td>
-                      <td>
-                        {{i.in_time}}
-                      </td>
-                      <td>
-                        {{i.out_time}}
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody *ngIf="weekAttendance.length == 0 && dataStatus === true">
-                    <tr *ngFor="let dummy of dummyArr">
-                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
-                        <div class="skeleton">
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                  <tbody *ngIf="weekAttendance.length == 0 && dataStatus === false">
-                    <tr>
-                      <td colspan="3" class="records">
-                        No Records Found
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
             </div>
 
-          </proctur-popup>
-
-          <proctur-popup [sizeWidth]="'large'" *ngIf="addAbsentiesPopup">
-
-            <span class="closePopup pos-abs fbold show" (click)="closeAbsentiesPopup()" close-button>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                  </g>
-                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                  />
-                </g>
-              </svg>
-            </span>
-
-            <div popup-header class="popup-header-content">
-              <h2 style=" font-size:23px;">SMS to absent students</h2>
-            </div>
-
-            <div popup-content class="main-student-table">
-              <div class="c-lg-12" style="margin-top:-20px;">
-                <div class="c-lg-3">
-                  <div class="form-field form-wrapper">
-                    <label>Master Course</label>
-
-                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name" (ngModelChange)="getCourses($event)">
-                      <option value="-1"></option>
-                      <option *ngFor="let i of masterCourse" [value]="i.master_course">
-                        {{i.master_course}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="c-lg-3">
-                  <div class="form-field form-wrapper">
-                    <label> Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.course_id" (ngModelChange)="getSubjects($event)">
-                      <option value="-1"></option>
-                      <option *ngFor="let i of courses" [value]="i.course_id">
-                        {{i.course_name}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="c-lg-3">
-                  <div class="form-field form-wrapper">
-                    <label> Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.subject_id">
-                      <option value="-1"></option>
-                      <option *ngFor="let i of subjects" [value]="i.subject_id">
-                        {{i.subject_name}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="c-lg-3 main" style="margin-top:0px;">
-                  <div class="form-field form-wrapper datePickerBox" style="padding-top:0px;">
-                    <label>Date</label>
-                    <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getAbsentiesData.from_date">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="c-lg-5">
-
-                </div>
-                <div class="c-lg-3">
-                  <div class="form-field form-wrapper">
-                    <button class="btn fullBlue" (click)="viewAbsentiesRecord()">View</button>
-                  </div>
-                </div>
-              </div>
-              <div class="table table-responsive tablePopup" *ngIf="absentTable">
-                <div class="absentView">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-
-                          Student ID
-                        </th>
-                        <th>
-                          Student Name
-                        </th>
-                        <th>
-                          Joining Date
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="view">
-                      <tr *ngFor="let i of absentiesRecords">
-                        <td>
-
-                          {{i.student_disp_id}}
-
-                        </td>
-                        <td>
-                          {{i.student_name}}
-                        </td>
-                        <td>
-                          {{i.doj}}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="c-lg-12" *ngIf="absentTable">
-                <div class="c-lg-5">
-                </div>
-                <div class="c-lg-3 fix">
-                  <div class="form-field form-wrapper ">
-                    <button class="btn fullBlue">Send SMS</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </proctur-popup>
 
         </section>

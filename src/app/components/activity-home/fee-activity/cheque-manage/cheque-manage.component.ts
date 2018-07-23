@@ -51,7 +51,8 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'contact_no', header: 'Contact No' },
     { primaryKey: 'cheque_date', header: 'Cheque Date' },
     { primaryKey: 'cheque_amount', header: 'Amount' },
-    { primaryKey: 'cheque_status', header: 'Status' }
+    { primaryKey: 'cheque_status', header: 'Status' },
+    { primaryKey: 'parent_name', header: 'Parent Name'}
   ];
 
   menuList: DropData[] = [
@@ -494,6 +495,7 @@ export class ChequeManageComponent implements OnInit {
         cheque_date: e.cheque_date,
         amount: e.cheque_amount,
         cheque_status: e.cheque_status,
+        parent_name:e.parent_name
       }
       return obj;
     });

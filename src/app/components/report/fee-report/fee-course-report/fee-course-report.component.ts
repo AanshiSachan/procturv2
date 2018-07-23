@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { LoginService } from '../../../../services/login-services/login.service';
@@ -100,16 +100,17 @@ export class FeeCourseReportComponent implements OnInit {
   standardList: any[] = [];
 
   subjectList: any[] = [];
-
   batchList: any[] = [];
 
   userInput: string = ''
 
-  helpMsg: string = "Fee details are shown based on Master Course/Course filter applied."
+  helpMsg: string = "Student fee details are based on Master Course/Course and academic year filter applied."
 
   @ViewChild('form') form: any;
 
-  getAllAcademic: any[] = []
+  getAllAcademic: any[] = [];
+
+  masterId: any;
 
   constructor(
     private excelService: ExcelService,
@@ -497,6 +498,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   fetchSubjectList() {
+
     this.courseFetchForm.subject_id = -1;
     this.courseFetchForm.batch_id = -1;
     this.isCustomDate = false;

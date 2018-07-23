@@ -23,15 +23,15 @@
           <div class="row" *ngIf="searchByDateVisible">
 
             <div class="c-lg-12 field-made">
-              <div class="c-lg-4 field-wrapper datePickerBox">
+              <div class="c-lg-3 field-wrapper datePickerBox">
                 <label for="from">From Date</label>
                 <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="sendPayload.from_date" (ngModelChange)="futureDateValid($event)">
               </div>
-              <div class="c-lg-4 field-wrapper datePickerBox">
+              <div class="c-lg-3 field-wrapper datePickerBox">
                 <label for="to">To Date</label>
                 <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date" (ngModelChange)="futureDateValid($event)">
               </div>
-              <div class="c-lg-4" style="margin-top:2%;">
+              <div class="c-lg-2" style="margin-top:2%;">
                 <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
               </div>
 
@@ -123,8 +123,6 @@
 
           </div>
 
-
-
           <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="searchByNameVisible">
             <div class="c-lg-3 field-wrapper">
               <label for=from>Student Name/Contact No/Reciept No</label>
@@ -142,44 +140,50 @@
         </div>
 
         <div *ngIf="showPaymentBox && allPaymentRecords.length > 0">
+          <div class="row">
+            <div class="c-lg-12">
+              <div class="c-lg-2" style="margin-top: 10px;">
 
-          <div>
-            <div>
-              <div class="c-lg-12">
-                <div class="c-lg-4">
-                  <ul>
-                    <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')"> Cheque/PDC/DD No: ₹{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}</span>
-                      <!-- <span> Cheque/PDC/DD No: {{collectionData.pdcNo}}</span> -->
-                    </li>
-                    <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')"> Caution Deposit(Refundable) : ₹{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}</span>
-                      <!-- <span> Caution Deposit(Refundable) : {{refundValue}}</span> -->
-                    </li>
-                  </ul>
+                <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
+                <span class="fa fa-cloud-download">
+                </span>
+              </div>
+              <div class="c-lg-8" style="margin-top: 10px;">
+                <div class="c-lg-12">
+                  <div class="c-lg-4  text-change">
+                    <span class="made-out"> Cheque/PDC/DD No</span>
+                    <div class="font-element">₹{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}</div>
+                  </div>
+                  <div class="c-lg-4  text-change" *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')">
+                    <span class="made-out"> Caution Deposit(Refundable)</span>
+                    <div class="font-element"> ₹{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}</div>
+                  </div>
+                  <div class="c-lg-4 text-change" *ngIf="newData[0].hasOwnProperty('Cash')">
+                    <span class="made-out">Cash</span>
+                    <div class="font-element"> ₹{{newData[0].Cash.toLocaleString('en-IN')}}</div>
+                  </div>
+                  <div class="c-lg-12" style="margin-top: 5px; margin-left: -15px;">
+                    <div class="c-lg-4  text-change" *ngIf="newData[0].hasOwnProperty('Online Payment')">
+                      <span class="made-out">Online Payments</span>
+                      <div class="font-element"> ₹{{newData[0]['Online Payment'].toLocaleString('en-IN')}}</div>
+                    </div>
+                    <div class="c-lg-4  text-change" *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')">
+                      <span class="made-out"> Credit/Debit Card</span>
+                      <div class="font-element"> ₹{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}</div>
+                    </div>
+                    <div class="c-lg-4  text-change">
+                      <span class="made-out">Total Fees Collection</span>
+                      <div class="font-element"> ₹{{allPaymentRecords[0].fees_amount.toLocaleString('en-IN')}}</div>
+
+                    </div>
+                  </div>
                 </div>
-                <div class="c-lg-4">
-                  <ul>
-                    <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Cash')">Cash : ₹{{newData[0].Cash.toLocaleString('en-IN')}}</span>
-                      <!-- Cash : {{collectionData.cash}} -->
-                    </li>
-                    <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Online Payment')">Online Payments : ₹{{newData[0]['Online Payment'].toLocaleString('en-IN')}}</span>
-                    </li>
-                  </ul>
-                </div>
-                <div class="c-lg-4">
-                  <ul>
-                    <li style="margin:4%">
-                      <span *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')"> Credit/Debit Card : ₹{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}</span>
-                      <!-- <span> Credit/Debit Card : {{collectionData.cardValue}}</span> -->
-                    </li>
-                    <li style="margin:4%">
-                      Total Fees Collection : ₹{{allPaymentRecords[0].fees_amount.toLocaleString('en-IN')}}
-                      <!-- Total Fees Collection : {{collectionData.fees_amount}} -->
-                    </li>
-                  </ul>
+              </div>
+
+              <div class="c-lg-2">
+                <div id="basic-search" style="float:right;">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                    (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; margin-top: 10px; margin-bottom: 10px;">
                 </div>
               </div>
             </div>
@@ -188,20 +192,32 @@
         </div>
 
 
-
-
-        <div id="basic-search" style="margin:5px; float:right;">
-          <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-            (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px;">
-        </div>
-
-        <div class="table-content">
-          <div style="margin: 10px;">
-
-            <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
-            <span class="fa fa-cloud-download">
-            </span>
+        <!-- Cash : {{collectionData.cash}} -->
+        <!-- </li>
+                    <li style="margin:4%">
+                     
+                    </li>
+                  </ul>
+                </div>
+                <div class="c-lg-4">
+                  <ul>
+                    <li style="margin:4%">
+                      -->
+        <!-- </li>
+                    <li style="margin:4%">
+                      -->
+        <!-- </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
+
+        </div> -->
+
+
+        <div class="table table-responsive">
+
           <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="1" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
             [records]="allPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
           </rob-table>
@@ -229,7 +245,9 @@
   </span>
 
   <div popup-header class="popup-header-content">
-    <h2>Update Fee Receipt for {{personData.student_name}} <span style="font-size: 18px;">(#{{personData.student_disp_id}})</span></h2>
+    <h2>Update Fee Receipt for {{personData.student_name}}
+      <span style="font-size: 18px;">(#{{personData.student_disp_id}})</span>
+    </h2>
   </div>
 
   <div popup-content class="main-student-table">
@@ -345,8 +363,7 @@
             <div class="c-lg-6 field-wrapper datePickerBox">
               <label>Cheque Date</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl" name="cheque_date" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date" [ngClass]="{'has-value': chequeDetailsJson.cheque_date != ''}"
-                >
+              <input type="text" class="form-ctrl" name="cheque_date" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date" [ngClass]="{'has-value': chequeDetailsJson.cheque_date != ''}">
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>
