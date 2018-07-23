@@ -8,7 +8,7 @@
   <section class="middle-main clearFix">
 
     <div class="clearFix add-edit">
-      <a (click)="toggleCreateNewAcademicYear()">
+      <a (click)="toggleCreateNewAcademicYear()" id="toggleCreate">
         <i id="showAddBtn" class="addBtnClass">+</i>
         <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
         <span>Add Academic Year</span>
@@ -59,7 +59,7 @@
         <div class="c-lg-3 c-md-3 c-sm-3" style="margin-top:1%;">
           <div class="pull-left create-cancel-small">
             <aside class="pull-left create-cancel-small">
-              <button class="btn fullBlue" (click)="addAcademicYearDetails()">Add</button>
+              <button class="btn fullBlue" (click)="addAcademicYearDetails()" id="addAcademicYearBtn">Add</button>
             </aside>
           </div>
         </div>
@@ -108,7 +108,7 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.inst_acad_year" name="label">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.inst_acad_year" name="label" id="txtRowInst">
                   </div>
                 </td>
                 <td class="view-comp">
@@ -116,7 +116,7 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label" id="txtRowDesc">
                   </div>
                 </td>
 
@@ -126,7 +126,7 @@
                 <td class="edit-comp edit">
                   <div class="field-wrapper has-Value">
                     <input type="text" value="" class="form-ctrl editCellInput" name="createdDate" readonly="true" [(ngModel)]="row.start_date"
-                      bsDatepicker/>
+                      bsDatepicker/ id="txtRowStartDate">
                   </div>
                 </td>
                 <td class="view-comp edit">
@@ -134,7 +134,7 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper has-value">
-                    <input type="text" value="" class="form-ctrl editCellInput" name="endDate" readonly="true" [(ngModel)]="row.end_date" bsDatepicker/>
+                    <input type="text" value="" class="form-ctrl editCellInput" name="endDate" readonly="true" [(ngModel)]="row.end_date" bsDatepicker/ id="rowEndDate">
                   </div>
                 </td>
                 <td class="view-comp">
@@ -143,7 +143,7 @@
                 <td class="edit-comp">
                   <div class="field-wrapper has-value">
                     <input type="text" value="" class="form-ctrl editCellInput" name="endDate" readonly="true" [(ngModel)]="row.created_date"
-                      bsDatepicker/>
+                      bsDatepicker/ id="rowCreatedYear">
                   </div>
                 </td>
                 <td class="view-comp">
@@ -159,12 +159,12 @@
                   </div>
                 </td>
                 <td class="view-comp">
-                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
-                  <a class="anchorTagCursor" (click)="deleteAcademicYear(row)">Delete</a>
+                  <a class="anchorTagCursor" (click)="editRowTable(row , i)" id="aEditRow">Edit</a>
+                  <a class="anchorTagCursor" (click)="deleteAcademicYear(row)" id="aDeleteAcademic">Delete</a>
                 </td>
                 <td class="edit-comp">
-                  <a class="anchorTagCursor" (click)="saveAcademicYearInformation(row , i)"> Save </a>
-                  <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)"> Cancel </a>
+                  <a class="anchorTagCursor" (click)="saveAcademicYearInformation(row , i)" id="saveAcademic"> Save </a>
+                  <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)" id="cancelBtn"> Cancel </a>
                 </td>
               </tr>
             </tbody>

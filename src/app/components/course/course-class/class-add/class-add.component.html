@@ -101,7 +101,7 @@
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
-                        <input type="button" class="fullBlue btn" style="margin-top:5%;" value="Go" (click)="submitMasterCourse()">
+                        <input type="button" class="fullBlue btn" style="margin-top:5%;" value="Go" (click)="submitMasterCourse()" id="goInp8">
                       </div>
                     </div>
                     <div class="row" *ngIf="courseStartDate" style="margin-top:10px;margin-left:15px">
@@ -243,13 +243,13 @@
 
                       <td class="desc">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
-                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc" style="height: 31px;">
+                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc" style="height: 31px;" id="classDetailsTxt9">
                         </div>
                       </td>
 
                       <td class="room">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.room_no != '' && addClassDetails.room_no != null }">
-                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no" style="height: 31px;">
+                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no" style="height: 31px;" id="addClassInp9">
                         </div>
                       </td>
 
@@ -269,7 +269,7 @@
 
                       <td>
                         <button class="btn" (click)="addClassSchedule()">
-                          <a>Add</a>
+                          <a id="addAnch10">Add</a>
                         </button>
                       </td>
 
@@ -297,12 +297,12 @@
                       </td>
                       <td class="desc">
                         <div class="form-wrapper">
-                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label" id="rowInp1">
                         </div>
                       </td>
                       <td class="room">
                         <div class="form-wrapper">
-                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label" id="rowInp2">
                         </div>
                       </td>
 
@@ -354,8 +354,8 @@
           </div>
 
           <div class="extraMargin row  pull-right" style="margin-right: 15px">
-            <button class="btn" routerLink="/view/course/class/home">Cancel</button>
-            <button class="btn fullBlue" (click)="saveCourseSchedule()">Save</button>
+            <button class="btn" routerLink="/view/course/class/home" id="BtnCancelBtn">Cancel</button>
+            <button class="btn fullBlue" (click)="saveCourseSchedule()" id="btnSaveBtn">Save</button>
           </div>
         </section>
 
@@ -621,9 +621,9 @@
                         {{row.note}}
                       </td>
                       <td>
-                        <a style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , index)">Delete</a>
-                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)">Notify</a>
-                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)">Cancel Class</a>
+                        <a style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , index)" id="deleteAnch1">Delete</a>
+                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)" id="notifyAnch2">Notify</a>
+                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)" id="cancelAnch3">Cancel Class</a>
                       </td>
                     </tr>
                     <tr *ngIf="customTable.length == 0">
@@ -757,9 +757,9 @@
                             {{row.note}}
                           </td>
                           <td>
-                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)">Cancel</a>
-                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)">Notify</a>
-                            <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)">Delete</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)" id="cancelAnch4">Cancel</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)" id="notifyAnch5">Notify</a>
+                            <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)" id="deleteAnch6">Delete</a>
                           </td>
                         </tr>
                         <tr *ngIf="extraClassTable.length == 0">
@@ -819,7 +819,7 @@
                           {{row.cancel_note}}
                         </td>
                         <td>
-                          <a style="cursor:pointer;margin-right: 5px" (click)="notifyOfCancelClass(row)">Notify</a>
+                          <a style="cursor:pointer;margin-right: 5px" (click)="notifyOfCancelClass(row)" id="notifyAnch7">Notify</a>
                           <span>Last Notified</span> {{row.last_notify_sent_time}}
                         </td>
                       </tr>
@@ -1109,7 +1109,7 @@
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
               <label for="label">Description</label>
-              <input type="textbox" class="form-ctrl side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.class_desc ">
+              <input type="textbox" class="form-ctrl side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.class_desc " id="slctdTxt3">
             </div>
           </div>
         </div>
@@ -1137,11 +1137,11 @@
                       <td>
                         <div class="field-wrapper datePickerBox">
                           <input type="textbox" value="" readonly="true" [(ngModel)]="addDates.selectedDate" class="form-ctrl bsDatepicker" name="endDate"
-                            bsDatepicker>
+                            bsDatepicker id="endTxt3">
                         </div>
                       </td>
                       <td>
-                        <a style="font-size: 24px;font-weight: 600;" alt="Add " title="Add" (click)="addDateToArray() ">+</a>
+                        <a style="font-size: 24px;font-weight: 600;" alt="Add " title="Add" (click)="addDateToArray() " id="addAnch11">+</a>
                       </td>
                       <td>
                       </td>
@@ -1152,7 +1152,7 @@
                       </td>
                       <td>
                         <i class="fas fa fa-trash " (click)="removeDateToArray(i, row) " style="font-size: 19px; font-family:
-                      FontAwesome; " alt="Remove " title="Remove "></i>
+                      FontAwesome; " alt="Remove " title="Remove " id="removeIcon1"></i>
                       </td>
                       <td style="color:#0084f6">
                         {{row.error}}
@@ -1275,8 +1275,8 @@
           </div>
           <div class="row">
             <div class="pull-right" style="margin-right: 20px;">
-              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()">
-              <input class="btn fullBlue" type="button" value="Add" (click)="createWeeklySchedule()">
+              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()" id="closeInp3">
+              <input class="btn fullBlue" type="button" value="Add" (click)="createWeeklySchedule()" id="addInp4">
             </div>
           </div>
         </div>
@@ -1294,8 +1294,8 @@
           </div>
           <div class="row">
             <div class="pull-right" style="margin-right: 20px;">
-              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()">
-              <input class="btn fullBlue" type="button" value="Add" (click)="createCustomClasses()">
+              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()" id="closeTxt6">
+              <input class="btn fullBlue" type="button" value="Add" (click)="createCustomClasses()" id="createInp6">
             </div>
           </div>
         </div>

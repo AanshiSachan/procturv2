@@ -216,8 +216,8 @@
                                 <div class="pull-left submitter">
                                     <div class="clearfix">
                                         <aside class="pull-left popup-btn">
-                                            <input type="button" value="Cancel" class="btn" (click)="closeSideNav()">
-                                            <input type="button" value="Update" class="fullBlue btn" (click)="createUpdateForm()">
+                                            <input type="button" value="Cancel" class="btn" (click)="closeSideNav()" id="BtncloseSideNav">
+                                            <input type="button" value="Update" class="fullBlue btn" (click)="createUpdateForm()" id="BtnupdtaeForm">
                                         </aside>
                                     </div>
                                 </div>
@@ -238,7 +238,7 @@
                                 <div class="comment-head">
                                     <i style="font-family: FontAwesome" class="far fa-user-circle"></i>
                                     <h6 class="comment-name">
-                                        <a>{{updateFormCommentsBy[i]}}</a>
+                                        <a id="commentAnch1">{{updateFormCommentsBy[i]}}</a>
                                     </h6>
                                     <span>{{getCommentDate(updateFormCommentsOn[i])}}</span>
                                 </div>

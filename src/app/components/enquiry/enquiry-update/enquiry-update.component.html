@@ -85,7 +85,7 @@
           <div class="form-checkbox-wrapper">
             <div class="field-checkbox-wrapper">
 
-              <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox"
+              <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox" id="notifyMe"
               />
               <label for="notifyme">Notify Me</label>
             </div>
@@ -211,9 +211,9 @@
   <div class="" popup-footer>
     <div class="clearfix submitter">
       <aside class="pull-left popup-btn">
-        <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-        <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Admit" class="fullBlue btn" (click)="updateRegisterEnquiry()">
-        <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+        <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelBtn">
+        <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Admit" class="fullBlue btn" (click)="updateRegisterEnquiry()" id="btnUpdate">
+        <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()" id="btnPushUpdatedEnquiry">
       </aside>
     </div>
   </div>

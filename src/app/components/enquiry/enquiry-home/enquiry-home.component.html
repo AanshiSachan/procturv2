@@ -73,8 +73,8 @@
             <div class="c-lg-6 c-md-6 c-sm-6 pull-left">
               <div class="search-filter-wrapper" id="adFilterExitVisible">
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
-                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-                <input type="button" class="fullBlue btn" value="Search" (click)="searchDatabase()" />
+                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()" id="searchBarData">
+                <input type="button" class="fullBlue btn" value="Search" (click)="searchDatabase()" id="btnSearchData" />
               </div>
             </div>
 
@@ -170,8 +170,9 @@
                     <li *ngFor="let slot of slots">
                       <div class="field-checkbox-wrapper">
 
-                        <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
-                        <label for="slot.label">{{slot.label}}</label>
+                        <input type="checkbox" value="" name="slotLabel" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox"
+                          id="slotLabel">
+                        <label for="slotLabel">{{slot.label}}</label>
                       </div>
                     </li>
                   </ul>
@@ -416,7 +417,7 @@
                         <div class="field-checkbox-wrapper">
 
                           <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
-                            class="form-checkbox">
+                            class="form-checkbox" id="{{opt.data}}">
                           <label for="opt.data">{{opt.data}}</label>
                         </div>
                       </li>
@@ -440,10 +441,12 @@
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
                 <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn" value="Clear Filter" (click)="clearFilterAdvanced()" />
+                  <input type="button" class="btn filterSearchBtn" value="Clear Filter" (click)="clearFilterAdvanced()" id="BtnClearAdvance"
+                  />
                 </div>
                 <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now" (click)="filterAdvanced()" />
+                  <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now" (click)="filterAdvanced()" id="BtnFilterAdvance"
+                  />
                 </div>
 
               </div>
@@ -486,7 +489,8 @@
 
   <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !isSideBar}">
     <div class="sidewrapper">
-      <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event); false; $event.stopPropagation()">
+      <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event); false; $event.stopPropagation()"
+        id="closeAnch1">
         <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
           focusable="false">
           <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon"
@@ -764,8 +768,8 @@
             <div class="">
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                  <input type="button" value="Delete" class="redBtn btn" (click)="deleteEnquiry()">
+                  <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelClose">
+                  <input type="button" value="Delete" class="redBtn btn" (click)="deleteEnquiry()" id="BtndeleteClose">
                 </aside>
               </div>
             </div>
@@ -802,8 +806,8 @@
             <div class="">
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                  <input type="button" value="Convert" class="fullBlue btn" (click)="convertRow(selectedRow.data)">
+                  <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="btnClosePopup">
+                  <input type="button" value="Convert" class="fullBlue btn" (click)="convertRow(selectedRow.data)" id="btnConvertRow">
                 </aside>
               </div>
             </div>
@@ -820,7 +824,7 @@
             <div class="">
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
-                  <input type="button" value="Ok" class="btn" (click)="closePopup()">
+                  <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnClosePopup2">
                   <!-- <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(selectedRow.data)"> -->
                 </aside>
               </div>
@@ -977,20 +981,20 @@
 
                 <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="isadmitted">
                   <aside class="pull-right popup-btn">
-                    <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Save" class="btn fullBlue" (click)="registerPayment()">
+                    <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelPopup">
+                    <input type="button" value="Save" class="btn fullBlue" (click)="registerPayment()" id="BtnregisterPayment">
                   </aside>
                 </div>
 
                 <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="notClosednAdmitted">
                   <aside class="pull-right popup-btn">
-                    <input type="button" value="Ok" class="btn" (click)="closePopup()">
+                    <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnclosePopup">
                   </aside>
                 </div>
 
                 <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="isClosed">
                   <aside class="pull-right popup-btn">
-                    <input type="button" value="Ok" class="btn" (click)="closePopup()">
+                    <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClose">
                   </aside>
                 </div>
 
@@ -1000,7 +1004,7 @@
               <div class="row" *ngIf="hasReceipt">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <aside class="pull-right popup-btn">
-                    <input type="button" value="Ok" class="btn" (click)="closePopup()">
+                    <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClosePopup">
                   </aside>
                 </div>
               </div>
@@ -1046,8 +1050,8 @@
             <div class="">
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()">
-                  <input type="button" value="Assign Enquiries" class="fullBlue btn" (click)="bulkAssignEnquiries()">
+                  <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()" id="btn4">
+                  <input type="button" value="Assign Enquiries" class="fullBlue btn" (click)="bulkAssignEnquiries()" id="BtnassignEnquiries">
                 </aside>
               </div>
             </div>
@@ -1104,7 +1108,8 @@
                             <label>{{newSmsString.length}}</label>
                           </div>
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
-                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
+                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value=""
+                            id="listTxt">
                             </textarea>
                         </div>
 
@@ -1112,8 +1117,8 @@
 
                         <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
-                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
-                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
+                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()" id="Btncancel7">
+                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()" id="BtnsaveSms">
                           </aside>
                         </div>
 
@@ -1160,17 +1165,17 @@
                               <th></th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon">{{smsHeader.message.title}}</a>
+                                  <a class="cursor-icon" id="cursorAnch1">{{smsHeader.message.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon">{{smsHeader.date.title}}</a>
+                                  <a class="cursor-icon" id="cursorAnch2">{{smsHeader.date.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon">{{smsHeader.action.title}}</a>
+                                  <a class="cursor-icon" id="cursorAnch3">{{smsHeader.action.title}}</a>
                                 </label>
                               </th>
                             </tr>
@@ -1233,7 +1238,7 @@
                       <h4>Enquiry No. {{smsSelectedRows.enquiry_no}} Selected</h4>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
-                      <a style="cursor:pointer;" (click)="closePopup()">Change</a>
+                      <a style="cursor:pointer;" (click)="closePopup()" id="cursorAnch5">Change</a>
                     </div>
                   </div>
                   <div class="row">
@@ -1254,10 +1259,10 @@
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel Edit" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
-                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()">
-                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                        <input type="button" value="Cancel Edit" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelSmsEdit">
+                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveEditedSms">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()" id="Btncancel8">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()" id="BtnsendSms5">
                       </aside>
                     </div>
                   </div>
@@ -1321,7 +1326,8 @@
                             <label>{{newSmsString.length}}</label>
                           </div>
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
-                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
+                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value=""
+                            id="txtRow">
                                 </textarea>
                         </div>
 
@@ -1329,8 +1335,8 @@
 
                         <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
-                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
-                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
+                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()" id="BtnaddNewMessage">
+                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()" id="BtnsaveSms">
                           </aside>
                         </div>
 
@@ -1377,17 +1383,17 @@
                               <th></th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon">{{smsHeader.message.title}}</a>
+                                  <a class="cursor-icon" id="cursorAnch11">{{smsHeader.message.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon">{{smsHeader.date.title}}</a>
+                                  <a class="cursor-icon" id="cursorAnch12">{{smsHeader.date.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon">{{smsHeader.action.title}}</a>
+                                  <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
                                 </label>
                               </th>
                             </tr>
@@ -1454,7 +1460,7 @@
                       <h4>{{smsSelectedRowsLength}} Users Selected</h4>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
-                      <a style="cursor:pointer;" (click)="closeBulkSms()">Change</a>
+                      <a style="cursor:pointer;" (click)="closeBulkSms()" id="closeBulkAnch4">Change</a>
                     </div>
                   </div>
                   <div class="row">
@@ -1474,10 +1480,10 @@
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
-                        <input type="button" value="Save" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closeBulkSms()">
-                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelEditSms">
+                        <input type="button" value="Save" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveSmsEdited">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closeBulkSms()" id="Btncancel0">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()" id="btn0">
                       </aside>
                     </div>
                   </div>
@@ -1520,7 +1526,7 @@
               <div class="c-sm-6 c-lg-6 c-lg-6">
                 <div class="field-wrapper has-value">
                   <label for="priorityEdit">Select Duration</label>
-                  <select id="" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
+                  <select id="month" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
                     <option value="1">Select Month</option>
                     <option value="2">This Month</option>
                     <option value="3">Previous Month</option>
@@ -1529,7 +1535,7 @@
                 </div>
               </div>
               <div style="padding-top: 16px;" class="c-sm-6 c-lg-6 c-lg-6">
-                <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px">Download</button>
+                <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px" id="btnDownloadSummary">Download</button>
               </div>
             </div>
             <div id="divRangeSelection" *ngIf="showDateRange" class="row select-dates">
@@ -1550,7 +1556,7 @@
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4" style="margin-top: 15px;">
-                <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px">Download</button>
+                <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px" id="btnDownloadDatewise">Download</button>
               </div>
             </div>
             <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download By Date Range</a>
