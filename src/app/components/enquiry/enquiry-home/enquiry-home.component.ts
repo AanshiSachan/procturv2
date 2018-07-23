@@ -245,7 +245,11 @@ export class EnquiryHomeComponent implements OnInit {
             } else {
               this.updateFormData.is_follow_up_time_notification = false;
             }
-            this.updateFormComments = res.comments;
+			
+			if (res.comments != null && res.comments.length > 0) {
+				this.updateFormComments = res.comments;
+			}
+			
             this.updateFormCommentsOn = res.commentedOn;
             this.updateFormCommentsBy = res.commentedBy;
             this.updateFormData.assigned_to = res.assigned_to;
