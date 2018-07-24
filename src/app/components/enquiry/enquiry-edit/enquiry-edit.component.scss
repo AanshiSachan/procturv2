@@ -1,9 +1,18 @@
 @import "./src/assets/css/common/variables.scss";
 .homewrap {
+    max-height: 90vh;
+    overflow-x: auto;
+    overflow-y: scroll;
     ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
+    }
+    .scroll-content {
+        max-height: 90vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        margin-bottom: 10px;
     }
 }
 
@@ -279,6 +288,7 @@
     box-sizing: $border-box;
     padding: 0 15px;
     @extend .boxPadding15;
+    margin-bottom: 10px;
 }
 
 .AdFilter-field {

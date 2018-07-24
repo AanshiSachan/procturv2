@@ -1,7 +1,7 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 <section class="homewrap middle-section clearFix">
-  <form novalidate #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+  <form novalidate class="scroll-content" #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">
       <!-- Header -->
@@ -934,7 +934,7 @@
 
               <td *ngIf="sch.edit">
                 <div class="field-wrapper ">
-                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName"  id="sourceName" />
+                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" id="sourceName" />
                 </div>
               </td>
 
