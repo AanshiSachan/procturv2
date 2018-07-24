@@ -139,16 +139,16 @@ export class ViewReportCardComponent implements OnInit {
           }
         }
         if (this.isLangInstitue) {
-          if (res.assignBatchList != "" || res.assignBatchList != null) {
+          if (res.assignBatchList != "" && res.assignBatchList != null) {
             this.coursesAssignedlist = res.assignBatchList.split(' , ');
           }
         } else {
-          if (res.assignCourseList != "" || res.assignCourseList != null) {
+          if (res.assignCourseList != "" && res.assignCourseList != null) {
             this.coursesAssignedlist = res.assignCourseList.split(' , ');
           }
         }
         this.studentDetJson = res.studentJson;
-        if (res.studentJson.photo != null || res.studentJson.photo != "") {
+        if (res.studentJson.photo != null && res.studentJson.photo != "") {
           this.displayImage = res.studentJson.photo;
         }
       },

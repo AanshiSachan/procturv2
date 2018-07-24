@@ -50,6 +50,9 @@
           <span class="span-circle" *ngFor="let data of coursesAssignedlist">
             {{data}}
           </span>
+          <h2 *ngIf="coursesAssignedlist.length == 0">
+            No Courses Assigned To Student
+          </h2>
         </div>
       </div>
 
