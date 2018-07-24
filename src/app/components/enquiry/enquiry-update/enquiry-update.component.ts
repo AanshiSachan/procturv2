@@ -234,7 +234,9 @@ export class EnquiryUpdatepComponent implements OnChanges {
           this.updateFormData.followUpTime = followUpTime;
         }
 
-        followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+        if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null) {
+          followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+        }
 
         if (this.isConvertToStudent === false) {
           if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
@@ -262,7 +264,7 @@ export class EnquiryUpdatepComponent implements OnChanges {
           this.updateFormData.is_follow_up_time_notification = 0;
         }
 
-        if (this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != undefined) {
+        if (this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != undefined && this.updateFormData.walkin_followUpDate != "") {
           this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format("YYYY-MM-DD");
         }
 
@@ -270,8 +272,6 @@ export class EnquiryUpdatepComponent implements OnChanges {
           If All conditions are good to go then updating the enquiry
         */
         if (this.updateFormData.walkin_followUpDate != "Invalid date" && this.updateFormData.followUpDate != "Invalid date") {
-
-          this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
 
           let obj = {
             amount: this.updateFormData.amount,

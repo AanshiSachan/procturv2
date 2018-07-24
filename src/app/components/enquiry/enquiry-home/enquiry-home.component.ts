@@ -223,9 +223,11 @@ export class EnquiryHomeComponent implements OnInit {
             this.updateFormData.priority = this.getPriority(res.priority);
             this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
             this.updateFormData.statusValue = this.selectedRow.statusValue;
-            this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
+            if (res.followUpDate != "" && res.followUpDate != null) {
+              this.updateFormData.followUpDate = moment(res.followUpDate).format('YYYY-MM-DD');
+            }
             if (res.followUpTime != '' && res.followUpTime != null) {
-              let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
+              let timeObj = this.convertTimeToFormat(res.followUpTime);
               this.hour = timeObj.hour + " " + timeObj.meridian;
               this.minute = timeObj.minute;
             }

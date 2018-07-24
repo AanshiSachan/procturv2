@@ -661,6 +661,7 @@ export class TemplateHomeComponent implements OnInit {
           }
           this.appC.popToast(msg);
           this.getFeeStructures();
+          this.searchText = "";
         },
         err => {
           this.isRippleLoad = false;
