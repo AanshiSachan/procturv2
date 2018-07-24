@@ -350,7 +350,17 @@
                           <tr *ngFor="let row of data.pastCourseExamList">
                             <td>{{row.exam_date}}</td>
                             <td>{{row.start_time}} - {{row.end_time}}</td>
-                            <td>{{row.courseLevelMarksObtain}} / {{row.courseLevelTotalMarks}}</td>
+                            <td>
+                              <span *ngIf="row.attendance_status == 'L'">
+                                Leave
+                              </span>
+                              <span *ngIf="row.attendance_status == 'A'">
+                                Absent
+                              </span>
+                              <span *ngIf="!(row.attendance_status == 'A' || row.attendance_status == 'L')">
+                                {{row.courseLevelMarksObtain}} / {{row.courseLevelTotalMarks}}
+                              </span>
+                            </td>
                             <td>{{row.courseLevelRank}}</td>
                           </tr>
                         </tbody>
@@ -749,7 +759,22 @@
           <tr *ngFor="let data of tempData.attendanceDateList">
             <td>{{data.date}}</td>
             <td>{{data.start_time}} - {{data.end_time}}</td>
-            <td>{{data.class_type}}</td>
+            <td *ngIf="isLangInstitue">
+              <span *ngIf="(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type=='Regular' || data.custom_class_type == 'Regular(Custom)')">
+                Regular
+              </span>
+              <span *ngIf="!(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type=='Regular' || data.custom_class_type == 'Regular(Custom)')">
+                Extra
+              </span>
+            </td>
+            <td *ngIf="!isLangInstitue">
+              <span *ngIf="data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision'">
+                {{data.class_type}}
+              </span>
+              <span *ngIf="!(data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision')">
+                Extra
+              </span>
+            </td>
             <td>{{data.status}}</td>
             <td>{{data.attendance_note}}</td>
             <td>{{data.topics_covered}}</td>

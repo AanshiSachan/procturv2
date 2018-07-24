@@ -60,6 +60,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
+    { primaryKey: 'parent_name', header: "Parent Name" },
     { primaryKey: 'display_invoice_no', header: 'Receipt No' },
     { primaryKey: 'paymentMode', header: 'Payment Mode' },
     { primaryKey: 'fee_type_name', header: 'Fee Type' },
@@ -68,8 +69,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'remarks', header: 'Remarks' },
     { primaryKey: 'reference_no', header: 'Ref No' },
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
-    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' },
-    { primaryKey: 'parent_name', header: "Parent Name" }
+    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
   ];
 
   menuOptions: DropData[] = [
@@ -504,16 +504,17 @@ export class PaymentHistoryMainComponent implements OnInit {
       let obj = {
         "Id": data.student_disp_id,
         "Name": data.student_name,
+        "Parent Name": data.parent_name,
         "Reciept No": data.display_invoice_no,
         "Payment Mode": data.paymentMode,
         "Fee Type": data.fee_type_name,
         "Inst No": data.installment_nos,
         "Paid Date": data.paid_date,
         "Reference No": data.reference_no,
+        "Remarks": data.remarks,
         "Amount Paid": data.amount_paid,
         "Student_Category": data.student_category,
-        "Counsellor": data.enquiry_counsellor_name,
-        "Parent Name": data.parent_name
+        "Counsellor": data.enquiry_counsellor_name
       }
 
       exportedArray.push(obj);

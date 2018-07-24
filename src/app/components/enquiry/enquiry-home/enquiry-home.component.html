@@ -17,7 +17,7 @@
           <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
         </div>
         <ul style="display: inline-flex;">
-          <li class="headerBtn" routerLink='add'>
+          <li id="headerBtnAdd" class="headerBtn" routerLink='add'>
             <i>
               <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
                 focusable="false">
@@ -28,7 +28,7 @@
               Add Enquiry
             </p>
           </li>
-          <li class="headerBtn" (click)="isEnquiryOptions = !isEnquiryOptions">
+          <li id="headerBtnMore" class="headerBtn" (click)="isEnquiryOptions = !isEnquiryOptions">
             <i>
               <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
                 focusable="false" style="transform: translateY(-4px);">

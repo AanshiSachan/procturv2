@@ -1241,25 +1241,29 @@ export class StudentHomeComponent implements OnInit {
       this.studentPrefill.fetchStudentCourseDetails(id, '-1').subscribe(
         res => {
           this.studentbatchList = [];
-          res.coursesList.forEach(el => {
-            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-              el.feeTemplateList.forEach(e => {
-                if (e.is_default == 1) {
-                  el.selected_fee_template_id = e.template_id;
+          if (res != null) {
+            if (res.coursesList != null && res.coursesList.length > 0) {
+              res.coursesList.forEach(el => {
+                if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                  el.feeTemplateList.forEach(e => {
+                    if (e.is_default == 1) {
+                      el.selected_fee_template_id = e.template_id;
+                    }
+                  })
                 }
-              })
+                if (el.academic_year_id == '-1') {
+                  el.academic_year_id = this.defaultAcadYear;
+                }
+                let obj = {
+                  isSelected: el.isAssigned == "Y" ? true : false,
+                  data: el,
+                  assignDate: this.getAssignDate(el.created_date)
+                }
+                this.studentbatchList.push(obj);
+                this.updateAssignedBatches(this.studentbatchList);
+              });
             }
-            if (el.academic_year_id == '-1') {
-              el.academic_year_id = this.defaultAcadYear;
-            }
-            let obj = {
-              isSelected: el.isAssigned == "Y" ? true : false,
-              data: el,
-              assignDate: this.getAssignDate(el.created_date)
-            }
-            this.studentbatchList.push(obj);
-            this.updateAssignedBatches(this.studentbatchList);
-          });
+          }
           this.isRippleLoad = false;
           this.isSideBar = true;
         },

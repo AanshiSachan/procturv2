@@ -111,24 +111,26 @@ export class StudentAddComponent implements OnInit {
       this.isRippleLoad = true;
       this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe((data: any) => {
         this.batchList = [];
-        data.coursesList.forEach(el => {
-          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-            el.feeTemplateList.forEach(e => {
-              if (e.is_default == 1) {
-                el.selected_fee_template_id = e.template_id;
-              }
-            })
-          }
-          if (el.academic_year_id == '-1') {
-            el.academic_year_id = this.defaultAcadYear;
-          }
-          let obj = {
-            isSelected: false,
-            data: el,
-            assignDate: moment().format('YYYY-MM-DD')
-          }
-          this.batchList.push(obj);
-        });
+        if (data.coursesList != null && data.coursesList.length > 0) {
+          data.coursesList.forEach(el => {
+            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+              el.feeTemplateList.forEach(e => {
+                if (e.is_default == 1) {
+                  el.selected_fee_template_id = e.template_id;
+                }
+              })
+            }
+            if (el.academic_year_id == '-1') {
+              el.academic_year_id = this.defaultAcadYear;
+            }
+            let obj = {
+              isSelected: false,
+              data: el,
+              assignDate: moment().format('YYYY-MM-DD')
+            }
+            this.batchList.push(obj);
+          });
+        }
         this.isRippleLoad = false;
       });
     }
@@ -186,20 +188,22 @@ export class StudentAddComponent implements OnInit {
     this.batchList = [];
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
       (data: any) => {
-        data.coursesList.forEach(el => {
-          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-            el.feeTemplateList.forEach(e => {
-              if (e.is_default == 1) {
-                el.selected_fee_template_id = e.template_id;
-              }
-            })
-          }
-          if (el.academic_year_id == '-1') {
-            el.academic_year_id = this.defaultAcadYear;
-          }
-          let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
-          this.batchList.push(obj);
-        });
+        if (data.coursesList != null && data.coursesList.length > 0) {
+          data.coursesList.forEach(el => {
+            if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+              el.feeTemplateList.forEach(e => {
+                if (e.is_default == 1) {
+                  el.selected_fee_template_id = e.template_id;
+                }
+              })
+            }
+            if (el.academic_year_id == '-1') {
+              el.academic_year_id = this.defaultAcadYear;
+            }
+            let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
+            this.batchList.push(obj);
+          });
+        }
       },
       err => {
         let msg = { type: 'info', title: 'No Course Assigned For Standard', body: '' };
