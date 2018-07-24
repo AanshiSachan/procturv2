@@ -205,7 +205,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     enable_online_payment_email_notification: '',
     enable_online_payment_sms_notification: '',
     online_payment_notify_emailIds: '',
-    online_payment_notify_mobiles: ''
+    online_payment_notify_mobiles: '',
+    allow_fee_due_amount_in_notification: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -366,7 +367,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     obj.absent_attendance_in_a_month_threshold = this.instituteSettingDet.absent_attendance_in_a_month_threshold;
     obj.gst_enabled = this.convertBoolenToNumber(this.instituteSettingDet.gst_enabled);
     obj.pdc_reminder_setting = this.convertBoolenToNumber(this.instituteSettingDet.pdc_reminder_setting);
-    obj.pdc_reminder_setting = this.convertBoolenToNumber(this.instituteSettingDet.pdc_reminder_setting);
     obj.student_report_card_fee_module = this.convertBoolenToNumber(this.instituteSettingDet.student_report_card_fee_module);
     obj.tax_payable_on_reverse_charge_basis = this.convertBoolenToNumber(this.instituteSettingDet.tax_payable_on_reverse_charge_basis);
     obj.home_work_feature_enable = this.convertBoolenToNumber(this.instituteSettingDet.home_work_feature_enable);
@@ -408,6 +408,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     obj.fee_dues_interval_schedule = this.convertTimeToSend(this.instituteSettingDet.fee_dues_interval_schedule);
     obj.pre_fee_dues_interval_schedule = this.convertTimeToSend(this.instituteSettingDet.pre_fee_dues_interval_schedule);
     obj.alumni_birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.alumni_birthday_daily_schedule);
+    obj.allow_fee_due_amount_in_notification = this.convertBoolenToNumber(this.instituteSettingDet.allow_fee_due_amount_in_notification);
     return obj;
   }
 
@@ -486,10 +487,11 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
     this.instituteSettingDet.fee_dues_interval = data.fee_dues_interval;
     this.instituteSettingDet.pre_fee_dues_interval = data.pre_fee_dues_interval;
-    this.fillTimeInHrAndMinute(this.instituteSettingDet.birthday_daily_schedule, data.birthday_daily_schedule);
-    this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_daily_schedule, data.fee_dues_daily_schedule);
-    this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_interval_schedule, data.fee_dues_interval_schedule);
-    this.fillTimeInHrAndMinute(this.instituteSettingDet.pre_fee_dues_interval_schedule, data.pre_fee_dues_interval_schedule);
+    this.instituteSettingDet.allow_fee_due_amount_in_notification = data.allow_fee_due_amount_in_notification;
+    // this.fillTimeInHrAndMinute(this.instituteSettingDet.birthday_daily_schedule, data.birthday_daily_schedule);
+    // this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_daily_schedule, data.fee_dues_daily_schedule);
+    // this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_interval_schedule, data.fee_dues_interval_schedule);
+    // this.fillTimeInHrAndMinute(this.instituteSettingDet.pre_fee_dues_interval_schedule, data.pre_fee_dues_interval_schedule);
     this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);
   }
 
