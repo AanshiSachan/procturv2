@@ -1,0 +1,101 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<section class="clearfix middle-section">
+
+    <h2>View Student List</h2>
+
+    <div class="filter-section">
+
+        <div class="row">
+            <div class="c-sm-3 c-md-3 c-lg-3">
+                <div class="search-filter-wrapper" style="margin-top:15px;">
+                    <input type="text" class="normal-field" [(ngModel)]="payLoad.name" placeholder="Search By Name Or Contact Number">
+                </div>
+            </div>
+
+            <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="isLangInstitue">
+                <div class="field-wrapper">
+                    <label>Master Course</label>
+                    <select id="" class="form-ctrl" [(ngModel)]="payLoad.standard_id" (ngModelChange)="fetchMasterCourseList()">
+                        <option value="-1"> </option>
+                        <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                            {{opt.standard_name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="isLangInstitue">
+                <div class="field-wrapper">
+                    <label>Course</label>
+                    <select id="" class="form-ctrl" [(ngModel)]="payLoad.subject_id">
+                        <option value="-1"> </option>
+                        <option *ngFor="let opt of courseList" [value]="opt.subject_id">
+                            {{opt.subject_name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top:15px;">
+                <button class="btn fullBlue" (click)="onGoBtnClick()">Go</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="content-section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Contact Number</th>
+                    <th>Joining Date</th>
+                    <th>Status</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="studentList.length > 0 && dataStatus === 2">
+                <tr *ngFor="let row of studentList">
+                    <td>{{row.student_disp_id}}</td>
+                    <td>{{row.student_name}}</td>
+                    <td>{{row.student_phone}}</td>
+                    <td>{{row.doj}}</td>
+                    <td>
+                        <span *ngIf="row.is_active == 'Y'">Active</span>
+                        <span *ngIf="row.is_active != 'Y'">Inactive</span>
+                    </td>
+                    <td>
+                        <a [routerLink]='["./view" , row.student_id]'>view</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="studentList.length == 0 && dataStatus === 1">
+                <tr *ngFor="let dummy of dummyArr">
+                    <td *ngFor="let c of columnMaps">
+                        <div class="skeleton">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="(studentList.length == 0 && dataStatus === 2)">
+                <tr>
+                    <td colspan="6" style="text-align: left;">
+                        <h2>No Student Found In Your Institute</h2>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="(studentList.length == 0 && dataStatus === 3)">
+                <tr>
+                    <td colspan="6" style="text-align: left;">
+                        <h2>Enter Details To Search</h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>

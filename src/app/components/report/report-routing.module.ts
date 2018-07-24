@@ -8,9 +8,8 @@ import { EmailReportComponent } from './email-report/email-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { FeeReportComponent } from './fee-report/fee-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
-import { ReportCardComponent } from './report-card/report-card.component';
 import { TimeTableComponent } from './time-table/time-table.component';
-import {BiometricComponent} from './biometric/biometric.component';
+import { BiometricComponent } from './biometric/biometric.component';
 import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
 
 @NgModule({
@@ -52,7 +51,7 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                     },
                     {
                         path: 'reportCard',
-                        component: ReportCardComponent
+                        loadChildren: 'app/components/report/report-card/report-card.module#ReportCardModule',
                     },
                     {
                         path: 'timeTable',
@@ -67,9 +66,9 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                         component: ProfitLossComponent
                     },
                     {
-                        path: 'enquiryReport' ,                     
-                        loadChildren:'app/components/report/enquiry-report/enquiry-report.module#EnquiryReportModule',            
-                        pathMatch:'prefix'          
+                        path: 'enquiryReport',
+                        loadChildren: 'app/components/report/enquiry-report/enquiry-report.module#EnquiryReportModule',
+                        pathMatch: 'prefix'
                     }
                 ]
             }

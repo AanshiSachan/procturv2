@@ -18,7 +18,6 @@ import { SmsReportComponent } from './sms-report/sms-report.component';
 import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 
 import { ExamReportComponent } from './exam-report/exam-report.component';
-import { ReportCardComponent } from './report-card/report-card.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { tableComponent } from './time-table/table/table.component';
 import { EmailReportComponent } from './email-report/email-report.component';
@@ -66,7 +65,6 @@ import { ExcelService } from '../../services/excel.service';
         SmsReportComponent,
         AttendanceReportComponent, FilterPipe,
         ExamReportComponent,
-        ReportCardComponent,
         TimeTableComponent,
         tableComponent,
         EmailReportComponent,
