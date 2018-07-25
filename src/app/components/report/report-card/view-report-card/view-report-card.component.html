@@ -7,7 +7,10 @@
     <div class="left-div">
 
       <div class="row profile-pic-section">
-        <div>
+        <div class="c-lg-4">
+
+        </div>
+        <div class="c-lg-2">
           <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="displayImage" [readonly]="true" [defaultImg]="'assets/images/student_icon.png'">
           </proctur-image>
         </div>
@@ -104,12 +107,14 @@
             <li id="liPTM" #liPTM (click)="switchActiveView('liPTM')" class="">
               <a>PTM</a>
             </li>
+
           </ul>
         </div>
+
       </section>
 
       <section class="content-section">
-
+     
         <div class="attendance-tab" *ngIf="liAttendanceView">
           <div class="row filter-section">
             <div class="c-sm-6 c-md-6 c-lg-6">
@@ -704,6 +709,7 @@
                 </tr>
               </tbody>
             </table>
+
           </div>
 
         </div>
@@ -714,7 +720,6 @@
   </div>
 
 </section>
-
 
 
 <!-- ////////////////////////Attendance Details//////////////////////////// -->
