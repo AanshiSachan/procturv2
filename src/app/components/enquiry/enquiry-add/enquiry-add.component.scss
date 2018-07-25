@@ -1,5 +1,4 @@
 @import "./src/assets/css/common/variables.scss";
-
 .homewrap {
     max-height: 90vh;
     overflow-x: auto;
@@ -887,12 +886,23 @@
 }
 
 .institute-editor {
-    // max-height: 450px;
+    padding: 10px;
+    .row {
+        padding: 0;
+        margin: 5px 0;
+    }
+    .input-section {
+        background: #efefef;
+        padding: 10px;
+        .field-wrapper {
+            padding-top: 0;
+        }
+        .btn-grp {
+            padding-top: 20px;
+        }
+    } // max-height: 450px;
     // overflow-y: scroll;
     overflow-x: hidden;
-    .row {
-        padding: 15px;
-    }
     .cursor-icon {
         cursor: pointer;
     }

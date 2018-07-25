@@ -664,7 +664,7 @@
       </a>
     </div>
 
-    <section class="row clearFix create-standard-form" *ngIf="isNewInstitute">
+    <section class="row clearFix input-section" *ngIf="isNewInstitute">
       <div class="row">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
           <div class="field-wrapper" [ngClass]="{'has-value': createInstitute.instituteName != ''}">
@@ -675,7 +675,7 @@
           </div>
         </div>
 
-        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right btn-grp">
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()" id="cancel3">
             <input type="button" value="Add" class="fullBlue btn" (click)="addInstituteData()" id="add3">

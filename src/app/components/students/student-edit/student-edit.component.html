@@ -239,7 +239,7 @@
                   <label for="doj">Date of Admission</label>
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" readonly="true" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
                   />
-                  <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
+                  <!-- <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span> -->
                 </div>
 
                 <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != '-1'}">
@@ -867,7 +867,7 @@
         </a>
       </div>
 
-      <section class="row clearFix create-standard-form" *ngIf="isNewInstitute">
+      <section class="row clearFix input-section" *ngIf="isNewInstitute">
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
             <div class="field-wrapper">
@@ -877,7 +877,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right btn-grp">
             <aside class="pull-right">
               <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
               <input type="button" value="Create" class="fullBlue btn" (click)="addInstituteData()">
@@ -892,12 +892,17 @@
           <table>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Institute Name</th>
                 <th> Action </th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let sch of instituteList">
+                <td>
+                  {{sch.school_id}}
+                </td>
+
                 <td *ngIf="!sch.edit">
                   <div class="inst-name">
                     {{sch.school_name}}
