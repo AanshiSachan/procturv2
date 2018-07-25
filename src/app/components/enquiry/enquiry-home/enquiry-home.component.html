@@ -502,7 +502,7 @@
         [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
         (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" [mainBranchAdmin]="isMainBranch"
         [subBranchAdmin]="subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)" [masterCourseData]="masterCourseData"
-        [standardArr]="enqStd" [subjectArr]="enqSubject">
+        [standardArr]="enqStd" [subjectArr]="enqSubject" (fullEnquiryDetails)="completeEnquiryDeatils($event)">
       </enquiry-sidebar>
     </div>
   </aside>

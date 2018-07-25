@@ -54,6 +54,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @Output() updateEnq = new EventEmitter<any>();
   @Output() cancelUpdate = new EventEmitter<any>();
   @Output() getUserList = new EventEmitter<any>();
+  @Output() fullEnquiryDetails = new EventEmitter<any>();
 
   @ViewChild('acc') acc: ElementRef;
   @ViewChild('one') one: ElementRef;
@@ -158,6 +159,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.followUpTime = '';
     this.walkin_followUpTime = '';
     this.prefill.fetchAllDataEnquiry(id).subscribe((res: any) => {
+      this.fullEnquiryDetails.emit(res);
       this.rowData.dob = res.dob;
       this.rowData.parent_name = res.parent_name;
       this.rowData.parent_email = res.parent_email;
@@ -227,9 +229,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   getCoursePro(res): string {
     let temp: any[] = [];
 
-    res.subjectIdArray.forEach( ss => {
+    res.subjectIdArray.forEach(ss => {
       this.subjectArr.forEach(su => {
-        if(ss == su.subject_id){
+        if (ss == su.subject_id) {
           temp.push(su.subject_name);
         }
       });
@@ -428,7 +430,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
         this.timeObj.fmeridian = '';
       }
     }
-    else if( id == 'walkin_followUpTime' ) {
+    else if (id == 'walkin_followUpTime') {
       if (ev.split(' ')[0] != '') {
         this.timeObj.whour = ev.split(' ')[0];
         this.timeObj.wmeridian = ev.split(' ')[1];

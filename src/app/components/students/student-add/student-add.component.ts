@@ -1285,7 +1285,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
-    this.studentAddFormData.school_name = this.enquiryData.school_name;
+    this.studentAddFormData.school_name = this.enquiryData.school_id;
     this.studentAddFormData.student_class = this.enquiryData.standard_id;
     this.studentAddFormData.standard_id = this.enquiryData.standard_id;
     this.studentAddFormData.parent_name = this.enquiryData.parent_email;

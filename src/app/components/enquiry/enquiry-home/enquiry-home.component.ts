@@ -2627,6 +2627,16 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
+  // This function gives you full information of enquiry selected which is fetched from server 
+
+  completeEnquiryDeatils(event) {
+    this.selectedRow.gender = event.gender;
+    this.selectedRow.institute_enquiry_id = event.institute_enquiry_id;
+    this.selectedRow.school_id = event.school_id;
+    this.selectedRow.standard_id = event.standard_id;
+  }
+
+
   messageToast(type, title, mess) {
     let msg = {
       type: type,
