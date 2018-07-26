@@ -302,61 +302,71 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         }
     }
 
+
+    filterDataAsOnStandard(batchesList, id) {
+        return batchesList.filter(
+            ele =>
+                ele.data.standard_id == id
+        )
+    }
+
+
     newMultiFilterFetchBatch() {
         let temp: any[] = [];
         this.cd.markForCheck();
         this.cd.detectChanges();
         if (!this.isProfessional) {
             if (this.batchFilter.currentStd != '-1') {
-                this.isRippleLoad = true;
-                this.studentPrefillService.fetchCourseMasterById(this.batchFilter.currentStd).subscribe(
-                    (data: any) => {
-                        this.isRippleLoad = false;
-                        temp = [];
-                        if (data.coursesList != null && data.coursesList.length != 0) {
-                            data.coursesList.forEach(el => {
-                                if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-                                    el.feeTemplateList.forEach(e => {
-                                        if (e.is_default == 1) {
-                                            el.selected_fee_template_id = e.template_id;
-                                        }
-                                    })
-                                }
-                                if (el.academic_year_id == '-1') {
-                                    el.academic_year_id = this.defaultAcadYear;
-                                }
-                                let obj = {
-                                    isSelected: this.getChecked(el),
-                                    data: el,
-                                    assignDate: moment().format('YYYY-MM-DD')
-                                }
-                                this.cd.markForCheck();
-                                this.cd.detectChanges();
-                                temp.push(obj);
-                                this.cd.markForCheck();
-                                this.cd.detectChanges();
-                            });
-                        }
-                        console.log('newMultiFilterFetchBatch', this.batchList);
-                        this.batchList = temp;
-                        this.filterDataSource(this.batchFilter.state);
-                        this.cd.markForCheck();
-                        this.cd.detectChanges();
-                    },
-                    err => {
-                        this.isRippleLoad = false;
-                        this.cd.markForCheck();
-                        this.cd.detectChanges();
-                        this.batchList = temp;
-                        console.log('newMultiFilterFetchBatch Err', this.batchList);
-                        let al = { type: 'error', title: err.error.message, body: '' };
-                        this.appC.popToast(al);
-                        this.batchList = temp;
-                        this.filterDataSource(this.batchFilter.state);
-                        this.cd.markForCheck();
-                        this.cd.detectChanges();
-                    }
-                );
+                // this.isRippleLoad = true;
+                // this.studentPrefillService.fetchCourseMasterById(this.batchFilter.currentStd).subscribe(
+                //     (data: any) => {
+                // console.log(this.filterDataAsOnStandard(this.batchList, this.batchFilter.currentStd));
+                // this.isRippleLoad = false;
+                // temp = [];
+                // if (data.coursesList != null && data.coursesList.length != 0) {
+                //     data.coursesList.forEach(el => {
+                //         if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                //             el.feeTemplateList.forEach(e => {
+                //                 if (e.is_default == 1) {
+                //                     el.selected_fee_template_id = e.template_id;
+                //                 }
+                //             })
+                //         }
+                //         if (el.academic_year_id == '-1') {
+                //             el.academic_year_id = this.defaultAcadYear;
+                //         }
+                //         let obj = {
+                //             isSelected: this.getChecked(el),
+                //             data: el,
+                //             assignDate: moment().format('YYYY-MM-DD')
+                //         }
+                //         this.cd.markForCheck();
+                //         this.cd.detectChanges();
+                //         temp.push(obj);
+                //         this.cd.markForCheck();
+                //         this.cd.detectChanges();
+                //     });
+                // }
+                console.log('newMultiFilterFetchBatch', this.batchList);
+                this.batchList = this.filterDataAsOnStandard(this.batchList, this.batchFilter.currentStd);
+                this.filterDataSource(this.batchFilter.state);
+                this.cd.markForCheck();
+                this.cd.detectChanges();
+                // },
+                // err => {
+                //     this.isRippleLoad = false;
+                //     this.cd.markForCheck();
+                //     this.cd.detectChanges();
+                //     this.batchList = temp;
+                //     console.log('newMultiFilterFetchBatch Err', this.batchList);
+                //     let al = { type: 'error', title: err.error.message, body: '' };
+                //     this.appC.popToast(al);
+                //     this.batchList = temp;
+                //     this.filterDataSource(this.batchFilter.state);
+                //     this.cd.markForCheck();
+                //     this.cd.detectChanges();
+                // }
+                // );
             }
             else {
                 console.log('newMultiFilterFetchBatch Else', this.batchList);

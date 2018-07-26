@@ -52,7 +52,7 @@
             </div>
             <div class="c-lg-7">
                 <div class="c-lg-6">
-                    <div *ngIf="!isProfessional" class="field-wrapper header-select hide">
+                    <div *ngIf="!isProfessional" class="field-wrapper header-select">
                         <select name="" id="" [(ngModel)]="batchFilter.currentStd" (ngModelChange)="fetchDataCustom($event)" class="form-ctrl">
                             <option value="-1">Select Standard</option>
                             <option [value]="standard.standard_id" *ngFor="let standard of standardList">
