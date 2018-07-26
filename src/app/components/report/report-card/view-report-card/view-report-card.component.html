@@ -780,7 +780,7 @@
             <td>{{data.date}}</td>
             <td>{{data.start_time}} - {{data.end_time}}</td>
             <td *ngIf="isLangInstitue">
-              <span *ngIf="(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type=='Regular' || data.custom_class_type == 'Regular(Custom)')">
+              <span *ngIf="(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type =='Regular' || data.custom_class_type == 'Regular(Custom)')">
                 Regular
               </span>
               <span *ngIf="!(data.custom_class_type=='' && data.class_type=='WEEK' || data.custom_class_type=='Regular' || data.custom_class_type == 'Regular(Custom)')">
@@ -789,7 +789,7 @@
             </td>
             <td *ngIf="!isLangInstitue">
               <span *ngIf="data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision'">
-                {{data.class_type}}
+                {{data.custom_class_type}}
               </span>
               <span *ngIf="!(data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision')">
                 Extra
