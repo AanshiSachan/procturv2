@@ -114,7 +114,7 @@
       </section>
 
       <section class="content-section">
-     
+
         <div class="attendance-tab" *ngIf="liAttendanceView">
           <div class="row filter-section">
             <div class="c-sm-6 c-md-6 c-lg-6">
@@ -287,11 +287,26 @@
                   <td>{{data.start_time}}-{{data.end_time}}</td>
                   <!-- <td>{{data.total_marks}}</td> -->
                   <td>
-                    <span *ngIf="data.isAbsent == 'Y'">Absent</span>
-                    <span *ngIf="data.isAbsent != 'Y'">{{data.marks_obtained}}/{{data.total_marks}}</span>
+                    <span *ngIf="data.attendance_status == 'L'">Leave</span>
+                    <span *ngIf="data.attendance_status == 'A'">Absent</span>
+                    <span *ngIf="data.attendance_status != 'L' && data.attendance_status != 'A' ">{{data.marks_obtained}}/{{data.total_marks}}</span>
                   </td>
-                  <td>{{data.grade}}</td>
-                  <td>{{data.rank}}</td>
+                  <td>
+                    <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+                      --
+                    </span>
+                    <span *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                      {{data.grade}}
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="data.attendance_status == 'L' || data.attendance_status == 'A'">
+                      --
+                    </span>
+                    <span *ngIf="(data.attendance_status != 'L' && data.attendance_status != 'A')">
+                      {{data.rank}}
+                    </span>
+                  </td>
                   <td>{{data.highest_marks}}</td>
                   <td>{{data.lowest_marks}}</td>
                   <td>{{data.average_marks}}</td>
@@ -362,7 +377,7 @@
                               <span *ngIf="row.attendance_status == 'A'">
                                 Absent
                               </span>
-                              <span *ngIf="!(row.attendance_status == 'A' || row.attendance_status == 'L')">
+                              <span *ngIf="(row.attendance_status != 'A' && row.attendance_status != 'L')">
                                 {{row.courseLevelMarksObtain}} / {{row.courseLevelTotalMarks}}
                               </span>
                             </td>
