@@ -173,7 +173,7 @@ export class EnquiryEditComponent implements OnInit {
   course_course: any[] = [];
   masterCourseData: any[] = [];
 
-  isEnquirySubmit:boolean = false;
+  isEnquirySubmit: boolean = false;
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
@@ -264,11 +264,11 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
-        if(this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length){
-          this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el)});
+        if (this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length) {
+          this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el) });
         }
-        if(this.editEnqData.subjectIdArray != null && this.editEnqData.subjectIdArray.length){
-          this.editEnqData.subjectIdArray = this.editEnqData.subjectIdArray.map(el => { return parseInt(el)});
+        if (this.editEnqData.subjectIdArray != null && this.editEnqData.subjectIdArray.length) {
+          this.editEnqData.subjectIdArray = this.editEnqData.subjectIdArray.map(el => { return parseInt(el) });
         }
         this.actualAssignee = data.assigned_to;
         this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
@@ -287,8 +287,8 @@ export class EnquiryEditComponent implements OnInit {
           this.prefill.getMasterCourseData().subscribe(
             (res: any) => {
               this.masterCourseData = res;
-              if(this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length){
-                this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el)});
+              if (this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length) {
+                this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el) });
               }
               this.courseMasterChange(this.editEnqData.master_course_name)
             });
@@ -506,7 +506,7 @@ export class EnquiryEditComponent implements OnInit {
       .subscribe(
         data => {
           this.customComponents = [];
-          if(data != null){
+          if (data != null) {
             data.forEach(el => {
 
               let obj = {
@@ -577,7 +577,7 @@ export class EnquiryEditComponent implements OnInit {
                   value: el.enq_custom_value
                 }
               }
-  
+
               this.customComponents.push(obj);
             });
           }
@@ -788,7 +788,7 @@ export class EnquiryEditComponent implements OnInit {
               }
               this.appC.popToast(msg);
               if (this.isConvertToStudent) {
-                let obj = {
+                let obj: any = {
                   name: this.editEnqData.name,
                   phone: this.editEnqData.phone,
                   email: this.editEnqData.email,
@@ -798,8 +798,15 @@ export class EnquiryEditComponent implements OnInit {
                   parent_name: this.editEnqData.parent_name,
                   parent_phone: this.editEnqData.parent_phone,
                   enquiry_id: this.institute_enquiry_id,
-                  institute_enquiry_id: this.institute_enquiry_id
+                  institute_enquiry_id: this.institute_enquiry_id,
+                  school_id: this.editEnqData.school_id
                 }
+                if (!this.isProfessional) {
+                  obj.standard_id = this.editEnqData.standard_id;
+                } else {
+                  obj.standard_id = this.editEnqData.master_course_name;
+                }
+
                 localStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['/view/student/add']);
               }
@@ -888,9 +895,9 @@ export class EnquiryEditComponent implements OnInit {
   validateTime(): boolean {
     /* some time selected by user or nothing*/
     if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
-      if(this.hour == "Invalid date"){ this.hour = '';}
-      if(this.minute == "Invalid date"){ this.minute = '';}
-      if(this.meridian == "INVALID DATE"){ this.meridian = '';}
+      if (this.hour == "Invalid date") { this.hour = ''; }
+      if (this.minute == "Invalid date") { this.minute = ''; }
+      if (this.meridian == "INVALID DATE") { this.meridian = ''; }
       return true;
     }
     else {

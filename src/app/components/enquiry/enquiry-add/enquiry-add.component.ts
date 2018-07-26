@@ -909,7 +909,7 @@ export class EnquiryAddComponent implements OnInit {
               this.prefill.fetchLastDetail().subscribe(data => {
                 this.lastDetail = data;
                 if (this.isRegisterStudent) {
-                  let obj = {
+                  let obj: any = {
                     name: this.newEnqData.name,
                     phone: this.newEnqData.phone,
                     email: this.newEnqData.email,
@@ -921,7 +921,13 @@ export class EnquiryAddComponent implements OnInit {
                     parent_name: this.newEnqData.parent_name,
                     parent_phone: this.newEnqData.parent_phone,
                     enquiry_id: instituteEnqId,
-                    institute_enquiry_id: instituteEnqId
+                    institute_enquiry_id: instituteEnqId,
+                    school_id: this.newEnqData.school_id
+                  }
+                  if (!this.isProfessional) {
+                    obj.standard_id = this.course_standard_id;
+                  } else {
+                    obj.standard_id = this.course_mastercourse_id;
                   }
                   localStorage.setItem('studentPrefill', JSON.stringify(obj));
                   this.router.navigate(['/view/student/add']);

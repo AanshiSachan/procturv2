@@ -1841,6 +1841,9 @@ export class EnquiryHomeComponent implements OnInit {
   /* =========================================================================== */
   /* Convert enquiry to student */
   convertRow(ev) {
+    if (this.isProfessional) {
+      this.selectedRow.standard_id = this.selectedRow.master_course_name;
+    }
     localStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
     this.router.navigate(['/view/student/add'])
     this.closePopup();
@@ -2633,7 +2636,11 @@ export class EnquiryHomeComponent implements OnInit {
     this.selectedRow.gender = event.gender;
     this.selectedRow.institute_enquiry_id = event.institute_enquiry_id;
     this.selectedRow.school_id = event.school_id;
-    this.selectedRow.standard_id = event.standard_id;
+    if (this.isProfessional) {
+      this.selectedRow.standard_id = event.standard_id;
+    } else {
+      this.selectedRow.master_course_name = event.master_course_name;
+    }
   }
 
 
