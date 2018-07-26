@@ -1171,9 +1171,9 @@
 
             <div class="table-data" *ngIf="chequePdcList.length != 0">
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
-                <li (click)="chequeSelectedForAction(ch)">
-                  <div class="field-radio-wrapper">
-                    <input type="radio" name="pdcGen" class="form-radio" id="pdcEditlist{{i}}">
+                <li>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" name="pdcGen" class="form-checkbox" [(ngModel)]="ch.uiSelected" id="pdcEditlist{{i}}">
                     <label for="pdcEditlist{{i}}"></label>
                   </div>
                 </li>

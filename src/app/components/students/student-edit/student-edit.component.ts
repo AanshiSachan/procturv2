@@ -899,7 +899,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
-  
+
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
   /* ======================          Student basic details and custom component updaters         =============================================== */
@@ -2411,9 +2411,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  chequeSelectedForAction(i) {
-    this.selectedCheque = i;
-  }
 
   /* ============================================================================================================================ */
   closePDCPop() {
@@ -2424,9 +2421,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   generateAck() {
-    if (this.selectedCheque != null && this.selectedCheque != undefined) {
+    let selectedChqueId = this.getSelectedRow(this.chequePdcList);
+    if (selectedChqueId != null && selectedChqueId != undefined && selectedChqueId.length > 0) {
+      let chequeId = selectedChqueId.join(',');
       this.isRippleLoad = true;
-      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "undefined").subscribe(
+      this.postService.generateAcknowledge(chequeId, this.student_id, "undefined").subscribe(
         res => {
           this.isRippleLoad = false;
           let byteArr = this.convertBase64ToArray(res.document);
@@ -2465,9 +2464,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   sendAck() {
-    if (this.selectedCheque != null && this.selectedCheque != undefined) {
+    let selectedChqueId = this.getSelectedRow(this.chequePdcList);
+    if (selectedChqueId != null && selectedChqueId != undefined && selectedChqueId.length > 0) {
+      let chequeId = selectedChqueId.join(',');
       this.isRippleLoad = true;
-      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "Y").subscribe(
+      this.postService.generateAcknowledge(chequeId, this.student_id, "Y").subscribe(
         res => {
           this.isRippleLoad = false;
           let msg = { type: 'success', title: 'Send Successfullly', body: '' };
@@ -2480,8 +2481,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.appC.popToast(obj);
         }
       )
-    }
-    else {
+    } else {
       let obj = {
         type: "error",
         title: "No PDC Selected",
@@ -3591,6 +3591,23 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   updateCompleteInventory(i) {
     if (i == (this.allotInventoryArr.length - 1)) {
+    }
+  }
+
+
+  getSelectedRow(data) {
+    const tmp = [];
+    if (data.length > 0) {
+      data.filter(
+        ele => {
+          if (ele.uiSelected == true) {
+            tmp.push(ele.cheque_id)
+          }
+        }
+      )
+      return tmp;
+    } else {
+      return [];
     }
   }
 
