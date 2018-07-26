@@ -2870,7 +2870,11 @@ export class AdminHomeComponent implements OnInit {
         let obj: any = {};
         obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
         // obj.course_marks_update_level = this.studentList[i].course_marks_update_level;
-        obj.course_marks_update_level = '2';
+        if (this.tempData.course_marks_update_level == '0') {
+          obj.course_marks_update_level = '3';
+        } else {
+          obj.course_marks_update_level = this.tempData.course_marks_update_level;
+        }
         obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
         obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
         obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
@@ -2961,6 +2965,7 @@ export class AdminHomeComponent implements OnInit {
       res => {
         this.messageNotifier('success', 'Successfully Saved', 'Marks Saved Successfully');
         this.closePopUpCommon();
+        this.generateCourseLevelWidget();
       },
       err => {
         this.messageNotifier('error', 'Error', err.error.message);

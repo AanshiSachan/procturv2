@@ -1924,13 +1924,13 @@
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="radio-options">
             <div class="field-radio-wrapper">
-              <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" value="1" name="sujectWise" class="form-radio"
-                (ngModelChange)="onRadioButtonSelction()">
+              <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
+                value="1" name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
               <label for="student">Subject Wise</label>
             </div>
             <div class="field-radio-wrapper">
-              <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" name="courseWise" class="form-radio"
-                (ngModelChange)="onRadioButtonSelction()">
+              <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
+                name="courseWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
               <label for="both">Course Wise</label>
             </div>
           </div>
