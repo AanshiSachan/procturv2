@@ -2866,26 +2866,40 @@ export class AdminHomeComponent implements OnInit {
   constructJsonForAttendance() {
     let arr = [];
     for (let i = 0; i < this.studentList.length; i++) {
-      if (this.studentList[i].assigned) {
-        let obj: any = {};
-        obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
-        // obj.course_marks_update_level = this.studentList[i].course_marks_update_level;
-        if (this.tempData.course_marks_update_level == '0') {
-          obj.course_marks_update_level = '3';
-        } else {
-          obj.course_marks_update_level = this.tempData.course_marks_update_level;
-        }
-        obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
-        obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
-        obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
-        obj.student_id = this.studentList[i].student_id;
-        obj.isUpdated = this.studentList[i].isUpdated;
-        obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
-        obj.attendance = this.studentList[i].attendance;
-        obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
-        obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
-        arr.push(obj);
+      let obj: any = {};
+      obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
+
+      //  If Release go successfully 
+
+      if (this.tempData.course_marks_update_level == '0') {
+        obj.course_marks_update_level = '3';
+      } else {
+        obj.course_marks_update_level = this.tempData.course_marks_update_level;
       }
+
+      //////
+      //If release got revert////
+
+      // obj.course_marks_update_level = '2';
+
+
+      //////
+
+      
+      obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
+      obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
+      obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
+      obj.student_id = this.studentList[i].student_id;
+      obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
+      obj.attendance = this.studentList[i].attendance;
+      obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+      obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
+      if (this.studentList[i].assigned) {
+        obj.isUpdated = 'Y';
+      } else {
+        obj.isUpdated = 'N';
+      }
+      arr.push(obj);
     }
     return arr;
   }
@@ -2976,33 +2990,31 @@ export class AdminHomeComponent implements OnInit {
   makeJsonForMarksUpdate() {
     let arr = [];
     for (let i = 0; i < this.studentList.length; i++) {
-      if (this.studentList[i].assigned) {
-        let obj: any = {};
-        obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
-        obj.course_marks_update_level = this.examMarksLevel;
-        obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
-        obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].attendance, this.studentList[i].batchExamMarksLi);
-        if (obj.batchExamMarksLi == false) {
+      let obj: any = {};
+      obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
+      obj.course_marks_update_level = this.examMarksLevel;
+      obj.isStudentExamSMS = 'N'
+      obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].attendance, this.studentList[i].batchExamMarksLi);
+      if (obj.batchExamMarksLi == false) {
+        return false;
+      }
+      obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
+      obj.student_id = this.studentList[i].student_id;
+      obj.isUpdated = this.studentList[i].isUpdated;
+      obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
+      obj.attendance = this.studentList[i].attendance;
+      obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+      obj.cours_exam_total_marks = this.studentList[i].cours_exam_total_marks;
+      if (this.tempData.is_exam_grad_feature == 0) {
+        obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
+      } else {
+        if (this.studentList[i].grade_id == '-1') {
+          this.messageNotifier('error', 'Error', 'Please provide total grades');
           return false;
         }
-        obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
-        obj.student_id = this.studentList[i].student_id;
-        obj.isUpdated = this.studentList[i].isUpdated;
-        obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
-        obj.attendance = this.studentList[i].attendance;
-        obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
-        obj.cours_exam_total_marks = this.studentList[i].cours_exam_total_marks;
-        if (this.tempData.is_exam_grad_feature == 0) {
-          obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
-        } else {
-          if (this.studentList[i].grade_id == '-1') {
-            this.messageNotifier('error', 'Error', 'Please provide total grades');
-            return false;
-          }
-          obj.grade_id = this.studentList[i].grade_id;
-        }
-        arr.push(obj);
+        obj.grade_id = this.studentList[i].grade_id;
       }
+      arr.push(obj);
     }
     return arr;
   }
@@ -3013,7 +3025,7 @@ export class AdminHomeComponent implements OnInit {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
-      obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
+      obj.isStudentExamSMS = 'Y';
       obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentList[i].attendance, this.studentList[i].batchExamMarksLi);
       if (obj.batchExamMarksLi == false) {
         return false;
