@@ -30,7 +30,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   countDown: any;
   counter: number = 30;
   no_email_found: boolean = false;
-  isProcturVisible: boolean = true;
+  isProcturVisible: boolean = false;
 
 
   instituteListObj: instituteList = {
@@ -141,6 +141,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     console.log(test);
 
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
+      this.isProcturVisible = true;
+    }
+
+    else {
       this.isProcturVisible = false;
     }
 

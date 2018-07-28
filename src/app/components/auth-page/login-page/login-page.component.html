@@ -3,12 +3,12 @@
 
     <div class="auth-page-header">
       <div class="row proctur-logo">
-        <div class="c-lg-6">
-          <img class="logo" src="./assets/images/logoProctur.png" alt="Logo" height="">
+        <div class="c-lg-6" >
+          <img class="logo" src="./assets/images/logoProctur.png" alt="Logo" height=""  *ngIf="isProcturVisible">
         </div>
         <div class="c-lg-6" style="padding-top:10px;">
-          <h5>New to Proctur?
-            <input type="button" value="Get Advice" (click)="openGetAdvice()" class="fullBlue btn login-btn">
+          <h5 *ngIf="isProcturVisible">New to Proctur?
+            <input type="button" value="Get Advice" (click)="openGetAdvice()" class="fullBlue btn login-btn"  >
           </h5>
         </div>
       </div>
@@ -18,7 +18,7 @@
       <div class="login-wrapper">
         <div class="row">
           <div class="c-xs-8">
-            <ul class="social-icons">
+            <ul class="social-icons" *ngIf="isProcturVisible">
               <li>
                 <a href="https://www.facebook.com/proctur" class="social-icon" target="_blank">
                   <i class="icons fab fa-facebook-square"></i>
@@ -81,13 +81,13 @@
           <hr>
         </div>
         <!-- Contact Login Wrapper -->
-        <div class="row footer-contact-wrapper">
+        <div class="row footer-contact-wrapper" >
           <div class="c-xs-6">
             <div class="c-xs-1">
-              <i class="fa fa-phone call-icon"></i>
+              <i class="fa fa-phone call-icon" *ngIf="isProcturVisible"></i>
             </div>
             <div style="margin-left: 10px;" class="c-xs-4 cursor-point">
-              <p>
+              <p *ngIf="isProcturVisible">
                 CALL FOR SUPPORT
                 <br>
                 <span>9971831677</span>
@@ -97,12 +97,12 @@
             </div>
             <div class="c-xs-2">
               <a href="https://play.google.com/store/apps/details?id=com.proctur.adminV2" target="_blanks">
-                <img src="./assets/images/gapps1.png" alt="Proctur Andriod Mobile Application for Coaching Institutes">
+                <img src="./assets/images/gapps1.png" alt="Proctur Andriod Mobile Application for Coaching Institutes" *ngIf="isProcturVisible">
               </a>
             </div>
             <div class="c-xs-2">
               <a href="https://itunes.apple.com/us/app/proctur/id1217766789?ls=1&mt=8" target="_blanks">
-                <img src="./assets/images/gapps2.png" alt="Proctur iOS Mobile Application for Coaching Institutes">
+                <img src="./assets/images/gapps2.png" alt="Proctur iOS Mobile Application for Coaching Institutes" *ngIf="isProcturVisible">
               </a>
             </div>
             <div class="c-xs-3">
