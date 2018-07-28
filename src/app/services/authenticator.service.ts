@@ -27,14 +27,8 @@ export class AuthenticatorService {
     course_flag = new BehaviorSubject('0');
     instituteType_name = new BehaviorSubject('LANG');
 
-<<<<<<< HEAD
-    // public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
-    // public baseUrl:string = "http://proctur.com/get_advice.html";
-=======
     //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
     public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
->>>>>>> 5b465cf9db2ed60a6289921e361671520eaa3ea7
     public baseUrlStudent:string = window.location.origin
 
     constructor() {
