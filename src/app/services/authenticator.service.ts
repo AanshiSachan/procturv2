@@ -27,8 +27,9 @@ export class AuthenticatorService {
     course_flag = new BehaviorSubject('0');
     instituteType_name = new BehaviorSubject('LANG');
 
-    // public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+    public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    // public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+    public baseUrlStudent:string = window.location.origin
 
     constructor() {
         this.getAuthToken();
@@ -106,6 +107,11 @@ export class AuthenticatorService {
 
     getBaseUrl(): string {
         return this.baseUrl;
+    }
+
+
+    getBaseUrlStudent():string{
+        return this.baseUrlStudent;
     }
 
     clearStoredData() {

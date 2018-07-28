@@ -7,6 +7,7 @@ import { LoginAuth } from '../../../model/login-auth';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -79,6 +80,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     otp_validate_mode: 1
   }
 
+  baseUrl: string = '';
+  Authorization: any;
+  headers;
+  institute_id;
 
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
@@ -100,6 +105,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         password: ""
       }
     }
+
+    this.auth.currentAuthKey.subscribe(key => {
+      this.Authorization = key;
+      this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+    })
+    this.auth.currentInstituteId.subscribe(id => {
+      this.institute_id = id;
+    });
+    // this.institute_id = this.auth.getInstituteId();
+    // this.Authorization = this.auth.getAuthToken();
+    //console.log(this.institute_id);
+    this.baseUrl = this.auth.getBaseUrlStudent()
 
   }
 
@@ -348,7 +365,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
+        window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
       }
       else if (sessionStorage.getItem('userType') == '5') {
         sessionStorage.setItem('student_id', res.data.parentStudentList[0].student_id);
@@ -357,7 +374,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('inst_set_up', res.data.institute_setup_type);
         sessionStorage.setItem('institution_name', res.data.institute_name);
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
-        window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
+        window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
       }
     }
   }
@@ -656,7 +673,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-          window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
+          window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
         }
         else if (sessionStorage.getItem('userType') == '5') {
           // sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
@@ -668,7 +685,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('inst_set_up', this.serverUserData.data.institute_setup_type);
           sessionStorage.setItem('institution_name', this.serverUserData.data.institute_name);
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
-          window.location.href = "https://web.proctur.com/sPortal/dashboard.html#/Dashboard";
+          window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
         }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
