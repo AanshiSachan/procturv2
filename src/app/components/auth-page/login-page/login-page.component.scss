@@ -246,6 +246,21 @@ label {
     width: 50%;
 }
 
+.boxNew{
+    position: relative;
+    margin: auto; //height: 500px;
+    top: 14vh;
+    left: 0;
+    right: 0;
+    width: 80%;
+    border-radius: 4px;
+    background: rgb(234, 234, 234);
+    margin-bottom: 100px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 1;
+}
+
 
 /* active state */
 

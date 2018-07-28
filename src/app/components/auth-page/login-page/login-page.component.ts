@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../app.component';
@@ -84,7 +84,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   Authorization: any;
   headers;
   institute_id;
-
+  @ViewChild('viewChange') changeView : ElementRef;
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent, private auth: AuthenticatorService) {
@@ -142,10 +142,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
+      this.changeView.nativeElement.className = "box"
     }
 
     else {
       this.isProcturVisible = false;
+      this.changeView.nativeElement.className = "boxNew"
     }
 
   }
