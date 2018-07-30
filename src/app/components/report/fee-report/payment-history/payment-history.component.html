@@ -44,7 +44,7 @@
                             <td style="width:10%;">{{p.paid_date}}</td>
                             <td>{{p.course_subject_name}}</td>
                             <td>{{p.academic_year}}</td>
-                            <td>{{p.display_invoice_no}}</td>
+                            <td><a (click)="downloadReceipt(p, i)"  id="customreceipt{{i}}">{{p.display_invoice_no}}</a></td>
                             <td>{{p.installment_no}}</td>
                             <td>{{p.fee_type_name}}</td>
                             <td> ₹{{p.total_initial_amount.toLocaleString('en-IN')}}</td>

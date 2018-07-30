@@ -1018,7 +1018,7 @@ export class EnquiryAddComponent implements OnInit {
               let data = {
                 type: "error",
                 title: "Error Posting New Enquiry",
-                body: err.message + " mobile number is already in use, please provide another primary contact"
+                body: " mobile number is already in use, please provide another primary contact"
               }
               this.appC.popToast(data);
             }
