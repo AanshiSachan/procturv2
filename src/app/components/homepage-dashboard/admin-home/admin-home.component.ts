@@ -599,7 +599,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',
-          body: err.message
+          body: err.error.message
         }
         this.appC.popToast(msg);
       }
@@ -683,7 +683,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
-          body: err.cancelResponseMessage
+          body: err.error.message
         }
         this.appC.popToast(msg);
       }
@@ -729,7 +729,7 @@ export class AdminHomeComponent implements OnInit {
           let msg = {
             type: 'error',
             title: 'Failed To Notify',
-            body: 'please contact support@proctur.com'
+            body: err.error.message
           }
           this.appC.popToast(msg);
         }
@@ -828,7 +828,7 @@ export class AdminHomeComponent implements OnInit {
           let msg = {
             type: 'error',
             title: 'Failed To Reschedule',
-            body: err.message
+            body: err.error.message
           }
           this.appC.popToast(msg);
         }
@@ -1048,7 +1048,12 @@ export class AdminHomeComponent implements OnInit {
           this.getTotalCountForCourse(res);
         },
         err => {
-
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          }
+          this.appC.popToast(msg);
         }
       );
     } else {
@@ -1108,7 +1113,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
-          body: err.cancelResponseMessage
+          body: err.error.message
         }
         this.appC.popToast(msg);
       }
@@ -1144,7 +1149,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
-          body: err.cancelResponseMessage
+          body: err.error.message
         }
         this.appC.popToast(msg);
       }
@@ -1183,7 +1188,7 @@ export class AdminHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Unable to Send Reminder',
-          body: 'please contact support@proctur.com'
+          body: err.error.message
         }
         this.appC.popToast(msg);
       }
