@@ -943,22 +943,49 @@ export class AllDataReportComponent implements OnInit {
 
   exportToExcel(event) {
     let arr = []
-    this.feeDataSource1.map(
-      (ele: any) => {
-        let json = {
-          "Student Id": ele.student_disp_id,
-          "Student Name": ele.student_name,
-          "Total Fee": ele.student_total_fees,
-          "Amount Paid": ele.student_toal_fees_paid,
-          "Past Dues": ele.total_balance_amt,
-          "Next Due Date": ele.student_latest_fee_due_date,
-          "Next Amount Date": ele.student_latest_fee_due_amount,
-          "PDC Date": ele.student_latest_pdc,
-          "Balance Amount": ele.amount_still_payable
+    if(this.isProfessional){
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = {
+            "Student Id": ele.student_disp_id,
+            "Student Name": ele.student_name,
+            "Total Fee": ele.student_total_fees,
+            "Amount Paid": ele.student_toal_fees_paid,
+            "Past Dues": ele.total_balance_amt,
+            "Next Due Date": ele.student_latest_fee_due_date,
+            "Next Amount Date": ele.student_latest_fee_due_amount,
+            "PDC Date": ele.student_latest_pdc,
+            "Balance Amount": ele.amount_still_payable,
+            "Master Course" : ele.standard_name,
+            "Batch" : ele.batch_name,
+            "Date of report generation" : moment().format('YYYY-MM-DD')
+          }
+          arr.push(json);
         }
-        arr.push(json);
-      }
-    )
+      )
+    }
+
+    else{
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = {
+            "Student Id": ele.student_disp_id,
+            "Student Name": ele.student_name,
+            "Total Fee": ele.student_total_fees,
+            "Amount Paid": ele.student_toal_fees_paid,
+            "Past Dues": ele.total_balance_amt,
+            "Next Due Date": ele.student_latest_fee_due_date,
+            "Next Amount Date": ele.student_latest_fee_due_amount,
+            "PDC Date": ele.student_latest_pdc,
+            "Balance Amount": ele.amount_still_payable,
+            "Standard Name" : ele.standard_name,
+            "Course" : ele.course_name,
+            "Date of report generation" : moment().format('YYYY-MM-DD')
+          }
+          arr.push(json);
+        }
+      )
+    }
     this.excelService.exportAsExcelFile(
       arr,
       'students'

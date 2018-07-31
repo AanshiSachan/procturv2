@@ -28,6 +28,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   @Input() additionalData: any[] = [];
   @Input() feeTemplateData: any;
   @Input() courseDropdown: any = null;
+  @Input() studentName:string = ""
 
   addFeeInstallment: any = {
     amount_paid: '',
