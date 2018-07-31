@@ -42,8 +42,8 @@
 
 .homewrap {
     max-height: 90vh;
-    overflow-x: auto;
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
     ::-webkit-scrollbar {
         display: block;
         width: 7px;
@@ -52,7 +52,7 @@
     .scroll-content {
         max-height: 90vh;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
         padding-bottom: 10px;
     }
 }

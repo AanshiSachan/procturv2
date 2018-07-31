@@ -249,17 +249,6 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  fetchBiometricStatus() {
-    this.biometric.biometricStatus().subscribe(
-      (data: any) => {
-
-      },
-      (error: any) => {
-
-      }
-    )
-  }
-
   fetchScheduleWidgetData() {
     let obj = {
       from_date: moment(this.schedDate[0]).format('YYYY-MM-DD'),
@@ -2868,24 +2857,11 @@ export class AdminHomeComponent implements OnInit {
     for (let i = 0; i < this.studentList.length; i++) {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
-
-      //  If Release go successfully 
-
       if (this.tempData.course_marks_update_level == '0') {
         obj.course_marks_update_level = '3';
       } else {
         obj.course_marks_update_level = this.tempData.course_marks_update_level;
       }
-
-      //////
-      //If release got revert////
-
-      // obj.course_marks_update_level = '2';
-
-
-      //////
-
-      
       obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
       obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
       obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
@@ -3000,7 +2976,12 @@ export class AdminHomeComponent implements OnInit {
       }
       obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
       obj.student_id = this.studentList[i].student_id;
-      obj.isUpdated = this.studentList[i].isUpdated;
+      if (this.studentList[i].assigned) {
+        obj.isUpdated = 'Y';
+      } else {
+        obj.isUpdated = 'N';
+      }
+      // obj.isUpdated = this.studentList[i].isUpdated;
       obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
       obj.attendance = this.studentList[i].attendance;
       obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
@@ -3033,7 +3014,7 @@ export class AdminHomeComponent implements OnInit {
       obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
       obj.student_id = this.studentList[i].student_id;
       obj.cours_exam_total_marks = this.studentList[i].cours_exam_total_marks;
-      obj.isUpdated = this.studentList[i].isUpdated;
+      obj.isUpdated = 'Y';
       obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
       obj.attendance = this.studentList[i].attendance;
       obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;

@@ -135,11 +135,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   checkWebUrlForGenerics() {
     let url: string = window.location.href;
-    console.log(url);
-
     let test = url.split("/")[2];
-    console.log(test);
-
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
       this.changeView.nativeElement.className = "box"
@@ -272,9 +268,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       return
     }
     else {
-
       this.serverUserData = res;
-      console.log(res);
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
       this.toastCtrl.informFooter();
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));

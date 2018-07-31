@@ -107,9 +107,14 @@ export class StudentAddComponent implements OnInit {
         this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
-      this.updateMasterCourseList(this.studentAddFormData.student_class);
-      this.isRippleLoad = true;
+      this.updateMasterCourseList(this.studentAddFormData.standard_id);
+
+
+      // This section is removed as updateMasterCourse is also doing same functionality
+
+      /* this.isRippleLoad = true;
       this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe((data: any) => {
+        console.log('ngoninit' + this.batchList.length);
         this.batchList = [];
         if (data.coursesList != null && data.coursesList.length > 0) {
           data.coursesList.forEach(el => {
@@ -131,8 +136,9 @@ export class StudentAddComponent implements OnInit {
             this.batchList.push(obj);
           });
         }
+        console.log('ngoninit @' + this.batchList.length);
         this.isRippleLoad = false;
-      });
+      }); */
     }
   }
 
@@ -147,6 +153,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   updateBatchList() {
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
+      console.log('updateBatchList' + this.batchList.length);
       this.batchList = [];
       data.forEach(el => {
         if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -161,6 +168,7 @@ export class StudentAddComponent implements OnInit {
         }
         let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
         this.batchList.push(obj);
+        console.log('updateBatchList @' + this.batchList.length);
       });
     });
   }
