@@ -1,12 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../../services/login-services/login.service';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -16,17 +12,12 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
   templateUrl: './class-add.component.html',
   styleUrls: ['./class-add.component.scss']
 })
+
 export class ClassAddComponent implements OnInit {
-
-
-
-  busy: Subscription;
   isProfessional: boolean = false;
   isRippleLoad: boolean = false;
   isClassFormFilled: boolean = false;
   createCustomSchedule: boolean = false;
-
-
   courseModelBatch: any;
   courseModelStdList: any[] = [];
   courseModelSubList: any[] = [];
@@ -40,14 +31,10 @@ export class ClassAddComponent implements OnInit {
   hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ["AM", "PM"];
-
-
   courseStartDate: any = '';
   courseEndDate: any = '';
   subjectListDataSource: any = [];
   fetchedCourseData: any = [];
-
-
   addClassDetails = {
     batch_id: '',
     subject_id: '',
@@ -99,7 +86,6 @@ export class ClassAddComponent implements OnInit {
   selectedDateArray: any = [];
   selctedScheduledClass: any = [];
   weekDaysSelected: any = [];
-
   timepicker: any = {
     universalStartTime: {
       hour: '',
@@ -112,14 +98,12 @@ export class ClassAddComponent implements OnInit {
       meridian: ''
     },
   }
-
   fetchMasterCourseModule: any = {
     master_course: "-1",
     requested_date: moment().format("YYYY-MM-DD"),
     inst_id: sessionStorage.getItem('institute_id'),
     course_id: "-1"
   }
-
   fetchMasterBatchModule: any = {
     standard_id: "-1",
     subject_id: "-1",
@@ -127,7 +111,6 @@ export class ClassAddComponent implements OnInit {
     inst_id: sessionStorage.getItem('institute_id'),
     assigned: "N"
   }
-
   selectedClassFrequency: any = 'WEEK';
   customTable: any = [];
   custom = {
@@ -1488,9 +1471,7 @@ export class ClassAddComponent implements OnInit {
   addNewCustomClass() {
     let obj: any = {};
     obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
-    let some = moment(this.custom.date).unix();
-    let currentDate = moment().unix();
-    if (currentDate > some) {
+    if (moment(this.custom.date).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
       this.messageToast('error', 'Error', 'Please provide valid date');
       return
     }
@@ -1502,6 +1483,14 @@ export class ClassAddComponent implements OnInit {
     } else {
       obj.start_time = this.createTimeInFormat(this.custom.start_hour, this.custom.start_minute, '');
       obj.end_time = this.createTimeInFormat(this.custom.end_hour, this.custom.end_minute, '');
+    }
+    if (this.custom.desc != null && this.custom.desc != '') {
+      if (this.validateSpecialCharacters(this.custom.desc)) {
+        // Do nothing
+      } else {
+        this.messageToast('error', 'Error', 'Special characters are not allowed in description field.');
+        return
+      }
     }
     obj.note = this.custom.desc;
     obj.batch_id = this.batchDetails.batch_id;
