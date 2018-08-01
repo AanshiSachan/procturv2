@@ -550,6 +550,14 @@ export class AdminHomeComponent implements OnInit {
 
   updateAttendance() {
     let sendSms = "N";
+    if (this.homework != null && this.homework != "") {
+      if (this.validateSpecialCharacters(this.homework)) {
+        // Do nothing
+      } else {
+        this.messageNotifier('error', 'Error', 'Special characters are not allowed in homework field.');
+        return
+      }
+    }
     let check = this.checkIfStudentIsAbsent(this.studentAttList);
     if (check) {
       let checkboxAbsentees = document.getElementById("EnableSmsAbsentees").checked;
@@ -3257,6 +3265,15 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         }
       )
+    }
+  }
+
+  validateSpecialCharacters(str) {
+    let regex = /[^ a-zA-Z0-9]/g;
+    if (str.match(regex) == null) {
+      return true;
+    } else {
+      return false;
     }
   }
 

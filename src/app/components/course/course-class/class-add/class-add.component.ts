@@ -694,6 +694,15 @@ export class ClassAddComponent implements OnInit {
     )
   }
 
+  validateSpecialCharacters(str) {
+    let regex = /[^ a-zA-Z0-9]/g;
+    if (str.match(regex) == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   addClassSchedule() {
     let obj: any = {};
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
@@ -738,6 +747,14 @@ export class ClassAddComponent implements OnInit {
       return
     } else {
       obj.teacher_id = Number(this.addClassDetails.teacher_id);
+    }
+    if (this.addClassDetails.class_desc != null && this.addClassDetails.class_desc != '') {
+      if (this.validateSpecialCharacters(this.addClassDetails.class_desc)) {
+        // Do nothing
+      } else {
+        this.messageToast('error', 'Error', 'Special characters are not allowed in description field.');
+        return
+      }
     }
     obj.batch_id = this.getBatchID(obj.subject_id);
     obj.class_desc = this.addClassDetails.class_desc;
