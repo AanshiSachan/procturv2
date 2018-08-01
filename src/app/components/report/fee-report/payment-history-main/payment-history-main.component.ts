@@ -19,7 +19,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     institute_id: this.payment.institute_id,
     from_date: moment().format('YYYY-MM-DD'),
     to_date: moment().format('YYYY-MM-DD'),
-    payment_history_student_category_option: 0,
+    payment_history_student_category_option: 2,
     student_name: "",
     contact_no: ""
   }
