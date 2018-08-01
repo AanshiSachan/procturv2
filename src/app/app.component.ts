@@ -199,17 +199,22 @@ export class AppComponent implements OnInit {
       }
     });
 
+    this.checkVirtualHosting();
+
   }
 
 
 
+  ///// Virtual Hosting check ////////
 
-
-
-
-
-
-
+  checkVirtualHosting() {
+    let url = window.location.href;
+    if (url.includes('webtest') || url.includes('web') || url.includes('localhost')) {
+      this.titleService.setTitle("Proctur - Your Pocket Classroom");
+    } else {
+      this.titleService.setTitle("Login");
+    }
+  }
 
   /* =========================================================================================================== */
   /* =========================================================================================================== */
@@ -556,12 +561,12 @@ export class AppComponent implements OnInit {
     this.fetchService.fetchCommentsForEnquiry(e.data.id).subscribe(
       (res: any) => {
 
-        if(res.comments != null){
+        if (res.comments != null) {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
         }
-        else if(res.comments == null){
+        else if (res.comments == null) {
           this.updateFormComments = [];
           this.updateFormCommentsOn = [];
           this.updateFormCommentsBy = [];
@@ -579,7 +584,7 @@ export class AppComponent implements OnInit {
       },
       err => {
         this.popToast({ type: "error", title: "Error Fetching Enquiry Comments", body: "" });
-       }
+      }
     );
   }
 
