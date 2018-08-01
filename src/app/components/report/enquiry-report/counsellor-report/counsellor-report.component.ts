@@ -105,56 +105,64 @@ export class CounsellorReportComponent implements OnInit {
     this.getCounsellorDetails = [];
     this.newArray = [];
     this.dataStatus = 1;
-    this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
-      (data: any) => {
-        for (var prop in data) {
-          if (data.hasOwnProperty(prop)) {
-            let innerObj = {};
-            innerObj[prop] = data[prop];
-            this.getCounsellorDetails.push(innerObj)
-          }
-        }
 
-        for (let a of this.getCounsellorDetails) {
-          for (let prop in a) {
-            this.newObject = {
-              key: prop,
-              data: a[prop]
+    if (this.counsellorInfoDetails.updateDateFrom > this.counsellorInfoDetails.updateDateTo) {
+      this.appc.popToast({ type: "error", title: "", body: "From date cannot be greater than to date" });
+      this.dataStatus = 2;
+    }
+    else {
+
+      this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
+        (data: any) => {
+          for (var prop in data) {
+            if (data.hasOwnProperty(prop)) {
+              let innerObj = {};
+              innerObj[prop] = data[prop];
+              this.getCounsellorDetails.push(innerObj)
             }
           }
-          this.newArray.push(this.newObject);
-        }
-        this.getCounsellorDetails = this.newArray;
-        this.getCounsellorDetails.map(
-          (ele: any) => {
-            ele.newEnqCount = ele.data.newEnqcount;
-            ele.totalcount = ele.data.totalcount;
-            ele.source_id = ele.key
-            ele.source = ele.data.uniqueCatName
-            ele.Closed = ele.data.statusMap.Closed;
-            ele.open = ele.data.statusMap.Open;
-            ele.inProgress = ele.data.statusMap["In Progress"];
-            ele.Converted = ele.data.statusMap.Converted;
-            ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
+
+          for (let a of this.getCounsellorDetails) {
+            for (let prop in a) {
+              this.newObject = {
+                key: prop,
+                data: a[prop]
+              }
+            }
+            this.newArray.push(this.newObject);
           }
-        )
-        if (this.getCounsellorDetails.length == 0) {
+          this.getCounsellorDetails = this.newArray;
+          this.getCounsellorDetails.map(
+            (ele: any) => {
+              ele.newEnqCount = ele.data.newEnqcount;
+              ele.totalcount = ele.data.totalcount;
+              ele.source_id = ele.key
+              ele.source = ele.data.uniqueCatName
+              ele.Closed = ele.data.statusMap.Closed;
+              ele.open = ele.data.statusMap.Open;
+              ele.inProgress = ele.data.statusMap["In Progress"];
+              ele.Converted = ele.data.statusMap.Converted;
+              ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
+            }
+          )
+          if (this.getCounsellorDetails.length == 0) {
+            this.dataStatus = 2;
+          }
+          else {
+            this.dataStatus = 0;
+          }
+          this.searchMyRecords = this.getCounsellorDetails;
+        },
+        (error: any) => {
           this.dataStatus = 2;
+          let msg = {
+            type: "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
         }
-        else {
-          this.dataStatus = 0;
-        }
-        this.searchMyRecords = this.getCounsellorDetails;
-      },
-      (error: any) => {
-        this.dataStatus = 2;
-        let msg = {
-          type: "error",
-          body: error.error.message
-        }
-        this.appc.popToast(msg);
-      }
-    )
+      )
+    }
   }
 
   searchDatabase() {
@@ -174,7 +182,6 @@ export class CounsellorReportComponent implements OnInit {
   }
 
   reportHandler(dataObj) {
-    console.log(dataObj);
     if (dataObj.data > 0) {
       if (dataObj.key == "newEnqCount") {
         let payload = {

@@ -102,58 +102,67 @@ export class ReferredByComponent implements OnInit {
     this.getreferredByDetails = [];
     this.newArray = [];
     this.dataStatus = 1;
-    this.service.counsellorDetails(this.referredByInfoDetails).subscribe(
-      (data: any) => {
 
-        for (var prop in data) {
-          if (data.hasOwnProperty(prop)) {
-            let innerObj = {};
-            innerObj[prop] = data[prop];
-            this.getreferredByDetails.push(innerObj)
-          }
-        }
+    if (this.referredByInfoDetails.updateDateFrom > this.referredByInfoDetails.updateDateTo) {
+      this.appc.popToast({ type: "error", title: "", body: "From date cannot be greater than to date" });
+      this.dataStatus = 2;
+    }
 
-        for (let a of this.getreferredByDetails) {
-          for (let prop in a) {
-            this.newObject = {
-              key: prop,
-              data: a[prop]
+    else {
+      this.service.counsellorDetails(this.referredByInfoDetails).subscribe(
+        (data: any) => {
+
+          for (var prop in data) {
+            if (data.hasOwnProperty(prop)) {
+              let innerObj = {};
+              innerObj[prop] = data[prop];
+              this.getreferredByDetails.push(innerObj)
             }
           }
-          this.newArray.push(this.newObject);
-        }
 
-        this.getreferredByDetails = this.newArray;
-        this.getreferredByDetails.map(
-          (ele: any) => {
-            ele.newEnqCount = ele.data.newEnqcount;
-            ele.totalcount = ele.data.totalcount;
-            ele.source_id = ele.key
-            ele.source = ele.data.uniqueCatName
-            ele.Closed = ele.data.statusMap.Closed;
-            ele.open = ele.data.statusMap.Open;
-            ele.inProgress = ele.data.statusMap["In Progress"];
-            ele.Converted = ele.data.statusMap.Converted;
-            ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
+          for (let a of this.getreferredByDetails) {
+            for (let prop in a) {
+              this.newObject = {
+                key: prop,
+                data: a[prop]
+              }
+            }
+            this.newArray.push(this.newObject);
           }
-        )
-        if (this.getreferredByDetails.length == 0) {
+
+          this.getreferredByDetails = this.newArray;
+          this.getreferredByDetails.map(
+            (ele: any) => {
+              ele.newEnqCount = ele.data.newEnqcount;
+              ele.totalcount = ele.data.totalcount;
+              ele.source_id = ele.key
+              ele.source = ele.data.uniqueCatName
+              ele.Closed = ele.data.statusMap.Closed;
+              ele.open = ele.data.statusMap.Open;
+              ele.inProgress = ele.data.statusMap["In Progress"];
+              ele.Converted = ele.data.statusMap.Converted;
+              ele.studentAdmitted = ele.data.statusMap["Student Admitted"];
+            }
+          )
+          if (this.getreferredByDetails.length == 0) {
+            this.dataStatus = 2;
+          }
+          else {
+            this.dataStatus = 0;
+          }
+          this.searchMyRecords = this.getreferredByDetails;
+        },
+        (error: any) => {
           this.dataStatus = 2;
+          let msg = {
+            type: "error",
+            body: error.error.message
+          }
+          this.appc.popToast(msg);
         }
-        else {
-          this.dataStatus = 0;
-        }
-        this.searchMyRecords = this.getreferredByDetails;
-      },
-      (error: any) => {
-        this.dataStatus = 2;
-        let msg = {
-          type: "error",
-          body: error.error.message
-        }
-        this.appc.popToast(msg);
-      }
-    )
+      )
+
+    }
   }
 
 
