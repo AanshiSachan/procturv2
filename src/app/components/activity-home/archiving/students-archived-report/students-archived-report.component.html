@@ -1,3 +1,134 @@
-<p>
-  students-archived-report works!
-</p>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="report-wrapper clearFix">
+  <aside class="middle-full">
+    <section class="middle-main clearFix">
+
+      <div class="middle-top mb0 clearFix header">
+        <div class="report-header" style="padding-bottom:1% ; height:7vh;">
+          <h2 style="padding: 5px;" class="pull-left">
+            <a routerLink="/view/activity">
+              Activity
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/activity/archiving">
+              Archiving
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <span *ngIf="!isProfessional">Archived Status Student List</span>
+          </h2>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="filter-box clearFix" style="margin: 6px 0px 6px 6px;float: right;">
+        <div id="basic-search" class="search-filter-wrapper">
+          <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()"  style="padding: 10px;">
+        </div>
+      </div>
+      <div class="table table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: right" (click)="sortedData('student_disp_id') ">
+                Student ID &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
+              </th>
+              <th style="text-align: left" (click)="sortedData('student_name') ">
+                Student Name &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_name') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_name') && direction != 1"></i>
+              </th>
+              <th style="text-align: left">
+                Alumni
+              </th>
+              <th style="text-align: right" (click)="sortedData('doj') ">
+                Joining Date  &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('doj') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('doj') && direction != 1"></i>
+              </th>
+              <th style="text-align: right" (click)="sortedData('dob') ">
+                DOB  &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('dob') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('dob') && direction != 1"></i>
+              </th>
+              <th style="text-align: right" (click)="sortedData('student_phone') ">
+                Contact No. &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_phone') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_phone') && direction != 1"></i>
+              </th>
+              <th style="text-align: right" (click)="sortedData('parent_phone') ">
+                Parent Contact No. &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('parent_phone') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('parent_phone') && direction != 1"></i>
+              </th>
+              <th style="text-align: left">
+                Status
+              </th>
+              <th style="text-align: right" (click)="sortedData('archived_date') ">
+                Archived Date Time  &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('archived_date') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('archived_date') && direction != 1"></i>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="newPaginated.length!=0">
+            <tr *ngFor="let i of newPaginated">
+              <td style="text-align: right">
+                {{i.student_disp_id}}
+              </td>
+              <td style="text-align: left">
+                {{i.student_name}}
+              </td>
+              <td style="text-align: left">
+                {{i.is_alumni}}
+              </td>
+              <td style="text-align: right">
+                {{i.doj}}
+              </td>
+              <td style="text-align: right">
+                {{i.dob}}
+              </td>
+              <td style="text-align: right">
+                {{i.student_phone}}
+              </td>
+              <td style="text-align: right">
+                {{i.parent_phone}}
+              </td>
+              <td style="text-align: left">
+                {{i.status}}
+              </td>
+              <td style="text-align: right">
+                {{i.archived_date}}
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="newPaginated.length == 0 && dataStatus === true">
+            <tr *ngFor="let dummy of dummyArr">
+              <td *ngFor="let c of columnMaps" style="padding:10px;">
+                <div class="skeleton">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="newPaginated.length == 0 && dataStatus === false" class="records">
+            <tr>
+              <td colspan="9" class="records">
+                No Records Found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
+    </section>
+  </aside>
+</div>

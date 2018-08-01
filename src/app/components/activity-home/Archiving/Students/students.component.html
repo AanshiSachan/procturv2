@@ -32,43 +32,56 @@
         <table>
           <thead>
             <tr>
-              <th style="text-align: left;">
-                <div class="field-checkbox-wrapper" style="display: inline-block;">
-                  <input type="checkbox" class="form-checkbox">
+              <th style="text-align: left;" (click)="sortedData('student_disp_id') ">
+                <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
+                  <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedStatus" (ngModelChange)="getValueChanged($event)">
                   <label></label>
                 </div>
-                Student ID
+                Student ID &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
               </th>
-              <th style="text-align: left;">
-                Alumni
+              <th style="text-align: left;" >
+                <div class="field-checkbox-wrapper"  style="display: inline-block; height: 16px;">
+                  <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedAlumni" (ngModelChange)="getAlumniValue($event)">
+                  <label></label>
+                </div>
+                Alumni 
               </th>
-              <th style="text-align: left;">
-                Student Name
+              <th style="text-align: left;" (click)="sortedData('student_name') ">
+                Student Name &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_name') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_name') && direction != 1"></i>
               </th>
-              <th style="text-align: right;">
-                Contact No.
+              <th style="text-align: right;" (click)="sortedData('student_phone') ">
+                Contact No. &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_phone') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_phone') && direction != 1"></i>
               </th>
-              <th style="text-align: right;">
-                Joining date
+              <th style="text-align: right;" (click)="sortedData('doj') ">
+                Joining date &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('doj') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('doj') && direction != 1"></i>
               </th>
-              <th style="text-align: right;">
-                DOB
+              <th style="text-align: right;" (click)="sortedData('dob') ">
+                DOB &nbsp;
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('dob') && direction == 1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('dob') && direction != 1"></i>
               </th>
             </tr>
           </thead>
           <tbody *ngIf="newPaginated.length !=0">
             <tr *ngFor="let i of newPaginated , let j=index;">
               <td style="text-align: left;">
-                <div class="field-checkbox-wrapper">
+                <div class="field-checkbox-wrapper" style="height: 16px;">
                   <input type="checkbox" class="form-checkbox" [(ngModel)]="i.status" (ngModelChange)="getStatusValue(j)">
                   <label></label>
                 </div>
                 {{i.student_disp_id}}
               </td>
               <td class="field-wrapper" style="width:14%; text-align: left;">
-                <select class="form-ctrl" style="width:27% " [(ngModel)]="i.is_alumni" (ngModelChange)="valueChange($event , i ,j)">
-                  <option value = -1></option>
-                  <option value="Y">Y</option>
+                <select class="form-ctrl" style="width:27% " [(ngModel)]="i.alumni" (ngModelChange)="valueChange($event , i ,j)">
+                  <option value="Y" selected>Y</option>
                   <option value="N">N</option>
                 </select>
               </td>

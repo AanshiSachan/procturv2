@@ -106,8 +106,20 @@ export class CoursesServiceService {
   }
 
   archiveStudents(obj){
-    let url = this.baseUrl + "/api/v1/archive/students/" + this.institute_id;
+    let url = this.baseUrl + "/api/v1/archive/students"
     return this.http.post(url , obj , {headers:this.headers}).map(
+      (data:any)=>{
+        return data;
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+  }
+
+  archivedStudents(){
+    let url = this.baseUrl + "/api/v1/archive/students/report/" + this.institute_id
+    return this.http.get(url , {headers:this.headers}).map(
       (data:any)=>{
         return data;
       },

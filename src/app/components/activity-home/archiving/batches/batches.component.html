@@ -95,14 +95,14 @@
           <tbody *ngIf="newPaginated!=0">
             <tr *ngFor="let i of newPaginated ; let j=index;">
               <td *ngIf="!isProfessional" style="text-align: left;  padding:5px 0px 10px 5px; ">
-                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px; height:15px; margin-right: 10px;">
+                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px; height:16px; margin-right: 10px;">
                   <input type="checkbox" class="form-checkbox" name={{i.course_id}} id={{i.course_id}} [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)" style="height:15px; margin-right: 10px;">
                   <label for={{i.course_id}}></label>
                 </div>
                 {{i.course_name}}
               </td>
               <td *ngIf="isProfessional" style="text-align: left; padding:5px 0px 10px 5px; ">
-                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px; height:15px; margin-right: 10px;">
+                <div class="field-checkbox-wrapper" style="display: inline-block;margin-top: 5px; height:16px; margin-right: 10px;">
                   <input type="checkbox" class="form-checkbox" name={{i.batch_id}} id={{i.batch_id}} [(ngModel)]="i.status" (ngModelChange)="notifyMe(j)" >
                   <label for={{i.batch_id}}></label>
                 </div>
