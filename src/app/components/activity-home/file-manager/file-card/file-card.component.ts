@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input, Output, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { FileManagerService } from '../file-manager.service';
 import { AppComponent } from '../../../../app.component';
-import { FileManagerService } from '../../../../services/file-manager-service/file-manager.service';
 
 
 
@@ -29,25 +29,30 @@ export class File {
 export class FileCardComponent implements OnChanges {
 
   @Input() data: any;
+
   @Output() draggedover = new EventEmitter<any>(null);
   @Output() draggedleave = new EventEmitter<any>(null);
+
   @Output() fileid = new EventEmitter<any>();
+
   @ViewChild("fileHeader") fileHeader: ElementRef;
   @ViewChild("fileHeader") fileImage: ElementRef;
+
   @Output() status = new EventEmitter<any>();
   @Input() fileDisplayArr: any[] = [];
+
   fileObj: File;
+
   @Input() selectedFolder: any[] = [];
+
   @Output() getPopupValue = new EventEmitter<any>();
   getPopupValueOpen: boolean = true;
+
   @Output() fileArr = new EventEmitter<any>();
   @Output() shareOptions = new EventEmitter<any>();
   dwnldLink = "";
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private fileService: FileManagerService,
-    private appC: AppComponent) {
+  constructor(private cd: ChangeDetectorRef, private fileService: FileManagerService, private appC: AppComponent) {
   }
 
   ngOnChanges() {
@@ -67,73 +72,90 @@ export class FileCardComponent implements OnChanges {
   }
 
   setImageAndIcons(type: string) {
+
     /* Document File */
     if (type === "doc" || type === "docx") {
       this.fileHeader.nativeElement.classList.add("docx");
       this.fileHeader.nativeElement.classList.add("doc-file");
 
     }
+
     /* PDF format */
     else if (type === 'pdf') {
       this.fileHeader.nativeElement.classList.add("pdf");
       this.fileHeader.nativeElement.classList.add("pdf-file");
 
     }
+
     /* Ms Excel Files */
     else if (type === 'xls' || type === "xlsx" || type === "csv") {
       this.fileHeader.nativeElement.classList.add("xlsx");
       this.fileHeader.nativeElement.classList.add("xlsx-file");
 
     }
+
+
     /* Text & RTF files */
     else if (type === 'txt' || type === "rtf") {
       this.fileHeader.nativeElement.classList.add("texts");
       this.fileHeader.nativeElement.classList.add("text-file");
 
     }
+
+
     /* jpg,jpeg,png */
     else if (type === 'jpg' || type === 'jpeg' || type === 'png' || type == "bmp" || type === "tif") {
       this.fileHeader.nativeElement.classList.add("image");
       this.fileHeader.nativeElement.classList.add("image-file");
     }
+
     /* Videos */
     else if (type === 'mp4' || type === 'flv' || type === 'wmv' || type === 'mov') {
       this.fileHeader.nativeElement.classList.add("video");
       this.fileHeader.nativeElement.classList.add("video-file");
 
     }
+
     /* Power point Slides */
     else if (type === 'ppt' || type === 'pptx') {
       this.fileHeader.nativeElement.classList.add("texts");
       this.fileHeader.nativeElement.classList.add("file-file");
 
     }
+
     /* Power point Slides */
     else if (type === 'mp3' || type === 'wav') {
       this.fileHeader.nativeElement.classList.add("audio");
       this.fileHeader.nativeElement.classList.add("audio-file");
 
     }
+
+
     /* Power point Slides */
     else if (type === 'rar' || type === 'zip') {
       this.fileHeader.nativeElement.classList.add("zip");
       this.fileHeader.nativeElement.classList.add("zip-file");
 
     }
+
+
     /* Default Case */
     else {
       this.fileHeader.nativeElement.classList.add("texts");
       this.fileHeader.nativeElement.classList.add(".file-file");
 
     }
+
   }
 
   onDragOver(event: Event) {
+    console.log("file over");
     this.draggedover.emit(event);
     this.preventAndStop(event);
   }
 
   onDragLeave(event: Event) {
+    console.log("file leave");
     //this.draggedleave.emit(event);
     this.draggedover.emit(event);
     this.preventAndStop(event);
@@ -145,10 +167,12 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFilesDeleted(event) {
+    console.log(event);
     let getDeletedFiles = [{
       file_id: event.res.file_id,
       keyName: event.res.keyName
     }]
+
     if (confirm('Are you sure, you want to delete the file?')) {
       this.fileService.deleteFiles(getDeletedFiles).subscribe(
         (data: any) => {
@@ -195,12 +219,18 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFileDownloaded(fileObj) {
+   
     let url = this.fileService.baseUrl + "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
-    setTimeout(() => {
+    setTimeout(()=>{
       var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
       hiddenDownload.href = url;
       hiddenDownload.download = fileObj.res.file_name;
       hiddenDownload.click();
     }, 500);
+    console.log(fileObj);
+    console.log(url);
   }
+
+
+
 }

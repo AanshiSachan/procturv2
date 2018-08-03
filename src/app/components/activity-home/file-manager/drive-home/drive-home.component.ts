@@ -1,10 +1,9 @@
 import { Component, NgZone, OnInit, ViewChild, ElementRef, EventEmitter, Output, Input } from '@angular/core';
 import { Tree } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
+import { FileManagerService } from '../file-manager.service';
 import { UploadPopupComponent } from '../upload-popup/upload-popup.component';
 import { AppComponent } from '../../../../app.component';
-import { FileManagerService } from '../../../../services/file-manager-service/file-manager.service';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'app-drive-home',
@@ -16,10 +15,13 @@ export class DriveHomeComponent implements OnInit {
   @ViewChild('DragContainer') dragBox: ElementRef;
   @ViewChild('dropZone') dropZone: ElementRef;
   @ViewChild('uploaders') uploaders: ElementRef;
+
   isGridView: boolean = true;
   isFirstTimeLoad: boolean = false;
   msg = '';
+
   @ViewChild('expandingTree')
+
   expandingTree: Tree;
   folderFileArr: any[] = [];
   usedSpaceDetails: any;
@@ -35,88 +37,88 @@ export class DriveHomeComponent implements OnInit {
   fileDisplayArr: any[] = [];
   folderDisplayArr: any[] = [];
   selectedFolder: any;
+
+
   headertext: string = '';
   customstyle: string = "drop-area";
   dragoverflag: boolean = false;
+
   addCategoryPopup: boolean = false;
+
   selectedFiles: FileList[] = [];
+
   getCategoryData: any[] = [];
-  addNewRow = [];
-  sendPayload = {};
+
+  addNewRow = []
+  sendPayload = {
+
+  }
+
   getPopupOpen: boolean = false;
+
   fileIdGet: string;
+
   fileName: any[];
   shareOptions: any;
+
   createFolderControl: boolean = false;
+
   createFetchFolder = {
     folderName: "",
     institute_id: this.fileService.institute_id,
     keyName: ""
   }
+
   str: string;
-  getPath: string = "";
+  getPath : string = "";
+
   nodes: TreeNode;
   localFolder: any[];
 
-  constructor(
-    private zone: NgZone,
-    private fileService: FileManagerService,
-    private appC: AppComponent,
-    private auth: AuthenticatorService
-  ) { }
+  constructor(private zone: NgZone, private fileService: FileManagerService, private appC: AppComponent) { }
+
 
   ngOnInit(refreshTree?) {
-    let institute_id: any;
-    this.auth.currentInstituteId.subscribe(
-      res => {
-        institute_id = res;
-      }
-    )
-    if (refreshTree == true) {
+
+    let institute_id = sessionStorage.getItem("institute_id");
+    if(refreshTree == true){
       this.fetchPrefillFolderAndFiles(institute_id + "/", refreshTree);
-    } else {
+    }else{
       this.fetchPrefillFolderAndFiles(institute_id + "/");
     }
     this.fetchUsedSpace();
   }
 
-  errorMessage(error) {
-    let msg = {
-      type: "error",
-      title: "",
-      body: error.error.message
-    }
-    this.appC.popToast(msg);
-  }
 
   fetchPrefillFolderAndFiles(path: string, backLoad?) {
+
     let institute_id = sessionStorage.getItem("institute_id");
+
     let obj = { keyName: path, institute_id: institute_id };
+
+
+
     this.fileService.getAllFolderFiles(obj).subscribe(
       (res: any) => {
-        
         this.getPath = obj.keyName;
-        if (backLoad) {
+        if(backLoad){
           this.generateTreeNodes(res, obj.keyName, true);
-        } else {
+        }else{
           this.generateTreeNodes(res, obj.keyName);
         }
+
       }
-    ),
-      (error) => {
-        this.errorMessage(error);
-      }
+    );
+
   }
+
 
   fetchUsedSpace() {
     this.fileService.getUsedSpace().subscribe(
       (res: any) => {
         this.usedSpaceDetails = res;
       }
-    ),
-      (error) => {
-        this.errorMessage(error);
-      }
+    );
   }
 
   getFilesAndFolder(event) {
@@ -124,7 +126,7 @@ export class DriveHomeComponent implements OnInit {
       this.fetchPrefillFolderAndFiles(this.fileService.institute_id + "/");
     }
     else {
-      console.log('error');
+
     }
   }
 
@@ -137,20 +139,22 @@ export class DriveHomeComponent implements OnInit {
     }
   }
 
-  collapseString() {
+  collapseString(){
     let pathArray = this.getPath.split('/');
-    if (pathArray.length == 2) {
+    if(pathArray.length == 2){
+      console.log("No Further back")
       return false;
-    } else {
+    }else{
       pathArray.pop(); //For empty Char at end
       pathArray.pop(); //For Actual Path
       let basePath = pathArray.join('/') + '/';
       this.fetchPrefillFolderAndFiles(basePath, true);
-    }
+     }
   }
 
 
   fileId(event) {
+
     this.fileIdGet = event;
   }
 
@@ -180,13 +184,15 @@ export class DriveHomeComponent implements OnInit {
           body: "Folder Created successfully"
         }
         this.appC.popToast(msg);
+        //        this.fetchPrefillFolderAndFiles(this.createFetchFolder.keyName);
         this.ngOnInit(true);
       },
-      (error) => {
-        this.errorMessage(error);
+      (error: any) => {
+
       }
     )
   }
+
 
   toggleView() {
     this.zone.runOutsideAngular(() => {
@@ -203,17 +209,19 @@ export class DriveHomeComponent implements OnInit {
     });
   }
 
+
   openSettings() { }
+
 
   onNodeExpand(event) {
 
   }
 
   onNodeSelect(event) {
-
+    
   }
 
-  searchDatabase(eve) {
+  searchDatabase(eve){
 
   }
 
@@ -223,14 +231,17 @@ export class DriveHomeComponent implements OnInit {
 
 
   folderSelected(folder) {
+
     this.selectedFolder = folder;
+    // this.getChildFolders(folder);
     if (folder.data.hasOwnProperty('keyName')) {
       this.fetchPrefillFolderAndFiles(folder.data.keyName);
     }
   }
 
   generateTreeNodes(res, path: string, backLoad?) {
-    if (backLoad == true) {
+
+    if(backLoad == true){
       this.isFirstTimeLoad = false;
     }
     this.fileDisplayArr = [];
@@ -239,12 +250,14 @@ export class DriveHomeComponent implements OnInit {
     let localFolder: any[] = [];
     let childArr: any[] = [];
     let folderArr: any[] = [];
+
     if (res.files != null) {
       childArr = this.getChildArray(res.files);
     }
     if (res.folders != null) {
       folderArr = this.getChildFolders(res.folders)
     }
+
     if (res.files == null && res.folders == null) {
       let temp: any = [{
         label: 'empty',
@@ -257,35 +270,46 @@ export class DriveHomeComponent implements OnInit {
       this.updateTreeNode(temp);
       return;
     }
+
     this.fileDisplayArr = childArr;
+
     this.folderDisplayArr = folderArr;
+    console.log(this.folderDisplayArr);
     localFolder = folderArr.concat(childArr);
     this.folderFileArr = localFolder;
+
     /* Only When Calling the Home Folder Refresh the TreeNode */
     if (path.split("/")[1] == "") {
       /* If user has requested API for first time then fetch shell of outer folder */
       if (!this.isFirstTimeLoad) {
         this.treeNodeData = localFolder;
         this.isFirstTimeLoad = true;
+
       }
       else {
         this.updateTreeNode(localFolder);
+
       }
     }
     /* Adding Data to Tree Node */
     else {
+
       this.updateTreeNode(localFolder);
     }
+
   }
 
   updateTreeNode(localFolder) {
+    console.log(this.treeNodeData);
+    console.log(localFolder);
+    console.log(this.selectedFolder);
     this.treeNodeData.forEach(node => {
       if (node.type == "folder") {
         if (node.label == this.selectedFolder.label) {
-          if (node.children.length == 0) {
+          if(node.children.length == 0){
             node.children = localFolder;
-          } else {
-            this.findNode(node, localFolder);
+          }else{
+            this.findNode(node, localFolder);            
           }
         }
         else {
@@ -297,14 +321,16 @@ export class DriveHomeComponent implements OnInit {
     });
   }
 
+  
+
   getCategories() {
     this.addCategoryPopup = true;
     this.fileService.getCategories().subscribe(
       (data: any) => {
         this.getCategoryData = data;
       },
-      (error) => {
-        this.errorMessage(error);
+      (error: any) => {
+
       }
     )
   }
@@ -313,18 +339,24 @@ export class DriveHomeComponent implements OnInit {
     this.addCategoryPopup = false;
   }
 
+
   addNewRowToPopup(a) {
+
     let arr = []
+
     if (this.addNewRow.length > 4) {
+
     }
     else {
       this.addNewRow.push(arr);
     }
+
   }
 
   findNode(node: TreeNode, localFolder) {
     this.nodes = node;
     this.localFolder = localFolder;
+
     node.children.forEach(child => {
       if (child.type === "folder") {
         if (child.label === this.selectedFolder.label) {
@@ -347,6 +379,7 @@ export class DriveHomeComponent implements OnInit {
     });
   }
 
+
   getChildArray(obj): any[] {
     let tempChildArr: any[] = [];
     let size = Object.keys(obj).length;
@@ -366,6 +399,7 @@ export class DriveHomeComponent implements OnInit {
 
     let tempFolderArr: any[] = [];
     let size = Object.keys(obj).length;
+
     if (size > 0) {
       for (let key in obj) {
         /* Structure to define a folder */
@@ -381,6 +415,7 @@ export class DriveHomeComponent implements OnInit {
       }
       return tempFolderArr;
     }
+
     return tempFolderArr;
   }
 
@@ -432,7 +467,9 @@ export class DriveHomeComponent implements OnInit {
 
       return "fa-file-o";
     }
+
     return "fa-file-o";
+
   }
 
   navigateTo(location) {
@@ -448,6 +485,7 @@ export class DriveHomeComponent implements OnInit {
   }
 
   onDragOver(event: any): void {
+
     this.dragoverflag = true;
     this.dropZone.nativeElement.classList.add("over");
     this.preventAndStop(event);
@@ -463,6 +501,7 @@ export class DriveHomeComponent implements OnInit {
   }
 
   onDrop(event: Event): void {
+
     this.preventAndStop(event);
     this.dropZone.nativeElement.classList.remove("over");
     this.dragoverflag = false;
@@ -480,6 +519,7 @@ export class DriveHomeComponent implements OnInit {
   onDragLeaveFolder(event: Event, folder): void {
     this.dragoverflag = true;
     this.dropZone.nativeElement.classList.add("over");
+
     this.preventAndStop(event);
     if (folder != null) {
     }
@@ -487,6 +527,7 @@ export class DriveHomeComponent implements OnInit {
 
 
   getPopupValue(event) {
+
     this.getPopupOpen = true;
   }
 
@@ -499,16 +540,20 @@ export class DriveHomeComponent implements OnInit {
     this.dropZone.nativeElement.classList.remove("over");
     this.dragoverflag = false;
     this.addCategoryPopup = true;
+
     this.selectedFiles = event.files;
+
+
   }
 
   status(event) {
+
     if (event == 200) {
       this.fetchPrefillFolderAndFiles(this.fileService.institute_id + "/");
       this.generateTreeNodes(event, "");
     }
     else {
-      console.log("error");
+
     }
   }
 
@@ -519,4 +564,5 @@ export class DriveHomeComponent implements OnInit {
   closeFolderControl() {
     this.createFolderControl = false;
   }
+
 }

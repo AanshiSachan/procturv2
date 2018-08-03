@@ -9,6 +9,7 @@
 
   </div>
 
+
   <!-- Header for the Drive -->
   <header class="top-nav">
     <h1 class="pull-left">File Manager
@@ -81,14 +82,14 @@
               </h2>
 
               <div class="file__details">
-                {{folder.data.category_name}}
+                {{folder.type}}
               </div>
 
-              <div class="file__details file__owner">{{folder.data.uploadedBy}}</div>
+              <div class="file__details file__owner">{{folder.data.uploaded_by}}</div>
 
               <div class="file__details file__date">{{folder.data.uploaded_time}}</div>
 
-              <div class="file__details file__size">{{folder.data.downloaded_size}} KB</div>
+              <div class="file__details file__size">{{folder.data.size}} KB</div>
 
               <div class="file__details">{{folder.data.downloads}}</div>
 

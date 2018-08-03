@@ -104,7 +104,7 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "Student fee details are based on Master Course/Course and academic year filter applied."
+  helpMsg: string = "Active Student fee details are based on Master Course/Course and academic year filter applied."
 
   @ViewChild('form') form: any;
 
@@ -122,9 +122,6 @@ export class FeeCourseReportComponent implements OnInit {
   ) {
     this.switchActiveView('fee');
   }
-
-
-
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   /* ===================================================================================================== */
@@ -163,7 +160,6 @@ export class FeeCourseReportComponent implements OnInit {
       .subscribe(data => {
         this.searchDB();
       });
-
   }
 
   getAcademicYear() {

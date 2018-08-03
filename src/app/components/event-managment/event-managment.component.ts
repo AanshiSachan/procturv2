@@ -125,8 +125,8 @@ export class EventManagmentComponent implements OnInit {
         this.eventRecord = res;
         this.totalRow = this.eventRecord.length;
         this.fetchTableDataByPage(this.pageIndex);
-      }, ) ,
-      (error:any)=>{
+      }, ),
+      (error: any) => {
         this.errorMessage(error);
       }
   }
@@ -198,11 +198,6 @@ export class EventManagmentComponent implements OnInit {
       return;
     }
 
-    if (!this.acceptedFileFormat.hasOwnProperty(this.type)) {
-      this.appc.popToast({ type: "error", title: "", body: "File format not supported" });
-      return;
-    }
-
     var fileReader = new FileReader();
     var encString = "";
     fileReader.readAsDataURL(file);
@@ -216,6 +211,10 @@ export class EventManagmentComponent implements OnInit {
 
   saveEventData() {
 
+    if (!this.acceptedFileFormat.hasOwnProperty(this.type)) {
+      this.appc.popToast({ type: "error", title: "", body: "File format not supported" });
+      return;
+    }
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
       let obj = {
         type: "error",
@@ -314,7 +313,7 @@ export class EventManagmentComponent implements OnInit {
     }
   }
   updatePopupData() {
-
+    
     let type = {
       1: ""
     }
@@ -350,6 +349,11 @@ export class EventManagmentComponent implements OnInit {
       this.appc.popToast(obj);
       return;
 
+    }
+
+    if (!this.acceptedFileFormat.hasOwnProperty(this.type)) {
+      this.appc.popToast({ type: "error", title: "", body: "File format not supported" });
+      return;
     }
 
     if (this.newUpdateObj.holiday_long_desc.length > 300) {

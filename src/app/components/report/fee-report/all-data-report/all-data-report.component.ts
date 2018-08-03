@@ -105,7 +105,7 @@ export class AllDataReportComponent implements OnInit {
 
   userInput: string = ''
 
-  helpMsg: string = "Student fee details are shown based on dues and academic year filter applied."
+  helpMsg: string = "Active Student fee details are shown based on dues and academic year filter applied."
 
   @ViewChild('form') form: any;
 

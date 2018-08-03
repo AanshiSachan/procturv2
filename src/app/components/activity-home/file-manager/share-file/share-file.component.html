@@ -51,9 +51,11 @@
 
   <div popup-content class="popup-header-content">
 
-    <input type="button" id="tab1" (click)="selectTab(1)" style="display: inline-block; margin-top: 1%;" class="btn" value="Student" [disabled]="categoryId == '62'">
+    <input type="button" id="tab1" (click)="selectTab(1)" style="display: inline-block; margin-top: 1%;" class="btn" value="Student"
+      [disabled]="categoryId == '62'">
     <input type="button" id="tab2" (click)="selectTab(2)" style="display: inline-block; margin-top: 1%;" class="btn" value="Public">
-    <input type="button" id="tab3" (click)="selectTab(3)" style="display: inline-block; margin-top: 1%;" class="btn" value="Institute" [disabled]="categoryId != '62'">
+    <input type="button" id="tab3" (click)="selectTab(3)" style="display: inline-block; margin-top: 1%;" class="btn" value="Institute"
+      [disabled]="categoryId != '62'">
 
     <br/>
     <div id="tab1Content">
@@ -131,7 +133,7 @@
                   <div class="field-checkbox-wrapper" style="display: inline-block;
                   margin-top: 5px;
                   height: 16px;
-                  margin-right: 10px; margin-left: 15px;">
+                  margin-right: 10px; margin-left: 9px;">
                     <input type="checkbox" class="form-checkbox" [(ngModel)]="isStudentChecked" (ngModelChange)="fileSharedStudents($event)">
                     <label></label>
                   </div>
@@ -220,14 +222,22 @@
                 </td>
               </tr>
             </tbody>
-            <tbody *ngIf="batchesId && getBatchesData.length==0">
+            <tbody *ngIf="batchesId && getBatchesData.length==0 && dataStatus === false">
               <tr>
                 <td colspan="3">No Records Found</td>
               </tr>
             </tbody>
+            <tbody *ngIf="batchesId && getBatchesData.length == 0 && dataStatus === true">
+              <tr *ngFor="let dummy of dummyArr">
+                <td *ngFor="let c of columnMaps" style="padding:10px;">
+                  <div class="skeleton">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
             <tbody *ngIf="studentsId && getStudentsData.length!=0">
               <tr *ngFor="let i of getStudentsData ; let j =index;">
-                <td style="text-align: left; width:17%;">
+                <td style="text-align: left; width:21%;">
                   <div class="field-checkbox-wrapper">
                     <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getFileSharedStudents($event , j)">
                     <label></label>
@@ -306,9 +316,17 @@
                 </td>
               </tr>
             </tbody>
-            <tbody *ngIf="studentsId && getStudentsData.length==0">
+            <tbody *ngIf="studentsId && getStudentsData.length==0 && dataStatus === false">
               <tr>
                 <td colspan="4">No Records Found</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="studentsId && getStudentsData.length == 0 && dataStatus === true">
+              <tr *ngFor="let dummy of dummyArr">
+                <td *ngFor="let c of columnMaps" style="padding:10px;">
+                  <div class="skeleton">
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -356,40 +374,44 @@
   <div popup-footer style="margin-top: 2%;">
     <div *ngIf="tabChoice == 'institute'" class="row" style="text-align: right">
       <div class="c-lg-6"></div>
-      <div  class="c-lg-2">
-        <input *ngIf="!editInstituteShare " type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
-        <input *ngIf="editInstituteShare" type="button" value="Update" class="btn fullBlue" (click)="shareFile()">
+      <div class="c-lg-2" *ngIf="!editInstituteShare" style="text-align: right;">
+        <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
+      </div>
+      <div class="c-lg-2" *ngIf="editInstituteShare">
+        <input type="button" value="Update" class="btn fullBlue" (click)="shareFile()">
+      </div>
+      <div class="c-lg-2" *ngIf="editInstituteShare">
+        <input type="button" value="UnShare" class="btn fullBlue" (click)="shareFile('1')">
       </div>
       <div class="c-lg-2">
-          <input *ngIf="editInstituteShare" type="button" value="UnShare" class="btn fullBlue" (click)="shareFile('1')">
-      </div>
-      <div class="c-lg-1">
         <input type="button" value="Close" class="btn fullBlue" (click)="close()">
       </div>
     </div>
-    <div *ngIf="tabChoice == 'public'" class="row" style="text-align: right">
-        <div class="c-lg-6"></div>
-        <div  class="c-lg-2">
-          <input *ngIf="!editPublicShare " type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
-          <input *ngIf="editPublicShare" type="button" value="Update" class="btn fullBlue" (click)="shareFile()">
-        </div>
-        <div class="c-lg-2">
-            <input *ngIf="editPublicShare" type="button" value="UnShare" class="btn fullBlue" (click)="shareFile('1')">
-        </div>
-        <div class="c-lg-1">
-          <input type="button" value="Close" class="btn fullBlue" (click)="close()">
-        </div>
+    <div *ngIf="tabChoice == 'public'" class="row" style="text-align: right ; width:95%;">
+      <div class="c-lg-6"></div>
+      <div class="c-lg-4" *ngIf="!editPublicShare " style="text-align: right;">
+        <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
       </div>
-      <div *ngIf="tabChoice == 'student'" class="row" style="text-align: right">
-          <div class="c-lg-6"></div>
-          <div  class="c-lg-4">
-            <input *ngIf="!editBatchShare " type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
-            <input *ngIf="editBatchShare" type="button" value="Update" class="btn fullBlue" (click)="shareFile()">
-          </div>
-          <div class="c-lg-2">
-            <input type="button" value="Close" class="btn fullBlue" (click)="close()">
-          </div>
-        </div>
+      <div class="c-lg-2" *ngIf="editPublicShare">
+        <input type="button" value="Update" class="btn fullBlue" (click)="shareFile()">
+      </div>
+      <div class="c-lg-2" *ngIf="editPublicShare">
+        <input type="button" value="UnShare" class="btn fullBlue" (click)="shareFile('1')">
+      </div>
+      <div class="c-lg-2">
+        <input type="button" value="Close" class="btn fullBlue" (click)="close()">
+      </div>
+    </div>
+    <div *ngIf="tabChoice == 'student'" class="row" style="text-align: right">
+      <div class="c-lg-6"></div>
+      <div class="c-lg-4">
+        <input *ngIf="!editBatchShare " type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
+        <input *ngIf="editBatchShare" type="button" value="Update" class="btn fullBlue" (click)="shareFile()">
+      </div>
+      <div class="c-lg-2">
+        <input type="button" value="Close" class="btn fullBlue" (click)="close()">
+      </div>
+    </div>
   </div>
 
 </proctur-popup>
