@@ -1,0 +1,87 @@
+<proctur-popup [sizeWidth]="'small'">
+
+  <span class="closePopup pos-abs fbold show" close-button (click)="close()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+
+  <div popup-header class="popup-header-content">
+    <h2 style="text-align: center;">Upload File</h2>
+  </div>
+
+  <div popup-content class="popup-header-content">
+    <div class="row">
+      <div class="c-lg-8 field-wrapper">
+        <label>Select Category</label>
+        <select class="form-ctrl" [(ngModel)]="category_id" (ngModelChange)="categoryCheck()">
+          <option value="-1"></option>
+          <option *ngFor="let i of getCategoryData" [value]="i.category_id">
+            {{i.category_name}}
+          </option>
+
+        </select>
+      </div>
+      <div class="c-lg-1">
+        <i class="fa fa-upload" title="Upload File" (click)="uploadHandler()" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #0d171f; margin-top: 30px;  margin-left: -14px;">
+        </i>&nbsp;&nbsp;&nbsp;
+      </div>
+      <div class="c-lg-3">
+        <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+          <div class="file-uploaded">
+            {{fileLoading}}
+          </div>
+          <div class="progress-bar-wrapper">
+            <div class="upload-bar">
+              <div id="progress-width"></div>
+            </div>
+            <span>{{progress}} %</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-left: 2%;">
+
+      <ul *ngFor="let file of customFileArr" style="display: inline-block; width:40%;" class="shadow">
+        <div class="row">
+          <div class="c-lg-2">
+            <li style="display:inline-block;width: 30px;
+            display: inline-block;
+            margin-top: 4px;">
+              <img src="assets/images/file_manager/image.svg" style="width: 96px;
+              height: 32px;
+              margin-left: -11px;" *ngIf="category_image.hasOwnProperty(file.fileType)">
+              <img src="assets/images/file_manager/xlsx.png" style="width: 96px;
+              height: 32px;
+              margin-left: -11px;" *ngIf="category_docx.hasOwnProperty(file.fileType)">
+              <img src="assets/images/file_manager/pdf.png" style="width: 96px;
+              height: 32px;
+              margin-left: -11px;" *ngIf="category_pdf.hasOwnProperty(file.fileType)">
+            </li>
+          </div>
+          <div class="c-lg-10">
+            <li style="display: inline-block;">
+              File Name : {{file.fileName}}
+            </li>
+            <li>
+              File Type : {{file.fileType}}
+            </li>
+            <li>
+              File Size : {{file.fileSize}}
+            </li>
+          </div>
+        </div>
+
+      </ul>
+
+    </div>
+  </div>
+</proctur-popup>

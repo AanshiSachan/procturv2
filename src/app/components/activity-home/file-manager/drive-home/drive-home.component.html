@@ -1,0 +1,156 @@
+<!-- Main screen where content will be rendered -->
+<div class="center-content">
+
+  <div id="dropZone" #dropZone (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" class="drop-area">
+
+    <p-fileUpload #uploaders mode="advanced" *ngIf="dragoverflag" customUpload="true" multiple="multiple" (onSelect)="onSelect($event, uploaders)"
+      (clear)="clearSelectedFiles($event)">
+    </p-fileUpload>
+
+  </div>
+
+  <!-- Header for the Drive -->
+  <header class="top-nav">
+    <h1 class="pull-left">File Manager
+      <div style="font-size: 12px;margin-top: 6px;">
+        <a (click)="collapseString()">
+          {{getPath}}
+        </a>
+      </div>
+    </h1>
+  </header>
+
+  <div class="files-cont">
+    <!-- Files and Folder for Group to be Inserted  -->
+    <div #DragContainer class="grid__container row row--no-right">
+      <!-- Side Tree View For Folder Display -->
+      <div class="col-sm-3 tree__view" (dragover)="onDragOverFolder($event, null)" (dragleave)="onDragLeaveFolder($event, null)">
+        <h3></h3>
+        <p-tree (onNodeCollapse)="onNodeCollapse($event)" (onNodeContextMenuSelect)="onNodeContextMenuSelect($event)" (onNodeExpand)="onNodeExpand($event)"
+          (onNodeSelect)="onNodeSelect($event)" [styleClass]="'tree__view_list'" #expandingTree [value]="treeNodeData">
+        </p-tree>
+
+      </div>
+
+      <!-- Preview Mode for Viewing the files on grid or list view -->
+      <div class="col-sm-9">
+        <div class="" (dragover)="onDragOverFolder($event, null)" (dragleave)="onDragLeaveFolder($event, null)">
+          <div class="file table__header">
+            <div class="file__img"></div>
+            <div class="file__info">
+              <h2 class="file__details file__header__name">
+                File Name
+              </h2>
+
+              <div class="file__details">
+                Category
+              </div>
+
+              <div class="file__details file__owner">
+                Owner
+              </div>
+
+              <div class="file__details file__date">
+                Uploaded On
+              </div>
+
+              <div class="file__details file__size">
+                File Size
+              </div>
+
+              <div class="file__details">
+                Downloads
+              </div>
+
+              <div class="file__details file__size" style="font-size: 15px;">
+                <i class="fa fa-folder-open" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Make folder" (click)="makeFolderOpen()"></i>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div (dragover)="onDragOverFolder($event, folder)" (dragleave)="onDragLeaveFolder($event, folder)" (dblclick)="folderSelected(folder)"
+            *ngFor="let folder of folderDisplayArr" class="file folder folder-file">
+            <div class="file__img"></div>
+            <div class="file__info">
+
+              <h2 class="file__title" title="{{folder.label}}">
+                {{folder.label}}
+              </h2>
+
+              <div class="file__details">
+                {{folder.data.category_name}}
+              </div>
+
+              <div class="file__details file__owner">{{folder.data.uploadedBy}}</div>
+
+              <div class="file__details file__date">{{folder.data.uploaded_time}}</div>
+
+              <div class="file__details file__size">{{folder.data.downloaded_size}} KB</div>
+
+              <div class="file__details">{{folder.data.downloads}}</div>
+
+            </div>
+          </div>
+
+          <div *ngIf="fileDisplayArr.length != 0">
+            <file-card (draggedover)="onDragOver($event)" (draggedleave)="onDragLeave($event)" [data]="folder" *ngFor="let folder of fileDisplayArr"
+              (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (getPopupValue)="getPopupValue($event)"
+              (fileid)="fileId($event)" (fileArr)="fileArr($event)" (shareOptions)="handleOptions($event)" [fileDisplayArr]="fileDisplayArr"
+              [selectedFolder]="selectedFolder">
+            </file-card>
+          </div>
+
+          <div class="file folder folder-file" *ngIf="fileDisplayArr.length == 0 && folderDisplayArr.length == 0">
+            <h2 class="file__title" id="noFFs">
+              No Files Or Folders Found
+            </h2>
+          </div>
+        </div>
+
+      </div>
+      <!-- ======================================================= -->
+    </div>
+  </div>
+
+</div>
+
+<app-upload-popup *ngIf="addCategoryPopup" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder" (closePopupValue)="close($event)"
+  (getFilesAndFolder)="getFilesAndFolder($event)">
+
+</app-upload-popup>
+
+<share-file *ngIf="getPopupOpen" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet" [fileName]="fileName" [shareOptions]="shareOptions"></share-file>
+
+
+<proctur-popup [sizeWidth]="'small'" *ngIf="createFolderControl">
+
+  <span class="closePopup pos-abs fbold show" close-button (click)="closeFolderControl()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+  <div popup-header class="popup-header-content">
+    <h2>Create Folder</h2>
+  </div>
+  <div popup-content class="popup-header-content">
+    <div class="row">
+      <div class="c-lg-4 field-wrapper">
+        <label>Folder Name</label>
+        <input type="text" class="form-ctrl" [(ngModel)]="createFetchFolder.folderName">
+      </div>
+      <div class="c-lg-2" style="margin-top: 4%;">
+        <input type="button" value="GO" class="btn fullBlue" (click)="createFolder()">
+      </div>
+    </div>
+  </div>
+</proctur-popup>

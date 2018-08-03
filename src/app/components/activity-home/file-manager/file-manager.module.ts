@@ -1,0 +1,45 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FileUploadModule } from 'primeng/fileupload';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import 'moment';
+import 'hammerjs';
+import { SharedModule } from '../../shared/shared.module';
+import { TreeModule } from 'primeng/tree';
+import { FileManagerComponent } from './file-manager.component';
+import { FileManagerRoutingModule } from './file-manager-routing.module';
+import { DriveHomeComponent } from './drive-home/drive-home.component';
+import { FileCardComponent } from './file-card/file-card.component';
+import { UploadPopupComponent } from './upload-popup/upload-popup.component';
+import { ShareFileComponent } from './share-file/share-file.component';
+import { FileManagerService } from '../../../services/file-manager-service/file-manager.service';
+
+@NgModule({
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        BsDatepickerModule,
+        SharedModule,
+        FileManagerRoutingModule,
+        TreeModule,
+        FileUploadModule
+    ],
+    declarations: [
+        FileManagerComponent,
+        DriveHomeComponent,
+        FileCardComponent,
+        UploadPopupComponent,
+        ShareFileComponent
+    ],
+    entryComponents: [
+        FileCardComponent
+    ],
+    providers: [
+        FileManagerService
+    ]
+})
+export class FileManagerModule {
+
+}

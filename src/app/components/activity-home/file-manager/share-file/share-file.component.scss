@@ -1,0 +1,35 @@
+#tab1Content {
+    display: block;
+}
+
+#tab2Content,
+#tab3Content {
+    display: none;
+}
+
+.tab {
+    padding-bottom: 18px;
+    margin-left: 10px;
+    background: #0084f6bf;
+    color: #fff;
+    width: 92%;
+    /* height: 72%; */
+    /* min-height: 46%; */
+    /* max-height: 73vh; */
+    height: auto;
+    z-index: 4;
+    margin-top:1px;
+    /* box-shadow: -15px 24px 5px #008; */
+}
+
+.form-file{
+    font-size: 14px;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.bold-font{
+    font-size: 14px;
+    color:black;
+    font-weight: bold;
+}

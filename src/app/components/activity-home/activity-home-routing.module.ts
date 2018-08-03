@@ -36,9 +36,14 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
                         pathMatch: 'prefix'
                     },
                     {
-                        path:'archiving',
+                        path: 'archiving',
                         loadChildren: 'app/components/activity-home/archiving/archiving.module#ArchivingModule',
                         pathMatch: 'prefix'
+                    },
+                    {
+                        path: 'file_manager',
+                        loadChildren: 'app/components/activity-home/file-manager/file-manager.module#FileManagerModule',
+                        pathMatch: "prefix"
                     }
                 ]
             }
