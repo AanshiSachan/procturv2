@@ -13,6 +13,8 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
 import { RouterModule } from '@angular/router';
 import { ArchivingComponent } from './archiving/archiving.component';
 import { ArchivingModule } from './archiving/archiving.module';
+import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
+import { ExamDeskCourseAssignmentService } from '../../services/examdesk-service/examdeskcourseassignment.service';
 
 @NgModule({
     imports: [
@@ -27,12 +29,14 @@ import { ArchivingModule } from './archiving/archiving.module';
     declarations: [
         ActivityHomeComponent,
         HomeComponent,
-        PtmManagementComponent
-    ], 
-    entryComponents: [  
+        PtmManagementComponent,
+        ExamdeskCourseAssignmentComponent
     ],
-    providers: [  
-        ActivityPtmService
+    entryComponents: [
+    ],
+    providers: [
+        ActivityPtmService,
+        ExamDeskCourseAssignmentService
     ]
 })
 export class ActivityHomeModule {
