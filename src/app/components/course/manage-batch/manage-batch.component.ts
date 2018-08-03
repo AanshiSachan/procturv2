@@ -53,9 +53,10 @@ export class ManageBatchComponent implements OnInit {
   academicList: any = [];
   feeTemplateDataSource: any = [];
   deafultTemplate: any;
-  studentUnAssigned: boolean = false;
   examGradeFeature: any = "";
   searchData: any = "";
+  radioOption: string = '0';
+  dataTable: any = [];
 
   constructor(
     private apiService: ManageBatchService,
@@ -367,6 +368,7 @@ export class ManageBatchComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getStudentListFromServer(rowDetails.batch_id).subscribe(
       (res: any) => {
+        this.radioOption = '0';
         res.forEach(element => {
           if (element.assigned_fee_template_id == -1) {
             if (this.deafultTemplate != null && this.deafultTemplate != "") {
@@ -376,40 +378,55 @@ export class ManageBatchComponent implements OnInit {
         });
         this.studentListDataSource = res;
         this.studentList = this.keepCloning(res);
-        this.getHeaderCheckBoxValue();
+        this.dataTable = this.studentList;
+        this.getHeaderCheckBoxValue(this.dataTable);
         this.isRippleLoad = false;
       },
       error => {
         this.isRippleLoad = false;
-        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
   }
 
-  onCheckBoxClicked(data, event, index) {
-    this.studentUnAssigned = false;
-    let prevData: any = "";
-    for (let i = 0; i < this.studentListDataSource.length; i++) {
-      if (this.studentListDataSource[i].student_id == data.student_id) {
-        prevData = this.studentListDataSource[i];
-        if (prevData.assigned != event) {
-          if (prevData.assigned == true && event == false) {
-            // Student Unassigned
-            this.studentUnAssigned = true;
-          } else if (prevData.assigned == false && event == true) {
-            // Student Assigned
-            this.studentUnAssigned = false;
-          }
-        } else {
-          // No Changes Performed
-        }
+  onRadioButtonChange() {
+    if (this.studentList.length > 0) {
+      if (this.radioOption == '0') {
+        this.dataTable = this.studentList;
+      } else if (this.radioOption == '1') {
+        this.dataTable = this.studentList.filter(
+          el => el.assigned == true
+        )
+      } else {
+        this.dataTable = this.studentList.filter(
+          el => el.assigned == false
+        )
       }
+      this.getHeaderCheckBoxValue(this.dataTable);
+    } else {
+      this.dataTable = [];
     }
   }
 
+  checkIfStudentUnassigned() {
+    let check = false;
+    for (let i = 0; i < this.studentListDataSource.length; i++) {
+      for (let j = 0; j < this.studentList.length; j++) {
+        if (this.studentListDataSource[i].assigned) {
+          if (this.studentList[j].assigned == false && this.studentListDataSource[i].student_id == this.studentList[j].student_id) {
+            check = true;
+            break;
+          }
+        }
+      }
+    }
+    return check;
+  }
+
+
   saveChanges() {
-    if (this.studentUnAssigned) {
+    let studentUnAssigned = this.checkIfStudentUnassigned();
+    if (studentUnAssigned) {
       if (confirm("If you unassign the student from batch then corresponding unpaid fee instalments might be deleted.")) {
         this.saveStudentListToServer();
       }
@@ -463,20 +480,6 @@ export class ManageBatchComponent implements OnInit {
     }
   }
 
-
-  searchStudent(element) {
-    if (element.value != '' && element.value != null) {
-      let searchData = this.studentListDataSource.filter(item =>
-        Object.keys(item).some(
-          k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
-      );
-      this.studentList = searchData;
-      this.PageIndex = 1;
-    } else {
-      this.studentList = this.studentListDataSource;
-    }
-  }
-
   closeStudentPopup() {
     this.addStudentPopUp = false;
   }
@@ -487,9 +490,9 @@ export class ManageBatchComponent implements OnInit {
     }
   }
 
-  getHeaderCheckBoxValue() {
-    for (let i = 0; i < this.studentList.length; i++) {
-      if (this.studentList[i].assigned == false) {
+  getHeaderCheckBoxValue(res) {
+    for (let i = 0; i < res.length; i++) {
+      if (res[i].assigned == false) {
         this.allChecked = false;
         break
       }

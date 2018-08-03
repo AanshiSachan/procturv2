@@ -365,8 +365,8 @@ $color-highlight: lighten($color-base, 7%);
             background: white;
         }
     }
-    .field-wrapper{
-        &.datePickerBox:after{
+    .field-wrapper {
+        &.datePickerBox:after {
             content: '';
             background: url(/./assets/images/calendar.svg) no-repeat;
             position: absolute;
@@ -377,5 +377,43 @@ $color-highlight: lighten($color-base, 7%);
             z-index: 999999;
         }
     }
-    
+}
+
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+.student-assign-popup {
+    .filter-section {
+        padding: 10px 0px;
+        margin: 5px 0;
+        background: #efefef;
+        .radio-button {
+            margin-top: 10px;
+            display: inline-flex;
+            .field-radio-wrapper {
+                margin-right: 5px;
+            }
+        }
+        .field-wrapper {
+            padding-top: 0;
+        }
+        .btn {
+            margin-left: 0;
+        }
+    }
+    .table-wrapper {
+        margin-top: 15px;
+        max-height: 350px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
 }
