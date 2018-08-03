@@ -3322,6 +3322,24 @@ export class StudentAddComponent implements OnInit {
   }
 
 
+  validateLastAcadYear() {
+    let acadConfirmation: boolean = false;
+    if (this.installmentMarkedForPayment.length > 0) {
+      for (let i = 0; i < this.installmentMarkedForPayment.length; i++) {
+        if (this.feeTemplateById.customFeeSchedules[i].due_date != "" && this.feeTemplateById.customFeeSchedules[i].due_date != null) {
+          if (moment(this.feeTemplateById.customFeeSchedules[i].due_date).format('YYYY-MM-DD') <= moment('2018-03-31').format('YYYY-MM-DD')) {
+            acadConfirmation = true;
+            break;
+          } else {
+            acadConfirmation = false;
+          }
+        }
+      }
+    }
+    return acadConfirmation;
+  }
+
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   payPartial() {
@@ -3341,124 +3359,24 @@ export class StudentAddComponent implements OnInit {
       this.appC.popToast(msg);
     }
     else {
-      /* PDC data to be verified */
-      if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
-        if (this.validatePdcObject()) {
-          let obj = { chequeDetailsJson: {}, paid_date: "", paymentMode: "", reference_no: "", remarks: "", studentFeeReportJsonList: [], student_id: this.student_id, };
-          this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
-          obj.chequeDetailsJson = this.pdcSelectedForm;
-          obj.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
-          obj.paymentMode = this.feeTemplateById.payment_mode;
-          obj.reference_no = this.feeTemplateById.reference_no;
-          obj.remarks = this.feeTemplateById.remarks;
-          this.isFeeApplied = true;
-          this.isPaymentPdc = false;
-          obj.studentFeeReportJsonList = this.getStudentFeeReportJsonList();
-          this.isRippleLoad = true;
-          this.postService.payPartialFeeAmount(obj).subscribe(
-            res => {
-              if (this.genPdcAck || this.sendPdcAck) {
-                if (this.genPdcAck) {
-                  let doc = res;
-                  let yr = doc.otherDetails.financial_year;
-                  let id = doc.other;
-                  let link = document.getElementById("payMultiReciept");
-                  this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
-                    (r: any) => {
-                      let body = r;
-                      let byteArr = this.convertBase64ToArray(body.document);
-                      let format = body.format;
-                      let fileName = body.docTitle;
-                      let file = new Blob([byteArr], { type: 'application/pdf' });
-                      let url = URL.createObjectURL(file);
-                      if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
-                        link.setAttribute("href", url);
-                        link.setAttribute("download", fileName);
-                        link.click();
-                      }
-                    },
-                    e => {
-                      let msg = JSON.parse(e._body).message;
-                      this.isRippleLoad = false;
-                      let obj = {
-                        type: 'error',
-                        title: msg,
-                        body: ""
-                      }
-                      this.appC.popToast(obj);
-                    });
-                }
-                if (this.sendPdcAck) {
-                  let doc = res;
-                  let yr = doc.otherDetails.financial_year;
-                  let id = doc.other;
-                  this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
-                    res => {
-                      let obj = {
-                        type: "success",
-                        title: "Reciept Sent",
-                        body: "Receipt has been sent to student/parent email ID"
-                      }
-                      this.appC.popToast(obj);
-                    }
-                  )
-                }
-              }
-              this.updateStudentFeeDetails();
-              this.isRippleLoad = false;
-              let msg = {
-                type: 'success',
-                title: 'Fees Updated',
-                body: 'Fee details has been updated'
-              }
-              this.appC.popToast(msg);
-              this.pdcSelectedForm = {
-                bank_name: '',
-                cheque_amount: this.totalFeePaid,
-                cheque_date: moment().format("YYYY-MM-DD"),
-                cheque_no: '',
-                pdc_cheque_id: ''
-              }
-              this.isFeeApplied = false;
-              this.pdcSelectedForPayment = "";
-              this.getPdcChequeList();
-              this.closePaymentDetails();
-            },
-            err => {
-              this.isRippleLoad = false;
-              let msg = err.error.message;
-              this.isRippleLoad = false;
-              let obj = { type: 'error', title: msg, body: "" };
-              this.appC.popToast(obj);
-              this.pdcSelectedForm = { bank_name: '', cheque_amount: this.totalFeePaid, cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
-              this.isFeeApplied = false;
-              this.pdcSelectedForPayment = "";
-              this.isFeePaymentUpdate = false;
-              this.feeTemplateById.payment_mode = "Cash";
-              this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
-            }
-          );
-
+      let acadConfirmation: boolean = this.validateLastAcadYear();
+      if (acadConfirmation) {
+        if (confirm('You are about to update fee installment of last financial year. Are you sure you want to continue?')) {
+          this.makePaymentCall();
         }
-        else {
-          let msg = {
-            type: 'error',
-            title: 'Incorrect PDC/Cheque Details',
-            body: 'Please provide correct input for the cheque data'
-          }
-          this.appC.popToast(msg);
-        }
+      } else {
+        this.makePaymentCall();
       }
-      else {
-        let obj = {
-          chequeDetailsJson: {},
-          paid_date: "",
-          paymentMode: "",
-          reference_no: "",
-          remarks: "",
-          studentFeeReportJsonList: [],
-          student_id: this.student_id,
-        }
+    }
+  }
+
+  makePaymentCall() {
+    /* PDC data to be verified */
+    if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
+      if (this.validatePdcObject()) {
+        let obj = { chequeDetailsJson: {}, paid_date: "", paymentMode: "", reference_no: "", remarks: "", studentFeeReportJsonList: [], student_id: this.student_id, };
+        this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
+        obj.chequeDetailsJson = this.pdcSelectedForm;
         obj.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
         obj.paymentMode = this.feeTemplateById.payment_mode;
         obj.reference_no = this.feeTemplateById.reference_no;
@@ -3516,6 +3434,7 @@ export class StudentAddComponent implements OnInit {
                 )
               }
             }
+            this.updateStudentFeeDetails();
             this.isRippleLoad = false;
             let msg = {
               type: 'success',
@@ -3534,23 +3453,132 @@ export class StudentAddComponent implements OnInit {
             this.pdcSelectedForPayment = "";
             this.getPdcChequeList();
             this.closePaymentDetails();
-            this.updateStudentFeeDetails();
           },
           err => {
             this.isRippleLoad = false;
-            let obj = {
-              type: 'error',
-              title: "An Error Occured",
-              body: ""
-            }
+            let msg = err.error.message;
+            this.isRippleLoad = false;
+            let obj = { type: 'error', title: msg, body: "" };
             this.appC.popToast(obj);
+            this.pdcSelectedForm = { bank_name: '', cheque_amount: this.totalFeePaid, cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
+            this.isFeeApplied = false;
+            this.pdcSelectedForPayment = "";
+            this.isFeePaymentUpdate = false;
+            this.feeTemplateById.payment_mode = "Cash";
+            this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
           }
         );
 
       }
+      else {
+        let msg = {
+          type: 'error',
+          title: 'Incorrect PDC/Cheque Details',
+          body: 'Please provide correct input for the cheque data'
+        }
+        this.appC.popToast(msg);
+      }
+    }
+    else {
+      let obj = {
+        chequeDetailsJson: {},
+        paid_date: "",
+        paymentMode: "",
+        reference_no: "",
+        remarks: "",
+        studentFeeReportJsonList: [],
+        student_id: this.student_id,
+      }
+      obj.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
+      obj.paymentMode = this.feeTemplateById.payment_mode;
+      obj.reference_no = this.feeTemplateById.reference_no;
+      obj.remarks = this.feeTemplateById.remarks;
+      this.isFeeApplied = true;
+      this.isPaymentPdc = false;
+      obj.studentFeeReportJsonList = this.getStudentFeeReportJsonList();
+      this.isRippleLoad = true;
+      this.postService.payPartialFeeAmount(obj).subscribe(
+        res => {
+          if (this.genPdcAck || this.sendPdcAck) {
+            if (this.genPdcAck) {
+              let doc = res;
+              let yr = doc.otherDetails.financial_year;
+              let id = doc.other;
+              let link = document.getElementById("payMultiReciept");
+              this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                (r: any) => {
+                  let body = r;
+                  let byteArr = this.convertBase64ToArray(body.document);
+                  let format = body.format;
+                  let fileName = body.docTitle;
+                  let file = new Blob([byteArr], { type: 'application/pdf' });
+                  let url = URL.createObjectURL(file);
+                  if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", fileName);
+                    link.click();
+                  }
+                },
+                e => {
+                  let msg = JSON.parse(e._body).message;
+                  this.isRippleLoad = false;
+                  let obj = {
+                    type: 'error',
+                    title: msg,
+                    body: ""
+                  }
+                  this.appC.popToast(obj);
+                });
+            }
+            if (this.sendPdcAck) {
+              let doc = res;
+              let yr = doc.otherDetails.financial_year;
+              let id = doc.other;
+              this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                res => {
+                  let obj = {
+                    type: "success",
+                    title: "Reciept Sent",
+                    body: "Receipt has been sent to student/parent email ID"
+                  }
+                  this.appC.popToast(obj);
+                }
+              )
+            }
+          }
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'success',
+            title: 'Fees Updated',
+            body: 'Fee details has been updated'
+          }
+          this.appC.popToast(msg);
+          this.pdcSelectedForm = {
+            bank_name: '',
+            cheque_amount: this.totalFeePaid,
+            cheque_date: moment().format("YYYY-MM-DD"),
+            cheque_no: '',
+            pdc_cheque_id: ''
+          }
+          this.isFeeApplied = false;
+          this.pdcSelectedForPayment = "";
+          this.getPdcChequeList();
+          this.closePaymentDetails();
+          this.updateStudentFeeDetails();
+        },
+        err => {
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: "An Error Occured",
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      );
+
     }
   }
-
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
