@@ -160,6 +160,23 @@
                       </th>
                       <th class="desc">
                         Description
+                        <span title="Special characters not allowed in Description">
+
+                          <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            width="14px" height="14px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+                            <path fill="#1385F2" d="M24.067,0c-13.255,0-24,10.746-24,24s10.745,24,24,24c13.252,0,23.997-10.746,23.997-24S37.319,0,24.067,0z
+	 M23.779,38.121c-1.035,0.802-2.029,1.208-2.991,1.208c-0.625,0-1.145-0.188-1.549-0.561c-0.402-0.374-0.603-0.847-0.603-1.421
+	c0-0.581,0.188-1.524,0.573-2.845l3.017-10.371c0.482-1.688,0.72-2.752,0.72-3.193c0-0.327-0.117-0.597-0.362-0.818
+	c-0.237-0.216,0.198-0.335-0.208-0.335c-0.345,0-0.376,0.088-1.376,0.263v-0.891l7.237-1.328L23.295,34.07
+	c-0.308,1.091-0.645,1.746-0.645,1.96c0,0.246-0.025,0.443,0.123,0.595c0.144,0.158,0.261,0.232,0.449,0.232
+	c0.251,0,0.509-0.123,0.817-0.374c0.874-0.688,1.756-1.671,2.663-2.96l0.79,0.547C26.439,35.663,25.195,37.016,23.779,38.121z
+	 M28.818,12.606c-0.445,0.46-0.987,0.691-1.621,0.691c-0.636,0-1.175-0.231-1.637-0.691c-0.463-0.462-0.69-0.999-0.69-1.637
+	c0-0.638,0.224-1.172,0.68-1.626c0.441-0.448,0.997-0.673,1.646-0.673c0.653,0,1.196,0.225,1.642,0.673
+	c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z" />
+                          </svg>
+
+                        </span>
                       </th>
                       <th class="room">
                         Room No.
@@ -243,13 +260,15 @@
 
                       <td class="desc">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
-                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc" style="height: 31px;" id="classDetailsTxt9">
+                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc" style="height: 31px;"
+                            id="classDetailsTxt9">
                         </div>
                       </td>
 
                       <td class="room">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.room_no != '' && addClassDetails.room_no != null }">
-                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no" style="height: 31px;" id="addClassInp9">
+                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no" style="height: 31px;"
+                            id="addClassInp9">
                         </div>
                       </td>
 
@@ -297,12 +316,14 @@
                       </td>
                       <td class="desc">
                         <div class="form-wrapper">
-                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label" id="rowInp1">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label"
+                            id="rowInp1">
                         </div>
                       </td>
                       <td class="room">
                         <div class="form-wrapper">
-                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label" id="rowInp2">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label"
+                            id="rowInp2">
                         </div>
                       </td>
 
@@ -573,7 +594,25 @@
 
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper" [ngClass]="{'has-value' : custom.desc != ''}">
-                  <label for="customDescTxt">Description</label>
+                  <label for="customDescTxt">Description
+                    <span title="Special characters not allowed in Description">
+
+                      <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        width="14px" height="14px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+                        <path fill="#1385F2" d="M24.067,0c-13.255,0-24,10.746-24,24s10.745,24,24,24c13.252,0,23.997-10.746,23.997-24S37.319,0,24.067,0z
+M23.779,38.121c-1.035,0.802-2.029,1.208-2.991,1.208c-0.625,0-1.145-0.188-1.549-0.561c-0.402-0.374-0.603-0.847-0.603-1.421
+c0-0.581,0.188-1.524,0.573-2.845l3.017-10.371c0.482-1.688,0.72-2.752,0.72-3.193c0-0.327-0.117-0.597-0.362-0.818
+c-0.237-0.216,0.198-0.335-0.208-0.335c-0.345,0-0.376,0.088-1.376,0.263v-0.891l7.237-1.328L23.295,34.07
+c-0.308,1.091-0.645,1.746-0.645,1.96c0,0.246-0.025,0.443,0.123,0.595c0.144,0.158,0.261,0.232,0.449,0.232
+c0.251,0,0.509-0.123,0.817-0.374c0.874-0.688,1.756-1.671,2.663-2.96l0.79,0.547C26.439,35.663,25.195,37.016,23.779,38.121z
+M28.818,12.606c-0.445,0.46-0.987,0.691-1.621,0.691c-0.636,0-1.175-0.231-1.637-0.691c-0.463-0.462-0.69-0.999-0.69-1.637
+c0-0.638,0.224-1.172,0.68-1.626c0.441-0.448,0.997-0.673,1.646-0.673c0.653,0,1.196,0.225,1.642,0.673
+c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z" />
+                      </svg>
+
+                    </span>
+                  </label>
                   <textarea class="form-ctrl" [(ngModel)]="custom.desc" id="customDescTxt" name="customDescTxt"></textarea>
 
                 </div>

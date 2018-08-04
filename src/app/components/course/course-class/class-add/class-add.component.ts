@@ -700,6 +700,14 @@ export class ClassAddComponent implements OnInit {
     } else {
       obj.custom_class_type = this.addClassDetails.custom_class_type;
     }
+    if (this.addClassDetails.class_desc != null && this.addClassDetails.class_desc != '') {
+      if (this.validateSpecialCharacters(this.addClassDetails.class_desc)) {
+        // Do nothing
+      } else {
+        this.messageToast('error', 'Error', 'Special characters are not allowed in description field.');
+        return
+      }
+    }
     this.timeChanges(this.addClassDetails.start_hour, "addClassDetails.start_hour");
     this.timeChanges(this.addClassDetails.end_hour, "addClassDetails.end_hour");
     if (this.addClassDetails.start_hour == "" && this.addClassDetails.start_minute == "") {
@@ -730,14 +738,6 @@ export class ClassAddComponent implements OnInit {
       return
     } else {
       obj.teacher_id = Number(this.addClassDetails.teacher_id);
-    }
-    if (this.addClassDetails.class_desc != null && this.addClassDetails.class_desc != '') {
-      if (this.validateSpecialCharacters(this.addClassDetails.class_desc)) {
-        // Do nothing
-      } else {
-        this.messageToast('error', 'Error', 'Special characters are not allowed in description field.');
-        return
-      }
     }
     obj.batch_id = this.getBatchID(obj.subject_id);
     obj.class_desc = this.addClassDetails.class_desc;
