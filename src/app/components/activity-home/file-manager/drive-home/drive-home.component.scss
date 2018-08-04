@@ -30,6 +30,11 @@ TOP BAR
     }
 }
 
+.pathAnchor:hover{
+    cursor:pointer;
+    background: #efefef;
+}
+
 .search {
     display: table-cell;
     -webkit-appearance: none;

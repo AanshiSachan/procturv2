@@ -45,6 +45,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   @Input() selectedFiles: any[] = [];
   @Input() currentFolder: any = null;
   @Input() fetchPrefillFolderAndFiles: any;
+  @Input() manualUpload : boolean = false;
   @Output() getFilesAndFolder: any = new EventEmitter<any>();
   @Output() filesAndFolder: any = new EventEmitter<any>();
 
@@ -176,7 +177,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   } */
 
   tempArr: any[] = [];
-
+  inputFiles : any;
   isUploadingXls: boolean = false;
 
   constructor(private cd: ChangeDetectorRef, private fileService: FileManagerService, private appC: AppComponent, private auth: AuthenticatorService) { }
@@ -207,6 +208,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   }
 
   close() {
+    this.manualUpload = false;
     this.closePopupValue.emit(false);
     this.cd.detectChanges();
   }
@@ -272,7 +274,11 @@ export class UploadPopupComponent implements OnInit, OnChanges {
         path = institute_id + "/";
       }
       let formData = new FormData();
-      formData.append("file", this.selectedFiles[0]);
+      // formData.append("file", this.selectedFiles[0]);
+      let arr = Array.from(this.selectedFiles)
+      arr.map((ele)=>{
+        formData.append("file", ele);
+      })
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
       let newxhr = new XMLHttpRequest();
@@ -322,6 +328,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
               body: newxhr.response.fileName
             }
             this.appC.popToast(data);
+            this.manualUpload = false;
             this.closePopupValue.emit(false);
             this.getFilesAndFolder.emit(newxhr.status);
 
@@ -343,8 +350,6 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   }
 
   categoryCheck() {
-    console.log("category_ID : " + this.category_id);
-
     if (this.category_id == '-1') {
       this.createErrorToast("Please select a category");
       return false;
@@ -360,6 +365,26 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     }
   }
 
+  fillFiles(files){
+    setTimeout(()=>{
+      let manualUploadedFileList = (<HTMLInputElement>document.getElementById('uploadFileControl')).files;
+      // let myArr = Array.from(manualUploadedFileList);
+      // myArr.map((ele)=>{
+      //   ele.prototype.objectURL = window.URL.createObjectURL(ele);
+      // }) 
+      // console.log(myArr);
+      let filesArr = Array.from(manualUploadedFileList);
+      // this.selectedFiles.map((ele)=>{
+      //   let obj = Object.assign({}, ele);
+      //   obj.objectURL = window.URL.createObjectURL(ele);
+      //   filesArr.push(obj);
+      // }
+      this.selectedFiles = filesArr;
+      this.customFileArr = this.generateFilePreview(this.selectedFiles);
+    }, 500)
+
+  }
+
   createErrorToast(message) {
     let msg = {
       type: "error",
@@ -367,7 +392,5 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     }
     this.appC.popToast(msg);
   }
-
-
 }
 

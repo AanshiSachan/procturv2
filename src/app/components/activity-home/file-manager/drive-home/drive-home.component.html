@@ -14,11 +14,16 @@
   <header class="top-nav">
     <h1 class="pull-left">File Manager
       <div style="font-size: 12px;margin-top: 6px;">
-        <a (click)="collapseString()">
-          {{getPath}}
+        <a class="pathAnchor" *ngFor="let path of pathArray; let j = index" (click)="collapseString(j)">
+          {{path}}/
         </a>
       </div>
     </h1>
+    <div class="pull-right" style="position: relative;top: 14px;">
+      <label for="upload">Upload Files</label>
+      <i class="fa fa-upload" (click)="uploadBox()" title="Upload File" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #0d171f" id="upload">
+      </i>&nbsp;&nbsp;&nbsp;
+    </div>
   </header>
 
   <div class="files-cont">
@@ -63,8 +68,12 @@
                 Downloads
               </div>
 
-              <div class="file__details file__size" style="font-size: 15px;">
+              <div class="file__details file__size" style="font-size: 15px;width:5%">
                 <i class="fa fa-folder-open" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Make folder" (click)="makeFolderOpen()"></i>
+              </div>
+
+              <div class="file__details file__size" style="font-size: 15px;width:5%" *ngIf="isFolderEmpty == true">
+                <i class="fa fa-trash" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Delete folder" (click)="getFilesDeleted()"></i>
               </div>
 
             </div>
@@ -104,7 +113,7 @@
             </file-card>
           </div>
 
-          <div class="file folder folder-file" *ngIf="fileDisplayArr.length == 0 && folderDisplayArr.length == 0">
+          <div class="file folder folder-file" *ngIf="isFolderEmpty == true">
             <h2 class="file__title" id="noFFs">
               No Files Or Folders Found
             </h2>
@@ -118,9 +127,8 @@
 
 </div>
 
-<app-upload-popup *ngIf="addCategoryPopup" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder" (closePopupValue)="close($event)"
-  (getFilesAndFolder)="getFilesAndFolder($event)">
-
+<app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder"
+  (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)">
 </app-upload-popup>
 
 <share-file *ngIf="getPopupOpen" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet" [fileName]="fileName" [shareOptions]="shareOptions"></share-file>

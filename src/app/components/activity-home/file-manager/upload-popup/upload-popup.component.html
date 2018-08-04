@@ -18,70 +18,115 @@
   </div>
 
   <div popup-content class="popup-header-content">
-    <div class="row">
-      <div class="c-lg-8 field-wrapper">
-        <label>Select Category</label>
-        <select class="form-ctrl" [(ngModel)]="category_id" (ngModelChange)="categoryCheck()">
-          <option value="-1"></option>
-          <option *ngFor="let i of getCategoryData" [value]="i.category_id">
-            {{i.category_name}}
-          </option>
 
-        </select>
-      </div>
-      <div class="c-lg-1">
-        <i class="fa fa-upload" title="Upload File" (click)="uploadHandler()" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #0d171f; margin-top: 30px;  margin-left: -14px;">
-        </i>&nbsp;&nbsp;&nbsp;
-      </div>
-      <div class="c-lg-3">
-        <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
-          <div class="file-uploaded">
-            {{fileLoading}}
-          </div>
-          <div class="progress-bar-wrapper">
-            <div class="upload-bar">
-              <div id="progress-width"></div>
+    <div *ngIf="!manualUpload">
+      <div class="row">
+        <div class="c-lg-8 field-wrapper">
+          <label>Select Category</label>
+          <select class="form-ctrl" [(ngModel)]="category_id" (ngModelChange)="categoryCheck()">
+            <option value="-1"></option>
+            <option *ngFor="let i of getCategoryData" [value]="i.category_id">
+              {{i.category_name}}
+            </option>
+
+          </select>
+        </div>
+        <div class="c-lg-1">
+          <i class="fa fa-upload" title="Upload File" (click)="uploadHandler()" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #0d171f; margin-top: 30px;  margin-left: -14px;">
+          </i>&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="c-lg-3">
+          <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+            <div class="file-uploaded">
+              {{fileLoading}}
             </div>
-            <span>{{progress}} %</span>
+            <div class="progress-bar-wrapper">
+              <div class="upload-bar">
+                <div id="progress-width"></div>
+              </div>
+              <span>{{progress}} %</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" style="margin-left: 2%;">
+      <div class="row" style="margin-left: 2%;">
 
-      <ul *ngFor="let file of customFileArr" style="display: inline-block; width:40%;" class="shadow">
-        <div class="row">
-          <div class="c-lg-2">
-            <li style="display:inline-block;width: 30px;
-            display: inline-block;
-            margin-top: 4px;">
-              <img src="assets/images/file_manager/image.svg" style="width: 96px;
-              height: 32px;
-              margin-left: -11px;" *ngIf="category_image.hasOwnProperty(file.fileType)">
-              <img src="assets/images/file_manager/xlsx.png" style="width: 96px;
-              height: 32px;
-              margin-left: -11px;" *ngIf="category_docx.hasOwnProperty(file.fileType)">
-              <img src="assets/images/file_manager/pdf.png" style="width: 96px;
-              height: 32px;
-              margin-left: -11px;" *ngIf="category_pdf.hasOwnProperty(file.fileType)">
-            </li>
+        <ul *ngFor="let file of customFileArr" style="display: inline-block; width:40%;" class="shadow">
+          <div class="row">
+            <div class="c-lg-2">
+              <li style="display:inline-block;width: 30px;
+                  display: inline-block;
+                  margin-top: 4px;">
+                <img src="assets/images/file_manager/image.svg" style="width: 96px;
+                    height: 32px;
+                    margin-left: -11px;" *ngIf="category_image.hasOwnProperty(file.fileType)">
+                <img src="assets/images/file_manager/xlsx.png" style="width: 96px;
+                    height: 32px;
+                    margin-left: -11px;" *ngIf="category_docx.hasOwnProperty(file.fileType)">
+                <img src="assets/images/file_manager/pdf.png" style="width: 96px;
+                    height: 32px;
+                    margin-left: -11px;" *ngIf="category_pdf.hasOwnProperty(file.fileType)">
+              </li>
+            </div>
+            <div class="c-lg-10">
+              <li style="display: inline-block;">
+                File Name : {{file.fileName}}
+              </li>
+              <li>
+                File Type : {{file.fileType}}
+              </li>
+              <li>
+                File Size : {{file.fileSize}}
+              </li>
+            </div>
           </div>
-          <div class="c-lg-10">
-            <li style="display: inline-block;">
-              File Name : {{file.fileName}}
-            </li>
-            <li>
-              File Type : {{file.fileType}}
-            </li>
-            <li>
-              File Size : {{file.fileSize}}
-            </li>
+
+        </ul>
+
+      </div>
+    </div>
+    <div *ngIf="manualUpload">
+      <div class="row">
+        <div class="c-lg-8 field-wrapper">
+          <label>Select Category</label>
+          <select class="form-ctrl" [(ngModel)]="category_id" (ngModelChange)="categoryCheck()">
+            <option value="-1"></option>
+            <option *ngFor="let i of getCategoryData" [value]="i.category_id">
+              {{i.category_name}}
+            </option>
+
+          </select>
+        </div>
+        <div class="c-lg-1">
+          <i class="fa fa-upload" title="Upload File" (click)="uploadHandler()" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #0d171f; margin-top: 30px;  margin-left: -14px;">
+          </i>&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="c-lg-3">
+          <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+            <div class="file-uploaded">
+              {{fileLoading}}
+            </div>
+            <div class="progress-bar-wrapper">
+              <div class="upload-bar">
+                <div id="progress-width"></div>
+              </div>
+              <span>{{progress}} %</span>
+            </div>
           </div>
         </div>
-
-      </ul>
+      </div>
+      <div class="row">
+        <div class="c-lg-8 field-wrapper">
+          <label>Choose Files To Upload</label>
+          <input type="file" class="form-ctrl" id="uploadFileControl" name="uploadFileBox" (change)="fillFiles()" multiple/>
+        </div>
+        <div class="c-lg-4 field-wrapper">
+          <p>Just A MEssage</p>
+        </div>
+      </div>
 
     </div>
+
   </div>
 </proctur-popup>

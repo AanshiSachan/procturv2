@@ -149,13 +149,11 @@ export class FileCardComponent implements OnChanges {
   }
 
   onDragOver(event: Event) {
-    console.log("file over");
     this.draggedover.emit(event);
     this.preventAndStop(event);
   }
 
   onDragLeave(event: Event) {
-    console.log("file leave");
     //this.draggedleave.emit(event);
     this.draggedover.emit(event);
     this.preventAndStop(event);
@@ -167,7 +165,6 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFilesDeleted(event) {
-    console.log(event);
     let getDeletedFiles = [{
       file_id: event.res.file_id,
       keyName: event.res.keyName
@@ -219,7 +216,6 @@ export class FileCardComponent implements OnChanges {
   }
 
   getFileDownloaded(fileObj) {
-   
     let url = this.fileService.baseUrl + "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
     setTimeout(()=>{
       var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
@@ -227,10 +223,6 @@ export class FileCardComponent implements OnChanges {
       hiddenDownload.download = fileObj.res.file_name;
       hiddenDownload.click();
     }, 500);
-    console.log(fileObj);
-    console.log(url);
   }
-
-
 
 }
