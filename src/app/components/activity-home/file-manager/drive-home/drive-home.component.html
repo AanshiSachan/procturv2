@@ -106,7 +106,7 @@
             <file-card (draggedover)="onDragOver($event)" (draggedleave)="onDragLeave($event)" [data]="folder" *ngFor="let folder of fileDisplayArr"
               (getFilesAndFolder)="getFilesAndFolder($event)" (status)="status($event)" (getPopupValue)="getPopupValue($event)"
               (fileid)="fileId($event)" (fileArr)="fileArr($event)" (shareOptions)="handleOptions($event)" [fileDisplayArr]="fileDisplayArr"
-              [selectedFolder]="selectedFolder">
+              [selectedFolder]="selectedFolder" (filePath)="filePath($event)">
             </file-card>
           </div>
 
@@ -125,7 +125,7 @@
 </div>
 
 <app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder"
-  (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)">
+  (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)">
 </app-upload-popup>
 
 <share-file *ngIf="getPopupOpen" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet" [fileName]="fileName" [shareOptions]="shareOptions"></share-file>

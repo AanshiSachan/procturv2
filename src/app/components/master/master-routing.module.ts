@@ -9,6 +9,7 @@ import { ClassRoomComponent } from '../../components/class-room/class-room.compo
 import { EventManagmentComponent } from '../../components/event-managment/event-managment.component';
 import { TopicsComponent } from '../../components/topics/topics.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
+import { ClosingReasonComponent } from './closing-reason/closing-reason.component';
 
 @NgModule({
     imports: [
@@ -48,6 +49,11 @@ import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grad
                         {
                             path: 'areaCity',
                             component: CityAreaMapComponent,
+                        },
+                        {
+                            path:'closingReason',
+                            component : ClosingReasonComponent,
+                            canLoad: [AuthGuard]
                         }
                     ]
                 }
