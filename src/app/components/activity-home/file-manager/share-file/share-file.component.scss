@@ -32,7 +32,7 @@ $color-highlight: lighten($color-base, 7%);
 .tab {
     padding-bottom: 18px;
     margin-left: 10px;
-    background: #0084f6bf;
+    background: #efefef;
     color: #fff;
     width: 92%;
     /* height: 72%; */
@@ -42,6 +42,10 @@ $color-highlight: lighten($color-base, 7%);
     z-index: 4;
     margin-top:1px;
     /* box-shadow: -15px 24px 5px #008; */
+}
+
+.common{
+    color: black;
 }
 
 .form-file{

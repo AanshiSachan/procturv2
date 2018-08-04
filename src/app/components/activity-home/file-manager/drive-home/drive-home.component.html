@@ -19,10 +19,11 @@
         </a>
       </div>
     </h1>
-    <div class="pull-right" style="position: relative;top: 14px;">
-      <label for="upload">Upload Files</label>
-      <i class="fa fa-upload" (click)="uploadBox()" title="Upload File" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 19px; color: #0d171f" id="upload">
+    <div class="pull-right" style="position: relative;top: 14px; width:10%;">
+      <i class="fa fa-upload" (click)="uploadBox()" title="Upload File" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 17px; color: #52454596; display: inline-block;"
+        id="upload">
       </i>&nbsp;&nbsp;&nbsp;
+      <i class="fa fa-folder-open" style="font-size: 17px; color: #52454596; margin-left: 1%; display: inline-block;" title="Make folder" (click)="makeFolderOpen()" ></i>
     </div>
   </header>
 
@@ -66,10 +67,6 @@
 
               <div class="file__details">
                 Downloads
-              </div>
-
-              <div class="file__details file__size" style="font-size: 15px;width:5%">
-                <i class="fa fa-folder-open" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Make folder" (click)="makeFolderOpen()"></i>
               </div>
 
               <div class="file__details file__size" style="font-size: 15px;width:5%" *ngIf="isFolderEmpty == true">

@@ -62,7 +62,7 @@
       <div class="tab">
         <div class="row">
           <div class="c-lg-4 field-wrapper">
-            <label>Master Course</label>
+            <label class="common">Master Course</label>
             <select class="form-ctrl" [(ngModel)]="getStandardsId" (ngModelChange)="getAllSubjects($event)">
               <option></option>
               <option *ngFor="let i of getStandards" [value]="i.standard_id">
@@ -71,7 +71,7 @@
             </select>
           </div>
           <div class="c-lg-4 field-wrapper">
-            <label>Course</label>
+            <label class="common">Course</label>
             <select class="form-ctrl" [(ngModel)]="subjectId" (ngModelChange)="getBatches()">
               <option></option>
               <option *ngFor="let i of getSubjects" [value]="i.subject_id">
@@ -80,7 +80,7 @@
             </select>
           </div>
           <div class="c-lg-4 field-wrapper">
-            <label>Comments</label>
+            <label class="common">Comments</label>
             <textarea class="form-ctrl" style="height: auto;" [(ngModel)]="fetchShareOption.desc"></textarea>
           </div>
         </div>

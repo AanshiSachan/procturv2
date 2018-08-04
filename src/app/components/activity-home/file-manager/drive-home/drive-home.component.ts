@@ -173,6 +173,7 @@ export class DriveHomeComponent implements OnInit {
             body: "File Deleted Successfully"
           }
           this.appC.popToast(msg);
+          this.fetchPrefillFolderAndFiles(this.getPath);
         },
         (error: any) => {
           let msg = {
