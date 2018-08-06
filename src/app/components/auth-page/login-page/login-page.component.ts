@@ -140,12 +140,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
       this.changeView.nativeElement.className = "box"
-      this.checkForVirtualHost("webtest.proctur.com");
     }
 
     else {
       this.isProcturVisible = false;
       this.changeView.nativeElement.className = "boxNew"
+      this.checkForVirtualHost(test);
     }
 
   }
