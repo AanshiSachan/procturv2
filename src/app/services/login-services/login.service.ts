@@ -139,4 +139,12 @@ export class LoginService {
     );
   }
 
+  getLogoAndFavcon(str) {
+    let url = this.baseUrl + "/api/v1/institutes/getLogoAndFavIcon?virtualHostUrl=" + str;
+    return this.http.get(url).map(
+      res => { return res; },
+      err => { return err; }
+    )
+  }
+
 }

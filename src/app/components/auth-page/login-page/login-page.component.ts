@@ -84,7 +84,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   Authorization: any;
   headers;
   institute_id;
-  @ViewChild('viewChange') changeView : ElementRef;
+  @ViewChild('viewChange') changeView: ElementRef;
+  dynamicImgSrc: string = './assets/images/logoProctur.png';
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent, private auth: AuthenticatorService) {
@@ -139,6 +140,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
       this.changeView.nativeElement.className = "box"
+      this.checkForVirtualHost("webtest.proctur.com");
     }
 
     else {
@@ -146,6 +148,29 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.changeView.nativeElement.className = "boxNew"
     }
 
+  }
+
+  checkForVirtualHost(str) {
+    this.login.getLogoAndFavcon(str).subscribe(
+      res => {
+        if (res[0].logoPath != null && res[0].logoPath != "") {
+          this.dynamicImgSrc = res[0].logoPath;
+        }
+        if (res[0].favIconPath != null && res[0].favIconPath != "") {
+          this.changeFavICon(res[0].favIconPath);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  changeFavICon(str) {
+    let link = <HTMLLinkElement>document.getElementById('favIconLink');
+    link.type = 'image/x-icon';
+    link.rel = 'icon';
+    link.href = str;
   }
 
 
