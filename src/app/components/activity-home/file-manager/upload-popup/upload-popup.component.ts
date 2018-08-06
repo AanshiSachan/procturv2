@@ -48,7 +48,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   @Input() manualUpload : boolean = false;
   @Output() getFilesAndFolder: any = new EventEmitter<any>();
   @Output() filesAndFolder: any = new EventEmitter<any>();
-
+  @Output() filePath:any = new EventEmitter<any>();
   fileLoading: string = "";
 
   progress: number = 0;
@@ -331,6 +331,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
             this.manualUpload = false;
             this.closePopupValue.emit(false);
             this.getFilesAndFolder.emit(newxhr.status);
+            this.filePath.emit(path);
 
           } else {
             this.isUploadingXls = false;
@@ -344,7 +345,6 @@ export class UploadPopupComponent implements OnInit, OnChanges {
           }
         }
       }
-
       newxhr.send(formData);
     }
   }
@@ -368,21 +368,10 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   fillFiles(files){
     setTimeout(()=>{
       let manualUploadedFileList = (<HTMLInputElement>document.getElementById('uploadFileControl')).files;
-      // let myArr = Array.from(manualUploadedFileList);
-      // myArr.map((ele)=>{
-      //   ele.prototype.objectURL = window.URL.createObjectURL(ele);
-      // }) 
-      // console.log(myArr);
       let filesArr = Array.from(manualUploadedFileList);
-      // this.selectedFiles.map((ele)=>{
-      //   let obj = Object.assign({}, ele);
-      //   obj.objectURL = window.URL.createObjectURL(ele);
-      //   filesArr.push(obj);
-      // }
       this.selectedFiles = filesArr;
       this.customFileArr = this.generateFilePreview(this.selectedFiles);
     }, 500)
-
   }
 
   createErrorToast(message) {

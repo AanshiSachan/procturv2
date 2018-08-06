@@ -155,7 +155,7 @@
                 <td style="text-align: left; ">
                   <div class="field-checkbox-wrapper">
                     <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getFileSharedBatches($event , j)">
-                    <label></label>
+                    <label ></label>
                   </div>
                   {{i.batch_name}}
 
@@ -338,7 +338,7 @@
     <div id="tab2Content" class="tab">
       <div class="row">
         <div class="c-lg-4 field-wrapper">
-          <label>Master Course</label>
+          <label  class="common">Master Course</label>
           <select class="form-ctrl" [(ngModel)]="fileSharePublic.standard_id" (ngModelChange)="getAllSubjects($event)">
             <option value="-1"></option>
             <option *ngFor="let i of getStandards" [value]="i.standard_id">
@@ -347,7 +347,7 @@
           </select>
         </div>
         <div class="c-lg-4 field-wrapper">
-          <label>Course</label>
+          <label  class="common">Course</label>
           <select class="form-ctrl" [(ngModel)]="fileSharePublic.subject_id">
             <option value="-1"></option>
             <option *ngFor="let i of getSubjects" [value]="i.subject_id">
@@ -356,7 +356,7 @@
           </select>
         </div>
         <div class="c-lg-4 field-wrapper">
-          <label>Course Types</label>
+          <label  class="common">Course Types</label>
           <select class="form-ctrl" multiple [(ngModel)]="fileSharePublic.course_types" style="height: auto;" (ngModelChange)="courseTypeSelection($event)">
             <option></option>
             <option *ngFor="let i of courseMappingArray" [value]="i.course_type_id">{{i.course_type}}</option>

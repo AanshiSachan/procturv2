@@ -26,6 +26,8 @@ import { FilterPipe } from '../../components/event-managment/filterpipe';
 import { AcademicYearModule } from '../academic-year/academic-year.module';
 import { AcademicYearComponent } from '../academic-year/academic-year.component';
 import { HomeComponent } from '../academic-year/home/home.component';
+import { ClosingReasonComponent } from './closing-reason/closing-reason.component';
+import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
 
 @NgModule({
     imports: [
@@ -46,7 +48,8 @@ import { HomeComponent } from '../academic-year/home/home.component';
         FilterPipe,
         EventManagmentComponent,
         CityAreaMapComponent,
-        TopicsComponent
+        TopicsComponent,
+        ClosingReasonComponent
     ],
     providers: [
         ExamGradeServiceService,
@@ -55,6 +58,7 @@ import { HomeComponent } from '../academic-year/home/home.component';
         ClassRoomService,
         EventManagmentService,
         TopicServiceService,
+        ClosingReasonService
     ]
 })
 

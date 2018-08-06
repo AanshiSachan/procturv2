@@ -39,6 +39,7 @@ export class FileCardComponent implements OnChanges {
   @ViewChild("fileHeader") fileImage: ElementRef;
 
   @Output() status = new EventEmitter<any>();
+  @Output() filePath = new EventEmitter<any>();
   @Input() fileDisplayArr: any[] = [];
 
   fileObj: File;
@@ -177,8 +178,15 @@ export class FileCardComponent implements OnChanges {
             type: "success",
             body: "File Deleted Successfully"
           }
+
+          let path = getDeletedFiles[0].keyName.split('/');
+          path.pop();
+          path.pop();
+          let newPath = path.join('/');
+          this.filePath.emit(newPath);
           this.appC.popToast(msg);
           this.status.emit(data.statusCode);
+
         },
         (error: any) => {
           let msg = {
@@ -217,7 +225,7 @@ export class FileCardComponent implements OnChanges {
 
   getFileDownloaded(fileObj) {
     let url = this.fileService.baseUrl + "/api/v1/instFileSystem/downloadFile/" + this.fileService.institute_id + "?fileId=" + fileObj.res.file_id;
-    setTimeout(()=>{
+    setTimeout(() => {
       var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
       hiddenDownload.href = url;
       hiddenDownload.download = fileObj.res.file_name;

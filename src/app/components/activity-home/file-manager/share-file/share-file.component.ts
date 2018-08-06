@@ -261,7 +261,7 @@ export class ShareFileComponent implements OnInit {
             (data: any) => {
               let endTime = data.file_access_end_time.split("-");
               let startTime = data.file_access_start_time.split("-");
-              if (endTime.length == 0) {
+              if (endTime[0] == '') {
                 data.end_date = moment().date();
                 data.end_month = moment().month() + 1;
                 data.end_year = moment().year();
@@ -270,8 +270,7 @@ export class ShareFileComponent implements OnInit {
                 data.end_month = parseInt(endTime[1]);
                 data.end_year = endTime[0];
               }
-
-              if (startTime.length == 0) {
+              if (startTime[0] == '') {
                 data.start_month = moment().month() + 1;
                 data.start_year = moment().year();
                 data.start_date = moment().date();
@@ -280,7 +279,7 @@ export class ShareFileComponent implements OnInit {
                 data.start_year = startTime[0];
                 data.start_date = parseInt(startTime[2]);
               }
-
+  
               if (update != 1) {
                 data.is_file_shared = "N"
                 data.isChecked = false
