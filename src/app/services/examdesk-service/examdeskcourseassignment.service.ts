@@ -29,7 +29,7 @@ export class ExamDeskCourseAssignmentService {
 
     }
 
-    getCoursesList() {
+    getCoursesList(): Observable<any> {
         let url = `${this.baseUrl}/api/v1/institute/courseMapping/${this.institute_id}`;
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res },
@@ -37,9 +37,27 @@ export class ExamDeskCourseAssignmentService {
         )
     }
 
-    getStandard() {
+    getStandard(): Observable<any> {
         let url = `${this.baseUrl}/api/v1/standards/all/${this.institute_id}/?active=Y`;
         return this.http.get(url, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    getStudentList(obj): Observable<any> {
+        obj.institute_id = this.institute_id;
+        let url = `${this.baseUrl}/api/v1/institute/studentCourseMapping/getStudAndUsers`;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    assignStudentToCourse(obj, id): Observable<any> {
+        obj.institute_id = this.institute_id;
+        let url = `${this.baseUrl}/api/v1/institute/studentCourseMapping/${id}/assignStudents`;
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => { return res },
             err => { return err }
         )
