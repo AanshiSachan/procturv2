@@ -485,7 +485,8 @@
         <!--====================================middle Top section==========================-->
         <section class="middle-top clearFix">
           <h1 class="pull-left">
-            Fees : <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
+            Fees :
+            <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
           </h1>
           <aside class="pull-right btn-diff">
             <button class="btn" (click)="isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
@@ -706,6 +707,16 @@
                             {{installment.paid_date | date:"dd MMM yyyy"}}
                           </span>
                         </li>
+
+                        <li *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">
+                          <label>
+                            Payment Mode
+                          </label>
+                          <span>
+                            {{installment.paymentMode}}
+                          </span>
+                        </li>
+
 
                       </ul>
                     </div>
@@ -1028,7 +1039,9 @@
       </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Configure Fees : <span style="font-weight: 100">{{studentAddFormData.student_name}}</span></h2>
+    <h2 popup-header style="padding: 10px 5px;">Configure Fees :
+      <span style="font-weight: 100">{{studentAddFormData.student_name}}</span>
+    </h2>
 
     <div class="configureFee" popup-content>
       <div class="row">
@@ -1099,7 +1112,9 @@
       </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Manage Cheques : <span style="font-weight: 100;">{{studentAddFormData.student_name}}</span></h2>
+    <h2 popup-header style="padding: 10px 5px;">Manage Cheques :
+      <span style="font-weight: 100;">{{studentAddFormData.student_name}}</span>
+    </h2>
 
     <div class="pdc-container" popup-content>
       <div class="pdc-wrapper">
