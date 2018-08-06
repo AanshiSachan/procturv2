@@ -21,6 +21,11 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   standardList: any = [];
   assignPopUp: boolean = false;
   standard_id: number = -1;
+  studentDataSourceList: any = [];
+  studentList: any = [];
+  tableData: any = [];
+  radioOption: any = '0';
+  headerChecked: boolean = false;
 
   constructor(
     private apiService: ExamDeskCourseAssignmentService,
@@ -29,6 +34,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
 
   ngOnInit() {
     this.fetchCoursesList();
+    this.getAllStandardList();
   }
 
   fetchCoursesList() {
@@ -43,6 +49,20 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       },
       err => {
         this.dataStatus = 2;
+        this.isRippleLoad = false;
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  getAllStandardList() {
+    this.isRippleLoad = true;
+    this.apiService.getStandard().subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.standardList = res;
+      },
+      err => {
         this.isRippleLoad = false;
         this.messageNotifier('error', 'Error', err.error.message);
       }
@@ -66,34 +86,117 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   assignStudent(data) {
     this.tempData = data;
     this.assignPopUp = true;
-    this.getAllStandardList();
     this.getAllStudentList();
   }
 
   getAllStudentList() {
-
-  }
-
-  getAllStandardList() {
+    this.studentList = [];
+    this.studentDataSourceList = [];
     this.isRippleLoad = true;
-    this.apiService.getStandard().subscribe(
+    let obj: any = {
+      standard_id: this.standard_id,
+      course_type_id: this.tempData.course_type_id
+    };
+    this.dataStatus = 1;
+    this.apiService.getStudentList(obj).subscribe(
       res => {
+        this.dataStatus = 2;
         this.isRippleLoad = false;
-        this.standardList = res;
+        this.studentDataSourceList = res;
+        this.studentList = this.makeCloneOfData(res);
+        this.onRadioButtonChange();
+        this.checkIfHeaderChecked();
       },
       err => {
+        this.dataStatus = 2;
         this.isRippleLoad = false;
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
   }
 
-  onGoBtnClick() {
+  onRadioButtonChange() {
+    if (this.studentList.length > 0) {
+      if (this.radioOption == '0') {
+        this.tableData = this.studentList;
+        this.checkIfHeaderChecked();
+      } else if (this.radioOption == "1") {
+        this.headerChecked = true;
+        this.tableData = this.studentList.filter(
+          el => el.assigned == true
+        )
+      } else {
+        this.headerChecked = false;
+        this.tableData = this.studentList.filter(
+          el => el.assigned == false
+        )
+      }
+    } else {
+      this.tableData = [];
+    }
+  }
 
+  onHeaderCheckBox(event) {
+    if (event) {
+      this.headerChecked = true;
+      this.tableData.forEach(element => {
+        element.assigned = true;
+      });
+    } else {
+      this.headerChecked = true;
+      this.tableData.forEach(element => {
+        element.assigned = false;
+      });
+    }
+  }
+
+  checkIfHeaderChecked() {
+    for (let i = 0; i < this.tableData.length; i++) {
+      if (this.tableData[i].assigned == false) {
+        this.headerChecked = false;
+        break;
+      } else {
+        this.headerChecked = true;
+      }
+    }
   }
 
   closePopup() {
     this.assignPopUp = false;
+    this.radioOption = '0';
+    this.studentDataSourceList = [];
+    this.studentList = [];
+  }
+
+  addStudentToCourse() {
+    debugger
+    let data: any = this.getSelectedStudent();
+    if (data.length == 0) {
+      this.messageNotifier('error', 'Error', 'Please select student to assign in course');
+      return;
+    }
+    let obj: any = {
+      studentArray: data,
+    };
+    this.isRippleLoad = true;
+    this.apiService.assignStudentToCourse(obj, this.tempData.course_type_id).subscribe(
+      res => {
+        this.isRippleLoad = false;
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+
+  }
+
+  getSelectedStudent() {
+    for (let i = 0; i < this.studentDataSourceList.length; i++) {
+      for (let j = 0; j < this.studentList; j++) {
+        // if(this.studentDataSourceList[i].)
+      }
+    }
   }
 
   // pagination functions 
@@ -130,6 +233,10 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       body: msg
     }
     this.toastCtrl.popToast(data);
+  }
+
+  makeCloneOfData(data) {
+    return data.map(el => el);
   }
 
 }

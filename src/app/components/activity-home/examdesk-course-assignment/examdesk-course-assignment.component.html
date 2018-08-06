@@ -26,7 +26,7 @@
       <tbody *ngIf="coursesList.length > 0">
         <tr *ngFor="let data of coursesList">
           <td>{{data.course_type}}</td>
-          <td>{{data.course_type}}</td>
+          <td>{{data.total_assigned_student_count}}</td>
           <td>
             <a style="cursor: pointer;" (click)="assignStudent(data)">Assign Student</a>
           </td>
@@ -80,32 +80,111 @@
 
   <h2 popup-header>Assign/Unassign Student</h2>
 
-  <div popup-content class="add-send-notification">
+  <div popup-content class="student-assign-popup">
 
-    <div class="row">
-      <div class="c-sm-4 c-md-4 c-lg-4">
-        <div class="field-wrapper">
-          <label for="ddnUser">Standards</label>
-          <select id="ddnUser" name="ddnUser" class="form-ctrl" [(ngModel)]="standard_id">
-            <option value="-1"></option>
-            <option [value]="des.standard_id" *ngFor="let  des of standardList">
-              {{des.standard_name}}
-            </option>
-          </select>
+    <div class="row filter-section">
+      <div class="c-sm-4 c-md-4 c-lg-4 radio-button">
+        <div class="field-radio-wrapper">
+          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <label for="bothRadio">Both</label>
+        </div>
+        <div class="field-radio-wrapper">
+          <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <label for="assignRadio">Assigned</label>
+        </div>
+        <div class="field-radio-wrapper">
+          <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <label for="unassignStudent">UnAssigned</label>
         </div>
       </div>
-      <div class="c-sm-8 c-md-8 c-lg-8">
-        <button class="btn fullBlue" (click)="onGoBtnClick()">Go</button>
+      <div class="c-sm-6 c-md-6 c-lg-6">
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper">
+            <select class="form-ctrl" [(ngModel)]="standard_id" name="standard" id="standard">
+              <option value="-1">Select Standard</option>
+              <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                {{opt.standard_name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="c-sm-2 c-md-2 c-lg-2">
+          <button class="btn" (click)="getAllStudentList()">Go</button>
+        </div>
+
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="search-filter-wrapper">
+            <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
+          </div>
+        </div>
+
       </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" class="form-checkbox" [(ngModel)]="headerChecked" (ngModelChange)="onHeaderCheckBox($event)">
+                <label></label>
+              </div>
+            </th>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Contact No</th>
+            <th>Joining Date</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="tableData.length > 0 && dataStatus === 2">
+          <tr *ngFor="let data of tableData">
+            <td>
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
+                <label></label>
+              </div>
+            </td>
+            <td>
+              {{data.student_disp_id}}
+            </td>
+            <td>
+              {{data.student_name}}
+            </td>
+            <td>
+              {{data.student_phone}}
+            </td>
+            <td>
+              {{data.doj}}
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tableData.length == 0 && dataStatus === 1">
+          <tr *ngFor="let dummy of dummyArr">
+            <td *ngFor="let c of columnMaps">
+              <div class="skeleton">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tableData.length == 0 && dataStatus === 2">
+          <tr>
+            <td colspan="5">
+              <h3>No Student Record Found</h3>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
 
   <div class="" popup-footer>
-    <div class="clearfix">
+    <div class="clearfix" style="margin-top :10px">
       <aside class="pull-right popup-btn">
         <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-        <input type="button" value="Send" class="fullBlue btn" (click)="sendSMSToEmployees()">
+        <input type="button" value="Add Student" class="fullBlue btn" (click)="addStudentToCourse()">
       </aside>
     </div>
   </div>
