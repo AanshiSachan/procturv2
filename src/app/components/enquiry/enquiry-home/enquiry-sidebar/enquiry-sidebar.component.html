@@ -14,7 +14,9 @@
                     {{rowData.name}}
                 </li>
                 <li>
-                    <p style="color: #a5a5a5;">{{rowData.enquiry_date | date:'dd MMMM yyyy'}}</p>
+                    <span style="color: #a5a5a5;font-weight: 600">{{rowData.enquiry_date | date:'dd MMMM yyyy'}}</span>
+                    <a style="cursor: pointer;font-size: 12px;" class="pull-right" *ngIf="rowData.statusValue == 'Open' && openEnquiryFeature == '1'"
+                        (click)="onEnquiryTakeIt()">Take this Enquiry</a>
                 </li>
             </ul>
         </div>
