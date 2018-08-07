@@ -315,8 +315,22 @@
                     {{row.start_time}} - {{row.end_time}}
                   </td>
                   <td>
-                    <span *ngIf="row.is_class_taken == 'WEEK'">Regular</span>
-                    <span *ngIf="row.is_class_taken != 'WEEK'">{{row.class_type}}</span>
+                    <span *ngIf="isLangInstitue">
+                      <span *ngIf="(row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' ">
+                        Regular
+                      </span>
+                      <span *ngIf="!((row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' )">
+                        Extra
+                      </span>
+                    </span>
+                    <span *ngIf="!isLangInstitue">
+                      <span *ngIf="row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision'">
+                        {{row.custom_class_type}}
+                      </span>
+                      <span *ngIf="!(row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision') || (row.custom_class_type == '' && row.class_type == 'EXTRA')">
+                        Extra
+                      </span>
+                    </span>
                   </td>
                   <td>
                     {{row.is_class_taken}}
@@ -359,8 +373,22 @@
                     {{row.start_time}} - {{row.end_time}}
                   </td>
                   <td>
-                    <span *ngIf="!(row.class_type == 'WEEK')">{{row.class_type}}</span>
-                    <span>Regular</span>
+                    <span *ngIf="isLangInstitue">
+                      <span *ngIf="(row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' ">
+                        Regular
+                      </span>
+                      <span *ngIf="!((row.class_type == 'WEEK' && row.custom_class_type == '') || row.custom_class_type == 'Regular' || row.custom_class_type == 'Regular(Custom)' )">
+                        Extra
+                      </span>
+                    </span>
+                    <span *ngIf="!isLangInstitue">
+                      <span *ngIf="row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision'">
+                        {{row.custom_class_type}}
+                      </span>
+                      <span *ngIf="!(row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision')">
+                        Extra
+                      </span>
+                    </span>
                   </td>
                 </tr>
                 <tr *ngIf="(guestBatchList == undefined || guestBatchList == ''  )">

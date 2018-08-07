@@ -29,7 +29,7 @@ export class CourseCourseListComponent implements OnInit {
   academicList: any = [];
   standardList: any = [];
   searchFilter = {
-    unassignFlag: true,
+    unassignFlag: '2',
     standard_id: -1,
   }
   showTable: boolean = false;
@@ -149,11 +149,11 @@ export class CourseCourseListComponent implements OnInit {
 
   getAllStudentList() {
     let unassign: any = "";
-    if (this.searchFilter.unassignFlag == true) {
+    if (this.searchFilter.unassignFlag == '2') {
       unassign = "Y";
     } else {
       unassign = "N";
-    }
+    }  
     let data = {
       course_id: this.courseDetails.course_id,
       standard_id: Number(this.searchFilter.standard_id),
@@ -163,15 +163,9 @@ export class CourseCourseListComponent implements OnInit {
     this.showTable = true;
     this.apiService.getStudentList(data).subscribe(
       (res: any) => {
-        res.forEach(element => {
-          if (element.assigned_fee_template_id == -1) {
-            if (this.deafultTemplate != null && this.deafultTemplate != "") {
-              element.assigned_fee_template_id = this.deafultTemplate.template_id;
-            }
-          }
-        });
-        this.studentListDataSource = this.keepCloning(res);
-        this.studentList = res;
+        let data = this.makeTableJson(res);
+        this.studentListDataSource = this.keepCloning(data);
+        this.studentList = data;
         this.getHeaderCheckBoxValue();
         this.isRippleLoad = false;
       },
@@ -180,6 +174,47 @@ export class CourseCourseListComponent implements OnInit {
       }
     )
   }
+
+  makeTableJson(res) {
+    if (this.searchFilter.unassignFlag == '0') {
+      res.forEach(element => {
+        if (element.assigned_fee_template_id == -1) {
+          if (this.deafultTemplate != null && this.deafultTemplate != "") {
+            element.assigned_fee_template_id = this.deafultTemplate.template_id;
+          }
+        }
+      });
+      return res;
+    } else if (this.searchFilter.unassignFlag == '1') {
+      let data = [];
+      res.forEach(element => {
+        if (element.assigned) {
+          if (element.assigned_fee_template_id == -1) {
+            if (this.deafultTemplate != null && this.deafultTemplate != "") {
+              element.assigned_fee_template_id = this.deafultTemplate.template_id;
+              data.push(element);
+            } else {
+              // tHIS CASE IF FEE TEMPLATE IS NOT MADE FOR COURSE
+              data.push(element);
+            }
+          } else {
+            data.push(element);
+          }
+        }
+      });
+      return data;
+    } else {
+      res.forEach(element => {
+        if (element.assigned_fee_template_id == -1) {
+          if (this.deafultTemplate != null && this.deafultTemplate != "") {
+            element.assigned_fee_template_id = this.deafultTemplate.template_id;
+          }
+        }
+      });
+      return res;
+    }
+  }
+
 
   defaultTemplateDet(data) {
     data.forEach(element => {
@@ -202,13 +237,35 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   saveChanges() {
-    if (this.searchFilter.unassignFlag == false) {
+    if (this.searchFilter.unassignFlag == '0') {
       if (confirm('If you unassign the student from course then corresponding fee instalments will be deleted.')) {
         this.apiToAllocateAndDeallocate();
       }
-    } else {
+    }
+    else if (this.searchFilter.unassignFlag == '1') {
+      let selectedRows = this.getUISelectedRows(this.studentList);
+      if (selectedRows.length == this.studentListDataSource.length) {
+        this.messageToast('error', 'Error', "You haven't unassigned any student");
+        return false;
+      } else {
+        if (confirm('If you unassign the student from course then corresponding fee instalments will be deleted.')) {
+          this.apiToAllocateAndDeallocate();
+        }
+      }
+    }
+    else {
       this.apiToAllocateAndDeallocate();
     }
+  }
+
+  getUISelectedRows(data) {
+    let tempdata: any = [];
+    data.forEach(element => {
+      if (element.assigned) {
+        tempdata.push(element);
+      }
+    });
+    return tempdata;
   }
 
   apiToAllocateAndDeallocate() {
@@ -239,6 +296,8 @@ export class CourseCourseListComponent implements OnInit {
         if (this.studentList[t].student_id == this.studentListDataSource[i].student_id) {
           if (this.studentList[t].assigned != this.studentListDataSource[i].assigned) {
             test[this.studentList[t].student_id] = [this.studentList[t].assigned.toString(), this.studentList[t].academic_year.toString(), this.studentList[i].assigned_fee_template_id.toString()];
+            this.studentList.splice(t, 1);
+            break;
           }
         }
       }
@@ -246,6 +305,11 @@ export class CourseCourseListComponent implements OnInit {
     return test;
   }
 
+  onRadioButtonChange() {
+    this.studentList = [];
+    this.studentListDataSource = [];
+    this.getAllStudentList();
+  }
 
   searchStudent(element) {
     if (element.value != '' && element.value != null) {
@@ -263,7 +327,7 @@ export class CourseCourseListComponent implements OnInit {
   closeStudentPopup() {
     this.addStudentPopUp = false;
     this.searchFilter = {
-      unassignFlag: true,
+      unassignFlag: '2',
       standard_id: -1,
     };
     this.studentList = [];

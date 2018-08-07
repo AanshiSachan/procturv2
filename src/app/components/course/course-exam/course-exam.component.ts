@@ -611,8 +611,29 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
+  validateDateRange() {
+    let selectedCourse: any = {};
+    let check = true;
+    if (this.courseList.coursesList.length > 0) {
+      selectedCourse = this.courseList.coursesList.filter(
+        el => el.course_id == this.courseData.course_id
+      )
+      if (moment(selectedCourse[0].start_date).format('YYYY-MM-DD') <= moment(this.courseData.requested_date).format('YYYY-MM-DD') && moment(this.courseData.requested_date).format('YYYY-MM-DD') <= moment(selectedCourse[0].end_date).format('YYYY-MM-DD')) {
+        check = true;
+      } else {
+        this.messageNotifier('error', 'Date Out Of Range', 'You have selected date out of course start date ' + selectedCourse[0].start_date + " and course end date " + selectedCourse[0].end_date);
+        check = false;
+      }
+    }
+    return check;
+  }
+
   getExamSchedule() {
     if (this.courseData.master_course != "" && this.courseData.course_id != -1) {
+      if (!this.validateDateRange()) {
+        this.showContentSection = false;
+        return false;
+      }
       this.isRippleLoad = true;
       this.courseData.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
       this.apiService.getSchedule(this.courseData).subscribe(

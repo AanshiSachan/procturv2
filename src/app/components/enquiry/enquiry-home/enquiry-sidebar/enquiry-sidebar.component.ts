@@ -16,9 +16,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
   styleUrls: ['./enquiry-sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EnquirySidebarComponent implements OnChanges, OnDestroy {
-
-
+export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
 
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
@@ -35,36 +33,8 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   isEnquiryAdmin: boolean = false;
   rowData: any;
   instituteEnqId: any;
-
-  @Input() enquiryRow: any;
-  @Input() priorityArr: any;
-  @Input() enqAssignTo: any;
-  @Input() statusArr: any;
-  @Input() followupArr: any;
-  @Input() row: any;
-  @Input() customComp: any[];
-  @Input() sourceList: any[];
-  @Input() mainBranchAdmin: any;
-  @Input() subBranchAdmin: any;
-  @Input() branchesList: any[];
-  @Input() masterCourseData: any[];
-  @Input() standardArr: any[];
-  @Input() subjectArr: any[];
-
-  @Output() updateEnq = new EventEmitter<any>();
-  @Output() cancelUpdate = new EventEmitter<any>();
-  @Output() getUserList = new EventEmitter<any>();
-  @Output() fullEnquiryDetails = new EventEmitter<any>();
-
-  @ViewChild('acc') acc: ElementRef;
-  @ViewChild('one') one: ElementRef;
-  @ViewChild('two') two: ElementRef;
-  @ViewChild('three') three: ElementRef;
-  @ViewChild('four') four: ElementRef;
-
   proMc: string = "";
   proC: string = "";
-
   isLangInstitute: boolean = false;
   notifyme: boolean = false;
   followUpTime: any;
@@ -106,13 +76,39 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     paymentDate: null,
     reference: null,
   };
-
   updateFormComments: any[] = [];
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
   sourceName: any = "";
   isNotifyVisible: boolean = false;
   courseIdArray: any;
+  openEnquiryFeature: string = '0';
+
+  @Input() enquiryRow: any;
+  @Input() priorityArr: any;
+  @Input() enqAssignTo: any;
+  @Input() statusArr: any;
+  @Input() followupArr: any;
+  @Input() row: any;
+  @Input() customComp: any[];
+  @Input() sourceList: any[];
+  @Input() mainBranchAdmin: any;
+  @Input() subBranchAdmin: any;
+  @Input() branchesList: any[];
+  @Input() masterCourseData: any[];
+  @Input() standardArr: any[];
+  @Input() subjectArr: any[];
+
+  @Output() updateEnq = new EventEmitter<any>();
+  @Output() cancelUpdate = new EventEmitter<any>();
+  @Output() getUserList = new EventEmitter<any>();
+  @Output() fullEnquiryDetails = new EventEmitter<any>();
+
+  @ViewChild('acc') acc: ElementRef;
+  @ViewChild('one') one: ElementRef;
+  @ViewChild('two') two: ElementRef;
+  @ViewChild('three') three: ElementRef;
+  @ViewChild('four') four: ElementRef;
 
   constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent, private auth: AuthenticatorService) {
     this.isEnquiryAdministrator();
@@ -138,6 +134,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.updateFormData.follow_type = "";
     this.updateFormData.statusValue = "";
     this.getDetailsById(this.instituteEnqId);
+  }
+
+  ngOnInit() {
+    this.openEnquiryFeature = sessionStorage.getItem('open_enq_Visibility_feature');
   }
 
   ngOnDestroy() {
@@ -339,7 +339,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   createUpdateForm() {
-    debugger;
     if (this.validateTime()) {
       if (this.updateFormData.follow_type == "Walkin") {
         if (this.validatewalkindatetime()) {
@@ -616,6 +615,13 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.timeObj.wmeridian = "";
       this.timeObj.wminute = "";
     }
+  }
+
+  // On Enquiry Take It Click//
+  onEnquiryTakeIt() {
+    this.updateFormData.statusValue = "In Progress";
+    this.updateFormData.assigned_to = sessionStorage.getItem('userid');
+    this.createUpdateForm();
   }
 
 }

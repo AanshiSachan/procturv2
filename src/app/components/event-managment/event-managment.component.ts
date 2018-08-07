@@ -73,6 +73,18 @@ export class EventManagmentComponent implements OnInit {
     image: null,
     public_url: ""
   }
+
+
+  acceptedFileFormat = {
+    jpg: "0",
+    jpeg: "1",
+    bmp: "2",
+    gif: "3",
+    png: "4"
+  }
+
+  type: string = ""
+
   constructor(
     private eve_mnge: EventManagmentService,
     private appc: AppComponent,
@@ -88,15 +100,17 @@ export class EventManagmentComponent implements OnInit {
   ngOnInit() {
     this.auth.institute_type.subscribe(
       res => {
-        if(res == "LANG"){
+        if (res == "LANG") {
           this.isProfessional = true;
-        }else{
+        } else {
           this.isProfessional = false;
         }
       }
     )
     this.getAllListData();
   }
+
+
 
 
   /*=====================================get list of records=================================
@@ -111,7 +125,10 @@ export class EventManagmentComponent implements OnInit {
         this.eventRecord = res;
         this.totalRow = this.eventRecord.length;
         this.fetchTableDataByPage(this.pageIndex);
-      }, )
+      }, ),
+      (error: any) => {
+        this.errorMessage(error);
+      }
   }
   /*================================================get events==============================
   ============================================================================================= */
@@ -123,6 +140,7 @@ export class EventManagmentComponent implements OnInit {
         this.getEvent = res;
       },
       error => {
+        this.errorMessage(error);
       }
     )
   }
@@ -136,7 +154,7 @@ export class EventManagmentComponent implements OnInit {
         this.getHoliday = res;
       },
       error => {
-        //console.log(error);
+        this.errorMessage(error);
       }
     )
   }
@@ -167,6 +185,8 @@ export class EventManagmentComponent implements OnInit {
 
   fileUpload(imgId) {
     var file = (<HTMLFormElement>document.getElementById('fileAdd')).files[0];
+    this.type = file.name.split('.')[1];
+
     if (file.size > 1048576) {
       let obj = {
         type: "error",
@@ -177,6 +197,7 @@ export class EventManagmentComponent implements OnInit {
       (<HTMLFormElement>document.getElementById('fileAdd')).value = "";
       return;
     }
+
     var fileReader = new FileReader();
     var encString = "";
     fileReader.readAsDataURL(file);
@@ -185,15 +206,18 @@ export class EventManagmentComponent implements OnInit {
       (<HTMLImageElement>document.getElementById(imgId)).src = fileReader.result;
     }
     fileReader.onerror = function (error) {
-      console.log('Error: ', error);
     };
   }
 
   saveEventData() {
 
+    if (!this.acceptedFileFormat.hasOwnProperty(this.type)) {
+      this.appc.popToast({ type: "error", title: "", body: "File format not supported" });
+      return;
+    }
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
       let obj = {
-        type: "error", 
+        type: "error",
         title: "Error",
         body: "Please Provide Mandatory Fields"
       }
@@ -260,6 +284,7 @@ export class EventManagmentComponent implements OnInit {
         }
       },
       error => {
+        this.errorMessage(error);
       }
     )
   }
@@ -274,7 +299,7 @@ export class EventManagmentComponent implements OnInit {
       return false;
     }
   }
-/*=============================validate Date==============================================*/
+  /*=============================validate Date==============================================*/
   validateDate(start, end) {
     if (moment(start).format('YYYY-MM-DD') == moment(end).format('YYYY-MM-DD')) {
       return true;
@@ -288,6 +313,10 @@ export class EventManagmentComponent implements OnInit {
     }
   }
   updatePopupData() {
+    
+    let type = {
+      1: ""
+    }
     if (this.newUpdateObj.holiday_name == "" || this.newUpdateObj.holiday_desc == "") {
       let obj = {
         type: "error",
@@ -322,6 +351,11 @@ export class EventManagmentComponent implements OnInit {
 
     }
 
+    if (!this.acceptedFileFormat.hasOwnProperty(this.type)) {
+      this.appc.popToast({ type: "error", title: "", body: "File format not supported" });
+      return;
+    }
+
     if (this.newUpdateObj.holiday_long_desc.length > 300) {
       let obj = {
         type: "error",
@@ -350,7 +384,7 @@ export class EventManagmentComponent implements OnInit {
         this.getAllListData();
       },
       error => {
-
+        this.errorMessage(error);
       })
   }
 
@@ -395,7 +429,7 @@ export class EventManagmentComponent implements OnInit {
         }
       },
       error => {
-
+        this.errorMessage(error);
       }
     )
   }
@@ -407,6 +441,7 @@ export class EventManagmentComponent implements OnInit {
         this.getAllListData();
       },
       error => {
+        this.errorMessage(error);
       }
     )
   }
@@ -428,6 +463,7 @@ export class EventManagmentComponent implements OnInit {
           this.appc.popToast(obj);
         },
         error => {
+          this.errorMessage(error);
         }
       )
     }
@@ -451,7 +487,7 @@ export class EventManagmentComponent implements OnInit {
   }
 
   deleteEntryData(holidayId) {
-    var prompt = confirm("Are you sure, you want to delete the Event?");
+    let prompt = confirm("Are you sure, you want to delete the Event?");
     if (prompt) {
       this.deleteEventDataFromList(holidayId);
     }
@@ -547,6 +583,13 @@ export class EventManagmentComponent implements OnInit {
     document.getElementById('lieleven').classList.remove('active'); */
   }
 
-
+  errorMessage(error) {
+    let msg = {
+      type: "error",
+      title: "",
+      body: error.error.errorMessage
+    }
+    this.appc.popToast(msg);
+  }
 
 }

@@ -148,8 +148,8 @@
                             </li>
                             <li class="cls-type">
                               <div *ngIf="!class.isExam">
-                                <span *ngIf="class.custom_class_type== 'Regular' || class.custom_class_type== 'Extra' || class.custom_class_type== 'Doubt' ">{{class.custom_class_type}}</span>
-                                <span *ngIf="!(class.custom_class_type== 'Regular' || class.custom_class_type== 'Extra' || class.custom_class_type== 'Doubt')">Revision</span>
+                                <span *ngIf="class.custom_class_type== 'Regular' || class.custom_class_type== 'Revision' || class.custom_class_type== 'Doubt' ">{{class.custom_class_type}}</span>
+                                <span *ngIf="!(class.custom_class_type== 'Regular' || class.custom_class_type== 'Revision' || class.custom_class_type== 'Doubt')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
@@ -452,14 +452,12 @@
 
           <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
-            <!-- <div class="questionInfo" style="position:relative; left:25%;margin-left: 25px;">
+            <div class="questionInfo" style="position:relative; left:25%;margin-left: 25px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
-
-                Details of homework given to student.
-
+                Details of homework given to student and special characters are not allowed.
               </span>
-            </div> -->
+            </div>
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
               <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
                 </textarea>
@@ -515,7 +513,7 @@
       </div>
     </div>
 
-    <div style="margin: 0px;padding: 10px;" class="clearfix" widget-footer>
+    <div style="padding-top: 10px;" class="clearfix" widget-footer>
       <aside class="pull-right popup-btn" style=" display: inline-flex; ">
         <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
         <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"

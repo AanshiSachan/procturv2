@@ -3,25 +3,6 @@
 <section class="middle-section clearFix">
   <section class="course-second course">
     <div class="boxPadding15">
-      <!-- Header Section and Router  -->
-      <!-- <section class="middle-top clearFix"> -->
-      <!-- <div class="row">-->
-      <!--<div>-->
-      <!-- <h1 class="pull-left" style="margin-top: 10px;margin-left: 15px;">Course</h1> -->
-      <!-- </div>
-           <div class="pull-right btnWrapper">
-            <button class="btn" routerLink="add" style="margin-top: 10px;margin-right: 20px;">
-              <div class="option-wrap">
-                <img src="./assets/images/plus.png" alt="addCourse">
-                <span class="tooltip">
-                  Add Course
-                </span>
-              </div>
-            </button>
-          </div>
-        </div>  
-      </section> 
-      
 
       <!-- Expanding Table -->
       <section class="middle-top mb0 clearFix">
@@ -143,6 +124,7 @@
 
 
 <!-- =============================================================================== -->
+<!-- =============================================================================== -->
 <section id="popup" class="popupWrapper fadeIn" *ngIf="addStudentPopUp">
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
@@ -164,34 +146,49 @@
             <span>{{courseDetails.course_name}}</span>
           </h2>
         </div>
+
         <div class="row filter-section">
-          <div class="c-sm-3 c-md-3 c-lg-3">
-            <div class="field-wrapper" [ngClass]="{'has-value' : searchFilter.standard_id != ''}">
-                <label for="standard">Standards</label>
-              <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard" id="standard">
-                <option value="-1">Select</option>
-                <option *ngFor="let opt of standardList" [value]="opt.standard_id">
-                  {{opt.standard_name}}
-                </option>
-              </select>
-             
+          <div class="c-sm-4 c-md-4 c-lg-4 radio-button">
+            <div class="field-radio-wrapper">
+              <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="searchFilter.unassignFlag"
+                (ngModelChange)="onRadioButtonChange()">
+              <label for="bothRadio">Both</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="searchFilter.unassignFlag"
+                (ngModelChange)="onRadioButtonChange()">
+              <label for="assignRadio">Assigned</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="searchFilter.unassignFlag"
+                (ngModelChange)="onRadioButtonChange()">
+              <label for="unassignStudent">UnAssigned</label>
             </div>
           </div>
-          <div class="c-sm-3 c-md-3 c-lg-3 checkBoxWrapper">
-            <div class="field-checkbox-wrapper">
-                
-              <input type="checkbox" id="assignList" value="" [(ngModel)]="searchFilter.unassignFlag" name="assignList" class="form-checkbox">
-              <label for="assignList">UnAssigned Students</label>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+
+            <div class="c-sm-6 c-md-6 c-lg-6">
+              <div class="field-wrapper">
+                <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard" id="standard">
+                  <option value="-1">Select Standard</option>
+                  <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                    {{opt.standard_name}}
+                  </option>
+                </select>
+
+              </div>
             </div>
-          </div>
-          <div class="c-sm-2 c-md-2 c-lg-2 btnPadding">
-            <button class="btn" (click)="getAllStudentList()">Go</button>
-          </div>
-          <div class="pull-right serchBox">
-            <div class="search-filter-wrapper">
-              <input #searchVal type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px;margin-right: 25%;"
-                id="searchStudent" name="searchData" [(ngModel)]="searchData">
+
+            <div class="c-sm-2 c-md-2 c-lg-2">
+              <button class="btn" (click)="getAllStudentList()">Go</button>
             </div>
+
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="search-filter-wrapper">
+                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -201,7 +198,7 @@
               <thead>
                 <th style="padding: 6px 0px 6px 20px;">
                   <div class="field-checkbox-wrapper">
-                     
+
                     <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
                     <label></label>
                   </div>
@@ -229,7 +226,7 @@
                 <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                   <td>
                     <div class="field-checkbox-wrapper">
-                        
+
                       <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
                       <label></label>
                     </div>
@@ -275,8 +272,8 @@
               </tbody>
             </table>
           </div>
-          <div class="pull-right">
-            <button class="btn fullBlue" (click)="saveChanges()">Save</button>
+          <div class="row btn-section" style="margin: 10px 10px 0 0;">
+            <button class="btn fullBlue pull-right" (click)="saveChanges()">Save</button>
           </div>
         </div>
 
@@ -284,5 +281,3 @@
     </div>
   </div>
 </section>
-
-

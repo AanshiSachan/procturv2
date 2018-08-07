@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { ActivityHomeComponent } from './activity-home.component';
 import { HomeComponent } from './home/home.component';
 import { PtmManagementComponent } from './ptm-management/ptm-management.component';
+import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
 
 
 @NgModule({
@@ -36,8 +37,18 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
                         pathMatch: 'prefix'
                     },
                     {
-                        path:'archiving',
+                        path: 'archiving',
                         loadChildren: 'app/components/activity-home/archiving/archiving.module#ArchivingModule',
+                        pathMatch: 'prefix'
+                    },
+                    {
+                        path: 'file_manager',
+                        loadChildren: 'app/components/activity-home/file-manager/file-manager.module#FileManagerModule',
+                        pathMatch: "prefix"
+                    },
+                    {
+                        path: 'examcourse',
+                        component: ExamdeskCourseAssignmentComponent,
                         pathMatch: 'prefix'
                     }
                 ]

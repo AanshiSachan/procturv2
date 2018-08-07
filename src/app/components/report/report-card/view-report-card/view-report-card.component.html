@@ -664,7 +664,7 @@
                               <span *ngIf="row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision'">
                                 {{row.custom_class_type}}
                               </span>
-                              <span *ngIf="!(row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision')">
+                              <span *ngIf="!(row.custom_class_type == 'Regular' || row.custom_class_type == 'Doubt' || row.custom_class_type == 'Revision') || (row.class_type == 'EXTRA' && row.custom_class_type == '')">
                                 Extra
                               </span>
                             </span>
@@ -791,7 +791,7 @@
               <span *ngIf="data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision'">
                 {{data.custom_class_type}}
               </span>
-              <span *ngIf="!(data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision')">
+              <span *ngIf="!(data.custom_class_type=='Regular' || data.custom_class_type == 'Doubt' || data.custom_class_type == 'Revision') || (data.class_type == 'EXTRA' && data.custom_class_type == '')">
                 Extra
               </span>
             </td>

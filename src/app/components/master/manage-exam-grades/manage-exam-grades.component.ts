@@ -25,6 +25,9 @@ export class ManageExamGradesComponent implements OnInit {
   }
   gotGrades: any[] = [];
   addArray: any[] = [];
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2];
+  dataStatus: boolean = false;
   constructor(private gradeService: ExamGradeServiceService, private appC: AppComponent) { }
 
   ngOnInit() {

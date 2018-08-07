@@ -1,0 +1,68 @@
+
+
+.shadow{
+    border: 1px solid #e8e5e5cf;
+    display: inline-block;
+    border-radius: 3px;
+    margin: 1%;
+    padding: 1%;
+    box-shadow: 5px 5px 5px #efefef;
+}
+
+
+.file-uploaded {
+    margin: 25px 0 30px;
+    font-weight: 600;
+    font-size: 16px;
+    span {
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+        svg {
+            margin-right: 10px;
+            width: 15px;
+            .cls-1 {
+                stroke: #888;
+                stroke-width: 2;
+            }
+            &:hover {
+                .cls-1 {
+                    stroke: blue;
+                }
+            }
+        }
+    }
+}
+
+.progress-bar-wrapper {
+    float: left;
+    width: 80%;
+}
+
+.upload-bar {
+    position: relative;
+    height: 8px;
+    width: 100%;
+    background: #ccc;
+    border-radius: 0;
+    overflow: hidden;
+    margin: 10px 0 5px;
+    &>div {
+        position: absolute;
+        height: 100%;
+        width: 0%;
+        left: 0;
+        background: blue;
+        top: 0;
+        border-radius: 0;
+        transition: all 0.5s ease;
+    }
+}
+
+.cancel-upload {
+    float: right;
+    cursor: pointer;
+    margin: 4px 0 0 0px;
+}
+
+

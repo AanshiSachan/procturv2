@@ -143,7 +143,7 @@
 }
 
 .CourseListtableWrapper {
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -203,7 +203,6 @@
     }
 }
 
-
 /* popUp Scss */
 
 .popupWrapper {
@@ -241,7 +240,7 @@
     box-shadow: 1px 8px 20px 5px #9c9c9c;
     transition: unset;
     background: #fff;
-    span{
+    span {
         font-weight: 300;
         display: inline-block;
     }
@@ -362,7 +361,7 @@
 
 ///////////
 .popup-content {
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -430,7 +429,7 @@ $color-highlight: lighten($color-base,
 .tableCourseExp {
     max-height: 415px;
     overflow: hidden;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
     .tableCourseInn {
@@ -561,48 +560,28 @@ $color-highlight: lighten($color-base,
         height: 35px;
         font-size: 14px;
     }
-    .field-wrapper {
-        position: relative;
-        padding-top: 0px !important;
-        width: 30%;
-        float: left !important;
-        .form-ctrl {
-            font: 400 13.3333px Arial;
-            border-top: none !important;
-            border-right: none !important;
-            border-left: none !important;
-        }
-    }
-    .field-wrapper label {
-        position: absolute !important;
-        left: 10% !important;
-        top: 1% !important;
-        &:after {
-            left: 85% !important;
-            top: 10px !important;
-        }
-    }
 }
 
 .student-assign-popup {
-    padding: 5px 15px;
-    .row {
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
     .popup-title {
         margin-left: 0px;
     }
     .filter-section {
-        .checkBoxWrapper {
-            padding-top: 15px;
+        padding: 10px 0px;
+        margin: 5px 0;
+        background: #efefef;
+        .radio-button {
+            margin-top: 10px;
+            display: inline-flex;
+            .field-radio-wrapper {
+                margin-right: 5px;
+            }
         }
-        .btnPadding {
-            padding-left: 0px;
-            padding-top: 10px;
+        .field-wrapper {
+            padding-top: 0;
         }
-        .serchBox {
-            padding-top: 10px;
+        .btn {
+            margin-left: 0;
         }
     }
     .table-wrapper {

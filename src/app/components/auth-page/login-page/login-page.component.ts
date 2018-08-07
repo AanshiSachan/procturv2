@@ -31,8 +31,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   counter: number = 30;
   no_email_found: boolean = false;
   isProcturVisible: boolean = false;
-
-
   instituteListObj: instituteList = {
     institute_id: "",
     institute_name: "",
@@ -47,19 +45,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     userType: "",
     user_role: ""
   }
-
-
-
   selectedMultiInstitute: any;
   selectedUserRole: any;
-
   multiInstituteLoginInfo: InstituteLoginInfo = {
     alternate_email_id: "",
     password: "",
     userid: "",
     institution_id: ""
   }
-
   userListArr: any[] = [];
   multiUserLoginInfo: any = {
     alternate_email_id: "",
@@ -68,8 +61,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     institution_id: "",
     user_role: ""
   }
-
-
   otpVerificationPhoneNumber: string;
   otpVerificationInfo: any = {
     otp_code: "",
@@ -79,7 +70,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     userid: "",
     otp_validate_mode: 1
   }
-
   baseUrl: string = '';
   Authorization: any;
   headers;
@@ -121,18 +111,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   }
 
-
-
   ngOnInit() {
     this.checkWebUrlForGenerics();
   }
 
-
-
   ngOnDestroy() {
     this.isProcturVisible = true;
   }
-
 
   checkWebUrlForGenerics() {
     let url: string = window.location.href;
@@ -222,8 +207,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   //END - 0
 
   //Method to decide where to take user when he/she Logs in (START - 1)
@@ -250,8 +233,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
-
 
   //End - 1
 
@@ -371,6 +352,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('is_exam_grad_feature', institute_data.is_exam_grad_feature);
       sessionStorage.setItem('enable_routing', institute_data.enable_routing);
       sessionStorage.setItem('enable_online_payment_feature', institute_data.enable_online_payment_feature);
+      sessionStorage.setItem('open_enq_Visibility_feature', institute_data.open_enq_Visibility_feature);
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
@@ -410,6 +392,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
 
   //if login email is not verified ( Start - 4 )
+
   alternateLoginEmailNotVerified() {
     let data = {
       type: "warning",
@@ -424,6 +407,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
 
   //if login email is registered in multi insititute ( Start - 5 )
+
   alternateLoginMultiInstitute(data) {
 
     this.instituteListArr = [];
@@ -439,9 +423,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
   //End - 5
 
-
-
-
   alternateLoginMultiInstituteData(u_id, inst_id) {
     this.multiInstituteLoginInfo.userid = u_id;
     this.multiInstituteLoginInfo.institution_id = inst_id;
@@ -454,9 +435,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.checkForAuthOptions(el);
     });
   }
-
-
-
 
   //if user mobile no. is not verified ( Start - 6 )
   OTPVerification(res) {
@@ -479,6 +457,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
 
   //if login email is registered as multi user ( Start - 7 )
+
   alternateLoginMultiUser(data) {
     this.userListArr = [];
     this.multiUserListObj.institute_id = data.institution_id;
@@ -498,9 +477,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.showUserList();
   }
 
-
-
-
   alternateLoginMultiUserData(u_id, u_role, inst_id) {
     this.multiUserLoginInfo.userid = u_id;
     this.multiUserLoginInfo.user_role = u_role;
@@ -514,10 +490,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
   }
   //END - 7
-
-
-
-
 
   alternateLoginOTPVerification() {
     //console.log("##### trying to Validate OTP #####");
@@ -557,9 +529,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
-
   alternateLoginOTPRegenerate() {
     //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
@@ -570,92 +539,68 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     })
   }
 
-
-
-
   forgotPassword() {
     let forgotPasswordData = {
       alternate_email_id: ""
     }
     if (this.loginDataForm.alternate_email_id == "") {
-      //console.log("no email id");
       this.no_email_found = true;
     } else {
-      forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
-      this.login.forgotPassowrdServiceMethod(forgotPasswordData).subscribe(
-        el => {
-          let data = {
-            type: "success",
-            title: "Password Reset Successfull",
-            body: "Kindly check your Mobile/Email Id for further Details!"
-          }
-          this.toastCtrl.popToast(data);
-        },
-        err => {
-          let errorObj = JSON.parse(JSON.stringify(err._body));
-          let error_JSON = JSON.parse(errorObj);
-          let data = {
-            type: "error",
-            title: "Not Found",
-            body: error_JSON.message
-          }
-          this.toastCtrl.popToast(data);
-        })
+      if (confirm('New password will be sent to your registered number. Click Ok to continue.')) {
+        forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
+        this.login.forgotPassowrdServiceMethod(forgotPasswordData).subscribe(
+          el => {
+            let data = {
+              type: "success",
+              title: "Password Reset Successfull",
+              body: "Kindly check your Mobile/Email Id for further Details!"
+            }
+            this.toastCtrl.popToast(data);
+          },
+          err => {
+            let errorObj = JSON.parse(JSON.stringify(err._body));
+            let error_JSON = JSON.parse(errorObj);
+            let data = {
+              type: "error",
+              title: "Not Found",
+              body: error_JSON.message
+            }
+            this.toastCtrl.popToast(data);
+          })
+      }
     }
   }
-
-
-
 
   showInstituteList() {
     this.isInstituteListPop = true;
   }
 
-
-
-
   showUserList() {
     this.isUserListPop = true;
   }
 
-
-
-
   closeUserList() {
     this.isUserListPop = false;
   }
-
-
-
 
   /* function to hide isInstituteList popup */
   closeInstituteList() {
     this.isInstituteListPop = false;
   }
 
-
-
-
   showOTPValidationModal() {
     this.OTPVerificationPopUp = true;
   }
-
-
-
 
   /* function to hide popup to add institute */
   closeOTPValidationModal() {
     this.OTPVerificationPopUp = false;
   }
 
-
-
-
   openGetAdvice() {
     let url = "http://proctur.com/get_advice.html";
     window.open(url);
   }
-
 
   removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
@@ -670,7 +615,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       el.classList.remove('hide');
     });
   }
-
 
   createRoleBasedSidenav() {
     this.auth.currentInstituteId.subscribe(id => {
@@ -720,7 +664,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   reCheckLogin() {
     let id = sessionStorage.getItem('institute_id');

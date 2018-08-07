@@ -1,0 +1,192 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<section class="clearfix middle-section">
+
+
+  <div class="row head-section">
+    <h2 class="pull-left">ExamDesk Course Assignment</h2>
+    <div class="pull-right">
+      <div class="search-filter-wrapper">
+        <input type="text" class="normal-field" [(ngModel)]="searchValue" placeholder="Search" (keyup)="searchInList()">
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Course Name</th>
+          <th>Total Assigned Student</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="coursesList.length > 0">
+        <tr *ngFor="let data of coursesList">
+          <td>{{data.course_type}}</td>
+          <td>{{data.total_assigned_student_count}}</td>
+          <td>
+            <a style="cursor: pointer;" (click)="assignStudent(data)">Assign Student</a>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="coursesList.length == 0 && dataStatus === 1">
+        <tr *ngFor="let dummy of dummyArr">
+          <td *ngFor="let c of columnMaps">
+            <div class="skeleton">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="(coursesList.length == 0 && dataStatus === 2)">
+        <tr>
+          <td colspan="6">
+            No Data Found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginator Here -->
+    <!-- <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div> -->
+
+  </div>
+
+</section>
+
+
+<proctur-popup *ngIf="assignPopUp">
+
+  <span class="closePopup pos-abs fbold show" (click)="closePopup()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+
+  <h2 popup-header>Assign/Unassign Student</h2>
+
+  <div popup-content class="student-assign-popup">
+
+    <div class="row filter-section">
+      <div class="c-sm-4 c-md-4 c-lg-4 radio-button">
+        <div class="field-radio-wrapper">
+          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <label for="bothRadio">Both</label>
+        </div>
+        <div class="field-radio-wrapper">
+          <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <label for="assignRadio">Assigned</label>
+        </div>
+        <div class="field-radio-wrapper">
+          <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <label for="unassignStudent">UnAssigned</label>
+        </div>
+      </div>
+      <div class="c-sm-6 c-md-6 c-lg-6">
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper">
+            <select class="form-ctrl" [(ngModel)]="standard_id" name="standard" id="standard">
+              <option value="-1">Select Standard</option>
+              <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                {{opt.standard_name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="c-sm-2 c-md-2 c-lg-2">
+          <button class="btn" (click)="getAllStudentList()">Go</button>
+        </div>
+
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="search-filter-wrapper">
+            <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" class="form-checkbox" [(ngModel)]="headerChecked" (ngModelChange)="onHeaderCheckBox($event)">
+                <label></label>
+              </div>
+            </th>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Contact No</th>
+            <th>Joining Date</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="tableData.length > 0 && dataStatus === 2">
+          <tr *ngFor="let data of tableData">
+            <td>
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
+                <label></label>
+              </div>
+            </td>
+            <td>
+              {{data.student_disp_id}}
+            </td>
+            <td>
+              {{data.student_name}}
+            </td>
+            <td>
+              {{data.student_phone}}
+            </td>
+            <td>
+              {{data.doj}}
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tableData.length == 0 && dataStatus === 1">
+          <tr *ngFor="let dummy of dummyArr">
+            <td *ngFor="let c of columnMaps">
+              <div class="skeleton">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tableData.length == 0 && dataStatus === 2">
+          <tr>
+            <td colspan="5">
+              <h3>No Student Record Found</h3>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="" popup-footer>
+    <div class="clearfix" style="margin-top :10px">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+        <input type="button" value="Add Student" class="fullBlue btn" (click)="addStudentToCourse()">
+      </aside>
+    </div>
+  </div>
+
+</proctur-popup>

@@ -377,62 +377,72 @@
           </g>
         </svg>
       </span>
-      <div class="popup-content">
+      <div class="popup-content student-assign-popup">
         <div>
-          <h3>{{batchDetails.batch_name}}</h3>
+          <h3>Batch Name : {{batchDetails.batch_name}}</h3>
         </div>
-        <div class="row">
-          <div class="c-sm-6 c-md-6 c-lg-6">
-            <h2>Student List</h2>
+
+        <div class="row filter-section">
+          <div class="c-sm-6 c-md-6 c-lg-6 radio-button">
+            <div class="field-radio-wrapper">
+              <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+              <label for="bothRadio">Both</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+              <label for="assignRadio">Assigned</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+              <label for="unassignStudent">UnAssigned</label>
+            </div>
           </div>
-          <div class="pull-right">
+          <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="search-filter-wrapper">
-              <input #searchVal type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px;margin-right: 15px;"
-                id="searchStudent" name="searchData" [(ngModel)]="searchData">
+              <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
             </div>
           </div>
         </div>
 
-
-        <div style="margin-top: 15px;max-height: 363px;overflow: scroll;">
+        <div class="table-wrapper">
           <table>
             <thead>
-              <th>
-                <div class="field-checkbox-wrapper">
-
-                  <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
-                  <label></label>
-                  <span>Assign/UnAssign</span>
-                </div>
-              </th>
-              <th>
-                Student ID
-              </th>
-              <th>
-                Student Name
-              </th>
-              <th>
-                Contact No.
-              </th>
-              <th>
-                Institution Name
-              </th>
-              <th>
-                Standard Class
-              </th>
-              <th>
-                Academic Year
-              </th>
-              <th>
-                Fee Template
-              </th>
+              <tr>
+                <th>
+                  <div class="field-checkbox-wrapper">
+                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
+                    <label></label>
+                    <!-- <span>Assign/UnAssign</span> -->
+                  </div>
+                </th>
+                <th>
+                  Student ID
+                </th>
+                <th>
+                  Student Name
+                </th>
+                <th>
+                  Contact No.
+                </th>
+                <th>
+                  Institution Name
+                </th>
+                <th>
+                  Standard Class
+                </th>
+                <th>
+                  Academic Year
+                </th>
+                <th>
+                  Fee Template
+                </th>
+              </tr>
             </thead>
             <tbody>
-              <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
+              <tr id="row{{i}}" *ngFor="let row of (dataTable | searchPipe:searchData); let i = index; trackBy: i;">
                 <td>
                   <div class="field-checkbox-wrapper">
-
-                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxClicked(row , $event , i)">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
                     <label></label>
                   </div>
                 </td>
@@ -474,14 +484,14 @@
               </tr>
               <tr *ngIf="(studentList.length == 0)">
                 <td colspan="8">
-                  No Data Found
+                  No Student Found
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="pull-right">
+        <div class="pull-right" style="padding: 5px 10px 0 0;">
           <button class="btn fullBlue" (click)="saveChanges()">Save</button>
         </div>
       </div>

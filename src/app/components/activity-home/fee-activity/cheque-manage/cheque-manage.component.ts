@@ -53,7 +53,9 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'contact_no', header: 'Contact No' },
     { primaryKey: 'cheque_date', header: 'Cheque Date' },
     { primaryKey: 'cheque_amount', header: 'Amount' },
-    { primaryKey: 'cheque_status', header: 'Status' }
+    { primaryKey: 'cheque_status', header: 'Status' },
+    { primaryKey: 'remarks', header: 'Remarks' },
+    { primaryKey: 'reference_no', header: 'Reference No' }
   ];
 
   menuList: DropData[] = [
