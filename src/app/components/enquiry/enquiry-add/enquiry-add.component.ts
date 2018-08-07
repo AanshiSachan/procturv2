@@ -958,8 +958,8 @@ export class EnquiryAddComponent implements OnInit {
               this.isEnquirySubmit = false;
               let data = {
                 type: "error",
-                title: "Error Posting New Enquiry",
-                body: err.message + " mobile number is already in use, please provide another primary contact"
+                title: "Error",
+                body: err.error.message
               }
               this.appC.popToast(data);
             }
@@ -1017,8 +1017,8 @@ export class EnquiryAddComponent implements OnInit {
               this.isEnquirySubmit = false;
               let data = {
                 type: "error",
-                title: "Error Posting New Enquiry",
-                body: " mobile number is already in use, please provide another primary contact"
+                title: "Error",
+                body: err.error.message
               }
               this.appC.popToast(data);
             }
