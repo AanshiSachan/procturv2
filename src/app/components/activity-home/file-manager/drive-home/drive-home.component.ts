@@ -175,7 +175,7 @@ export class DriveHomeComponent implements OnInit {
           path.pop();
           path.pop();
           let newPath = path.join('/');
-          this.fetchPrefillFolderAndFiles(newPath);
+          this.fetchPrefillFolderAndFiles(newPath , true);
         },
         (error: any) => {
           let msg = {
@@ -219,7 +219,7 @@ export class DriveHomeComponent implements OnInit {
           body: "Folder Created successfully"
         }
         this.appC.popToast(msg);
-        this.fetchPrefillFolderAndFiles(this.createFetchFolder.keyName);
+        this.fetchPrefillFolderAndFiles(this.createFetchFolder.keyName , true);
         // this.ngOnInit(true);
       },
       (error: any) => {
