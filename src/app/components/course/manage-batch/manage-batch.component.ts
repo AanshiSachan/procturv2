@@ -390,6 +390,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   onRadioButtonChange() {
+    this.searchData = "";
     if (this.studentList.length > 0) {
       if (this.radioOption == '0') {
         this.dataTable = this.studentList;
@@ -482,6 +483,7 @@ export class ManageBatchComponent implements OnInit {
 
   closeStudentPopup() {
     this.addStudentPopUp = false;
+    this.searchData = "";
   }
 
   changeDateFormat(date) {

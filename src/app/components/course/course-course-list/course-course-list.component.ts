@@ -29,7 +29,7 @@ export class CourseCourseListComponent implements OnInit {
   academicList: any = [];
   standardList: any = [];
   searchFilter = {
-    unassignFlag: '2',
+    unassignFlag: '0',
     standard_id: -1,
   }
   showTable: boolean = false;
@@ -148,12 +148,13 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   getAllStudentList() {
+    this.searchData = "";
     let unassign: any = "";
     if (this.searchFilter.unassignFlag == '2') {
       unassign = "Y";
     } else {
       unassign = "N";
-    }  
+    }
     let data = {
       course_id: this.courseDetails.course_id,
       standard_id: Number(this.searchFilter.standard_id),
@@ -306,6 +307,7 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   onRadioButtonChange() {
+    this.searchData = "";
     this.studentList = [];
     this.studentListDataSource = [];
     this.getAllStudentList();
@@ -327,7 +329,7 @@ export class CourseCourseListComponent implements OnInit {
   closeStudentPopup() {
     this.addStudentPopUp = false;
     this.searchFilter = {
-      unassignFlag: '2',
+      unassignFlag: '0',
       standard_id: -1,
     };
     this.studentList = [];
