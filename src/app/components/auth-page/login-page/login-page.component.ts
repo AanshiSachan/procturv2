@@ -124,14 +124,41 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     let test = url.split("/")[2];
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
-      this.changeView.nativeElement.className = "box"
+      this.changeView.nativeElement.className = "box";
     }
     else {
+      this.checkForVirtualHost(test);
       this.isProcturVisible = false;
       this.changeView.nativeElement.className = "boxNew"
     }
 
   }
+
+  checkForVirtualHost(str) {
+    this.login.getLogoAndFavcon(str).subscribe(
+      res => {
+        if (res != null) {
+          if (res[0].logoPath != null && res[0].logoPath != "") {
+            this.dynamicImgSrc = res[0].logoPath;
+          }
+          if (res[0].favIconPath != null && res[0].favIconPath != "") {
+            this.changeFavICon(res[0].favIconPath);
+          }
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  changeFavICon(str) {
+    let link = <HTMLLinkElement>document.getElementById('favIconLink');
+    link.type = 'image/x-icon';
+    link.rel = 'icon';
+    link.href = str;
+  }
+
 
   /* Function to hide element with tag name header and sidebar */
   fullscreenLogin() {

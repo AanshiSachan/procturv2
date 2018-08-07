@@ -166,6 +166,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.radioOption = '0';
     this.studentDataSourceList = [];
     this.studentList = [];
+    this.standard_id = -1;
   }
 
   addStudentToCourse() {
