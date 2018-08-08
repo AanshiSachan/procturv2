@@ -652,4 +652,14 @@ export class FetchprefilldataService {
     );
   }
 
+  // Get All Closing Reason
+
+  getClosingReasons() {
+    let url = `${this.baseUrl}/api/v2/enquiry_manager/fetchEnquiryClosingReason/${this.institute_id}`;
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res; },
+      err => { return err; }
+    )
+  }
+
 }

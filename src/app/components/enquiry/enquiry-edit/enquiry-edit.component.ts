@@ -1,14 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { updateEnquiryForm } from '../../../model/update-enquiry-form';
-import { EnquiryCampaign } from '../../../model/enquirycampaign';
-import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
-import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
@@ -88,7 +81,8 @@ export class EnquiryEditComponent implements OnInit {
     source_instituteId: -1,
     walkin_followUpDate: '',
     walkin_followUpTime: '',
-    courseIdArray: null
+    courseIdArray: null,
+    closing_reason_id: '-1'
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -97,7 +91,6 @@ export class EnquiryEditComponent implements OnInit {
   isSourcePop: boolean = false;
   isInstitutePop: boolean = false;
   isRefferPop: boolean = false;
-  newEnquiryFormGroup: FormGroup;
   componentPrefill: any = [];
   componentListObject: any = {};
   emptyCustomComponent: any;
@@ -114,9 +107,7 @@ export class EnquiryEditComponent implements OnInit {
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
   commentUpdater: any[] = [];
-  busy: Subscription;
   private customComponents: any[] = [];
-
   /* Model for Enquiry Update Popup Form */
   updateFormData = {
     comment: "",
@@ -139,14 +130,12 @@ export class EnquiryEditComponent implements OnInit {
     reference: null,
 
   }
-
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
   hour: string = '';
   minute: string = '';
   meridian: string = ''
-
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
   timeObj: any = {
     fhour: '',
@@ -157,12 +146,10 @@ export class EnquiryEditComponent implements OnInit {
     wmeridian: '',
   };
   followUpTime: any = "";
-
   // City And Area Changes
   isCityMandatory: any;
   cityListDataSource: any = [];
   areaListDataSource: any = [];
-
   actualAssignee: any;
   isMainBranch: any = "N";
   branchesList: any = [];
@@ -172,12 +159,20 @@ export class EnquiryEditComponent implements OnInit {
   course_mastercourse_id: any = '-1';
   course_course: any[] = [];
   masterCourseData: any[] = [];
-
   isEnquirySubmit: boolean = false;
+  closingReasonDataSource: any = [];
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
-    private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute, private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
+  constructor(
+    private prefill: FetchprefilldataService,
+    private router: Router,
+    private pops: PopupHandlerService,
+    private poster: PostEnquiryDataService,
+    private appC: AppComponent,
+    private login: LoginService,
+    private route: ActivatedRoute,
+    private auth: AuthenticatorService,
+    private multiBranchService: MultiBranchDataService) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -498,6 +493,15 @@ export class EnquiryEditComponent implements OnInit {
       }
     )
 
+    this.prefill.getClosingReasons().subscribe(
+      res => {
+        this.closingReasonDataSource = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+
   }
 
 
@@ -747,6 +751,15 @@ export class EnquiryEditComponent implements OnInit {
     if (validate == false) {
       return;
     }
+
+    // Validate if closing reason is given for closed enquiry
+    if (this.editEnqData.status == '1') {
+      if (this.editEnqData.closing_reason_id == "0" || this.editEnqData.closing_reason_id == '-1') {
+        this.messageNotifier('error', 'Error', 'Please provide closing reason of enquiry.');
+        return;
+      }
+    }
+
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
@@ -774,9 +787,6 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.walkin_followUpTime = this.getFollowupTime();
         }
 
-
-
-        console.log(this.editEnqData);
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           (data: any) => {
             this.isEnquirySubmit = false;
@@ -1048,7 +1058,8 @@ export class EnquiryEditComponent implements OnInit {
       lead_id: -1,
       enqCustomLi: [],
       walkin_followUpDate: '',
-      walkin_followUpTime: ''
+      walkin_followUpTime: '',
+      closing_reason_id: '-1'
     }
     this.course_standard_id = '-1'
     this.course_mastercourse_id = '-1';
@@ -1241,4 +1252,14 @@ export class EnquiryEditComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+
+  messageNotifier(type, title, msg) {
+    let alert = {
+      type: type,
+      title: title,
+      body: msg
+    }
+    this.appC.popToast(alert);
+  }
+
 }

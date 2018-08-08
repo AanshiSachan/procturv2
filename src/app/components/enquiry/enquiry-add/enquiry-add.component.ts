@@ -91,7 +91,8 @@ export class EnquiryAddComponent implements OnInit {
     enqCustomLi: [],
     source_instituteId: '-1',
     walkin_followUpDate: '',
-    walkin_followUpTime: ''
+    walkin_followUpTime: '',
+    closing_reason_id: ''
   };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -255,7 +256,8 @@ export class EnquiryAddComponent implements OnInit {
       enqCustomLi: [],
       source_instituteId: '-1',
       walkin_followUpDate: '',
-      walkin_followUpTime: ''
+      walkin_followUpTime: '',
+      closing_reason_id: ''
     };
 
     // Multi Branch Check
@@ -719,7 +721,8 @@ export class EnquiryAddComponent implements OnInit {
       lead_id: -1,
       enqCustomLi: [],
       walkin_followUpDate: '',
-      walkin_followUpTime: ''
+      walkin_followUpTime: '',
+      closing_reason_id: ''
     };
     this.course_standard_id = '-1'
     this.selectedSubjectIds = null;

@@ -66,7 +66,9 @@ export class CourseCourseListComponent implements OnInit {
         }
       },
       error => {
+        this.dataStatus = 2;
         this.isRippleLoad = false;
+        this.messageToast('error', 'Error', error.error.message);
       }
     )
   }
@@ -153,7 +155,7 @@ export class CourseCourseListComponent implements OnInit {
       unassign = "Y";
     } else {
       unassign = "N";
-    }  
+    }
     let data = {
       course_id: this.courseDetails.course_id,
       standard_id: Number(this.searchFilter.standard_id),

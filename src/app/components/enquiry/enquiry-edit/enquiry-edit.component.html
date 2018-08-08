@@ -418,17 +418,25 @@
             <label for="enquiryDate">Enquiry Date</label>
             <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
               readonly="true" bsDatepicker>
-
             <!-- <span class="date-clear" name="followupdate" (click)="editEnqData.enquiry_date = ''">clear</span> -->
           </div>
-          <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.status != '-1'}">
+
+          <div class="field-wrapper">
             <label for="eStatus">Enquiry Status</label>
             <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="editEnqData.status ==1 || editEnqData.status == 12">
               <option value="-1"></option>
               <option *ngFor="let status of enqstatus" [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
-
           </div>
+
+          <div class="field-wrapper" *ngIf="editEnqData.status == '1'">
+            <label for="closingReason">Closing Reason*</label>
+            <select id="closingReason" class="form-ctrl" [(ngModel)]="editEnqData.closing_reason_id" name="closingReason">
+              <option value="0"></option>
+              <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>
+            </select>
+          </div>
+
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.priority != ''}">
             <label for="priority">Enquiry Priority</label>
             <select id="priority" class="form-ctrl" [(ngModel)]="editEnqData.priority" name="priority">

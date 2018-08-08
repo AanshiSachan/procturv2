@@ -75,6 +75,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     paymentMode: null,
     paymentDate: null,
     reference: null,
+    closing_reason_id: ''
   };
   updateFormComments: any[] = [];
   updateFormCommentsBy: any[] = [];
@@ -98,6 +99,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   @Input() masterCourseData: any[];
   @Input() standardArr: any[];
   @Input() subjectArr: any[];
+  @Input() closingReasonDataSource: any[];
 
   @Output() updateEnq = new EventEmitter<any>();
   @Output() cancelUpdate = new EventEmitter<any>();
@@ -212,6 +214,8 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
           }
         );
       }
+      this.updateFormData.status = res.status;
+      this.updateFormData.closing_reason_id = res.closing_reason_id;
     });
   }
 
@@ -340,6 +344,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
 
   createUpdateForm() {
     if (this.validateTime()) {
+
+      if (this.updateFormData.statusValue == 'Closed') {
+        if (this.updateFormData.closing_reason_id == '0' || this.updateFormData.closing_reason_id == '-1') {
+          this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide closing reason' });
+          return;
+        }
+      }
+
       if (this.updateFormData.follow_type == "Walkin") {
         if (this.validatewalkindatetime()) {
           this.updateFormData.comment = this.updateFormData.comment;

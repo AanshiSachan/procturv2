@@ -43,7 +43,7 @@
                                         Status Regarding The Enquiry
                                     </div>
                                 </div>
-                                <select id="enquiryStatusEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
+                                <select id="enquiryStatusEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
                                     name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
                                     <option value="-1"></option>
                                     <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
@@ -53,10 +53,19 @@
                                 </select>
                             </div>
 
+                            <!-- Closing Reason -->
+                            <div class="form-wrapper" *ngIf="updateFormData.statusValue == 'Closed'">
+                                <label for="closingReason">Closing Reason*</label>
+                                <select id="closingReason" class="side-form-ctrl" [(ngModel)]="updateFormData.closing_reason_id" name="closingReason">
+                                    <option value="0"></option>
+                                    <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>
+                                </select>
+                            </div>
+
                             <!-- Priority -->
-                            <div class="form-wrapper ">
+                            <div class="form-wrapper">
                                 <label for="priorityEdit">Priority</label>
-                                <select id="priorityEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.priority" name="priority">
+                                <select id="priorityEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.priority" name="priority">
                                     <option value="-1"></option>
                                     <option *ngFor="let priority of priorityArr" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
                                         {{priority.data_value}}
