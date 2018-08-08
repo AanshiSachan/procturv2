@@ -75,7 +75,7 @@ export class TemplateHomeComponent implements OnInit {
   totalRow: number = 0;
   searchText: string = '';
   addTemplatePopUp: boolean = false;
-  studentList:any[]= [];
+  studentList: any[] = [];
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
@@ -151,16 +151,6 @@ export class TemplateHomeComponent implements OnInit {
         this.isRippleLoad = false;
       }
     )
-  }
-
-
-  studentsAssigned(fee) {
-    this.addTemplatePopUp = true;
-    this.studentList = fee.studentList;
-  }
-
-  closeTemplatePopup() {
-    this.addTemplatePopUp = false;
   }
 
   showTaxFields() {
@@ -686,6 +676,22 @@ export class TemplateHomeComponent implements OnInit {
         }
       )
     }
+  }
+
+  // for showing students assigned to the particular fee template
+
+  studentsAssigned(fee) {
+    if (fee.studentList != null) {
+      this.addTemplatePopUp = true;
+      this.studentList = fee.studentList;
+    }
+    else {
+      this.addTemplatePopUp = false;
+    }
+  }
+
+  closeTemplatePopup() {
+    this.addTemplatePopUp = false;
   }
 
 }

@@ -432,21 +432,13 @@
               </tr>
             </thead>
 
-            <tbody *ngIf="studentList.length!=0">
+            <tbody *ngIf="studentList!=null">
               <tr *ngFor="let i of studentList">
                 <td>
                   {{i.student_disp_id}}
                 </td>
                 <td>
                   {{i.student_name}}
-                </td>
-              </tr>
-            </tbody>
-
-            <tbody *ngIf="studentList.length==0">
-              <tr>
-                <td colspan="2">
-                  No Records Found
                 </td>
               </tr>
             </tbody>
