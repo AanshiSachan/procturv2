@@ -74,6 +74,8 @@ export class TemplateHomeComponent implements OnInit {
   searchedData: any = [];
   totalRow: number = 0;
   searchText: string = '';
+  addTemplatePopUp: boolean = false;
+  studentList:any[]= [];
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
@@ -151,6 +153,15 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
+
+  studentsAssigned(fee) {
+    this.addTemplatePopUp = true;
+    this.studentList = fee.studentList;
+  }
+
+  closeTemplatePopup() {
+    this.addTemplatePopUp = false;
+  }
 
   showTaxFields() {
     this.installmentList.forEach(element => {
