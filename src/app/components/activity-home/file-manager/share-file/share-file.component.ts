@@ -58,6 +58,7 @@ export class ShareFileComponent implements OnInit {
   @Input() fileIdGet: string;
   @Input() fileName: any;
   @Input() shareOptions: any;
+  @Output() treeUpdater = new EventEmitter<any>();
 
   courseMappingArray: any[] = [];
   tabChoice = "student";
@@ -142,11 +143,12 @@ export class ShareFileComponent implements OnInit {
       (data: any) => {
 
         if (share_type == '2') {
-
-          this.fileSharePublic.standard_id = data.standard_id;
-          this.getAllSubjects(data.standard_id);
-          this.fileSharePublic.subject_id = data.subject_id;
-          this.fileSharePublic.course_types = data.course_types.split(',');
+          if(this.categoryId != '62'){
+            this.fileSharePublic.standard_id = data.standard_id;
+            this.getAllSubjects(data.standard_id);
+            this.fileSharePublic.subject_id = data.subject_id;
+            this.fileSharePublic.course_types = data.course_types.split(',');  
+          }
 
         } else if (share_type == '3') {
 
@@ -321,6 +323,7 @@ export class ShareFileComponent implements OnInit {
       let arr = [];
       this.studentsId = false;
       this.batchesId = true;
+      this.dataStatus = false;
     }
     else if (event == "1") {
       this.studentsId = true;
@@ -579,6 +582,7 @@ export class ShareFileComponent implements OnInit {
               body: "File Shared Successfully"
             }
             this.appC.popToast(msg);
+            this.treeUpdater.emit(true);
             this.closePopup.emit(this.CloseValuePopup);
 
           },
@@ -600,6 +604,7 @@ export class ShareFileComponent implements OnInit {
         let Obj = {
           file_id: this.fileIdGet,
           institute_id: this.fileService.institute_id,
+          public_share : '1',
           share_type: 0
         }
         this.fileService.shareFile(Obj).subscribe(
@@ -609,6 +614,7 @@ export class ShareFileComponent implements OnInit {
               body: "File UnShared Successfully"
             }
             this.appC.popToast(msg);
+            this.treeUpdater.emit(true);
             this.closePopup.emit(this.CloseValuePopup);
           },
           (error: any) => {
@@ -620,7 +626,6 @@ export class ShareFileComponent implements OnInit {
         this.courseValue = this.courseType.join();
         this.fileSharePublic.course_types = this.courseValue;
         this.fileSharePublic.file_id = this.fileIdGet;
-        console.log(this.courseValue);
         if (this.categoryId != '62') {
 
           if (this.fileSharePublic.standard_id == "" || this.fileSharePublic.subject_id == "") {
@@ -646,6 +651,7 @@ export class ShareFileComponent implements OnInit {
                   body: "File Shared Successfully"
                 }
                 this.appC.popToast(msg);
+                this.treeUpdater.emit(true);
                 this.closePopup.emit(this.CloseValuePopup);
               },
               (error: any) => {
@@ -672,7 +678,8 @@ export class ShareFileComponent implements OnInit {
                 type: "success",
                 body: "File Shared Successfully"
               }
-              this.appC.popToast(msg);
+              this.appC.popToast(msg);            
+              this.treeUpdater.emit(true);
               this.closePopup.emit(this.CloseValuePopup);
             },
             (error: any) => {
@@ -705,6 +712,7 @@ export class ShareFileComponent implements OnInit {
             body: "File " + mess + " Successfully"
           }
           this.appC.popToast(msg);
+          this.treeUpdater.emit(true);
           this.closePopup.emit(this.CloseValuePopup);
 
         },
@@ -735,6 +743,7 @@ export class ShareFileComponent implements OnInit {
       document.getElementById('tab' + 3).style.backgroundColor = "";
       document.getElementById('tab' + 3).style.color = "#0084f6";
       this.tabChoice = "student";
+      (<HTMLFormElement>document.getElementById('batch')).checked = true;
     }
     else if (tabIndex == 2) {
       document.getElementById('tab' + 1).style.backgroundColor = "";

@@ -181,7 +181,6 @@ export class FileCardComponent implements OnChanges {
 
           let path = getDeletedFiles[0].keyName.split('/');
           path.pop();
-          path.pop();
           let newPath = path.join('/');
           this.filePath.emit(newPath);
           this.appC.popToast(msg);

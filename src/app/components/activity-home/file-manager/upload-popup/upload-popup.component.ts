@@ -274,8 +274,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       let formData = new FormData();
       // formData.append("file", this.selectedFiles[0]);
       let arr = Array.from(this.selectedFiles)
-      arr.map((ele) => {
-        formData.append("file", ele);
+      arr.map((ele, index) => {
+        formData.append("file_"+index, ele);
       })
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
@@ -327,9 +327,10 @@ export class UploadPopupComponent implements OnInit, OnChanges {
             }
             this.appC.popToast(data);
             this.manualUpload = false;
+            this.filePath.emit(path);
             this.closePopupValue.emit(false);
             this.getFilesAndFolder.emit(newxhr.status);
-            this.filePath.emit(path);
+            
 
           } else {
             this.isUploadingXls = false;
