@@ -3326,8 +3326,9 @@ export class StudentAddComponent implements OnInit {
     let acadConfirmation: boolean = false;
     if (this.installmentMarkedForPayment.length > 0) {
       for (let i = 0; i < this.installmentMarkedForPayment.length; i++) {
-        if (this.feeTemplateById.customFeeSchedules[i].due_date != "" && this.feeTemplateById.customFeeSchedules[i].due_date != null) {
-          if (moment(this.feeTemplateById.customFeeSchedules[i].due_date).format('YYYY-MM-DD') <= moment('2018-03-31').format('YYYY-MM-DD')) {
+        let t = this.installmentMarkedForPayment[i];
+        if (this.feeTemplateById.customFeeSchedules[t].due_date != "" && this.feeTemplateById.customFeeSchedules[t].due_date != null) {
+          if (moment(this.feeTemplateById.customFeeSchedules[t].due_date).format('YYYY-MM-DD') <= moment('2018-03-31').format('YYYY-MM-DD')) {
             acadConfirmation = true;
             break;
           } else {
