@@ -686,6 +686,7 @@ export class TemplateHomeComponent implements OnInit {
       this.studentList = fee.studentList;
     }
     else {
+      this.appC.popToast({type:"info" , title:"" , body:"No data found"});
       this.addTemplatePopUp = false;
     }
   }

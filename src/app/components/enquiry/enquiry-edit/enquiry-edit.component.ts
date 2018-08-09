@@ -10,6 +10,7 @@ import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
+import { ClosingReasonService } from '../../../services/closingReasons/closing-reason.service';
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -161,6 +162,12 @@ export class EnquiryEditComponent implements OnInit {
   masterCourseData: any[] = [];
   isEnquirySubmit: boolean = false;
   closingReasonDataSource: any = [];
+  closingReasonOpen: boolean = false;
+  isNewRefer:boolean;
+  createNewReasonObj = {
+    closing_desc: "",
+    institution_id: this.service.institute_id
+  }
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
@@ -172,7 +179,8 @@ export class EnquiryEditComponent implements OnInit {
     private login: LoginService,
     private route: ActivatedRoute,
     private auth: AuthenticatorService,
-    private multiBranchService: MultiBranchDataService) {
+    private multiBranchService: MultiBranchDataService ,
+    private service:ClosingReasonService) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -406,6 +414,17 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
+  getClosingReasons(){
+    this.prefill.getClosingReasons().subscribe(
+      res => {
+        this.closingReasonDataSource = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+  
 
   /* Function to fetch prefill data for form creation */
   FetchEnquiryPrefilledData() {
@@ -504,6 +523,7 @@ export class EnquiryEditComponent implements OnInit {
 
   }
 
+  
 
   updateCustomComponent(id) {
     this.prefill.fetchCustomComponentById(id)
@@ -1260,6 +1280,81 @@ export class EnquiryEditComponent implements OnInit {
       body: msg
     }
     this.appC.popToast(alert);
+  }
+
+  //for adding the popup- 
+
+  closingReason() {
+    this.closingReasonOpen = true;
+  }
+
+  //for closing the popup- 
+
+  closeClosingReason(){
+    this.closingReasonOpen = false
+  }
+
+  // for toggling create reasons
+
+  toggleReferAdd() {
+    let icon = document.getElementById('add-refer-icon').innerHTML;
+    if (icon == '+') {
+      this.isNewRefer = true;
+      document.getElementById('add-refer-icon').innerHTML = '-';
+    }
+    else if (icon == '-') {
+      this.isNewRefer = false;
+      document.getElementById('add-refer-icon').innerHTML = '+';
+    }
+  }
+
+  // for creating new closing reasons
+
+  createNewReason() {
+    this.service.createReason(this.createNewReasonObj).subscribe(
+      (data: any) => {
+        this.appC.popToast({ type: "success", title: "", body: "Reason Created Successfully" });
+        this.getClosingReasons();
+        this.isNewRefer = false;
+        document.getElementById('add-refer-icon').innerHTML = '+';
+        this.createNewReasonObj.closing_desc = ""
+      },
+      (error: any) => {
+        this.errorMessage(error);
+      }
+    )
+  }
+
+  // for editing per row
+
+  editRowTable(row, index) {
+    document.getElementById(("reason" + index).toString()).classList.remove('displayComp');
+    document.getElementById(("reason" + index).toString()).classList.add('editComp');
+  }
+
+  //  for saving the edited data
+
+  saveInformation(row, index) {
+    let obj = {
+      closing_desc: row.closing_desc,
+      institution_id: this.service.institute_id
+    }
+    this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
+      (data: any) => {
+        this.appC.popToast({ type: "success", title: "", body: "Reason updated successfully" });
+        this.getClosingReasons();
+      },
+      err => {
+        this.errorMessage(err);
+      }
+    )
+  }
+
+  // for cancelling the data after edit
+
+  cancelEditRow(index) {
+    document.getElementById(("reason" + index).toString()).classList.add('displayComp');
+    document.getElementById(("reason" + index).toString()).classList.remove('editComp');
   }
 
 }

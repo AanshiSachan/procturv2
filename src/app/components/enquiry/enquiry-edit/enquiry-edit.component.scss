@@ -16,6 +16,124 @@
     }
 }
 
+.add-edit {
+    margin-bottom: 0;
+    margin-top: 10px;
+    i {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        line-height: 1rem;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle; //margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 16px;
+            font-size: 16px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+table {
+    thead {
+        tr {
+            th {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+    }
+    tbody {
+        td {
+            .col-new {
+                text-align: center;
+            }
+        }
+        tr {
+            td {
+                .edit {
+                    cursor: pointer;
+                }
+                .anchorTag {
+                    margin-left: 10px;
+                }
+                padding-bottom: 10px;
+                padding-top: 10px;
+                .editOptions li {
+                    display: inline-block;
+                }
+            }
+        }
+        .displayComp {
+            .view-comp {}
+            .edit-comp {
+                display: none
+            }
+        }
+        .editComp {
+            .view-comp {
+                display: none
+            }
+            .edit-comp {}
+        }
+    }
+}
+
+.scroll-up {
+    height: 300px;
+    overflow: hidden;
+    table{
+        height: 300px;
+        overflow: auto;
+    }
+}
+
+.anchorTagCursor {
+    cursor: pointer;
+}
+
+.class-edit {
+    background-color: #efefef;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.sourceI {
+    cursor: pointer;
+    line-height: 20px;
+    position: absolute;
+    right: -35px;
+    bottom: 5px;
+}
+
+.iconPlus {
+    float: right;
+    width: 24px;
+    font-size: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 22px;
+    margin-right: 4px;
+    margin-top: 3px;
+    cursor: pointer;
+    color: #0084f6;
+    cursor: pointer;
+    &:hover {
+        background: #0084f6;
+        color: white;
+    }
+}
+
 .multiselect-wrapper {
     padding: 5px;
     border: 1px solid $border-color;
