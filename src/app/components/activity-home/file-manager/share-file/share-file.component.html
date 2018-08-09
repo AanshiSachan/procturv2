@@ -383,9 +383,9 @@
   </div>
 
   <div popup-footer style="margin-top: 2%;">
-    <div *ngIf="tabChoice == 'institute'" class="row" style="text-align: right">
+    <div *ngIf="tabChoice == 'institute'" class="row" style="text-align: right ; width:95%;">
       <div class="c-lg-6"></div>
-      <div class="c-lg-2" *ngIf="!editInstituteShare" style="text-align: right;">
+      <div class="c-lg-4" *ngIf="!editInstituteShare" style="text-align: right;">
         <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
       </div>
       <div class="c-lg-2" *ngIf="editInstituteShare">
@@ -398,7 +398,8 @@
         <input type="button" value="Close" class="btn fullBlue" (click)="close()">
       </div>
     </div>
-    <div *ngIf="tabChoice == 'public'" class="row" style="text-align: right ; width:95%;">
+
+    <div *ngIf="tabChoice == 'public'" class="row" style="text-align: right ;">
       <div class="c-lg-6"></div>
       <div class="c-lg-4" *ngIf="!editPublicShare" style="text-align: right;">
         <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()">
@@ -413,6 +414,7 @@
         <input type="button" value="Close" class="btn fullBlue" (click)="close()">
       </div>
     </div>
+    
     <div *ngIf="tabChoice == 'student'" class="row" style="text-align: right">
       <div class="c-lg-6"></div>
       <div class="c-lg-2">

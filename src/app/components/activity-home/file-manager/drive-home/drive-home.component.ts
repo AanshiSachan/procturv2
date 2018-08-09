@@ -176,7 +176,12 @@ export class DriveHomeComponent implements OnInit {
           path.pop();
           path.pop();
           let newPath = path.join('/');
-          this.fetchPrefillFolderAndFiles(newPath , true);
+          if(newPath == this.fileService.institute_id){
+            this.fetchPrefillFolderAndFiles(newPath + "/" , true);
+          }
+          else{
+            this.fetchPrefillFolderAndFiles(newPath , true);
+          }
         },
         (error: any) => {
           let msg = {
@@ -205,12 +210,7 @@ export class DriveHomeComponent implements OnInit {
   createFolder() {
     let path: string = "";
     let institute_id = sessionStorage.getItem("institute_id");
-    if (this.selectedFolder != null && this.selectedFolder != undefined) {
-      path = this.selectedFolder.data.keyName;
-    }
-    else {
-      path = institute_id + "/";
-    }
+    path = this.pathArray.join('/') + '/'
     this.createFetchFolder.keyName = path;
     this.fileService.craeteFolder(this.createFetchFolder).subscribe(
       (data: any) => {

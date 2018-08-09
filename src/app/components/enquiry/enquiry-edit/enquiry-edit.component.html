@@ -627,16 +627,17 @@
     <div class="row clearFix add-edit">
       <a class="expend-box" (click)="toggleReferAdd()" id="toggleAnch">
         <i id="add-refer-icon">+</i>
-        <span>Create New Reason</span>
+        <span style="font-size: 12px;">Add New Reason</span>
       </a>
     </div>
 
     <div class="row class-edit" *ngIf="isNewRefer">
       <div class="c-lg-4 field-wrapper">
+        <label>Closing Reason Description*</label>
         <textarea class="form-ctrl" style="height: 69px;" maxlength="50" [(ngModel)]="createNewReasonObj.closing_desc"></textarea>
       </div>
-      <div class="c-lg-2" style="margin-top: 2%;">
-        <button class="btn fullBlue" (click)="createNewReason()">Create</button>
+      <div class="c-lg-2" style="margin-top: 3%;">
+        <button class="btn fullBlue" (click)="createNewReason()">Add</button>
       </div>
     </div>
 
