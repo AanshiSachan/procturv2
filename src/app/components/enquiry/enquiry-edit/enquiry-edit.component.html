@@ -423,7 +423,7 @@
 
           <div class="field-wrapper">
             <label for="eStatus">Enquiry Status</label>
-            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="editEnqData.status ==1 || editEnqData.status == 12">
+            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="enquiryStatus ==1 || enquiryStatus == 12">
               <option value="-1"></option>
               <option *ngFor="let status of enqstatus" [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
@@ -446,8 +446,8 @@
                 {{priority.data_value}}
               </option>
             </select>
-
           </div>
+          
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.follow_type != ''}">
             <label for="followUpType">Follow Up Type</label>
             <select id="followUpType" class="form-ctrl" [(ngModel)]="editEnqData.follow_type" name="followtype">
