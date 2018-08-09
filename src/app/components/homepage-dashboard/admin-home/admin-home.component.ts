@@ -558,6 +558,15 @@ export class AdminHomeComponent implements OnInit {
         return
       }
     }
+
+    if(this.attendanceNote !=null && this.attendanceNote !=""){
+      if (this.validateSpecialCharacters(this.attendanceNote)) {
+        // Do nothing
+      } else {
+        this.messageNotifier('error', 'Error', 'Special characters are not allowed in attendance field.');
+        return
+      }
+    }
     let check = this.checkIfStudentIsAbsent(this.studentAttList);
     if (check) {
       let checkboxAbsentees = document.getElementById("EnableSmsAbsentees").checked;
