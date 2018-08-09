@@ -167,7 +167,8 @@ export class EnquiryEditComponent implements OnInit {
   createNewReasonObj = {
     closing_desc: "",
     institution_id: this.service.institute_id
-  }
+  };
+  enquiryStatus: any = '0';
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
@@ -267,6 +268,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
+        this.enquiryStatus = data.status;
         if (this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length) {
           this.editEnqData.courseIdArray = this.editEnqData.courseIdArray.map(el => { return parseInt(el) });
         }
@@ -787,6 +789,8 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
           this.editEnqData.walkin_followUpTime = this.getFollowupTime();
         }
+
+        this.enquiryStatus = this.editEnqData.status;
 
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           (data: any) => {
@@ -1327,11 +1331,10 @@ export class EnquiryEditComponent implements OnInit {
       closing_desc: row.closing_desc,
       institution_id: this.service.institute_id
     }
-
-    if(row.closing_desc == "" ){
+    if (row.closing_desc == "") {
       this.appC.popToast({ type: 'error', body: "Closing reason can't be empty" })
     }
-    else{
+    else {
       this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", title: "", body: "Reason updated successfully" });
