@@ -10,8 +10,6 @@ import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-var jsPDF = require('jspdf');
-require('jspdf-autotable');
 
 @Component({
   selector: 'app-all-data-report',
