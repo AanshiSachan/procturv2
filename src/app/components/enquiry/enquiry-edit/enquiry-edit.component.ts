@@ -163,7 +163,7 @@ export class EnquiryEditComponent implements OnInit {
   isEnquirySubmit: boolean = false;
   closingReasonDataSource: any = [];
   closingReasonOpen: boolean = false;
-  isNewRefer:boolean;
+  isNewRefer: boolean;
   createNewReasonObj = {
     closing_desc: "",
     institution_id: this.service.institute_id
@@ -179,8 +179,8 @@ export class EnquiryEditComponent implements OnInit {
     private login: LoginService,
     private route: ActivatedRoute,
     private auth: AuthenticatorService,
-    private multiBranchService: MultiBranchDataService ,
-    private service:ClosingReasonService) {
+    private multiBranchService: MultiBranchDataService,
+    private service: ClosingReasonService) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -414,18 +414,6 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
-  getClosingReasons(){
-    this.prefill.getClosingReasons().subscribe(
-      res => {
-        this.closingReasonDataSource = res;
-      },
-      err => {
-        console.log(err);
-      }
-    )
-  }
-  
-
   /* Function to fetch prefill data for form creation */
   FetchEnquiryPrefilledData() {
 
@@ -512,18 +500,11 @@ export class EnquiryEditComponent implements OnInit {
       }
     )
 
-    this.prefill.getClosingReasons().subscribe(
-      res => {
-        this.closingReasonDataSource = res;
-      },
-      err => {
-        console.log(err);
-      }
-    )
+    this.getClosingReasons();
 
   }
 
-  
+
 
   updateCustomComponent(id) {
     this.prefill.fetchCustomComponentById(id)
@@ -1282,19 +1263,26 @@ export class EnquiryEditComponent implements OnInit {
     this.appC.popToast(alert);
   }
 
-  //for adding the popup- 
+ // Closing Reason Pop Up Function
+
+  getClosingReasons() {
+    this.prefill.getClosingReasons().subscribe(
+      res => {
+        this.closingReasonDataSource = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
 
   closingReason() {
     this.closingReasonOpen = true;
   }
 
-  //for closing the popup- 
-
-  closeClosingReason(){
+  closeClosingReason() {
     this.closingReasonOpen = false
   }
-
-  // for toggling create reasons
 
   toggleReferAdd() {
     let icon = document.getElementById('add-refer-icon').innerHTML;
@@ -1307,8 +1295,6 @@ export class EnquiryEditComponent implements OnInit {
       document.getElementById('add-refer-icon').innerHTML = '+';
     }
   }
-
-  // for creating new closing reasons
 
   createNewReason() {
     this.service.createReason(this.createNewReasonObj).subscribe(
@@ -1325,14 +1311,10 @@ export class EnquiryEditComponent implements OnInit {
     )
   }
 
-  // for editing per row
-
   editRowTable(row, index) {
     document.getElementById(("reason" + index).toString()).classList.remove('displayComp');
     document.getElementById(("reason" + index).toString()).classList.add('editComp');
   }
-
-  //  for saving the edited data
 
   saveInformation(row, index) {
     let obj = {
@@ -1349,8 +1331,6 @@ export class EnquiryEditComponent implements OnInit {
       }
     )
   }
-
-  // for cancelling the data after edit
 
   cancelEditRow(index) {
     document.getElementById(("reason" + index).toString()).classList.add('displayComp');
