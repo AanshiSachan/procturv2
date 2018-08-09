@@ -37,6 +37,23 @@
     }
 }
 
+.dateRangeFix {
+    .field-wrapper {
+        padding-top: 0px;
+        &.datePickerBox {
+            .form-ctrl {
+                height: 30px;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                top: 20px;
+            }
+        }
+    }
+}
+
 .page-wrapper {
     display: inline-block;
     display: inline-flex;

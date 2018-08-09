@@ -7,7 +7,7 @@
     <div class="left-div">
 
       <div class="row profile-pic-section">
-        <div class="c-lg-4">
+        <div class="c-lg-5">
 
         </div>
         <div class="c-lg-2">
@@ -140,26 +140,26 @@
             </div>
             <div class="c-sm-6 c-md-6 c-lg-6" *ngIf="viewAttendancePayload.type == '2'">
 
-              <div class="row date-range">
+              <div class="row dateRangeFix">
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <div class="form-wrapper datePickerBox">
+                  <div class="field-wrapper datePickerBox">
                     <label for="csd">Start Date</label>
-                    <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="viewAttendancePayload.startdate"
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="viewAttendancePayload.startdate"
                       readonly="true" name="csd" bsDatepicker>
                   </div>
                 </div>
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <div class="form-wrapper datePickerBox">
+                  <div class="field-wrapper datePickerBox">
                     <label for="csd">End Date</label>
-                    <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="viewAttendancePayload.enddate"
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="viewAttendancePayload.enddate"
                       readonly="true" name="csd" bsDatepicker>
                   </div>
                 </div>
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <button class="btn fullBlue" style="margin-top:10px" (click)="goBtnAttendaceClick()">GO</button>
+                  <button class="btn fullBlue" style="margin-top:15px" (click)="goBtnAttendaceClick()">GO</button>
                 </div>
 
               </div>
@@ -575,26 +575,26 @@
             </div>
             <div class="c-sm-6 c-md-6 c-lg-6" *ngIf="timetablePayLoad.type == '2'">
 
-              <div class="row date-range">
+              <div class="row dateRangeFix">
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <div class="form-wrapper datePickerBox">
+                  <div class="field-wrapper datePickerBox">
                     <label for="csd">Start Date</label>
-                    <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="timetablePayLoad.startdate"
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="timetablePayLoad.startdate"
                       readonly="true" name="csd" bsDatepicker>
                   </div>
                 </div>
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <div class="form-wrapper datePickerBox">
+                  <div class="field-wrapper datePickerBox">
                     <label for="csd">End Date</label>
-                    <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="timetablePayLoad.enddate"
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker constantHeight" [(ngModel)]="timetablePayLoad.enddate"
                       readonly="true" name="csd" bsDatepicker>
                   </div>
                 </div>
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <button class="btn fullBlue" style="margin-top:10px" (click)="getTimeTableDetails()">GO</button>
+                  <button class="btn fullBlue" style="margin-top:20px" (click)="getTimeTableDetails()">GO</button>
                 </div>
 
               </div>
@@ -681,7 +681,7 @@
               <tbody *ngIf="timeTableSchedule.length == 0">
                 <tr>
                   <td colspan="6" style="text-align: center">
-                    Schedule Of Date Not Exist
+                   No Schedule Found
                   </td>
                 </tr>
               </tbody>
