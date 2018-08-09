@@ -91,8 +91,6 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       bmp: "6",
       gif: "7",
       tif: "8",
-      mp3: "9",
-      ink: "10"
     },
     63: {
       pdf: "1",
