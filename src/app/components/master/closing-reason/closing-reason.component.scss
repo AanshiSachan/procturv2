@@ -87,11 +87,11 @@ table {
     cursor: pointer;
 }
 
-.dummy-scroll{
-    height: 300px;
+.table-scroll{
+    height: 500px;
     overflow: hidden;
-    .table-responsive{
-        height: 300px;
-        overflow : auto;
+    .dummy-scroll{
+        height: 480px;
+        overflow : auto !important;
     }
 }

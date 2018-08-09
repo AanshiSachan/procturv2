@@ -21,7 +21,7 @@
           <div class="c-lg-3 c-md-3 c-sm-3">
             <div class="field-wrapper">
               <label for="Create Grade">Add Closing Reason*
-              
+
               </label>
               <textarea class="form-ctrl" name="grade" id="grade" [(ngModel)]="createNewReasonObj.closing_desc" style="height: 80px;" maxlength="50">
               </textarea>
@@ -31,8 +31,9 @@
             <input type="button" value="Add" class="btn fullBlue" (click)="createNewReason()">
           </div>
         </div>
-        <div class="dummy-scroll">
-          <div class="table table-responsive">
+
+        <div class="table table-responsive table-scroll">
+          <div class="dummy-scroll">
             <table>
               <thead>
                 <tr>
