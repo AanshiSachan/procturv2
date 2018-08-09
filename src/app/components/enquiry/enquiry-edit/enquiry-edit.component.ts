@@ -1263,7 +1263,7 @@ export class EnquiryEditComponent implements OnInit {
     this.appC.popToast(alert);
   }
 
- // Closing Reason Pop Up Function
+  // Closing Reason Pop Up Function
 
   getClosingReasons() {
     this.prefill.getClosingReasons().subscribe(
@@ -1297,18 +1297,24 @@ export class EnquiryEditComponent implements OnInit {
   }
 
   createNewReason() {
-    this.service.createReason(this.createNewReasonObj).subscribe(
-      (data: any) => {
-        this.appC.popToast({ type: "success", title: "", body: "Reason Created Successfully" });
-        this.getClosingReasons();
-        this.isNewRefer = false;
-        document.getElementById('add-refer-icon').innerHTML = '+';
-        this.createNewReasonObj.closing_desc = ""
-      },
-      (error: any) => {
-        this.errorMessage(error);
-      }
-    )
+    if (this.createNewReasonObj.closing_desc == "") {
+      this.appC.popToast({ type: 'error', body: "Closing reason cant be empty" })
+    }
+
+    else {
+      this.service.createReason(this.createNewReasonObj).subscribe(
+        (data: any) => {
+          this.appC.popToast({ type: "success", title: "", body: "Reason Created Successfully" });
+          this.getClosingReasons();
+          this.isNewRefer = false;
+          document.getElementById('add-refer-icon').innerHTML = '+';
+          this.createNewReasonObj.closing_desc = ""
+        },
+        (error: any) => {
+          this.errorMessage(error);
+        }
+      )
+    }
   }
 
   editRowTable(row, index) {
@@ -1321,15 +1327,21 @@ export class EnquiryEditComponent implements OnInit {
       closing_desc: row.closing_desc,
       institution_id: this.service.institute_id
     }
-    this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
-      (data: any) => {
-        this.appC.popToast({ type: "success", title: "", body: "Reason updated successfully" });
-        this.getClosingReasons();
-      },
-      err => {
-        this.errorMessage(err);
-      }
-    )
+
+    if(row.closing_desc == "" ){
+      this.appC.popToast({ type: 'error', body: "Closing reason cant be empty" })
+    }
+    else{
+      this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
+        (data: any) => {
+          this.appC.popToast({ type: "success", title: "", body: "Reason updated successfully" });
+          this.getClosingReasons();
+        },
+        err => {
+          this.errorMessage(err);
+        }
+      )
+    }
   }
 
   cancelEditRow(index) {

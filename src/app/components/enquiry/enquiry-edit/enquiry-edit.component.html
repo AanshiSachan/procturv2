@@ -656,7 +656,7 @@
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="closingReasonDataSource.length!=0">
             <tr *ngFor="let reason of closingReasonDataSource ; let i=index;" class="displayComp" id="reason{{i}}">
               <td class="view-comp">
                 {{reason.closing_reason_id}}
@@ -686,6 +686,14 @@
               <td class="edit-comp">
                 <a class="anchorTagCursor" (click)="saveInformation(reason , i)"> Save </a>
                 <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)"> Cancel </a>
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody *ngIf="closingReasonDataSource.length==0">
+            <tr>
+              <td colspan="2">
+                No Records Found
               </td>
             </tr>
           </tbody>
