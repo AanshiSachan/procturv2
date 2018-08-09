@@ -1298,7 +1298,7 @@ export class EnquiryEditComponent implements OnInit {
 
   createNewReason() {
     if (this.createNewReasonObj.closing_desc == "") {
-      this.appC.popToast({ type: 'error', body: "Closing reason cant be empty" })
+      this.appC.popToast({ type: 'error', body: "Closing reason can't be empty" })
     }
 
     else {
@@ -1329,7 +1329,7 @@ export class EnquiryEditComponent implements OnInit {
     }
 
     if(row.closing_desc == "" ){
-      this.appC.popToast({ type: 'error', body: "Closing reason cant be empty" })
+      this.appC.popToast({ type: 'error', body: "Closing reason can't be empty" })
     }
     else{
       this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
