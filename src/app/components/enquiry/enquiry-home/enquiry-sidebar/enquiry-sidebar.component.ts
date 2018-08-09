@@ -170,14 +170,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
       this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
-      if (res.followUpTime != '' && res.followUpTime != null) {
+      if (res.followUpTime != '' && res.followUpTime != null && (res.followUpTime.toLowerCase().includes('invalid') == false)) {
         let followDateTime = res.followUpDate + " " + res.followUpTime;
         this.timeObj.fhour = moment(followDateTime).format('h');
         this.timeObj.fminute = moment(followDateTime).format('mm');
         this.timeObj.fmeridian = moment(followDateTime).format('a').toString().toUpperCase();
         this.followUpTime = this.timeObj.fhour + " " + this.timeObj.fmeridian;
       }
-      if (res.walkin_followUpTime != '' && res.walkin_followUpTime != null) {
+      if (res.walkin_followUpTime != '' && res.walkin_followUpTime != null && (res.walkin_followUpTime.toLowerCase().includes('invalid') == false)) {
         let walkinfollowUpTime = res.walkin_followUpDate + " " + res.walkin_followUpTime;
         this.timeObj.whour = moment(walkinfollowUpTime).format('h');
         this.timeObj.wminute = moment(walkinfollowUpTime).format('mm');
@@ -357,10 +357,24 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
           this.updateFormData.comment = this.updateFormData.comment;
           this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
           this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
-          this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
-          this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
-          this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
-          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+          if (this.timeObj.fhour != null && this.timeObj.fhour != "") {
+            this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
+          } else {
+            this.updateFormData.followUpTime = "";
+          }
+          if (this.timeObj.whour != "" && this.timeObj.whour != null) {
+            this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
+          } else {
+            this.updateFormData.walkin_followUpTime = "";
+          }
+          if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid Date") {
+            this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
+          } else {
+            this.updateFormData.followUpDate = ""
+          }
+          if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid Date") {
+            this.updateFormData.followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+          }
           this.pushUpdatedEnquiry(this.updateFormData);
         }
         else {
@@ -377,11 +391,23 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
         this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
         this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
         this.updateFormData.follow_type = this.updateFormData.follow_type == "" ? "" : this.getFollowUpReverse(this.updateFormData.follow_type);
-        this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
-        this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
-        this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
-        if (this.updateFormData.walkin_followUpDate != "Invalid date") {
-          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+        if (this.timeObj.fhour != null && this.timeObj.fhour != "") {
+          this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
+        } else {
+          this.updateFormData.followUpTime = "";
+        }
+        if (this.timeObj.whour != "" && this.timeObj.whour != null) {
+          this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
+        } else {
+          this.updateFormData.walkin_followUpTime = "";
+        }
+        if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid Date") {
+          this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
+        } else {
+          this.updateFormData.followUpDate = ""
+        }
+        if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid Date") {
+          this.updateFormData.followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
         } else {
           this.updateFormData.walkin_followUpDate = "";
         }
