@@ -124,7 +124,7 @@
 
 </div>
 
-<app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder"
+<app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder" [pathArray]="pathArray"
   (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)">
 </app-upload-popup>
 

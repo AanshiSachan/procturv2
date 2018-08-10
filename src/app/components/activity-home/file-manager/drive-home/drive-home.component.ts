@@ -121,7 +121,7 @@ export class DriveHomeComponent implements OnInit {
 
   getFilesAndFolder(event) {
     if (event >= 200 && event < 300) {
-      this.fetchPrefillFolderAndFiles(this.filePathPopup);
+      this.fetchPrefillFolderAndFiles(this.filePathPopup , true);
     }
     else {
 
@@ -177,7 +177,7 @@ export class DriveHomeComponent implements OnInit {
           path.pop();
           let newPath = path.join('/');
           if(newPath == this.fileService.institute_id){
-            this.fetchPrefillFolderAndFiles(newPath + "/" , true);
+            this.fetchPrefillFolderAndFiles(newPath + '/' , true);
           }
           else{
             this.fetchPrefillFolderAndFiles(newPath , true);

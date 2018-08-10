@@ -46,6 +46,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   @Input() currentFolder: any = null;
   @Input() fetchPrefillFolderAndFiles: any;
   @Input() manualUpload: boolean = false;
+  @Input() pathArray: any[] = [];
   @Output() getFilesAndFolder: any = new EventEmitter<any>();
   @Output() filesAndFolder: any = new EventEmitter<any>();
   @Output() filePath: any = new EventEmitter<any>();
@@ -263,17 +264,14 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
-      if (this.currentFolder != null && this.currentFolder != undefined) {
-        path = this.currentFolder.data.keyName;
-      }
-      else {
-        path = institute_id + "/";
-      }
+
+      path = this.pathArray.join('/') + '/'
+
       let formData = new FormData();
       // formData.append("file", this.selectedFiles[0]);
       let arr = Array.from(this.selectedFiles)
       arr.map((ele, index) => {
-        formData.append("file_"+index, ele);
+        formData.append("file_" + index, ele);
       })
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/createFiles";
@@ -328,7 +326,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
             this.filePath.emit(path);
             this.closePopupValue.emit(false);
             this.getFilesAndFolder.emit(newxhr.status);
-            
+
 
           } else {
             this.isUploadingXls = false;
