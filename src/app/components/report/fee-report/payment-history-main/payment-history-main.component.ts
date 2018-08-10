@@ -240,6 +240,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   searchByName() {
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
+    this.sendPayload.payment_history_student_category_option = 0;
   }
 
 
@@ -248,6 +249,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.searchName = "";
     this.searchByDateVisible = true;
     this.searchByNameVisible = false;
+    this.sendPayload.payment_history_student_category_option = 2;
   }
 
 
