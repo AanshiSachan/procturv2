@@ -186,7 +186,7 @@ export class EventManagmentComponent implements OnInit {
   fileUpload(imgId) {
     var file = (<HTMLFormElement>document.getElementById('fileAdd')).files[0];
     this.type = file.name.split('.')[1];
-
+    
     if (file.size > 1048576) {
       let obj = {
         type: "error",
@@ -211,10 +211,6 @@ export class EventManagmentComponent implements OnInit {
 
   saveEventData() {
 
-    if (!this.acceptedFileFormat.hasOwnProperty(this.type)) {
-      this.appc.popToast({ type: "error", title: "", body: "File format not supported" });
-      return;
-    }
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
       let obj = {
         type: "error",
@@ -257,6 +253,17 @@ export class EventManagmentComponent implements OnInit {
       this.appc.popToast(obj);
       return;
     }
+    
+    if(!this.acceptedFileFormat.hasOwnProperty(this.type)){
+      let obj = {
+        type: "error",
+        title: "Error",
+        body: "File format not supported"
+      }
+      this.appc.popToast(obj);
+      return;
+    }
+    
     this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
     if (this.saveDataObj.event_type == "2") {
       this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
@@ -312,8 +319,8 @@ export class EventManagmentComponent implements OnInit {
       return false;
     }
   }
+
   updatePopupData() {
-    
     let type = {
       1: ""
     }
@@ -351,17 +358,22 @@ export class EventManagmentComponent implements OnInit {
 
     }
 
-    if (!this.acceptedFileFormat.hasOwnProperty(this.type)) {
-      this.appc.popToast({ type: "error", title: "", body: "File format not supported" });
-      return;
-    }
-
     if (this.newUpdateObj.holiday_long_desc.length > 300) {
       let obj = {
         type: "error",
         title: "Error",
         body: "Longdescription should not be greater than 300"
 
+      }
+      this.appc.popToast(obj);
+      return;
+    }
+
+    if(!this.acceptedFileFormat.hasOwnProperty(this.type)){
+      let obj = {
+        type: "error",
+        title: "Error",
+        body: "File format not supported"
       }
       this.appc.popToast(obj);
       return;
@@ -483,7 +495,6 @@ export class EventManagmentComponent implements OnInit {
     this.getEvents();
     this.getHolidays();
     this.updateEventForm(holidayId);
-
   }
 
   deleteEntryData(holidayId) {
