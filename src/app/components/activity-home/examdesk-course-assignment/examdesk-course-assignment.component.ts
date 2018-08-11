@@ -106,7 +106,6 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
         this.studentDataSourceList = res;
         this.studentList = this.keepCloning(res);
         this.onRadioButtonChange();
-        this.checkIfHeaderChecked();
       },
       err => {
         this.dataStatus = 2;
