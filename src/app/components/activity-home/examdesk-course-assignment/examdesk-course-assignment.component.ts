@@ -170,7 +170,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   }
 
   addStudentToCourse() {
-    debugger
+    
     let data: any = this.getSelectedStudent();
     if (data.length == 0) {
       this.messageNotifier('error', 'Error', 'Please select student to assign in course');

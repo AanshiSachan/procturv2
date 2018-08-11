@@ -13,6 +13,7 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
 
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -261,7 +262,6 @@ export class AppComponent implements OnInit {
             let id2 = '110';
             let id3 = '301';
             let id4 = '303';
-            debugger;
             if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
               this.hasEnquiry = true;
             }

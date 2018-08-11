@@ -417,8 +417,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     return moment(upDate).fromNow();
   }
 
-  timeChanges(ev, id) {
-    debugger;
+  timeChanges(ev, id) {  
     if (id === 'followUpTime') {
       if (ev.split(' ')[0] != '') {
         this.timeObj.fhour = ev.split(' ')[0];

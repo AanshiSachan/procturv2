@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -8,6 +8,7 @@ import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpHeaders } from '@angular/common/http';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 
 @Component({
   selector: 'app-login-page',
@@ -78,8 +79,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   dynamicImgSrc: string = './assets/images/logoProctur.png';
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
-    private toastCtrl: AppComponent, private auth: AuthenticatorService) {
-    /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
+    private toastCtrl: AppComponent, private auth: AuthenticatorService,
+    private _tablePreferencesService: TablePreferencesService) {
+    /* hide header and sidebar from the vicreateTablePreferencesew onInit to give the user the full screen view of the web app  */
     if (sessionStorage.getItem('userid') != null) {
       this.fullscreenLogin();
       this.loginDataForm = {
@@ -117,6 +119,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.isProcturVisible = true;
+  }
+  createTablePreferences() {
+    console.log(sessionStorage.getItem('course_structure_flag'));
+    if (sessionStorage.getItem('userid') != null && sessionStorage.getItem('course_structure_flag')) {
+      if (!this._tablePreferencesService.getTablePreferences('procturTablePreference')) {
+        this._tablePreferencesService.createdLocalStorageStructure({ userId: sessionStorage.getItem('userid'), role: sessionStorage.getItem('course_structure_flag') });
+      }
+    }
   }
 
   checkWebUrlForGenerics() {
@@ -364,6 +374,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
 
       if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
+        this.createTablePreferences();
         this.createRoleBasedSidenav();
       }
       else if (sessionStorage.getItem('userType') == '1') {
