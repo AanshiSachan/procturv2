@@ -2,7 +2,7 @@
   <div #fileImage class="file__img"></div>
   <div class="file__info" *ngIf="fileDisplayArr.length!=0">
     <h2 class="file__title" title="{{fileObj.name}}">
-      {{fileObj.name}}
+      {{fileObj.name + '.' + fileObj.type}} 
     </h2>
 
     <div class="file__details">
@@ -11,7 +11,7 @@
 
     <div class="file__details file__owner">{{fileObj.res.uploadedBy}}</div>
 
-    <div class="file__details file__date">{{fileObj.res.uploaded_time | procturDate}}</div>
+    <div class="file__details file__date">{{fileObj.res.uploaded_time}}</div>
 
     <div class="file__details file__size">{{fileObj.res.size}} KB</div>
 

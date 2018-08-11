@@ -126,7 +126,7 @@
 </div>
 
 <app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder" [pathArray]="pathArray"
-  (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)">
+  (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)" [currentFilesArray]="fileDisplayArr">
 </app-upload-popup>
 
 <share-file *ngIf="getPopupOpen" (treeUpdater)="treeUpdater($event)" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet" [fileName]="fileName" [shareOptions]="shareOptions"></share-file>

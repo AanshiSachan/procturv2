@@ -47,6 +47,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   @Input() fetchPrefillFolderAndFiles: any;
   @Input() manualUpload: boolean = false;
   @Input() pathArray: any[] = [];
+  @Input() currentFilesArray:any[] = [];
   @Output() getFilesAndFolder: any = new EventEmitter<any>();
   @Output() filesAndFolder: any = new EventEmitter<any>();
   @Output() filePath: any = new EventEmitter<any>();
@@ -262,6 +263,16 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
     if (this.categoryCheck() == true) {
 
+      if(this.selectedFiles.length == 0){
+        this.appC.popToast({type:"error" , body:"No file selected"})
+        return
+      }
+
+      if(this.duplicateFileCheck() == false){
+        this.appC.popToast({type:"error" , body:"File already exists"})
+        return
+      }
+
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
 
@@ -269,6 +280,7 @@ export class UploadPopupComponent implements OnInit, OnChanges {
 
       let formData = new FormData();
       // formData.append("file", this.selectedFiles[0]);
+      
       let arr = Array.from(this.selectedFiles)
       arr.map((ele, index) => {
         formData.append("file_" + index, ele);
@@ -342,6 +354,20 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       }
       newxhr.send(formData);
     }
+
+    
+  }
+
+  duplicateFileCheck(){
+    for(let i=0; i<this.selectedFiles.length ; i++){
+      for(let j=0 ; j<this.currentFilesArray.length ; j++){
+        if(this.selectedFiles[i].name == this.currentFilesArray[j].file_name){
+          
+          return false
+        }
+      }
+    }
+    return true;
   }
 
   categoryCheck() {
