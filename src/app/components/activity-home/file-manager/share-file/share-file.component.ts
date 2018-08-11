@@ -143,11 +143,13 @@ export class ShareFileComponent implements OnInit {
       (data: any) => {
 
         if (share_type == '2') {
-          if(this.categoryId != '62'){
+          if (this.categoryId != '62') {
             this.fileSharePublic.standard_id = data.standard_id;
             this.getAllSubjects(data.standard_id);
             this.fileSharePublic.subject_id = data.subject_id;
-            this.fileSharePublic.course_types = data.course_types.split(',');  
+            this.courseType =  data.course_types.split(',');
+            // this.courseTypeSelection(this.courseType);
+            this.fileSharePublic.course_types = data.course_types;
           }
 
         } else if (share_type == '3') {
@@ -172,6 +174,8 @@ export class ShareFileComponent implements OnInit {
         this.getStandards = data;
         this.getStudentsData = [];
         this.getBatchesData = [];
+        this.studentsId = false;
+        this.batchesId = true;
       },
       (error: any) => {
 
@@ -300,10 +304,20 @@ export class ShareFileComponent implements OnInit {
   //     )
   // }
 
+  prefillSelected(courseId){
+    for(let i = 0 ; i< this.courseType.length; i++){
+      if(this.courseType[i] == courseId){
+        return true;
+      }
+    }
+    return false;
+  }
+
   multiCourseMapping() {
     this.fileService.courseMapping().subscribe(
       (data: any) => {
         this.courseMappingArray = data;
+        console.log(this.courseMappingArray);
       },
       (error: any) => {
         let msg = {
@@ -604,7 +618,7 @@ export class ShareFileComponent implements OnInit {
         let Obj = {
           file_id: this.fileIdGet,
           institute_id: this.fileService.institute_id,
-          public_share : '1',
+          public_share: '1',
           share_type: 0
         }
         this.fileService.shareFile(Obj).subscribe(
@@ -623,8 +637,7 @@ export class ShareFileComponent implements OnInit {
         )
       }
       else {
-        this.courseValue = this.courseType.join();
-        this.fileSharePublic.course_types = this.courseValue;
+
         this.fileSharePublic.file_id = this.fileIdGet;
         if (this.categoryId != '62') {
 
@@ -636,7 +649,7 @@ export class ShareFileComponent implements OnInit {
             this.appC.popToast(msg);
           }
 
-          else if(this.fileSharePublic.course_types == ""){
+          else if (this.courseType.length == 0) {
             let msg = {
               type: "error",
               body: "Course type is mandatory"
@@ -644,6 +657,8 @@ export class ShareFileComponent implements OnInit {
             this.appC.popToast(msg);
           }
           else {
+            this.courseValue = this.courseType.join();
+            this.fileSharePublic.course_types = this.courseValue;
             this.fileService.shareFile(this.fileSharePublic).subscribe(
               (data: any) => {
                 let msg = {
@@ -678,7 +693,7 @@ export class ShareFileComponent implements OnInit {
                 type: "success",
                 body: "File Shared Successfully"
               }
-              this.appC.popToast(msg);            
+              this.appC.popToast(msg);
               this.treeUpdater.emit(true);
               this.closePopup.emit(this.CloseValuePopup);
             },
@@ -724,7 +739,7 @@ export class ShareFileComponent implements OnInit {
   }
 
   courseTypeSelection(event) {
-   this.courseType.push(event);
+    this.courseType = event;
   }
 
 

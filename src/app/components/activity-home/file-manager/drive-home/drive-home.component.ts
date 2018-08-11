@@ -179,11 +179,11 @@ export class DriveHomeComponent implements OnInit {
           path.pop();
           path.pop();
           let newPath = path.join('/');
-          if (newPath == this.fileService.institute_id) {
+          if (newPath == this.fileService.institute_id + '/') {
             this.fetchPrefillFolderAndFiles(newPath + "/", true);
           }
           else {
-            this.fetchPrefillFolderAndFiles(newPath, true);
+            this.fetchPrefillFolderAndFiles(newPath + '/');
           }
         },
         (error: any) => {
@@ -210,27 +210,48 @@ export class DriveHomeComponent implements OnInit {
     this.createFolderControl = true;
   }
 
-  createFolder() {
-    let path: string = "";
-    let institute_id = sessionStorage.getItem("institute_id");
-    path = this.pathArray.join('/') + '/'
-    this.createFetchFolder.keyName = path;
-    this.fileService.craeteFolder(this.createFetchFolder).subscribe(
-      (data: any) => {
-        this.createFolderControl = false;
-        let msg = {
-          type: "success",
-          body: "Folder Created successfully"
-        }
-        this.appC.popToast(msg);
-        this.fetchPrefillFolderAndFiles(this.createFetchFolder.keyName , true);
-        this.createFetchFolder.folderName = "";
-        // this.ngOnInit(true);
-      },
-      (error: any) => {
-
+  duplicateFolderCheck(name) {
+    for (let i = 0; i < this.folderDisplayArr.length; i++) {
+      if (this.folderDisplayArr[i].label == name) {
+        this.appC.popToast({ type: "error", body: "Folder already exists" })
+        return false
       }
-    )
+
+    }
+    return true;
+  }
+
+  createFolder() {
+    if (this.duplicateFolderCheck(this.createFetchFolder.folderName) == false) {
+      return
+    }
+
+    else if(this.createFetchFolder.folderName == ""){
+      this.appC.popToast({type:"error" , body:"Folder name is manadatory"})
+      return
+    }
+    else {
+      let path: string = "";
+      let institute_id = sessionStorage.getItem("institute_id");
+      path = this.pathArray.join('/') + '/'
+      this.createFetchFolder.keyName = path;
+      this.fileService.craeteFolder(this.createFetchFolder).subscribe(
+        (data: any) => {
+          this.createFolderControl = false;
+          let msg = {
+            type: "success",
+            body: "Folder Created successfully"
+          }
+          this.appC.popToast(msg);
+          this.fetchPrefillFolderAndFiles(this.createFetchFolder.keyName, true);
+          this.createFetchFolder.folderName = "";
+          // this.ngOnInit(true);
+        },
+        (error: any) => {
+
+        }
+      )
+    }
   }
 
 
@@ -274,7 +295,7 @@ export class DriveHomeComponent implements OnInit {
     this.selectedFolder = folder;
     // this.getChildFolders(folder);
     if (folder.data.hasOwnProperty('keyName')) {
-      this.fetchPrefillFolderAndFiles(folder.data.keyName , true);
+      this.fetchPrefillFolderAndFiles(folder.data.keyName, true);
     }
   }
 
