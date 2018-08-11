@@ -418,17 +418,26 @@
             <label for="enquiryDate">Enquiry Date</label>
             <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
               readonly="true" bsDatepicker>
-
             <!-- <span class="date-clear" name="followupdate" (click)="editEnqData.enquiry_date = ''">clear</span> -->
           </div>
-          <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.status != '-1'}">
+
+          <div class="field-wrapper">
             <label for="eStatus">Enquiry Status</label>
-            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="editEnqData.status ==1 || editEnqData.status == 12">
+            <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" [disabled]="enquiryStatus ==1 || enquiryStatus == 12">
               <option value="-1"></option>
               <option *ngFor="let status of enqstatus" [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
-
           </div>
+
+          <div class="field-wrapper" *ngIf="editEnqData.status == '1'">
+            <label for="closingReason">Closing Reason*</label>
+            <select id="closingReason" class="form-ctrl" [(ngModel)]="editEnqData.closing_reason_id" name="closingReason">
+              <option value="0"></option>
+              <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>
+            </select>
+            <span style="right: 5px;" class="sourceI iconPlus" (click)="closingReason()">+</span>
+          </div>
+
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.priority != ''}">
             <label for="priority">Enquiry Priority</label>
             <select id="priority" class="form-ctrl" [(ngModel)]="editEnqData.priority" name="priority">
@@ -437,8 +446,8 @@
                 {{priority.data_value}}
               </option>
             </select>
-
           </div>
+          
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.follow_type != ''}">
             <label for="followUpType">Follow Up Type</label>
             <select id="followUpType" class="form-ctrl" [(ngModel)]="editEnqData.follow_type" name="followtype">
@@ -591,4 +600,108 @@
       </div>
     </div>
   </section>
+
 </section>
+
+<proctur-popup [sizeWidth]="'medium'" *ngIf="closingReasonOpen">
+
+  <span class="closePopup pos-abs fbold show" (click)="closeClosingReason()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+
+  <div popup-header class="popup-header-content">
+    <h2>Closing Reasons</h2>
+  </div>
+
+  <div class="popup-content" popup-content>
+
+    <div class="row clearFix add-edit">
+      <a class="expend-box" (click)="toggleReferAdd()" id="toggleAnch">
+        <i id="add-refer-icon">+</i>
+        <span style="font-size: 12px;">Add New Reason</span>
+      </a>
+    </div>
+
+    <div class="row class-edit" *ngIf="isNewRefer">
+      <div class="c-lg-4 field-wrapper">
+        <label>Closing Reason Description*</label>
+        <textarea class="form-ctrl" style="height: 69px;" maxlength="50" [(ngModel)]="createNewReasonObj.closing_desc"></textarea>
+      </div>
+      <div class="c-lg-2" style="margin-top: 3%;">
+        <button class="btn fullBlue" (click)="createNewReason()">Add</button>
+      </div>
+    </div>
+
+    <div class="table table-responsive scroll-up">
+      <div class="scroll-down">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Id
+              </th>
+              <th>
+                Closing Reason
+              </th>
+              <th>
+
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="closingReasonDataSource.length!=0">
+            <tr *ngFor="let reason of closingReasonDataSource ; let i=index;" class="displayComp" id="reason{{i}}">
+              <td class="view-comp">
+                {{reason.closing_reason_id}}
+              </td>
+
+              <td class="edit-comp">
+                {{reason.closing_reason_id}}
+              </td>
+
+              <td class="view-comp">
+                {{reason.closing_desc}}
+              </td>
+
+              <td class="edit-comp">
+                <div class="field-wrapper">
+                  <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="reason.closing_desc" [value]="reason.closing_desc"
+                    style="text-align: center;">
+                </div>
+              </td>
+
+              <td class="view-comp">
+                <a (click)="editRowTable(reason, i)">
+                  <i class="edit-icon cursor-icon" aria-hidden="true" id="editIcon5"></i>Edit
+                </a>
+              </td>
+
+              <td class="edit-comp">
+                <a class="anchorTagCursor" (click)="saveInformation(reason , i)"> Save </a>
+                <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)"> Cancel </a>
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody *ngIf="closingReasonDataSource.length==0">
+            <tr>
+              <td colspan="3">
+                No Closing Reason found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</proctur-popup>

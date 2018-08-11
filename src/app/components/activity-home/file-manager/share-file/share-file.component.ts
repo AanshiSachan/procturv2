@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { FileManagerService } from '../file-manager.service';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
-import { FileManagerService } from '../file-manager.service';
 
 @Component({
   selector: 'share-file',
@@ -12,7 +12,7 @@ export class ShareFileComponent implements OnInit {
 
 
   @Output() closePopup = new EventEmitter<any>();
-  CloseValuePopup: boolean = false
+  CloseValuePopup: boolean = false;
   getStandards: any[] = []
   getStandardsId = ""
   getSubjects: any[] = [];
@@ -26,7 +26,10 @@ export class ShareFileComponent implements OnInit {
   getBatchesData: any[] = [];
   studentsId: boolean = false;
   batchesId: boolean = true;
-  dataIdBatches
+  dataStatus: boolean = false;
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3];
+  dataIdBatches;
   getBatch: string = "0";
   getStudent: string = "";
   fetchShareOption = {
@@ -40,7 +43,6 @@ export class ShareFileComponent implements OnInit {
     students: [],
     subject_id: ""
   }
-
   fileSharePublic = {
     course_types: "",
     file_id: "",
@@ -52,11 +54,15 @@ export class ShareFileComponent implements OnInit {
   }
   isChecked: boolean = false;
   isStudentChecked: boolean = false;
+
   @Input() fileIdGet: string;
   @Input() fileName: any;
   @Input() shareOptions: any;
+  @Output() treeUpdater = new EventEmitter<any>();
+
   courseMappingArray: any[] = [];
   tabChoice = "student";
+  unshare: number;
   categoryId: any;
   editBatchShare = false;
   editInstituteShare = false;
@@ -66,13 +72,8 @@ export class ShareFileComponent implements OnInit {
   date: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
   month: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   year: any[] = [2015, 2016, 2017, 2018, 2019, 2020]
-  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3];
-  dataStatus: boolean = false;
 
-  constructor(
-    private fileService: FileManagerService,
-    private appC: AppComponent) { }
+  constructor(private fileService: FileManagerService, private appC: AppComponent) { }
 
   ngOnInit() {
     this.getAllStandards();
@@ -92,6 +93,15 @@ export class ShareFileComponent implements OnInit {
   }
 
   chooseTab(index) {
+
+    /*Disabling Buttons
+    if(this.shareOptions.batchShare == '0'){
+      (<HTMLFormElement>document.getElementById('tab1')).disabled = true;
+    }else if(this.shareOptions.publicShare == '0'){
+      (<HTMLFormElement>document.getElementById('tab2')).disabled = true;
+    }else if(this.shareOptions.instituteShare == '0'){
+      (<HTMLFormElement>document.getElementById('tab3')).disabled = true;
+    }*/
     let share_type = 0;
     if (index == '1' && this.shareOptions.batchShare == '1') {
       share_type = 3;
@@ -106,6 +116,21 @@ export class ShareFileComponent implements OnInit {
     if (share_type != 0) {
       this.editFileFetch(share_type);
     }
+
+  }
+
+  editApiSwitch(key) {
+    switch (key) {
+      case 1:
+
+        break;
+      case 2:
+
+        break;
+      case 3:
+
+        break;
+    }
   }
 
   editFileFetch(share_type) {
@@ -116,12 +141,17 @@ export class ShareFileComponent implements OnInit {
     }
     this.fileService.editFileShare(Obj).subscribe(
       (data: any) => {
+
         if (share_type == '2') {
-          this.fileSharePublic.standard_id = data.standard_id;
-          this.getAllSubjects(data.standard_id);
-          this.fileSharePublic.subject_id = data.subject_id;
-          this.fileSharePublic.course_types = data.course_types.split(',');
+          if(this.categoryId != '62'){
+            this.fileSharePublic.standard_id = data.standard_id;
+            this.getAllSubjects(data.standard_id);
+            this.fileSharePublic.subject_id = data.subject_id;
+            this.fileSharePublic.course_types = data.course_types.split(',');  
+          }
+
         } else if (share_type == '3') {
+
           this.getStandardsId = data.standard_id;
           this.getAllSubjects(data.standard_id);
           this.subjectId = data.subject_id;
@@ -131,44 +161,44 @@ export class ShareFileComponent implements OnInit {
         }
       },
       (error: any) => {
-        this.errorMessage(error);
+
       }
     )
   }
 
   getAllStandards() {
-    this.dataStatus = true;
     this.fileService.getAllStandards().subscribe(
       (data: any) => {
-        this.dataStatus = false;
         this.getStandards = data;
+        this.getStudentsData = [];
+        this.getBatchesData = [];
       },
       (error: any) => {
-        this.dataStatus = false;
-        this.errorMessage(error);
+
       }
     )
   }
 
+
   getAllSubjects(i) {
-    this.dataStatus = true;
     this.fileService.getSubjects(i).subscribe(
       (data: any) => {
-        this.dataStatus = false;
         this.getSubjects = data;
+        this.studentsId = false;
+        this.batchesId = true;
       },
       (error: any) => {
-        this.dataStatus = false;
-        this.errorMessage(error);
+
       }
     )
   }
 
   getBatches(update?) {
-    this.dataStatus = true;
+    this.getBatchesData = [];
     this.isChecked = false;
     this.getBatch = "0";
     this.batchesId = true;
+    this.dataStatus = true;
     (<HTMLFormElement>document.getElementById('batch')).checked = true;
     this.fetchBatchesData = {
       institute_id: this.fileService.institute_id,
@@ -179,8 +209,10 @@ export class ShareFileComponent implements OnInit {
       (data: any) => {
         this.dataStatus = false;
         this.getBatchesData = data;
+
         this.getBatchesData.map(
           (data: any) => {
+
             let endTime = data.file_access_end_time.split("-");
             let startTime = data.file_access_start_time.split("-");
             if (endTime[0] == '') {
@@ -216,34 +248,82 @@ export class ShareFileComponent implements OnInit {
           }
         )
       },
-      (error:any)=>{
+      (error: any) => {
         this.dataStatus = false;
-        this.errorMessage(error);
       }
     )
   }
 
+  // fetchUpdatedBatches(){
+  //   this.fetchBatchesData = {
+  //     institute_id: this.fileService.institute_id,
+  //     file_id: this.fileIdGet,
+  //     subject_id: this.subjectId
+  //   }
+  //   this.fileService.shareFileWithBatches(this.fetchBatchesData).subscribe(
+  //     (data: any) => {
+  //       this.getBatchesData = data;
+
+  //     }
+  //   )
+  // }
+
+  // fetchStudentsShare(){
+  //     this.studentsId = true;
+  //     this.batchesId = false;
+  //     this.fetchBatchesData = {
+  //       institute_id: this.fileService.institute_id,
+  //       file_id: this.fileIdGet,
+  //       subject_id: subject_id
+  //     }
+  //     this.fileService.shareFileWithStudents(this.fetchBatchesData).subscribe(
+  //       (data: any) => {
+
+  //         this.getStudentsData = data;
+  //         this.getStudentsData.map(
+  //           (data: any) => {
+  //             data.start_month = moment().month() + 1;
+  //             data.start_year = moment().year();
+  //             data.start_date = moment().date();
+  //             data.end_date = moment().date();
+  //             data.end_month = moment().month() + 1;
+  //             data.end_year = moment().year();
+  //             data.is_file_shared = "N",
+  //               data.isChecked = false
+  //           }
+  //         )
+
+  //       },
+  //       (error: any) => {
+
+  //       }
+  //     )
+  // }
+
   multiCourseMapping() {
-    this.dataStatus = true;
     this.fileService.courseMapping().subscribe(
       (data: any) => {
-        this.dataStatus = false;
         this.courseMappingArray = data;
       },
       (error: any) => {
-        this.dataStatus = false;
-        this.errorMessage(error);
+        let msg = {
+          type: "error",
+          body: error.error.message
+        }
+        this.appC.popToast(msg);
       }
     )
   }
 
   fetchCoursesData(subject_id, event, update?) {
+    this.getStudentsData = [];
     this.dataStatus = true;
     (update == true) ? update = 1 : update = 0;
     if (event == 0) {
       let arr = [];
       this.studentsId = false;
       this.batchesId = true;
+      this.dataStatus = false;
     }
     else if (event == "1") {
       this.studentsId = true;
@@ -261,7 +341,7 @@ export class ShareFileComponent implements OnInit {
             (data: any) => {
               let endTime = data.file_access_end_time.split("-");
               let startTime = data.file_access_start_time.split("-");
-              if (endTime[0] == '') {
+              if (endTime[0] == "") {
                 data.end_date = moment().date();
                 data.end_month = moment().month() + 1;
                 data.end_year = moment().year();
@@ -270,7 +350,7 @@ export class ShareFileComponent implements OnInit {
                 data.end_month = parseInt(endTime[1]);
                 data.end_year = endTime[0];
               }
-              if (startTime[0] == '') {
+              if (startTime[0] == "") {
                 data.start_month = moment().month() + 1;
                 data.start_year = moment().year();
                 data.start_date = moment().date();
@@ -279,7 +359,7 @@ export class ShareFileComponent implements OnInit {
                 data.start_year = startTime[0];
                 data.start_date = parseInt(startTime[2]);
               }
-  
+
               if (update != 1) {
                 data.is_file_shared = "N"
                 data.isChecked = false
@@ -295,19 +375,21 @@ export class ShareFileComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
-          this.errorMessage(error);
         }
       )
     }
   }
 
+
   getStartDate(date, index) {
+
     if (this.getBatchesData.length == 0) {
       this.getStudentsData[index].start_date = date;
     }
     else if (this.getStudentsData.length == 0) {
       this.getBatchesData[index].start_date = date;
     }
+
   }
 
   getStartMonth(month, index) {
@@ -317,6 +399,7 @@ export class ShareFileComponent implements OnInit {
     else if (this.getStudentsData.length == 0) {
       this.getBatchesData[index].start_month = month;
     }
+
   }
 
   getStartYear(year, index) {
@@ -353,10 +436,13 @@ export class ShareFileComponent implements OnInit {
     }
     else if (this.getStudentsData.length == 0) {
       this.getBatchesData[index].end_year = year;
+      // this.batches.file_access_end_time = this.getBatchesData[index].end_year + "-" + this.getBatchesData[index].end_month + "-" + this.getBatchesData[index].end_date;
     }
+
   }
 
   fileSharedBatches(event) {
+
     if (event == true) {
       for (let i = 0; i < this.getBatchesData.length; i++) {
         this.getBatchesData[i].is_file_shared = "Y";
@@ -369,7 +455,9 @@ export class ShareFileComponent implements OnInit {
         this.getBatchesData[i].isChecked = false;
       }
     }
+
   }
+
 
   fileSharedStudents(event) {
     if (event == true) {
@@ -384,7 +472,9 @@ export class ShareFileComponent implements OnInit {
         this.getStudentsData[i].isChecked = false;
       }
     }
+
   }
+
 
   getFileSharedBatches(event, index) {
     if (event == true) {
@@ -408,12 +498,14 @@ export class ShareFileComponent implements OnInit {
       this.isStudentChecked = false;
       this.getStudentsData[index].isChecked = false;
     }
-
   }
 
+
   shareFile(unshare?) {
+
     let temparrBatch = [];
     let temparrStudent = [];
+
     this.getBatchesData.map(
       (data: any) => {
         if (data.isChecked == true) {
@@ -462,6 +554,8 @@ export class ShareFileComponent implements OnInit {
     this.fetchShareOption.subject_id = this.subjectId;
     this.fetchShareOption.batches = temparrBatch;
     this.fetchShareOption.students = temparrStudent;
+
+
     if (this.tabChoice == "student") {
 
       if (this.fetchShareOption.standard_id == "" || this.fetchShareOption.subject_id == "") {
@@ -488,10 +582,16 @@ export class ShareFileComponent implements OnInit {
               body: "File Shared Successfully"
             }
             this.appC.popToast(msg);
+            this.treeUpdater.emit(true);
             this.closePopup.emit(this.CloseValuePopup);
+
           },
           (error: any) => {
-            this.errorMessage(error);
+            let msg = {
+              type: "error",
+              body: error.error.message
+            }
+            this.appC.popToast(msg);
           }
         )
       }
@@ -504,7 +604,7 @@ export class ShareFileComponent implements OnInit {
         let Obj = {
           file_id: this.fileIdGet,
           institute_id: this.fileService.institute_id,
-          public_share: 1,
+          public_share : '1',
           share_type: 0
         }
         this.fileService.shareFile(Obj).subscribe(
@@ -514,10 +614,11 @@ export class ShareFileComponent implements OnInit {
               body: "File UnShared Successfully"
             }
             this.appC.popToast(msg);
+            this.treeUpdater.emit(true);
             this.closePopup.emit(this.CloseValuePopup);
           },
           (error: any) => {
-            this.errorMessage(error);
+
           }
         )
       }
@@ -525,31 +626,72 @@ export class ShareFileComponent implements OnInit {
         this.courseValue = this.courseType.join();
         this.fileSharePublic.course_types = this.courseValue;
         this.fileSharePublic.file_id = this.fileIdGet;
+        if (this.categoryId != '62') {
 
-        if (this.fileSharePublic.standard_id == "" || this.fileSharePublic.subject_id == "") {
-          let msg = {
-            type: "error",
-            body: "Please select master course and course"
+          if (this.fileSharePublic.standard_id == "" || this.fileSharePublic.subject_id == "") {
+            let msg = {
+              type: "error",
+              body: "Please select master course and course"
+            }
+            this.appC.popToast(msg);
           }
-          this.appC.popToast(msg);
+
+          else if(this.fileSharePublic.course_types == ""){
+            let msg = {
+              type: "error",
+              body: "Course type is mandatory"
+            }
+            this.appC.popToast(msg);
+          }
+          else {
+            this.fileService.shareFile(this.fileSharePublic).subscribe(
+              (data: any) => {
+                let msg = {
+                  type: "success",
+                  body: "File Shared Successfully"
+                }
+                this.appC.popToast(msg);
+                this.treeUpdater.emit(true);
+                this.closePopup.emit(this.CloseValuePopup);
+              },
+              (error: any) => {
+                let msg = {
+                  type: "error",
+                  body: error.error.message
+                }
+                this.appC.popToast(msg);
+              }
+            )
+          }
         }
+
         else {
-          this.fileService.shareFile(this.fileSharePublic).subscribe(
+
+          let obj = {
+            file_id: this.fileIdGet,
+            institute_id: this.fileService.institute_id,
+            share_type: 2
+          }
+          this.fileService.shareFile(obj).subscribe(
             (data: any) => {
               let msg = {
                 type: "success",
                 body: "File Shared Successfully"
               }
-              this.appC.popToast(msg);
+              this.appC.popToast(msg);            
+              this.treeUpdater.emit(true);
               this.closePopup.emit(this.CloseValuePopup);
             },
             (error: any) => {
-              this.errorMessage(error);
+              let msg = {
+                type: "error",
+                body: error.error.message
+              }
+              this.appC.popToast(msg);
             }
           )
         }
       }
-
     }
 
     else if (this.tabChoice == "institute") {
@@ -570,25 +712,19 @@ export class ShareFileComponent implements OnInit {
             body: "File " + mess + " Successfully"
           }
           this.appC.popToast(msg);
+          this.treeUpdater.emit(true);
           this.closePopup.emit(this.CloseValuePopup);
+
         },
         (error: any) => {
-          this.errorMessage(error);
+
         }
       )
     }
   }
 
-  errorMessage(error){
-    let msg = {
-      type:"error",
-      body:error.error.message
-    }
-    this.appC.popToast(msg);
-  }
-
   courseTypeSelection(event) {
-    event.push(this.courseType);
+   this.courseType.push(event);
   }
 
 
@@ -607,6 +743,7 @@ export class ShareFileComponent implements OnInit {
       document.getElementById('tab' + 3).style.backgroundColor = "";
       document.getElementById('tab' + 3).style.color = "#0084f6";
       this.tabChoice = "student";
+      (<HTMLFormElement>document.getElementById('batch')).checked = true;
     }
     else if (tabIndex == 2) {
       document.getElementById('tab' + 1).style.backgroundColor = "";
@@ -631,3 +768,7 @@ export class ShareFileComponent implements OnInit {
     this.chooseTab(tabIndex);
   }
 }
+
+
+
+

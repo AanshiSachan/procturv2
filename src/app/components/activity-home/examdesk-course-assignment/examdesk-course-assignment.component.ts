@@ -15,6 +15,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   coursesList: any = [];
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2];
+  columnMapsTr: any[] = [0, 1, 2, 3, 4];
   searchValue: string = "";
   coursesListDataSource: any = [];
   tempData: any = "";
@@ -103,7 +104,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
         this.dataStatus = 2;
         this.isRippleLoad = false;
         this.studentDataSourceList = res;
-        this.studentList = this.makeCloneOfData(res);
+        this.studentList = this.keepCloning(res);
         this.onRadioButtonChange();
         this.checkIfHeaderChecked();
       },
@@ -124,12 +125,12 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
         this.headerChecked = true;
         this.tableData = this.studentList.filter(
           el => el.assigned == true
-        )
+        );
       } else {
         this.headerChecked = false;
         this.tableData = this.studentList.filter(
           el => el.assigned == false
-        )
+        );
       }
     } else {
       this.tableData = [];
@@ -170,7 +171,6 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   }
 
   addStudentToCourse() {
-    debugger
     let data: any = this.getSelectedStudent();
     if (data.length == 0) {
       this.messageNotifier('error', 'Error', 'Please select student to assign in course');
@@ -183,6 +183,9 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.apiService.assignStudentToCourse(obj, this.tempData.course_type_id).subscribe(
       res => {
         this.isRippleLoad = false;
+        this.messageNotifier('success', 'Student Assigned Successfully', '');
+        this.fetchCoursesList();
+        this.closePopup();
       },
       err => {
         this.isRippleLoad = false;
@@ -193,11 +196,19 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   }
 
   getSelectedStudent() {
+    let temp: any = {};
     for (let i = 0; i < this.studentDataSourceList.length; i++) {
-      for (let j = 0; j < this.studentList; j++) {
-        // if(this.studentDataSourceList[i].)
+      for (let j = 0; j < this.studentList.length; j++) {
+        if (this.studentDataSourceList[i].user_type == 1 && this.studentList[j].user_type == 1) {
+          if (this.studentDataSourceList[i].student_id == this.studentList[j].student_id) {
+            if (this.studentDataSourceList[i].assigned != this.studentList[j].assigned) {
+              temp[this.studentList[i].student_id] = this.studentList[j].assigned;
+            }
+          }
+        }
       }
     }
+    return temp;
   }
 
   // pagination functions 
@@ -236,8 +247,15 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.toastCtrl.popToast(data);
   }
 
-  makeCloneOfData(data) {
-    return data.map(el => el);
+  keepCloning(objectpassed) {
+    if (objectpassed === null || typeof objectpassed !== 'object') {
+      return objectpassed;
+    }
+    let temporaryStorage = objectpassed.constructor();
+    for (var key in objectpassed) {
+      temporaryStorage[key] = this.keepCloning(objectpassed[key]);
+    }
+    return temporaryStorage;
   }
 
 }

@@ -29,6 +29,17 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
+
+.forms{
+    color:black;
+}
+
+.row-fix{
+    .c-lg-5{
+        width:25%;
+    }
+}
+
 .tab {
     padding-bottom: 18px;
     margin-left: 10px;
@@ -42,6 +53,10 @@ $color-highlight: lighten($color-base, 7%);
     z-index: 4;
     margin-top:1px;
     /* box-shadow: -15px 24px 5px #008; */
+}
+
+.norm{
+    font-size: 8px;
 }
 
 .common{

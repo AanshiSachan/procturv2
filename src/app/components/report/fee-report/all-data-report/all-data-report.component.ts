@@ -167,7 +167,7 @@ export class AllDataReportComponent implements OnInit {
       });
 
   }
-
+  
   getAcademicYear() {
     this.getter.getAcademicYear().subscribe(
       (res: any) => {

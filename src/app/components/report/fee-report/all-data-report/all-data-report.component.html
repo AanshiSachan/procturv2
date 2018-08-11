@@ -131,7 +131,7 @@
 
                 <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                     [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
-                    [settings]="feeSettings1">
+                    [settings]="feeSettings1" id="basic-table">
                 </rob-table>
             </div>
             <div class="table-content" *ngIf="!isFilterReversed">

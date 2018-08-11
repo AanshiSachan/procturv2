@@ -24,6 +24,7 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { SharedModule } from '../shared/shared.module';
 import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
+import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
 
 @NgModule({
     imports: [
@@ -66,6 +67,7 @@ import { PopupHandlerService } from '../../services/enquiry-services/popup-handl
     ],
     providers: [
         PopupHandlerService,
+        ClosingReasonService
     ]
 })
 export class EnquiryModule {

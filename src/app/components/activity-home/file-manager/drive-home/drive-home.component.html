@@ -15,7 +15,7 @@
     <h1 class="pull-left">File Manager
       <div style="font-size: 12px;margin-top: 6px;">
         <a class="pathAnchor" *ngFor="let path of pathArray; let j = index" (click)="collapseString(j)">
-          {{path}}/
+          {{path}} /
         </a>
       </div>
     </h1>
@@ -124,11 +124,11 @@
 
 </div>
 
-<app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder"
+<app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder" [pathArray]="pathArray"
   (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)">
 </app-upload-popup>
 
-<share-file *ngIf="getPopupOpen" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet" [fileName]="fileName" [shareOptions]="shareOptions"></share-file>
+<share-file *ngIf="getPopupOpen" (treeUpdater)="treeUpdater($event)" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet" [fileName]="fileName" [shareOptions]="shareOptions"></share-file>
 
 
 <proctur-popup [sizeWidth]="'small'" *ngIf="createFolderControl">

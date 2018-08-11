@@ -1,18 +1,8 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
 import { LoginService } from '../../../services/login-services/login.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import { FeeStrucService } from '../../../services/feeStruc.service';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -74,6 +64,8 @@ export class TemplateHomeComponent implements OnInit {
   searchedData: any = [];
   totalRow: number = 0;
   searchText: string = '';
+  addTemplatePopUp: boolean = false;
+  studentList: any[] = [];
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
@@ -150,7 +142,6 @@ export class TemplateHomeComponent implements OnInit {
       }
     )
   }
-
 
   showTaxFields() {
     this.installmentList.forEach(element => {
@@ -675,6 +666,23 @@ export class TemplateHomeComponent implements OnInit {
         }
       )
     }
+  }
+
+  // for showing students assigned to the particular fee template
+
+  studentsAssigned(fee) {
+    if (fee.studentList != null) {
+      this.addTemplatePopUp = true;
+      this.studentList = fee.studentList;
+    }
+    else {
+      this.appC.popToast({type:"info" , title:"" , body:"No data found"});
+      this.addTemplatePopUp = false;
+    }
+  }
+
+  closeTemplatePopup() {
+    this.addTemplatePopUp = false;
   }
 
 }
