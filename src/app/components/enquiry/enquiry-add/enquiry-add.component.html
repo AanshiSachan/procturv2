@@ -222,8 +222,8 @@
                   <!-- Discount -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.discount_offered != ''}">
                     <label for="discount">Discount Offered Details</label>
-                    <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="newEnqData.discount_offered" name="discount" pattern="[0-9]+"
-                      OnlyNumber="true" #discount="ngModel" />
+                    <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="newEnqData.discount_offered" name="discount" #discount="ngModel"
+                    />
 
                   </div>
 
