@@ -69,17 +69,13 @@
                 Downloads
               </div>
 
-              <div class="file__details file__size" style="font-size: 15px;width:5%" *ngIf="isFolderEmpty == true">
-                <i class="fa fa-trash" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Delete folder" (click)="getFilesDeleted()"></i>
-              </div>
-
             </div>
           </div>
         </div>
 
         <div>
           <div (dragover)="onDragOverFolder($event, folder)" (dragleave)="onDragLeaveFolder($event, folder)" (dblclick)="folderSelected(folder)"
-            *ngFor="let folder of folderDisplayArr" class="file folder folder-file">
+            *ngFor="let folder of folderDisplayArr" class="file folder folder-file" >
             <div class="file__img"></div>
             <div class="file__info">
 
@@ -98,6 +94,11 @@
               <div class="file__details file__size">{{folder.data.size}} KB</div>
 
               <div class="file__details">{{folder.data.downloads}}</div>
+
+              <div class="file__details file__size" style="font-size: 15px;width:5%">
+                <i class="fa fa-trash" style="font-size: 17px; color: #52454596; margin-left: 1%;" title="Delete folder" (click)="getFilesDeleted(folder)"></i>
+              </div>
+
 
             </div>
           </div>
