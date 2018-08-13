@@ -15,7 +15,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   coursesList: any = [];
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2];
-  columnMapsTr: any[] = [0, 1, 2, 3, 4];
+  columnMapsTr: any[] = [0, 1, 2, 3, 4, 5];
   searchValue: string = "";
   coursesListDataSource: any = [];
   tempData: any = "";
