@@ -48,7 +48,7 @@
                 </div>
 
 
-                <div class="c-lg-4 hide">
+                <div class="c-lg-4">
                     <ul class="card" routerLink="../file_manager">
                         <li>
                             File Manager
@@ -59,7 +59,7 @@
                     </ul>
                 </div>
 
-                <div class="c-lg-4">
+                <div class="c-lg-4" *ngIf="showExamDesk">
                     <ul class="card" routerLink="../examcourse">
                         <li>
                             ExamDesk Course Assignment

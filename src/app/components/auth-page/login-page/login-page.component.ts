@@ -76,7 +76,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   headers;
   institute_id;
   @ViewChild('viewChange') changeView: ElementRef;
-  dynamicImgSrc: string = './assets/images/logoProctur.png';
+  dynamicImgSrc: string = '';
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent, private auth: AuthenticatorService,
@@ -105,12 +105,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     })
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
-    });
-    // this.institute_id = this.auth.getInstituteId();
-    // this.Authorization = this.auth.getAuthToken();
-    //console.log(this.institute_id);
-    this.baseUrl = this.auth.getBaseUrlStudent()
-
+    })
+    this.baseUrl = this.auth.getBaseUrlStudent();
   }
 
   ngOnInit() {
@@ -135,13 +131,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
       this.changeView.nativeElement.className = "box";
+      this.dynamicImgSrc = "./assets/images/logoProctur.png";
     }
     else {
       this.checkForVirtualHost(test);
       this.isProcturVisible = false;
       this.changeView.nativeElement.className = "boxNew"
     }
-
   }
 
   checkForVirtualHost(str) {

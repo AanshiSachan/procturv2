@@ -68,7 +68,7 @@ export class EnquiryHomeComponent implements OnInit {
   course_standard_id: any = '-1'; course_subject: any[] = []; course_mastercourse_id: any = '-1'; course_course: any[] = []; masterCourseData: any[] = [];
 
   /* Model for Enquiry Update Popup Form */
-  updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: "", followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, source_instituteId: '-1' }; customCompid: any;
+  updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: "", followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, source_instituteId: '-1', closing_reason_id: '0' }; customCompid: any;
 
   /* Model For Registration, valid only for professional institute 
   where status is registred else will thow an error with status code 400 */
@@ -112,6 +112,7 @@ export class EnquiryHomeComponent implements OnInit {
   isNotifyVisible: boolean = false; insttitueId: any = ''; isMainBranch: any = 'N'; subBranchSelected: boolean = false; branchesList: any = [];
   cityList: any = [];
   areaList: any = [];
+  closingReasonDataSource: any = [];
 
 
 
@@ -125,10 +126,18 @@ export class EnquiryHomeComponent implements OnInit {
 
 
 
-  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
-    private router: Router, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
-    private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute,
-    private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService) {
+  constructor(
+    private enquire: FetchenquiryService,
+    private prefill: FetchprefilldataService,
+    private router: Router,
+    private pops: PopupHandlerService,
+    private postdata: PostEnquiryDataService,
+    private appC: AppComponent,
+    private login: LoginService,
+    private cd: ChangeDetectorRef,
+    private actRoute: ActivatedRoute,
+    private auth: AuthenticatorService,
+    private multiBranchService: MultiBranchDataService) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -257,6 +266,9 @@ export class EnquiryHomeComponent implements OnInit {
             this.updateFormCommentsOn = res.commentedOn;
             this.updateFormCommentsBy = res.commentedBy;
             this.updateFormData.assigned_to = res.assigned_to;
+            this.updateFormData.status = res.status;
+            this.updateFormData.closing_reason_id = res.closing_reason_id;
+
             this.cd.markForCheck();
           });
           this.message = message;
@@ -461,6 +473,10 @@ export class EnquiryHomeComponent implements OnInit {
     // City Area Fetch //
 
     this.prefill.getCityList().subscribe(res => { this.cityList = res; });
+
+    // Closing Reason //
+
+    this.prefill.getClosingReasons().subscribe(res => { this.closingReasonDataSource = res; })
 
   }
 

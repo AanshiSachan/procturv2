@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, ViewChild, ElementRef } from '@angular/core';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
@@ -55,6 +55,7 @@ export class StudentAddComponent implements OnInit {
   /* ========================================================================================================== */
   /* ========================================================================================================== */
 
+  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
 
 
   /* ========================================================================================================== */
@@ -1001,12 +1002,11 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
-
-
-
+      this.btnSaveAndContinue.nativeElement.disabled = true;
       this.isRippleLoad = true;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
+          this.btnSaveAndContinue.nativeElement.disabled = false;
           this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -1032,6 +1032,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
+          this.btnSaveAndContinue.nativeElement.disabled = false;
           let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = { type: 'error', title: msg, body: "" };
@@ -1296,9 +1297,9 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.school_name = this.enquiryData.school_id;
     this.studentAddFormData.student_class = this.enquiryData.standard_id;
     this.studentAddFormData.standard_id = this.enquiryData.standard_id;
-    this.studentAddFormData.parent_name = this.enquiryData.parent_email;
-    this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
-    this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
+    this.studentAddFormData.parent_name = this.enquiryData.parent_name;
+    this.studentAddFormData.parent_phone = this.enquiryData.parent_phone;
+    this.studentAddFormData.parent_email = this.enquiryData.parent_email;
 
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;

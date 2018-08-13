@@ -203,7 +203,7 @@ export class AllDataReportComponent implements OnInit {
     this.ref.detectChanges();
     // console.log(this.displayKeys);
   }
-
+  
   getAcademicYear() {
     this.getter.getAcademicYear().subscribe(
       (res: any) => {

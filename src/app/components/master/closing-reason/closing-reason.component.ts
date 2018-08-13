@@ -8,20 +8,22 @@ import { AppComponent } from '../../../app.component';
   styleUrls: ['./closing-reason.component.scss']
 })
 export class ClosingReasonComponent implements OnInit {
+
   showToggle: boolean = false;
   createNewReasonObj = {
     closing_desc: "",
     institution_id: this.service.institute_id
   }
-
   getAllClosingReasons: any[] = [];
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2];
   dataStatus: boolean = false;
 
-  constructor(private service: ClosingReasonService, private appC: AppComponent) {
+  constructor(
+    private service: ClosingReasonService,
+    private appC: AppComponent
+  ) { }
 
-  }
   ngOnInit() {
     this.getAllReasons();
   }
@@ -58,17 +60,24 @@ export class ClosingReasonComponent implements OnInit {
   }
 
   saveInformation(row, index) {
-    console.log(row);
-    let obj = {
-      closing_desc:row.closing_desc,
-      institution_id:this.service.institute_id
+    if (row.closing_desc == "" || row.closing_desc == null) {
+      this.appC.popToast({ type: 'error', body: "Closing reason cant be empty" })
     }
-    this.service.updateClosingReason(obj , row.closing_reason_id).subscribe(
-      (data:any)=>{
-        this.appC.popToast({type:"success" , title:"" , body:"Reason updated successfully"});
-        this.getAllReasons();
+    else {
+      let obj = {
+        closing_desc: row.closing_desc,
+        institution_id: this.service.institute_id
       }
-    )
+      this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
+        (data: any) => {
+          this.appC.popToast({ type: "success", title: "", body: "Reason updated successfully" });
+          this.getAllReasons();
+        },
+        err => {
+          this.errorMessage(err);
+        }
+      )
+    }
   }
 
   cancelEditRow(index) {
@@ -77,18 +86,22 @@ export class ClosingReasonComponent implements OnInit {
   }
 
   createNewReason() {
-
-    this.service.createReason(this.createNewReasonObj).subscribe(
-      (data: any) => {
-        this.appC.popToast({ type: "success", title: "", body: "Reason Created Successfully" });
-        this.showToggle = false;
-        this.getAllReasons();
-        this.createNewReasonObj.closing_desc = "";
-      },
-      (error: any) => {
-        this.errorMessage(error);
-      }
-    )
+    if (this.createNewReasonObj.closing_desc == "") {
+      this.appC.popToast({ type: 'error', body: "Closing reason cant be empty" })
+    }
+    else {
+      this.service.createReason(this.createNewReasonObj).subscribe(
+        (data: any) => {
+          this.appC.popToast({ type: "success", title: "", body: "Reason Created Successfully" });
+          this.showToggle = false;
+          this.getAllReasons();
+          this.createNewReasonObj.closing_desc = "";
+        },
+        (error: any) => {
+          this.errorMessage(error);
+        }
+      )
+    }
   }
 
   errorMessage(error) {

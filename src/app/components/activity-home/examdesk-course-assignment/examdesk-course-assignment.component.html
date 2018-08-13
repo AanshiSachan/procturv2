@@ -100,8 +100,8 @@
       <div class="c-sm-6 c-md-6 c-lg-6">
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="field-wrapper">
-            <select class="form-ctrl" [(ngModel)]="standard_id" name="standard" id="standard">
-              <option value="-1">Select Standard</option>
+            <select class="form-ctrl" [(ngModel)]="standard_id" name="standard" id="standard" (ngModelChange)="getAllStudentList()">
+              <option value="-1">Select</option>
               <option *ngFor="let opt of standardList" [value]="opt.standard_id">
                 {{opt.standard_name}}
               </option>
@@ -109,9 +109,9 @@
           </div>
         </div>
 
-        <div class="c-sm-2 c-md-2 c-lg-2">
+        <!-- <div class="c-sm-2 c-md-2 c-lg-2">
           <button class="btn" (click)="getAllStudentList()">Go</button>
-        </div>
+        </div> -->
 
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="search-filter-wrapper">
@@ -136,13 +136,14 @@
             <th>Name</th>
             <th>Contact No</th>
             <th>Joining Date</th>
+            <th>Type</th>
           </tr>
         </thead>
         <tbody *ngIf="tableData.length > 0 && dataStatus === 2">
-          <tr *ngFor="let data of tableData">
+          <tr *ngFor="let data of (tableData | searchPipe:searchData)">
             <td>
               <div class="field-checkbox-wrapper">
-                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
+                <input [disabled]="data.user_type == '99'" type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
                 <label></label>
               </div>
             </td>
@@ -158,11 +159,15 @@
             <td>
               {{data.doj}}
             </td>
+            <td>
+              <span *ngIf="data.user_type == '99'">Guest User</span>
+              <span *ngIf="data.user_type == '1'">Enrolled Student</span>
+            </td>
           </tr>
         </tbody>
         <tbody *ngIf="tableData.length == 0 && dataStatus === 1">
           <tr *ngFor="let dummy of dummyArr">
-            <td *ngFor="let c of columnMaps">
+            <td *ngFor="let c of columnMapsTr">
               <div class="skeleton">
               </div>
             </td>

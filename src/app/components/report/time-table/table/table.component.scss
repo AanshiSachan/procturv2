@@ -23,6 +23,7 @@ ul {
         }
     }
     &.time-body {
+        height:auto;
         // display: inline-block;
         display: inline-grid;
         width: 14%; // padding: 10px 10px 10px;
@@ -148,6 +149,7 @@ ul {
     .nonemptyclass {
         max-height: 4.1vw;
     }
+   
 }
 
 .dotto {

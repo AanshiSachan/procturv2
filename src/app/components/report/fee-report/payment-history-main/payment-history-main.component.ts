@@ -42,8 +42,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     remarks: "",
     reference_no: "",
     invoice_no: "",
-  }
-  updationArray: any[] = [];
+  };
   searchByNameVisible: boolean = false;
   searchByDateVisible: boolean = true;
   newData: any[] = [];
@@ -56,7 +55,6 @@ export class PaymentHistoryMainComponent implements OnInit {
   helpMsg4: string = " Fee(s) collected from inactive students";
   helpMsg1: string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
   helpMsg2: string = " Fee(s)collected from archived students";
-
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -71,7 +69,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'amount_paid', header: 'Amount Paid' },
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor' }
   ];
-
   menuOptions: DropData[] = [
     {
       key: 'edit',
@@ -79,7 +76,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   ];
   dataStatus: number = 0;
-
   collectionData: any = {
     pdcNo: 0,
     refundValue: 0,
@@ -105,20 +101,20 @@ export class PaymentHistoryMainComponent implements OnInit {
     remarks: "",
     student_id: ""
   }
-
-
   chequeDetailsJson: any = {
     bank_name: "",
     cheque_date: "",
     cheque_no: "",
     cheque_status_id: ""
   }
-
   chequeDetails: any[] = [];
-
   temporaryRecords: any[] = [];
+  tempData: any = {};
 
-  constructor(private payment: PaymentHistoryMainService, private excelService: ExcelService, private appc: AppComponent) { }
+  constructor(
+    private payment: PaymentHistoryMainService,
+    private excelService: ExcelService,
+    private appc: AppComponent) { }
 
 
   ngOnInit() {
@@ -205,52 +201,22 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
-  editPerPersonData(ev, i) {
-    let queryParameters = {
-      financial_year: i.financial_year
-    }
-    this.addReportPopUp = true;
-    this.payment.getPerPersonData(queryParameters, i).subscribe(
-
-      (data: any) => {
-
-        this.perPersonData = data.feeSchedule_TxLst;
-      },
-      (error: any) => {
-        let msg = {
-          type: "error",
-          body: error.error.message
-        }
-        this.appc.popToast(msg);
-        return error;
-      }
-
-    )
-
-  }
-
-
-
   closeReportPopup() {
     this.addReportPopUp = false;
   }
 
-
-
   searchByName() {
     this.searchByNameVisible = true;
     this.searchByDateVisible = false;
+    this.sendPayload.payment_history_student_category_option = 0;
   }
-
-
 
   searchByDate() {
     this.searchName = "";
     this.searchByDateVisible = true;
     this.searchByNameVisible = false;
+    this.sendPayload.payment_history_student_category_option = 2;
   }
-
-
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
@@ -281,9 +247,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
-
-
-
   sortedData(ev) {
     this.sortedenabled = true;
     if (this.sortedenabled) {
@@ -304,36 +267,27 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
-
   getCaretVisiblity(e): boolean {
-
     if (this.sortedenabled && this.sortedBy == e) {
       return true;
     }
-
     else {
       return false;
     }
   }
 
-
   optionSelected(e) {
     this.personData = e.data;
     this.chequeDetailsJson = [];
+    this.tempData = {};
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
       (data: any) => {
+        this.tempData = this.keepCloning(data);
         if (data.chequeDetailsJson != null || data.chequeDetailsJson == "") {
           this.chequeDetailsJson = data.chequeDetailsJson;
         }
-        this.updationArray = data;
-        if (data.feeSchedule_TxLst.length) {
-
-          this.perPersonData = data.feeSchedule_TxLst.map(e => {
-            e.amountToBePaid = e.amount_paid;
-            e.receipt_old_id = e.invoice_no;
-            return e;
-          });
-
+        if (data.feeSchedule_TxLst.length > 0) {
+          this.perPersonData = data.feeSchedule_TxLst;
           this.updatedResult.paymentMode = this.perPersonData[0].paymentMode;
           if (this.updatedResult.paymentMode == "Cheque/PDC/DD No.") {
             this.isChequePayment = true;
@@ -343,16 +297,6 @@ export class PaymentHistoryMainComponent implements OnInit {
           }
           this.addReportPopUp = true;
         }
-        else {
-          let msg = {
-            type: "info",
-            title: "",
-            body: ""
-          }
-          this.appc.popToast(msg);
-          this.addReportPopUp = false;
-        }
-
       },
       (error: any) => {
         let msg = {
@@ -362,10 +306,7 @@ export class PaymentHistoryMainComponent implements OnInit {
         this.appc.popToast(msg);
       }
     )
-
   }
-
-
 
   updationOfPerPersonData() {
 
@@ -379,16 +320,18 @@ export class PaymentHistoryMainComponent implements OnInit {
             this.chequeDetailsJson.cheque_date == "" || this.chequeDetailsJson.cheque_status_id == "") {
             let msg = {
               type: "error",
-
               body: "All bank details are required"
             }
             this.appc.popToast(msg);
           }
           else {
-
+            let feeSchedule_TxLst = this.fetchhStudentPaymentJson(this.perPersonData);
+            if (feeSchedule_TxLst == false) {
+              return
+            }
             let obj = {
               chequeDetailsJson: this.chequeDetailsJson,
-              feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
+              feeSchedule_TxLst: feeSchedule_TxLst,
               fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
               financial_year: this.personData.financial_year,
               invoice_no: this.personData.invoice_no,
@@ -399,11 +342,8 @@ export class PaymentHistoryMainComponent implements OnInit {
               remarks: this.updatedResult.remarks,
               student_id: this.perPersonData[0].student_id
             }
-
             this.payment.updatePerPersonData(obj).subscribe(
-
               (data: any) => {
-
                 let msg = {
                   type: "success",
                   body: "Fee reciept updated successfully"
@@ -418,16 +358,25 @@ export class PaymentHistoryMainComponent implements OnInit {
                 this.getAllPaymentHistory();
                 this.updatedResult.fee_receipt_update_reason = "";
                 this.addReportPopUp = false;
+              },
+              err => {
+                let msg = {
+                  type: "error",
+                  body: err.error.message
+                }
+                this.appc.popToast(msg);
               }
             );
           }
         }
 
         else {
-
+          let feeSchedule_TxLst = this.fetchhStudentPaymentJson(this.perPersonData);
+          if (feeSchedule_TxLst == false) {
+            return
+          }
           let obj = {
-
-            feeSchedule_TxLst: this.fetchhStudentPaymentJson(this.perPersonData),
+            feeSchedule_TxLst: feeSchedule_TxLst,
             fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
             financial_year: this.personData.financial_year,
             invoice_no: this.personData.invoice_no,
@@ -457,9 +406,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               this.appc.popToast(msg);
             }
           );
-
         }
-
       }
       else {
         let msg = {
@@ -481,19 +428,41 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
 
-  fetchhStudentPaymentJson(data: any[]): any[] {
-
+  fetchhStudentPaymentJson(data: any[]) {
     let temp: any[] = [];
-
-    data.forEach(e => {
-      let obj = {
-        schedule_id: e.schedule_id,
-        payment_tx_id: e.payment_tx_id,
-        amount_paid: e.amount_paid,
-        balance_amount: e.balance_amount
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < this.tempData.feeSchedule_TxLst.length; j++) {
+        if (data[i].schedule_id == this.tempData.feeSchedule_TxLst[j].schedule_id) {
+          if (data[i].amount_paid != this.tempData.feeSchedule_TxLst[j].amount_paid) {
+            if (data[i].amount_paid > this.tempData.feeSchedule_TxLst[j].amount_paid) {
+              // You can not increase amount
+              this.messageNotifier("You can't increase the amount paid");
+              return false
+            }
+            else if (data[i].amount_paid < this.tempData.feeSchedule_TxLst[j].amount_paid) {
+              // If Amount decreased
+              let diff = this.tempData.feeSchedule_TxLst[j].amount_paid - data[i].amount_paid;
+              let obj: any = {
+                schedule_id: data[i].schedule_id,
+                payment_tx_id: data[i].payment_tx_id,
+                amount_paid: data[i].amount_paid,
+                balance_amount: this.tempData.feeSchedule_TxLst[j].balance_amount + diff
+              }
+              temp.push(obj);
+            } else {
+              // If Amount is equal
+              let obj = {
+                schedule_id: data[i].schedule_id,
+                payment_tx_id: data[i].payment_tx_id,
+                amount_paid: data[i].amount_paid,
+                balance_amount: data[i].balance_amount
+              }
+              temp.push(obj);
+            }
+          }
+        }
       }
-      temp.push(obj);
-    });
+    }
     return temp;
   }
 
@@ -569,6 +538,26 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
 
 
+  }
+
+  messageNotifier(title) {
+    let msg = {
+      type: "error",
+      title: title,
+      body: ""
+    }
+    this.appc.popToast(msg);
+  }
+
+  keepCloning(objectpassed) {
+    if (objectpassed === null || typeof objectpassed !== 'object') {
+      return objectpassed;
+    }
+    let temporaryStorage = objectpassed.constructor();
+    for (var key in objectpassed) {
+      temporaryStorage[key] = this.keepCloning(objectpassed[key]);
+    }
+    return temporaryStorage;
   }
 
 

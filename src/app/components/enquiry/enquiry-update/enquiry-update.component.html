@@ -85,8 +85,8 @@
           <div class="form-checkbox-wrapper">
             <div class="field-checkbox-wrapper">
 
-              <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox" id="notifyMe"
-              />
+              <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox"
+                id="notifyMe" />
               <label for="notifyme">Notify Me</label>
             </div>
           </div>
@@ -126,6 +126,19 @@
               <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                 {{ assigned.name }}
               </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Closing Reason -->
+      <div class="row" *ngIf="updateFormData.status == '1'">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="form-wrapper">
+            <label for="closingReasonDn">Closing Reason*</label>
+            <select id="closingReasonDn" class="side-form-ctrl" [(ngModel)]="updateFormData.closing_reason_id" name="closingReasonDn">
+              <option value="0"></option>
+              <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>
             </select>
           </div>
         </div>
@@ -212,7 +225,8 @@
     <div class="clearfix submitter">
       <aside class="pull-left popup-btn">
         <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelBtn">
-        <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Admit" class="fullBlue btn" (click)="updateRegisterEnquiry()" id="btnUpdate">
+        <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Admit" class="fullBlue btn"
+          (click)="updateRegisterEnquiry()" id="btnUpdate">
         <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()" id="btnPushUpdatedEnquiry">
       </aside>
     </div>

@@ -284,24 +284,26 @@
             <input type="text" name="helpadd" class="side-form-ctrl" [(ngModel)]="saveDataObj.public_url" />
           </div>
         </div>
-
-
         <div class="c-sm-12 c-xs-12 c-lg-12 c-md-12">
-          <div class="form-wrapper">
+
+          <div class="c-lg-8 form-wrapper">
             <label for="fileupload">Upload File</label>
-            <img style="float:right; margin-right:8%;" alt="" height="30" width="38" id="imgAdd">
             <input type="file" id="fileAdd" class="side-form-ctrl" (change)="fileUpload('imgAdd')" name="fileupload">
             <p style="margin-left: 20px">Max Allowed Size : 1 MB
               <br> File Format : jpg/jpeg/bmp/gif/png</p>
           </div>
+
+          <div class="c-lg-4">
+            <img style="float:right; margin-right:8%;" alt="" height="30" width="38" id="imgAdd">
+          </div>
+
         </div>
       </div>
 
-
-      <input type="button" class="fullBlue btn pull-right" style="margin-left:5px;" value="save" (click)="saveEventData()" />
-
+      <input type="button" class="fullBlue btn pull-right" style="margin-right: 20px;" value="save" (click)="saveEventData()" />
 
     </div>
+
   </div>
 </proctur-popup>
 
@@ -405,29 +407,35 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="newUpdateObj.event_type == 2">
-        <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
-          <div class="form-wrapper">
-            <label for="help">Public Url
-              <div class="questionInfo inline-relative">
-                <span class="qInfoIcon i-class">?</span>
-                <div class="tooltip-box-field">
-                  You can specify website URL
-                  <br>for the Event. This URL
-                  <br> will be displayed in Student
-                  <br> Android/iOS APP as a part of
-                  <br>Event Description
+      <div *ngIf="newUpdateObj.event_type == 2">
+
+        <div class="row">
+
+          <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
+            <div class="form-wrapper">
+              <label for="help">Public Url
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">?</span>
+                  <div class="tooltip-box-field">
+                    You can specify website URL
+                    <br>for the Event. This URL
+                    <br> will be displayed in Student
+                    <br> Android/iOS APP as a part of
+                    <br>Event Description
+                  </div>
                 </div>
-              </div>
-            </label>
-            <input type="text" name="help" class="side-form-ctrl" [(ngModel)]="newUpdateObj.public_url" />
+              </label>
+              <input type="text" name="help" class="side-form-ctrl" [(ngModel)]="newUpdateObj.public_url" />
+            </div>
           </div>
         </div>
 
         <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12" *ngIf="newUpdateObj.event_type == 2">
-          <div class="form-wrapper">
+          <div class="c-lg-2">
+            <img [src]="newUpdateObj.image" height="30" width="38" id="imgUpdate" style="text-align: right">
+          </div>
+          <div class="c-lg-10 form-wrapper">
             <label for="filename" style="width: auto">Upload File</label>
-            <img style="float:right; margin-right:8%;" [src]="newUpdateObj.image" alt="" height="30" width="38" id="imgUpdate">
             <input type="file" id="fileAdd" (change)="fileUpload('imgUpdate')" name="filename" class="side-form-ctrl">
             <p style="margin-left: 20px">Max Allowed Size : 1 MB
               <br> File Format : jpg/jpeg/bmp/gif/png</p>

@@ -558,6 +558,15 @@ export class AdminHomeComponent implements OnInit {
         return
       }
     }
+
+    if (this.attendanceNote != null && this.attendanceNote != "") {
+      if (this.validateSpecialCharacters(this.attendanceNote)) {
+        // Do nothing
+      } else {
+        this.messageNotifier('error', 'Error', 'Special characters are not allowed in attendance field.');
+        return
+      }
+    }
     let check = this.checkIfStudentIsAbsent(this.studentAttList);
     if (check) {
       let checkboxAbsentees = document.getElementById("EnableSmsAbsentees").checked;
@@ -2842,27 +2851,49 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  checkIfStudentIsAbsentForExam(data) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].attendance == "A") {
+        return true;
+      }
+      else {
+        return false
+      }
+    }
+  }
+
   markAttCourseExam() {
     let data = this.constructJsonForAttendance();
+    let check = this.checkIfStudentIsAbsentForExam(data);
     if (data.length == 0) {
       this.messageNotifier('error', 'Error', 'Please select student from student list');
       return;
     } else {
-      this.isRippleLoad = true;
-      this.widgetService.markStudentAttendance(data).subscribe(
-        res => {
-          this.isRippleLoad = false;
-          this.messageNotifier('success', 'Marked', 'Attendance Marked Successfully');
-          this.closePopUpCommon();
-          this.generateCourseLevelWidget();
-        },
-        err => {
-          this.isRippleLoad = false;
-          console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
+      if (check) {
+        if (confirm('Do you want to send SMS Alert to Absent students ?')) {
+          this.isRippleLoad = true;
+          this.makeServerCallForExamUpdate(data)
         }
-      )
+      }
+      else {
+        this.makeServerCallForExamUpdate(data);
+      }
     }
+  }
+
+  makeServerCallForExamUpdate(data) {
+    this.widgetService.markStudentAttendance(data).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.messageNotifier('success', 'Marked', 'Attendance Marked Successfully');
+        this.closePopUpCommon();
+        this.generateCourseLevelWidget();
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
   }
 
   constructJsonForAttendance() {

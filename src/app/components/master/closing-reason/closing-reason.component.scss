@@ -82,3 +82,16 @@ table {
 .anchorTagCursor {
     cursor: pointer;
 }
+
+.pointer-way:hover{
+    cursor: pointer;
+}
+
+.table-scroll{
+    height: 500px;
+    overflow: hidden;
+    .dummy-scroll{
+        height: 480px;
+        overflow : auto !important;
+    }
+}

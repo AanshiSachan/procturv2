@@ -32,13 +32,17 @@ export class EnquiryUpdatepComponent implements OnChanges {
   @Input() updateFormCommentsBy: any;
   @Input() meridian: any;
   @Input() isConvertToStudent: boolean = false;
-
+  @Input() closingReasonDataSource: any;
   @Output() close = new EventEmitter<any>(null);
-
-
   isRippleLoad: boolean = false;
   isMultiBranch: boolean = false;
-  constructor(private prefill: FetchprefilldataService, private appC: AppComponent, private postdata: PostEnquiryDataService, private router: Router) { }
+
+  constructor(
+    private prefill: FetchprefilldataService,
+    private appC: AppComponent,
+    private postdata: PostEnquiryDataService,
+    private router: Router
+  ) { }
 
   ngOnChanges() {
     if (this.isMainBranch == 'Y' || this.subBranchSelected == true) {
@@ -268,6 +272,14 @@ export class EnquiryUpdatepComponent implements OnChanges {
           this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format("YYYY-MM-DD");
         }
 
+        // Closing Reason Check
+        if (this.updateFormData.status == '1') {
+          if (this.updateFormData.closing_reason_id == '0') {
+            this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide closing reason' });
+            return;
+          }
+        }
+
         /* 
           If All conditions are good to go then updating the enquiry
         */
@@ -298,6 +310,7 @@ export class EnquiryUpdatepComponent implements OnChanges {
             statusValue: this.updateFormData.statusValue,
             walkin_followUpDate: this.updateFormData.walkin_followUpDate,
             walkin_followUpTime: this.updateFormData.walkin_followUpTime,
+            closing_reason_id: this.updateFormData.closing_reason_id
           }
 
           this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, obj).subscribe(
@@ -360,6 +373,8 @@ export class EnquiryUpdatepComponent implements OnChanges {
         }
         this.appC.popToast(msg);
       }
+
+
     }
     else {
       this.isRippleLoad = false;

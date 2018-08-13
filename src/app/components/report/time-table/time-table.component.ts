@@ -453,6 +453,7 @@ export class TimeTableComponent implements OnInit {
     });
     document.getElementById('middle-sectionId').style.display = "none";
     document.getElementById('printTimeTable').style.display = "block";
+    document.getElementById('printTimeTable').style.pageBreakAfter = "always"
     window.print();
     [].forEach.call(header, function (el) {
       el.classList.remove('hide');

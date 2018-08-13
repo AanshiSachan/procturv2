@@ -466,7 +466,7 @@
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-kyc-continue" value="Save and Continue" class="btn fullBlue" [class.hide]="quickAddStudent"
+            <input type="button" #saveAndContinue id="form-kyc-continue" value="Save and Continue" class="btn fullBlue" [class.hide]="quickAddStudent"
               (click)="addStudentDataAndFetchFee(values)">
             <input type="button" id="form-kyc-submit" (click)="studentQuickAdder(values)" value="Submit" [class.hide]="!quickAddStudent"
               class="btn hide fullBlue">
