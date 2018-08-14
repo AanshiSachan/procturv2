@@ -349,6 +349,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('enable_routing', institute_data.enable_routing);
       sessionStorage.setItem('enable_online_payment_feature', institute_data.enable_online_payment_feature);
       sessionStorage.setItem('open_enq_Visibility_feature', institute_data.open_enq_Visibility_feature);
+      sessionStorage.setItem('institute_setup_type', institute_data.institute_setup_type);
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
         this.login.changePermissions('');
