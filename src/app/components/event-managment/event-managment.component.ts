@@ -254,16 +254,6 @@ export class EventManagmentComponent implements OnInit {
       return;
     }
     
-    if(!this.acceptedFileFormat.hasOwnProperty(this.type)){
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "File format not supported"
-      }
-      this.appc.popToast(obj);
-      return;
-    }
-    
     this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
     if (this.saveDataObj.event_type == "2") {
       this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
@@ -369,15 +359,6 @@ export class EventManagmentComponent implements OnInit {
       return;
     }
 
-    if(!this.acceptedFileFormat.hasOwnProperty(this.type)){
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "File format not supported"
-      }
-      this.appc.popToast(obj);
-      return;
-    }
 
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
     if (this.newUpdateObj.event_type == "2") {
