@@ -299,7 +299,6 @@ export class CourseCourseListComponent implements OnInit {
         if (this.studentList[t].student_id == this.studentListDataSource[i].student_id) {
           if (this.studentList[t].assigned != this.studentListDataSource[i].assigned) {
             test[this.studentList[t].student_id] = [this.studentList[t].assigned.toString(), this.studentList[t].academic_year.toString(), this.studentList[i].assigned_fee_template_id.toString()];
-            this.studentList.splice(t, 1);
             break;
           }
         }
