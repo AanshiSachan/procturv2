@@ -240,23 +240,7 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   saveChanges() {
-    if (this.searchFilter.unassignFlag == '0') {
-      if (confirm('If you unassign the student from course then corresponding fee instalments will be deleted.')) {
-        this.apiToAllocateAndDeallocate();
-      }
-    }
-    else if (this.searchFilter.unassignFlag == '1') {
-      let selectedRows = this.getUISelectedRows(this.studentList);
-      if (selectedRows.length == this.studentListDataSource.length) {
-        this.messageToast('error', 'Error', "You haven't unassigned any student");
-        return false;
-      } else {
-        if (confirm('If you unassign the student from course then corresponding fee instalments will be deleted.')) {
-          this.apiToAllocateAndDeallocate();
-        }
-      }
-    }
-    else {
+    if (confirm('If you unassign the student from course then corresponding fee instalments will be deleted.')) {
       this.apiToAllocateAndDeallocate();
     }
   }
