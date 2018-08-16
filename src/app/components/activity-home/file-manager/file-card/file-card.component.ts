@@ -208,6 +208,7 @@ export class FileCardComponent implements OnChanges {
     }
     if (shareOptions.publicShare == 0 && shareOptions.instituteShare == 0 && shareOptions.batchShare == 0) {
       this.shareOptions.emit("new");
+      this.shareOptions.emit(shareOptions);
     } else {
       this.shareOptions.emit(shareOptions);
     }

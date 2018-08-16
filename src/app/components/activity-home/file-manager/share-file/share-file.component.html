@@ -384,7 +384,7 @@
   <div popup-footer style="margin-top: 2%;">
     <div *ngIf="tabChoice == 'institute'" class="row" style="text-align: right ; width:94%;">
       <div class="c-lg-8" *ngIf="!editInstituteShare">
-        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="!editInstituteShare && getFileType == 'pdf'">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'">
           <input type="checkbox" class="form-checkbox" id="institute" [(ngModel)]="isReadonlyInst" (ngModelChange)="getReadonlyinst($event)">
           <label for="institute">
             Read Only
@@ -392,7 +392,8 @@
         </div>
       </div>
       <div class="c-lg-6" *ngIf="editInstituteShare">
-        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="editInstituteShare && getFileType == 'pdf'">
+        hello
+        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'">
           <input type="checkbox" class="form-checkbox" id="institute" [(ngModel)]="isReadonlyInst" (ngModelChange)="getReadonlyinst($event)">
           <label for="institute">
             Read Only
@@ -416,7 +417,7 @@
 
     <div *ngIf="tabChoice == 'public'" class="row" style="text-align: right ; width:94%">
       <div class="c-lg-8" *ngIf="!editPublicShare">
-        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="!editPublicShare && getFileType == 'pdf'">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'">
           <input type="checkbox" class="form-checkbox" id="public" [(ngModel)]="isReadonlyPub" (ngModelChange)="getReadonlypublic($event)">
           <label for="public">
             Read Only
@@ -425,7 +426,7 @@
 
       </div>
       <div class="c-lg-6" *ngIf="editPublicShare">
-        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="editPublicShare && getFileType == 'pdf'">
+        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'">
           <input type="checkbox" class="form-checkbox" id="public" [(ngModel)]="isReadonlyPub" (ngModelChange)="getReadonlypublic($event)">
           <label for="public">
             Read Only

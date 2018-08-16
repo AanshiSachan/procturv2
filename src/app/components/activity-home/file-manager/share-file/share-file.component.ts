@@ -112,7 +112,10 @@ export class ShareFileComponent implements OnInit {
   }
 
   chooseTab(index) {
+    
     this.getFileType = this.shareOptions.fileType;
+    console.log(this.getFileType);
+    console.log(this.shareOptions);
     /*Disabling Buttons
     if(this.shareOptions.batchShare == '0'){
       (<HTMLFormElement>document.getElementById('tab1')).disabled = true;
