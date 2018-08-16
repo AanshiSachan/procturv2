@@ -12,7 +12,12 @@
 
   <!-- Header for the Drive -->
   <header class="top-nav">
-    <h1 class="pull-left">File Manager
+
+    <h1 class="pull-left">
+      <a routerLink="/view/activity/dashboard">
+        Activity
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>File Manager
       <div style="font-size: 12px;margin-top: 6px;">
         <a class="pathAnchor" *ngFor="let path of pathArray; let j = index" (click)="collapseString(j)">
           {{path}} /
@@ -23,7 +28,8 @@
       <i class="fa fa-upload" (click)="uploadBox()" title="Upload File" style="font-family: 'FontAwesome' ; display: inline-block; font-size: 17px; color: #52454596; display: inline-block;"
         id="upload">
       </i>&nbsp;&nbsp;&nbsp;
-      <i class="fa fa-folder-open" style="font-size: 17px; color: #52454596; margin-left: 1%; display: inline-block;" title="Make folder" (click)="makeFolderOpen()" ></i>
+      <i class="fa fa-folder-open" style="font-size: 17px; color: #52454596; margin-left: 1%; display: inline-block;" title="Make folder"
+        (click)="makeFolderOpen()"></i>
     </div>
   </header>
 
@@ -75,7 +81,7 @@
 
         <div>
           <div (dragover)="onDragOverFolder($event, folder)" (dragleave)="onDragLeaveFolder($event, folder)" (dblclick)="folderSelected(folder)"
-            *ngFor="let folder of folderDisplayArr" class="file folder folder-file" >
+            *ngFor="let folder of folderDisplayArr" class="file folder folder-file">
             <div class="file__img"></div>
             <div class="file__info">
 
@@ -125,11 +131,13 @@
 
 </div>
 
-<app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder" [pathArray]="pathArray"
-  (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)" [currentFilesArray]="fileDisplayArr">
+<app-upload-popup *ngIf="addCategoryPopup" [manualUpload]="manualUpload" [selectedFiles]="selectedFiles" [currentFolder]="selectedFolder"
+  [pathArray]="pathArray" (closePopupValue)="close($event)" (getFilesAndFolder)="getFilesAndFolder($event)" (filePath)="filePathUpload($event)"
+  [currentFilesArray]="fileDisplayArr">
 </app-upload-popup>
 
-<share-file *ngIf="getPopupOpen" (treeUpdater)="treeUpdater($event)" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet" [fileName]="fileName" [shareOptions]="shareOptions"></share-file>
+<share-file *ngIf="getPopupOpen" (treeUpdater)="treeUpdater($event)" (closePopup)="closeSharePopup($event)" [fileIdGet]="fileIdGet"
+  [fileName]="fileName" [shareOptions]="shareOptions"></share-file>
 
 
 <proctur-popup [sizeWidth]="'small'" *ngIf="createFolderControl">
