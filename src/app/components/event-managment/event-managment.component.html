@@ -170,7 +170,7 @@
 
 
 
-<proctur-popup [sizeWidth]="'small'" *ngIf="closeVarPopup">
+<proctur-popup [sizeWidth]="'small'" *ngIf="addEventPopUp">
 
   <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -288,7 +288,7 @@
 
           <div class="c-lg-8 form-wrapper">
             <label for="fileupload">Upload File</label>
-            <input type="file" id="fileAdd" class="side-form-ctrl" (change)="fileUpload('imgAdd')" name="fileupload">
+            <input type="file" id="fileAdd" class="side-form-ctrl" (change)="fileUpload('imgAdd')" name="fileupload" accept="image/*">
             <p style="margin-left: 20px">Max Allowed Size : 1 MB
               <br> File Format : jpg/jpeg/bmp/gif/png</p>
           </div>
@@ -436,7 +436,7 @@
           </div>
           <div class="c-lg-10 form-wrapper">
             <label for="filename" style="width: auto">Upload File</label>
-            <input type="file" id="fileAdd" (change)="fileUpload('imgUpdate')" name="filename" class="side-form-ctrl">
+            <input type="file" id="fileAdd" (change)="fileUpload('imgUpdate')" name="filename" class="side-form-ctrl" accept="image/*">
             <p style="margin-left: 20px">Max Allowed Size : 1 MB
               <br> File Format : jpg/jpeg/bmp/gif/png</p>
           </div>
