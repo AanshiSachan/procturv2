@@ -41,7 +41,8 @@ export class ShareFileComponent implements OnInit {
     standard_id: "",
     student_batch_share: "",
     students: [],
-    subject_id: ""
+    subject_id: "",
+    is_readonly: "N"
   }
   fileSharePublic = {
     course_types: "",
@@ -51,10 +52,13 @@ export class ShareFileComponent implements OnInit {
     share_type: 2,
     standard_id: "",
     subject_id: "",
+    is_readonly: "N"
   }
   isChecked: boolean = false;
   isStudentChecked: boolean = false;
-
+  isReadonlyStu: boolean = false;
+  isReadonlyInst: boolean = false;
+  isReadonlyPub: boolean = false;
   @Input() fileIdGet: string;
   @Input() fileName: any;
   @Input() shareOptions: any;
@@ -72,6 +76,21 @@ export class ShareFileComponent implements OnInit {
   date: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
   month: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   year: any[] = [2015, 2016, 2017, 2018, 2019, 2020]
+  instituteObj = {
+    file_id: '',
+    institute_id: this.fileService.institute_id,
+    share_type: 1,
+    is_readonly: "N"
+  }
+
+  publicObj = {
+    file_id: '',
+    institute_id: this.fileService.institute_id,
+    share_type: 2,
+    is_readonly: "N"
+  }
+
+  getFileType:string = "";
 
   constructor(private fileService: FileManagerService, private appC: AppComponent) { }
 
@@ -93,7 +112,10 @@ export class ShareFileComponent implements OnInit {
   }
 
   chooseTab(index) {
-
+    
+    this.getFileType = this.shareOptions.fileType;
+    console.log(this.getFileType);
+    console.log(this.shareOptions);
     /*Disabling Buttons
     if(this.shareOptions.batchShare == '0'){
       (<HTMLFormElement>document.getElementById('tab1')).disabled = true;
@@ -106,12 +128,30 @@ export class ShareFileComponent implements OnInit {
     if (index == '1' && this.shareOptions.batchShare == '1') {
       share_type = 3;
       this.editBatchShare = true;
+      if (this.shareOptions.isReadonly == "N") {
+        this.isReadonlyStu = false
+      }
+      else {
+        this.isReadonlyStu = true;
+      }
     } else if (index == '2' && this.shareOptions.publicShare == '1') {
       share_type = 2;
       this.editPublicShare = true;
+      if (this.shareOptions.isReadonly == "N") {
+        this.isReadonlyPub = false
+      }
+      else {
+        this.isReadonlyPub = true;
+      }
     } else if (index == '3' && this.shareOptions.instituteShare == '1') {
       share_type = 1;
       this.editInstituteShare = true;
+      if (this.shareOptions.isReadonly == "N") {
+        this.isReadonlyInst = false;
+      }
+      else {
+        this.isReadonlyInst = true;
+      }
     }
     if (share_type != 0) {
       this.editFileFetch(share_type);
@@ -147,9 +187,15 @@ export class ShareFileComponent implements OnInit {
             this.fileSharePublic.standard_id = data.standard_id;
             this.getAllSubjects(data.standard_id);
             this.fileSharePublic.subject_id = data.subject_id;
-            this.courseType =  data.course_types.split(',');
+            this.courseType = data.course_types.split(',');
             // this.courseTypeSelection(this.courseType);
             this.fileSharePublic.course_types = data.course_types;
+            if (this.shareOptions.isReadonly == "N") {
+              this.isReadonlyPub = false;
+            }
+            else {
+              this.isReadonlyPub = true;
+            }
           }
 
         } else if (share_type == '3') {
@@ -160,6 +206,12 @@ export class ShareFileComponent implements OnInit {
           this.fetchShareOption.desc = data.desc;
           this.getBatches(1);
           this.fetchCoursesData(this.subjectId, 0, 1);
+          if (this.shareOptions.isReadonly == "N") {
+            this.isReadonlyStu = false
+          }
+          else {
+            this.isReadonlyStu = true;
+          }
         }
       },
       (error: any) => {
@@ -183,6 +235,35 @@ export class ShareFileComponent implements OnInit {
     )
   }
 
+
+  getReadonlystu(event) {
+    if (event == true) {
+      this.fetchShareOption.is_readonly = "Y"
+    }
+    else {
+      this.fetchShareOption.is_readonly = "N"
+    }
+  }
+
+  getReadonlypublic(event) {
+    if (event == true) {
+      this.fileSharePublic.is_readonly = "Y"
+      this.publicObj.is_readonly = "Y"
+    }
+    else {
+      this.fileSharePublic.is_readonly = "N"
+      this.publicObj.is_readonly = "N"
+    }
+  }
+
+  getReadonlyinst(event) {
+    if (event == true) {
+      this.instituteObj.is_readonly = "Y"
+    }
+    else {
+      this.instituteObj.is_readonly = "N"
+    }
+  }
 
   getAllSubjects(i) {
     this.fileService.getSubjects(i).subscribe(
@@ -304,9 +385,9 @@ export class ShareFileComponent implements OnInit {
   //     )
   // }
 
-  prefillSelected(courseId){
-    for(let i = 0 ; i< this.courseType.length; i++){
-      if(this.courseType[i] == courseId){
+  prefillSelected(courseId) {
+    for (let i = 0; i < this.courseType.length; i++) {
+      if (this.courseType[i] == courseId) {
         return true;
       }
     }
@@ -598,7 +679,6 @@ export class ShareFileComponent implements OnInit {
             this.appC.popToast(msg);
             this.treeUpdater.emit(true);
             this.closePopup.emit(this.CloseValuePopup);
-
           },
           (error: any) => {
             let msg = {
@@ -681,13 +761,8 @@ export class ShareFileComponent implements OnInit {
         }
 
         else {
-
-          let obj = {
-            file_id: this.fileIdGet,
-            institute_id: this.fileService.institute_id,
-            share_type: 2
-          }
-          this.fileService.shareFile(obj).subscribe(
+          this.publicObj.file_id = this.fileIdGet
+          this.fileService.shareFile(this.publicObj).subscribe(
             (data: any) => {
               let msg = {
                 type: "success",
@@ -710,17 +785,13 @@ export class ShareFileComponent implements OnInit {
     }
 
     else if (this.tabChoice == "institute") {
-      let instituteObj = {
-        file_id: this.fileIdGet,
-        institute_id: this.fileService.institute_id,
-        share_type: 1
-      }
+      this.instituteObj.file_id = this.fileIdGet;
       let mess = "Shared";
       if (unshare == '1') {
-        instituteObj.share_type = 0;
+        this.instituteObj.share_type = 0;
         mess = "Unshared";
       }
-      this.fileService.shareFile(instituteObj).subscribe(
+      this.fileService.shareFile(this.instituteObj).subscribe(
         (data: any) => {
           let msg = {
             type: "success",

@@ -183,7 +183,7 @@ export class DriveHomeComponent implements OnInit {
             this.fetchPrefillFolderAndFiles(newPath + "/", true);
           }
           else {
-            this.fetchPrefillFolderAndFiles(newPath + '/');
+            this.fetchPrefillFolderAndFiles(newPath + '/' , true);
           }
         },
         (error: any) => {
