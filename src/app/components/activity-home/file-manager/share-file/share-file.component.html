@@ -383,8 +383,23 @@
 
   <div popup-footer style="margin-top: 2%;">
     <div *ngIf="tabChoice == 'institute'" class="row" style="text-align: right ; width:94%;">
-      <div class="c-lg-8" *ngIf="!editInstituteShare"></div>
-      <div class="c-lg-6" *ngIf="editInstituteShare"></div>
+      <div class="c-lg-8" *ngIf="!editInstituteShare">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="!editInstituteShare && getFileType == 'pdf'">
+          <input type="checkbox" class="form-checkbox" id="institute" [(ngModel)]="isReadonlyInst" (ngModelChange)="getReadonlyinst($event)">
+          <label for="institute">
+            Read Only
+          </label>
+        </div>
+      </div>
+      <div class="c-lg-6" *ngIf="editInstituteShare">
+        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="editInstituteShare && getFileType == 'pdf'">
+          <input type="checkbox" class="form-checkbox" id="institute" [(ngModel)]="isReadonlyInst" (ngModelChange)="getReadonlyinst($event)">
+          <label for="institute">
+            Read Only
+          </label>
+        </div>
+      </div>
+
       <div class="c-lg-2" *ngIf="!editInstituteShare" style="text-align: right;">
         <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()" style="width:100%">
       </div>
@@ -400,8 +415,24 @@
     </div>
 
     <div *ngIf="tabChoice == 'public'" class="row" style="text-align: right ; width:94%">
-      <div class="c-lg-8" *ngIf="!editPublicShare"></div>
-      <div class="c-lg-6" *ngIf="editPublicShare "></div>
+      <div class="c-lg-8" *ngIf="!editPublicShare">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="!editPublicShare && getFileType == 'pdf'">
+          <input type="checkbox" class="form-checkbox" id="public" [(ngModel)]="isReadonlyPub" (ngModelChange)="getReadonlypublic($event)">
+          <label for="public">
+            Read Only
+          </label>
+        </div>
+
+      </div>
+      <div class="c-lg-6" *ngIf="editPublicShare">
+        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="editPublicShare && getFileType == 'pdf'">
+          <input type="checkbox" class="form-checkbox" id="public" [(ngModel)]="isReadonlyPub" (ngModelChange)="getReadonlypublic($event)">
+          <label for="public">
+            Read Only
+          </label>
+        </div>
+      </div>
+
       <div class="c-lg-2" *ngIf="!editPublicShare" style="text-align: right;">
         <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()" style="width:100%">
       </div>
@@ -417,7 +448,15 @@
     </div>
 
     <div *ngIf="tabChoice == 'student'" class="row" style="text-align: right ; width:94%">
-      <div class="c-lg-8"></div>
+      <div class="c-lg-8">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'" style="float: left;">
+          <input type="checkbox" class="form-checkbox" id="student" [(ngModel)]="isReadonlyStu" (ngModelChange)="getReadonlystu($event)">
+          <label for="student">
+            Read Only
+          </label>
+        </div>
+      </div>
+
       <div class="c-lg-2">
         <input *ngIf="!editBatchShare " type="button" value="Share" class="btn fullBlue" (click)="shareFile()" style="width:100%">
         <input *ngIf="editBatchShare" type="button" value="Update" class="btn fullBlue" (click)="shareFile()" style="width:100%">
