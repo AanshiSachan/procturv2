@@ -132,20 +132,12 @@ export class EnquiryEditComponent implements OnInit {
 
   }
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45'];
+  minArr: any[] = ['','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"];
   hour: string = '';
   minute: string = '';
   meridian: string = ''
-  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
-  timeObj: any = {
-    fhour: '',
-    fminute: '',
-    fmeridian: '',
-    whour: '',
-    wminute: '',
-    wmeridian: '',
-  };
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   followUpTime: any = "";
   // City And Area Changes
   isCityMandatory: any;
@@ -169,7 +161,10 @@ export class EnquiryEditComponent implements OnInit {
     institution_id: this.service.institute_id
   };
   enquiryStatus: any = '0';
-
+  walkintime: any = {
+    hour: '',
+    minute: ''
+  }
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
@@ -265,8 +260,8 @@ export class EnquiryEditComponent implements OnInit {
     this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
     this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
     let id = this.institute_enquiry_id;
-    this.prefill.fetchEnquiryByInstituteID(id)
-      .subscribe(data => {
+    this.prefill.fetchEnquiryByInstituteID(id).subscribe(
+      data => {
         this.editEnqData = data;
         this.enquiryStatus = data.status;
         if (this.editEnqData.courseIdArray != null && this.editEnqData.courseIdArray.length) {
@@ -277,15 +272,22 @@ export class EnquiryEditComponent implements OnInit {
         }
         this.actualAssignee = data.assigned_to;
         this.editEnqData.dob = this.editEnqData.dob == null ? null : this.editEnqData.dob;
-        if (data.followUpTime != '') {
+        if (data.followUpTime != '' && data.followUpTime != null && data.followUpTime != " :") {
           let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
           this.hour = moment(followUpDateTime).format('h');
           this.followUpTime = moment(followUpDateTime).format('h') + " " + moment(followUpDateTime).format('a').toString().toUpperCase();
           this.minute = moment(followUpDateTime).format('mm');
-
           this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
-
         }
+
+        if (data.walkin_followUpDate != "" && data.walkin_followUpDate != "Invalid date" && data.walkin_followUpDate != null) {
+          this.editEnqData.walkin_followUpDate = data.walkin_followUpDate;
+        }
+
+        if (data.walkin_followUpTime != "" && data.walkin_followUpTime != null && data.walkin_followUpTime != ": ") {
+          this.walkintime = this.breakTimeInToHrAndMin(data.walkin_followUpTime);
+        }
+
         this.updateCustomComponent(id);
         this.fetchSubject(this.editEnqData.standard_id);
         if (!this.isProfessional) {
@@ -736,6 +738,8 @@ export class EnquiryEditComponent implements OnInit {
   submitRegisterForm() {
     this.isConvertToStudent = true;
     this.editEnqData.follow_type = "Walkin"
+    this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.editEnqData.walkin_followUpTime = this.getFollowupTime();
     this.submitForm();
   }
 
@@ -785,9 +789,33 @@ export class EnquiryEditComponent implements OnInit {
           this.editEnqData.source_instituteId = this.editEnqData.source_instituteId;
         }
 
+        if (this.isConvertToStudent == false) {
+          if (this.editEnqData.walkin_followUpDate == "" || this.editEnqData.walkin_followUpDate == "Invalid date") {
+            this.editEnqData.walkin_followUpDate = "";
+          } else {
+            this.editEnqData.walkin_followUpDate = moment(this.editEnqData.walkin_followUpDate).format('YYYY-MM-DD');
+          }
+
+          if (this.walkintime.hour == "" || this.walkintime.minute == "") {
+            this.editEnqData.walkin_followUpTime = "";
+          } else {
+            if (this.walkintime.hour != "") {
+              let time = this.walkintime.hour.split(' ');
+              this.editEnqData.walkin_followUpTime = time[0] + ':' + this.walkintime.minute + " " + time[1];
+            }
+          }
+        }
+
         if (this.editEnqData.follow_type == "Walkin") {
-          this.editEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
-          this.editEnqData.walkin_followUpTime = this.getFollowupTime();
+          if (this.editEnqData.walkin_followUpDate == "") {
+            this.messageNotifier('error', 'Please provide walkin date for follow up type walkin', '');
+            return;
+          }
+
+          if (this.editEnqData.walkin_followUpTime == "") {
+            this.messageNotifier('error', 'Please provide walkin time for follow up type walkin', '');
+            return;
+          }
         }
 
         this.enquiryStatus = this.editEnqData.status;
@@ -886,7 +914,7 @@ export class EnquiryEditComponent implements OnInit {
         }
         else {
           hour += 1;
-          let formattedNumber = ("0" + hour).slice(-2);
+          let formattedNumber = (hour).slice(-2);
           hour = formattedNumber.toString();
         }
       }
@@ -1074,6 +1102,10 @@ export class EnquiryEditComponent implements OnInit {
     this.customComponents.forEach(el => {
       el.value = '';
     });
+    this.walkintime = {
+      hour: '',
+      minute: ''
+    };
   }
 
 
@@ -1350,6 +1382,16 @@ export class EnquiryEditComponent implements OnInit {
   cancelEditRow(index) {
     document.getElementById(("reason" + index).toString()).classList.add('displayComp');
     document.getElementById(("reason" + index).toString()).classList.remove('editComp');
+  }
+
+  breakTimeInToHrAndMin(time) {
+    let obj: any = {
+      hour: '',
+      minute: ''
+    };
+    obj.hour = time.split(':')[0] + " " + time.split(':')[1].split(' ')[1];
+    obj.minute = time.split(':')[1].split(' ')[0];
+    return obj;
   }
 
 }

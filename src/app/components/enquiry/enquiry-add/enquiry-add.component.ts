@@ -25,7 +25,7 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
 export class EnquiryAddComponent implements OnInit {
 
   isRippleLoad: boolean;
-  isRegisterStudent: boolean;
+  isRegisterStudent: boolean = false;
   /* Variable Declarations */
   enqstatus: any = [];
   enqPriority: any = [];
@@ -120,7 +120,7 @@ export class EnquiryAddComponent implements OnInit {
   sourceList: any;
   isNewRefer: boolean = true;
   referList: any;
-  minArr: any[] = ['', '00', '15', '30', '45'];
+  minArr: any[] = ['','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   hour: string = '';
   minute: string = '';
   meridian: string = ''
@@ -160,6 +160,10 @@ export class EnquiryAddComponent implements OnInit {
   selectedCourseIds: any = null;
   selectedSubjectIds: any = null;
   isEnquirySubmit: boolean = false;
+  walkinTime: any = {
+    hour: '',
+    minute: ''
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(private prefill: FetchprefilldataService, private router: Router,
@@ -810,6 +814,8 @@ export class EnquiryAddComponent implements OnInit {
   submitRegisterForm(form: NgForm) {
     this.isRegisterStudent = true;
     this.newEnqData.follow_type = "Walkin";
+    this.newEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.newEnqData.walkin_followUpTime = this.getFollowupTime();
     this.submitForm(form);
   }
   /* ============================================================================================================================ */
@@ -854,9 +860,33 @@ export class EnquiryAddComponent implements OnInit {
         this.newEnqData.enquiry_date = this.fetchDate(this.newEnqData.enquiry_date);
         this.newEnqData.followUpDate = this.fetchDate(this.newEnqData.followUpDate);
 
+        if (this.isRegisterStudent == false) {
+          if (this.newEnqData.walkin_followUpDate == "" || this.newEnqData.walkin_followUpDate == "Invalid date") {
+            this.newEnqData.walkin_followUpDate = ""
+          } else {
+            this.newEnqData.walkin_followUpDate = moment(this.newEnqData.walkin_followUpDate).format('YYYY-MM-DD');
+          }
+
+          if (this.walkinTime.hour == "" || this.walkinTime.minute == "") {
+            this.newEnqData.walkin_followUpTime = "";
+          } else {
+            if (this.walkinTime.hour != "") {
+              let time = this.walkinTime.hour.split(' ');
+              this.newEnqData.walkin_followUpTime = time[0] + ':' + this.walkinTime.minute + " " + time[1];
+            }
+          }
+        }
+
         if (this.newEnqData.follow_type == "Walkin") {
-          this.newEnqData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
-          this.newEnqData.walkin_followUpTime = this.getFollowupTime();
+          if (this.newEnqData.walkin_followUpDate == "") {
+            this.messageNotifier('error', 'Please provide walkin date for follow up type walkin', '');
+            return;
+          }
+
+          if (this.newEnqData.walkin_followUpTime == "") {
+            this.messageNotifier('error', 'Please provide walkin time for follow up type walkin', '');
+            return;
+          }
         }
 
 
@@ -1065,7 +1095,7 @@ export class EnquiryAddComponent implements OnInit {
         }
         else {
           hour += 1;
-          let formattedNumber = ("0" + hour).slice(-2);
+          let formattedNumber = (hour).slice(-2);
           hour = formattedNumber.toString();
         }
       }
@@ -1936,4 +1966,14 @@ export class EnquiryAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+
+  messageNotifier(type, title, msg) {
+    let alert = {
+      type: type,
+      title: title,
+      body: msg
+    }
+    this.appC.popToast(alert);
+  }
+
 }

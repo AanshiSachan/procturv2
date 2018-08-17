@@ -36,9 +36,9 @@
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper has-value">
             <label for="selectFollowupEdit">Follow Up Type</label>
-            <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type" name="follow_type">
+            <select id="selectFollowupEdit" class="form-ctrl" [(ngModel)]="updateFormData.follow_type" name="follow_type">
               <option></option>
-              <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
+              <option *ngFor="let followT of enqFollowType" [value]="followT.data_key">
                 {{followT.data_value}}
               </option>
             </select>

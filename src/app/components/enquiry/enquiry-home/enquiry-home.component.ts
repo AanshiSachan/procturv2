@@ -226,11 +226,10 @@ export class EnquiryHomeComponent implements OnInit {
           this.cd.markForCheck();
         }
         else if (message == 'update') {
-
           this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe((res: any) => {
             this.cd.markForCheck();
             this.updateFormData.priority = this.getPriority(res.priority);
-            this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
+            this.updateFormData.follow_type = res.follow_type;
             this.updateFormData.statusValue = this.selectedRow.statusValue;
             if (res.followUpDate != "" && res.followUpDate != null) {
               this.updateFormData.followUpDate = moment(res.followUpDate).format('YYYY-MM-DD');

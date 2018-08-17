@@ -474,7 +474,7 @@
             </select>
 
           </div>
-          <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.follow_type != '-1'}">
+          <div class="field-wrapper">
             <label for="followUpType">Follow Up Type
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
@@ -484,48 +484,23 @@
             </label>
             <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype">
               <option value="-1"></option>
-              <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key" [attr.selected]="followUp.data_value == 'call' ? '' : null">
+              <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
                 {{followUp.data_value}}
               </option>
             </select>
 
 
           </div>
-          <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
+
+          <div class="field-wrapper datePickerBox">
             <label for="followUpDate">Follow Up Date</label>
             <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
               readonly="true" bsDatepicker>
             <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
           </div>
-          <!-- <div class="time-picker">
-            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour" style="width: 60px;">
-                <option *ngFor="let hour of hourArr" [value]="hour">
-                  {{hour}}
-                </option>
-              </select>
-              <label for="hour">Hour</label>
-            </div>
-            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;" [ngClass]="{'has-value': minute != ''}">
-              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
-                <option *ngFor="let minute of minArr" [value]="minute">
-                  {{minute}}
-                </option>
-              </select>
-              <label for="minute">Minute</label>
-            </div>
-            <div class="field-wrapper" id="meridianpar" style="padding-right: 10px;" [ngClass]="{'has-value': meridian != ''}">
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian" style="width: 90px;">
-                <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                  {{meridian}}
-                </option>
-              </select>
-              <label for="meridian">Meridian</label>
-            </div>
-          </div>   -->
 
           <div class="time-picker">
-            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
+            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;">
               <label for="hour">Hour</label>
               <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 75px;"
                 (ngModelChange)="timeChanges($event)">
@@ -535,9 +510,38 @@
               </select>
 
             </div>
-            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;" [ngClass]="{'has-value': minute != ''}">
+            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;">
               <label for="minute">Minute</label>
               <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+
+            </div>
+
+          </div>
+
+          <div class="field-wrapper datePickerBox" *ngIf="newEnqData.follow_type == 'Walkin'">
+            <label for="WalkinDate">Walkin Date*</label>
+            <input type="text" value="" id="WalkinDate" class="form-ctrl bsDatepicker" name="WalkinDate" [(ngModel)]="newEnqData.walkin_followUpDate"
+              readonly="true" bsDatepicker>
+              <span class="date-clear" name="walkin_followUpDate" (click)="newEnqData.walkin_followUpDate = ''">clear</span>
+          </div>
+
+          <div class="time-picker" *ngIf="newEnqData.follow_type == 'Walkin'">
+            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;">
+              <label for="hour">Hour*</label>
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="walkinTime.hour" name="hour" style="width: 75px;">
+                <option *ngFor="let time of times" [value]="time">
+                  {{time}}
+                </option>
+              </select>
+            </div>
+
+            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;">
+              <label for="minute">Minute*</label>
+              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="walkinTime.minute" name="minute" style="width: 70px;">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>

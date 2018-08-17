@@ -48,6 +48,12 @@ export class EnquiryUpdatepComponent implements OnChanges {
     if (this.isMainBranch == 'Y' || this.subBranchSelected == true) {
       this.isMultiBranch = true;
     }
+    if (this.updateFormData.walkin_followUpTime == "" || this.updateFormData.walkin_followUpTime == null) {
+      this.updateFormData.walkin_followUpTime = {
+        hour: '',
+        minute: ''
+      }
+    }
   }
 
   /* =========================================================================== */
@@ -181,7 +187,7 @@ export class EnquiryUpdatepComponent implements OnChanges {
         }
         else {
           hour += 1;
-          let formattedNumber = ("0" + hour).slice(-2);
+          let formattedNumber = (hour).slice(-2);
           hour = formattedNumber.toString();
         }
       }
@@ -243,7 +249,7 @@ export class EnquiryUpdatepComponent implements OnChanges {
         }
 
         if (this.isConvertToStudent === false) {
-          if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
+          if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != " :") {
             let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
             let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
             this.updateFormData.walkin_followUpTime = walkin_followUpTime;
@@ -257,6 +263,18 @@ export class EnquiryUpdatepComponent implements OnChanges {
           }
           else {
             this.updateFormData.walkin_followUpDate = "";
+          }
+        }
+
+        if (this.updateFormData.follow_type == "Walkin") {
+          if (this.updateFormData.walkin_followUpDate == "") {
+            this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin date for follow up type walkin.' })
+            return;
+          }
+
+          if (this.updateFormData.walkin_followUpTime == "") {
+            this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin time for follow up type walkin.' })
+            return;
           }
         }
 

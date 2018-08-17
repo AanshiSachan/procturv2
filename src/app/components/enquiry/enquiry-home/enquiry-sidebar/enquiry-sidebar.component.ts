@@ -1,10 +1,4 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { updateEnquiryForm } from '../../../../model/update-enquiry-form';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnDestroy, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, OnChanges } from '@angular/core';
 import * as moment from 'moment';
 import { FetchprefilldataService } from '../../../../services/fetchprefilldata.service';
 import { AppComponent } from '../../../../app.component';
@@ -18,18 +12,9 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
 
-  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
-  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  minArr: any[] = [ '','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"];
-  timeObj: any = {
-    fhour: '',
-    fminute: '',
-    fmeridian: '',
-    whour: '',
-    wminute: '',
-    wmeridian: '',
-  }
   isEnquiryAdmin: boolean = false;
   rowData: any;
   instituteEnqId: any;
@@ -37,10 +22,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   proC: string = "";
   isLangInstitute: boolean = false;
   notifyme: boolean = false;
-  followUpTime: any;
-  walkin_followUpTime: any;
-  FollowUpNewDate = "";
-  FollowUpNewTime = "";
+  walkin_followUpTime: any = {
+    hour: '',
+    minute: ''
+  };
+  followUpTime: any = {
+    hour: '',
+    minute: ''
+  }
   updateFormData = {
     assigned_to: '-1',
     closedReason: null,
@@ -150,16 +139,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     this.updateFormData.priority = this.rowData.priority;
     this.updateFormData.follow_type = this.rowData.follow_type;
     this.updateFormData.statusValue = this.rowData.statusValue;
-    this.timeObj = {
-      fhour: '',
-      fminute: '',
-      fmeridian: '',
-      whour: '',
-      wminute: '',
-      wmeridian: '',
+    this.followUpTime = {
+      hour: '',
+      minute: ''
     };
-    this.followUpTime = '';
-    this.walkin_followUpTime = '';
+    this.walkin_followUpTime = {
+      hour: '',
+      minute: ''
+    };
     this.prefill.fetchAllDataEnquiry(id).subscribe((res: any) => {
       this.fullEnquiryDetails.emit(res);
       this.rowData.dob = res.dob;
@@ -171,18 +158,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       this.updateFormData.assigned_to = res.assigned_to;
       this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
       if (res.followUpTime != '' && res.followUpTime != null && (res.followUpTime.toLowerCase().includes('invalid') == false)) {
-        let followDateTime = res.followUpDate + " " + res.followUpTime;
-        this.timeObj.fhour = moment(followDateTime).format('h');
-        this.timeObj.fminute = moment(followDateTime).format('mm');
-        this.timeObj.fmeridian = moment(followDateTime).format('a').toString().toUpperCase();
-        this.followUpTime = this.timeObj.fhour + " " + this.timeObj.fmeridian;
+        this.followUpTime = this.breakTimeInToHrAndMin(res.followUpTime);
       }
       if (res.walkin_followUpTime != '' && res.walkin_followUpTime != null && (res.walkin_followUpTime.toLowerCase().includes('invalid') == false)) {
-        let walkinfollowUpTime = res.walkin_followUpDate + " " + res.walkin_followUpTime;
-        this.timeObj.whour = moment(walkinfollowUpTime).format('h');
-        this.timeObj.wminute = moment(walkinfollowUpTime).format('mm');
-        this.timeObj.wmeridian = moment(walkinfollowUpTime).format('a').toString().toUpperCase();
-        this.walkin_followUpTime = this.timeObj.whour + " " + this.timeObj.wmeridian;
+        this.walkin_followUpTime = this.breakTimeInToHrAndMin(res.walkin_followUpTime);
       }
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;
@@ -216,6 +195,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       }
       this.updateFormData.status = res.status;
       this.updateFormData.closing_reason_id = res.closing_reason_id;
+      this.updateFormData.follow_type = res.follow_type;
     });
   }
 
@@ -232,7 +212,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
 
   getCoursePro(res): string {
     let temp: any[] = [];
-
     res.subjectIdArray.forEach(ss => {
       this.subjectArr.forEach(su => {
         if (ss == su.subject_id) {
@@ -270,7 +249,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
         temp = el.data_value;
       }
     });
-
     return temp;
   }
 
@@ -321,21 +299,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
         temp = el.data_key;
       }
     });
-
     return temp;
-  }
-
-  clearupdateDate() {
-    this.updateFormData.followUpDate = "";
-    this.updateFormData.walkin_followUpDate = "";
-    this.timeObj = {
-      fhour: '',
-      fminute: '',
-      fmeridian: '',
-      whour: '',
-      wminute: '',
-      wmeridian: '',
-    }
   }
 
   closeSideNav() {
@@ -343,8 +307,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   createUpdateForm() {
-    if (this.validateTime()) {
+    let check: boolean = this.validateWalkinAndFollowUpDateTime();
+    if (check) {
 
+      // Closing reason mandatory
       if (this.updateFormData.statusValue == 'Closed') {
         if (this.updateFormData.closing_reason_id == '0' || this.updateFormData.closing_reason_id == '-1') {
           this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide closing reason' });
@@ -352,93 +318,56 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
         }
       }
 
-      if (this.updateFormData.follow_type == "Walkin") {
-        if (this.validatewalkindatetime()) {
-          this.updateFormData.comment = this.updateFormData.comment;
-          this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
-          this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
-          if (this.timeObj.fhour != null && this.timeObj.fhour != "") {
-            this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
-          } else {
-            this.updateFormData.followUpTime = "";
-          }
-          if (this.timeObj.whour != "" && this.timeObj.whour != null) {
-            this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
-          } else {
-            this.updateFormData.walkin_followUpTime = "";
-          }
-          if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid Date") {
-            this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
-          } else {
-            this.updateFormData.followUpDate = ""
-          }
-          if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid Date") {
-            this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
-          }
-          this.pushUpdatedEnquiry(this.updateFormData);
-        }
-        else {
-          let obj = {
-            type: 'error',
-            title: 'Walkin Date Time Incorrect',
-            body: 'For follow up type walkin, walkin date and time is mandatory'
-          }
-          this.appC.popToast(obj);
-        }
-      }
-      else {
-        this.updateFormData.comment = this.updateFormData.comment;
-        this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
-        this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
-        this.updateFormData.follow_type = this.updateFormData.follow_type == "" ? "" : this.getFollowUpReverse(this.updateFormData.follow_type);
-        if (this.timeObj.fhour != null && this.timeObj.fhour != "") {
-          this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
+      // Follow Up Type Walkin Manadatory
+      if (this.updateFormData.follow_type == 'Walkin') {
+
+        if (this.updateFormData.walkin_followUpDate == "" || this.updateFormData.walkin_followUpDate == null || this.updateFormData.walkin_followUpDate == "Invalid Date") {
+          this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide Walkin Date for follow up type walkin.' });
+          return;
         } else {
-          this.updateFormData.followUpTime = "";
-        }
-        if (this.timeObj.whour != "" && this.timeObj.whour != null) {
-          this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
-        } else {
-          this.updateFormData.walkin_followUpTime = "";
-        }
-        if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid Date") {
-          this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
-        } else {
-          this.updateFormData.followUpDate = ""
-        }
-        if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid Date") {
           this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+        }
+        if (this.walkin_followUpTime.hour == "" || this.walkin_followUpTime.minute == "") {
+          this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin time for follow up type walkin.' });
+          return;
         } else {
+          let time = this.walkin_followUpTime.hour.split(' ');
+          this.updateFormData.walkin_followUpTime = time[0] + ":" + this.walkin_followUpTime.minute + " " + time[1];
+        }
+
+      } else {
+
+        if (this.updateFormData.walkin_followUpDate == "" || this.updateFormData.walkin_followUpDate == null || this.updateFormData.walkin_followUpDate == "Invalid Date") {
           this.updateFormData.walkin_followUpDate = "";
+        } else {
+          this.updateFormData.walkin_followUpDate = moment(this.walkin_followUpTime).format('YYYY-MM-DD');
         }
-        if (this.updateFormData.walkin_followUpTime.includes('Invalid')) {
+
+        if (this.walkin_followUpTime.hour == "" || this.walkin_followUpTime.minute == "") {
           this.updateFormData.walkin_followUpTime = "";
+        } else {
+          let time = this.walkin_followUpTime.hour.split(' ');
+          this.updateFormData.walkin_followUpTime = time[0] + ":" + this.walkin_followUpTime.minute + " " + time[1];
         }
-        this.pushUpdatedEnquiry(this.updateFormData);
+
       }
-    }
-    else {
-      let obj = {
-        type: 'error',
-        title: 'Incorrect Time',
-        body: ''
+      this.updateFormData.comment = this.updateFormData.comment;
+      this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
+      this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
+      if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid Date") {
+        this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
+      } else {
+        this.updateFormData.followUpDate = "";
       }
-      this.appC.popToast(obj);
-    }
-  }
-
-  validatewalkindatetime() {
-
-    this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
-    this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
-    let d = this.updateFormData.walkin_followUpDate;
-    let t = this.updateFormData.walkin_followUpTime;
-
-    if (d == "" || d == null || d == "Invalid date" || t.trim() == "" || t.trim() == ":") {
-      return false;
-    }
-    else {
-      return true;
+      if (this.followUpTime.hour != "" && this.followUpTime.minute != "" && this.followUpTime.hour != ": ") {
+        let time = this.followUpTime.hour.split(' ');
+        this.updateFormData.followUpTime = time[0] + ":" + this.followUpTime.minute + " " + time[1];
+      } else {
+        this.updateFormData.followUpTime = "";
+      }
+      this.pushUpdatedEnquiry(this.updateFormData);
+    } else {
+      return;
     }
   }
 
@@ -451,55 +380,35 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     this.updateFormData.follow_type = this.updateFormData.follow_type == "" ? "" : this.getFollowUp(this.updateFormData.follow_type);
   }
 
+  validateWalkinAndFollowUpDateTime(): boolean {
+    let check: boolean = false;
+    if (this.validatefollowuptime()) {
+      check = true;
+    } else {
+      return false;
+    }
+
+    if (this.validatewalkintime()) {
+      check = true;
+    } else {
+      return false;
+    }
+    return check;
+  }
+
   getCommentDate(upDate): string {
     return moment(upDate).fromNow();
   }
 
-  timeChanges(ev, id) {
-    debugger;
-    if (id === 'followUpTime') {
-      if (ev.split(' ')[0] != '') {
-        this.timeObj.fhour = ev.split(' ')[0];
-        this.timeObj.fmeridian = ev.split(' ')[1];
-      }
-      else {
-        this.timeObj.fhour = '';
-        this.timeObj.fmeridian = '';
-      }
-    }
-    else if (id == 'walkin_followUpTime') {
-      if (ev.split(' ')[0] != '') {
-        this.timeObj.whour = ev.split(' ')[0];
-        this.timeObj.wmeridian = ev.split(' ')[1];
-      }
-      else {
-        this.timeObj.whour = '';
-        this.timeObj.wmeridian = '';
-      }
-    }
-  }
-
-  validateTime(): boolean {
-    if (this.validatefollowuptime() && this.validatewalkintime()) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
   validatefollowuptime(): boolean {
-    /* some time selected by user or nothing*/
-    if (
-      (this.timeObj.fhour != '' && this.timeObj.fminute != '' && this.timeObj.fmeridian != '') ||
-      (this.timeObj.fhour == '' && this.timeObj.fminute == '' && this.timeObj.fmeridian == '')) {
+    if ((this.followUpTime.hour != '' && this.followUpTime.minute != '') || (this.followUpTime.hour == '' && this.followUpTime.minute == '')) {
       return true;
     }
     else {
       let msg = {
         type: 'error',
         title: 'Invalid Time Input',
-        body: 'Please select a valid time for follow up'
+        body: 'Please select a valid follow up time.'
       }
       this.appC.popToast(msg);
       return false;
@@ -508,27 +417,18 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
 
   validatewalkintime(): boolean {
     /* some time selected by user or nothing*/
-    if (
-      (this.timeObj.whour != '' && this.timeObj.wminute != '' && this.timeObj.wmeridian != '') ||
-      (this.timeObj.whour == '' && this.timeObj.wminute == '' && this.timeObj.wmeridian == '')
-    ) {
+    if ((this.walkin_followUpTime.hour != '' && this.walkin_followUpTime.minute != '') || (this.walkin_followUpTime.hour == '' && this.walkin_followUpTime.minute == '')) {
       return true;
     }
-
-
-
     else {
       let msg = {
         type: 'error',
         title: 'Invalid Time Input',
-        body: 'Please select a valid time for walkin up'
+        body: 'Please select a valid walkin time.'
       }
       this.appC.popToast(msg);
       return false;
     }
-  }
-
-  updateStatusForEnquiryUpdate(e) {
   }
 
   toggleAccordian(id) {
@@ -612,17 +512,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   isNotifyDisplayed() {
     this.cd.markForCheck();
     if (this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
-      if (this.followUpTime != '' && this.followUpTime != null && this.followUpTime != undefined) {
-        if (this.timeObj.fminute != '' && this.timeObj.fminute != null && this.timeObj.fminute != 'Invalid date') {
-          this.cd.markForCheck();
-          this.isNotifyVisible = true;
-        }
-        else {
-          this.cd.markForCheck();
-          this.isNotifyVisible = false;
-        }
-      }
-      else {
+      if (this.followUpTime.hour != '' || this.followUpTime.minute != '') {
+        this.cd.markForCheck();
+        this.isNotifyVisible = true;
+      } else {
         this.cd.markForCheck();
         this.isNotifyVisible = false;
       }
@@ -637,29 +530,26 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     this.getUserList.emit(event);
   }
 
-  walkinChanges(e) {
-    if (e != "Invalid date" && e != null) {
-      //valid date detected
-      if (this.walkin_followUpTime == "" && this.timeObj.wminute == "") {
-        this.walkin_followUpTime = "12 PM";
-        this.timeObj.whour = "12";
-        this.timeObj.wmeridian = "PM";
-        this.timeObj.wminute = "00";
-      }
-    }
-    else {
-      this.walkin_followUpTime = "";
-      this.timeObj.whour = "";
-      this.timeObj.wmeridian = "";
-      this.timeObj.wminute = "";
-    }
-  }
-
   // On Enquiry Take It Click//
   onEnquiryTakeIt() {
     this.updateFormData.statusValue = "In Progress";
     this.updateFormData.assigned_to = sessionStorage.getItem('userid');
     this.createUpdateForm();
   }
+
+  breakTimeInToHrAndMin(time) {
+    let obj: any = {
+      hour: '',
+      minute: ''
+    };
+    obj.hour = time.split(':')[0] + " " + time.split(':')[1].split(' ')[1];
+    obj.minute = time.split(':')[1].split(' ')[0];
+    return obj;
+  }
+
+  validateTimeAndMinute() {
+
+  }
+
 
 }

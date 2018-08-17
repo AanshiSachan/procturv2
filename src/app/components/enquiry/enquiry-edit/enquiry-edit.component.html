@@ -447,8 +447,8 @@
               </option>
             </select>
           </div>
-          
-          <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.follow_type != ''}">
+
+          <div class="field-wrapper">
             <label for="followUpType">Follow Up Type</label>
             <select id="followUpType" class="form-ctrl" [(ngModel)]="editEnqData.follow_type" name="followtype">
               <option value="-1"></option>
@@ -456,18 +456,18 @@
                 {{followUp.data_value}}
               </option>
             </select>
-
           </div>
-          <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': editEnqData.followUpDate != ''}">
+
+          <div class="field-wrapper datePickerBox">
             <label for="followUpDate">Follow Up Date</label>
             <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
               readonly='true' bsDatepicker>
-
             <span class="date-clear" name="followupdate" (click)="editEnqData.followUpDate = ''">clear</span>
           </div>
 
           <div class="time-picker">
-            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
+
+            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;">
               <label for="hour">Hour</label>
               <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 75px;"
                 (ngModelChange)="timeChanges($event)">
@@ -475,20 +475,49 @@
                   {{time}}
                 </option>
               </select>
-
             </div>
-            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;" [ngClass]="{'has-value': minute != ''}">
+
+            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;">
               <label for="minute">Minute</label>
               <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
-
             </div>
 
           </div>
-          <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.referred_by != ''}">
+
+          <div class="field-wrapper datePickerBox" *ngIf="editEnqData.follow_type == 'Walkin'">
+            <label for="walkinDate">Walkin Date*</label>
+            <input type="text" value="" id="walkinDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.walkin_followUpDate"
+              name="walkinDate" readonly='true' bsDatepicker>
+            <span class="date-clear" name="walkin_followUpDate" (click)="editEnqData.walkin_followUpDate = ''">clear</span>
+          </div>
+
+          <div class="time-picker" *ngIf="editEnqData.follow_type == 'Walkin'">
+
+            <div class="field-wrapper" style="padding-right: 10px;">
+              <label for="walkinHour">Hour*</label>
+              <select id="walkinHour" class="form-ctrl" [(ngModel)]="walkintime.hour" name="walkinHour" style="width: 75px;">
+                <option *ngFor="let time of times" [value]="time">
+                  {{time}}
+                </option>
+              </select>
+            </div>
+
+            <div class="field-wrapper" style="padding-right: 10px;">
+              <label for="walkinMin">Minute*</label>
+              <select id="walkinMin" class="form-ctrl" [(ngModel)]="walkintime.minute" name="walkinMin" style="width: 70px;">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="field-wrapper">
             <label for="refferedBy">Referred By</label>
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="editEnqData.referred_by" name="reffered">
               <option value="-1"></option>
@@ -496,7 +525,7 @@
             </select>
           </div>
 
-          <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == true" [ngClass]="{'has-value': editEnqData.source_instituteId != '-1'}">
+          <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || subBranchSelected == true">
             <label for="selectBranch">Branch</label>
             <select id="selectBranch" class="form-ctrl" [(ngModel)]="editEnqData.source_instituteId" name="selectBranch" (ngModelChange)="branchUpdated($event)">
               <option *ngFor="let data of branchesList" [value]="data.institute_id">{{data.institute_name}}</option>

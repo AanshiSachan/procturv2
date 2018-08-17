@@ -43,8 +43,7 @@
                                         Status Regarding The Enquiry
                                     </div>
                                 </div>
-                                <select id="enquiryStatusEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
-                                    name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+                                <select id="enquiryStatusEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.statusValue" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
                                     <option value="-1"></option>
                                     <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
                                         [hidden]="status.data_key == 12 ? true : false">
@@ -78,7 +77,7 @@
                                 <label for="selectFollowupEdit">Follow Up Type</label>
                                 <select id="selectFollowupEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.follow_type" name="follow_type">
                                     <option value="-1"></option>
-                                    <option *ngFor="let followT of followupArr" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
+                                    <option *ngFor="let followT of followupArr" [value]="followT.data_key">
                                         {{followT.data_value}}
                                     </option>
                                 </select>
@@ -122,15 +121,14 @@
                                         <label for="followuptime">Follow Up Time</label>
                                         <div class="tbox">
                                             <div class="times">
-                                                <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')"
-                                                    (change)="isNotifyDisplayed()" name="followuptime">
+                                                <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime.hour" (change)="isNotifyDisplayed()" name="followuptime">
                                                     <option [value]="time" *ngFor="let time of times">
                                                         {{time}}
                                                     </option>
                                                 </select>
                                             </div>
                                             <div class="times">
-                                                <select id="minute" class="mers side-form-ctrl" [(ngModel)]="timeObj.fminute" name="minute" (change)="isNotifyDisplayed()">
+                                                <select id="minute" class="mers side-form-ctrl" [(ngModel)]="followUpTime.minute" name="minute" (change)="isNotifyDisplayed()">
                                                     <option *ngFor="let minute of minArr" [value]="minute">
                                                         {{minute}}
                                                     </option>
@@ -169,7 +167,7 @@
                             <div class="form-wrapper datepicker">
                                 <label for="walkindate">Walkin Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
-                                    (ngModelChange)="walkinChanges($event)" id="walkindate" readonly="true" bsDatepicker/>
+                                    id="walkindate" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="walkindate" (click)="updateFormData.walkin_followUpDate =''">X</span>
                             </div>
 
@@ -180,15 +178,14 @@
                                     <label for="walkintime">Walkin Time</label>
                                     <div class="tbox">
                                         <div class="times ">
-                                            <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="walkin_followUpTime" (ngModelChange)="timeChanges($event, 'walkin_followUpTime')"
-                                                name="walkintime">
+                                            <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="walkin_followUpTime.hour" name="walkintime">
                                                 <option [value]="time" *ngFor="let time of times">
                                                     {{time}}
                                                 </option>
                                             </select>
                                         </div>
                                         <div class="times ">
-                                            <select id="minute" class="side-form-ctrl mers" [(ngModel)]="timeObj.wminute" name="minute">
+                                            <select id="minute" class="side-form-ctrl mers" [(ngModel)]="walkin_followUpTime.minute" name="minute">
                                                 <option *ngFor="let minute of minArr" [value]="minute">
                                                     {{minute}}
                                                 </option>

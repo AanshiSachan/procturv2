@@ -91,7 +91,7 @@ table {
 .scroll-up {
     height: 300px;
     overflow: hidden;
-    .scroll-down{
+    .scroll-down {
         height: 300px;
         overflow: auto;
     }
@@ -100,7 +100,6 @@ table {
 .anchorTagCursor {
     cursor: pointer;
 }
-
 
 .class-edit {
     background-color: #efefef;
@@ -461,6 +460,11 @@ table {
 }
 
 .AdFilter {
+    .time-picker {
+        .field-wrapper {
+            margin: 0;
+        }
+    }
     .field-wrapper {
         margin: 15px 0;
         .date-clear {

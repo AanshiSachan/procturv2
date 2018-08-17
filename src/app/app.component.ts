@@ -33,9 +33,9 @@ export class AppComponent implements OnInit {
   isConvertToStudent: boolean = false; isEnqUpdate: boolean = false; isloggedInAdmin: boolean = false; isSearchMore: boolean = false;
   selectedEnquiry: any = { enquiry_no: '', name: '', status: '' };
   enqstatus: any[] = []; enqPriority: any[] = []; enqFollowType: any[] = []; enqAssignTo: any[] = [];
-  updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: null, followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, };
+  updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: null, followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, closing_reason_id: '0' };
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
-  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  minArr: any[] = ['','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   hour: string = ''; minute: string = ''; meridian: string = '';
   updateFormComments: any = []; updateFormCommentsBy: any = []; updateFormCommentsOn: any = [];
   isEnquiryAdmin: boolean = false; isMainBranch: string = "N"; isMultiBranch: boolean = false;
@@ -78,9 +78,10 @@ export class AppComponent implements OnInit {
   globalSearchForm: any = { name: '', phone: '', instituteId: sessionStorage.getItem('institute_id'), start_index: '-1', batch_size: '-1' };
   enquiryResult: any[] = []; studentResult: any[] = []; searchResult: any[] = [];
   hasStudent: boolean = false; hasEnquiry: boolean = false;
+  closingReasonDataSource: any = [];
 
 
-  
+
   /* =========================================================================================================== */
   /* =========================================================================================================== */
   /* 
@@ -613,6 +614,14 @@ export class AppComponent implements OnInit {
         else {
           this.updateFormData.is_follow_up_time_notification = false;
         }
+        if (res.walkin_followUpDate != "" && res.walkin_followUpDate != "Invalid date" && res.walkin_followUpDate != null) {
+          this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+        }
+
+        if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null && res.walkin_followUpTime != ": ") {
+          this.updateFormData.walkin_followUpTime = this.breakTimeInToHrAndMin(res.walkin_followUpTime);
+        }
+
         this.isEnqUpdate = true;
         this.isRippleLoad = false;
       },
@@ -707,7 +716,9 @@ export class AppComponent implements OnInit {
       data => { this.enqAssignTo = data; }
     );
 
-
+    this.fetchService.getClosingReasons().subscribe(
+      data => { this.closingReasonDataSource = data; }
+    )
 
   }
 
@@ -783,7 +794,7 @@ export class AppComponent implements OnInit {
         }
         else {
           hour += 1;
-          let formattedNumber = ("0" + hour).slice(-2);
+          let formattedNumber = (hour).slice(-2);
           hour = formattedNumber.toString();
         }
       }
@@ -807,41 +818,48 @@ export class AppComponent implements OnInit {
 
       this.isRippleLoad = true;
       this.updateFormData.comment = this.updateFormData.comment;
-      this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
-      this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
-
-      let followupdateTime: string = "";
 
       if (this.hour != '' && this.hour != null && this.hour != undefined) {
         let time = this.timeChanges(this.hour);
         let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
-        followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
         this.updateFormData.followUpTime = followUpTime;
       }
 
-      followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+      if (this.updateFormData.followUpDate != "" && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
+        this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+      } else {
+        this.updateFormData.followUpDate = "";
+      }
+
 
       if (this.isConvertToStudent === false) {
 
-
-        if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
-          let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
-          let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
-          this.updateFormData.walkin_followUpTime = walkin_followUpTime;
-        }
-        else {
-          this.updateFormData.walkin_followUpTime = "";
-        }
-
-        if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
-          let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
-          this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
+        if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid date") {
+          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
         }
         else {
           this.updateFormData.walkin_followUpDate = "";
         }
 
+        if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") {
+          let time = this.updateFormData.walkin_followUpTime.hour.split(' ');
+          this.updateFormData.walkin_followUpTime = time[0] + ':' + this.updateFormData.walkin_followUpTime.minute + " " + time[1];
+        } else {
+          this.updateFormData.walkin_followUpTime = "";
+        }
 
+        if (this.updateFormData.follow_type == "Walkin") {
+          if (this.updateFormData.walkin_followUpDate == "") {
+            this.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin date for follow up type walkin.' })
+            return;
+          }
+
+          if (this.updateFormData.walkin_followUpTime == "") {
+            this.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin time for follow up type walkin.' })
+            return;
+          }
+
+        }
       }
 
       if (this.updateFormData.is_follow_up_time_notification) {
@@ -851,7 +869,15 @@ export class AppComponent implements OnInit {
         this.updateFormData.is_follow_up_time_notification = 0;
       }
 
+      if (this.updateFormData.status == '1') {
+        if (this.updateFormData.closing_reason_id == '0' || this.updateFormData.closing_reason_id == '-1') {
+          this.popToast({ type: 'error', title: 'Error', body: 'Please provide closing reason' });
+          return;
+        }
+      }
+
       if (this.updateFormData.followUpDate != "Invalid date") {
+        this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
         this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
         this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
           res => {
@@ -870,7 +896,7 @@ export class AppComponent implements OnInit {
           },
           err => {
             this.isRippleLoad = false;
-            let alert = { type: 'error', title: 'Failed To Update Enquiry', body: 'There was an error processing your request' };
+            let alert = { type: 'error', title: 'Failed To Update Enquiry', body: err.error.message };
             this.popToast(alert);
           }
         );
@@ -971,6 +997,16 @@ export class AppComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  breakTimeInToHrAndMin(time) {
+    let obj: any = {
+      hour: '',
+      minute: ''
+    };
+    obj.hour = time.split(':')[0] + " " + time.split(':')[1].split(' ')[1];
+    obj.minute = time.split(':')[1].split(' ')[0];
+    return obj;
   }
 
 }
