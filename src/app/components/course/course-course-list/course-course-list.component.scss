@@ -589,5 +589,18 @@ $color-highlight: lighten($color-base,
         max-height: 280px;
         overflow-x: hidden;
         overflow-y: scroll;
+        th {
+            text-align: left;
+        }
+        td {
+            text-align: left;
+            padding: 5px;
+            .field-wrapper {
+                .form-ctrl {
+                    padding: 5px;
+                    width: 90px;
+                }
+            }
+        }
     }
 }
