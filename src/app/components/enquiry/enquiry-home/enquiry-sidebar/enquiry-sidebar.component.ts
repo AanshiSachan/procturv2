@@ -373,7 +373,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
             this.updateFormData.followUpDate = ""
           }
           if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid Date") {
-            this.updateFormData.followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+            this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
           }
           this.pushUpdatedEnquiry(this.updateFormData);
         }
@@ -407,7 +407,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
           this.updateFormData.followUpDate = ""
         }
         if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null && this.updateFormData.walkin_followUpDate != "Invalid Date") {
-          this.updateFormData.followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
         } else {
           this.updateFormData.walkin_followUpDate = "";
         }

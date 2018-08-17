@@ -27,27 +27,20 @@ export class EventManagmentComponent implements OnInit {
   pageIndex: number = 1;
   searchDataFilter = "";
   displayBatchSize: number = 10;
-  closeVarPopup: boolean = false;
+  addEventPopUp: boolean = false;
   searchDataFlag: boolean = false;
   searchedData: any = [];
-
-  /*========================================================================================
-  ========================================================================================== */
   list_obj = {
     year: -1,
     month: -1,
     event_type: "2",
-  }
-
+  };
   searchText: string = "";
   searchflag: boolean = false;
   searchData: any = [];
-
-
   sendNotify_obj = {
     event_id: ""
-  }
-
+  };
   saveDataObj = {
     event_end_date: "",
     event_type: "1",
@@ -58,9 +51,8 @@ export class EventManagmentComponent implements OnInit {
     holiday_type: "1",
     image: null,
     public_url: ""
-  }
+  };
   updateListObj: any;
-
   newUpdateObj = {
     event_end_date: "",
     event_type: "",
@@ -72,18 +64,15 @@ export class EventManagmentComponent implements OnInit {
     holiday_type: "",
     image: null,
     public_url: ""
-  }
-
-
+  };
   acceptedFileFormat = {
     jpg: "0",
     jpeg: "1",
     bmp: "2",
     gif: "3",
     png: "4"
-  }
-
-  type: string = ""
+  };
+  type: string = "";
 
   constructor(
     private eve_mnge: EventManagmentService,
@@ -91,7 +80,6 @@ export class EventManagmentComponent implements OnInit {
     private login: LoginService,
     private auth: AuthenticatorService
   ) {
-    this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -110,16 +98,12 @@ export class EventManagmentComponent implements OnInit {
     this.getAllListData();
   }
 
-
-
-
   /*=====================================get list of records=================================
   ============================================================================================ */
   getAllListData() {
     this.pageIndex = 1;
     this.searchDataFlag = false;
     this.searchDataFilter = "";
-
     this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
       res => {
         this.eventRecord = res;
@@ -186,7 +170,7 @@ export class EventManagmentComponent implements OnInit {
   fileUpload(imgId) {
     var file = (<HTMLFormElement>document.getElementById('fileAdd')).files[0];
     this.type = file.name.split('.')[1];
-    
+
     if (file.size > 1048576) {
       let obj = {
         type: "error",
@@ -253,17 +237,7 @@ export class EventManagmentComponent implements OnInit {
       this.appc.popToast(obj);
       return;
     }
-    
-    if(!this.acceptedFileFormat.hasOwnProperty(this.type)){
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "File format not supported"
-      }
-      this.appc.popToast(obj);
-      return;
-    }
-    
+
     this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
     if (this.saveDataObj.event_type == "2") {
       this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
@@ -277,18 +251,7 @@ export class EventManagmentComponent implements OnInit {
         }
         this.appc.popToast(obj);
         this.getAllListData();
-        this.closeVarPopup = false;
-        this.saveDataObj = {
-          event_end_date: "",
-          event_type: "1",
-          holiday_date: moment().format("YYYY-MM-DD"),
-          holiday_desc: "",
-          holiday_long_desc: "",
-          holiday_name: "",
-          holiday_type: "1",
-          image: null,
-          public_url: ""
-        }
+        this.addEventPopUp = false;
       },
       error => {
         this.errorMessage(error);
@@ -321,9 +284,6 @@ export class EventManagmentComponent implements OnInit {
   }
 
   updatePopupData() {
-    let type = {
-      1: ""
-    }
     if (this.newUpdateObj.holiday_name == "" || this.newUpdateObj.holiday_desc == "") {
       let obj = {
         type: "error",
@@ -345,40 +305,24 @@ export class EventManagmentComponent implements OnInit {
         return;
       }
     }
-
     if (this.newUpdateObj.holiday_desc.length > 80) {
       let obj = {
         type: "error",
         title: "Error",
         body: "Description should not be greater than 80"
-
       }
       this.appc.popToast(obj);
       return;
-
     }
-
     if (this.newUpdateObj.holiday_long_desc.length > 300) {
       let obj = {
         type: "error",
         title: "Error",
         body: "Longdescription should not be greater than 300"
-
       }
       this.appc.popToast(obj);
       return;
     }
-
-    if(!this.acceptedFileFormat.hasOwnProperty(this.type)){
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "File format not supported"
-      }
-      this.appc.popToast(obj);
-      return;
-    }
-
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
     if (this.newUpdateObj.event_type == "2") {
       this.newUpdateObj.image = (<HTMLImageElement>document.getElementById('imgUpdate')).src.split(',')[1];
@@ -470,7 +414,6 @@ export class EventManagmentComponent implements OnInit {
             type: "success",
             title: "Saved",
             body: " Notification Send Successfully."
-
           }
           this.appc.popToast(obj);
         },
@@ -479,15 +422,23 @@ export class EventManagmentComponent implements OnInit {
         }
       )
     }
-    else {
-
-    }
   }
 
   addPopup() {
-    this.closeVarPopup = true;
+    this.addEventPopUp = true;
     this.getEvents();
     this.getHolidays();
+    this.saveDataObj = {
+      event_end_date: "",
+      event_type: "1",
+      holiday_date: moment().format("YYYY-MM-DD"),
+      holiday_desc: "",
+      holiday_long_desc: "",
+      holiday_name: "",
+      holiday_type: "1",
+      image: null,
+      public_url: ""
+    }
   }
 
   updatePopup(holidayId) {
@@ -498,15 +449,13 @@ export class EventManagmentComponent implements OnInit {
   }
 
   deleteEntryData(holidayId) {
-    let prompt = confirm("Are you sure, you want to delete the Event?");
-    if (prompt) {
+    if (confirm("Are you sure, you want to delete the Event?")) {
       this.deleteEventDataFromList(holidayId);
     }
-    else { }
   }
 
   closeReportPopup() {
-    this.closeVarPopup = false;
+    this.addEventPopUp = false;
   }
 
   closeUpdateReportPopup() {
@@ -566,17 +515,6 @@ export class EventManagmentComponent implements OnInit {
       this.fetchTableDataByPage(this.pageIndex);
       this.totalRow = this.eventRecord.length;
     }
-  }
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
   }
 
   removeSelectionFromSideNav() {

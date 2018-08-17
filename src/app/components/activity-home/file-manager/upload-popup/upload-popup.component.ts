@@ -126,6 +126,9 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       xlsx: "5",
       txt: "6",
       rtf: "7"
+    },
+    182:{
+      pdf:"1"
     }
   }
 

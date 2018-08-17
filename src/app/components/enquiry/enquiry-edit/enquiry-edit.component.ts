@@ -843,7 +843,7 @@ export class EnquiryEditComponent implements OnInit {
             let data = {
               type: "error",
               title: "Error updating Enquiry",
-              body: "Enquiry(s) with specified contact no. already exist"
+              body: err.error.message
             }
             this.appC.popToast(data);
           }
@@ -1148,7 +1148,7 @@ export class EnquiryEditComponent implements OnInit {
           let alert = {
             type: 'error',
             title: 'Failed To Update Enquiry',
-            body: 'There was an error processing your request'
+            body: err.error.message
           }
           this.appC.popToast(alert);
         })

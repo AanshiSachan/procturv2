@@ -627,7 +627,7 @@ export class EnquiryAddComponent implements OnInit {
           let data = {
             type: "error",
             title: "Unable to fetch lead",
-            body: err.message
+            body: err.error.message
           }
           this.appC.popToast(data);
         }
@@ -1367,7 +1367,7 @@ export class EnquiryAddComponent implements OnInit {
               let alert = {
                 type: 'error',
                 title: 'Failed To Add Institute',
-                body: 'There was an error processing your request'
+                body: err.error.message
               }
               this.appC.popToast(alert);
             }
@@ -1383,7 +1383,7 @@ export class EnquiryAddComponent implements OnInit {
         let alert = {
           type: 'error',
           title: 'Failed To Add Institute',
-          body: JSON.parse(err._body).message
+          body: err.error.message
         }
         this.appC.popToast(alert);
       }
@@ -1457,7 +1457,7 @@ export class EnquiryAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'We coudn\'t process your request',
-              body: err.message
+              body: err.error.message
             }
             this.appC.popToast(alert);
             this.fetchInstituteInfo();
@@ -1483,7 +1483,7 @@ export class EnquiryAddComponent implements OnInit {
         let alert = {
           type: 'error',
           title: 'Your Delete Request Has Been Denied',
-          body: "The requested institute is currently in use and cannot be deleted"
+          body: err.error.message
         }
         this.appC.popToast(alert);
         this.fetchInstituteInfo();
@@ -1603,7 +1603,7 @@ export class EnquiryAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'Failed To Update Reference',
-              body: 'There was an error processing your request'
+              body: err.error.message
             }
             this.appC.popToast(alert);
           }
@@ -1634,7 +1634,7 @@ export class EnquiryAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'Failed To Delete Reference',
-              body: 'The requested referer is currently in use and cannot be deleted'
+              body: err.error.message
             }
             this.appC.popToast(alert);
           }
@@ -1753,7 +1753,7 @@ export class EnquiryAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'Failed To Update Source',
-              body: 'There was an error processing your request'
+              body: err.error.message
             }
             this.appC.popToast(alert);
           }
@@ -1798,7 +1798,7 @@ export class EnquiryAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'Failed To Delete Source',
-              body: 'The requested source is currently in use and cannot be deleted'
+              body: err.error.message
             }
             this.appC.popToast(alert);
           }
