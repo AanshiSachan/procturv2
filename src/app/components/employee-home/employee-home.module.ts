@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { EmployeeService } from '../../services/employee-service/employee.service';
 import { AddEditEmployeeComponent } from './home/add-edit-employee/add-edit-employee.component';
 import { EmployeeSidenavComponent } from './employee-sidenav/employee-sidenav.component';
+import { IntegerInputDirective } from './intergerOnly.directive';
 
 
 @NgModule({
@@ -27,12 +28,16 @@ import { EmployeeSidenavComponent } from './employee-sidenav/employee-sidenav.co
         EmployeeHomeComponent,
         HomeComponent,
         AddEditEmployeeComponent,
-        EmployeeSidenavComponent
+        EmployeeSidenavComponent,
+        IntegerInputDirective
     ],
     entryComponents: [
     ],
     providers: [
         EmployeeService
+    ],
+    exports: [
+        IntegerInputDirective
     ]
 })
 export class EmployeeHomeModule {

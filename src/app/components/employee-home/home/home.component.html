@@ -4,9 +4,13 @@
 
     <aside #tableContent class="table-Content">
 
-        <section class="header-section row">
-            <div class="pull-right" style="margin-right: 20px">
-                <p-splitButton class="spiltButton-label" label="Employee" [model]="bulkActionItems"></p-splitButton>
+        <section class="header-section row" style="margin: 0 0 5px 0">
+            <div class="pull-left" style="padding-top: 5px;">
+                <h1>Employee List</h1>
+            </div>
+            <div class="pull-right" style="margin-right: 5px">
+                <p-splitButton *ngIf="selectedEmployeeID.length > 0" class="spiltButton-label" label="{{selectedEmployeeID.length}} Employee"
+                    [model]="bulkActionItems"></p-splitButton>
                 <li class="headerBtn" routerLink='../addedit'>
                     <i>
                         <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
@@ -21,114 +25,113 @@
             </div>
         </section>
 
-        <section class="search-section row">
-            <div class="search-filter-wrapper">
-                <input type="text" class="normal-field" placeholder="Search Employee" [(ngModel)]="searchValue">
-            </div>
-            <div>
-                <button class="btn fullBlue">View</button>
-            </div>
-            <br />
-            <p>Search by Name, Contact Number or Employee ID</p>
-        </section>
+        <section class="content-section">
 
-        <section class="table-wrapper" style="margin-right:5px;">
-
-            <div class="teacher-wrapper">
-                <table class="teacherTable">
-                    <thead>
-                        <tr>
-                            <th>
-                                <div class="field-checkbox-wrapper">
-                                    <input type="checkbox" class="form-checkbox" (click)="onCheckoxSelction($event)">
-                                    <label></label>
-                                </div>
-                            </th>
-                            <th>
-                                Employee ID
-                            </th>
-                            <th>
-                                Employee Name
-                            </th>
-                            <th>
-                                Contact No
-                            </th>
-                            <th>
-                                Email ID
-                            </th>
-                            <th>
-                                Designation
-                            </th>
-                            <!-- <th>
-                                Edit
-                            </th>
-                            <th>
-                                Manage Working Days
-                            </th> -->
-                        </tr>
-                    </thead>
-                    <tbody *ngIf="employeeList.length != 0 ">
-                        <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of employeeList; let i = index; trackBy: i;">
-                            <td>
-                                <div class="field-checkbox-wrapper">
-                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.selected">
-                                    <label></label>
-                                </div>
-                            </td>
-                            <td>
-                                {{row.emp_id}}
-                            </td>
-                            <td>
-                                {{row.emp_name}}
-                            </td>
-                            <td>
-                                {{row.phone_pro}}
-                            </td>
-                            <td>
-                                {{row.email_pri}}
-                            </td>
-                            <td>
-                                {{row.designation_name}}
-                            </td>
-                            <!-- <td class="anchorTags">
-                                <a class="anchorTagCursor" [routerLink]='["../addedit" , row.emp_id]'>
-                                    <i class="edit-icon" aria-hidden="true" title="Edit"></i>Edit
-                                </a>
-                            </td>
-                            <td class="anchorTags" (click)="manageWorkingDays(row)">
-                                <a class="anchorTagCursor">
-                                    Edit
-                                </a>
-                            </td> -->
-                        </tr>
-                    </tbody>
-                    <tbody *ngIf="employeeList.length == 0 && dataStatus === 1">
-                        <tr *ngFor="let dummy of dummyArr">
-                            <td *ngFor="let c of columnMaps">
-                                <div class="skeleton">
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tbody *ngIf="(employeeList.length == 0 && dataStatus === 2)">
-                        <tr>
-                            <td colspan="6">
-                                No Batch List Found
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Paginator Here -->
-            <div class="filter-res">
-                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                        [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
-                    </pagination>
+            <section class="search-section row" style="margin-bottom: 10px;">
+                <div class="c-sm-6 c-md-6 c-lg-6">
+                    <div class="search-filter-wrapper">
+                        <input id="txtSearchInput" type="text" class="normal-field" [(ngModel)]="searchTextEntered" placeholder="Search by name and contact number">
+                    </div>
+                    <button class="btn fullBlue" (click)="onViewBtnClick()">View</button>
                 </div>
-            </div>
+            </section>
+
+            <section class="table-wrapper">
+
+                <div class="teacher-wrapper">
+                    <table class="teacherTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="field-checkbox-wrapper">
+                                        <input type="checkbox" [checked]="(selectedEmployeeID.length == employeeListDataSource.length) && (employeeListDataSource.length != '0')"
+                                            class="form-checkbox" (click)="onCheckoxSelction($event)">
+                                        <label></label>
+                                    </div>
+                                </th>
+                                <th>
+                                    Employee ID
+                                </th>
+                                <th>
+                                    Employee Name
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Email ID
+                                </th>
+                                <th>
+                                    Designation
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="employeeList.length != 0 && dataStatus ===2 ">
+                            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of employeeList; let i = index; trackBy: i;">
+                                <td>
+                                    <div class="field-checkbox-wrapper">
+                                        <input type="checkbox" class="form-checkbox" [(ngModel)]="row.selected" (ngModelChange)="onRowCheckBoxSelect(row)">
+                                        <label></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{row.emp_id}}
+                                </td>
+                                <td>
+                                    {{row.emp_name}}
+                                </td>
+                                <td>
+                                    {{row.phone_pro}}
+                                </td>
+                                <td>
+                                    {{row.email_pri}}
+                                </td>
+                                <td>
+                                    {{row.designation_name}}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="employeeList.length == 0 && dataStatus === 1">
+                            <tr *ngFor="let dummy of dummyArr">
+                                <td *ngFor="let c of columnMaps">
+                                    <div class="skeleton">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="(employeeList.length == 0 && dataStatus === 2)">
+                            <tr>
+                                <td colspan="6" style="text-align: left;">
+                                    <h2>No Employee Found In Your Institute</h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="(employeeList.length == 0 && dataStatus === 3)">
+                            <tr>
+                                <td colspan="6" style="text-align: left;">
+                                    <h2>Enter Details To Search</h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginator Here -->
+                <div class="filter-res">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                            [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+                        </pagination>
+                    </div>
+                </div>
+            </section>
+
+
         </section>
+
+
+
+
     </aside>
 
     <aside #sideNav class="hide side-Nav">
@@ -137,7 +140,7 @@
 
 </div>
 
-<proctur-popup *ngIf="workingDayPopUp">
+<proctur-popup *ngIf="sendNotificationPopUp">
 
     <span class="closePopup pos-abs fbold show" (click)="closePopup()" close-button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -152,26 +155,111 @@
         </svg>
     </span>
 
-    <h2 popup-header>Update Employee Working Days</h2>
+    <h2 popup-header>Send Notification</h2>
 
-    <div popup-content>
-        <div class="row" style="margin: 10px 15px 10px 0px;">
-            <div class="c-sm-6 c-md-6 c-lg-6">
-                <span>Employee Name : {{tempData.emp_name}}</span>
-            </div>
-            <div class="c-sm-6 c-md-6 c-lg-6">
-                <span>Designation : {{tempData.designation_name}}</span>
+    <div popup-content class="add-send-notification">
+
+        <div class="row">
+            <div class="clearFix add-edit">
+                <a (click)="toggleCreateNewMessage()">
+                    <i id="showAddBtn" class="addBtnClass">+</i>
+                    <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+                    <span>Add New Message</span>
+                </a>
             </div>
         </div>
 
-        <div id="divWeekDays" class="row side-circles" style="margin: 10px 15px;">
-            <span id="idDay-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday ">S</span>
-            <span id="idDay-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday ">M</span>
-            <span id="idDay-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday ">T</span>
-            <span id="idDay-3" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Wednesday ">W</span>
-            <span id="idDay-4" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Thursday ">T</span>
-            <span id="idDay-5" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Friday ">F</span>
-            <span id="idDay-6" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Saturday ">S</span>
+        <div class="add-notificaton-wrapper" *ngIf="addNewMessageSection">
+            <div class="row">
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                    <div class="field-wrapper">
+                        <textarea class="form-ctrl textBox" value="" [(ngModel)]="addNewMessageText" placeholder="Message/SMS"></textarea>
+                        <p>Total Character Count : {{addNewMessageText.length}}</p>
+                    </div>
+                </div>
+                <div class="c-sm-5 c-md-5 c-lg-5 note-section">
+                    <h3>Note</h3>
+                    <span>1. Always start with "Dear Student, Dear Parent, Dear Faculty etc".</span>
+                    <br>
+                    <span>2. Please check spelling and grammar of the SMS.</span>
+                    <br>
+                    <span>3. Do not use any improper or derogatory statements.</span>
+                    <br>
+                    <span>4. Message approval may generally take 15 to 30 minutes.</span>
+                    <br>
+                </div>
+                <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
+                    <button class="btn" (click)="toggleCreateNewMessage()">Cancel</button>
+                    <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="schedSwitcher row" *ngIf="isAdminRole">
+            <ul>
+                <li (click)="onTabChange('approved')" id="approvedSMSTab" class="active">Approved</li>
+                <li (click)="onTabChange('open')" id="openSMSTab" class="">Open</li>
+            </ul>
+        </div>
+
+        <div class="table-wrapper-approved" *ngIf="!showOpenMessage">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Date</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of approvedMessageList">
+                        <td>
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.selected" (ngModelChange)="onMessageCheckBox(data)">
+                                <label></label>
+                            </div>
+                        </td>
+                        <td>
+                            {{data.date}}
+                        </td>
+                        <td>
+                            {{data.message}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-wrapper-approved" *ngIf="showOpenMessage">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Message</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr id="row{{i}}" class="displayComp" *ngFor="let data of messageList; let i = index; trackBy: i;">
+
+                        <td>{{data.date}}</td>
+
+                        <td>
+                            {{data.message}}
+                        </td>
+
+                        <td>
+                            <div *ngIf="data.statusValue == 'Open' && isAdminRole && messageApproval == '1'">
+                                <i class="fas fa-check" (click)="approveRejectSms(data)" title="Approve" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                                <i class="fa fa-times" (click)="deleteSms(data)" title="Reject" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
+                                <!-- <i class="edit-icon" aria-hidden="true" (click)="editMessage(i)" title="Edit"></i> -->
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -180,7 +268,7 @@
         <div class="clearfix">
             <aside class="pull-right popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                <input type="button" value="Update" class="fullBlue btn" (click)="updateEmployeeWorkingDays()">
+                <input type="button" value="Send" class="fullBlue btn" (click)="sendSMSToEmployees()">
             </aside>
         </div>
     </div>

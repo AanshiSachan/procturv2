@@ -3,7 +3,7 @@
   <div class="row action-menu">
     <div class="pull-right" style="display: inline-flex;">
       <div class="three-dots">
-        <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu()" style="background: transparent">
+        <button aria-expanded="true" class="dropdown-trigger" style="background: transparent">
           <span class="svg-icon-wrap">
             <span class="visually-hidden"></span>
             <div aria-hidden="true" type="ellipsis-horizontal-icon">
@@ -47,14 +47,14 @@
 
 
   <div class="header-section">
-    <div class="row">
+    <div class="row" style="margin:5px 0;">
       <div class="profile-pic pull-left">
         <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="displayImage" [readonly]="true" [defaultImg]="'assets/images/student_icon.png'">
         </proctur-image>
       </div>
       <div class="user-info pull-right">
         <div class="row">
-          <span>#{{employeeData.user_id}}</span>
+          <span>#{{employeeData.emp_id}}</span>
         </div>
         <div class="row">
           <span>{{employeeData.emp_name}}</span>
@@ -83,7 +83,7 @@
             <label for="name">Employee Manager
               <span style="color:red">*</span>
             </label>
-            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_manager_name" name="name">
           </div>
         </div>
 
@@ -92,7 +92,7 @@
             <label for="name">Email ID
               <span style="color:red">*</span>
             </label>
-            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.email_pri" name="name">
           </div>
         </div>
 
@@ -110,7 +110,7 @@
             <label for="name">Address
               <span style="color:red">*</span>
             </label>
-            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.emp_name" name="name">
+            <input type="text" class="form-ctrl" [(ngModel)]="employeeData.address" name="name">
           </div>
         </div>
 
