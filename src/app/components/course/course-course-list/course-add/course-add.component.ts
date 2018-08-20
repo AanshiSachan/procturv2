@@ -126,8 +126,7 @@ export class CourseAddComponent implements OnInit {
     )
   }
 
-  addDataToTable() {
-    debugger
+  addDataToTable() {   
     if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != "" && this.courseDetails.start_Date != null && this.courseDetails.end_Date != '' && this.courseDetails.end_Date != null) {
       if (this.courseDetails.start_Date > this.courseDetails.end_Date) {
         let err = {
