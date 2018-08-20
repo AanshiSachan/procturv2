@@ -325,6 +325,11 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="c-lg-3 field-checkbox-wrapper" style="margin-left: 4%;
+                            margin-top: 1%;">
+                                <input type="checkbox" class="form-checkbox" [(ngModel)]="sendNotifyMe" (ngModelChange)="sendNotify($event)">
+                                <label>Send Notification</label>
+                            </div>
                             <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
                                 <input type="button" class="btn fullBlue" value="Submit" style="width:100%;" (click)="getOnlineSchedules()">
                             </div>

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { StepsModule } from 'primeng/steps';
-import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { AppComponent } from '../../../app.component';
-import { elementAttribute } from '@angular/core/src/render3/instructions';
 import * as moment from 'moment';
 @Component({
   selector: 'app-live-classes',
@@ -15,7 +12,6 @@ import * as moment from 'moment';
 export class LiveClassesComponent implements OnInit {
 
 
-  items: MenuItem[];
   activeIndex: number = 1;
   studentForm: boolean = true;
   kyc: boolean = false;
@@ -45,7 +41,7 @@ export class LiveClassesComponent implements OnInit {
     custUserIds: [],
     end_datetime: "",
     institution_id: this.service.institute_id,
-    sent_notification_flag: 1,
+    sent_notification_flag: 0,
     session_name: "",
     start_datetime: "",
     studentIds: [],
@@ -73,6 +69,7 @@ export class LiveClassesComponent implements OnInit {
   futureClassesPopup: boolean = false;
   allClasses: boolean = false;
   validations: boolean = false;
+  sendNotifyMe:boolean = false;
   constructor(private messageService: MessageService,
     private auth: AuthenticatorService,
     private service: LiveClasses,
@@ -94,7 +91,7 @@ export class LiveClassesComponent implements OnInit {
 
   navigateTo(text) {
 
-    if(this.validationsOfStudentForm(this.validations)){
+    if (this.validationsOfStudentForm(this.validations)) {
       if (text === "studentForm") {
 
         document.getElementById('li-one').classList.add('active');
@@ -106,13 +103,13 @@ export class LiveClassesComponent implements OnInit {
         this.feeDetails = false;
         this.inventory = false;
       }
-  
+
       else if (text === "assignStudents") {
-  
+
       }
-  
+
       else if (text === "assignTeachers") {
-  
+
         if (this.isStudentCheckedArr.length == 0) {
           this.appC.popToast({ type: "info", body: "Please select at least one student" })
           this.studentForm = false;
@@ -121,7 +118,7 @@ export class LiveClassesComponent implements OnInit {
           this.inventory = false;
           return;
         }
-  
+
         else {
           document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
@@ -151,7 +148,7 @@ export class LiveClassesComponent implements OnInit {
         }
       }
     }
-  
+
   }
 
   validationsOfStudentForm(update: boolean) {
@@ -161,7 +158,7 @@ export class LiveClassesComponent implements OnInit {
     let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
     let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
 
-    if (fromTimeT > toTimeT) {
+    if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
       this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
       return false;
     }
@@ -228,8 +225,9 @@ export class LiveClassesComponent implements OnInit {
     let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
     let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
 
-    if (fromTimeT > toTimeT) {
+    if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
       this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
+      return false;
     }
 
     else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "" || this.getOnlineClasses.session_name == "") {
@@ -264,7 +262,7 @@ export class LiveClassesComponent implements OnInit {
           this.batches = data;
         },
         (error: any) => {
-
+          this.errorMessage(error);
         }
       )
     }
@@ -272,6 +270,9 @@ export class LiveClassesComponent implements OnInit {
       this.service.fetchMasters().subscribe(
         (data: any) => {
           this.masters = data;
+        },
+        (error: any) => {
+          this.errorMessage(error);
         }
       )
     }
@@ -310,7 +311,7 @@ export class LiveClassesComponent implements OnInit {
         this.courses = data.coursesList;
       },
       (error: any) => {
-
+        this.errorMessage(error);
       }
     )
   }
@@ -336,7 +337,7 @@ export class LiveClassesComponent implements OnInit {
         )
       },
       (error: any) => {
-
+        this.errorMessage(error);
       }
     )
   }
@@ -374,7 +375,7 @@ export class LiveClassesComponent implements OnInit {
         )
       },
       (error: any) => {
-
+        this.errorMessage(error);
       }
     )
   }
@@ -390,7 +391,7 @@ export class LiveClassesComponent implements OnInit {
         )
       },
       (error: any) => {
-
+        this.errorMessage(error);
       }
     )
   }
@@ -526,11 +527,11 @@ export class LiveClassesComponent implements OnInit {
         }
         this.masters = [];
         this.courseValue = "";
-        for(let i=0 ; i<this.studentsAssigned.length ; i++){
+        for (let i = 0; i < this.studentsAssigned.length; i++) {
           this.studentsAssigned[i].isChecked = false;
         }
 
-        for(let i=0 ;i<this.userAssigned.length ; i++){
+        for (let i = 0; i < this.userAssigned.length; i++) {
           this.userAssigned[i].isChecked = false;
         }
         this.courses = [];
@@ -570,7 +571,7 @@ export class LiveClassesComponent implements OnInit {
         this.getFutureClasses = data[0].liveMeetingUpcomingOnlineClasses;
       },
       (error: any) => {
-
+        this.errorMessage(error);
       }
     )
   }
@@ -589,6 +590,19 @@ export class LiveClassesComponent implements OnInit {
     this.pastClassesPopup = false;
     this.futureClassesPopup = true;
     this.allClasses = false;
+  }
+
+  errorMessage(error) {
+    this.appC.popToast({ type: "error", body: error.error.message })
+  }
+
+  sendNotify(notify){
+    if(notify == true){
+      this.getOnlineClasses.sent_notification_flag = 1
+    }
+    else{
+      this.getOnlineClasses.sent_notification_flag = 0
+    }
   }
 
 }
