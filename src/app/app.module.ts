@@ -67,7 +67,8 @@ import { SharedModule } from './components/shared/shared.module';
     SearchBoxComponent
   ],
   entryComponents: [
-    SearchBoxComponent, chatBotComponent
+    SearchBoxComponent, 
+    chatBotComponent
   ],
   providers: [
     FetchenquiryService,
@@ -76,7 +77,6 @@ import { SharedModule } from './components/shared/shared.module';
     AuthenticatorService,
     LoginService,
     AuthGuard,
-    LoaderHandlingService,
     ZendAuth,
     Title,
     MultiBranchDataService,

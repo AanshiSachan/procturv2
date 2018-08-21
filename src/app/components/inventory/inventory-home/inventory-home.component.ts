@@ -29,32 +29,31 @@ export class HomeComponent implements OnInit {
   selectedRow = "";
   operationFlag = "";
   isAddUnit: boolean = false;
-  masterCategoryList: any;
+  masterCategoryList: any = [];
   deleteItemPopUp: boolean = false;
   deleteRowDetails: any;
   PageIndex = 1;
   studentdisplaysize = 10;
-  totalRow;
+  totalRow: number = 0;
   createItemPopUp: boolean = false;
   addItemForm: FormGroup;
-  courseList: any;
+  courseList: any = [];
   showAllocateOption: boolean = false;
   showAllocationBranchPopUp: boolean = false;
   allocateItemForm: FormGroup;
   allocateItemRowClicked: any;
   allocateItemDetails: any;
-  subBranchList: any;
+  subBranchList: any = [];
   subBranchItemList: any;
   showAvailableUnits: boolean = false;
   availabelItemCount: any;
   showAllocationHistoryPopUp: boolean = false;
   allocationHistoryList;
-  itemName;
+  itemName: any = "";
   searchData: any = [];
   searchDataFlag: boolean = false;
   isRippleLoad: boolean = false;
   private showMenu: boolean = false;
-
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
     category: { id: 'category', title: 'Category', filter: false, show: true },
@@ -68,8 +67,8 @@ export class HomeComponent implements OnInit {
     cost: { id: 'cost', title: 'Unit Cost', filter: false, show: true },
 
   };
-
   subtractFlag: boolean = false;
+  @ViewChild('ActionInv') ActionInv: ElementRef;
 
   constructor(
     private inventoryApi: InventoryService,
@@ -77,8 +76,6 @@ export class HomeComponent implements OnInit {
     private appC: AppComponent
   ) {
   }
-
-  @ViewChild('ActionInv') ActionInv: ElementRef;
 
   ngOnInit() {
     this.checkMainBranchOrSubBranch()
@@ -203,7 +200,7 @@ export class HomeComponent implements OnInit {
           let data = {
             type: 'error',
             title: "Error",
-            body: JSON.parse(error._body).message
+            body: error.error.message
           }
           this.appC.popToast(data);
           this.loadTableDatatoSource();
@@ -242,7 +239,12 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        //console.log(error);
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: error.error.message
+        }
+        this.appC.popToast(data);
       }
     )
   }
@@ -266,7 +268,12 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        //console.log(error);
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: error.error.message
+        }
+        this.appC.popToast(data);
       }
     )
   }
@@ -284,7 +291,12 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        //console.log(error);
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: error.error.message
+        }
+        this.appC.popToast(data);
       }
     )
   }
@@ -359,8 +371,6 @@ export class HomeComponent implements OnInit {
   ///// To add a Item 
 
   addItemDetails() {
-    //console.log(this.categoryList);
-    //console.log(this.masterCategoryList);
     this.createAddItemForm();
     this.createItemPopUp = true;
   }
@@ -377,7 +387,6 @@ export class HomeComponent implements OnInit {
     this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
       data => {
         this.isRippleLoad = false;
-        //console.log('Change Event Triggered', data);
         this.courseList = data;
       },
       error => {
@@ -422,7 +431,12 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        //console.log("Error", error);
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: error.error.message
+        }
+        this.appC.popToast(data);
       }
     )
 
@@ -462,7 +476,12 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        //console.log(error);
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: error.error.message
+        }
+        this.appC.popToast(data);
       }
     )
   }
@@ -598,7 +617,7 @@ export class HomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: "Error",
-          body: JSON.parse(error._body).message
+          body: error.error.message
         }
         this.appC.popToast(msg);
       }

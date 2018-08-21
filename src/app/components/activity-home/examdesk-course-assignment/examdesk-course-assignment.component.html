@@ -78,12 +78,12 @@
     </svg>
   </span>
 
-  <h2 popup-header>Assign/Unassign Student</h2>
+  <h2 popup-header>Course Name : {{tempData.course_type}}</h2>
 
   <div popup-content class="student-assign-popup">
 
     <div class="row filter-section">
-      <div class="c-sm-4 c-md-4 c-lg-4 radio-button">
+      <div class="c-sm-6 c-md-6 c-lg-6 radio-button">
         <div class="field-radio-wrapper">
           <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
           <label for="bothRadio">Both</label>
