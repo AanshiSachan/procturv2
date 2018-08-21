@@ -75,7 +75,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   headers;
   institute_id;
   @ViewChild('viewChange') changeView: ElementRef;
-  dynamicImgSrc: string = '';
+  @ViewChild('backgroundChange') backgroundChange:ElementRef;
+  @ViewChild('virtualStyle') virtualStyle:ElementRef;
+  dynamicImgSrc: string = ''; 
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent, private auth: AuthenticatorService) {
@@ -120,13 +122,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     let test = url.split("/")[2];
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
       this.isProcturVisible = true;
-      this.changeView.nativeElement.className = "box";
+      this.backgroundChange.nativeElement.className = "bg-img"
       this.dynamicImgSrc = "./assets/images/logoProctur.png";
+      this.virtualStyle.nativeElement.className = "login-box"
     }
     else {
       this.checkForVirtualHost(test);
       this.isProcturVisible = false;
-      this.changeView.nativeElement.className = "boxNew"
+      this.backgroundChange.nativeElement.className = "bg-img-virtual"
+      this.virtualStyle.nativeElement.className = "login-virtual"
     }
   }
 
