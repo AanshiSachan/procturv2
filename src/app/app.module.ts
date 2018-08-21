@@ -22,7 +22,6 @@ import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
 import { AlertService } from './services/alert.service';
-import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { TablePreferencesService } from './services/table-preference/table-preferences.service';
 import { ZendAuth } from './services/Chat-bot/chatbot.service';
 import { MultiBranchDataService } from './services/multiBranchdata.service';
