@@ -154,7 +154,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             this.changeFavICon(res[0].favIconPath);
           }
           if (res[0].title != null && res[0].title != "") {
-            this.titleService.setTitle(res[0].title + "Login");
+            this.titleService.setTitle(res[0].title + " Login");
           }
         }
       },
