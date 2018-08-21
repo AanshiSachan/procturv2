@@ -8,6 +8,7 @@ import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpHeaders } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-page',
@@ -74,13 +75,19 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   Authorization: any;
   headers;
   institute_id;
-  @ViewChild('viewChange') changeView: ElementRef;
-  @ViewChild('backgroundChange') backgroundChange:ElementRef;
-  @ViewChild('virtualStyle') virtualStyle:ElementRef;
-  dynamicImgSrc: string = ''; 
+  dynamicImgSrc: string = '';
 
-  constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
-    private toastCtrl: AppComponent, private auth: AuthenticatorService) {
+  @ViewChild('viewChange') changeView: ElementRef;
+  @ViewChild('backgroundChange') backgroundChange: ElementRef;
+  @ViewChild('virtualStyle') virtualStyle: ElementRef;
+
+  constructor(
+    private login: LoginService,
+    private route: Router,
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService,
+    private titleService: Title
+  ) {
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
     if (sessionStorage.getItem('userid') != null) {
       this.fullscreenLogin();
@@ -124,13 +131,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.isProcturVisible = true;
       this.backgroundChange.nativeElement.className = "bg-img"
       this.dynamicImgSrc = "./assets/images/logoProctur.png";
-      this.virtualStyle.nativeElement.className = "login-box"
+      this.virtualStyle.nativeElement.className = "login-box";
+      this.titleService.setTitle('Proctur - Your Pocket Classroom');
     }
     else {
       this.checkForVirtualHost(test);
       this.isProcturVisible = false;
       this.backgroundChange.nativeElement.className = "bg-img-virtual"
       this.virtualStyle.nativeElement.className = "login-virtual"
+      this.titleService.setTitle("Login");
     }
   }
 
@@ -143,6 +152,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           }
           if (res[0].favIconPath != null && res[0].favIconPath != "") {
             this.changeFavICon(res[0].favIconPath);
+          }
+          if (res[0].title != null && res[0].title != "") {
+            this.titleService.setTitle(res[0].title + "Login");
           }
         }
       },
@@ -277,7 +289,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     else {
       this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
-      this.toastCtrl.informFooter();
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
       this.auth.changeAuthenticationKey(Authorization);

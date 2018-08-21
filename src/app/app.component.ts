@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
-import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { LoginService } from './services/login-services/login.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
-import { Title } from '@angular/platform-browser';
 import * as moment from 'moment';
 import { AuthenticatorService } from './services/authenticator.service';
 import { AlertService } from './services/alert.service';
@@ -35,7 +32,7 @@ export class AppComponent implements OnInit {
   enqstatus: any[] = []; enqPriority: any[] = []; enqFollowType: any[] = []; enqAssignTo: any[] = [];
   updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: null, followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, closing_reason_id: '0' };
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
-  minArr: any[] = ['','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   hour: string = ''; minute: string = ''; meridian: string = '';
   updateFormComments: any = []; updateFormCommentsBy: any = []; updateFormCommentsOn: any = [];
   isEnquiryAdmin: boolean = false; isMainBranch: string = "N"; isMultiBranch: boolean = false;
@@ -89,7 +86,15 @@ export class AppComponent implements OnInit {
   */
   /* =========================================================================================================== */
   /* =========================================================================================================== */
-  constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title, private auth: AuthenticatorService, private intercept: AlertService, private multiBranchService: MultiBranchDataService) {
+  constructor(
+    toasterService: ToasterService,
+    private router: Router,
+    private log: LoginService,
+    private fetchService: FetchprefilldataService,
+    private auth: AuthenticatorService,
+    private intercept: AlertService,
+    private multiBranchService: MultiBranchDataService
+  ) {
     this.toasterService = toasterService;
     this.auth.currentInstituteId.subscribe(id => {
       if (id != null && id != "") {
@@ -199,22 +204,6 @@ export class AppComponent implements OnInit {
         }
       }
     });
-
-    this.checkVirtualHosting();
-
-  }
-
-
-
-  ///// Virtual Hosting check ////////
-
-  checkVirtualHosting() {
-    let url = window.location.href;
-    if (url.includes('webtest') || url.includes('web') || url.includes('localhost')) {
-      this.titleService.setTitle("Proctur - Your Pocket Classroom");
-    } else {
-      this.titleService.setTitle("Login");
-    }
   }
 
   /* =========================================================================================================== */
@@ -400,28 +389,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public setTitle(newTitle: string) {
-    this.titleService.setTitle(newTitle);
-  }
-
-  informFooter() {
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /* =========================================================================================================== */
   /* =========================================================================================================== */
   /* 
@@ -594,7 +561,7 @@ export class AppComponent implements OnInit {
       res => {
         this.selectedEnquiry = res;
         this.updateFormData.priority = this.getPriority(res.priority);
-        this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
+        this.updateFormData.follow_type = res.follow_type;
         this.updateFormData.status = res.status;
         this.updateFormData.followUpDate = moment(this.selectedEnquiry.followUpDate).format('YYYY-MM-DD');
         if (res.followUpTime != '' && res.followUpTime != null) {
@@ -816,7 +783,6 @@ export class AppComponent implements OnInit {
   pushUpdatedEnquiry() {
     if (this.validateTime()) {
 
-      this.isRippleLoad = true;
       this.updateFormData.comment = this.updateFormData.comment;
 
       if (this.hour != '' && this.hour != null && this.hour != undefined) {
@@ -841,6 +807,13 @@ export class AppComponent implements OnInit {
           this.updateFormData.walkin_followUpDate = "";
         }
 
+        if (this.updateFormData.follow_type == "Walkin") {
+          if (this.updateFormData.walkin_followUpDate == "") {
+            this.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin date for follow up type walkin.' })
+            return;
+          }
+        }
+
         if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") {
           let time = this.updateFormData.walkin_followUpTime.hour.split(' ');
           this.updateFormData.walkin_followUpTime = time[0] + ':' + this.updateFormData.walkin_followUpTime.minute + " " + time[1];
@@ -849,16 +822,10 @@ export class AppComponent implements OnInit {
         }
 
         if (this.updateFormData.follow_type == "Walkin") {
-          if (this.updateFormData.walkin_followUpDate == "") {
-            this.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin date for follow up type walkin.' })
-            return;
-          }
-
           if (this.updateFormData.walkin_followUpTime == "") {
             this.popToast({ type: 'error', title: 'Error', body: 'Please provide walkin time for follow up type walkin.' })
             return;
           }
-
         }
       }
 
@@ -879,6 +846,7 @@ export class AppComponent implements OnInit {
       if (this.updateFormData.followUpDate != "Invalid date") {
         this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
         this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
+        this.isRippleLoad = true;
         this.fetchService.updateEnquiryForm(this.selectedEnquiry.institute_enquiry_id, this.updateFormData).subscribe(
           res => {
             this.isRippleLoad = false;
