@@ -133,6 +133,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.dynamicImgSrc = "./assets/images/logoProctur.png";
       this.virtualStyle.nativeElement.className = "login-box";
       this.titleService.setTitle('Proctur - Your Pocket Classroom');
+      sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
     }
     else {
       this.checkForVirtualHost(test);
@@ -140,6 +141,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.backgroundChange.nativeElement.className = "bg-img-virtual"
       this.virtualStyle.nativeElement.className = "login-virtual"
       this.titleService.setTitle("Login");
+      sessionStorage.setItem('institute_title_web', 'Login');
     }
   }
 
@@ -155,6 +157,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           }
           if (res[0].title != null && res[0].title != "") {
             this.titleService.setTitle(res[0].title + " Login");
+            sessionStorage.setItem('institute_title_web', res[0].title + " Login");
           }
         }
       },
