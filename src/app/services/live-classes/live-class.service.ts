@@ -87,37 +87,85 @@ export class LiveClasses {
         )
     }
 
-    fetchCourses(obj){
+    fetchCourses(obj) {
         let url = this.baseUrl + '/api/v1/courseMaster/fetch/' + this.institute_id + '/' + obj
-        return this.http.get(url , {headers:this.headers}).map(
-            (data:any)=>{
+        return this.http.get(url, { headers: this.headers }).map(
+            (data: any) => {
                 return data;
             },
-            (error:any)=>{
+            (error: any) => {
                 return error;
             }
         )
     }
 
-    getOnlineClasses(obj){
+    getOnlineClasses(obj) {
         let url = this.baseUrl + '/api/v1/meeting_manager/create'
-        return this.http.put(url , obj , {headers:this.headers}).map(
-            (data:any)=>{
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            (data: any) => {
                 return data;
             },
-            (error:any)=>{
+            (error: any) => {
                 return error;
             }
         )
     }
 
-    fetchOnlineClasses(obj){
+    fetchOnlineClasses(obj) {
         let url = this.baseUrl + '/api/v1/meeting_manager/getDetail/' + this.institute_id
-        return this.http.post(url , obj , {headers:this.headers}).map(
-            (data:any)=>{
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            (data: any) => {
                 return data;
             },
-            (error:any)=>{
+            (error: any) => {
+                return error;
+            }
+        )
+    }
+
+    pushNotification(sessionId, obj) {
+        let url = this.baseUrl + "/api/v1/meeting_manager/sendPushNotification/" + sessionId;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            (data: any) => {
+                return data;
+            },
+            (error: any) => {
+                return error;
+            }
+        )
+    }
+
+    smsNotification(sessionId, obj) {
+        let url = this.baseUrl + "/api/v1/meeting_manager/sendSMSNotification/" + sessionId;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            (data: any) => {
+                return data;
+            },
+            (error: any) => {
+                return error;
+            }
+        )
+    }
+
+    cancelSchedule(sessionId) {
+        let url = this.baseUrl + "/api/v1/meeting_manager/delete/" + this.institute_id + "/" + sessionId;
+        return this.http.delete(url, { headers: this.headers }).map(
+            (data: any) => {
+                return data;
+            },
+            (error: any) => {
+                return error;
+            }
+        )
+    }
+
+    rescheduleClass(obj ){
+        let url = this.baseUrl + "/api/v1/meeting_manager/reschedule/" + this.institute_id + "/" + obj.session_id;
+        return this.http.post(url, obj , { headers: this.headers }).map(
+            (data: any) => {
+                return data;
+            },
+            (error: any) => {
                 return error;
             }
         )

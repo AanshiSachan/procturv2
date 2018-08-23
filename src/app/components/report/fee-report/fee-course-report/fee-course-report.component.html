@@ -179,11 +179,45 @@
 
 
             <section>
-
-                <div id="basic-search" style="margin:10px 10px 5px 10px;">
-                    <form autocomplete="off" #form="ngForm">
-                        <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px 5px; width:200px; height:35px; float: right; margin-bottom:10px;">
-                    </form>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="c-lg-2" style="margin-top: 1%;">
+                        <p-splitButton label="download" [model]="bulkAddItems" icon="pi pi-file"></p-splitButton>
+                    </div>
+                    <div class="c-lg-8">
+                        <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left; width:64vw;">
+                            <div class="c-lg-3">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Total fees Collection</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-3">
+                                <li style="display: inline-block; margin-left: 10%;">
+                                    <span class="made-out">Total dues</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-3">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Total Future Dues</span>
+                                    <div class="made-in"> ₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-3">
+                                <li style="display: inline-block; margin-left: 10%;">
+                                    <span class="made-out">Total Fees</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                    <div class="c-lg-2">
+                        <div id="basic-search">
+                            <form autocomplete="off" #form="ngForm">
+                                <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px 5px; width:200px; height:35px; float: right; margin-bottom:10px;">
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
             </section>
@@ -195,46 +229,6 @@
                        
                         
                     </ul> -->
-
-                <div class="row">
-                    <div class="c-lg-2">
-                        <a (click)="exportToExcel()" class="download" style="display: inline-block; margin:24px 0px 0px 10px">Download To Excel</a>
-                        <span class="fa fa-cloud-download">
-                        </span>
-                    </div>
-                    <div class="c-lg-7" style="margin-top: 10px;">
-
-                        <div class="c-lg-12">
-                            <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left; width:64vw;">
-                                <div class="c-lg-3">
-                                    <li style=" margin-left: 11px; display: inline-block;">
-                                        <span class="made-out"> Total fees Collection</span>
-                                        <div class="made-in">₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
-                                    </li>
-                                </div>
-                                <div class="c-lg-3">
-                                    <li style="display: inline-block; margin-left: 10%;">
-                                        <span class="made-out">Total dues</span>
-                                        <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
-                                    </li>
-                                </div>
-                                <div class="c-lg-3">
-                                    <li style=" margin-left: 11px; display: inline-block;">
-                                        <span class="made-out"> Total Future Dues</span>
-                                        <div class="made-in"> ₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
-                                    </li>
-                                </div>
-                                <div class="c-lg-3">
-                                    <li style="display: inline-block; margin-left: 10%;">
-                                        <span class="made-out">Total Fees</span>
-                                        <div class="made-in">₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</div>
-                                    </li>
-                                </div>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
 
                 <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                     [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
@@ -253,7 +247,7 @@
 
     <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail"></next-due-detail>
 
-    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory" ></payment-history>
+    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory"></payment-history>
 
     <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport"></view-detail-report>
 

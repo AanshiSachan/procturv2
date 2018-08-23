@@ -10,6 +10,8 @@ import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
+
 
 @Component({
   selector: 'app-fee-course-report',
@@ -118,7 +120,8 @@ export class FeeCourseReportComponent implements OnInit {
     private appC: AppComponent,
     private getter: GetFeeService,
     private putter: PostFeeService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private pdf:ExportToPdfService
   ) {
     this.switchActiveView('fee');
   }
@@ -143,13 +146,13 @@ export class FeeCourseReportComponent implements OnInit {
 
     this.bulkAddItems = [
       {
-        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkSms();
+        label: 'Pdf Download', icon: 'fa-download', command: () => {
+          this.exportToPdf();
         }
       },
       {
-        label: 'Send Fine SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkFineSms();
+        label: 'Excel Download', icon: 'fa-download', command: () => {
+          this.exportToExcel();
         }
       }
     ];
@@ -762,7 +765,7 @@ export class FeeCourseReportComponent implements OnInit {
   }
 
 
-  exportToExcel(event) {
+  exportToExcel() {
     let arr = []
     if(this.isProfessional){
       this.feeDataSource1.map(
@@ -901,5 +904,53 @@ export class FeeCourseReportComponent implements OnInit {
       );
     }
   }
+
+  exportToPdf() {
+    let arr = [];
+    if (this.isProfessional) {
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = [
+            ele.student_disp_id,
+            ele.student_name,
+            ele.student_total_fees,
+            ele.student_toal_fees_paid,
+            ele.total_balance_amt,
+            ele.student_latest_fee_due_date,
+            ele.student_latest_fee_due_amount,
+            ele.student_latest_pdc,
+            ele.amount_still_payable,
+            ele.standard_name,
+            ele.batch_name
+          ]
+          arr.push(json);
+        })
+    }
+
+    else{
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = [
+            ele.student_disp_id,
+            ele.student_name,
+            ele.student_total_fees,
+            ele.student_toal_fees_paid,
+            ele.total_balance_amt,
+            ele.student_latest_fee_due_date,
+            ele.student_latest_fee_due_amount,
+            ele.student_latest_pdc,
+            ele.amount_still_payable,
+            ele.master_course_name,
+            ele.course_name
+          ]
+          arr.push(json);
+        })
+    }
+
+    let rows = [['ID', 'Name', 'Total Fee', 'Amount Paid', 'Past Dues', 'Next Due Date', 'Next Due Amount', 'PDC Date', 'Balance Amount', 'Master Course Name', 'Course Name']]
+    let columns = arr;
+    this.pdf.exportToPdf(rows, columns);
+  }
+
 
 }
