@@ -29,7 +29,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.toggleAllCheckBox();
     }
     this._paginationService.setDisplayBatchSize(50);
- 
   }
 
   notifyMe(e) {
@@ -90,6 +89,10 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this.keysArray = this.displayKeys.keys;
     this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     console.log('chnages :', this.displayKeys);
+    if (this.displayData.length > 0 && this.keysArray.length > 0) {
+      this.keysArray[0].type =null;
+      this.sortData(this.keysArray[0]);
+    }
 
   }
 
@@ -167,13 +170,14 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
-      this.recordsTrimmed = this._paginationService.updateTableBatchSize(num,this.displayData);
+    this.recordsTrimmed = this._paginationService.updateTableBatchSize(num, this.displayData);
     if (this.recordsTrimmed.length > 0) {
       this.sortData(this.keysArray[0]);
     }
   }
-  fectchTableDataByPage($event){
-    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event,this.displayData,);
+  
+  fectchTableDataByPage($event) {
+    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData, );
   }
 
 

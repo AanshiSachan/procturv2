@@ -63,7 +63,6 @@ export class PreferencePopupComponent implements OnInit {
       }
     }
 
-
     this.displayKeys.sort((a, b) => a.priority < b.priority ? -1 : a.priority > b.priority ? 1 : 0);
     console.log(this.displayKeys);
   }
