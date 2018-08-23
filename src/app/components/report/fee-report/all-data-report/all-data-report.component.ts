@@ -16,7 +16,9 @@ import { ExcelService } from '../../../../services/excel.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
 import { LoginService } from '../../../../services/login-services/login.service';
-
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-all-data-report',
@@ -142,7 +144,9 @@ export class AllDataReportComponent implements OnInit {
     private excelService: ExcelService,
     private auth: AuthenticatorService,
     private _tablePreferencesService: TablePreferencesService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private pdf: ExportToPdfService,
+    private messageService: MessageService
   ) {
     this.excelService = excelService;
     this.switchActiveView('fee');
@@ -172,13 +176,13 @@ export class AllDataReportComponent implements OnInit {
     // this.fetchPrefillDetails();
     this.bulkAddItems = [
       {
-        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkSms();
+        label: 'Pdf Download', icon: 'fa-download', command: () => {
+          this.exportToPdf();
         }
       },
       {
-        label: 'Send Fine SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkFineSms();
+        label: 'Excel Download', icon: 'fa-download', command: () => {
+          this.exportToExcel();
         }
       }
     ];
@@ -203,7 +207,7 @@ export class AllDataReportComponent implements OnInit {
     this.ref.detectChanges();
     // console.log(this.displayKeys);
   }
-  
+
   getAcademicYear() {
     this.getter.getAcademicYear().subscribe(
       (res: any) => {
@@ -235,6 +239,54 @@ export class AllDataReportComponent implements OnInit {
 
       }
     )
+  }
+
+
+  exportToPdf() {
+    let arr = [];
+    if (this.showPopupKeys.isProfessional) {
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = [
+            ele.student_disp_id,
+            ele.student_name,
+            ele.student_total_fees,
+            ele.student_toal_fees_paid,
+            ele.total_balance_amt,
+            ele.student_latest_fee_due_date,
+            ele.student_latest_fee_due_amount,
+            ele.student_latest_pdc,
+            ele.amount_still_payable,
+            ele.standard_name,
+            ele.batch_name
+          ]
+          arr.push(json);
+        })
+    }
+
+    else{
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = [
+            ele.student_disp_id,
+            ele.student_name,
+            ele.student_total_fees,
+            ele.student_toal_fees_paid,
+            ele.total_balance_amt,
+            ele.student_latest_fee_due_date,
+            ele.student_latest_fee_due_amount,
+            ele.student_latest_pdc,
+            ele.amount_still_payable,
+            ele.master_course_name,
+            ele.course_name
+          ]
+          arr.push(json);
+        })
+    }
+
+    let rows = [['ID', 'Name', 'Total Fee', 'Amount Paid', 'Past Dues', 'Next Due Date', 'Next Due Amount', 'PDC Date', 'Balance Amount', 'Master Course Name', 'Course Name']]
+    let columns = arr;
+    this.pdf.exportToPdf(rows, columns);
   }
 
   /* ===================================================================================================== */
@@ -990,7 +1042,7 @@ export class AllDataReportComponent implements OnInit {
   }
 
 
-  exportToExcel(event) {
+  exportToExcel() {
     let arr = []
     if (this.showPopupKeys.isProfessional) {
       this.feeDataSource1.map(

@@ -57,12 +57,12 @@
                             </div>
                             <div class="c-lg-2" style="margin-top: 11px;">
                                 <label style="display: block; font-size: 12px;"> From</label>
-                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourFrom" (ngModelChange)="getEventHourFrom($event)">
+                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourFrom">
                                     <option *ngFor="let i of hour" [value]="i">
                                         {{i}}
                                     </option>
                                 </select>
-                                <select class="made-out" style="display: inline-block;height: 37px;" [(ngModel)]="minuteFrom" (ngModelChange)="getEventMinuteFrom($event)">
+                                <select class="made-out" style="display: inline-block;height: 37px;" [(ngModel)]="minuteFrom">
                                     <option *ngFor="let i of minutes" [value]="i">
                                         {{i}}
                                     </option>
@@ -70,12 +70,12 @@
                             </div>
                             <div class="c-lg-2" style="margin-top: 11px;">
                                 <label style="display: block; font-size: 12px;">To</label>
-                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourTo" (ngModelChange)="getEventHourTo($event)">
+                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourTo">
                                     <option *ngFor="let i of hour" [value]="i">
                                         {{i}}
                                     </option>
                                 </select>
-                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="minuteTo" (ngModelChange)="getEventMinuteTo($event)">
+                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="minuteTo">
                                     <option *ngFor="let i of minutes" [value]="i">
                                         {{i}}
                                     </option>
@@ -359,14 +359,6 @@
     </div>
 
     <div popup-content class="popup-header-content">
-        <div class="row">
-            <div class="c-lg-2 pointed-one" >
-                <a (click)="pastClasses()">Past Online Classes</a>
-            </div>
-            <div class="c-lg-3 pointed-one">
-                <a (click)="futureClasses()">Upcoming Online Classes</a>
-            </div>
-        </div>
         <table *ngIf="allClasses">
             <thead>
                 <tr class="alignment">
@@ -383,7 +375,16 @@
                         End Time
                     </th>
                     <th>
-                        Video/Session link
+                        SMS Notification
+                    </th>
+                    <th>
+                        Push Notification
+                    </th>
+                    <th>
+                        Cancel
+                    </th>
+                    <th>
+                        Reschedule
                     </th>
                 </tr>
             </thead>
@@ -403,126 +404,86 @@
                         {{i.end_datetime}}
                     </td>
                     <td>
-                        <a href="{{i.session_link}}">
-                            {{i.session_link}}
-                        </a>
+                        <i class="fa fa-bell" aria-hidden="true" (click)="smsNotification(i.session_id)"></i>
+                    </td>
+                    <td>
+                        <i class="fa fa-bell" aria-hidden="true" (click)="pushNotification(i.session_id)"></i>
+                    </td>
+                    <td>
+                        <i class="fa fa-times" aria-hidden="true" (click)="cancel(i.session_id)"></i>
+                    </td>
+                    <td>
+                        <i class="fa fa-calendar" aria-hidden="true" (click)="reschedule(i.session_id)" *ngIf="i.start_datetime >=dateToday"></i>
+                        <label *ngIf="i.start_datetime < dateToday">NA</label>
                     </td>
                 </tr>
             </tbody>
 
             <tbody *ngIf="getClasses.length == 0">
                 <tr>
-                    <td colspan="5">
+                    <td colspan="8">
                         No Records Found
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <table *ngIf="pastClassesPopup">
-            <thead>
-                <tr class="alignment">
-                    <th>
-                        Session Id
-                    </th>
-                    <th>
-                        Session Name
-                    </th>
-                    <th>
-                        Start Time
-                    </th>
-                    <th>
-                        End Time
-                    </th>
-                    <th>
-                        Video/Session link
-                    </th>
-                </tr>
-            </thead>
+    </div>
+</proctur-popup>
 
-            <tbody *ngIf="getPastClasses.length !=0">
-                <tr *ngFor="let i of getPastClasses" class="alignment">
-                    <td>
-                        {{i.session_id}}
-                    </td>
-                    <td>
-                        {{i.session_name}}
-                    </td>
-                    <td>
-                        {{i.start_datetime}}
-                    </td>
-                    <td>
-                        {{i.end_datetime}}
-                    </td>
-                    <td>
-                        <a href="{{i.session_link}}">
-                            Videos
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
+<proctur-popup [sizeWidth]="'medium'" *ngIf="rescheduleClass">
 
-            <tbody *ngIf="getPastClasses.length == 0">
-                <tr>
-                    <td colspan="5">
-                        No Records Found
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <span class="closePopup pos-abs fbold show" close-button (click)="closeReschedule()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+    <div popup-header class="popup-header-content">
+        <h2>Reschedule Class</h2>
 
-        <table *ngIf="futureClassesPopup">
-            <thead>
-                <tr class="alignment">
-                    <th>
-                        Session Id
-                    </th>
-                    <th>
-                        Session Name
-                    </th>
-                    <th>
-                        Start Time
-                    </th>
-                    <th>
-                        End Time
-                    </th>
-                    <th>
-                        Video/Session link
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody *ngIf="getFutureClasses.length !=0">
-                <tr *ngFor="let i of getFutureClasses" class="alignment">
-                    <td>
-                        {{i.session_id}}
-                    </td>
-                    <td>
-                        {{i.session_name}}
-                    </td>
-                    <td>
-                        {{i.start_datetime}}
-                    </td>
-                    <td>
-                        {{i.end_datetime}}
-                    </td>
-                    <td>
-                        <a href="{{i.session_link}}">
-                            Videos
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-
-            <tbody *ngIf="getFutureClasses.length == 0">
-                <tr>
-                    <td colspan="5">
-                        No Records Found
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
-
+    </div>
+    <div popup-content class="popup-header-content">
+        <div class="row row-inner">
+            <div class="c-lg-4 field-wrapper datePickerBox">
+                <label>Date</label>
+                <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="rescheduledateFrom" (ngModelChange)="getEvent($event)">
+            </div>
+            <div class="c-lg-3" style="margin-top: 11px;">
+                <label style="display: block; font-size: 12px;"> From</label>
+                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourFromReschedule" (ngModelChange)="getEventHourFrom($event)">
+                    <option *ngFor="let i of hour" [value]="i">
+                        {{i}}
+                    </option>
+                </select>
+                <select class="made-out" style="display: inline-block;height: 37px;" [(ngModel)]="minuteFromReschedule" (ngModelChange)="getEventMinuteFrom($event)">
+                    <option *ngFor="let i of minutes" [value]="i">
+                        {{i}}
+                    </option>
+                </select>
+            </div>
+            <div class="c-lg-3" style="margin-top: 11px;">
+                <label style="display: block; font-size: 12px;">To</label>
+                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourToReschedule" (ngModelChange)="getEventHourTo($event)">
+                    <option *ngFor="let i of hour" [value]="i">
+                        {{i}}
+                    </option>
+                </select>
+                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="minuteToReschedule" (ngModelChange)="getEventMinuteTo($event)">
+                    <option *ngFor="let i of minutes" [value]="i">
+                        {{i}}
+                    </option>
+                </select>
+            </div>
+            <div class="c-lg-1" style="margin-top: 3%;">
+                <button class="btn fullBlue" value="Go" (click)="isReschedule()">Go</button>
+            </div>
+        </div>
     </div>
 </proctur-popup>

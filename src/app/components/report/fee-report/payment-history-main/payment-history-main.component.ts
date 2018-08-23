@@ -5,6 +5,8 @@ import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { ExcelService } from '../../../../services/excel.service';
+import { MenuItem } from 'primeng/primeng';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 
 @Component({
   selector: 'app-payment-history-main',
@@ -15,6 +17,7 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   isChequePayment: boolean = false;
   isRippleLoad: boolean = false;
+  bulkAddItems: MenuItem[];
   sendPayload = {
     institute_id: this.payment.institute_id,
     from_date: moment().format('YYYY-MM-DD'),
@@ -114,11 +117,25 @@ export class PaymentHistoryMainComponent implements OnInit {
   constructor(
     private payment: PaymentHistoryMainService,
     private excelService: ExcelService,
-    private appc: AppComponent) { }
+    private appc: AppComponent,
+    private pdf: ExportToPdfService) { }
 
 
   ngOnInit() {
     this.getAllPaymentHistory();
+    this.bulkAddItems = [
+      {
+        label: 'Pdf Download', icon: 'fa-download', command: () => {
+          this.exportToPdf();
+        }
+      },
+      {
+        label: 'Excel Download', icon: 'fa-download', command: () => {
+          this.exportToExcel();
+        }
+      }
+    ];
+
   }
 
 
@@ -466,7 +483,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     return temp;
   }
 
-  exportToExcel(event) {
+  exportToExcel() {
     let exportedArray: any[] = [];
 
     this.allPaymentRecords.map((data: any) => {
@@ -558,6 +575,32 @@ export class PaymentHistoryMainComponent implements OnInit {
       temporaryStorage[key] = this.keepCloning(objectpassed[key]);
     }
     return temporaryStorage;
+  }
+
+  exportToPdf() {
+    let arr = [];
+    this.allPaymentRecords.map(
+      (ele: any) => {
+        let json = [
+          ele.student_disp_id,
+          ele.student_name,
+          ele.parent_name,
+          ele.display_invoice_no,
+          ele.paymentMode,
+          ele.fee_type_name,
+          ele.installment_nos,
+          ele.paid_date,
+          ele.remarks,
+          ele.reference_no,
+          ele.amount_paid,
+          ele.enquiry_counsellor_name
+        ]
+        arr.push(json);
+      })
+
+    let rows = [['ID', 'Name', 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor']]
+    let columns = arr;
+    this.pdf.exportToPdf(rows, columns);
   }
 
 

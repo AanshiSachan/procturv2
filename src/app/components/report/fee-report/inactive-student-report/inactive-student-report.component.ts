@@ -5,6 +5,9 @@ import { AppComponent } from '../../../../app.component';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { ExcelService } from '../../../../services/excel.service';
+import { MenuItem } from 'primeng/primeng';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
+
 @Component({
   selector: 'app-inactive-student-report',
   templateUrl: './inactive-student-report.component.html',
@@ -12,7 +15,7 @@ import { ExcelService } from '../../../../services/excel.service';
 })
 export class InactiveStudentReportComponent implements OnInit {
 
- 
+
   isRippleLoad: boolean = false;
   sendPayload = {
     institute_id: this.payment.institute_id,
@@ -22,14 +25,15 @@ export class InactiveStudentReportComponent implements OnInit {
     student_name: "",
     contact_no: ""
   }
+  bulkAddItems: MenuItem[] = []
   allPaymentRecords: any[] = [];
   tempRecords: any[] = [];
- 
+
   showPaymentBox: boolean = false;
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
- 
+
   personData: any = {
     paid_date: "",
     paymentMode: "",
@@ -37,13 +41,13 @@ export class InactiveStudentReportComponent implements OnInit {
     reference_no: "",
     invoice_no: "",
   }
- 
+
   searchByNameVisible: boolean = false;
   searchByDateVisible: boolean = true;
   newData: any[] = [];
   paymentMode: any[] = [];
   searchName: any;
-  
+
   helpMsg4: string = " Fee(s) collected from inactive students";
   helpMsg1: string = "Fee(s)collected from students whose fee structure has been revised.It basically contains the records as per the old fee structure.";
   helpMsg2: string = " Fee(s)collected from archived students";
@@ -73,11 +77,23 @@ export class InactiveStudentReportComponent implements OnInit {
 
   temporaryRecords: any[] = [];
 
-  constructor(private payment: PaymentHistoryMainService, private excelService: ExcelService, private appc: AppComponent) { }
+  constructor(private payment: PaymentHistoryMainService, private excelService: ExcelService, private appc: AppComponent, private pdf: ExportToPdfService) { }
 
 
   ngOnInit() {
     this.getAllPaymentHistory();
+    this.bulkAddItems = [
+      {
+        label: 'Pdf Download', icon: 'fa-download', command: () => {
+          this.exportToPdf();
+        }
+      },
+      {
+        label: 'Excel Download', icon: 'fa-download', command: () => {
+          this.exportToExcel();
+        }
+      }
+    ];
   }
 
 
@@ -93,11 +109,11 @@ export class InactiveStudentReportComponent implements OnInit {
         this.sendPayload.student_name = this.searchName;
       }
       else {
-          this.sendPayload.student_name = "";
-          this.sendPayload.contact_no = this.searchName;
-        }
+        this.sendPayload.student_name = "";
+        this.sendPayload.contact_no = this.searchName;
       }
-    
+    }
+
     if (this.searchflag) {
       this.isRippleLoad = false;
       if (this.allPaymentRecords.length == 0) {
@@ -119,19 +135,19 @@ export class InactiveStudentReportComponent implements OnInit {
           else {
             this.dataStatus = 0;
           }
-          this.allPaymentRecords = data.filter((ele:any)=>{
-            if(ele.student_category == "historical"){
+          this.allPaymentRecords = data.filter((ele: any) => {
+            if (ele.student_category == "historical") {
               return false;
             }
-            else{
+            else {
               return true;
             }
           });
-          this.tempRecords = data.filter((ele:any)=>{
-            if(ele.student_category == "historical"){
+          this.tempRecords = data.filter((ele: any) => {
+            if (ele.student_category == "historical") {
               return false;
             }
-            else{
+            else {
               return true;
             }
           });
@@ -222,23 +238,22 @@ export class InactiveStudentReportComponent implements OnInit {
   }
 
 
-  exportToExcel(event) {
+  exportToExcel() {
     let exportedArray: any[] = [];
-    console.log(this.temporaryRecords);
-    this.allPaymentRecords.map((data:any)=>{
-      let obj={
-        "Id" : data.student_disp_id,
-        "Name" : data.student_name,
-        "Reciept No" : data.display_invoice_no,
-        "Payment Mode" : data.paymentMode,
-        "Fee Type" : data.fee_type_name,
-        "Inst No" : data.installment_nos,
-        "Paid Date" : data.paid_date,
-        "Reference No" : data.reference_no,
-        "Amount Paid" : data.amount_paid,
-        "Student_Category" : data.student_category,
-        "Counsellor" : data.enquiry_counsellor_name
-      } 
+    this.allPaymentRecords.map((data: any) => {
+      let obj = {
+        "Id": data.student_disp_id,
+        "Name": data.student_name,
+        "Reciept No": data.display_invoice_no,
+        "Payment Mode": data.paymentMode,
+        "Fee Type": data.fee_type_name,
+        "Inst No": data.installment_nos,
+        "Paid Date": data.paid_date,
+        "Reference No": data.reference_no,
+        "Amount Paid": data.amount_paid,
+        "Student_Category": data.student_category,
+        "Counsellor": data.enquiry_counsellor_name
+      }
       console.log(obj);
       exportedArray.push(obj);
     })
@@ -248,10 +263,33 @@ export class InactiveStudentReportComponent implements OnInit {
     )
   }
 
-  
+  exportToPdf() {
+    let arr = [];
+    this.allPaymentRecords.map(
+      (ele: any) => {
+        let json = [
+          ele.student_disp_id,
+          ele.student_name,
+          ele.display_invoice_no,
+          ele.paymentMode,
+          ele.fee_type_name,
+          ele.installment_nos,
+          ele.paid_date,
+          ele.remarks,
+          ele.reference_no,
+          ele.amount_paid,
+          ele.student_category,
+          ele.enquiry_counsellor_name
+        ]
+        arr.push(json);
+      })
 
-
+    let rows = [['ID', 'Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Student Category', 'Counsellor']]
+    let columns = arr;
+    this.pdf.exportToPdf(rows, columns);
   }
+
+}
 
 
 

@@ -40,6 +40,8 @@
     "highcharts": "^6.1.0",
     "highcharts-angular": "^1.0.2",
     "js-base64": "^2.3.2",
+    "jspdf": "^1.4.1",
+    "jspdf-autotable": "^3.0.0-alpha.3",
     "moment": "^2.22.1",
     "muuri": "^0.5.4",
     "ng2-completer": "^1.6.3",

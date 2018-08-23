@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/components/common/messageservice';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
+
 @Component({
   selector: 'app-live-classes',
   templateUrl: './live-classes.component.html',
   styleUrls: ['./live-classes.component.scss']
 })
-export class LiveClassesComponent implements OnInit {
 
+export class LiveClassesComponent implements OnInit {
 
   activeIndex: number = 1;
   studentForm: boolean = true;
@@ -49,17 +49,13 @@ export class LiveClassesComponent implements OnInit {
   }
   isUserCheckedArr: any[] = [];
   teacherIdArr: any[] = [];
-  dateFrom = moment().format('YYYY-MM-DD')
+  dateFrom = moment(new Date()).format('YYYY-MM-DD');
+  rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
   hourFrom: string = "";
   hourTo: string = "";
   minuteTo: string = "";
   minuteFrom: string = "";
-  getHourTo: string = "";
-  getMeridianTo: string = "";
-  getMinuteTo: string = "";
-  getHourFrom: string = "";
-  getMeridianFrom: string = "";
-  getMinuteFrom: string = "";
+  dateToday = moment().format('YYYY-MM-DD')
   openClassPopup: boolean = false;
   session: string = "";
   getClasses: any[] = [];
@@ -69,8 +65,20 @@ export class LiveClassesComponent implements OnInit {
   futureClassesPopup: boolean = false;
   allClasses: boolean = false;
   validations: boolean = false;
-  sendNotifyMe:boolean = false;
-  constructor(private messageService: MessageService,
+  sendNotifyMe: boolean = false;
+  rescheduleClass: boolean = false;
+  hourFromReschedule: string = "";
+  minuteFromReschedule: string = "";
+  hourToReschedule: string = "";
+  minuteToReschedule: string = "";
+  rescheduleclass = {
+    end_datetime: "",
+    institution_id: this.service.institute_id,
+    session_id: "",
+    start_datetime: ""
+  }
+
+  constructor(
     private auth: AuthenticatorService,
     private service: LiveClasses,
     private appC: AppComponent) {
@@ -89,41 +97,42 @@ export class LiveClassesComponent implements OnInit {
 
   }
 
+  getElementsRemove() {
+    document.getElementById('li-one').classList.remove('active');
+    document.getElementById('li-two').classList.remove('active');
+    document.getElementById('li-three').classList.remove('active');
+    document.getElementById('li-four').classList.remove('active');
+  }
+
   navigateTo(text) {
-
-    if (this.validationsOfStudentForm(this.validations)) {
-      if (text === "studentForm") {
-
-        document.getElementById('li-one').classList.add('active');
+    if (this.viewStudents()) {
+      if (text == "studentForm") {
         document.getElementById('li-two').classList.remove('active');
         document.getElementById('li-three').classList.remove('active');
         document.getElementById('li-four').classList.remove('active');
+        document.getElementById('li-one').classList.add('active');
         this.studentForm = true;
         this.kyc = false;
         this.feeDetails = false;
         this.inventory = false;
       }
-
-      else if (text === "assignStudents") {
+      else if (text == "assignStudents") {
 
       }
-
-      else if (text === "assignTeachers") {
-
+      else if (text == "assignTeachers") {
         if (this.isStudentCheckedArr.length == 0) {
           this.appC.popToast({ type: "info", body: "Please select at least one student" })
           this.studentForm = false;
           this.kyc = true;
           this.feeDetails = false;
           this.inventory = false;
-          return;
         }
 
         else {
-          document.getElementById('li-one').classList.remove('active');
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.add('active');
           document.getElementById('li-four').classList.remove('active');
+          document.getElementById('li-one').classList.remove('active');
           this.studentForm = false;
           this.kyc = false;
           this.feeDetails = true;
@@ -131,64 +140,30 @@ export class LiveClassesComponent implements OnInit {
           this.getTeachers();
         }
       }
-      else if (text === "assignUsers") {
-        if (this.teacherId != '') {
+      else if (text == "assignUsers") {
+        if (this.teacherId == '') {
+          this.appC.popToast({ type: "info", body: "Please select a teacher" })
+          document.getElementById('li-two').classList.remove('active');
+          document.getElementById('li-three').classList.add('active');
+          document.getElementById('li-four').classList.remove('active');
           document.getElementById('li-one').classList.remove('active');
+          this.studentForm = false;
+          this.kyc = false;
+          this.feeDetails = true;
+          this.inventory = false;
+        }
+        else {
           document.getElementById('li-two').classList.remove('active');
           document.getElementById('li-three').classList.remove('active');
           document.getElementById('li-four').classList.add('active');
+          document.getElementById('li-one').classList.remove('active');
           this.studentForm = false;
           this.kyc = false;
           this.feeDetails = false;
           this.inventory = true;
           this.getCustomUsers();
         }
-        else {
-          this.appC.popToast({ type: "info", body: "Please select a teacher" })
-        }
       }
-    }
-
-  }
-
-  validationsOfStudentForm(update: boolean) {
-    let fromTime = this.dateFrom + " " + this.getHourFrom + ":" + this.getMinuteFrom + " " + this.getMeridianFrom;
-    let fromDate = moment().format('YYYY-MM-DD');
-    let toTime = this.dateFrom + " " + this.getHourTo + ":" + this.getMinuteTo + " " + this.getMeridianTo;
-    let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
-    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
-
-    if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
-      this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
-      return false;
-    }
-
-    else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "" || this.getOnlineClasses.session_name == "") {
-      this.appC.popToast({ type: "error", body: "All fields are required" })
-      return false;
-    }
-
-    else if (moment(fromTimeT).diff(moment(), 'minutes') <= 20) {
-      this.appC.popToast({ type: "error", body: "Class can be schedule 20 minutes from current time" })
-      return false;
-    }
-
-    else if (fromTimeT == toTimeT) {
-      this.appC.popToast({ type: "error", body: "From time and to time cannot be same" })
-      return false;
-    }
-
-    else {
-      document.getElementById('li-one').classList.remove('active');
-      document.getElementById('li-two').classList.add('active');
-      document.getElementById('li-three').classList.remove('active');
-      document.getElementById('li-four').classList.remove('active');
-      this.getBatchesCourses();
-      this.studentForm = false;
-      this.kyc = true;
-      this.feeDetails = false;
-      this.inventory = false;
-      return true;
     }
   }
 
@@ -219,9 +194,9 @@ export class LiveClassesComponent implements OnInit {
 
   viewStudents() {
 
-    let fromTime = this.dateFrom + " " + this.getHourFrom + ":" + this.getMinuteFrom + " " + this.getMeridianFrom;
+    let fromTime = this.dateFrom + " " + this.hourFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
     let fromDate = moment().format('YYYY-MM-DD');
-    let toTime = this.dateFrom + " " + this.getHourTo + ":" + this.getMinuteTo + " " + this.getMeridianTo;
+    let toTime = this.dateFrom + " " + this.hourTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
     let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
     let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
 
@@ -232,26 +207,28 @@ export class LiveClassesComponent implements OnInit {
 
     else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "" || this.getOnlineClasses.session_name == "") {
       this.appC.popToast({ type: "error", body: "All fields are required" })
+      return false;
     }
 
     else if (moment(fromTimeT).diff(moment(), 'minutes') <= 20) {
       this.appC.popToast({ type: "error", body: "Class can be schedule 20 minutes from current time" })
+      return false;
     }
 
     else if (fromTimeT == toTimeT) {
       this.appC.popToast({ type: "error", body: "From time and to time cannot be same" })
+      return false;
     }
 
     else {
-      document.getElementById('li-one').classList.remove('active');
+      this.getElementsRemove();
       document.getElementById('li-two').classList.add('active');
-      document.getElementById('li-three').classList.remove('active');
-      document.getElementById('li-four').classList.remove('active');
       this.getBatchesCourses();
       this.studentForm = false;
       this.kyc = true;
       this.feeDetails = false;
       this.inventory = false;
+      return true;
     }
   }
 
@@ -293,10 +270,16 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
+  getCheckedBox(userList) {
+    userList.map(
+      (ele: any) => {
+        ele.isChecked = false;
+      }
+    )
+  }
+
   viewUsers() {
-    document.getElementById('li-one').classList.remove('active');
-    document.getElementById('li-two').classList.remove('active');
-    document.getElementById('li-three').classList.remove('active');
+    this.getElementsRemove();
     document.getElementById('li-four').classList.add('active');
     this.studentForm = false;
     this.kyc = false;
@@ -330,11 +313,7 @@ export class LiveClassesComponent implements OnInit {
     this.service.fetchStudents(this.getPayloadBatch).subscribe(
       (data: any) => {
         this.studentsAssigned = data.studentsAssigned;
-        this.studentsAssigned.map(
-          (ele: any) => {
-            ele.isChecked = false;
-          }
-        )
+        this.getCheckedBox(this.studentsAssigned);
       },
       (error: any) => {
         this.errorMessage(error);
@@ -368,11 +347,7 @@ export class LiveClassesComponent implements OnInit {
     this.service.fetchTeachers().subscribe(
       (data: any) => {
         this.teachersAssigned = data;
-        this.teachersAssigned.map(
-          (ele: any) => {
-            ele.isChecked = false;
-          }
-        )
+        this.getCheckedBox(this.teachersAssigned);
       },
       (error: any) => {
         this.errorMessage(error);
@@ -384,11 +359,7 @@ export class LiveClassesComponent implements OnInit {
     this.service.fetchUsers().subscribe(
       (data: any) => {
         this.userAssigned = data;
-        this.userAssigned.map(
-          (ele: any) => {
-            ele.isChecked = false;
-          }
-        )
+        this.getCheckedBox(this.userAssigned);
       },
       (error: any) => {
         this.errorMessage(error);
@@ -437,10 +408,8 @@ export class LiveClassesComponent implements OnInit {
   }
 
   isStudent() {
-    document.getElementById('li-one').classList.remove('active');
-    document.getElementById('li-two').classList.remove('active');
+    this.getElementsRemove();
     document.getElementById('li-three').classList.add('active');
-    document.getElementById('li-four').classList.remove('active');
     this.studentForm = false;
     this.kyc = false;
     this.feeDetails = true;
@@ -449,36 +418,15 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getEvent(event) {
-    if (moment(this.dateFrom).diff(moment(), 'days') < 0) {
+    if (moment(event).diff(moment(), 'days') < 0) {
       let msg = {
         type: "info",
         body: "You cannot select past date"
       }
       this.appC.popToast(msg);
-      this.dateFrom = moment().format('YYYY-MM-DD');
+      this.dateFrom = moment().format('YYYY-MM-DD')
+      this.rescheduledateFrom = moment().format('YYYY-MM-DD')
     }
-
-    else {
-      this.dateFrom = moment(event).format('YYYY-MM-DD');
-    }
-  }
-
-  getEventHourFrom(event) {
-    this.getHourFrom = event.split(' ')[0];
-    this.getMeridianFrom = event.split(' ')[1];
-  }
-
-  getEventMinuteFrom(event) {
-    this.getMinuteFrom = event;
-  }
-
-  getEventHourTo(event) {
-    this.getHourTo = event.split(' ')[0];
-    this.getMeridianTo = event.split(' ')[1];
-  }
-
-  getEventMinuteTo(event) {
-    this.getMinuteTo = event;
   }
 
   getOnlineSchedules() {
@@ -501,24 +449,22 @@ export class LiveClassesComponent implements OnInit {
     this.getOnlineClasses.custUserIds = customId;
     this.getOnlineClasses.studentIds = studentId;
     this.getOnlineClasses.teacherIds = this.teacherIdArr;
-    this.getOnlineClasses.start_datetime = this.dateFrom + " " + this.getHourFrom + "" + ":" + this.getMinuteFrom + " " + this.getMeridianFrom;
-    this.getOnlineClasses.end_datetime = this.dateFrom + " " + this.getHourTo + "" + ":" + this.getMinuteTo + " " + this.getMeridianTo;
+    this.getOnlineClasses.start_datetime = this.dateFrom + " " + this.hourFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
+    this.getOnlineClasses.end_datetime = this.dateFrom + " " + this.hourTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
     this.session = this.getOnlineClasses.session_name;
     this.service.getOnlineClasses(this.getOnlineClasses).subscribe(
       (data: any) => {
-        this.appC.popToast({ type: "success", body: this.session + "created successfully" });
+        this.appC.popToast({ type: "success", body: this.session + " " + "created successfully" });
         document.getElementById('li-one').classList.add('active');
-        document.getElementById('li-two').classList.remove('active');
-        document.getElementById('li-three').classList.remove('active');
-        document.getElementById('li-four').classList.remove('active');
         this.studentForm = true;
         this.kyc = false;
         this.feeDetails = false;
         this.inventory = false;
+        this.viewOnlineClasses();
         this.getOnlineClasses = {
           custUserIds: [],
           end_datetime: "",
-          institution_id: "",
+          institution_id: this.service.institute_id,
           sent_notification_flag: 0,
           session_name: "",
           start_datetime: "",
@@ -561,8 +507,7 @@ export class LiveClassesComponent implements OnInit {
     this.pastClassesPopup = false;
     this.futureClassesPopup = false;
     let obj = {
-      institution_id: this.service.institute_id,
-      user_id: sessionStorage.getItem('userid')
+      institution_id: this.service.institute_id
     }
     this.service.fetchOnlineClasses(obj).subscribe(
       (data: any) => {
@@ -596,13 +541,93 @@ export class LiveClassesComponent implements OnInit {
     this.appC.popToast({ type: "error", body: error.error.message })
   }
 
-  sendNotify(notify){
-    if(notify == true){
+  sendNotify(notify) {
+    if (notify == true) {
       this.getOnlineClasses.sent_notification_flag = 1
     }
-    else{
+    else {
       this.getOnlineClasses.sent_notification_flag = 0
     }
+  }
+
+  smsNotification(id) {
+    let obj = {
+
+    }
+    if (confirm("Are you sure you want to send sms notification ? ")) {
+      this.service.smsNotification(id, obj).subscribe(
+        (data: any) => {
+          this.appC.popToast({ type: "success", body: "Sms notification sent successfully" })
+          this.viewOnlineClasses();
+        },
+        (error: any) => {
+          this.errorMessage(error);
+        }
+      )
+    }
+  }
+
+  pushNotification(id) {
+    let obj = {
+
+    }
+    if (confirm("Are you sure you want to send push notification ?")) {
+      this.service.pushNotification(id, obj).subscribe(
+        (data: any) => {
+          this.appC.popToast({ type: "success", body: "Push notification sent successfully" })
+          this.viewOnlineClasses();
+        },
+        (error: any) => {
+          this.errorMessage(error);
+        }
+      )
+    }
+  }
+
+  cancel(id) {
+    if (confirm("Are you sure you want to delete the class")) {
+      this.service.cancelSchedule(id).subscribe(
+        (data: any) => {
+          this.appC.popToast({ type: "success", body: "Class deleted successfully" })
+          this.viewOnlineClasses();
+        },
+        (error: any) => {
+          this.errorMessage(error);
+        }
+      )
+    }
+  }
+
+  reschedule(id) {
+    this.rescheduleClass = true;
+    this.openClassPopup = false;
+    this.rescheduleclass.session_id = id;
+  }
+
+  closeReschedule() {
+    this.rescheduleClass = false;
+    this.openClassPopup = true;
+  }
+
+  isReschedule() {
+    this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
+    this.rescheduleclass.start_datetime =  moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
+    this.service.rescheduleClass(this.rescheduleclass).subscribe(
+      (data: any) => {
+        this.appC.popToast({ type: "success", body: "Class Reschedule Successfully" })
+        this.rescheduleClass = false;
+        this.openClassPopup = false;
+        this.rescheduleclass = {
+          end_datetime: "",
+          institution_id: this.service.institute_id,
+          session_id: "",
+          start_datetime: ""
+        }
+      },
+      (error: any) => {
+        this.errorMessage(error);
+      }
+    )
   }
 
 }
