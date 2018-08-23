@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { AuthenticatorService } from './services/authenticator.service';
 import { AlertService } from './services/alert.service';
 import { MultiBranchDataService } from './services/multiBranchdata.service';
+import { Title } from '@angular/platform-browser';
 
 
 
@@ -94,7 +95,8 @@ export class AppComponent implements OnInit {
     private fetchService: FetchprefilldataService,
     private auth: AuthenticatorService,
     private intercept: AlertService,
-    private multiBranchService: MultiBranchDataService
+    private multiBranchService: MultiBranchDataService,
+    private title: Title
   ) {
     this.toasterService = toasterService;
     this.auth.currentInstituteId.subscribe(id => {
@@ -205,6 +207,16 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    this.checkInstituteTitle();
+
+  }
+
+  checkInstituteTitle() {
+    let title = sessionStorage.getItem('institute_title_web');
+    if (title != undefined && title != "" && title != null) {
+      this.title.setTitle(title);
+    }
   }
 
   /* =========================================================================================================== */
