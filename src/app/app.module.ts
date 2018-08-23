@@ -2,6 +2,9 @@
 import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
+import { SearchBoxComponent } from './components/core/search-box/search-box.component';
+import { chatBotComponent } from './components/chatbot/chatbot.component';
+import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 
 
 /* Modules */
@@ -19,6 +22,10 @@ import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
 import { AlertService } from './services/alert.service';
+import { TablePreferencesService } from './services/table-preference/table-preferences.service';
+import { ZendAuth } from './services/Chat-bot/chatbot.service';
+import { MultiBranchDataService } from './services/multiBranchdata.service';
+import { PaginationService } from './services/pagination-service/pagination.service';
 
 /* Interceptors */
 import { I1, I2 } from './interceptors/load-interceptor';
@@ -26,18 +33,13 @@ import { AuthGuard } from './guards/auth.guard';
 
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
-
 import { ToasterModule } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
 import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../assets/imported_modules/ngx-bootstrap/timepicker';
-
-import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
-import { SearchBoxComponent } from './components/core/search-box/search-box.component';
-import { chatBotComponent } from './components/chatbot/chatbot.component';
-import { ZendAuth } from './services/Chat-bot/chatbot.service';
-import { MultiBranchDataService } from './services/multiBranchdata.service';
+
+
 
 
 @NgModule({
@@ -77,7 +79,9 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     ZendAuth,
     Title,
     MultiBranchDataService,
-    AlertService
+    AlertService,
+    TablePreferencesService,
+    PaginationService
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first

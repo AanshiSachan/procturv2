@@ -26,6 +26,8 @@ import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
 import { StyleCellDirective } from './custom-table/style-cell.directive';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
 import { OnlyNumber } from './onlynumber.directive';
+import { DataDisplayTableComponent } from './data-display-table/data-display-table.component';
+import { PreferencePopupComponent } from './preference-popup/preference-popup.component';
 
 
 
@@ -34,10 +36,49 @@ import { OnlyNumber } from './onlynumber.directive';
         CommonModule, FormsModule, TooltipModule.forRoot(),
     ],
     declarations: [
-        TableLayoutComponent, RobTableComponent, RobAdvanceTableComponent, FormatCellPipe, RobTableCellPipe, StyleCellDirective, RobTableCellDirective, PaginationComponent, QuickFilterComponent, AppLoaderComponent, PictureCropComponent, CommaSeprationAmount, ProcturPopUpComponent, SearchPipe, ProcturDate, CustomizingPipe, CustomNamePipe, DropMenuComponent, RobTooltipComponent, OnlyNumber
+        TableLayoutComponent,
+        RobTableComponent,
+        RobAdvanceTableComponent,
+        FormatCellPipe,
+        RobTableCellPipe,
+        StyleCellDirective,
+        RobTableCellDirective,
+        PaginationComponent,
+        QuickFilterComponent,
+        AppLoaderComponent,
+        PictureCropComponent,
+        CommaSeprationAmount,
+        ProcturPopUpComponent,
+        SearchPipe,
+        ProcturDate,
+        CustomizingPipe,
+        CustomNamePipe,
+        DropMenuComponent,
+        RobTooltipComponent,
+        OnlyNumber,
+        DataDisplayTableComponent,
+        PreferencePopupComponent
     ],
     exports: [
-        CommonModule, TableLayoutComponent, RobTableComponent, RobAdvanceTableComponent, PaginationComponent, QuickFilterComponent, AppLoaderComponent, PictureCropComponent, CommaSeprationAmount, ProcturPopUpComponent, SearchPipe, ProcturDate, CustomizingPipe, CustomNamePipe, DropMenuComponent, RobTooltipComponent, OnlyNumber
+        CommonModule,
+        TableLayoutComponent,
+        RobTableComponent,
+        RobAdvanceTableComponent,
+        PaginationComponent,
+        QuickFilterComponent,
+        AppLoaderComponent,
+        PictureCropComponent,
+        CommaSeprationAmount,
+        ProcturPopUpComponent,
+        SearchPipe,
+        ProcturDate,
+        CustomizingPipe,
+        CustomNamePipe,
+        DropMenuComponent,
+        RobTooltipComponent,
+        OnlyNumber,
+        DataDisplayTableComponent,
+        PreferencePopupComponent
     ],
     entryComponents: [
         DropMenuComponent,

@@ -15,16 +15,26 @@ export class HomeComponent implements OnInit {
   employeeList: any = [];
   PageIndex: number = 1;
   displayBatchSize: number = 10;
-  dataStatus: number = 1;
+  dataStatus: number = 3;
   totalRow: number = 0;
   selectedRow: number = null;
-  daysList: any = [];
-  tempData: any = "";
-  workingDayPopUp: boolean = false;
   @ViewChild('tableContent') tableContent: ElementRef;
   @ViewChild('sideNav') sideNav: ElementRef;
   selectedEmpData: any = '';
   bulkActionItems: MenuItem[];
+  searchTextEntered: any = "";
+  isRippleLoad: boolean = false;
+  selectedEmployeeID: any = [];
+  sendNotificationPopUp: boolean = false;
+  messageList: any = [];
+  addNewMessageText: string = "";
+  addNewMessageSection: boolean = false;
+  isAdminRole: boolean = false;
+  showOpenMessage: boolean = false;
+  approvedMessageList: any = [];
+  messageApproval = sessionStorage.getItem('allow_sms_approve_feature');
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
 
   constructor(
     private router: Router,
@@ -37,8 +47,86 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchEmployeeList();
     this.giveFullPermisionOfBulfAction();
+    this.checkRoleBased();
+  }
+
+  checkRoleBased() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType != 3) {
+      let permissionArray = sessionStorage.getItem('permissions');
+      if (permissionArray == "" || permissionArray == null) {
+        this.isAdminRole = true;
+      } else {
+        this.isAdminRole = false;;
+      }
+    } else {
+      this.isAdminRole = false;
+    }
+  }
+
+  onViewBtnClick() {
+    let data = this.checkUserProvidedFields();
+    this.PageIndex = 1;
+    this.isRippleLoad = true;
+    this.dataStatus = 1;
+    this.apiService.searchEmployee(data.name, data.number).subscribe(
+      res => {
+        this.dataStatus = 2;
+        this.isRippleLoad = false;
+        this.employeeListDataSource = this.addKey(res);
+        this.totalRow = res.length;
+        this.fetchTableDataByPage(this.PageIndex);
+      },
+      err => {
+        this.dataStatus = 2;
+        this.isRippleLoad = false;
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+
+  }
+
+  checkUserProvidedFields() {
+    let obj: any = {};
+    if (isNaN(this.searchTextEntered)) {
+      obj.name = this.searchTextEntered;
+      obj.number = "";
+    } else {
+      obj.number = this.searchTextEntered;
+      obj.name = "";
+    }
+    return obj;
+  }
+
+  onCheckoxSelction(event) {
+    this.selectedEmployeeID = [];
+    if (event.target.checked) {
+      this.employeeListDataSource.map(
+        ele => {
+          ele.selected = true;
+          this.selectedEmployeeID.push(ele.emp_id);
+        }
+      )
+    } else {
+      this.employeeListDataSource.map(
+        ele => {
+          ele.selected = false;
+        }
+      )
+    }
+  }
+
+  onRowCheckBoxSelect(row) {
+    if (row.selected) {
+      if (this.selectedEmployeeID.indexOf(row.emp_id) == -1) {
+        this.selectedEmployeeID.push(row.emp_id);
+      }
+    } else {
+      if (this.selectedEmployeeID.indexOf(row.emp_id) != -1) {
+        this.selectedEmployeeID.splice(this.selectedEmployeeID.index(row.emp_id), 1);
+      }
+    }
   }
 
   giveFullPermisionOfBulfAction() {
@@ -61,117 +149,212 @@ export class HomeComponent implements OnInit {
     ];
   }
 
-  fetchEmployeeList() {
-    this.PageIndex = 1;
-    this.apiService.getEmployeeList().subscribe(
-      (res: any) => {
-        this.employeeListDataSource = this.addKey(res);
-        this.totalRow = res.length;
-        this.dataStatus = 2;
-        this.fetchTableDataByPage(this.PageIndex);
+  bulkDeleteEmployee() {
+
+  }
+
+  sendBulkSms() {
+    this.sendNotificationPopUp = true;
+    this.fetchAllMessage();
+    this.addNewMessageText = "";
+    this.addNewMessageSection = false;
+  }
+
+  fetchAllMessage() {
+    this.messageList = [];
+    this.approvedMessageList = [];
+    this.isRippleLoad = true;
+    this.apiService.getMessageList().subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.messageList = res;
+        res.map(
+          ele => {
+            if (ele.statusValue == "Approved") {
+              ele['selected'] = false;
+              this.approvedMessageList.push(ele);
+            }
+          }
+        )
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.messageNotifier('error', 'Error', err.error.message);
       }
     )
   }
 
-  bulkDeleteEmployee(){
-
-  }
-
-  sendBulkSms(){
-
-  }
-
-  downloadBulkIdCard(){
-    
-  }
-
-  //Working Days PopUp 
-
-  manageWorkingDays(data) {
-    this.workingDayPopUp = true;
-    this.tempData = data;
-    if (this.daysList.length == 0) {
-      this.fetchWorkingDays(data)
+  toggleCreateNewMessage() {
+    if (this.addNewMessageSection == false) {
+      this.addNewMessageSection = true;
+      document.getElementById('showCloseBtn').style.display = '';
+      document.getElementById('showAddBtn').style.display = 'none';
     } else {
-      setTimeout(() => {
-        this.makeTableJson(this.daysList, data);
-      }, 500)
+      this.addNewMessageSection = false;
+      document.getElementById('showCloseBtn').style.display = 'none';
+      document.getElementById('showAddBtn').style.display = '';
     }
   }
 
-  fetchWorkingDays(data) {
-    this.apiService.getDaysList().subscribe(
-      res => {
-        this.daysList = res;
-        this.makeTableJson(res, data);
-      },
-      err => {
-        console.log(err);
+  saveNewMessage() {
+    if (this.addNewMessageText.trim() == "") {
+      this.messageNotifier('error', 'Error', "Please provide text");
+      return;
+    } else {
+      if (this.addNewMessageText.length > 500) {
+        this.messageNotifier('error', 'Error', "Message can't exceed 500 character length");
+        return;
+      } else {
+        let obj = {
+          message: this.addNewMessageText.trim(),
+          status: 0
+        }
+        this.isRippleLoad = true;
+        this.apiService.addNewMessage(obj).subscribe(
+          res => {
+            this.isRippleLoad = false;
+            this.messageNotifier('success', 'Added Successfully', 'Message Added Successfully');
+            this.toggleCreateNewMessage();
+            this.addNewMessageText = "";
+            this.fetchAllMessage();
+          },
+          err => {
+            this.isRippleLoad = false;
+            this.messageList('error', 'Error', err.error.message);
+          }
+        )
       }
-    )
+    }
+
   }
 
-  makeTableJson(weekDays, data) {
-    let arr: any = [];
-    weekDays.map(
+  onTabChange(tabname) {
+    this.showOpenMessage = false;
+    document.getElementById('approvedSMSTab').classList.remove('active');
+    document.getElementById('openSMSTab').classList.remove('active');
+    if (tabname == 'approved') {
+      document.getElementById('approvedSMSTab').classList.add('active');
+    } else {
+      this.showOpenMessage = true;
+      document.getElementById('openSMSTab').classList.add('active');
+    }
+  }
+
+  approveRejectSms(data) {
+    if (confirm('Are you sure, you want to approve this message?')) {
+      this.isRippleLoad = true;
+      this.apiService.approveMessageStatus({ status: 1 }, data.message_id).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Approved', 'Message approved successfully');
+          this.fetchAllMessage();
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  deleteSms(data) {
+    if (confirm('Are you sure, you want to delete this message?')) {
+      this.isRippleLoad = true;
+      this.apiService.deleteMessage(data.message_id).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Deletes', 'Message deleted successfully');
+          this.fetchAllMessage();
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+
+  editMessage(index) {
+    document.getElementById("row" + index).classList.remove('displayComp');
+    document.getElementById("row" + index).classList.add('editComp');
+  }
+
+  cancelRow(id) {
+    document.getElementById(("row" + id).toString()).classList.remove('editComp');
+    document.getElementById(("row" + id).toString()).classList.add('displayComp');
+    this.fetchAllMessage();
+  }
+
+  updateMessageDetails(data) {
+    if (data.message.trim() != "" || data.message.trim() != null) {
+      let obj = {
+        message: data.message,
+        status: 0
+      }
+      this.isRippleLoad = true;
+      this.apiService.editMessage(obj, data.message_id).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Saved Successfully', 'Message saved');
+          this.fetchAllMessage();
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+
+  onMessageCheckBox(data) {
+    this.approvedMessageList.map(
       ele => {
-        if (data.workingDays.includes(ele.data_key)) {
-          if ((document.getElementById('idDay-' + ele.data_key).classList).contains('l-text')) {
-            document.getElementById('idDay-' + ele.data_key).classList.remove('l-text');
-            document.getElementById('idDay-' + ele.data_key).classList.add('p-text');
-          }
+        if (ele.message_id == data.message_id) {
+          ele.selected = true;
+        } else {
+          ele.selected = false;
         }
       }
     )
   }
 
-  closePopup() {
-    this.workingDayPopUp = false;
-    this.tempData = "";
-  }
-
-  onWeekDaysSelection(event) {
-    if ((document.getElementById(event.target.id).classList).contains('l-text')) {
-      document.getElementById(event.target.id).classList.remove('l-text');
-      document.getElementById(event.target.id).classList.add('p-text');
+  sendSMSToEmployees() {
+    let selectedMsg: any = this.getContent(this.approvedMessageList, 'selected', true);
+    if (selectedMsg.length == 0) {
+      this.messageNotifier('error', 'Error', 'Please select a message');
+      return;
     } else {
-      document.getElementById(event.target.id).classList.add('l-text');
-      document.getElementById(event.target.id).classList.remove('p-text');
-    }
-  }
-
-  getSelectedDaysOfWeek() {
-    let arr = [];
-    let elementArray = document.getElementsByClassName('p-text');
-    for (let t = 0; t < elementArray.length; t++) {
-      arr.push(elementArray[t].id.split('-')[1].trim());
-    }
-    return arr;
-  }
-
-  updateEmployeeWorkingDays() {
-    let data: any = this.getSelectedDaysOfWeek();
-    if (data.length == 0) {
-      this.messageNotifier('warning', 'Warning', "You haven't selected any day");
-      data = "";
-    } else {
-      data = data.join(',');
-    }
-    let obj: any = {
-      emp_id: this.tempData.emp_id,
-      workingDays: data
-    };
-    this.apiService.updateWorkingDays(obj).subscribe(
-      res => {
-        this.messageNotifier('success', 'Updated Successfully', 'Working days updated successfully');
-        this.fetchEmployeeList();
-        this.closePopup();
-      },
-      err => {
-        console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+      if (this.selectedEmployeeID.length > 0) {
+        let obj: any = {
+          delivery_mode: 0,
+          message_id: selectedMsg.message_id,
+          notifn_message: selectedMsg.message,
+          configuredMessage: true,
+          emp_ids: this.selectedEmployeeID.join(',')
+        }
+        this.apiService.sendNotificationToUser(obj).subscribe(
+          res => {
+            this.messageNotifier('success', 'SMS Send Successfully', '');
+            this.closePopup();
+          }
+        )
+      } else {
+        this.messageNotifier('error', 'Error', 'Please select a user');
+        return;
       }
-    )
+    }
+  }
+
+  closePopup() {
+    this.sendNotificationPopUp = false;
+    this.messageList = [];
+    this.approvedMessageList = [];
+  }
+
+  downloadBulkIdCard() {
+
   }
 
   // pagination functions 
@@ -230,6 +413,18 @@ export class HomeComponent implements OnInit {
       }
     )
     return res;
+  }
+
+  getContent(data, key, value) {
+    let arr = [];
+    data.map(
+      ele => {
+        if (ele[key] == value) {
+          arr.push(ele);
+        }
+      }
+    )
+    return arr;
   }
 
 }

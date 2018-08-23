@@ -1,0 +1,158 @@
+.made {
+    border: 1px solid black;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    padding-top: 8px;
+}
+
+.widget {
+    height: auto;
+    width: 85%;
+    background: white;
+    border: 1px solid #efefef;
+    margin-left: 6%;
+    box-shadow: -1px -1px 9px 4px #efefef;
+    border-radius: 10px;
+}
+
+.madeNe {
+    width: 95%;
+    margin-left: 3%;
+    margin-top: 17px;
+}
+
+.made-out {
+    border: 1px solid #efefef;
+}
+
+.madeNe {
+    height: 172px;
+    overflow: hidden;
+    .tabel-ne {
+        height: 172px;
+        overflow: auto;
+    }
+}
+
+.form-submit {
+    .field-radio-wrapper {
+        width: 20px;
+        overflow: hidden;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        height: 20px;
+        padding-left: 20px;
+        margin-bottom: 0;
+        margin-left: 5px;
+        background: transparent;
+        border-radius: 2px;
+        .form-radio {
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            z-index: 1;
+        }
+    }
+}
+
+.alignment {
+    th {
+        text-align: left;
+    }
+    td {
+        text-align: left;
+    }
+}
+
+.pointed-one {
+    cursor: pointer;
+}
+
+.row-inner {
+    .field-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url(/./assets/images/calendar.svg) no-repeat;
+                position: absolute;
+                right: 21px;
+                top: 33px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
+.made-in {
+    .field-checkbox-wrapper {
+        .form-checkbox {
+            label {
+                &:after {
+                    content: '';
+                    width: 16px;
+                    height: 16px;
+                    border: 2px solid #ccc;
+                    border-radius: 2px;
+                    position: absolute;
+                    left: 0;
+                    top: 4px;
+                }
+            }
+        }
+    }
+}
+
+table {
+    thead {
+        tr {
+            th {
+                padding: 14px;
+            }
+        }
+    }
+}
+
+.view-class {
+    margin-right: 10%;
+    margin-top: -2%;
+    cursor: pointer;
+}
+
+.teacherId {
+    th {
+        text-align: left;
+    }
+    td {
+        text-align: left;
+    }
+}
+
+.made-teacher {
+    width: 95%;
+    margin-left: 3%;
+    margin-top: 17px;
+}
+
+.tooltip {}
+
+.made-teacher {
+    height: 348px;
+    overflow: hidden;
+    .table-teacher {
+        height: 348px;
+        overflow: auto;
+    }
+}

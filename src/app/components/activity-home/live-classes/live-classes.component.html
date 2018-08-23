@@ -1,0 +1,528 @@
+<div class="middle-section clearFix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix activity-wrapper">
+
+            <section class="row header">
+                <div class="row" style="margin-left: 15px;">
+                    <h2 class="pull-left">
+                        <a routerLink="/view/activity/dashboard">
+                            Activity
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                        Live Classes
+                    </h2>
+                </div>
+                <section class="student-tab">
+                    <ul class="nav-tab">
+                        <li id="li-one" class="active">
+                            <div class="navigator" id="studentForm-icon" (click)="switchToView($event.target.id)">
+                                <span id="studentForm-icon">1</span>
+                                <p id="studentForm-icon">Class Details</p>
+                            </div>
+                        </li>
+                        <li class="" id="li-two">
+                            <div class="navigator" id="kyc-icon" (click)="switchToView($event.target.id)">
+                                <span id="kyc-icon">2</span>
+                                <p id="kyc-icon">Assign Students</p>
+                            </div>
+                        </li>
+                        <li class="" id="li-three" [class.hide]="quickAddStudent">
+                            <div class="navigator" id="feeDetails-icon" (click)="switchToView($event.target.id)">
+                                <span id="feeDetails-icon">3</span>
+                                <p id="feeDetails-icon">Assign Teacher</p>
+                            </div>
+                        </li>
+                        <li class="" id="li-four" [class.hide]="quickAddStudent">
+                            <div class="navigator" id="inventory-icon" (click)="switchToView($event.target.id)">
+                                <span id="inventory-icon">4</span>
+                                <p id="inventory-icon">Assign User</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="studentForm" *ngIf="studentForm">
+
+                    <a class="pull-right view-class" (click)="viewOnlineClasses()">View Online Classes</a>
+                    <div class="widget">
+                        <h2 style="margin-left: 3%; margin-top: 2%; ">Class Details</h2>
+                        <div class="row row-inner" style="margin-left: 2%; margin-top: 20px;">
+                            <div class="c-lg-4 field-wrapper">
+                                <label>Topic Name</label>
+                                <input type="text" class="form-ctrl" [(ngModel)]="getOnlineClasses.session_name">
+                            </div>
+                            <div class="c-lg-2 field-wrapper datePickerBox" style="margin-left: 7%;">
+                                <label>Date</label>
+                                <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="dateFrom" (ngModelChange)="getEvent($event)">
+                            </div>
+                            <div class="c-lg-2" style="margin-top: 11px;">
+                                <label style="display: block; font-size: 12px;"> From</label>
+                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourFrom" (ngModelChange)="getEventHourFrom($event)">
+                                    <option *ngFor="let i of hour" [value]="i">
+                                        {{i}}
+                                    </option>
+                                </select>
+                                <select class="made-out" style="display: inline-block;height: 37px;" [(ngModel)]="minuteFrom" (ngModelChange)="getEventMinuteFrom($event)">
+                                    <option *ngFor="let i of minutes" [value]="i">
+                                        {{i}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="c-lg-2" style="margin-top: 11px;">
+                                <label style="display: block; font-size: 12px;">To</label>
+                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourTo" (ngModelChange)="getEventHourTo($event)">
+                                    <option *ngFor="let i of hour" [value]="i">
+                                        {{i}}
+                                    </option>
+                                </select>
+                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="minuteTo" (ngModelChange)="getEventMinuteTo($event)">
+                                    <option *ngFor="let i of minutes" [value]="i">
+                                        {{i}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-left: 2%;">
+                            <div class="c-lg-4 field-wrapper">
+                                <label>Class Details</label>
+                                <textarea class="form-ctrl" style="height: 200px;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
+                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" (click)="viewStudents()">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="kyc" *ngIf="kyc">
+                    <div class="widget">
+                        <h2 style="margin-left: 3%; margin-top: 2%; ">Select Students</h2>
+                        <div class="row" style="margin-left: 2%; margin-top: 20px;" *ngIf="!isProfessional">
+                            <div class="c-lg-3 field-wrapper">
+                                <label>Master Course</label>
+                                <select class="form-ctrl" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
+                                    <option *ngFor="let i of masters" [value]="i.master_course">
+                                        {{i.master_course}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="c-lg-3 field-wrapper">
+                                <label>Course</label>
+                                <select class="form-ctrl" multiple style="height: 87px;" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
+                                    <option *ngFor="let i of courses" [value]="i.course_id">
+                                        {{i.course_name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="c-lg-2" style="margin-top: 2%;">
+                                <button class="btn fullBlue" (click)="getStudents()">Go</button>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-left: 2%; margin-top: 20px;" *ngIf="isProfessional">
+                            <div class="c-lg-3 field-wrapper">
+                                <label>Batch</label>
+                                <select class="form-ctrl" multiple style="height: 87px;" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
+                                    <option *ngFor="let i of batches" [value]="i.batch_id">
+                                        {{i.batch_name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="c-lg-2" style="margin-top: 2%;">
+                                <button class="btn fullBlue" (click)="getStudents()">Go</button>
+                            </div>
+                        </div>
+
+                        <div class="table table-responsive madeNe">
+                            <div class="tabel-ne">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: left;padding-left: 15px;">
+                                                <div class="field-checkbox-wrapper" style="display: inline-block;">
+                                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="selected" (ngModelChange)="getAllStudents($event)">
+                                                    <label></label>
+                                                </div>
+                                                <div style="display: inline-block; padding-bottom: 8px;">
+                                                    Id
+                                                </div>
+                                            </th>
+                                            <th style="text-align: left;">
+                                                Name
+                                            </th>
+                                            <th style="text-align: left;">
+                                                Email Id
+                                            </th>
+                                            <th style="text-align: left;">
+                                                Phone Number
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="studentsAssigned.length!=0">
+                                        <tr *ngFor="let i of studentsAssigned ; let j=index;" class="made-in">
+                                            <td style="text-align: left;">
+                                                <div class="field-checkbox-wrapper" style="height: 23px;">
+                                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getStudentCheckedValue($event , j)">
+                                                    <label></label>
+                                                </div>
+                                                {{i.student_disp_id}}
+                                            </td>
+                                            <td style="text-align: left;">
+                                                {{i.student_name}}
+                                            </td>
+                                            <td style="text-align: left;">
+                                                {{i.student_email}}
+                                            </td>
+                                            <td style="text-align: left;">
+                                                {{i.student_phone}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                    <tbody *ngIf="studentsAssigned.length==0">
+                                        <tr>
+                                            <td colspan="4">
+                                                No Records Found
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
+                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" (click)="isStudent()" *ngIf="isStudentCheckedArr.length!=0">
+                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" *ngIf="isStudentCheckedArr.length==0" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="feeDetails" *ngIf="feeDetails">
+                    <div class="widget">
+                        <h2 style="margin-left: 3%; margin-top: 2%; ">Select Teachers</h2>
+                        <!-- <div style="display: inline-block;">
+                            <aside class="pull-left">
+                                <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
+                                </rob-tooltip>
+                            </aside>
+                        </div> -->
+                        <div class="table table-responsive made-teacher">
+                            <div class="table-teacher">
+                                <table>
+                                    <thead>
+                                        <tr class="teacherId">
+                                            <th style="text-align: center; width:10%;">
+                                                Id
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Phone
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="teachersAssigned.length!=0" class="form-submit">
+                                        <tr *ngFor="let i of teachersAssigned ; let j=index" class="teacherId">
+                                            <td>
+                                                <div class="field-radio-wrapper" style="display: inline-block;">
+                                                    <input type="radio" class="form-radio" name="checked" [(ngModel)]="teacherId" [value]="i.teacher_id">
+                                                    <label></label>
+                                                </div>
+                                                <div style="display: inline-block;">
+                                                    {{i.teacher_id}}
+                                                </div>
+                                            </td>
+                                            <td style="text-align: left">
+                                                {{i.teacher_name}}
+                                            </td>
+                                            <td style="text-align: left">
+                                                {{i.teacher_email}}
+                                            </td>
+                                            <td style="text-align: left">
+                                                {{i.teacher_phone}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="teachersAssigned.length==0">
+                                        <tr>
+                                            <td colspan='4'>
+                                                No Records Found
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
+                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" *ngIf="teacherId != ''" (click)="viewUsers()">
+                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" *ngIf="teacherId == ''" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="inventory" *ngIf="inventory">
+                    <div class="widget">
+                        <h2 style="margin-left: 3%; margin-top: 2%; ">Select Users</h2>
+                        <div class="table table-responsive made-teacher">
+                            <div class="table-teacher">
+                                <table>
+                                    <thead>
+                                        <tr class="teacherId">
+                                            <th style="text-align: center; width:14%;">
+                                                Id
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Phone
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody *ngIf="userAssigned.length!=0">
+                                        <tr *ngFor="let i of userAssigned ; let j=index" class="teacherId">
+                                            <td>
+                                                <div class="field-checkbox-wrapper">
+                                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getUserCheckedValue($event , j)">
+                                                    <label></label>
+                                                </div>
+                                                {{i.userid}}
+                                            </td>
+                                            <td>
+                                                {{i.name}}
+                                            </td>
+                                            <td>
+                                                {{i.email_id}}
+                                            </td>
+                                            <td>
+                                                {{i.phone}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="userAssigned.length==0">
+                                        <tr>
+                                            <td colspan="4">
+                                                No Records Found
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-3 field-checkbox-wrapper" style="margin-left: 4%;
+                            margin-top: 1%;">
+                                <input type="checkbox" class="form-checkbox" [(ngModel)]="sendNotifyMe" (ngModelChange)="sendNotify($event)">
+                                <label>Send Notification</label>
+                            </div>
+                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
+                                <input type="button" class="btn fullBlue" value="Submit" style="width:100%;" (click)="getOnlineSchedules()">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </section>
+    </aside>
+</div>
+
+<proctur-popup [sizeWidth]="'large'" *ngIf="openClassPopup">
+
+    <span class="closePopup pos-abs fbold show" close-button (click)="close()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+    <div popup-header class="popup-header-content">
+    </div>
+
+    <div popup-content class="popup-header-content">
+        <div class="row">
+            <div class="c-lg-2 pointed-one" >
+                <a (click)="pastClasses()">Past Online Classes</a>
+            </div>
+            <div class="c-lg-3 pointed-one">
+                <a (click)="futureClasses()">Upcoming Online Classes</a>
+            </div>
+        </div>
+        <table *ngIf="allClasses">
+            <thead>
+                <tr class="alignment">
+                    <th>
+                        Session Id
+                    </th>
+                    <th>
+                        Session Name
+                    </th>
+                    <th>
+                        Start Time
+                    </th>
+                    <th>
+                        End Time
+                    </th>
+                    <th>
+                        Video/Session link
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody *ngIf="getClasses.length !=0">
+                <tr *ngFor="let i of getClasses" class="alignment">
+                    <td>
+                        {{i.session_id}}
+                    </td>
+                    <td>
+                        {{i.session_name}}
+                    </td>
+                    <td>
+                        {{i.start_datetime}}
+                    </td>
+                    <td>
+                        {{i.end_datetime}}
+                    </td>
+                    <td>
+                        <a href="{{i.session_link}}">
+                            {{i.session_link}}
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+
+            <tbody *ngIf="getClasses.length == 0">
+                <tr>
+                    <td colspan="5">
+                        No Records Found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table *ngIf="pastClassesPopup">
+            <thead>
+                <tr class="alignment">
+                    <th>
+                        Session Id
+                    </th>
+                    <th>
+                        Session Name
+                    </th>
+                    <th>
+                        Start Time
+                    </th>
+                    <th>
+                        End Time
+                    </th>
+                    <th>
+                        Video/Session link
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody *ngIf="getPastClasses.length !=0">
+                <tr *ngFor="let i of getPastClasses" class="alignment">
+                    <td>
+                        {{i.session_id}}
+                    </td>
+                    <td>
+                        {{i.session_name}}
+                    </td>
+                    <td>
+                        {{i.start_datetime}}
+                    </td>
+                    <td>
+                        {{i.end_datetime}}
+                    </td>
+                    <td>
+                        <a href="{{i.session_link}}">
+                            Videos
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+
+            <tbody *ngIf="getPastClasses.length == 0">
+                <tr>
+                    <td colspan="5">
+                        No Records Found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table *ngIf="futureClassesPopup">
+            <thead>
+                <tr class="alignment">
+                    <th>
+                        Session Id
+                    </th>
+                    <th>
+                        Session Name
+                    </th>
+                    <th>
+                        Start Time
+                    </th>
+                    <th>
+                        End Time
+                    </th>
+                    <th>
+                        Video/Session link
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody *ngIf="getFutureClasses.length !=0">
+                <tr *ngFor="let i of getFutureClasses" class="alignment">
+                    <td>
+                        {{i.session_id}}
+                    </td>
+                    <td>
+                        {{i.session_name}}
+                    </td>
+                    <td>
+                        {{i.start_datetime}}
+                    </td>
+                    <td>
+                        {{i.end_datetime}}
+                    </td>
+                    <td>
+                        <a href="{{i.session_link}}">
+                            Videos
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+
+            <tbody *ngIf="getFutureClasses.length == 0">
+                <tr>
+                    <td colspan="5">
+                        No Records Found
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+</proctur-popup>
