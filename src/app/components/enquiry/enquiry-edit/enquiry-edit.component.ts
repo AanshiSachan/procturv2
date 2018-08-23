@@ -132,7 +132,7 @@ export class EnquiryEditComponent implements OnInit {
 
   }
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"];
   hour: string = '';
   minute: string = '';
@@ -808,12 +808,12 @@ export class EnquiryEditComponent implements OnInit {
 
         if (this.editEnqData.follow_type == "Walkin") {
           if (this.editEnqData.walkin_followUpDate == "") {
-            this.messageNotifier('error', 'Please provide walkin date for follow up type walkin', '');
+            this.messageNotifier('error', 'Error', 'Please provide walkin date for follow up type walkin');
             return;
           }
 
           if (this.editEnqData.walkin_followUpTime == "") {
-            this.messageNotifier('error', 'Please provide walkin time for follow up type walkin', '');
+            this.messageNotifier('error', 'Error', 'Please provide walkin time for follow up type walkin');
             return;
           }
         }

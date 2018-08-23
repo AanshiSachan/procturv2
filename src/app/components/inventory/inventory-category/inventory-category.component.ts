@@ -15,7 +15,7 @@ export class InventoryCategoryComponent implements OnInit {
   newCategory: AddCategory = {};
   categoryList: any = [];
   dataSourceCategory: any = [];
-  totalRow;
+  totalRow: number = 0;
   studentdisplaysize: number = 10;
   PageIndex: number = 1;
   sizeArr: any[] = [10, 25, 50, 100];
@@ -65,7 +65,7 @@ export class InventoryCategoryComponent implements OnInit {
         let msg = {
           type: "error",
           title: "",
-          body: "An Error Occured"
+          body: error.error.message
         }
         this.appC.popToast(msg);
       }
@@ -110,7 +110,7 @@ export class InventoryCategoryComponent implements OnInit {
         let msg = {
           type: "error",
           title: "",
-          body: "An Error Occured"
+          body: error.error.message
         }
         this.appC.popToast(msg);
       }

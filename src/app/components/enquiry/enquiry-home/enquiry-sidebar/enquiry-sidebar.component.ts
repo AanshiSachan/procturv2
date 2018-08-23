@@ -13,7 +13,7 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
 
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
-  minArr: any[] = [ '','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"];
   isEnquiryAdmin: boolean = false;
   rowData: any;
@@ -157,10 +157,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
       this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
-      if (res.followUpTime != '' && res.followUpTime != null && (res.followUpTime.toLowerCase().includes('invalid') == false)) {
+      if (res.followUpTime != '' && res.followUpTime != null) {
         this.followUpTime = this.breakTimeInToHrAndMin(res.followUpTime);
       }
-      if (res.walkin_followUpTime != '' && res.walkin_followUpTime != null && (res.walkin_followUpTime.toLowerCase().includes('invalid') == false)) {
+      if (res.walkin_followUpTime != '' && res.walkin_followUpTime != null) {
         this.walkin_followUpTime = this.breakTimeInToHrAndMin(res.walkin_followUpTime);
       }
       this.updateFormComments = res.comments;
@@ -340,7 +340,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
         if (this.updateFormData.walkin_followUpDate == "" || this.updateFormData.walkin_followUpDate == null || this.updateFormData.walkin_followUpDate == "Invalid Date") {
           this.updateFormData.walkin_followUpDate = "";
         } else {
-          this.updateFormData.walkin_followUpDate = moment(this.walkin_followUpTime).format('YYYY-MM-DD');
+          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
         }
 
         if (this.walkin_followUpTime.hour == "" || this.walkin_followUpTime.minute == "") {
