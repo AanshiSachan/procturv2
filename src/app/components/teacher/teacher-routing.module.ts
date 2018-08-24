@@ -29,11 +29,10 @@ import { TeacherViewComponent } from './teacher-view/teacher-view.component';
                         path: 'edit/:id',
                         component: TeacherEditComponent
                     },
-                    // {
-                    //     path: 'view',
-                    //     component: TeacherViewComponent
-                    // },
-                    { path: 'view/:id', component: TeacherViewComponent }
+                    {
+                        path: 'view/:id',
+                        component: TeacherViewComponent
+                    }
                 ]
             }
         ])

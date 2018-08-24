@@ -29,26 +29,18 @@ export class chatBotComponent {
     }
   }
 
-  constructor(private router: Router, private auth: ZendAuth, private appC: AppComponent, private login: LoginService, private authS: AuthenticatorService ) {
+  constructor(
+    private router: Router,
+    private auth: ZendAuth,
+    private appC: AppComponent,
+  ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
     this.flagData = new EventEmitter();
-
   }
 
   ngOnInit() {
-    this.authS.institute_type.subscribe(
-      res => {
-        if (res == 'LANG') {
-          this.isProfessional = true;
-        } else {
-          this.isProfessional = false;
-        }
-      }
-    )
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   ZendeskLogin() {
@@ -101,7 +93,6 @@ export class chatBotComponent {
       this.payload.ticket.subject = "";
       this.payload.ticket.description = "";
       this.help.nativeElement.classList.remove('active');
-
     }
     else {
       this.help.nativeElement.classList.add('active');

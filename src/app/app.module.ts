@@ -1,10 +1,6 @@
 /* Components */
 import { AppComponent } from './app.component';
-import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
-import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
-import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 import { chatBotComponent } from './components/chatbot/chatbot.component';
-import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 
 
 /* Modules */
@@ -37,6 +33,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
+import { CommonServiceFactory } from './services/common-service';
 import {ToasterModule} from 'angular2-toaster';
 
 
@@ -57,14 +54,9 @@ import {ToasterModule} from 'angular2-toaster';
   ],
   declarations: [
     AppComponent,
-    CoreSidednavComponent,
-    CoreHeaderComponent,
-    OverlayMenuComponent,
-    chatBotComponent,
-    SearchBoxComponent
+    chatBotComponent
   ],
   entryComponents: [
-    SearchBoxComponent, 
     chatBotComponent
   ],
   providers: [
@@ -79,7 +71,8 @@ import {ToasterModule} from 'angular2-toaster';
     MultiBranchDataService,
     AlertService,
     TablePreferencesService,
-    PaginationService
+    PaginationService,
+    CommonServiceFactory
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first

@@ -47,7 +47,7 @@ export class CoreHeaderComponent implements OnInit {
 
 
   @Output() searchViewMore = new EventEmitter<any>();
-  @Output() otherAction = new EventEmitter<any>();
+  @Output() enquiryUpdateAction = new EventEmitter<any>();
   @Output() hideSearchPopup = new EventEmitter<any>();
   @Output() changePassword = new EventEmitter<any>();
 
@@ -444,7 +444,7 @@ export class CoreHeaderComponent implements OnInit {
     }
     else if (d.data.source == "Enquiry") {
       if (d.action == "enquiryUpdate") {
-        this.otherAction.emit(d);
+        this.enquiryUpdateAction.emit(d);
       }
       else {
         this.router.navigate(['/view/enquiry'], { queryParams: { id: d.data.id, action: d.action } });

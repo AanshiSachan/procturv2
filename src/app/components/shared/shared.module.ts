@@ -28,7 +28,6 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
 import { OnlyNumber } from './onlynumber.directive';
 import { DataDisplayTableComponent } from './data-display-table/data-display-table.component';
 import { PreferencePopupComponent } from './preference-popup/preference-popup.component';
-import { EnquiryModule } from '../enquiry/enquiry.module';
 
 
 
