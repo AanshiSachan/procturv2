@@ -3,20 +3,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "./authenticator.service";
 import { forkJoin } from "rxjs/observable/forkJoin";
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+
+
+
 
 @Injectable()
 export class WidgetService {
-
     baseUrl: string = '';
     Authorization: any;
     headers;
     institute_id;
-
-
+    
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
         this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;

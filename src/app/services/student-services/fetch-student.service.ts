@@ -3,10 +3,6 @@ import { HttpRequest, HttpClient, HttpParams, HttpHeaders } from '@angular/commo
 import { instituteInfo } from '../../model/instituteinfo';
 import { Students } from '../../model/student-data';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service';
 
 

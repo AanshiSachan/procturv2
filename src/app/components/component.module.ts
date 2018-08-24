@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentRoutingModule } from './component-routing.module';
 import { ComponentsComponent } from './components.component';
 import { SharedModule } from '../components/shared/shared.module';
-import { BsDatepickerModule } from '../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { OverlayMenuComponent } from './overlay-menu/overlay-menu.component';
 import { CoreHeaderComponent } from './core/core-header/core-header.component';
 import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.component';
