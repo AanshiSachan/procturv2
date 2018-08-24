@@ -12,17 +12,17 @@
       </g>
     </svg>
   </span>
-  <h2 popup-header>Select your table {{settings.tableDetails.title}} preference </h2>
+  <h2 popup-header>Select Preferences </h2>
   <ul class="history-wrapper" id="horizontal-list" popup-content>
     <form>
     <li *ngFor="let fieldObj of keys; let i=index;">
       <label class="checkbox-inline">
-        <div class="field-checkbox-wrapper">
-            <input type="checkbox"  class="form-checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked" (change)="change($event, fieldObj)" 
-            [id]="'checkbox-'+i">
-            <label [for]="'checkbox-'+i"></label>{{fieldObj.header}}
-            <!-- <input type="checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked" (change)="change($event, fieldObj)"> 
-            {{fieldObj.header}} -->
+        <div class="field-checkbox-wrapper" >
+            <input type="checkbox"  class="form-checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked"   (change)="change($event, fieldObj)"
+            [id]="'checkboxPopup-'+i">
+            <label [for]="'checkboxPopup-'+i"></label>{{fieldObj.header}}
+              <!-- <input type="checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked" (change)="change($event, fieldObj)"> 
+              {{fieldObj.header}} -->
           </div>
       </label>
     </li>

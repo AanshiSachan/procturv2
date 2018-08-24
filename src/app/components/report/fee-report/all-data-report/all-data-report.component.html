@@ -99,38 +99,49 @@
                 </div>
             </div>
 
-            <section>
+            <section style="margin-top: 10px;">
+                <div class="row">
+                    <div class="c-lg-3" style="margin-top: 1%;">
+                        <p-splitButton label="download" [model]="bulkAddItems" icon="pi pi-file"></p-splitButton>
+                        <a (click)="openPreferences()" title="Select Table Preferences"> select preference &nbsp;
+                            <i class="fa fa-question-circle" aria-hidden="true" style="color:#0060A3"></i>
+                        </a>
+                    </div>
 
-                <!-- <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
-                  <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
-                </div> -->
-                <div id="basic-search" style="margin:10px">
-                    <form autocomplete="off" #form="ngForm">
-                        <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right; margin-bottom: 10px;">
-                    </form>
+                    <div class="c-lg-7">
+                        <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
+                            <li style="display: inline-block; margin-left: 11px;">
+                                <span class="made-out"> Total fees Collection</span>
+                                <div class="made-in"> ₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
+                            </li>
+                            <li style="display: inline-block; margin-left: 5vw; ">
+                                <span class="made-out">Total dues</span>
+                                <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="c-lg-2">
+                        <div id="basic-search">
+                            <form autocomplete="off" #form="ngForm">
+                                <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar" style="padding:7px 10px; width:200px; height:35px; float:right; margin-bottom: 10px;">
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
             </section>
 
             <div class="table-content" *ngIf="showPopupKeys.isFilterReversed">
-                <div style="margin-left: 10px;display: inline-block; margin-top: 10px;">
-                    <a (click)="exportToExcel()" class="download">Download To Excel</a>
-                    <span class="fa fa-cloud-download">
-                    </span>
-                    <i class="fa fa-plus-circle" (click)="openPreferences()" title="Select Table Preferences !" style="font-size:24px;color:#0060A3"></i>
-                </div>
+                <!-- <div style="margin-left: 10px;display: inline-block; margin-top: 10px;">
+                    <button (click)="exportToExcel()" class="download btn fullBlue">Excel</button>
+                    <button (click)="exportToPdf()" class="btn fullBlue">Pdf</button>
+                    
+                </div> -->
 
-                <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
-                    <li style="display: inline-block; margin-left: 11px;">
-                        <span class="made-out"> Total fees Collection</span>
-                        <div class="made-in"> ₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
-                    </li>
-                    <li style="display: inline-block; margin-left: 5vw; ">
-                        <span class="made-out">Total dues</span>
-                        <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
-                    </li>
-                </ul>
-                <data-display-table  *ngIf="displayKeys.length" #child [displayKeys]="tableSetting"  [displayData]="feeDataSource1" (editView)='optionSelected($event)'> </data-display-table>
+
+                <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="feeDataSource1" (editView)='optionSelected($event)'>
+                </data-display-table>
                 <!-- <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
                     [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
                     [settings]="feeSettings1">
@@ -153,5 +164,5 @@
 
     <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="showPopupKeys.isViewDetailReport"></view-detail-report>
 
-    <preference-popup  [settings]="tableSetting" [keys]="feeSettings1" (closeButton)="closePopup($event)" *ngIf="showPopupKeys.showPreference"></preference-popup>
+    <preference-popup [settings]="tableSetting" [keys]="feeSettings1" (closeButton)="closePopup($event)" *ngIf="showPopupKeys.showPreference"></preference-popup>
 </div>

@@ -17,7 +17,7 @@
                             Fee Report
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Inactive/Archived Student Report
-                       
+
                     </h2>
                     <a (click)="searchByName()" class="showFilter" style="float:right;" *ngIf="searchByDateVisible">Show Name Filter</a>
                     <a (click)="searchByDate()" class="showFilter" style="float: right" *ngIf="searchByNameVisible">Hide Name Filter</a>
@@ -98,7 +98,7 @@
 
                             <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
 
-                          
+
                         </div>
                     </div>
                 </div>
@@ -107,10 +107,8 @@
 
             <div class="row">
                 <div class="c-lg-12">
-                    <div class="c-lg-2" style="margin-top: 36px;">
-                        <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
-                        <span class="fa fa-cloud-download">
-                        </span>
+                    <div class="c-lg-2" style="margin-top: 1%;">
+                        <p-splitButton label="download" [model]="bulkAddItems" icon="pi pi-file"></p-splitButton>
                     </div>
                     <div class="c-lg-8">
                         <div *ngIf="showPaymentBox && allPaymentRecords.length > 0">
@@ -127,7 +125,7 @@
                                                     <!-- <span> Cheque/PDC/DD No: {{collectionData.pdcNo}}</span> -->
                                                 </li>
                                                 <li style="margin:4%">
-                                                    <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')" >
+                                                    <span *ngIf="newData[0].hasOwnProperty('Caution Deposit(Refundable)')">
                                                         <span class="bold"> Caution Deposit(Refundable)</span>
                                                         <span class="made-in"> ₹{{newData[0]['Caution Deposit(Refundable)'].toLocaleString('en-IN')}}</span>
                                                     </span>
@@ -154,7 +152,7 @@
                                         </div>
                                         <div class="c-lg-4">
                                             <ul>
-                                                <li style="margin:4%" >
+                                                <li style="margin:4%">
                                                     <span *ngIf="newData[0].hasOwnProperty('Credit/Debit Card')">
                                                         <span class="bold">Credit/Debit Card </span>
                                                         <span class="made-in">₹{{newData[0]['Credit/Debit Card'].toLocaleString('en-IN') }}
@@ -162,7 +160,7 @@
                                                     </span>
                                                     <!-- <span> Credit/Debit Card : {{collectionData.cardValue}}</span> -->
                                                 </li>
-                                                <li style="margin:4%" >
+                                                <li style="margin:4%">
                                                     <span class="bold">
                                                         Total Fees Collection </span>
                                                     <span class="made-in">₹{{temporaryRecords[0].fees_amount.toLocaleString('en-IN')}}</span>

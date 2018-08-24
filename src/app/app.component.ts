@@ -3,6 +3,7 @@ import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationErr
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
 import { LoginService } from './services/login-services/login.service';
 import { CommonServiceFactory } from './services/common-service';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -11,8 +12,6 @@ import { CommonServiceFactory } from './services/common-service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
-  isRippleLoad: boolean = true;
 
   /* Toaster handlers */
   /* ToasterConfig ==> {
@@ -28,6 +27,7 @@ export class AppComponent implements OnInit {
   private toasterService: ToasterService;
   public config: ToasterConfig = new ToasterConfig({ positionClass: 'toast-top-right', limit: 1, timeout: 5000, mouseoverTimerStop: true, });
   isloggedInAdmin: boolean = false;
+  isRippleLoad: boolean = true;
 
   /* Variable for Zendesk */
   ticketId = "";
@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
     toasterService: ToasterService,
     private router: Router,
     private log: LoginService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private title: Title
   ) {
     this.toasterService = toasterService;
   }
@@ -47,6 +48,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.routerEvents();
     this.isloggedInAdmin = this.commonService.checkUserIsAdmin();
+    this.checkTitleAndFavIcon();
   }
 
   // Router Event Ripple
@@ -75,6 +77,18 @@ export class AppComponent implements OnInit {
         }
       }
     });
+  }
+
+  checkTitleAndFavIcon() {
+    let title = sessionStorage.getItem('institute_title_web');
+    if (title != undefined && title != "" && title != null) {
+      this.title.setTitle(title);
+    }
+
+    let icon = sessionStorage.getItem('institute_logo_web');
+    if (icon != undefined && icon != "" && icon != null) {
+      this.commonService.changeFavICon(icon);
+    }
   }
 
   public popToast(data) {

@@ -91,4 +91,12 @@ export class CommonServiceFactory {
         }
     }
 
+    // Change FavIcon
+    changeFavICon(str) {
+        let link = <HTMLLinkElement>document.getElementById('favIconLink');
+        link.type = 'image/x-icon';
+        link.rel = 'icon';
+        link.href = str;
+    }
+
 }

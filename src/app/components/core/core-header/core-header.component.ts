@@ -453,8 +453,9 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   viewTeacherProfile() {
-    localStorage.setItem('teacherID', this.teacherId);
-    this.router.navigateByUrl('/view/teacher/edit');
+    // localStorage.setItem('teacherID', this.teacherId);
+    // this.router.navigateByUrl('/view/teacher/edit');
+    this.router.navigateByUrl('/view/teacher/edit',this.teacherId);
   }
 
   // Multi Branch Case Handling

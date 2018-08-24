@@ -58,15 +58,15 @@ export class TeacherListComponent implements OnInit {
     )
   }
 
-  editTeacherDeatils(row) {
-    localStorage.setItem('teacherID', row.teacher_id);
-    this.route.navigateByUrl('/view/teacher/edit');
-  }
+  // editTeacherDeatils(row) { // code removed
+  //   localStorage.setItem('teacherID', row.teacher_id);
+  //   this.route.navigateByUrl('/view/teacher/edit');
+  // }
 
-  viewTeacherActivity(row) {
-    localStorage.setItem('teacherID', row.teacher_id);
-    this.route.navigateByUrl('/view/teacher/view');
-  }
+  // viewTeacherActivity(row) {
+  //   localStorage.setItem('teacherID', row.teacher_id);
+  //   this.route.navigateByUrl('/view/teacher/view');
+  // }
 
   deleteTeacherDeatils(row){
     if (confirm("Are you sure, you want to delete this teacher?")){
