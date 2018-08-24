@@ -1,1 +1,28 @@
+<overlay-menu *ngIf="isMenuVisible"></overlay-menu>
+
+<core-header (changePassword)="changePasswordPopUp($event)" (enquiryUpdateAction)="updateEnquiryPopUp($event)" (hideSearchPopup)="searchViewMore($event)"
+    (searchViewMore)="searchViewMore($event)"></core-header>
+
+
+<core-sidednav></core-sidednav>
+
 <router-outlet></router-outlet>
+
+<!-- Change Password Popup Component -->
+
+<app-change-password *ngIf="changePasswordComp" [institute_id]="institute_id" (close)="closeChangePasswordPopup($event)"></app-change-password>
+
+
+<!-- Enquiry update popup -->
+
+<app-enquiry-update-popup *ngIf="enquiryUpdateComp" [enqData]="enquiryInfo" (closePopUp)="closeEnquiryPopUp($event)"></app-enquiry-update-popup>
+
+<!-- Global Search View More Component  -->
+
+<app-global-search-popup *ngIf="isSearchMoreComp" [eventData]="searchMoreData" (closeViewMorePopUp)="closeViewMorePopUp($event)"
+    (enquiryUpdateAction)="updateEnquiryPopUp($event)"></app-global-search-popup>
+
+
+<!-- Enquiry Home Component -->
+
+<app-enquiry-home></app-enquiry-home>
