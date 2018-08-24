@@ -1,6 +1,9 @@
 <div class="middle-section clearFix">
     <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
-        <h1 class="pull-left">
+        <h1 class="pull-left" *ngIf="selectedTeacherId==undefined">
+            Add Faculty
+        </h1>
+        <h1 class="pull-left" *ngIf="selectedTeacherId != undefined">
             Edit Faculty
         </h1>
     </section>
@@ -9,7 +12,7 @@
 
         <aside class="c-lg-6 c-md-6 c-sm-6">
             <div class="pull-left">
-                <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="saveTeacherInfo()">
+                <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="addOrEditFun()">
                     <div class="row field-wrapper" [ngClass]="{'has-value': teacher_name != ''}">
                         <label for="name">Faculty Name
                             <span style="color:red">*</span>

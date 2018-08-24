@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
@@ -27,19 +27,28 @@ export class TeacherEditComponent implements OnInit {
     private route: Router,
     private ApiService: TeacherAPIService,
     private fb: FormBuilder,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private routeParam: ActivatedRoute
   ) {
-    if (localStorage.getItem('teacherID')) {
-      this.selectedTeacherId = localStorage.getItem('teacherID');
-    } else {
-      this.route.navigateByUrl('/view/teacher');
-    }
+    // if (localStorage.getItem('teacherID')) {
+    //   this.selectedTeacherId = localStorage.getItem('teacherID');
+    // } else {
+    //   this.route.navigateByUrl('/view/teacher');
+    // }
+
+    this.routeParam.params.subscribe(params => {
+      this.selectedTeacherId = params['id'];
+    });
+    console.log(this.selectedTeacherId);
+
   }
 
   ngOnInit() {
     this.createEditTeacherForm();
-    this.getTeacherInfo();
-    this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+    if (this.selectedTeacherId) {
+      this.getTeacherInfo();
+      this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
+    }
   }
 
   getTeacherInfo() {
@@ -113,6 +122,67 @@ export class TeacherEditComponent implements OnInit {
     return dataToBind
   }
 
+  addNewTeacherInfo() {
+    let formData = this.editTeacherForm.value;
+    if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
+      this.messageToast('error', 'Error', 'Please provide valid email address.');
+      return;
+    }
+    if (!(this.validateNumber(formData.teacher_phone))) {
+      this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      return;
+    }
+    if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
+      if (!(this.validateNumber(formData.teacher_alt_phone))) {
+        this.messageToast('error', 'Error', 'Please provide valid alternate phone number.');
+        return;
+      }
+    }
+    if (formData.hour_rate == "" || formData.hour_rate == null) {
+      formData.hour_rate = 0;
+    }
+    if (this.studentImage != null && this.studentImage != "") {
+      formData.photo = this.studentImage;
+    }
+    else {
+      formData.photo = null;
+    }
+    if (formData.is_student_mgmt_flag == true) {
+      formData.is_student_mgmt_flag = 1;
+    } else {
+      formData.is_student_mgmt_flag = 0;
+    }
+    if (formData.is_active == true) {
+      formData.is_active = "Y";
+    } else {
+      formData.is_active = "N";
+    }
+    if (formData.is_allow_teacher_to_only_mark_attendance == true) {
+      formData.is_allow_teacher_to_only_mark_attendance = "Y";
+    } else {
+      formData.is_allow_teacher_to_only_mark_attendance = "N";
+    }
+    formData.is_employee_to_be_create = "N";
+    this.ApiService.addNewTeacherDetails(formData).subscribe(
+      data => {
+        this.messageToast('success', 'Added', 'Faculty Added Successfully.');
+        this.route.navigateByUrl('/view/teacher');
+      },
+      err => {
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  addOrEditFun() {
+    if (this.selectedTeacherId == undefined) {
+      this.addNewTeacherInfo();
+    }
+    else {
+      this.saveTeacherInfo();
+    }
+  }
+
   saveTeacherInfo() {
     let formData = this.editTeacherForm.value;
     if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
@@ -156,9 +226,9 @@ export class TeacherEditComponent implements OnInit {
 
     //this section is to handle id card 
 
-    if (localStorage.getItem('Id-card') != null || localStorage.getItem('Id-card') != undefined) {
-      formData.id_file = localStorage.getItem('Id-card');
-      formData.id_fileType = localStorage.getItem('imageType');
+    if (sessionStorage.getItem('Id-card') != null || sessionStorage.getItem('Id-card') != undefined) {
+      formData.id_file = sessionStorage.getItem('Id-card');
+      formData.id_fileType = sessionStorage.getItem('imageType');
     } else {
       formData.id_file = null;
       formData.id_fileType = "";
@@ -179,11 +249,11 @@ export class TeacherEditComponent implements OnInit {
     this.hasIdCard = 'Y';
     let fileBrowser = this.idCardTeacher.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {
-      localStorage.setItem('imageType', fileBrowser.files[0].type.split('/')[1]);
+      sessionStorage.setItem('imageType', fileBrowser.files[0].type.split('/')[1]);
       let reader = new FileReader();
       reader.readAsDataURL(fileBrowser.files[0]);
       reader.onload = () => {
-        localStorage.setItem('Id-card', reader.result.split(',')[1]);
+        sessionStorage.setItem('Id-card', reader.result.split(',')[1]);
       }
     }
   }

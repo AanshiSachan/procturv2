@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule, Form, FormControl, FormGroup } from '@angular/forms';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 import { isNumber } from 'util';
@@ -35,17 +35,22 @@ export class TeacherViewComponent implements OnInit {
   containerHeight: any = "150px";
   readonly: any = true;
   advanceFilter: boolean = false;
-
   constructor(
     private route: Router,
     private ApiService: TeacherAPIService,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private routeParam: ActivatedRoute
   ) {
-    if (localStorage.getItem('teacherID')) {
-      this.selectedTeacherId = localStorage.getItem('teacherID');
-    } else {
-      this.route.navigateByUrl('/view/teacher');
-    }
+    // if (localStorage.getItem('teacherID')) {
+    //   this.selectedTeacherId = localStorage.getItem('teacherID');
+    // } else {
+    //   this.route.navigateByUrl('/view/teacher');
+    // }
+    this.routeParam.params.subscribe(params => {
+      this.selectedTeacherId = params['id'];
+      // console.log(this.selectedTeacherId);
+
+    });
   }
 
   ngOnInit() {
