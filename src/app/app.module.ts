@@ -19,7 +19,6 @@ import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
 import { AlertService } from './services/alert.service';
-import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 
 /* Interceptors */
 import { I1, I2 } from './interceptors/load-interceptor';
@@ -65,7 +64,8 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     SearchBoxComponent
   ],
   entryComponents: [
-    SearchBoxComponent, chatBotComponent
+    SearchBoxComponent, 
+    chatBotComponent
   ],
   providers: [
     FetchenquiryService,
@@ -74,7 +74,6 @@ import { MultiBranchDataService } from './services/multiBranchdata.service';
     AuthenticatorService,
     LoginService,
     AuthGuard,
-    LoaderHandlingService,
     ZendAuth,
     Title,
     MultiBranchDataService,
