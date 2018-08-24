@@ -1,21 +1,9 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
-import { Pipe, PipeTransform } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { LoginService } from '../../../services/login-services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -24,9 +12,9 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 })
 export class HomeComponent implements OnInit {
 
-  isProfessional:boolean = false;
+  isProfessional: boolean = false;
 
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private auth: AuthenticatorService) {
+  constructor(private router: Router, private login: LoginService, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }

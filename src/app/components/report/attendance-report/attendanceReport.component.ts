@@ -9,7 +9,7 @@ import { searchPipe } from '../../shared/pipes/searchBarPipe';
 import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
 import { start } from 'repl';
 import { LoginService } from '../../../services/login-services/login.service';
-import { PAGINATION_CONTROL_VALUE_ACCESSOR } from '../../../../assets/imported_modules/ngx-bootstrap/pagination/pagination.component';
+import { PAGINATION_CONTROL_VALUE_ACCESSOR } from 'ngx-bootstrap/pagination/pagination.component';
 
 
 @Component({

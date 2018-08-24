@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { LoginService } from '../../services/login-services/login.service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
-import { document } from '../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
 
 @Component({

@@ -33,13 +33,11 @@ import { AuthGuard } from './guards/auth.guard';
 
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
-import { ToasterModule } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
-import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
-import { TimepickerModule } from '../assets/imported_modules/ngx-bootstrap/timepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
-
-
+import {ToasterModule} from 'angular2-toaster';
 
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TooltipModule } from '../../../assets/imported_modules/ngx-bootstrap/tooltip';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormatCellPipe } from './custom-table/format-cell.pipe';
@@ -28,12 +28,16 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
 import { OnlyNumber } from './onlynumber.directive';
 import { DataDisplayTableComponent } from './data-display-table/data-display-table.component';
 import { PreferencePopupComponent } from './preference-popup/preference-popup.component';
+import { EnquiryModule } from '../enquiry/enquiry.module';
 
 
 
 @NgModule({
     imports: [
-        CommonModule, FormsModule, TooltipModule.forRoot(),
+        CommonModule, 
+        FormsModule, 
+        TooltipModule.forRoot(),
+     
     ],
     declarations: [
         TableLayoutComponent,
@@ -60,6 +64,7 @@ import { PreferencePopupComponent } from './preference-popup/preference-popup.co
         PreferencePopupComponent
     ],
     exports: [
+        
         CommonModule,
         TableLayoutComponent,
         RobTableComponent,

@@ -33,7 +33,7 @@ import { PaymentHistoryMainService } from '../../../services/payment-history/pay
 import { ExcelService } from '../../../services/excel.service';
 import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import { OnlinePaymentServiceService } from '../../../services/online-payment/online-payment-service.service';
-import { BsDatepickerModule, TimepickerModule, TooltipModule } from '../../../../assets/imported_modules/ngx-bootstrap';
+import { BsDatepickerModule, TimepickerModule, TooltipModule } from 'ngx-bootstrap';
 import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 

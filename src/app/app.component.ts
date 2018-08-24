@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
+import {  Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 import { LoginService } from './services/login-services/login.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import * as moment from 'moment';

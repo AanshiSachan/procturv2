@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Route, Router, CanActivate, CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { tr } from '../../assets/imported_modules/ngx-bootstrap/bs-moment/i18n/tr';
+// import { tr } from 'ngx-bootstrap/bs-moment/i18n/tr';
 
 /* For future purpose when routing will be allowed only if router is activated */
 

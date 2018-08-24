@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { AppComponent } from '../../../app.component';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap/utils/facade/browser';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
