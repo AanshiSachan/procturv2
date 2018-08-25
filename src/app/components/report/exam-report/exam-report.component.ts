@@ -3,7 +3,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
 import { FilterPipe } from './filter.pipe';
-import { lang } from 'moment';
+
 import { ViewChild } from '@angular/core';
 import { ElementRef, Directive } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';

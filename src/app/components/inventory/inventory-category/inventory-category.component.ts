@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap/utils/facade/browser';
 import { AddCategory } from '../../../model/inventory-category';
 import { InventoryCategoryService } from '../../../services/inventory-services/inventory-category.service';
 import { retry } from 'rxjs/operator/retry';

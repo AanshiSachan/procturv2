@@ -16,8 +16,8 @@ import { EnquiryUpdatepComponent } from './enquiry-update/enquiry-update.compone
 
 /* Modules */
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormControl } from "@angular/forms";
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
@@ -68,7 +68,9 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
     providers: [
         PopupHandlerService,
         ClosingReasonService
-    ]
+    ],
+    exports:[EnquiryHomeComponent]
+
 })
 export class EnquiryModule {
 

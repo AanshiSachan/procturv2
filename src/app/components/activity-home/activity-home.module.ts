@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivityHomeComponent } from './activity-home.component';
 import { ActivityHomeRoutingModule } from "./activity-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import 'moment';
 import 'hammerjs';
 import { SharedModule } from '../shared/shared.module';
@@ -15,6 +15,12 @@ import { ArchivingComponent } from './archiving/archiving.component';
 import { ArchivingModule } from './archiving/archiving.module';
 import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
 import { ExamDeskCourseAssignmentService } from '../../services/examdesk-service/examdeskcourseassignment.service';
+import { LiveClassesComponent } from './live-classes/live-classes.component';
+import { StepsModule } from 'primeng/steps';
+import { MenuItem } from 'primeng/api';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { LiveClasses } from '../../services/live-classes/live-class.service';
+import { TooltipModule } from 'ngx-bootstrap';
 
 @NgModule({
     imports: [
@@ -24,19 +30,24 @@ import { ExamDeskCourseAssignmentService } from '../../services/examdesk-service
         ActivityHomeRoutingModule,
         BsDatepickerModule,
         SharedModule,
-        ArchivingModule
+        ArchivingModule,
+        StepsModule,
+        TooltipModule.forRoot(),
     ],
     declarations: [
         ActivityHomeComponent,
         HomeComponent,
         PtmManagementComponent,
-        ExamdeskCourseAssignmentComponent
+        ExamdeskCourseAssignmentComponent,
+        LiveClassesComponent
     ],
     entryComponents: [
     ],
     providers: [
         ActivityPtmService,
-        ExamDeskCourseAssignmentService
+        ExamDeskCourseAssignmentService,
+        MessageService,
+        LiveClasses
     ]
 })
 export class ActivityHomeModule {

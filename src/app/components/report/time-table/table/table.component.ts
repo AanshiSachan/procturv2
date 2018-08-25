@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
 import { timeTableService } from '../../../../services/TimeTable/timeTable.service';
 import { AppComponent } from '../../../../app.component';
-import * as moment from 'moment';
+
 // var jsPDF = require('jspdf');
 // require('jspdf-autotable');
 

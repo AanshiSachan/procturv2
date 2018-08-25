@@ -9,7 +9,7 @@ import { EnquiryReportRoutingModule } from "./enquiry-report-routing.module";
 import { EnquiryReportComponent } from "./enquiry-report.component";
 import { EnquiryReportService } from "../../../services/counsellor-service/counsellor-service.service";
 import { SharedModule } from "../../shared/shared.module";
-import { BsDatepickerModule } from "../../../../assets/imported_modules/ngx-bootstrap";
+import { BsDatepickerModule } from "ngx-bootstrap";
 
 
 @NgModule({

@@ -41,8 +41,8 @@ import { ProfitLossServiceService } from '../../services/profit-loss-service/pro
 import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
 import { EnquiryReportModule } from './enquiry-report/enquiry-report.module';
 import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-routing.module';
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
-import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+import { TimepickerModule } from 'ngx-bootstrap';
 import { ExcelService } from '../../services/excel.service';
 
 @NgModule({

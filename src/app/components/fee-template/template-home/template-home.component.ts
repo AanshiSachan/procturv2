@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { LoginService } from '../../../services/login-services/login.service';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap/utils/facade/browser';
 import { FeeStrucService } from '../../../services/feeStruc.service';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../services/authenticator.service';

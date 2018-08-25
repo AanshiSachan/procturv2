@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
-import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()

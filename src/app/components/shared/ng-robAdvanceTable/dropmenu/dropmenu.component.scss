@@ -16,9 +16,9 @@
 .dropdown-trigger {
     background: transparent;
     position: relative;
-    right: 30px;
+    right: 0px;
     transform: rotate(90deg);
-    float: right;
+    float: left;
 }
 
 .svg-icon-wrap {
@@ -41,7 +41,7 @@
 .dd-list-container {
     position: absolute;
     border: 1px solid rgba(119, 119, 119, 0.29);
-    right: 3% !important;
+    // right: 3% !important; //this css set postion from right side thats why its removed  
     z-index: 1000;
     min-width: 150px;
     height: auto;
