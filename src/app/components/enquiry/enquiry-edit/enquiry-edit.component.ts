@@ -850,7 +850,7 @@ export class EnquiryEditComponent implements OnInit {
                   obj.standard_id = this.editEnqData.master_course_name;
                 }
 
-                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['/view/student/add']);
               }
               else {

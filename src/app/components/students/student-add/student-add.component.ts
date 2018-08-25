@@ -92,7 +92,7 @@ export class StudentAddComponent implements OnInit {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchPrefillFormData();
     if (this.isProfessional) {
-      if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
+      if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
         this.getSlots();
         this.getlangStudentStatus();
         this.convertToStudentDetected();
@@ -103,7 +103,7 @@ export class StudentAddComponent implements OnInit {
       this.updateBatchList();
     }
     else if (!this.isProfessional) {
-      if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
+      if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
         this.getSlots();
         this.getlangStudentStatus();
         this.convertToStudentDetected();
@@ -1288,7 +1288,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   convertToStudentDetected() {
     this.isConvertEnquiry = true;
-    this.enquiryData = JSON.parse(localStorage.getItem('studentPrefill'));
+    this.enquiryData = JSON.parse(sessionStorage.getItem('studentPrefill'));
     this.studentAddFormData.student_name = this.enquiryData.name;
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;

@@ -962,7 +962,7 @@ export class EnquiryAddComponent implements OnInit {
                   } else {
                     obj.standard_id = this.course_mastercourse_id;
                   }
-                  localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                  sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
                   this.router.navigate(['/view/student/add']);
                 }
                 else {
@@ -1021,7 +1021,7 @@ export class EnquiryAddComponent implements OnInit {
                     enquiry_id: instituteEnqId,
                     institute_enquiry_id: instituteEnqId
                   }
-                  localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                  sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
                   this.router.navigate(['/view/student/add']);
                 }
                 else {

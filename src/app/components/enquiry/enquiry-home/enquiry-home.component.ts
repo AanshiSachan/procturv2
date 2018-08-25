@@ -803,7 +803,7 @@ export class EnquiryHomeComponent implements OnInit {
                   enquiry_id: this.selectedRow.institute_enquiry_id,
                   institute_enquiry_id: this.selectedRow.institute_enquiry_id
                 }
-                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['/view/student/add']);
               }
               else {
@@ -1859,7 +1859,7 @@ export class EnquiryHomeComponent implements OnInit {
     if (this.isProfessional) {
       this.selectedRow.standard_id = this.selectedRow.master_course_name;
     }
-    localStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
+    sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
     this.router.navigate(['/view/student/add'])
     this.closePopup();
     this.cd.markForCheck();

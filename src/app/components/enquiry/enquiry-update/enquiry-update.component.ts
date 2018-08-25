@@ -353,7 +353,7 @@ export class EnquiryUpdatepComponent implements OnChanges {
                   enquiry_id: this.selectedRow.institute_enquiry_id,
                   institute_enquiry_id: this.selectedRow.institute_enquiry_id
                 }
-                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['/view/student/add']);
               }
               else {
