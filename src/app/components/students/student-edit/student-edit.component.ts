@@ -4,17 +4,14 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { StudentForm } from '../../../model/student-add-form';
-import { SelectItem } from 'primeng/primeng';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
-import { MenuItem } from 'primeng/primeng';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
@@ -39,6 +36,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   isFeePaymentUpdate: boolean = false; isDefineFees: boolean = false; isFeeApplied: boolean = false; isNewInstallment: boolean = false; isDiscountApply: boolean = false; isPdcApply: boolean = false; allocatedInventoryHistory: any[] = []; isDiscountApplied: boolean = false; discountReason: string = ''; key: string = 'name'; reverse: boolean = false; allotInventoryArr: any[] = []; isRippleLoad: boolean = false; studentAssisnedBatches: any[] = []; genPdcAck: boolean = false; sendPdcAck: boolean = false; isPaymentPdc: boolean = false; pdcSelectedForPayment: any; totalFeeWithTax: number = 0; totalDicountAmount: number = 0; totalTaxAmount: number = 0; totalPaidAmount: number = 0; totalAmountPaid: number = 0; totalInitalAmount: number = 0; totalAmountDue: number = 0; defaultAcadYear: any = '-1';
   partialPayObj: any = { chequeDetailsJson: {}, paid_date: moment().format('YYYY-MM-DD'), paymentMode: "Cash", reference_no: '', remarks: "", studentFeeReportJsonList: [], student_id: this.student_id }; studentFeeReportObj: any = { due_date: null, fee_schedule_id: 0, paid_full: "Y", previous_balance_amt: "", total_amt_paid: "" }; courseDropdown: any = null; enableBiometric: any = ""; academicYear: any[] = []; savedAssignedBatch: any[] = []; isManualDisplayId: boolean = false;
   studentName: string = "";
+
+  addInventory: any = {
+    alloted_units: 0,
+    item_id: -1,
+    available_units: ''
+  };
+  allocatedItem: any = [];
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
 
@@ -284,21 +288,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
 
-    this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
-      data => {
-        this.inventoryItemsArr = data;
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    );
+    this.fetchInventoryList();
 
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
@@ -314,21 +304,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.studentPrefillService.fetchInventoryListHistory(this.student_id).subscribe(
-      res => {
-        this.allocatedInventoryHistory = res;
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    )
+    this.getAllocatedHistory();
 
     this.getFeeStructue();
 
@@ -3557,28 +3533,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  inventoryItemUpdated(value, index, total) {
-    if (value > total) {
-      let msg = { type: 'warning', title: 'Incorrect Quantity', body: 'The quantity allocated cannot be higher than total available units' };
-      this.appC.popToast(msg);
-      this.inventoryItemsArr[index].units_added = total;
-      if (this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id) !== -1) {
-        this.allotInventoryArr.splice(this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id), 1);
-      }
-      this.allotInventoryArr.push(this.inventoryItemsArr[index]);
-      //console.log(this.allotInventoryArr);
-    }
-    else {
-      if (value >= 1) {
-        if (this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id) !== -1) {
-          this.allotInventoryArr.splice(this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id), 1);
-        }
-        this.allotInventoryArr.push(this.inventoryItemsArr[index]);
-        //console.log(this.allotInventoryArr);
-      }
-    }
-  }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   studentAddedNotifier() {
@@ -3590,37 +3544,96 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateStudentAllocatedInventory() {
-    let count: number = 0;
-    let temp: any[] = [];
-    this.allotInventoryArr.forEach(e => {
-      let obj = { alloted_units: e.units_added, institution_id: sessionStorage.getItem('institute_id'), item_id: e.item_id, student_id: this.student_id };
-      temp.push(obj);
-    });
-    if (temp.length != 0) {
-      this.postService.allocateStudentInventory(temp).subscribe(
-        res => {
-          if (this.isFeeApplied) {
-            this.asssignCustomizedFee(this.student_id);
-          }
-          else {
-            this.studentAddedNotifier();
-          }
-        },
-        err => {
-          let msg = err.error.message;
-          this.isRippleLoad = false;
-          let obj = { type: 'error', title: msg, body: "" };
-          this.appC.popToast(obj);
-        }
-      );
+    if (this.isFeeApplied) {
+      this.asssignCustomizedFee(this.student_id);
     }
     else {
-      if (this.isFeeApplied) {
-        this.asssignCustomizedFee(this.student_id);
+      this.studentAddedNotifier();
+    }
+  }
+
+  fetchInventoryList() {
+    this.studentPrefillService.fetchInventoryList().subscribe(
+      data => {
+        this.isRippleLoad = false;
+        this.inventoryItemsArr = data;
+      },
+      err => {
+        this.isRippleLoad = false;
+        let msg = err.error.message;
+        let obj = { type: 'error', title: msg, body: "" };
+        this.appC.popToast(obj);
       }
-      else {
-        this.studentAddedNotifier();
+    );
+  }
+
+  onInventoryItemSelction() {
+    let temp: any = this.inventoryItemsArr.filter(
+      el => el.item_id == this.addInventory.item_id
+    );
+    this.addInventory.available_units = temp[0].available_units;
+  }
+
+  allocateInventoryToStudent() {
+    if (this.addInventory.alloted_units > 0) {
+      if (this.addInventory.alloted_units > this.addInventory.available_units) {
+        this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
+        return;
+      } else {
+        let obj: any = {
+          alloted_units: this.addInventory.alloted_units.toString(),
+          institution_id: sessionStorage.getItem('institute_id'),
+          item_id: this.addInventory.item_id,
+          student_id: this.student_id
+        };
+        this.isRippleLoad = true;
+        this.postService.allocateInventory(obj).subscribe(
+          res => {
+            this.isRippleLoad = false;
+            this.appC.popToast({ type: "success", title: "Allocated Inventory", body: "Inventory Item Allocated Successfully" });
+            this.addInventory = {
+              alloted_units: 0,
+              item_id: -1,
+              available_units: ''
+            };
+            this.getAllocatedHistory();
+            this.fetchInventoryList();
+          },
+          err => {
+            this.isRippleLoad = false;
+            this.appC.popToast({ type: "error", title: "Error", body: err.error.message });
+          }
+        )
+
       }
+    } else {
+      this.appC.popToast({ type: "error", title: "Error", body: "Please provide valid unit to allocate" });
+      return;
+    }
+  }
+
+  getAllocatedHistory() {
+    this.allocatedItem = [];
+    this.postService.getAllocatedHistory(this.student_id).subscribe(
+      res => {
+        this.allocatedItem = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  deleteInventory(data) {
+    data.allocation_id
+    if (confirm('Are you sure, you want to delete inventory?')) {
+      this.postService.deleteInventory(data.allocation_id).subscribe(
+        res => {
+          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "Deleted Successfully Inventory" });
+          this.getAllocatedHistory();
+          this.fetchInventoryList();
+        }
+      )
     }
   }
 

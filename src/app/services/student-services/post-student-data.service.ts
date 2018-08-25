@@ -108,6 +108,43 @@ export class PostStudentDataService {
     }
 
 
+    allocateInventory(obj) {
+        let urlInventory = this.baseUrl + "/api/v1/inventory/item/allocate";
+        return this.http.post(urlInventory, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        );
+    }
+
+
+    getAllocatedHistory(id) {
+        let urlInventory = this.baseUrl + "/api/v1/inventory/item/student/txHistory/" + id;
+        return this.http.get(urlInventory, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        );
+    }
+
+    deleteInventory(id) {
+        let urlInventory = this.baseUrl + "/api/v1/inventory/item/txHistory/" + id;
+        return this.http.delete(urlInventory, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        );
+    }
+
 
     allocateStudentInventory(obj) {
 

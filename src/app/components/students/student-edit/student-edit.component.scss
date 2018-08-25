@@ -3,32 +3,853 @@
 /* ============================================================================================================= */
 
 .homewrap {
+  max-height: 90vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: block;
+    width: 7px;
+    height: 7px;
+  }
+  .scroll-content {
     max-height: 90vh;
     overflow-x: hidden;
     overflow-y: auto;
-    ::-webkit-scrollbar {
-        display: block;
-        width: 7px;
-        height: 7px;
-    }
-    .scroll-content {
-        max-height: 90vh;
-        overflow-x: hidden;
-        overflow-y: auto;
-        padding-bottom: 15px;
-    }
+    padding-bottom: 15px;
+  }
 }
 
 /* ============================================================================================================= */
 
 .discount-wrapper {
-    .field-checkbox-wrapper,
-    .field-radio-wrapper {
+  .field-checkbox-wrapper,
+  .field-radio-wrapper {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+  }
+  .field-radio-wrapper .form-radio {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+  }
+  .field-radio-wrapper .form-radio+label {
+    vertical-align: middle;
+    transition: all 0.1s;
+  }
+  .field-radio-wrapper .form-radio+label:after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 0.1s;
+  }
+  .field-radio-wrapper .form-radio:checked+label:after {
+    border: 2px solid $common-blue;
+  }
+  .field-radio-wrapper .form-radio+label:before {
+    transition: all 0.1s;
+    width: 1px;
+    height: 1px;
+    left: 9px;
+    top: 9px;
+    position: absolute;
+    content: '';
+  }
+  .field-radio-wrapper .form-radio:checked+label:before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: $common-blue;
+    border-radius: 50%;
+    left: 4px;
+    top: 4px;
+  }
+  .field-radio-wrapper .form-radio:checked+label {
+    color: $common-blue;
+  }
+}
+
+.fee-definations {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  border-top: 2px solid rgba(119, 119, 119, 0.12);
+  ::-webkit-scrollbar {
+    display: block;
+  }
+  .fee-container {
+    padding-top: 10px;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    ul {
+      li {
+        a {
+          cursor: pointer;
+        }
+      }
+    }
+    .installment-container {
+      box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+      .installment-header {
+        background: #efefef;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .installment-adder {
+        background: #efefef;
+        padding: 20px 5px 10px 5px;
+        ul {
+          li {
+            display: inline-flex;
+            width: 20%;
+            margin: 0px 10px;
+            .form-wrapper {
+              position: relative;
+              background: transparent;
+              margin: 0px;
+              border: none;
+              padding: 0;
+              &.datePickerBox {
+                .bsDatepicker {
+                  cursor: pointer;
+                  position: relative;
+                  z-index: 1;
+                  background: transparent;
+                  width: 95%;
+                }
+                &:after {
+                  content: '';
+                  background: url("../../../../assets/images/calendar.svg") no-repeat;
+                  position: absolute;
+                  right: 13px;
+                  top: 15px;
+                  width: 21px;
+                  height: 21px;
+                  z-index: 0;
+                }
+              }
+              .date-clear {
+                position: absolute;
+                right: 60%;
+                top: 50px;
+                cursor: pointer;
+                color: #0084f6;
+              }
+              .form-ctrl {
+                background: transparent;
+              }
+              &.datepicker {
+                span {
+                  position: absolute;
+                  top: 30px;
+                  right: 20px;
+                  font-weight: 300;
+                  color: red;
+                  cursor: pointer;
+                }
+              }
+              label {
+                font-size: 12px;
+                font-weight: 400;
+                width: 100%;
+                display: block;
+                color: black;
+                text-decoration: none;
+                text-shadow: none;
+                -webkit-font-smoothing: antialiased;
+              }
+              .form-ctrl {
+                background: transparent;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                border-radius: 5px;
+                width: 100%;
+                display: block;
+                padding: 0px 5px;
+                font-weight: 600;
+                font-size: 12px;
+                color: black;
+                height: 25px;
+                &.bsDatepicker {
+                  padding: 0px 5px;
+                }
+              }
+              &.timepick {
+                .form-ctrl {
+                  background: transparent;
+                  border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                  width: 100%;
+                  padding: 8px 5px;
+                  font-weight: 600;
+                  font-size: 14px;
+                  color: black;
+                }
+              }
+            }
+          }
+        }
+      }
+      .installment-table {
+        ul {
+          li {
+            display: inline-flex;
+            &:first-child {
+              width: 5% !important;
+            }
+            &.date {
+              width: 20% !important;
+            }
+          }
+          .form-wrapper {
+            position: relative;
+            background: transparent;
+            margin: 0px;
+            border: none;
+            padding: 0;
+            width: 100%;
+            &.datePickerBox {
+              .bsDatepicker {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+                width: 95%;
+              }
+              &:after {
+                content: '';
+                background: url("../../../../assets/images/calendar.svg") no-repeat;
+                position: absolute;
+                right: 9px;
+                top: 1px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+              }
+            }
+            .date-clear {
+              position: absolute;
+              right: 60%;
+              top: 50px;
+              cursor: pointer;
+              color: #0084f6;
+            }
+            .form-ctrl {
+              background: transparent;
+            }
+            &.datepicker {
+              span {
+                position: absolute;
+                top: 30px;
+                right: 20px;
+                font-weight: 300;
+                color: red;
+                cursor: pointer;
+              }
+            }
+            label {
+              font-size: 12px;
+              font-weight: 400;
+              width: 100%;
+              display: block;
+              color: black;
+              text-decoration: none;
+              text-shadow: none;
+              -webkit-font-smoothing: antialiased;
+            }
+            .form-ctrl {
+              background: transparent;
+              border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+              border-radius: 5px;
+              width: 100%;
+              display: block;
+              padding: 0px 5px;
+              font-weight: 600;
+              font-size: 12px;
+              color: black;
+              height: 25px;
+              &.bsDatepicker {
+                padding: 0px 5px;
+              }
+            }
+            &.timepick {
+              .form-ctrl {
+                background: transparent;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 8px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+              }
+            }
+          }
+          &.table-header {
+            border: 1px solid rgba(119, 119, 119, 0.24);
+            font-size: 14px;
+            font-weight: 600;
+            li {
+              width: 14%;
+              padding: 10px;
+              margin-left: 12px;
+              text-transform: uppercase;
+              color: #777;
+              &.bigger {
+                width: 20%;
+              }
+            }
+          }
+        }
+        .table-data {
+          ul {
+            border: 1px solid #efefef;
+            li {
+              display: inline-flex;
+              width: 14%;
+              padding: 2px 12px;
+              margin-left: 10px;
+              text-align: center;
+              &.bigger {
+                width: 20%;
+                a {
+                  margin-left: 40px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .additional-container {
+      box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+      margin-top: 20px;
+      .additional-header {
+        background: #efefef;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .additional-adder {
+        background: #efefef;
+        padding: 20px 5px 10px 5px;
+        ul {
+          li {
+            display: inline-flex;
+            width: 15%;
+            margin: 0px 5px;
+            .form-wrapper {
+              position: relative;
+              background: transparent;
+              margin: 0px;
+              border: none;
+              padding: 0;
+              &.datePickerBox {
+                .bsDatepicker {
+                  cursor: pointer;
+                  position: relative;
+                  z-index: 1;
+                  background: transparent;
+                  width: 95%;
+                }
+                &:after {
+                  content: '';
+                  background: url("../../../../assets/images/calendar.svg") no-repeat;
+                  position: absolute;
+                  right: 13px;
+                  top: 15px;
+                  width: 21px;
+                  height: 21px;
+                  z-index: 0;
+                }
+              }
+              .date-clear {
+                position: absolute;
+                right: 60%;
+                top: 50px;
+                cursor: pointer;
+                color: #0084f6;
+              }
+              .form-ctrl {
+                background: transparent;
+              }
+              &.datepicker {
+                span {
+                  position: absolute;
+                  top: 30px;
+                  right: 20px;
+                  font-weight: 300;
+                  color: red;
+                  cursor: pointer;
+                }
+              }
+              label {
+                font-size: 12px;
+                font-weight: 400;
+                width: 100%;
+                display: block;
+                color: black;
+                text-decoration: none;
+                text-shadow: none;
+                -webkit-font-smoothing: antialiased;
+              }
+              .form-ctrl {
+                background: transparent;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                border-radius: 5px;
+                width: 100%;
+                display: block;
+                padding: 0px 5px;
+                font-weight: 600;
+                font-size: 12px;
+                color: black;
+                height: 25px;
+                &.bsDatepicker {
+                  padding: 0px 5px;
+                }
+              }
+              &.timepick {
+                .form-ctrl {
+                  background: transparent;
+                  border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                  width: 100%;
+                  padding: 8px 5px;
+                  font-weight: 600;
+                  font-size: 14px;
+                  color: black;
+                }
+              }
+            }
+          }
+        }
+      }
+      .additional-table {
+        ul {
+          li {
+            display: inline-flex;
+          }
+          &.table-header {
+            border: 1px solid rgba(119, 119, 119, 0.24);
+            font-size: 14px;
+            font-weight: 600;
+            li {
+              width: 15%;
+              padding: 10px;
+              margin-left: 10px;
+              text-transform: uppercase;
+              color: #777;
+              &.bigger {
+                width: 20%;
+              }
+              &.tax {
+                width: 10% !important;
+              }
+              &.date {
+                width: 20% !important;
+              }
+            }
+          }
+          .form-wrapper {
+            position: relative;
+            background: transparent;
+            margin: 0px;
+            border: none;
+            padding: 0;
+            width: 75%;
+            &.datePickerBox {
+              .bsDatepicker {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+                width: 95%;
+              }
+              &:after {
+                content: '';
+                background: url("../../../../assets/images/calendar.svg") no-repeat;
+                position: absolute;
+                right: 9px;
+                top: 1px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+              }
+            }
+            .date-clear {
+              position: absolute;
+              right: 60%;
+              top: 50px;
+              cursor: pointer;
+              color: #0084f6;
+            }
+            .form-ctrl {
+              background: transparent;
+            }
+            &.datepicker {
+              span {
+                position: absolute;
+                top: 30px;
+                right: 20px;
+                font-weight: 300;
+                color: red;
+                cursor: pointer;
+              }
+            }
+            label {
+              font-size: 12px;
+              font-weight: 400;
+              width: 100%;
+              display: block;
+              color: black;
+              text-decoration: none;
+              text-shadow: none;
+              -webkit-font-smoothing: antialiased;
+            }
+            .form-ctrl {
+              background: transparent;
+              border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+              border-radius: 5px;
+              width: 100%;
+              display: block;
+              padding: 0px 5px;
+              font-weight: 600;
+              font-size: 12px;
+              color: black;
+              height: 25px;
+              &.bsDatepicker {
+                padding: 0px 5px;
+              }
+            }
+            &.timepick {
+              .form-ctrl {
+                background: transparent;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 8px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+              }
+            }
+          }
+        }
+        .table-data {
+          ul {
+            border: 1px solid #efefef;
+            li {
+              display: inline-flex;
+              width: 15%;
+              padding: 2px 12px;
+              margin-left: 10px;
+              text-align: center;
+              &.bigger {
+                width: 20%;
+                a {
+                  margin-left: 40px;
+                }
+              }
+              &.tax {
+                width: 10% !important;
+              }
+              &.date {
+                width: 20% !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.table-row {
+  padding: 3px 5px;
+}
+
+.bigger {
+  width: 20%;
+}
+
+.fee-adder {
+  background: #0084f6 !important;
+  color: white !important;
+  position: relative;
+  top: 21px !important;
+  height: 30px !important;
+  padding: 3px 12px 7px 12px !important;
+  i {
+    display: inline-flex;
+    &::before {
+      font-family: FontAwesome;
+      content: "\f09d";
+      font-size: 12px;
+    }
+  }
+}
+
+.form-wrapper {
+  padding: 8px 5px;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid rgba(119, 119, 119, 0.34);
+  .form-ctrl {
+    width: inherit;
+    background: transparent;
+  }
+  &.disable {
+    background: #dddddd !important;
+  }
+}
+
+.paid-fee {
+  border-radius: 10px;
+  padding: 5px;
+  width: 50px;
+  background: #6ad66a;
+  color: white;
+}
+
+/* ============================================================================================================= */
+
+/* ============================================================================================================= */
+
+.pdcChequePayment {
+  margin: 15px 0px !important;
+}
+
+.batch-wrapper {
+  max-height: 350px;
+  overflow: hidden;
+  ::-webkit-scrollbar {
+    display: block;
+    width: 7px;
+    height: 7px;
+  }
+  .table-responsive {
+    max-width: 100%;
+    max-height: 340px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    tr {
+      td {
+        .field-checkbox-wrapper {
+          background: transparent;
+        }
+      }
+    }
+  }
+  th {
+    text-align: left;
+    padding: 15px;
+  }
+  td {
+    padding: 10px 5px;
+    text-align: left;
+    .field-wrapper {
+      position: relative;
+      padding-top: 0px;
+      &.datePickerBox {
+        .bsDatepicker {
+          cursor: pointer;
+          position: relative;
+          z-index: 1;
+          background: transparent;
+          width: 120px;
+        }
+        &:after {
+          content: '';
+          background: url("../../../../assets/images/calendar.svg") no-repeat;
+          position: absolute;
+          left: 97px;
+          top: 10px;
+          width: 21px;
+          height: 21px;
+          z-index: 0;
+        }
+      }
+      .date-clear {
+        position: absolute;
+        right: 60%;
+        top: 50px;
+        cursor: pointer;
+        color: #0084f6;
+      }
+      .form-ctrl {
+        background: transparent;
+        border-bottom: 1px solid $common-blue;
+      }
+    }
+    .field-checkbox-wrapper .form-checkbox {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      z-index: 1;
+    }
+    .field-checkbox-wrapper .form-checkbox+label {
+      vertical-align: middle;
+      font-size: 14px;
+      display: inline-block;
+    }
+    .field-checkbox-wrapper .form-checkbox+label:after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ccc;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .field-checkbox-wrapper .form-checkbox:checked+label:after {
+      border: 2px solid $common-blue;
+    }
+    .field-checkbox-wrapper .form-checkbox+label:before {
+      width: 1px;
+      height: 1px;
+      left: 8px;
+      top: 9px;
+      position: absolute;
+      content: '';
+      border-top: 0;
+      border-right: 0;
+      border-left: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      transform: rotate(-45deg);
+    }
+    .field-checkbox-wrapper .form-checkbox:checked+label:before {
+      border-left: 2px solid $common-blue;
+      border-bottom: 2px solid $common-blue;
+      width: 12px;
+      height: 5px;
+      left: 2px;
+      top: 5px;
+    }
+    .field-checkbox-wrapper .form-checkbox:checked+label {
+      color: $common-blue;
+    }
+  }
+}
+
+.PDCMain {
+  max-height: 480px;
+  overflow: hidden;
+  border-top: 1px solid rgba(119, 119, 119, 0.49);
+  border-bottom: 1px solid rgba(119, 119, 119, 0.49);
+  ::-webkit-scrollbar {
+    display: block;
+    width: 7px;
+    height: 7px;
+  }
+}
+
+.pdc-container {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  border-top: 2px solid rgba(119, 119, 119, 0.12);
+  ::-webkit-scrollbar {
+    display: block;
+  }
+  .pdc-wrapper {
+    ::-webkit-scrollbar {
+      display: block;
+      width: 7px;
+      height: 7px;
+    }
+    padding-top: 10px;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .row {
+      margin: 0px;
+    }
+    .pdc-shell {
+      box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+      .pdc-header {
+        background: #efefef;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .pdc-adder {
+        background: #efefef;
+        padding: 20px 5px 10px 5px;
+        ul {
+          li {
+            display: inline-flex;
+            width: 15%;
+            margin: 0px 5px;
+          }
+        }
+      }
+      .pdc-table {
+        ul {
+          li {
+            display: inline-flex;
+          }
+          &.table-header {
+            border: 1px solid rgba(119, 119, 119, 0.24);
+            font-size: 14px;
+            font-weight: 600;
+            li {
+              width: 15%;
+              padding: 10px;
+              margin-left: 10px;
+              text-transform: uppercase;
+              color: #777;
+              &.bigger {
+                width: 20%;
+              }
+            }
+          }
+        }
+        .table-data {
+          ul {
+            border: 1px solid #efefef;
+            li {
+              display: inline-flex;
+              width: 15%;
+              padding: 2px 12px;
+              margin-left: 10px;
+              text-align: center;
+              &.bigger {
+                width: 20%;
+                a {
+                  margin-left: 40px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .pdc-data-shell {
+      margin-top: 20px;
+      box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+      .field-checkbox-wrapper,
+      .field-radio-wrapper {
         position: relative;
         padding-left: 25px;
         margin-bottom: 10px;
-    }
-    .field-radio-wrapper .form-radio {
+      }
+      .field-radio-wrapper .form-radio {
         opacity: 0;
         position: absolute;
         left: 0;
@@ -36,12 +857,12 @@
         width: 20px;
         height: 20px;
         z-index: 1;
-    }
-    .field-radio-wrapper .form-radio+label {
+      }
+      .field-radio-wrapper .form-radio+label {
         vertical-align: middle;
         transition: all 0.1s;
-    }
-    .field-radio-wrapper .form-radio+label:after {
+      }
+      .field-radio-wrapper .form-radio+label:after {
         content: '';
         width: 16px;
         height: 16px;
@@ -51,11 +872,11 @@
         left: 0;
         top: 0;
         transition: all 0.1s;
-    }
-    .field-radio-wrapper .form-radio:checked+label:after {
+      }
+      .field-radio-wrapper .form-radio:checked+label:after {
         border: 2px solid $common-blue;
-    }
-    .field-radio-wrapper .form-radio+label:before {
+      }
+      .field-radio-wrapper .form-radio+label:before {
         transition: all 0.1s;
         width: 1px;
         height: 1px;
@@ -63,1060 +884,239 @@
         top: 9px;
         position: absolute;
         content: '';
-    }
-    .field-radio-wrapper .form-radio:checked+label:before {
+      }
+      .field-radio-wrapper .form-radio:checked+label:before {
         content: '';
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         background: $common-blue;
         border-radius: 50%;
-        left: 4px;
-        top: 4px;
-    }
-    .field-radio-wrapper .form-radio:checked+label {
+        left: 3px;
+        top: 3px;
+      }
+      .field-radio-wrapper .form-radio:checked+label {
         color: $common-blue;
-    }
-}
-
-.fee-definations {
-    width: 100%;
-    max-height: 400px;
-    overflow: hidden;
-    border-top: 2px solid rgba(119, 119, 119, 0.12);
-    ::-webkit-scrollbar {
-        display: block;
-    }
-    .fee-container {
-        padding-top: 10px;
-        max-height: 400px;
-        overflow-x: hidden;
-        overflow-y: auto;
+      }
+      .pdc-header {
+        background: #efefef;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .pdc-search {
+        background: #efefef;
+        padding: 20px 5px 10px 5px;
         ul {
-            li {
-                a {
-                    cursor: pointer;
+          li {
+            display: inline-flex;
+            width: 20%;
+            margin: 0px 5px;
+            .form-wrapper {
+              background: transparent;
+              border: none;
+              width: 100%;
+              margin: 0px;
+              &.datepicker {
+                span {
+                  position: absolute;
+                  top: 30px;
+                  right: 20px;
+                  font-weight: 300;
+                  color: red;
+                  cursor: pointer;
                 }
-            }
-        }
-        .installment-container {
-            box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
-            .installment-header {
-                background: #efefef;
-                padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-            }
-            .installment-adder {
-                background: #efefef;
-                padding: 20px 5px 10px 5px;
-                ul {
-                    li {
-                        display: inline-flex;
-                        width: 20%;
-                        margin: 0px 10px;
-                        .form-wrapper {
-                            position: relative;
-                            background: transparent;
-                            margin: 0px;
-                            border: none;
-                            padding: 0;
-                            &.datePickerBox {
-                                .bsDatepicker {
-                                    cursor: pointer;
-                                    position: relative;
-                                    z-index: 1;
-                                    background: transparent;
-                                    width: 95%;
-                                }
-                                &:after {
-                                    content: '';
-                                    background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                    position: absolute;
-                                    right: 13px;
-                                    top: 15px;
-                                    width: 21px;
-                                    height: 21px;
-                                    z-index: 0;
-                                }
-                            }
-                            .date-clear {
-                                position: absolute;
-                                right: 60%;
-                                top: 50px;
-                                cursor: pointer;
-                                color: #0084f6;
-                            }
-                            .form-ctrl {
-                                background: transparent;
-                            }
-                            &.datepicker {
-                                span {
-                                    position: absolute;
-                                    top: 30px;
-                                    right: 20px;
-                                    font-weight: 300;
-                                    color: red;
-                                    cursor: pointer;
-                                }
-                            }
-                            label {
-                                font-size: 12px;
-                                font-weight: 400;
-                                width: 100%;
-                                display: block;
-                                color: black;
-                                text-decoration: none;
-                                text-shadow: none;
-                                -webkit-font-smoothing: antialiased;
-                            }
-                            .form-ctrl {
-                                background: transparent;
-                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                border-radius: 5px;
-                                width: 100%;
-                                display: block;
-                                padding: 0px 5px;
-                                font-weight: 600;
-                                font-size: 12px;
-                                color: black;
-                                height: 25px;
-                                &.bsDatepicker {
-                                    padding: 0px 5px;
-                                }
-                            }
-                            &.timepick {
-                                .form-ctrl {
-                                    background: transparent;
-                                    border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                    width: 100%;
-                                    padding: 8px 5px;
-                                    font-weight: 600;
-                                    font-size: 14px;
-                                    color: black;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .installment-table {
-                ul {
-                    li {
-                        display: inline-flex;
-                        &:first-child {
-                            width: 5% !important;
-                        }
-                        &.date {
-                            width: 20% !important;
-                        }
-                    }
-                    .form-wrapper {
-                        position: relative;
-                        background: transparent;
-                        margin: 0px;
-                        border: none;
-                        padding: 0;
-                        width: 100%;
-                        &.datePickerBox {
-                            .bsDatepicker {
-                                cursor: pointer;
-                                position: relative;
-                                z-index: 1;
-                                background: transparent;
-                                width: 95%;
-                            }
-                            &:after {
-                                content: '';
-                                background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                position: absolute;
-                                right: 9px;
-                                top: 1px;
-                                width: 21px;
-                                height: 21px;
-                                z-index: 0;
-                            }
-                        }
-                        .date-clear {
-                            position: absolute;
-                            right: 60%;
-                            top: 50px;
-                            cursor: pointer;
-                            color: #0084f6;
-                        }
-                        .form-ctrl {
-                            background: transparent;
-                        }
-                        &.datepicker {
-                            span {
-                                position: absolute;
-                                top: 30px;
-                                right: 20px;
-                                font-weight: 300;
-                                color: red;
-                                cursor: pointer;
-                            }
-                        }
-                        label {
-                            font-size: 12px;
-                            font-weight: 400;
-                            width: 100%;
-                            display: block;
-                            color: black;
-                            text-decoration: none;
-                            text-shadow: none;
-                            -webkit-font-smoothing: antialiased;
-                        }
-                        .form-ctrl {
-                            background: transparent;
-                            border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                            border-radius: 5px;
-                            width: 100%;
-                            display: block;
-                            padding: 0px 5px;
-                            font-weight: 600;
-                            font-size: 12px;
-                            color: black;
-                            height: 25px;
-                            &.bsDatepicker {
-                                padding: 0px 5px;
-                            }
-                        }
-                        &.timepick {
-                            .form-ctrl {
-                                background: transparent;
-                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                width: 100%;
-                                padding: 8px 5px;
-                                font-weight: 600;
-                                font-size: 14px;
-                                color: black;
-                            }
-                        }
-                    }
-                    &.table-header {
-                        border: 1px solid rgba(119, 119, 119, 0.24);
-                        font-size: 14px;
-                        font-weight: 600;
-                        li {
-                            width: 14%;
-                            padding: 10px;
-                            margin-left: 12px;
-                            text-transform: uppercase;
-                            color: #777;
-                            &.bigger {
-                                width: 20%;
-                            }
-                        }
-                    }
-                }
-                .table-data {
-                    ul {
-                        border: 1px solid #efefef;
-                        li {
-                            display: inline-flex;
-                            width: 14%;
-                            padding: 2px 12px;
-                            margin-left: 10px;
-                            text-align: center;
-                            &.bigger {
-                                width: 20%;
-                                a {
-                                    margin-left: 40px;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .additional-container {
-            box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
-            margin-top: 20px;
-            .additional-header {
-                background: #efefef;
-                padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-            }
-            .additional-adder {
-                background: #efefef;
-                padding: 20px 5px 10px 5px;
-                ul {
-                    li {
-                        display: inline-flex;
-                        width: 15%;
-                        margin: 0px 5px;
-                        .form-wrapper {
-                            position: relative;
-                            background: transparent;
-                            margin: 0px;
-                            border: none;
-                            padding: 0;
-                            &.datePickerBox {
-                                .bsDatepicker {
-                                    cursor: pointer;
-                                    position: relative;
-                                    z-index: 1;
-                                    background: transparent;
-                                    width: 95%;
-                                }
-                                &:after {
-                                    content: '';
-                                    background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                    position: absolute;
-                                    right: 13px;
-                                    top: 15px;
-                                    width: 21px;
-                                    height: 21px;
-                                    z-index: 0;
-                                }
-                            }
-                            .date-clear {
-                                position: absolute;
-                                right: 60%;
-                                top: 50px;
-                                cursor: pointer;
-                                color: #0084f6;
-                            }
-                            .form-ctrl {
-                                background: transparent;
-                            }
-                            &.datepicker {
-                                span {
-                                    position: absolute;
-                                    top: 30px;
-                                    right: 20px;
-                                    font-weight: 300;
-                                    color: red;
-                                    cursor: pointer;
-                                }
-                            }
-                            label {
-                                font-size: 12px;
-                                font-weight: 400;
-                                width: 100%;
-                                display: block;
-                                color: black;
-                                text-decoration: none;
-                                text-shadow: none;
-                                -webkit-font-smoothing: antialiased;
-                            }
-                            .form-ctrl {
-                                background: transparent;
-                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                border-radius: 5px;
-                                width: 100%;
-                                display: block;
-                                padding: 0px 5px;
-                                font-weight: 600;
-                                font-size: 12px;
-                                color: black;
-                                height: 25px;
-                                &.bsDatepicker {
-                                    padding: 0px 5px;
-                                }
-                            }
-                            &.timepick {
-                                .form-ctrl {
-                                    background: transparent;
-                                    border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                    width: 100%;
-                                    padding: 8px 5px;
-                                    font-weight: 600;
-                                    font-size: 14px;
-                                    color: black;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .additional-table {
-                ul {
-                    li {
-                        display: inline-flex;
-                    }
-                    &.table-header {
-                        border: 1px solid rgba(119, 119, 119, 0.24);
-                        font-size: 14px;
-                        font-weight: 600;
-                        li {
-                            width: 15%;
-                            padding: 10px;
-                            margin-left: 10px;
-                            text-transform: uppercase;
-                            color: #777;
-                            &.bigger {
-                                width: 20%;
-                            }
-                            &.tax {
-                                width: 10% !important;
-                            }
-                            &.date {
-                                width: 20% !important;
-                            }
-                        }
-                    }
-                    .form-wrapper {
-                        position: relative;
-                        background: transparent;
-                        margin: 0px;
-                        border: none;
-                        padding: 0;
-                        width: 75%;
-                        &.datePickerBox {
-                            .bsDatepicker {
-                                cursor: pointer;
-                                position: relative;
-                                z-index: 1;
-                                background: transparent;
-                                width: 95%;
-                            }
-                            &:after {
-                                content: '';
-                                background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                position: absolute;
-                                right: 9px;
-                                top: 1px;
-                                width: 21px;
-                                height: 21px;
-                                z-index: 0;
-                            }
-                        }
-                        .date-clear {
-                            position: absolute;
-                            right: 60%;
-                            top: 50px;
-                            cursor: pointer;
-                            color: #0084f6;
-                        }
-                        .form-ctrl {
-                            background: transparent;
-                        }
-                        &.datepicker {
-                            span {
-                                position: absolute;
-                                top: 30px;
-                                right: 20px;
-                                font-weight: 300;
-                                color: red;
-                                cursor: pointer;
-                            }
-                        }
-                        label {
-                            font-size: 12px;
-                            font-weight: 400;
-                            width: 100%;
-                            display: block;
-                            color: black;
-                            text-decoration: none;
-                            text-shadow: none;
-                            -webkit-font-smoothing: antialiased;
-                        }
-                        .form-ctrl {
-                            background: transparent;
-                            border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                            border-radius: 5px;
-                            width: 100%;
-                            display: block;
-                            padding: 0px 5px;
-                            font-weight: 600;
-                            font-size: 12px;
-                            color: black;
-                            height: 25px;
-                            &.bsDatepicker {
-                                padding: 0px 5px;
-                            }
-                        }
-                        &.timepick {
-                            .form-ctrl {
-                                background: transparent;
-                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                width: 100%;
-                                padding: 8px 5px;
-                                font-weight: 600;
-                                font-size: 14px;
-                                color: black;
-                            }
-                        }
-                    }
-                }
-                .table-data {
-                    ul {
-                        border: 1px solid #efefef;
-                        li {
-                            display: inline-flex;
-                            width: 15%;
-                            padding: 2px 12px;
-                            margin-left: 10px;
-                            text-align: center;
-                            &.bigger {
-                                width: 20%;
-                                a {
-                                    margin-left: 40px;
-                                }
-                            }
-                            &.tax {
-                                width: 10% !important;
-                            }
-                            &.date {
-                                width: 20% !important;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-.table-row {
-    padding: 3px 5px;
-}
-
-.bigger {
-    width: 20%;
-}
-
-.fee-adder {
-    background: #0084f6 !important;
-    color: white !important;
-    position: relative;
-    top: 21px !important;
-    height: 30px !important;
-    padding: 3px 12px 7px 12px !important;
-    i {
-        display: inline-flex;
-        &::before {
-            font-family: FontAwesome;
-            content: "\f09d";
-            font-size: 12px;
-        }
-    }
-}
-
-.form-wrapper {
-    padding: 8px 5px;
-    border-radius: 5px;
-    width: 100%;
-    border: 1px solid rgba(119, 119, 119, 0.34);
-    .form-ctrl {
-        width: inherit;
-        background: transparent;
-    }
-    &.disable {
-        background: #dddddd !important;
-    }
-}
-
-.paid-fee {
-    border-radius: 10px;
-    padding: 5px;
-    width: 50px;
-    background: #6ad66a;
-    color: white;
-}
-
-/* ============================================================================================================= */
-
-/* ============================================================================================================= */
-
-.pdcChequePayment {
-    margin: 15px 0px !important;
-}
-
-.batch-wrapper {
-    max-height: 350px;
-    overflow: hidden;
-    ::-webkit-scrollbar {
-        display: block;
-        width: 7px;
-        height: 7px;
-    }
-    .table-responsive {
-        max-width: 100%;
-        max-height: 340px;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        tr {
-            td {
-                .field-checkbox-wrapper {
-                    background: transparent;
-                }
-            }
-        }
-    }
-    th {
-        text-align: left;
-        padding: 15px;
-    }
-    td {
-        padding: 10px 5px;
-        text-align: left;
-        .field-wrapper {
-            position: relative;
-            padding-top: 0px;
-            &.datePickerBox {
-                .bsDatepicker {
-                    cursor: pointer;
-                    position: relative;
-                    z-index: 1;
-                    background: transparent;
-                    width: 120px;
-                }
-                &:after {
-                    content: '';
-                    background: url("../../../../assets/images/calendar.svg") no-repeat;
-                    position: absolute;
-                    left: 97px;
-                    top: 10px;
-                    width: 21px;
-                    height: 21px;
-                    z-index: 0;
-                }
-            }
-            .date-clear {
-                position: absolute;
-                right: 60%;
-                top: 50px;
-                cursor: pointer;
-                color: #0084f6;
-            }
-            .form-ctrl {
+              }
+              label {
+                font-size: 12px;
+                font-weight: 400;
+                color: black;
+                text-decoration: none;
+                text-shadow: none;
+                -webkit-font-smoothing: antialiased;
+              }
+              .form-ctrl {
                 background: transparent;
-                border-bottom: 1px solid $common-blue;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 8px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+                &.bsDatepicker {
+                  padding: 10px 5px;
+                }
+              }
+              &.timepick {
+                .side-form-ctrl {
+                  background: transparent;
+                  border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                  width: 100%;
+                  padding: 8px 5px;
+                  font-weight: 600;
+                  font-size: 14px;
+                  color: black;
+                }
+              }
             }
+          }
         }
-        .field-checkbox-wrapper .form-checkbox {
-            opacity: 0;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            z-index: 1;
-        }
-        .field-checkbox-wrapper .form-checkbox+label {
-            vertical-align: middle;
+      }
+      .pdc-table {
+        ul {
+          li {
+            display: inline-flex;
+          }
+          &.table-header {
+            border: 1px solid rgba(119, 119, 119, 0.24);
             font-size: 14px;
-            display: inline-block;
+            font-weight: 600;
+            li {
+              width: 12%;
+              padding: 10px;
+              margin-left: 10px;
+              text-transform: uppercase;
+              color: #777;
+              &:first-child {
+                width: 5%;
+              }
+              &.bigger {
+                width: 20%;
+                a {
+                  margin-left: 40px;
+                }
+              }
+            }
+          }
         }
-        .field-checkbox-wrapper .form-checkbox+label:after {
-            content: '';
-            width: 16px;
-            height: 16px;
-            border: 2px solid #ccc;
-            border-radius: 2px;
-            position: absolute;
-            left: 0;
-            top: 0;
+        .table-data {
+          ul {
+            li {
+              display: inline-flex;
+              width: 12%;
+              padding: 2px 12px;
+              margin-left: 10px;
+              text-align: center;
+              &:first-child {
+                width: 5%;
+              }
+              &.bigger {
+                width: 20%;
+                a {
+                  margin-left: 40px;
+                }
+              }
+            }
+            border: 1px solid #efefef;
+            &.displayComp {
+              .edit-comp {
+                display: none
+              }
+            }
+            &.editComp {
+              .view-comp {
+                display: none
+              }
+              .edit-comp {
+                .field-wrapper {
+                  position: relative;
+                  /* padding-top: 20px; */
+                  &.datePickerBox {
+                    .bsDatepicker {
+                      cursor: pointer;
+                      position: relative;
+                      z-index: 1;
+                      background: transparent;
+                    }
+                    &:after {
+                      content: '';
+                      background: url("../../../../assets/images/calendar.svg") no-repeat;
+                      position: absolute;
+                      right: 0px;
+                      top: 18px;
+                      width: 21px;
+                      height: 21px;
+                      z-index: 0;
+                    }
+                  }
+                  .date-clear {
+                    position: absolute;
+                    right: 60%;
+                    top: 50px;
+                    cursor: pointer;
+                    color: #0084f6;
+                  }
+                }
+              }
+            }
+            &.actions {
+              a {
+                margin-right: 15px;
+                display: inline-flex;
+                text-decoration: none;
+              }
+            }
+          }
         }
-        .field-checkbox-wrapper .form-checkbox:checked+label:after {
-            border: 2px solid $common-blue;
-        }
-        .field-checkbox-wrapper .form-checkbox+label:before {
-            width: 1px;
-            height: 1px;
-            left: 8px;
-            top: 9px;
-            position: absolute;
-            content: '';
-            border-top: 0;
-            border-right: 0;
-            border-left: 2px solid transparent;
-            border-bottom: 2px solid transparent;
-            transform: rotate(-45deg);
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label:before {
-            border-left: 2px solid $common-blue;
-            border-bottom: 2px solid $common-blue;
-            width: 12px;
-            height: 5px;
-            left: 2px;
-            top: 5px;
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label {
-            color: $common-blue;
-        }
+      }
     }
-}
-
-.PDCMain {
-    max-height: 480px;
-    overflow: hidden;
-    border-top: 1px solid rgba(119, 119, 119, 0.49);
-    border-bottom: 1px solid rgba(119, 119, 119, 0.49);
-    ::-webkit-scrollbar {
-        display: block;
-        width: 7px;
-        height: 7px;
-    }
-}
-
-.pdc-container {
-    width: 100%;
-    max-height: 400px;
-    overflow: hidden;
-    border-top: 2px solid rgba(119, 119, 119, 0.12);
-    ::-webkit-scrollbar {
-        display: block;
-    }
-    .pdc-wrapper {
-        ::-webkit-scrollbar {
-            display: block;
-            width: 7px;
-            height: 7px;
-        }
-        padding-top: 10px;
-        max-height: 400px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        .row {
-            margin: 0px;
-        }
-        .pdc-shell {
-            box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
-            .pdc-header {
-                background: #efefef;
-                padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-            }
-            .pdc-adder {
-                background: #efefef;
-                padding: 20px 5px 10px 5px;
-                ul {
-                    li {
-                        display: inline-flex;
-                        width: 15%;
-                        margin: 0px 5px;
-                    }
-                }
-            }
-            .pdc-table {
-                ul {
-                    li {
-                        display: inline-flex;
-                    }
-                    &.table-header {
-                        border: 1px solid rgba(119, 119, 119, 0.24);
-                        font-size: 14px;
-                        font-weight: 600;
-                        li {
-                            width: 15%;
-                            padding: 10px;
-                            margin-left: 10px;
-                            text-transform: uppercase;
-                            color: #777;
-                            &.bigger {
-                                width: 20%;
-                            }
-                        }
-                    }
-                }
-                .table-data {
-                    ul {
-                        border: 1px solid #efefef;
-                        li {
-                            display: inline-flex;
-                            width: 15%;
-                            padding: 2px 12px;
-                            margin-left: 10px;
-                            text-align: center;
-                            &.bigger {
-                                width: 20%;
-                                a {
-                                    margin-left: 40px;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .pdc-data-shell {
-            margin-top: 20px;
-            box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
-            .field-checkbox-wrapper,
-            .field-radio-wrapper {
-                position: relative;
-                padding-left: 25px;
-                margin-bottom: 10px;
-            }
-            .field-radio-wrapper .form-radio {
-                opacity: 0;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 20px;
-                height: 20px;
-                z-index: 1;
-            }
-            .field-radio-wrapper .form-radio+label {
-                vertical-align: middle;
-                transition: all 0.1s;
-            }
-            .field-radio-wrapper .form-radio+label:after {
-                content: '';
-                width: 16px;
-                height: 16px;
-                border: 2px solid #ccc;
-                border-radius: 50%;
-                position: absolute;
-                left: 0;
-                top: 0;
-                transition: all 0.1s;
-            }
-            .field-radio-wrapper .form-radio:checked+label:after {
-                border: 2px solid $common-blue;
-            }
-            .field-radio-wrapper .form-radio+label:before {
-                transition: all 0.1s;
-                width: 1px;
-                height: 1px;
-                left: 9px;
-                top: 9px;
-                position: absolute;
-                content: '';
-            }
-            .field-radio-wrapper .form-radio:checked+label:before {
-                content: '';
-                width: 10px;
-                height: 10px;
-                background: $common-blue;
-                border-radius: 50%;
-                left: 3px;
-                top: 3px;
-            }
-            .field-radio-wrapper .form-radio:checked+label {
-                color: $common-blue;
-            }
-            .pdc-header {
-                background: #efefef;
-                padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-            }
-            .pdc-search {
-                background: #efefef;
-                padding: 20px 5px 10px 5px;
-                ul {
-                    li {
-                        display: inline-flex;
-                        width: 20%;
-                        margin: 0px 5px;
-                        .form-wrapper {
-                            background: transparent;
-                            border: none;
-                            width: 100%;
-                            margin: 0px;
-                            &.datepicker {
-                                span {
-                                    position: absolute;
-                                    top: 30px;
-                                    right: 20px;
-                                    font-weight: 300;
-                                    color: red;
-                                    cursor: pointer;
-                                }
-                            }
-                            label {
-                                font-size: 12px;
-                                font-weight: 400;
-                                color: black;
-                                text-decoration: none;
-                                text-shadow: none;
-                                -webkit-font-smoothing: antialiased;
-                            }
-                            .form-ctrl {
-                                background: transparent;
-                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                width: 100%;
-                                padding: 8px 5px;
-                                font-weight: 600;
-                                font-size: 14px;
-                                color: black;
-                                &.bsDatepicker {
-                                    padding: 10px 5px;
-                                }
-                            }
-                            &.timepick {
-                                .side-form-ctrl {
-                                    background: transparent;
-                                    border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                                    width: 100%;
-                                    padding: 8px 5px;
-                                    font-weight: 600;
-                                    font-size: 14px;
-                                    color: black;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .pdc-table {
-                ul {
-                    li {
-                        display: inline-flex;
-                    }
-                    &.table-header {
-                        border: 1px solid rgba(119, 119, 119, 0.24);
-                        font-size: 14px;
-                        font-weight: 600;
-                        li {
-                            width: 12%;
-                            padding: 10px;
-                            margin-left: 10px;
-                            text-transform: uppercase;
-                            color: #777;
-                            &:first-child {
-                                width: 5%;
-                            }
-                            &.bigger {
-                                width: 20%;
-                                a {
-                                    margin-left: 40px;
-                                }
-                            }
-                        }
-                    }
-                }
-                .table-data {
-                    ul {
-                        li {
-                            display: inline-flex;
-                            width: 12%;
-                            padding: 2px 12px;
-                            margin-left: 10px;
-                            text-align: center;
-                            &:first-child {
-                                width: 5%;
-                            }
-                            &.bigger {
-                                width: 20%;
-                                a {
-                                    margin-left: 40px;
-                                }
-                            }
-                        }
-                        border: 1px solid #efefef;
-                        &.displayComp {
-                            .edit-comp {
-                                display: none
-                            }
-                        }
-                        &.editComp {
-                            .view-comp {
-                                display: none
-                            }
-                            .edit-comp {
-                                .field-wrapper {
-                                    position: relative;
-                                    /* padding-top: 20px; */
-                                    &.datePickerBox {
-                                        .bsDatepicker {
-                                            cursor: pointer;
-                                            position: relative;
-                                            z-index: 1;
-                                            background: transparent;
-                                        }
-                                        &:after {
-                                            content: '';
-                                            background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                            position: absolute;
-                                            right: 0px;
-                                            top: 18px;
-                                            width: 21px;
-                                            height: 21px;
-                                            z-index: 0;
-                                        }
-                                    }
-                                    .date-clear {
-                                        position: absolute;
-                                        right: 60%;
-                                        top: 50px;
-                                        cursor: pointer;
-                                        color: #0084f6;
-                                    }
-                                }
-                            }
-                        }
-                        &.actions {
-                            a {
-                                margin-right: 15px;
-                                display: inline-flex;
-                                text-decoration: none;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+  }
 }
 
 .save-pdf {
-    margin: 0px;
-    padding: 0px 20px;
-    background: #efefef;
+  margin: 0px;
+  padding: 0px 20px;
+  background: #efefef;
 }
 
 .field-view {
-    margin-top: 10px;
-    border: none;
-    height: 30px;
-    a {
-        font-size: 13px;
-        margin-left: -4px;
-    }
+  margin-top: 10px;
+  border: none;
+  height: 30px;
+  a {
+    font-size: 13px;
+    margin-left: -4px;
+  }
 }
 
 /* ============================================================================================================= */
 
 .allocation-table {
+  width: 100%;
+  table {
+    thead {
+      tr {
+        line-height: 30px;
+        th {
+          font-weight: 600;
+        }
+      }
+    }
+    tbody {
+      tr {
+        line-height: 20px;
+        .field-wrapper {
+          max-width: 100px;
+          left: 30%;
+          .form-ctrl {
+            background: transparent;
+            text-align: center;
+            border-bottom: solid 1px #0084f6;
+          }
+        }
+      }
+    }
+  }
+  .table-footer {
     width: 100%;
-    table {
-        thead {
-            tr {
-                line-height: 30px;
-                th {
-                    font-weight: 600;
-                }
-            }
-        }
-        tbody {
-            tr {
-                line-height: 20px;
-                .field-wrapper {
-                    max-width: 100px;
-                    left: 30%;
-                    .form-ctrl {
-                        background: transparent;
-                        text-align: center;
-                        border-bottom: solid 1px #0084f6;
-                    }
-                }
-            }
-        }
+    min-height: 40px;
+    padding: 5px 0px;
+    margin: 10px 0px;
+    #allocateInv {
+      width: 100%;
     }
-    .table-footer {
-        width: 100%;
-        min-height: 40px;
-        padding: 5px 0px;
-        margin: 10px 0px;
-        #allocateInv {
-            width: 100%;
-        }
-    }
+  }
 }
 
 /* ============================================================================================================= */
@@ -1124,837 +1124,837 @@
 /* ============================================================================================================= */
 
 .feeManager {
-    min-height: 400px;
-    max-height: 400px;
+  min-height: 400px;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: block;
+    width: 7px;
+    height: 7px;
+  }
+  .fee-content {
+    max-height: 440px;
     overflow-x: hidden;
     overflow-y: auto;
-    ::-webkit-scrollbar {
-        display: block;
-        width: 7px;
-        height: 7px;
+  }
+  .row {
+    margin: 0px;
+  }
+  .header {
+    border-bottom: 1px solid rgba(119, 119, 119, 0.733);
+    margin: 5px 0px;
+  }
+  table {
+    .field-wrapper {
+      background: transparent;
+      width: 100%;
+      .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #0084f6;
+        text-align: center;
+        width: 150px;
+      }
     }
-    .fee-content {
-        max-height: 440px;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-    .row {
-        margin: 0px;
-    }
-    .header {
-        border-bottom: 1px solid rgba(119, 119, 119, 0.733);
-        margin: 5px 0px;
-    }
-    table {
-        .field-wrapper {
-            background: transparent;
-            width: 100%;
-            .form-ctrl {
-                background: transparent;
-                border-bottom: solid 1px #0084f6;
-                text-align: center;
-                width: 150px;
-            }
+    .field-wrapper {
+      position: relative;
+      /* padding-top: 20px; */
+      &.datePickerBox {
+        .bsDatepicker {
+          cursor: pointer;
+          position: relative;
+          z-index: 1;
+          background: transparent;
         }
-        .field-wrapper {
-            position: relative;
-            /* padding-top: 20px; */
-            &.datePickerBox {
-                .bsDatepicker {
-                    cursor: pointer;
-                    position: relative;
-                    z-index: 1;
-                    background: transparent;
-                }
-                &:after {
-                    content: '';
-                    background: url("../../../../assets/images/calendar.svg") no-repeat;
-                    position: absolute;
-                    right: 30px;
-                    /* top: 0px; */
-                    width: 21px;
-                    height: 21px;
-                    z-index: 0;
-                }
-            }
-            .date-clear {
-                position: absolute;
-                right: 60%;
-                top: 50px;
-                cursor: pointer;
-                color: #0084f6;
-            }
+        &:after {
+          content: '';
+          background: url("../../../../assets/images/calendar.svg") no-repeat;
+          position: absolute;
+          right: 30px;
+          /* top: 0px; */
+          width: 21px;
+          height: 21px;
+          z-index: 0;
         }
-        tr {
-            line-height: 20px;
-            i {
-                font-size: 18px;
-                cursor: pointer;
-            }
-            td {
-                padding: 3px 20px;
-            }
-        }
+      }
+      .date-clear {
+        position: absolute;
+        right: 60%;
+        top: 50px;
+        cursor: pointer;
+        color: #0084f6;
+      }
     }
-    .installment {
-        border: 1px solid #777;
-        padding: 5px; //box-shadow: 1px 5px 5px 1px #004a7e;
-        legend {
-            padding: 0.2em 0.5em;
-            border: 1px solid #0084f6;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: left;
+    tr {
+      line-height: 20px;
+      i {
+        font-size: 18px;
+        cursor: pointer;
+      }
+      td {
+        padding: 3px 20px;
+      }
+    }
+  }
+  .installment {
+    border: 1px solid #777;
+    padding: 5px; //box-shadow: 1px 5px 5px 1px #004a7e;
+    legend {
+      padding: 0.2em 0.5em;
+      border: 1px solid #0084f6;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      width: 200px;
+      background: #0084f6;
+    }
+    .data-adder {
+      margin: 0px 0px 5px 0px;
+      .outer {
+        .inner {
+          width: 30%;
+          display: inline-flex;
+          .btn {
+            padding: 2px 0px 0px 7px;
+            border: none;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            .tooltip {
+              position: relative;
+              top: -30px;
+              right: 50px;
+              min-width: 100px;
+              font-size: 12px;
+              padding: 6px;
+              height: 35px;
+              border-radius: 5px;
+              background: rgba(0, 0, 0, 0.774);
+              color: white;
+              visibility: hidden;
+              opacity: 0;
+            }
+            &:hover {
+              background: rgb(216, 214, 214);
+              .tooltip {
+                position: relative;
+                top: -65px;
+                right: 100px;
+                min-width: 160px;
+                padding: 6px;
+                border-radius: 5px;
+                font-size: 12px;
+                height: 35px;
+                background: rgba(0, 0, 0, 0.541);
+                color: white;
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.2s;
+              }
+            }
+            &:focus {
+              outline: none;
+            }
+            &:active {
+              box-shadow: none;
+            }
+          }
+        }
+      }
+    }
+  }
+  .additional {
+    margin-top: 40px;
+    border: 1px solid #777;
+    padding: 5px; //box-shadow: 1px 5px 5px 1px #004a7e;
+    legend {
+      padding: 0.2em 0.5em;
+      border: 1px solid #0084f6;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      width: 200px;
+      background: #0084f6;
+    }
+    .data-adder {
+      margin: 0px 0px 5px 0px;
+      .outer {
+        .inner {
+          width: 30%;
+          display: inline-flex;
+          .btn {
+            padding: 2px 0px 0px 7px;
+            border: none;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            .tooltip {
+              position: relative;
+              top: -30px;
+              right: 50px;
+              min-width: 100px;
+              font-size: 12px;
+              padding: 6px;
+              height: 35px;
+              border-radius: 5px;
+              background: rgba(0, 0, 0, 0.774);
+              color: white;
+              visibility: hidden;
+              opacity: 0;
+            }
+            &:hover {
+              background: rgb(216, 214, 214);
+              .tooltip {
+                position: relative;
+                top: -65px;
+                right: 100px;
+                min-width: 160px;
+                padding: 6px;
+                border-radius: 5px;
+                font-size: 12px;
+                height: 35px;
+                background: rgba(0, 0, 0, 0.541);
+                color: white;
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.2s;
+              }
+            }
+            &:focus {
+              outline: none;
+            }
+            &:active {
+              box-shadow: none;
+            }
+          }
+        }
+        .innermost {
+          display: inline-flex;
+          .field-wrapper {
             width: 200px;
-            background: #0084f6;
-        }
-        .data-adder {
-            margin: 0px 0px 5px 0px;
-            .outer {
-                .inner {
-                    width: 30%;
-                    display: inline-flex;
-                    .btn {
-                        padding: 2px 0px 0px 7px;
-                        border: none;
-                        height: 35px;
-                        width: 35px;
-                        border-radius: 50%;
-                        .tooltip {
-                            position: relative;
-                            top: -30px;
-                            right: 50px;
-                            min-width: 100px;
-                            font-size: 12px;
-                            padding: 6px;
-                            height: 35px;
-                            border-radius: 5px;
-                            background: rgba(0, 0, 0, 0.774);
-                            color: white;
-                            visibility: hidden;
-                            opacity: 0;
-                        }
-                        &:hover {
-                            background: rgb(216, 214, 214);
-                            .tooltip {
-                                position: relative;
-                                top: -65px;
-                                right: 100px;
-                                min-width: 160px;
-                                padding: 6px;
-                                border-radius: 5px;
-                                font-size: 12px;
-                                height: 35px;
-                                background: rgba(0, 0, 0, 0.541);
-                                color: white;
-                                visibility: visible;
-                                opacity: 1;
-                                transition: all 0.2s;
-                            }
-                        }
-                        &:focus {
-                            outline: none;
-                        }
-                        &:active {
-                            box-shadow: none;
-                        }
-                    }
-                }
+          }
+          .btn {
+            padding: 2px 0px 0px 7px;
+            border: none;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            .tooltip {
+              position: relative;
+              top: -30px;
+              right: 50px;
+              min-width: 100px;
+              font-size: 12px;
+              padding: 6px;
+              height: 35px;
+              border-radius: 5px;
+              background: rgba(0, 0, 0, 0.774);
+              color: white;
+              visibility: hidden;
+              opacity: 0;
             }
-        }
-    }
-    .additional {
-        margin-top: 40px;
-        border: 1px solid #777;
-        padding: 5px; //box-shadow: 1px 5px 5px 1px #004a7e;
-        legend {
-            padding: 0.2em 0.5em;
-            border: 1px solid #0084f6;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: left;
-            width: 200px;
-            background: #0084f6;
-        }
-        .data-adder {
-            margin: 0px 0px 5px 0px;
-            .outer {
-                .inner {
-                    width: 30%;
-                    display: inline-flex;
-                    .btn {
-                        padding: 2px 0px 0px 7px;
-                        border: none;
-                        height: 35px;
-                        width: 35px;
-                        border-radius: 50%;
-                        .tooltip {
-                            position: relative;
-                            top: -30px;
-                            right: 50px;
-                            min-width: 100px;
-                            font-size: 12px;
-                            padding: 6px;
-                            height: 35px;
-                            border-radius: 5px;
-                            background: rgba(0, 0, 0, 0.774);
-                            color: white;
-                            visibility: hidden;
-                            opacity: 0;
-                        }
-                        &:hover {
-                            background: rgb(216, 214, 214);
-                            .tooltip {
-                                position: relative;
-                                top: -65px;
-                                right: 100px;
-                                min-width: 160px;
-                                padding: 6px;
-                                border-radius: 5px;
-                                font-size: 12px;
-                                height: 35px;
-                                background: rgba(0, 0, 0, 0.541);
-                                color: white;
-                                visibility: visible;
-                                opacity: 1;
-                                transition: all 0.2s;
-                            }
-                        }
-                        &:focus {
-                            outline: none;
-                        }
-                        &:active {
-                            box-shadow: none;
-                        }
-                    }
-                }
-                .innermost {
-                    display: inline-flex;
-                    .field-wrapper {
-                        width: 200px;
-                    }
-                    .btn {
-                        padding: 2px 0px 0px 7px;
-                        border: none;
-                        height: 35px;
-                        width: 35px;
-                        border-radius: 50%;
-                        .tooltip {
-                            position: relative;
-                            top: -30px;
-                            right: 50px;
-                            min-width: 100px;
-                            font-size: 12px;
-                            padding: 6px;
-                            height: 35px;
-                            border-radius: 5px;
-                            background: rgba(0, 0, 0, 0.774);
-                            color: white;
-                            visibility: hidden;
-                            opacity: 0;
-                        }
-                        &:hover {
-                            background: rgb(216, 214, 214);
-                            .tooltip {
-                                position: relative;
-                                top: -65px;
-                                right: 100px;
-                                min-width: 160px;
-                                padding: 6px;
-                                border-radius: 5px;
-                                font-size: 12px;
-                                height: 35px;
-                                background: rgba(0, 0, 0, 0.541);
-                                color: white;
-                                visibility: visible;
-                                opacity: 1;
-                                transition: all 0.2s;
-                            }
-                        }
-                        &:focus {
-                            outline: none;
-                        }
-                        &:active {
-                            box-shadow: none;
-                        }
-                    }
-                }
+            &:hover {
+              background: rgb(216, 214, 214);
+              .tooltip {
+                position: relative;
+                top: -65px;
+                right: 100px;
+                min-width: 160px;
+                padding: 6px;
+                border-radius: 5px;
+                font-size: 12px;
+                height: 35px;
+                background: rgba(0, 0, 0, 0.541);
+                color: white;
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.2s;
+              }
             }
+            &:focus {
+              outline: none;
+            }
+            &:active {
+              box-shadow: none;
+            }
+          }
         }
+      }
     }
+  }
 }
 
 input[type='number'] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 /* Webkit browsers like Safari and Chrome */
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .bigPop {
-    .popupWrapper {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        bottom: 0;
-        top: 60px;
-        right: 0;
-        left: 0px;
-        background: rgba(230, 230, 230, 0.5);
-        z-index: 100; // display: none;  
-        visibility: hidden;
-        opacity: 0;
-        -webkit-transition: all 0.5s ease-in;
-        -moz-transition: all 0.5s ease-in;
-        -ms-transition: all 0.5s ease-in;
-        -o-transition: all 0.5s ease-in;
-        transition: all 0.5s ease-in;
-        .popup {
-            max-width: 80%;
-            width: 80%;
-            height: auto;
-            left: 0;
-            right: 0;
-            top: 5%;
-            bottom: 0;
-            margin: auto;
-        }
+  .popupWrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    top: 60px;
+    right: 0;
+    left: 0px;
+    background: rgba(230, 230, 230, 0.5);
+    z-index: 100; // display: none;  
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    .popup {
+      max-width: 80%;
+      width: 80%;
+      height: auto;
+      left: 0;
+      right: 0;
+      top: 5%;
+      bottom: 0;
+      margin: auto;
     }
+  }
 }
 
 .enquiry-detail {
-    .field-wrapper {
+  .field-wrapper {
+    position: relative;
+    padding-top: 10px;
+    &.datePickerBox {
+      .form-ctrl {
+        cursor: pointer;
         position: relative;
-        padding-top: 10px;
-        &.datePickerBox {
-            .form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-            }
-            &:after {
-                content: '';
-                background: url("../../../../assets/images/calendar.svg") no-repeat;
-                position: absolute;
-                right: 50px;
-                top: 35px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
-        .date-clear {
-            position: absolute;
-            right: 5px;
-            top: 25px;
-            cursor: pointer;
-            color: #0084f6;
-        }
+        z-index: 1;
+        background: transparent;
+      }
+      &:after {
+        content: '';
+        background: url("../../../../assets/images/calendar.svg") no-repeat;
+        position: absolute;
+        right: 50px;
+        top: 35px;
+        width: 21px;
+        height: 21px;
+        z-index: 0;
+      }
     }
-    .field-checkbox-wrapper {
-        margin: 20px 0px;
+    .date-clear {
+      position: absolute;
+      right: 5px;
+      top: 25px;
+      cursor: pointer;
+      color: #0084f6;
     }
+  }
+  .field-checkbox-wrapper {
+    margin: 20px 0px;
+  }
 }
 
 .fee-install-table {
-    max-height: 350px;
-    overflow: hidden;
-    ::-webkit-scrollbar {
-        display: block;
-        width: 7px;
-        height: 7px;
-    }
-    .table-responsive {
-        max-width: 100%;
-        max-height: 340px;
-        overflow-x: hidden;
-        overflow-y: scroll;
-    }
-    th {
-        text-align: left;
-    }
-    td {
-        padding: 10px 5px;
-        text-align: left;
-        .field-wrapper {
-            position: relative;
-            padding-top: 20px;
-            &.datePickerBox {
-                .bsDatepicker {
-                    cursor: pointer;
-                    position: relative;
-                    z-index: 1;
-                    background: transparent;
-                    width: 120px;
-                }
-                &:after {
-                    content: '';
-                    background: url("../../../../assets/images/calendar.svg") no-repeat;
-                    position: absolute;
-                    left: 110px;
-                    top: 2px;
-                    width: 21px;
-                    height: 21px;
-                    z-index: 0;
-                }
-            }
-            .date-clear {
-                position: absolute;
-                right: 60%;
-                top: 50px;
-                cursor: pointer;
-                color: #0084f6;
-            }
+  max-height: 350px;
+  overflow: hidden;
+  ::-webkit-scrollbar {
+    display: block;
+    width: 7px;
+    height: 7px;
+  }
+  .table-responsive {
+    max-width: 100%;
+    max-height: 340px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  th {
+    text-align: left;
+  }
+  td {
+    padding: 10px 5px;
+    text-align: left;
+    .field-wrapper {
+      position: relative;
+      padding-top: 20px;
+      &.datePickerBox {
+        .bsDatepicker {
+          cursor: pointer;
+          position: relative;
+          z-index: 1;
+          background: transparent;
+          width: 120px;
         }
+        &:after {
+          content: '';
+          background: url("../../../../assets/images/calendar.svg") no-repeat;
+          position: absolute;
+          left: 110px;
+          top: 2px;
+          width: 21px;
+          height: 21px;
+          z-index: 0;
+        }
+      }
+      .date-clear {
+        position: absolute;
+        right: 60%;
+        top: 50px;
+        cursor: pointer;
+        color: #0084f6;
+      }
     }
+  }
 }
 
 .student-flow-wrapper {
-    padding: 0 15px;
+  padding: 0 15px;
 }
 
 .map-courses {
-    margin: 15px 0 10px;
-    font-size: 13px;
-    strong {
-        font-weight: 600;
-    }
+  margin: 15px 0 10px;
+  font-size: 13px;
+  strong {
+    font-weight: 600;
+  }
 }
 
 .multiselect-wrapper {
-    padding: 5px;
-    border: 1px solid $border-color;
-    position: relative;
-    z-index: 100;
-    background: white;
-    min-width: 300px;
-    min-height: 50px;
-    top: -26px;
-    .multiselect-wrapper-inner {
-        padding: 10px;
-        ul {
-            li {
-                height: 40px;
-                padding: 10px 0px 0px 5px;
-            }
-        }
+  padding: 5px;
+  border: 1px solid $border-color;
+  position: relative;
+  z-index: 100;
+  background: white;
+  min-width: 300px;
+  min-height: 50px;
+  top: -26px;
+  .multiselect-wrapper-inner {
+    padding: 10px;
+    ul {
+      li {
+        height: 40px;
+        padding: 10px 0px 0px 5px;
+      }
     }
+  }
 }
 
 .other-detail-wrapper {
-    .row {
-        margin: 0px 15px;
-    }
+  .row {
+    margin: 0px 15px;
+  }
 }
 
 .duplicate-contact-form {
-    .row {
-        margin: 15px;
-    }
+  .row {
+    margin: 15px;
+  }
 }
 
 .common-right-section {
-    &:first-child {
-        margin-top: 15px;
-    }
+  &:first-child {
+    margin-top: 15px;
+  }
 }
 
 .need-help {
-    .questionInfo {
-        margin-right: 2px;
-        height: 20px;
-        width: 20px;
-        display: inline-block;
-        vertical-align: middle;
-        .qInfoIcon {
-            color: $common-blue;
-            border-color: $common-blue;
-            width: 20px;
-            height: 20px;
-            border: 1px solid #ccc;
-            border-radius: 50%;
-            display: block;
-            text-align: center;
-            box-sizing: border-box;
-            line-height: 20px;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            box-shadow: 0px 0px 1px 0px #ccc inset;
-            color: #888;
-            transition: all 0.2s linear;
-        }
+  .questionInfo {
+    margin-right: 2px;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    .qInfoIcon {
+      color: $common-blue;
+      border-color: $common-blue;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      display: block;
+      text-align: center;
+      box-sizing: border-box;
+      line-height: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0px 0px 1px 0px #ccc inset;
+      color: #888;
+      transition: all 0.2s linear;
     }
-    padding-top: 8px;
-    a {
-        font-size: 13px;
-        font-weight: 600;
-    }
+  }
+  padding-top: 8px;
+  a {
+    font-size: 13px;
+    font-weight: 600;
+  }
 }
 
 .feeold-detail {
-    .btn {
-        margin-left: 0;
-        min-width: 150px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
+  .btn {
+    margin-left: 0;
+    min-width: 150px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
 }
 
 .feeold-box {
-    min-height: 300px;
-    position: relative;
-    margin-bottom: 10px;
+  min-height: 300px;
+  position: relative;
+  margin-bottom: 10px;
 }
 
 .apply-tax {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .installment-detail {
-    padding: 15px 0 0;
+  padding: 15px 0 0;
 }
 
 .feeold-install-table {
-    .table-responsive {
-        table {
-            th,
-            td {
-                text-align: center;
-                padding: 10px 5px;
-            }
-            th {
-                text-transform: capitalize;
-                font-size: 14px;
-            }
-            tbody {
-                tr {
-                    td {
-                        .field-checkbox-wrapper {
-                            display: inline-block;
-                            overflow: initial;
-                            margin-left: 0;
-                            width: auto;
-                            position: relative;
-                            background: transparent;
-                            .form-checkbox {
-                                z-index: 2;
-                            }
-                            .form-checkbox+label {
-                                font-size: 16px;
-                                margin-left: 7px;
-                                font-weight: 600;
-                                vertical-align: middle;
-                                &:after,
-                                &:before {
-                                    z-index: 1;
-                                }
-                            }
-                            &:after {
-                                content: '';
-                                width: 20px;
-                                height: 20px;
-                                background: #fff;
-                                left: 0;
-                                top: 0;
-                                position: absolute;
-                            }
-                        }
-                        .fa-trash-o {
-                            color: $redBtn;
-                            font-size: 20px;
-                        }
-                    }
+  .table-responsive {
+    table {
+      th,
+      td {
+        text-align: center;
+        padding: 10px 5px;
+      }
+      th {
+        text-transform: capitalize;
+        font-size: 14px;
+      }
+      tbody {
+        tr {
+          td {
+            .field-checkbox-wrapper {
+              display: inline-block;
+              overflow: initial;
+              margin-left: 0;
+              width: auto;
+              position: relative;
+              background: transparent;
+              .form-checkbox {
+                z-index: 2;
+              }
+              .form-checkbox+label {
+                font-size: 16px;
+                margin-left: 7px;
+                font-weight: 600;
+                vertical-align: middle;
+                &:after,
+                &:before {
+                  z-index: 1;
                 }
+              }
+              &:after {
+                content: '';
+                width: 20px;
+                height: 20px;
+                background: #fff;
+                left: 0;
+                top: 0;
+                position: absolute;
+              }
             }
+            .fa-trash-o {
+              color: $redBtn;
+              font-size: 20px;
+            }
+          }
         }
+      }
     }
+  }
 }
 
 .manage-additional-deal {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .feeold-detail-right {
-    .box-shadow-lite {
-        padding: 10px;
-    }
+  .box-shadow-lite {
+    padding: 10px;
+  }
 }
 
 .feeold-detail-total-calc {
-    &>div {
-        padding: 15px 0;
-        border-bottom: 1px solid $border-color;
-        &.total-feeold {
-            border-top: 1px solid $border-color;
-            border-bottom: 0;
-            span {
-                font-size: 14px;
-                font-weight: bold;
-            }
-        }
-        &.amount-paid {
-            padding: 10px;
-            background: #ebfdeb;
-            border: 1px solid #b8d0b8;
-            margin-bottom: 15px;
-        }
-        &.amount-due {
-            padding: 10px;
-            background: #fdd9e0;
-            border: 1px solid #e1b0b9;
-            margin-bottom: 5px;
-        }
+  &>div {
+    padding: 15px 0;
+    border-bottom: 1px solid $border-color;
+    &.total-feeold {
+      border-top: 1px solid $border-color;
+      border-bottom: 0;
+      span {
+        font-size: 14px;
+        font-weight: bold;
+      }
     }
-    .fdtc-label {
-        font-size: 13px;
+    &.amount-paid {
+      padding: 10px;
+      background: #ebfdeb;
+      border: 1px solid #b8d0b8;
+      margin-bottom: 15px;
     }
-    .fdtc-value {
-        font-size: 13px;
-        font-weight: 600;
-        text-align: right;
-        a {
-            font-weight: 400;
-            font-size: 12px;
-            display: block;
-            color: inherit;
-            margin-top: 3px;
-        }
+    &.amount-due {
+      padding: 10px;
+      background: #fdd9e0;
+      border: 1px solid #e1b0b9;
+      margin-bottom: 5px;
     }
+  }
+  .fdtc-label {
+    font-size: 13px;
+  }
+  .fdtc-value {
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+    a {
+      font-weight: 400;
+      font-size: 12px;
+      display: block;
+      color: inherit;
+      margin-top: 3px;
+    }
+  }
 }
 
 .radio-options {
-    text-align: center;
-    margin-top: 40px;
-    &>div {
-        display: inline-block;
-        margin-right: 10px;
-        margin-bottom: 15px;
-    }
+  text-align: center;
+  margin-top: 40px;
+  &>div {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 15px;
+  }
 }
 
 .student-table {
-    overflow: inherit;
-    .fa-sticky-note-o {
-        font-size: 18px;
-        color: #333;
-    }
+  overflow: inherit;
+  .fa-sticky-note-o {
+    font-size: 18px;
+    color: #333;
+  }
 }
 
 .allocation {
-    .form-type1 {
-        p {
-            margin-top: 4px;
-        }
+  .form-type1 {
+    p {
+      margin-top: 4px;
     }
+  }
 }
 
 .done-section {
-    padding: 20px 0;
-    border-bottom: 4px solid #ffd800;
-    min-height: 200px;
-    position: relative;
-    p {
-        font-size: 14px;
-        font-weight: 600;
-        max-width: 80%;
-    }
-    .close-btns {
-        position: absolute;
-        right: 10px;
-        top: 15px;
-        width: 20px;
-        height: 20px;
-        padding: 2px;
-        cursor: pointer;
-        box-sizing: border-box;
-    }
-    .btn {
-        position: absolute;
-        right: 0;
-        bottom: 20px;
-        width: 150px;
-    }
+  padding: 20px 0;
+  border-bottom: 4px solid #ffd800;
+  min-height: 200px;
+  position: relative;
+  p {
+    font-size: 14px;
+    font-weight: 600;
+    max-width: 80%;
+  }
+  .close-btns {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .btn {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    width: 150px;
+  }
 }
 
 .middle-section {
-    padding: 15px;
+  padding: 15px;
 }
 
 .boxPadding15 {
-    box-sizing: $border-box;
-    padding: 0 15px;
+  box-sizing: $border-box;
+  padding: 0 15px;
 }
 
 .middle-left {
-    width: 70%;
-    @extend .boxPadding15;
+  width: 70%;
+  @extend .boxPadding15;
 }
 
 .middle-right {
-    width: 30%;
-    box-sizing: $border-box;
-    padding: 0 15px;
-    @extend .boxPadding15;
+  width: 30%;
+  box-sizing: $border-box;
+  padding: 0 15px;
+  @extend .boxPadding15;
 }
 
 .form-type2 {
-    .questionInfo {
-        position: absolute;
-        right: 0px;
-        bottom: 5px;
-        z-index: 2;
-    }
-    .field-wrapper {
+  .questionInfo {
+    position: absolute;
+    right: 0px;
+    bottom: 5px;
+    z-index: 2;
+  }
+  .field-wrapper {
+    position: relative;
+    padding-top: 10px;
+    &.datePickerBox {
+      .form-ctrl {
+        cursor: pointer;
         position: relative;
-        padding-top: 10px;
-        &.datePickerBox {
-            .form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-            }
-            &:after {
-                content: '';
-                background: url('../../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 40px;
-                top: 35px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
+        z-index: 1;
+        background: transparent;
+      }
+      &:after {
+        content: '';
+        background: url('../../../../assets/images/calendar.svg') no-repeat;
+        position: absolute;
+        right: 40px;
+        top: 35px;
+        width: 21px;
+        height: 21px;
+        z-index: 0;
+      }
     }
+  }
 }
 
 /*=====================================middle top section css===================*/
 
 .middle-top {
-    padding-bottom: 10px;
-    border-bottom: 1px solid $borderccc;
-    margin-bottom: 10px;
-    h1 {
-        margin-top: 8px;
-    }
+  padding-bottom: 10px;
+  border-bottom: 1px solid $borderccc;
+  margin-bottom: 10px;
+  h1 {
+    margin-top: 8px;
+  }
 }
 
 .btn {
-    padding: 7px 12px;
-    background: $bg-white;
-    border: 1px solid $borderccc;
-    margin-left: 10px;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 600;
-    box-sizing: border-box;
-    height: 35px;
-    cursor: pointer;
-    color: $common-blue;
+  padding: 7px 12px;
+  background: $bg-white;
+  border: 1px solid $borderccc;
+  margin-left: 10px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  box-sizing: border-box;
+  height: 35px;
+  cursor: pointer;
+  color: $common-blue;
 }
 
 .btn.fullBlue {
-    background: $common-blue;
-    border: 1px solid $common-blue;
-    color: $bg-white;
+  background: $common-blue;
+  border: 1px solid $common-blue;
+  color: $bg-white;
 }
 
 .btn.cancle {
-    background: $bg-white;
-    border: 1px solid $borderccc;
-    color: $common-blue;
-    font-size: 16px;
-    height: 35px;
+  background: $bg-white;
+  border: 1px solid $borderccc;
+  color: $common-blue;
+  font-size: 16px;
+  height: 35px;
 }
 
 .btn.redBtn {
-    background: $redBtn;
-    border: 1px solid $redBtn;
-    color: $bg-white;
-    font-size: 16px;
-    height: 40px;
+  background: $redBtn;
+  border: 1px solid $redBtn;
+  color: $bg-white;
+  font-size: 16px;
+  height: 40px;
 }
 
 /*==================================middle bottom css=========================*/
 
 .middle-bottom {
-    padding-top: 15px;
-    border-top: 1px solid $borderccc;
-    margin-top: 15px;
-    .field-checkbox-wrapper {
-        margin-top: 3px;
-    }
-    .btn {
-        margin-left: 0;
-        margin-right: 10px;
-    }
+  padding-top: 15px;
+  border-top: 1px solid $borderccc;
+  margin-top: 15px;
+  .field-checkbox-wrapper {
+    margin-top: 3px;
+  }
+  .btn {
+    margin-left: 0;
+    margin-right: 10px;
+  }
 }
 
 .feeold-install-table {
-    margin: 10px 0px 0px 0px;
-    .table-responsive {
-        max-height: 400px;
-        table {
-            th,
-            td {
-                text-align: center;
-                padding: 10px 5px;
-            }
-            th {
-                text-transform: capitalize;
-                font-size: 14px;
-            }
-            tbody {
-                tr {
-                    td {
-                        .field-checkbox-wrapper {
-                            display: inline-block;
-                            overflow: initial;
-                            margin-left: 0;
-                            width: auto;
-                            position: relative;
-                            background: transparent;
-                            .form-checkbox {
-                                z-index: 2;
-                            }
-                            .form-checkbox+label {
-                                font-size: 16px;
-                                margin-left: 7px;
-                                font-weight: 600;
-                                vertical-align: middle;
-                                &:after,
-                                &:before {
-                                    z-index: 1;
-                                }
-                            }
-                            &:after {
-                                content: '';
-                                width: 16px;
-                                height: 16px;
-                                background: #fff;
-                                left: 0;
-                                top: 0;
-                                position: absolute;
-                            }
-                        }
-                        .fa-trash-o {
-                            color: $redBtn;
-                            font-size: 20px;
-                        }
-                    }
+  margin: 10px 0px 0px 0px;
+  .table-responsive {
+    max-height: 400px;
+    table {
+      th,
+      td {
+        text-align: center;
+        padding: 10px 5px;
+      }
+      th {
+        text-transform: capitalize;
+        font-size: 14px;
+      }
+      tbody {
+        tr {
+          td {
+            .field-checkbox-wrapper {
+              display: inline-block;
+              overflow: initial;
+              margin-left: 0;
+              width: auto;
+              position: relative;
+              background: transparent;
+              .form-checkbox {
+                z-index: 2;
+              }
+              .form-checkbox+label {
+                font-size: 16px;
+                margin-left: 7px;
+                font-weight: 600;
+                vertical-align: middle;
+                &:after,
+                &:before {
+                  z-index: 1;
                 }
+              }
+              &:after {
+                content: '';
+                width: 16px;
+                height: 16px;
+                background: #fff;
+                left: 0;
+                top: 0;
+                position: absolute;
+              }
             }
+            .fa-trash-o {
+              color: $redBtn;
+              font-size: 20px;
+            }
+          }
         }
+      }
     }
+  }
 }
 
 /* import accordian css*/
@@ -1962,460 +1962,460 @@ input[type=number]::-webkit-outer-spin-button {
 /*==========================Middle Enquiry CSS=================================*/
 
 .middle-full {
-    @extend .boxPadding15;
+  @extend .boxPadding15;
 }
 
 .cls-1,
 .cls-2 {
-    fill: none;
+  fill: none;
 }
 
 .cls-1 {
-    stroke: $common-blue;
-    stroke-miterlimit: 10;
+  stroke: $common-blue;
+  stroke-miterlimit: 10;
 }
 
 /* ======================= Right Side bar CSS =================================== */
 
 .shadow-box {
-    box-shadow: 0px 2px 2px #7d7d7d;
-    padding: 7px; // background: $header-bg;
-    border-radius: 2px;
-    background: $lightBlue;
+  box-shadow: 0px 2px 2px #7d7d7d;
+  padding: 7px; // background: $header-bg;
+  border-radius: 2px;
+  background: $lightBlue;
 }
 
 .last-added-info {
-    ul {
-        li {
-            line-height: normal;
-            padding: 2px 0;
-            display: inline-block;
-            width: 100%;
-            vertical-align: top;
-        }
+  ul {
+    li {
+      line-height: normal;
+      padding: 2px 0;
+      display: inline-block;
+      width: 100%;
+      vertical-align: top;
     }
-    font-size: 12px;
-    strong {
-        font-weight: 600;
-        color: #28384a;
+  }
+  font-size: 12px;
+  strong {
+    font-weight: 600;
+    color: #28384a;
+  }
+  .view-details {
+    float: right;
+    font-size: 11px;
+    a {
+      // color: #777777;
+      &:hover {
+        text-decoration: underline;
+      }
     }
-    .view-details {
-        float: right;
-        font-size: 11px;
-        a {
-            // color: #777777;
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-    .enquiry-time {
-        float: right;
-        font-size: 10px;
-        color: #28384a;
-        margin-top: 4px;
-    }
+  }
+  .enquiry-time {
+    float: right;
+    font-size: 10px;
+    color: #28384a;
+    margin-top: 4px;
+  }
 }
 
 /*=======================Right bottom lite shadow box======================*/
 
 .box-shadow-lite {
-    box-shadow: 0px 1px 2px 0px #ccc;
-    padding: 10px 0 10px 10px;
-    border-top: 1px solid #e8e8e8;
-    .field-wrapper {
-        padding-right: 40px;
-        .open-accor {
-            width: 17px;
-            font-size: 17px;
-            height: 17px;
-            line-height: 18px;
-            position: absolute;
-            right: 4px;
-            top: 19px;
-            z-index: 2;
-        }
-        &:first-child {
-            margin-top: -10px;
-        }
+  box-shadow: 0px 1px 2px 0px #ccc;
+  padding: 10px 0 10px 10px;
+  border-top: 1px solid #e8e8e8;
+  .field-wrapper {
+    padding-right: 40px;
+    .open-accor {
+      width: 17px;
+      font-size: 17px;
+      height: 17px;
+      line-height: 18px;
+      position: absolute;
+      right: 4px;
+      top: 19px;
+      z-index: 2;
     }
+    &:first-child {
+      margin-top: -10px;
+    }
+  }
 }
 
 .common-right-section {
-    margin-top: 30px;
-    h4 {
-        margin-bottom: 7px;
-        color: #28383A;
-        font-size: 16px;
-        strong {
-            font-weight: 600;
-        }
+  margin-top: 30px;
+  h4 {
+    margin-bottom: 7px;
+    color: #28383A;
+    font-size: 16px;
+    strong {
+      font-weight: 600;
     }
-    .clear-detail {
-        margin-top: 10px;
-        font-size: 12px;
-        margin-bottom: 10px;
-    }
+  }
+  .clear-detail {
+    margin-top: 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
 }
 
 .follow-up-date-icon {
-    position: absolute;
-    position: absolute;
-    right: 7px;
-    top: 20px;
-    cursor: pointer;
-    img {
-        width: 21px;
-    }
+  position: absolute;
+  position: absolute;
+  right: 7px;
+  top: 20px;
+  cursor: pointer;
+  img {
+    width: 21px;
+  }
 }
 
 .unstyled-calendar::-webkit-inner-spin-button,
 .unstyled-calendar::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 /* ======================== Responsive Data ================================== */
 
 @media only screen and (max-width: 767px) {
-    .feeold-detail.row,
-    .installment-detail,
-    .student-flow-wrapper .middle-full.row,
-    .helpDetail.row,
-    .student-flow.row {
-        margin: 0;
-    }
-    .student-flow-wrapper {
-        padding: 0;
-    }
-    .allocation.row {
-        margin: 0;
-    }
+  .feeold-detail.row,
+  .installment-detail,
+  .student-flow-wrapper .middle-full.row,
+  .helpDetail.row,
+  .student-flow.row {
+    margin: 0;
+  }
+  .student-flow-wrapper {
+    padding: 0;
+  }
+  .allocation.row {
+    margin: 0;
+  }
 }
 
 @media only screen and (max-width: 1100px) {
-    .student-table {
-        // /* overflow: inherit; */
-        overflow: auto;
-        .table-heading-menu {
-            display: none;
-        }
+  .student-table {
+    // /* overflow: inherit; */
+    overflow: auto;
+    .table-heading-menu {
+      display: none;
     }
+  }
 }
 
 .btn-diff {
-    .btn {
-        padding: 0 10px 0 5px;
-        svg {
-            display: inline-block;
-            vertical-align: middle;
-        }
+  .btn {
+    padding: 0 10px 0 5px;
+    svg {
+      display: inline-block;
+      vertical-align: middle;
     }
+  }
 }
 
 .fee-section-page {
-    padding: 10px 20px;
+  padding: 10px 20px;
 }
 
 .fee-summary {
-    margin-top: 5px;
-    ul {
+  margin-top: 5px;
+  ul {
+    display: flex;
+    justify-content: space-between;
+    li {
+      width: auto;
+      label {
+        font-size: 14px;
+        color: #666666;
+        display: block;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
+      &>div {
+        border-radius: 4px;
+        height: 64px;
+        width: 175px;
+        flex-wrap: nowrap;
         display: flex;
         justify-content: space-between;
-        li {
-            width: auto;
-            label {
-                font-size: 14px;
-                color: #666666;
-                display: block;
-                margin-bottom: 5px;
-                text-transform: uppercase;
-            }
-            &>div {
-                border-radius: 4px;
-                height: 64px;
-                width: 175px;
-                flex-wrap: nowrap;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0 15px;
-                span {
-                    font-size: 22px;
-                    font-weight: 600;
-                    &.feename {
-                        font-size: 22px;
-                        font-weight: 600;
-                        max-width: 100px;
-                        height: 50px;
-                        overflow: auto;
-                        text-overflow: ellipsis;
-                    }
-                }
-                a {
-                    text-decoration: underline;
-                    cursor: pointer;
-                }
-                * {
-                    color: #fff;
-                }
-                &.blue {
-                    background: #24c4d0;
-                    box-shadow: 0 2px 2px rgba(83, 196, 208, 0.55);
-                }
-                &.purple {
-                    background: #b159f2;
-                    box-shadow: 0 2px 4px 0px rgba(177, 89, 242, 0.55);
-                }
-                &.yellow {
-                    background: #fcc03d;
-                    box-shadow: 0 2px 4px 0px rgba(252, 192, 61, 0.58);
-                }
-                &.green {
-                    background: #78dd95;
-                    box-shadow: 0 2px 4px 0px rgba(120, 221, 149, 0.55);
-                }
-                &.red {
-                    background: #f44167;
-                    box-shadow: 0 2px 4px 0px rgba(244, 65, 103, 0.55);
-                }
-                &.gray {
-                    background: #abaaaa;
-                    box-shadow: 0 2px 4px 0px rgba(171, 170, 170, 0.55);
-                }
-            }
+        align-items: center;
+        padding: 0 15px;
+        span {
+          font-size: 22px;
+          font-weight: 600;
+          &.feename {
+            font-size: 22px;
+            font-weight: 600;
+            max-width: 100px;
+            height: 50px;
+            overflow: auto;
+            text-overflow: ellipsis;
+          }
         }
+        a {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+        * {
+          color: #fff;
+        }
+        &.blue {
+          background: #24c4d0;
+          box-shadow: 0 2px 2px rgba(83, 196, 208, 0.55);
+        }
+        &.purple {
+          background: #b159f2;
+          box-shadow: 0 2px 4px 0px rgba(177, 89, 242, 0.55);
+        }
+        &.yellow {
+          background: #fcc03d;
+          box-shadow: 0 2px 4px 0px rgba(252, 192, 61, 0.58);
+        }
+        &.green {
+          background: #78dd95;
+          box-shadow: 0 2px 4px 0px rgba(120, 221, 149, 0.55);
+        }
+        &.red {
+          background: #f44167;
+          box-shadow: 0 2px 4px 0px rgba(244, 65, 103, 0.55);
+        }
+        &.gray {
+          background: #abaaaa;
+          box-shadow: 0 2px 4px 0px rgba(171, 170, 170, 0.55);
+        }
+      }
     }
+  }
 }
 
 .fd-heading {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .fee-detail-summary {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 .fee-inst-list {
-    &>ul {
-        &>li {
-            border: 1px solid #ccc;
-            padding: 5px;
-            border-top: 0;
-            &.active,
-            &:hover {
-                box-shadow: inset 0 0px 4px 2px rgba(0, 0, 0, 0.08);
-            }
-            &:first-child {
-                border-top: 1px solid #ccc;
-            }
-            .inst-detail {
-                overflow: hidden;
-                padding-left: 12px;
-            }
-        }
+  &>ul {
+    &>li {
+      border: 1px solid #ccc;
+      padding: 5px;
+      border-top: 0;
+      &.active,
+      &:hover {
+        box-shadow: inset 0 0px 4px 2px rgba(0, 0, 0, 0.08);
+      }
+      &:first-child {
+        border-top: 1px solid #ccc;
+      }
+      .inst-detail {
+        overflow: hidden;
+        padding-left: 12px;
+      }
     }
-    .add-edit {
-        padding-left: 37px;
-        font-size: 14px;
-        margin-bottom: 5px;
-        margin-top: 5px;
-    }
+  }
+  .add-edit {
+    padding-left: 37px;
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
 }
 
 .instl-info {
-    &>ul {
-        &>li {
-            display: inline-block;
-            margin-right: 70px;
-            margin-bottom: 10px;
-            label {
-                font-size: 10px;
-                color: rgba(0, 0, 0, 0.3);
-                display: block;
-            }
-            span {
-                font-size: 14px;
-                display: block;
-                color: #000;
-                margin-top: 6px;
-            }
-            &:first-child {
-                span {
-                    font-size: 18px;
-                    color: rgba(0, 0, 0, 0.7);
-                    font-weight: 600;
-                }
-            }
+  &>ul {
+    &>li {
+      display: inline-block;
+      margin-right: 70px;
+      margin-bottom: 10px;
+      label {
+        font-size: 10px;
+        color: rgba(0, 0, 0, 0.3);
+        display: block;
+      }
+      span {
+        font-size: 14px;
+        display: block;
+        color: #000;
+        margin-top: 6px;
+      }
+      &:first-child {
+        span {
+          font-size: 18px;
+          color: rgba(0, 0, 0, 0.7);
+          font-weight: 600;
         }
+      }
     }
+  }
 }
 
 .inst-detail {
-    .inst-label {
-        font-size: 14px;
-        color: #000;
-        padding-bottom: 12px;
-    }
+  .inst-label {
+    font-size: 14px;
+    color: #000;
+    padding-bottom: 12px;
+  }
 }
 
 .fee-status {
-    display: inline-block;
-    border-radius: 4px;
-    padding: 4px 8px;
-    color: #fff;
-    font-size: 11px;
-    margin-left: 10px;
-    vertical-align: middle;
-    text-transform: uppercase;
-    &.paid {
-        background: #78dd95;
-    }
-    &.due {
-        background: #f44167;
-    }
-    &.upcoming {
-        background: #fcc03d;
-    }
-    &.partial {
-        background: #24c4d0;
-    }
+  display: inline-block;
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: #fff;
+  font-size: 11px;
+  margin-left: 10px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  &.paid {
+    background: #78dd95;
+  }
+  &.due {
+    background: #f44167;
+  }
+  &.upcoming {
+    background: #fcc03d;
+  }
+  &.partial {
+    background: #24c4d0;
+  }
 }
 
 .fd-btm {
-    margin-top: 20px;
-    .btn {
-        width: 172px;
-        border-radius: 3px;
-    }
-    .fd-btm-label {
-        font-size: 14px;
-        color: rgba(0, 0, 0, 0.80);
-        margin: 5px 0 15px;
-    }
+  margin-top: 20px;
+  .btn {
+    width: 172px;
+    border-radius: 3px;
+  }
+  .fd-btm-label {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.80);
+    margin: 5px 0 15px;
+  }
 }
 
 .btn-diff {
-    .btn {
-        transition: all 0.3s ease-in-out;
-        &:hover {
-            background: #0084f6;
-            border: 1px solid #0084f6;
-            color: #fff;
-            path {
-                fill: #fff;
-            }
-            color: #fff;
-        }
+  .btn {
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      background: #0084f6;
+      border: 1px solid #0084f6;
+      color: #fff;
+      path {
+        fill: #fff;
+      }
+      color: #fff;
     }
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-    .fee-summary ul {
-        display: block;
-        li {
-            display: inline-block;
-            margin-right: 15px;
-            margin-bottom: 10px;
-        }
+  .fee-summary ul {
+    display: block;
+    li {
+      display: inline-block;
+      margin-right: 15px;
+      margin-bottom: 10px;
     }
+  }
 }
 
 @media only screen and (max-width: 767px) {
-    .fee-section-page {
-        padding: 10px 0;
+  .fee-section-page {
+    padding: 10px 0;
+  }
+  .instl-info>ul>li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 0;
+    float: left;
+    width: 50%;
+    min-height: 50px;
+  }
+  .fee-summary ul li>div {
+    padding: 0 10px;
+    height: 58px;
+    width: 134px;
+    span {
+      font-size: 18px;
     }
-    .instl-info>ul>li {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-right: 0;
-        float: left;
-        width: 50%;
-        min-height: 50px;
-    }
-    .fee-summary ul li>div {
-        padding: 0 10px;
-        height: 58px;
-        width: 134px;
-        span {
-            font-size: 18px;
-        }
-    }
+  }
 }
 
 .configureFee {
-    border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
-    max-height: 400px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    ::-webkit-scrollbar {
-        display: block;
+  border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: block;
+  }
+  .row {
+    margin: 0px 10px;
+    .field-wrapper {
+      width: 40%;
     }
-    .row {
-        margin: 0px 10px;
-        .field-wrapper {
-            width: 40%;
-        }
-    }
+  }
 }
 
 .paymentWrapper {
-    border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963); // max-height: 400px;
-    // overflow: hidden;
+  border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963); // max-height: 400px;
+  // overflow: hidden;
+  ::-webkit-scrollbar {
+    display: block;
+  }
+  .paymentForm {
+    // max-height: 400px;
+    // overflow-y: auto;
+    // overflow-x: hidden;
     ::-webkit-scrollbar {
-        display: block;
+      display: block;
     }
-    .paymentForm {
-        // max-height: 400px;
-        // overflow-y: auto;
-        // overflow-x: hidden;
-        ::-webkit-scrollbar {
-            display: block;
-        }
+  }
+  .row {
+    margin: 0px 10px;
+    .field-wrapper {
+      width: 250px;
     }
-    .row {
-        margin: 0px 10px;
-        .field-wrapper {
-            width: 250px;
-        }
-    }
-    .questionInfo {
-        position: relative;
-        left: 45%;
-        top: -17px;
-        height: 20px;
-        width: 20px;
-        z-index: 2;
-    }
+  }
+  .questionInfo {
+    position: relative;
+    left: 45%;
+    top: -17px;
+    height: 20px;
+    width: 20px;
+    z-index: 2;
+  }
 }
 
 #paydayClear {
-    color: red;
-    left: 105% !important;
-    top: 40px !important;
-    font-size: 14px;
+  color: red;
+  left: 105% !important;
+  top: 40px !important;
+  font-size: 14px;
 }
 
 .export-print {
-    margin-bottom: 10px;
-    .print-icon {
-        background: url('../../../../assets/images/print.svg') no-repeat;
-        color: #888;
+  margin-bottom: 10px;
+  .print-icon {
+    background: url('../../../../assets/images/print.svg') no-repeat;
+    color: #888;
+  }
+  .export-icon {
+    background: url('../../../../assets/images/expand.svg') no-repeat;
+    margin-left: 25px;
+  }
+  .print-icon,
+  .export-icon {
+    background-size: 20px auto;
+    padding: 0px 0px 0px 22px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #888;
+    &:hover {
+      color: $common-blue;
     }
-    .export-icon {
-        background: url('../../../../assets/images/expand.svg') no-repeat;
-        margin-left: 25px;
-    }
-    .print-icon,
-    .export-icon {
-        background-size: 20px auto;
-        padding: 0px 0px 0px 22px;
-        cursor: pointer;
-        font-size: 14px;
-        color: #888;
-        &:hover {
-            color: $common-blue;
-        }
-    }
+  }
 }
 
 /* @media print {
@@ -2431,3 +2431,13 @@ input[type=number]::-webkit-outer-spin-button {
       top: 0;
     }
   } */
+
+.invertory-add {
+  margin-bottom: 10px;
+  .field-wrapper {
+    padding-top: 0;
+  }
+  .btn-section {
+    padding-top: 17px;
+  }
+}

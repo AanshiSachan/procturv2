@@ -775,15 +775,36 @@
             <h1 class="pull-left">
               Inventory
             </h1>
-            <aside class="pull-right">
-              <!-- <div class="need-help">
-                <div class="questionInfo">
-                  <span class="qInfoIcon">?</span>
-                </div>
-                <a>Need help?</a>
-              </div> -->
-            </aside>
           </section>
+          
+          <section class="row invertory-add">
+
+            <div class="c-sm-3 c-md-3 c-lg-3">
+              <div class="field-wrapper">
+                <label for="itemInventory">Status</label>
+                <select id="itemInventory" [(ngModel)]="addInventory.item_id" name="itemInventory" class="form-ctrl" (ngModelChange)="onInventoryItemSelction()">
+                  <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id">
+                    {{item.item_name}}
+                  </option>
+                </select>
+                <p>Available Units : {{addInventory.available_units}}</p>
+              </div>
+            </div>
+
+            <div class="c-sm-2 c-md-2 c-lg-2">
+              <div class="field-wrapper">
+                <label>Allocate Units</label>
+                <input type="number" class="form-ctrl" [(ngModel)]="addInventory.alloted_units" min="0">
+              </div>
+            </div>
+
+            <div class="c-sm-2 c-md-2 c-lg-2 btn-section">
+              <button class="btn fullBlue" (click)="allocateInventoryToStudent()">Allocate</button>
+            </div>
+
+          </section>
+
+
           <div class="allocation-table">
             <div class="table-scroll-wrapper">
               <div class="table table-responsive">
@@ -803,12 +824,12 @@
                         Allocated Units
                       </th>
                       <th>
-                        Allocate Unit
+                        Action
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr *ngFor="let item of inventoryItemsArr;let i = index">
+                  <tbody *ngIf="allocatedItem.length > 0">
+                    <tr *ngFor="let item of allocatedItem;let i = index">
                       <td>
                         {{item.item_name}}
                       </td>
@@ -822,11 +843,14 @@
                         {{item.alloted_units}}
                       </td>
                       <td>
-                        <div class="field-wrapper">
-
-                          <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
-                            (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
-                        </div>
+                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)">Delete</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="allocatedItem.length == 0">
+                    <tr>
+                      <td colspan="5" style="text-align: left">
+                        <h2>No Inventory Allocated</h2>
                       </td>
                     </tr>
                   </tbody>
@@ -834,6 +858,8 @@
               </div>
             </div>
           </div>
+
+
           <section class="middle-bottom clearFix ">
             <div class="pull-left">
               <input type="button" (click)="navigateTo('feeDetails')" value="Back" class="btn">
