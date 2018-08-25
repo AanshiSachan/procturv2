@@ -148,14 +148,14 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   // convert string as type 
   checkValueType(value: any) {
-    if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) {
+    if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
       console.log(Date.parse(value));
       value = Date.parse(value);;
     }
     else if (typeof value == "string") {
-      if (value.match(/^-{0,1}\d+$/)) {
+      if (value.match(/^-{0,1}\d+$/)) {  //int
         return parseInt(value);
-      } else if (value.match(/^\d+\.\d+$/)) {
+      } else if (value.match(/^\d+\.\d+$/)) { //float
         return parseInt(value);
       }
     } // else end

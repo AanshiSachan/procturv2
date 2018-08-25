@@ -15,6 +15,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 
 @Component({
@@ -48,7 +49,8 @@ export class EnquiryAddComponent implements OnInit {
   enquiryConfirm: any = [];
   confimationPop: boolean = false;
   updatePop: boolean = false;
-  newEnqData: addEnquiryForm = {
+  newEnqData: addEnquiryForm =
+   {
     name: "",
     phone: "",
     email: "",
@@ -120,7 +122,7 @@ export class EnquiryAddComponent implements OnInit {
   sourceList: any;
   isNewRefer: boolean = true;
   referList: any;
-  minArr: any[] = ['','00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   hour: string = '';
   minute: string = '';
   meridian: string = ''
@@ -166,9 +168,15 @@ export class EnquiryAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  constructor(private prefill: FetchprefilldataService, private router: Router,
-    private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService,
-    private auth: AuthenticatorService, private multiBranchService: MultiBranchDataService
+  constructor(
+    private prefill: FetchprefilldataService, 
+    private router: Router,
+    private appC: AppComponent, 
+    private poster: PostEnquiryDataService, 
+    private login: LoginService,
+    private auth: AuthenticatorService, 
+    private multiBranchService: MultiBranchDataService,
+    private commonServiceFactory: CommonServiceFactory
   ) {
     this.auth.institute_type.subscribe(
       res => {
@@ -183,30 +191,7 @@ export class EnquiryAddComponent implements OnInit {
       this.router.navigate(['/authPage']);
     }
   }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  timeChange(ev, id) {
-    if (id === 'followUpTime') {
-      if (ev.split(' ')[0] != '') {
-        this.timeObj.fhour = ev.split(' ')[0];
-        this.timeObj.fmeridian = ev.split(' ')[1];
-      }
-      else {
-        this.timeObj.fhour = '';
-        this.timeObj.fmeridian = '';
-      }
-    }
-    else {
-      if (ev.split(' ')[0] != '') {
-        this.timeObj.whour = ev.split(' ')[0];
-        this.timeObj.wmeridian = ev.split(' ')[1];
-      }
-      else {
-        this.timeObj.whour = '';
-        this.timeObj.wmeridian = '';
-      }
-    }
-  }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* OnInit Initialized */
@@ -289,44 +274,36 @@ export class EnquiryAddComponent implements OnInit {
     )
 
   }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* Function for Toggling Form Visibility */
   toggleForm(event) {
     let eleid = event.srcElement.id;
     //console.log(eleid);
-    if (eleid == "openBasic") {
-      var academic = document.getElementById('academicDetails').classList;
-      academic.remove('active');
-      var basic = document.getElementById('basicDetails').classList;
-      basic.add('active');
+    if (eleid == "openBasic") { 
+      this.toggleObjectClass( document.getElementById('basicDetails').classList, document.getElementById('academicDetails').classList);
     }
     else if (eleid == "closeBasic") {
-      var basic = document.getElementById('basicDetails').classList;
-      basic.remove('active');
-      var academic = document.getElementById('academicDetails').classList;
-      academic.add('active');
+      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList, );
     }
     else if (eleid == "openAcademic") {
-      var basic = document.getElementById('basicDetails').classList;
-      //console.log(basic);
-      basic.remove('active');
-      var academic = document.getElementById('academicDetails').classList;
-      //console.log(academic);
-      academic.add('active');
+      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList, );
     }
     else if (eleid == "closeAcademic") {
-      var academic = document.getElementById('academicDetails').classList;
-      academic.remove('active');
-      var basic = document.getElementById('basicDetails').classList;
-      basic.add('active');
+      this.toggleObjectClass(document.getElementById('basicDetails').classList, document.getElementById('academicDetails').classList);
     }
   }
+
+  toggleObjectClass(addActive: any, removeActive: any) {
+    addActive.add('active');
+    removeActive.remove('active');
+  }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* Function to fetch prefill data for form creation */
   fetchEnquiryPrefilledData() {
-
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
       err => {
@@ -430,8 +407,8 @@ export class EnquiryAddComponent implements OnInit {
     if (!this.isProfessional) {
       this.fetchMasterCourseDetails();
     }
-
   }
+  
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchMasterCourseDetails() {
@@ -628,12 +605,7 @@ export class EnquiryAddComponent implements OnInit {
       this.prefill.fetchLeadDetails(this.newEnqData.phone).subscribe(
         data => { this.updateForm(data) },
         err => {
-          let data = {
-            type: "error",
-            title: "Unable to fetch lead",
-            body: err.error.message
-          }
-          this.appC.popToast(data);
+          this.showErrorMessage('error', "Unable to fetch lead", err.error.message);
         }
       );
     }
@@ -822,6 +794,7 @@ export class EnquiryAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
+    debugger
     //Validates if the custom component required fields are selected or not
     this.isEnquirySubmit = true;
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
@@ -879,12 +852,12 @@ export class EnquiryAddComponent implements OnInit {
 
         if (this.newEnqData.follow_type == "Walkin") {
           if (this.newEnqData.walkin_followUpDate == "") {
-            this.messageNotifier('error', 'Please provide walkin date for follow up type walkin', '');
+            this.showErrorMessage('error', 'Please provide walkin date for follow up type walkin', '');
             return;
           }
 
           if (this.newEnqData.walkin_followUpTime == "") {
-            this.messageNotifier('error', 'Please provide walkin time for follow up type walkin', '');
+            this.showErrorMessage('error', 'Please provide walkin time for follow up type walkin', '');
             return;
           }
         }
@@ -967,13 +940,8 @@ export class EnquiryAddComponent implements OnInit {
                 }
                 else {
                   if (this.addNextCheck) {
-                    let msg = {
-                      type: "success",
-                      title: "New Enquiry Added",
-                      body: "Your enquiry has been submitted"
-                    }
-                    //form.reset();
-                    this.appC.popToast(msg);
+                    //form.reset();               
+                    this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
                     this.clearFormData();
                   }
                   else {
@@ -989,12 +957,7 @@ export class EnquiryAddComponent implements OnInit {
             },
             err => {
               this.isEnquirySubmit = false;
-              let data = {
-                type: "error",
-                title: "Error",
-                body: err.error.message
-              }
-              this.appC.popToast(data);
+              this.showErrorMessage('error', "Error", err.error.message);
             }
           );
         }
@@ -1026,13 +989,8 @@ export class EnquiryAddComponent implements OnInit {
                 }
                 else {
                   if (this.addNextCheck) {
-                    let msg = {
-                      type: "success",
-                      title: "New Enquiry Added",
-                      body: "Your enquiry has been submitted"
-                    }
-                    //form.reset();
-                    this.appC.popToast(msg);
+                    //form.reset();                    
+                    this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
                     this.clearFormData();
                   }
                   else {
@@ -1048,24 +1006,14 @@ export class EnquiryAddComponent implements OnInit {
             },
             err => {
               this.isEnquirySubmit = false;
-              let data = {
-                type: "error",
-                title: "Error",
-                body: err.error.message
-              }
-              this.appC.popToast(data);
+              this.showErrorMessage('error', 'Error', '');
             }
           );
         }
       }
       else {
         this.isEnquirySubmit = false;
-        let msg = {
-          type: 'error',
-          title: 'Invalid Time Input',
-          body: 'Please select a valid time for follow up'
-        }
-        this.appC.popToast(msg);
+        this.showErrorMessage('error', 'Invalid Time Input', 'Please select a valid time for follow up');
       }
     }
     else {
@@ -1118,13 +1066,7 @@ export class EnquiryAddComponent implements OnInit {
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1) {
       if (this.newEnqData.city == '-1') {
-        let msg = {
-          type: 'error',
-          title: 'City Is Mandatory',
-          body: 'Please provide city details.'
-        }
-        this.appC.popToast(msg);
-        return false;
+        return this.showErrorMessage('error', 'City Is Mandatory', 'Please provide city details.');
       } else {
         return true;
       }
@@ -1157,13 +1099,7 @@ export class EnquiryAddComponent implements OnInit {
           return true;
         }
         else {
-          let msg = {
-            type: 'error',
-            title: 'Required Details Not Filled On Academics Details',
-            body: ''
-          }
-          this.appC.popToast(msg);
-          return false;
+          return this.showErrorMessage('error', 'Required Details Not Filled On Academics Details', '');
         }
       }
       else {
@@ -1171,13 +1107,7 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else if (element.is_required == "Y" && element.value == "") {
-      let msg = {
-        type: 'error',
-        title: 'Required Details Not Filled On Academics Details',
-        body: ''
-      }
-      this.appC.popToast(msg);
-      return false;
+      return this.showErrorMessage('error', 'Required Details Not Filled On Academics Details', '');
     }
     else if (element.is_required == "N") {
       return true;
@@ -1188,67 +1118,39 @@ export class EnquiryAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    if (
-      this.newEnqData.phone == null || this.newEnqData.phone == "" ||
-      this.newEnqData.name == null || this.newEnqData.name.trim() == "" ||
-      this.newEnqData.enquiry_date == null || this.newEnqData.enquiry_date == "" ||
-      this.newEnqData.source_id == "" || this.newEnqData.source_id == "-1") {
 
-      if (this.newEnqData.phone == null || this.newEnqData.phone == "") {
-        let msg = {
-          type: 'error',
-          title: 'Phone Number Is Mandatory',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
-      }
-
-      else if (this.newEnqData.name == null || this.newEnqData.name.trim() == "") {
-        let msg = {
-          type: 'error',
-          title: 'Enquirer Name Is Mandatory',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
-      }
-
-      else if (this.newEnqData.enquiry_date == null || this.newEnqData.enquiry_date == "") {
-        let msg = {
-          type: 'error',
-          title: 'Enquiry Date Is Mandatory',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
-      }
-
-      else if (this.newEnqData.source_id == "" || this.newEnqData.source_id == "-1") {
-        let msg = {
-          type: 'error',
-          title: 'Enquiry Source Is Mandatory',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
-      }
+    if (this.commonServiceFactory.checkValueType(this.newEnqData.phone)) {
+      return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+    }
+    else if (this.commonServiceFactory.checkValueType(this.newEnqData.name.trim())) {
+      return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
+    }
+    else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
+      return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
+    }
+    else if (this.commonServiceFactory.checkValueType(this.newEnqData.source_id)) {
+      return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
     else {
       if (this.validateEnquiryDate()) {
         return true;
       }
       else {
-        let msg = {
-          type: 'error',
-          title: 'Cannot Set Future Enquiry Date',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
+        return this.showErrorMessage('error', 'Cannot Set Future Enquiry Date', '');
       }
     }
   }
+
+  showErrorMessage(objType, massage, body) {
+    let msg = {
+      type: objType,
+      title: massage,
+      body: body
+    }
+    this.appC.popToast(msg);
+    return false;
+  }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   validateEnquiryDate() {
@@ -1394,12 +1296,7 @@ export class EnquiryAddComponent implements OnInit {
               this.closeAddInstitute();
             },
             err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Add Institute',
-                body: err.error.message
-              }
-              this.appC.popToast(alert);
+              this.showErrorMessage('error', 'Failed To Add Institute', err.error.message);
             }
           );
           // console.log("institute Added");
@@ -1410,12 +1307,7 @@ export class EnquiryAddComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        let alert = {
-          type: 'error',
-          title: 'Failed To Add Institute',
-          body: err.error.message
-        }
-        this.appC.popToast(alert);
+        this.showErrorMessage('error', 'Failed To Add Institute', err.error.message);
       }
     );
   }
@@ -1476,20 +1368,11 @@ export class EnquiryAddComponent implements OnInit {
       if (el.school_id == id) {
         this.poster.updateInstituteDetails(id, el).subscribe(
           res => {
-            let alert = {
-              type: 'success',
-              title: 'institute Name Updated',
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('success', 'institute Name Updated', '');
             this.fetchInstituteInfo();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'We coudn\'t process your request',
-              body: err.error.message
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('error', 'We coudn\'t process your request', err.error.message);
             this.fetchInstituteInfo();
           }
         )
@@ -1501,21 +1384,11 @@ export class EnquiryAddComponent implements OnInit {
   deleteInstitute(id) {
     this.poster.deleteInstitute(id).subscribe(
       res => {
-        let alert = {
-          type: 'success',
-          title: 'Institute Record Deleted',
-          body: " The institute data has been removed from your account"
-        }
-        this.appC.popToast(alert);
+        this.showErrorMessage('success', 'Institute Record Deleted', " The institute data has been removed from your account");
         this.fetchInstituteInfo();
       },
       err => {
-        let alert = {
-          type: 'error',
-          title: 'Your Delete Request Has Been Denied',
-          body: err.error.message
-        }
-        this.appC.popToast(alert);
+        this.showErrorMessage('error', 'Your Delete Request Has Been Denied', err.error.message);
         this.fetchInstituteInfo();
       }
     )
@@ -1621,21 +1494,11 @@ export class EnquiryAddComponent implements OnInit {
         };
         this.poster.updateReferDetails(data).subscribe(
           res => {
-
-            let alert = {
-              type: 'success',
-              title: 'Reference Updated',
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('success', 'Reference Updated', '');
             this.fetchReferInfo();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Reference',
-              body: err.error.message
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('error', 'Failed To Update Reference', err.error.message);
           }
         )
       }
@@ -1653,20 +1516,11 @@ export class EnquiryAddComponent implements OnInit {
         };
         this.poster.deleteRefer(data).subscribe(
           res => {
-            let alert = {
-              type: 'success',
-              title: 'Reference Deleted',
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('success', 'Reference Deleted', '');
             this.fetchReferInfo();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Delete Reference',
-              body: err.error.message
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('error', 'Failed To Delete Reference', err.error.message);
           }
         )
       }
@@ -1772,27 +1626,19 @@ export class EnquiryAddComponent implements OnInit {
         }
         this.poster.updateSourceDetails(data).subscribe(
           res => {
-            let alert = {
-              type: 'success',
-              title: 'Source Updated',
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('success', 'Source Updated', '');
             this.fetchSourceInfo();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Source',
-              body: err.error.message
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('error', 'Failed To Update Source', err.error.message);
+
           }
         )
       }
     });
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+  /* =================================================== have not used ========================================================================= */
   timeChanges(ev, id) {
     if (ev.split(' ')[0] != '') {
       this.hour = ev.split(' ')[0];
@@ -1816,21 +1662,11 @@ export class EnquiryAddComponent implements OnInit {
         }
         this.poster.deleteSource(data).subscribe(
           res => {
-            let alert = {
-              type: 'success',
-              title: 'Source Deleted',
-              body: 'Your request has been processed'
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('success', 'Source Deleted', 'Your request has been processed');
             this.fetchSourceInfo();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Delete Source',
-              body: err.error.message
-            }
-            this.appC.popToast(alert);
+            this.showErrorMessage('error', 'Failed To Delete Source', err.error.message);
           }
         )
       }
@@ -1964,16 +1800,4 @@ export class EnquiryAddComponent implements OnInit {
       this.course_course = [];
     }
   }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-
-  messageNotifier(type, title, msg) {
-    let alert = {
-      type: type,
-      title: title,
-      body: msg
-    }
-    this.appC.popToast(alert);
-  }
-
 }

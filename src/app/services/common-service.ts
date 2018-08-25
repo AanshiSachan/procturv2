@@ -99,4 +99,22 @@ export class CommonServiceFactory {
         link.href = str;
     }
 
+    /// validation functions 
+
+    checkValueType(value: any) {
+        if (value == null || value == "" || value == "-1") {
+            return true;
+        }
+        if (value instanceof Date){///^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
+            return false;
+        }
+        if (value.match(/^\d{10}$/)) {  //int
+            return false;
+        }
+
+        return false;
+    }
+
+
+
 }
