@@ -29,8 +29,8 @@ import { AuthGuard } from './guards/auth.guard';
 
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
 import { CommonServiceFactory } from './services/common-service';

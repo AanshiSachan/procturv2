@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { ColumnSetting, ColumnMap } from './layout.model';
-import { document } from 'ngx-bootstrap/utils/facade/browser';
+
 
 @Component({
     selector: 'proctur-table',

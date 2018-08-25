@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TooltipModule } from 'ngx-bootstrap-custome/tooltip';
 
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormatCellPipe } from './custom-table/format-cell.pipe';

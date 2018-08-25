@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { LoginService } from '../../../services/login-services/login.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
-import { document } from 'ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';

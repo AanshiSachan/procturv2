@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker/bs-datepicker.module';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker/bs-datepicker.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CourseExamComponent, DateMonthFormat } from './course-exam.component';

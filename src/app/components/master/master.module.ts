@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { ExamGradeServiceService } from '../../services/examgradeservice/exam-grade-service.service';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { MasterComponent } from './master.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 

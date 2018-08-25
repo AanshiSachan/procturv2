@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivityHomeComponent } from './activity-home.component';
 import { ActivityHomeRoutingModule } from "./activity-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import 'moment';
 import 'hammerjs';
 import { SharedModule } from '../shared/shared.module';
@@ -20,7 +20,7 @@ import { StepsModule } from 'primeng/steps';
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { LiveClasses } from '../../services/live-classes/live-class.service';
-import { TooltipModule } from 'ngx-bootstrap';
+import { TooltipModule } from 'ngx-bootstrap-custome';
 
 @NgModule({
     imports: [

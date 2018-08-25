@@ -9,7 +9,7 @@ import { AppComponent } from '../../../app.component';
 import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
-import { document } from 'ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';

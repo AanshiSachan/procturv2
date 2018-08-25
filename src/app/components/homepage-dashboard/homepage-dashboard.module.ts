@@ -17,7 +17,7 @@ import { FeeWidgetComponent } from './fee-widget/fee-widget.component';
 import { GeneralWidgetComponent } from './general-widget/general-widget.component';
 import { BiometricWidgetComponent } from './biometric-widget/biometric-widget.component';
 import { BiometricStatusServiceService } from '../../services/biometric-status/biometric-status-service.service';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome';
 
 
 @NgModule({

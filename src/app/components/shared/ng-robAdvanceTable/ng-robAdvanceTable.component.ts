@@ -3,7 +3,7 @@ import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
 import { DropData, DropMapData } from './dropmenu/dropmenu.model';
 import { CustomizingPipe } from './customizing.pipe';
-import { CellHoverEvent } from 'ngx-bootstrap/datepicker/models';
+
 
 @Component({
     selector: 'rob-table',

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ExpenseHomeComponent } from './expense-home.component';
 import { ExpenseHomeRoutingModule } from "./expense-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import 'hammerjs';

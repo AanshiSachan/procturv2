@@ -49,6 +49,7 @@
     "ng2-expansion-panels": "0.0.6",
     "ng2-material-dropdown": "^0.9.5",
     "ng2-order-pipe": "^0.1.5",
+    "ngx-bootstrap-custome": "^1.0.0",
     "primeng": "~5.2.6",
     "rxjs": "^5.5.0",
     "web-animations-js": "^2.3.1",
@@ -73,7 +74,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^1.0.0",
-    "protractor": "~5.3.1",
+    "protractor": "^5.4.0",
     "ts-node": "~6.0.2",
     "tslint": "~5.9.1",
     "typescript": "^2.6.2"

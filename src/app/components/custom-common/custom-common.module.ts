@@ -10,7 +10,7 @@ import { BooleanConverter } from './create-custom-comp/create-custom-comp.compon
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { OnlyNumber } from './onlynumber.directive';
 import { SharedModule } from '../shared/shared.module'
 
