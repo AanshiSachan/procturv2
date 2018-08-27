@@ -1297,7 +1297,7 @@ export class StudentAddComponent implements OnInit {
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
     this.fetchEnquiryCustomComponentDetails();
-    localStorage.removeItem('studentPrefill');
+    sessionStorage.removeItem('studentPrefill');
   }
 
 

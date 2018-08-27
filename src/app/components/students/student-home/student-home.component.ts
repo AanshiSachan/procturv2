@@ -263,7 +263,6 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   editStudent(id) {
-    localStorage.setItem('studentId', id);
     this.router.navigate(['/view/student/edit/' + id]);
   }
 
@@ -1428,7 +1427,6 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   editFeePDCDetails(event) {
     sessionStorage.setItem('editPdc', "true");
-    localStorage.setItem('studentId', event);
     this.router.navigate(['/view/student/edit/' + event]);
   }
 
@@ -1436,7 +1434,6 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   editInventory(e) {
     sessionStorage.setItem('editInv', "true");
-    localStorage.setItem('studentId', e);
     this.router.navigate(['/view/student/edit/' + e]);
   }
 

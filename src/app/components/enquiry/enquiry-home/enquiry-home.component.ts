@@ -2116,7 +2116,7 @@ export class EnquiryHomeComponent implements OnInit {
       this.isConverted = this.selectedRow.status == 12 ? true : false;
       if ((this.selectedRow.status == 11) && (this.selectedRow.invoice_no != 0)) {
         this.hasReceipt = true;
-        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+        sessionStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
       }
       else {
         if (this.selectedRow.status == 0 || this.selectedRow.status == 3 || this.selectedRow.status == 2) {
@@ -2137,7 +2137,7 @@ export class EnquiryHomeComponent implements OnInit {
           this.isClosed = true;
           this.hasReceipt = false;
         }
-        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+        sessionStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
       }
     }
     else {

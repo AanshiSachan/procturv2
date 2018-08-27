@@ -1112,7 +1112,7 @@ export class EnquiryEditComponent implements OnInit {
 
   clearLocalAndRoute() {
     this.clearFormData();
-    localStorage.removeItem('institute_enquiry_id');
+    sessionStorage.removeItem('institute_enquiry_id');
     this.router.navigateByUrl('/view/enquiry');
   }
 

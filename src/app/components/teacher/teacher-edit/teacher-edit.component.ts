@@ -30,12 +30,6 @@ export class TeacherEditComponent implements OnInit {
     private toastCtrl: AppComponent,
     private routeParam: ActivatedRoute
   ) {
-    // if (localStorage.getItem('teacherID')) {
-    //   this.selectedTeacherId = localStorage.getItem('teacherID');
-    // } else {
-    //   this.route.navigateByUrl('/view/teacher');
-    // }
-
     this.routeParam.params.subscribe(params => {
       this.selectedTeacherId = params['id'];
     });
