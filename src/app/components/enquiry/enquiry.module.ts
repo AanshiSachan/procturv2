@@ -9,7 +9,6 @@ import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.componen
 import { SmsOptionComponent } from './enquiry-home/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
-import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
 import { EnquiryUpdatepComponent } from './enquiry-update/enquiry-update.component';
@@ -22,7 +21,6 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { SharedModule } from '../shared/shared.module';
-import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
 import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
 
@@ -48,11 +46,8 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
         EnquiryEditComponent,
         EnquiryPopUpComponent,
         EnquiryUpdatepComponent,
-        EnquiryInput,
-        EnquiryDateInput,
         UserEnquiryComponent,
         DateConverter,
-        OnlyNumber,
         EnquiryHomeComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent

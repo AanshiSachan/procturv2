@@ -99,13 +99,26 @@ export class CommonServiceFactory {
         link.href = str;
     }
 
+    // Create a deep copy of object
+    keepCloning(objectpassed) {
+        if (objectpassed === null || typeof objectpassed !== 'object') {
+            return objectpassed;
+        }
+        let temporaryStorage = objectpassed.constructor();
+        for (var key in objectpassed) {
+            temporaryStorage[key] = this.keepCloning(objectpassed[key]);
+        }
+        return temporaryStorage;
+    }
+
+
     /// validation functions 
 
     checkValueType(value: any) {
         if (value == null || value == "" || value == "-1") {
             return true;
         }
-        if (value instanceof Date){///^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
+        if (value instanceof Date) {///^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
             return false;
         }
         if (value.match(/^\d{10}$/)) {  //int

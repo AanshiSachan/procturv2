@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import {  Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
+import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 import { LoginService } from './services/login-services/login.service';
 import { CommonServiceFactory } from './services/common-service';
 import { Title } from '@angular/platform-browser';
@@ -38,8 +38,7 @@ export class AppComponent implements OnInit {
     toasterService: ToasterService,
     private router: Router,
     private log: LoginService,
-    private commonService: CommonServiceFactory,
-    private title: Title
+    private commonService: CommonServiceFactory
   ) {
     this.toasterService = toasterService;
   }
@@ -48,7 +47,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.routerEvents();
     this.isloggedInAdmin = this.commonService.checkUserIsAdmin();
-    this.checkTitleAndFavIcon();
   }
 
   // Router Event Ripple
@@ -77,18 +75,6 @@ export class AppComponent implements OnInit {
         }
       }
     });
-  }
-
-  checkTitleAndFavIcon() {
-    let title = sessionStorage.getItem('institute_title_web');
-    if (title != undefined && title != "" && title != null) {
-      this.title.setTitle(title);
-    }
-
-    let icon = sessionStorage.getItem('institute_logo_web');
-    if (icon != undefined && icon != "" && icon != null) {
-      this.commonService.changeFavICon(icon);
-    }
   }
 
   public popToast(data) {

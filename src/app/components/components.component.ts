@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login-services/login.service';
 import { AuthenticatorService } from '../services/authenticator.service';
 import { CommonServiceFactory } from '../services/common-service';
+import { Title } from '../../../node_modules/@angular/platform-browser';
 
 @Component({
   selector: 'app-components',
@@ -21,7 +22,8 @@ export class ComponentsComponent implements OnInit {
   constructor(
     private log: LoginService,
     private auth: AuthenticatorService,
-    private commonService: CommonServiceFactory
+    private commonService: CommonServiceFactory,
+    private title: Title
   ) { }
 
   ngOnInit() {
@@ -38,6 +40,7 @@ export class ComponentsComponent implements OnInit {
       }
     });
 
+    this.checkTitleAndFavIcon();
   }
 
   // Change Password Pop up Section///
@@ -84,6 +87,14 @@ export class ComponentsComponent implements OnInit {
       this.isSearchMoreComp = false;
     }
     this.searchMoreData = null;
+  }
+
+  // Change Title once user refresh
+  checkTitleAndFavIcon() {
+    let title = sessionStorage.getItem('institute_title_web');
+    if (title != undefined && title != "" && title != null) {
+      this.title.setTitle(title);
+    }
   }
 
 }

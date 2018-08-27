@@ -1,16 +1,10 @@
-import {
-    Component, OnInit, OnChanges, Output, Input, ViewChild, ElementRef,
-    HostListener, EventEmitter, ChangeDetectorRef, Renderer2, ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, OnChanges, Output, Input, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
-import { Observable } from 'rxjs/Observable'
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { templateJitUrl } from '@angular/compiler';
-import { Subscription } from 'rxjs/Subscription';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
     selector: 'student-batch-list',
@@ -21,6 +15,18 @@ import { Subscription } from 'rxjs/Subscription';
 export class StudentBatchListComponent implements OnInit, OnChanges {
 
     isProfessional: boolean = false;
+    batchList: any[] = [];
+    model: string;
+    assignedCount: number = 0;
+    modelChanged: Subject<string> = new Subject<string>();
+    isRippleLoad: boolean = false;
+    batchFilter: any = {
+        currentStd: '-1',
+        state: '0'
+    };
+    clonedArray: any = [];
+    deleteCourse_SubjectUnPaidFeeSchedules: boolean = true;
+
     @Input() dataList: any[] = [];
     @Input() academicYear: any[] = [];
     @Input() assignedBatches: any;
@@ -28,23 +34,15 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     @Input() standardList: any[] = [];
     @Input() defaultAcadYear: any;
 
-
     @Output() assignList = new EventEmitter<any>();
     @Output() closeBatch = new EventEmitter<boolean>();
 
-    batchList: any[] = [];
-    model: string;
-    assignedCount: number = 0;
-    modelChanged: Subject<string> = new Subject<string>();
-
-    isRippleLoad: boolean = false;
-
-    batchFilter: any = {
-        currentStd: '-1',
-        state: '0'
-    }
-
-    constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eRef: ElementRef, private appC: AppComponent, private studentPrefillService: AddStudentPrefillService, private auth: AuthenticatorService) {
+    constructor(
+        private cd: ChangeDetectorRef,
+        private appC: AppComponent,
+        private auth: AuthenticatorService,
+        private commonService: CommonServiceFactory
+    ) {
         this.auth.institute_type.subscribe(
             res => {
                 if (res == 'LANG') {
@@ -72,6 +70,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         console.log('ngOnChanges', this.batchList);
         this.batchList = [];
         this.batchList = this.dataList.map(e => { return e });
+        this.clonedArray = this.commonService.keepCloning(this.batchList);
         console.log('ngOnChanges 2', this.batchList);
         this.isEdit;
         if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {
@@ -139,6 +138,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 assignedCourse_Subject_FeeTemplateArray: assignedCourse_Subject_FeeTemplateArray,
                 assignedBatchString: batchString.join(','),
                 isAssignBatch: false,
+                deleteCourse_SubjectUnPaidFeeSchedules: this.deleteCourse_SubjectUnPaidFeeSchedules
             }
             this.assignList.emit(obj);
         }
@@ -151,6 +151,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 assignedCourse_Subject_FeeTemplateArray: assignedCourse_Subject_FeeTemplateArray,
                 assignedBatchString: batchString.join(','),
                 isAssignBatch: false,
+                deleteCourse_SubjectUnPaidFeeSchedules: this.deleteCourse_SubjectUnPaidFeeSchedules
             }
             this.assignList.emit(obj);
         }
@@ -317,56 +318,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.cd.detectChanges();
         if (!this.isProfessional) {
             if (this.batchFilter.currentStd != '-1') {
-                // this.isRippleLoad = true;
-                // this.studentPrefillService.fetchCourseMasterById(this.batchFilter.currentStd).subscribe(
-                //     (data: any) => {
-                // console.log(this.filterDataAsOnStandard(this.batchList, this.batchFilter.currentStd));
-                // this.isRippleLoad = false;
-                // temp = [];
-                // if (data.coursesList != null && data.coursesList.length != 0) {
-                //     data.coursesList.forEach(el => {
-                //         if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-                //             el.feeTemplateList.forEach(e => {
-                //                 if (e.is_default == 1) {
-                //                     el.selected_fee_template_id = e.template_id;
-                //                 }
-                //             })
-                //         }
-                //         if (el.academic_year_id == '-1') {
-                //             el.academic_year_id = this.defaultAcadYear;
-                //         }
-                //         let obj = {
-                //             isSelected: this.getChecked(el),
-                //             data: el,
-                //             assignDate: moment().format('YYYY-MM-DD')
-                //         }
-                //         this.cd.markForCheck();
-                //         this.cd.detectChanges();
-                //         temp.push(obj);
-                //         this.cd.markForCheck();
-                //         this.cd.detectChanges();
-                //     });
-                // }
                 console.log('newMultiFilterFetchBatch', this.batchList);
                 this.batchList = this.filterDataAsOnStandard(this.batchList, this.batchFilter.currentStd);
                 this.filterDataSource(this.batchFilter.state);
                 this.cd.markForCheck();
                 this.cd.detectChanges();
-                // },
-                // err => {
-                //     this.isRippleLoad = false;
-                //     this.cd.markForCheck();
-                //     this.cd.detectChanges();
-                //     this.batchList = temp;
-                //     console.log('newMultiFilterFetchBatch Err', this.batchList);
-                //     let al = { type: 'error', title: err.error.message, body: '' };
-                //     this.appC.popToast(al);
-                //     this.batchList = temp;
-                //     this.filterDataSource(this.batchFilter.state);
-                //     this.cd.markForCheck();
-                //     this.cd.detectChanges();
-                // }
-                // );
             }
             else {
                 console.log('newMultiFilterFetchBatch Else', this.batchList);
@@ -402,4 +358,22 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.model = "";
         this.newMultiFilterFetchBatch();
     }
+
+    onFeeTemplateChanges(batchdata) {
+        for (let i = 0; i < this.clonedArray.length; i++) {
+            if (this.clonedArray[i].data.course_id == batchdata.course_id) {
+                if (batchdata.selected_fee_template_id != "-1" && batchdata.selected_fee_template_id != null && batchdata.selected_fee_template_id != undefined) {
+                    if (this.clonedArray[i].data.selected_fee_template_id != batchdata.selected_fee_template_id) {
+                        if (confirm('If you change fee template then all your unpaid installment will delete. Do you want to continue?')) {
+                            this.deleteCourse_SubjectUnPaidFeeSchedules = true;
+                        } else {
+                            this.deleteCourse_SubjectUnPaidFeeSchedules = false;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 }
