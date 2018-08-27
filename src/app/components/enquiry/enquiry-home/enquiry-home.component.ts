@@ -24,6 +24,7 @@ import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-enquiry-home',
@@ -32,14 +33,9 @@ import { MultiBranchDataService } from '../../../services/multiBranchdata.servic
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnquiryHomeComponent implements OnInit {
-  /* =========================================================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
+
   /* ====================================Declarations================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
+
   isConvertToStudent: boolean = false;
   sortBy: string = 'followUpDateTime';
   /* Variable Declaration */
@@ -114,18 +110,8 @@ export class EnquiryHomeComponent implements OnInit {
   areaList: any = [];
   closingReasonDataSource: any = [];
 
-
-
-  /* =========================================================================== */
   /* ===================== Declaration Fin ===================================== */
-  /* =========================================================================== */
-
-
-
-
-
-
-
+  enquiryInfo: any = "";
   constructor(
     private enquire: FetchenquiryService,
     private prefill: FetchprefilldataService,
@@ -137,7 +123,8 @@ export class EnquiryHomeComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private actRoute: ActivatedRoute,
     private auth: AuthenticatorService,
-    private multiBranchService: MultiBranchDataService) {
+    private multiBranchService: MultiBranchDataService,
+    private commonServiceFactory: CommonServiceFactory) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -165,20 +152,9 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-
-
-
-
-
-
-
-
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* OnInit Function */
   ngOnInit() {
+
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -226,50 +202,7 @@ export class EnquiryHomeComponent implements OnInit {
           this.cd.markForCheck();
         }
         else if (message == 'update') {
-          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe((res: any) => {
-            this.cd.markForCheck();
-            this.updateFormData.priority = this.getPriority(res.priority);
-            this.updateFormData.follow_type = res.follow_type;
-            this.updateFormData.statusValue = this.selectedRow.statusValue;
-            if (res.followUpDate != "" && res.followUpDate != null) {
-              this.updateFormData.followUpDate = moment(res.followUpDate).format('YYYY-MM-DD');
-            }
-            if (res.followUpTime != '' && res.followUpTime != null) {
-              let timeObj = this.convertTimeToFormat(res.followUpTime);
-              this.hour = timeObj.hour + " " + timeObj.meridian;
-              this.minute = timeObj.minute;
-            }
-
-            if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
-              let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
-              this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
-              this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
-            }
-            this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
-            this.updateFormData.followUpTime = res.followUpTime;
-            if (res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != "") {
-              if (res.is_follow_up_time_notification == 1) {
-                this.updateFormData.is_follow_up_time_notification = true;
-              }
-              else {
-                this.updateFormData.is_follow_up_time_notification = false;
-              }
-            } else {
-              this.updateFormData.is_follow_up_time_notification = false;
-            }
-
-            if (res.comments != null && res.comments.length > 0) {
-              this.updateFormComments = res.comments;
-            }
-
-            this.updateFormCommentsOn = res.commentedOn;
-            this.updateFormCommentsBy = res.commentedBy;
-            this.updateFormData.assigned_to = res.assigned_to;
-            this.updateFormData.status = res.status;
-            this.updateFormData.closing_reason_id = res.closing_reason_id;
-
-            this.cd.markForCheck();
-          });
+          this.enquiryInfo = this.selectedRow.institute_enquiry_id;
           this.message = message;
         }
         else {
@@ -292,24 +225,11 @@ export class EnquiryHomeComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     sessionStorage.setItem('displayBatchSize', this.displayBatchSize.toString());
-
     this.checkMultiBranchStatus();
 
   }
 
 
-
-
-
-
-
-
-
-
-
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   convertTimeToFormat(data) {
     let time: any = {};
     time.hour = data.split(':')[0];
@@ -319,8 +239,6 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   timeChanges(ev) {
     let obj: any = {};
     let time = ev.split(' ');
@@ -330,8 +248,6 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   notifyMe(e) {
     if (e) {
       this.updateFormData.is_follow_up_time_notification = 1;
@@ -341,9 +257,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   isEnquiryAdministrator() {
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       this.isEnquiryAdmin = true;
@@ -362,9 +275,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
     this.isRippleLoad = true;
@@ -428,9 +338,6 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
     /* Status */
@@ -479,16 +386,10 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe((res: any) => { this.masterCourseData = res; });
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   fetchCustomComponentData() {
     this.customComponents = [];
     this.prefill.fetchCustomComponentEmpty()
@@ -528,9 +429,6 @@ export class EnquiryHomeComponent implements OnInit {
         });
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
     let customPrefilled: any[] = [];
     if (selected.length != 0 && selected[0] != "") {
@@ -543,9 +441,6 @@ export class EnquiryHomeComponent implements OnInit {
     return customPrefilled;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Custom Compoenent array creater */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
@@ -553,9 +448,6 @@ export class EnquiryHomeComponent implements OnInit {
     return customPrefilled;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
@@ -565,9 +457,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* if custom component is of type multielect then update the selected or unselected data*/
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
@@ -582,17 +471,12 @@ export class EnquiryHomeComponent implements OnInit {
     });
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   getDefaultArr(d): any[] {
     let a: any[] = [];
     a.push(d);
     return a;
   }
 
-
-  /* =========================================================================== */
   /* Function to search data on smart table */
   searchDatabase() {
     this.clearFilterAdvanced();
@@ -645,24 +529,22 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* regex validation for name atleast one word required */
   validateString(data: string) {
     return /^[a-zA-Z ]{1,40}$/.test(data);
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Custom validation suited only for indian mobile numbers*/
   validateNumber(data) {
     return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[123456789]\d{9}$/.test(data);;
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Function to open advanced filter */
   openAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
@@ -677,8 +559,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Function to close advanced filter */
   closeAdFilter() {
     document.getElementById('adFilterExitVisible').classList.remove('hide');
@@ -689,8 +571,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   updateRegisterEnquiry() {
     this.isConvertToStudent = true;
     this.updateFormData.follow_type = "Walkin";
@@ -700,8 +582,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   getFollowupTime(): any {
     let hour: any = parseInt(moment(new Date()).format('hh'));
     let min: any = moment(new Date()).format('mm');
@@ -731,9 +613,6 @@ export class EnquiryHomeComponent implements OnInit {
     return (hour + ":" + min + " " + mer);
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
     if (this.validateTime()) {
@@ -848,8 +727,8 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   validateTime(): boolean {
     /* some time selected by user or nothing*/
     let check = false;
@@ -872,14 +751,14 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* update the enquiry id for enquiry update pop up */
   updateStatusForEnquiryUpdate(val) { this.enqstatus.forEach(el => { if (el.data_value == val) { this.updateFormData.status = el.data_key; } }); }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Delete Enquiry  */
   deleteEnquiry() {
     this.isRippleLoad = true;
@@ -903,8 +782,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Make Registration Payment Data update */
   registerPayment() {
     this.isRippleLoad = true;
@@ -930,8 +809,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Service to fetch sms records from server and update table*/
   smsServicesInvoked() {
     this.isRippleLoad = true;
@@ -967,8 +846,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   switchSmsTab(id) {
     if (id === 'approvedSms') {
       this.isApprovedTab = true;
@@ -993,8 +872,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* push new sms template to server and update the table */
   addNewSmsTemplate() {
     if (this.newSmsString.data == '' || this.newSmsString.data == ' ') {
@@ -1050,8 +929,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Stores data for row user has clicked of selected */
   appSmsSelected(row, id) {
     this.cd.markForCheck();
@@ -1060,8 +939,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Stores data for row user has clicked of selected */
   opSmsSelected(row, id) {
     this.cd.markForCheck();
@@ -1070,8 +949,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* toggle visibility for add new sms DIV */
   addNewMessage() {
     let content = document.getElementById('sms-toggler-icon').innerHTML;
@@ -1088,8 +967,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Char Count and sms string data update */
   smsStringUpdate(ev) {
     let stringArr = this.newSmsString.data.split('');
@@ -1107,16 +986,16 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* SMS button visibility */
   editSms() {
     this.smsBtnToggle = true;
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Sms edit mode cancel */
   cancelSmsEdit() {
     this.smsBtnToggle = false;
@@ -1124,8 +1003,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Update the sms template */
   saveEditedSms() {
     let data = { message: this.selectedSMS.message }
@@ -1146,8 +1025,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Approved SMS template send */
   sendSmsTemplate() {
     if (this.selectedSMS.message != null && this.selectedSMS.message != '') {
@@ -1217,8 +1096,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Trigger Bulk Send SMS PopUp */
   sendBulkSms() {
     if ((this.selectedRowGroup != null || this.selectedRowGroup != undefined) && (this.selectedRowGroup.length != 0)) {
@@ -1234,8 +1113,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Close Bulk Enquiry Popup and clear the field records and state */
   closeBulkSms() {
     this.isMultiSms = false;
@@ -1250,8 +1129,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Peform Delete Operation if access is OK */
   bulkDeleteEnquiries() {
     this.cd.markForCheck();
@@ -1353,8 +1232,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Check if enquiry is deletable  */
   validateDeletable() {
     let temp: any[] = [];
@@ -1375,8 +1254,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Bulk Assign popup open */
   bulkAssignEnquiriesOpen() {
     this.cd.markForCheck();
@@ -1414,8 +1293,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Bulk Assign popup close */
   bulkAssignEnquiriesClose() {
     this.isAssignEnquiry = false;
@@ -1424,8 +1303,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Bulk Assign popup operation */
   bulkAssignEnquiries() {
     this.cd.markForCheck();
@@ -1451,8 +1330,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Convert assignee Id to name */
   getAssigneeName(id): string {
     let name: string = '';
@@ -1461,8 +1340,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
     this.fetchingDataMessage = 1;
@@ -1510,17 +1389,17 @@ export class EnquiryHomeComponent implements OnInit {
         this.advancedFilterForm.updateDateFrom = moment(this.advancedFilterForm.updateDateFrom).format('YYYY-MM-DD');
         this.advancedFilterForm.updateDateTo = moment(this.advancedFilterForm.updateDateTo).format('YYYY-MM-DD');
       } else {
-        this.messageToast('error', 'Error', 'Please provide valid Enquiry Changes From and To Dates');
+        this.showErrorMessage('error', 'Error', 'Please provide valid Enquiry Changes From and To Dates');
         return;
       }
     } else if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null) {
       if (this.advancedFilterForm.updateDateTo == "" || this.advancedFilterForm.updateDateTo == null) {
-        this.messageToast('error', 'Error', 'Please provide valid Enquiry Changes To Dates');
+        this.showErrorMessage('error', 'Error', 'Please provide valid Enquiry Changes To Dates');
         return;
       }
     } else if (this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
       if (this.advancedFilterForm.updateDateFrom == "" || this.advancedFilterForm.updateDateFrom == null) {
-        this.messageToast('error', 'Error', 'Please provide valid Enquiry Changes From Dates');
+        this.showErrorMessage('error', 'Error', 'Please provide valid Enquiry Changes From Dates');
         return;
       }
     }
@@ -1564,8 +1443,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Function to clear the advance filter Manually */
   clearFilterAdvanced() {
     this.advancedFilterForm = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.displayBatchSize, closedReason: "", enqCustomLi: null, commentShow: 'false' };
@@ -1577,8 +1456,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   closeUpdatePop(e) {
     this.pops.changeMessage('');
     this.hour = "";
@@ -1589,8 +1468,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* common function to close popups */
   closePopup() {
     this.pops.changeMessage('');
@@ -1615,8 +1494,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* fetch subject when user selects any standard on select menu */
   fetchEnquirySubject() {
     this.isRippleLoad = true;
@@ -1636,8 +1515,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   courseMasterChange(e) {
     if (e != '-1') {
       this.masterCourseData.map(el => {
@@ -1657,8 +1536,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.PageIndex++;
@@ -1666,8 +1545,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
     this.PageIndex--;
@@ -1675,8 +1554,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Fetch table data by page index */
   fectchTableDataByPage(index) {
     this.PageIndex = index;
@@ -1689,8 +1568,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
     this.PageIndex = 1;
@@ -1704,16 +1583,16 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Function to store the data of Custom Component in to Base64 encoded array string */
   customComponentUpdated(val, data) {
     this.componentListObject[data.component_id].enq_custom_value = val;
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   /* Fetch all the enquiries as xls file */
   downloadAllEnquiries() {
     this.cd.markForCheck();
@@ -1744,8 +1623,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   ///// Download Summary Report
   toggleDateSection() {
     if (this.showDateRange == false) {
@@ -1758,13 +1637,13 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   downloadSummaryReport() { this.summaryOptions = true; setTimeout(() => { document.getElementById('anchTagToggle').text = "Download By Date Range"; }, 100); }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   downloadSummaryReportXl() {
 
     if (this.downloadReportOption == 1) {
@@ -1799,9 +1678,6 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   downloadSummaryReportXlDateWise() {
 
     if (this.summaryReport.to_date != "" && this.summaryReport.from_date != "") {
@@ -1823,9 +1699,6 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   performDownloadAction(res) {
     let byteArr = this.convertBase64ToArray(res.document);
     let format = res.format;
@@ -1839,9 +1712,6 @@ export class EnquiryHomeComponent implements OnInit {
     dwldLink.click();
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Converts base64 string into a byte[] */
   convertBase64ToArray(val) {
     var binary_string = window.atob(val);
@@ -1851,9 +1721,6 @@ export class EnquiryHomeComponent implements OnInit {
     return bytes.buffer;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Convert enquiry to student */
   convertRow(ev) {
     if (this.isProfessional) {
@@ -1865,9 +1732,6 @@ export class EnquiryHomeComponent implements OnInit {
     this.cd.markForCheck();
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Download Receipt API */
   downloadReceiptPdf() {
     this.isRippleLoad = true;
@@ -1895,9 +1759,6 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   sortTableById(id) {
     this.sortBy = id;
     //console.log(id);
@@ -1912,8 +1773,6 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   clearSearchDate() {
     /*  */
     this.searchBarDate = "";
@@ -1922,37 +1781,25 @@ export class EnquiryHomeComponent implements OnInit {
     this.instituteData.enquireDateTo = "";
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   clearadfilterUpdateDate() {
     this.advancedFilterForm.updateDate = "";
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   clearfollowUpDate() {
     this.advancedFilterForm.followUpDate = "";
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   clearadfilterEnqFromDate() {
     this.advancedFilterForm.enquireDateFrom = "";
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   clearadfilterEnqToDate() {
     this.advancedFilterForm.enquireDateTo = "";
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   clearupdateDate() {
     this.updateFormData.followUpDate = "";
     this.hour = '';
@@ -1960,9 +1807,6 @@ export class EnquiryHomeComponent implements OnInit {
     this.meridian = '';
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   updateSlotSelected(data) {
     /* slot checked */
     if (data.status) {
@@ -2005,9 +1849,6 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   getPriority(id): string {
     let temp: string = ""
     this.enqPriority.forEach(el => {
@@ -2018,9 +1859,6 @@ export class EnquiryHomeComponent implements OnInit {
     return temp;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   getFollowUp(id): string {
     let temp: string = ""
     this.enqFollowType.forEach(el => {
@@ -2031,9 +1869,6 @@ export class EnquiryHomeComponent implements OnInit {
     return temp;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   getFollowUpReverse(id): string {
     let temp: string = ""
     this.enqFollowType.forEach(el => {
@@ -2044,9 +1879,6 @@ export class EnquiryHomeComponent implements OnInit {
     return temp;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   getPriorityReverse(id): string {
     let temp: string = ""
     this.enqPriority.forEach(el => {
@@ -2058,9 +1890,6 @@ export class EnquiryHomeComponent implements OnInit {
     return temp;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
     let mySidenavWidth = '29%';
@@ -2089,9 +1918,6 @@ export class EnquiryHomeComponent implements OnInit {
     )
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   closeEnquiryFullDetails() {
     this.isRippleLoad = true;
     this.isSideBar = false;
@@ -2102,11 +1928,8 @@ export class EnquiryHomeComponent implements OnInit {
     this.optMenu.nativeElement.classList.remove('shorted');
     this.isRippleLoad = false;
   }
-
-
-  /* =========================================================================== */
   /*  Handler for row click event */
-  /* =========================================================================== */
+
   userRowSelect(ev) {
     if (ev != null) {
       this.openEnquiryFullDetails(ev.institute_enquiry_id);
@@ -2146,9 +1969,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   virtualUpdateEnquiry(obj) {
     this.updateFormData = obj;
     this.cd.markForCheck();
@@ -2171,23 +1991,18 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   getRowCount(ev) {
     this.selectedRowCount = ev;
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   getSelectedEnquiries(ev) {
     this.cd.markForCheck();
     this.selectedRowGroup = ev;
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   getDirection(e) {
     if (e) {
       this.currentDirection = "asc";
@@ -2198,8 +2013,6 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   roleManagementForBulkAdd() {
     this.bulkAddItems = [];
     let permissionArray: any = sessionStorage.getItem('permissions');
@@ -2223,8 +2036,6 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
   giveFullPermisionOfBulfAction() {
     this.bulkAddItems = [
       { label: 'Send SMS', icon: 'fa-envelope-o', command: () => { this.sendBulkSms(); } },
@@ -2233,9 +2044,6 @@ export class EnquiryHomeComponent implements OnInit {
     ];
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   isNotifyDisplayed() {
     this.cd.markForCheck();
     if (this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
@@ -2261,8 +2069,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   // Multi Branch Check
   checkMultiBranchStatus() {
     const permissionArray = sessionStorage.getItem('permissions');
@@ -2299,9 +2107,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   multiBranchInstituteFound(id) {
     this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => { this.branchesList = res; },
@@ -2309,9 +2114,6 @@ export class EnquiryHomeComponent implements OnInit {
     );
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   branchUpdated(e) {
     this.enqAssignTo = [];
     this.prefill.fetchAssignedToData(e).subscribe(
@@ -2320,16 +2122,10 @@ export class EnquiryHomeComponent implements OnInit {
     );
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   updateStatFilterStatus(id: string, check: boolean) {
     this.statFilter.forEach(e => { if (e.prop == id) { e.checked = check; } });
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* Function to toggle table data on checkbox click */
   statusFilter(checkerObj) {
     this.searchBarData = '';
@@ -2511,9 +2307,6 @@ export class EnquiryHomeComponent implements OnInit {
 
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
     this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
     this.PageIndex = 1;
@@ -2567,8 +2360,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   showApproveButtons(data) {
     let enableApprove = sessionStorage.getItem('allow_sms_approve_feature');
     const permissionArray = sessionStorage.getItem('permissions');
@@ -2584,8 +2377,8 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
+
+
   approveRejectSms(data, statusCode) {
     let msg: any = "";
     if (statusCode == 1) {
@@ -2621,10 +2414,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
-  /* =========================================================================== */
-  /* =========================================================================== */
-
   // Advance filter City Selection
 
   onCitySelection(event) {
@@ -2644,9 +2433,7 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
   // This function gives you full information of enquiry selected which is fetched from server 
-
   completeEnquiryDeatils(event) {
     this.selectedRow.gender = event.gender;
     this.selectedRow.institute_enquiry_id = event.institute_enquiry_id;
@@ -2658,33 +2445,10 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-
-  messageToast(type, title, mess) {
-    let msg = {
-      type: type,
-      title: title,
-      body: mess
-    }
-    this.appC.popToast(msg);
+  // toast function 
+  showErrorMessage(objType, massage, body) {
+    this.commonServiceFactory.showErrorMessage(objType, massage, body);
   }
-
-
 
 }
 
-
-
-
-
-
-@Pipe({ name: 'dateConverter' })
-
-export class DateConverter implements PipeTransform {
-  transform(value: any, exponent: any): any {
-
-    //console.log(value);
-
-    return null;
-
-  }
-}

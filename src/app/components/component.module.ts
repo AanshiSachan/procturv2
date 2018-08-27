@@ -9,7 +9,6 @@ import { OverlayMenuComponent } from './overlay-menu/overlay-menu.component';
 import { CoreHeaderComponent } from './core/core-header/core-header.component';
 import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-import { EnquiryUpdatePopupComponent } from './enquiry-update-popup/enquiry-update-popup.component';
 import { GlobalSearchPopupComponent } from './global-search-popup/global-search-popup.component';
 import { SearchBoxComponent } from './core/search-box/search-box.component';
 import { EnquiryModule } from './enquiry/enquiry.module';
@@ -29,8 +28,7 @@ import { EnquiryModule } from './enquiry/enquiry.module';
         CoreHeaderComponent,
         OverlayMenuComponent,
         ChangePasswordComponent,
-        ChangePasswordComponent,
-        EnquiryUpdatePopupComponent,
+        ChangePasswordComponent,        
         GlobalSearchPopupComponent,
         SearchBoxComponent
     ],

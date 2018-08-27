@@ -27,6 +27,7 @@ import { PreferencePopupComponent } from './preference-popup/preference-popup.co
 
 import { StyleCellDirective } from './custom-table/style-cell.directive';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
+import { EnquiryUpdatePopupComponent } from '../enquiry-update-popup/enquiry-update-popup.component';
 
 
 
@@ -60,7 +61,9 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
         DropMenuComponent,
         RobTooltipComponent,
         DataDisplayTableComponent,
-        PreferencePopupComponent
+        PreferencePopupComponent,
+        EnquiryUpdatePopupComponent
+
     ],
     exports: [
         
@@ -81,7 +84,8 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
         DropMenuComponent,
         RobTooltipComponent,
         DataDisplayTableComponent,
-        PreferencePopupComponent
+        PreferencePopupComponent,
+        EnquiryUpdatePopupComponent
     ],
     entryComponents: [
         DropMenuComponent,

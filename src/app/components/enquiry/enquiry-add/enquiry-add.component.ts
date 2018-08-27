@@ -794,7 +794,7 @@ export class EnquiryAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
-    debugger
+ 
     //Validates if the custom component required fields are selected or not
     this.isEnquirySubmit = true;
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });

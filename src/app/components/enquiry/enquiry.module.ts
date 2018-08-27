@@ -12,8 +12,6 @@ import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
-import { EnquiryUpdatepComponent } from './enquiry-update/enquiry-update.component';
-import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 /* Modules */
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormControl } from "@angular/forms";
@@ -23,6 +21,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import { SharedModule } from '../shared/shared.module';
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
 import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
+
 
 @NgModule({
     imports: [
@@ -45,9 +44,8 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
-        EnquiryUpdatepComponent,
         UserEnquiryComponent,
-        DateConverter,
+
         EnquiryHomeComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent
@@ -57,14 +55,13 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
         SmsOptionComponent,
         UserEnquiryComponent,
         CommentTooltipComponent,
-        EnquirySidebarComponent,
-        EnquiryUpdatepComponent
+        EnquirySidebarComponent
     ],
     providers: [
         PopupHandlerService,
         ClosingReasonService
     ],
-    exports:[EnquiryHomeComponent]
+    exports: [EnquiryHomeComponent]
 
 })
 export class EnquiryModule {

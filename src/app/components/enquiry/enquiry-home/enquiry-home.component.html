@@ -507,13 +507,10 @@
     </div>
   </aside>
 
-  <enquiry-update *ngIf="message === 'update'" [updateFormData]="updateFormData" [enqPriority]="enqPriority" [enqFollowType]="enqFollowType"
-    [hour]="hour" [times]="times" [minute]="minute" [minArr]="minArr" [isNotifyVisible]="isNotifyVisible" [isMainBranch]="isMainBranch"
-    [meridian]="meridian" [subBranchSelected]="subBranchSelected" [branchesList]="branchesList" [enqstatus]="enqstatus" [isEnquiryAdmin]="isEnquiryAdmin"
-    [branchesList]="branchesList" [selectedRow]="selectedRow" [enqAssignTo]="enqAssignTo" [updateFormComments]="updateFormComments"
-    [updateFormCommentsOn]="updateFormCommentsOn" [updateFormCommentsBy]="updateFormCommentsBy" (close)="closeUpdatePop($event)"
-    [closingReasonDataSource]="closingReasonDataSource">
-  </enquiry-update>
+
+
+  <!-- Enquiry update popup -->
+  <app-enquiry-update-popup *ngIf="message === 'update'"  [enqData]="enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
 
 
   <!-- Delete PopUp -->

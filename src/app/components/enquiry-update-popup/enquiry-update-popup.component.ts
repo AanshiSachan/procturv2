@@ -3,7 +3,6 @@ import { FetchprefilldataService } from '../../services/fetchprefilldata.service
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { MultiBranchDataService } from '../../services/multiBranchdata.service';
 import * as moment from 'moment';
-import { AppComponent } from '../../app.component';
 import { CommonServiceFactory } from '../../services/common-service';
 import { Router } from '@angular/router';
 
@@ -85,7 +84,6 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     private fetchService: FetchprefilldataService,
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
-    private appC: AppComponent,
     private commonService: CommonServiceFactory,
     private router: Router
   ) { }
@@ -94,6 +92,8 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     this.fetchDataFromServer();
     this.checkForMultiBranch();
     this.isEnquiryAdmin = this.commonService.checkUserHadPermission('115');
+    console.log(this.enqData);
+
   }
 
   ngOnChanges() {
@@ -494,12 +494,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   }
 
   messageNotifier(type, title, message) {
-    let obj = {
-      type: type,
-      title: title,
-      body: message
-    };
-    this.appC.popToast(obj);
+    this.commonService.showErrorMessage(type, title, message);
   }
 
 }
