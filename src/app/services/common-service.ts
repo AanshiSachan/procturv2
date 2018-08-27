@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 
 @Injectable()
 
 export class CommonServiceFactory {
 
 
+    constructor(private toasterService: ToasterService) {
+
+    }
     // Check User Is Admin Or not return boolean
     checkUserIsAdmin(): boolean {
         let p = sessionStorage.getItem('permissions');
@@ -121,13 +125,32 @@ export class CommonServiceFactory {
         if (value instanceof Date) {///^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
             return false;
         }
-        if (value.match(/^\d{10}$/)) {  //int
+        if ((!this.validatePhone(value))) {  //int
             return false;
         }
 
         return false;
     }
+// validate  phone number 
+    validatePhone(value) {
+        if (value.match(/^\d{10}$/)) {  //int
+            return true;
+        }
+        else
+            return false;
 
+    }
+
+    // toast function 
+    showErrorMessage(objType, massage, body) {
+        var toast: Toast = {
+            type: objType,
+            title: massage,
+            body: body
+        };
+        this.toasterService.pop(toast);
+
+    }
 
 
 }

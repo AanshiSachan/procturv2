@@ -6,10 +6,11 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
 import { CalendarModule } from 'primeng/primeng';
+import { StudentRoutingModule } from './student-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
+import { SharedModule } from '../shared/shared.module';
 
-import { StudentRoutingModule } from './student-routing.module';
 import { StudentBatchListComponent } from './student-batch-list/student-batch-list.component';
 import { StudentsComponent } from './students.component';
 import { StudentAddComponent } from './student-add/student-add.component'
@@ -22,14 +23,11 @@ import { StudentFeeTableComponent } from './student-fee-table/student-fee-table.
 import { StudentDiscountComponent } from './student-discount/student-discount.component';
 import { PartialPayHistoryComponent } from './partial-pay-history/partial-pay-history.component';
 
-import { SharedModule } from '../shared/shared.module';
-
 import { PostStudentDataService } from '../../services/student-services/post-student-data.service';
 import { FetchStudentService } from '../../services/student-services/fetch-student.service';
 import { AddStudentPrefillService } from '../../services/student-services/add-student-prefill.service';
 import { SortPipe } from "./student-add/student-add.component";
 import { WidgetService } from '../../services/widget.service';
-import { OnlyNumber } from './student-directives/onlynumber.directive';
 
 
 @NgModule({
@@ -52,7 +50,6 @@ import { OnlyNumber } from './student-directives/onlynumber.directive';
         StudentSidebarComponent,
         StudentBatchListComponent,
         SortPipe,
-        OnlyNumber,
         StudentFeeTableComponent,
         StudentDiscountComponent,
         PartialPayHistoryComponent

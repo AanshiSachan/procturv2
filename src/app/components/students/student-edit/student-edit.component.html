@@ -77,7 +77,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
                     <label for="cNumber">Contact Number*</label>
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      maxlength="10" minlength="10" #cNumber="ngModel" OnlyNumber="true" required/>
+                      maxlength="10" minlength="10" #cNumber="ngModel"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required/>
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
                         phone number is required.
@@ -138,7 +138,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
                     <label for="parentContactNo">Parent Contact Number</label>
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                      maxlength="10" minlength="10" OnlyNumber="true" #parentContactNo="ngModel" />
+                      maxlength="10" minlength="10"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel" />
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
@@ -195,7 +195,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
                     <label for="guardianContact">Guardian Contact Number</label>
                     <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
-                      name="guardianContact" OnlyNumber="true" #guardianContact="ngModel">
+                      name="guardianContact"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
                     <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
                       <div class="tooltip-box-field">
@@ -1167,7 +1167,7 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" OnlyNumber="true" value="" placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
+                  <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value="" placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
                     name="chequeno" minlength="6" maxlength="6" #chequeno="ngModel" required>
                 </div>
               </li>
@@ -1181,7 +1181,7 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" OnlyNumber="true" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
+                  <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
                     max="6" placeholder="Amount">
                 </div>
               </li>
@@ -1349,7 +1349,7 @@
 
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <label for="payamt">Payment for</label>
-            <input type="text" id="payamt" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
+            <input type="text" id="payamt" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
             />
           </div>
 
@@ -1429,7 +1429,7 @@
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
               <label for="pdccheque">Cheque No.*</label>
-              <input [readonly]="isPdcFeePaymentSelected" id="pdccheque" type="text" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl"
+              <input [readonly]="isPdcFeePaymentSelected" id="pdccheque" type="text" minlength="6" maxlength="6"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
                 name="" [(ngModel)]="pdcSelectedForm.cheque_no" />
             </div>
           </div>
@@ -1437,7 +1437,7 @@
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
               <label for="pdctrue">Cheque Amount*</label>
-              <input readonly='true' type="text" value="" id="pdctrue" OnlyNumber="true" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
+              <input readonly='true' type="text" value="" id="pdctrue"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
               />
             </div>
           </div>
@@ -1507,7 +1507,7 @@
 
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <label for="payamt">Pay Amount</label>
-            <input type="text" id="payamt" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
+            <input type="text" id="payamt" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
             />
           </div>
 
@@ -1586,7 +1586,7 @@
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
               <label for="">Cheque No.*</label>
-              <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl" name=""
+              <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name=""
                 [(ngModel)]="pdcSelectedForm.cheque_no" />
             </div>
           </div>
@@ -1594,7 +1594,7 @@
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
               <label for="pdcselectformcheq">Cheque Amount*</label>
-              <input readonly="true" type="text" value="" id="pdcselectformcheq" OnlyNumber="true" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
+              <input readonly="true" type="text" value="" id="pdcselectformcheq"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
               />
 
             </div>

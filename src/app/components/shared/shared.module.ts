@@ -22,12 +22,13 @@ import { RobAdvanceTableComponent } from './ng-robAdvanceTable/ng-robAdvanceTabl
 import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
 import { DropMenuComponent } from './ng-robAdvanceTable/dropmenu/dropmenu.component';
 import { RobTooltipComponent } from './rob-tooltip/rob-tooltip.component';
+import { DataDisplayTableComponent } from './data-display-table/data-display-table.component';
+import { PreferencePopupComponent } from './preference-popup/preference-popup.component';
 
 import { StyleCellDirective } from './custom-table/style-cell.directive';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
-import { OnlyNumber } from './onlynumber.directive';
-import { DataDisplayTableComponent } from './data-display-table/data-display-table.component';
-import { PreferencePopupComponent } from './preference-popup/preference-popup.component';
+
+
 
 
 
@@ -58,7 +59,6 @@ import { PreferencePopupComponent } from './preference-popup/preference-popup.co
         CustomNamePipe,
         DropMenuComponent,
         RobTooltipComponent,
-        OnlyNumber,
         DataDisplayTableComponent,
         PreferencePopupComponent
     ],
@@ -80,7 +80,6 @@ import { PreferencePopupComponent } from './preference-popup/preference-popup.co
         CustomNamePipe,
         DropMenuComponent,
         RobTooltipComponent,
-        OnlyNumber,
         DataDisplayTableComponent,
         PreferencePopupComponent
     ],

@@ -13,6 +13,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 
 @Component({
@@ -52,7 +53,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ==================================================        constructor      ====================================================== */
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
-  constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private route: ActivatedRoute, private login: LoginService, private appC: AppComponent, private fetchService: FetchStudentService, private auth: AuthenticatorService) {
+  constructor(
+    private studentPrefillService: AddStudentPrefillService,
+    private prefill: FetchprefilldataService,
+    private postService: PostStudentDataService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private login: LoginService,
+    private appC: AppComponent,
+    private fetchService: FetchStudentService,
+    private auth: AuthenticatorService,
+    private commonServiceFactory:CommonServiceFactory
+  
+  ) {
     this.isRippleLoad = true;
     this.getInstType();
     this.getSettings();
@@ -1023,9 +1036,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
-    if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
-      && this.studentAddFormData.student_phone != "" && this.studentAddFormData.student_phone != " "
-      && this.studentAddFormData.student_phone.length == 10) {
+    if ((!this.commonServiceFactory.checkValueType(this.studentAddFormData.student_name.trim()))
+      && this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim())
+    ) {
       return true;
     }
     else {

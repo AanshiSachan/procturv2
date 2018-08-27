@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { EnquiryComponent } from './enquiry.component';
 import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
@@ -12,14 +13,13 @@ import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
 import { EnquiryUpdatepComponent } from './enquiry-update/enquiry-update.component';
-
+import { DateConverter } from './enquiry-home/enquiry-home.component';
+import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 /* Modules */
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
-import { DateConverter } from './enquiry-home/enquiry-home.component';
-import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { SharedModule } from '../shared/shared.module';
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
 import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';

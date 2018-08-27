@@ -4,15 +4,16 @@ import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { AppComponent } from '../../../app.component';
+import * as moment from 'moment';
+
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
+
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { LoginService } from '../../../services/login-services/login.service';
-import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../services/common-service';
@@ -171,7 +172,6 @@ export class EnquiryAddComponent implements OnInit {
   constructor(
     private prefill: FetchprefilldataService, 
     private router: Router,
-    private appC: AppComponent, 
     private poster: PostEnquiryDataService, 
     private login: LoginService,
     private auth: AuthenticatorService, 
@@ -1142,12 +1142,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
   showErrorMessage(objType, massage, body) {
-    let msg = {
-      type: objType,
-      title: massage,
-      body: body
-    }
-    this.appC.popToast(msg);
+    this.commonServiceFactory.showErrorMessage(objType, massage, body);
     return false;
   }
 

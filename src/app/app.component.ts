@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
     mouseoverTimerStop: false
   } */
 
-  private toasterService: ToasterService;
   public config: ToasterConfig = new ToasterConfig({ positionClass: 'toast-top-right', limit: 1, timeout: 5000, mouseoverTimerStop: true, });
   isloggedInAdmin: boolean = false;
   isRippleLoad: boolean = true;
@@ -35,12 +34,12 @@ export class AppComponent implements OnInit {
   closechatbot: boolean = true;
 
   constructor(
-    toasterService: ToasterService,
+    private toasterService: ToasterService,
     private router: Router,
     private log: LoginService,
     private commonService: CommonServiceFactory
   ) {
-    this.toasterService = toasterService;
+
   }
 
 
