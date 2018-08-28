@@ -25,7 +25,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         state: '0'
     };
     clonedArray: any = [];
-    deleteCourse_SubjectUnPaidFeeSchedules: boolean = true;
 
     @Input() dataList: any[] = [];
     @Input() academicYear: any[] = [];
@@ -69,7 +68,10 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     ngOnChanges() {
         console.log('ngOnChanges', this.batchList);
         this.batchList = [];
-        this.batchList = this.dataList.map(e => { return e });
+        this.batchList = this.dataList.map(e => {
+            e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
+            return e;
+        });
         this.clonedArray = this.commonService.keepCloning(this.batchList);
         console.log('ngOnChanges 2', this.batchList);
         this.isEdit;
@@ -90,6 +92,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         let batchJoiningDates: any[] = [];
         let assignedBatchescademicYearArray: any[] = [];
         let assignedCourse_Subject_FeeTemplateArray: any[] = [];
+        let deleteCourse_SubjectUnPaidFeeSchedules = false;
         for (let i in this.dataList) {
             if (this.dataList[i].isSelected) {
                 if (this.dataList[i].assignDate != "" && this.dataList[i].assignDate != null && this.dataList[i].assignDate != "Invalid date") {
@@ -104,6 +107,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                         else {
                             assignedBatchescademicYearArray.push(this.dataList[i].data.academic_year_id);
                         }
+                        if (deleteCourse_SubjectUnPaidFeeSchedules == false) {
+                            deleteCourse_SubjectUnPaidFeeSchedules = this.dataList[i].data.deleteCourse_SubjectUnPaidFeeSchedules;
+                        }
                     }
                     else {
                         assignedBatches.push(this.dataList[i].data.course_id.toString());
@@ -115,6 +121,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                         }
                         else {
                             assignedBatchescademicYearArray.push(this.dataList[i].data.academic_year_id);
+                        }
+                        if (deleteCourse_SubjectUnPaidFeeSchedules == false) {
+                            deleteCourse_SubjectUnPaidFeeSchedules = this.dataList[i].data.deleteCourse_SubjectUnPaidFeeSchedules;
                         }
                     }
                 }
@@ -138,7 +147,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 assignedCourse_Subject_FeeTemplateArray: assignedCourse_Subject_FeeTemplateArray,
                 assignedBatchString: batchString.join(','),
                 isAssignBatch: false,
-                deleteCourse_SubjectUnPaidFeeSchedules: this.deleteCourse_SubjectUnPaidFeeSchedules
+                deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules
             }
             this.assignList.emit(obj);
         }
@@ -151,7 +160,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 assignedCourse_Subject_FeeTemplateArray: assignedCourse_Subject_FeeTemplateArray,
                 assignedBatchString: batchString.join(','),
                 isAssignBatch: false,
-                deleteCourse_SubjectUnPaidFeeSchedules: this.deleteCourse_SubjectUnPaidFeeSchedules
+                deleteCourse_SubjectUnPaidFeeSchedules: deleteCourse_SubjectUnPaidFeeSchedules
             }
             this.assignList.emit(obj);
         }
@@ -365,9 +374,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 if (batchdata.selected_fee_template_id != "-1" && batchdata.selected_fee_template_id != null && batchdata.selected_fee_template_id != undefined) {
                     if (this.clonedArray[i].data.selected_fee_template_id != batchdata.selected_fee_template_id) {
                         if (confirm('If you change fee template then all your unpaid installment will delete. Do you want to continue?')) {
-                            this.deleteCourse_SubjectUnPaidFeeSchedules = true;
+                            batchdata.deleteCourse_SubjectUnPaidFeeSchedules = true;
                         } else {
-                            this.deleteCourse_SubjectUnPaidFeeSchedules = false;
+                            batchdata.deleteCourse_SubjectUnPaidFeeSchedules = false;
                         }
                         break;
                     }
