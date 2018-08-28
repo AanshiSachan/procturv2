@@ -506,10 +506,8 @@
     </div>
   </aside>
 
-
-
   <!-- Enquiry update popup -->
-  <app-enquiry-update-popup *ngIf="varJson.message === 'update'"  [enqData]="enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
+  <app-enquiry-update-popup *ngIf="varJson.message === 'update'"  [enqData]="varJson.enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
 
 
   <!-- Delete PopUp -->
@@ -1267,7 +1265,7 @@
   </section>
 
   <!-- Download Summary Report Options PopUp Single-->
-  <section id="" class="popupWrapper fadeIn" *ngIf="summaryOptions">
+  <section id="" class="popupWrapper fadeIn" *ngIf="flagJSON.summaryOptions">
     <!-- -->
 
     <div class="popup pos-abs popup-body-container" style="max-width: 30%">
@@ -1289,11 +1287,11 @@
         <div class="popup-content">
           <h2>Download Summary Report</h2>
           <div class="content-section">
-            <div id="divDropDownSection" *ngIf="!showDateRange" class="row dropDownSection">
+            <div id="divDropDownSection" *ngIf="!flagJSON.showDateRange" class="row dropDownSection">
               <div class="c-sm-6 c-lg-6 c-lg-6">
                 <div class="field-wrapper has-value">
                   <label for="priorityEdit">Select Duration</label>
-                  <select id="month" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
+                  <select id="month" class="form-ctrl" [(ngModel)]="varJson.downloadReportOption" name="priority">
                     <option value="1">Select Month</option>
                     <option value="2">This Month</option>
                     <option value="3">Previous Month</option>
@@ -1305,19 +1303,19 @@
                 <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px" id="btnDownloadSummary">Download</button>
               </div>
             </div>
-            <div id="divRangeSelection" *ngIf="showDateRange" class="row select-dates">
+            <div id="divRangeSelection" *ngIf="flagJSON.showDateRange" class="row select-dates">
               <div class="c-sm-4 c-lg-4 c-lg-4">
-                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':summaryReport.from_date != ''}">
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':varJson.summaryReport.from_date != ''}">
                   <label for="fromDate">From Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="summaryReport.from_date" name="fromDate" readonly="true"
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.from_date" name="fromDate" readonly="true"
                     bsDatepicker/>
 
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">
-                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':summaryReport.to_date != ''}">
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':varJson.summaryReport.to_date != ''}">
                   <label for="toDate">To Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="summaryReport.to_date" name="toDate" readonly="true"
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.to_date" name="toDate" readonly="true"
                     bsDatepicker/>
 
                 </div>

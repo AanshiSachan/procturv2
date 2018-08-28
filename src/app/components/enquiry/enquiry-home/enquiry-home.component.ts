@@ -85,7 +85,6 @@ export class EnquiryHomeComponent implements OnInit {
   commentFormData: any = {};
 
   /* Variable to handle popups */
-
   varJson: any = {
     message: '',
     selectedSlotsString: '',
@@ -102,20 +101,15 @@ export class EnquiryHomeComponent implements OnInit {
     searchBarData: null,
     searchBarDate: '',
     displayBatchSize: 100,
-
+    downloadReportOption: 1,
+    summaryReport: { from_date: "", to_date: "" },
+    enquiryInfo: '',
   };
-
-  /* Variable to store JSON.stringify value and update service for multi-component communication */
-  // sortBy: string = 'followUpDateTime';
   timeJson = { hour: '', minute: '', meridian: '' };
   isMainBranch: any = 'N';
   // smsSearchData: string = "";
   emptyCustomComponent: any;
-
   smsSelectedRowsLength: number = 0;
-
-
-
   flagJSON: any = {
     isEnquiryAdmin: false,
     isConverted: false,
@@ -135,19 +129,70 @@ export class EnquiryHomeComponent implements OnInit {
     isSideBar: false,
     isConvertToStudent: false,
     isRippleLoad: false,
-    subBranchSelected: false
+    subBranchSelected: false,
+    summaryOptions: false,
+    showDateRange: false
   }
-
   newSmsString = { data: "", length: 0, type: "", };
-  /* Model For Registration, valid only for professional institute where status is registred else will thow an error with status code 400 */
-  registrationForm = { institute_enquiry_id: "", amount: "", paymentDate: moment().format('YYYY-MM-DD'), paymentMode: "", reference: "", };
-  selectedOption: any = { email: { show: false, id: 'email' }, Gender: { show: false, id: 'Gender' }, standard: { show: false, id: 'standard' }, subjects: { show: false, id: 'subjects' } };
-  myOptions: any[] = [{ id: 'email', name: 'Email' }, { id: 'Gender', name: 'Gender' }, { id: 'standard', name: 'Standard' }, { id: 'subjects', name: 'Subject' }];
-  /* Model for Enquiry Update Popup Form */
-  updateFormData: any = { comment: "", status: "", statusValue: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: "", followUpDateTime: '', isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, source_instituteId: '-1', closing_reason_id: '0' }; customCompid: any;
   selectedRow: any = {};
   componentListObject: any = {};
-  selectedSMS: any = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
+  /* Model For Registration, valid only for professional institute where status is registred else will thow an error with status code 400 */
+  registrationForm = {
+    institute_enquiry_id: "",
+    amount: "",
+    paymentDate: moment().format('YYYY-MM-DD'),
+    paymentMode: "",
+    reference: "",
+  };
+  selectedOption: any = {
+    email: { show: false, id: 'email' },
+    Gender: { show: false, id: 'Gender' },
+    standard: { show: false, id: 'standard' },
+    subjects: { show: false, id: 'subjects' }
+  };
+  myOptions: any[] = [
+    { id: 'email', name: 'Email' },
+    { id: 'Gender', name: 'Gender' },
+    { id: 'standard', name: 'Standard' },
+    { id: 'subjects', name: 'Subject' }
+  ];
+  /* Model for Enquiry Update Popup Form */
+  updateFormData: any = {
+    comment: "",
+    status: "",
+    statusValue: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    isEnquiryUpdate: "Y",
+    closedReason: null,
+    slot_id: null, priority: "",
+    follow_type: "",
+    followUpDate: "",
+    commentDate: moment().format('YYYY-MM-DD'),
+    followUpTime: "",
+    followUpDateTime: '',
+    isEnquiryV2Update: "N",
+    isRegisterFeeUpdate: "N",
+    amount: null,
+    paymentMode: null,
+    paymentDate: null,
+    reference: null,
+    walkin_followUpDate: '',
+    walkin_followUpTime: { hour: '', minute: '' },
+    is_follow_up_time_notification: 0,
+    source_instituteId: '-1',
+    closing_reason_id: '0'
+  };
+  customCompid: any;
+  selectedSMS: any = {
+    message: "",
+    message_id: "",
+    sms_type: "",
+    status: "",
+    statusValue: "",
+    date: "",
+    feature_type: "",
+    institute_name: "",
+  };
   statFilter = [
     { value: 'All', prop: 'All', checked: false, disabled: false },
     { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
@@ -159,17 +204,25 @@ export class EnquiryHomeComponent implements OnInit {
     { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
   ];
   /* Settings for SMS Table Display */
-  smsHeader = { message: { title: 'Message', id: 'message', show: true }, statusValue: { title: 'Status.', id: 'statusValue', show: false }, date: { title: 'Date.', id: 'date', show: true }, action: { title: 'Action', id: 'action', show: true }, status: { title: 'Status Key', id: 'status', show: false }, feature_type: { title: 'Feature Type.', id: 'feature_type', show: false }, message_id: { title: 'Message Id.', id: 'message_id', show: false }, sms_type: { title: 'Sms Type.', id: 'sms_type', show: false }, };
+  smsHeader = {
+    message: { title: 'Message', id: 'message', show: true },
+    statusValue: { title: 'Status.', id: 'statusValue', show: false },
+    date: { title: 'Date.', id: 'date', show: true },
+    action: { title: 'Action', id: 'action', show: true },
+    status: { title: 'Status Key', id: 'status', show: false },
+    feature_type: { title: 'Feature Type.', id: 'feature_type', show: false },
+    message_id: { title: 'Message Id.', id: 'message_id', show: false },
+    sms_type: { title: 'Sms Type.', id: 'sms_type', show: false },
+  };
 
   /* Model for institute Data */
-  instituteData: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
+  instituteData: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
 
   /* Form for advanced filter  */
-  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1", city: '', area: '' };
+  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1", city: '', area: '' };
   enquiryFullDetail: any;
   enquirySettings: ColumnSetting[] = [{ primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.varJson.currentDirection }, { primaryKey: 'name', header: 'Name' }, { primaryKey: 'phone', header: 'Contact No' }, { primaryKey: 'statusValue', header: 'Status' }, { primaryKey: 'priority', header: 'Priority' }, { primaryKey: 'source_name', header: 'Source' }, { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection }, { primaryKey: 'updateDate', header: 'Last Updated' }];
-  assignMultipleForm: any = { enqLi: [], assigned_to: "" }; summaryOptions: boolean = false; downloadReportOption: any = 1; summaryReport = { from_date: "", to_date: "", }; showDateRange: boolean = false;
-  enquiryInfo: any = "";
+  assignMultipleForm: any = { enqLi: [], assigned_to: "" };
 
   /*Declaration Fin*/
   constructor(
@@ -260,7 +313,7 @@ export class EnquiryHomeComponent implements OnInit {
           this.cd.markForCheck();
         }
         else if (message == 'update') {
-          this.enquiryInfo = this.selectedRow.institute_enquiry_id;
+          this.varJson.enquiryInfo = this.selectedRow.institute_enquiry_id;
           this.varJson.message = message;
         }
         else {
@@ -290,6 +343,14 @@ export class EnquiryHomeComponent implements OnInit {
     obj.hour = time[0];
     obj.meridian = time[1];
     return obj;
+  }
+
+  getDateFormated(value, format) {
+    if (value) {
+      return moment(value).format(format);
+    }
+    return moment().format(format);
+
   }
 
   isEnquiryAdministrator() {
@@ -472,7 +533,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if ((!this.commonServiceFactory.valueCheck(elid))) {
+    if (elid != null && elid != '') {
       if (document.getElementById(targetid).classList.contains('hide')) { document.getElementById(targetid).classList.remove('hide'); }
       else { document.getElementById(targetid).classList.add('hide'); }
     }
@@ -551,25 +612,41 @@ export class EnquiryHomeComponent implements OnInit {
 
   /* Function to open advanced filter */
   openAdFilter() {
+    //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter')
+    //console.log(this.advancedFilterForm);
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     this.closeEnquiryFullDetails();
     this.flagJSON.isSideBar = false;
-    this.closeAdFilter();
-    //console.log(this.advancedFilterForm);
+    let classArray = ['adFilterOpen', 'adFilterExitVisible', 'qfilt'];
+    this.addHideClass(classArray);
+    let removeClassNames = ['adFilterExit', 'advanced-filter-section'];
+    this.removeHideClass(removeClassNames);
   }
 
-  /* Function to close advanced filter */
-  closeAdFilter() {
-    let classArray = ['adFilterOpen', 'adFilterExitVisible', 'qfilt', 'adFilterExit', 'advanced-filter-section'];
+  addHideClass(classArray) {
     classArray.forEach(function (className) {
+      console.log(className);
       document.getElementById(className).classList.add('hide');
     });
+  }
+  removeHideClass(removeClassNames) {
+    removeClassNames.forEach(function (className) {
+      console.log(className);
+      document.getElementById(className).classList.remove('hide');
+    });
+  }
+  /* Function to close advanced filter */
+  closeAdFilter() {
+    let hideClassNames = ['adFilterExitVisible', 'qfilt', 'adFilterOpen'];
+    this.removeHideClass(hideClassNames);
+    let removeHideClassNames = ['advanced-filter-section', 'adFilterExit'];
+    this.addHideClass(removeHideClassNames);
   }
 
   updateRegisterEnquiry() {
     this.flagJSON.isConvertToStudent = true;
     this.updateFormData.follow_type = "Walkin";
-    this.updateFormData.walkin_followUpDate = moment(new Date()).format('YYYY-MM-DD');
+    this.updateFormData.walkin_followUpDate = this.getDateFormated(new Date(), 'YYYY-MM-DD');
     this.updateFormData.walkin_followUpTime = this.getFollowupTime();
     this.pushUpdatedEnquiry();
   }
@@ -617,11 +694,11 @@ export class EnquiryHomeComponent implements OnInit {
         if (!this.commonServiceFactory.valueCheck(this.timeJson.hour)) {
           let time = this.timeChanges(this.timeJson.hour);
           let followUpTime = time.hour + ":" + this.timeJson.minute + " " + time.meridian;
-          followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
+          followupdateTime = this.getDateFormated(this.updateFormData.followUpDate, 'DD-MMM-YY') + " " + followUpTime;
           this.updateFormData.followUpTime = followUpTime;
         }
 
-        followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+        followupdateTime = this.getDateFormated(this.updateFormData.followUpDate, 'DD-MMM-YY');
 
         if (this.flagJSON.isConvertToStudent === false) {
           if (!this.commonServiceFactory.valueCheck(this.updateFormData.walkin_followUpTime.hour)) {
@@ -633,7 +710,7 @@ export class EnquiryHomeComponent implements OnInit {
             this.updateFormData.walkin_followUpTime = "";
           }
           if (this.commonServiceFactory.valueCheck(this.updateFormData.walkin_followUpDate)) {
-            let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+            let walkinfollowUpDate = this.getDateFormated(this.updateFormData.walkin_followUpDate, 'YYYY-MM-DD')
             this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
           }
           else {
@@ -649,7 +726,7 @@ export class EnquiryHomeComponent implements OnInit {
         }
 
         if (this.updateFormData.followUpDate != "Invalid date") {
-          this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format("YYYY-MM-DD");
+          this.updateFormData.followUpDate = this.getDateFormated(this.updateFormData.followUpDate, 'YYYY-MM-DD');
           this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData).subscribe(
             res => {
               this.flagJSON.isRippleLoad = false;
@@ -660,7 +737,7 @@ export class EnquiryHomeComponent implements OnInit {
                   phone: this.selectedRow.phone,
                   email: this.selectedRow.email,
                   gender: this.selectedRow.gender,
-                  dob: moment(this.selectedRow.dob).format("YYYY-MM-DD"),
+                  dob: this.getDateFormated(this.selectedRow.dob, "YYYY-MM-DD"),
                   parent_email: this.selectedRow.parent_email,
                   parent_name: this.selectedRow.parent_name,
                   parent_phone: this.selectedRow.parent_phone,
@@ -750,7 +827,8 @@ export class EnquiryHomeComponent implements OnInit {
   registerPayment() {
     this.flagJSON.isRippleLoad = true;
     this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
-    this.registrationForm.paymentDate = moment(this.registrationForm.paymentDate).format('YYYY-MM-DD');
+    this.registrationForm.paymentDate = this.getDateFormated(this.registrationForm.paymentDate, 'YYYY-MM-DD');
+
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
       (res: any) => {
         this.flagJSON.isRippleLoad = false;
@@ -780,7 +858,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.smsSourceApproved = [];
         this.smsSourceOpen = [];
         this.varJson.smsDataLength = data.length;
-        this.varJson.this.varJson.availableSMS = data[0].institute_sms_quota_available
+        this.varJson.availableSMS = data[0].institute_sms_quota_available
         this.cd.markForCheck();
         data.forEach(el => {
           if (el.status == 1) {
@@ -801,31 +879,37 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
   switchSmsTab(id) {
-    if (id === 'approvedSms') {
-      this.flagJSON.isApprovedTab = true;
-      this.flagJSON.isOpenTab = false;
-      this.flagJSON.smsBtnToggle = false;
-      this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
-      if (!document.getElementById(id).classList.contains('active')) {
-        document.getElementById(id).classList.add('active');
-        document.getElementById('openSms').classList.remove('active');
+
+    switch (id) {
+      case 'approvedSms': {
+        this.flagJSON.isApprovedTab = true;
+        this.flagJSON.isOpenTab = false;
+        this.flagJSON.smsBtnToggle = false;
+        this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
+        if (!document.getElementById(id).classList.contains('active')) {
+          document.getElementById(id).classList.add('active');
+          document.getElementById('openSms').classList.remove('active');
+        }
       }
-    }
-    else if (id === 'openSms') {
-      this.flagJSON.isApprovedTab = false;
-      this.flagJSON.isOpenTab = true;
-      this.flagJSON.smsBtnToggle = false;
-      this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
-      if (!document.getElementById(id).classList.contains('active')) {
-        document.getElementById(id).classList.add('active');
-        document.getElementById('approvedSms').classList.remove('active');
+        break;
+      case 'openSms': {
+        this.flagJSON.isApprovedTab = false;
+        this.flagJSON.isOpenTab = true;
+        this.flagJSON.smsBtnToggle = false;
+        this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
+        if (!document.getElementById(id).classList.contains('active')) {
+          document.getElementById(id).classList.add('active');
+          document.getElementById('approvedSms').classList.remove('active');
+        }
       }
+        break;
+      default:
     }
   }
 
   /* push new sms template to server and update the table */
   addNewSmsTemplate() {
-    if (this.newSmsString.data == '' || this.newSmsString.data == ' ') {
+    if (this.newSmsString.data.trim() == '') {
       this.showErrorMessage(this.messageService.toastTypes.error, 'Empty Input', 'Please enter a valid text message');
     }
     else {
@@ -953,66 +1037,68 @@ export class EnquiryHomeComponent implements OnInit {
   sendSmsTemplate() {
     if (this.selectedSMS.message != null && this.selectedSMS.message != '') {
       /* Denied */
-      if (this.selectedSMS.statusValue == 'Open') {
-        this.showErrorMessage(this.messageService.toastTypes.warning, this.messageService.object.SMSMessages.notSend, 'Your sms template is pending approval, kindly contact support');
-        this.cd.markForCheck();
-      }
 
-      /* Rejected  */
-      else if (this.selectedSMS.statusValue == 'Rejected') {
-        this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, 'Your sms template has been rejected, kindly contact support');
-        this.cd.markForCheck();
-      }
-
-      /* Ok Send SMS */
-      else if (this.selectedSMS.statusValue == 'Approved') {
-        /* Send Multi SMS */
-        if (this.flagJSON.isMultiSms) {
-          let messageId = [];
-          messageId.push((this.selectedSMS.message_id).toString());
-          this.varJson.sendSmsFormData.baseIds = this.selectedRowGroup;
-          this.varJson.sendSmsFormData.messageArray = messageId;
+      switch (this.selectedSMS.statusValue) {
+        case 'Open': {
+          this.showErrorMessage(this.messageService.toastTypes.warning, this.messageService.object.SMSMessages.notSend, 'Your sms template is pending approval, kindly contact support');
           this.cd.markForCheck();
-          this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
-            res => {
-              this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
-              this.cd.markForCheck();
-            },
-            err => {
-              this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
-              this.cd.markForCheck();
-            }
-          )
+          break;
+        }
+        case 'Rejected': {
+          this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, 'Your sms template has been rejected, kindly contact support');
+          this.cd.markForCheck();
+          break;
+        }
+        case 'Approved': {
+          /* Send Multi SMS */
+          if (this.flagJSON.isMultiSms) {
+            let messageId = [];
+            messageId.push((this.selectedSMS.message_id).toString());
+            this.varJson.sendSmsFormData.baseIds = this.selectedRowGroup;
+            this.varJson.sendSmsFormData.messageArray = messageId;
+            this.cd.markForCheck();
+            this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
+              res => {
+                this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
+                this.cd.markForCheck();
+              },
+              err => {
+                this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
+                this.cd.markForCheck();
+              }
+            )
 
+          }
+          /* Send Single SMS */
+          else {
+            let userId = [];
+            userId.push((this.selectedRow.institute_enquiry_id).toString());
+            let messageId = [];
+            messageId.push((this.selectedSMS.message_id).toString());
+            this.varJson.sendSmsFormData.baseIds = userId;
+            this.varJson.sendSmsFormData.messageArray = messageId;
+            this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
+              res => {
+                this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
+              },
+              err => {
+                this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
+              }
+            )
+          }
+          break;
         }
-        /* Send Single SMS */
-        else {
-          let userId = [];
-          userId.push((this.selectedRow.institute_enquiry_id).toString());
-          let messageId = [];
-          messageId.push((this.selectedSMS.message_id).toString());
-          this.varJson.sendSmsFormData.baseIds = userId;
-          this.varJson.sendSmsFormData.messageArray = messageId;
-          this.postdata.sendSmsToEnquirer(this.varJson.sendSmsFormData).subscribe(
-            res => {
-              this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.sendSMS, "Your sms has been sent and will be delivered shortly");
-            },
-            err => {
-              this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.notSend, "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify");
-            }
-          )
-        }
+        default:
+          this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.blankSMS, 'Please select an approved SMS Template to be sent');
       }
     }
-    else {
-      this.showErrorMessage(this.messageService.toastTypes.error, this.messageService.object.SMSMessages.blankSMS, 'Please select an approved SMS Template to be sent');
-    }
+
 
   }
 
   /* Trigger Bulk Send SMS PopUp */
   sendBulkSms() {
-    if ((this.selectedRowGroup != null || this.selectedRowGroup != undefined) && (this.selectedRowGroup.length != 0)) {
+    if ((!this.commonServiceFactory.valueCheck(this.selectedRowGroup)) && (this.selectedRowGroup.length != 0)) {
       this.flagJSON.isMultiSms = true;
       this.smsServicesInvoked();
       this.smsSelectedRowsLength = this.selectedRowGroup.length;
@@ -1137,12 +1223,10 @@ export class EnquiryHomeComponent implements OnInit {
         }
       });
     });
-
     let passed = temp.every(isOpenEnquiry);
     function isOpenEnquiry(element, index, array) {
       return (element.status == 0 || element.status == 3);
     }
-
     return passed;
   }
 
@@ -1228,7 +1312,7 @@ export class EnquiryHomeComponent implements OnInit {
     this.customComponents.forEach(el => {
       if (el.is_searchable == 'Y' && el.value != "") {
         if (el.type == '5') {
-          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: moment(el.value).format("YYYY-MM-DD") };
+          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: this.getDateFormated(el.value, "YYYY-MM-DD") };
           tempCustomArr.push(obj);
         }
         else if (el.type != '5') {
@@ -1252,8 +1336,8 @@ export class EnquiryHomeComponent implements OnInit {
     //Update Date To And From Filter
     if (this.advancedFilterForm.updateDateFrom != "" && this.advancedFilterForm.updateDateFrom != null && this.advancedFilterForm.updateDateTo != "" && this.advancedFilterForm.updateDateTo != null) {
       if (moment(this.advancedFilterForm.updateDateFrom) <= moment(this.advancedFilterForm.updateDateTo)) {
-        this.advancedFilterForm.updateDateFrom = moment(this.advancedFilterForm.updateDateFrom).format('YYYY-MM-DD');
-        this.advancedFilterForm.updateDateTo = moment(this.advancedFilterForm.updateDateTo).format('YYYY-MM-DD');
+        this.advancedFilterForm.updateDateFrom = this.getDateFormated(this.advancedFilterForm.updateDateFrom, 'YYYY-MM-DD');
+        this.advancedFilterForm.updateDateTo = this.getDateFormated(this.advancedFilterForm.updateDateTo, 'YYYY-MM-DD');
       } else {
         this.showErrorMessage(this.messageService.toastTypes.error, 'Error', 'Please provide valid Enquiry Changes From and To Dates');
         return;
@@ -1292,7 +1376,6 @@ export class EnquiryHomeComponent implements OnInit {
         }
         else {
           this.varJson.fetchingDataMessage = 2;
-
           this.showErrorMessage(this.messageService.toastTypes.info, 'Error', 'We did not find any enquiry for the specified query');
           this.varJson.totalEnquiry = 0;
           this.cd.markForCheck();
@@ -1317,19 +1400,15 @@ export class EnquiryHomeComponent implements OnInit {
 
   closeUpdatePop(e) {
     this.pops.changeMessage('');
-    this.timeJson.hour = "";
-    this.timeJson.minute = "";
-    this.timeJson.meridian = "";
-    this.updateFormData = { comment: "", status: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: "", isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, };
+    this.timeJson = { hour: '', minute: '', meridian: '' };
+    this.updateFormData = { comment: "", status: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: this.getDateFormated(null, 'YYYY-MM-DD'), followUpTime: "", isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, };
     this.loadTableDatatoSource(this.instituteData);
   }
 
   /* common function to close popups */
   closePopup() {
     this.pops.changeMessage('');
-    this.timeJson.hour = "";
-    this.timeJson.minute = "";
-    this.timeJson.meridian = "";
+    this.timeJson = { hour: '', minute: '', meridian: '' };
     this.flagJSON.isApprovedTab = true;
     this.flagJSON.isOpenTab = false;
     this.flagJSON.isMessageAddOpen = false;
@@ -1339,11 +1418,11 @@ export class EnquiryHomeComponent implements OnInit {
     this.smsSelectedRows = null;
     this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
     this.varJson.sendSmsFormData = { baseIds: [], messageArray: [] };
-    this.registrationForm = { institute_enquiry_id: "", amount: "", paymentDate: moment().format('YYYY-MM-DD'), paymentMode: "", reference: "", }
-    this.updateFormData = { comment: "", status: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: moment().format('YYYY-MM-DD'), followUpTime: "", isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, };
-    this.summaryOptions = false;
-    this.summaryReport = { from_date: "", to_date: "", };
-    this.showDateRange = false;
+    this.registrationForm = { institute_enquiry_id: "", amount: "", paymentDate: this.getDateFormated(null, 'YYYY-MM-DD'), paymentMode: "", reference: "", }
+    this.updateFormData = { comment: "", status: "", institution_id: sessionStorage.getItem('institute_id'), isEnquiryUpdate: "Y", closedReason: null, slot_id: null, priority: "", follow_type: "", followUpDate: "", commentDate: this.getDateFormated(null, 'YYYY-MM-DD'), followUpTime: "", isEnquiryV2Update: "N", isRegisterFeeUpdate: "N", amount: null, paymentMode: null, paymentDate: null, reference: null, walkin_followUpDate: '', walkin_followUpTime: { hour: '', minute: '', }, is_follow_up_time_notification: 0, };
+    this.flagJSON.summaryOptions = false;
+    this.varJson.summaryReport = { from_date: "", to_date: "", };
+    this.flagJSON.showDateRange = false;
     this.cd.markForCheck();
   }
 
@@ -1428,7 +1507,7 @@ export class EnquiryHomeComponent implements OnInit {
   downloadAllEnquiries() {
     this.cd.markForCheck();
     this.flagJSON.isRippleLoad = true;
-    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? moment(this.instituteData.followUpDate).format("YYYY-MM-DD") : moment(this.advancedFilterForm.followUpDate).format("YYYY-MM-DD"), enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: moment(this.advancedFilterForm.enquireDateFrom).format("YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo).format("YYYY-MM-DD"), updateDate: moment(this.advancedFilterForm.updateDate).format("YYYY-MM-DD"), updateDateFrom: moment(this.advancedFilterForm.updateDateFrom).format("YYYY-MM-DD"), updateDateTo: moment(this.advancedFilterForm.updateDateTo).format("YYYY-MM-DD"), start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
+    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? this.getDateFormated(this.instituteData.followUpDate, "YYYY-MM-DD") : this.getDateFormated(this.advancedFilterForm.followUpDate, "YYYY-MM-DD"), enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: this.getDateFormated(this.advancedFilterForm.enquireDateFrom, "YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo, "YYYY-MM-DD"), updateDate: this.getDateFormated(this.advancedFilterForm.updateDate, "YYYY-MM-DD"), updateDateFrom: this.getDateFormated(this.advancedFilterForm.updateDateFrom, "YYYY-MM-DD"), updateDateTo: this.getDateFormated(this.advancedFilterForm.updateDateTo, "YYYY-MM-DD"), start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
 
     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       (res: any) => {
@@ -1455,19 +1534,19 @@ export class EnquiryHomeComponent implements OnInit {
 
   ///// Download Summary Report
   toggleDateSection() {
-    if (this.showDateRange == false) {
-      this.showDateRange = true;
+    if (this.flagJSON.showDateRange == false) {
+      this.flagJSON.showDateRange = true;
       document.getElementById('anchTagToggle').text = "Hide";
     } else {
-      this.showDateRange = false;
+      this.flagJSON.showDateRange = false;
       document.getElementById('anchTagToggle').text = "Download By Date Range";
     }
   }
 
-  downloadSummaryReport() { this.summaryOptions = true; setTimeout(() => { document.getElementById('anchTagToggle').text = "Download By Date Range"; }, 100); }
+  downloadSummaryReport() { this.flagJSON.summaryOptions = true; setTimeout(() => { document.getElementById('anchTagToggle').text = "Download By Date Range"; }, 100); }
 
   downloadSummaryReportXl() {
-    switch (this.downloadReportOption) {
+    switch (this.varJson.downloadReportOption) {
       case 1:
         this.showErrorMessage(this.messageService.toastTypes.error, 'Selection', 'Please select other options');
         break;
@@ -1499,9 +1578,9 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
   downloadSummaryReportXlDateWise() {
-    if (this.summaryReport.to_date != "" && this.summaryReport.from_date != "") {
+    if (this.varJson.summaryReport.to_date != "" && this.varJson.summaryReport.from_date != "") {
       this.flagJSON.isRippleLoad = true;
-      let obj = { to_date: moment(this.summaryReport.to_date).format('YYYY-MM-DD'), from_date: moment(this.summaryReport.from_date).format('YYYY-MM-DD') }
+      let obj = { to_date: this.getDateFormated(this.varJson.summaryReport.to_date, 'YYYY-MM-DD'), from_date: this.getDateFormated(this.varJson.summaryReport.from_date, 'YYYY-MM-DD') }
       this.enquire.getSummaryReportFromDates(obj).subscribe(
         res => { this.flagJSON.isRippleLoad = false; this.performDownloadAction(res); },
         err => { this.flagJSON.isRippleLoad = false; }
@@ -1904,8 +1983,8 @@ export class EnquiryHomeComponent implements OnInit {
 
     else if (checkerObj.prop == "Pending") {
       if (checkerObj.checked) {
-        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }]; this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
-        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: moment(new Date()).format("YYYY-MM-DD"), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+        this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }]; this.advancedFilterForm.followUpDate = this.getDateFormated(new Date(), "YYYY-MM-DD");
+        this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "", followUpDate: this.getDateFormated(new Date(), "YYYY-MM-DD"), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
       }
@@ -2058,7 +2137,7 @@ export class EnquiryHomeComponent implements OnInit {
     else if (checkerObj.prop == "Walkin") {
       if (checkerObj.checked) {
         let stat = this.statusString.join(',');
-        this.advancedFilterForm.followUpDate = moment(new Date()).format("YYYY-MM-DD");
+        this.advancedFilterForm.followUpDate = this.getDateFormated(new Date(), "YYYY-MM-DD");
         this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, follow_type: "Walkin", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_statuses: stat, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
         this.advancedFilterForm = this.instituteData;
         this.loadTableDatatoSource(this.instituteData);
@@ -2069,8 +2148,15 @@ export class EnquiryHomeComponent implements OnInit {
 
   checkIfRoutedFromEnquiry() {
     this.statFilter = [
-      { value: 'All', prop: 'All', checked: false, disabled: false }, 
-      { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
+      { value: 'All', prop: 'All', checked: false, disabled: false },
+      { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
+      { value: 'Open', prop: 'Open', checked: false, disabled: false },
+      { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
+      { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
+      { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
+      { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
+      { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
+    ];
     this.varJson.PageIndex = 1;
     if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) { return; }
 
@@ -2087,7 +2173,7 @@ export class EnquiryHomeComponent implements OnInit {
           {
             this.statusString = [];
             this.statFilter = [{ value: 'All', prop: 'All', checked: true, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
-            this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+            this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: this.getDateFormated(fromDate, "YYYY-MM-DD"), enquireDateTo: this.getDateFormated(toDate, "YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
             this.loadTableDatatoSource(this.instituteData);
           }
           break;
@@ -2096,7 +2182,7 @@ export class EnquiryHomeComponent implements OnInit {
           {
             this.statusString.push('12');
             this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: true, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
-            this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: "12", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+            this.instituteData = { name: "", phone: "", email: "", commentShow: 'false', enquiry_no: "", priority: "", status: -1, filtered_statuses: "12", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: this.getDateFormated(fromDate, "YYYY-MM-DD"), enquireDateTo: this.getDateFormated(toDate, "YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
             this.loadTableDatatoSource(this.instituteData);
           }
           break;
@@ -2106,7 +2192,7 @@ export class EnquiryHomeComponent implements OnInit {
             this.statusString.push('1');
             this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: true, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }
             ];
-            this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "1", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+            this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "1", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: this.getDateFormated(fromDate, "YYYY-MM-DD"), enquireDateTo: this.getDateFormated(toDate, "YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
             this.loadTableDatatoSource(this.instituteData);
           }
           break;
@@ -2114,7 +2200,7 @@ export class EnquiryHomeComponent implements OnInit {
         case "Open": {
           this.statusString.push('0');
           this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: true, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
-          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "0", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "0", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: this.getDateFormated(fromDate, "YYYY-MM-DD"), enquireDateTo: this.getDateFormated(toDate, "YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
           this.loadTableDatatoSource(this.instituteData);
         }
           break;
@@ -2122,7 +2208,7 @@ export class EnquiryHomeComponent implements OnInit {
         case "InProgress": {
           this.statusString.push('3');
           this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: true, disabled: false }, { value: 'Registered', prop: 'Registered', checked: false, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
-          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "3", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "3", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: this.getDateFormated(fromDate, "YYYY-MM-DD"), enquireDateTo: this.getDateFormated(toDate, "YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
           this.loadTableDatatoSource(this.instituteData);
         }
           break;
@@ -2130,7 +2216,7 @@ export class EnquiryHomeComponent implements OnInit {
         case "Registered": {
           this.statusString.push('11');
           this.statFilter = [{ value: 'All', prop: 'All', checked: false, disabled: false }, { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false }, { value: 'Open', prop: 'Open', checked: false, disabled: false }, { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false }, { value: 'Registered', prop: 'Registered', checked: true, disabled: false }, { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false }, { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false }, { value: 'Walkin', prop: 'Walkin', checked: false, disabled: false }];
-          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "11", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"), enquireDateTo: moment(toDate).format("YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
+          this.instituteData = { name: "", phone: "", email: "", enquiry_no: "", commentShow: 'false', priority: "", status: -1, filtered_statuses: "11", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: this.getDateFormated(fromDate, "YYYY-MM-DD"), enquireDateTo: this.getDateFormated(toDate, "YYYY-MM-DD"), updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null };
           this.loadTableDatatoSource(this.instituteData);
         }
           break;
