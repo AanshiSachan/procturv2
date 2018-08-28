@@ -1,7 +1,7 @@
 <aside class="common-nav" id="commonLeftNav">
     <nav>
         <ul class="nav-list">
-            <li routerLink="/view/home" class="" id="lizero" (click)="setActive($event)">
+            <li routerLink="/view/home" class="" id="lizero" (click)="toggler('lizero')">
                 <i class="icon" id="li0">
                     <svg id="li0" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         x="0px" y="0px" width="28px" height="24px" viewBox="0 0 28 24" xml:space="preserve">
@@ -19,7 +19,7 @@
                 </i>
                 <span id="li0">Home</span>
             </li>
-            <li routerLink="/view/enquiry" class="hide" id="lione" (click)="setActive($event)">
+            <li routerLink="/view/enquiry" class="hide" id="lione" (click)="toggler('lione')">
                 <i class="icon" id="li1">
                     <svg xmlns="http://www.w3.org/2000/svg" id="li1" viewBox="-29 58 28 24">
                         <defs>
@@ -54,7 +54,7 @@
                 </i>
                 <span id="li1">Enquiry</span>
             </li>
-            <li routerLink="/view/student" class="hide" id="litwo" (click)="setActive($event)">
+            <li routerLink="/view/student" class="hide" id="litwo" (click)="toggler('litwo')">
                 <i class="icon" id="li2">
                     <svg xmlns="http://www.w3.org/2000/svg" id="li2" viewBox="-29 119 28 24">
                         <g id="Group_1187" data-name="Group 1187" transform="translate(-46 -16)">
@@ -70,7 +70,7 @@
                 </i>
                 <span id="li2">Student</span>
             </li>
-            <li routerLink="/view/course" class="hide" id="lithree" (click)="setActive($event)">
+            <li routerLink="/view/course" class="hide" id="lithree" (click)="toggler('lithree')">
                 <i class="icon" id="li3">
                     <svg xmlns="http://www.w3.org/2000/svg" id="li3" viewBox="-29 180 28 24">
                         <g id="Group_1186" data-name="Group 1186" transform="translate(-46 -16)">
@@ -107,7 +107,7 @@
                 <span *ngIf="isLangInstitute" id="li3">Batch</span>
                 <span *ngIf="!isLangInstitute" id="li3">Course</span>
             </li>
-            <li routerLink="/view/activity" class="hide" id="lifour" (click)="setActive($event)">
+            <li routerLink="/view/activity" class="hide" id="lifour" (click)="toggler('lifour')">
                 <i class="icon" id="li4">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 241 28 24" id="li4">
                         <g id="Group_1185" data-name="Group 1185" transform="translate(-46 -16)">
@@ -127,7 +127,7 @@
                 </i>
                 <span id="li4">Activity</span>
             </li>
-            <li routerLink="/view/employee" class="hide" id="lifive" (click)="setActive($event)" style="display: none;">
+            <li routerLink="/view/employee" class="hide" id="lifive" (click)="toggler('lifive')" style="display: none;">
                 <i class="icon" id="li5">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 119 28 24" id="li5">
 
@@ -144,7 +144,7 @@
                 </i>
                 <span id="li5">Employee</span>
             </li>
-            <li routerLink="/view/reports" class="hide" id="lisix" (click)="setActive($event)">
+            <li routerLink="/view/reports" class="hide" id="lisix" (click)="toggler('lisix')">
                 <i class="icon" id="li6">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 364 28 24" id="li6">
                         <g id="Group_1183" data-name="Group 1183" transform="translate(-46 -16)">
@@ -164,7 +164,7 @@
                 </i>
                 <span id="li6">Reports</span>
             </li>
-            <li routerLink="/view/inventory" class="hide" id="liseven" (click)="setActive($event)">
+            <li routerLink="/view/inventory" class="hide" id="liseven" (click)="toggler('liseven')">
                 <i class="icon" id="li7">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 421 28 24" id="li7">
                         <g id="Group_1182" data-name="Group 1182" transform="translate(-46 -16)">
@@ -182,7 +182,7 @@
                 </i>
                 <span id="li7">Inventory</span>
             </li>
-            <li routerLink="/view/expense" class="hide" id="lieight" (click)="setActive($event)" style="display: none;">
+            <li routerLink="/view/expense" class="hide" id="lieight" (click)="toggler('lieight')" style="display: none;">
                 <i class="icon" id="li8">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 484 28 24" id="li8">
                         <g id="Group_1181" data-name="Group 1181" transform="translate(-46 -16)">
@@ -206,7 +206,7 @@
                 </i>
                 <span id="li8">Expense</span>
             </li>
-            <li routerLink="/view/campaign" class="hide" id="linine" (click)="setActive($event)">
+            <li routerLink="/view/campaign" class="hide" id="linine" (click)="toggler('linine')">
                 <i class="icon" id="li9">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 545 28 24" id="li9">
                         <g id="Group_1180" data-name="Group 1180" transform="translate(-46 -16)">
