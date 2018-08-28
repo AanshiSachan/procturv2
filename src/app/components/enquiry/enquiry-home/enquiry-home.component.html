@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="flagJSON.isRippleLoad">
 </loaders-css>
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager>
   <!-- Main View -->
@@ -14,7 +14,7 @@
         <div style="display: inline-flex;
           position: relative;
           top: -12px;">
-          <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+          <p-splitButton label="{{varJson.selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="varJson.selectedRowCount != 0"></p-splitButton>
         </div>
         <ul style="display: inline-flex;">
           <li id="headerBtnAdd" class="headerBtn" routerLink='add'>
@@ -28,7 +28,7 @@
               Add Enquiry
             </p>
           </li>
-          <li id="headerBtnMore" class="headerBtn" (click)="isEnquiryOptions = !isEnquiryOptions">
+          <li id="headerBtnMore" class="headerBtn" (click)="flagJSON.isEnquiryOptions = !flagJSON.isEnquiryOptions">
             <i>
               <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
                 focusable="false" style="transform: translateY(-4px);">
@@ -40,7 +40,7 @@
             </p>
           </li>
           <li class="optMenu" #optMenu>
-            <div [ngClass]="{'visibiltyClass':(isEnquiryAdmin == false)}" class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
+            <div [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}" class="enq-dropdown-content" *ngIf="flagJSON.isEnquiryOptions" (mouseleave)="flagJSON.isEnquiryOptions = false">
               <ul>
                 <li class="excel-icon" (click)="downloadAllEnquiries()">
                   <i class="fa fa-file-excel-o" aria-hidden="true" style="font-family: FontAwesome;font-size: 16px;color: #aaa;"></i>
@@ -73,7 +73,7 @@
             <div class="c-lg-6 c-md-6 c-sm-6 pull-left">
               <div class="search-filter-wrapper" id="adFilterExitVisible">
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
-                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()" id="searchBarData">
+                  [(ngModel)]="varJson.searchBarData" name="searchData" (keyup.enter)="searchDatabase()" id="searchBarData">
                 <input type="button" class="fullBlue btn" value="Search" (click)="searchDatabase()" id="btnSearchData" />
               </div>
             </div>
@@ -158,10 +158,10 @@
             </div>
 
             <!-- Slot -->
-            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isProfessional">
               <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                 <label for="assignCourses">Slots</label>
-                <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                <input id="slot" type="text" [ngModel]="varJson.selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
 
               </div>
               <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -181,7 +181,7 @@
             </div>
 
             <!-- Assigned -->
-            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isEnquiryAdmin">
+            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="flagJSON.isEnquiryAdmin">
               <div class="field-wrapper">
                 <label for="assignTo">Assign To</label>
                 <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
@@ -201,7 +201,7 @@
                 <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDate"
                   name="UD" readonly="true" bsDatepicker/>
 
-                <span class="date-clear" name="followupdate" (click)="clearadfilterUpdateDate()">clear</span>
+                <span class="date-clear" name="followupdate" (click)="clearFilterType('updateDate')">clear</span>
               </div>
             </div>
 
@@ -234,7 +234,7 @@
                 <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.enquireDateFrom"
                   name="EFD" bsDatepicker readonly="true" />
 
-                <span class="date-clear" name="followupdate" (click)="clearadfilterEnqFromDate()">clear</span>
+                <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateFrom')">clear</span>
               </div>
             </div>
 
@@ -245,7 +245,7 @@
                 <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker dateFormat " [(ngModel)]="advancedFilterForm.enquireDateTo"
                   name="ETD" bsDatepicker readonly="true" />
 
-                <span class="date-clear" name="followupdate" (click)="clearadfilterEnqToDate()">clear</span>
+                <span class="date-clear" name="followupdate" (click)="clearFilterType('enquireDateTo')">clear</span>
               </div>
             </div>
 
@@ -256,7 +256,7 @@
                 <input type="text" value="" id="followDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.followUpDate"
                   name="FD" readonly="true" bsDatepicker/>
 
-                <span class="date-clear" name="followupdate" (click)="clearfollowUpDate()">clear</span>
+                <span class="date-clear" name="followupdate" (click)="clearFilterType('followUpDate')">clear</span>
               </div>
             </div>
 
@@ -305,7 +305,7 @@
             </div>
 
             <!-- standard Course-->
-            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
                 <label for="editStandard">Standard</label>
                 <select id="editStandard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchEnquirySubject($event)"
@@ -316,7 +316,7 @@
               </div>
             </div>
 
-            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
               <!-- subject Course -->
               <div class="field-wrapper">
                 <label for="forSubject">Subject</label>
@@ -326,7 +326,7 @@
               </div>
             </div>
 
-            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
               <!-- masterCourse course -->
               <div class="field-wrapper">
                 <label for="editMc">Master Course</label>
@@ -337,7 +337,7 @@
               </div>
             </div>
 
-            <div *ngIf="!isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <div *ngIf="!flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
               <!-- course course-->
               <div class="field-wrapper">
                 <label for="editCC">Course</label>
@@ -347,7 +347,7 @@
               </div>
             </div>
 
-            <div *ngIf="isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <div *ngIf="flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
               <!-- master Professional -->
               <div class="field-wrapper">
                 <label for="editStandard">Master Course</label>
@@ -359,7 +359,7 @@
               </div>
             </div>
 
-            <div *ngIf="isProfessional" class="c-lg-4 c-md-4 c-sm-4">
+            <div *ngIf="flagJSON.isProfessional" class="c-lg-4 c-md-4 c-sm-4">
               <!-- course Professional -->
               <div class="field-wrapper">
                 <label for="forSubject">Course</label>
@@ -463,8 +463,8 @@
         <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
             <div class="">
-              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="enquirySettings"
-                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage"
+              <ng-robTable [records]="sourceEnquiry" [reset]="flagJSON.isSideBar" [defaultSort]="varJson.sortBy" [tableName]="'enquiry'" [settings]="enquirySettings"
+                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="varJson.fetchingDataMessage"
                 [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)"
                 (sortDirection)="getDirection($event)">
               </ng-robTable>
@@ -476,8 +476,8 @@
         <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
-              [count]="totalEnquiry">
+              [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
+              [count]="varJson.totalEnquiry">
             </pagination>
           </div>
 
@@ -487,7 +487,7 @@
 
   </aside>
 
-  <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !isSideBar}">
+  <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !flagJSON.isSideBar}">
     <div class="sidewrapper">
       <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event); false; $event.stopPropagation()"
         id="closeAnch1">
@@ -497,11 +497,10 @@
             style="fill: currentColor"></path>
         </svg>
       </a>
-      <!-- <div class="skeleton" #skelton *ngIf="!isSideBar"></div> -->
-      <enquiry-sidebar *ngIf="isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority"
+      <enquiry-sidebar *ngIf="flagJSON.isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority"
         [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
         (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" [mainBranchAdmin]="isMainBranch"
-        [subBranchAdmin]="subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)" [masterCourseData]="masterCourseData"
+        [subBranchAdmin]="flagJSON.subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)" [masterCourseData]="masterCourseData"
         [standardArr]="enqStd" [subjectArr]="enqSubject" (fullEnquiryDetails)="completeEnquiryDeatils($event)" [closingReasonDataSource]="closingReasonDataSource">
       </enquiry-sidebar>
     </div>
@@ -510,11 +509,11 @@
 
 
   <!-- Enquiry update popup -->
-  <app-enquiry-update-popup *ngIf="message === 'update'"  [enqData]="enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
+  <app-enquiry-update-popup *ngIf="varJson.message === 'update'"  [enqData]="enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
 
 
   <!-- Delete PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'delete'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -550,7 +549,7 @@
   </section>
 
   <!-- Convert PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'convert'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -567,7 +566,7 @@
         </span>
 
         <!-- If Not converted -->
-        <div class="popup-content" *ngIf="!isConverted">
+        <div class="popup-content" *ngIf="!flagJSON.isConverted">
           <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
             <div class="enquiry-update-history">
@@ -585,7 +584,7 @@
         </div>
 
         <!-- If Enquiry Converted -->
-        <div class="popup-content" *ngIf="isConverted">
+        <div class="popup-content" *ngIf="flagJSON.isConverted">
           <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
             <div class="enquiry-update-history">
@@ -608,7 +607,7 @@
   </section>
 
   <!--Registration Payment PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'payment'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -629,17 +628,17 @@
             <div class="">
 
               <!-- student has invoice and registered with status 11 -->
-              <div class="enquiry-update-history" *ngIf="hasReceipt">
+              <div class="enquiry-update-history" *ngIf="flagJSON.hasReceipt">
                 <h4>
                   A payment towards the selected enquiry has been updated, you may download the receipt for your reference
                 </h4>
               </div>
 
               <!-- any one of above case has failed -->
-              <div class="payment-form" *ngIf="!hasReceipt">
+              <div class="payment-form" *ngIf="!flagJSON.hasReceipt">
 
                 <!-- status admitted or registered but no open, inprogress or closed  -->
-                <div class="" *ngIf="isadmitted">
+                <div class="" *ngIf="flagJSON.isadmitted">
                   <div class="row extraMargin">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper has-value">
@@ -683,19 +682,19 @@
                 </div>
 
                 <!-- status open, inprogress or converted but not closed-->
-                <h4 *ngIf="notClosednAdmitted">
+                <h4 *ngIf="flagJSON.notClosednAdmitted">
                   The requested enquiry has not yet been converted to student, please select the convert to student option from menu.
                 </h4>
 
                 <!-- status closed-->
-                <h4 *ngIf="isClosed">
+                <h4 *ngIf="flagJSON.isClosed">
                   The Enquiry has been closed or converted as a student.
                 </h4>
 
               </div>
 
               <!-- Icon for DownLoad -->
-              <div class="row" *ngIf="hasReceipt">
+              <div class="row" *ngIf="flagJSON.hasReceipt">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <ul class="print-output-section">
 
@@ -747,22 +746,22 @@
               </div>
 
               <!-- Footer 1-->
-              <div class="row" *ngIf="!hasReceipt">
+              <div class="row" *ngIf="!flagJSON.hasReceipt">
 
-                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="isadmitted">
+                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.isadmitted">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()" id="BtncancelPopup">
                     <input type="button" value="Save" class="btn fullBlue" (click)="registerPayment()" id="BtnregisterPayment">
                   </aside>
                 </div>
 
-                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="notClosednAdmitted">
+                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.notClosednAdmitted">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnclosePopup">
                   </aside>
                 </div>
 
-                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="isClosed">
+                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="flagJSON.isClosed">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClose">
                   </aside>
@@ -771,7 +770,7 @@
               </div>
 
               <!-- Footer 2-->
-              <div class="row" *ngIf="hasReceipt">
+              <div class="row" *ngIf="flagJSON.hasReceipt">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Ok" class="btn" (click)="closePopup()" id="btnOpenClosePopup">
@@ -787,7 +786,7 @@
   </section>
 
   <!-- Bulk Assign PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isAssignEnquiry">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
@@ -832,7 +831,7 @@
   </section>
 
   <!-- SMS PopUp Single-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'sms'">
     <!-- -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -870,7 +869,7 @@
                   </div>
 
                   <!-- Message TextArea Here -->
-                  <div class="row" *ngIf="isMessageAddOpen">
+                  <div class="row" *ngIf="flagJSON.isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-6 pull-left new-sms-wrapper">
@@ -971,7 +970,7 @@
                               </td>
                             </tr>
                           </tbody>
-                          <tbody *ngIf="isOpenTab">
+                          <tbody *ngIf="flagJSON.isAllSelected">
                             <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
                               <td>
                                 <div class="field-radio-wrapper">
@@ -1013,7 +1012,7 @@
                   </div>
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
-                      Available SMS Quota: {{availableSMS}}
+                      Available SMS Quota: {{varJson.availableSMS}}
                     </div>
                   </div>
                 </div>
@@ -1021,7 +1020,7 @@
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Select SMS to preview or edit to update template" rows="20" cols="1" autocomplete="off" role="textbox"
                       aria-autocomplete="list" aria-haspopup="true" id="sms-content" value="" [(ngModel)]="selectedSMS.message"
-                      [disabled]="!smsBtnToggle">
+                      [disabled]="!flagJSON.smsBtnToggle">
                           </textarea>
                   </div>
                 </div>
@@ -1029,10 +1028,10 @@
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel Edit" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelSmsEdit">
-                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveEditedSms">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()" id="Btncancel8">
-                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()" id="BtnsendSms5">
+                        <input type="button" value="Cancel Edit" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelSmsEdit">
+                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveEditedSms">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closePopup()" id="Btncancel8">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!flagJSON.smsBtnToggle" (click)="sendSmsTemplate()" id="BtnsendSms5">
                       </aside>
                     </div>
                   </div>
@@ -1042,15 +1041,13 @@
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
 
   </section>
 
   <!-- SMS PopUp MultiRow Selected-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isMultiSms">
     <!--  -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -1088,7 +1085,7 @@
                   </div>
 
                   <!-- Message TextArea Here -->
-                  <div class="row" *ngIf="isMessageAddOpen">
+                  <div class="row" *ngIf="flagJSON.isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
                         <div class="c-lg-6 pull-left new-sms-wrapper">
@@ -1189,7 +1186,7 @@
                               </td>
                             </tr>
                           </tbody>
-                          <tbody *ngIf="isOpenTab">
+                          <tbody *ngIf="flagJSON.isAllSelected">
                             <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
                               <td>
                                 <div class="field-radio-wrapper">
@@ -1235,14 +1232,14 @@
                   </div>
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
-                      Available SMS Quota: {{availableSMS}}
+                      Available SMS Quota: {{varJson.availableSMS}}
                     </div>
                   </div>
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!flagJSON.smsBtnToggle">
                               </textarea>
                   </div>
                 </div>
@@ -1250,10 +1247,10 @@
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelEditSms">
-                        <input type="button" value="Save" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveSmsEdited">
-                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closeBulkSms()" id="Btncancel0">
-                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()" id="btn0">
+                        <input type="button" value="Cancel" class="btn" *ngIf="flagJSON.smsBtnToggle" (click)="cancelSmsEdit()" id="BtncancelEditSms">
+                        <input type="button" value="Save" class="fullBlue btn" *ngIf="flagJSON.smsBtnToggle" (click)="saveEditedSms()" id="BtnsaveSmsEdited">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!flagJSON.smsBtnToggle" (click)="closeBulkSms()" id="Btncancel0">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!flagJSON.smsBtnToggle" (click)="sendSmsTemplate()" id="btn0">
                       </aside>
                     </div>
                   </div>

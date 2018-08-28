@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 
+
 @Injectable()
 
 export class CommonServiceFactory {
@@ -52,6 +53,13 @@ export class CommonServiceFactory {
         }
     }
 
+    valueCheck(value) {
+        if (value == null || value == undefined || value.trim() == '') {
+            return true;
+        }
+        return false;
+
+    }
     // Get Current Time and minute will be multiple of 5
     getCurrentTImeForDropDown(): any {
         let hour: any = parseInt(moment(new Date()).format('hh'));
@@ -131,7 +139,7 @@ export class CommonServiceFactory {
 
         return false;
     }
-// validate  phone number 
+    // validate  phone number 
     validatePhone(value) {
         if (value.match(/^\d{10}$/)) {  //int
             return true;
