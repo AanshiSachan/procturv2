@@ -52,6 +52,7 @@ export class FileCardComponent implements OnChanges {
   @Output() fileArr = new EventEmitter<any>();
   @Output() shareOptions = new EventEmitter<any>();
   dwnldLink = "";
+  arr: any[] = [];
 
   constructor(private cd: ChangeDetectorRef, private fileService: FileManagerService, private appC: AppComponent) {
   }
@@ -64,6 +65,9 @@ export class FileCardComponent implements OnChanges {
   }
 
   generateFile(data) {
+    if (data.data.category_id == "182") {
+      data.data.category_name = "Study Material"
+    }
     let name = data.label.split(".")[0];
     let type = data.label.split(".")[1];
     this.fileObj = new File(name, type, data.data);
@@ -203,8 +207,8 @@ export class FileCardComponent implements OnChanges {
       publicShare: fileObj.res.public_share,
       instituteShare: fileObj.res.inst_share,
       batchShare: fileObj.res.student_batch_share,
-      isReadonly:fileObj.res.is_readonly,
-      fileType:fileObj.type
+      isReadonly: fileObj.res.is_readonly,
+      fileType: fileObj.type
     }
     if (shareOptions.publicShare == 0 && shareOptions.instituteShare == 0 && shareOptions.batchShare == 0) {
       this.shareOptions.emit("new");
