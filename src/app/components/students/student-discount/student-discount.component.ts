@@ -30,7 +30,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     @Input() feeTemplateData: any;
     @Input() totalAmountDue: any;
     @Input() discountReason: any;
-    
+
     private taxEnableCheck: any = '1';
     service_tax: number = 0;
 
@@ -73,7 +73,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             value: null,
             reason: '',
             state: 'all'
-          }
+        }
     }
 
     applyAction() {
@@ -120,7 +120,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                                     }
                                 });
 
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
+                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason;
 
                                 let obj = {
                                     reason: this.discountReason,
@@ -177,7 +177,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                                     this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (100))), -1);
                                 }
 
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
+                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason;
 
                                 let obj = {
                                     reason: this.discountReason,
@@ -258,7 +258,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                                     }
                                 });
 
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + discountValue + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" +discountValue + "#" + this.discountApplyForm.reason);
+                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason;
 
                                 let obj = {
                                     reason: this.discountReason,
@@ -313,7 +313,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                                     this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (100))), -1);
                                 }
 
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + discountValue + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + discountValue + "#" + this.discountApplyForm.reason);
+                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason;
 
                                 let obj = {
                                     reason: this.discountReason,
