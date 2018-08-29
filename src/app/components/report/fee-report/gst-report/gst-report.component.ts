@@ -3,7 +3,6 @@ import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTabl
 import { PaymentHistoryMainService } from '../../../../services/payment-history/payment-history-main.service';
 import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
-import { MenuItem } from 'primeng/api';
 import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 @Component({
   selector: 'app-gst-report',
@@ -67,7 +66,6 @@ export class GstReportComponent implements OnInit {
   getYear: number;
 
   dataStatus: number;
-  bulkAddItems: MenuItem[] = []
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
@@ -120,18 +118,7 @@ export class GstReportComponent implements OnInit {
 
   ngOnInit() {
     this.getGstReport(event, this.year);
-    this.bulkAddItems = [
-      {
-        label: 'Pdf Download', icon: 'fa-download', command: () => {
-          this.exportToPdf();
-        }
-      },
-      {
-        label: 'Excel Download', icon: 'fa-download', command: () => {
-          this.exportToExcel();
-        }
-      }
-    ];
+    
   }
 
 

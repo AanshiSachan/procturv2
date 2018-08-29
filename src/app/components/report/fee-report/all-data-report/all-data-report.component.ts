@@ -1,6 +1,5 @@
 /**  other libraray imports */
 import { Component, OnInit, ViewChild, ChangeDetectorRef, OnChanges } from '@angular/core';
-import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 /**  models imports*/
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
@@ -27,7 +26,6 @@ export class AllDataReportComponent implements OnInit {
 
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];
-  bulkAddItems: MenuItem[];
   selectedFeeRecord: any;
   installmentList: any;
   // isCustomDate: boolean;
@@ -167,19 +165,8 @@ export class AllDataReportComponent implements OnInit {
         }
       }
     )
-    // this.fetchPrefillDetails();
-    this.bulkAddItems = [
-      {
-        label: 'Pdf Download', icon: 'fa-download', command: () => {
-          this.exportToPdf();
-        }
-      },
-      {
-        label: 'Excel Download', icon: 'fa-download', command: () => {
-          this.exportToExcel();
-        }
-      }
-    ];
+    
+   
 
     this.form.valueChanges
       .debounceTime(100)
