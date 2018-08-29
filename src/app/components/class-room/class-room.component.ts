@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnSetting } from '../shared/custom-table/layout.model';
 import { ClassRoomService } from '../../services/class-roomService/class-roomlist.service';
 import { LoginService } from '../../services/login-services/login.service';
-import { AppComponent } from '../../app.component';
 import { AuthenticatorService } from '../../services/authenticator.service';
+import { MessageShowService } from '../../services/message-show.service';
+import { error } from 'selenium-webdriver';
 
 
 @Component({
@@ -13,35 +14,33 @@ import { AuthenticatorService } from '../../services/authenticator.service';
 })
 export class ClassRoomComponent {
 
-  classRoomData: any = [];
-  totalRow = 0;
-  updateFlag: boolean = false;
-  isProfessional: boolean;
-  enterclassdataDesc: string = "";
-  enterclassdata: string = "";
   pagedclassRoomData: any[] = [];
   addClasslistData: any[] = [];
   saveclassListData: any = [];
   updateclassListData: any[] = [];
-  pageIndex: number = 1;
-  CreateNewList: boolean = false;
-  displayBatchSize: number = 10;
-
-  tempIndex = "";
-  tempObj: any;
-  editFlag = false;
-
-  searchText: string = "";
-  searchflag: boolean = false;
+  classRoomData: any = [];
   searchData: any = [];
+  tempObj: any;
 
+  enterclassdataDesc: string = "";
+  enterclassdata: string = "";
+  searchText: string = "";
+  tempIndex: string = "";
+  pageIndex: number = 1;
+  displayBatchSize: number = 10;
+  totalRow: number = 0;
+  updateFlag: boolean = false;
+  CreateNewList: boolean = false;
+  searchflag: boolean = false;
+  editFlag: boolean = false;
+  isProfessional: boolean;
 
   constructor
     (
     private ClassList: ClassRoomService,
     private login: LoginService,
-    private AppC: AppComponent,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private msgService: MessageShowService
     ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
@@ -119,34 +118,19 @@ export class ClassRoomComponent {
       }
       for (var i = 0; i < this.classRoomData.length; i++) {
         if (this.classRoomData[i].class_room_name == classRoomobj.class_room_name) {
-          let obj = {
-            type: "error",
-            title: "Error",
-            body: 'Duplicate Entries are not Allowed',
-          }
-          this.AppC.popToast(obj);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Duplicate Entries are not Allowed');
           return;
         }
 
       }
 
       if (Desc_ele.length > 500) {
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: "Description should not be greater than 500 Characters"
-        }
-        this.AppC.popToast(data);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Description should not be greater than 500 Characters');
         return;
       }
       this.ClassList.saveClassroomDetail(classRoomobj).subscribe(
         data => {
-          let msg = {
-            type: 'success',
-            title: "Added",
-            body: "ClassRoom Added Successfully."
-          }
-          this.AppC.popToast(msg);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "Added", 'ClassRoom Added Successfully');
           this.getClassList();
           this.enterclassdata = "";
           this.enterclassdataDesc = "";
@@ -154,26 +138,14 @@ export class ClassRoomComponent {
 
         },
         error => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", error.error.message);
 
-          let msg = {
-            type: "error",
-            title: "Error",
-            body: error.error.message
-          }
-          this.enterclassdata = "";
-          this.enterclassdataDesc = "";
-          this.AppC.popToast(msg);
         }
       )
     }
 
     else {
-      let data = {
-        type: 'error',
-        title: "Error",
-        body: "Please fill Mandatory Fields."
-      }
-      this.AppC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Please fill Mandatory Fields');
       this.enterclassdata = "";
       this.enterclassdataDesc = "";
       return;
@@ -195,44 +167,19 @@ export class ClassRoomComponent {
         continue;
       }
       else if (this.classRoomData[j].class_room_name === row.class_room_name) {
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: "Duplicate Entries are not Allowed"
-        }
-        this.AppC.popToast(data);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Duplicate Entries are not Allowed');
         return;
       }
     }
 
     if (data.class_room_name != "" && data.class_room_name != null && data.class_room_desc != "" && data.class_room_desc != null) {
       if (data.class_room_desc.length > 500) {
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: "Description should not be greater than 500."
-        }
-        this.AppC.popToast(data);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Description should not be greater than 500');
         return;
       }
-      /*  if (data.class_room_desc.length < 80) {
-          let data = {
-            type: 'error',
-            title: "Description should  be greater than 80 Characters",
-            body: "error"
-          }
-          this.AppC.popToast(data);
-          return;
-        }
-      */
       this.ClassList.updateclassListData(data).subscribe(
         res => {
-          let data = {
-            type: 'success',
-            title: "Updated",
-            body: "ClassRoom Updated Successfully."
-          }
-          this.AppC.popToast(data);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, "Updated", 'ClassRoom Updated Successfully');
           this.editFlag = false;
           this.tempIndex = "";
           this.tempObj = null;
@@ -244,12 +191,7 @@ export class ClassRoomComponent {
       );
     }
     else {
-      let data = {
-        type: 'error',
-        title: "Error",
-        body: "Please fill classRoom name and Description."
-      }
-      this.AppC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", 'Please fill classRoom name and Description');
     }
   }
   /*===================================Search============================================ */
@@ -327,16 +269,11 @@ export class ClassRoomComponent {
   }
 
   removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
+    let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
+    classArray.forEach(function (className) {
+      console.log(className);
+      document.getElementById(className).classList.remove('active');
+    });
     /* document.getElementById('liten').classList.remove('active');
     document.getElementById('lieleven').classList.remove('active'); */
   }

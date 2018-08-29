@@ -1,14 +1,11 @@
 import { Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
-//import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AppComponent } from '../../app.component';
-import { ZendAuth } from '../../services/Chat-bot/chatbot.service';
-import { LoginService } from '../../services/login-services/login.service';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import 'rxjs/Rx';
 import { Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { AuthenticatorService } from '../../services/authenticator.service';
+import { MessageShowService } from '../../services/message-show.service';
+import { ZendAuth } from '../../services/Chat-bot/chatbot.service';
+import { LoginService } from '../../services/login-services/login.service';
+import { error } from 'util';
 
 @Component({
   selector: 'app-chatbot',
@@ -16,8 +13,7 @@ import { AuthenticatorService } from '../../services/authenticator.service';
   styleUrls: ['./chatbot.component.scss']
 })
 export class chatBotComponent {
-  isProfessional: boolean = false;
-  closechatbot: boolean = true;
+
   @Output() flagData: EventEmitter<any>;
   @ViewChild('helpForm') help: ElementRef;
 
@@ -29,10 +25,13 @@ export class chatBotComponent {
     }
   }
 
+  isProfessional: boolean = false;
+  closechatbot: boolean = true;
+
   constructor(
     private router: Router,
     private auth: ZendAuth,
-    private appC: AppComponent,
+    private msgService: MessageShowService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
@@ -40,35 +39,20 @@ export class chatBotComponent {
     this.flagData = new EventEmitter();
   }
 
-  ngOnInit() {
-  }
-
   ZendeskLogin() {
     if (this.payload.ticket.subject == "" && this.payload.ticket.description == "") {
-
       this.helpRequested();
       return;
 
     }
     if (this.payload.ticket.subject == "" || this.payload.ticket.description == "") {
-      let data = {
-        type: 'error',
-        title: "Error",
-        body: "Please fill Both this fields."
-      }
-      this.appC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", "Please fill Both this fields");
       return;
     }
     if (this.payload.ticket.description.length > 499) {
-      let data = {
-        type: 'error',
-        title: "Description should not be greater than 500 Characters",
-        body: ""
-      }
-      this.appC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Description should not be greater than 500 Characters", "");
       return;
     }
-
 
     this.auth.ZendeskAuth(this.payload).subscribe(
       (data: any) => {
@@ -82,7 +66,6 @@ export class chatBotComponent {
     )
     this.payload.ticket.description = "";
   }
-
 
   posterData() {
     this.ZendeskLogin();

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login-services/login.service';
 import { CityAreaService } from '../../services/area-city-service/area-city.service';
-import { AppComponent } from '../../app.component';
+import { MessageShowService } from '../../services/message-show.service';
+import { error } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-city-area-map',
@@ -10,24 +11,26 @@ import { AppComponent } from '../../app.component';
 })
 export class CityAreaMapComponent implements OnInit {
 
-  cityAreaListDataSource: any = [];
-  cityAreaList: any = [];
-  PageIndex: number = 1;
-  studentdisplaysize: number = 10;
-  totalRow: number;
-  createNew: boolean = false;
   newCity = {
     city: '',
     area: '',
     branch: '-1'
   }
-  isMultiBranch: any;
+
   branchesList: any = [];
+  cityAreaListDataSource: any = [];
+  cityAreaList: any = [];
+
+  PageIndex: number = 1;
+  studentdisplaysize: number = 10;
+  totalRow: number;
+  createNew: boolean = false;
+  isMultiBranch: any;
 
   constructor(
     private login: LoginService,
     private apiService: CityAreaService,
-    private appC: AppComponent
+    private msgService: MessageShowService
   ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
@@ -76,32 +79,17 @@ export class CityAreaMapComponent implements OnInit {
       }
       this.apiService.saveNewCity(obj).subscribe(
         res => {
-          let data = {
-            type: 'success',
-            title: "Success",
-            body: "Added Successfully."
-          }
-          this.appC.popToast(data);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Success","Added Successfully");
           this.getCityAreaList();
           this.toggleCreateNewSlot();
         },
         err => {
-          let data = {
-            type: 'error',
-            title: "Error",
-            body: err.error.message
-          }
-          this.appC.popToast(data);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Error", err.error.message);
           //console.log(err);
         }
       )
     } else {
-      let data = {
-        type: 'error',
-        title: "Error",
-        body: "Please provide city name."
-      }
-      this.appC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Error","Please provide city name");
     }
   }
 
