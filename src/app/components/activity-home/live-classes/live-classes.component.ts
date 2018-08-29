@@ -194,9 +194,9 @@ export class LiveClassesComponent implements OnInit {
 
   viewStudents() {
 
-    let fromTime = this.dateFrom + " " + this.hourFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
+    let fromTime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
     let fromDate = moment().format('YYYY-MM-DD');
-    let toTime = this.dateFrom + " " + this.hourTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
+    let toTime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
     let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
     let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
 
@@ -205,7 +205,7 @@ export class LiveClassesComponent implements OnInit {
       return false;
     }
 
-    else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "" || this.getOnlineClasses.session_name == "") {
+    else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "") {
       this.appC.popToast({ type: "error", body: "All fields are required" })
       return false;
     }
@@ -449,8 +449,8 @@ export class LiveClassesComponent implements OnInit {
     this.getOnlineClasses.custUserIds = customId;
     this.getOnlineClasses.studentIds = studentId;
     this.getOnlineClasses.teacherIds = this.teacherIdArr;
-    this.getOnlineClasses.start_datetime = this.dateFrom + " " + this.hourFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
-    this.getOnlineClasses.end_datetime = this.dateFrom + " " + this.hourTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
+    this.getOnlineClasses.start_datetime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
+    this.getOnlineClasses.end_datetime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
     this.session = this.getOnlineClasses.session_name;
     this.service.getOnlineClasses(this.getOnlineClasses).subscribe(
       (data: any) => {
@@ -611,7 +611,8 @@ export class LiveClassesComponent implements OnInit {
 
   isReschedule() {
     this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
-    this.rescheduleclass.start_datetime =  moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
+    this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
+
     this.service.rescheduleClass(this.rescheduleclass).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: "Class Reschedule Successfully" })
@@ -629,5 +630,4 @@ export class LiveClassesComponent implements OnInit {
       }
     )
   }
-
 }
