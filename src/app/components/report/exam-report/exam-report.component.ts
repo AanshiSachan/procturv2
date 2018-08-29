@@ -1,12 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
-import { FilterPipe } from './filter.pipe';
-
-import { ViewChild } from '@angular/core';
-import { ElementRef, Directive } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
@@ -82,7 +77,8 @@ export class ExamReportComponent implements OnInit {
   property = "";
   direction = 0;
   sortingEnabled: boolean = true;
-  constructor(private login: LoginService, private examdata: ExamService,
+  constructor(
+    private examdata: ExamService,
     private appC: AppComponent,
     private auth: AuthenticatorService
   ) {
@@ -103,8 +99,6 @@ export class ExamReportComponent implements OnInit {
 
   ngOnInit() {
     this.isExamGrade = sessionStorage.getItem('is_exam_grad_feature');
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.professionalChecker();
     if (this.isProfessional) {
       this.showTitle = true

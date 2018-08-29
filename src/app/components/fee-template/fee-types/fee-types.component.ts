@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FeeStrucService } from '../../../services/feeStruc.service';
-import { AppComponent } from '../../../app.component';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-fee-types',
@@ -21,7 +21,7 @@ export class FeeTypesComponent implements OnInit {
 
   constructor(
     private apiService: FeeStrucService,
-    private appC: AppComponent
+    private commonService: CommonServiceFactory
   ) { }
 
   ngOnInit() {
@@ -34,12 +34,7 @@ export class FeeTypesComponent implements OnInit {
         this.feeTypeList = res;
       },
       err => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -48,11 +43,11 @@ export class FeeTypesComponent implements OnInit {
     let data = this.makeDataJson();
     this.apiService.upadateFeeType(data).subscribe(
       res => {
-        this.messageToast('success', 'Updated', 'Details Updated Successfully');
+        this.commonService.showErrorMessage('success', 'Updated', 'Details Updated Successfully');
         this.getListOfFeeType();
       },
       err => {
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -85,7 +80,7 @@ export class FeeTypesComponent implements OnInit {
         fee_type_id: 0,
       }
     } else {
-      this.messageToast('error', 'Name Required', 'Please give name of Fee Type');
+      this.commonService.showErrorMessage('error', 'Name Required', 'Please give name of Fee Type');
     }
   }
 
@@ -103,15 +98,6 @@ export class FeeTypesComponent implements OnInit {
       document.getElementById('showCloseBtn').style.display = 'none';
       document.getElementById('showAddBtn').style.display = '';
     }
-  }
-
-  messageToast(Errortype, Errortitle, message) {
-    let msg = {
-      type: Errortype,
-      title: Errortitle,
-      body: message
-    }
-    this.appC.popToast(msg);
   }
 
 }

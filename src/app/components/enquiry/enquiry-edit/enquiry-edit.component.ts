@@ -203,8 +203,6 @@ export class EnquiryEditComponent implements OnInit {
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.FetchEnquiryPrefilledData();
     this.updateEnquiryData()
 

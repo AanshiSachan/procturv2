@@ -152,8 +152,6 @@ export class ClassAddComponent implements OnInit {
         }
       }
     )
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     /* fetching prefilled data */
     this.fetchPrefillData();
     if (!this.isProfessional) {

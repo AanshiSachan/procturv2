@@ -183,8 +183,6 @@ export class AdminHomeComponent implements OnInit {
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.fetchWidgetPrefill();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.grid = new Muuri('.grid', {
       dragEnabled: false,
       layout: {

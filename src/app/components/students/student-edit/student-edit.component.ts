@@ -59,7 +59,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     private postService: PostStudentDataService,
     private router: Router,
     private route: ActivatedRoute,
-    private login: LoginService,
     private appC: AppComponent,
     private fetchService: FetchStudentService,
     private auth: AuthenticatorService,
@@ -82,8 +81,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* =========================================================================================================================================== */
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }

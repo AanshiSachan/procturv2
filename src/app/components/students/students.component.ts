@@ -12,7 +12,6 @@ export class StudentsComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.removeFullscreen();
     document.getElementById('lione').classList.remove('active');
     document.getElementById('litwo').classList.add('active');
     document.getElementById('lithree').classList.remove('active');
@@ -26,15 +25,4 @@ export class StudentsComponent implements OnInit {
     //document.getElementById('lieleven').classList.remove('active');
   }
 
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
 }

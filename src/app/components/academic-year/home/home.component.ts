@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { error } from 'selenium-webdriver';
-import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { MessageShowService } from '../../../services/message-show.service';
-import { AuthenticatorService } from '../../../services/authenticator.service';
 import { AcademicyearService } from '../../../services/academicYearService/academicyear.service';
-import { LoginService } from '../../../services/login-services/login.service';
-import { SlotApiService } from '../../../services/slot-service/slot.service';
 
 @Component({
   selector: 'home',
@@ -36,16 +31,11 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private academicyearservice: AcademicyearService,
-    private login: LoginService,
-    private apiService: SlotApiService,
-    private auth: AuthenticatorService,
     private msgService: MessageShowService
   ) { }
 
   ngOnInit() {
     this.getAllAcademicFromServer();
-    this.removeFullscreen();
-    this.removeSelectionFromSideNav();
     this.addAcademicYearTemplate.inst_id = sessionStorage.getItem('institute_id');
   }
 
@@ -202,28 +192,6 @@ export class HomeComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.academicYearDataSource.slice(startindex, startindex + this.varJson.studentdisplaysize);
     return t;
-  }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
-
-  removeSelectionFromSideNav() {
-    let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
-    classArray.forEach(function (className) {
-      console.log(className);
-      document.getElementById(className).classList.remove('active');
-    });
-    /* document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active'); */
   }
 
   // toast function 

@@ -199,8 +199,6 @@ export class EnquiryAddComponent implements OnInit {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
     this.fetchEnquiryPrefilledData();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     /* Model for Enquiry Data */
     this.newEnqData = {

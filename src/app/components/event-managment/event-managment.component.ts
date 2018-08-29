@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventManagmentService } from '../../services/event-managment.service';
 import * as moment from 'moment';
-import { AppComponent } from '../../app.component';
-import { searchPipe } from '../shared/pipes/searchBarPipe';
-import { LoginService } from '../../services/login-services/login.service';
 import { AuthenticatorService } from '../../services/authenticator.service';
+import { CommonServiceFactory } from '../../services/common-service';
 @Component({
   selector: 'app-event-managment',
   templateUrl: './event-managment.component.html',
@@ -76,13 +74,10 @@ export class EventManagmentComponent implements OnInit {
 
   constructor(
     private eve_mnge: EventManagmentService,
-    private appc: AppComponent,
-    private login: LoginService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory
   ) {
-    this.removeSelectionFromSideNav();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.commonService.removeSelectionFromSideNav();
   }
 
   ngOnInit() {
@@ -109,7 +104,7 @@ export class EventManagmentComponent implements OnInit {
         this.eventRecord = res;
         this.totalRow = this.eventRecord.length;
         this.fetchTableDataByPage(this.pageIndex);
-      }, ),
+      }),
       (error: any) => {
         this.errorMessage(error);
       }
@@ -158,36 +153,23 @@ export class EventManagmentComponent implements OnInit {
       this.isTimeValid();
     }
     else {
-      let obj = {
-        type: "error",
-        title: "Field is Empty",
-        body: "invalid data range"
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Field is empty', 'Invalid Data');
     }
   }
 
   fileUpload(imgId) {
-    var file = (<HTMLFormElement>document.getElementById('fileAdd')).files[0];
+    let file = (<HTMLFormElement>document.getElementById('fileAdd')).files[0];
     this.type = file.name.split('.')[1];
-
     if (file.size > 1048576) {
-      let obj = {
-        type: "error",
-        title: "Uploaded File Exceeds 1Mb",
-        body: ""
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Error', 'Uploaded File Exceeds 1Mb');
       (<HTMLFormElement>document.getElementById('fileAdd')).value = "";
       return;
     }
-
-    var fileReader = new FileReader();
-    var encString = "";
+    let fileReader = new FileReader();
     fileReader.readAsDataURL(file);
     fileReader.onload = function () {
-      encString = fileReader.result.split(',')[1];
-      (<HTMLImageElement>document.getElementById(imgId)).src = fileReader.result;
+      let ele: any = <HTMLImageElement>document.getElementById(imgId);
+      ele.src = fileReader.result;
     }
     fileReader.onerror = function (error) {
     };
@@ -196,45 +178,22 @@ export class EventManagmentComponent implements OnInit {
   saveEventData() {
 
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "Please Provide Mandatory Fields"
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Error', 'Please Provide Mandatory Fields');
       return;
     }
     if (this.saveDataObj.event_end_date != "") {
       if (!this.isTimeValid()) {
-        let obj = {
-          type: "error",
-          title: "Error",
-          body: "Please check date provided."
-        }
-        this.appc.popToast(obj);
+        this.commonService.showErrorMessage('error', 'Error', 'Please check date provided');
         return;
       }
       this.saveDataObj.event_end_date = moment(this.saveDataObj.event_end_date).format('YYYY-MM-DD');
     }
     if (this.saveDataObj.holiday_desc.length > 80) {
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "Description should not be greater than 80"
-
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Error', 'Description should not be greater than 80');
       return;
-
     }
     if (this.saveDataObj.holiday_long_desc.length > 300) {
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "Longdescription should not be greater than 300"
-
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Error', 'Long Description should not be greater than 300');
       return;
     }
 
@@ -244,12 +203,7 @@ export class EventManagmentComponent implements OnInit {
     }
     this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
       res => {
-        let obj = {
-          type: "success",
-          title: "Saved",
-          body: "Event Created Successfully."
-        }
-        this.appc.popToast(obj);
+        this.commonService.showErrorMessage('success', 'Saved', 'Event Created Successfully');
         this.getAllListData();
         this.addEventPopUp = false;
       },
@@ -285,42 +239,22 @@ export class EventManagmentComponent implements OnInit {
 
   updatePopupData() {
     if (this.newUpdateObj.holiday_name == "" || this.newUpdateObj.holiday_desc == "") {
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "Please Provide Mandatory Fields"
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Error', 'Please Provide Mandatory Fields');
       return;
     }
     if (this.newUpdateObj.event_end_date != "") {
       this.newUpdateObj.event_end_date = moment(this.newUpdateObj.event_end_date).format('YYYY-MM-DD');
       if (!this.validateDate(this.newUpdateObj.holiday_date, this.newUpdateObj.event_end_date)) {
-        let obj = {
-          type: "error",
-          title: "Error",
-          body: "Please check date provided."
-        }
-        this.appc.popToast(obj);
+        this.commonService.showErrorMessage('error', 'Error', 'Please check date provided');
         return;
       }
     }
     if (this.newUpdateObj.holiday_desc.length > 80) {
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "Description should not be greater than 80"
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Error', 'Description should not be greater than 80');
       return;
     }
     if (this.newUpdateObj.holiday_long_desc.length > 300) {
-      let obj = {
-        type: "error",
-        title: "Error",
-        body: "Longdescription should not be greater than 300"
-      }
-      this.appc.popToast(obj);
+      this.commonService.showErrorMessage('error', 'Error', 'Long description should not be greater than 300');
       return;
     }
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
@@ -329,13 +263,7 @@ export class EventManagmentComponent implements OnInit {
     }
     this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
       res => {
-        let obj = {
-          type: "success",
-          title: "Saved",
-          body: "Event Updated Successfully."
-        }
-        this.appc.popToast(obj);
-
+        this.commonService.showErrorMessage('success', 'Saved', 'Event Updated Successfully');
         this.closeEditPopup = false;
         this.getAllListData();
       },
@@ -410,12 +338,7 @@ export class EventManagmentComponent implements OnInit {
       this.sendNotify_obj.event_id = e;
       this.eve_mnge.sendNotifiation(this.sendNotify_obj).subscribe(
         res => {
-          let obj = {
-            type: "success",
-            title: "Saved",
-            body: " Notification Send Successfully."
-          }
-          this.appc.popToast(obj);
+          this.commonService.showErrorMessage('success', 'Saved', 'Notification Sent Successfully')
         },
         error => {
           this.errorMessage(error);
@@ -517,28 +440,8 @@ export class EventManagmentComponent implements OnInit {
     }
   }
 
-  removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
-    /* document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active'); */
-  }
-
   errorMessage(error) {
-    let msg = {
-      type: "error",
-      title: "",
-      body: error.error.errorMessage
-    }
-    this.appc.popToast(msg);
+    this.commonService.showErrorMessage('error', 'Error', error);
   }
 
 }

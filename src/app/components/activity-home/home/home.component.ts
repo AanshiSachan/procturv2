@@ -33,9 +33,6 @@ export class HomeComponent implements OnInit {
         }
       }
     )
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.checkUserAccess();
     if (this.isAdmin) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { addCampaign } from '../../../model/add-campaign';
 import { NgForm } from '@angular/forms';
-import { LoginService } from '../../../services/login-services/login.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
@@ -30,8 +28,6 @@ export class CampaignAddComponent implements OnInit {
   isProfessional: boolean = false;
 
   constructor(
-    private router: Router,
-    private login: LoginService,
     private prefill: FetchprefilldataService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService
@@ -49,8 +45,6 @@ export class CampaignAddComponent implements OnInit {
         }
       }
     )
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */

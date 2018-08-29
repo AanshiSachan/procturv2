@@ -67,7 +67,6 @@ export class StudentAddComponent implements OnInit {
     private postService: PostStudentDataService,
     private fetchService: FetchStudentService,
     private router: Router,
-    private login: LoginService,
     private appC: AppComponent,
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory
@@ -82,8 +81,6 @@ export class StudentAddComponent implements OnInit {
 
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchPrefillFormData();
     if (this.isProfessional) {
       if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {

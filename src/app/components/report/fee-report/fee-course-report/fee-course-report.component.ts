@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
-import { LoginService } from '../../../../services/login-services/login.service';
 import { AppComponent } from '../../../../app.component';
 
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
@@ -116,12 +115,11 @@ export class FeeCourseReportComponent implements OnInit {
 
   constructor(
     private excelService: ExcelService,
-    private login: LoginService,
     private appC: AppComponent,
     private getter: GetFeeService,
     private putter: PostFeeService,
     private auth: AuthenticatorService,
-    private pdf:ExportToPdfService
+    private pdf: ExportToPdfService
   ) {
     this.switchActiveView('fee');
   }
@@ -139,9 +137,6 @@ export class FeeCourseReportComponent implements OnInit {
         }
       }
     )
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
-
     this.fetchPrefillDetails();
 
     this.bulkAddItems = [
@@ -767,7 +762,7 @@ export class FeeCourseReportComponent implements OnInit {
 
   exportToExcel() {
     let arr = []
-    if(this.isProfessional){
+    if (this.isProfessional) {
       this.feeDataSource1.map(
         (ele: any) => {
           let json = {
@@ -780,16 +775,16 @@ export class FeeCourseReportComponent implements OnInit {
             "Next Amount Date": ele.student_latest_fee_due_amount,
             "PDC Date": ele.student_latest_pdc,
             "Balance Amount": ele.amount_still_payable,
-            "Master Course" : ele.standard_name,
-            "Batch" : ele.batch_name,
-            "Date of report generation" : moment().format('YYYY-MM-DD')
+            "Master Course": ele.standard_name,
+            "Batch": ele.batch_name,
+            "Date of report generation": moment().format('YYYY-MM-DD')
           }
           arr.push(json);
         }
       )
     }
 
-    else{
+    else {
       this.feeDataSource1.map(
         (ele: any) => {
           let json = {
@@ -802,9 +797,9 @@ export class FeeCourseReportComponent implements OnInit {
             "Next Amount Date": ele.student_latest_fee_due_amount,
             "PDC Date": ele.student_latest_pdc,
             "Balance Amount": ele.amount_still_payable,
-            "Standard Name" : ele.standard_name,
-            "Course" : ele.course_name,
-            "Date of report generation" : moment().format('YYYY-MM-DD')
+            "Standard Name": ele.standard_name,
+            "Course": ele.course_name,
+            "Date of report generation": moment().format('YYYY-MM-DD')
           }
           arr.push(json);
         }
@@ -927,7 +922,7 @@ export class FeeCourseReportComponent implements OnInit {
         })
     }
 
-    else{
+    else {
       this.feeDataSource1.map(
         (ele: any) => {
           let json = [

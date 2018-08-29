@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import 'rxjs/Rx';
 import { NgForm } from '@angular/forms';
 import { addCampaign } from '../../../model/add-campaign';
-import { LoginService } from '../../../services/login-services/login.service';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -35,8 +33,6 @@ export class CampaignBulkComponent implements OnInit {
 
   constructor(
     private fetchData: CampaignService,
-    private router: Router,
-    private login: LoginService,
     private prefill: FetchprefilldataService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService
@@ -53,8 +49,6 @@ export class CampaignBulkComponent implements OnInit {
         }
       }
     )
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */

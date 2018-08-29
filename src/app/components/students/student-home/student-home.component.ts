@@ -116,8 +116,6 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   ngOnInit() {
     this.isRippleLoad = true;
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchStudentPrefill();
     this.loading_message = 3;
     this.studentDataSource = [];

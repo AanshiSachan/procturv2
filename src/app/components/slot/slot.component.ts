@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SlotApiService } from '../../services/slot-service/slot.service';
-import { AppComponent } from '../../app.component';
-import { error } from 'selenium-webdriver';
-import { LoginService } from '../../services/login-services/login.service';
+import { CommonServiceFactory } from '../../services/common-service';
 
 @Component({
   selector: 'app-slot',
@@ -20,13 +18,10 @@ export class SlotComponent implements OnInit {
 
   constructor(
     private apiService: SlotApiService,
-    private appC: AppComponent,
-    private login: LoginService,
+    private commonService: CommonServiceFactory
+
   ) {
-    this.removeFullscreen();
-    this.removeSelectionFromSideNav();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.commonService.removeSelectionFromSideNav();
   }
 
   ngOnInit() {
@@ -41,12 +36,7 @@ export class SlotComponent implements OnInit {
         this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', error.error.message);
       }
     )
   }
@@ -55,32 +45,16 @@ export class SlotComponent implements OnInit {
     if (element.value != "" && element.value != null) {
       this.apiService.addNewSlotToList({ "slot_name": element.value.trim() }).subscribe(
         data => {
-          let msg = {
-            type: 'success',
-            title: "",
-            body: "Slot added successfully."
-          }
-          this.appC.popToast(msg);
+          this.commonService.showErrorMessage('success', 'Added', "Slot added successfully");
           element.value = "";
           this.getAllSlotsFromServer();
         },
         error => {
-          let msg = {
-            type: "error",
-            title: "",
-            body: "An Error Occured"
-          }
-          this.appC.popToast(msg);
+          this.commonService.showErrorMessage('error', 'Error', error.error.message);
         }
       )
     } else {
-      let data = {
-        type: 'error',
-        title: "Error",
-        body: "Please fill Slot Name."
-      }
-      this.appC.popToast(data);
-      return;
+      this.commonService.showErrorMessage('error', 'Error', "Please fill Slot Name");
     }
   }
 
@@ -97,12 +71,7 @@ export class SlotComponent implements OnInit {
         this.getAllSlotsFromServer();
       },
       error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', error.error.message);
       }
     )
   }
@@ -147,33 +116,6 @@ export class SlotComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.slotsDataSource.slice(startindex, startindex + this.studentdisplaysize);
     return t;
-  }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
-
-  removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
-    /* document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active'); */
   }
 
 }

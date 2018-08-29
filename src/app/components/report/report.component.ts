@@ -16,20 +16,8 @@ export class ReportComponent implements OnInit {
 
   ngOnInit() {
     this.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
-    this.removeFullscreen();
   }
 
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
 
   switchActiveView(id) {
     document.getElementById('home').classList.remove('active');

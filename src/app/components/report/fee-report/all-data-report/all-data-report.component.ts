@@ -15,9 +15,7 @@ import { PostFeeService } from '../../../../services/report-services/fee-service
 import { ExcelService } from '../../../../services/excel.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
-import { LoginService } from '../../../../services/login-services/login.service';
 import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
-import {SplitButtonModule} from 'primeng/splitbutton';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
@@ -137,7 +135,6 @@ export class AllDataReportComponent implements OnInit {
 
 
   constructor(
-    private login: LoginService,
     private appC: AppComponent,
     private getter: GetFeeService,
     private putter: PostFeeService,
@@ -170,9 +167,6 @@ export class AllDataReportComponent implements OnInit {
         }
       }
     )
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
-
     // this.fetchPrefillDetails();
     this.bulkAddItems = [
       {
@@ -194,19 +188,19 @@ export class AllDataReportComponent implements OnInit {
         this.searchDB();
       });
 
-      this.tableSetting.keys = this.feeSettings1;
-      if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
-        this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
-  
-        this.tableSetting.keys = this.displayKeys;
-        if (this.displayKeys.length == 0) {
-          this.setDefaultValues();
-        }
-  
-      }
-      else {
+    this.tableSetting.keys = this.feeSettings1;
+    if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
+      this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
+
+      this.tableSetting.keys = this.displayKeys;
+      if (this.displayKeys.length == 0) {
         this.setDefaultValues();
       }
+
+    }
+    else {
+      this.setDefaultValues();
+    }
 
   }
 
@@ -283,7 +277,7 @@ export class AllDataReportComponent implements OnInit {
         })
     }
 
-    else{
+    else {
       this.feeDataSource1.map(
         (ele: any) => {
           let json = [

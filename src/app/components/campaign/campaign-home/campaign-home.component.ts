@@ -1,28 +1,14 @@
-import {
-  Component, OnInit, ViewChild, Input, Output,
-  EventEmitter, HostListener, AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
 import { instituteInfo } from '../../../model/instituteinfo';
-import { updateEnquiryForm } from '../../../model/update-enquiry-form';
 import { MenuItem } from 'primeng/primeng';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { SmsOptionComponent } from './sms-option.component';
-import { error } from 'util';
 import { NgForm } from '@angular/forms';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MessageShowService } from '../../../services/message-show.service';
-
-
-
-
 
 
 @Component({
@@ -178,8 +164,6 @@ export class CampaignHomeComponent implements OnInit {
   isAdmin = sessionStorage.getItem('permissions');
 
   constructor(
-    private router: Router,
-    private login: LoginService,
     private cd: ChangeDetectorRef,
     private postData: CampaignService,
     private auth: AuthenticatorService,
@@ -196,10 +180,6 @@ export class CampaignHomeComponent implements OnInit {
         }
       }
     )
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     /* Load paginated campaign data from server */
     this.loadTableDatatoSource(this.instituteData);

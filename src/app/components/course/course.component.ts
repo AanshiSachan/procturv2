@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { LoginService } from '../../services/login-services/login.service';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../services/authenticator.service';
 
@@ -19,7 +18,6 @@ export class CourseComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private login: LoginService,
     private auth: AuthenticatorService
   ) { }
 
@@ -33,24 +31,7 @@ export class CourseComponent implements OnInit {
         }
       }
     )
-    this.removeSelectionFromSideNav();
-    this.removeFullscreen();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.checkInstituteType();
-  }
-
-  removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.add('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
   }
 
   checkInstituteType() {
@@ -88,19 +69,6 @@ export class CourseComponent implements OnInit {
       document.getElementById(showId).classList.add('active');
     }, 500)
   }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
-
 
   checkUserAcessForNotLang() {
     let userType: any = Number(sessionStorage.getItem('userType'));

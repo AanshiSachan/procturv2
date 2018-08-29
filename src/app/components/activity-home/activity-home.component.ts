@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../services/login-services/login.service';
 
 @Component({
   selector: 'app-activity-home',
@@ -9,27 +8,9 @@ import { LoginService } from '../../services/login-services/login.service';
 export class ActivityHomeComponent implements OnInit {
 
   constructor(
-    private login: LoginService
   ) { }
 
   ngOnInit() {
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.removeFullscreen();
-  }
-
-
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
   }
 
 }

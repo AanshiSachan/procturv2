@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login-services/login.service';
 
 @Component({
   selector: 'app-users',
@@ -10,15 +9,11 @@ import { LoginService } from '../../services/login-services/login.service';
 export class UsersManagementComponent implements OnInit {
 
   constructor(
-    private router: Router,
-    private login: LoginService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.removeSelectionFromSideNav();
-    this.removeFullscreen();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.checkWhichTabIsOpen();
   }
 
@@ -38,27 +33,9 @@ export class UsersManagementComponent implements OnInit {
   }
 
   removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
-  }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
+    let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine', 'lizero'];
+    classArray.forEach(function (className) {
+      document.getElementById(className).classList.remove('active');
     });
   }
 
