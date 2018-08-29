@@ -17,3 +17,17 @@
     color: #666666;
     text-transform: uppercase;
 }
+
+.span-button {
+    border: 1px solid #0084f6;
+    padding: 4px 8px;
+    color: #0084f6;
+    font-size: 0.9em;
+    border-radius: 2px;
+    font-weight: 600;
+    cursor: pointer;
+    svg {
+        margin: -3px 0px;
+        height: 14px;
+    }
+}

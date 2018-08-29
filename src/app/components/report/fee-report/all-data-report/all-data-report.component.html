@@ -97,18 +97,31 @@
 
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="c-lg-10"></div>
+                    <div class="c-lg-2">
+                        <span class="span-button" (click)="exportToExcel()">
+                            <i class="fa fa-file-excel-o"></i>
+                            Excel
+                        </span>
+                        <span class="span-button" style="margin-left: 15px;"  (click)="exportToPdf()">
+                            <i class="fa fa-file-pdf-o" (click)="exportToPdf()"></i>
+                            Pdf
+                        </span>
+                    </div>
+                </div>
             </div>
 
             <section style="margin-top: 10px;">
                 <div class="row">
-                    <div class="c-lg-5" style="margin-top: 1%;">
-                        <p-splitButton label="download" [model]="bulkAddItems" icon="pi pi-file"></p-splitButton>
+                    <div class="c-lg-3" style="margin-top: 1%;">
                         <a (click)="openPreferences()" title="Select Table Preferences"> select preference &nbsp;
                             <i class="fa fa-question-circle" aria-hidden="true" style="color:#0060A3"></i>
                         </a>
                     </div>
 
-                    <div class="c-lg-5">
+                    <div class="c-lg-7">
                         <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
                             <li style="display: inline-block; margin-left: 11px;">
                                 <span class="made-out"> Total fees Collection</span>

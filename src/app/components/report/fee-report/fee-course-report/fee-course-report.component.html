@@ -124,6 +124,20 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="c-lg-10"></div>
+                    <div class="c-lg-2">
+                        <span class="span-button" (click)="exportToExcel()">
+                            <i class="fa fa-file-excel-o"></i>
+                            Excel
+                        </span>
+                        <span class="span-button" style="margin-left: 15px;" (click)="exportToPdf()">
+                            <i class="fa fa-file-pdf-o" (click)="exportToPdf()"></i>
+                            Pdf
+                        </span>
+                    </div>
+                </div>
+
                 <div class="c-lg-3">
                     <div class="field-wrapper hide">
                         <label for="ic">Installment</label>
@@ -180,9 +194,7 @@
 
             <section>
                 <div class="row" style="margin-top: 10px;">
-                    <div class="c-lg-2" style="margin-top: 1%;">
-                        <p-splitButton label="download" [model]="bulkAddItems" icon="pi pi-file"></p-splitButton>
-                    </div>
+                    <div class="c-lg-2"></div>
                     <div class="c-lg-8">
                         <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left; width:64vw;">
                             <div class="c-lg-3">

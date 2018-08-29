@@ -5,7 +5,6 @@ import { AppComponent } from '../../../../app.component';
 
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
-import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
@@ -21,7 +20,6 @@ export class FeeCourseReportComponent implements OnInit {
 
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];
-  bulkAddItems: MenuItem[];
   isCustomDate: boolean;
   isFeeReceipt: boolean;
   isNextDueDetail: boolean;
@@ -138,19 +136,6 @@ export class FeeCourseReportComponent implements OnInit {
       }
     )
     this.fetchPrefillDetails();
-
-    this.bulkAddItems = [
-      {
-        label: 'Pdf Download', icon: 'fa-download', command: () => {
-          this.exportToPdf();
-        }
-      },
-      {
-        label: 'Excel Download', icon: 'fa-download', command: () => {
-          this.exportToExcel();
-        }
-      }
-    ];
 
     this.form.valueChanges
       .debounceTime(100)
