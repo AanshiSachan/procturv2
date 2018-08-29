@@ -74,6 +74,18 @@
     padding: 0px 7px;
 }
 
+.file__made{
+    font-size: 13px;
+    color: #8087a2;
+    width: 15%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 15px;
+    white-space: nowrap;
+    padding: 0px 7px;
+}
+
 .file__title:before {
     width: 16px;
     position: absolute;
