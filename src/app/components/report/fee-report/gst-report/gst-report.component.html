@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" *ngIf="getPaymentRecords.length!=0">
                         <div class="c-lg-10"></div>
                         <div class="c-lg-2">
                             <span class="span-button" (click)="exportToExcel()">
