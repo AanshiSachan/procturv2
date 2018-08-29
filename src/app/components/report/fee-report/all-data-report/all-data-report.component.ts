@@ -194,14 +194,33 @@ export class AllDataReportComponent implements OnInit {
         this.searchDB();
       });
 
-    this.tableSetting.keys = this.feeSettings1;
-    if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
-      this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
-      this.tableSetting.keys = this.displayKeys;
-
-    }
+      this.tableSetting.keys = this.feeSettings1;
+      if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
+        this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
+  
+        this.tableSetting.keys = this.displayKeys;
+        if (this.displayKeys.length == 0) {
+          this.setDefaultValues();
+        }
+  
+      }
+      else {
+        this.setDefaultValues();
+      }
 
   }
+
+  setDefaultValues() {
+    this.tableSetting.keys = [
+      { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
+      { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
+      { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true }
+    ];
+    this.displayKeys = this.tableSetting.keys;
+    this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
+  }
+
 
   ngDoCheck() {
     this.ref.detectChanges();

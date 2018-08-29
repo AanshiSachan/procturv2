@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityPtmService } from '../../../services/activity-ptmservice/activity-ptm.service';
-import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-ptm-management',
@@ -12,22 +11,18 @@ export class PtmManagementComponent implements OnInit {
   batchQueryParam = {
     is_active: 1
   }
-  getAllBatches: any[] = []
-
   getptmDates = {
     batch_id: -1
   }
-
   ptmId = {
     ptm_id: -1
   }
-
+  getAllBatches: any[] = []
   fetchPtmDates: any[] = []
   viewStudents: any[] = [];
   isRippleLoad: boolean = false;
 
-  constructor(private ptmService: ActivityPtmService,
-    private appc: AppComponent) { }
+  constructor(private ptmService: ActivityPtmService) { }
 
   ngOnInit() {
     this.fetchBatchesList();

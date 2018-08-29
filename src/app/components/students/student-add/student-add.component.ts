@@ -10,12 +10,13 @@ import * as moment from 'moment';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { AppComponent } from '../../../app.component';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/filter';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-student-add',
@@ -31,7 +32,7 @@ export class StudentAddComponent implements OnInit {
   /* ========================================================================================================== */
   /* ========================================================================================================== */
   public institute_enquiry_id: any; selectedCheque: any; defaultAcadYear: any; isPartialPayment: boolean; userHasFees: boolean; closeFee: boolean; studentAddnMove: boolean; partialPaySelected: any; isPdcApply: boolean = false; pdcAddForm: any = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0 }; newPdcArr: any[] = []; pdcSelectedArr: any[] = []; pdcStatus: any[] = []; pdcSearchObj = { cheque_status: '-1', student_id: '', cheque_date_from: '', cheque_date_to: '' }; pdcSelectedForPayment: any; isPdcFeePaymentSelected: boolean = false; chequePdcList: any[] = []; savedAssignedBatch: any[] = []; formIsActive: boolean = true; isRippleLoad: boolean = false; pdcSelectedForm: any = { bank_name: '', cheque_amount: '', cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
-  private studentAddFormData: StudentForm = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "-1", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], assignedCourse_Subject_FeeTemplateArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: "admitted", stuCustomLi: [] };
+  private studentAddFormData: StudentForm = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "-1", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], assignedCourse_Subject_FeeTemplateArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: "admitted", stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
   private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false; private isAssignBatch: boolean = false; private isAcad: boolean = false;
   private isProfessional: boolean = false; private multiOpt: boolean = false; private isDuplicateStudent: boolean = false; private genPdcAck: boolean = false;
   private sendPdcAck: boolean = false; private instituteList: any[] = []; private standardList: any[] = []; private courseList: any[] = []; private batchList: any[] = []; private slots: any[] = []; private langStatus: any[] = []; private selectedSlots: any[] = []; private customComponents: any[] = []; private slotIdArr: any[] = []; private uploadedFiles: any[] = [];
@@ -40,7 +41,7 @@ export class StudentAddComponent implements OnInit {
   private isNewInstituteEditor: boolean = false; private school: any[] = []; public removeImage: boolean = false; private userCustommizedFee: any[] = [];
   private isBasicActive: boolean = true; private isOtherActive: boolean = false; private isFeeActive: boolean = false; private isInventoryActive: boolean = false;
   private isConfigureFees: boolean = false; private feeTempSelected: any = ""; private isDiscountApplied: boolean = false;
-  private discountReason: string = ''; private key: string = 'name'; private reverse: boolean = false; private allotInventoryArr: any[] = [];
+  private discountReason: string = ''; private key: string = 'name'; private reverse: boolean = false;
   private taxEnableCheck: any = '1'; private isPaymentPdc: boolean = false; private otherFeeType: any[] = []; private instalmentTableData: any[] = [];
   private otherFeeTableData: any[] = []; private feeTemplateStore: any[] = []; private inventoryItemsArr: any[] = []; public containerWidth: any = "200px"
   public studentImage: string = ''; private isPaymentDetailsValid: boolean = false; private student_id: any = 0; private service_tax: number = 0; private totalFeePaid: number = 0; private paymentStatusArr: any[] = [];
@@ -50,49 +51,42 @@ export class StudentAddComponent implements OnInit {
   private feeStructureForm: any = { studentArray: ["-1"], template_effective_date: moment().format('YYYY-MM-DD') }; private createInstitute = { instituteName: "", isActive: "Y" }; private allocationForm: any = { alloted_units: "", item_id: "", student_id: 0, institution_id: sessionStorage.getItem('institute_id') }; studentPartialPaymentData: any[] = []; isPartialPayHistory: boolean = false; isManualDisplayId: boolean = false;
   private feeTemplateById: StudentFeeStructure = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", toCreate: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: "", is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "", remarks: "", paid_date: "", is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
   private discountApplyForm: any = { type: 'amount', value: null, reason: '', state: 'all' }; public totalFeeWithTax: number = 0; totalDicountAmount: number = 0; public totalTaxAmount: number = 0; public totalAmountPaid: number = 0; public totalInitalAmount: number = 0; public totalAmountDue: number = 0; public totalPaidAmount: number = 0; public partialPayObj: any = { chequeDetailsJson: {}, paid_date: moment().format('YYYY-MM-DD'), paymentMode: "Cash", reference_no: '', remarks: "", studentFeeReportJsonList: [], student_id: this.student_id }; public studentFeeReportObj: any = { due_date: null, fee_schedule_id: 0, paid_full: "Y", previous_balance_amt: "", total_amt_paid: "" }; enableBiometric: any; academicYear: any[] = []; enquiryCustomComp: any[] = []; courseDropdown: any = null;
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
+
+  addInventory: any = {
+    alloted_units: 0,
+    item_id: -1,
+    available_units: ''
+  };
+  allocatedItem: any = [];
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
 
-
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  /* Constructor Initialization */
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
     private postService: PostStudentDataService,
     private fetchService: FetchStudentService,
-    private router: Router, private login: LoginService,
-    private appC: AppComponent, private auth: AuthenticatorService) {
+    private router: Router,
+    private login: LoginService,
+    private appC: AppComponent,
+    private auth: AuthenticatorService,
+    private commonServiceFactory: CommonServiceFactory
+  ) {
     this.isRippleLoad = true
     this.getInstType();
     this.getSettings();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
   }
   /* ========================================================================================================== */
-  /* ========================================================================================================== */
-
-
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
   /* OnInit Lifecycle Hook */
-  /* ============================================================================================================== */
-  /* ============================================================================================================== */
+
   ngOnInit() {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchPrefillFormData();
     if (this.isProfessional) {
-      if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
+      if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
         this.getSlots();
         this.getlangStudentStatus();
         this.convertToStudentDetected();
@@ -103,7 +97,7 @@ export class StudentAddComponent implements OnInit {
       this.updateBatchList();
     }
     else if (!this.isProfessional) {
-      if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
+      if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
         this.getSlots();
         this.getlangStudentStatus();
         this.convertToStudentDetected();
@@ -149,9 +143,6 @@ export class StudentAddComponent implements OnInit {
   /* ========================================================================================================== */
   /* ===================================== Data Prefill Method and General Methods ============================ */
   /* ========================================================================================================== */
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateBatchList() {
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
       console.log('updateBatchList' + this.batchList.length);
@@ -174,8 +165,6 @@ export class StudentAddComponent implements OnInit {
     });
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getInstType() {
     this.auth.institute_type.subscribe(
       res => {
@@ -191,8 +180,6 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateMasterCourseList(id) {
     this.batchList = [];
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
@@ -221,8 +208,6 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
     if (text === "studentForm") {
@@ -298,9 +283,6 @@ export class StudentAddComponent implements OnInit {
     if (mid == '1') { this.isManualDisplayId = true; };
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* Function to navigate on icon click */
   switchToView(id) {
     switch (id) {
@@ -327,22 +309,11 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
     this.isRippleLoad = true;
 
-    this.studentPrefillService.fetchInventoryList().subscribe(
-      data => { this.isRippleLoad = false; this.inventoryItemsArr = data; },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
-      }
-    );
+    this.fetchInventoryList();
 
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
@@ -423,16 +394,12 @@ export class StudentAddComponent implements OnInit {
     );
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getDefaultArr(d): any[] {
     let a: any[] = [];
     a.push(d);
     return a;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   createPrefilledDataType4(dataArr: any[], selected: any[], def: any[]): any[] {
     let customPrefilled: any[] = [];
     if (selected.length != 0 && selected[0] != "") {
@@ -456,8 +423,6 @@ export class StudentAddComponent implements OnInit {
     return customPrefilled;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
@@ -471,25 +436,16 @@ export class StudentAddComponent implements OnInit {
     return customPrefilled;
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* Function to show/hide Addition Details Form section */
   toggleAdditionalBasicDetails() {
     this.additionalBasicDetails = !this.additionalBasicDetails;
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* Open batch assign popup */
   openAssignBatch() {
     this.isAssignBatch = true;
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* close batch assign popup */
   closeBatchAssign() {
     /* batch has been already selected */
@@ -524,21 +480,17 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* align the user selected batch into input and update the data into array to be updated to server */
   getassignedBatchList(e) {
     this.studentAddFormData.assignedBatches = e.assignedBatches;
     this.studentAddFormData.batchJoiningDates = e.batchJoiningDates;
     this.studentAddFormData.assignedBatchescademicYearArray = e.assignedBatchescademicYearArray;
     this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = e.assignedCourse_Subject_FeeTemplateArray;
+    this.studentAddFormData.deleteCourse_SubjectUnPaidFeeSchedules = false;
     this.assignedBatchString = e.assignedBatchString;
     this.isAssignBatch = e.isAssignBatch;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getSlots() {
     return this.studentPrefillService.fetchSlots().subscribe(
       res => {
@@ -560,9 +512,6 @@ export class StudentAddComponent implements OnInit {
     )
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getlangStudentStatus() {
     return this.studentPrefillService.fetchLangStudentStatus().subscribe(
       res => {
@@ -577,9 +526,6 @@ export class StudentAddComponent implements OnInit {
     )
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
     if (elid != null && elid != '') {
@@ -592,9 +538,6 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateSlotSelected(data) {
     /* slot checked */
     if (data.status) {
@@ -624,9 +567,6 @@ export class StudentAddComponent implements OnInit {
 
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
       if (el.id == id) {
@@ -645,8 +585,6 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   concatDataWithComma(data) {
     let test = "";
     if (data.length > 0) {
@@ -663,8 +601,8 @@ export class StudentAddComponent implements OnInit {
     return test;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   fetchCourseFromMaster(id) {
     if (id == null || id == '') {
       this.courseList = [];
@@ -678,20 +616,20 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   openInstituteAdder() {
     this.isNewInstituteEditor = true;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   closeInstituteAdder() {
     this.isNewInstituteEditor = false;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   /* close add new institute */
   closeAddInstitute() {
     this.isNewInstitute = false;
@@ -699,8 +637,8 @@ export class StudentAddComponent implements OnInit {
     this.createInstitute.instituteName = '';
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   /* function to add institute data to server */
   addInstituteData() {
     this.prefill.createNewInstitute(this.createInstitute).subscribe(
@@ -747,8 +685,8 @@ export class StudentAddComponent implements OnInit {
       });
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   fetchInstituteInfo() {
     this.prefill.getSchoolDetails().subscribe(
       data => {
@@ -762,8 +700,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   editInstitute(id) {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
@@ -772,16 +710,10 @@ export class StudentAddComponent implements OnInit {
     });
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   cancelEditInstitute(id) {
     this.fetchInstituteInfo();
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateInstitute(id) {
     this.instituteList.forEach(el => {
       if (el.school_id == id) {
@@ -808,9 +740,6 @@ export class StudentAddComponent implements OnInit {
     });
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   deleteInstitute(id) {
     this.postService.deleteInstitute(id).subscribe(
       res => {
@@ -835,8 +764,6 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* toggle visibility of new institute form */
   toggleInstituteAdd() {
 
@@ -852,15 +779,12 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
   setImage(e) {
     //console.log(e);
     this.studentImage = e;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getCourseDropdown(id) {
     this.fetchService.getStudentCourseDetails(id).subscribe(
       res => {
@@ -872,39 +796,10 @@ export class StudentAddComponent implements OnInit {
     )
   }
 
-
-
-  /* ========================================================================================================== */
   /* ========================================== General Methods Ends here ================================================== */
-  /* ========================================================================================================== */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /* ========================================================================================================== */
   /* ===================================== Student Admission Methods and Form validation======================= */
-  /* ========================================================================================================== */
-
   /* Navigate or check for submission */
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
   addStudentDataAndFetchFee(values: NgForm) {
     this.studentAddnMove = true;
     if (this.isManualDisplayId) {
@@ -926,22 +821,6 @@ export class StudentAddComponent implements OnInit {
 
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  formValidator(): boolean {
-    if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
-      && this.studentAddFormData.student_phone != "" && this.studentAddFormData.student_phone != " "
-      && this.studentAddFormData.student_phone.length == 10) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   studentQuickAdder(form: NgForm) {
     /* Both Form are Valid Else there seems to be an error on custom component */
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
@@ -1054,9 +933,6 @@ export class StudentAddComponent implements OnInit {
 
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getCustomValid(element): boolean {
     if (element.is_required == "Y" && element.value != "") {
       if (element.type == 5) {
@@ -1079,13 +955,10 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   formfullValidator() {
-    if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
-      && this.studentAddFormData.student_phone != "" && this.validateName() && this.studentAddFormData.student_phone != " "
-      && this.studentAddFormData.student_phone.length == 10) {
+    if ((!this.commonServiceFactory.checkValueType(this.studentAddFormData.student_name.trim()))
+      && this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim())
+      && this.validateName()) {
       return true;
     }
     else {
@@ -1093,9 +966,6 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   validateName(): boolean {
     let regex = /[a-zA-Z .]+[a-zA-Z .]+/;
     if (regex.test(this.studentAddFormData.student_name)) {
@@ -1105,23 +975,6 @@ export class StudentAddComponent implements OnInit {
       return false;
     }
   }
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  validatePhone(): boolean {
-    let regex = /[789][0-9]{9}/;
-    if (regex.test(this.studentAddFormData.student_phone)) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   validateDOB(): string {
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date') {
       return '';
@@ -1131,9 +984,6 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   customComponentValid(): boolean {
     function isValid(el) {
       if (el.is_required == "Y" && el.value != '') {
@@ -1150,23 +1000,14 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   isDuplicateContactOpen() {
     this.isDuplicateStudent = true;
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   isDuplicateContactClose() {
     this.isDuplicateStudent = false;
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   registerDuplicateStudent(form: NgForm) {
     /* Both Form are Valid Else there seems to be an error on custom component */
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
@@ -1225,16 +1066,10 @@ export class StudentAddComponent implements OnInit {
             this.removeImage = true;
             this.student_id = res.generated_id;
             this.getCourseDropdown(res.generated_id);
-            /* Inventory Allocated*/
-            if (this.allotInventoryArr.length > 0) {
-              this.allocateInventory(res.generated_id);
-            }
-            /* Inventory is not defined but fee is defined*/
-            else if (this.allotInventoryArr.length == 0 && this.isFeeApplied) {
+            if (this.isFeeApplied) {
               this.asssignCustomizedFee(res.generated_id);
             }
-            /* Inventory and fee both are not defined */
-            else if (this.allotInventoryArr.length == 0 && !this.isFeeApplied) {
+            else {
               this.studentAddedNotifier();
             }
 
@@ -1275,20 +1110,16 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   clearFormAndMove() {
     this.navigateTo('studentForm');
-    this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: null, stuCustomLi: [] };
+    this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: null, stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
     this.removeImage = true;
     this.fetchPrefillFormData();
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   convertToStudentDetected() {
     this.isConvertEnquiry = true;
-    this.enquiryData = JSON.parse(localStorage.getItem('studentPrefill'));
+    this.enquiryData = JSON.parse(sessionStorage.getItem('studentPrefill'));
     this.studentAddFormData.student_name = this.enquiryData.name;
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
@@ -1304,12 +1135,10 @@ export class StudentAddComponent implements OnInit {
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
     this.fetchEnquiryCustomComponentDetails();
-    localStorage.removeItem('studentPrefill');
+    sessionStorage.removeItem('studentPrefill');
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   fetchEnquiryCustomComponentDetails() {
     let id = this.institute_enquiry_id;
     this.studentPrefillService.fetchEnquiryCC(id).subscribe(
@@ -1331,9 +1160,6 @@ export class StudentAddComponent implements OnInit {
     )
   }
 
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   filterStudentCustomComp() {
     this.customComponents.forEach(c => {
       if (c.data.on_both == "Y") {
@@ -1344,8 +1170,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   /* arg1::studentComp arg2:: enquiryComp */
   updateEnquiryComponent(id): any {
     let result: any;
@@ -1366,11 +1192,11 @@ export class StudentAddComponent implements OnInit {
     return result;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   clearFormAndRoute(form: NgForm) {
     let previousUrl: string = '';
-    this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: null, stuCustomLi: [] };
+    this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: null, stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
     form.reset();
 
     if (this.isConvertEnquiry) {
@@ -1381,15 +1207,15 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   clearDateoJoining() {
     this.studentAddFormData.doj = ''
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateFormIsActive(ev) {
     if (ev) {
       this.studentAddFormData.is_active = "Y";
@@ -1400,8 +1226,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   cancelStudentUpload() {
     this.router.navigate(['/view/student']);
   }
@@ -1428,8 +1254,8 @@ export class StudentAddComponent implements OnInit {
   /* =================================== Student Fee Methods and PDC Handling Validation======================= */
   /* ========================================================================================================== */
   /* GEt Student Fee Details */
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   studentAddedGetFee(id) {
     this.isRippleLoad = true;
 
@@ -1494,8 +1320,8 @@ export class StudentAddComponent implements OnInit {
       });
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   allignStudentFeeView(data) {
     this.totalFeeWithTax = 0; this.totalDicountAmount = 0; this.totalTaxAmount = 0;
     this.totalInitalAmount = 0; this.totalPaidAmount = 0; this.totalAmountPaid = 0;
@@ -1546,16 +1372,16 @@ export class StudentAddComponent implements OnInit {
     this.navigateTo('feeDetails');
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   configureFees($event) {
     $event.preventDefault();
     this.isConfigureFees = true;
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   applyConfiguredFees($event) {
     this.isPaymentDetailsValid = false;
     this.feeTemplateById = { feeTypeMap: "", customFeeSchedules: [], registeredServiceTax: "", toCreate: "", studentArray: "", studentwise_total_fees_amount: "", studentwise_total_fees_balance_amount: "", studentwise_total_fees_amount_paid: "", studentwise_total_fees_discount: "", studentwise_fees_tax_applicable: "", no_of_installments: "", discount_fee_reason: "", template_name: "", template_id: "", template_effective_date: "", is_fee_schedule_created: "", is_fee_tx_done: "", is_undo: "", is_fee_other_inst_created: "", is_delete_other_fee_types: "", chequeDetailsJson: "", payment_mode: "Cash", remarks: "", paid_date: "", is_cheque_details_required: "", reference_no: "", invoice_no: "", uiSelected: false };
@@ -1642,7 +1468,7 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
+
   updateInstallmentTableDate(e, i) {
     if (e == null || e == "Invalid date") {
       this.instalmentTableData[i].due_date = moment().format("YYYY-MM-DD");
@@ -1653,7 +1479,7 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
+
   paymentValueUpdate(bol, id) {
     if (bol) {
       var index = this.installmentMarkedForPayment.indexOf(id);
@@ -1677,16 +1503,16 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   clearEffectiveDate($event) {
     $event.preventDefault();
     this.feeStructureForm.template_effective_date = '';
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   closeConfigureFees() {
     this.isConfigureFees = false;
     this.feeStructureForm = {
@@ -1698,8 +1524,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getFeeStructue() {
     this.studentPrefillService.fetchAllFeeStructure().subscribe(
       res => {
@@ -1713,8 +1539,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   openPaymentDetails($event) {
     $event.preventDefault();
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
@@ -1724,8 +1550,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   closePaymentDetails() {
     this.isPaymentPdc = false;
     this.genPdcAck = false;
@@ -1737,16 +1563,16 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   clearfeePaymentDate($event) {
     $event.preventDefault();
     this.feeTemplateById.paid_date = "";
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   validatePaymentDetails($event) {
     $event.preventDefault();
     /* Error */
@@ -1842,8 +1668,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getTaxedAmount(amt, stat, i): number {
     if (this.instalmentTableData.length > 0) {
 
@@ -1863,8 +1689,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateInitialAmount(amt, i) {
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let value: number = 0;
@@ -1879,8 +1705,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getOtherTaxes(amt, stat, i): number {
     if (this.otherFeeTableData.length > 0) {
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
@@ -1898,8 +1724,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateAdditionalInitialAmount(amount, tax, index) {
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let value: number = 0;
@@ -1914,8 +1740,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getOtherFeesArray(): any[] {
     if (this.otherFeeType.length == 0) {
       let tempArr: any[] = [];
@@ -1933,8 +1759,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   addNewOtherFee() {
     let otherFeesArr: any[] = this.otherFeeTableData;
 
@@ -1971,16 +1797,16 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   clearOtherFees(arr: any[]) {
     this.otherFeeTableData = arr;
     this.addFeeOther = { amount_paid: '', amount_paid_inRs: null, balance_amount: 0, batch_id: 0, created_by: null, created_date: null, day_type: 0, days: 0, discount: 0, due_date: moment().format("YYYY-MM-DD"), enquiry_counsellor_name: "", enquiry_id: 0, feeTypes: null, fee_date: null, fee_payment_edit_history: null, fee_type: null, fee_type_name: "", fee_type_tax_configured: 0, fees_amount: 0, fineAmount: 0, fine_type: null, initial_fee_amount: 0, installment_no: null, installment_nos: "", invoice_no: 0, is_fee_receipt_generate: 0, is_paid: 0, is_referenced: "N", latest_due_date: "", onlinePaymentJson: null, paid_date: null, paid_full: "N", paymentDate: null, paymentMode: null, paymentModeAmountMap: null, payment_creation_date: null, payment_reference_id: 0, payment_status: 0, payment_tx_id: 0, pdc_cheque_id: -1, reference_no: null, remarks: null, scheduleType: null, schedule_id: 0, service_tax: null, service_tax_applicable: "N", student_category: "", student_disp_id: null, student_id: 0, student_name: null, student_phone: "", tax: 0, update_date: null, updated_by: null };
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateOtherFeeData(e) {
     this.studentPrefillService.getFeeDetailsById(e).subscribe(
       el => {
@@ -1995,8 +1821,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   precisionRound(number, precision) {
     let o = number.toFixed(1);
     let num = parseInt(o.toString().split('.')[0]);
@@ -2020,8 +1846,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   splitCustomizedFee() {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
@@ -2039,8 +1865,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   fetchCustomFeeSchedule(e) {
     this.isRippleLoad = true; this.userCustommizedFee = e; this.totalTaxAmount = 0; this.totalInitalAmount = 0;
     this.totalFeeWithTax = 0; this.totalAmountDue = 0; this.totalPaidAmount = 0; this.totalFeePaid = 0;
@@ -2140,8 +1966,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   createCustomFeeSchedule() {
     this.isRippleLoad = true;
     this.instalmentTableData.sort(function (d1, d2) {
@@ -2259,8 +2085,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getCustomizedFee(arr: any[]): any[] {
     let temp: any[] = [];
     arr.forEach(e => {
@@ -2271,8 +2097,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   applyDiscountCustomFeeSchedule() {
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
@@ -2290,8 +2116,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   closeAllFeePops() {
     if (confirm("Any unsaved changes made to fee template will be discarded!")) {
       this.closeFee = true;
@@ -2303,8 +2129,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getTaxAmounted(fee) {
     if (fee.fee_type_name == "INSTALLMENT") {
       let amount = fee.initial_fee_amount;
@@ -2327,8 +2153,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   /* provieds unique JSON list of data */
   uniqueConvertFeeJson(res: any[]): any[] {
     let unique = {};
@@ -2342,8 +2168,8 @@ export class StudentAddComponent implements OnInit {
     return distinct;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateStudentFeeDetails() {
     this.deselectAllSelectedCheckbox();
     this.installmentMarkedForPayment = []; this.isRippleLoad = true; this.totalFeeWithTax = 0;
@@ -2490,8 +2316,8 @@ export class StudentAddComponent implements OnInit {
     );
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   convertCustomizedfee(arr: any[]) {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
@@ -2507,16 +2333,16 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   sortTableByDate(i, event) {
     this.instalmentTableData[i].due_date = event;
     this.updateTableInstallment();
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateTableInstallment() {
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
@@ -2524,31 +2350,31 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   deleteInstallment(i) {
     this.instalmentTableData.splice(i, 1);
     this.updateTableInstallment();
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   deleteOtherFee(i) {
     this.otherFeeTableData.splice(i, 1);
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   reConfigureFees() {
     this.deselectAllSelectedCheckbox();
     this.isDefineFees = true;
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   reCreateFeeAgain() {
     this.closeAllFeePops();
     this.instalmentTableData = [];
@@ -2558,8 +2384,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getTaxAmount(i) {
     let fee = this.feeTemplateById.customFeeSchedules[i];
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
@@ -2570,8 +2396,8 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   asssignCustomizedFee(id) {
     let obj = { chequeDetailsJson: {}, customFeeSchedules: [], discount_fee_reason: "", is_delete_other_fee_types: 0, is_undo: "", paid_date: "", payment_mode: "", reference_no: "", remarks: "", studentArray: [], studentwise_fees_tax_applicable: "", studentwise_total_fees_amount: "", studentwise_total_fees_discount: 0, template_effective_date: "", template_id: "" };
     obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
@@ -2642,8 +2468,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   paymentModeUpdate(e) {
     if (e === 'Cheque/PDC/DD No.') {
       this.isPaymentPdc = true;
@@ -2655,23 +2481,23 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   openDiscountApply() {
     this.deselectAllSelectedCheckbox();
     this.isDiscountApply = true;
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   closeDiscountApply() {
     this.isDiscountApply = false;
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   fetchDiscountData(e) {
     this.discountReason = e.reason;
     this.instalmentTableData = e.installment;
@@ -2685,7 +2511,7 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
+
   deselectAllSelectedCheckbox() {
     this.totalFeePaid = 0;
     this.total_amt_tobe_paid = this.totalFeePaid;
@@ -2699,8 +2525,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   calculateLengthPaid(arr: any[]): any[] {
     let temp: any[] = [];
     for (var i = 0; i < this.instalmentTableData.length; i++) {
@@ -2710,8 +2536,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   sort(key) {
     this.key = key;
     if (key == 'due_date') {
@@ -2723,8 +2549,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getTotalDiscountAmount(): number {
     if (this.discountApplyForm.value == 0 || this.discountApplyForm.value == '') {
       return 0;
@@ -2739,8 +2565,8 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getPaidStatus(el): any {
     if (el.is_referenced == 'Y') {
       return 0;
@@ -2754,8 +2580,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getFeeStructure(fee: any[]): any[] {
     let temp: any[] = [];
 
@@ -2771,16 +2597,16 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   addNewPDCState() {
     let obj = { bank_name: this.pdcAddForm.bank_name, cheque_amount: this.pdcAddForm.cheque_amount, cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"), cheque_id: this.pdcAddForm.cheque_id, cheque_no: this.pdcAddForm.cheque_no, cheque_status: this.pdcAddForm.cheque_status, cheque_status_key: this.pdcAddForm.cheque_status_key, clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: this.student_id };
     if (this.validPdc(obj)) { this.newPdcArr.push(obj); this.addPdcDataToServer(); }
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   validPdc(obj): boolean {
     if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
       if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
@@ -2803,14 +2629,14 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   deleteUnsavedPdc(i) {
     this.newPdcArr.splice(i, 1);
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getPdcChequeList() {
     //console.log(this.pdcSearchObj);
     let obj = {
@@ -2838,15 +2664,15 @@ export class StudentAddComponent implements OnInit {
     );
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   closePDCPop() {
     this.selectedCheque = null;
     this.isPdcApply = false
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   addPdcDataToServer() {
     let temp: any[] = [];
     this.newPdcArr.forEach(e => {
@@ -2871,23 +2697,23 @@ export class StudentAddComponent implements OnInit {
 
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   chequeSelectedForAction(i) {
     this.selectedCheque = i;
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   editPDC(data) {
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('editComp');
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updatePDC(el) {
     if (this.validPdc(el)) {
       let obj = {
@@ -2916,8 +2742,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   deletePDC(data, i) {
 
     if (confirm("Are you sure,you want to delete the Cheque?")) {
@@ -2937,8 +2763,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   cancelEditPDC(data) {
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('displayComp');
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('editComp');
@@ -2947,8 +2773,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   pdcSelected(obj) {
     if (obj.uiSelected) {
       this.pdcSelectedArr.push(obj.cheque_id);
@@ -2960,8 +2786,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   generateAck() {
     if (this.selectedCheque != null && this.selectedCheque != undefined) {
       this.isRippleLoad = true;
@@ -2998,8 +2824,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   sendAck() {
     if (this.selectedCheque != null && this.selectedCheque != undefined) {
       this.isRippleLoad = true;
@@ -3024,8 +2850,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   feePdcSelected(obj) {
     //console.log(obj);
     if (obj === '') {
@@ -3043,8 +2869,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   validatePdcObject(): boolean {
     if (this.pdcSelectedForm.bank_name.trim() == '' || this.pdcSelectedForm.cheque_date == 'Invalid date' || this.pdcSelectedForm.cheque_date == '' || this.pdcSelectedForm.cheque_no == '' || this.pdcSelectedForm.cheque_amount == '') {
       return false;
@@ -3055,8 +2881,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   /* convert base64 string to byte array */
   convertBase64ToArray(val) {
     var binary_string = window.atob(val);
@@ -3068,8 +2894,8 @@ export class StudentAddComponent implements OnInit {
     return bytes.buffer;
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   downloadFeeReceipt(ins) {
     let yr: any;
     let link = document.getElementById("downloadAddFeeReciept" + ins.invoice_no);
@@ -3111,8 +2937,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   emailFeeReceipt(ins) {
     let yr: any;
 
@@ -3148,8 +2974,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateDiscount() {
     let obj = {
       customFeeSchedules: [],
@@ -3207,8 +3033,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getStudentFeeReportJsonList(): any[] {
     let temp: any[] = [];
     let total = this.total_amt_tobe_paid;
@@ -3283,8 +3109,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   openPartialPayment(ins) {
     this.partialPaySelected = ins;
     this.totalFeePaid = ins.balance_amount;
@@ -3294,8 +3120,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   closePartialPayment() {
     this.isPaymentPdc = false;
     this.feeTemplateById.payment_mode = "Cash";
@@ -3311,8 +3137,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   getPaidFullVal(): string {
 
     if (this.partialPaySelected.balance_amount > this.total_amt_tobe_paid) {
@@ -3342,8 +3168,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   payPartial() {
     /* Error */
     if (this.feeTemplateById.paid_date == null && this.feeTemplateById.payment_mode == null) {
@@ -3582,8 +3408,8 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   payOnePartial() {
     /* Error */
     if (this.partialPayObj.paid_date == null && this.partialPayObj.paymentMode == null) {
@@ -3795,8 +3621,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   totalPartialChange(e, v) {
     if (v == "payone") {
       if (e > this.totalFeePaid) {
@@ -3857,54 +3683,14 @@ export class StudentAddComponent implements OnInit {
   /* ========================================== Inventory Allocation Methods ================================== */
   /* ========================================================================================================== */
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  allocateInventory(id) {
-    let count: number = 0;
-    let temp: any[] = [];
-    this.allotInventoryArr.forEach(e => {
-      let obj = { alloted_units: e.units_added, institution_id: sessionStorage.getItem('institute_id'), item_id: e.item_id, student_id: id };
-      temp.push(obj);
-    });
-    this.postService.allocateStudentInventory(temp).subscribe(
-      res => {
-        if (this.isFeeApplied) {
-          this.asssignCustomizedFee(id);
-        }
-        else {
-          this.studentAddedNotifier();
-        }
-      },
-      err => { }
-    );
-  }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
-  inventoryItemUpdated(value, index, total) {
-    if (value > total) {
-      let msg = { type: 'warning', title: 'Incorrect Quantity', body: 'The quantity allocated cannot be higher than total available units' };
-      this.appC.popToast(msg);
-      this.inventoryItemsArr[index].units_added = total;
-      if (this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id) !== -1) {
-        this.allotInventoryArr.splice(this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id), 1);
-      }
-      this.allotInventoryArr.push(this.inventoryItemsArr[index]);
-    }
-    else {
-      if (value >= 1) {
-        if (this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id) !== -1) {
-          this.allotInventoryArr.splice(this.allotInventoryArr.findIndex(i => i.item_id === this.inventoryItemsArr[index].item_id), 1);
-        }
-        this.allotInventoryArr.push(this.inventoryItemsArr[index]);
-      }
-    }
-  }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
+
+
   studentAddedNotifier() {
     let msg = { type: 'success', title: 'Student Details Updated', body: '' };
     this.appC.popToast(msg);
@@ -3912,44 +3698,102 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+
+
   updateStudentAllocatedInventory() {
-    let count: number = 0;
-    let temp: any[] = [];
-    this.allotInventoryArr.forEach(e => {
-      let obj = { alloted_units: e.units_added, institution_id: sessionStorage.getItem('institute_id'), item_id: e.item_id, student_id: this.student_id };
-      temp.push(obj);
-    });
-    if (temp.length != 0) {
-      this.postService.allocateStudentInventory(temp).subscribe(
-        res => {
-          if (this.isFeeApplied) {
-            this.asssignCustomizedFee(this.student_id);
-          }
-          else {
-            this.studentAddedNotifier();
-          }
-        },
-        err => {
-          let msg = err.error.message;
-          this.isRippleLoad = false;
-          let obj = { type: 'error', title: msg, body: "" };
-          this.appC.popToast(obj);
-        }
-      );
+    if (this.isFeeApplied) {
+      this.asssignCustomizedFee(this.student_id);
     }
     else {
-      if (this.isFeeApplied) {
-        this.asssignCustomizedFee(this.student_id);
-      }
-      else {
-        this.studentAddedNotifier();
-      }
+      this.studentAddedNotifier();
     }
   }
 
 
+  fetchInventoryList() {
+    this.studentPrefillService.fetchInventoryList().subscribe(
+      data => {
+        this.isRippleLoad = false;
+        this.inventoryItemsArr = data;
+      },
+      err => {
+        this.isRippleLoad = false;
+        let msg = err.error.message;
+        let obj = { type: 'error', title: msg, body: "" };
+        this.appC.popToast(obj);
+      }
+    );
+  }
+
+  onInventoryItemSelction() {
+    let temp: any = this.inventoryItemsArr.filter(
+      el => el.item_id == this.addInventory.item_id
+    );
+    this.addInventory.available_units = temp[0].available_units;
+  }
+
+  allocateInventoryToStudent() {
+    if (this.addInventory.alloted_units > 0) {
+      if (this.addInventory.alloted_units > this.addInventory.available_units) {
+        this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
+        return;
+      } else {
+        let obj: any = {
+          alloted_units: this.addInventory.alloted_units.toString(),
+          institution_id: sessionStorage.getItem('institute_id'),
+          item_id: this.addInventory.item_id,
+          student_id: this.student_id
+        };
+        this.isRippleLoad = true;
+        this.postService.allocateInventory(obj).subscribe(
+          res => {
+            this.isRippleLoad = false;
+            this.appC.popToast({ type: "success", title: "Allocated Inventory", body: "Inventory Item Allocated Successfully" });
+            this.addInventory = {
+              alloted_units: 0,
+              item_id: -1,
+              available_units: ''
+            };
+            this.getAllocatedHistory();
+            this.fetchInventoryList();
+          },
+          err => {
+            this.isRippleLoad = false;
+            this.appC.popToast({ type: "error", title: "Error", body: err.error.message });
+          }
+        )
+
+      }
+    } else {
+      this.appC.popToast({ type: "error", title: "Error", body: "Please provide valid unit to allocate" });
+      return;
+    }
+  }
+
+  getAllocatedHistory() {
+    this.allocatedItem = [];
+    this.postService.getAllocatedHistory(this.student_id).subscribe(
+      res => {
+        this.allocatedItem = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  deleteInventory(data) {
+    data.allocation_id
+    if (confirm('Are you sure, you want to delete inventory?')) {
+      this.postService.deleteInventory(data.allocation_id).subscribe(
+        res => {
+          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "Deleted Successfully Inventory" });
+          this.getAllocatedHistory();
+          this.fetchInventoryList();
+        }
+      )
+    }
+  }
 
   /* ========================================================================================================== */
   /* ========================================================================================================== */

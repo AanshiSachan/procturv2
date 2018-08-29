@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2, NgZone, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+
 import { DropData, DropMapData } from './dropmenu.model'
 
 @Component({

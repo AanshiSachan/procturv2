@@ -28,8 +28,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if (this.displayKeys.selectAll.checked) {
       this.toggleAllCheckBox();
     }
+    this._paginationService.setPageIndex(1);
     this._paginationService.setDisplayBatchSize(50);
- 
   }
 
   notifyMe(e) {
@@ -90,6 +90,10 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this.keysArray = this.displayKeys.keys;
     this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     console.log('chnages :', this.displayKeys);
+    if (this.displayData.length > 0 && this.keysArray.length > 0) {
+      this.keysArray[0].type =null;
+      this.sortData(this.keysArray[0]);
+    }
 
   }
 
@@ -145,14 +149,14 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   // convert string as type 
   checkValueType(value: any) {
-    if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) {
+    if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
       console.log(Date.parse(value));
       value = Date.parse(value);;
     }
     else if (typeof value == "string") {
-      if (value.match(/^-{0,1}\d+$/)) {
+      if (value.match(/^-{0,1}\d+$/)) {  //int
         return parseInt(value);
-      } else if (value.match(/^\d+\.\d+$/)) {
+      } else if (value.match(/^\d+\.\d+$/)) { //float
         return parseInt(value);
       }
     } // else end
@@ -167,13 +171,14 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
-      this.recordsTrimmed = this._paginationService.updateTableBatchSize(num,this.displayData);
+    this.recordsTrimmed = this._paginationService.updateTableBatchSize(num, this.displayData);
     if (this.recordsTrimmed.length > 0) {
       this.sortData(this.keysArray[0]);
     }
   }
-  fectchTableDataByPage($event){
-    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event,this.displayData,);
+  
+  fectchTableDataByPage($event) {
+    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData, );
   }
 
 

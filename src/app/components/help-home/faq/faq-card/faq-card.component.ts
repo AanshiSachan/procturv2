@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 
-import * as moment from 'moment';
+
 
 @Component({
   selector: 'faq-card',

@@ -115,7 +115,7 @@ export class LoginService {
     this.auth.changeInstituteId(null);
     this.changeSidenavStatus('unauthorized');
     sessionStorage.clear();
-    localStorage.clear();
+    // localStorage.clear();
     return true;
   }
 

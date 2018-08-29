@@ -432,7 +432,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   toggleAccordian(id) {
-
     if (id === 'one') {
       this.one.nativeElement.classList.toggle('liclosed');
       this.two.nativeElement.classList.add('liclosed');

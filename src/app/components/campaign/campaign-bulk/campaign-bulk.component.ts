@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { addCampaign } from '../../../model/add-campaign';
 import { LoginService } from '../../../services/login-services/login.service';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
-import { addCampaign } from '../../../model/add-campaign';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { MessageShowService } from '../../../services/message-show.service';
 
 @Component({
   selector: 'app-campaign-bulk',
@@ -35,15 +31,19 @@ export class CampaignBulkComponent implements OnInit {
 
   private referralList: any[] = [];
   private sourceList: any[] = [];
-
   isProfessional: boolean = false;
 
-  constructor(private fetchData: CampaignService, private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService, private auth: AuthenticatorService) { }
+  constructor(
+    private fetchData: CampaignService,
+    private router: Router,
+    private login: LoginService,
+    private prefill: FetchprefilldataService,
+    private auth: AuthenticatorService,
+    private msgService: MessageShowService
+  ) { }
 
   ngOnInit() {
-
     this.fetchPrefillFormData();
-
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -53,25 +53,20 @@ export class CampaignBulkComponent implements OnInit {
         }
       }
     )
-
-
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
-
     let referralList = this.prefill.getLeadReffered().subscribe((data: any) => {
       this.referralList = data;
     });
 
-    let sourceList = this.prefill.getLeadSource().subscribe((data : any) => {
+    let sourceList = this.prefill.getLeadSource().subscribe((data: any) => {
       this.sourceList = data;
     });
   }
-
 
   /* base64 data to be converted to xls file */
   downloadTemplate() {
@@ -94,7 +89,6 @@ export class CampaignBulkComponent implements OnInit {
   uploadHandler(event, form: NgForm) {
 
     if (form.valid) {
-
       let response;
       this.fetchData.verifyUploadFileName(this.campaignAddFormData.name).subscribe(
         res => {
@@ -114,7 +108,6 @@ export class CampaignBulkComponent implements OnInit {
                 let formdata = new FormData();
 
                 formdata.append("campaign_list_file", file);
-
                 //Append the rest of the detail
                 formdata.append("campaign_list_name", this.campaignAddFormData.name);
                 formdata.append("campaign_list_desc", "");
@@ -122,11 +115,7 @@ export class CampaignBulkComponent implements OnInit {
                 formdata.append("is_ajax", "Y");
                 formdata.append("referred_by", this.campaignAddFormData.referred);
                 formdata.append("source", this.campaignAddFormData.source);
-
-                //
-
                 let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
-
                 let xhr: XMLHttpRequest = new XMLHttpRequest();
                 let auths: any = {
                   userid: sessionStorage.getItem('userid'),
@@ -141,7 +130,6 @@ export class CampaignBulkComponent implements OnInit {
                 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
                 xhr.setRequestHeader("enctype", "multipart/form-data");
                 xhr.setRequestHeader("Authorization", Authorization);
-
                 this.isUploadingXls = true;
 
                 xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
@@ -157,75 +145,32 @@ export class CampaignBulkComponent implements OnInit {
                   if (xhr.readyState == 4) {
                     this.progress = 0;
                     if (xhr.status >= 200 && xhr.status < 300) {
-                      //
-                      // 
-                      //
                       this.isUploadingXls = false;
-                      // let data = {
-                      //   type: 'success',
-                      //   title: "File uploaded",
-                      //   body: xhr.response.fileName
-                      // }
-                      // this.appC.popToast(data);
-
-
+                      // this.showErrorMessage(this.msgService.toastTypes.success, "File uploaded", xhr.response.fileName);
                       this.bulkUploadStep2(xhr.response, form);
                     } else {
                       this.isUploadingXls = false;
-                      let data = {
-                        type: 'error',
-                        title: "File uploaded Failed",
-                        body: xhr.response.fileName
-                      }
-                      this.appC.popToast(data);
-
+                      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.uploadFail, xhr.response.fileName);
                     }
                   }
                 }
-
                 xhr.send(formdata);
-
               } else {
-                let data = {
-                  type: 'error',
-                  title: "Invalid File Type",
-
-                }
-
-                this.appC.popToast(data);
+                this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.invalidType, '');
               }
-
-
             }
             event.files = [];
-          } else {
-
           }
         },
         error => {
           this.isUploadingXls = false;
-          let data = {
-            type: 'error',
-            title: "Name already exist"
-          }
-          this.appC.popToast(data);
+          this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.sameName, '');
         }
       )
-
-
-
-
-
-
     } else {
-      let data = {
-        type: 'error',
-        title: "Please provide mandatory information.",
-      }
-      this.appC.popToast(data);
+      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.mandatoryInfo, '');
     }
   }
-
 
   /* fetch the status of the data updated to server */
   fetchBulkUploadStatusData() {
@@ -234,8 +179,6 @@ export class CampaignBulkComponent implements OnInit {
         this.bulkUploadRecords = res;
       }
     )
-
-
   }
 
   verifyUploadFileName(data) {
@@ -247,11 +190,7 @@ export class CampaignBulkComponent implements OnInit {
         if (response.statusCode >= 200 && response.statusCode < 300) {
         } else {
           this.isUploadingXls = false;
-          let data = {
-            type: 'error',
-            title: "File uploaded Failed"
-          }
-          this.appC.popToast(data);
+          this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.invalidType, '');
         }
       }
     )
@@ -265,21 +204,13 @@ export class CampaignBulkComponent implements OnInit {
 
         if (response.statusCode >= 200 && response.statusCode < 300) {
 
-          let data = {
-            type: 'success',
-            title: "File uploaded",
-            // body: xhr.response.fileName
-          }
-          this.appC.popToast(data);
+
+          this.showErrorMessage(this.msgService.toastTypes.success, this.msgService.object.functionalMsg.uploaded, '');
           this.clearFormAndMove();
           form.reset();
         } else {
           this.isUploadingXls = false;
-          let data = {
-            type: 'error',
-            title: "File uploaded Failed"
-          }
-          this.appC.popToast(data);
+          this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.functionalMsg.invalidType, '');
         }
       }
     )
@@ -325,7 +256,9 @@ export class CampaignBulkComponent implements OnInit {
 
   }
 
-
-
+  // toast function 
+  showErrorMessage(objType, massage, body) {
+    this.msgService.showErrorMessage(objType, massage, body);
+  }
 
 }

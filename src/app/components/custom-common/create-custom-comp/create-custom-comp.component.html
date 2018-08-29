@@ -100,7 +100,7 @@
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.sequence_number != ''}">
             <label for="sequencenumber">Sequence (Numerals Only)</label>
-          <input type="text" id="sequencenumber"class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
+          <input type="text" id="sequencenumber"class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
             name="sequencenumber">
           
         </div>
@@ -109,7 +109,7 @@
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.comp_length != ''}">
             <label for="complength">Max- Length (Numerals Only)</label>
-          <input type="text" class="form-ctrl" id="complength" OnlyNumber="true" [(ngModel)]="createCustomComponentForm.comp_length" name="complength">
+          <input type="text" class="form-ctrl" id="complength"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="createCustomComponentForm.comp_length" name="complength">
           
         </div>
       </div>
@@ -311,7 +311,7 @@
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.sequence_number != ''}">
             <label for="sequencenumber">Sequence (Numerals Only)</label>
-          <input type="text" class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="editCustomComponentForm.sequence_number"
+          <input type="text" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3" [(ngModel)]="editCustomComponentForm.sequence_number"
             name="sequencenumber" id="sequencenumber">
          
         </div>
@@ -320,7 +320,7 @@
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.comp_length != null}">
             <label for="complength">Max- Length (Numerals Only)</label>
-          <input type="text" class="form-ctrl" OnlyNumber="true" [(ngModel)]="editCustomComponentForm.comp_length" name="complength" id="complength">
+          <input type="text" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="editCustomComponentForm.comp_length" name="complength" id="complength">
        
         </div>
       </div>

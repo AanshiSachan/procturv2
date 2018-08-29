@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployeeHomeComponent } from './employee-home.component';
 import { EmployeeHomeRoutingModule } from "./employee-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { SplitButtonModule } from 'primeng/primeng';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';

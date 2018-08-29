@@ -283,7 +283,7 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" name='paidVal'>
+                <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="d.amount_paid" name='paidVal'>
               </div>
             </td>
             <td>
@@ -328,7 +328,7 @@
         <div class="c-lg-6 field-wrapper">
           <label>Receipt No.</label>
           <span class="field-red">*</span>
-          <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="personData.invoice_no">
+          <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="personData.invoice_no">
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reason for Update</label>

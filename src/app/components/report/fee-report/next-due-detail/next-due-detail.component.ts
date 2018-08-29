@@ -6,7 +6,6 @@ import { AppComponent } from '../../../../app.component';
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
 
-import * as moment from 'moment';
 
 @Component({
   selector: 'next-due-detail',

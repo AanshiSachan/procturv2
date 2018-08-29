@@ -101,12 +101,14 @@
 
             <section style="margin-top: 10px;">
                 <div class="row">
-                    <div class="c-lg-2" style="margin-top: 1%;">
+                    <div class="c-lg-5" style="margin-top: 1%;">
                         <p-splitButton label="download" [model]="bulkAddItems" icon="pi pi-file"></p-splitButton>
-                        <i class="fa fa-plus-circle" (click)="openPreferences()" title="Select Table Preferences !" style="font-size:24px;color:#0060A3; margin-left: 18px;"></i>
+                        <a (click)="openPreferences()" title="Select Table Preferences"> select preference &nbsp;
+                            <i class="fa fa-question-circle" aria-hidden="true" style="color:#0060A3"></i>
+                        </a>
                     </div>
 
-                    <div class="c-lg-8">
+                    <div class="c-lg-5">
                         <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
                             <li style="display: inline-block; margin-left: 11px;">
                                 <span class="made-out"> Total fees Collection</span>

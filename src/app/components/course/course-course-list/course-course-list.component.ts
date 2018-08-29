@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseListService } from '../../../services/course-services/course-list.service';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-course-course-list',

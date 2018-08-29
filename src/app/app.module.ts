@@ -1,10 +1,6 @@
 /* Components */
 import { AppComponent } from './app.component';
-import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
-import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
-import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 import { chatBotComponent } from './components/chatbot/chatbot.component';
-import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 
 
 /* Modules */
@@ -26,6 +22,8 @@ import { TablePreferencesService } from './services/table-preference/table-prefe
 import { ZendAuth } from './services/Chat-bot/chatbot.service';
 import { MultiBranchDataService } from './services/multiBranchdata.service';
 import { PaginationService } from './services/pagination-service/pagination.service';
+import { CommonServiceFactory } from './services/common-service';
+import { MessageShowService } from './services/message-show.service';
 
 /* Interceptors */
 import { I1, I2 } from './interceptors/load-interceptor';
@@ -33,12 +31,11 @@ import { AuthGuard } from './guards/auth.guard';
 
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
-import { ToasterModule } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
-import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
-import { TimepickerModule } from '../assets/imported_modules/ngx-bootstrap/timepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
-
+import {ToasterModule} from 'angular2-toaster';
 
 
 
@@ -59,14 +56,9 @@ import { SharedModule } from './components/shared/shared.module';
   ],
   declarations: [
     AppComponent,
-    CoreSidednavComponent,
-    CoreHeaderComponent,
-    OverlayMenuComponent,
-    chatBotComponent,
-    SearchBoxComponent
+    chatBotComponent
   ],
   entryComponents: [
-    SearchBoxComponent, 
     chatBotComponent
   ],
   providers: [
@@ -81,7 +73,9 @@ import { SharedModule } from './components/shared/shared.module';
     MultiBranchDataService,
     AlertService,
     TablePreferencesService,
-    PaginationService
+    PaginationService,
+    CommonServiceFactory,
+    MessageShowService
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first

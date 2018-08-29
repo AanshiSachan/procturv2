@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CampaignComponent } from './campaign.component';
 import { CampaignRoutingModule } from "./campaign-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import 'hammerjs';
