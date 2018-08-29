@@ -3730,41 +3730,47 @@ export class StudentAddComponent implements OnInit {
   }
 
   allocateInventoryToStudent() {
-    if (this.addInventory.alloted_units > 0) {
-      if (this.addInventory.alloted_units > this.addInventory.available_units) {
-        this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
-        return;
-      } else {
-        let obj: any = {
-          alloted_units: this.addInventory.alloted_units.toString(),
-          institution_id: sessionStorage.getItem('institute_id'),
-          item_id: this.addInventory.item_id,
-          student_id: this.student_id
-        };
-        this.isRippleLoad = true;
-        this.postService.allocateInventory(obj).subscribe(
-          res => {
-            this.isRippleLoad = false;
-            this.appC.popToast({ type: "success", title: "Allocated Inventory", body: "Inventory Item Allocated Successfully" });
-            this.addInventory = {
-              alloted_units: 0,
-              item_id: -1,
-              available_units: ''
-            };
-            this.getAllocatedHistory();
-            this.fetchInventoryList();
-          },
-          err => {
-            this.isRippleLoad = false;
-            this.appC.popToast({ type: "error", title: "Error", body: err.error.message });
-          }
-        )
+    if (this.addInventory.item_id != '-1') {
+      if (this.addInventory.alloted_units > 0) {
+        if (this.addInventory.alloted_units > this.addInventory.available_units) {
+          this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
+          return;
+        } else {
+          let obj: any = {
+            alloted_units: this.addInventory.alloted_units.toString(),
+            institution_id: sessionStorage.getItem('institute_id'),
+            item_id: this.addInventory.item_id,
+            student_id: this.student_id
+          };
+          this.isRippleLoad = true;
+          this.postService.allocateInventory(obj).subscribe(
+            res => {
+              this.isRippleLoad = false;
+              this.appC.popToast({ type: "success", title: "Allocated Inventory", body: "Inventory Item Allocated Successfully" });
+              this.addInventory = {
+                alloted_units: 0,
+                item_id: -1,
+                available_units: ''
+              };
+              this.getAllocatedHistory();
+              this.fetchInventoryList();
+            },
+            err => {
+              this.isRippleLoad = false;
+              this.appC.popToast({ type: "error", title: "Error", body: err.error.message });
+            }
+          )
 
+        }
+      } else {
+        this.appC.popToast({ type: "error", title: "Error", body: "Please provide valid unit to allocate" });
+        return;
       }
     } else {
-      this.appC.popToast({ type: "error", title: "Error", body: "Please provide valid unit to allocate" });
+      this.appC.popToast({ type: "error", title: "Error", body: "Please provide inventory item to allocate" });
       return;
     }
+
   }
 
   getAllocatedHistory() {
