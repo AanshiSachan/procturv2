@@ -941,7 +941,7 @@ export class EnquiryEditComponent implements OnInit {
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
 
-    if (this.commonServiceFactory.checkValueType(this.editEnqData.name.trim())) {
+    if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
     }
 

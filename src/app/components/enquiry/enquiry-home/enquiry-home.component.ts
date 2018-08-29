@@ -1,33 +1,21 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
-import { updateEnquiryForm } from '../../../model/update-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-
-import { ActionButtonComponent } from './action-button.component';
-import { SmsOptionComponent } from './sms-option.component';
-import { CommentTooltipComponent } from './comment-tooltip.component';
 
 /* Third party imports */
 import * as moment from 'moment';
 import { MenuItem } from 'primeng/primeng';
-import { Pipe, PipeTransform } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { PaginationService } from '../../../services/pagination-service/pagination.service';
 import { MessageShowService } from '../../../services/message-show.service';
-import { error } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-enquiry-home',
@@ -47,7 +35,6 @@ export class EnquiryHomeComponent implements OnInit {
   sourceEnquiry: any[] = [];
   smsSourceApproved: any[] = [];
   smsSourceOpen: any[] = [];
-  busy: Subscription;
   checkedStatus = [];
   filtered = [];
   enqstatus: any[] = [];
@@ -216,12 +203,89 @@ export class EnquiryHomeComponent implements OnInit {
   };
 
   /* Model for institute Data */
-  instituteData: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, sorted_by: "", order_by: "", commentShow: 'false' };
+  instituteData: instituteInfo = {
+    name: "",
+    phone: "",
+    email: "",
+    enquiry_no: "",
+    priority: "",
+    status: -1,
+    filtered_statuses: "",
+    follow_type: "",
+    followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'),
+    enquiry_date: "",
+    assigned_to: -1,
+    standard_id: -1,
+    subjectIdArray: null,
+    master_course_name: '',
+    courseIdArray: null,
+    subject_id: -1,
+    is_recent: "Y",
+    slot_id: -1,
+    filtered_slots: "",
+    isDashbord: "N",
+    enquireDateFrom: "",
+    enquireDateTo: "",
+    updateDate: "",
+    updateDateFrom: "",
+    updateDateTo: "",
+    start_index: 0,
+    batch_size: this.varJson.displayBatchSize,
+    closedReason: "",
+    enqCustomLi: null,
+    sorted_by: "",
+    order_by: "",
+    commentShow: 'false'
+  };
 
   /* Form for advanced filter  */
-  advancedFilterForm: instituteInfo = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, commentShow: 'false', filtered_statuses: "", follow_type: "", followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, source_id: "-1", school_id: "-1", list_id: "-1", city: '', area: '' };
+  advancedFilterForm: instituteInfo = {
+    name: "",
+    phone: "",
+    email: "",
+    enquiry_no: "",
+    priority: "",
+    status: -1,
+    commentShow: 'false',
+    filtered_statuses: "",
+    follow_type: "",
+    followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'),
+    enquiry_date: "",
+    assigned_to: -1,
+    standard_id: -1,
+    subjectIdArray: null,
+    master_course_name: '',
+    courseIdArray: null,
+    subject_id: -1,
+    is_recent: "Y",
+    slot_id: -1,
+    filtered_slots: "",
+    isDashbord: "N",
+    enquireDateFrom: "",
+    enquireDateTo: "",
+    updateDate: "",
+    updateDateFrom: "",
+    updateDateTo: "",
+    start_index: 0,
+    batch_size: this.varJson.displayBatchSize,
+    closedReason: "",
+    enqCustomLi: null,
+    source_id: "-1",
+    school_id: "-1",
+    list_id: "-1",
+    city: '',
+    area: ''
+  };
   enquiryFullDetail: any;
-  enquirySettings: ColumnSetting[] = [{ primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.varJson.currentDirection }, { primaryKey: 'name', header: 'Name' }, { primaryKey: 'phone', header: 'Contact No' }, { primaryKey: 'statusValue', header: 'Status' }, { primaryKey: 'priority', header: 'Priority' }, { primaryKey: 'source_name', header: 'Source' }, { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection }, { primaryKey: 'updateDate', header: 'Last Updated' }];
+  enquirySettings: ColumnSetting[] = [
+    { primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.varJson.currentDirection },
+    { primaryKey: 'name', header: 'Name' },
+    { primaryKey: 'phone', header: 'Contact No' },
+    { primaryKey: 'statusValue', header: 'Status' },
+    { primaryKey: 'priority', header: 'Priority' },
+    { primaryKey: 'source_name', header: 'Source' },
+    { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection },
+    { primaryKey: 'updateDate', header: 'Last Updated' }];
   assignMultipleForm: any = { enqLi: [], assigned_to: "" };
 
   /*Declaration Fin*/
@@ -231,7 +295,6 @@ export class EnquiryHomeComponent implements OnInit {
     private router: Router,
     private pops: PopupHandlerService,
     private postdata: PostEnquiryDataService,
-    private login: LoginService,
     private cd: ChangeDetectorRef,
     private actRoute: ActivatedRoute,
     private auth: AuthenticatorService,
@@ -243,7 +306,6 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     this.actRoute.queryParams.subscribe(e => {
-      //console.log(e);
       if ((!this.commonServiceFactory.valueCheck(e.id))) {
         if (this.commonServiceFactory.valueCheck(e.action)) {
           this.router.navigate(['/view/enquiry/edit/' + e.id]);
@@ -623,13 +685,11 @@ export class EnquiryHomeComponent implements OnInit {
 
   addHideClass(classArray) {
     classArray.forEach(function (className) {
-      console.log(className);
       document.getElementById(className).classList.add('hide');
     });
   }
   removeHideClass(removeClassNames) {
     removeClassNames.forEach(function (className) {
-      console.log(className);
       document.getElementById(className).classList.remove('hide');
     });
   }
@@ -1505,13 +1565,48 @@ export class EnquiryHomeComponent implements OnInit {
   downloadAllEnquiries() {
     this.cd.markForCheck();
     this.flagJSON.isRippleLoad = true;
-    let obj = { name: this.instituteData.name, phone: this.instituteData.phone, email: this.instituteData.email, enquiry_no: this.instituteData.enquiry_no, priority: this.advancedFilterForm.priority, status: this.advancedFilterForm.status, filtered_statuses: this.advancedFilterForm.filtered_statuses, follow_type: this.advancedFilterForm.follow_type, followUpDate: this.advancedFilterForm.followUpDate == '' ? this.getDateFormated(this.instituteData.followUpDate, "YYYY-MM-DD") : this.getDateFormated(this.advancedFilterForm.followUpDate, "YYYY-MM-DD"), enquiry_date: this.advancedFilterForm.enquiry_date, assigned_to: this.advancedFilterForm.assigned_to, standard_id: this.advancedFilterForm.standard_id, subject_id: this.advancedFilterForm.subject_id, is_recent: this.advancedFilterForm.is_recent, slot_id: this.advancedFilterForm.slot_id, filtered_slots: this.advancedFilterForm.filtered_slots, isDashbord: this.instituteData.isDashbord, enquireDateFrom: this.getDateFormated(this.advancedFilterForm.enquireDateFrom, "YYYY-MM-DD"), enquireDateTo: moment(this.advancedFilterForm.enquireDateTo, "YYYY-MM-DD"), updateDate: this.getDateFormated(this.advancedFilterForm.updateDate, "YYYY-MM-DD"), updateDateFrom: this.getDateFormated(this.advancedFilterForm.updateDateFrom, "YYYY-MM-DD"), updateDateTo: this.getDateFormated(this.advancedFilterForm.updateDateTo, "YYYY-MM-DD"), start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: this.advancedFilterForm.enqCustomLi, sorted_by: "", order_by: "", commentShow: 'false' };
+    let obj = {
+      name: this.instituteData.name,
+      phone: this.instituteData.phone,
+      email: this.instituteData.email,
+      enquiry_no: this.instituteData.enquiry_no,
+      priority: this.advancedFilterForm.priority,
+      status: this.advancedFilterForm.status,
+      filtered_statuses: this.advancedFilterForm.filtered_statuses,
+      follow_type: this.advancedFilterForm.follow_type,
+      followUpDate: this.advancedFilterForm.followUpDate == '' ? "" : moment(this.advancedFilterForm.followUpDate).format('YYYY-MM-DD'),
+      enquiry_date: this.advancedFilterForm.enquiry_date,
+      assigned_to: this.advancedFilterForm.assigned_to,
+      standard_id: this.advancedFilterForm.standard_id,
+      subject_id: this.advancedFilterForm.subject_id,
+      is_recent: this.advancedFilterForm.is_recent,
+      slot_id: this.advancedFilterForm.slot_id,
+      filtered_slots: this.advancedFilterForm.filtered_slots,
+      isDashbord: this.instituteData.isDashbord,
+      enquireDateFrom: this.advancedFilterForm.enquireDateFrom == "" ? "" : moment(this.advancedFilterForm.enquireDateFrom).format('YYYY-MM-DD'),
+      // this.getDateFormated(this.advancedFilterForm.enquireDateFrom, "YYYY-MM-DD"),
+      enquireDateTo: this.advancedFilterForm.enquireDateTo == "" ? "" : moment(this.advancedFilterForm.enquireDateTo).format('YYYY-MM-DD'),
+      // moment(this.advancedFilterForm.enquireDateTo, "YYYY-MM-DD"),
+      updateDate: this.advancedFilterForm.updateDate == "" ? "" : moment(this.advancedFilterForm.updateDate).format('YYYY-MM-DD'),
+      // this.getDateFormated(this.advancedFilterForm.updateDate, "YYYY-MM-DD"),
+      updateDateFrom: this.advancedFilterForm.updateDateFrom == "" ? "" : moment(this.advancedFilterForm.updateDateFrom).format('YYYY-MM-DD'),
+      // this.getDateFormated(this.advancedFilterForm.updateDateFrom, "YYYY-MM-DD"),
+      updateDateTo: this.advancedFilterForm.updateDateTo == "" ? "" : moment(this.advancedFilterForm.updateDateTo).format('YYYY-MM-DD'),
+      // this.getDateFormated(this.advancedFilterForm.updateDateTo, "YYYY-MM-DD"),
+      start_index: 0,
+      batch_size: this.varJson.displayBatchSize,
+      closedReason: "",
+      enqCustomLi: this.advancedFilterForm.enqCustomLi,
+      sorted_by: "",
+      order_by: "",
+      commentShow: 'false',
+      source_id: this.advancedFilterForm.source_id
+    };
 
     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       (res: any) => {
         this.flagJSON.isRippleLoad = false;
         let byteArr = this.convertBase64ToArray(res.document);
-        let format = res.format;
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -1650,7 +1745,7 @@ export class EnquiryHomeComponent implements OnInit {
 
   sortTableById(id) {
     this.varJson.sortBy = id;
-    console.log(this.varJson.sortBy);
+    // console.log(this.varJson.sortBy);
     if (id == 'followUpDateTime') { id = 'followUpDate' }
     this.instituteData.sorted_by = id;
     //this.varJson.currentDirection = this.varJson.currentDirection == 'desc' ? 'asc' : 'desc';
@@ -2220,7 +2315,7 @@ export class EnquiryHomeComponent implements OnInit {
           break;
 
         default:
-          console.log(filter);
+        // console.log(filter);
 
 
       }
