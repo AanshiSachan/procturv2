@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 

@@ -16,21 +16,9 @@ export class ErrorComponent implements OnInit {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
-    else{
-      this.removeFullscreen();
+    else {
+
     }
-  }
-
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
   }
 
 }

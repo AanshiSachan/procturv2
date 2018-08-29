@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
-import { LoginService } from '../../../services/login-services/login.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { getEmailService } from '../../../services/report-services/get-email.service';
 import * as moment from 'moment';
@@ -41,7 +40,6 @@ export class EmailReportComponent {
 
   constructor(
     private apiService: getEmailService,
-    private login: LoginService,
     private appC: AppComponent,
   ) {
     this.switchActiveView('email');
@@ -49,8 +47,6 @@ export class EmailReportComponent {
 
   ngOnInit() {
     this.pageIndex = 1;
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.getAllEmailMessages();
   }
 

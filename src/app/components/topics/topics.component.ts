@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TopicServiceService } from '../../services/topic-service.service';
 import { AppComponent } from '../../app.component';
-import { TreeNode } from 'primeng/api';
-import { AccordionModule } from 'primeng/accordion'; 
-import { MenuItem } from 'primeng/api';
 
 
 @Component({
@@ -20,8 +17,8 @@ export class TopicsComponent implements OnInit {
   pageIndex: number = 1;
   displayBatchSize: number = 10;
   totalRow = 0;
-  pagedTopicsArr:any[]=[];
-  selectedRows:any[]=[];
+  pagedTopicsArr: any[] = [];
+  selectedRows: any[] = [];
 
   TopicPayload = {
     standard_id: "-1",
@@ -35,17 +32,18 @@ export class TopicsComponent implements OnInit {
     standard_id: "-1",
     subject_id: "-1"
   }
-  
-  
+
+
   searchText: string = "";
   searchflag: boolean = false;
   searchData: any = [];
 
 
 
-  constructor(private topicService: TopicServiceService, private appC: AppComponent) {
-    this.removeFullscreen();
-  }
+  constructor(
+    private topicService: TopicServiceService,
+    private appC: AppComponent
+  ) { }
 
   ngOnInit() {
     this.getStandardData();
@@ -70,7 +68,7 @@ export class TopicsComponent implements OnInit {
   }
 
   getSubjectData(i) {
-    
+
     this.topicService.getSubject(i).subscribe(
       data => {
         console.log(data);
@@ -128,7 +126,7 @@ export class TopicsComponent implements OnInit {
   getListData() {
     this.searchflag = false;
     this.searchText = "";
-    this.pageIndex=1;
+    this.pageIndex = 1;
     this.topicService.getList().subscribe(
       data => {
         console.log(data);
@@ -140,10 +138,10 @@ export class TopicsComponent implements OnInit {
         console.log(error);
       })
   }
- toggleCreateNewTopic() {
+  toggleCreateNewTopic() {
     if (this.TopicPayload.standard_id == "-1") {
       let msg = {
-        type: "error", 
+        type: "error",
         title: "",
         body: "Select A Standard"
       }
@@ -160,11 +158,11 @@ export class TopicsComponent implements OnInit {
       return;
     }
     else {
-        this.createNewTopic = true;
-        this.addingTopicPayload.standard_id = this.TopicPayload.standard_id;
-        this.addingTopicPayload.subject_id = this.TopicPayload.subject_id;
-        this.fetchTopics();
-      }
+      this.createNewTopic = true;
+      this.addingTopicPayload.standard_id = this.TopicPayload.standard_id;
+      this.addingTopicPayload.subject_id = this.TopicPayload.subject_id;
+      this.fetchTopics();
+    }
   }
 
   createTopic() {
@@ -181,23 +179,23 @@ export class TopicsComponent implements OnInit {
       this.addTopic();
     }
   }
-  deleteTopicNode(){
+  deleteTopicNode() {
     //console.log("Row Delete");
   }
 
-  editTopicNode(){
-   // console.log("Row Edit");  
+  editTopicNode() {
+    // console.log("Row Edit");  
   }
   searchDatabase() {
 
     if (this.searchText != "" && this.searchText != null) {
       this.pageIndex = 1;
       let searchRes: any;
-     
-        searchRes = this.TableData.filter(item =>
-          Object.keys(item).some(
-            k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
-        );
+
+      searchRes = this.TableData.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
       this.searchData = searchRes;
       this.totalRow = searchRes.length;
       this.searchflag = true;
@@ -207,7 +205,7 @@ export class TopicsComponent implements OnInit {
       this.searchflag = false;
       this.fetchTableDataByPage(this.pageIndex);
       this.totalRow = this.TableData.length;
-      
+
     }
   }
 
@@ -230,7 +228,7 @@ export class TopicsComponent implements OnInit {
       this.fetchTableDataByPage(this.pageIndex);
     }
   }
-  
+
   getClassRoomTableFromSource(startindex) {
     if (this.searchflag) {
       let t = this.searchData.slice(startindex, startindex + this.displayBatchSize);
@@ -241,31 +239,5 @@ export class TopicsComponent implements OnInit {
     }
   }
 
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
-
-  removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
-    /* document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active'); */
-  }
 
 }

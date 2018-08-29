@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FeeStrucService } from '../../../services/feeStruc.service';
-import { AppComponent } from '../../../app.component';
-import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-fee-template-add',
@@ -50,13 +49,10 @@ export class FeeTemplateAddComponent implements OnInit {
 
   constructor(
     private apiService: FeeStrucService,
-    private appC: AppComponent,
-    private login: LoginService,
     private route: Router,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory
   ) {
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   ngOnInit() {
@@ -81,13 +77,7 @@ export class FeeTemplateAddComponent implements OnInit {
         this.fillFeeType(res.feeTypeMap);
       },
       err => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
-
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -108,12 +98,7 @@ export class FeeTemplateAddComponent implements OnInit {
           this.masterCourseList = res;
         },
         err => {
-          let msg = {
-            type: "error",
-            title: "",
-            body: "An Error Occured"
-          }
-          this.appC.popToast(msg);
+          this.commonService.showErrorMessage('error', 'Error', err.error.message);
         }
       )
     }
@@ -138,12 +123,7 @@ export class FeeTemplateAddComponent implements OnInit {
             this.CourseList = res;
           },
           err => {
-            let msg = {
-              type: "error",
-              title: "",
-              body: "An Error Occured"
-            }
-            this.appC.popToast(msg);
+            this.commonService.showErrorMessage('error', 'Error', err.error.message);
           }
         )
       }
@@ -243,32 +223,27 @@ export class FeeTemplateAddComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
 
   validateAllFields() {
     if (this.addNewTemplate.template_name == "" || null) {
-      this.messageNotifier('error', 'Error', 'Template name can not be null');
+      this.commonService.showErrorMessage('error', 'Error', 'Template name can not be null');
       return false;
     }
     if (this.addNewTemplate.fee_amount == "" || 0) {
-      this.messageNotifier('error', 'Error', 'Please enter valid amount');
+      this.commonService.showErrorMessage('error', 'Error', 'Please enter valid amount');
       return false;
     }
     if (this.addNewTemplate.installmentCount == "" || 0) {
-      this.messageNotifier('error', 'Error', 'Installment Count can not be zero');
+      this.commonService.showErrorMessage('error', 'Error', 'Installment Count can not be zero');
       return false;
     }
     if (this.addNewTemplate.is_default_template) {
       if (this.addNewTemplate.master_course_name == "" || this.addNewTemplate.course_id == -1) {
-        this.messageNotifier('error', 'Error', 'Please provide Master Course and Course to use is default template.');
+        this.commonService.showErrorMessage('error', 'Error', 'Please provide Master Course and Course to use is default template.');
         return false;
       }
     }
@@ -277,7 +252,7 @@ export class FeeTemplateAddComponent implements OnInit {
 
   addAdditionalInst() {
     if (this.additionalInstallment.fee_type == -1) {
-      this.messageNotifier('error', 'Error', 'Please Select Fee Type');
+      this.commonService.showErrorMessage('error', 'Error', 'Please Select Fee Type');
       return;
     }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0) {
@@ -318,15 +293,6 @@ export class FeeTemplateAddComponent implements OnInit {
     }
   }
 
-  messageNotifier(type, title, message) {
-    let msg = {
-      type: type,
-      title: title,
-      body: message
-    }
-    this.appC.popToast(msg);
-  }
-
   createFeeTemplate() {
     let tax: any;
     let defaultValue: any;
@@ -361,21 +327,11 @@ export class FeeTemplateAddComponent implements OnInit {
     }
     this.apiService.updateFeeTemplate(data).subscribe(
       res => {
-        let msg = {
-          type: 'success',
-          title: 'Updated',
-          body: "Fee Structure created Successfully"
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('success', 'Updated', 'Fee Structure created Successfully');
         this.route.navigateByUrl('/view/fee');
       },
       err => {
-        let msg = {
-          type: 'error',
-          title: 'Error',
-          body: err.error.message
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -396,7 +352,7 @@ export class FeeTemplateAddComponent implements OnInit {
       data.push(test);
     }
     if (this.totalAmount != this.addNewTemplate.total_fee) {
-      this.messageNotifier('error', 'Error', 'Amount provided in installments doesnot match with total Amount');
+      this.commonService.showErrorMessage('error', 'Error', 'Amount provided in installments doesnot match with total Amount');
       return false;
     }
     for (let t = 0; t < this.otherInstList.length; t++) {

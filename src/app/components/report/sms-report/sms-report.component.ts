@@ -1,22 +1,12 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng';
-import { Pipe, PipeTransform } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { getSMSService } from '../../../services/report-services/get-sms.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { postSMSService } from '../../../services/report-services/post-sms.service';
 
 @Component({
   selector: 'app-sms-report',
@@ -38,8 +28,8 @@ export class SmsReportComponent implements OnInit {
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
-  dataStatus:boolean = true;
-  isRippleLoad:boolean = false;
+  dataStatus: boolean = true;
+  isRippleLoad: boolean = false;
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'name', header: 'Name' },
@@ -62,8 +52,10 @@ export class SmsReportComponent implements OnInit {
     order_by: "",
   }
 
-  constructor(private router: Router, private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef,
-    private getSms: getSMSService, private postSms: postSMSService, private auth: AuthenticatorService) {
+  constructor(
+    private appC: AppComponent,
+    private getSms: getSMSService,
+    private auth: AuthenticatorService) {
     this.switchActiveView('sms');
   }
 
@@ -79,9 +71,6 @@ export class SmsReportComponent implements OnInit {
         }
       }
     )
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.getSmsReport(this.smsFetchForm);
   }
 
@@ -209,37 +198,37 @@ export class SmsReportComponent implements OnInit {
           this.searchflag = false;
         }
       )
-      }
     }
-
-    dateValidationForFuture(e) {
-      //console.log(e);
-      let today = moment(new Date);
-      let selected = moment(e);
-  
-      let diff = moment(selected.diff(today))['_i'];
-  
-      if (diff <= 0) {
-  
-      }
-      else {
-        
-        this.smsFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
-        this.smsFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
-  
-        let msg = {
-          type: "info",
-          body: "Future date is not allowed"
-        }
-        this.appC.popToast(msg);
-        
-      }
-  
-    }
-  
   }
-  
 
-    
+  dateValidationForFuture(e) {
+    //console.log(e);
+    let today = moment(new Date);
+    let selected = moment(e);
+
+    let diff = moment(selected.diff(today))['_i'];
+
+    if (diff <= 0) {
+
+    }
+    else {
+
+      this.smsFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
+      this.smsFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
+
+      let msg = {
+        type: "info",
+        body: "Future date is not allowed"
+      }
+      this.appC.popToast(msg);
+
+    }
+
+  }
+
+}
+
+
+
 
 

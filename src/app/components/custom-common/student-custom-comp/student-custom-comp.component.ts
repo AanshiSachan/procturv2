@@ -56,9 +56,6 @@ export class StudentCustomComponent implements OnInit {
 
   ngOnInit() {
     this.fetchPrefillData();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
-
   }
 
   /* fetches list of user created component and the default type */

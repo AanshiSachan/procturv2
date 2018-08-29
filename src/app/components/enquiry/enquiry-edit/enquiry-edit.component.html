@@ -54,7 +54,7 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone != ''}">
                     <label for="phone">Phone No</label>
                     <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
-                      minlength="10" OnlyNumber="true" />
+                      minlength="10"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
                   </div>
 
                   <!-- Email -->
@@ -143,7 +143,7 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone2 != ''}">
                     <label for="phone2">Alternate Contact</label>
                     <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10" minlength="10"
-                      OnlyNumber="true" />
+                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
                   </div>
 
                   <!-- Email -->
@@ -176,7 +176,7 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_phone != ''}">
                     <label for="guardianContact">Parent Contact</label>
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
-                      maxlength="10" minlength="10" OnlyNumber="true" />
+                      maxlength="10" minlength="10"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
 
                   </div>
 
@@ -204,7 +204,7 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.fee_committed != ''}">
                     <label for="feeCommitted">Fees Committed Details</label>
                     <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="editEnqData.fee_committed" name="feeCommitted"
-                      #feeCommitted="ngModel" OnlyNumber="true" />
+                      #feeCommitted="ngModel"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
 
                   </div>
 
@@ -212,7 +212,7 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.discount_offered != ''}">
                     <label for="discount">Discount Offered Details</label>
                     <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="editEnqData.discount_offered" name="discount" pattern="[0-9]+"
-                      OnlyNumber="true" #discount="ngModel" />
+                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #discount="ngModel" />
 
                   </div>
 

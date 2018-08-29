@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppComponent } from '../../../app.component';
-import { LoginService } from '../../../services/login-services/login.service';
-import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { FeeStrucService } from '../../../services/feeStruc.service';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-template-home',
@@ -67,7 +66,12 @@ export class TemplateHomeComponent implements OnInit {
   addTemplatePopUp: boolean = false;
   studentList: any[] = [];
 
-  constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService, private auth: AuthenticatorService) {
+  constructor(
+    private router: Router,
+    private fetchService: FeeStrucService,
+    private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory
+  ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -84,9 +88,6 @@ export class TemplateHomeComponent implements OnInit {
         }
       }
     )
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchPrefill();
   }
 
@@ -206,22 +207,13 @@ export class TemplateHomeComponent implements OnInit {
     this.fetchService.updateFeeTemplate(data).subscribe(
       res => {
         this.isRippleLoad = false;
-        let msg = {
-          type: 'success',
-          title: 'Updated',
-          body: "Fee Structure Updated Successfully"
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('success', 'Update Successfully', 'Fee Structure Updated Successfully');
         this.closeFeeEditor();
       },
       err => {
         this.isRippleLoad = false;
-        let msg = {
-          type: 'error',
-          title: 'Error',
-          body: err.error.message
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+
       }
     )
   }
@@ -271,24 +263,14 @@ export class TemplateHomeComponent implements OnInit {
       this.isHeaderEdit = false
     }
     else {
-      let msg = {
-        type: 'error',
-        title: 'Fee Template Name is Mandatory',
-        body: 'Please enter a valid fee template name'
-      }
-      this.appC.popToast(msg);
+      this.commonService.showErrorMessage('error', 'Fee Template Name is Mandatory', 'Please enter a valid fee template name');
     }
   }
 
 
   onApplyTaxChechbox(event) {
     if (this.enableTax == "0") {
-      let msg = {
-        type: 'error',
-        title: 'Error',
-        body: "Please define Tax (%age) in Institute Settings"
-      }
-      this.appC.popToast(msg);
+      this.commonService.showErrorMessage('error', 'Error', 'Please define Tax (%age) in Institute Settings');
       event.target.checked = false;
       return;
     }
@@ -455,19 +437,12 @@ export class TemplateHomeComponent implements OnInit {
         taxAmount: 0,
       }
     } else {
-      let msg = {
-        type: 'error',
-        title: 'Error',
-        body: ""
-      }
       if (this.AddInstallment.initial_fee_amount == null || this.AddInstallment.initial_fee_amount == 0) {
-        msg.body = "Please provide Amount";
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', 'Please provide Amount');
         return;
       }
       if (this.AddInstallment.days == null) {
-        msg.body = "Please provide days/month.";
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', 'Please provide days/month');
         return;
       }
     }
@@ -477,12 +452,7 @@ export class TemplateHomeComponent implements OnInit {
 
   addAdditionalInst() {
     if (this.additionalInstallment.fee_type == -1) {
-      let msg = {
-        type: 'error',
-        title: 'Error',
-        body: "Please provide fee type"
-      }
-      this.appC.popToast(msg);
+      this.commonService.showErrorMessage('error', 'Error', 'Please provide fee type');
       return;
     }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
@@ -512,19 +482,12 @@ export class TemplateHomeComponent implements OnInit {
         fee_type_name: ''
       }
     } else {
-      let msg = {
-        type: 'error',
-        title: 'Error',
-        body: ""
-      }
       if (this.additionalInstallment.initial_fee_amount == 0 || this.additionalInstallment.initial_fee_amount == null) {
-        msg.body = "Please provide Amount";
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', 'Please provide Amount');
         return;
       }
       if (this.additionalInstallment.days == null) {
-        msg.body = "Please provide days";
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', 'Please provide days');
         return;
       }
     }
@@ -548,12 +511,7 @@ export class TemplateHomeComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -645,24 +603,14 @@ export class TemplateHomeComponent implements OnInit {
       this.fetchService.deleteFeeStructure(fee.template_id).subscribe(
         res => {
           this.isRippleLoad = false;
-          let msg = {
-            type: 'success',
-            title: 'Deleted',
-            body: "Fee Structure Deleted Successfully"
-          }
-          this.appC.popToast(msg);
+          this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
           this.getFeeStructures();
           this.searchText = "";
           this.searchDataFlag = false;
         },
         err => {
           this.isRippleLoad = false;
-          let msg = {
-            type: 'error',
-            title: 'Error',
-            body: err.error.message
-          }
-          this.appC.popToast(msg);
+          this.commonService.showErrorMessage('error', 'Error', err.error.message);
         }
       )
     }
@@ -676,7 +624,7 @@ export class TemplateHomeComponent implements OnInit {
       this.studentList = fee.studentList;
     }
     else {
-      this.appC.popToast({type:"info" , title:"" , body:"No data found"});
+      this.commonService.showErrorMessage("info", "", "No data found");
       this.addTemplatePopUp = false;
     }
   }

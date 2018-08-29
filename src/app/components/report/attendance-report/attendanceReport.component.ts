@@ -3,13 +3,8 @@ import { AttendanceReportServiceService } from '../../../services/attendance-rep
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
 import * as moment from 'moment';
-import { error } from 'util';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
-import { searchPipe } from '../../shared/pipes/searchBarPipe';
-import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
-import { start } from 'repl';
 import { LoginService } from '../../../services/login-services/login.service';
-import { PAGINATION_CONTROL_VALUE_ACCESSOR } from '../../../../assets/imported_modules/ngx-bootstrap/pagination/pagination.component';
 
 
 @Component({
@@ -127,9 +122,6 @@ export class AttendanceReportComponent implements OnInit {
         }
       }
     )
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.getMasterCourseData();
   }
 

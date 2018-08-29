@@ -1,140 +1,471 @@
-<!-- <div class="clearfix">
-  <div class="row">
-    <h2 class="pull-left" style="margin-left:15px">Add Employee</h2>
-  </div>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 
-  <div class="row">
-    <div class="c-sm-6 c-md-6 c-lg-6">
-      <div class="field-wrapper">
-        <label for="name">Name
-          <span style="color:red">*</span>
-        </label>
-        <input type="text" class="form-ctrl" [(ngModel)]="employeeDetails.emp_name" name="name">
+<div class="clearfix openingDiv">
+
+  <section class="scroll-section">
+
+    <section class="head-wrapper" style="text-align: center;">
+      <ul class="nav-tab">
+        <li id="circle1" #circle1 class="active" style="width: auto">
+          <div class="navigator" (click)="onTabChange('circle1')">
+            <span>1</span>
+            <p>Basic Details</p>
+          </div>
+        </li>
+        <li id="circle2" #circle2 style="width: auto">
+          <div class="navigator" (click)="onTabChange('circle2')">
+            <span>2</span>
+            <p>Salary & Working Days</p>
+          </div>
+        </li>
+        <li id="circle3" #circle3 style="width: auto">
+          <div class="navigator" (click)="onTabChange('circle3')">
+            <span>3</span>
+            <p>Inventory</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="body-wrapper" style="margin-bottom: 20px">
+
+      <div class="row" *ngIf="firstPage">
+
+        <section class="middle-top clearFix">
+          <h1 class="pull-left">
+            Personal Details
+          </h1>
+        </section>
+
+        <section class="middle-inner row" style="margin-left:-15px;margin-right: -15px">
+
+          <aside class="pull-left middle-left">
+
+            <div class="row">
+              <div class="c-sm-8 c-lg-8 c-md-8">
+
+                <div class="basic-details">
+
+                  <div class="field-wrapper">
+                    <label for="name">Name
+                      <span style="color:red">*</span>
+                    </label>
+                    <input type="text" class="form-ctrl" [(ngModel)]="employeeDetails.emp_name" name="name">
+                  </div>
+
+                  <div class="field-wrapper">
+                    <label for="contNumber">Contact Number
+                      <span style="color:red">*</span>
+                    </label>
+                    <input type="text" maxlength="10" class="form-ctrl" [(ngModel)]="employeeDetails.phone_pro" name="contNumber">
+                  </div>
+
+                  <div class="field-wrapper">
+                    <label for="CurrentAddress">Address
+                    </label>
+                    <input type="text" class="form-ctrl" [(ngModel)]="employeeDetails.address" name="CurrentAddress">
+                  </div>
+
+                  <div class="field-wrapper">
+                    <label for="emailID">Email Id
+                      <span style="color:red">*</span>
+                    </label>
+                    <input type="email" class="form-ctrl" name="emailID" [(ngModel)]="employeeDetails.email_pri">
+                  </div>
+
+                  <div class="field-wrapper">
+                    <div class="field-wrapper datePickerBox">
+                      <label for="dob">Date Of Birth
+                        <span style="color:red">*</span>
+                      </label>
+                      <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="employeeDetails.dob" readonly="true" name="dob"
+                        bsDatepicker style="background: white">
+                    </div>
+                  </div>
+
+                  <div class="more-detail" style="font-size: 14px; margin-top:10px">
+                    <a *ngIf="!addProfDet" style="cursor:pointer" (click)="addProfDet = true">+ &nbsp; Add Professional Details</a>
+                    <a *ngIf="addProfDet" style="cursor:pointer" (click)="addProfDet = false">- &nbsp; Hide Professional Details</a>
+                  </div>
+
+                </div>
+
+                <div class="Professional-details" *ngIf="addProfDet">
+
+                  <h2>Additional Details</h2>
+
+                  <div class="field-wrapper">
+                    <label for="expYear">Year Of Experience
+                    </label>
+                    <input type="number" class="form-ctrl" [(ngModel)]="employeeDetails.year_of_experience" name="expYear">
+                  </div>
+
+                  <div class="field-wrapper">
+                    <label for="highEdu">Highest Education
+                    </label>
+                    <input type="text" class="form-ctrl" name="highEdu" [(ngModel)]="employeeDetails.highest_qualification">
+                  </div>
+
+                  <div class="field-wrapper">
+                    <label for="Aadhar">Aadhar Card
+                    </label>
+                    <input type="text" class="form-ctrl" name="Aadhar" [(ngModel)]="employeeDetails.aadhar_card_no">
+                  </div>
+
+                  <div class="field-wrapper">
+                    <label for="panCard">Pan Card
+                    </label>
+                    <input type="text" class="form-ctrl" name="panCard" [(ngModel)]="employeeDetails.pan_card_no">
+                  </div>
+
+                  <div class="certificates">
+                    <label>Other Certificates</label>
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <proctur-image [serverImg]="profile_pic" [containerWidth]="containerWidth" (setImage)="setImage($event)">
+                </proctur-image>
+              </div>
+
+            </div>
+
+          </aside>
+
+          <aside class="pull-right middle-right">
+            <div class="admin-details">
+              <h2 style="margin: 0 0 10px 0px;">Administration Details</h2>
+
+              <div class="radio-options">
+                <label>Employee Type
+                  <span style="color:red">*</span>
+                </label>
+                <br>
+                <div class="field-radio-wrapper">
+                  <input type="radio" id="rbtnFaculty" [checked]="employeeDetails.emp_type == '1'" value="1" [(ngModel)]="employeeDetails.emp_type"
+                    name="rbtnFaculty" class="form-radio">
+                  <label for="rbtnFaculty">Faculty</label>
+                </div>
+                <div class="field-radio-wrapper">
+                  <input type="radio" id="rbtnStaff" value="2" [checked]="employeeDetails.emp_type == '2'" [(ngModel)]="employeeDetails.emp_type"
+                    name="rbtnStaff" class="form-radio">
+                  <label for="rbtnStaff">Other Staff</label>
+                </div>
+              </div>
+
+              <div class="field-wrapper">
+                <label for="ddnUser">Designation
+                  <span style="color:red">*</span>
+                </label>
+                <select id="ddnUser" name="ddnUser" class="form-ctrl" [(ngModel)]="employeeDetails.designation_id">
+                  <option value="-1"></option>
+                  <option [value]="des.designation_id" *ngFor="let  des of designationList">
+                    {{des.designation_name}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="field-wrapper">
+                <label for="ddnManger">Employee Manager
+                </label>
+                <select id="ddnManger" name="ddnManger" class="form-ctrl" [(ngModel)]="employeeDetails.emp_manager_id">
+                  <option value="-1"></option>
+                  <option [value]="des.emp_id" *ngFor="let  des of employeeList">
+                    {{des.emp_name}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="field-wrapper">
+                <div class="field-wrapper datePickerBox">
+                  <label for="joiningDate">Joining Date
+                    <span style="color:red">*</span>
+                  </label>
+                  <input type="text" value="" [(ngModel)]="employeeDetails.joining_date" class="form-ctrl bsDatepicker" readonly="true" name="csd"
+                    bsDatepicker style="background: white">
+                </div>
+              </div>
+
+              <div class="field-wrapper" *ngIf="employeeDetails.emp_type == '2'">
+                <label for="ddnUserType">Role
+                  <span style="color:red">*</span>
+                </label>
+                <select id="ddnUserType" name="ddnUserType" class="form-ctrl" [(ngModel)]="employeeDetails.role_id">
+                  <option value="-1"></option>
+                  <option [value]="des.role_id" *ngFor="let  des of rolesList">
+                    {{des.role_name}}
+                  </option>
+                </select>
+              </div>
+
+            </div>
+          </aside>
+
+        </section>
+
+        <section class="middle-down">
+          <button *ngIf="employeeId == '-1'" class="btn fullBlue pull-right" (click)="addNewUser()">Save</button>
+          <button *ngIf="employeeId != '-1'" class="btn fullBlue pull-right" (click)="upadateUserDet()">Update</button>
+        </section>
+
       </div>
 
-      <div class="field-wrapper">
-        <label for="contNumber">Primary Contact Number
-          <span style="color:red">*</span>
-        </label>
-        <input type="text" maxlength="10" class="form-ctrl" [(ngModel)]="employeeDetails.phone_pro" name="contNumber">
+      <div class="row second-page" *ngIf="secondPage">
+        <aside class="pull-left">
+          <fieldset>
+            <legend>Salary Details</legend>
+
+            <div class="field-wrapper">
+              <label for="salaryType">Salary Type
+                <span style="color:red">*</span>
+              </label>
+              <select id="salaryType" class="form-ctrl" [(ngModel)]="salaryDet.salary_type">
+                <option value="1">Fixed</option>
+                <option value="2">Hourly</option>
+              </select>
+            </div>
+
+            <div class="fixed-details" *ngIf="salaryDet.salary_type == '1'">
+
+              <div class="field-wrapper">
+                <label for="basicSalary">Basic
+                </label>
+                <input type="number" class="form-ctrl" [integerInput]="true" name="basicSalary" [(ngModel)]="salaryDet.basic">
+              </div>
+
+              <div class="field-wrapper">
+                <label for="taSalary">TA
+                </label>
+                <input type="number" class="form-ctrl" [integerInput]="true" name="taSalary" [(ngModel)]="salaryDet.ta">
+              </div>
+
+              <div class="field-wrapper">
+                <label for="daSalary">DA
+                </label>
+                <input type="number" class="form-ctrl" [integerInput]="true" name="daSalary" [(ngModel)]="salaryDet.da">
+              </div>
+
+              <div class="field-wrapper">
+                <label for="hraSalary">HRA
+                </label>
+                <input type="number" class="form-ctrl" [integerInput]="true" name="hraSalary" [(ngModel)]="salaryDet.hra">
+              </div>
+
+              <div class="field-wrapper">
+                <label for="pfSalary">PF
+                </label>
+                <input type="number" class="form-ctrl" [integerInput]="true" name="pfSalary" [(ngModel)]="salaryDet.pf">
+              </div>
+
+              <div class="field-wrapper">
+                <label for="esiSalary">ESI
+                </label>
+                <input type="number" class="form-ctrl" name="esiSalary" [(ngModel)]="salaryDet.esi">
+              </div>
+
+              <div class="field-wrapper">
+                <label for="taxSalary">Tax
+                </label>
+                <input type="number" class="form-ctrl" [integerInput]="true" name="taxSalary" [(ngModel)]="salaryDet.tax">
+              </div>
+
+              <!-- <div class="field-wrapper">
+                <label for="totalSalary">Total
+                </label>
+                <input type="number" class="form-ctrl" name="totalSalary" [(ngModel)]="salaryDet.total">
+              </div> -->
+            </div>
+
+            <div class="field-wrapper" *ngIf="salaryDet.salary_type == '2'">
+              <label for="rateClass">Rs per class hour rate
+              </label>
+              <input type="number" class="form-ctrl" name="rateClass" [integerInput]="true" [(ngModel)]="salaryDet.class_hour_rate">
+            </div>
+
+            <br>
+
+            <div class="row btn-section">
+              <button class="btn fullBlue pull-right" *ngIf="salaryDet.id == '-1'" (click)="saveNewSalaryStruct()">Save</button>
+              <button class="btn fullBlue pull-right" *ngIf="salaryDet.id != '-1'" (click)="updateSalaryStructure()">Update</button>
+            </div>
+
+          </fieldset>
+        </aside>
+
+        <aside class="pull-right">
+          <fieldset>
+            <legend>Working Hours</legend>
+
+            <div class="timepicker-wrapper row">
+              <div class="c-sm-8 c-md-8 c-l-8">
+                <div class="form-wrapper timepick c-sm-6">
+                  <label for="startTime">In Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl constantHeight" name="startTime" [(ngModel)]="sameTimeFilter.startTime.hr">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl constantHeight" name="minute" [(ngModel)]="sameTimeFilter.startTime.min">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-wrapper timepick c-sm-6">
+                  <label for="startTime">Out Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl constantHeight" name="startTime" [(ngModel)]="sameTimeFilter.endTime.hr">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl constantHeight" name="minute" [(ngModel)]="sameTimeFilter.endTime.min">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <button class="btn" (click)="applySameDateFilter()" style="margin-top: 15px">Apply</button>
+              </div>
+            </div>
+
+            <div class="row week-iterator" *ngFor="let row of workingDays.week">
+              <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 25px;">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" id="chkbx{{row.day}}" name="chkbx{{row.day}}" class="form-checkbox" [(ngModel)]="row.uiSelected">
+                  <label for="chkbx{{row.day}}">{{row.day}}</label>
+                </div>
+              </div>
+              <div class="timepicker-wrapper c-sm-8 c-md-8 c-lg-8">
+                <div class="form-wrapper timepick c-sm-6">
+                  <label for="startTime">In Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl constantHeight" name="startTime" [(ngModel)]="row.in_time.hr">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl constantHeight" name="minute" [(ngModel)]="row.in_time.min">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-wrapper timepick c-sm-6">
+                  <label for="startTime">Out Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl constantHeight" name="startTime" [(ngModel)]="row.out_time.hr">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl constantHeight" name="minute" [(ngModel)]="row.out_time.min">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row btn-section">
+              <button class="btn fullBlue pull-right" *ngIf="workingDays.id == '-1'" (click)="saveNewWorkingHours()">Save</button>
+              <button class="btn fullBlue pull-right" *ngIf="workingDays.id != '-1'" (click)="updateWorkingHours()">Update</button>
+            </div>
+
+          </fieldset>
+        </aside>
       </div>
 
-      <div class="field-wrapper">
-        <label for="contNumber">Secondary Contact Number
-        </label>
-        <input type="text" maxlength="10" class="form-ctrl" [(ngModel)]="employeeDetails.phone_sec" name="contNumber">
-      </div>
+      <div class="row" *ngIf="thirdPage">
 
-      <div class="field-wrapper">
-        <label for="emailID">Primary Email Id
-        </label>
-        <input type="email" class="form-ctrl" name="emailID" [(ngModel)]="employeeDetails.email_pri">
-      </div>
 
-      <div class="field-wrapper">
-        <label for="emailID">Secondary Email Id
-        </label>
-        <input type="email" class="form-ctrl" name="emailID" [(ngModel)]="employeeDetails.email_sec">
-      </div>
+        <div class="add-section row">
 
-      <div class="field-wrapper">
-        <label for="CurrentAddress">Address
-          <span style="color:red">*</span>
-        </label>
-        <input type="text" class="form-ctrl" [(ngModel)]="employeeDetails.address" name="CurrentAddress">
-      </div>
+          <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="field-wrapper">
+              <label for="ddnUser">Inventory Item
+                <span style="color:red">*</span>
+              </label>
+              <select id="" name="ddnUser" class="form-ctrl" [(ngModel)]="allocateItem.item_id">
+                <option value="-1"></option>
+                <option [value]="des.item_id" *ngFor="let  des of inventoryItemList">
+                  {{des.item_name}}
+                </option>
+              </select>
+            </div>
+          </div>
 
-      <div class="field-wrapper">
-        <div class="field-wrapper datePickerBox">
-          <label for="joiningDate">Joining Date
-            <span style="color:red">*</span>
-          </label>
-          <input type="text" value="" id="joiningDate" class="form-ctrl bsDatepicker" [(ngModel)]="employeeDetails.joining_date" readonly="true"
-            name="csd" bsDatepicker>
+          <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="field-wrapper">
+              <label>Quantity</label>
+              <input type="number" class="form-ctrl" [(ngModel)]="allocateItem.alloted_units">
+            </div>
+          </div>
+
+          <div class="c-sm-3 c-md-3 c-lg-3">
+            <button class="btn fullBlue" (click)="allocateInventory()">Allocate</button>
+          </div>
+
         </div>
-      </div>
 
-      <div class="field-wrapper">
-        <div class="field-wrapper datePickerBox">
-          <label for="LeavingDate">Leaving Date
-          </label>
-          <input type="text" value="" id="LeavingDate" class="form-ctrl bsDatepicker" [(ngModel)]="employeeDetails.leaving_date" readonly="true"
-            name="csd" bsDatepicker>
-          <span class="date-clear" name="LeavingDate" (click)="employeeDetails.leaving_date = ''">clear</span>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Allocated Unit</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center" colspan="3">
+                  No Inventory Allocated
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
 
-      <div class="field-wrapper">
-        <label for="ddnDesignation">Designation
-          <span style="color:red">*</span>
-        </label>
-        <select id="ddnDesignation" [disabled]="employeeId != '-1'" name="ddnDesignation" class="form-ctrl" [(ngModel)]="employeeDetails.designation"
-          (ngModelChange)="onDesignationChanges($event)">
-          <option value="-1"></option>user_id
-          <option [value]="des.data_key" *ngFor="let  des of designationList">
-            {{des.data_value}}
-          </option>
-        </select>
-      </div>
+        <div>
 
-      <div class="field-wrapper" #profileDiv>
-        <label for="ddnUser">User profile
-          <span style="color:red">*</span>
-        </label>
-        <select *ngIf="employeeId == '-1'" id="ddnUser" name="ddnUser" class="form-ctrl" [(ngModel)]="employeeDetails.user_id">
-          <option value="-1"></option>
-          <option [value]="des.userid" *ngFor="let  des of userListData">
-            {{des.name}}
-          </option>
-        </select>
-        <input type="text" *ngIf="employeeId != '-1'" class="form-ctrl" [(ngModel)]="employeeDetails.username">
-      </div>
-
-      <div class="row" style="margin-top:10px">
-        <div class="pull-right">
-          <button routerLink="/view/employee/home" class="btn">Cancel</button>
-          <button class="btn fullBlue" *ngIf="employeeId == '-1'" (click)="addNewEmployee()">Save</button>
-          <button class="btn fullBlue" *ngIf="employeeId != '-1'" (click)="upadateEmployeeDet()">Update</button>
         </div>
+
       </div>
-    </div>
 
-    <div class="c-sm-6 c-md-6 c-lg-6">
+    </section>
 
-      <proctur-image [serverImg]="employeeDetails.profile_pic" [containerWidth]="containerWidth" (setImage)="setImage($event)">
-
-      </proctur-image>
-
-    </div>
-
-  </div>
-
-</div> -->
-
-<div class="clearfix">
-
-  <section class="head-wrapper">
-    <div class="content-section">
-      <div class="clickable">
-        <span class="circle">1</span>
-        <br>
-        <span class="tag">Basic Details</span>
-      </div>
-      <div class="step-lines">
-        <div></div>
-      </div>
-      <div class="clickable">
-        <span class="circle">2</span>
-        <span class="tag">Basic Details</span>
-      </div>
-      <div class="step-lines">
-        <div></div>
-      </div>
-      <div class="clickable">
-        <span class="circle">3</span>
-        <span class="tag">Basic Details</span>
-      </div>
-    </div>
   </section>
+
 
 </div>

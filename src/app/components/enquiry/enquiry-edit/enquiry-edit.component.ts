@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/Rx';
+import * as moment from 'moment';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { LoginService } from '../../../services/login-services/login.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
-import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { ClosingReasonService } from '../../../services/closingReasons/closing-reason.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -171,12 +171,12 @@ export class EnquiryEditComponent implements OnInit {
     private router: Router,
     private pops: PopupHandlerService,
     private poster: PostEnquiryDataService,
-    private appC: AppComponent,
     private login: LoginService,
     private route: ActivatedRoute,
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
-    private service: ClosingReasonService) {
+    private service: ClosingReasonService,
+    private commonServiceFactory: CommonServiceFactory) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -189,12 +189,7 @@ export class EnquiryEditComponent implements OnInit {
     )
 
     if (sessionStorage.getItem('userid') == null) {
-      let data = {
-        type: "error",
-        title: "User not logged-in",
-        body: "Please login to continue"
-      }
-      this.appC.popToast(data);
+      this.showErrorMessage('error', 'User not logged-in', "Please login to continue");
       this.router.navigateByUrl('/login');
     }
     else {
@@ -208,8 +203,6 @@ export class EnquiryEditComponent implements OnInit {
   ngOnInit() {
     this.isCityMandatory = sessionStorage.getItem('enable_routing');
     this.isEnquiryAdministrator();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.FetchEnquiryPrefilledData();
     this.updateEnquiryData()
 
@@ -719,12 +712,7 @@ export class EnquiryEditComponent implements OnInit {
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1) {
       if (this.editEnqData.city == '-1') {
-        let msg = {
-          type: 'error',
-          title: 'City Is Mandatory',
-          body: 'Please provide city details.'
-        }
-        this.appC.popToast(msg);
+        this.showErrorMessage('error','City Is Mandatory', 'Please provide city details');
         return false;
       } else {
         return true;
@@ -762,7 +750,7 @@ export class EnquiryEditComponent implements OnInit {
     // Validate if closing reason is given for closed enquiry
     if (this.editEnqData.status == '1') {
       if (this.editEnqData.closing_reason_id == "0" || this.editEnqData.closing_reason_id == '-1') {
-        this.messageNotifier('error', 'Error', 'Please provide closing reason of enquiry.');
+        this.showErrorMessage('error', 'Error', 'Please provide closing reason of enquiry.');
         return;
       }
     }
@@ -808,12 +796,12 @@ export class EnquiryEditComponent implements OnInit {
 
         if (this.editEnqData.follow_type == "Walkin") {
           if (this.editEnqData.walkin_followUpDate == "") {
-            this.messageNotifier('error', 'Error', 'Please provide walkin date for follow up type walkin');
+            this.showErrorMessage('error', 'Error', 'Please provide walkin date for follow up type walkin');
             return;
           }
 
           if (this.editEnqData.walkin_followUpTime == "") {
-            this.messageNotifier('error', 'Error', 'Please provide walkin time for follow up type walkin');
+            this.showErrorMessage('error', 'Error', 'Please provide walkin time for follow up type walkin');
             return;
           }
         }
@@ -824,12 +812,7 @@ export class EnquiryEditComponent implements OnInit {
           (data: any) => {
             this.isEnquirySubmit = false;
             if (data.statusCode == 200) {
-              let msg = {
-                type: "success",
-                title: "Enquiry edit successful",
-                body: "Your enquiry has been successfully edited"
-              }
-              this.appC.popToast(msg);
+              this.showErrorMessage('success', "Enquiry edit successful", 'Your enquiry has been successfully edited');
               if (this.isConvertToStudent) {
                 let obj: any = {
                   name: this.editEnqData.name,
@@ -850,7 +833,7 @@ export class EnquiryEditComponent implements OnInit {
                   obj.standard_id = this.editEnqData.master_course_name;
                 }
 
-                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['/view/student/add']);
               }
               else {
@@ -858,33 +841,19 @@ export class EnquiryEditComponent implements OnInit {
               }
             }
             else if (data.statusCode != 200) {
-              let msg = {
-                type: "error",
-                title: "Error",
-                body: data.message
-              }
-              this.appC.popToast(msg);
+              this.showErrorMessage('error', "Error", data.message);
             }
           },
           err => {
             this.isEnquirySubmit = false;
-            let data = {
-              type: "error",
-              title: "Error updating Enquiry",
-              body: err.error.message
-            }
-            this.appC.popToast(data);
+            this.showErrorMessage('error', "Error updating Enquiry", err.error.message);
+            
           }
         );
       }
       else {
-        this.isEnquirySubmit = false;
-        let msg = {
-          type: 'error',
-          title: 'Invalid Time Input',
-          body: 'Please select a valid time for follow up'
-        }
-        this.appC.popToast(msg);
+       
+        this.showErrorMessage('error','Invalid Time Input', 'Please select a valid time for follow up');
       }
     }
     /* Do Nothing if the formData is Still Invalid  */
@@ -963,12 +932,7 @@ export class EnquiryEditComponent implements OnInit {
     });
 
     if (!temp) {
-      let msg = {
-        type: 'error',
-        title: 'Required Details Not Filled On Academics Details',
-        body: ''
-      }
-      this.appC.popToast(msg);
+      this.showErrorMessage('error','Required Details Not Filled On Academics Details', '');
     }
 
     return temp;
@@ -976,55 +940,32 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-    if (
-      this.editEnqData.name == null || this.editEnqData.name.trim() == "" ||
-      this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "" ||
-      this.editEnqData.source_id == "" || this.editEnqData.source_id == "-1") {
 
-      if (this.editEnqData.name == null || this.editEnqData.name.trim() == "") {
-        let msg = {
-          type: 'error',
-          title: 'Enquirer Name Is Mandatory',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
-      }
+    if (this.commonServiceFactory.checkValueType(this.editEnqData.name.trim())) {
+      return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
+    }
 
-      else if (this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "") {
-        let msg = {
-          type: 'error',
-          title: 'Enquiry Date Is Mandatory',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
-      }
 
-      else if (this.editEnqData.source_id == "" || this.editEnqData.source_id == "-1") {
-        let msg = {
-          type: 'error',
-          title: 'Enquiry Source Is Mandatory',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
-      }
+    else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
+      return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
+    }
+
+    else if (this.commonServiceFactory.checkValueType(this.editEnqData.source_id)) {
+      return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
     else {
       if (this.validateEnquiryDate()) {
         return true;
       }
       else {
-        let msg = {
-          type: 'error',
-          title: 'Cannot Set Future Enquiry Date',
-          body: ''
-        }
-        this.appC.popToast(msg);
-        return false;
+        return this.showErrorMessage('error', 'Cannot Set Future Enquiry Date', '');
       }
     }
+  }
+
+  showErrorMessage(objType, massage, body) {
+    this.commonServiceFactory.showErrorMessage(objType, massage, body);
+    return false;
   }
 
   validateEnquiryDate() {
@@ -1112,7 +1053,7 @@ export class EnquiryEditComponent implements OnInit {
 
   clearLocalAndRoute() {
     this.clearFormData();
-    localStorage.removeItem('institute_enquiry_id');
+    sessionStorage.removeItem('institute_enquiry_id');
     this.router.navigateByUrl('/view/enquiry');
   }
 
@@ -1167,22 +1108,12 @@ export class EnquiryEditComponent implements OnInit {
     this.updateFormData.comment = this.updateFormData.comment;
     this.poster.updateEnquiryForm(id, this.updateFormData)
       .subscribe(res => {
-        let alert = {
-          type: 'success',
-          title: 'Enquiry Updated',
-          body: 'Your enquiry has been successfully submitted'
-        }
-        this.appC.popToast(alert);
+        this.showErrorMessage('success', 'Enquiry Updated', 'Your enquiry has been successfully submitted')
         this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
         this.commentHandlerClose();
       },
         err => {
-          let alert = {
-            type: 'error',
-            title: 'Failed To Update Enquiry',
-            body: err.error.message
-          }
-          this.appC.popToast(alert);
+          this.showErrorMessage('error', 'Failed To Update Enquiry', err.error.message);
         })
 
   }
@@ -1290,14 +1221,7 @@ export class EnquiryEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
 
-  messageNotifier(type, title, msg) {
-    let alert = {
-      type: type,
-      title: title,
-      body: msg
-    }
-    this.appC.popToast(alert);
-  }
+
 
   // Closing Reason Pop Up Function
 
@@ -1334,13 +1258,13 @@ export class EnquiryEditComponent implements OnInit {
 
   createNewReason() {
     if (this.createNewReasonObj.closing_desc == "") {
-      this.appC.popToast({ type: 'error', body: "Closing reason can't be empty" })
+      this.showErrorMessage('error','', "Closing reason can't be empty");
     }
 
     else {
       this.service.createReason(this.createNewReasonObj).subscribe(
         (data: any) => {
-          this.appC.popToast({ type: "success", title: "", body: "Reason Created Successfully" });
+          this.showErrorMessage('success','', 'Reason Created Successfully');
           this.getClosingReasons();
           this.isNewRefer = false;
           document.getElementById('add-refer-icon').innerHTML = '+';
@@ -1364,12 +1288,12 @@ export class EnquiryEditComponent implements OnInit {
       institution_id: this.service.institute_id
     }
     if (row.closing_desc == "") {
-      this.appC.popToast({ type: 'error', body: "Closing reason can't be empty" })
+      this.showErrorMessage('error','', "Closing reason can't be empty");
     }
     else {
       this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
         (data: any) => {
-          this.appC.popToast({ type: "success", title: "", body: "Reason updated successfully" });
+          this.showErrorMessage('success','', "Reason updated successfully");
           this.getClosingReasons();
         },
         err => {

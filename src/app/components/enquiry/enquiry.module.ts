@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { EnquiryComponent } from './enquiry.component';
 import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
@@ -9,22 +10,18 @@ import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.componen
 import { SmsOptionComponent } from './enquiry-home/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
-import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
-import { EnquiryUpdatepComponent } from './enquiry-update/enquiry-update.component';
-
+import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 /* Modules */
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormControl } from "@angular/forms";
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
-import { DateConverter } from './enquiry-home/enquiry-home.component';
-import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { SharedModule } from '../shared/shared.module';
-import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
 import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
 import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
+
 
 @NgModule({
     imports: [
@@ -47,12 +44,8 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
-        EnquiryUpdatepComponent,
-        EnquiryInput,
-        EnquiryDateInput,
         UserEnquiryComponent,
-        DateConverter,
-        OnlyNumber,
+
         EnquiryHomeComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent
@@ -62,13 +55,14 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
         SmsOptionComponent,
         UserEnquiryComponent,
         CommentTooltipComponent,
-        EnquirySidebarComponent,
-        EnquiryUpdatepComponent
+        EnquirySidebarComponent
     ],
     providers: [
         PopupHandlerService,
         ClosingReasonService
-    ]
+    ],
+    exports: [EnquiryHomeComponent]
+
 })
 export class EnquiryModule {
 

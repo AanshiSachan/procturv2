@@ -23,16 +23,16 @@ import { TeacherViewComponent } from './teacher-view/teacher-view.component';
                     },
                     {
                         path: 'add',
-                        component: TeacherAddComponent
+                        component: TeacherEditComponent//TeacherAddComponent make one comp for add and edit 
                     },
                     {
-                        path: 'edit',
+                        path: 'edit/:id',
                         component: TeacherEditComponent
                     },
                     {
-                        path: 'view',
+                        path: 'view/:id',
                         component: TeacherViewComponent
-                    },
+                    }
                 ]
             }
         ])

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -8,6 +8,7 @@ import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { HttpHeaders } from '@angular/common/http';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -86,20 +87,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     private route: Router,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
-    private titleService: Title
+    private titleService: Title,
+    private _tablePreferencesService: TablePreferencesService
   ) {
-    /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
     if (sessionStorage.getItem('userid') != null) {
-      this.fullscreenLogin();
       this.loginDataForm = {
         alternate_email_id: "",
         password: ""
       }
       this.createRoleBasedSidenav();
     }
-    /* If Null then continue login else move to enq */
     else {
-      this.fullscreenLogin();
       this.loginDataForm = {
         alternate_email_id: "",
         password: ""
@@ -123,6 +121,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.isProcturVisible = true;
   }
+  createTablePreferences() {
+    console.log(sessionStorage.getItem('course_structure_flag'));
+    if (sessionStorage.getItem('userid') != null && sessionStorage.getItem('course_structure_flag')) {
+      if (!this._tablePreferencesService.getTablePreferences('procturTablePreference')) {
+        this._tablePreferencesService.createdLocalStorageStructure({ userId: sessionStorage.getItem('userid'), role: sessionStorage.getItem('course_structure_flag') });
+      }
+    }
+  }
 
   checkWebUrlForGenerics() {
     let url: string = window.location.href;
@@ -134,6 +140,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.virtualStyle.nativeElement.className = "login-box";
       this.titleService.setTitle('Proctur - Your Pocket Classroom');
       sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
+      sessionStorage.setItem('institute_logo_web', this.dynamicImgSrc);
     }
     else {
       this.checkForVirtualHost(test);
@@ -153,6 +160,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             this.dynamicImgSrc = res[0].logoPath;
           }
           if (res[0].favIconPath != null && res[0].favIconPath != "") {
+            sessionStorage.setItem('institute_logo_web', this.dynamicImgSrc);
             this.changeFavICon(res[0].favIconPath);
           }
           if (res[0].title != null && res[0].title != "") {
@@ -174,27 +182,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     link.href = str;
   }
 
-
-  /* Function to hide element with tag name header and sidebar */
-  fullscreenLogin() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.add('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.add('hide');
-    });
-  }
-
   /*
     When user fill the login form and tries to login : ( START - 0)
       1. Check if email or password is not empty
       2. Send login Info to Server
   */
   loginViaServer() {
-    if (this.loginDataForm.alternate_email_id == "" && this.loginDataForm.password == "") {
+    if (this.loginDataForm.alternate_email_id.trim() == "" && this.loginDataForm.password == "") {
       let data = {
         type: "error",
         title: "Invalid Input",
@@ -379,6 +373,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
 
       if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '3') {
+        this.createTablePreferences();
         this.createRoleBasedSidenav();
       }
       else if (sessionStorage.getItem('userType') == '1') {
@@ -615,20 +610,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   openGetAdvice() {
     let url = "http://proctur.com/get_advice.html";
     window.open(url);
-  }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    document.getElementById('login-center-block').classList.add('hide');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
   }
 
   createRoleBasedSidenav() {

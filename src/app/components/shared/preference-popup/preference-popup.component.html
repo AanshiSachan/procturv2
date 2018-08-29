@@ -1,0 +1,34 @@
+<proctur-popup [sizeWidth]="'small'">
+
+  <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopups()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+  <h2 popup-header>Select Preferences </h2>
+  <ul class="history-wrapper" id="horizontal-list" popup-content>
+    <form>
+    <li *ngFor="let fieldObj of keys; let i=index;">
+      <label class="checkbox-inline">
+        <div class="field-checkbox-wrapper" >
+            <input type="checkbox"  class="form-checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked"   (change)="change($event, fieldObj)"
+            [id]="'checkboxPopup-'+i">
+            <label [for]="'checkboxPopup-'+i"></label>{{fieldObj.header}}
+              <!-- <input type="checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked" (change)="change($event, fieldObj)"> 
+              {{fieldObj.header}} -->
+          </div>
+      </label>
+    </li>
+  </form>
+  </ul>
+  <div popup-footer>
+    <button type="button" class="btn btn-default fullBlue " style="float: right;" (click)="selctedFieldsDisplay()">Set Preference</button>
+  </div>
+</proctur-popup>

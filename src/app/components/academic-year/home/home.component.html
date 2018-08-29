@@ -14,7 +14,7 @@
         <span>Add Academic Year</span>
       </a>
     </div>
-    <section class="clearFix create-standard-form" *ngIf="createNewAcademicYear">
+    <section class="clearFix create-standard-form" *ngIf="varJson.createNewAcademicYear">
       <div class="row create-standard-field">
 
         <div class="c-lg-2 c-md-2 c-sm-2">
@@ -159,7 +159,7 @@
                   </div>
                 </td>
                 <td class="view-comp">
-                  <a class="anchorTagCursor" (click)="editRowTable(row , i)" id="aEditRow">Edit</a>
+                  <a class="anchorTagCursor" (click)="editRowTable(row, i)" id="aEditRow">Edit</a>
                   <a class="anchorTagCursor" (click)="deleteAcademicYear(row)" id="aDeleteAcademic">Delete</a>
                 </td>
                 <td class="edit-comp">
@@ -184,7 +184,7 @@
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
         <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+          [page]="varJson.PageIndex" [perPage]="varJson.studentdisplaysize" [count]="varJson.totalRow">
         </pagination>
       </div>
     </div>

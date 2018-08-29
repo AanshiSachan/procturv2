@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppComponent } from '../../app.component';
-import { LoginService } from '../../services/login-services/login.service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
-import { document } from '../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
+import { CommonServiceFactory } from '../../services/common-service';
 
 @Component({
   selector: 'app-institute-settings',
@@ -213,15 +212,11 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   instituteName: any = '';
 
   constructor(
-    private appC: AppComponent,
-    private login: LoginService,
     private apiService: InstituteSettingService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory
   ) {
-    this.removeFullscreen();
-    this.removeSelectionFromSideNav();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.commonService.removeSelectionFromSideNav();
   }
 
   ngOnInit() {
@@ -295,8 +290,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -305,7 +299,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     let dataToSend: any = {};
     if (this.instituteSettingDet.gst_enabled) {
       if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
-        this.messageToast('error', 'Error', "Please specify GST NO.");
+        this.commonService.showErrorMessage('error', 'Error', "Please specify GST NO.");
         return;
       }
     }
@@ -314,12 +308,11 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     this.apiService.saveSettingsToServer(dataToSend).subscribe(
       res => {
         this.isRippleLoad = false;
-        this.messageToast('success', 'Saved', "All your setting saved successfully");
+        this.commonService.showErrorMessage('success', 'Saved', "All your setting saved successfully");
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -396,7 +389,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;
-        this.messageToast('error', 'Error', 'Please provide valid phone number.');
+        this.commonService.showErrorMessage('error', 'Error', 'Please provide valid phone number.');
         return;
       }
     }
@@ -504,7 +497,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   checkDropDownSelection(data) {
     if (data == "-1") {
-      this.messageToast('error', 'Error', 'You have selected wrong option in DropDown')
+      this.commonService.showErrorMessage('error', 'Error', 'You have selected wrong option in DropDown')
       return false;
     } else {
       return true;
@@ -637,42 +630,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
         }
       }
     )
-  }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
-
-  removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
-    /* document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active'); */
-  }
-
-  messageToast(errorType, errorTitle, errorMeassage) {
-    let data = {
-      type: errorType,
-      title: errorTitle,
-      body: errorMeassage
-    }
-    this.appC.popToast(data);
   }
 
 }

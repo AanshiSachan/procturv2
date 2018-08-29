@@ -1,0 +1,124 @@
+.button {
+    background-color: #0060A3;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px;
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #0060A3;
+    color: white;
+}
+
+th ,i {
+cursor: pointer;
+}
+
+.backC{
+  color: red;
+}
+
+.dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    bottom: 5px;
+  
+    z-index: 1;
+}
+
+.dropup-content a {
+    color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropup-content a:hover {background-color: #ccc}
+
+.dropup:hover .dropup-content {
+    display: block;
+}
+
+.updateCss{
+    color:green
+}
+.deleteCss{
+    color:red
+}
+input[type=checkbox] {
+    -webkit-appearance: checkbox;
+  }
+
+.container-1{
+    width: 400px;
+    height:40px;
+    vertical-align: middle;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .btnCss{
+    background-color: #0060A3;
+    color: white;
+  }
+  tr{border-radius: 12px;}
+
+  table{background-color: #f3f3f3;}
+ 
+
+  .tableBodyScroll tbody {
+    display: block;
+    max-height: 350px;
+    overflow-y: scroll;
+  }
+  
+  .tableBodyScroll thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+
+.checkBoxCss{
+    width: 50px !important;
+    padding: 8px 0px 8px 8px !important;
+}
+
+.schedule-scroller {
+    min-height: 300px;
+    max-height: 50vh;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.ulCss{
+    border-bottom: 2px solid rgba(211, 212, 213, 0.5);
+    background: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    cursor: pointer;
+    height: 100px;
+    padding-top: 25px;
+    padding-left: 10px;
+}

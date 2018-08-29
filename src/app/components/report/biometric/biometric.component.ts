@@ -3,7 +3,6 @@ import { BiometricServiceService } from '../../../services/biometric-service/bio
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
 import * as moment from 'moment';
-import { LoginService } from '../../../services/login-services/login.service';
 import { ExcelService } from '../../../services/excel.service';
 
 @Component({
@@ -105,7 +104,6 @@ export class BiometricComponent implements OnInit {
   constructor(private reportService: BiometricServiceService,
     private appc: AppComponent,
     private auth: AuthenticatorService,
-    private login: LoginService,
     private excelService: ExcelService) { }
 
   ngOnInit() {
@@ -119,9 +117,6 @@ export class BiometricComponent implements OnInit {
         }
       }
     )
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.getMasterCourses();
   }
 

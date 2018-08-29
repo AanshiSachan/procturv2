@@ -1,38 +1,192 @@
-.head-wrapper {
-    display: block;
-    margin-top: 10px;
-    text-align: center;
-    .content-section {
-        display: inline-flex;
-        text-align: center;
-        .clickable {
-            .circle {
-                border-radius: 100%;
-                padding: 0.2em 0.65em;
-                background: #0084f6;
-                border: 2px solid #666;
-                color: white;
-                text-align: center;
-                border-color: #0084f6;
-                font-weight: 600;
-            }
-            .tag {
-                display: block;
-                font-size: 0.9em;
-                margin-top: 0.8em;
-                color: #888;
-            }
+@import "./src/assets/css/common/variables.scss";
+///////////////////////////////////////////////////////////
+.openingDiv {
+    max-height: 90vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    ::-webkit-scrollbar {
+        display: block !important;
+        width: 7px;
+        height: 7px;
+    }
+    .scroll-section {
+        max-height: 85vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        ::-webkit-scrollbar {
+            display: block !important;
+            width: 7px;
+            height: 7px;
         }
-        .step-lines {
-            display: flex;
-            margin-left: -2em;
-            margin-right: -2em;
-            div {
-                height: 2px;
-                width: 6em;
-                background: #0084f6;
-                margin-top: 0.6em;
+    }
+}
+
+.body-wrapper {
+    box-sizing: border-box;
+    padding: 0 15px;
+    .row {
+        margin: 0;
+    }
+    .field-wrapper {
+        .datePickerBox:after {
+            content: '';
+            background: url(/./assets/images/calendar.svg) no-repeat;
+            position: absolute;
+            right: 5px;
+            top: 35px;
+            width: 21px;
+            height: 21px;
+            z-index: 10;
+        }
+    }
+    .basic-details {
+        max-width: 360px;
+    }
+    .Professional-details {
+        max-width: 360px;
+        margin: 10px 0px;
+        .certificates {
+            margin-top: 10px;
+            i {
+                float: right;
+                font-size: 19px;
             }
         }
     }
+    .admin-details {
+        box-sizing: border-box;
+        height: auto;
+        padding: 15px;
+        border: 2px solid #deeaee;
+        background: #fafafa;
+        width: 100%;
+        .radio-options {
+            display: inline-block;
+            label {
+                margin-bottom: 5px;
+            }
+            .field-radio-wrapper {
+                display: inline;
+            }
+        }
+    }
+}
+
+.middle-top {
+    padding-bottom: 10px;
+    border-bottom: 1px solid $borderccc;
+    margin-bottom: 10px;
+    h1 {
+        margin-top: 8px;
+    }
+}
+
+.middle-left {
+    width: 70%; // @extend .boxPadding15;
+}
+
+.middle-right {
+    width: 30%;
+    box-sizing: $border-box;
+    padding: 0 15px; // @extend .boxPadding15;
+}
+
+.boxPadding15 {
+    box-sizing: $border-box;
+    padding: 0 15px;
+}
+
+.middle-down {
+    margin: 10px 0;
+}
+
+.second-page {
+    padding: 0 10px;
+    padding-bottom: 10px;
+    fieldset {
+        width: 80%;
+        box-sizing: border-box;
+        height: auto;
+        padding: 15px;
+        border: 2px solid #deeaee;
+        background: #fafafa;
+        legend {
+            width: auto;
+            font-weight: 600;
+        }
+    }
+    .pull-right {
+        width: 50%;
+        fieldset {
+            margin-left: 12%;
+        }
+    }
+    .pull-left {
+        width: 50%;
+    }
+    .btn-section {
+        width: auto;
+        margin: 10px 0;
+        button {
+            width: auto;
+        }
+    }
+}
+
+.timepicker-wrapper {
+    display: flex;
+    margin: 0 -15px !important;
+    padding: 5px;
+    .form-wrapper {
+        &.timepick {
+            padding: 0;
+            .tbox {
+                display: inline-block;
+                width: 100%;
+                .times {
+                    display: inline-block;
+                }
+                .side-form-ctrl {
+                    background: white;
+                    border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                    width: 100%;
+                    padding: 4px 0px;
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: black;
+                    &.mins {
+                        width: 60px;
+                    }
+                    &.mers {
+                        width: 50px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.add-section {
+    background: #efefef;
+    display: flex;
+    .btn {
+        margin: 25px;
+    }
+}
+
+.table-wrapper {
+    padding: 10px 15px;
+}
+
+.week-iterator {
+    border-top: 1px solid #efefef;
+    padding: 5px;
+    border-bottom: 1px solid #efefef;
+}
+
+// Turn off spinner
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

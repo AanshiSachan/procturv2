@@ -142,12 +142,9 @@
         <div *ngIf="showPaymentBox && allPaymentRecords.length > 0">
           <div class="row">
             <div class="c-lg-12">
-              <div class="c-lg-2" style="margin-top: 10px;">
-
-                <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
-                <span class="fa fa-cloud-download">
-                </span>
-              </div>
+                <div class="c-lg-2" style="margin-top: 1%;">
+                    <p-splitButton label="download" [model]="bulkAddItems" icon="pi pi-file"></p-splitButton>
+                </div>
               <div class="c-lg-8" style="margin-top: 10px;">
                 <div class="c-lg-12">
                   <div class="c-lg-4  text-change" *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')">
@@ -286,7 +283,7 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" name='paidVal'>
+                <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="d.amount_paid" name='paidVal'>
               </div>
             </td>
             <td>
@@ -331,7 +328,7 @@
         <div class="c-lg-6 field-wrapper">
           <label>Receipt No.</label>
           <span class="field-red">*</span>
-          <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="personData.invoice_no">
+          <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="personData.invoice_no">
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reason for Update</label>

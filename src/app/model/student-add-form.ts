@@ -19,7 +19,7 @@ export interface StudentForm {
 	institution_id?: any, // "100123",
 	assignedBatches?: any, // ["5660", "2447", "4163", "3067"],
 	assignedBatchescademicYearArray?: any;
-	assignedCourse_Subject_FeeTemplateArray?:any;
+	assignedCourse_Subject_FeeTemplateArray?: any;
 	fee_type?: any, // 0,
 	fee_due_day?: any, // 0,
 	batchJoiningDates?: any, // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
@@ -35,5 +35,6 @@ export interface StudentForm {
 	subject_id?: any, // null,
 	slot_id?: any, // null,
 	language_inst_status?: any, // null,
-	stuCustomLi?: any //
+	stuCustomLi?: any, //
+	deleteCourse_SubjectUnPaidFeeSchedules: any
 }
