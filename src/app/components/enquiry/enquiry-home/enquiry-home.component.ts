@@ -500,9 +500,9 @@ export class EnquiryHomeComponent implements OnInit {
                 }
                 default:
                   /* Type +> Input/Date */
-                  if (el.type != 2 && el.type != 4 && el.type != 3) {
+                  // if (el.type != 2 && el.type != 4 && el.type != 3) {
                     obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
-                  }
+                  // }
               }
               this.customComponents.push(obj);
             });

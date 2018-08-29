@@ -28,6 +28,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if (this.displayKeys.selectAll.checked) {
       this.toggleAllCheckBox();
     }
+    this._paginationService.setPageIndex(1);
     this._paginationService.setDisplayBatchSize(50);
   }
 

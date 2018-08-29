@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login-services/login.service';
-import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-activity-home',
@@ -9,7 +8,9 @@ import { AppComponent } from '../../app.component';
 })
 export class ActivityHomeComponent implements OnInit {
 
-  constructor(private login: LoginService, private appC: AppComponent) { }
+  constructor(
+    private login: LoginService
+  ) { }
 
   ngOnInit() {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));

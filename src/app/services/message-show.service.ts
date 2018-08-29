@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 
 @Injectable()
 export class MessageShowService {
-
+  private toasterService: ToasterService;
   toastTypes: any = {
     error: 'error',
     success: 'success',
     info: 'info',
     warning: 'warning'
   }
+
   object: any = {
     toastMessages: {
       notFound: 'No Records Found'
@@ -17,14 +19,17 @@ export class MessageShowService {
       saveSMS: "SMS Template saved",
       failSMS: "Failed To Edit SMS Template",
       notSend: 'Unable To Send SMS',
-      sendSMS: 'SMS sent',
+      sendSMS: 'Test Message Send Successfully!',
       blankSMS: "Cannot Send Blank SMS",
-      addNewSMS: "New SMS Added"
+      addNewSMS: "New SMS Added",
+      notMultiSMS: 'Cannot Send Multiple Test SMS',
+      loadError: "Error loading SMS",
+
     },
     internetError: {
       unableToConnect: 'Unable To Connect To Server',
-
     },
+
     enquiryMessages: {
       failEnquiry: "Failed To Assign Enquiry",
       assignEnquiry: 'Enquiries Assigned',
@@ -42,9 +47,37 @@ export class MessageShowService {
     },
     dateTimeMessages: {
       invalideDateTime: "Invalid Date Time Input",
-    }
+      incorrectDetails: "Incorrect Details"
+    },
+    academicMessages: {
+
+    },
+    campaignMessages: {
+      selectMsg: "Campaign created successfully!",
+    },
+    generalMessages: {
+      notFound: 'No Records Found',
+      invalidNumber:"Invalid Mobile Number",
+    },
+    functionalMsg:{
+      uploadFail:"File uploaded Failed",
+      invalidType:"Invalid File Type",
+      uploaded:"File uploaded successfully!",
+      sameName:"Name already exist",
+      mandatoryInfo:"Please provide mandatory information"
+    },
+
   };
 
-  constructor() { }
+  // toast function 
+  showErrorMessage(objType, massage, body) {
+    var toast: Toast = {
+      type: objType,
+      title: massage,
+      body: body
+    };
+    this.toasterService.pop(toast);
+
+  }
 
 }
