@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
@@ -9,7 +9,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
   styleUrls: ['./core-sidednav.component.scss']
 })
 
-export class CoreSidednavComponent implements OnInit {
+export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
   logs: string = ''
   isLangInstitute: boolean = false;
@@ -48,6 +48,9 @@ export class CoreSidednavComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    this.setActiveClassOnSideNav();
+  }
 
   validateUsertypePermissionData() {
     let p = sessionStorage.getItem('permissions');
@@ -336,6 +339,28 @@ export class CoreSidednavComponent implements OnInit {
     document.getElementById('linine').classList.remove('active');
     /* document.getElementById('liten').classList.add('active');
       document.getElementById('lieleven').classList.remove('active'); */
+  }
+
+  setActiveClassOnSideNav() {
+    this.RemoveActiveTabs();
+    let url: string = window.location.href;
+    if (url.includes('admin')) {
+      document.getElementById('lizero').classList.add('active');
+    } else if (url.includes('enquiry')) {
+      document.getElementById('lione').classList.add('active');
+    } else if (url.includes('student')) {
+      document.getElementById('litwo').classList.add('active');
+    } else if (url.includes('course')) {
+      document.getElementById('lithree').classList.add('active');
+    } else if (url.includes('activity')) {
+      document.getElementById('lifour').classList.add('active');
+    } else if (url.includes('reports')) {
+      document.getElementById('lisix').classList.add('active');
+    } else if (url.includes('inventory')) {
+      document.getElementById('liseven').classList.add('active');
+    } else if (url.includes('campaign')) {
+      document.getElementById('linine').classList.add('active');
+    }
   }
 
 }
