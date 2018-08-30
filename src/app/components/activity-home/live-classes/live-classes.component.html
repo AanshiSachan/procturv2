@@ -441,7 +441,7 @@
                         <i class="fa fa-times" aria-hidden="true" (click)="cancel(i.session_id)"></i>
                     </td>
                     <td>
-                        <i class="fa fa-calendar" aria-hidden="true" (click)="reschedule(i.session_id)" *ngIf="i.start_datetime >dateToday"></i>
+                        <i class="fa fa-calendar" aria-hidden="true" (click)="reschedule(i.session_id)" *ngIf="i.start_datetime > dateToday"></i>
                         <label *ngIf="i.start_datetime < dateToday">NA</label>
                     </td>
                 </tr>
