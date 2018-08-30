@@ -91,7 +91,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     console.log('chnages :', this.displayKeys);
     if (this.displayData.length > 0 && this.keysArray.length > 0) {
-      this.keysArray[0].type =null;
+      this.keysArray[0].type = null;
       this.sortData(this.keysArray[0]);
     }
 
@@ -117,41 +117,53 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
             element.filter = false;
           }
         });
-        let sortedArray = this.recordsTrimmed.sort((obj1, obj2) => {
-          let a = obj1[key.primaryKey];
-          let b = obj2[key.primaryKey];
-          // for case insensitive compare 
-          if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
-            a = obj1[key.primaryKey].toLowerCase();
-            b = obj2[key.primaryKey].toLowerCase();
-          }
-          if (a == null) {
-            return -1;
-          }
-          if (b == null) {
-            return 1;
-          }
 
-          if (this.checkValueType(a) > this.checkValueType(b)) {
-            return 1;
-          }
-          else if (this.checkValueType(a) < this.checkValueType(b)) {
-            return -1
-          }
-          return 0;
-          //  return a == null ? -1 : (b == null ? 1 : (a > b ? 1 : (a < b ? -1 : 0)));
-        });
-        this.recordsTrimmed = sortedArray;
-        console.log(this.recordsTrimmed);
+        if (key["header"] != "ID") {
+          let sortedArray = this.recordsTrimmed.sort((obj1, obj2) => {
+            let a = obj1[key.primaryKey];
+            let b = obj2[key.primaryKey];
+            // for case insensitive compare 
+            if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
+              a = obj1[key.primaryKey].toLowerCase();
+              b = obj2[key.primaryKey].toLowerCase();
+            }
+            if (a == null) {
+              return -1;
+            }
+            if (b == null) {
+              return 1;
+            }
+
+            if (this.checkValueType(a) > this.checkValueType(b)) {
+              return 1;
+            }
+            else if (this.checkValueType(a) < this.checkValueType(b)) {
+              return -1
+            }
+            return 0;
+          });
+
+          this.recordsTrimmed = sortedArray;
+          console.log(this.recordsTrimmed);
+        }
+        else {
+          this.newSortArray(key);
+        }
+
       }
     }
   }
 
   // convert string as type 
   checkValueType(value: any) {
+
     if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
       console.log(Date.parse(value));
       value = Date.parse(value);;
+    }
+    else if (/[^A-Za-z0-9]+/g.test(value)) {
+      console.log(value);
+      return 'both';
     }
     else if (typeof value == "string") {
       if (value.match(/^-{0,1}\d+$/)) {  //int
@@ -177,25 +189,61 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.sortData(this.keysArray[0]);
     }
   }
-  
-  fectchTableDataByPage($event) {
-    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData );
-  }
 
+  fectchTableDataByPage($event) {
+    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData);
+  }
 
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.recordsTrimmed = this._paginationService.fetchNext(this.displayData);
-    // this.PageIndex++;
-    // this.fectchTableDataByPage(this.PageIndex);
   }
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
     this.recordsTrimmed = this._paginationService.fetchPrevious(this.displayData);
-    // this.PageIndex--;
-    // this.fectchTableDataByPage(this.PageIndex);
   }
 
+  newSortArray(key) {
+    // Regular expression to separate the digit string from the non-digit strings.
+    let reParts = /\d+|\D+/g;
+    // Regular expression to test if the string has a digit.
+    let reDigit = /\d/;
+    let sortedArray = this.recordsTrimmed.sort((obj1, obj2) => {
+      let a = obj1[key.primaryKey];
+      let b = obj2[key.primaryKey];
+      // for case insensitive compare 
+      if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
+        a = obj1[key.primaryKey].toLowerCase();
+        b = obj2[key.primaryKey].toLowerCase();
+      }
+      let aParts = a.match(reParts);
+      let bParts = b.match(reParts);
+      let isDigitPart;
+
+      if (aParts && bParts && (isDigitPart = reDigit.test(aParts[0])) == reDigit.test(bParts[0])) {
+        // Loop through each substring part to compare the overall strings.
+        let len = Math.min(aParts.length, bParts.length);
+        for (var i = 0; i < len; i++) {
+          let aPart: any = aParts[i];
+          let bPart: any = bParts[i];
+
+          // If comparing digits, convert them to numbers (assuming base 10).
+          if (isDigitPart) {
+            aPart = parseInt(aPart, 10);
+            bPart = parseInt(bPart, 10);
+          }
+          // If the substrings aren't equal, return either -1 or 1.
+          if (aPart != bPart) {
+            return aPart < bPart ? -1 : 1;
+          }
+          // Toggle the value of isDigitPart since the parts will alternate.
+          isDigitPart = !isDigitPart;
+        }
+      }
+      // Use normal comparison.
+      return Number((a >= b)) - Number((a <= b));
+    });
+  }
 
 }

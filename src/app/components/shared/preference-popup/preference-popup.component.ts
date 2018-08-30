@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
+import { MessageShowService } from '../../../services/message-show.service';
 
 @Component({
   selector: 'preference-popup',
@@ -14,12 +15,16 @@ export class PreferencePopupComponent implements OnInit {
   displayKeys = [];
   flag: Boolean = true;
 
-  constructor(private _tablePreferencesService: TablePreferencesService, private ref: ChangeDetectorRef) { }
+  constructor(
+    private _tablePreferencesService: TablePreferencesService,
+    private ref: ChangeDetectorRef,
+    private msgService: MessageShowService
+  ) { }
 
   ngOnInit() {
     console.log(this.settings, this.keys);
     if (this.settings.keys.length == 0) {
-     this.keys.forEach(obj=> obj.checked=false);
+      this.keys.forEach(obj => obj.checked = false);
     }
     if (this._tablePreferencesService.getTablePreferences(this.settings.tableDetails.key).length > 0) {
       this.displayKeys = this._tablePreferencesService.getTablePreferences(this.settings.tableDetails.key);
@@ -34,8 +39,8 @@ export class PreferencePopupComponent implements OnInit {
         })
       })
     }
-
   }
+
   ngDoCheck() {
     if (this.displayKeys.length !== this.settings.keys.length) {
       this.ref.markForCheck();
@@ -44,7 +49,6 @@ export class PreferencePopupComponent implements OnInit {
   }
 
   closePopups(obj) {
-
     this.closeButton.emit(obj);
   }
 
@@ -54,7 +58,6 @@ export class PreferencePopupComponent implements OnInit {
       if (this.displayKeys.filter(e => e.primaryKey === obj.primaryKey).length == 0) {
         obj.checked = true;
         this.displayKeys.push(obj);
-
       }
     }
     else {
@@ -68,15 +71,17 @@ export class PreferencePopupComponent implements OnInit {
   }
 
   selctedFieldsDisplay() {
-    let obj ={callNotify:true};
+    let obj = { callNotify: true };
+
+    if (this.displayKeys.length == 0) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "You haven\'t selected any preferences");
+      return;
+    }
     if (this._tablePreferencesService.getTablePreferences(this.settings.tableDetails.key).length == 0) {
-        obj["callNotify"] =  false;
+      obj.callNotify = false;
     }
     this._tablePreferencesService.setTablePreferences(this.settings.tableDetails.key, this.displayKeys);
     this.closePopups(obj);
-
-
-
   }
 
 
