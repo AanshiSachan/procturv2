@@ -120,7 +120,7 @@ export class EnquiryHomeComponent implements OnInit {
     summaryOptions: false,
     showDateRange: false
   }
-  newSmsString = { data: "", length: 0, type: "", };
+  newSmsString = { data: "", type: "", };
   selectedRow: any = {};
   componentListObject: any = {};
   /* Model For Registration, valid only for professional institute where status is registred else will thow an error with status code 400 */
@@ -194,7 +194,7 @@ export class EnquiryHomeComponent implements OnInit {
   smsHeader = {
     message: { title: 'Message', id: 'message', show: true },
     statusValue: { title: 'Status.', id: 'statusValue', show: false },
-    date: { title: 'Date.', id: 'date', show: true },
+    date: { title: 'Date', id: 'date', show: true },
     action: { title: 'Action', id: 'action', show: true },
     status: { title: 'Status Key', id: 'status', show: false },
     feature_type: { title: 'Feature Type.', id: 'feature_type', show: false },
@@ -369,9 +369,9 @@ export class EnquiryHomeComponent implements OnInit {
           this.cd.markForCheck();
           this.smsServicesInvoked();
           this.varJson.message = message;
-
           this.cd.markForCheck();
           this.smsSelectedRows = this.selectedRow;
+          this.flagJSON.isApprovedTab = true;
           this.cd.markForCheck();
         }
         else if (message == 'update') {
@@ -943,6 +943,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.flagJSON.isApprovedTab = true;
         this.flagJSON.isOpenTab = false;
         this.flagJSON.smsBtnToggle = false;
+        this.flagJSON.isAllSelected = false;
         this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
         if (!document.getElementById(id).classList.contains('active')) {
           document.getElementById(id).classList.add('active');
@@ -954,6 +955,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.flagJSON.isApprovedTab = false;
         this.flagJSON.isOpenTab = true;
         this.flagJSON.smsBtnToggle = false;
+        this.flagJSON.isAllSelected = true;
         this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
         if (!document.getElementById(id).classList.contains('active')) {
           document.getElementById(id).classList.add('active');
@@ -980,7 +982,6 @@ export class EnquiryHomeComponent implements OnInit {
             this.showErrorMessage(this.messageService.toastTypes.success, this.messageService.object.SMSMessages.addNewSMS, '');
             this.cd.markForCheck();
             this.newSmsString.data = '';
-            this.newSmsString.length = 0;
             this.cd.markForCheck();
             this.enquire.fetchAllSms().subscribe(
               (data: any) => {
@@ -1000,11 +1001,9 @@ export class EnquiryHomeComponent implements OnInit {
                     this.smsSourceOpen.push(el);
                   }
                 })
-
               },
               err => {
-                let msg = {
-                }
+                this.showErrorMessage('error', 'Error', err.error.message);
               }
             );
             this.cd.markForCheck();
@@ -1012,6 +1011,7 @@ export class EnquiryHomeComponent implements OnInit {
         },
         err => {
           this.flagJSON.isRippleLoad = false;
+          this.showErrorMessage('error', 'Error', err.error.message);
         }
       )
     }
@@ -1020,15 +1020,15 @@ export class EnquiryHomeComponent implements OnInit {
   /* Stores data for row user has clicked of selected */
   appSmsSelected(row, id) {
     this.cd.markForCheck();
-    document.getElementById('appradiosms' + id).click();
     this.selectedSMS = row;
+    // document.getElementById('appradiosms' + id).click();
   }
 
   /* Stores data for row user has clicked of selected */
   opSmsSelected(row, id) {
     this.cd.markForCheck();
-    document.getElementById('opradiosms' + id).click();
     this.selectedSMS = row;
+    // document.getElementById('opradiosms' + id).click();
   }
 
   /* toggle visibility for add new sms DIV */
@@ -1037,29 +1037,12 @@ export class EnquiryHomeComponent implements OnInit {
     if (content == "-") {
       document.getElementById('sms-toggler-icon').innerHTML = "+";
       this.newSmsString.data = "";
-      this.newSmsString.length = 0;
       this.flagJSON.isMessageAddOpen = false;
     }
     else if (content == "+") {
       document.getElementById('sms-toggler-icon').innerHTML = "-";
       this.flagJSON.isMessageAddOpen = true;
     }
-  }
-
-  /* Char Count and sms string data update */
-  smsStringUpdate(ev) {
-    let stringArr = this.newSmsString.data.split('');
-    this.newSmsString.length = 0;
-    stringArr.forEach(ch => {
-      if (ch.charCodeAt(0) <= 127) {
-        this.newSmsString.length = this.newSmsString.length + 1;
-        this.cd.markForCheck();
-      }
-      else {
-        this.newSmsString.length = this.newSmsString.length + 1;
-        this.cd.markForCheck();
-      }
-    });
   }
 
   /* SMS button visibility */
@@ -1069,6 +1052,10 @@ export class EnquiryHomeComponent implements OnInit {
 
   /* Sms edit mode cancel */
   cancelSmsEdit() {
+    this.flagJSON.isApprovedTab = false;
+    this.flagJSON.isOpenTab = false;
+    this.flagJSON.smsBtnToggle = false;
+    this.flagJSON.isAllSelected = false;
     this.flagJSON.smsBtnToggle = false;
     this.smsServicesInvoked();
   }
@@ -1172,9 +1159,9 @@ export class EnquiryHomeComponent implements OnInit {
     this.flagJSON.isMultiSms = false;
     this.flagJSON.isMessageAddOpen = false;
     this.flagJSON.smsBtnToggle = false;
+    this.flagJSON.isAllSelected = false;
     this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
     this.newSmsString.data = "";
-    this.newSmsString.length = 0;
     this.smsSelectedRows = null;
     this.varJson.sendSmsFormData = { baseIds: [], messageArray: [] };
     this.cd.markForCheck();
@@ -1472,7 +1459,6 @@ export class EnquiryHomeComponent implements OnInit {
     this.flagJSON.isMessageAddOpen = false;
     this.flagJSON.smsBtnToggle = false;
     this.newSmsString.data = "";
-    this.newSmsString.length = 0;
     this.smsSelectedRows = null;
     this.selectedSMS = { message: "", message_id: "", sms_type: "", status: "", statusValue: "", date: "", feature_type: "", institute_name: "", };
     this.varJson.sendSmsFormData = { baseIds: [], messageArray: [] };

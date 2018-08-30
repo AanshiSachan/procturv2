@@ -1471,6 +1471,11 @@ ul.customDropdown li:hover {
 .sms-middle-section {
     padding: 5px 5px;
     .table-container {
+        th,
+        td {
+            text-align: left;
+            padding: 5px;
+        }
         max-width: 100%;
         min-height: 200px;
         overflow: auto;
@@ -1596,6 +1601,12 @@ ul.customDropdown li:hover {
             width: 100%;
             border: 1px solid $border-common;
             padding: 5px;
+        }
+    }
+    .create-cancel-small {
+        .btn {
+            margin-left: 0;
+            padding: 0px 5px;
         }
     }
 }

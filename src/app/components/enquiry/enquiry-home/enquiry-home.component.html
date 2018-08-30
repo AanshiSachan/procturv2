@@ -40,7 +40,8 @@
             </p>
           </li>
           <li class="optMenu" #optMenu>
-            <div [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}" class="enq-dropdown-content" *ngIf="flagJSON.isEnquiryOptions" (mouseleave)="flagJSON.isEnquiryOptions = false">
+            <div [ngClass]="{'visibiltyClass':(flagJSON.isEnquiryAdmin == false)}" class="enq-dropdown-content" *ngIf="flagJSON.isEnquiryOptions"
+              (mouseleave)="flagJSON.isEnquiryOptions = false">
               <ul>
                 <li class="excel-icon" (click)="downloadAllEnquiries()">
                   <i class="fa fa-file-excel-o" aria-hidden="true" style="font-family: FontAwesome;font-size: 16px;color: #aaa;"></i>
@@ -463,8 +464,8 @@
         <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
             <div class="">
-              <ng-robTable [records]="sourceEnquiry" [reset]="flagJSON.isSideBar" [defaultSort]="varJson.sortBy" [tableName]="'enquiry'" [settings]="enquirySettings"
-                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="varJson.fetchingDataMessage"
+              <ng-robTable [records]="sourceEnquiry" [reset]="flagJSON.isSideBar" [defaultSort]="varJson.sortBy" [tableName]="'enquiry'"
+                [settings]="enquirySettings" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="varJson.fetchingDataMessage"
                 [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)"
                 (sortDirection)="getDirection($event)">
               </ng-robTable>
@@ -497,17 +498,18 @@
             style="fill: currentColor"></path>
         </svg>
       </a>
-      <enquiry-sidebar *ngIf="flagJSON.isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority"
-        [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
-        (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()" [mainBranchAdmin]="isMainBranch"
-        [subBranchAdmin]="flagJSON.subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)" [masterCourseData]="masterCourseData"
-        [standardArr]="enqStd" [subjectArr]="enqSubject" (fullEnquiryDetails)="completeEnquiryDeatils($event)" [closingReasonDataSource]="closingReasonDataSource">
+      <enquiry-sidebar *ngIf="flagJSON.isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow"
+        [priorityArr]="enqPriority" [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType"
+        (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()"
+        [mainBranchAdmin]="isMainBranch" [subBranchAdmin]="flagJSON.subBranchSelected" [branchesList]="branchesList" (getUserList)="branchUpdated($event)"
+        [masterCourseData]="masterCourseData" [standardArr]="enqStd" [subjectArr]="enqSubject" (fullEnquiryDetails)="completeEnquiryDeatils($event)"
+        [closingReasonDataSource]="closingReasonDataSource">
       </enquiry-sidebar>
     </div>
   </aside>
 
   <!-- Enquiry update popup -->
-  <app-enquiry-update-popup *ngIf="varJson.message === 'update'"  [enqData]="varJson.enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
+  <app-enquiry-update-popup *ngIf="varJson.message === 'update'" [enqData]="varJson.enquiryInfo" (closePopUp)="closeUpdatePop($event)"></app-enquiry-update-popup>
 
 
   <!-- Delete PopUp -->
@@ -870,19 +872,14 @@
                   <div class="row" *ngIf="flagJSON.isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
-                        <div class="c-lg-6 pull-left new-sms-wrapper">
-                          <div class="c-lg-1">
-                            <label>{{newSmsString.length}}</label>
-                          </div>
-                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
-                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value=""
-                            id="listTxt">
+                        <div class="c-lg-8 pull-left new-sms-wrapper">
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
+                            [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="listTxt">
                             </textarea>
+                          <p>Message characters : {{newSmsString.data.length}}</p>
                         </div>
 
-
-
-                        <div class="c-lg-5 pull-right">
+                        <div class="c-lg-4 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()" id="Btncancel7">
                             <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()" id="BtnsaveSms">
@@ -894,13 +891,7 @@
                   </div>
 
                   <!-- Message Header -->
-                  <div class="row">
-                    <div class="c-lg-12">
-                      <h4>
-                        Message List
-                      </h4>
-                    </div>
-                  </div>
+                  <h3>Message List</h3>
 
                   <!-- Length of SMS Total and SearchBar -->
                   <div class="row sms-table-head">
@@ -923,75 +914,66 @@
                 </div>
                 <!-- Table Here -->
                 <div class="sms-middle-section">
-                  <div class="row">
-                    <div class="c-lg-12 c-md-12 c-sm-12">
-                      <div class="table table-responsive table-container table-data-overflow">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th>
-                                <label>
-                                  <a class="cursor-icon" id="cursorAnch1">{{smsHeader.message.title}}</a>
-                                </label>
-                              </th>
-                              <th>
-                                <label>
-                                  <a class="cursor-icon" id="cursorAnch2">{{smsHeader.date.title}}</a>
-                                </label>
-                              </th>
-                              <th>
-                                <label>
-                                  <a class="cursor-icon" id="cursorAnch3">{{smsHeader.action.title}}</a>
-                                </label>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody *ngIf="isApprovedTab">
-                            <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                              <td>
-                                <div class="field-radio-wrapper">
-                                  <label for="appradiosms{{i}}"></label>
-                                  <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
-
-                                </div>
-                              </td>
-                              <td style="text-align: left; text-overflow: ellipsis">
-                                {{row.message}}
-                              </td>
-                              <td>
-                                {{row.date}}
-                              </td>
-                              <td>
-                                <enquiry-sms-action>
-                                </enquiry-sms-action>
-                              </td>
-                            </tr>
-                          </tbody>
-                          <tbody *ngIf="flagJSON.isAllSelected">
-                            <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                              <td>
-                                <div class="field-radio-wrapper">
-                                  <label for="oppradiosms{{i}}"></label>
-                                  <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
-
-                                </div>
-                              </td>
-                              <td style="text-align: left; text-overflow: ellipsis">
-                                {{row.message}}
-                              </td>
-                              <td>
-                                {{row.date}}
-                              </td>
-                              <td>
-                                <enquiry-sms-action>
-                                </enquiry-sms-action>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                  <div class="table table-responsive table-container table-data-overflow">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>
+                            <label>
+                              <a class="cursor-icon" id="cursorAnch1">{{smsHeader.message.title}}</a>
+                            </label>
+                          </th>
+                          <th style="width: 18%;">
+                            <label>
+                              <a class="cursor-icon" id="cursorAnch2">{{smsHeader.date.title}}</a>
+                            </label>
+                          </th>
+                          <th>
+                            <label>
+                              <a class="cursor-icon" id="cursorAnch3">{{smsHeader.action.title}}</a>
+                            </label>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="flagJSON.isApprovedTab">
+                        <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                          <td style="text-overflow: ellipsis">
+                            {{row.message}}
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td>
+                            <enquiry-sms-action>
+                            </enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf="smsSourceApproved.length == 0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="flagJSON.isAllSelected">
+                        <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                          <td style="text-align: left; text-overflow: ellipsis">
+                            {{row.message}}
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td>
+                            <enquiry-sms-action>
+                            </enquiry-sms-action>
+                          </td>
+                        </tr>
+                        <tr *ngIf="smsSourceOpen.length == 0">
+                          <td colspan="3">
+                            No Message List Found
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
@@ -1086,19 +1068,14 @@
                   <div class="row" *ngIf="flagJSON.isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
-                        <div class="c-lg-6 pull-left new-sms-wrapper">
-                          <div class="c-lg-1">
-                            <label>{{newSmsString.length}}</label>
-                          </div>
-                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
-                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value=""
-                            id="txtRow">
+                        <div class="c-lg-8 pull-left new-sms-wrapper">
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="Enter your SMS here"
+                            [(ngModel)]="newSmsString.data" aria-haspopup="true" value="" id="txtRow">
                                 </textarea>
+                          <p>Message Characters: {{newSmsString.length}}</p>
                         </div>
 
-
-
-                        <div class="c-lg-5 pull-right">
+                        <div class="c-lg-4 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()" id="BtnaddNewMessage">
                             <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()" id="BtnsaveSms">
@@ -1110,13 +1087,9 @@
                   </div>
 
                   <!-- Message Header -->
-                  <div class="row">
-                    <div class="c-lg-12">
-                      <h4>
-                        Message List
-                      </h4>
-                    </div>
-                  </div>
+
+                  <h3>Message List</h3>
+
 
                   <!-- Length of SMS Total and SearchBar -->
                   <div class="row sms-table-head">
@@ -1139,79 +1112,72 @@
                 </div>
 
                 <div class="sms-middle-section">
-                  <div class="row">
-                    <div class="c-lg-12 c-md-12 c-sm-12">
-                      <div class="table table-responsive table-container table-data-overflow">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th>
-                                <label>
-                                  <a class="cursor-icon" id="cursorAnch11">{{smsHeader.message.title}}</a>
-                                </label>
-                              </th>
-                              <th>
-                                <label>
-                                  <a class="cursor-icon" id="cursorAnch12">{{smsHeader.date.title}}</a>
-                                </label>
-                              </th>
-                              <th>
-                                <label>
-                                  <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
-                                </label>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody *ngIf="isApprovedTab">
-                            <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
-                              <td>
-                                <div class="field-radio-wrapper">
-                                  <label for="appradiosms{{i}}"></label>
-                                  <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
-
-                                </div>
-                              </td>
-                              <td style="text-align: left; text-overflow: ellipsis">
-                                {{row.message}}
-                              </td>
-                              <td>
-                                {{row.date}}
-                              </td>
-                              <td>
-                                <enquiry-sms-action>
-                                </enquiry-sms-action>
-                              </td>
-                            </tr>
-                          </tbody>
-                          <tbody *ngIf="flagJSON.isAllSelected">
-                            <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
-                              <td>
-                                <div class="field-radio-wrapper">
-                                  <label for="oppradiosms{{i}}"></label>
-                                  <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
-
-                                </div>
-                              </td>
-                              <td style="text-align: left; text-overflow: ellipsis">
-                                {{row.message}}
-                              </td>
-                              <td>
-                                {{row.date}}
-                              </td>
-                              <td class="sms-Action-td">
-                                <div class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}">
-                                  <i class="fas fa-check" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
-                                  <i class="fa fa-times" (click)="approveRejectSms(row,'2')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
-                                </div>
-                                <enquiry-sms-action style="margin:auto">
-                                </enquiry-sms-action>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                  <div class="table table-responsive table-container table-data-overflow">
+                    <table>
+                      <thead>
+                        <tr>
+                          <!-- <th></th> -->
+                          <th>
+                            <label>
+                              <a class="cursor-icon" id="cursorAnch11">{{smsHeader.message.title}}</a>
+                            </label>
+                          </th>
+                          <th style="width: 18%;">
+                            <label>
+                              <a class="cursor-icon" id="cursorAnch12">{{smsHeader.date.title}}</a>
+                            </label>
+                          </th>
+                          <th>
+                            <label>
+                              <a class="cursor-icon" id="cursorAnch13">{{smsHeader.action.title}}</a>
+                            </label>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="flagJSON.isApprovedTab">
+                        <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                          <!-- <td>
+                            <div class="field-radio-wrapper">
+                              <label for="appradiosms{{i}}"></label>
+                              <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
+                            </div>
+                          </td> -->
+                          <td>
+                            {{row.message}}
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td>
+                            <enquiry-sms-action>
+                            </enquiry-sms-action>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="flagJSON.isAllSelected">
+                        <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                          <!-- <td>
+                            <div class="field-radio-wrapper">
+                              <label for="oppradiosms{{i}}"></label>
+                              <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
+                            </div>
+                          </td> -->
+                          <td>
+                            {{row.message}}
+                          </td>
+                          <td style="width: 18%;">
+                            {{row.date}}
+                          </td>
+                          <td class="sms-Action-td" style="display:block">
+                            <span class="change-status" [ngClass]="{hideElement : (!showApproveButtons(row))}" style="display: inline-block">
+                              <i class="fas fa-check" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                              <i class="fa fa-times" (click)="approveRejectSms(row,'2')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
+                            </span>
+                            <enquiry-sms-action style="display: inline-block"></enquiry-sms-action>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
@@ -1307,16 +1273,16 @@
               <div class="c-sm-4 c-lg-4 c-lg-4">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':varJson.summaryReport.from_date != ''}">
                   <label for="fromDate">From Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.from_date" name="fromDate" readonly="true"
-                    bsDatepicker/>
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.from_date" name="fromDate"
+                    readonly="true" bsDatepicker/>
 
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':varJson.summaryReport.to_date != ''}">
                   <label for="toDate">To Date</label>
-                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.to_date" name="toDate" readonly="true"
-                    bsDatepicker/>
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.to_date" name="toDate"
+                    readonly="true" bsDatepicker/>
 
                 </div>
               </div>
@@ -1324,7 +1290,8 @@
                 <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px" id="btnDownloadDatewise">Download</button>
               </div>
             </div>
-            <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download By Date Range</a>
+            <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download
+              By Date Range</a>
             <a id="downloadSummaryReport121" class="hide"></a>
           </div>
         </div>
