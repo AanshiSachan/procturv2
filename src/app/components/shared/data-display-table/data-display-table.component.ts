@@ -95,7 +95,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.keysArray[0].type = null;
       this.sortKey = this.keysArray[0];
       this.sortData(this.keysArray[0]);
-      
+
     }
 
   }
@@ -188,7 +188,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this.recordsTrimmed = this._paginationService.updateTableBatchSize(num, this.displayData);
     if (this.recordsTrimmed.length > 0) {
       this._paginationService.setPageIndex(1);
-      this.sortData(this.keysArray[0]);
+      this.sortKey.type = null;
+      this.sortData(this.sortKey);
     }
   }
 
@@ -204,11 +205,15 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.recordsTrimmed = this._paginationService.fetchNext(this.displayData);
+    this.sortKey.type = null;
+    this.sortData(this.sortKey);
   }
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
     this.recordsTrimmed = this._paginationService.fetchPrevious(this.displayData);
+    this.sortKey.type = null;
+    this.sortData(this.sortKey);
   }
 
   newSortArray(key) {
