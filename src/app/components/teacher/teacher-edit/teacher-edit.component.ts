@@ -231,7 +231,11 @@ export class TeacherEditComponent implements OnInit {
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
-        this.route.navigateByUrl('/view/teacher');
+        if (sessionStorage.getItem('userType') == '3') {
+          this.route.navigateByUrl('/view/home/admin');
+        } else {
+          this.route.navigateByUrl('/view/teacher');
+        }
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);
