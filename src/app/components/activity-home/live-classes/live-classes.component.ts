@@ -80,6 +80,9 @@ export class LiveClassesComponent implements OnInit {
   classDetails: string = ""
   customId = [];
   studentId = [];
+  dataStatus: boolean = false;
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3];
 
   constructor(
     private auth: AuthenticatorService,
@@ -321,13 +324,16 @@ export class LiveClassesComponent implements OnInit {
   }
 
   fetchStudentsApi(courseArray) {
+    this.dataStatus = true;
     this.getPayloadBatch.coursesArray = courseArray;
     this.service.fetchStudents(this.getPayloadBatch).subscribe(
       (data: any) => {
+        this.dataStatus = false;
         this.studentsAssigned = data.studentsAssigned;
         this.getCheckedBox(this.studentsAssigned);
       },
       (error: any) => {
+        this.dataStatus = false;
         this.errorMessage(error);
       }
     )
@@ -356,24 +362,30 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getTeachers() {
+    this.dataStatus = true;
     this.service.fetchTeachers().subscribe(
       (data: any) => {
+        this.dataStatus = false;
         this.teachersAssigned = data;
         this.getCheckedBox(this.teachersAssigned);
       },
       (error: any) => {
+        this.dataStatus = false;
         this.errorMessage(error);
       }
     )
   }
 
   getCustomUsers() {
+    this.dataStatus = true;
     this.service.fetchUsers().subscribe(
       (data: any) => {
+        this.dataStatus = false;
         this.userAssigned = data;
         this.getCheckedBox(this.userAssigned);
       },
       (error: any) => {
+        this.dataStatus = false;
         this.errorMessage(error);
       }
     )
@@ -505,6 +517,7 @@ export class LiveClassesComponent implements OnInit {
         this.teachersAssigned = [];
         this.dateFrom = moment().format('YYYY-MM-DD');
         this.classDetails = "";
+        this.teacherId = "";
       },
       (error: any) => {
         this.appC.popToast({ type: "error", body: error.error.message })
@@ -523,8 +536,6 @@ export class LiveClassesComponent implements OnInit {
     this.service.fetchOnlineClasses(obj).subscribe(
       (data: any) => {
         this.getClasses = data;
-        this.getPastClasses = data[0].liveMeetingPastOnlineClasses;
-        this.getFutureClasses = data[0].liveMeetingUpcomingOnlineClasses;
       },
       (error: any) => {
         this.errorMessage(error);
@@ -618,6 +629,40 @@ export class LiveClassesComponent implements OnInit {
   closeReschedule() {
     this.rescheduleClass = false;
     this.openClassPopup = true;
+  }
+
+  getRescheduleTime(){
+
+    let fromTime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourFromReschedule.split(' ')[1];
+    let fromDate = moment().format('YYYY-MM-DD');
+    let toTime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
+    let fromTimeT = moment(fromTime).format('YYYY-MM-DD hh:mm a');
+    let toTimeT = moment(toTime).format('YYYY-MM-DD hh:mm a');
+
+    if (moment(fromTimeT).diff(moment(toTimeT), 'minutes') > 0) {
+      this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
+      return false;
+    }
+
+    else if (this.hourFromReschedule == "" || this.hourToReschedule == "" || this.minuteFromReschedule == "" || this.minuteToReschedule == "") {
+      this.appC.popToast({ type: "error", body: "All fields are required" })
+      return false;
+    }
+
+    else if (moment(fromTimeT).diff(moment(), 'minutes') <= 20) {
+      this.appC.popToast({ type: "error", body: "Class can be schedule 20 minutes from current time" })
+      return false;
+    }
+
+    else if (fromTimeT == toTimeT) {
+      this.appC.popToast({ type: "error", body: "From time and to time cannot be same" })
+      return false;
+    }
+
+    else {
+     this.isReschedule();
+    }
+
   }
 
   isReschedule() {

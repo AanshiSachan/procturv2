@@ -92,7 +92,7 @@
 
                         <div class="row">
                             <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
-                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" (click)="viewStudents()">
+                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" (click)="getTimeInfo()">
                             </div>
                         </div>
                     </div>
@@ -183,13 +183,22 @@
                                         </tr>
                                     </tbody>
 
-                                    <tbody *ngIf="studentsAssigned.length==0">
+                                    <tbody *ngIf="studentsAssigned.length==0 && dataStatus === false">
                                         <tr>
                                             <td colspan="4">
                                                 No Records Found
                                             </td>
                                         </tr>
                                     </tbody>
+
+                                    <tbody *ngIf="studentsAssigned.length == 0 && dataStatus === true">
+                                        <tr *ngFor="let dummy of dummyArr">
+                                          <td *ngFor="let c of columnMaps" style="padding:10px;">
+                                            <div class="skeleton">
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
                                 </table>
                             </div>
                         </div>
@@ -253,13 +262,22 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                    <tbody *ngIf="teachersAssigned.length==0">
+                                    <tbody *ngIf="teachersAssigned.length==0 && dataStatus === false">
                                         <tr>
                                             <td colspan='4'>
                                                 No Records Found
                                             </td>
                                         </tr>
                                     </tbody>
+
+                                    <tbody *ngIf="teachersAssigned.length == 0 && dataStatus === true">
+                                        <tr *ngFor="let dummy of dummyArr">
+                                          <td *ngFor="let c of columnMaps" style="padding:10px;">
+                                            <div class="skeleton">
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
                                 </table>
                             </div>
                         </div>
@@ -314,13 +332,23 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                    <tbody *ngIf="userAssigned.length==0">
+                                    <tbody *ngIf="userAssigned.length==0 && dataStatus === false">
                                         <tr>
                                             <td colspan="4">
                                                 No Records Found
                                             </td>
                                         </tr>
                                     </tbody>
+
+                                    <tbody *ngIf="userAssigned.length == 0 && dataStatus === true">
+                                        <tr *ngFor="let dummy of dummyArr">
+                                          <td *ngFor="let c of columnMaps" style="padding:10px;">
+                                            <div class="skeleton">
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    
                                 </table>
                             </div>
                         </div>
@@ -413,7 +441,7 @@
                         <i class="fa fa-times" aria-hidden="true" (click)="cancel(i.session_id)"></i>
                     </td>
                     <td>
-                        <i class="fa fa-calendar" aria-hidden="true" (click)="reschedule(i.session_id)" *ngIf="i.start_datetime >=dateToday"></i>
+                        <i class="fa fa-calendar" aria-hidden="true" (click)="reschedule(i.session_id)" *ngIf="i.start_datetime >dateToday"></i>
                         <label *ngIf="i.start_datetime < dateToday">NA</label>
                     </td>
                 </tr>
@@ -482,7 +510,7 @@
                 </select>
             </div>
             <div class="c-lg-1" style="margin-top: 3%;">
-                <button class="btn fullBlue" value="Go" (click)="isReschedule()">Go</button>
+                <button class="btn fullBlue" value="Go" (click)="getRescheduleTime()">Go</button>
             </div>
         </div>
     </div>
