@@ -712,7 +712,7 @@ export class EnquiryEditComponent implements OnInit {
   validateAreaAndCityFields() {
     if (this.isCityMandatory == 1) {
       if (this.editEnqData.city == '-1') {
-        this.showErrorMessage('error','City Is Mandatory', 'Please provide city details');
+        this.showErrorMessage('error', 'City Is Mandatory', 'Please provide city details');
         return false;
       } else {
         return true;
@@ -847,13 +847,13 @@ export class EnquiryEditComponent implements OnInit {
           err => {
             this.isEnquirySubmit = false;
             this.showErrorMessage('error', "Error updating Enquiry", err.error.message);
-            
+
           }
         );
       }
       else {
-       
-        this.showErrorMessage('error','Invalid Time Input', 'Please select a valid time for follow up');
+
+        this.showErrorMessage('error', 'Invalid Time Input', 'Please select a valid time for follow up');
       }
     }
     /* Do Nothing if the formData is Still Invalid  */
@@ -932,7 +932,7 @@ export class EnquiryEditComponent implements OnInit {
     });
 
     if (!temp) {
-      this.showErrorMessage('error','Required Details Not Filled On Academics Details', '');
+      this.showErrorMessage('error', 'Required Details Not Filled On Academics Details', '');
     }
 
     return temp;
@@ -950,7 +950,7 @@ export class EnquiryEditComponent implements OnInit {
       return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
     }
 
-    else if (this.commonServiceFactory.checkValueType(this.editEnqData.source_id)) {
+    else if (this.commonServiceFactory.valueCheck(this.editEnqData.source_id)) {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
     else {
@@ -1258,13 +1258,13 @@ export class EnquiryEditComponent implements OnInit {
 
   createNewReason() {
     if (this.createNewReasonObj.closing_desc == "") {
-      this.showErrorMessage('error','', "Closing reason can't be empty");
+      this.showErrorMessage('error', '', "Closing reason can't be empty");
     }
 
     else {
       this.service.createReason(this.createNewReasonObj).subscribe(
         (data: any) => {
-          this.showErrorMessage('success','', 'Reason Created Successfully');
+          this.showErrorMessage('success', '', 'Reason Created Successfully');
           this.getClosingReasons();
           this.isNewRefer = false;
           document.getElementById('add-refer-icon').innerHTML = '+';
@@ -1288,12 +1288,12 @@ export class EnquiryEditComponent implements OnInit {
       institution_id: this.service.institute_id
     }
     if (row.closing_desc == "") {
-      this.showErrorMessage('error','', "Closing reason can't be empty");
+      this.showErrorMessage('error', '', "Closing reason can't be empty");
     }
     else {
       this.service.updateClosingReason(obj, row.closing_reason_id).subscribe(
         (data: any) => {
-          this.showErrorMessage('success','', "Reason updated successfully");
+          this.showErrorMessage('success', '', "Reason updated successfully");
           this.getClosingReasons();
         },
         err => {

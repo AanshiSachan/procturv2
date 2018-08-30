@@ -53,12 +53,19 @@ export class CommonServiceFactory {
     }
 
     valueCheck(value) {
-        if (value == null || value == undefined || value.trim() == '') {
-            return true;
+        if (typeof value == "number") {
+            if (value == null || value == undefined || value == -1 || value == 0) {
+                return true;
+            }
+            return false;
+        } else if (typeof value == "string") {
+            if (value == null || value == undefined || value.trim() == '') {
+                return true;
+            }
+            return false;
         }
-        return false;
-
     }
+    
     // Get Current Time and minute will be multiple of 5
     getCurrentTImeForDropDown(): any {
         let hour: any = parseInt(moment(new Date()).format('hh'));
