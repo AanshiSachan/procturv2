@@ -70,6 +70,12 @@ export class MessageShowService {
       sameName: "Name already exist",
       mandatoryInfo: "Please provide mandatory information"
     },
+    batchMsg: {
+      notSelect: "Batch Not Selected",
+      inValid: 'Subject And Batch Invalid',
+      notStandard: 'Standard Not Selected',
+      selectAll: 'Standard, Subject And Batch Not Selected',
+    }
 
   };
 

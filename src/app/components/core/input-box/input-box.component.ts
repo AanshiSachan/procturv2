@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef, Renderer2, ChangeDetectorRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component,  ViewChild, ElementRef, Renderer2, ChangeDetectorRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
 
@@ -7,19 +7,19 @@ import { Router } from '@angular/router';
     templateUrl: './input-box.component.html',
     styleUrls: ['./input-box.component.scss']
 })
-export class SearchBoxComponent implements OnInit, OnChanges {
-    
+export class SearchBoxComponent  {
+
     @Output() value = new EventEmitter<any>();
 
-    constructor(private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef){
+    constructor(
+        private router: Router,
+        private cd: ChangeDetectorRef,
+        private renderer: Renderer2,
+        private eRef: ElementRef
+    ) {
     }
 
-    ngOnInit() {
-    }
-
-    ngOnChanges() {
-
-    }
+  
 
     // @HostListener("document:click", ['$event'])
     // onWindowClick(event) {
@@ -30,5 +30,5 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     //     }
     //   }
     // }
-    
+
 }

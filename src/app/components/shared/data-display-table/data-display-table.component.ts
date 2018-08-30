@@ -173,12 +173,13 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   updateTableBatchSize(num) {
     this.recordsTrimmed = this._paginationService.updateTableBatchSize(num, this.displayData);
     if (this.recordsTrimmed.length > 0) {
+      this._paginationService.setPageIndex(1);
       this.sortData(this.keysArray[0]);
     }
   }
   
   fectchTableDataByPage($event) {
-    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData, );
+    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData );
   }
 
 

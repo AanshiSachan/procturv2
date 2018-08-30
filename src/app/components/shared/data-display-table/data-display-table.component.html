@@ -124,6 +124,6 @@
 </table>
 <br>
 <br>
-<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+<pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="_paginationService.getPagesToShow()"
   [page]="_paginationService.getPageIndex()" [perPage]="_paginationService.displayBatchSize" [sizeArr]="_paginationService.getSizeArr()" (sizeChange)="updateTableBatchSize($event)" [count]="recordCount">
 </pagination>
