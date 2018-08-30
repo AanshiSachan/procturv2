@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { FetchprefilldataService } from '../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { MultiBranchDataService } from '../../services/multiBranchdata.service';
@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-enquiry-update-popup',
   templateUrl: './enquiry-update-popup.component.html',
-  styleUrls: ['./enquiry-update-popup.component.scss']
+  styleUrls: ['./enquiry-update-popup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
 
@@ -85,18 +86,19 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
     private commonService: CommonServiceFactory,
-    private router: Router
-  ) { }
-
-  ngOnInit() {
+    private router: Router,
+    private cd: ChangeDetectorRef
+  ) {
     this.fetchDataFromServer();
     this.checkForMultiBranch();
-    this.isEnquiryAdmin = this.commonService.checkUserHadPermission('115');
-    console.log(this.enqData);
+  }
 
+  ngOnInit() {
+    this.isEnquiryAdmin = this.commonService.checkUserHadPermission('115');
   }
 
   ngOnChanges() {
+    this.cd.markForCheck();
     this.enqData;
     if (this.enqData != null && this.enqData != "") {
       this.fetchCommentData(this.enqData);
@@ -133,7 +135,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   fetchCommentData(id) {
     this.fetchService.fetchCommentsForEnquiry(id).subscribe(
       (res: any) => {
-
+        this.cd.markForCheck();
         if (res.comments != null) {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
@@ -144,6 +146,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
           this.updateFormCommentsOn = [];
           this.updateFormCommentsBy = [];
         }
+
       },
       err => {
         this.messageNotifier("error", "Error Fetching Enquiry Comments", err.error.message);
@@ -155,6 +158,9 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   enquiryDataFetch(id) {
     this.fetchService.fetchEnquiryByInstituteID(id).subscribe(
       res => {
+
+        this.isRippleLoad = false;
+        this.cd.markForCheck();
 
         // Name ,Number And Status
         this.enquiryDet = res;
@@ -191,7 +197,6 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null && res.walkin_followUpTime != ": ") {
           this.updateFormData.walkin_followUpTime = this.commonService.breakTimeInToHrAndMin(res.walkin_followUpTime);
         }
-        this.isRippleLoad = false;
       },
       err => {
         this.isRippleLoad = false;
@@ -276,6 +281,7 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
 
   // Show Hide Notify Me Checkbox
   isNotifyDisplayed() {
+    this.cd.markForCheck();
     if (this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
       if (this.updateFormData.followUpTime.hour != '' && this.updateFormData.followUpTime.hour != null && this.updateFormData.followUpTime.hour != undefined) {
         if (this.updateFormData.followUpTime.minute != '' && this.updateFormData.followUpTime.minute != null && this.updateFormData.followUpTime.minute != 'Invalid date') {
