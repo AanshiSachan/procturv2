@@ -15,9 +15,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   editObject: any;
   keysArray: any;
   recordCount: any;
-  // PageIndex: number = 1;
-  // sizeArr: any[] = [25, 50, 100, 150, 200, 500];
+  sortKey: any;
   recordsTrimmed: any[] = [];
+
   constructor(
     private _tablePreferencesService: TablePreferencesService,
     private _paginationService: PaginationService
@@ -25,6 +25,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.keysArray = this.displayKeys.keys;
+    this.sortKey = this.keysArray[0];
     if (this.displayKeys.selectAll.checked) {
       this.toggleAllCheckBox();
     }
@@ -47,7 +48,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   toggleCheckbox(event, obj, key) {
-    console.log(event.currentTarget.checked, obj);
+    // console.log(event.currentTarget.checked, obj);
     let flag = true;
     this.displayData.forEach(element => {
       if (element[key] == obj[key]) {
@@ -92,14 +93,19 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     console.log('chnages :', this.displayKeys);
     if (this.displayData.length > 0 && this.keysArray.length > 0) {
       this.keysArray[0].type = null;
+      this.sortKey = this.keysArray[0];
       this.sortData(this.keysArray[0]);
+      
     }
 
   }
 
   // this function is used for column wise sorting
   sortData(key) {
-    // console.log(this.displayData, key);
+    // console.log(this.recordsTrimmed,this.displayData);
+    if (this.sortKey.header != key.header) {
+      this.sortKey = key;
+    }
     if (key.allowSortingFlag != undefined) {
       if (key.type == "asc" || key.type == "desc") {
         key.type = key.type == "asc" ? "desc" : "asc";
@@ -161,10 +167,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       console.log(Date.parse(value));
       value = Date.parse(value);;
     }
-    else if (/[^A-Za-z0-9]+/g.test(value)) {
-      console.log(value);
-      return 'both';
-    }
     else if (typeof value == "string") {
       if (value.match(/^-{0,1}\d+$/)) {  //int
         return parseInt(value);
@@ -192,6 +194,11 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   fectchTableDataByPage($event) {
     this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData);
+    // console.log(this.recordsTrimmed,this.displayData);    
+    this.sortKey.type = null;
+    this.sortData(this.sortKey);
+
+
   }
 
   /* Fetch next set of data from server and update table */
@@ -244,6 +251,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       // Use normal comparison.
       return Number((a >= b)) - Number((a <= b));
     });
+
+    this.recordsTrimmed = sortedArray;
   }
 
 }
