@@ -77,6 +77,9 @@ export class LiveClassesComponent implements OnInit {
     session_id: "",
     start_datetime: ""
   }
+  classDetails: string = ""
+  customId = [];
+  studentId = [];
 
   constructor(
     private auth: AuthenticatorService,
@@ -105,7 +108,7 @@ export class LiveClassesComponent implements OnInit {
   }
 
   navigateTo(text) {
-    if (this.viewStudents()) {
+    if (this.getTimeInfo()) {
       if (text == "studentForm") {
         document.getElementById('li-two').classList.remove('active');
         document.getElementById('li-three').classList.remove('active');
@@ -141,27 +144,36 @@ export class LiveClassesComponent implements OnInit {
         }
       }
       else if (text == "assignUsers") {
-        if (this.teacherId == '') {
-          this.appC.popToast({ type: "info", body: "Please select a teacher" })
-          document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.add('active');
-          document.getElementById('li-four').classList.remove('active');
-          document.getElementById('li-one').classList.remove('active');
-          this.studentForm = false;
-          this.kyc = false;
-          this.feeDetails = true;
-          this.inventory = false;
+        if (this.isStudentCheckedArr.length != 0) {
+          if (this.teacherId == '') {
+            this.appC.popToast({ type: "info", body: "Please select a teacher" })
+            document.getElementById('li-two').classList.remove('active');
+            document.getElementById('li-three').classList.add('active');
+            document.getElementById('li-four').classList.remove('active');
+            document.getElementById('li-one').classList.remove('active');
+            this.studentForm = false;
+            this.kyc = false;
+            this.feeDetails = true;
+            this.inventory = false;
+          }
+          else {
+            document.getElementById('li-two').classList.remove('active');
+            document.getElementById('li-three').classList.remove('active');
+            document.getElementById('li-four').classList.add('active');
+            document.getElementById('li-one').classList.remove('active');
+            this.studentForm = false;
+            this.kyc = false;
+            this.feeDetails = false;
+            this.inventory = true;
+            this.getCustomUsers();
+          }
         }
         else {
-          document.getElementById('li-two').classList.remove('active');
-          document.getElementById('li-three').classList.remove('active');
-          document.getElementById('li-four').classList.add('active');
-          document.getElementById('li-one').classList.remove('active');
+          this.appC.popToast({ type: "info", body: "Please select at least one student" })
           this.studentForm = false;
-          this.kyc = false;
+          this.kyc = true;
           this.feeDetails = false;
-          this.inventory = true;
-          this.getCustomUsers();
+          this.inventory = false;
         }
       }
     }
@@ -192,7 +204,7 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  viewStudents() {
+  getTimeInfo() {
 
     let fromTime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
     let fromDate = moment().format('YYYY-MM-DD');
@@ -430,24 +442,23 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getOnlineSchedules() {
-    let customId = [];
-    let studentId = [];
+
     this.isUserCheckedArr.map(
       (ele: any) => {
         let x = ele.toString();
-        customId.push(x);
+        this.customId.push(x);
       }
     )
     this.isStudentCheckedArr.map(
       (ele: any) => {
         let x = ele.toString();
-        studentId.push(x);
+        this.studentId.push(x);
       }
     )
     this.teacherId = this.teacherId.toString();
     this.teacherIdArr.push(this.teacherId);
-    this.getOnlineClasses.custUserIds = customId;
-    this.getOnlineClasses.studentIds = studentId;
+    this.getOnlineClasses.custUserIds = this.customId;
+    this.getOnlineClasses.studentIds = this.studentId;
     this.getOnlineClasses.teacherIds = this.teacherIdArr;
     this.getOnlineClasses.start_datetime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
     this.getOnlineClasses.end_datetime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
@@ -455,12 +466,11 @@ export class LiveClassesComponent implements OnInit {
     this.service.getOnlineClasses(this.getOnlineClasses).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: this.session + " " + "created successfully" });
-        document.getElementById('li-one').classList.add('active');
+        this.navigateTo("studentForm");
         this.studentForm = true;
         this.kyc = false;
         this.feeDetails = false;
         this.inventory = false;
-        this.viewOnlineClasses();
         this.getOnlineClasses = {
           custUserIds: [],
           end_datetime: "",
@@ -494,6 +504,7 @@ export class LiveClassesComponent implements OnInit {
         this.userAssigned = [];
         this.teachersAssigned = [];
         this.dateFrom = moment().format('YYYY-MM-DD');
+        this.classDetails = "";
       },
       (error: any) => {
         this.appC.popToast({ type: "error", body: error.error.message })
