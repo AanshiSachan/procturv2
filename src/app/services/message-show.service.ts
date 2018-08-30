@@ -3,7 +3,11 @@ import { Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 
 @Injectable()
 export class MessageShowService {
-  private toasterService: ToasterService;
+
+  constructor(
+    private toasterService: ToasterService
+  ) { }
+
   toastTypes: any = {
     error: 'error',
     success: 'success',
@@ -57,27 +61,26 @@ export class MessageShowService {
     },
     generalMessages: {
       notFound: 'No Records Found',
-      invalidNumber:"Invalid Mobile Number",
+      invalidNumber: "Invalid Mobile Number",
     },
-    functionalMsg:{
-      uploadFail:"File uploaded Failed",
-      invalidType:"Invalid File Type",
-      uploaded:"File uploaded successfully!",
-      sameName:"Name already exist",
-      mandatoryInfo:"Please provide mandatory information"
+    functionalMsg: {
+      uploadFail: "File uploaded Failed",
+      invalidType: "Invalid File Type",
+      uploaded: "File uploaded successfully!",
+      sameName: "Name already exist",
+      mandatoryInfo: "Please provide mandatory information"
     },
 
   };
 
   // toast function 
   showErrorMessage(objType, massage, body) {
-    var toast: Toast = {
+    let toast: Toast = {
       type: objType,
       title: massage,
       body: body
     };
     this.toasterService.pop(toast);
-
   }
 
 }

@@ -1,8 +1,7 @@
-import { Component,  OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login-services/login.service';
 import { MessageShowService } from '../../services/message-show.service';
-import { error } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-change-password',
@@ -10,7 +9,7 @@ import { error } from 'selenium-webdriver';
   styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent implements OnChanges {
-  
+
   @Input() institute_id: number;
   @Output() close = new EventEmitter<any>();
 
@@ -72,7 +71,7 @@ export class ChangePasswordComponent implements OnChanges {
       },
       err => {
         console.log(err);
-        this.messageNotifier(this.msgService.toastTypes.error, 'Error', JSON.parse(err._body).message);
+        this.messageNotifier(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
@@ -87,7 +86,7 @@ export class ChangePasswordComponent implements OnChanges {
     this.close.emit('true');
   }
 
-  messageNotifier(type,title , message) {
+  messageNotifier(type, title, message) {
     this.msgService.showErrorMessage(type, title, message);
   }
 
