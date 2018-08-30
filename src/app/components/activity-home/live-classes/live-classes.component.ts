@@ -536,6 +536,12 @@ export class LiveClassesComponent implements OnInit {
     this.service.fetchOnlineClasses(obj).subscribe(
       (data: any) => {
         this.getClasses = data;
+        this.getClasses.map((ele)=>{
+          ele.start_datetime = moment(ele.start_datetime).format('YYYY-MM-DD hh:mm a')
+        })
+        this.getClasses.map((ele)=>{
+          ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a')
+        })
       },
       (error: any) => {
         this.errorMessage(error);
@@ -666,6 +672,7 @@ export class LiveClassesComponent implements OnInit {
   }
 
   isReschedule() {
+  
     this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
     this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
 
@@ -680,6 +687,11 @@ export class LiveClassesComponent implements OnInit {
           session_id: "",
           start_datetime: ""
         }
+        this.rescheduledateFrom = moment().format('YYYY-MM-DD');
+        this.minuteFromReschedule = "";
+        this.minuteToReschedule = "";
+        this.hourFromReschedule = "";
+        this.hourToReschedule = "";
       },
       (error: any) => {
         this.errorMessage(error);
