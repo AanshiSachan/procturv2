@@ -33,8 +33,21 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this._paginationService.setDisplayBatchSize(50);
   }
 
+  ngOnChanges() {
+    this.recordCount = this.displayData.length;
+    this.keysArray = this.displayKeys.keys;
+    // console.log('chnages :', this.displayKeys);
+    if (this.displayData.length > 0 && this.keysArray.length > 0) {
+      this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
+    }
+  }
+
   notifyMe(e) {
     this.keysArray = e.keys;
+    this.keysArray[0].type =null;
+    this.sortData(this.keysArray[0]);
+    console.log('notifyMe');
+    
   }
 
   onSelect(value, data) {
@@ -86,19 +99,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges() {
-    this.recordCount = this.displayData.length;
-    this.keysArray = this.displayKeys.keys;
-    this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
-    console.log('chnages :', this.displayKeys);
-    if (this.displayData.length > 0 && this.keysArray.length > 0) {
-      this.keysArray[0].type = null;
-      this.sortKey = this.keysArray[0];
-      this.sortData(this.keysArray[0]);
-      
-    }
 
-  }
 
   // this function is used for column wise sorting
   sortData(key) {
@@ -156,6 +157,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           this.newSortArray(key);
         }
 
+
+        console.log(key);
+
       }
     }
   }
@@ -188,7 +192,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this.recordsTrimmed = this._paginationService.updateTableBatchSize(num, this.displayData);
     if (this.recordsTrimmed.length > 0) {
       this._paginationService.setPageIndex(1);
-      this.sortData(this.keysArray[0]);
+      this.sortKey.type = null;
+      this.sortData(this.sortKey);
     }
   }
 
@@ -204,11 +209,15 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.recordsTrimmed = this._paginationService.fetchNext(this.displayData);
+    this.sortKey.type = null;
+    this.sortData(this.sortKey);
   }
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
     this.recordsTrimmed = this._paginationService.fetchPrevious(this.displayData);
+    this.sortKey.type = null;
+    this.sortData(this.sortKey);
   }
 
   newSortArray(key) {

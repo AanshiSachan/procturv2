@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { LoginService } from '../../../../services/login-services/login.service';
-import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
   selector: 'app-class-add',
@@ -14,11 +13,8 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 
 export class ClassAddComponent implements OnInit {
-  isProfessional: boolean = false;
-  isRippleLoad: boolean = false;
-  isClassFormFilled: boolean = false;
-  createCustomSchedule: boolean = false;
-  courseModelBatch: any;
+
+  customTable: any = [];
   courseModelStdList: any[] = [];
   courseModelSubList: any[] = [];
   courseModelBatchList: any[] = [];
@@ -27,14 +23,22 @@ export class ClassAddComponent implements OnInit {
   teachers: any[] = [];
   instituteSetting: any[] = [];
   courseList: any[] = [];
-  batchDetails: any;
+  subjectListDataSource: any = [];
+  fetchedCourseData: any = [];
+  teacherListDataSource: any = [];
+  customListDataSource: any = [];
+  classScheduleArray: any = [];
+  selectedDateArray: any = [];
+  selctedScheduledClass: any = [];
+  weekDaysSelected: any = [];
+  weekDays: any = [];
+  weekDaysTable: any = [];
+  canceLClassTable: any = [];
+  extraClassTable: any = [];
   hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ["AM", "PM"];
-  courseStartDate: any = '';
-  courseEndDate: any = '';
-  subjectListDataSource: any = [];
-  fetchedCourseData: any = [];
+  times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
   addClassDetails = {
     batch_id: '',
     subject_id: '',
@@ -52,13 +56,7 @@ export class ClassAddComponent implements OnInit {
     custom_class_type: 'Regular',
     duration: ''
   }
-  teacherListDataSource: any = [];
-  customListDataSource: any = [];
-  classScheduleArray: any = [];
-  showPopUp: boolean = false;
-  showPopUpRecurence: boolean = false;
-  showPopUpCancellation: boolean = false;
-  cancelRowSelected: any = '';
+
   customRec = {
     start_hour: '',
     start_minute: '',
@@ -83,9 +81,6 @@ export class ClassAddComponent implements OnInit {
     selectedDate: '',
     error: '',
   }
-  selectedDateArray: any = [];
-  selctedScheduledClass: any = [];
-  weekDaysSelected: any = [];
   timepicker: any = {
     universalStartTime: {
       hour: '',
@@ -111,8 +106,7 @@ export class ClassAddComponent implements OnInit {
     inst_id: sessionStorage.getItem('institute_id'),
     assigned: "N"
   }
-  selectedClassFrequency: any = 'WEEK';
-  customTable: any = [];
+
   custom = {
     date: moment().format("YYYY-MM-DD"),
     start_hour: '12 PM',
@@ -121,27 +115,68 @@ export class ClassAddComponent implements OnInit {
     end_minute: '00',
     desc: '',
   }
-  times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
+  addExtraClass = {
+    date: moment().format("YYYY-MM-DD"),
+    start_hour: '12 PM',
+    start_minute: '00',
+    end_hour: '1 PM',
+    end_minute: '00',
+    desc: '',
+  }
+
+  mainStartTime = {
+    hour: '12 PM',
+    minute: '00',
+  }
+  mainEndTime = {
+    hour: '1 PM',
+    minute: '00',
+  }
+
+  cancelRowSelected: any = '';
+  courseStartDate: any = '';
+  courseEndDate: any = '';
+  selectedClassFrequency: any = 'WEEK';
+  courseModelBatch: any;
+  batchDetails: any;
+  messages: any;
+  batchFrequency: any = '1';
+  showPopUp: boolean = false;
+  showPopUpRecurence: boolean = false;
+  showPopUpCancellation: boolean = false;
+  isProfessional: boolean = false;
+  isRippleLoad: boolean = false;
+  isClassFormFilled: boolean = false;
+  createCustomSchedule: boolean = false;
   showCancelWeeklyBtn: boolean = false;
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+  showWarningPopup: boolean = false;
+  cancelWeeklySchedulePop: boolean = false;
+
+
+
+
+  weeklyScheduleCan = {
+    date: moment().format("YYYY-MM-DD"),
+    cancel_note: '',
+    is_notified: true
+  }
   constructor(
     private router: Router,
-    private appC: AppComponent,
     private login: LoginService,
     private classService: ClassScheduleService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private msgService: MessageShowService
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
 
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
+
   ngOnInit() {
+    this.messages = this.msgService.object;
     /* Prerequiste loaded */
     this.auth.institute_type.subscribe(
       res => {
@@ -159,7 +194,7 @@ export class ClassAddComponent implements OnInit {
     }
     this.switchActiveView();
   }
-  /* ============================================================================================ */
+
 
 
   checkForEditMode() {
@@ -186,8 +221,8 @@ export class ClassAddComponent implements OnInit {
       sessionStorage.setItem('editClass', '');
     }
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   fetchPrefillData() {
     this.isRippleLoad = true;
     /* Batch Model */
@@ -248,8 +283,8 @@ export class ClassAddComponent implements OnInit {
     )
 
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   updateCourseList(ev) {
     this.isRippleLoad = true;
     this.isClassFormFilled = false;
@@ -270,13 +305,14 @@ export class ClassAddComponent implements OnInit {
       }
     )
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   submitMasterCourse() {
     if (this.fetchMasterCourseModule.master_course == '-1' || this.fetchMasterCourseModule.course_id == '-1' ||
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
       || this.fetchMasterCourseModule.requested_date == null) {
-      this.messageToast('error', 'Error', 'Please provide all mandatory details');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide all mandatory details');
+
       return;
     }
     else {
@@ -287,13 +323,13 @@ export class ClassAddComponent implements OnInit {
         this.getCustomList();
         this.getTeacherList();
       } else {
-        this.messageToast('error', 'Error', 'Please provides date in between course start and end date');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provides date in between course start and end date');
         return;
       }
     }
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   updateSubjectList(ev) {
     this.isRippleLoad = true;
     this.isClassFormFilled = false;
@@ -334,8 +370,8 @@ export class ClassAddComponent implements OnInit {
       }
     );
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   submitMasterBatch() {
     /* standard selected */
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
@@ -353,22 +389,14 @@ export class ClassAddComponent implements OnInit {
         /* Error */
         /*  */
         else if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined) {
-          let msg = {
-            type: 'error',
-            title: 'Batch Not Selected',
-            body: 'Please select valid input'
-          }
-          this.appC.popToast(msg);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.notSelect, 'Please select valid input');
+
         }
       }
       /* subject not selected */
       else if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined) {
-        let msg = {
-          type: 'error',
-          title: 'Subject And Batch Invalid',
-          body: 'Please select valid input'
-        }
-        this.appC.popToast(msg);
+
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.inValid, 'Please select valid input');
       }
     }
     /* standard not selected */
@@ -376,13 +404,7 @@ export class ClassAddComponent implements OnInit {
 
       /* subject selected  */
       if (this.fetchMasterBatchModule.subject_id != '-1' && this.fetchMasterBatchModule.subject_id != undefined) {
-
-        let msg = {
-          type: 'error',
-          title: 'Standard Not Selected',
-          body: 'Please select valid input'
-        }
-        this.appC.popToast(msg);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.notStandard, 'Please select valid input');
       }
       /* subject not selected  */
       else if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined) {
@@ -397,19 +419,13 @@ export class ClassAddComponent implements OnInit {
         /* Error */
         /*  */
         else if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined) {
-
-          let msg = {
-            type: 'error',
-            title: 'Standard, Subject And Batch Not Selected',
-            body: 'Please select valid input'
-          }
-          this.appC.popToast(msg);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.batchMsg.selectAll, 'Please select valid input');
         }
       }
     }
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   filterSubjectBatches(ev) {
     this.isRippleLoad = true;
     this.classService.getStandardSubjectList(this.fetchMasterBatchModule.standard_id, ev, this.fetchMasterBatchModule.assigned).subscribe(
@@ -439,8 +455,8 @@ export class ClassAddComponent implements OnInit {
       }
     )
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   batchUpdated(ev) {
     this.isClassFormFilled = false;
     /* standard not selected */
@@ -477,8 +493,8 @@ export class ClassAddComponent implements OnInit {
       }
     }
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   getMasterCourse(): string {
     if (this.isProfessional) {
       /* Only Batch selected */
@@ -511,8 +527,8 @@ export class ClassAddComponent implements OnInit {
       return temp;
     }
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   getCourseName() {
     if (this.isProfessional) {
       let temp: string = '';
@@ -525,8 +541,8 @@ export class ClassAddComponent implements OnInit {
       return temp;
     }
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   batchDetected(id) {
     this.isRippleLoad = true;
     this.classService.getBatchDetailsById(id).subscribe(
@@ -538,12 +554,12 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     );
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
+
+
   updateClassFrequency(ev) {
     if (ev == "OTHER") {
       this.createCustomSchedule = true;
@@ -551,14 +567,7 @@ export class ClassAddComponent implements OnInit {
       this.createCustomSchedule = false;
     }
   }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  applySelectedFrequency() {
 
-  }
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
 
   getAllSubjectListFromServer(data) {
     this.isClassFormFilled = true;
@@ -571,7 +580,7 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
@@ -625,7 +634,7 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
@@ -637,7 +646,7 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
@@ -687,7 +696,7 @@ export class ClassAddComponent implements OnInit {
   addClassSchedule() {
     let obj: any = {};
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
-      this.messageToast('error', 'Error', 'Please Select Subject.');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please Select Subject');
       return;
     } else {
       obj.subject_id = this.addClassDetails.subject_id;
@@ -702,24 +711,24 @@ export class ClassAddComponent implements OnInit {
       if (this.validateSpecialCharacters(this.addClassDetails.class_desc)) {
         // Do nothing
       } else {
-        this.messageToast('error', 'Error', 'Special characters are not allowed in description field.');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Special characters are not allowed in description field');
         return
       }
     }
     this.timeChanges(this.addClassDetails.start_hour, "addClassDetails.start_hour");
     this.timeChanges(this.addClassDetails.end_hour, "addClassDetails.end_hour");
     if (this.addClassDetails.start_hour == "" && this.addClassDetails.start_minute == "") {
-      this.messageToast('error', 'Error', 'Please provide correct start time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time');
       return
     }
     if (this.addClassDetails.end_hour == "" && this.addClassDetails.end_minute == "") {
-      this.messageToast('error', 'Error', 'Please provide correct end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct end time');
       return
     }
     let startTime = moment(this.addClassDetails.start_hour + ':' + this.addClassDetails.start_minute + this.addClassDetails.start_meridian, 'h:mma');
     let endTime = moment(this.addClassDetails.end_hour + ':' + this.addClassDetails.end_minute + this.addClassDetails.end_meridian, 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
       this.convertTimeToBindableFormat();
       return
     } else {
@@ -731,7 +740,7 @@ export class ClassAddComponent implements OnInit {
     obj.duration = this.getDifference(startTime, endTime);
     obj.subject_name = this.getValueFromArray(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
     if (this.addClassDetails.teacher_id == "" || this.addClassDetails.teacher_id == '-1') {
-      this.messageToast('error', 'Error', 'Please provide correct teacher name');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct teacher name');
       this.convertTimeToBindableFormat();
       return
     } else {
@@ -838,13 +847,13 @@ export class ClassAddComponent implements OnInit {
     if (dataTosend != undefined) {
       this.classService.cancelClassSchedule(dataTosend).subscribe(
         res => {
-          this.messageToast('success', 'Success', 'Class Cancelled Successfull');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Class Cancelled Successfull');
           this.showPopUpCancellation = false;
           this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         },
         err => {
           //console.log(err);
-          this.messageToast('error', 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         }
       )
     }
@@ -853,7 +862,7 @@ export class ClassAddComponent implements OnInit {
   makeCancelClassJson() {
     let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
-      this.messageToast('error', 'Error', 'Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide cancellation reason');
       return false;
     }
     let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
@@ -882,11 +891,11 @@ export class ClassAddComponent implements OnInit {
       obj.requested_date = moment(this.fetchedCourseData.requested_date).format('YYYY-MM-DD');
       this.classService.sendReminderToServer(obj).subscribe(
         res => {
-          this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Reminder Notification sent successfully');
         },
         err => {
           //console.log(err);
-          this.messageToast('error', 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         }
       )
     };
@@ -895,18 +904,18 @@ export class ClassAddComponent implements OnInit {
 
   saveCourseSchedule() {
     if (this.classScheduleArray.length == 0) {
-      this.messageToast('error', 'Error', 'No Schedule to create/update');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'No Schedule to create/update');
       return;
     }
     let obj = this.makeJsonForCourseSave();
     this.classService.saveDataOnServer(obj).subscribe(
       res => {
-        this.messageToast('success', 'Saved', 'Your class added successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Your class added successfully');
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
 
@@ -997,12 +1006,6 @@ export class ClassAddComponent implements OnInit {
     this.showPopUpRecurence = true;
   }
 
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-
   //////// POPUP /////////////////////////
 
   getWeeklyScheduleData() {
@@ -1022,7 +1025,6 @@ export class ClassAddComponent implements OnInit {
       }
     )
   }
-
 
   closePopup() {
     this.showPopUpRecurence = false;
@@ -1085,26 +1087,27 @@ export class ClassAddComponent implements OnInit {
   saveCustomRecurrences() {
     this.weekDaysSelected = this.getSelectedDaysOfWeek();
     if (this.weekDaysSelected.length == 0) {
-      this.messageToast('error', 'Error', 'Please provide days of week.');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide days of week');
       return;
     }
     if (this.selctedScheduledClass.startTime.hour == "" || this.selctedScheduledClass.startTime.minute == "") {
-      this.messageToast('error', 'Error', 'Please provide valid start time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid start time');
       return false;
     }
     if (this.selctedScheduledClass.endTime.hour == "" || this.selctedScheduledClass.endTime.minute == "") {
-      this.messageToast('error', 'Error', 'Please provide valid end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid end time');
+
       return false;
     }
     let JsonToSend = this.makeJsonForRecurrence();
     this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
       res => {
-        this.messageToast('success', 'Saved', 'Saved Successfull');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Saved Successfully');
         this.showPopUpRecurence = false;
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
 
@@ -1131,7 +1134,7 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
@@ -1149,19 +1152,19 @@ export class ClassAddComponent implements OnInit {
 
   validateAllFields() {
     if (this.selctedScheduledClass.startTime.hour == "" || this.selctedScheduledClass.startTime.minute == "") {
-      this.messageToast('error', 'Error', 'Please provide valid start time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid start time');
       return false;
     }
     if (this.selctedScheduledClass.endTime.hour == "" || this.selctedScheduledClass.endTime.minute == "") {
-      this.messageToast('error', 'Error', 'Please provide valid end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid end time');
       return false;
     }
     if (this.selctedScheduledClass.subject_id == "-1" || this.selctedScheduledClass.subject_id == " ") {
-      this.messageToast('error', 'Error', 'Please provide subject name');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide subject name');
       return false;
     }
     if (this.selctedScheduledClass.teacher_id == "-1" || this.selctedScheduledClass.teacher_id == " ") {
-      this.messageToast('error', 'Error', 'Please provide teacher name');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide teacher name');
       return false;
     }
     return true;
@@ -1195,7 +1198,7 @@ export class ClassAddComponent implements OnInit {
         }
       }
     } else {
-      this.messageToast('error', 'Error', 'Please provide date.')
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide date');
       return
     }
     return arr;
@@ -1225,55 +1228,7 @@ export class ClassAddComponent implements OnInit {
     return obj;
   }
 
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
   /* =================================Batch Model=========================================================== */
-  /* =================================Batch Model=========================================================== */
-  /* =================================Batch Model=========================================================== */
-  /* =================================Batch Model=========================================================== */
-  /* =================================Batch Model=========================================================== */
-  /* =================================Batch Model=========================================================== */
-  /* =================================Batch Model=========================================================== */
-
-
-  batchFrequency: any = '1';
-  weekDays: any = [];
-  weekDaysTable: any = [];
-  canceLClassTable: any = [];
-  extraClassTable: any = [];
-  addExtraClass = {
-    date: moment().format("YYYY-MM-DD"),
-    start_hour: '12 PM',
-    start_minute: '00',
-    end_hour: '1 PM',
-    end_minute: '00',
-    desc: '',
-  }
-
-  mainStartTime = {
-    hour: '12 PM',
-    minute: '00',
-  }
-  mainEndTime = {
-    hour: '1 PM',
-    minute: '00',
-  }
-  showWarningPopup: boolean = false;
-  cancelWeeklySchedulePop: boolean = false;
-
-  weeklyScheduleCan = {
-    date: moment().format("YYYY-MM-DD"),
-    cancel_note: '',
-    is_notified: true
-  }
 
   getWeekOfDaysFromServer() {
     this.classService.getWeekOfDays().subscribe(
@@ -1362,7 +1317,7 @@ export class ClassAddComponent implements OnInit {
   createWeeklySchedule() {
     let data = this.prepareJSONDATA();
     if (data == false) {
-      this.messageToast('error', 'Error', 'Please specify at least one day to create a schedule');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');
       return;
     }
     if (this.batchDetails.weekSchd != null) {
@@ -1390,7 +1345,7 @@ export class ClassAddComponent implements OnInit {
         let startTime = moment(this.createTimeInFormat(this.weekDaysTable[i].start_time.hour, this.weekDaysTable[i].start_time.minute, 'comp'), 'h:mma');
         let endTime = moment(this.createTimeInFormat(this.weekDaysTable[i].end_time.hour, this.weekDaysTable[i].end_time.minute, 'comp'), 'h:mma');
         if (!(startTime.isBefore(endTime))) {
-          this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
           return
         } else {
           test.start_time = this.createTimeInFormat(this.weekDaysTable[i].start_time.hour, this.weekDaysTable[i].start_time.minute, '');
@@ -1413,7 +1368,7 @@ export class ClassAddComponent implements OnInit {
     let startTime = moment(this.createTimeInFormat(this.mainStartTime.hour, this.mainStartTime.minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.mainEndTime.hour, this.mainEndTime.minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
       return
     } else {
       for (let t = 0; t < this.weekDaysTable.length; t++) {
@@ -1452,12 +1407,12 @@ export class ClassAddComponent implements OnInit {
     }
     this.classService.cancelClassSchedule(ob).subscribe(
       res => {
-        this.messageToast('success', 'Cancelled', 'Class schedule cancelled successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled', 'Class schedule cancelled successfully');
         this.cancelWeeklySchedulePop = false;
         this.updateTableDataAgain();
       },
       err => {
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         //console.log(err);
       }
     )
@@ -1470,13 +1425,13 @@ export class ClassAddComponent implements OnInit {
     let obj: any = {};
     obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
     if (moment(this.custom.date).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
-      this.messageToast('error', 'Error', 'Please provide valid date');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid date');
       return
     }
     let startTime = moment(this.createTimeInFormat(this.custom.start_hour, this.custom.start_minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.custom.end_hour, this.custom.end_minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
       return
     } else {
       obj.start_time = this.createTimeInFormat(this.custom.start_hour, this.custom.start_minute, '');
@@ -1486,7 +1441,7 @@ export class ClassAddComponent implements OnInit {
       if (this.validateSpecialCharacters(this.custom.desc)) {
         // Do nothing
       } else {
-        this.messageToast('error', 'Error', 'Special characters are not allowed in description field.');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Special characters are not allowed in description field');
         return
       }
     }
@@ -1563,12 +1518,12 @@ export class ClassAddComponent implements OnInit {
   serverCallPUT(data) {
     this.classService.createCustomBatchPUT(data).subscribe(
       res => {
-        this.messageToast('success', 'Updated', 'Details Updated Successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success,'Updated' ,'Details Updated Successfully');
         this.showWarningPopup = false;
         this.updateTableDataAgain();
       },
       err => {
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         //console.log(err);
       }
     )
@@ -1577,12 +1532,12 @@ export class ClassAddComponent implements OnInit {
   serverCallPOST(data) {
     this.classService.createWeeklyBatchPost(data).subscribe(
       res => {
-        this.messageToast('success', 'Updated', 'Details Updated Successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success,'Updated' ,'Details Updated Successfully');
         this.showWarningPopup = false;
         this.updateTableDataAgain();
       },
       err => {
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         //console.log(err);
       }
     )
@@ -1600,15 +1555,13 @@ export class ClassAddComponent implements OnInit {
   }
 
   ///// Extra Class Section //////////////
-
-
   addNewExtraClass() {
     let obj: any = {};
     obj.class_date = moment(this.addExtraClass.date).format("YYYY-MM-DD");
     let startTime = moment(this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'Error','Please provide correct start time and end time');
       return
     } else {
       obj.start_time = this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, '');
@@ -1684,10 +1637,7 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
-
   /// Cancel Class /////
-
-
   notifyOfCancelClass(row) {
     if (confirm("Are you sure, You want to notify?")) {
       let is_exam_schedule: any = '';
@@ -1704,18 +1654,15 @@ export class ClassAddComponent implements OnInit {
       this.classService.notifyCancelledClassSchedule(data).subscribe(
         res => {
           this.updateTableDataAgain();
-          this.messageToast('success', 'Notified', 'Notification Sent');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success,'Notified' ,'Notification Sent');
         },
         err => {
           //console.log(err);
-          this.messageToast('error', 'Error', err.error.message);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         }
       )
     }
   }
-
-  /////////////////////////
-
 
   /// Cancellation POpup /////////
 
@@ -1726,13 +1673,13 @@ export class ClassAddComponent implements OnInit {
     }
     this.classService.cancelClassSchedule(data).subscribe(
       res => {
-        this.messageToast('success', 'Notified', 'Cancelled Successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Notified','Cancelled Successfully');
         this.showPopUpCancellation = false;
         this.updateTableDataAgain();
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
@@ -1741,7 +1688,7 @@ export class ClassAddComponent implements OnInit {
   makeJSONToSendBatchDet() {
     let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
-      this.messageToast('error', 'Error', 'Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'Error','Please provide cancellation reason');
       return false;
     }
     let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
@@ -1763,20 +1710,16 @@ export class ClassAddComponent implements OnInit {
     return obj;
   }
 
-
-  //////////////////////////
-
-
   // Common function for notification///
   notifyExtraClassCancel(row, type) {
     this.classService.sendNotification(row.schd_id, type).subscribe(
       res => {
         //console.log(res);
-        this.messageToast('success', 'Notified', 'Notification Sent');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Notified', 'Notification Sent');
       },
       err => {
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
@@ -1884,73 +1827,6 @@ export class ClassAddComponent implements OnInit {
       temporaryStorage[key] = this.keepCloning(objectpassed[key]);
     }
     return temporaryStorage;
-  }
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-
-
-  messageToast(Errortype, Errortitle, message) {
-    let msg = {
-      type: Errortype,
-      title: Errortitle,
-      body: message
-    }
-    this.appC.popToast(msg);
   }
 
   switchActiveView() {

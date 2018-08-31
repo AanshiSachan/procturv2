@@ -67,6 +67,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       student: '',
       parent: '',
       gaurdian: '',
+      teacher: '',
+      admin: ''
     },
     birthday_daily_schedule: {
       hour: '',
@@ -120,6 +122,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       student: '',
       parent: '',
       gaurdian: '',
+      teacher: '',
       admin: '',
     },
     alumni_birthday_daily_schedule: {

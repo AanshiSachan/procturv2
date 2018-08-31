@@ -59,13 +59,13 @@ export class CommonServiceFactory {
             }
             return false;
         } else if (typeof value == "string") {
-            if (value == null || value == undefined || value.trim() == '') {
+            if (value == null || value == undefined || value.trim() == '' || value == '-1') {
                 return true;
             }
             return false;
         }
     }
-    
+
     // Get Current Time and minute will be multiple of 5
     getCurrentTImeForDropDown(): any {
         let hour: any = parseInt(moment(new Date()).format('hh'));
