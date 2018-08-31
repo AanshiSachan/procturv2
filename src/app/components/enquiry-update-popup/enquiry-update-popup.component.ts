@@ -372,11 +372,20 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         }
 
         // Validate Walkin Time
-        if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") {
+        if (this.updateFormData.walkin_followUpTime.hour == "" && this.updateFormData.walkin_followUpTime.minute == "") {
           this.messageNotifier('error', 'Error', 'Please provide walkin time for follow up type walkin.');
           return false;
         }
       }
+
+      // Change Walkin Time
+      if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") {
+        let time = this.updateFormData.walkin_followUpTime.hour.split(' ');
+        this.updateFormData.walkin_followUpTime = time[0] + ':' + this.updateFormData.walkin_followUpTime.minute + " " + time[1];
+      } else {
+        this.updateFormData.walkin_followUpTime = "";
+      }
+
     }
 
     // Change Follow Up Time 
@@ -386,14 +395,6 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
       this.updateFormData.followUpTime = time[0] + ":" + this.updateFormData.followUpTime.minute + " " + time[1];
     } else {
       this.updateFormData.followUpTime = "";
-    }
-
-    // Change Walkin Time
-    if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") {
-      let time = this.updateFormData.walkin_followUpTime.hour.split(' ');
-      this.updateFormData.walkin_followUpTime = time[0] + ':' + this.updateFormData.walkin_followUpTime.minute + " " + time[1];
-    } else {
-      this.updateFormData.walkin_followUpTime = "";
     }
 
     // Notify Me
@@ -425,21 +426,26 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
   }
 
   handleTimeConversion() {
-    this.updateFormData.followUpTime = {
+    let obj = {
       hour: "",
       minute: ""
     };
-    this.updateFormData.walkin_followUpTime = {
+    let obj2 = {
       hour: "",
       minute: ""
     };
 
     if (this.updateFormData.followUpTime != "") {
-      this.updateFormData.followUpTime = this.commonService.breakTimeInToHrAndMin(this.updateFormData.followUpTime);
+      obj = this.commonService.breakTimeInToHrAndMin(this.updateFormData.followUpTime);
+      this.updateFormData.followUpTime = obj;
+    } else {
+      this.updateFormData.followUpTime = obj;
     }
 
     if (this.updateFormData.walkin_followUpTime != "") {
-      this.updateFormData.walkin_followUpTime = this.commonService.breakTimeInToHrAndMin(this.updateFormData.walkin_followUpTime);
+      obj2 = this.commonService.breakTimeInToHrAndMin(this.updateFormData.walkin_followUpTime);
+    } else {
+      this.updateFormData.walkin_followUpTime = obj2;
     }
 
   }
