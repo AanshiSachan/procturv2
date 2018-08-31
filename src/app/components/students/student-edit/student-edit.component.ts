@@ -1034,9 +1034,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
-    if ((!this.commonServiceFactory.checkValueType(this.studentAddFormData.student_name.trim()))
-      && this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim())
-    ) {
+    if ((!this.commonServiceFactory.validateName(this.studentAddFormData.student_name.trim()))
+      && (!this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim()))) {
       return true;
     }
     else {
