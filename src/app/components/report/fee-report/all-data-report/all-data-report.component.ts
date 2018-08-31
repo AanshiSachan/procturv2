@@ -131,6 +131,8 @@ export class AllDataReportComponent implements OnInit {
     // }
   };
 
+  feeDataSource: any[] = []
+
 
   constructor(
     private appC: AppComponent,
@@ -165,8 +167,8 @@ export class AllDataReportComponent implements OnInit {
         }
       }
     )
-    
-   
+
+
 
     this.form.valueChanges
       .debounceTime(100)
@@ -189,6 +191,8 @@ export class AllDataReportComponent implements OnInit {
       this.setDefaultValues();
     }
 
+
+    console.log(this.tableSetting)
   }
 
   setDefaultValues() {
@@ -242,50 +246,37 @@ export class AllDataReportComponent implements OnInit {
   }
 
 
-  exportToPdf() {
+  getRows() {
+    let obj = {}
     let arr = [];
-    if (this.showPopupKeys.isProfessional) {
-      this.feeDataSource1.map(
-        (ele: any) => {
-          let json = [
-            ele.student_disp_id,
-            ele.student_name,
-            ele.student_total_fees,
-            ele.student_toal_fees_paid,
-            ele.total_balance_amt,
-            ele.student_latest_fee_due_date,
-            ele.student_latest_fee_due_amount,
-            ele.student_latest_pdc,
-            ele.amount_still_payable,
-            ele.standard_name,
-            ele.batch_name
-          ]
-          arr.push(json);
-        })
-    }
+    this.tableSetting.keys.map((ele, index) => {
+      obj[ele.primaryKey] = index
+    })
+    this.feeDataSource1.map(
+      (ele) => {
+        let json2 = []
+        for (let i in obj) {
+          json2.push(ele[i])
+        }
+        arr.push(json2);
+      }
+    )
+    return arr;
+  }
 
-    else {
-      this.feeDataSource1.map(
-        (ele: any) => {
-          let json = [
-            ele.student_disp_id,
-            ele.student_name,
-            ele.student_total_fees,
-            ele.student_toal_fees_paid,
-            ele.total_balance_amt,
-            ele.student_latest_fee_due_date,
-            ele.student_latest_fee_due_amount,
-            ele.student_latest_pdc,
-            ele.amount_still_payable,
-            ele.master_course_name,
-            ele.course_name
-          ]
-          arr.push(json);
-        })
-    }
+  getColumns() {
+    let arr2 = [];
+    let arr3 = [];
+    this.tableSetting.keys.map((ele) => {
+      arr2.push(ele.header);
+    })
+    arr3.push(arr2);
+    return arr3;
+  }
 
-    let rows = [['ID', 'Name', 'Total Fee', 'Amount Paid', 'Past Dues', 'Next Due Date', 'Next Due Amount', 'PDC Date', 'Balance Amount', 'Master Course Name', 'Course Name']]
-    let columns = arr;
+  exportToPdf() {
+    let rows = this.getColumns();
+    let columns = this.getRows();
     this.pdf.exportToPdf(rows, columns);
   }
 
@@ -1044,49 +1035,15 @@ export class AllDataReportComponent implements OnInit {
 
   exportToExcel() {
     let arr = []
-    if (this.showPopupKeys.isProfessional) {
-      this.feeDataSource1.map(
-        (ele: any) => {
-          let json = {
-            "Student Id": ele.student_disp_id,
-            "Student Name": ele.student_name,
-            "Total Fee": ele.student_total_fees,
-            "Amount Paid": ele.student_toal_fees_paid,
-            "Past Dues": ele.total_balance_amt,
-            "Next Due Date": ele.student_latest_fee_due_date,
-            "Next Amount Date": ele.student_latest_fee_due_amount,
-            "PDC Date": ele.student_latest_pdc,
-            "Balance Amount": ele.amount_still_payable,
-            "Master Course": ele.standard_name,
-            "Batch": ele.batch_name,
-            "Date of report generation": moment().format('YYYY-MM-DD')
-          }
-          arr.push(json);
-        }
-      )
-    }
-
-    else {
-      this.feeDataSource1.map(
-        (ele: any) => {
-          let json = {
-            "Student Id": ele.student_disp_id,
-            "Student Name": ele.student_name,
-            "Total Fee": ele.student_total_fees,
-            "Amount Paid": ele.student_toal_fees_paid,
-            "Past Dues": ele.total_balance_amt,
-            "Next Due Date": ele.student_latest_fee_due_date,
-            "Next Amount Date": ele.student_latest_fee_due_amount,
-            "PDC Date": ele.student_latest_pdc,
-            "Balance Amount": ele.amount_still_payable,
-            "Standard Name": ele.standard_name,
-            "Course": ele.course_name,
-            "Date of report generation": moment().format('YYYY-MM-DD')
-          }
-          arr.push(json);
-        }
-      )
-    }
+    this.feeDataSource1.map(
+      (ele: any) => {
+        let json = {}
+        this.tableSetting.keys.map((keys) => {
+          json[keys.header] = ele[keys.primaryKey]
+        })
+        arr.push(json);
+      }
+    )
     this.excelService.exportAsExcelFile(
       arr,
       'students'
