@@ -167,8 +167,12 @@
                             </li>
                           </ul>
                           <div *ngIf="!class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark
+                              Attendance
+                            </span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update
+                              Attendance
+                            </span>
                             <span class="" *ngIf='class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
                               (click)="initiateRemiderClass(i, class)">Class Reminder</span>
@@ -207,18 +211,32 @@
                             </li>
                           </ul>
                           <div *ngIf="!class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHideCourse()" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHideCourse()" (click)="initiateCourseMarkAttendance(i, class)">Mark
+                              Attendance
+                            </span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update
+                              Attendance
+                            </span>
                             <span class="" *ngIf='class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class
+                              Reminder
+                            </span>
                             <span class="" style="cursor:pointer" (click)="viewClassDetails(i, class)">View Details</span>
                           </div>
 
                           <div *ngIf="class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('103')}">
-                            <span (click)="markAttendanceExamCourse(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance</span>
-                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="sendReminderForCourse(class)" style="cursor:pointer">Send Reminder</span>
-                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClickCourse(class)" style="cursor:pointer">Cancel Exam</span>
-                            <span class="" *ngIf="class.course_marks_update_level != '0'" (click)="examMarksUpdateCourse(class)" style="cursor:pointer">Exam Marks</span>
+                            <span (click)="markAttendanceExamCourse(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam
+                              Attendance
+                            </span>
+                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="sendReminderForCourse(class)" style="cursor:pointer">Send
+                              Reminder
+                            </span>
+                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClickCourse(class)" style="cursor:pointer">Cancel
+                              Exam
+                            </span>
+                            <span class="" *ngIf="class.course_marks_update_level != '0'" (click)="examMarksUpdateCourse(class)" style="cursor:pointer">Exam
+                              Marks
+                            </span>
                           </div>
 
                         </div>
@@ -257,8 +275,12 @@
                             </li>
                           </ul>
                           <div *ngIf="(!class.isExam)" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark
+                              Attendance
+                            </span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View
+                              Attendance
+                            </span>
                             <span class="" *ngIf='class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
                               (click)="initiateRemiderClass(i, class)">Class Reminder</span>
@@ -266,10 +288,16 @@
                               (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
                           <div *ngIf="(class.isExam)" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('112')}">
-                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer" [ngClass]="hideFutureExamSchedule(class)">Exam Attendance</span>
+                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer" [ngClass]="hideFutureExamSchedule(class)">Exam
+                              Attendance
+                            </span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
-                            <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>
-                            <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel
+                              Exam
+                            </span>
+                            <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam
+                              Marks
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -599,7 +627,8 @@
     <h2 widget-header>Send Reminder For
       <span *ngIf="isProfessional">{{classMarkedForAction.batch_name}}</span>
       <span *ngIf="!isProfessional && isSubjectView">{{classMarkedForAction.batch_name}}</span>
-      <span *ngIf="!isProfessional && !isSubjectView">{{classMarkedForAction.master_course}} | {{classMarkedForAction.coursee_names}} </span>
+      <span *ngIf="!isProfessional && !isSubjectView">{{classMarkedForAction.master_course}} | {{classMarkedForAction.coursee_names}}
+      </span>
     </h2>
 
     <div class="reminderWrapper" widget-content>
@@ -773,7 +802,9 @@
                   <th style="font-size: 14px;font-weight: 600;">Student Name</th>
                   <!-- <th style="font-size: 14px;font-weight: 600;">Joining Date</th> -->
                   <th style="font-size: 14px;font-weight: 600;">Attendance</th>
-                  <th style="font-size: 14px;font-weight: 600;" *ngIf="settingInfo.home_work_feature_enable==1">Home Work Status</th>
+                  <th style="font-size: 14px;font-weight: 600;" *ngIf="settingInfo.home_work_feature_enable==1">Home Work
+                    Status
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -1368,7 +1399,8 @@
 
                 <div class="pull-right" *ngIf="studentSelected">
                   <button class="btn" (click)="sendNotificationMessage()">Send</button>
-                  <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter'" (click)="sendPushNotification()">Send Push Notification</button>
+                  <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter'" (click)="sendPushNotification()">Send
+                    Push Notification</button>
                 </div>
 
               </div>
@@ -1506,7 +1538,8 @@
       </svg>
     </span>
 
-    <h2 widget-header *ngIf="isLangInstitute">Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}} - {{cancelExamData.end_time}})) Cancellation
+    <h2 widget-header *ngIf="isLangInstitute">Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}}
+      - {{cancelExamData.end_time}})) Cancellation
     </h2>
     <h2 widget-header *ngIf="!isLangInstitute">
       Course Exam Schedule Cancellation
@@ -1816,22 +1849,22 @@
           <h3>Total Students : {{studentList.length}} </h3>
         </div>
 
-        <div class="c-sm-6 c-md-6 c-lg-6">
+        <!-- <div class="c-sm-6 c-md-6 c-lg-6">
 
-          <!-- <span class="leave">{{leaveCount}}</span>
+           <span class="leave">{{leaveCount}}</span>
           <h5>Leave</h5>
 
           <span class="absent">{{absentCount}}</span>
           <h5>Absent</h5>
 
           <span class="present">{{presentCount}}</span>
-          <h5>Present</h5> -->
-        </div>
+          <h5>Present</h5> 
+        </div> -->
 
-        <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="isProfessional">
+        <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatusExam()" (change)="markAllPresentExam($event)">
-            <label for="MarkAllPresent">Mark All Present</label>
+            <input type="checkbox" value="" class="form-checkbox" id="chkBxAbsenteesCourse">
+            <label for="chkBxAbsenteesCourse">Send SMS To Absentees</label>
           </div>
         </div>
 

@@ -1,21 +1,13 @@
-import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
-import { Chart } from 'angular-highcharts';
 import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
@@ -2895,6 +2887,11 @@ export class AdminHomeComponent implements OnInit {
   }
 
   constructJsonForAttendance() {
+    let absentKey = "N";
+    let sendSMS = <HTMLInputElement>document.getElementById('chkBxAbsenteesCourse');
+    if (sendSMS.checked) {
+      absentKey = "Y";
+    }
     let arr = [];
     for (let i = 0; i < this.studentList.length; i++) {
       let obj: any = {};
@@ -2904,7 +2901,7 @@ export class AdminHomeComponent implements OnInit {
       } else {
         obj.course_marks_update_level = this.tempData.course_marks_update_level;
       }
-      obj.isStudentExamSMS = this.studentList[i].isStudentExamSMS;
+      obj.isStudentExamSMS = absentKey;
       obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
       obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
       obj.student_id = this.studentList[i].student_id;
