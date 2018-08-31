@@ -15,18 +15,18 @@
   <h2 popup-header>Choose Show/Hide Columns</h2>
   <ul class="history-wrapper" id="horizontal-list" popup-content>
     <form>
-    <li *ngFor="let fieldObj of keys; let i=index;">
-      <label class="checkbox-inline">
-        <div class="field-checkbox-wrapper" >
-            <input type="checkbox"  class="form-checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked"   (change)="change($event, fieldObj)"
-            [id]="'checkboxPopup-'+i">
-            <label [for]="'checkboxPopup-'+i"></label>{{fieldObj.header}}
-              <!-- <input type="checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked" (change)="change($event, fieldObj)"> 
+      <li *ngFor="let fieldObj of keys; let i=index;">
+        <label class="checkbox-inline">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" class="form-checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked" (change)="change($event, fieldObj)"
+              [id]="'checkboxPopup-'+i">
+            <label [for]="'checkboxPopup-'+i">{{fieldObj.header}}</label>
+            <!-- <input type="checkbox" [name]="fieldObj.primaryKey" [checked]="fieldObj.checked" (change)="change($event, fieldObj)"> 
               {{fieldObj.header}} -->
           </div>
-      </label>
-    </li>
-  </form>
+        </label>
+      </li>
+    </form>
   </ul>
   <div popup-footer>
     <button type="button" class="btn btn-default fullBlue " style="float: right;" (click)="selctedFieldsDisplay()">Save </button>
