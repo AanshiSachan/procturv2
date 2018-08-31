@@ -101,8 +101,8 @@
 
             <section style="margin-top: 10px;">
                 <div class="row">
-
-                    <div class="c-lg-9">
+                    <div class="c-lg-2"></div>
+                    <div class="c-lg-7">
                         <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
                             <li style="display: inline-block; margin-left: 11px;">
                                 <span class="made-out"> Total fees Collection</span>
@@ -138,13 +138,18 @@
                                             <div class="dropdown">
                                                 <ul class="user-detail">
                                                     <li (click)="exportToExcel()" class="asHover">
-                                                        <strong>Export as Excel</strong>
+                                                        <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
+                                                        <strong style="display: inline-block;">Export as Excel</strong>
                                                     </li>
+                                                    <hr>
                                                     <li (click)="exportToPdf()" class="asHover">
-                                                        <strong>Export as Pdf</strong>
+                                                        <i class="fa fa-file-pdf-o" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                                                        <strong style="display: inline-block;">Export as Pdf</strong>
                                                     </li>
-                                                    <li (click)="openPreferences()" class="asHover">
-                                                        <strong>Show/Hide Columns</strong>
+                                                    <hr>
+                                                    <li (click)="openPreferences()" class="asHover" >
+                                                        <i class="fa fa-low-vision" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                                                        <strong style="display: inline-block;">Show/Hide Columns</strong>
                                                     </li>
                                                 </ul>
                                             </div>
