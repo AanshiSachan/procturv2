@@ -132,22 +132,34 @@ export class CommonServiceFactory {
 
     /// validation functions 
 
-    checkValueType(value: any) {
+    validateName(value): boolean {
+        let regex = /^[a-zA-Z. ]*$/;
+        if (value.match(regex) == null || this.sourceValueCheck(value)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    sourceValueCheck(value) {
         if (value == null || value == "" || value == "-1") {
             return true;
         }
+    }
+
+    checkValueType(value: any) {
         if (value instanceof Date) {///^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
             return false;
         }
-        if ((!this.validatePhone(value))) {  //int
-            return false;
-        }
-
-        return false;
+        return true;
     }
+    
     // validate  phone number 
     validatePhone(value) {
-        if (value.match(/^\d{10}$/)) {  //int
+        console.log(value.match(/^\d{10}$/) == null);
+
+        if (value.match(/^\d{10}$/) == null) {  //int
             return true;
         }
         else

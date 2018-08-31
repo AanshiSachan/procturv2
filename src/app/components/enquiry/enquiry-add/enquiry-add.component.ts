@@ -1117,16 +1117,16 @@ export class EnquiryAddComponent implements OnInit {
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
 
-    if (this.commonServiceFactory.checkValueType(this.newEnqData.phone)) {
+    if (this.commonServiceFactory.validatePhone(this.newEnqData.phone)) {
       return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
     }
-    else if (this.commonServiceFactory.checkValueType(this.newEnqData.name.trim())) {
+    else if (this.commonServiceFactory.validateName(this.newEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
     }
     else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
       return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
     }
-    else if (this.commonServiceFactory.checkValueType(this.newEnqData.source_id)) {
+    else if (this.commonServiceFactory.sourceValueCheck(this.newEnqData.source_id)) {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
     else {
@@ -1138,6 +1138,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
   }
+
+  
 
   showErrorMessage(objType, massage, body) {
     this.commonServiceFactory.showErrorMessage(objType, massage, body);

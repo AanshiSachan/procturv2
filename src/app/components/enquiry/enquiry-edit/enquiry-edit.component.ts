@@ -950,7 +950,7 @@ export class EnquiryEditComponent implements OnInit {
       return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
     }
 
-    else if (this.commonServiceFactory.valueCheck(this.editEnqData.source_id)) {
+    else if (this.commonServiceFactory.sourceValueCheck(this.editEnqData.source_id)) {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
     else {

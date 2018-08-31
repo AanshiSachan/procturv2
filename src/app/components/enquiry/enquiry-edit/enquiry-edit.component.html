@@ -53,7 +53,7 @@
                   <!-- Phone -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone != ''}">
                     <label for="phone">Phone No</label>
-                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
+                    <input type="text" value="" id="phone" readonly #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
                       minlength="10"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
                   </div>
 
