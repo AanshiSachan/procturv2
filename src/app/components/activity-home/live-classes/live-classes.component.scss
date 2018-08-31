@@ -50,10 +50,10 @@ $color-highlight: lighten($color-base, 7%);
 }
 
 .madeNe {
-    height: 172px;
+    height: 180px;
     overflow: hidden;
     .tabel-ne {
-        height: 172px;
+        height: 180px;
         overflow: auto;
     }
 }
@@ -126,7 +126,7 @@ $color-highlight: lighten($color-base, 7%);
                 &:after {
                     content: '';
                     width: 16px;
-                    height: 16px;
+                    height: 17px;
                     border: 2px solid #ccc;
                     border-radius: 2px;
                     position: absolute;
@@ -172,10 +172,10 @@ table {
 .tooltip {}
 
 .made-teacher {
-    height: 348px;
+    height: 292px;
     overflow: hidden;
     .table-teacher {
-        height: 348px;
+        height: 292px;
         overflow: auto;
     }
 }

@@ -48,15 +48,15 @@
                         <h2 style="margin-left: 3%; margin-top: 2%; ">Class Details</h2>
                         <div class="row row-inner" style="margin-left: 2%; margin-top: 20px;">
                             <div class="c-lg-4 field-wrapper">
-                                <label>Topic Name</label>
+                                <label>Topic Name *</label>
                                 <input type="text" class="form-ctrl" [(ngModel)]="getOnlineClasses.session_name">
                             </div>
                             <div class="c-lg-2 field-wrapper datePickerBox" style="margin-left: 7%;">
-                                <label>Date</label>
+                                <label>Date *</label>
                                 <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="dateFrom" (ngModelChange)="getEvent($event)">
                             </div>
                             <div class="c-lg-2" style="margin-top: 11px;">
-                                <label style="display: block; font-size: 12px;"> From</label>
+                                <label style="display: block; font-size: 12px;"> From *</label>
                                 <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourFrom">
                                     <option *ngFor="let i of hour" [value]="i">
                                         {{i}}
@@ -69,7 +69,7 @@
                                 </select>
                             </div>
                             <div class="c-lg-2" style="margin-top: 11px;">
-                                <label style="display: block; font-size: 12px;">To</label>
+                                <label style="display: block; font-size: 12px;">To *</label>
                                 <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourTo">
                                     <option *ngFor="let i of hour" [value]="i">
                                         {{i}}
@@ -143,7 +143,7 @@
                                     <thead>
                                         <tr>
                                             <th style="text-align: left;padding-left: 15px;">
-                                                <div class="field-checkbox-wrapper" style="display: inline-block;">
+                                                <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
                                                     <input type="checkbox" class="form-checkbox" [(ngModel)]="selected" (ngModelChange)="getAllStudents($event)">
                                                     <label></label>
                                                 </div>
@@ -165,7 +165,7 @@
                                     <tbody *ngIf="studentsAssigned.length!=0">
                                         <tr *ngFor="let i of studentsAssigned ; let j=index;" class="made-in">
                                             <td style="text-align: left;">
-                                                <div class="field-checkbox-wrapper" style="height: 23px;">
+                                                <div class="field-checkbox-wrapper" style="height: 16px;">
                                                     <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getStudentCheckedValue($event , j)">
                                                     <label></label>
                                                 </div>
@@ -243,7 +243,7 @@
                                     <tbody *ngIf="teachersAssigned.length!=0" class="form-submit">
                                         <tr *ngFor="let i of teachersAssigned ; let j=index" class="teacherId">
                                             <td>
-                                                <div class="field-radio-wrapper" style="display: inline-block;">
+                                                <div class="field-radio-wrapper" style="display: inline-block; height: 16px;">
                                                     <input type="radio" class="form-radio" name="checked" [(ngModel)]="teacherId" [value]="i.teacher_id">
                                                     <label></label>
                                                 </div>
@@ -315,7 +315,7 @@
                                     <tbody *ngIf="userAssigned.length!=0">
                                         <tr *ngFor="let i of userAssigned ; let j=index" class="teacherId">
                                             <td>
-                                                <div class="field-checkbox-wrapper">
+                                                <div class="field-checkbox-wrapper" style="height: 16px;">
                                                     <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getUserCheckedValue($event , j)">
                                                     <label></label>
                                                 </div>
@@ -383,7 +383,7 @@
             </g>
         </svg>
     </span>
-    <div popup-header class="popup-header-content">
+    <div popup-header class="popup-header-content" style="margin-top: 20px;">
     </div>
 
     <div popup-content class="popup-header-content">

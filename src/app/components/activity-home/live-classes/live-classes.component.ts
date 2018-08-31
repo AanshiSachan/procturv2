@@ -220,7 +220,7 @@ export class LiveClassesComponent implements OnInit {
       return false;
     }
 
-    else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "") {
+    else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "" || this.getOnlineClasses.session_name == "") {
       this.appC.popToast({ type: "error", body: "All fields are required" })
       return false;
     }
