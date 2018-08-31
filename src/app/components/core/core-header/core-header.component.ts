@@ -2,14 +2,11 @@ import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map'
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { AppComponent } from '../../../app.component';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'core-header',
@@ -18,7 +15,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 })
 export class CoreHeaderComponent implements OnInit {
 
-  isProfessional: boolean;
+  isProfessional: boolean = false;
   isResultDisplayed: boolean;
   instituteName: string;
   userName: string;
@@ -38,21 +35,9 @@ export class CoreHeaderComponent implements OnInit {
     start_index: '0',
     batch_size: '6'
   }
-
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('seachResult') seachResult: ElementRef;
-  @ViewChild('form') form: any;
   resultStat: any = 1;
   teacherId: any = 0;
-
-
-  @Output() searchViewMore = new EventEmitter<any>();
-  @Output() otherAction = new EventEmitter<any>();
-  @Output() hideSearchPopup = new EventEmitter<any>();
-  @Output() changePassword = new EventEmitter<any>();
-
   private userInput: string;
-
   branchesList: any = [];
   mainBranchId: any = "";
   isMainBranch: any = "N";
@@ -75,31 +60,43 @@ export class CoreHeaderComponent implements OnInit {
   @ViewChild('divGeneralSettingTag') divGeneralSettingTag: ElementRef;
   @ViewChild('divManageFormTag') divManageFormTag: ElementRef;
   @ViewChild('divAreaAndMap') divAreaAndMap: ElementRef;
+  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('seachResult') seachResult: ElementRef;
+  @ViewChild('form') form: any;
+
+  @Output() searchViewMore = new EventEmitter<any>();
+  @Output() enquiryUpdateAction = new EventEmitter<any>();
+  @Output() hideSearchPopup = new EventEmitter<any>();
+  @Output() changePassword = new EventEmitter<any>();
 
 
   constructor(
     private log: LoginService,
     private router: Router,
     private fetchService: FetchprefilldataService,
-    private appC: AppComponent,
     private multiBranchService: MultiBranchDataService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory
   ) {
   }
 
   ngOnInit() {
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.settings = sessionStorage.getItem('is_exam_grad_feature');
-    this.log.currentInstitute.subscribe(res => {
-      this.instituteName = res;
-      this.updatePermissions();
-      this.AddBtnPermision();
-    });
+    this.instituteName = sessionStorage.getItem('institute_name');
+    this.userName = sessionStorage.getItem('name');
 
-    this.log.currentUsername.subscribe(res => {
-      this.userName = res;
-    });
-
-    this.checkPermissionArrayData();
+    this.checkAccessOfEnquiryStudentAndEnquiry();
 
     this.checkUserHadAccess();
 
@@ -124,7 +121,7 @@ export class CoreHeaderComponent implements OnInit {
       }
     )
 
-    this.checkAdmin = this.checkToShowMultiBranch();
+    this.checkToShowMultiBranch();
 
     this.multiBranchService.subBranchSelected.subscribe(
       res => {
@@ -134,42 +131,28 @@ export class CoreHeaderComponent implements OnInit {
 
   }
 
-
-  logout() {
-    this.clearSearch();
-    if (this.log.logoutUser()) {
-      this.multiBranchService.subBranchSelected.next(false);
-      this.router.navigateByUrl('/authPage');
-    }
-  }
-
-  triggerOverlayMenu() {
-    if (this.menuToggler) {
-      this.menuToggler = false;
-      document.getElementById('menu-close').classList.add('hide');
-      document.getElementById('menu-open').classList.remove('hide');
-      this.log.changeMenuStatus(this.menuToggler);
-    }
-    else {
-      this.menuToggler = true;
-      document.getElementById('menu-close').classList.remove('hide');
-      document.getElementById('menu-open').classList.add('hide');
-      this.log.changeMenuStatus(this.menuToggler);
-    }
-  }
-
-  goToHome() {
-    this.router.navigate(['/view/home']);
-  }
-
-
-  checkPermissionArrayData() {
-    let userType: any = Number(sessionStorage.getItem('userType'));
-    if (userType != 3) {
-      this.checkUserHadAccess();
+  checkAccessOfEnquiryStudentAndEnquiry() {
+    if (this.commonService.checkUserIsAdmin()) {
+      this.hasEnquiry = true;
+      this.hasStudent = true;
+      this.hasClass = true;
     } else {
-      //this is for teacher type
-      this.hideAllFields();
+      this.hasEnquiry = false;
+      this.hasStudent = false;
+      this.hasClass = false;
+      if (sessionStorage.getItem('userType') != '3') {
+        if (this.commonService.checkUserHadPermission('115') || this.commonService.checkUserHadPermission('110')) {
+          this.hasEnquiry = true;
+        }
+
+        else if (this.commonService.checkUserHadPermission('301') || this.commonService.checkUserHadPermission('303')) {
+          this.hasStudent = true;
+        }
+
+        else if (this.commonService.checkUserHadPermission('402')) {
+          this.hasStudent = true;
+        }
+      }
     }
   }
 
@@ -181,10 +164,11 @@ export class CoreHeaderComponent implements OnInit {
         this.showAllFields();
       }
       else if (sessionStorage.getItem('userType') == '3') {
-        this.divProfileTag.nativeElement.style.display = '';
-        this.teacherId = 0;
+        this.hideAllFields();
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
-        this.showTeacherFields();
+        this.divProfileTag.nativeElement.style.display = '';
+        this.divAdminTag.nativeElement.style.display = 'none';
+        this.divAcademicTag.nativeElement.style.display = 'none';
       }
     } else {
       if (permissionArray != undefined) {
@@ -227,6 +211,49 @@ export class CoreHeaderComponent implements OnInit {
     }
   }
 
+  checkToShowMultiBranch() {
+    this.log.currentUserType.subscribe(
+      res => {
+        if (res == '3') {
+          this.checkAdmin = false;
+        } else {
+          if (this.commonService.checkUserIsAdmin()) {
+            this.checkAdmin = false;
+          } else {
+            this.checkAdmin = true;
+          }
+        }
+      }
+    )
+  }
+
+  logout() {
+    this.clearSearch();
+    if (this.log.logoutUser()) {
+      this.multiBranchService.subBranchSelected.next(false);
+      this.router.navigateByUrl('/authPage');
+    }
+  }
+
+  triggerOverlayMenu() {
+    if (this.menuToggler) {
+      this.menuToggler = false;
+      document.getElementById('menu-close').classList.add('hide');
+      document.getElementById('menu-open').classList.remove('hide');
+      this.log.changeMenuStatus(this.menuToggler);
+    }
+    else {
+      this.menuToggler = true;
+      document.getElementById('menu-close').classList.remove('hide');
+      document.getElementById('menu-open').classList.add('hide');
+      this.log.changeMenuStatus(this.menuToggler);
+    }
+  }
+
+  goToHome() {
+    this.router.navigate(['/view/home']);
+  }
+
   showAllFields() {
     this.divAdminTag.nativeElement.style.display = '';
     this.divMyAccountTag.nativeElement.style.display = '';
@@ -252,12 +279,6 @@ export class CoreHeaderComponent implements OnInit {
     }
   }
 
-  showTeacherFields() {
-    this.hideAllFields();
-    this.divAdminTag.nativeElement.style.display = 'none';
-    this.divAcademicTag.nativeElement.style.display = 'none';
-  }
-
   hideAllFields() {
     this.divAdminTag.nativeElement.style.display = 'none';
     this.divMyAccountTag.nativeElement.style.display = 'none';
@@ -274,75 +295,6 @@ export class CoreHeaderComponent implements OnInit {
     this.divGradesTag.nativeElement.style.display = 'none';
     this.divClassRoomTag.nativeElement.style.display = 'none';
     this.divManageTag.nativeElement.style.display = 'none';
-  }
-
-  hasEnquiryAccess(): boolean {
-    let permissionArray: any = sessionStorage.getItem('permissions');
-    if (permissionArray == "" || permissionArray == null) {
-      return true;
-    }
-    else {
-      let id = 115;
-      let id2 = 110;
-      if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-
-  hasStudentAccess(): boolean {
-    let permissionArray: any = sessionStorage.getItem('permissions');
-    if (permissionArray == "" || permissionArray == null) {
-      return true;
-    }
-    else {
-      let id = 301;
-      let id2 = 303;
-      if (permissionArray.indexOf(id) != -1 && permissionArray.indexOf(id2) != "-1") {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-
-  hasCourseAccess(): boolean {
-    let permissionArray: any = sessionStorage.getItem('permissions');
-    if (permissionArray == "" || permissionArray == null) {
-      return true;
-    }
-    else {
-      let id = 402;
-      if (permissionArray.indexOf(id) != -1) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-
-  updatePermissions() {
-    this.auth.institute_type.subscribe(
-      res => {
-        this.isProfessional = res == 'LANG';
-        this.checkUserHadAccess();
-        this.hasEnquiry = this.hasEnquiryAccess();
-        this.hasStudent = this.hasStudentAccess();
-        this.hasClass = this.hasCourseAccess();
-      }
-    )
-  }
-
-
-  AddBtnPermision() {
-    let userType: any = Number(sessionStorage.getItem('userType'));
-    if (userType === 3) {
-      this.hasEnquiry = false;
-      this.hasStudent = false;
-      this.hasClass = false;
-    }
   }
 
   triggerSearchBox($event) {
@@ -374,12 +326,7 @@ export class CoreHeaderComponent implements OnInit {
               this.studentResult = res.filter(s => s.source == "Student");
             }
             else {
-              let obj = {
-                type: "info",
-                title: "No Records Found",
-                body: "Please try with a different keyword"
-              }
-              this.appC.popToast(obj);
+              this.commonService.showErrorMessage("info", "No Records Found", "Please try with a different keyword");
             }
           },
           err => {
@@ -444,7 +391,7 @@ export class CoreHeaderComponent implements OnInit {
     }
     else if (d.data.source == "Enquiry") {
       if (d.action == "enquiryUpdate") {
-        this.otherAction.emit(d);
+        this.enquiryUpdateAction.emit(d);
       }
       else {
         this.router.navigate(['/view/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
@@ -453,8 +400,7 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   viewTeacherProfile() {
-    localStorage.setItem('teacherID', this.teacherId);
-    this.router.navigateByUrl('/view/teacher/edit');
+    this.router.navigate(['/view/teacher/edit/', this.teacherId]);
   }
 
   // Multi Branch Case Handling
@@ -560,23 +506,6 @@ export class CoreHeaderComponent implements OnInit {
     sessionStorage.setItem('institute_setup_type', res.institute_setup_type);
     sessionStorage.setItem('allow_sms_approve_feature', res.allow_sms_approve_feature);
     sessionStorage.setItem('open_enq_Visibility_feature', res.open_enq_Visibility_feature);
-  }
-
-  checkToShowMultiBranch() {
-    this.log.currentUserType.subscribe(
-      res => {
-        if (res == '3') {
-          this.checkAdmin = false;
-        } else {
-          let permissions = sessionStorage.getItem('permissions');
-          if (permissions != "" && permissions != null && permissions != undefined) {
-            this.checkAdmin = false;
-          } else {
-            this.checkAdmin = true;
-          }
-        }
-      }
-    )
   }
 
   changePasswordClick() {

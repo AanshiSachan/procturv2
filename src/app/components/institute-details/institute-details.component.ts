@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InstituteDetailService } from '../../services/institute-details/institute-details.service';
-import { AppComponent } from '../../app.component';
-import { LoginService } from '../../services/login-services/login.service';
+import { CommonServiceFactory } from '../../services/common-service';
 
 @Component({
   selector: 'app-institute-details',
@@ -30,15 +29,11 @@ export class InstituteDetailsComponent implements OnInit {
 
   constructor(
     private apiService: InstituteDetailService,
-    private appC: AppComponent,
-    private login: LoginService, ) { }
+    private commonService: CommonServiceFactory
+  ) { }
 
   ngOnInit() {
-    this.isRippleLoad = true;
-    this.removeFullscreen();
-    this.removeSelectionFromSideNav();
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.commonService.removeSelectionFromSideNav();
     this.changeView('liGeneral', 'divGeneral');
     this.updatePrefillData();
   }
@@ -66,7 +61,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     );
   }
@@ -88,8 +83,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     );
   }
@@ -102,8 +96,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     );
   }
@@ -116,8 +109,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     );
   }
@@ -129,13 +121,11 @@ export class InstituteDetailsComponent implements OnInit {
     this.apiService.updateDetailsToServer(dataToSend).subscribe(
       res => {
         this.isRippleLoad = false;
-        //console.log('updated successfully', res);
-        this.messageToast('success', 'Updated Successfully', 'Details Updated Successfully');
+        this.commonService.showErrorMessage('success', 'Updated Successfully', 'Details Updated Successfully');
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -154,7 +144,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -173,7 +163,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -192,7 +182,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -206,7 +196,7 @@ export class InstituteDetailsComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
   }
@@ -251,11 +241,11 @@ export class InstituteDetailsComponent implements OnInit {
     obj.owner_primary_phone = this.instDetails.owner_primary_phone;
     obj.admin_name = this.instDetails.admin_name;
     if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
-      this.messageToast('error', 'Error', 'Please check contact number');
+      this.commonService.showErrorMessage('error', 'Error', 'Please check contact number');
       return
     }
     if (!(this.validateCaseSensitiveEmail(this.instDetails.admin_primary_email))) {
-      this.messageToast('error', 'Error', 'Please check email address');
+      this.commonService.showErrorMessage('error', 'Error', 'Please check email address');
       return
     }
     obj.admin_primary_phone = this.instDetails.admin_primary_phone;
@@ -331,41 +321,6 @@ export class InstituteDetailsComponent implements OnInit {
     this.planDetail = this.getPlanOfInstitute(this.planDetailDataSource);
   }
 
-  messageToast(errorType, errorTitle, errorMeassage) {
-    let data = {
-      type: errorType,
-      title: errorTitle,
-      body: errorMeassage
-    }
-    this.appC.popToast(data);
-  }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
-
-  removeSelectionFromSideNav() {
-    document.getElementById('lizero').classList.remove('active');
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    //document.getElementById('liten').classList.remove('active');
-    //document.getElementById('lieleven').classList.remove('active');
-  }
 
   changeView(lidiv, showView) {
     document.getElementById('divGeneral').classList.add('hideDivClass');
@@ -392,7 +347,7 @@ export class InstituteDetailsComponent implements OnInit {
 
   // errorCallBack = (err) => {
   //   this.isRippleLoad = false;
-     //console.log(err);
+  //console.log(err);
   //   this.messageToast('error', 'Error', err.error.message);
   // }
 

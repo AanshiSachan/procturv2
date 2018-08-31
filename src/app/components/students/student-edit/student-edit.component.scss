@@ -1084,12 +1084,18 @@
 
 .allocation-table {
     width: 100%;
+    .table-responsive {
+        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
     table {
         thead {
             tr {
                 line-height: 30px;
                 th {
                     font-weight: 600;
+                    padding: 5px;
                 }
             }
         }
@@ -2431,3 +2437,13 @@ input[type=number]::-webkit-outer-spin-button {
       top: 0;
     }
   } */
+
+.invertory-add {
+    margin-bottom: 10px;
+    .field-wrapper {
+        padding-top: 0;
+    }
+    .btn-section {
+        padding-top: 17px;
+    }
+}

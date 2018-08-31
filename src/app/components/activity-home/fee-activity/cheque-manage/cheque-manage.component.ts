@@ -84,8 +84,6 @@ export class ChequeManageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.fetchChequeType(this.chequeFetchForm);
   }
 

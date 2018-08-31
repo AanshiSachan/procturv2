@@ -3,6 +3,7 @@ import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTabl
 import { PaymentHistoryMainService } from '../../../../services/payment-history/payment-history-main.service';
 import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
 @Component({
   selector: 'app-gst-report',
   templateUrl: './gst-report.component.html',
@@ -113,10 +114,11 @@ export class GstReportComponent implements OnInit {
   tempRecords: any[] = [];
   records: string;
   year: number
-  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService, private cd: ChangeDetectorRef) { }
+  constructor(private gst: PaymentHistoryMainService, private excelService: ExcelService, private cd: ChangeDetectorRef ,private pdf:ExportToPdfService) { }
 
   ngOnInit() {
     this.getGstReport(event, this.year);
+    
   }
 
 
@@ -230,5 +232,59 @@ export class GstReportComponent implements OnInit {
       this.searchflag = false;
     }
   }
+
+  exportToExcel() {
+    let exportedArray: any[] = [];
+    this.getPaymentRecords.map((data: any) => {
+      let obj = {
+        "Id": data.student_disp_id,
+        "Name": data.student_name,
+        "Reciept No": data.display_invoice_no,
+        "Payment Mode": data.paymentMode,
+        "Fee Type": data.fee_type_name,
+        "Inst No": data.installment_nos,
+        "Paid Date": data.paid_date,
+        "Cgst": data.cgst,
+        "Sgst": data.sgst,
+        "Tax": data.tax,
+        "Ref No": data.reference_no,
+        "Amount Paid" : data.amount_paid,
+        "Counsellor" : data.enquiry_counsellor_name
+      }
+      exportedArray.push(obj);
+    })
+    this.excelService.exportAsExcelFile(
+      exportedArray,
+      'Students'
+    )
+  }
+
+  exportToPdf() {
+    let arr = [];
+    this.getPaymentRecords.map(
+      (ele: any) => {
+        let json = [
+          ele.student_disp_id,
+          ele.student_name,
+          ele.display_invoice_no,
+          ele.paymentMode,
+          ele.fee_type_name,
+          ele.installment_nos,
+          ele.paid_date,
+          ele.cgst,
+          ele.sgst,
+          ele.tax,
+          ele.reference_no,
+          ele.amount_paid,
+          ele.enquiry_counsellor_name
+        ]
+        arr.push(json);
+      })
+
+    let rows = [['ID', 'Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Cgst', 'Sgst', 'Tax', 'Reference No', 'Amount paid' , 'Counsellor']]
+    let columns = arr;
+    this.pdf.exportToPdf(rows, columns);
+  }
+
 
 }

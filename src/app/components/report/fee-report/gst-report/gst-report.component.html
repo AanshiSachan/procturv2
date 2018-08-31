@@ -43,27 +43,47 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row" *ngIf="getPaymentRecords.length!=0">
+                        <div class="c-lg-10"></div>
+                        <div class="c-lg-2">
+                            <span class="span-button" (click)="exportToExcel()">
+                                <i class="fa fa-file-excel-o"></i>
+                                Excel
+                            </span>
+                            <span class="span-button" style="margin-left: 15px;" (click)="exportToPdf()">
+                                <i class="fa fa-file-pdf-o" (click)="exportToPdf()"></i>
+                                Pdf
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
+                <section>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="c-lg-2">
 
-                <div id="basic-search" style="margin:3px;">
-                    <ul class="made" *ngIf="records.length !=0">
-                        <li>
-                            <span class="made-out">Total GST</span>
-                            <span class="made-in"> : ₹{{records.toLocaleString('en-IN')}}</span>
-                        </li>
-                    </ul>
-                    <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                        (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; float:right;">
-                </div>
+                        </div>
+                        <div class="c-lg-8">
+                            <ul *ngIf="records.length !=0" class="made">
+                                <li>
+                                    <span class="made-out">Total GST</span>
+                                    <span class="made-in"> : ₹{{records.toLocaleString('en-IN')}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="c-lg-2">
+                            <div id="basic-search">
+                                <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                                    (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; float:right;">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
 
                 <div class="table-content">
-                    <div style="margin: 10px;" class="pointer">
-                        <a class="hide" id="enq_download"></a>
-                        <a (click)="downloadToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
-                        <span class="fa fa-cloud-download">
-                        </span>
-                    </div>
+
                     <rob-table [isMulti]='false' [hasMenu]="false" [records]="getPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'"
                         [settings]="feeSettings1">
                     </rob-table>

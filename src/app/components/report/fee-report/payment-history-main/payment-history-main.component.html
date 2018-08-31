@@ -137,16 +137,26 @@
             </div>
           </div>
 
+          <div class="row" *ngIf="allPaymentRecords.length!=0">
+            <div class="c-lg-10"></div>
+            <div class="c-lg-2">
+              <span class="span-button" (click)="exportToExcel()">
+                <i class="fa fa-file-excel-o"></i>
+                Excel
+              </span>
+              <span class="span-button" style="margin-left: 15px;" (click)="exportToPdf()">
+                <i class="fa fa-file-pdf-o" (click)="exportToPdf()"></i>
+                Pdf
+              </span>
+            </div>
+          </div>
+
         </div>
 
         <div *ngIf="showPaymentBox && allPaymentRecords.length > 0">
           <div class="row">
             <div class="c-lg-12">
-              <div class="c-lg-2" style="margin-top: 10px;">
-
-                <a (click)="exportToExcel()" class="download" style="margin-top: 10px;">Download To Excel</a>
-                <span class="fa fa-cloud-download">
-                </span>
+              <div class="c-lg-2">
               </div>
               <div class="c-lg-8" style="margin-top: 10px;">
                 <div class="c-lg-12">
@@ -286,7 +296,8 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="d.amount_paid" name='paidVal'>
+                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="d.amount_paid"
+                  name='paidVal'>
               </div>
             </td>
             <td>
@@ -331,7 +342,7 @@
         <div class="c-lg-6 field-wrapper">
           <label>Receipt No.</label>
           <span class="field-red">*</span>
-          <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="personData.invoice_no">
+          <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="personData.invoice_no">
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reason for Update</label>

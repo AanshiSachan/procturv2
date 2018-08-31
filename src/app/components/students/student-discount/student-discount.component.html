@@ -31,7 +31,7 @@
                 <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.value != ''}">
                     <label for="ref">Discount Value*</label>
 
-                    <input type="text" OnlyNumber="true" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+                    <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
                 </div>
 
                 <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.reason != ''}">

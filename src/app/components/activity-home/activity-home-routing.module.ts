@@ -4,6 +4,7 @@ import { ActivityHomeComponent } from './activity-home.component';
 import { HomeComponent } from './home/home.component';
 import { PtmManagementComponent } from './ptm-management/ptm-management.component';
 import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
+import { LiveClassesComponent } from './live-classes/live-classes.component';
 
 
 @NgModule({
@@ -49,6 +50,11 @@ import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/
                     {
                         path: 'examcourse',
                         component: ExamdeskCourseAssignmentComponent,
+                        pathMatch: 'prefix'
+                    },
+                    {
+                        path: 'liveClass',
+                        component: LiveClassesComponent,
                         pathMatch: 'prefix'
                     }
                 ]

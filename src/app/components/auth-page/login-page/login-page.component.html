@@ -1,7 +1,7 @@
 <div #backgroundChange>
   <div class="middle-section clearFix">
 
-    <div class="auth-page-header"  *ngIf="isProcturVisible">
+    <div class="auth-page-header" *ngIf="isProcturVisible">
       <div class="row proctur-logo">
         <div class="c-lg-6" [ngStyle]="dynamicImgSrc == ''  && {'visibility':'hidden'}">
           <img class="logo" [src]="dynamicImgSrc" alt="Logo" height="">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="box"  *ngIf="isProcturVisible">
+    <div class="box" *ngIf="isProcturVisible">
       <!-- Login Marketing Data DIV Start -->
       <div class="login-wrapper" *ngIf="isProcturVisible">
         <div class="row">
@@ -162,7 +162,7 @@
             </div>
           </div>
           <div class="row agreement-row" *ngIf="isProcturVisible">
-            <p >
+            <p>
               By signing in you agree to our
               <a style="cursor:pointer" href="http://www.proctur.com/privacypolicy.html" target="_blank">Privacy Policy</a> and
               <a style="cursor:pointer" href="http://www.proctur.com/terms&amp;conditions.html" target="_blank">terms of use</a>.
@@ -214,14 +214,14 @@
           </div>
           <div class="form-type1">
             <div class="field-wrapper has-value">
+              <label>OTP</label>
               <input type="text" value="" class="form-ctrl" [(ngModel)]="otpVerificationInfo.otp_code" maxlength="4" name="otpData" id="otpData"
-                #otpData="ngModel" enquiryInput required/>
+                #otpData="ngModel" enquiryInput required style="margin-top: 18px;">
               <div *ngIf="otpData.invalid && (otpData.dirty || otpData.touched)" class="alert invalid-alert">
                 <div *ngIf="otpData.errors.required">
                   Please enter OTP.
                 </div>
               </div>
-              <label for="otpData">OTP</label>
             </div>
           </div>
           <div class="row" *ngIf="counter != 0">
@@ -234,7 +234,7 @@
               <a style="cursor:pointer" (click)="alternateLoginOTPRegenerate()">Resend?</a>
             </div>
           </div>
-          <div class="row" style="text-align:center; margin-top:2%;">
+          <div class="row" style="text-align:center; margin-top:2%; margin-bottom: 15px;">
             <div class="login-field-btn">
               <input type="button" value="VERIFY" (click)="alternateLoginOTPVerification()" class="fullBlue btn">
             </div>

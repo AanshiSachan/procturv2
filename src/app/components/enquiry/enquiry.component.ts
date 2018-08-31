@@ -12,7 +12,6 @@ export class EnquiryComponent implements OnInit {
 
   /* OnInit recheck the status of li tab and set it to active here */
   ngOnInit() {
-    this.removeFullscreen();
     document.getElementById('lione').classList.add('active');
     document.getElementById('litwo').classList.remove('active');
     document.getElementById('lithree').classList.remove('active');
@@ -25,18 +24,6 @@ export class EnquiryComponent implements OnInit {
     document.getElementById('lizero').classList.remove('active');
     /* document.getElementById('liten').classList.remove('active');
     document.getElementById('lieleven').classList.remove('active'); */
-  }
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
   }
 
 }

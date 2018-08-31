@@ -4,7 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { AcademicYearComponent } from './academic-year.component';
 import { AcademicyearService } from '../../services/academicYearService/academicyear.service';
-import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { HomeComponent } from './home/home.component';
 import { ManageExamModule } from '../master/master.module';
 

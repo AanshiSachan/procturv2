@@ -161,7 +161,7 @@
                                     <td class="No">₹&nbsp;{{c.total_balance_amt}}</td>
                                     <td>
                                         <div class="field-wrapper">
-                                            <input type="text" OnlyNumber="true" [(ngModel)]="c.toPay" (blur)="validatePaymentAmount(i)" class="form-ctrl">
+                                            <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="c.toPay" (blur)="validatePaymentAmount(i)" class="form-ctrl">
                                         </div>
                                     </td>
                                     <td>

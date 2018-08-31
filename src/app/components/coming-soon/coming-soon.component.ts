@@ -9,29 +9,16 @@ import { Router } from '@angular/router';
 export class ComingSoonComponent implements OnInit {
 
   constructor(private router: Router) {
-    
-      }
-    
-      ngOnInit() {
-        if (sessionStorage.getItem('userid') == null) {
-          this.router.navigate(['/authPage']);
-        }
-        else{
-          this.removeFullscreen();
-        }
-      }
-    
-    
-      removeFullscreen() {
-        var header = document.getElementsByTagName('core-header');
-        var sidebar = document.getElementsByTagName('core-sidednav');
-        [].forEach.call(header, function (el) {
-          el.classList.remove('hide');
-        });
-        [].forEach.call(sidebar, function (el) {
-          el.classList.remove('hide');
-        });
-      }
-    
+
+  }
+
+  ngOnInit() {
+    if (sessionStorage.getItem('userid') == null) {
+      this.router.navigate(['/authPage']);
     }
-    
+    else {
+    }
+  }
+
+
+}

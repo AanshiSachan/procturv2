@@ -1,27 +1,14 @@
-import {
-  Component, OnInit, ViewChild, Input, Output,
-  EventEmitter, HostListener, AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
 import { instituteInfo } from '../../../model/instituteinfo';
-import { updateEnquiryForm } from '../../../model/update-enquiry-form';
 import { MenuItem } from 'primeng/primeng';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { SmsOptionComponent } from './sms-option.component';
-import { error } from 'util';
 import { NgForm } from '@angular/forms';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-
-
-
-
+import { MessageShowService } from '../../../services/message-show.service';
 
 
 @Component({
@@ -177,11 +164,10 @@ export class CampaignHomeComponent implements OnInit {
   isAdmin = sessionStorage.getItem('permissions');
 
   constructor(
-    private router: Router,
-    private appC: AppComponent,
-    private login: LoginService,
     private cd: ChangeDetectorRef,
-    private postData: CampaignService, private auth: AuthenticatorService
+    private postData: CampaignService,
+    private auth: AuthenticatorService,
+    private msgService: MessageShowService
   ) { }
 
   ngOnInit() {
@@ -194,10 +180,6 @@ export class CampaignHomeComponent implements OnInit {
         }
       }
     )
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     /* Load paginated campaign data from server */
     this.loadTableDatatoSource(this.instituteData);
@@ -212,7 +194,6 @@ export class CampaignHomeComponent implements OnInit {
     // document.getElementById("bulk-drop").classList.add("hide");
     // document.getElementById('headerCheckbox').checked = false;
     this.isAllSelected = false;
-
     this.sourceCampaign = [];
     this.selectedRow = null;
     this.selectedRowGroup = [];
@@ -268,13 +249,8 @@ export class CampaignHomeComponent implements OnInit {
             }
           }
           else {
-            let alert = {
-              type: 'info',
-              title: 'No Records Found',
-              body: 'We did not find any enquiry for the specified query'
-            }
             this.fetchingDataMessage = "No Record Found";
-            this.appC.popToast(alert);
+            this.showErrorMessage(this.msgService.toastTypes.info, this.msgService.object.generalMessages.notFound, 'We did not find any enquiry for the specified query');
             this.totalCampaign = data.length;
             this.indexJSON = [];
             this.setPageSize(this.totalCampaign);
@@ -327,18 +303,12 @@ export class CampaignHomeComponent implements OnInit {
           }
         }
         else {
-          let alert = {
-            type: 'info',
-            title: 'No Records Found',
-            body: 'We did not find any enquiry for the specified query'
-          }
           this.fetchingDataMessage = "No Record Found";
-          this.appC.popToast(alert);
           this.totalCampaign = data.length;
+          this.showErrorMessage(this.msgService.toastTypes.info, this.msgService.object.generalMessages.notFound, 'We did not find any enquiry for the specified query');
           this.indexJSON = [];
           this.setPageSize(this.totalCampaign);
           this.cd.markForCheck();
-
           this.totalVisibleEnquiry = this.sourceCampaign.length;
           this.totalCampaign = this.sourceCampaign_total.length;
         }
@@ -468,20 +438,10 @@ export class CampaignHomeComponent implements OnInit {
       this.testMessagePopUp = true;
 
     } else if (this.selectedMessage.length > 1) {
-      let msg = {
-        type: 'error',
-        title: 'Cannot Send Multiple Test SMS',
-        body: 'Please select only one message'
-      }
-      this.appC.popToast(msg);
+      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.SMSMessages.notMultiSMS, 'Please select only one message');
     }
     else {
-      let msg = {
-        type: 'error',
-        title: 'Cannot Send Blank SMS',
-        body: 'Please select an approved SMS Template to be sent'
-      }
-      this.appC.popToast(msg);
+      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.SMSMessages.blankSMS, 'Please select an approved SMS Template to be sent');
     }
   }
 
@@ -500,12 +460,7 @@ export class CampaignHomeComponent implements OnInit {
         this.cd.markForCheck();
       },
       err => {
-        let msg = {
-          type: 'error',
-          title: "Error loading SMS",
-          body: "Please check your internet connection or refresh"
-        }
-        this.appC.popToast(msg);
+        this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.SMSMessages.loadError, "Please check your internet connection or refresh");
       }
     );
   }
@@ -540,48 +495,26 @@ export class CampaignHomeComponent implements OnInit {
 
 
     if (this.selectedMessage == null || this.selectedMessage.length == 0) {
-      let msg = {
-        type: 'error',
-        title: "Please select a message"
-      }
-      this.appC.popToast(msg);
+      this.showErrorMessage(this.msgService.toastTypes.error, "Please select a message", "");
 
     } else {
       queryParam.date = finaldate
 
       this.postData.saveSMSservice(queryParam).subscribe(
         res => {
-          let msg = {
-            type: 'success',
-            title: "Campaign created successfully!"
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.success, this.msgService.object.campaignMessages.selectMsg, "");
         },
         error => {
           //console.log(error);
-          let err_msg = JSON.parse(error._body);
-          let msg = {
-            type: 'error',
-            title: error.statusText,
-            body: err_msg.message
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.error, error.statusText, JSON.parse(error._body).message);
         }
       );
     }
-
-
-
-
-
-
-
   }
 
 
   clearDate(event) {
     let node = event.target.parentNode.childNodes;
-
     [].forEach.call(node, function (el) {
       if (el.type == "text" && el.tagName == "INPUT") {
         el.value = '';
@@ -630,47 +563,26 @@ export class CampaignHomeComponent implements OnInit {
 
   }
 
-
-
   sendTestSMS(form: NgForm) {
-
     if (form.valid) {
       let queryParam = {
         message: this.smsMessageTest[0],
         message_id: this.selectedMessage[0],
         mobile: this.phone
       }
-
       this.postData.campaignSMSTestService(queryParam).subscribe(
         res => {
-          let msg = {
-            type: 'success',
-            title: "Test Message Send Successfully!"
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.success, this.msgService.object.SMSMessages.sendSMS, '');
         },
         error => {
-          //console.log(error);
-          let err_msg = JSON.parse(error._body);
-          let msg = {
-            type: 'error',
-            title: error.statusText,
-            body: err_msg.message
-          }
-          this.appC.popToast(msg);
+          //console.log(error);        
+          this.showErrorMessage(this.msgService.toastTypes.error, error.statusText, JSON.parse(error._body).message);
         }
       );
-
     }
     else {
-      let msg = {
-        type: 'error',
-        title: "Invalid Mobile Number",
-        body: "Please provide the correct mobile number"
-      }
-      this.appC.popToast(msg);
+      this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.generalMessages.invalidNumber, "Please provide the correct mobile number");
     }
-
   }
 
   dynamicSort(property) {
@@ -684,13 +596,6 @@ export class CampaignHomeComponent implements OnInit {
       return result * sortOrder;
     }
   }
-
-
-
-
-
-
-
 
   sortTableById(sortBy) {
 
@@ -855,22 +760,12 @@ export class CampaignHomeComponent implements OnInit {
     if (confirm('Do you want to delete this Message>?')) {
       this.postData.deleteMessage(row.message_id).subscribe(
         res => {
-          let msg = {
-            type: 'success',
-            title: "Deleted",
-            body: "Deleted Successfully"
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.success, "Deleted", "Deleted Successfully");
           this.getSMSList('');
         },
         err => {
           //console.log(err);
-          let msg = {
-            type: 'error',
-            title: "Error",
-            body: JSON.parse(err._body).message
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.error, "Error", JSON.parse(err._body).message);
         }
       )
     }
@@ -884,24 +779,13 @@ export class CampaignHomeComponent implements OnInit {
       }
       this.postData.updateMessage(obj, row.message_id).subscribe(
         res => {
-          let msg = {
-            type: 'success',
-            title: "Saved",
-            body: "Updated Successfully"
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.success, "Saved", "Updated Successfully");
           this.getSMSList('');
         },
         err => {
-          let msg = {
-            type: 'error',
-            title: "Error",
-            body: JSON.parse(err._body).message
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.error, "Error", JSON.parse(err._body).message);
         }
       )
-
     }
   }
 
@@ -921,33 +805,18 @@ export class CampaignHomeComponent implements OnInit {
       }
       this.postData.addNewMessage(test).subscribe(
         res => {
-          let msg = {
-            type: 'success',
-            title: "Added",
-            body: "Added Successfully"
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Added Successfully");
           this.getSMSList('');
           this.messageText = "";
           this.closeAddDiv();
         },
         err => {
           //console.log(err);
-          let msg = {
-            type: 'error',
-            title: "Error",
-            body: err.error.message
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.error, "Error", err.error.message);
         }
       )
     } else {
-      let msg = {
-        type: 'error',
-        title: "Error",
-        body: "Please provide message text"
-      }
-      this.appC.popToast(msg);
+      this.showErrorMessage(this.msgService.toastTypes.error, "Error", "Please provide message text");
     }
   }
 
@@ -955,24 +824,14 @@ export class CampaignHomeComponent implements OnInit {
     if (confirm('Do you want to continue?')) {
       this.postData.approveMessage(data.message_id).subscribe(
         res => {
-          let msg = {
-            type: 'success',
-            title: "Added",
-            body: "Added Successfully"
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Added Successfully");
           this.getSMSList('');
           this.messageText = "";
           this.closeAddDiv();
         },
         err => {
           //console.log(err);
-          let msg = {
-            type: 'error',
-            title: "Error",
-            body: err.error.message
-          }
-          this.appC.popToast(msg);
+          this.showErrorMessage(this.msgService.toastTypes.error, "Error", err.error.message);
         }
       )
     }
@@ -993,6 +852,11 @@ export class CampaignHomeComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  // toast function 
+  showErrorMessage(objType, massage, body) {
+    this.msgService.showErrorMessage(objType, massage, body);
   }
 
 }

@@ -1,15 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+/**  other libraray imports */
+import { Component, OnInit, ViewChild, ChangeDetectorRef, OnChanges } from '@angular/core';
+import * as moment from 'moment';
+/**  models imports*/
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { ColumnData2 } from '../../../shared/data-display-table/data-display-table.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
-import { LoginService } from '../../../../services/login-services/login.service';
+/**  compoents imports*/
 import { AppComponent } from '../../../../app.component';
-
+import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
+/**  services imports */
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
-import { MenuItem } from 'primeng/primeng';
-import * as moment from 'moment';
 import { ExcelService } from '../../../../services/excel.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-all-data-report',
@@ -20,30 +26,39 @@ export class AllDataReportComponent implements OnInit {
 
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];
-  bulkAddItems: MenuItem[];
-  isCustomDate: boolean;
-  isFeeReceipt: boolean;
-  isNextDueDetail: boolean;
-  isFeepaymentHistory: boolean;
-  isViewDetailReport: boolean;
   selectedFeeRecord: any;
   installmentList: any;
-  isFilterReversed: boolean = true;
-  isProfessional: boolean = false;
+  // isCustomDate: boolean;
+  // isFeeReceipt: boolean;
+  // isNextDueDetail: boolean;
+  // isFeepaymentHistory: boolean;
+  // isViewDetailReport: boolean;
+  // isFilterReversed: boolean = true;
+  // isProfessional: boolean = false;
+
+  /** boolean flag json */
+  showPopupKeys: any = {
+    isFeeReceipt: false,
+    isNextDueDetail: false,
+    showPreference: false,
+    isViewDetailReport: false,
+    isFeepaymentHistory: false,
+    isCustomDate: false,
+    isFilterReversed: true,
+    isProfessional: false
+  };
   dataStatus: number = 3;
-
-  feeSettings1: ColumnData[] = [
-    { primaryKey: 'student_disp_id', header: 'ID' },
-    { primaryKey: 'student_name', header: 'Name' },
-    { primaryKey: 'student_total_fees', header: 'Total Fee' },
-    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid' },
-    { primaryKey: 'total_balance_amt', header: 'Past Dues' },
-    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date' },
-    { primaryKey: 'student_latest_fee_due_amount', header: 'Next Due Amount' },
-    { primaryKey: 'student_latest_pdc', header: 'PDC Date' },
-    { primaryKey: 'amount_still_payable', header: 'Balance Amount' }
+  feeSettings1: ColumnData2[] = [
+    { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
+    { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
+    { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true },
+    { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 5, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 6, allowSortingFlag: true },
+    { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 8, allowSortingFlag: true }
   ];
-
   feeSettings2: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -55,11 +70,8 @@ export class AllDataReportComponent implements OnInit {
     { primaryKey: 'total_amt_paid', header: 'Amount Paid' },
     { primaryKey: 'total_balance_amt', header: 'Amount Balance' }
   ];
-
   feeDataSource1: any[] = [];
-
   feeDataSource2: any[] = [];
-
   menuOptions: DropData[] = [
     /* {
       key: 'detailed',
@@ -74,7 +86,6 @@ export class AllDataReportComponent implements OnInit {
       header: 'Fee Receipts',
     }
   ];
-
   courseFetchForm: any = {
     standard_id: -1,
     subject_id: -1,
@@ -90,40 +101,53 @@ export class AllDataReportComponent implements OnInit {
     is_fee_report_view: 1,
     academic_year_id: ""
   }
-
   isRippleLoad: boolean = false;
-
   due_type: any = '-1';
-
   search_value: any = '';
-
   standardList: any[] = [];
-
-  subjectList: any[] = [];
-
-  batchList: any[] = [];
-
-  userInput: string = ''
-
-  helpMsg: string = "Active Student fee details are shown based on dues and academic year filter applied."
-
-  @ViewChild('form') form: any;
-
   getAllAcademic: any[] = [];
+  subjectList: any[] = [];
+  batchList: any[] = [];
+  userInput: string = '';
+  helpMsg: string = "Active Student fee details are shown based on dues and academic year filter applied."
+  //table setting
+  displayKeys = [];//need for selected keys 
+  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('form') form: any;
+  tableSetting: any = {//inventory.item
+    tableDetails: { title: 'All Dues Report', key: 'reports.fee.allDuesReport', showTitle: false },
+    search: { title: 'Search', showSearch: false },
+    keys: this.displayKeys,
+    selectAll: { showSelectAll: true, title: 'Purchase Item', checked: true, key: 'student_disp_id' },
+    actionSetting:
+    {
+      editOption: 'popup',//or button 
+      options: this.menuOptions
+    },
+    // {
+    //     editOption: 'button',//or button 
+    //     options: [{ title: "update", class: 'fa fa-check updateCss' }
+    //         , { title: "delete", class: 'fa fa-remove deleteCss' }]
+    // }
+  };
+
 
   constructor(
-    private login: LoginService,
     private appC: AppComponent,
     private getter: GetFeeService,
     private putter: PostFeeService,
     private excelService: ExcelService,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private _tablePreferencesService: TablePreferencesService,
+    private ref: ChangeDetectorRef,
+    private pdf: ExportToPdfService,
+    private messageService: MessageService
   ) {
     this.excelService = excelService;
     this.switchActiveView('fee');
+
+
   }
-
-
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
@@ -135,29 +159,14 @@ export class AllDataReportComponent implements OnInit {
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
-          this.isProfessional = true;
+          this.showPopupKeys.isProfessional = true;
         } else {
-          this.isProfessional = false;
+          this.showPopupKeys.isProfessional = false;
         }
       }
     )
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
-
-    // this.fetchPrefillDetails();
-
-    this.bulkAddItems = [
-      {
-        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkSms();
-        }
-      },
-      {
-        label: 'Send Fine SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkFineSms();
-        }
-      }
-    ];
+    
+   
 
     this.form.valueChanges
       .debounceTime(100)
@@ -166,8 +175,39 @@ export class AllDataReportComponent implements OnInit {
         this.searchDB();
       });
 
+    this.tableSetting.keys = this.feeSettings1;
+    if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
+      this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
+
+      this.tableSetting.keys = this.displayKeys;
+      if (this.displayKeys.length == 0) {
+        this.setDefaultValues();
+      }
+
+    }
+    else {
+      this.setDefaultValues();
+    }
+
   }
-  
+
+  setDefaultValues() {
+    this.tableSetting.keys = [
+      { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
+      { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
+      { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true }
+    ];
+    this.displayKeys = this.tableSetting.keys;
+    this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
+  }
+
+
+  ngDoCheck() {
+    this.ref.detectChanges();
+    // console.log(this.displayKeys);
+  }
+
   getAcademicYear() {
     this.getter.getAcademicYear().subscribe(
       (res: any) => {
@@ -178,7 +218,6 @@ export class AllDataReportComponent implements OnInit {
       }
     )
   }
-
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
@@ -202,11 +241,59 @@ export class AllDataReportComponent implements OnInit {
     )
   }
 
+
+  exportToPdf() {
+    let arr = [];
+    if (this.showPopupKeys.isProfessional) {
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = [
+            ele.student_disp_id,
+            ele.student_name,
+            ele.student_total_fees,
+            ele.student_toal_fees_paid,
+            ele.total_balance_amt,
+            ele.student_latest_fee_due_date,
+            ele.student_latest_fee_due_amount,
+            ele.student_latest_pdc,
+            ele.amount_still_payable,
+            ele.standard_name,
+            ele.batch_name
+          ]
+          arr.push(json);
+        })
+    }
+
+    else {
+      this.feeDataSource1.map(
+        (ele: any) => {
+          let json = [
+            ele.student_disp_id,
+            ele.student_name,
+            ele.student_total_fees,
+            ele.student_toal_fees_paid,
+            ele.total_balance_amt,
+            ele.student_latest_fee_due_date,
+            ele.student_latest_fee_due_amount,
+            ele.student_latest_pdc,
+            ele.amount_still_payable,
+            ele.master_course_name,
+            ele.course_name
+          ]
+          arr.push(json);
+        })
+    }
+
+    let rows = [['ID', 'Name', 'Total Fee', 'Amount Paid', 'Past Dues', 'Next Due Date', 'Next Due Amount', 'PDC Date', 'Balance Amount', 'Master Course Name', 'Course Name']]
+    let columns = arr;
+    this.pdf.exportToPdf(rows, columns);
+  }
+
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   // batchSelected() {
 
-  //   this.isCustomDate = false;
+  //   this.showPopupKeys.isCustomDate = false;
   //   this.courseFetchForm.from_date = '';
   //   this.courseFetchForm.to_date = '';
   //   this.courseFetchForm.type = "0";
@@ -216,7 +303,7 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   // getBatchCourseDetails() {
-  //   if (this.isProfessional) {
+  //   if (this.showPopupKeys.isProfessional) {
   //     this.updateMasterCourseBatch();
   //   }
   //   else {
@@ -267,11 +354,11 @@ export class AllDataReportComponent implements OnInit {
     let arr = [];
     arr.push(this.courseFetchForm.academic_year_id);
     /* Fetch By Master Course and Other Details */
-    // if (this.isFilterReversed) {
+    // if (this.showPopupKeys.isFilterReversed) {
     //   /* Checks if user has filled the form correctly and selected a batch or master course course */
     //   if (this.courseFormValidator()) {
     //     if (this.dateRangeValid()) {
-    if (this.isProfessional) {
+    if (this.showPopupKeys.isProfessional) {
       let obj = {
         standard_id: this.courseFetchForm.standard_id,
         batch_id: this.courseFetchForm.batch_id,
@@ -501,7 +588,7 @@ export class AllDataReportComponent implements OnInit {
         }
         this.reportSource = res;
         this.isRippleLoad = false;
-        if (this.isFilterReversed) {
+        if (this.showPopupKeys.isFilterReversed) {
           this.feeDataSource1 = res;
         }
         else {
@@ -520,7 +607,7 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   openAdFilter() {
     this.isRippleLoad = true;
-    this.isFilterReversed = !this.isFilterReversed;
+    this.showPopupKeys.isFilterReversed = !this.showPopupKeys.isFilterReversed;
     this.isRippleLoad = false;
   }
 
@@ -556,13 +643,13 @@ export class AllDataReportComponent implements OnInit {
   // fetchSubjectList() {
   //   this.courseFetchForm.subject_id = -1;
   //   this.courseFetchForm.batch_id = -1;
-  //   this.isCustomDate = false;
+  //   this.showPopupKeys.isCustomDate = false;
   //   this.courseFetchForm.from_date = '';
   //   this.courseFetchForm.to_date = '';
   //   this.courseFetchForm.type = "0";
 
   //   this.isRippleLoad = true;
-  //   if (this.isProfessional) {
+  //   if (this.showPopupKeys.isProfessional) {
   //     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
   //       res => {
   //         this.isRippleLoad = false;
@@ -596,12 +683,12 @@ export class AllDataReportComponent implements OnInit {
   // fetchBatchList() {
   //   this.courseFetchForm.batch_id = -1;
 
-  //   this.isCustomDate = false;
+  //   this.showPopupKeys.isCustomDate = false;
   //   this.courseFetchForm.from_date = '';
   //   this.courseFetchForm.to_date = '';
   //   this.courseFetchForm.type = "0";
   //   this.isRippleLoad = true;
-  //   if (this.isProfessional) {
+  //   if (this.showPopupKeys.isProfessional) {
   //     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
   //       res => {
   //         this.isRippleLoad = false;
@@ -632,7 +719,7 @@ export class AllDataReportComponent implements OnInit {
   //   /* If user has selected master course then he has to select the course and batch id as well */
   //   if (this.courseFetchForm.standard_id != '-1') {
   //     /* For professional model */
-  //     if (this.isProfessional) {
+  //     if (this.showPopupKeys.isProfessional) {
   //       /* if user has selected a course then check for batch Id else throw error */
   //       if (this.courseFetchForm.subject_id != '-1') {
   //         /* all set batch selected correctly */
@@ -728,13 +815,13 @@ export class AllDataReportComponent implements OnInit {
   performAction(action) {
 
     if (action == 'View Detailed Report') {
-      this.isViewDetailReport = true;
+      this.showPopupKeys.isViewDetailReport = true;
     }
     else if (action == 'Dues Info') {
-      this.isFeepaymentHistory = true;
+      this.showPopupKeys.isFeepaymentHistory = true;
     }
     else if (action == 'Fee Receipts') {
-      this.isFeeReceipt = true;
+      this.showPopupKeys.isFeeReceipt = true;
     }
 
   }
@@ -742,16 +829,30 @@ export class AllDataReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   closePopup(e) {
-    this.isFeeReceipt = false;
-    this.isFeepaymentHistory = false;
-    this.isNextDueDetail = false;
-    this.isViewDetailReport = false;
+
+    this.showPopupKeys.isFeeReceipt = false;
+    this.showPopupKeys.isFeepaymentHistory = false;
+    this.showPopupKeys.isNextDueDetail = false;
+    this.showPopupKeys.isViewDetailReport = false;
+    this.showPopupKeys.showPreference = false;
+    if (e) {
+      if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
+        this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
+        this.tableSetting.keys = this.displayKeys;
+        if (e.callNotify) {
+          this.child.notifyMe(this.tableSetting);
+        }
+        this.ref.markForCheck();
+        this.ref.detectChanges();
+      }
+    }
+    console.log(this.displayKeys);
   }
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   dateRangeChanges(e) {
     console.log(this.due_type);
-    this.isCustomDate = false;
+    this.showPopupKeys.isCustomDate = false;
     this.courseFetchForm.standard_id = '-1';
     this.courseFetchForm.subject_id = '-1';
     this.courseFetchForm.batch_id = '-1';
@@ -818,12 +919,12 @@ export class AllDataReportComponent implements OnInit {
       this.courseFetchForm.to_date = moment().format('YYYY-MM-DD');
 
       this.courseFetchForm.type = "1";
-      this.isCustomDate = true;
+      this.showPopupKeys.isCustomDate = true;
     }
     else if (this.due_type == '-1') {
       // this.getBatchCourseDetails();
       this.courseFetchForm.type = "0";
-      this.isCustomDate = false;
+      this.showPopupKeys.isCustomDate = false;
     }
 
   }
@@ -941,9 +1042,9 @@ export class AllDataReportComponent implements OnInit {
   }
 
 
-  exportToExcel(event) {
+  exportToExcel() {
     let arr = []
-    if(this.isProfessional){
+    if (this.showPopupKeys.isProfessional) {
       this.feeDataSource1.map(
         (ele: any) => {
           let json = {
@@ -956,16 +1057,16 @@ export class AllDataReportComponent implements OnInit {
             "Next Amount Date": ele.student_latest_fee_due_amount,
             "PDC Date": ele.student_latest_pdc,
             "Balance Amount": ele.amount_still_payable,
-            "Master Course" : ele.standard_name,
-            "Batch" : ele.batch_name,
-            "Date of report generation" : moment().format('YYYY-MM-DD')
+            "Master Course": ele.standard_name,
+            "Batch": ele.batch_name,
+            "Date of report generation": moment().format('YYYY-MM-DD')
           }
           arr.push(json);
         }
       )
     }
 
-    else{
+    else {
       this.feeDataSource1.map(
         (ele: any) => {
           let json = {
@@ -978,9 +1079,9 @@ export class AllDataReportComponent implements OnInit {
             "Next Amount Date": ele.student_latest_fee_due_amount,
             "PDC Date": ele.student_latest_pdc,
             "Balance Amount": ele.amount_still_payable,
-            "Standard Name" : ele.standard_name,
-            "Course" : ele.course_name,
-            "Date of report generation" : moment().format('YYYY-MM-DD')
+            "Standard Name": ele.standard_name,
+            "Course": ele.course_name,
+            "Date of report generation": moment().format('YYYY-MM-DD')
           }
           arr.push(json);
         }
@@ -990,6 +1091,16 @@ export class AllDataReportComponent implements OnInit {
       arr,
       'students'
     )
+  }
+
+
+  getDetials(obj) {
+    console.log(obj);
+
+  }
+
+  openPreferences() {
+    this.showPopupKeys.showPreference = true;
   }
 
 

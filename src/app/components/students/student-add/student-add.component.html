@@ -87,7 +87,8 @@
                     <label for="cNumber">Contact Number*</label>
 
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      maxlength="10" minlength="10" OnlyNumber="true" #cNumber="ngModel" required/>
+                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel"
+                      required/>
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
                         Phone number is required.
@@ -152,7 +153,8 @@
                     <label for="parentContactNo">Parent Contact Number</label>
 
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                      maxlength="10" minlength="10" OnlyNumber="true" #parentContactNo="ngModel" />
+                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
+                    />
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
@@ -168,8 +170,10 @@
                   </div>
 
                   <div class="more-detail" style="font-size: 14px;">
-                    <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
-                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">- &nbsp; Hide Additional Details</a>
+                    <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+
+                      &nbsp; Add Additional Details</a>
+                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">- &nbsp;
+                      Hide Additional Details</a>
                   </div>
 
                 </div>
@@ -214,7 +218,7 @@
                     <label for="guardianContact">Guardian Contact Number</label>
 
                     <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
-                      name="guardianContact" OnlyNumber="true" #guardianContact="ngModel">
+                      name="guardianContact" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
                     <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
                       <div class="tooltip-box-field">
@@ -650,7 +654,9 @@
                       Installment # {{installment.installment_no}}
                       <span class="fee-status paid" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">Paid</span>
                       <span class="fee-status due" *ngIf="((installment.is_referenced == 'N')&&(installment.paid_full == 'N'))">Due</span>
-                      <span class="fee-status partial" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">Paid Partially</span>
+                      <span class="fee-status partial" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">Paid
+                        Partially
+                      </span>
                     </div>
                     <div class="instl-info">
                       <ul>
@@ -729,9 +735,14 @@
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
                     <a (click)="getPartialPaymentHistory(installment)">
                       View Payment History </a>
-                    <a class="hide" id="downloadAddFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" (click)="emailFeeReceipt(installment)">E-mail receipt</a>
-                    <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
+                    <a class="hide" id="downloadAddFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download
+                      receipt
+                    </a>
+                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" (click)="emailFeeReceipt(installment)">E-mail
+                      receipt
+                    </a>
+                    <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay
+                      Remaining Amount</a>
                   </div>
                 </li>
               </ul>
@@ -775,15 +786,37 @@
             <h1 class="pull-left">
               Inventory
             </h1>
-            <aside class="pull-right">
-              <!-- <div class="need-help">
-                <div class="questionInfo">
-                  <span class="qInfoIcon">?</span>
-                </div>
-                <a>Need help?</a>
-              </div> -->
-            </aside>
           </section>
+
+          <section class="row invertory-add">
+
+            <div class="c-sm-3 c-md-3 c-lg-3">
+              <div class="field-wrapper">
+                <label for="itemInventory">Inventory Item</label>
+                <select id="itemInventory" [(ngModel)]="addInventory.item_id" name="itemInventory" class="form-ctrl" (ngModelChange)="onInventoryItemSelction()">
+                  <option value="-1"></option>
+                  <option *ngFor="let item of inventoryItemsArr" [value]="item.item_id">
+                    {{item.item_name}}
+                  </option>
+                </select>
+                <p *ngIf="addInventory.item_id != '-1'">Available Units : {{addInventory.available_units}}</p>
+              </div>
+            </div>
+
+            <div class="c-sm-2 c-md-2 c-lg-2">
+              <div class="field-wrapper">
+                <label>Allocate Units</label>
+                <input type="number" class="form-ctrl" [(ngModel)]="addInventory.alloted_units" min="0">
+              </div>
+            </div>
+
+            <div class="c-sm-2 c-md-2 c-lg-2 btn-section">
+              <button class="btn fullBlue" (click)="allocateInventoryToStudent()">Allocate</button>
+            </div>
+
+          </section>
+
+
           <div class="allocation-table">
             <div class="table-scroll-wrapper">
               <div class="table table-responsive">
@@ -797,18 +830,15 @@
                         Catergory
                       </th>
                       <th>
-                        Available Units
-                      </th>
-                      <th>
                         Allocated Units
                       </th>
                       <th>
-                        Allocate Unit
+                        Action
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr *ngFor="let item of inventoryItemsArr;let i = index">
+                  <tbody *ngIf="allocatedItem.length > 0">
+                    <tr *ngFor="let item of allocatedItem;let i = index">
                       <td>
                         {{item.item_name}}
                       </td>
@@ -816,17 +846,17 @@
                         {{item.category_name}}
                       </td>
                       <td>
-                        {{item.available_units}}
-                      </td>
-                      <td>
                         {{item.alloted_units}}
                       </td>
                       <td>
-                        <div class="field-wrapper">
-
-                          <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
-                            (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
-                        </div>
+                        <a *ngIf="item.alloted_units > 0" style="cursor: pointer;" (click)="deleteInventory(item)">Delete</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="allocatedItem.length == 0">
+                    <tr>
+                      <td colspan="5" style="text-align: left">
+                        <h2>No Inventory Allocated</h2>
                       </td>
                     </tr>
                   </tbody>
@@ -834,6 +864,8 @@
               </div>
             </div>
           </div>
+
+
           <section class="middle-bottom clearFix ">
             <div class="pull-left">
               <input type="button" (click)="navigateTo('feeDetails')" value="Back" class="btn">
@@ -841,7 +873,7 @@
             <aside class="pull-right">
               <input type="button" (cancel)="cancelStudentUpload()" value="Cancel" class="btn cancle">
               <!-- <input type="button" value="Skip" class="btn cancle"> -->
-              <input type="button" value="Submit" (click)="updateStudentAllocatedInventory()" class="btn fullBlue">
+              <input type="button" value="Go" (click)="updateStudentAllocatedInventory()" class="btn fullBlue">
             </aside>
           </section>
         </aside>
@@ -1138,8 +1170,9 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" OnlyNumber="true" value="" placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
-                    name="chequeno" minlength="6" maxlength="6" #chequeno="ngModel" required>
+                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value="" placeholder="Cheque Number"
+                    class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no" name="chequeno" minlength="6" maxlength="6"
+                    #chequeno="ngModel" required>
                 </div>
               </li>
 
@@ -1152,8 +1185,8 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" OnlyNumber="true" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
-                    max="6" placeholder="Amount">
+                  <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" value="" id="chequeamount" class="form-ctrl"
+                    name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount" max="6" placeholder="Amount">
                 </div>
               </li>
 
@@ -1266,7 +1299,8 @@
               </ul>
             </div>
             <div class="table-data" *ngIf="chequePdcList.length == 0">
-              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No Cheque Saved</h3>
+              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No
+                Cheque Saved</h3>
             </div>
           </div>
         </div>
@@ -1315,8 +1349,8 @@
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <label for="payamt">Payment for</label>
 
-            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
-            />
+            <input type="text" id="payamount" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="total_amt_tobe_paid"
+              name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')" />
           </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': feeTemplateById.paid_date != ''}">
@@ -1401,9 +1435,9 @@
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
               <label for="">Cheque No.*</label>
-
-              <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl" name=""
-                [(ngModel)]="pdcSelectedForm.cheque_no" />
+              OnlyNumber
+              <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6"="true" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_no"
+              />
             </div>
           </div>
 
@@ -1482,8 +1516,8 @@
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <label for="payamount">Pay Amount</label>
 
-            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
-            />
+            <input type="text" id="payamount" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="total_amt_tobe_paid"
+              name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')" />
           </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': partialPayObj.paid_date != ''}">
@@ -1565,8 +1599,8 @@
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
               <label for="cnub">Cheque No.*</label>
 
-              <input [readonly]="isPdcFeePaymentSelected" type="text" id="cnub" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl"
-                name="" [(ngModel)]="pdcSelectedForm.cheque_no" />
+              <input [readonly]="isPdcFeePaymentSelected" type="text" id="cnub" minlength="6" maxlength="6" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_no" />
             </div>
           </div>
 

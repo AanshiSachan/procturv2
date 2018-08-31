@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
 import { addCampaign } from '../../../model/add-campaign';
-import 'rxjs/Rx';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
-import * as moment from 'moment';
-import { Pipe, PipeTransform } from '@angular/core';
-import { LoginService } from '../../../services/login-services/login.service';
+import { NgForm } from '@angular/forms';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { MessageShowService } from '../../../services/message-show.service';
 
 @Component({
   selector: 'app-campaign-add',
@@ -32,15 +25,17 @@ export class CampaignAddComponent implements OnInit {
 
   private referralList: any[] = [];
   private sourceList: any[] = [];
-
   isProfessional: boolean = false;
 
-  constructor(private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService, private auth: AuthenticatorService) { }
+  constructor(
+    private prefill: FetchprefilldataService,
+    private auth: AuthenticatorService,
+    private msgService: MessageShowService
+  ) { }
 
   ngOnInit() {
 
     this.fetchPrefillFormData();
-
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -50,16 +45,10 @@ export class CampaignAddComponent implements OnInit {
         }
       }
     )
-
-
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
-
     let referralList = this.prefill.getLeadReffered().subscribe((data: any) => {
       this.referralList = data;
     });
@@ -75,42 +64,19 @@ export class CampaignAddComponent implements OnInit {
 
     if (form.valid) {
       /* Get slot data and store on form */
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-      // this.campaignAddFormData.phone = form.controls.cNumber.value;
-
-
       this.prefill.addCampaignPostRequest(this.campaignAddFormData).subscribe(
         res => {
-
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-            let alert = {
-              type: 'success',
-              title: 'Lead Added Successfully',
-              body: ''
-            }
-            this.appC.popToast(alert);
-            // localStorage.removeItem('tempImg');
-            // form.reset();
-            // document.getElementById('preview-img').src = '';
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Lead Added Successfully', '');
             this.clearFormAndMove();
             form.reset();
+
           }
 
         },
         err => {
-          let msg = {
-            type: "error",
-            title: "",
-            body: "An Error Occured"
-          }
-          this.appC.popToast(msg);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.error.message);
         }
       );
     }
@@ -133,5 +99,8 @@ export class CampaignAddComponent implements OnInit {
 
   }
 
-
+  // toast function 
+  showErrorMessage(objType, massage, body) {
+    this.msgService.showErrorMessage(objType, massage, body);
+  }
 }

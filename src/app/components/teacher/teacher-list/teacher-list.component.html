@@ -68,7 +68,8 @@
                 {{row.is_active}}
               </td>
               <td class="anchorTags">
-                <a class="anchorTagCursor" (click)="editTeacherDeatils(row)" style="margin-right:5px">
+                <!-- (click)="editTeacherDeatils(row)" -->
+                <a class="anchorTagCursor" [routerLink]="['/view/teacher/edit',  row.teacher_id]" style="margin-right:5px">
                   <i class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>Edit
                 </a>
                 <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
@@ -76,7 +77,8 @@
                 </a>
               </td>
               <td class="anchorTags">
-                <a class="anchorTagCursor" (click)="viewTeacherActivity(row)">
+                  <!-- (click)="viewTeacherActivity(row)" -->
+                <a class="anchorTagCursor"   [routerLink]="['/view/teacher/view',  row.teacher_id]"  >
                   <i class="fas fa fa-eye" style="font-family: FontAwesome ;font-size: 19px;display: inline-block;vertical-align: middle; margin-right:5px"
                     title="View"></i>
                   View

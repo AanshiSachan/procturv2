@@ -15,12 +15,12 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 })
 export class StudentDiscountComponent implements OnInit, OnChanges {
 
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
+ 
+ 
+ 
+ 
+ 
+ 
 
     @Output() closePopup = new EventEmitter<any>();
     @Output() apply = new EventEmitter<any>();
@@ -43,12 +43,12 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
 
 
 
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
-    /* ============================================================================================== */
+ 
+ 
+ 
+ 
+ 
+ 
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eRef: ElementRef, private appC: AppComponent, private studentPrefillService: AddStudentPrefillService, ) { }
 
     ngOnInit() {
@@ -79,14 +79,9 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     applyAction() {
 
         //this.deselectAllSelectedCheckbox();
-        /* ============================================================================================== */
-        /* ============================================================================================== */
         /* Form is correctly filled */
         if (this.discountApplyForm.type != '' && this.discountApplyForm.value > 0 && this.discountApplyForm.reason != '' && this.discountApplyForm.reason != ' ') {
-            /* ============================================================================================== */
-            /* ============================================================================================== */
             /* ================================= Amount Type Selected ======================================= */
-            /* ============================================================================================== */
             /* discount in form of amount */
             if (this.discountApplyForm.type === 'amount') {
                 /* invalid discount amount provided */
@@ -100,8 +95,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                 }
                 /* valid total discount amount < total due */
                 else {
-                    /* ============================================================================================== */
-                    /* ============================================================================================== */
+                 
                     /* apply discount to all */
                     if (this.discountApplyForm.state === 'all') {
                         /* Stores the index of all unpaid installments */
@@ -112,8 +106,8 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
 
                         if (unPaidArr.length != 0) {
                             let discount = this.precisionRound((this.discountApplyForm.value / installmentPaidArr.length), -1);
-                            /* ============================================================================================== */
-                            /* ============================================================================================== */
+                         
+                         
                             /* discount is applicable to all installments, then proceed else alert */
                             if (unPaidArr.every(e => e.fees_amount > discount)) {
                                 installmentPaidArr.forEach(i => {
@@ -144,8 +138,8 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                                 this.updateDiscount(); */
                                 //console.log(this.discountApplyForm);
                             }
-                            /* ============================================================================================== */
-                            /* ============================================================================================== */
+                         
+                         
                             /* discount is not applicable to any one condition or multiple */
                             else {
                                 let msg = {
@@ -165,8 +159,8 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                             this.appC.popToast(msg);
                         }
                     }
-                    /* ============================================================================================== */
-                    /* ============================================================================================== */
+                 
+                 
                     /* apply to Last installment */
                     else {
                         /* Stores the index of all unpaid installments */
@@ -223,10 +217,10 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                     }
                 }
             }
-            /* ============================================================================================== */
-            /* ============================================================================================== */
+         
+         
             /* =================================== Percentage Type ========================================== */
-            /* ============================================================================================== */
+         
             /* discount in form of percentage */
             else {
                 let discountValue = this.precisionRound(((this.discountApplyForm.value / 100) * this.totalAmountDue), -1);
@@ -240,8 +234,8 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                     this.appC.popToast(msg);
                 }/* valid total discount amount < total due */
                 else {
-                    /* ============================================================================================== */
-                    /* ============================================================================================== */
+                 
+                 
                     /* apply discount to all */
                     if (this.discountApplyForm.state === 'all') {
                         /* Stores the index of all unpaid installments */
@@ -298,8 +292,8 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
                             this.appC.popToast(obj);
                         }
                     }
-                    /* ============================================================================================== */
-                    /* ============================================================================================== */
+                 
+                 
                     /* apply to Last installment */
                     else {
                         /* Stores the index of all unpaid installments */

@@ -54,8 +54,8 @@
                   <!-- phone -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone != ''}">
                     <label for="phone">Phone No*</label>
-                    <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" name="phone" maxlength="10" OnlyNumber="true"
-                    />
+                    <input type="text" value=""  id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" 
+                      name="phone" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"   />
                   </div>
 
                   <!-- fetch more details -->
@@ -153,7 +153,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone2 != ''}">
                     <label for="altContact">Alternate Contact</label>
                     <input type="text" value="" id="altContact" #phone2="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone2" name="phone2"
-                      maxlength="10" OnlyNumber="true" />
+                      maxlength="10"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
 
                   </div>
 
@@ -187,7 +187,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.parent_phone != ''}">
                     <label for="guardianContact">Parent Contact</label>
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
-                      maxlength="10" OnlyNumber="true" />
+                      maxlength="10"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"/>
 
                   </div>
 
@@ -215,7 +215,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.fee_committed != ''}">
                     <label for="feeCommitted">Fees Committed Details</label>
                     <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
-                      OnlyNumber="true" #feeCommitted="ngModel" />
+                      onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #feeCommitted="ngModel" />
 
                   </div>
 
@@ -526,7 +526,7 @@
             <label for="WalkinDate">Walkin Date*</label>
             <input type="text" value="" id="WalkinDate" class="form-ctrl bsDatepicker" name="WalkinDate" [(ngModel)]="newEnqData.walkin_followUpDate"
               readonly="true" bsDatepicker>
-              <span class="date-clear" name="walkin_followUpDate" (click)="newEnqData.walkin_followUpDate = ''">clear</span>
+            <span class="date-clear" name="walkin_followUpDate" (click)="newEnqData.walkin_followUpDate = ''">clear</span>
           </div>
 
           <div class="time-picker" *ngIf="newEnqData.follow_type == 'Walkin'">

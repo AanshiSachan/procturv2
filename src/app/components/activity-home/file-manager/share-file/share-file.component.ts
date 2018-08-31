@@ -181,7 +181,6 @@ export class ShareFileComponent implements OnInit {
     }
     this.fileService.editFileShare(Obj).subscribe(
       (data: any) => {
-
         if (share_type == '2') {
           if (this.categoryId != '62') {
             this.fileSharePublic.standard_id = data.standard_id;
@@ -266,6 +265,7 @@ export class ShareFileComponent implements OnInit {
   }
 
   getAllSubjects(i) {
+    console.log(i);
     this.fileService.getSubjects(i).subscribe(
       (data: any) => {
         this.getSubjects = data;
