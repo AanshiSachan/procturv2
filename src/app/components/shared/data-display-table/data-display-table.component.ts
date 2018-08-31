@@ -33,8 +33,21 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this._paginationService.setDisplayBatchSize(50);
   }
 
+  ngOnChanges() {
+    this.recordCount = this.displayData.length;
+    this.keysArray = this.displayKeys.keys;
+    // console.log('chnages :', this.displayKeys);
+    if (this.displayData.length > 0 && this.keysArray.length > 0) {
+      this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
+    }
+  }
+
   notifyMe(e) {
     this.keysArray = e.keys;
+    this.keysArray[0].type =null;
+    this.sortData(this.keysArray[0]);
+    console.log('notifyMe');
+    
   }
 
   onSelect(value, data) {
@@ -86,19 +99,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges() {
-    this.recordCount = this.displayData.length;
-    this.keysArray = this.displayKeys.keys;
-    this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
-    console.log('chnages :', this.displayKeys);
-    if (this.displayData.length > 0 && this.keysArray.length > 0) {
-      this.keysArray[0].type = null;
-      this.sortKey = this.keysArray[0];
-      this.sortData(this.keysArray[0]);
 
-    }
-
-  }
 
   // this function is used for column wise sorting
   sortData(key) {
@@ -155,6 +156,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         else {
           this.newSortArray(key);
         }
+
+
+        console.log(key);
 
       }
     }
