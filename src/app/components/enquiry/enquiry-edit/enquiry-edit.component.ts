@@ -944,7 +944,9 @@ export class EnquiryEditComponent implements OnInit {
     if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
     }
-
+   else if (this.commonServiceFactory.validatePhone(this.editEnqData.phone)) {
+      return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+    }
 
     else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
       return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
