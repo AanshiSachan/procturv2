@@ -953,9 +953,8 @@ export class StudentAddComponent implements OnInit {
   }
 
   formfullValidator() {
-    if ((!this.commonServiceFactory.checkValueType(this.studentAddFormData.student_name.trim()))
-      && this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim())
-      && this.validateName()) {
+    if ((!this.commonServiceFactory.validateName(this.studentAddFormData.student_name.trim()))
+      && (!this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim()))) {
       return true;
     }
     else {
