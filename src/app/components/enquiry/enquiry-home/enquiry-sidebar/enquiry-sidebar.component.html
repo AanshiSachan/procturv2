@@ -164,7 +164,7 @@
 
                             <!-- Walkin Date  -->
 
-                            <div class="form-wrapper datepicker">
+                            <div class="form-wrapper datepicker" *ngIf="updateFormData.follow_type == 'Walkin'">
                                 <label for="walkindate">Walkin Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
                                     id="walkindate" readonly="true" bsDatepicker/>
@@ -173,7 +173,7 @@
 
 
                             <!-- Walkin Time -->
-                            <div class="wrapper-class">
+                            <div class="wrapper-class" *ngIf="updateFormData.follow_type == 'Walkin'">
                                 <div class="form-wrapper timepick">
                                     <label for="walkintime">Walkin Time</label>
                                     <div class="tbox">
