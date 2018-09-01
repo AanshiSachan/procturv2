@@ -768,7 +768,6 @@ export class AllDataReportComponent implements OnInit {
   }
 
   closePopup(e) {
-    debugger
     let array = ['isFeeReceipt', 'isFeepaymentHistory', 'isNextDueDetail', 'isViewDetailReport', 'showPreference'];
     for (let key in array) {
       this.showPopupKeys[array[key]] = false;
