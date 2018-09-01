@@ -218,9 +218,9 @@ export class CoreHeaderComponent implements OnInit {
           this.checkAdmin = false;
         } else {
           if (this.commonService.checkUserIsAdmin()) {
-            this.checkAdmin = false;
-          } else {
             this.checkAdmin = true;
+          } else {
+            this.checkAdmin = false;
           }
         }
       }
