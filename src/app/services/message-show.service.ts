@@ -75,8 +75,49 @@ export class MessageShowService {
       inValid: 'Subject And Batch Invalid',
       notStandard: 'Standard Not Selected',
       selectAll: 'Standard, Subject And Batch Not Selected',
-    }
+    },
+    loginMsg: {
+      invalid: {
+        title: "Invalid Input",
+        body: "Please enter valid Email ID/Mobile number and Password"
+      },
+      invalidPass: {
+        title: "Invalid Password",
+        body: "Please enter Password"
+      },
+      notRegister: {
+        title: "User not Registered",
+        body: "You are not registered with our System"
+      },
+      instituteNotRegister: {
+        title: "Institute not registered",
+        body: "Your institute not registered to use this"
+      },
+      invalidEmail: {
+        title: "Email Not Verified",
+        body: "Kindly, Login to mail and verify that its you"
+      },
+      opt: {
+        notFound: {
+          title: "Not Found",
+          body: "Kindly, Enter the OTP"
+        },
+        expired: {
+          title: "OTP Expired",
+          body: "Kindly, Regenerate the OTP"
+        },
+        inCorrect: {
+          title: "OTP Incorrect",
+          body: "Kindly, Enter the right OTP"
+        }
 
+      },
+      success:{
+        title: "Password Reset Successfull",
+        body: "Kindly check your Mobile/Email Id for further Details!"
+      }
+
+    }
   };
 
   // toast function 
@@ -89,4 +130,8 @@ export class MessageShowService {
     this.toasterService.pop(toast);
   }
 
+
+  getMessages() {
+    return this.object;
+  }
 }

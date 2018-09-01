@@ -26,9 +26,9 @@
 
       <th *ngFor="let key of keysArray" (click)="sortData(key)">
         <ng-template [ngIf]="key.filter">
-          {{key.header}}
-          <i class="fa fa-sort-desc" *ngIf="key.type=='desc'" style="font-size:14px;color:white"></i>
-          <i class="fa fa-sort-asc" *ngIf="key.type=='asc'" style="font-size:14px;color:white"></i>
+          {{key.header}} 
+          <i class="fa fa-sort-desc sortIcon" *ngIf="key.type=='desc'"></i>
+          <i class="fa fa-sort-asc sortIcon" *ngIf="key.type=='asc'"></i>
         </ng-template>
         <ng-template [ngIf]="!key.filter">
           {{key.header}}
@@ -53,10 +53,10 @@
       <ng-template [ngIf]="isEditRow!='editTableRow-'+i">
         <ng-container *ngFor="let key of keysArray">
           <td *ngIf="key.ngClassShow" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
-            {{data[key["primaryKey"]]}}
+            {{getTypeCheck(data[key["primaryKey"]])}}
           </td>
           <td *ngIf="!key.ngClassShow">
-            {{data[key["primaryKey"]]}}
+            {{getTypeCheck(data[key["primaryKey"]])}}
           </td>
         </ng-container>
       </ng-template>

@@ -34,20 +34,20 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.recordCount = this.displayData.length;
-    this.keysArray = this.displayKeys.keys;
     // console.log('chnages :', this.displayKeys);
-    if (this.displayData.length > 0 && this.keysArray.length > 0) {
+    if (this.displayData.length > 0) {
+      this.recordCount = this.displayData.length;
+      this.keysArray = this.displayKeys.keys;
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     }
   }
 
   notifyMe(e) {
     this.keysArray = e.keys;
-    this.keysArray[0].type =null;
+    this.keysArray[0].type = null;
     this.sortData(this.keysArray[0]);
     console.log('notifyMe');
-    
+
   }
 
   onSelect(value, data) {
@@ -117,7 +117,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         this.keysArray.forEach(element => {
           if (element.primaryKey == key.primaryKey) {
             element.filter = true;
-            element.type = element.type == null ? "asc" : (element.type == "asc") ? "desc" : "asc";
+            if (element.type == null) {
+              element.type = 'asc'
+            }
           }
           else {
             element.type = null;
@@ -163,6 +165,16 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       }
     }
   }
+
+
+  getTypeCheck(value) {
+    if (/[0-9]+/.test(value))  {
+      // return value ;
+      return value.toLocaleString('en-IN');
+    }
+    else
+      return value;
+  } 
 
   // convert string as type 
   checkValueType(value: any) {
