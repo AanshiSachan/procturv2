@@ -922,6 +922,7 @@ export class AllDataReportComponent implements OnInit {
           this.appC.popToast(obj);
         },
         err => {
+          
           let obj = {
             type: 'error',
             title: 'An Error Occured',
