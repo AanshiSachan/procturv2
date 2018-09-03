@@ -154,17 +154,16 @@ export class CommonServiceFactory {
         }
         return true;
     }
-    
+
     // validate  phone number 
     validatePhone(value) {
-        console.log(value.match(/^\d{10}$/) == null);
-
-        if (value.match(/^\d{10}$/) == null) {  //int
-            return true;
+        if (isNaN(value) || value.trim() == '') {  //int
+            return 'noNumber';
         }
-        else
-            return false;
-
+        else if (value.length != 10) {
+            return 'lessThanTen';
+        }
+        return false;
     }
 
     // toast function 

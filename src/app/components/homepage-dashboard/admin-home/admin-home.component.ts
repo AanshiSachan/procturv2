@@ -2854,20 +2854,21 @@ export class AdminHomeComponent implements OnInit {
 
   markAttCourseExam() {
     let data = this.constructJsonForAttendance();
-    let check = this.checkIfStudentIsAbsentForExam(data);
+    // let check = this.checkIfStudentIsAbsentForExam(data);
     if (data.length == 0) {
       this.messageNotifier('error', 'Error', 'Please select student from student list');
       return;
     } else {
-      if (check) {
-        if (confirm('Do you want to send SMS Alert to Absent students ?')) {
-          this.isRippleLoad = true;
-          this.makeServerCallForExamUpdate(data)
-        }
-      }
-      else {
-        this.makeServerCallForExamUpdate(data);
-      }
+      this.makeServerCallForExamUpdate(data);
+      // if (check) {
+      //   if (confirm('Do you want to send SMS Alert to Absent students ?')) {
+      //     this.isRippleLoad = true;
+      //     this.makeServerCallForExamUpdate(data)
+      //   }
+      // }
+      // else {
+      //   this.makeServerCallForExamUpdate(data);
+      // }
     }
   }
 

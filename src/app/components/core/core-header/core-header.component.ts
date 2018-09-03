@@ -166,50 +166,71 @@ export class CoreHeaderComponent implements OnInit {
       else if (sessionStorage.getItem('userType') == '3') {
         this.hideAllFields();
         this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
-        this.divProfileTag.nativeElement.style.display = '';
-        this.divAdminTag.nativeElement.style.display = 'none';
-        this.divAcademicTag.nativeElement.style.display = 'none';
+        // this.divProfileTag.nativeElement.style.display = '';
+        this.setNativeElementValue(['divProfileTag'], '');
+
+        // this.divAdminTag.nativeElement.style.display = 'none';
+        // this.divAcademicTag.nativeElement.style.display = 'none';
+        this.setNativeElementValue(['divAdminTag', 'divAcademicTag'], 'none');
       }
     } else {
       if (permissionArray != undefined) {
         this.hideAllFields();
         if (permissionArray.indexOf('503') != -1) {
-          this.divMasterTag.nativeElement.style.display = '';
-          this.divTeacherTag.nativeElement.style.display = '';
+          // this.divMasterTag.nativeElement.style.display = '';
+          // this.divTeacherTag.nativeElement.style.display = '';
+          this.setNativeElementValue(['divMasterTag', 'divTeacherTag'], '');
         }
         if (permissionArray.indexOf('506') != -1) {
-          this.divMasterTag.nativeElement.style.display = '';
-          this.divFeeTag.nativeElement.style.display = '';
+          // this.divMasterTag.nativeElement.style.display = '';
+          // this.divFeeTag.nativeElement.style.display = '';
+          this.setNativeElementValue(['divMasterTag', 'divFeeTag'], '');
         }
         if (permissionArray.indexOf('507') != -1 && this.isProfessional) {
-          this.divMasterTag.nativeElement.style.display = '';
-          this.divSlotTag.nativeElement.style.display = '';
+          // this.divMasterTag.nativeElement.style.display = '';
+          // this.divSlotTag.nativeElement.style.display = '';
+          this.setNativeElementValue(['divMasterTag', 'divSlotTag'], '');
         }
         if (permissionArray.indexOf('509') != -1) {
-          this.divMasterTag.nativeElement.style.display = '';
-          this.divAcademicTag.nativeElement.style.display = '';
+          // this.divMasterTag.nativeElement.style.display = '';
+          // this.divAcademicTag.nativeElement.style.display = '';
+          this.setNativeElementValue(['divMasterTag', 'divAcademicTag'], '');
         }
         if (permissionArray.indexOf('602') != -1) {
-          this.divSettingTag.nativeElement.style.display = '';
-          this.divMyAccountTag.nativeElement.style.display = '';
+          // this.divSettingTag.nativeElement.style.display = '';
+          // this.divMyAccountTag.nativeElement.style.display = '';
+          this.setNativeElementValue(['divSettingTag', 'divMyAccountTag'], '');
         }
         if (permissionArray.indexOf('603') != -1) {
-          this.divSettingTag.nativeElement.style.display = '';
-          this.divGeneralSettingTag.nativeElement.style.display = '';
+          // this.divSettingTag.nativeElement.style.display = '';
+          // this.divGeneralSettingTag.nativeElement.style.display = '';
+          this.setNativeElementValue(['divSettingTag', 'divGeneralSettingTag'], '');
         }
         if (permissionArray.indexOf('115') != -1) {
           // this.divManageFormTag.nativeElement.style.display = '';
-          this.divAreaAndMap.nativeElement.style.display = '';
+          // this.divAreaAndMap.nativeElement.style.display = '';
+          this.setNativeElementValue(['divAreaAndMap'], '');
         }
         if (permissionArray.indexOf('601') != -1) {
-          this.divManageUsers.nativeElement.style.display = '';
+          // this.divManageUsers.nativeElement.style.display = '';
+          this.setNativeElementValue(['divManageUsers'], '');
         }
         if (permissionArray.indexOf('508') != -1) {
-          this.divClassRoomTag.nativeElement.style.display = '';
+          this.setNativeElementValue(['divClassRoomTag'], '');
+          // this.divClassRoomTag.nativeElement.style.display = '';
         }
       }
     }
   }
+
+  setNativeElementValue(tagArray: any[], value) {
+
+    for (let index in tagArray) {
+      this[tagArray[index]].nativeElement.style.display = value;
+    }
+
+  }
+
 
   checkToShowMultiBranch() {
     this.log.currentUserType.subscribe(
@@ -218,9 +239,9 @@ export class CoreHeaderComponent implements OnInit {
           this.checkAdmin = false;
         } else {
           if (this.commonService.checkUserIsAdmin()) {
-            this.checkAdmin = false;
-          } else {
             this.checkAdmin = true;
+          } else {
+            this.checkAdmin = false;
           }
         }
       }
@@ -255,17 +276,20 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   showAllFields() {
-    this.divAdminTag.nativeElement.style.display = '';
-    this.divMyAccountTag.nativeElement.style.display = '';
-    this.divMasterTag.nativeElement.style.display = '';
-    this.divTeacherTag.nativeElement.style.display = '';
-    this.divFeeTag.nativeElement.style.display = '';
-    this.divAcademicTag.nativeElement.style.display = '';
-    this.divSettingTag.nativeElement.style.display = '';
-    this.divGeneralSettingTag.nativeElement.style.display = '';
-    this.divManageFormTag.nativeElement.style.display = '';
-    this.divManageUsers.nativeElement.style.display = '';
-    this.divClassRoomTag.nativeElement.style.display = '';
+    // this.divAdminTag.nativeElement.style.display = '';
+    // this.divMyAccountTag.nativeElement.style.display = '';
+    // this.divMasterTag.nativeElement.style.display = '';
+    // this.divTeacherTag.nativeElement.style.display = '';
+    // this.divFeeTag.nativeElement.style.display = '';
+    // this.divAcademicTag.nativeElement.style.display = '';
+    // this.divSettingTag.nativeElement.style.display = '';
+    // this.divGeneralSettingTag.nativeElement.style.display = '';
+    // this.divManageFormTag.nativeElement.style.display = '';
+    // this.divManageUsers.nativeElement.style.display = '';
+    // this.divClassRoomTag.nativeElement.style.display = '';
+    let array = ['divAdminTag', 'divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag', 'divAcademicTag',
+      'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag', 'divManageUsers', 'divClassRoomTag'];
+    this.setNativeElementValue(array, '');
     if (this.settings == '1') {
       this.divGradesTag.nativeElement.style.display = '';
     } else {
@@ -280,21 +304,27 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   hideAllFields() {
-    this.divAdminTag.nativeElement.style.display = 'none';
-    this.divMyAccountTag.nativeElement.style.display = 'none';
-    this.divMasterTag.nativeElement.style.display = 'none';
-    this.divTeacherTag.nativeElement.style.display = 'none';
-    this.divFeeTag.nativeElement.style.display = 'none';
-    this.divSlotTag.nativeElement.style.display = 'none';
-    this.divAcademicTag.nativeElement.style.display = 'none';
-    this.divSettingTag.nativeElement.style.display = 'none';
-    this.divGeneralSettingTag.nativeElement.style.display = 'none';
-    this.divManageFormTag.nativeElement.style.display = 'none';
-    this.divAreaAndMap.nativeElement.style.display = 'none';
-    this.divManageUsers.nativeElement.style.display = 'none';
-    this.divGradesTag.nativeElement.style.display = 'none';
-    this.divClassRoomTag.nativeElement.style.display = 'none';
-    this.divManageTag.nativeElement.style.display = 'none';
+    // this.divAdminTag.nativeElement.style.display = 'none';
+    // this.divMyAccountTag.nativeElement.style.display = 'none';
+    // this.divMasterTag.nativeElement.style.display = 'none';
+    // this.divTeacherTag.nativeElement.style.display = 'none';
+    // this.divFeeTag.nativeElement.style.display = 'none';
+
+    // this.divSlotTag.nativeElement.style.display = 'none';
+    // this.divAcademicTag.nativeElement.style.display = 'none';
+    // this.divSettingTag.nativeElement.style.display = 'none';
+    // this.divGeneralSettingTag.nativeElement.style.display = 'none';
+    // this.divManageFormTag.nativeElement.style.display = 'none';
+
+    // this.divAreaAndMap.nativeElement.style.display = 'none';
+    // this.divManageUsers.nativeElement.style.display = 'none';
+    // this.divGradesTag.nativeElement.style.display = 'none';
+    // this.divClassRoomTag.nativeElement.style.display = 'none';
+    // this.divManageTag.nativeElement.style.display = 'none';
+    let array = ['divAdminTag', 'divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag',
+      'divSlotTag', 'divAcademicTag', 'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag',
+      'divAreaAndMap', 'divManageUsers', 'divGradesTag', 'divClassRoomTag', 'divManageTag'];
+    this.setNativeElementValue(array, 'none');
   }
 
   triggerSearchBox($event) {

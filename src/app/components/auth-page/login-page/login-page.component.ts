@@ -1,15 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppComponent } from '../../../app.component';
-import { LoginService } from '../../../services/login-services/login.service';
+import { HttpHeaders } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 import { LoginAuth } from '../../../model/login-auth';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
+import { LoginService } from '../../../services/login-services/login.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { HttpHeaders } from '@angular/common/http';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
-import { Title } from '@angular/platform-browser';
+import { MessageShowService } from '../../../services/message-show.service';
+import { error } from 'util';
 
 @Component({
   selector: 'app-login-page',
@@ -18,26 +19,43 @@ import { Title } from '@angular/platform-browser';
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
 
-  serverUserData: any;
   /* Variable Declaration */
+  @ViewChild('viewChange') changeView: ElementRef;
+  @ViewChild('backgroundChange') backgroundChange: ElementRef;
+  @ViewChild('virtualStyle') virtualStyle: ElementRef;
   loginDataForm: LoginAuth;
-  loading = false;
+
+  userListArr: any[] = [];
+  instituteListArr: any = [];
+
+  OTPRegenerateData: any;
+  countDown: any;
+  serverUserData: any;
+  selectedMultiInstitute: any;
+  selectedUserRole: any;
+  Authorization: any;
+  headers: any;
+  institute_id: any;
+  messages: any;
+
+  otpVerificationPhoneNumber: string;
   returnUrl: string;
+  dynamicImgSrc: string = '';
+  baseUrl: string = '';
+  counter: number = 30;
+
+  no_email_found: boolean = false;
+  isProcturVisible: boolean = false;
   isLoginView: boolean = true;
   isInstituteListPop: boolean = false;
   OTPVerificationPopUp: boolean = false;
   isUserListPop: boolean = false;
-  instituteListArr: any = [];
-  OTPRegenerateData: any;
-  countDown: any;
-  counter: number = 30;
-  no_email_found: boolean = false;
-  isProcturVisible: boolean = false;
+  loading: boolean = false;
+
   instituteListObj: instituteList = {
     institute_id: "",
     institute_name: "",
     userId: ""
-
   }
   multiUserListObj: any = {
     alternate_email_id: "",
@@ -47,15 +65,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     userType: "",
     user_role: ""
   }
-  selectedMultiInstitute: any;
-  selectedUserRole: any;
+
   multiInstituteLoginInfo: InstituteLoginInfo = {
     alternate_email_id: "",
     password: "",
     userid: "",
     institution_id: ""
   }
-  userListArr: any[] = [];
+
   multiUserLoginInfo: any = {
     alternate_email_id: "",
     password: "",
@@ -63,7 +80,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     institution_id: "",
     user_role: ""
   }
-  otpVerificationPhoneNumber: string;
+
   otpVerificationInfo: any = {
     otp_code: "",
     mobile_no: "",
@@ -72,24 +89,18 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     userid: "",
     otp_validate_mode: 1
   }
-  baseUrl: string = '';
-  Authorization: any;
-  headers;
-  institute_id;
-  dynamicImgSrc: string = '';
 
-  @ViewChild('viewChange') changeView: ElementRef;
-  @ViewChild('backgroundChange') backgroundChange: ElementRef;
-  @ViewChild('virtualStyle') virtualStyle: ElementRef;
+
 
   constructor(
     private login: LoginService,
     private route: Router,
-    private toastCtrl: AppComponent,
+    private msgService: MessageShowService,
     private auth: AuthenticatorService,
     private titleService: Title,
     private _tablePreferencesService: TablePreferencesService
   ) {
+    this.messages = msgService.getMessages();
     if (sessionStorage.getItem('userid') != null) {
       this.loginDataForm = {
         alternate_email_id: "",
@@ -189,20 +200,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   */
   loginViaServer() {
     if (this.loginDataForm.alternate_email_id.trim() == "" && this.loginDataForm.password == "") {
-      let data = {
-        type: "error",
-        title: "Invalid Input",
-        body: "Please enter valid Email ID/Mobile number and Password"
-      }
-      this.toastCtrl.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.invalid.title, this.messages.loginMsg.invalid.body);
+
     }
     else if (this.loginDataForm.password == "") {
-      let data = {
-        type: "warning",
-        title: "Invalid Password",
-        body: "Please enter Password"
-      }
-      this.toastCtrl.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.invalidPass.title, this.messages.loginMsg.invalidPass.body);
     }
     else {
       this.login.postLoginDetails(this.loginDataForm).subscribe(
@@ -247,12 +249,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   //if login is fails ( Start - 2)
   alternateLoginFailure() {
-    let data = {
-      type: "error",
-      title: "User not Registered",
-      body: "You are not registered with our System."
-    }
-    this.toastCtrl.popToast(data);
+    this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.notRegister.title, this.messages.loginMsg.notRegister.body);
   }
   //End -2
 
@@ -273,12 +270,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
       //console.log('Institute ID Not Found');
-      let data = {
-        type: "error",
-        title: "Institute not registered",
-        body: "Your institute not registered to use this."
-      }
-      this.toastCtrl.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.instituteNotRegister.title, this.messages.loginMsg.instituteNotRegister.body);
       sessionStorage.clear();
       localStorage.clear();
       return
@@ -397,29 +389,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
   }
   //End - 3
-
-
-
-
   //if login email is not verified ( Start - 4 )
-
   alternateLoginEmailNotVerified() {
-    let data = {
-      type: "warning",
-      title: "Email Not Verified",
-      body: "Kindly, Login to mail and verify that its you."
-    }
-    this.toastCtrl.popToast(data);
+    this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.invalidEmail.title, this.messages.loginMsg.invalidEmail.body);
   }
   //End - 4
-
-
-
-
   //if login email is registered in multi insititute ( Start - 5 )
 
   alternateLoginMultiInstitute(data) {
-
     this.instituteListArr = [];
     data.institutesList.forEach(el => {
       this.instituteListObj.institute_id = el.institute_id;
@@ -463,9 +440,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
   //END - 6
 
-
-
-
   //if login email is registered as multi user ( Start - 7 )
 
   alternateLoginMultiUser(data) {
@@ -505,31 +479,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     //console.log("##### trying to Validate OTP #####");
     //console.log(this.otpVerificationInfo);
     if (this.otpVerificationInfo.otp_code == null || this.otpVerificationInfo.otp_code == "") {
-      let data = {
-        type: "error",
-        title: "Not Found",
-        body: "Kindly, Enter the OTP."
-      }
-      this.toastCtrl.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.notFound.title, this.messages.loginMsg.opt.notFound.body);
     } else {
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe((el: any) => {
         //console.log(el);
         if (el.otp_status == 1) {
           //console.log("OTP Expired");
-          let data = {
-            type: "error",
-            title: "OTP Expired",
-            body: "Kindly, Regenerate the OTP."
-          }
-          this.toastCtrl.popToast(data);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.opt.expired.title, this.messages.loginMsg.opt.expired.body);
         } else if (el.otp_status == 2) {
           //console.log("Incorrect OTP");
-          let data = {
-            type: "warning",
-            title: "OTP Incorrect",
-            body: "Kindly, Enter the right OTP."
-          }
-          this.toastCtrl.popToast(data);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.opt.expired.title, this.messages.loginMsg.opt.expired.body);
         } else if (el.login_option == 3) {
           //console.log("OTP Verified Success");
           this.alternateLoginSuccess(el);
@@ -560,22 +519,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
         this.login.forgotPassowrdServiceMethod(forgotPasswordData).subscribe(
           el => {
-            let data = {
-              type: "success",
-              title: "Password Reset Successfull",
-              body: "Kindly check your Mobile/Email Id for further Details!"
-            }
-            this.toastCtrl.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, this.messages.loginMsg.success.title, this.messages.loginMsg.success.body);
           },
           err => {
             let errorObj = JSON.parse(JSON.stringify(err._body));
             let error_JSON = JSON.parse(errorObj);
-            let data = {
-              type: "error",
-              title: "Not Found",
-              body: error_JSON.message
-            }
-            this.toastCtrl.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Not Found", error_JSON.message);
           })
       }
     }

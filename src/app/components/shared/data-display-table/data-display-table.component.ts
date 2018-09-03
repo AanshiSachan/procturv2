@@ -34,20 +34,20 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.recordCount = this.displayData.length;
-    this.keysArray = this.displayKeys.keys;
     // console.log('chnages :', this.displayKeys);
-    if (this.displayData.length > 0 && this.keysArray.length > 0) {
+    if (this.displayData.length > 0) {
+      this.recordCount = this.displayData.length;
+      this.keysArray = this.displayKeys.keys;
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     }
   }
 
   notifyMe(e) {
     this.keysArray = e.keys;
-    this.keysArray[0].type =null;
+    this.keysArray[0].type = null;
     this.sortData(this.keysArray[0]);
     console.log('notifyMe');
-    
+
   }
 
   onSelect(value, data) {
@@ -117,7 +117,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         this.keysArray.forEach(element => {
           if (element.primaryKey == key.primaryKey) {
             element.filter = true;
-            element.type = element.type == null ? "asc" : (element.type == "asc") ? "desc" : "asc";
+            if (element.type == null) {
+              element.type = 'asc'
+            }
           }
           else {
             element.type = null;
@@ -151,24 +153,70 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           });
 
           this.recordsTrimmed = sortedArray;
-          console.log(this.recordsTrimmed);
+          // console.log(this.recordsTrimmed);
         }
         else {
           this.newSortArray(key);
         }
-
-
-        console.log(key);
+        // console.log(key);
 
       }
     }
+  }
+
+
+  getTypeCheck(data, value: any, key) {
+    
+    if ( key.operation) {
+      console.log(key);
+      switch (key.operation) {
+        case 'add': {
+          let strExp = '';
+          let len = key.primaryKey.length;
+          for (let i in key.primaryKey) {
+            if (Number(i) < len)
+              strExp = data[key.primaryKey[i]] + '+';
+          }
+          console.log(strExp,eval(strExp));
+          break;
+        }
+        case 'sub': {
+          let strExp = '';
+          let len = key.primaryKey.length-1;
+          for (let i in key.primaryKey) {
+            strExp += data[key.primaryKey[i]]
+            if (Number(i) < len)
+            strExp += '-';
+          }
+          console.log(strExp,eval(strExp));
+          value = eval(strExp);
+          break;
+        }
+        case 'mul': {
+          break;
+        }
+        case 'divide': {
+          break;
+        }
+        default:
+      }
+    }
+    if (key.primaryKey == this.keysArray[0].primaryKey) {
+      return value;
+    }
+    if ((!isNaN(value)) && (value != '')) {
+      // return value ;
+      return '₹ ' + value.toLocaleString('en-IN');
+    }
+    else
+      return value;
   }
 
   // convert string as type 
   checkValueType(value: any) {
 
     if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
-      console.log(Date.parse(value));
+      // console.log(Date.parse(value));
       value = Date.parse(value);;
     }
     else if (typeof value == "string") {

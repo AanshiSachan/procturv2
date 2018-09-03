@@ -24,18 +24,25 @@ import { MessageService } from 'primeng/components/common/messageservice';
 })
 export class AllDataReportComponent implements OnInit {
 
+  @ViewChild('child') private child: DataDisplayTableComponent;
+  @ViewChild('form') form: any;
+  
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];
+  feeDataSource1: any[] = [];
+  feeDataSource2: any[] = [];
+  standardList: any[] = [];
+  getAllAcademic: any[] = [];
+  subjectList: any[] = [];
+  batchList: any[] = [];
+  feeDataSource: any[] = []
+  displayKeys: any = [];//need for selected keys 
+  
   selectedFeeRecord: any;
   installmentList: any;
-  // isCustomDate: boolean;
-  // isFeeReceipt: boolean;
-  // isNextDueDetail: boolean;
-  // isFeepaymentHistory: boolean;
-  // isViewDetailReport: boolean;
-  // isFilterReversed: boolean = true;
-  // isProfessional: boolean = false;
-
+  due_type: any = '-1';
+  search_value: any = '';
+  userInput: string = '';
   /** boolean flag json */
   showPopupKeys: any = {
     isFeeReceipt: false,
@@ -47,6 +54,7 @@ export class AllDataReportComponent implements OnInit {
     isFilterReversed: true,
     isProfessional: false
   };
+  isRippleLoad: boolean = false;
   dataStatus: number = 3;
   feeSettings1: ColumnData2[] = [
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
@@ -54,10 +62,10 @@ export class AllDataReportComponent implements OnInit {
     { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
     { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true },
     { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 5, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 6, allowSortingFlag: true },
-    { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 7, allowSortingFlag: true },
-    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 8, allowSortingFlag: true }
+    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 8, allowSortingFlag: true },
+    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, allowSortingFlag: true }
   ];
   feeSettings2: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
@@ -70,8 +78,6 @@ export class AllDataReportComponent implements OnInit {
     { primaryKey: 'total_amt_paid', header: 'Amount Paid' },
     { primaryKey: 'total_balance_amt', header: 'Amount Balance' }
   ];
-  feeDataSource1: any[] = [];
-  feeDataSource2: any[] = [];
   menuOptions: DropData[] = [
     /* {
       key: 'detailed',
@@ -101,38 +107,29 @@ export class AllDataReportComponent implements OnInit {
     is_fee_report_view: 1,
     academic_year_id: ""
   }
-  isRippleLoad: boolean = false;
-  due_type: any = 'seven_days_dues';
-  search_value: any = '';
-  standardList: any[] = [];
-  getAllAcademic: any[] = [];
-  subjectList: any[] = [];
-  batchList: any[] = [];
-  userInput: string = '';
+
+
   helpMsg: string = "Active Student fee details are shown based on dues and academic year filter applied."
   //table setting
-  displayKeys = [];//need for selected keys 
-  @ViewChild('child') private child: DataDisplayTableComponent;
-  @ViewChild('form') form: any;
+
   tableSetting: any = {//inventory.item
     tableDetails: { title: 'All Dues Report', key: 'reports.fee.allDuesReport', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: true, title: 'Purchase Item', checked: true, key: 'student_disp_id' },
+    selectAll: { showSelectAll: false, title: 'Purchase Item', checked: true, key: 'student_disp_id' },
     actionSetting:
     {
+      showActionButton: true,
       editOption: 'popup',//or button 
       options: this.menuOptions
     },
+    displayMessage: "Enter Detail to Search"
     // {
     //     editOption: 'button',//or button 
     //     options: [{ title: "update", class: 'fa fa-check updateCss' }
     //         , { title: "delete", class: 'fa fa-remove deleteCss' }]
     // }
   };
-
-  feeDataSource: any[] = []
-
 
   constructor(
     private appC: AppComponent,
@@ -147,13 +144,8 @@ export class AllDataReportComponent implements OnInit {
   ) {
     this.excelService = excelService;
     this.switchActiveView('fee');
-
-
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   ngOnInit() {
     this.due_type = "seven_days_dues"
     this.dateRangeChanges(event);
@@ -167,8 +159,6 @@ export class AllDataReportComponent implements OnInit {
         }
       }
     )
-
-
 
     this.form.valueChanges
       .debounceTime(100)
@@ -185,11 +175,11 @@ export class AllDataReportComponent implements OnInit {
       if (this.displayKeys.length == 0) {
         this.setDefaultValues();
       }
-
     }
     else {
       this.setDefaultValues();
     }
+    console.log(this.tableSetting)
   }
 
   setDefaultValues() {
@@ -202,7 +192,6 @@ export class AllDataReportComponent implements OnInit {
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
   }
-
 
   ngDoCheck() {
     this.ref.detectChanges();
@@ -220,28 +209,15 @@ export class AllDataReportComponent implements OnInit {
     )
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
-  // fetchPrefillDetails() {
-  //   this.getBatchCourseDetails();
-
-  //   this.fetchInstallmentData();
-  // }
-
-
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   fetchInstallmentData() {
     this.getter.getinstallmentData().subscribe(
       res => {
         this.installmentList = res;
       },
       err => {
-
       }
     )
   }
-
 
   getRows() {
     let obj = {}
@@ -277,8 +253,6 @@ export class AllDataReportComponent implements OnInit {
     this.pdf.exportToPdf(rows, columns);
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   // batchSelected() {
 
   //   this.showPopupKeys.isCustomDate = false;
@@ -288,8 +262,8 @@ export class AllDataReportComponent implements OnInit {
   // }
 
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+
+
   // getBatchCourseDetails() {
   //   if (this.showPopupKeys.isProfessional) {
   //     this.updateMasterCourseBatch();
@@ -335,9 +309,6 @@ export class AllDataReportComponent implements OnInit {
   //   )
   // }
 
-
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   fetchFeeDetails() {
     let arr = [];
     arr.push(this.courseFetchForm.academic_year_id);
@@ -404,9 +375,7 @@ export class AllDataReportComponent implements OnInit {
         obj.contact_no = this.search_value;
         obj.student_name = '';
       }
-
       // this.generateReport(obj);
-
     }
     else if (this.due_type == "seven_days_dues") {
       let obj: any = {
@@ -510,7 +479,6 @@ export class AllDataReportComponent implements OnInit {
         to_date: '',
       }
 
-
       /* Name Detected */
       if (isNaN(this.search_value)) {
         obj.student_name = this.search_value;
@@ -524,9 +492,6 @@ export class AllDataReportComponent implements OnInit {
     }
   }
 
-
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   dateRangeValid(): boolean {
 
     if (this.courseFetchForm.from_date == '' && this.courseFetchForm.to_date == '') {
@@ -553,8 +518,6 @@ export class AllDataReportComponent implements OnInit {
 
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   generateReport(obj) {
     //console.log(obj);
     this.feeDataSource1 = [];
@@ -574,46 +537,30 @@ export class AllDataReportComponent implements OnInit {
     //console.log(obj);
     this.isRippleLoad = true;
     this.dataStatus = 1;
-    if (this.due_type == "-1") {
-      this.isRippleLoad = false;
-      this.feeDataSource1 = [];
-      this.appC.popToast({ type: "error", body: "Please select dues" })
-    }
-    else {
-      this.getter.getFeeReportData(obj).subscribe(
-        res => {
-          if (res.length == 0) {
-            this.dataStatus = 2;
-          }
-          this.reportSource = res;
-          this.isRippleLoad = false;
-          if (this.showPopupKeys.isFilterReversed) {
-            this.feeDataSource1 = res;
-          }
-          else {
-            this.feeDataSource2 = res;
-          }
-        },
-        err => {
-          this.isRippleLoad = false;
-          //console.log(err);
+    this.getter.getFeeReportData(obj).subscribe(
+      res => {
+        if (res.length == 0) {
+          this.dataStatus = 2;
+          this.tableSetting.displayMessage = "Data not found";
+        }
+        this.reportSource = res;
+        this.isRippleLoad = false;
+        if (this.showPopupKeys.isFilterReversed) {
+          this.feeDataSource1 = res;
+        }
+        else {
+          this.feeDataSource2 = res;
         }
       )
     }
   }
 
-
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   openAdFilter() {
     this.isRippleLoad = true;
     this.showPopupKeys.isFilterReversed = !this.showPopupKeys.isFilterReversed;
     this.isRippleLoad = false;
   }
 
-
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   switchActiveView(id) {
     document.getElementById('home').classList.remove('active');
     document.getElementById('attendance').classList.remove('active');
@@ -638,8 +585,8 @@ export class AllDataReportComponent implements OnInit {
   }
 
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+
+
   // fetchSubjectList() {
   //   this.courseFetchForm.subject_id = -1;
   //   this.courseFetchForm.batch_id = -1;
@@ -678,8 +625,8 @@ export class AllDataReportComponent implements OnInit {
   //   }
   // }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+
+
   // fetchBatchList() {
   //   this.courseFetchForm.batch_id = -1;
 
@@ -713,8 +660,8 @@ export class AllDataReportComponent implements OnInit {
   //     )
   //   }
   // }
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+
+
   // courseFormValidator(): boolean {
   //   /* If user has selected master course then he has to select the course and batch id as well */
   //   if (this.courseFetchForm.standard_id != '-1') {
@@ -765,8 +712,8 @@ export class AllDataReportComponent implements OnInit {
   //   }
   // }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+
+
   validateFutureDate(id: string) {
 
     let today = moment(new Date());
@@ -798,20 +745,16 @@ export class AllDataReportComponent implements OnInit {
         this.appC.popToast(obj);
         this.courseFetchForm.to_date = moment(new Date()).format('DD-MMM-YYYY');
       }
-
     }
-
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   optionSelected(e) {
     let action = e.action._value;
     this.selectedFeeRecord = e.data;
     this.performAction(action);
   }
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+
+
   performAction(action) {
 
     if (action == 'View Detailed Report') {
@@ -826,15 +769,12 @@ export class AllDataReportComponent implements OnInit {
 
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   closePopup(e) {
+    let array = ['isFeeReceipt', 'isFeepaymentHistory', 'isNextDueDetail', 'isViewDetailReport', 'showPreference'];
+    for (let key in array) {
+      this.showPopupKeys[array[key]] = false;
+    }
 
-    this.showPopupKeys.isFeeReceipt = false;
-    this.showPopupKeys.isFeepaymentHistory = false;
-    this.showPopupKeys.isNextDueDetail = false;
-    this.showPopupKeys.isViewDetailReport = false;
-    this.showPopupKeys.showPreference = false;
     if (e) {
       if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
         this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
@@ -848,8 +788,7 @@ export class AllDataReportComponent implements OnInit {
     }
     console.log(this.displayKeys);
   }
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+
   dateRangeChanges(e) {
     console.log(this.due_type);
     this.showPopupKeys.isCustomDate = false;
@@ -927,11 +866,8 @@ export class AllDataReportComponent implements OnInit {
 
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   searchDB() {
     //console.log(this.userInput);
-
     if (this.userInput.trim() != '') {
       let temp: any[] = this.reportSource.filter(e => {
         return this.findMatch(e)
@@ -950,29 +886,21 @@ export class AllDataReportComponent implements OnInit {
     }
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   findMatch(e): boolean {
     let temp = false;
-
     for (let key in e) {
       if (String(e[key]).toLowerCase().includes(this.userInput.toLowerCase())) {
         temp = true;
         break;
       }
     }
-
     return temp;
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   selectedRecords(rec) {
     this.selectedRecordsList = rec;
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   sendBulkSms() {
     if (confirm("Are you sure u want to send Fee Dues SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
@@ -993,6 +921,7 @@ export class AllDataReportComponent implements OnInit {
           this.appC.popToast(obj);
         },
         err => {
+
           let obj = {
             type: 'error',
             title: 'An Error Occured',
@@ -1004,8 +933,6 @@ export class AllDataReportComponent implements OnInit {
     }
   }
 
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
   sendBulkFineSms() {
     if (confirm("Are you sure u want to send Fine SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
@@ -1039,7 +966,6 @@ export class AllDataReportComponent implements OnInit {
     }
   }
 
-
   exportToExcel() {
     let arr = []
     this.feeDataSource1.map(
@@ -1057,16 +983,13 @@ export class AllDataReportComponent implements OnInit {
     )
   }
 
-
   getDetials(obj) {
     console.log(obj);
-
   }
 
   openPreferences() {
     this.showPopupKeys.showPreference = true;
   }
-
 
 }
 
