@@ -18,5 +18,5 @@ import { ScheduleHomeComponent } from './schedule-home.component';
 })
 
 export class CourseHomeRouting {
-
+    
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FileManagerService } from '../file-manager.service';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'share-file',
@@ -27,6 +28,7 @@ export class ShareFileComponent implements OnInit {
   studentsId: boolean = false;
   batchesId: boolean = true;
   dataStatus: boolean = false;
+  isProfessional:boolean = false;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3];
   dataIdBatches;
@@ -54,6 +56,10 @@ export class ShareFileComponent implements OnInit {
     subject_id: "",
     is_readonly: "N"
   }
+  startAccessTimeStudent = moment().format('YYYY-MM-DD');
+  endAccessTimeStudent = moment().format('YYYY-MM-DD');
+  endAccessTimeBatch = moment().format('YYYY-MM-DD');
+  startAccessTimeBatch = moment().format('YYYY-MM-DD')
   isChecked: boolean = false;
   isStudentChecked: boolean = false;
   isReadonlyStu: boolean = false;
@@ -90,13 +96,22 @@ export class ShareFileComponent implements OnInit {
     is_readonly: "N"
   }
 
-  getFileType:string = "";
+  getFileType: string = "";
 
-  constructor(private fileService: FileManagerService, private appC: AppComponent) { }
+  constructor(private fileService: FileManagerService, private appC: AppComponent , private auth:AuthenticatorService) { }
 
   ngOnInit() {
     this.getAllStandards();
     this.multiCourseMapping();
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
   }
 
   ngOnChanges() {
@@ -112,10 +127,8 @@ export class ShareFileComponent implements OnInit {
   }
 
   chooseTab(index) {
-    
+
     this.getFileType = this.shareOptions.fileType;
-    console.log(this.getFileType);
-    console.log(this.shareOptions);
     /*Disabling Buttons
     if(this.shareOptions.batchShare == '0'){
       (<HTMLFormElement>document.getElementById('tab1')).disabled = true;
@@ -265,7 +278,6 @@ export class ShareFileComponent implements OnInit {
   }
 
   getAllSubjects(i) {
-    console.log(i);
     this.fileService.getSubjects(i).subscribe(
       (data: any) => {
         this.getSubjects = data;
@@ -277,6 +289,7 @@ export class ShareFileComponent implements OnInit {
       }
     )
   }
+
 
   getBatches(update?) {
     this.getBatchesData = [];
@@ -298,27 +311,25 @@ export class ShareFileComponent implements OnInit {
         this.getBatchesData.map(
           (data: any) => {
 
-            let endTime = data.file_access_end_time.split("-");
-            let startTime = data.file_access_start_time.split("-");
-            if (endTime[0] == '') {
-              data.end_date = moment().date();
-              data.end_month = moment().month() + 1;
-              data.end_year = moment().year();
-            } else {
-              data.end_date = parseInt(endTime[2]);
-              data.end_month = parseInt(endTime[1]);
-              data.end_year = endTime[0];
+            if (data.file_access_start_time == "") {
+              data.file_access_start_time = moment().format('YYYY-MM-DD');
+              this.startAccessTimeBatch = data.file_access_start_time;
+
+            }
+            else {
+              this.startAccessTimeBatch = data.file_access_start_time;
             }
 
-            if (startTime[0] == '') {
-              data.start_month = moment().month() + 1;
-              data.start_year = moment().year();
-              data.start_date = moment().date();
-            } else {
-              data.start_month = parseInt(startTime[1]);
-              data.start_year = startTime[0];
-              data.start_date = parseInt(startTime[2]);
+            if (data.file_access_end_time == "") {
+              data.file_access_end_time = moment().format('YYYY-MM-DD');
+              this.endAccessTimeBatch = data.file_access_end_time;
             }
+
+            else {
+              this.endAccessTimeBatch = data.file_access_end_time;
+            }
+
+            
 
             if (update != 1) {
               data.is_file_shared = "N"
@@ -398,7 +409,6 @@ export class ShareFileComponent implements OnInit {
     this.fileService.courseMapping().subscribe(
       (data: any) => {
         this.courseMappingArray = data;
-        console.log(this.courseMappingArray);
       },
       (error: any) => {
         let msg = {
@@ -434,36 +444,11 @@ export class ShareFileComponent implements OnInit {
           this.getStudentsData = data;
           this.getStudentsData.map(
             (data: any) => {
-              let endTime = data.file_access_end_time.split("-");
-              let startTime = data.file_access_start_time.split("-");
-              if (endTime[0] == "") {
-                data.end_date = moment().date();
-                data.end_month = moment().month() + 1;
-                data.end_year = moment().year();
-              } else {
-                data.end_date = parseInt(endTime[2]);
-                data.end_month = parseInt(endTime[1]);
-                data.end_year = endTime[0];
+              if (data.file_access_end_time == "") {
+                data.file_access_end_time = moment().format('YYYY-MM-DD')
               }
-              if (startTime[0] == "") {
-                data.start_month = moment().month() + 1;
-                data.start_year = moment().year();
-                data.start_date = moment().date();
-              } else {
-                data.start_month = parseInt(startTime[1]);
-                data.start_year = startTime[0];
-                data.start_date = parseInt(startTime[2]);
-              }
-
-              if (update != 1) {
-                data.is_file_shared = "N"
-                data.isChecked = false
-              } else {
-                if (data.is_file_shared == 'Y') {
-                  data.isChecked = true;
-                } else {
-                  data.isChecked = false;
-                }
+              if (data.file_access_start_time == "") {
+                data.file_access_start_time = moment().format('YYYY-MM-DD')
               }
             }
           )
@@ -476,65 +461,6 @@ export class ShareFileComponent implements OnInit {
   }
 
 
-  getStartDate(date, index) {
-
-    if (this.getBatchesData.length == 0) {
-      this.getStudentsData[index].start_date = date;
-    }
-    else if (this.getStudentsData.length == 0) {
-      this.getBatchesData[index].start_date = date;
-    }
-
-  }
-
-  getStartMonth(month, index) {
-    if (this.getBatchesData.length == 0) {
-      this.getStudentsData[index].start_month = month;
-    }
-    else if (this.getStudentsData.length == 0) {
-      this.getBatchesData[index].start_month = month;
-    }
-
-  }
-
-  getStartYear(year, index) {
-    if (this.getBatchesData.length == 0) {
-      this.getStudentsData[index].start_year = year;
-    }
-    else if (this.getStudentsData.length == 0) {
-      this.getBatchesData[index].start_year = year;
-    }
-  }
-
-  getEndDate(date, index) {
-    if (this.getBatchesData.length == 0) {
-      this.getStudentsData[index].end_date = date;
-
-    }
-    else if (this.getStudentsData.length == 0) {
-      this.getBatchesData[index].end_date = date;
-    }
-  }
-
-  getEndMonth(month, index) {
-    if (this.getBatchesData.length == 0) {
-      this.getStudentsData[index].end_month = month;
-    }
-    else if (this.getStudentsData.length == 0) {
-      this.getBatchesData[index].end_month = month;
-    }
-  }
-
-  getEndYear(year, index) {
-    if (this.getBatchesData.length == 0) {
-      this.getStudentsData[index].end_year = year;
-    }
-    else if (this.getStudentsData.length == 0) {
-      this.getBatchesData[index].end_year = year;
-      // this.batches.file_access_end_time = this.getBatchesData[index].end_year + "-" + this.getBatchesData[index].end_month + "-" + this.getBatchesData[index].end_date;
-    }
-
-  }
 
   fileSharedBatches(event) {
 
@@ -595,7 +521,6 @@ export class ShareFileComponent implements OnInit {
     }
   }
 
-
   shareFile(unshare?) {
 
     let temparrBatch = [];
@@ -605,8 +530,8 @@ export class ShareFileComponent implements OnInit {
       (data: any) => {
         if (data.isChecked == true) {
           let obj = {
-            file_access_end_time: data.end_year + "-" + data.end_month + "-" + data.end_date,
-            file_access_start_time: data.start_year + "-" + data.start_month + "-" + data.start_date,
+            file_access_end_time: data.file_access_end_time,
+            file_access_start_time: data.file_access_start_time,
             is_file_shared: data.is_file_shared,
             batch_id: data.batch_id
           }
@@ -626,8 +551,8 @@ export class ShareFileComponent implements OnInit {
       (data: any) => {
         if (data.isChecked == true) {
           let obj = {
-            file_access_end_time: data.end_year + "-" + data.end_month + "-" + data.end_date,
-            file_access_start_time: data.start_year + "-" + data.start_month + "-" + data.start_date,
+            file_access_end_time: data.file_access_end_time,
+            file_access_start_time: data.file_access_start_time,
             is_file_shared: data.is_file_shared,
             student_id: data.student_id
           }
@@ -649,9 +574,9 @@ export class ShareFileComponent implements OnInit {
     this.fetchShareOption.subject_id = this.subjectId;
     this.fetchShareOption.batches = temparrBatch;
     this.fetchShareOption.students = temparrStudent;
-
-
+    
     if (this.tabChoice == "student") {
+
 
       if (this.fetchShareOption.standard_id == "" || this.fetchShareOption.subject_id == "") {
         let msg = {
@@ -670,6 +595,8 @@ export class ShareFileComponent implements OnInit {
       }
 
       else {
+
+
         this.fileService.shareFile(this.fetchShareOption).subscribe(
           (data: any) => {
             let msg = {
@@ -689,7 +616,6 @@ export class ShareFileComponent implements OnInit {
           }
         )
       }
-
     }
 
     else if (this.tabChoice == "public") {

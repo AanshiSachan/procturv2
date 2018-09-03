@@ -720,7 +720,7 @@ export class AttendanceReportComponent implements OnInit {
     let data_type = 'data:application/vnd.ms-excel';
 
     link.setAttribute('href', data_type + ',' + outer);
-    link.setAttribute('download', 'test.xls');
+    link.setAttribute('download', 'Student Report .xls');
     link.click();
   }
 

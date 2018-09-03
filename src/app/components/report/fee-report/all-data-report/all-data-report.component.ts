@@ -102,7 +102,7 @@ export class AllDataReportComponent implements OnInit {
     academic_year_id: ""
   }
   isRippleLoad: boolean = false;
-  due_type: any = '-1';
+  due_type: any = 'seven_days_dues';
   search_value: any = '';
   standardList: any[] = [];
   getAllAcademic: any[] = [];
@@ -190,9 +190,6 @@ export class AllDataReportComponent implements OnInit {
     else {
       this.setDefaultValues();
     }
-
-
-    console.log(this.tableSetting)
   }
 
   setDefaultValues() {
@@ -465,6 +462,11 @@ export class AllDataReportComponent implements OnInit {
       // this.generateReport(obj);
     }
 
+    else if (this.due_type == '-1') {
+      this.appC.popToast({ type: "error", body: "Please select dues" })
+      return false;
+    }
+
     else if (this.due_type == 'next_month_dues') {
       let obj: any = {
         from_date: '',
@@ -572,25 +574,32 @@ export class AllDataReportComponent implements OnInit {
     //console.log(obj);
     this.isRippleLoad = true;
     this.dataStatus = 1;
-    this.getter.getFeeReportData(obj).subscribe(
-      res => {
-        if (res.length == 0) {
-          this.dataStatus = 2;
+    if (this.due_type == "-1") {
+      this.isRippleLoad = false;
+      this.feeDataSource1 = [];
+      this.appC.popToast({ type: "error", body: "Please select dues" })
+    }
+    else {
+      this.getter.getFeeReportData(obj).subscribe(
+        res => {
+          if (res.length == 0) {
+            this.dataStatus = 2;
+          }
+          this.reportSource = res;
+          this.isRippleLoad = false;
+          if (this.showPopupKeys.isFilterReversed) {
+            this.feeDataSource1 = res;
+          }
+          else {
+            this.feeDataSource2 = res;
+          }
+        },
+        err => {
+          this.isRippleLoad = false;
+          //console.log(err);
         }
-        this.reportSource = res;
-        this.isRippleLoad = false;
-        if (this.showPopupKeys.isFilterReversed) {
-          this.feeDataSource1 = res;
-        }
-        else {
-          this.feeDataSource2 = res;
-        }
-      },
-      err => {
-        this.isRippleLoad = false;
-        //console.log(err);
-      }
-    )
+      )
+    }
   }
 
 
@@ -913,9 +922,7 @@ export class AllDataReportComponent implements OnInit {
       this.showPopupKeys.isCustomDate = true;
     }
     else if (this.due_type == '-1') {
-      // this.getBatchCourseDetails();
-      this.courseFetchForm.type = "0";
-      this.showPopupKeys.isCustomDate = false;
+      this.appC.popToast({ type: "error", body: "Please select dues" })
     }
 
   }

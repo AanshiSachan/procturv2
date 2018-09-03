@@ -4,8 +4,8 @@
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
         <section class="middle-main clearFix">
-            <div class="middle-top mb0 clearFix header">
-                <div class="report-header" style="padding-bottom:1%">
+            <div class="middle-top mb0 clearFix header" style="padding-bottom:1%" style="width:99%; margin-left: 10px; padding-bottom: 20px;">
+                <div class="report-header">
                     <h2 style="padding: 5px;" class="pull-left">
                         <a routerLink="/view/reports">
                             Report
@@ -45,26 +45,26 @@
                     </div>
 
                 </div>
+            </div>
 
-                <section>
-                    <div class="row" style="margin-top: 10px;">
-                        <div class="c-lg-9">
-                            <ul *ngIf="records.length !=0" class="made">
-                                <li>
-                                    <span class="made-out">Total GST</span>
-                                    <span class="made-in"> : ₹{{records.toLocaleString('en-IN')}}</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="c-lg-3">
-                            <div id="basic-search" class="c-lg-11">
-                                <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                                    (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; float:right;">
-                            </div>
+            <section>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="c-lg-9">
+                        <ul *ngIf="records.length !=0" class="made">
+                            <li>
+                                <span class="made-out">Total GST</span>
+                                <span class="made-in"> : ₹{{records.toLocaleString('en-IN')}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="c-lg-3">
+                        <div id="basic-search" class="c-lg-11">
+                            <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                                (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; float:right;">
                         </div>
                         <div>
                             <section class="login-tube pull-right" style="margin-top: 4px; position: absolute;right: 8px;
-                                        margin-top: 4px;">
+                                            margin-top: 4px;">
                                 <nav>
                                     <ul class="login-nav">
                                         <li class="pos-rel">
@@ -86,8 +86,8 @@
                                                         <strong style="display: inline-block;">Export as Pdf</strong>
                                                     </li>
                                                     <!-- <li (click)="openPreferences()" class="asHover">
-                                                            <strong>Show/Hide Columns</strong>
-                                                        </li> -->
+                                                                <strong>Show/Hide Columns</strong>
+                                                            </li> -->
                                                 </ul>
                                             </div>
                                         </li>
@@ -96,16 +96,18 @@
                             </section>
                         </div>
                     </div>
-                </section>
 
-
-                <div class="table-content">
-
-                    <rob-table [isMulti]='false' [hasMenu]="false" [records]="getPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'"
-                        [settings]="feeSettings1">
-                    </rob-table>
                 </div>
+            </section>
+
+
+            <div class="table-content">
+
+                <rob-table [isMulti]='false' [hasMenu]="false" [records]="getPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'"
+                    [settings]="feeSettings1">
+                </rob-table>
             </div>
+
         </section>
     </aside>
 </div>

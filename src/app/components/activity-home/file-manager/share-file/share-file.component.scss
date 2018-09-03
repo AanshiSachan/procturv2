@@ -29,14 +29,45 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
-
-.forms{
-    color:black;
+.forms {
+    color: black;
 }
 
-.row-fix{
-    .c-lg-5{
-        width:25%;
+.row-fix {
+    .c-lg-5 {
+        width: 25%;
+    }
+}
+
+.table-ne {
+    .field-wrapper {
+        .form-ctrl {
+            width: 75%;
+            margin-bottom: 10px;
+            height: 25px;
+            background: transparent;
+        }
+    }
+    .field-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url(/./assets/images/calendar.svg) no-repeat;
+                position: absolute;
+                right: 54px;
+                top: 11px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
     }
 }
 
@@ -51,26 +82,26 @@ $color-highlight: lighten($color-base, 7%);
     /* max-height: 73vh; */
     height: auto;
     z-index: 4;
-    margin-top:1px;
+    margin-top: 1px;
     /* box-shadow: -15px 24px 5px #008; */
 }
 
-.norm{
+.norm {
     font-size: 8px;
 }
 
-.common{
+.common {
     color: black;
 }
 
-.form-file{
+.form-file {
     font-size: 14px;
     color: #666666;
     text-transform: uppercase;
 }
 
-.bold-font{
+.bold-font {
     font-size: 14px;
-    color:black;
+    color: black;
     font-weight: bold;
 }

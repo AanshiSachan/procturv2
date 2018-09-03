@@ -58,18 +58,6 @@
 
                 <th>
                   <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.source.title)">{{header.master_course.title}}</a>
-                  </label>
-                </th>
-
-                <th>
-                  <label>
-                    <a class="cursor-icon" (click)="sortTableById(header.created_date.title)">{{header.course.title}}</a>
-                  </label>
-                </th>
-
-                <th>
-                  <label>
                     <a class="cursor-icon" (click)="sortTableById(header.status.title)">{{header.total_units.title}}</a>
                   </label>
                 </th>
@@ -140,13 +128,6 @@
                   <div class="field-wrapper">
                     <input type="text" class="form-ctrl" [(ngModel)]="row.desc" name="label">
                   </div>
-                </td>
-
-                <td>
-                  {{row.standard_name}}
-                </td>
-                <td>
-                  {{row.subject_name}}
                 </td>
 
                 <td>

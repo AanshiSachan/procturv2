@@ -1,4 +1,4 @@
-<proctur-popup [sizeWidth]="'medium'" >
+<proctur-popup [sizeWidth]="'medium'">
 
   <span class="closePopup pos-abs fbold show" close-button (click)="close()">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -62,7 +62,8 @@
       <div class="tab">
         <div class="row">
           <div class="c-lg-4 field-wrapper">
-            <label class="forms">Master Course</label>
+            <label class="forms" *ngIf="isProfessional">Master Course</label>
+            <label class="forms" *ngIf="!isProfessional">Standards</label>
             <select class="form-ctrl" [(ngModel)]="getStandardsId" (ngModelChange)="getAllSubjects($event)">
               <option></option>
               <option *ngFor="let i of getStandards" [value]="i.standard_id">
@@ -102,7 +103,7 @@
           </div>
         </div>
 
-        <div class="table table-responsive" style="margin-left: 24px;
+        <div class="table table-responsive table-ne" style="margin-left: 24px;
         max-width: 94%;">
           <table>
             <thead *ngIf="batchesId">
@@ -161,7 +162,10 @@
 
                 </td>
                 <td style="text-align: left; padding: 0px;">
-                  <div class="row row-fix">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_start_time">
+                  </div>
+                  <!-- <div class="row row-fix">
                     <div class="c-lg-12">
                       <div class="c-lg-3">
                         <label class="norm">Date</label>
@@ -191,10 +195,13 @@
                         </select>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </td>
                 <td style="text-align: left; padding: 0px;">
-                  <div class="row row-fix">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_end_time">
+                  </div>
+                  <!-- <div class="row row-fix">
                     <div class="c-lg-12">
                       <div class="c-lg-3">
                         <label class="norm">Date</label>
@@ -224,7 +231,7 @@
                         </select>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </td>
               </tr>
             </tbody>
@@ -254,7 +261,10 @@
                   {{i.student_name}}
                 </td>
                 <td style="text-align: left; padding: 0px;">
-                  <div class="row row-fix">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_start_time" >
+                  </div>
+                  <!-- <div class="row row-fix">
                     <div class="c-lg-12">
                       <div class="c-lg-3">
                         <label class="norm">Date</label>
@@ -285,10 +295,13 @@
                         </select>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </td>
                 <td style="text-align: left; padding: 0px;">
-                  <div class="row row-fix">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_end_time" >
+                  </div>
+                  <!-- <div class="row row-fix">
                     <div class="c-lg-12">
                       <div class="c-lg-3">
                         <label class="norm">Date</label>
@@ -321,7 +334,7 @@
                         </select>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </td>
               </tr>
             </tbody>
@@ -348,7 +361,8 @@
       <div class="tab" *ngIf="categoryId!=62">
         <div class="row">
           <div class="c-lg-4 field-wrapper">
-            <label class="forms">Master Course</label>
+            <label class="forms" *ngIf="isProfessional">Master Course</label>
+            <label class="forms" *ngIf="!isProfessional">Standards</label>
             <select class="form-ctrl" [(ngModel)]="fileSharePublic.standard_id" (ngModelChange)="getAllSubjects($event)">
               <option value="-1"></option>
               <option *ngFor="let i of getStandards" [value]="i.standard_id">
@@ -425,7 +439,7 @@
 
       </div>
       <div class="c-lg-6" *ngIf="editPublicShare">
-        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'"  style="width:26%;">
+        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'" style="width:26%;">
           <input type="checkbox" class="form-checkbox" id="public" [(ngModel)]="isReadonlyPub" (ngModelChange)="getReadonlypublic($event)">
           <label for="public">
             Read Only
