@@ -1,6 +1,6 @@
-<div class="container-fluid" *ngIf="!displayKeys.selectAll.showSelectAll">
+<div class="container-fluid" *ngIf="displayKeys.tableDetails.showTitle">
   <section class="row">
-    <div class="col-md-10" *ngIf="!displayKeys.selectAll.showSelectAll">
+    <div class="col-md-10" *ngIf="displayKeys.tableDetails.showTitle">
       <h1>{{displayKeys.tableDetails.title}}</h1>
     </div>
     <div class="col-md-2" *ngIf="displayKeys.selectAll.showSelectAll">
@@ -26,97 +26,101 @@
 
       <th *ngFor="let key of keysArray" (click)="sortData(key)">
         <ng-template [ngIf]="key.filter">
-          {{key.header}} 
-          <i class="fa fa-sort-desc sortIcon" *ngIf="key.type=='desc'"></i>
-          <i class="fa fa-sort-asc sortIcon" *ngIf="key.type=='asc'"></i>
+          <span>
+            {{key.header}}
+            <i class="fa fa-sort-desc sortIcon" *ngIf="key.type=='desc'"></i>
+            <i class="fa fa-sort-asc sortIcon" *ngIf="key.type=='asc'"></i>
+          </span>
         </ng-template>
         <ng-template [ngIf]="!key.filter">
-          {{key.header}}
+          <span>
+            {{key.header}}
+          </span>
         </ng-template>
       </th>
-      <th>Action</th>
+      <th *ngIf="displayKeys.actionSetting.showActionButton">Action</th>
     </tr>
 
   </thead>
 
-    <tr *ngFor="let data of recordsTrimmed ; let i=index" [id]="'editTableRow-'+i">
-      <td *ngIf="displayKeys.selectAll.showSelectAll" class="checkBoxCss">
-        <!-- <input type="checkbox" class="form-checkbox" [checked]="data.checked" (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)"> -->
+  <tr *ngFor="let data of recordsTrimmed ; let i=index" [id]="'editTableRow-'+i">
+    <td *ngIf="displayKeys.selectAll.showSelectAll" class="checkBoxCss">
+      <!-- <input type="checkbox" class="form-checkbox" [checked]="data.checked" (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)"> -->
 
-        <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [checked]="data.checked" (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)"
-            [id]="'checkbox-'+i">
-          <label [for]="'checkbox-'+i"></label>
-        </div>
-      </td>
-      <!--read view -->
-      <ng-template [ngIf]="isEditRow!='editTableRow-'+i">
-        <ng-container *ngFor="let key of keysArray">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [checked]="data.checked" (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)"
+          [id]="'checkbox-'+i">
+        <label [for]="'checkbox-'+i"></label>
+      </div>
+    </td>
+    <!--read view -->
+    <ng-template [ngIf]="isEditRow!='editTableRow-'+i">
+      <ng-container *ngFor="let key of keysArray">
+        <td *ngIf="key.ngClassShow" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
+          {{getTypeCheck(data,data[key["primaryKey"]],key)}}
+        </td>
+        <td *ngIf="!key.ngClassShow">
+          {{getTypeCheck(data,data[key["primaryKey"]],key)}}
+        </td>
+      </ng-container>
+    </ng-template>
+
+    <!--edit view -->
+    <ng-template [ngIf]="isEditRow=='editTableRow-'+i">
+      <ng-container *ngFor="let key of keysArray" [ngSwitch]="key.inputType">
+        <ng-container *ngSwitchCase="'dropdown'">
           <td *ngIf="key.ngClassShow" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
-            {{getTypeCheck(data[key["primaryKey"]])}}
+            <select (change)="onSelect($event.target.value)" [(ngModel)]="data[key['primaryKey']]">
+              <option *ngFor="let value of  key['dataSource']" [value]="value">
+              </option>
+            </select>
           </td>
           <td *ngIf="!key.ngClassShow">
-            {{getTypeCheck(data[key["primaryKey"]])}}
+            <select (change)="onSelect($event.target.value,data)" [(ngModel)]="data[key['primaryKey']]">
+              <option *ngFor="let item of data.arrayList" [value]="item">{{item}}
+              </option>
+            </select>
           </td>
         </ng-container>
-      </ng-template>
-
-      <!--edit view -->
-      <ng-template [ngIf]="isEditRow=='editTableRow-'+i">
-        <ng-container *ngFor="let key of keysArray" [ngSwitch]="key.inputType">
-          <ng-container *ngSwitchCase="'dropdown'">
-            <td *ngIf="key.ngClassShow" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
-              <select (change)="onSelect($event.target.value)" [(ngModel)]="data[key['primaryKey']]">
-                <option *ngFor="let value of  key['dataSource']" [value]="value">
-                </option>
-              </select>
-            </td>
-            <td *ngIf="!key.ngClassShow">
-              <select (change)="onSelect($event.target.value,data)" [(ngModel)]="data[key['primaryKey']]">
-                <option *ngFor="let item of data.arrayList" [value]="item">{{item}}
-                </option>
-              </select>
-            </td>
-          </ng-container>
-          <ng-container *ngSwitchDefault>
-            <td *ngIf="key.ngClassShow" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
-              <input [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
-            </td>
-            <td *ngIf="!key.ngClassShow">
-              <input [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
-            </td>
-          </ng-container>
+        <ng-container *ngSwitchDefault>
+          <td *ngIf="key.ngClassShow" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
+            <input [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
+          </td>
+          <td *ngIf="!key.ngClassShow">
+            <input [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
+          </td>
         </ng-container>
-      </ng-template>
-      <!-- popup editView -->
-      <td *ngIf="isEditRow!='editTableRow-'+i">
-        <button class="button" *ngIf="displayKeys.actionSetting.editOption=='button'" (click)="editRow('editTableRow-'+i)">Edit</button>
-        <ng-template [ngIf]="displayKeys.actionSetting.editOption=='popup'">
-          <!-- <div class="dropup"> -->
-          <!-- <i class=" fa fa-ellipsis-v dropbtn" style="font-size:24px;">
+      </ng-container>
+    </ng-template>
+    <!-- popup editView -->
+    <td *ngIf="isEditRow!='editTableRow-'+i">
+      <button class="button" *ngIf="displayKeys.actionSetting.editOption=='button'" (click)="editRow('editTableRow-'+i)">Edit</button>
+      <ng-template [ngIf]="displayKeys.actionSetting.editOption=='popup'">
+        <!-- <div class="dropup"> -->
+        <!-- <i class=" fa fa-ellipsis-v dropbtn" style="font-size:24px;">
           </i> -->
-          <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
-          <!-- <div class="dropup-content">
+        <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
+        <!-- <div class="dropup-content">
             <a *ngFor="let option of displayKeys.actionSetting.options" href="#" (click)="changeView(data,option)">
               {{option}}
             </a>
           </div> -->
-          <!-- </div> -->
-        </ng-template>
-      </td>
-      <!-- button editView -->
-      <td *ngIf="isEditRow=='editTableRow-'+i">
-        <!-- <i *ngFor="let option of displayKeys.actionSetting.options" [ngClass]="option.class" style="font-size:24px;" (click)="changeView(data,option.title)">
+        <!-- </div> -->
+      </ng-template>
+    </td>
+    <!-- button editView -->
+    <td *ngIf="isEditRow=='editTableRow-'+i">
+      <!-- <i *ngFor="let option of displayKeys.actionSetting.options" [ngClass]="option.class" style="font-size:24px;" (click)="changeView(data,option.title)">
         &nbsp;&nbsp;</i> -->
-        <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
-      </td>
-    </tr>
- 
+      <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
+    </td>
+  </tr>
+
   <ng-template [ngIf]="recordsTrimmed.length==0">
     <div class="schedule-scroller">
       <ul class="ulCss ul-body ct-ongoing">
         <li style="width: 100%;">
-          <label style="font-size: 16px;font-weight: 600;">Enter Detail to Search</label>
+          <label style="font-size: 16px;font-weight: 600;">{{displayKeys.displayMessage}}</label>
         </li>
       </ul>
     </div>
@@ -125,6 +129,6 @@
 <br>
 <br>
 <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="_paginationService.getPagesToShow()"
-  [page]="_paginationService.getPageIndex()" [perPage]="_paginationService.displayBatchSize" [sizeArr]="_paginationService.getSizeArr()" 
+  [page]="_paginationService.getPageIndex()" [perPage]="_paginationService.displayBatchSize" [sizeArr]="_paginationService.getSizeArr()"
   (sizeChange)="updateTableBatchSize($event)" [count]="recordCount">
 </pagination>

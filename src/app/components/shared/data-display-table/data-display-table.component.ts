@@ -153,34 +153,70 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           });
 
           this.recordsTrimmed = sortedArray;
-          console.log(this.recordsTrimmed);
+          // console.log(this.recordsTrimmed);
         }
         else {
           this.newSortArray(key);
         }
-
-
-        console.log(key);
+        // console.log(key);
 
       }
     }
   }
 
 
-  getTypeCheck(value) {
-    if (/[0-9]+/.test(value))  {
+  getTypeCheck(data, value: any, key) {
+    
+    if ( key.operation) {
+      console.log(key);
+      switch (key.operation) {
+        case 'add': {
+          let strExp = '';
+          let len = key.primaryKey.length;
+          for (let i in key.primaryKey) {
+            if (Number(i) < len)
+              strExp = data[key.primaryKey[i]] + '+';
+          }
+          console.log(strExp,eval(strExp));
+          break;
+        }
+        case 'sub': {
+          let strExp = '';
+          let len = key.primaryKey.length-1;
+          for (let i in key.primaryKey) {
+            strExp += data[key.primaryKey[i]]
+            if (Number(i) < len)
+            strExp += '-';
+          }
+          console.log(strExp,eval(strExp));
+          value = eval(strExp);
+          break;
+        }
+        case 'mul': {
+          break;
+        }
+        case 'divide': {
+          break;
+        }
+        default:
+      }
+    }
+    if (key.primaryKey == this.keysArray[0].primaryKey) {
+      return value;
+    }
+    if ((!isNaN(value)) && (value != '')) {
       // return value ;
-      return value.toLocaleString('en-IN');
+      return '₹ ' + value.toLocaleString('en-IN');
     }
     else
       return value;
-  } 
+  }
 
   // convert string as type 
   checkValueType(value: any) {
 
     if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
-      console.log(Date.parse(value));
+      // console.log(Date.parse(value));
       value = Date.parse(value);;
     }
     else if (typeof value == "string") {

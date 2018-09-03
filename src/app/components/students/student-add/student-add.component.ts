@@ -825,8 +825,6 @@ export class StudentAddComponent implements OnInit {
 
 
     if (isCustomComponentValid && formValid) {
-
-
       //console.log("valid student generating Id Now");
       let customArr = [];
       this.customComponents.forEach(el => {
@@ -852,8 +850,6 @@ export class StudentAddComponent implements OnInit {
           customArr.push(obj);
         }
       });
-
-
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
@@ -953,8 +949,9 @@ export class StudentAddComponent implements OnInit {
   }
 
   formfullValidator() {
+    let flag = this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim()) == false ? false : true;
     if ((!this.commonServiceFactory.validateName(this.studentAddFormData.student_name.trim()))
-      && (!this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim()))) {
+      && (!flag)) {
       return true;
     }
     else {

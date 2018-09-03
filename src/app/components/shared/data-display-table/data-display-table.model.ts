@@ -1,5 +1,5 @@
 export class ColumnData2 {
-    primaryKey: string;
+    primaryKey?:any;
     header?: string;
     format?: string;
     alternativeKeys?: string[];
@@ -10,5 +10,5 @@ export class ColumnData2 {
     inputType?:string;
     dataSource?:any;
     allowSortingFlag?:boolean;
-
+    operation?:string;
 }
