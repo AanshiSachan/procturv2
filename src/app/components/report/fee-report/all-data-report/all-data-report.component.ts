@@ -26,6 +26,7 @@ export class AllDataReportComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
   @ViewChild('form') form: any;
+  
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];
   feeDataSource1: any[] = [];
@@ -36,6 +37,7 @@ export class AllDataReportComponent implements OnInit {
   batchList: any[] = [];
   feeDataSource: any[] = []
   displayKeys: any = [];//need for selected keys 
+  
   selectedFeeRecord: any;
   installmentList: any;
   due_type: any = '-1';
@@ -60,10 +62,10 @@ export class AllDataReportComponent implements OnInit {
     { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
     { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true },
     { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 5, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 6, allowSortingFlag: true },
-    { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 7, allowSortingFlag: true },
-    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 8, allowSortingFlag: true }
+    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 8, allowSortingFlag: true },
+    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, allowSortingFlag: true }
   ];
   feeSettings2: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
@@ -117,9 +119,11 @@ export class AllDataReportComponent implements OnInit {
     selectAll: { showSelectAll: false, title: 'Purchase Item', checked: true, key: 'student_disp_id' },
     actionSetting:
     {
+      showActionButton: true,
       editOption: 'popup',//or button 
       options: this.menuOptions
     },
+    displayMessage: "Enter Detail to Search"
     // {
     //     editOption: 'button',//or button 
     //     options: [{ title: "update", class: 'fa fa-check updateCss' }
@@ -532,6 +536,7 @@ export class AllDataReportComponent implements OnInit {
       res => {
         if (res.length == 0) {
           this.dataStatus = 2;
+          this.tableSetting.displayMessage = "Data not found";
         }
         this.reportSource = res;
         this.isRippleLoad = false;
@@ -739,12 +744,8 @@ export class AllDataReportComponent implements OnInit {
         this.appC.popToast(obj);
         this.courseFetchForm.to_date = moment(new Date()).format('DD-MMM-YYYY');
       }
-
     }
-
   }
-
-
 
   optionSelected(e) {
     let action = e.action._value;
@@ -921,7 +922,7 @@ export class AllDataReportComponent implements OnInit {
           this.appC.popToast(obj);
         },
         err => {
-          
+
           let obj = {
             type: 'error',
             title: 'An Error Occured',

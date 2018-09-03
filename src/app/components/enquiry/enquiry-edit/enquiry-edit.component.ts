@@ -940,14 +940,18 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
-
+    let phoneFlag = this.commonServiceFactory.validatePhone(this.editEnqData.phone);
     if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
       return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
     }
-   else if (this.commonServiceFactory.validatePhone(this.editEnqData.phone)) {
-      return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+    else if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
+      if (phoneFlag == 'noNumber') {
+        return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
+      }
+      else {
+        return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
+      }
     }
-
     else if (this.commonServiceFactory.checkValueType(this.editEnqData.enquiry_date)) {
       return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
     }
