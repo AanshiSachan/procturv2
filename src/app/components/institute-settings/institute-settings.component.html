@@ -1634,6 +1634,28 @@
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="showBalance" class="form-checkbox" [(ngModel)]="instituteSettingDet.balance_amount_in_fee_receipt"
+                                id="showBalance">
+                              <label for="showBalance">Show Balance Amount in fee receipt</label>
+                            </div>
+                          </div>
+
+                          <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="showDiscount" class="form-checkbox" [(ngModel)]="instituteSettingDet.discount_amount_in_fee_receipt"
+                                id="showDiscount">
+                              <label for="showDiscount">Show Discount Amount in fee receipt</label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableFeeSMSNot" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_fee_due_amount_in_notification"
                                 id="enableFeeSMSNot">
                               <label for="enableFeeSMSNot">Show Amount in fee due reminder SMS</label>

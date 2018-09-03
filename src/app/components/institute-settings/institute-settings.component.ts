@@ -70,39 +70,27 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       teacher: '',
       admin: ''
     },
-    birthday_daily_schedule: {
-      hour: '',
-      minute: '',
-    },
+    birthday_daily_schedule: "",
     fee_dues_daily_notification: {
       student: '',
       parent: '',
       gaurdian: '',
     },
-    fee_dues_daily_schedule: {
-      hour: '',
-      minute: '',
-    },
+    fee_dues_daily_schedule: "",
     fee_dues_interval_notification: {
       student: '',
       parent: '',
       gaurdian: '',
     },
     fee_dues_interval: '',
-    fee_dues_interval_schedule: {
-      hour: '',
-      minute: '',
-    },
+    fee_dues_interval_schedule: "",
     pre_fee_dues_interval_notification: {
       student: '',
       parent: '',
       gaurdian: '',
     },
     pre_fee_dues_interval: '',
-    pre_fee_dues_interval_schedule: {
-      hour: '',
-      minute: '',
-    },
+    pre_fee_dues_interval_schedule: "",
     student_fee_dues_notification: {
       student: '',
       parent: '',
@@ -208,7 +196,9 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     enable_online_payment_sms_notification: '',
     online_payment_notify_emailIds: '',
     online_payment_notify_mobiles: '',
-    allow_fee_due_amount_in_notification: ''
+    allow_fee_due_amount_in_notification: '',
+    discount_amount_in_fee_receipt: '',
+    balance_amount_in_fee_receipt: ''
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -378,17 +368,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
-
-    // if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
-    //   this.isRippleLoad = false;
-    //   /* if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
-    //     this.isRippleLoad = false;
-    //     this.messageToast('error', 'Error', 'Please check the number you have provided');
-    //     return;
-    //   } */
-
-    // }
-
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;
@@ -396,15 +375,12 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
         return;
       }
     }
-
     obj.fee_dues_interval = this.instituteSettingDet.fee_dues_interval;
     obj.pre_fee_dues_interval = this.instituteSettingDet.pre_fee_dues_interval;
-    obj.birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.birthday_daily_schedule);
-    obj.fee_dues_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.fee_dues_daily_schedule);
-    obj.fee_dues_interval_schedule = this.convertTimeToSend(this.instituteSettingDet.fee_dues_interval_schedule);
-    obj.pre_fee_dues_interval_schedule = this.convertTimeToSend(this.instituteSettingDet.pre_fee_dues_interval_schedule);
-    obj.alumni_birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.alumni_birthday_daily_schedule);
     obj.allow_fee_due_amount_in_notification = this.convertBoolenToNumber(this.instituteSettingDet.allow_fee_due_amount_in_notification);
+    obj.discount_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.discount_amount_in_fee_receipt);
+    obj.balance_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.balance_amount_in_fee_receipt);
+    obj.alumni_birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.alumni_birthday_daily_schedule);
     return obj;
   }
 
@@ -484,10 +460,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     this.instituteSettingDet.fee_dues_interval = data.fee_dues_interval;
     this.instituteSettingDet.pre_fee_dues_interval = data.pre_fee_dues_interval;
     this.instituteSettingDet.allow_fee_due_amount_in_notification = data.allow_fee_due_amount_in_notification;
-    // this.fillTimeInHrAndMinute(this.instituteSettingDet.birthday_daily_schedule, data.birthday_daily_schedule);
-    // this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_daily_schedule, data.fee_dues_daily_schedule);
-    // this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_interval_schedule, data.fee_dues_interval_schedule);
-    // this.fillTimeInHrAndMinute(this.instituteSettingDet.pre_fee_dues_interval_schedule, data.pre_fee_dues_interval_schedule);
+    this.instituteSettingDet.balance_amount_in_fee_receipt = data.balance_amount_in_fee_receipt;
+    this.instituteSettingDet.discount_amount_in_fee_receipt = data.discount_amount_in_fee_receipt;
     this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);
   }
 

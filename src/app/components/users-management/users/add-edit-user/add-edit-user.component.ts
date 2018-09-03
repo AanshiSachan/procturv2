@@ -120,7 +120,7 @@ export class AddEditUserComponent implements OnInit {
       attendance_device_id: this.roleDetails.attendance_device_id,
       is_active: this.roleDetails.is_active,
       name: this.roleDetails.name,
-      phone: this.roleDetails.phone,
+      phone: this.roleDetails.username,
       role_id: this.roleDetails.role_id
     }
     this.apiService.updateUserDetails(obj, this.userId).subscribe(
