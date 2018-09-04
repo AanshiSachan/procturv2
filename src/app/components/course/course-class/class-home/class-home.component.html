@@ -296,7 +296,8 @@
             <div class="c-lg-8 c-md-8 c-sm-8 align-center  vcd-l date-arrow">
               <div>
                 <span *ngIf="!showAdvanceFilter" class="">{{weekStart}} to {{weekEnd}}</span>
-                <span *ngIf="showAdvanceFilter" class="">{{advanceFilter.startdate | dateMonthYearFromat}} to {{advanceFilter.enddate | dateMonthYearFromat}}</span>
+                <span *ngIf="showAdvanceFilter" class="">{{advanceFilter.startdate | dateMonthYearFromat}} to {{advanceFilter.enddate
+                  | dateMonthYearFromat}}</span>
               </div>
             </div>
             <div class="c-lg-2 c-md-2 c-sm-2 align-right filter-search">
@@ -351,7 +352,7 @@
                         <span class="" (click)="editClass(class)" title="Edit">
                           <i class="fas fa-edit" style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
                         </span>
-                        <span class="mail-notification" (click)="notify(class)" title="Send Reminder"></span>
+                        <span class="mail-notification" *ngIf="hidePastClassAction(class)" (click)="notify(class)" title="Send Reminder"></span>
                       </div>
                     </div>
                   </td>
@@ -399,9 +400,11 @@
                           <td style="width:15%">{{sc.topics_covered}}</td>
                           <td style="width:15%">
                             <div class="action-box" *ngIf="!isLangInstitute">
-                              <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
-                              <span class="reschedule-icon" (click)="rescheduleClassData(sc)" title="Reschedule"></span>
-                              <span class="delete-btn" style="font-family: FontAwesome;" (click)="CancelClass(sc)" title="Cancel Class">
+                              <span class="mail-notification" *ngIf="hidePastClassAction(class)" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
+                              <span class="reschedule-icon" *ngIf="hidePastClassAction(class) || sc.isAttendanceMarked == 'N'" (click)="rescheduleClassData(sc)"
+                                title="Reschedule"></span>
+                              <span class="delete-btn" *ngIf="hidePastClassAction(class) || sc.isAttendanceMarked == 'N'" style="font-family: FontAwesome;"
+                                (click)="CancelClass(sc)" title="Cancel Class">
                                 <i class="fa fa-trash-o " aria-hidden="true "></i>
                               </span>
                               <!-- <span class="edit-icon "></span> -->
