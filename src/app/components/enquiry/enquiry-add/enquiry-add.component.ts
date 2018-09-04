@@ -51,52 +51,52 @@ export class EnquiryAddComponent implements OnInit {
   confimationPop: boolean = false;
   updatePop: boolean = false;
   newEnqData: addEnquiryForm =
-   {
-    name: "",
-    phone: "",
-    email: "",
-    gender: "",
-    phone2: "",
-    email2: "",
-    dob: null,
-    curr_address: "",
-    parent_name: "",
-    parent_phone: "",
-    parent_email: "",
-    city: -1,
-    area: -1,
-    occupation_id: "-1",
-    school_id: "-1",
-    qualification: "",
-    grade: "",
-    enquiry_date: moment().format('YYYY-MM-DD'),
-    standard_id: "-1",
-    subject_id: "-1",
-    referred_by: "-1",
-    source_id: "-1",
-    fee_committed: "",
-    discount_offered: "",
-    priority: "cold_call",
-    enquiry: "",
-    follow_type: "call",
-    followUpDate: moment().format('YYYY-MM-DD'),
-    religion: null,
-    link: "",
-    slot_id: null,
-    closedReason: "",
-    master_course_name: "",
-    demo_by_id: "",
-    status: "0",
-    subjectIdArray: null,
-    assigned_to: sessionStorage.getItem('userid'),
-    followUpTime: "",
-    lead_id: -1,
-    enqCustomLi: [],
-    source_instituteId: '-1',
-    walkin_followUpDate: '',
-    walkin_followUpTime: '',
-    closing_reason_id: ''
-  };
+    {
+      name: "",
+      phone: "",
+      email: "",
+      gender: "",
+      phone2: "",
+      email2: "",
+      dob: null,
+      curr_address: "",
+      parent_name: "",
+      parent_phone: "",
+      parent_email: "",
+      city: -1,
+      area: -1,
+      occupation_id: "-1",
+      school_id: "-1",
+      qualification: "",
+      grade: "",
+      enquiry_date: moment().format('YYYY-MM-DD'),
+      standard_id: "-1",
+      subject_id: "-1",
+      referred_by: "-1",
+      source_id: "-1",
+      fee_committed: "",
+      discount_offered: "",
+      priority: "cold_call",
+      enquiry: "",
+      follow_type: "call",
+      followUpDate: moment().format('YYYY-MM-DD'),
+      religion: null,
+      link: "",
+      slot_id: null,
+      closedReason: "",
+      master_course_name: "",
+      demo_by_id: "",
+      status: "0",
+      subjectIdArray: null,
+      assigned_to: sessionStorage.getItem('userid'),
+      followUpTime: "",
+      lead_id: -1,
+      enqCustomLi: [],
+      source_instituteId: '-1',
+      walkin_followUpDate: '',
+      walkin_followUpTime: '',
+      closing_reason_id: ''
+    };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
   isSourcePop: boolean = false;
@@ -170,11 +170,11 @@ export class EnquiryAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
-    private prefill: FetchprefilldataService, 
+    private prefill: FetchprefilldataService,
     private router: Router,
-    private poster: PostEnquiryDataService, 
+    private poster: PostEnquiryDataService,
     private login: LoginService,
-    private auth: AuthenticatorService, 
+    private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
     private commonServiceFactory: CommonServiceFactory
   ) {
@@ -279,14 +279,14 @@ export class EnquiryAddComponent implements OnInit {
   toggleForm(event) {
     let eleid = event.srcElement.id;
     //console.log(eleid);
-    if (eleid == "openBasic") { 
-      this.toggleObjectClass( document.getElementById('basicDetails').classList, document.getElementById('academicDetails').classList);
+    if (eleid == "openBasic") {
+      this.toggleObjectClass(document.getElementById('basicDetails').classList, document.getElementById('academicDetails').classList);
     }
     else if (eleid == "closeBasic") {
-      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList, );
+      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList);
     }
     else if (eleid == "openAcademic") {
-      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList, );
+      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList);
     }
     else if (eleid == "closeAcademic") {
       this.toggleObjectClass(document.getElementById('basicDetails').classList, document.getElementById('academicDetails').classList);
@@ -406,7 +406,7 @@ export class EnquiryAddComponent implements OnInit {
       this.fetchMasterCourseDetails();
     }
   }
-  
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchMasterCourseDetails() {
@@ -792,7 +792,7 @@ export class EnquiryAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
- 
+
     //Validates if the custom component required fields are selected or not
     this.isEnquirySubmit = true;
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
@@ -905,8 +905,10 @@ export class EnquiryAddComponent implements OnInit {
             walkin_followUpDate: this.newEnqData.walkin_followUpDate,
             walkin_followUpTime: this.newEnqData.walkin_followUpTime
           }
+          this.isRippleLoad = true;
           this.poster.postNewEnquiry(obj).subscribe(
             (data: any) => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
@@ -954,14 +956,17 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.showErrorMessage('error', "Error", err.error.message);
             }
           );
         }
         else {
+          this.isRippleLoad = true;
           this.poster.postNewEnquiry(this.newEnqData).subscribe(
             (data: any) => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
@@ -1003,6 +1008,7 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.showErrorMessage('error', 'Error', '');
             }
@@ -1139,7 +1145,7 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-  
+
 
   showErrorMessage(objType, massage, body) {
     this.commonServiceFactory.showErrorMessage(objType, massage, body);
