@@ -1034,13 +1034,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formValidator(): boolean {
-    if ((!this.commonServiceFactory.validateName(this.studentAddFormData.student_name.trim()))
-      && (!this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim()))) {
-      return true;
-    }
-    else {
+
+    if (this.commonServiceFactory.validateName(this.studentAddFormData.student_name.trim())) {
+      this.commonServiceFactory.showErrorMessage('error', 'Name Error', 'Special character are not allowed in name.');
       return false;
     }
+
+    if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
+      if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == 10) {
+        return true;
+      } else {
+        this.commonServiceFactory.showErrorMessage('error', 'Phone Number error', 'Please provide valid phone number');
+        return false;
+      }
+    } else {
+      this.commonServiceFactory.showErrorMessage('error', 'Error', 'Please provide contact number');
+      return false;
+    }
+
   }
 
   /* ============================================================================================================================ */
@@ -1051,7 +1062,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     /* Both Form are Valid Else there seems to 
         be an error on custom component */
-    if (form.valid && isCustomComponentValid && this.formValidator()) {
+    if (form.valid && isCustomComponentValid) {
+
+      if (!this.formValidator()) {
+        return false;
+      }
+
+
       let customArr = [];
 
       this.customComponents.forEach(el => {
