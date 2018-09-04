@@ -196,7 +196,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateSlotsByStudent() {
-    if (this.studentAddFormData.slot_id != '') {
+    if (this.studentAddFormData.slot_id != '' && this.studentAddFormData.slot_id != null) {
       this.selectedSlotsID = this.studentAddFormData.slot_id;
       this.slotIdArr = this.selectedSlotsID.split(',');
       this.slotIdArr.forEach(e => {

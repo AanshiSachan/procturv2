@@ -62,6 +62,17 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService) {
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
@@ -93,15 +104,6 @@ export class StudentHomeComponent implements OnInit {
         }
       }
       else {
-        this.auth.institute_type.subscribe(
-          res => {
-            if (res == 'LANG') {
-              this.isProfessional = true;
-            } else {
-              this.isProfessional = false;
-            }
-          }
-        )
         if (this.isProfessional) {
           this.StudentSettings = [
             { primaryKey: 'student_disp_id', header: 'Student Id' },

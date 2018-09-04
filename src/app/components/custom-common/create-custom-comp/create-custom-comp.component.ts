@@ -76,8 +76,9 @@ export class CreateCustomCompComponent implements OnInit {
 
     return this.prefill.fetchUserCreatedComponent().subscribe(
       (res: any) => {
-        this.userCreatedComponent = res;
-
+        if (res != null && res.length > 0) {
+          this.userCreatedComponent = res;
+        }
       }
     );
   }
