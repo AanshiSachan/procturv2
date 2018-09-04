@@ -1625,30 +1625,41 @@ export class EnquiryHomeComponent implements OnInit {
   downloadSummaryReport() { this.flagJSON.summaryOptions = true; setTimeout(() => { document.getElementById('anchTagToggle').text = "Download By Date Range"; }, 100); }
 
   downloadSummaryReportXl() {
-    switch (this.varJson.downloadReportOption) {
+    switch (Number(this.varJson.downloadReportOption)) {
       case 1:
         this.showErrorMessage(this.messageService.toastTypes.error, 'Selection', 'Please select other options');
         break;
       case 2: {
         this.flagJSON.isRippleLoad = true;
         this.enquire.getSummaryReportOfThisMonth().subscribe(
-          res => { this.flagJSON.isRippleLoad = false; this.performDownloadAction(res); },
-          err => { this.flagJSON.isRippleLoad = false; }
+          res => {
+            this.flagJSON.isRippleLoad = false;
+            this.performDownloadAction(res);
+          },
+          err => {
+            this.flagJSON.isRippleLoad = false;
+          }
         )
       }
         break;
       case 3: {
         this.flagJSON.isRippleLoad = true;
         this.enquire.getPreviousMSummary().subscribe(
-          res => { this.flagJSON.isRippleLoad = false; this.performDownloadAction(res); },
+          res => {
+            this.flagJSON.isRippleLoad = false;
+            this.performDownloadAction(res);
+          },
           err => { this.flagJSON.isRippleLoad = false; }
         )
       }
         break;
-      default: {
+      case 4: {
         this.flagJSON.isRippleLoad = true;
         this.enquire.getSummaryReportOfLastTwoMonth().subscribe(
-          res => { this.flagJSON.isRippleLoad = false; this.performDownloadAction(res); },
+          res => {
+            this.flagJSON.isRippleLoad = false;
+            this.performDownloadAction(res);
+          },
           err => { this.flagJSON.isRippleLoad = false; }
         )
       }
