@@ -1424,7 +1424,7 @@
                   </div>
                 </div>
 
-                <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
+                <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter')">
                   <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
                   <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
                   <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
