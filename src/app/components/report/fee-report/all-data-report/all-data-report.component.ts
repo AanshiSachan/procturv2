@@ -26,7 +26,7 @@ export class AllDataReportComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
   @ViewChild('form') form: any;
-  
+
   selectedRecordsList: any[] = [];
   reportSource: any[] = [];
   feeDataSource1: any[] = [];
@@ -37,7 +37,7 @@ export class AllDataReportComponent implements OnInit {
   batchList: any[] = [];
   feeDataSource: any[] = []
   displayKeys: any = [];//need for selected keys 
-  
+
   selectedFeeRecord: any;
   installmentList: any;
   due_type: any = '-1';
@@ -551,9 +551,10 @@ export class AllDataReportComponent implements OnInit {
         else {
           this.feeDataSource2 = res;
         }
-      )
-    }
+      }
+    )
   }
+
 
   openAdFilter() {
     this.isRippleLoad = true;
