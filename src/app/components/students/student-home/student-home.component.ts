@@ -30,7 +30,23 @@ export class StudentHomeComponent implements OnInit {
   private selectedSlots: any[] = []; academicYear: any[] = []; defaultAcadYear: any; private slotIdArr: any[] = []; private selectedSlotsString: string = ''; loading_message: number = 1; private selectedSlotsID: string = ''; selectedRowCount: number = 0; isRippleLoad: boolean = false; isSideBar: boolean = false; isOptions: boolean = false;
   private editForm: any = { comments: "", institution_id: sessionStorage.getItem('institute_id') }; StudentSettings: ColumnSetting[]; leaveDataArray: any = []; sortBy: string = "student_name";
   @ViewChild('studentPage') studentPage: ElementRef; @ViewChild('mySidenav') mySidenav: ElementRef; @ViewChild('optMenu') optMenu: ElementRef; sizeArr: any[] = [50, 100, 250, 500, 1000];
-  instituteData: instituteInfo = { school_id: -1, standard_id: -1, batch_id: -1, name: "", is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+  instituteData: instituteInfo = {
+    school_id: -1,
+    standard_id: -1,
+    batch_id: -1,
+    name: "",
+    is_active_status: 1,
+    mobile: "",
+    language_inst_status: -1,
+    subject_id: -1,
+    slot_id: "",
+    master_course_name: "",
+    course_id: -1,
+    start_index: 0,
+    batch_size: this.studentdisplaysize,
+    sorted_by: '',
+    order_by: ''
+  };
   advancedFilterForm: instituteInfo = { school_id: -1, standard_id: -1, batch_id: -1, name: "", is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
   applyLeave = { student_id: '', start_date: moment().format("YYYY-MM-DD"), end_date: moment().format("YYYY-MM-DD"), reason: '' };
   sendNotification = { loginMessageChkbx: false, smsChkbx: true, emailChkbx: false, studentChkbx: true, parentChkbx: false, gaurdianChkbx: false, subjectMessage: '' }
@@ -46,6 +62,17 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService) {
+
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+
     this.actRoute.queryParams.subscribe(e => {
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
@@ -77,15 +104,6 @@ export class StudentHomeComponent implements OnInit {
         }
       }
       else {
-        this.auth.institute_type.subscribe(
-          res => {
-            if (res == 'LANG') {
-              this.isProfessional = true;
-            } else {
-              this.isProfessional = false;
-            }
-          }
-        )
         if (this.isProfessional) {
           this.StudentSettings = [
             { primaryKey: 'student_disp_id', header: 'Student Id' },
@@ -479,20 +497,20 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   downloadAllStudent() {
     let data = {
-      school_id: -1,
-      standard_id: -1,
-      filtered_slots: "",
-      batch_id: -1,
-      subject_id: -1,
+      school_id: this.instituteData.school_id,
+      standard_id: this.instituteData.standard_id,
+      filtered_slots: this.instituteData.filtered_slots,
+      batch_id: this.instituteData.batch_id,
+      subject_id: this.instituteData.subject_id,
       name: "",
-      language_inst_status: null,
-      is_active_status: "1",
+      language_inst_status: this.instituteData.language_inst_status,
+      is_active_status: this.instituteData.is_active_status,
       mobile: "",
-      master_course_name: "-1",
-      course_id: -1
+      master_course_name: this.instituteData.master_course_name,
+      course_id: this.instituteData.course_id
     }
 
-    this.studentFetch.downloadStudentTableasXls(this.instituteData).subscribe(
+    this.studentFetch.downloadStudentTableasXls(data).subscribe(
       (res: any) => {
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
@@ -509,7 +527,7 @@ export class StudentHomeComponent implements OnInit {
         let msg = {
           type: 'error',
           title: 'Failed To Download XLS',
-          body: 'Please check your internet connection, else contact proctur support'
+          body: err.error.message
         }
         this.appC.popToast(msg);
       }

@@ -1018,6 +1018,17 @@ export class ClassHomeComponent implements OnInit {
     }
   }
 
+  // Hide Past Schedules
+
+  hidePastClassAction(data) {
+    let date = data.id.split('(');
+    if (moment(date[0]).format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
 
 @Pipe({

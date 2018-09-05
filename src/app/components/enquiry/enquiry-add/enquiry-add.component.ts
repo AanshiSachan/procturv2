@@ -283,10 +283,10 @@ export class EnquiryAddComponent implements OnInit {
       this.toggleObjectClass(document.getElementById('basicDetails').classList, document.getElementById('academicDetails').classList);
     }
     else if (eleid == "closeBasic") {
-      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList, );
+      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList);
     }
     else if (eleid == "openAcademic") {
-      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList, );
+      this.toggleObjectClass(document.getElementById('academicDetails').classList, document.getElementById('basicDetails').classList);
     }
     else if (eleid == "closeAcademic") {
       this.toggleObjectClass(document.getElementById('basicDetails').classList, document.getElementById('academicDetails').classList);
@@ -407,9 +407,7 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-
-
-  fetchMasterCourseDetails() {
+   fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe(
       (res: any) => {
         this.masterCourseData = res;
@@ -905,8 +903,10 @@ export class EnquiryAddComponent implements OnInit {
             walkin_followUpDate: this.newEnqData.walkin_followUpDate,
             walkin_followUpTime: this.newEnqData.walkin_followUpTime
           }
+          this.isRippleLoad = true;
           this.poster.postNewEnquiry(obj).subscribe(
             (data: any) => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
@@ -954,14 +954,17 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.showErrorMessage('error', "Error", err.error.message);
             }
           );
         }
         else {
+          this.isRippleLoad = true;
           this.poster.postNewEnquiry(this.newEnqData).subscribe(
             (data: any) => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
@@ -1003,6 +1006,7 @@ export class EnquiryAddComponent implements OnInit {
                 });
             },
             err => {
+              this.isRippleLoad = false;
               this.isEnquirySubmit = false;
               this.showErrorMessage('error', 'Error', '');
             }

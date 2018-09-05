@@ -546,9 +546,4 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
     return obj;
   }
 
-  validateTimeAndMinute() {
-
-  }
-
-
 }
