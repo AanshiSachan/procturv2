@@ -522,9 +522,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, this.messages.loginMsg.success.title, this.messages.loginMsg.success.body);
           },
           err => {
-            let errorObj = JSON.parse(JSON.stringify(err._body));
-            let error_JSON = JSON.parse(errorObj);
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Not Found", error_JSON.message);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error In Forget Password", err.error.message);
           })
       }
     }
