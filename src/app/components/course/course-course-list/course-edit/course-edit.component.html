@@ -77,12 +77,13 @@
                               />
                               <!-- <label for="masterCourse">Course Name
                                 <span style="color:red">*</span>
+                                [ngClass]="{disableDatePicker : mainTableDataSource[i].course_id == '0' }"
                               </label> -->
                             </div>
                           </td>
                           <td>
                             <div class="field-wrapper datePickerBox">
-                              <input type="text" value="" readonly="true" style="background: transparent" [ngClass]="{disableDatePicker : addEnableDisableClass(mainTableDataSource[i]) }"
+                              <input type="text" value="" readonly="true" style="background: transparent" [disabled]="mainTableDataSource[i].course_id != '0'"
                                 [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate"
                                 bsDatepicker>
                             </div>
