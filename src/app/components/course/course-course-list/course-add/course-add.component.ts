@@ -263,6 +263,15 @@ export class CourseAddComponent implements OnInit {
       }
       test.batchesList = [];
       let selectedSubjectRow = this.checkIfAnySubjectSelected(this.mainArrayForTable[i].subjectListArray);
+      if (selectedSubjectRow.length == 0) {
+        let err = {
+          type: "error",
+          title: "Error",
+          body: "You have not selected any subject"
+        }
+        this.toastCtrl.popToast(err);
+        return false;
+      }
       for (let y = 0; y < selectedSubjectRow.length; y++) {
         let trp: any = {};
         trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;
