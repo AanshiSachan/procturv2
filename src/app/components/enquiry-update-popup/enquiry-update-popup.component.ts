@@ -197,6 +197,9 @@ export class EnquiryUpdatePopupComponent implements OnInit, OnChanges {
         if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null && res.walkin_followUpTime != ": ") {
           this.updateFormData.walkin_followUpTime = this.commonService.breakTimeInToHrAndMin(res.walkin_followUpTime);
         }
+
+        this.updateFormData.closing_reason_id = res.closing_reason_id;
+
       },
       err => {
         this.isRippleLoad = false;
