@@ -126,7 +126,7 @@ export class CourseAddComponent implements OnInit {
     )
   }
 
-  addDataToTable() {   
+  addDataToTable() {
     if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != "" && this.courseDetails.start_Date != null && this.courseDetails.end_Date != '' && this.courseDetails.end_Date != null) {
       if (this.courseDetails.start_Date > this.courseDetails.end_Date) {
         let err = {
@@ -241,8 +241,23 @@ export class CourseAddComponent implements OnInit {
     for (let i = 0; i < this.mainArrayForTable.length; i++) {
       let test: any = {};
       test.course_name = this.mainArrayForTable[i].course_name;
-      test.end_date = this.mainArrayForTable[i].end_Date;
-      test.start_date = this.mainArrayForTable[i].start_Date;
+
+      if (this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "") {
+        test.start_date = moment(this.mainArrayForTable[i].start_Date).format('YYYY-MM-DD');
+      } else {
+        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide start date" });
+        return false;
+      }
+
+
+      if (this.mainArrayForTable[i].end_Date != null && this.mainArrayForTable[i].end_Date != "") {
+        test.end_date = moment(this.mainArrayForTable[i].end_Date).format('YYYY-MM-DD');
+      } else {
+        this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide end date" });
+        return false;
+      }
+
+
       if (this.mainArrayForTable[i].allow_exam_grades == true) {
         test.is_exam_grad_feature = 1;
       } else {
