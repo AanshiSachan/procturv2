@@ -210,19 +210,17 @@ export class TimeTableComponent implements OnInit {
   getTeachersNameData() {
     this.onlyMasterData = false;
     this.isRippleLoad = true;
-    this.timeTableServ.getTeachersName().subscribe
-      (
+    this.timeTableServ.getTeachersName().subscribe(
       res => {
-        this.getTeachersData = res;
         this.isRippleLoad = false;
-
+        this.getTeachersData = res.sort((a, b) => {
+          return a.teacher_name.localeCompare(b.teacher_name);
+        });
       },
       err => {
         this.isRippleLoad = false;
         console.log(err);
-
-      }
-      )
+      })
   }
 
 
@@ -275,7 +273,7 @@ export class TimeTableComponent implements OnInit {
         if (res.length != 0 && this.onlyMasterData) {
 
           res.map((element) => {
-           
+
             this.namesArr.push(element.course_name);
             this.timeTableObj = element.batchTimeTableList;
             this.maxEntries = 0;
@@ -294,7 +292,7 @@ export class TimeTableComponent implements OnInit {
         this.showtable = true;
       },
       err => {
-        
+
         this.isRippleLoad = false;
         console.log(err);
       }

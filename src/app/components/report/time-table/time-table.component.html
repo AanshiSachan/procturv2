@@ -24,7 +24,7 @@
               </div>
               <div class="field-radio-wrapper row-val">
                 <input class="form-radio" type="radio" name="filter" id='r2' [checked]="selectData=='teacher'" (change)="radiochangeData('teacher')">
-                <label for="r2">Teacher</label>
+                <label for="r2">Faculty</label>
               </div>
               <div class="field-radio-wrapper row-val" style="margin-left: 15% !important;">
                 <input class="form-radio" type="radio" name="filter" id='r3' [checked]="selectData=='batch'" (change)="radiochangeData('batch')">
@@ -34,7 +34,7 @@
             <div class="c-sm-8 c-xs-8 c-lg-8 c-md-8 field-wrapper teachBatch">
               <div class="teacherBox" *ngIf="isProfessional && teacherBox">
                 <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldDataPro.teacher_id">
-                  <option value="-1">Teachers</option>
+                  <option value="-1">Faculty</option>
                   <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
                 </select>
               </div>
@@ -90,7 +90,7 @@
               </select>
             </div>
             <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
-              <label>Teachers</label>
+              <label>Faculty</label>
               <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.teacher_id">
                 <option value="-1"></option>
                 <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
