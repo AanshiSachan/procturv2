@@ -1,12 +1,10 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="flagJson.isRippleLoad">
 </loaders-css>
 
 <div class="report-wrapper clearFix">
   <aside class="middle-full">
     <section class="middle-main clearFix">
       <div class="middle-top mb0 clearFix header">
-
-
         <div class="report-header" style="padding-bottom:1%">
           <h2 style="padding: 5px;" class="pull-left">
             <a routerLink="/view/reports">
@@ -18,9 +16,9 @@
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Payment History
           </h2>
-          <a (click)="searchByName()" class="showFilter" style="float:right;" *ngIf="searchByDateVisible">Show Name Filter</a>
-          <a (click)="searchByDate()" class="showFilter" *ngIf="searchByNameVisible" style="float: right;">Hide Name Filter</a>
-          <div class="row" *ngIf="searchByDateVisible">
+          <a (click)="searchByValue('name')" class="showFilter" *ngIf="varJson.searchBy=='date'">Show Name Filter</a>
+          <a (click)="searchByValue('date')" class="showFilter" *ngIf="varJson.searchBy=='name'">Hide Name Filter</a>
+          <div class="row" *ngIf="varJson.searchBy=='date'">
 
             <div class="c-lg-12 field-made">
               <div class="c-lg-3 field-wrapper datePickerBox">
@@ -45,108 +43,29 @@
                       checked="true" id="active">
                     <label for="active">Active</label>
                   </div>
-                  <!-- <div class="c-lg-4 field-radio-wrapper makeAdjust" style="text-align: left;">
-                      <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="2"
-                        id="allStudents">
-                      <label for="allStudents">All Students</label>
-                    </div>
-                    <div class="c-lg-4 field-radio-wrapper makeAdjust">
-                      <div>
-                        <input type="radio" class="form-radio" name="active" [(ngModel)]="sendPayload.payment_history_student_category_option" [value]="1"
-                          id="others">
-                        <label for="others" style="margin-left:10px;">Others</label>
-                      </div>
-
-                      <div style="position: relative;top: -25px;left:51px;">
-                        <aside class="pull-left">
-                          <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
-                          </rob-tooltip>
-                        </aside>
-                      </div>
-                    </div> -->
                 </div>
-
-
-
               </div>
             </div>
-
-
-
-            <!-- <div class="c-lg-2">
-                <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:green; margin-top:5%;">
-                    <h5 style="display: inline-block;">Active</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg3" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-                <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:red ;margin-top:5%;">
-                    <h5 style="display: inline-block;">Inactive</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg4" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-                <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:brown ;margin-top:5%;">
-                    <h5 style="display: inline-block;">Historical</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg1" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-                <div class="c-lg-12">
-                  <div class="c-lg-6" style="color:blue ;margin-top:5%;">
-                    <h5 style="display: inline-block;">Archived</h5>
-                  </div>
-                  <div class="c-lg-6">
-                    <aside class="pull-left">
-                      <rob-tooltip [textMessage]="'?'" [message]="helpMsg2" [placement]="'left'" [customClass]="'left'">
-                      </rob-tooltip>
-                    </aside>
-                  </div>
-                </div>
-
-              </div> -->
-
           </div>
 
-          <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="searchByNameVisible">
+          <div class="row" style="padding-top:16px;margin-top:16px;" *ngIf="varJson.searchBy=='name'">
             <div class="c-lg-3 field-wrapper">
               <label for=from>Student Name/Contact No/Reciept No</label>
-              <input type="text" class="form-ctrl" id="from" [(ngModel)]="searchName">
+              <input type="text" class="form-ctrl" id="from" [(ngModel)]="varJson.searchName">
             </div>
-
             <div class="c-lg-3 field-wrapper" style="margin-top:1%;">
-
               <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
-
-
             </div>
           </div>
-
         </div>
-
-        <div *ngIf="showPaymentBox && allPaymentRecords.length > 0">
+        <div>
           <div class="row">
             <div class="c-lg-12">
               <div class="c-lg-1">
 
               </div>
               <div class="c-lg-8" style="margin-top: 10px;">
-                <div class="c-lg-12">
+                <div class="c-lg-12" *ngIf=" allPaymentRecords.length > 0">
                   <div class="c-lg-4  text-change" *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.')">
                     <span class="made-out"> Cheque/PDC/DD No</span>
                     <div class="font-element">₹{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}</div>
@@ -179,10 +98,9 @@
 
               <div class="c-lg-3">
                 <div id="basic-search" style="float:right;" class="c-lg-11">
-                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="varJson.searchText" name="searchData"
                     (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; margin-top: 10px; margin-bottom: 10px;">
                 </div>
-
                 <div>
                   <section class="login-tube pull-right" style="margin-top: 14px; position: absolute;right: 8px;">
                     <nav>
@@ -205,9 +123,9 @@
                                 <i class="fa fa-file-pdf-o" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
                                 <strong style="display: inline-block;">Export as Pdf</strong>
                               </li>
-                              <!-- <li (click)="openPreferences()" class="asHover">
-                                                        <strong>Show/Hide Columns</strong>
-                                                    </li> -->
+                              <li (click)="openPreferences()" class="asHover">
+                                <strong>Show/Hide Columns</strong>
+                              </li>
                             </ul>
                           </div>
                         </li>
@@ -221,46 +139,21 @@
 
         </div>
 
-
-        <!-- Cash : {{collectionData.cash}} -->
-        <!-- </li>
-                    <li style="margin:4%">
-                     
-                    </li>
-                  </ul>
-                </div>
-                <div class="c-lg-4">
-                  <ul>
-                    <li style="margin:4%">
-                      -->
-        <!-- </li>
-                    <li style="margin:4%">
-                      -->
-        <!-- </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div> -->
-
-
         <div class="table table-responsive">
-
-          <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="1" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
+          <!-- <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="1" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
             [records]="allPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
-          </rob-table>
+          </rob-table> -->
+          <data-display-table #child [displayKeys]="tableSetting" [displayData]="allPaymentRecords" (editView)='optionSelected($event)'>
+          </data-display-table>
         </div>
-
       </div>
     </section>
+    <preference-popup [settings]="tableSetting" [keys]="feeSettings1" (closeButton)="closePopup($event)" *ngIf="flagJson.showPreference"></preference-popup>
   </aside>
 </div>
 
 
-<proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopUp">
-
+<proctur-popup [sizeWidth]="'large'" *ngIf="flagJson.addReportPopUp">
   <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -282,7 +175,6 @@
 
   <div popup-content class="main-student-table">
     <div class="table table-responsive">
-
       <table>
         <thead>
           <tr>
@@ -316,34 +208,32 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="d.amount_paid"
-                  name='paidVal'>
+                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [ngModel]="d.amount_paid" (ngModelChange)="updateAmount(i,$event)"
+                  name='paidVal' [id]="'inputAmount-'+i">
               </div>
             </td>
-            <td>
-              {{d.balance_amount}}
+            <td [id]="'balanceAmount-'+i">
+              {{d.temp_balance_amount}}
+              
+
             </td>
           </tr>
         </tbody>
       </table>
-
       <div class="row" class="field-made">
-
         <div class="c-lg-6 field-wrapper datePickerBox">
           <label>Payment Date</label>
           <input type="text" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="updatedResult.paid_date">
         </div>
-
         <div class="c-lg-6 field-wrapper">
           <label>Payment Mode</label>
           <select class="form-ctrl" name="paymentMode" [(ngModel)]="updatedResult.paymentMode" (ngModelChange)="payModeUpdated($event)">
-
-            <option value="Cash">Cash</option>
-            <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
-            <option value="Credit/Debit Card">Credit/Debit Card</option>
-            <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
-            <option value="Other">Other</option>
+            <option *ngFor="let mode of paymentMode" value={{mode}}>
+              {{mode}}
+          </option>
           </select>
+
+   
         </div>
       </div>
 
@@ -369,13 +259,15 @@
           <span class="field-red">*</span>
           <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.fee_receipt_update_reason">
         </div>
-        <input type="button" class="btn fullBlue" value="Close" (click)="closeReportPopup()" style="margin-right:10px;margin-left:15px; margin-top:1%"
-          *ngIf="!isChequePayment">
+        <div class="pull-right">
+        <input type="button" class="btn" value="Close" (click)="closeReportPopup()" style="margin-right:10px;margin-left:15px; margin-top:1%"
+          *ngIf="!flagJson.isChequePayment">
         <input type="button" class="btn fullBlue" value="Update" style="margin-right:10px;margin-left:5px; margin-top:1%" (click)="updationOfPerPersonData()"
-          *ngIf="!isChequePayment">
+          *ngIf="!flagJson.isChequePayment">
+        </div>
       </div>
 
-      <div *ngIf="isChequePayment" style="margin-top: 10px;" class="field-made">
+      <div *ngIf="flagJson.isChequePayment" style="margin-top: 10px;" class="field-made">
         <div>
           <h2 style="margin-left:8px;">Cheque Details</h2>
           <div class="row">
@@ -399,42 +291,32 @@
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>
               <span class="field-red">*</span>
-              <input type="text" class="form-ctrl" [value]="updationArray.total_amt_paid | currency:'₹' :0" disabled>
+              <input type="text" class="form-ctrl" [value]="varJson.total_amt_paid | currency:'₹' :0" disabled>
             </div>
           </div>
 
           <div class="row">
-
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Status</label>
               <span class="field-red">*</span>
               <select class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_status_id">
-                <option value="1" selected>
-                </option>
-                <option value="2">
-                  Dishonoured
-                </option>
-                <option value="3">
-                  Cleared
-                </option>
+                <option *ngFor="let status of chequeStatus" value={{status.value}}>
+                  {{status.title}}
+              </option>
               </select>
             </div>
           </div>
-
           <div style="margin-top: 1%; margin-left:5px;">
             <input type="button" class="btn fullBlue" value="Save" (click)="updationOfPerPersonData()">
-            <input type="button" class="btn fullBlue" value="Close" (click)="closeReportPopup()">
+            <input type="button" class="btn" value="Close" (click)="closeReportPopup()">
           </div>
-
         </div>
       </div>
-
     </div>
   </div>
 
 
   <div popup-footer>
-
   </div>
 
 </proctur-popup>

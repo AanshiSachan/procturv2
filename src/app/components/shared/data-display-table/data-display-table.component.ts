@@ -40,6 +40,11 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.keysArray = this.displayKeys.keys;
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     }
+    else {
+      this.recordsTrimmed = this.displayData;
+      this.recordCount = this.displayData.length;
+      // this.displayKeys.displayMessage = "Data not found";
+    }
   }
 
   notifyMe(e) {
@@ -47,7 +52,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     this.keysArray[0].type = null;
     this.sortData(this.keysArray[0]);
     console.log('notifyMe');
-
   }
 
   onSelect(value, data) {
@@ -166,8 +170,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
 
   getTypeCheck(data, value: any, key) {
-    
-    if ( key.operation) {
+
+    if (key.operation) {
       console.log(key);
       switch (key.operation) {
         case 'add': {
@@ -177,18 +181,18 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
             if (Number(i) < len)
               strExp = data[key.primaryKey[i]] + '+';
           }
-          console.log(strExp,eval(strExp));
+          // console.log(strExp, eval(strExp));
           break;
         }
         case 'sub': {
           let strExp = '';
-          let len = key.primaryKey.length-1;
+          let len = key.primaryKey.length - 1;
           for (let i in key.primaryKey) {
             strExp += data[key.primaryKey[i]]
             if (Number(i) < len)
-            strExp += '-';
+              strExp += '-';
           }
-          console.log(strExp,eval(strExp));
+          // console.log(strExp, eval(strExp));
           value = eval(strExp);
           break;
         }
@@ -230,9 +234,10 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   editRow(id, obj) {
-    console.log(id);
-    this.isEditRow = id;
-    this.editObject = obj;
+    console.log(id, obj);
+    this.editView.emit({ 'data': obj })
+    // this.isEditRow = id;
+    // this.editObject = obj;
   }
 
   /* Fetches Data as per the user selected batch size */

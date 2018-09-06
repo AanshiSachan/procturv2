@@ -94,7 +94,7 @@
     </ng-template>
     <!-- popup editView -->
     <td *ngIf="isEditRow!='editTableRow-'+i">
-      <button class="button" *ngIf="displayKeys.actionSetting.editOption=='button'" (click)="editRow('editTableRow-'+i)">Edit</button>
+      <button class="button" *ngIf="displayKeys.actionSetting.editOption=='button'" (click)="editRow('editTableRow-'+i,data)">Edit</button>
       <ng-template [ngIf]="displayKeys.actionSetting.editOption=='popup'">
         <!-- <div class="dropup"> -->
         <!-- <i class=" fa fa-ellipsis-v dropbtn" style="font-size:24px;">

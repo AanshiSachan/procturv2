@@ -350,6 +350,9 @@
 .showFilter:hover{
     cursor: pointer;
 }
+.showFilter{
+    float: right;
+}
 
 $color-base: #efefef;
 $color-base: #efefef;
@@ -384,4 +387,14 @@ $color-highlight: lighten($color-base, 7%);
 
 .text-change{
     text-transform: uppercase
+}
+
+.table-responsive{
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+.pull-right {
+    margin-top: 26px;
+    margin-left: 122px;
 }
