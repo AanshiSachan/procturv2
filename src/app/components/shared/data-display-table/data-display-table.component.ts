@@ -208,7 +208,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if (key.primaryKey == this.keysArray[0].primaryKey) {
       return value;
     }
-    if ((!isNaN(value)) && (value != '')) {
+    if ((!isNaN(value)) && (value != '')&&(value!=null)) {
       // return value ;
       return '₹ ' + value.toLocaleString('en-IN');
     }
