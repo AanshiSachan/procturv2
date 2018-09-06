@@ -246,21 +246,22 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
   updateAmount(index, totalAmount) {
+    debugger
     if (totalAmount.toString().indexOf(".") == -1) {
-      let bal = this.perPersonData[index].temp_balance_amount;
+      let bal = this.perPersonData[index].fees_amount;
       if (totalAmount == 0) {
         this.perPersonData[index].balance_amount = this.perPersonData[index].temp_balance_amount;
         this.perPersonData[index].amount_paid = this.perPersonData[index].temp_amount_paid;
 
       }
-     if (this.perPersonData[index].balance_amount >= totalAmount) {
-        this.perPersonData[index].balance_amount = this.perPersonData[index].balance_amount - totalAmount;
+     if ( this.perPersonData[index].fees_amount >= totalAmount) {
+        this.perPersonData[index].balance_amount = this.perPersonData[index].fees_amount - totalAmount;
         this.perPersonData[index].amount_paid = totalAmount;
   
       }
 
       if (totalAmount <= this.perPersonData[index].temp_amount_paid || (totalAmount <= bal && isNaN(totalAmount))) {
-        this.perPersonData[index].balance_amount = this.perPersonData[index].balance_amount - totalAmount;
+        this.perPersonData[index].balance_amount = this.perPersonData[index].fees_amount - totalAmount;
         this.perPersonData[index].amount_paid = totalAmount;
       }
       else if (totalAmount > bal) {
@@ -301,6 +302,7 @@ export class PaymentHistoryMainComponent implements OnInit {
         if (data.feeSchedule_TxLst.length > 0) {
           this.perPersonData = data.feeSchedule_TxLst;
           this.updatedResult.paymentMode = this.perPersonData[0].paymentMode;
+          this.updatedResult.fee_receipt_update_reason = " ";
           let totalAmount = 0;
           this.perPersonData.forEach((element, index) => {
             totalAmount += element.amount_paid;
@@ -362,7 +364,7 @@ export class PaymentHistoryMainComponent implements OnInit {
                   cheque_status_id: ""
                 }
                 this.getAllPaymentHistory();
-                this.updatedResult.fee_receipt_update_reason = "";
+                this.updatedResult.fee_receipt_update_reason = " ";
                 this.flagJson.addReportPopUp = false;
               },
               err => {
@@ -393,7 +395,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             (data: any) => {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', 'Fee receipt updated successfully');
               this.getAllPaymentHistory();
-              this.updatedResult.fee_receipt_update_reason = "";
+              this.updatedResult.fee_receipt_update_reason = " ";
               this.flagJson.addReportPopUp = false;
             },
             (error: any) => {
