@@ -247,26 +247,26 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   updateAmount(index, totalAmount) {
     if (totalAmount.toString().indexOf(".") == -1) {
-      let bal = this.perPersonData[index].amount_paid;
+      let bal = this.perPersonData[index].temp_balance_amount;
       if (totalAmount == 0) {
-        this.perPersonData[index].temp_balance_amount = this.perPersonData[index].balance_amount;
+        this.perPersonData[index].balance_amount = this.perPersonData[index].temp_balance_amount;
         this.perPersonData[index].amount_paid = this.perPersonData[index].temp_amount_paid;
 
       }
-     if (this.perPersonData[index].temp_balance_amount >= totalAmount) {
-        this.perPersonData[index].temp_balance_amount = this.perPersonData[index].temp_balance_amount - totalAmount;
+     if (this.perPersonData[index].balance_amount >= totalAmount) {
+        this.perPersonData[index].balance_amount = this.perPersonData[index].balance_amount - totalAmount;
+        this.perPersonData[index].amount_paid = totalAmount;
   
       }
 
       if (totalAmount <= this.perPersonData[index].temp_amount_paid || (totalAmount <= bal && isNaN(totalAmount))) {
-        this.perPersonData[index].temp_balance_amount = this.perPersonData[index].temp_amount_paid - totalAmount;
-       
-
+        this.perPersonData[index].balance_amount = this.perPersonData[index].balance_amount - totalAmount;
+        this.perPersonData[index].amount_paid = totalAmount;
       }
       else if (totalAmount > bal) {
         if (confirm("Invalid value for Amount Paid")) {
           this.perPersonData[index].amount_paid = this.perPersonData[index].temp_amount_paid;
-          this.perPersonData[index].temp_balance_amount = this.perPersonData[index].balance_amount;
+          this.perPersonData[index].balance_amount = this.perPersonData[index].temp_balance_amount;
           (<HTMLInputElement>document.getElementById("inputAmount-" + index)).value = this.perPersonData[index].amount_paid;
           (<HTMLInputElement>document.getElementById("balanceAmount-" + index)).value = this.perPersonData[index].balance_amount;
         }
@@ -276,6 +276,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     else {
       this.msgService.showErrorMessage('error', "", 'Please Enter Number Only ');
     }
+    console.log(this.perPersonData);
+    
     //installment total amount 
     let total = 0;
     this.perPersonData.forEach((element, index) => {
@@ -322,12 +324,6 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
   updationOfPerPersonData() {
-
-    this.perPersonData.forEach((element, index) => { 
-       element.amount_paid = element.temp_amount_paid ;
-       element.balance_amount = element.temp_balance_amount ;
-    });
-
     if (this.personData.invoice_no != null && this.personData.invoice_no != '' && this.personData.invoice_no != undefined && this.personData.invoice_no != 0) {
 
       if (this.updatedResult.fee_receipt_update_reason.trim() != "" && this.updatedResult.fee_receipt_update_reason != null) {
