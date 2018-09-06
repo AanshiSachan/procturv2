@@ -246,7 +246,6 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
   updateAmount(index, totalAmount) {
-    debugger
     if (totalAmount.toString().indexOf(".") == -1) {
       let bal = this.perPersonData[index].fees_amount;
       if (totalAmount == 0) {
@@ -254,10 +253,10 @@ export class PaymentHistoryMainComponent implements OnInit {
         this.perPersonData[index].amount_paid = this.perPersonData[index].temp_amount_paid;
 
       }
-     if ( this.perPersonData[index].fees_amount >= totalAmount) {
+      if (this.perPersonData[index].fees_amount >= totalAmount) {
         this.perPersonData[index].balance_amount = this.perPersonData[index].fees_amount - totalAmount;
         this.perPersonData[index].amount_paid = totalAmount;
-  
+
       }
 
       if (totalAmount <= this.perPersonData[index].temp_amount_paid || (totalAmount <= bal && isNaN(totalAmount))) {
@@ -278,7 +277,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.msgService.showErrorMessage('error', "", 'Please Enter Number Only ');
     }
     console.log(this.perPersonData);
-    
+
     //installment total amount 
     let total = 0;
     this.perPersonData.forEach((element, index) => {
@@ -287,7 +286,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.varJson.total_amt_paid = total;
   }
 
-  
+
   optionSelected(e) {
     console.log(e);
     this.personData = e.data;
