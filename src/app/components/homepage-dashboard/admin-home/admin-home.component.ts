@@ -1103,7 +1103,7 @@ export class AdminHomeComponent implements OnInit {
       inst_id: sessionStorage.getItem('institute_id'),
       is_cancel_notify: this.is_notified,
       master_course: this.classMarkedForAction.master_course,
-      requested_date: moment().format("YYYY-MM-DD")
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
     this.widgetService.cancelCourseSchedule(obj).subscribe(
       res => {
