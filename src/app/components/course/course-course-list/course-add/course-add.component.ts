@@ -242,21 +242,19 @@ export class CourseAddComponent implements OnInit {
       let test: any = {};
       test.course_name = this.mainArrayForTable[i].course_name;
 
-      if (this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "") {
+      if (this.mainArrayForTable[i].start_Date != "" && this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "Invalid date") {
         test.start_date = moment(this.mainArrayForTable[i].start_Date).format('YYYY-MM-DD');
       } else {
         this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide start date" });
         return false;
       }
 
-
-      if (this.mainArrayForTable[i].end_Date != null && this.mainArrayForTable[i].end_Date != "") {
+      if (this.mainArrayForTable[i].end_Date != "" && this.mainArrayForTable[i].end_Date != null && this.mainArrayForTable[i].end_Date != "Invalid date") {
         test.end_date = moment(this.mainArrayForTable[i].end_Date).format('YYYY-MM-DD');
       } else {
         this.toastCtrl.popToast({ type: "error", title: "Date Error", body: "Please provide end date" });
         return false;
       }
-
 
       if (this.mainArrayForTable[i].allow_exam_grades == true) {
         test.is_exam_grad_feature = 1;
@@ -265,6 +263,15 @@ export class CourseAddComponent implements OnInit {
       }
       test.batchesList = [];
       let selectedSubjectRow = this.checkIfAnySubjectSelected(this.mainArrayForTable[i].subjectListArray);
+      if (selectedSubjectRow.length == 0) {
+        let err = {
+          type: "error",
+          title: "Error",
+          body: "You have not selected any subject"
+        }
+        this.toastCtrl.popToast(err);
+        return false;
+      }
       for (let y = 0; y < selectedSubjectRow.length; y++) {
         let trp: any = {};
         trp.batch_name = this.newCourseAdd.master_course_name + '-' + this.mainArrayForTable[i].course_name + '-' + selectedSubjectRow[y].subject_name;

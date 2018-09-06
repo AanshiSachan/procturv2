@@ -1,7 +1,7 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
-<div class="middle-section clearFix" >
+<div class="middle-section clearFix">
 
   <section class="row setting-full">
 
@@ -99,7 +99,7 @@
 
           <div class="owner-details borderClass">
 
-            <div class="row" >
+            <div class="row">
               <h3>
                 Owner Details
               </h3>
@@ -385,7 +385,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option" id="ch14">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option"
+                id="ch14">
               <label for="ch14">Total Price (Rs.)
               </label>
             </div>
@@ -449,13 +450,13 @@
             <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;margin-left: -15px;">
               <div class="radio-options">
                 <div class="field-radio-wrapper">
-                  <input type="radio" [checked]="(this.instDetails.is_student_displayId_manual == 0)" (click)="checkInputType($event)" name="sFilter"
-                    class="form-radio" value="Automatic" id="idAutomatic">
+                  <input type="radio" disabled [checked]="(this.instDetails.is_student_displayId_manual == 0)" (click)="checkInputType($event)"
+                    name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
                   <label for="active">Automatic</label>
                 </div>
                 <div class="field-radio-wrapper">
-                  <input type="radio" [checked]="(this.instDetails.is_student_displayId_manual == 1)" (click)="checkInputType($event)" name="sFilter"
-                    value="Manual" class="form-radio" id="idManual">
+                  <input type="radio" disabled [checked]="(this.instDetails.is_student_displayId_manual == 1)" (click)="checkInputType($event)"
+                    name="sFilter" value="Manual" class="form-radio" id="idManual">
                   <label for="Inactive">Manual</label>
                 </div>
               </div>
@@ -495,7 +496,9 @@
 
         <div class="row borderClass" style="margin-top:20px">
           <h3 class='c-sm-4 c-md-4 c-lg-4'>SMS Setting</h3>
-          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation History</a>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation
+            History
+          </a>
         </div>
 
         <div class="row">
@@ -535,7 +538,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota_available >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_available" id="ch24">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_available"
+                id="ch24">
               <label for="ch24">Transactional SMS Quota Available
               </label>
             </div>
@@ -545,7 +549,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota" id="ch25">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota"
+                id="ch25">
               <label for="ch25">Promotional SMS Quota Allocated
               </label>
             </div>
@@ -555,7 +560,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_used >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_used" id="ch26">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_used"
+                id="ch26">
               <label for="ch26">Promotional SMS Quota Used
               </label>
             </div>
@@ -565,7 +571,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_available >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_available" id="ch27">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_available"
+                id="ch27">
               <label for="ch27">Promotional SMS Available
               </label>
             </div>
@@ -612,7 +619,8 @@
 
         <div class="row borderClass" style="margin-top:20px">
           <h3 class="c-sm-4 c-md-4 c-lg-4">Storage Setting</h3>
-          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download
+            Limit Allocation History</a>
         </div>
 
         <div class="row">

@@ -27,12 +27,13 @@ export class StudentsArchivedReportComponent implements OnInit {
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
-  arr = []
+  arr: any = [];
 
 
   constructor(private students: CoursesServiceService,
     private appc: AppComponent,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.studentsArchivedData();
@@ -45,10 +46,7 @@ export class StudentsArchivedReportComponent implements OnInit {
       (data: any) => {
         this.dataStatus = false;
         this.isRippleLoad = false;
-        this.getStudents = data;
-        for (let i = this.getStudents.length-1; i > 0; i--) {
-          this.arr.push(this.getStudents[i])
-        }
+        this.arr = data;
         this.totalRow = data.length;
         this.PageIndex = 1;
         this.fetchTableDataByPage(this.PageIndex);

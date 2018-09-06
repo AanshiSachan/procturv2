@@ -153,19 +153,6 @@ export class CourseEditComponent implements OnInit {
     }
   }
 
-  addEnableDisableClass(data) {
-    let test = this.checkIfAnySubjectSelected(data.batchesList);
-    if (test.length > 0) {
-      if (data.batch_id != '0') {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false
-    }
-  }
-
   checkIfAnySelectedRowExist(data, mainTableIndex) {
     let uiSelctedData = false;
     for (let i = 0; i < data.batchesList.length; i++) {
@@ -201,8 +188,21 @@ export class CourseEditComponent implements OnInit {
         return false;
       }
       test.course_name = this.mainTableDataSource[i].course_name;
-      test.end_date = moment(this.mainTableDataSource[i].end_date).format("YYYY-MM-DD");
-      test.start_date = moment(this.mainTableDataSource[i].start_date).format("YYYY-MM-DD");
+
+      if (this.mainTableDataSource[i].start_date != "" && this.mainTableDataSource[i].start_date != null && this.mainTableDataSource[i].start_date != "Invalid date") {
+        test.start_date = moment(this.mainTableDataSource[i].start_date).format("YYYY-MM-DD");
+      } else {
+        this.messageToast('error', 'Error', 'Please Provide start date');
+        return false;
+      }
+
+      if (this.mainTableDataSource[i].end_date != "" && this.mainTableDataSource[i].end_date != null && this.mainTableDataSource[i].end_date != "Invalid date") {
+        test.end_date = moment(this.mainTableDataSource[i].end_date).format("YYYY-MM-DD");
+      } else {
+        this.messageToast('error', 'Error', 'Please Provide end date');
+        return false;
+      }
+
       test.course_id = this.mainTableDataSource[i].course_id.toString();
       if (this.mainTableDataSource[i].is_exam_grad_feature == true) {
         test.is_exam_grad_feature = 1;
