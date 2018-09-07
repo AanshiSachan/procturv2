@@ -37,6 +37,13 @@
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
+        <li id="liBio" class="menu-item" style="cursor: pointer" (click)="changeView('liBio','divBioMetricContent')"
+          [ngClass]="{hide : biometricSetting != 1}">
+          <span>
+            <a class="">Biometric Setting</a>
+            <i class="fas fa-random" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
       </ul>
     </aside>
 
@@ -67,8 +74,8 @@
           </div>
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="smsReporting" [(ngModel)]="instituteSettingDet.sms_status_report" class="form-checkbox"
-                id="idSmsReport">
+              <input type="checkbox" value="" name="smsReporting" [(ngModel)]="instituteSettingDet.sms_status_report"
+                class="form-checkbox" id="idSmsReport">
 
               <label for="smsReporting">Failed SMS reporting
                 <div class="questionInfo inline-relative">
@@ -227,31 +234,36 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.student" id="ch4">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.student"
+                            id="ch4">
                           <label for="ch4"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.parent" id="ch5">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.parent"
+                            id="ch5">
                           <label for="ch5"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.gaurdian" id="ch6">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.gaurdian"
+                            id="ch6">
                           <label for="ch6"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.teacher" id="ch6teacher">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.teacher"
+                            id="ch6teacher">
                           <label for="ch6teacher"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.admin" id="ch6admin">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.birthday_sms.admin"
+                            id="ch6admin">
                           <label for="ch6admin"></label>
                         </div>
                       </td>
@@ -275,14 +287,16 @@
                             <label for="startTime">Time</label>
                             <div class="tbox">
                               <div class="times ">
-                                <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour" name="startTime">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour"
+                                  name="startTime">
                                   <option [value]="time" *ngFor="let time of times">
                                     {{time}}
                                   </option>
                                 </select>
                               </div>
                               <div class="times">
-                                <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.minute" name="minute">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.minute"
+                                  name="minute">
                                   <option *ngFor="let minute of minArr" [value]="minute">
                                     {{minute}}
                                   </option>
@@ -323,7 +337,8 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.admin" id="ch8alumni_birthday_sms">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.admin"
+                            id="ch8alumni_birthday_sms">
                           <label for="ch8alumni_birthday_sms"></label>
                         </div>
                       </td>
@@ -1001,19 +1016,22 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.student" id="ch60">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.student"
+                            id="ch60">
                           <label for="ch60"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.parent" id="ch61">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.parent"
+                            id="ch61">
                           <label for="ch61"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.gaurdian" id="ch62">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.gaurdian"
+                            id="ch62">
                           <label for="ch62"></label>
                         </div>
                       </td>
@@ -1131,6 +1149,167 @@
                       <td>
                       </td>
                     </tr>
+
+
+                    <tr>
+                      <td>
+                        Send SMS - For In Time (Only First per day)
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_first_in_time_sms.student"
+                            id="ch712">
+                          <label for="ch712"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_first_in_time_sms.parent"
+                            id="ch713">
+                          <label for="ch713"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_first_in_time_sms.gaurdian"
+                            id="ch714">
+                          <label for="ch714"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS - Late for first class of the day
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_late_sms.student"
+                            id="ch70">
+                          <label for="ch701"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_late_sms.parent"
+                            id="ch71">
+                          <label for="ch702"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_late_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch703"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS for Absent i.e. no record found until the last class (end Time) for the day for that
+                        student
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_absent_sms.student"
+                            id="ch70">
+                          <label for="ch721"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_absent_sms.parent"
+                            id="ch71">
+                          <label for="ch723"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_absent_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch724"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS - In time (First) and Out Time (Last) for the day
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_in_out_sms.student"
+                            id="ch731">
+                          <label for="ch70"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_in_out_sms.parent"
+                            id="ch71">
+                          <label for="ch732"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_in_out_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch733"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS - For Every Out Time
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_every_out_time_sms.student"
+                            id="ch70">
+                          <label for="ch740"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_every_out_time_sms.parent"
+                            id="ch71">
+                          <label for="ch741"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_every_out_time_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+
+
+
                     <tr>
                       <td colspan="6">
                         Note: SMS Notification on all the above events works when SMS Notification Flag is enabled
@@ -1166,7 +1345,8 @@
                           <h3>Exam Report Settings</h3>
                           <div class="checkbox-bundle-wrapper">
                             <div class="field-checkbox-wrapper">
-                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_min_marks" id="ch73">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_min_marks"
+                                id="ch73">
                               <label for="ch73">Enable Minimum Marks</label>
                             </div>
                             <div class="field-checkbox-wrapper">
@@ -1176,11 +1356,13 @@
                             </div>
                             <br>
                             <div class="field-checkbox-wrapper">
-                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_max_marks" id="ch75">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_max_marks"
+                                id="ch75">
                               <label for="ch75">Enable Maximum Marks</label>
                             </div>
                             <div class="field-checkbox-wrapper">
-                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_rank" id="ch76">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_rank"
+                                id="ch76">
                               <label for="ch76">Enable Rank</label>
                             </div>
                           </div>
@@ -1194,8 +1376,8 @@
                           <div class="row rank-wrapper">
                             <div class="c-md-12" style="margin-left:-20px;margin-top: 10px;">
                               <div class="field-checkbox-wrapper" style="width: 100%">
-                                <input type="checkbox" id="enableRank" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.rank_to_send_for_marks_sms"
-                                  (click)="enableRankSpecifier()">
+                                <input type="checkbox" id="enableRank" value="" name="enableSMS" class="form-checkbox"
+                                  [(ngModel)]="instituteSettingDet.rank_to_send_for_marks_sms" (click)="enableRankSpecifier()">
 
                                 <label for="enableSMS">Specify Rank in Exam Mark Notification
                                   <div class="questionInfo inline-relative">
@@ -1223,8 +1405,8 @@
                                   </div>
 
                                 </label>
-                                <input type="number" min="0" max="99999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.rank_no_for_marks_sms" class="form-ctrl"
-                                  name="slotNew">
+                                <input type="number" min="0" max="99999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.rank_no_for_marks_sms"
+                                  class="form-ctrl" name="slotNew">
                               </div>
                             </div>
                           </div>
@@ -1236,8 +1418,8 @@
                         <div class="row">
                           <h3>Exam Grade System Setting</h3>
                           <div class="field-checkbox-wrapper checkbox-bundle-wrapper" style="width: 100%">
-                            <input type="checkbox" disabled="true" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.is_exam_grad_feature"
-                              id="ch78">
+                            <input type="checkbox" disabled="true" value="" name="enableSMS" class="form-checkbox"
+                              [(ngModel)]="instituteSettingDet.is_exam_grad_feature" id="ch78">
                             <label for="ch78">Enable Exam Grading System
                               <div class="questionInfo inline-relative examGrade">
                                 <span class="qInfoIcon i-class">i</span>
@@ -1258,8 +1440,8 @@
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
                             <label for="ch79">Buffered Duration in mins (before exam test Time)
                             </label>
-                            <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew"
-                              id="ch79">
+                            <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration"
+                              class="form-ctrl" name="slotNew" id="ch79">
                           </div>
                         </div>
                       </td>
@@ -1279,8 +1461,8 @@
                                 </div>
                               </div>
                             </label>
-                            <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl"
-                              name="slotNew" id="ch80">
+                            <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold"
+                              class="form-ctrl" name="slotNew" id="ch80">
                           </div>
                         </div>
                       </td>
@@ -1326,7 +1508,8 @@
                               </div>
 
                             </label>
-                            <input type="number" min="0" [(ngModel)]="instituteSettingDet.fee_receipt_invoice_pattern" class="form-ctrl" name="slotNew">
+                            <input type="number" min="0" [(ngModel)]="instituteSettingDet.fee_receipt_invoice_pattern"
+                              class="form-ctrl" name="slotNew">
                           </div>
                         </div>
 
@@ -1344,7 +1527,8 @@
                               </div>
 
                             </label>
-                            <input type="text" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl" name="slotNew">
+                            <input type="text" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl"
+                              name="slotNew">
                             <p>You can provide multiple
                               <br>number seprated by comma's</p>
                           </div>
@@ -1352,7 +1536,8 @@
 
                         <div class="c-sm-6 hide">
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_service_tax_no >= '0'}">
-                            <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_service_tax_no" class="form-ctrl" name="slotNew">
+                            <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_service_tax_no" class="form-ctrl"
+                              name="slotNew">
                             <label for="slotNew">Service Tax No.
                               <div class="questionInfo inline-relative">
                                 <span class="qInfoIcon i-class">i</span>
@@ -1379,7 +1564,8 @@
                                 </div>
                               </div>
                             </label>
-                            <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" name="slotNew">
+                            <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl"
+                              name="slotNew">
                           </div>
                         </div>
 
@@ -1441,7 +1627,8 @@
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.cgst >= '0'}">
                             <label for="ch87">CGST (%):
                             </label>
-                            <input type="number" [(ngModel)]="instituteSettingDet.cgst" class="form-ctrl" name="slotNew" id="ch87">
+                            <input type="number" [(ngModel)]="instituteSettingDet.cgst" class="form-ctrl" name="slotNew"
+                              id="ch87">
                           </div>
                         </div>
 
@@ -1449,7 +1636,8 @@
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.sgst >= '0'}">
                             <label for="ch88">SGST (%):
                             </label>
-                            <input type="number" [(ngModel)]="instituteSettingDet.sgst" class="form-ctrl" name="slotNew" id="ch88">
+                            <input type="number" [(ngModel)]="instituteSettingDet.sgst" class="form-ctrl" name="slotNew"
+                              id="ch88">
                           </div>
                         </div>
 
@@ -1549,8 +1737,8 @@
                                   </div>
                                 </div>
                               </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.inst_fee_activity_email_recipients" class="form-ctrl" name="slotNew"
-                                id="ch89">
+                              <input type="text" [(ngModel)]="instituteSettingDet.inst_fee_activity_email_recipients"
+                                class="form-ctrl" name="slotNew" id="ch89">
                             </div>
                           </div>
 
@@ -1566,7 +1754,8 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pdc_reminder_sent_on >= '0'}">
                               <label for="ch91">No of Days before for PDC Reminder
                               </label>
-                              <input type="number" [(ngModel)]="instituteSettingDet.pdc_reminder_sent_on" class="form-ctrl" name="slotNew" id="ch91">
+                              <input type="number" [(ngModel)]="instituteSettingDet.pdc_reminder_sent_on" class="form-ctrl"
+                                name="slotNew" id="ch91">
                             </div>
                           </div>
                         </div>
@@ -1578,7 +1767,8 @@
                         <div class="row hide">
                           <div class="c-sm-12 c-md-12 c-lg-12">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.service_tax_percentage >= '0'}">
-                              <input type="number" [(ngModel)]="instituteSettingDet.service_tax_percentage" class="form-ctrl" name="slotNew" style="width: 200px">
+                              <input type="number" [(ngModel)]="instituteSettingDet.service_tax_percentage" class="form-ctrl"
+                                name="slotNew" style="width: 200px">
                               <label for="slotNew">Total Service Tax (%):
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
@@ -1594,7 +1784,8 @@
                           <div class="c-sm-12 c-md-12 c-lg-12">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.sbc_tax >= '0'}">
 
-                              <input type="number" [(ngModel)]="instituteSettingDet.sbc_tax" class="form-ctrl" name="slotNew" style="width: 200px">
+                              <input type="number" [(ngModel)]="instituteSettingDet.sbc_tax" class="form-ctrl" name="slotNew"
+                                style="width: 200px">
                               <label for="slotNew">SBC Tax Component (%):
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
@@ -1610,7 +1801,8 @@
                           <div class="c-sm-12 c-md-12 c-lg-12">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.kkc_tax >= '0'}">
 
-                              <input type="number" [(ngModel)]="instituteSettingDet.kkc_tax" class="form-ctrl" name="slotNew" style="width: 200px">
+                              <input type="number" [(ngModel)]="instituteSettingDet.kkc_tax" class="form-ctrl" name="slotNew"
+                                style="width: 200px">
                               <label for="slotNew">KKC Tax Component (%):
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
@@ -1706,7 +1898,8 @@
                                   </div>
                                 </div>
                               </label>
-                              <select id="pre_enquiry_follow_up_reminder_time" class="form-ctrl" name="pre_enquiry_follow_up_reminder_time" [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
+                              <select id="pre_enquiry_follow_up_reminder_time" class="form-ctrl" name="pre_enquiry_follow_up_reminder_time"
+                                [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
                                 <option value="-1">---select---</option>
                                 <option value="00:15">15 minutes before</option>
                                 <option value="00:30">30 minutes before</option>
@@ -1718,7 +1911,8 @@
                           </div>
                           <div class="c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.post_enquiry_follow_up_reminder_time != ''}">
-                              <label for="post_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification Past
+                              <label for="post_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification
+                                Past
                                 due date/time</label>
                               <select id="post_enquiry_follow_up_reminder_time" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time"
                                 [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
@@ -1761,7 +1955,8 @@
                                   </div>
                                 </div>
                               </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="daily_account_summary" id="dailyConatctID">
+                              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl"
+                                name="daily_account_summary" id="dailyConatctID">
                             </div>
                           </div>
                         </div>
@@ -1804,7 +1999,8 @@
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
                                     When enabled, Simple student registration message is sent without any app URLs.
-                                    <br>Student Registratoin SMS Format: Dear, Student Name, Your registration is complete.
+                                    <br>Student Registratoin SMS Format: Dear, Student Name, Your registration is
+                                    complete.
                                     <br>Please verify your details ID: Student Details. Please contact for any changes.
                                     <br>Best Wishes,
                                     <br>{{instituteName}}
@@ -1817,7 +2013,8 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.virtual_host_url != ''}">
                               <label for="ch104">Virtual Host URL:
                               </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl" name="slotNew" id="ch104">
+                              <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl"
+                                name="slotNew" id="ch104">
                             </div>
                           </div>
                         </div>
@@ -1895,14 +2092,16 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_emailIds != ''}">
                               <label for="ch106">Email ID(s) For Online Payment Notification
                               </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_emailIds" class="form-ctrl" name="slotNew" id="ch106">
+                              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_emailIds" class="form-ctrl"
+                                name="slotNew" id="ch106">
                             </div>
                           </div>
                           <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_mobiles != ''}">
                               <label for="ch107">Contact No.(s)
                               </label>
-                              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_mobiles" class="form-ctrl" name="slotNew" id="ch107">
+                              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_mobiles" class="form-ctrl"
+                                name="slotNew" id="ch107">
                               <p> For Online Payment Notification</p>
                             </div>
                           </div>
@@ -1914,8 +2113,8 @@
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
-                              <input type="checkbox" value="" name="enableEmail" [(ngModel)]="instituteSettingDet.email_notification" class="form-checkbox"
-                                id="idEnableEmail">
+                              <input type="checkbox" value="" name="enableEmail" [(ngModel)]="instituteSettingDet.email_notification"
+                                class="form-checkbox" id="idEnableEmail">
                               <label for="enableEmail">Enable Email Notification
                                 <p>If not enabled, no Email will be sent</p>
                               </label>
@@ -1931,7 +2130,227 @@
           </div>
         </div>
       </section>
+
+      <hr>
+      <hr>
+
+      <section id="divBioMetricContent" [ngClass]="{hide:biometricSetting != 1}">
+
+        <div class="row" style="width:100%">
+          <div class="sms-setting-wrapper">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <tbody>
+                    <tr style="height: 45px; background-color: #efefef">
+                      <td colspan="6" class="tableHeader">
+                        BIOMETRIC NOTIFICATION SETTING
+                      </td>
+                    </tr>
+                    <tr class="sec-row">
+                      <td>
+                        FEATURE
+                      </td>
+                      <td>
+                        STUDENT
+                      </td>
+                      <td>
+                        PARENT
+                      </td>
+                      <td>
+                        GUARDIAN
+                      </td>
+                      <td>
+                        TEACHER
+                      </td>
+                      <td>
+                        ADMIN
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS - For In Time (Only First per day)
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_first_in_time_sms.student"
+                            id="ch712">
+                          <label for="ch712"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_first_in_time_sms.parent"
+                            id="ch713">
+                          <label for="ch713"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_first_in_time_sms.gaurdian"
+                            id="ch714">
+                          <label for="ch714"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS - Late for first class of the day
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_late_sms.student"
+                            id="ch70">
+                          <label for="ch701"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_late_sms.parent"
+                            id="ch71">
+                          <label for="ch702"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_late_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch703"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS for Absent i.e. no record found until the last class (end Time) for the day for that
+                        student
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_absent_sms.student"
+                            id="ch70">
+                          <label for="ch721"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_absent_sms.parent"
+                            id="ch71">
+                          <label for="ch723"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_absent_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch724"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS - In time (First) and Out Time (Last) for the day
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_in_out_sms.student"
+                            id="ch731">
+                          <label for="ch70"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_in_out_sms.parent"
+                            id="ch71">
+                          <label for="ch732"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_in_out_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch733"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        Send SMS - For Every Out Time
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_every_out_time_sms.student"
+                            id="ch70">
+                          <label for="ch740"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_every_out_time_sms.parent"
+                            id="ch71">
+                          <label for="ch741"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.biometric_every_out_time_sms.gaurdian"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <div class="row extraMarginTen checkboxes">
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                          <div class="field-wrapper">
+                            <label>Buffered Duration in mins (for send SMS - Late for first class of the day)</label>
+                            <input type="number" class="form-ctrl" max='90' min='0' [(ngModel)]="instituteSettingDet.biometric_late_sms_buffer">
+                          </div>
+                        </div>
+                      </div>
+                    </tr>
+
+                    <tr>
+                      <td colspan="6">
+                        Note: SMS Notification on all the above events works when SMS Notification Flag is enabled
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
     </aside>
+
 
   </section>
 

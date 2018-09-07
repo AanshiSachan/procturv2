@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
@@ -9,7 +9,7 @@ import { CommonServiceFactory } from '../../services/common-service';
   templateUrl: './institute-settings.component.html',
   styleUrls: ['./institute-settings.component.scss']
 })
-export class InstituteSettingsComponent implements OnInit, OnDestroy {
+export class InstituteSettingsComponent implements OnInit {
 
 
   isRippleLoad: boolean = false;
@@ -154,6 +154,31 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       parent: '',
       gaurdian: '',
     },
+    biometric_first_in_time_sms: {
+      student: '',
+      parent: '',
+      gaurdian: '',
+    },
+    biometric_every_out_time_sms: {
+      student: '',
+      parent: '',
+      gaurdian: '',
+    },
+    biometric_late_sms: {
+      student: '',
+      parent: '',
+      gaurdian: '',
+    },
+    biometric_absent_sms: {
+      student: '',
+      parent: '',
+      gaurdian: '',
+    },
+    biometric_in_out_sms: {
+      student: '',
+      parent: '',
+      gaurdian: '',
+    },
     exam_min_marks: '',
     exam_average_marks: '',
     exam_max_marks: '',
@@ -198,11 +223,15 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     online_payment_notify_mobiles: '',
     allow_fee_due_amount_in_notification: '',
     discount_amount_in_fee_receipt: '',
-    balance_amount_in_fee_receipt: ''
+    balance_amount_in_fee_receipt: '',
+    biometric_late_sms_buffer: 0
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
   instituteName: any = '';
+  biometricSetting: number = 0;
+  menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio'];
+  contenTDiv: string[] = ['divSMSContent', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent'];
 
   constructor(
     private apiService: InstituteSettingService,
@@ -215,61 +244,26 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.instituteName = sessionStorage.getItem('institute_name');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
-    this.changeView('liSMS', 'divSMSContent');
+    this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
     this.checkInstitutionType();
     this.getSettingFromServer();
-    this.scrollListener();
-  }
-
-  ngOnDestroy() {
-    window.onscroll = null;
-  }
-
-  scrollListener() {
-    window.onscroll = () => {
-      let divSMSContent = document.getElementById('divSMSContent').offsetTop;
-      let divExamReport = document.getElementById('divExamReport').offsetTop;
-      let divFeeContent = document.getElementById('divFeeContent').offsetTop;
-      let divReportContent = document.getElementById('divReportContent').offsetTop;
-      let divMiscContent = document.getElementById('divMiscContent').offsetTop;
-      let offset = window.pageYOffset + 110;
-
-      if (offset < divExamReport) {
-        this.changeView('liSMS', 'stay');
-      } else if (offset <= divFeeContent) {
-        this.changeView('liExamRep', 'stay');
-      } else if (offset <= divReportContent) {
-        this.changeView('liFee', 'stay');
-      } else if (offset <= divMiscContent) {
-        this.changeView('liReport', 'stay');
-      } else {
-        this.changeView('liMisc', 'stay');
-      }
-    }
   }
 
   changeView(lidiv, showView) {
-    if (showView !== 'stay') {
-      document.getElementById(showView).scrollIntoView(true);
-      if (showView !== 'divMiscContent') {
-        window.scrollBy(0, -100);
-      }
-    }
-    // document.getElementById('divSMSContent').classList.add('hideDivClass');
-    // document.getElementById('divExamReport').classList.add('hideDivClass');
-    // document.getElementById('divFeeContent').classList.add('hideDivClass');
-    // document.getElementById('divReportContent').classList.add('hideDivClass');
-    // document.getElementById('divMiscContent').classList.add('hideDivClass');
-    document.getElementById('liSMS').classList.remove('active');
-    document.getElementById('liExamRep').classList.remove('active');
-    document.getElementById('liFee').classList.remove('active');
-    document.getElementById('liReport').classList.remove('active');
-    document.getElementById('liMisc').classList.remove('active');
+    this.hideAndRemoveClass();
     document.getElementById(lidiv).classList.add('active');
-    // document.getElementById(showView).classList.remove('hideDivClass');
+    document.getElementById(showView).scrollIntoView(true);
     if (showView == "divExamReport") {
       this.enableRankSpecifier()
     }
+  }
+
+  hideAndRemoveClass() {
+    this.menuList.map(
+      ele => {
+        document.getElementById(ele).classList.remove('active');
+      }
+    );
   }
 
 
@@ -381,6 +375,14 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     obj.discount_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.discount_amount_in_fee_receipt);
     obj.balance_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.balance_amount_in_fee_receipt);
     obj.alumni_birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.alumni_birthday_daily_schedule);
+
+    obj.biometric_first_in_time_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_first_in_time_sms);
+    obj.biometric_every_out_time_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_every_out_time_sms);
+    obj.biometric_late_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_late_sms);
+    obj.biometric_absent_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_absent_sms);
+    obj.biometric_in_out_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_in_out_sms);
+    obj.biometric_late_sms_buffer = this.instituteSettingDet.biometric_late_sms_buffer;
+
     return obj;
   }
 
@@ -415,6 +417,14 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     this.fillTableCheckboxValue(this.instituteSettingDet.cheque_bounce_sms_notifn, data.cheque_bounce_sms_notifn);
     this.fillTableCheckboxValue(this.instituteSettingDet.home_work_assignment_notification, data.home_work_assignment_notification);
     this.fillTableCheckboxValue(this.instituteSettingDet.topics_covered_notification, data.topics_covered_notification);
+
+    this.fillTableCheckboxValue(this.instituteSettingDet.biometric_first_in_time_sms, data.biometric_first_in_time_sms);
+    this.fillTableCheckboxValue(this.instituteSettingDet.biometric_every_out_time_sms, data.biometric_every_out_time_sms);
+    this.fillTableCheckboxValue(this.instituteSettingDet.biometric_late_sms, data.biometric_late_sms);
+    this.fillTableCheckboxValue(this.instituteSettingDet.biometric_absent_sms, data.biometric_absent_sms);
+    this.fillTableCheckboxValue(this.instituteSettingDet.biometric_in_out_sms, data.biometric_in_out_sms);
+    this.instituteSettingDet.biometric_late_sms_buffer = data.biometric_late_sms_buffer;
+
     this.instituteSettingDet.exam_min_marks = data.exam_min_marks;
     this.instituteSettingDet.exam_average_marks = data.exam_average_marks;
     this.instituteSettingDet.exam_max_marks = data.exam_max_marks;
