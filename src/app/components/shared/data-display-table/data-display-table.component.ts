@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 import { PaginationService } from '../../../services/pagination-service/pagination.service';
-
+declare var $;
 @Component({
   selector: 'data-display-table',
   templateUrl: './data-display-table.component.html',
@@ -169,7 +169,12 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
 
-  getTypeCheck(data, value: any, key) {
+  rowClick(index) {
+    if (index == (this.recordsTrimmed.length - 1)) {
+      $(".dd-list-container").css("bottom", "-30px");
+    }
+  }
+  getTypeCheck(data, value: any, key, index) {
 
     if (key.operation) {
       console.log(key);
@@ -208,7 +213,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if (key.primaryKey == this.keysArray[0].primaryKey) {
       return value;
     }
-    if ((!isNaN(value)) && (value != '')&&(value!=null)) {
+    if ((!isNaN(value)) && (value != '') && (value != null)) {
       // return value ;
       return '₹ ' + value.toLocaleString('en-IN');
     }
