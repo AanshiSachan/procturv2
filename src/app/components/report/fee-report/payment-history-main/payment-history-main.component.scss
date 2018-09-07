@@ -398,3 +398,7 @@ $color-highlight: lighten($color-base, 7%);
     margin-top: 26px;
     margin-left: 122px;
 }
+
+svg:hover #gearIcon { 
+    fill:blue;
+  }
