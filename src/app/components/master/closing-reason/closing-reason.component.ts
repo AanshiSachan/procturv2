@@ -96,6 +96,7 @@ export class ClosingReasonComponent implements OnInit {
   cancelEditRow(index) {
     document.getElementById(("i" + index).toString()).classList.add('displayComp');
     document.getElementById(("i" + index).toString()).classList.remove('editComp');
+    this.getAllReasons();
   }
 
   createNewReason() {

@@ -202,9 +202,9 @@
                             <td style="text-align:left;">{{det.student_name}}</td>
 
                             <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
-                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' && isExamGrade == '1'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && isExamGrade == '1'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade == '' || isExamGrade == '0'">{{marks.student_marks_obtained}}</label>
+                                <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' && marks.isBatchExamGrade == 1">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && marks.isBatchExamGrade == 1">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.isBatchExamGrade == 0">{{marks.student_marks_obtained}}</label>
                             </td>
 
                         </tr>
