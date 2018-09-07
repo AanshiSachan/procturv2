@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   isFeeActivity: boolean = false;
   isMonitorDashboard: boolean = false;
   showExamDesk: boolean = false;
+  showLiveClasses:boolean = false;
 
   constructor(private router: Router, private login: LoginService, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('userid') == null) {
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
     if (this.isAdmin) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
       this.showExamDesk = this.checkInstSetupType(type, 4);
+      this.showLiveClasses = this.checkInstSetupType(type , 256);
     }
   }
 
