@@ -1,40 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { timeTableService } from '../../../services/TimeTable/timeTable.service';
-import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-
+import { CommonServiceFactory } from '../../../services/common-service';
+import { timeTableService } from '../../../services/TimeTable/timeTable.service';
+import { MessageShowService } from '../../../services/message-show.service';
+import { error } from 'selenium-webdriver';
 @Component({
   selector: 'app-time-table',
   templateUrl: './time-table.component.html',
   styleUrls: ['./time-table.component.scss']
 })
 export class TimeTableComponent implements OnInit {
-  flag: boolean = false;
+
   courseData: any = [];
-  insContact: string;
-  insName: string;
-  isRippleLoad: boolean;
   notProTimeTable = [];
   subjectData: any = [];
   masterCoursesData: any = [];
   getTeachersData: any = [];
-  timeTableObj: any;
+  masterPro: any[] = [];
+  coursePro: any[] = [];
+  batchPro: any[] = [];
   namesArr = [];
   timeTableArr = [];
+  timeTableObj: any;
+  selectData: string = "all";
+  insContact: string;
+  insName: string;
+  isRippleLoad: boolean;
   onlyMasterData: boolean = false;
   showtable: boolean;
   isProfessional: boolean;
   teacherBox: boolean;
   batchBox: boolean;
-  selectData = "all";
-  masterPro: any[] = [];
-  coursePro: any[] = [];
-  batchPro: any[] = [];
+  flag: boolean = false;
+  showFilters: boolean = true;
   maxEntries = 0;
   startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
   enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
-  showFilters: boolean = true;
 
   fetchFieldData = {
     batch_id: "-1",
@@ -66,8 +68,9 @@ export class TimeTableComponent implements OnInit {
 
   constructor(
     private timeTableServ: timeTableService,
-    private appC: AppComponent,
-    private auth: AuthenticatorService
+    private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory,
+    private msgService: MessageShowService
   ) {
     this.insContact = sessionStorage.getItem('inst_phone');
     this.insName = sessionStorage.getItem('institute_name');
@@ -213,9 +216,18 @@ export class TimeTableComponent implements OnInit {
     this.timeTableServ.getTeachersName().subscribe(
       res => {
         this.isRippleLoad = false;
-        this.getTeachersData = res.sort((a, b) => {
-          return a.teacher_name.localeCompare(b.teacher_name);
-        });
+        let key = { primaryKey: 'teacher_name' };
+        if (res.length > 0) {
+          this.getTeachersData = this.commonService.SortArray(key, res);
+        }
+        else {
+          this.getTeachersData = [];
+        }
+        console.log(this.getTeachersData);
+
+        // res.sort((a, b) => {
+        //   return a.teacher_name.localeCompare(b.teacher_name);
+        // });
       },
       err => {
         this.isRippleLoad = false;
@@ -236,12 +248,7 @@ export class TimeTableComponent implements OnInit {
   fetchTimeTableReport(flag) {
     this.isRippleLoad = true;
     if (this.fetchFieldData.master_course == "-1" && this.fetchFieldData.teacher_id == "-1") {
-      let obj = {
-        type: "error",
-        title: "Unable to Fetch Report",
-        body: " Please Select a Master Course or Teacher"
-      }
-      this.appC.popToast(obj);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Unable to Fetch Report", " Please Select a Master Course or Teacher");
       this.isRippleLoad = false;
       return;
     }
@@ -325,12 +332,7 @@ export class TimeTableComponent implements OnInit {
     this.isRippleLoad = true;
     if (this.selectData == "teacher") {
       if (this.fetchFieldDataPro.teacher_id == "-1") {
-        let obj = {
-          type: "error",
-          title: "Unable to Fetch Report",
-          body: "Please Select a Teacher"
-        }
-        this.appC.popToast(obj);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Unable to Fetch Report", "Please Select a Teacher");
         this.isRippleLoad = false;
         return;
       }
@@ -338,12 +340,7 @@ export class TimeTableComponent implements OnInit {
     else if (this.selectData == "batch") {
       if (this.fetchFieldDataPro.batch_id == "-1") {
         this.isRippleLoad = false;
-        let obj = {
-          type: "error",
-          title: "Unable to Fetch Report",
-          body: " Please Select a Batch"
-        }
-        this.appC.popToast(obj);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Unable to Fetch Report", "Please Select a Batch");
         this.isRippleLoad = false;
         return;
       }
