@@ -59,7 +59,7 @@
                     </ul>
                 </div>
 
-                <div class="c-lg-4">
+                <div class="c-lg-4"  *ngIf="showExamDesk">
                     <ul class="card" routerLink="../examcourse">
                         <li>
                             ExamDesk Course Assignment
@@ -70,7 +70,7 @@
                     </ul>
                 </div>
 
-                <div class="c-lg-4 hide">
+                <div class="c-lg-4" *ngIf="showLiveClasses">
                     <ul class="card" routerLink="../liveClass">
                         <li>
                             Live Classes
