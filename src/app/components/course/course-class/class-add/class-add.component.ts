@@ -610,6 +610,7 @@ export class ClassAddComponent implements OnInit {
             obj.course_id = data.coursesList[0].course_id;
             obj.start_date = moment(data.coursesList[0].start_date).format('YYYY-MM-DD');
             obj.end_date = moment(data.coursesList[0].end_date).format('YYYY-MM-DD');
+            obj.is_attendance_marked = courseScheduleList[i].is_attendance_marked;
             arr.push(obj);
           }
         }
@@ -1518,7 +1519,7 @@ export class ClassAddComponent implements OnInit {
   serverCallPUT(data) {
     this.classService.createCustomBatchPUT(data).subscribe(
       res => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success,'Updated' ,'Details Updated Successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
         this.showWarningPopup = false;
         this.updateTableDataAgain();
       },
@@ -1532,7 +1533,7 @@ export class ClassAddComponent implements OnInit {
   serverCallPOST(data) {
     this.classService.createWeeklyBatchPost(data).subscribe(
       res => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success,'Updated' ,'Details Updated Successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
         this.showWarningPopup = false;
         this.updateTableDataAgain();
       },
@@ -1561,7 +1562,7 @@ export class ClassAddComponent implements OnInit {
     let startTime = moment(this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, 'comp'), 'h:mma');
     let endTime = moment(this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, 'comp'), 'h:mma');
     if (!(startTime.isBefore(endTime))) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'Error','Please provide correct start time and end time');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide correct start time and end time');
       return
     } else {
       obj.start_time = this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, '');
@@ -1654,7 +1655,7 @@ export class ClassAddComponent implements OnInit {
       this.classService.notifyCancelledClassSchedule(data).subscribe(
         res => {
           this.updateTableDataAgain();
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success,'Notified' ,'Notification Sent');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Notified', 'Notification Sent');
         },
         err => {
           //console.log(err);
@@ -1673,7 +1674,7 @@ export class ClassAddComponent implements OnInit {
     }
     this.classService.cancelClassSchedule(data).subscribe(
       res => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Notified','Cancelled Successfully');
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Notified', 'Cancelled Successfully');
         this.showPopUpCancellation = false;
         this.updateTableDataAgain();
       },
@@ -1688,7 +1689,7 @@ export class ClassAddComponent implements OnInit {
   makeJSONToSendBatchDet() {
     let text = (<HTMLInputElement>document.getElementById('idTexboxReason')).value;
     if (text == "" || text == null || text == undefined) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error,'Error','Please provide cancellation reason');
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide cancellation reason');
       return false;
     }
     let chkbxValue: any = (<HTMLInputElement>document.getElementById('idChkbxEnable')).checked;
@@ -1837,5 +1838,13 @@ export class ClassAddComponent implements OnInit {
     document.getElementById('liManageBatch').classList.remove('active');
   }
 
+
+  hidePastClass() {
+    if (moment().format('YYYY-MM-DD') <= moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 }
