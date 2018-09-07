@@ -233,32 +233,6 @@ export class GstReportComponent implements OnInit {
     }
   }
 
-  exportToExcel() {
-    let exportedArray: any[] = [];
-    this.getPaymentRecords.map((data: any) => {
-      let obj = {
-        "Id": data.student_disp_id,
-        "Name": data.student_name,
-        "Reciept No": data.display_invoice_no,
-        "Payment Mode": data.paymentMode,
-        "Fee Type": data.fee_type_name,
-        "Inst No": data.installment_nos,
-        "Paid Date": data.paid_date,
-        "Cgst": data.cgst,
-        "Sgst": data.sgst,
-        "Tax": data.tax,
-        "Ref No": data.reference_no,
-        "Amount Paid" : data.amount_paid,
-        "Counsellor" : data.enquiry_counsellor_name
-      }
-      exportedArray.push(obj);
-    })
-    this.excelService.exportAsExcelFile(
-      exportedArray,
-      'Students'
-    )
-  }
-
   exportToPdf() {
     let arr = [];
     this.getPaymentRecords.map(

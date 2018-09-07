@@ -76,8 +76,10 @@
                                             </i>
                                             <div class="dropdown">
                                                 <ul class="user-detail">
-                                                    <li (click)="exportToExcel()" class="asHover">
-                                                        <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
+                                                    <li (click)="downloadToExcel()" class="asHover">
+                                                        <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;">
+                                                            <a class="hide" id="enq_download"></a>
+                                                        </i>
                                                         <strong style="display: inline-block;">Export as Excel</strong>
                                                     </li>
                                                     <hr>

@@ -178,11 +178,11 @@ $color-highlight: lighten($color-base, 7%);
             padding: 16px 24px 12px;
             &.cls-type {
                 width: 29%;
-                text-align: right;
+                text-align: left;
             }
             &:first-child {
                 width: 16%;
-                text-align: right;
+                text-align: left;
             }
             &:nth-last-child(2) {
                 width: 15%;
@@ -226,7 +226,7 @@ $color-highlight: lighten($color-base, 7%);
                         text-align: left;
                     }
                     &.Total {
-                        text-align: right;
+                        text-align: left;
                         padding-right: 18px;
                     }
                 }
@@ -238,14 +238,8 @@ $color-highlight: lighten($color-base, 7%);
                     width: 11%;
                     padding-left: 18px;
                 }
-                &.No {
-                    text-align: right;
-                    &.Receipt {
-                        text-align: right;
-                    }
-                }
                 &.Dues {
-                    text-align: right;
+                    text-align:left;
                     padding-right: 18px;
                 }
                 &.Value {
@@ -303,7 +297,7 @@ $color-highlight: lighten($color-base, 7%);
                         text-align: left;
                     }
                     &.Total {
-                        text-align: right;
+                        text-align:left;
                     }
                 }
                 &.Amount {
@@ -320,16 +314,16 @@ $color-highlight: lighten($color-base, 7%);
                     width: 10%;
                 }
                 &.Dues {
-                    text-align: right;
+                    text-align: left;
                     &.Past {
-                        text-align: right;
+                        text-align: left;
                         color: #ff0000;
                     }
                 }
                 &.Due {
-                    text-align: right;
+                    text-align: left;
                     &.Past {
-                        text-align: right;
+                        text-align: left;
                         color: #ff0000;
                     }
                     &.Date {
@@ -337,7 +331,7 @@ $color-highlight: lighten($color-base, 7%);
                     }
                 }
                 &.No {
-                    text-align: right;
+                    text-align: left;
                     padding-right: 0px;
                     &.Receipt {
                         padding-right: 0px;

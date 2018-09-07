@@ -3,6 +3,7 @@ import { FileManagerService } from '../file-manager.service';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
   selector: 'share-file',
@@ -28,7 +29,7 @@ export class ShareFileComponent implements OnInit {
   studentsId: boolean = false;
   batchesId: boolean = true;
   dataStatus: boolean = false;
-  isProfessional:boolean = false;
+  isProfessional: boolean = false;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3];
   dataIdBatches;
@@ -88,7 +89,8 @@ export class ShareFileComponent implements OnInit {
     share_type: 1,
     is_readonly: "N"
   }
-
+  temparrBatch: any[] = [];
+  temparrStudent: any[] = [];
   publicObj = {
     file_id: '',
     institute_id: this.fileService.institute_id,
@@ -98,7 +100,7 @@ export class ShareFileComponent implements OnInit {
 
   getFileType: string = "";
 
-  constructor(private fileService: FileManagerService, private appC: AppComponent , private auth:AuthenticatorService) { }
+  constructor(private fileService: FileManagerService, private appC: AppComponent, private auth: AuthenticatorService , private services:MessageShowService) { }
 
   ngOnInit() {
     this.getAllStandards();
@@ -313,23 +315,11 @@ export class ShareFileComponent implements OnInit {
 
             if (data.file_access_start_time == "") {
               data.file_access_start_time = moment().format('YYYY-MM-DD');
-              this.startAccessTimeBatch = data.file_access_start_time;
-
-            }
-            else {
-              this.startAccessTimeBatch = data.file_access_start_time;
             }
 
             if (data.file_access_end_time == "") {
               data.file_access_end_time = moment().format('YYYY-MM-DD');
-              this.endAccessTimeBatch = data.file_access_end_time;
             }
-
-            else {
-              this.endAccessTimeBatch = data.file_access_end_time;
-            }
-
-            
 
             if (update != 1) {
               data.is_file_shared = "N"
@@ -521,102 +511,118 @@ export class ShareFileComponent implements OnInit {
     }
   }
 
+  fetchApiStudentsAndBatches() {
+
+    this.getBatchesData.map(ele => {
+      if (ele.isChecked == true) {
+        let obj = {
+          file_access_end_time: ele.file_access_end_time,
+          file_access_start_time: ele.file_access_start_time,
+          is_file_shared: ele.is_file_shared,
+          batch_id: ele.batch_id
+        }
+        this.temparrBatch.push(obj);
+      }
+      else {
+        let obj = {
+          is_file_shared: ele.is_file_shared,
+          batch_id: ele.batch_id
+        }
+        this.temparrBatch.push(obj);
+      }
+    })
+
+    this.getStudentsData.map(ele => {
+      if (ele.isChecked == true) {
+        let obj = {
+          file_access_end_time: ele.file_access_end_time,
+          file_access_start_time: ele.file_access_start_time,
+          is_file_shared: ele.is_file_shared,
+          student_id: ele.student_id
+        }
+        this.temparrStudent.push(obj);
+      }
+      else {
+        let obj = {
+          is_file_shared: ele.is_file_shared,
+          student_id: ele.student_id
+        }
+        this.temparrStudent.push(obj);
+      }
+    })
+
+    this.fileService.shareFile(this.fetchShareOption).subscribe(
+      (data: any) => {
+        let msg = {
+          type: "success",
+          body: "File Shared Successfully"
+        }
+        this.appC.popToast(msg);
+        this.treeUpdater.emit(true);
+        this.closePopup.emit(this.CloseValuePopup);
+      },
+      (error: any) => {
+        let msg = {
+          type: "error",
+          body: error.error.message
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+  validationsOfTime() {
+    if (this.batchesId) {
+      for (let i = 0; i < this.getBatchesData.length; i++) {
+        if (moment(this.getBatchesData[i].file_access_start_time) > moment(this.getBatchesData[i].file_access_end_time)) {
+          this.services.showErrorMessage("error" , "Incorrect Details" , "Access start Date Cannot be more than access end date")
+          return false;
+        }
+
+      }
+      return true;
+    }
+
+    else if (this.studentsId) {
+      for (let i = 0; i < this.getStudentsData.length; i++) {
+        if (moment(this.getStudentsData[i].file_access_start_time) > moment(this.getStudentsData[i].file_access_end_time)) {
+          this.services.showErrorMessage("error" , "Incorrect Details" , "Access start Date Cannot be more than access end date")
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
   shareFile(unshare?) {
 
-    let temparrBatch = [];
-    let temparrStudent = [];
 
-    this.getBatchesData.map(
-      (data: any) => {
-        if (data.isChecked == true) {
-          let obj = {
-            file_access_end_time: data.file_access_end_time,
-            file_access_start_time: data.file_access_start_time,
-            is_file_shared: data.is_file_shared,
-            batch_id: data.batch_id
-          }
-          temparrBatch.push(obj);
-        }
-        else {
-          let obj = {
-            is_file_shared: data.is_file_shared,
-            batch_id: data.batch_id
-          }
-          temparrBatch.push(obj);
-        }
-      }
-    )
-
-    this.getStudentsData.map(
-      (data: any) => {
-        if (data.isChecked == true) {
-          let obj = {
-            file_access_end_time: data.file_access_end_time,
-            file_access_start_time: data.file_access_start_time,
-            is_file_shared: data.is_file_shared,
-            student_id: data.student_id
-          }
-          temparrStudent.push(obj);
-        }
-        else {
-          let obj = {
-            is_file_shared: data.is_file_shared,
-            student_id: data.student_id
-          }
-          temparrStudent.push(obj);
-        }
-      }
-    )
     this.fetchShareOption.file_id = this.fileIdGet;
     this.fetchShareOption.share_type = "3";
     this.fetchShareOption.student_batch_share = "1"
     this.fetchShareOption.standard_id = this.getStandardsId;
     this.fetchShareOption.subject_id = this.subjectId;
-    this.fetchShareOption.batches = temparrBatch;
-    this.fetchShareOption.students = temparrStudent;
-    
+    this.fetchShareOption.batches = this.temparrBatch;
+    this.fetchShareOption.students = this.temparrStudent;
+
     if (this.tabChoice == "student") {
 
-
       if (this.fetchShareOption.standard_id == "" || this.fetchShareOption.subject_id == "") {
-        let msg = {
-          type: "error",
-          body: "Please select master course and course"
-        }
-        this.appC.popToast(msg);
+        this.services.showErrorMessage("error" , "Incorrect Details" , "Please select master course and course")
       }
 
-      else if (this.getBatchesData == [] || this.getStudentsData == []) {
-        let msg = {
-          type: "error",
-          body: "No student/batches to be shared"
-        }
-        this.appC.popToast(msg);
+      else if (this.getBatchesData == []) {
+        this.services.showErrorMessage("error" , "Incorrect Details" , "No batches/students found")
       }
 
       else {
-
-
-        this.fileService.shareFile(this.fetchShareOption).subscribe(
-          (data: any) => {
-            let msg = {
-              type: "success",
-              body: "File Shared Successfully"
-            }
-            this.appC.popToast(msg);
-            this.treeUpdater.emit(true);
-            this.closePopup.emit(this.CloseValuePopup);
-          },
-          (error: any) => {
-            let msg = {
-              type: "error",
-              body: error.error.message
-            }
-            this.appC.popToast(msg);
-          }
-        )
+        if(this.validationsOfTime() == true){
+          this.fetchApiStudentsAndBatches();
+          return;
+        }
       }
     }
+
 
     else if (this.tabChoice == "public") {
 
