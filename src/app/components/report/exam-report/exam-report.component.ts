@@ -127,6 +127,7 @@ export class ExamReportComponent implements OnInit {
     }
     this.fetchExamData();
     this.pageIndex = 1;
+   
   }
 
   closeReportPopup() {
@@ -343,7 +344,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.isExamGrade == "0") {
+              if (this.examSource[0].isBatchExamGrade == 0) {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
@@ -410,7 +411,7 @@ export class ExamReportComponent implements OnInit {
         this.examdata.viewExamData(o).subscribe(
           (res: any) => {
             if (res.length) {
-
+              console.log(res);
               this.examSource = res;
               this.Tdata = true;
 
@@ -420,7 +421,7 @@ export class ExamReportComponent implements OnInit {
               this.totalRecords = this.examSource.length;
               this.fetchTableDataByPage(this.pageIndex);
               this.isRippleLoad = false;
-              if (this.examSource[0].grade == "" || this.isExamGrade == "0") {
+              if (this.examSource[0].grade == "" || this.examSource[0].isBatchExamGrade == 0) {
                 this.projectSettings = [
                   { primaryKey: 'student_disp_id', header: 'Student Id' },
                   { primaryKey: 'student_name', header: 'Student Name' },
@@ -483,6 +484,7 @@ export class ExamReportComponent implements OnInit {
             (res: any) => {
               if (res.length) {
                 this.detailSource = res;
+               
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
                   this.isRippleLoad = false;
