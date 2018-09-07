@@ -174,10 +174,29 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       $(".dd-list-container").css("bottom", "-30px");
     }
   }
-  getTypeCheck(data, value: any, key, index) {
 
+  checkCondition(data) {
+
+    // condition: [{ key: 'student_category', condition: "==", checkValue: "PAYMENT_HISTORY_STUD_CAT_ACTIVE", nextOperation: "&&" },
+    // { key: 'payment_mode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
+    // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", nextOperation: undefined }],
+
+    // let strExp = '';
+
+    // let len = this.displayKeys.actionSetting.condition.length;
+    // let conditionArray = this.displayKeys.actionSetting.condition;
+    // for (let i in conditionArray) {
+    //   if (Number(i) < len)
+    //     // strExp = data[key.primaryKey[i]] + '+';
+    // }
+
+  }
+
+  getTypeCheck(data, value: any, key, index) {
+    // debugger;
+    // console.log(key);
     if (key.operation) {
-      console.log(key);
+
       switch (key.operation) {
         case 'add': {
           let strExp = '';
@@ -215,7 +234,13 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     }
     if ((!isNaN(value)) && (value != '') && (value != null)) {
       // return value ;
-      return '₹ ' + value.toLocaleString('en-IN');
+      if (key.amountValue) {
+
+        return '₹ ' + value.toLocaleString('en-IN');
+      } else {
+        return value;
+      }
+
     }
     else
       return value;

@@ -34,7 +34,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'paid_date', header: 'Paid Date', priority: 8, allowSortingFlag: true },
     { primaryKey: 'remarks', header: 'Remarks', priority: 9, allowSortingFlag: true },
     { primaryKey: 'reference_no', header: 'Ref No', priority: 9, allowSortingFlag: true },
-    { primaryKey: 'amount_paid', header: 'Amount Paid', priority: 10, allowSortingFlag: true },
+    { primaryKey: 'amount_paid', header: 'Amount Paid', priority: 10, amountValue:true,allowSortingFlag: true },
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 11, allowSortingFlag: true }
   ];
   paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "Other"];
@@ -71,6 +71,9 @@ export class PaymentHistoryMainComponent implements OnInit {
     {
       showActionButton: true,
       editOption: 'button',//or popup 
+      condition: [{ key: 'student_category', condition: "==", checkValue:"PAYMENT_HISTORY_STUD_CAT_ACTIVE",nextOperation:"&&"},
+        { key: 'payment_mode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
+        { key: 'pdc_cheque_id', condition: "==", checkValue: [null,-1],insideOperation:"||", nextOperation: undefined }],
       options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
     },
     displayMessage: "Enter Detail to Search"

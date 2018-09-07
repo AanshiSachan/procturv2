@@ -60,12 +60,12 @@ export class AllDataReportComponent implements OnInit {
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
     { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
     { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true },
-    { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, allowSortingFlag: true },
+    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, amountValue: true,allowSortingFlag: true },
+    { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, amountValue: true,allowSortingFlag: true },
     { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true, amountValue: true},
     { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 8, allowSortingFlag: true },
-    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, allowSortingFlag: true }
+    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, amountValue: true,allowSortingFlag: true }
   ];
   feeSettings2: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
