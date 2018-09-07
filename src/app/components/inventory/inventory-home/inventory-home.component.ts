@@ -14,6 +14,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { InventoryService } from '../../../services/inventory-services/inventory.service';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { AddCategoryInInventory } from '../../../model/add-item-inventory';
+import { MessageShowService } from '../../../services/message-show.service';
 
 
 @Component({
@@ -73,7 +74,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private inventoryApi: InventoryService,
     private fb: FormBuilder,
-    private appC: AppComponent
+    private appC: AppComponent,
+    private msg:MessageShowService
   ) {
   }
 
@@ -265,6 +267,7 @@ export class HomeComponent implements OnInit {
         this.isRippleLoad = false;
         this.loadTableDatatoSource();
         this.deleteItemPopUp = false;
+        this.msg.showErrorMessage("success" , "" , "Inventory Deleted Successfully")
       },
       error => {
         this.isRippleLoad = false;
