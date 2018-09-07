@@ -92,6 +92,6 @@ table {
     overflow: hidden;
     .dummy-scroll{
         height: 480px;
-        overflow : auto !important;
+        overflow-y : auto !important;
     }
 }

@@ -23,7 +23,7 @@
               <label for="Create Grade">Add Closing Reason*
 
               </label>
-              <textarea class="form-ctrl" name="grade" id="grade" [(ngModel)]="createNewReasonObj.closing_desc" style="height: 80px;" maxlength="50">
+              <textarea class="form-ctrl" name="grade" id="grade" [(ngModel)]="createNewReasonObj.closing_desc" style="height: 80px;"  >
               </textarea>
             </div>
           </div>
@@ -38,9 +38,6 @@
               <thead>
                 <tr>
                   <th>
-                    Id
-                  </th>
-                  <th>
                     Closing Reason
                   </th>
                   <th>
@@ -51,14 +48,7 @@
 
               <tbody *ngIf="getAllClosingReasons.length!=0">
                 <tr *ngFor="let i of getAllClosingReasons  ; let j = index; trackBy: j;" class="displayComp" id="i{{j}}">
-                  <td class="view-comp">
-                    {{i.closing_reason_id}}
-                  </td>
-
-                  <td class="edit-comp">
-                    {{i.closing_reason_id}}
-                  </td>
-
+                
                   <td class="view-comp">
                     {{i.closing_desc}}
                   </td>

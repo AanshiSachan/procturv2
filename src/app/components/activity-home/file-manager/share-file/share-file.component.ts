@@ -100,7 +100,7 @@ export class ShareFileComponent implements OnInit {
 
   getFileType: string = "";
 
-  constructor(private fileService: FileManagerService, private appC: AppComponent, private auth: AuthenticatorService , private services:MessageShowService) { }
+  constructor(private fileService: FileManagerService, private appC: AppComponent, private auth: AuthenticatorService, private services: MessageShowService) { }
 
   ngOnInit() {
     this.getAllStandards();
@@ -575,7 +575,7 @@ export class ShareFileComponent implements OnInit {
     if (this.batchesId) {
       for (let i = 0; i < this.getBatchesData.length; i++) {
         if (moment(this.getBatchesData[i].file_access_start_time) > moment(this.getBatchesData[i].file_access_end_time)) {
-          this.services.showErrorMessage("error" , "Incorrect Details" , "Access start Date Cannot be more than access end date")
+          this.services.showErrorMessage("error", "Incorrect Details", "Access start Date Cannot be more than access end date")
           return false;
         }
 
@@ -586,13 +586,15 @@ export class ShareFileComponent implements OnInit {
     else if (this.studentsId) {
       for (let i = 0; i < this.getStudentsData.length; i++) {
         if (moment(this.getStudentsData[i].file_access_start_time) > moment(this.getStudentsData[i].file_access_end_time)) {
-          this.services.showErrorMessage("error" , "Incorrect Details" , "Access start Date Cannot be more than access end date")
+          this.services.showErrorMessage("error", "Incorrect Details", "Access start Date Cannot be more than access end date")
           return false;
         }
       }
       return true;
     }
   }
+
+ 
 
   shareFile(unshare?) {
 
@@ -608,15 +610,15 @@ export class ShareFileComponent implements OnInit {
     if (this.tabChoice == "student") {
 
       if (this.fetchShareOption.standard_id == "" || this.fetchShareOption.subject_id == "") {
-        this.services.showErrorMessage("error" , "Incorrect Details" , "Please select master course and course")
+        this.services.showErrorMessage("error", "Incorrect Details", "Please select master course and course")
       }
 
       else if (this.getBatchesData == []) {
-        this.services.showErrorMessage("error" , "Incorrect Details" , "No batches/students found")
+        this.services.showErrorMessage("error", "Incorrect Details", "No batches/students found")
       }
 
       else {
-        if(this.validationsOfTime() == true){
+        if (this.validationsOfTime() == true) {
           this.fetchApiStudentsAndBatches();
           return;
         }

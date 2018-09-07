@@ -18,7 +18,7 @@
                     <a *ngIf="(isLangInstitue)" routerLink="/view/course/managebatch">Batch</a>
                     <a *ngIf="(!isLangInstitue)" routerLink="/view/course/courselist">Courses</a>
                 </li>
-                <li id="liClass" #liClass (click)="switchActiveView('liClass')" class="">
+                <li id="liClass" #liClass (click)="switchActiveView('liClass')" class="" style="width:16%;">
                     <a routerLink="/view/course/class" *ngIf="(isLangInstitue)">Class</a>
                     <a routerLink="/view/course/class" *ngIf="(!isLangInstitue)">Class Scheduling</a>
                 </li>
