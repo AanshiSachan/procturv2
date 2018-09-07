@@ -131,6 +131,10 @@
               </div>
             </div>
             <div class="c-lg-5 c-sm-5 c-md-5 c-xs-12 align-right">
+
+              <button class="btn" *ngIf="hidePastClass() && !isProfessional" (click)="sendReminder()" style="padding: 5px;">Send
+                Reminder</button>
+
               <!-- <input type="button" value="Calendar View fullBlue" class="btn fullBlue">
                 <input type="button" value="List View" class="btn "> -->
             </div>
@@ -363,8 +367,6 @@
                       </td>
                       <td>
                         <div class="action-box">
-                          <span *ngIf="row.class_schedule_id != 0 && hidePastClass() && row.is_attendance_marked == 'N'"
-                            class="mail-notification" title="Send Reminder" (click)="sendReminder()"></span>
                           <span *ngIf="row.class_schedule_id != 0 && row.is_attendance_marked == 'N'" class="reschedule-icon"
                             title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
                           <span *ngIf="row.is_attendance_marked == 'N'" (click)="removeRowFromSchedule(i , row)" title="Delete"
