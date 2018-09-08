@@ -53,7 +53,7 @@ export class ClosingReasonComponent implements OnInit {
       },
       (error: any) => {
         this.dataStatus = false;
-        this.errorMessage(error);
+        // this.errorMessage(error);
       }
     )
   }
@@ -141,7 +141,7 @@ export class ClosingReasonComponent implements OnInit {
 
 
   isName(str) {
-    let letters = /^[A-Za-z ]+$/
+    let letters = /^[A-Za-z \n]+$/
     if (letters.test(str)) {
       return false;
     }
