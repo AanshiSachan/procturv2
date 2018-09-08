@@ -60,12 +60,12 @@ export class AllDataReportComponent implements OnInit {
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
     { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
     { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, amountValue: true,allowSortingFlag: true },
-    { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, amountValue: true,allowSortingFlag: true },
+    { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, amountValue: true, allowSortingFlag: true },
     { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true, amountValue: true},
+    { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true, amountValue: true },
     { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 8, allowSortingFlag: true },
-    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, amountValue: true,allowSortingFlag: true }
+    { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, amountValue: true, allowSortingFlag: true }
   ];
   feeSettings2: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
@@ -310,187 +310,68 @@ export class AllDataReportComponent implements OnInit {
   // }
 
   fetchFeeDetails() {
+  
     let arr = [];
     arr.push(this.courseFetchForm.academic_year_id);
+    let obj = {
+      standard_id: null,
+      subject_id: null,
+      master_course_name: null,
+      course_id: null,
+      batch_id: this.courseFetchForm.batch_id,
+      type: this.courseFetchForm.type,
+      from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+      to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+      installment_id: this.courseFetchForm.installment_id,
+      student_name: this.courseFetchForm.student_name,
+      contact_no: this.courseFetchForm.contact_no,
+      is_fee_report_view: this.courseFetchForm.is_fee_report_view,
+      academic_year_id: arr
+    }
     /* Fetch By Master Course and Other Details */
-    // if (this.showPopupKeys.isFilterReversed) {
+      // if (this.showPopupKeys.isFilterReversed) {
     //   /* Checks if user has filled the form correctly and selected a batch or master course course */
     //   if (this.courseFormValidator()) {
     //     if (this.dateRangeValid()) {
     if (this.showPopupKeys.isProfessional) {
-      let obj = {
-        standard_id: this.courseFetchForm.standard_id,
-        batch_id: this.courseFetchForm.batch_id,
-        type: this.courseFetchForm.type,
-        from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-        to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
-        installment_id: this.courseFetchForm.installment_id,
-        subject_id: this.courseFetchForm.subject_id,
-        master_course_name: this.courseFetchForm.master_course_name,
-        course_id: this.courseFetchForm.course_id,
-        student_name: this.courseFetchForm.student_name,
-        contact_no: this.courseFetchForm.contact_no,
-        is_fee_report_view: this.courseFetchForm.is_fee_report_view,
-        academic_year_id: arr
-      }
-      //console.log(obj);
-      this.generateReport(obj);
+      obj["standard_id"] = this.courseFetchForm.standard_id;
+      obj["subject_id"] = this.courseFetchForm.subject_id;
+      obj["master_course_name"] = this.courseFetchForm.master_course_name;
+      obj["course_id"] = this.courseFetchForm.course_id;
     }
     else {
-      let obj = {
-        standard_id: this.courseFetchForm.master_course_name,
-        batch_id: this.courseFetchForm.batch_id,
-        type: this.courseFetchForm.type,
-        from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-        to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
-        installment_id: this.courseFetchForm.installment_id,
-        subject_id: this.courseFetchForm.course_id,
-        master_course_name: this.courseFetchForm.standard_id,
-        course_id: this.courseFetchForm.subject_id,
-        student_name: this.courseFetchForm.student_name,
-        contact_no: this.courseFetchForm.contact_no,
-        is_fee_report_view: this.courseFetchForm.is_fee_report_view,
-        academic_year_id: arr
-      }
-      //console.log(obj);
-      this.generateReport(obj);
+      obj["standard_id"] = this.courseFetchForm.master_course_name;
+      obj["subject_id"] = this.courseFetchForm.course_id;
+      obj["master_course_name"] = this.courseFetchForm.standard_id;
+      obj["course_id"] = this.courseFetchForm.subject_id;
     }
-
+    
     //   }
-    // }
+    // }}
+    // console.log(obj);
     // /* Fetch by name or Dues Type */
-
-    if (this.due_type == 'all_dues') {
-      let obj: any = {
-        from_date: '',
-        to_date: '',
-      }
-      /* Name Detected */
-      if (isNaN(this.search_value)) {
-        obj.student_name = this.search_value;
-        obj.contact_no = '';
-      }
-      /* Contact Number Detected */
-      else {
-        obj.contact_no = this.search_value;
-        obj.student_name = '';
-      }
-      // this.generateReport(obj);
-    }
-    else if (this.due_type == "seven_days_dues") {
-      let obj: any = {
-        from_date: '',
-        to_date: '',
-      }
-      if (isNaN(this.search_value)) {
-        obj.student_name = this.search_value;
-        obj.contact_no = '';
-      }
-      /* Contact Number Detected */
-      else {
-        obj.contact_no = this.search_value;
-        obj.student_name = '';
-      }
-
-      // this.generateReport(obj);
-    }
-
-    else if (this.due_type == "thirty_days_dues") {
-      let obj: any = {
-        from_date: '',
-        to_date: '',
-      }
-      if (isNaN(this.search_value)) {
-        obj.student_name = this.search_value;
-        obj.contact_no = '';
-      }
-      /* Contact Number Detected */
-      else {
-        obj.contact_no = this.search_value;
-        obj.student_name = '';
-      }
-
-      // this.generateReport(obj);
-    }
-
-    else if (this.due_type == "ninty_days_dues") {
-      let obj: any = {
-        from_date: '',
-        to_date: '',
-      }
-      if (isNaN(this.search_value)) {
-        obj.student_name = this.search_value;
-        obj.contact_no = '';
-      }
-      /* Contact Number Detected */
-      else {
-        obj.contact_no = this.search_value;
-        obj.student_name = '';
-      }
-
-      // this.generateReport(obj);
-    }
-
-    else if (this.due_type == '-1') {
-      this.appC.popToast({ type: "error", body: "Please select dues" })
+    if (this.due_type == '-1') {
+      this.appC.popToast({ type: "error", body: "Please select dues" });
+      this.tableSetting.displayMessage = "Data not found";
+      this.feeDataSource1 =[];
       return false;
     }
-
-    else if (this.due_type == 'next_month_dues') {
-      let obj: any = {
-        from_date: '',
-        to_date: '',
-      }
-
-      /* Name Detected */
-      if (isNaN(this.search_value)) {
-        obj.student_name = this.search_value;
-        obj.contact_no = '';
-      }
-      /* Contact Number Detected */
-      else {
-        obj.contact_no = this.search_value;
-        obj.student_name = '';
-      }
-
-    }
-    else if (this.due_type == 'this_month_dues') {
-      let obj: any = {
-        from_date: '',
-        to_date: '',
-      }
-
-
-      /* Name Detected */
-      if (isNaN(this.search_value)) {
-        obj.student_name = this.search_value;
-        obj.contact_no = '';
-      }
-      /* Contact Number Detected */
-      else {
-        obj.contact_no = this.search_value;
-        obj.student_name = '';
-      }
-
-    }
-    else if (this.due_type == 'current_dues') {
-      let obj: any = {
-        from_date: '',
-        to_date: '',
-      }
-
-      /* Name Detected */
-      if (isNaN(this.search_value)) {
-        obj.student_name = this.search_value;
-        obj.contact_no = '';
-      }
-      /* Contact Number Detected */
-      else {
-        obj.contact_no = this.search_value;
-        obj.student_name = '';
-      }
-    }
+    // else if (this.due_type != 'custom') {
+    //   /* Name Detected */
+    //   if (isNaN(this.search_value)) {
+    //     obj.student_name = this.search_value;
+    //     obj.contact_no = '';
+    //   }
+    //   /* Contact Number Detected */
+    //   else {
+    //     obj.contact_no = this.search_value;
+    //     obj.student_name = '';
+    //   }
+    //   // this.generateReport(obj);
+    // }
+    this.generateReport(obj);
   }
+
 
   dateRangeValid(): boolean {
 

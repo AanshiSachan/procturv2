@@ -201,9 +201,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     }
 
 
-    // console.log(strExp);
-    // console.log(eval(strExp));
-
     if (eval(strExp))
       return true;
     else
