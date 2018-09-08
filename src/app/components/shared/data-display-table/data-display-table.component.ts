@@ -174,10 +174,50 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       $(".dd-list-container").css("bottom", "-30px");
     }
   }
-  getTypeCheck(data, value: any, key, index) {
 
+  checkCondition(data) {
+    let strExp = '';
+
+    let len = this.displayKeys.actionSetting.condition.length;
+    let conditionArray = this.displayKeys.actionSetting.condition;
+    for (let i in conditionArray) {
+      if (conditionArray[i].nextOperation != undefined) {
+        strExp = strExp + "'" + data[conditionArray[i].key] + "'" + conditionArray[i].condition + "'" + conditionArray[i].checkValue + "'";
+        if (conditionArray[Number(i) + 1].nextOperation != undefined)
+          strExp = strExp + conditionArray[i].nextOperation;
+      }
+      else {
+        if (conditionArray[i].insideOperation != undefined && conditionArray[i].checkValue.length > 0)
+          strExp = strExp + conditionArray[i].outerOperation + '('
+        for (let j in conditionArray[i].checkValue) {
+          strExp = strExp + data[conditionArray[i].key] + conditionArray[i].condition + conditionArray[i].checkValue[j];
+          if (Number(j) < conditionArray[i].checkValue.length - 1) {
+            strExp = strExp + conditionArray[i].insideOperation;
+          }
+
+        }
+        strExp = strExp + ')';
+      }
+    }
+
+
+    // console.log(strExp);
+    // console.log(eval(strExp));
+
+    if (eval(strExp))
+      return true;
+    else
+      return false;
+
+    // return eval(strExp);
+
+  }
+
+  getTypeCheck(data, value: any, key, index) {
+    // debugger;
+    // console.log(key);
     if (key.operation) {
-      console.log(key);
+
       switch (key.operation) {
         case 'add': {
           let strExp = '';
@@ -215,7 +255,13 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     }
     if ((!isNaN(value)) && (value != '') && (value != null)) {
       // return value ;
-      return '₹ ' + value.toLocaleString('en-IN');
+      if (key.amountValue) {
+
+        return '₹ ' + value.toLocaleString('en-IN');
+      } else {
+        return value;
+      }
+
     }
     else
       return value;

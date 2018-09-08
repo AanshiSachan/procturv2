@@ -22,7 +22,8 @@
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
                         <label for="smc">Select Master Course</label>
-                        <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id" (ngModelChange)="updateSubjectList($event)">
+                        <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id"
+                          (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
                           <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
                             {{std.standard_name}}
@@ -34,7 +35,8 @@
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
                         <label for="sc">Select Course</label>
-                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id" (ngModelChange)="filterSubjectBatches($event)">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id"
+                          (ngModelChange)="filterSubjectBatches($event)">
                           <option value="-1"></option>
                           <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
                             {{subject.subject_name}}
@@ -66,7 +68,8 @@
                           <label for="smc">Select Master Course
                             <span style="color:red">*</span>
                           </label>
-                          <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
+                          <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
+                            (ngModelChange)="updateCourseList($event)">
                             <option value="-1"></option>
                             <option [value]="master.master_course" *ngFor="let  master of masterCourse">
                               {{master.master_course}}
@@ -80,7 +83,8 @@
                           <label for="sc">Select Course
                             <span style="color:red">*</span>
                           </label>
-                          <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="onCourseListSelection($event)">
+                          <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
+                            (ngModelChange)="onCourseListSelection($event)">
                             <option value="-1"></option>
                             <option [value]="course.course_id" *ngFor="let course of courseList">
                               {{course.course_name}}
@@ -101,7 +105,8 @@
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
-                        <input type="button" class="fullBlue btn" style="margin-top:5%;" value="Go" (click)="submitMasterCourse()" id="goInp8">
+                        <input type="button" class="fullBlue btn" style="margin-top:5%;" value="Go" (click)="submitMasterCourse()"
+                          id="goInp8">
                       </div>
                     </div>
                     <div class="row" *ngIf="courseStartDate" style="margin-top:10px;margin-left:15px">
@@ -126,6 +131,10 @@
               </div>
             </div>
             <div class="c-lg-5 c-sm-5 c-md-5 c-xs-12 align-right">
+
+              <button class="btn" *ngIf="hidePastClass() && !isProfessional" (click)="sendReminder()" style="padding: 5px;">Send
+                Reminder</button>
+
               <!-- <input type="button" value="Calendar View fullBlue" class="btn fullBlue">
                 <input type="button" value="List View" class="btn "> -->
             </div>
@@ -163,8 +172,9 @@
                         <span title="Special characters not allowed in Description">
 
                           <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                            width="14px" height="14px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px" y="0px" width="14px" height="14px" viewBox="0 0 48 48" enable-background="new 0 0 48 48"
+                            xml:space="preserve">
                             <path fill="#1385F2" d="M24.067,0c-13.255,0-24,10.746-24,24s10.745,24,24,24c13.252,0,23.997-10.746,23.997-24S37.319,0,24.067,0z
 	 M23.779,38.121c-1.035,0.802-2.029,1.208-2.991,1.208c-0.625,0-1.145-0.188-1.549-0.561c-0.402-0.374-0.603-0.847-0.603-1.421
 	c0-0.581,0.188-1.524,0.573-2.845l3.017-10.371c0.482-1.688,0.72-2.752,0.72-3.193c0-0.327-0.117-0.597-0.362-0.818
@@ -199,7 +209,8 @@
 
                       <td class="subj">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.subject_id != '-1' && addClassDetails.subject_id != '' }">
-                          <select id="subjectSelctionDDN" class="side-form-ctrl" name="row.subject_id" [(ngModel)]="addClassDetails.subject_id" (ngModelChange)="onSubjectSelection($event)">
+                          <select id="subjectSelctionDDN" class="side-form-ctrl" name="row.subject_id" [(ngModel)]="addClassDetails.subject_id"
+                            (ngModelChange)="onSubjectSelection($event)">
                             <option value="-1"> </option>
                             <option *ngFor="let opt of subjectListDataSource" [value]="opt.subject_id">
                               {{opt.subject_name}}
@@ -211,14 +222,16 @@
                       <td class="">
                         <div class="timePickerParent">
                           <div class="form-wrapper">
-                            <select id="followuptime" class="side-form-ctrl field-wrapper hourTime" [(ngModel)]="addClassDetails.start_hour" name="followuptime">
+                            <select id="followuptime" class="side-form-ctrl field-wrapper hourTime" [(ngModel)]="addClassDetails.start_hour"
+                              name="followuptime">
                               <option [value]="time" *ngFor="let time of times">
                                 {{time}}
                               </option>
                             </select>
                           </div>
                           <div class="form-wrapper">
-                            <select id="minute" class="side-form-ctrl fields-wrapper minuteTime" [(ngModel)]="addClassDetails.start_minute" name="minute">
+                            <select id="minute" class="side-form-ctrl fields-wrapper minuteTime" [(ngModel)]="addClassDetails.start_minute"
+                              name="minute">
                               <option *ngFor="let minute of minArr" [value]="minute">
                                 {{minute}}
                               </option>
@@ -230,14 +243,16 @@
                       <td class="">
                         <div class="timePickerParent">
                           <div class="form-wrapper">
-                            <select id="followuptime" class="side-form-ctrl field-wrapper hourTime" [(ngModel)]="addClassDetails.end_hour" name="followuptime">
+                            <select id="followuptime" class="side-form-ctrl field-wrapper hourTime" [(ngModel)]="addClassDetails.end_hour"
+                              name="followuptime">
                               <option [value]="time" *ngFor="let time of times">
                                 {{time}}
                               </option>
                             </select>
                           </div>
                           <div class="form-wrapper">
-                            <select id="minute" class="side-form-ctrl fields-wrapper minuteTime" [(ngModel)]="addClassDetails.end_minute" name="minute">
+                            <select id="minute" class="side-form-ctrl fields-wrapper minuteTime" [(ngModel)]="addClassDetails.end_minute"
+                              name="minute">
                               <option *ngFor="let minute of minArr" [value]="minute">
                                 {{minute}}
                               </option>
@@ -260,21 +275,22 @@
 
                       <td class="desc">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
-                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc" style="height: 31px;"
-                            id="classDetailsTxt9">
+                          <input type="textbox" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.class_desc"
+                            style="height: 31px;" id="classDetailsTxt9">
                         </div>
                       </td>
 
                       <td class="room">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.room_no != '' && addClassDetails.room_no != null }">
-                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no" style="height: 31px;"
-                            id="addClassInp9">
+                          <input type="text" class="side-form-ctrl viewClass" name="label" [(ngModel)]="addClassDetails.room_no"
+                            style="height: 31px;" id="addClassInp9">
                         </div>
                       </td>
 
                       <td class="cl-type">
                         <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.custom_class_type != '-1' && addClassDetails.custom_class_type != '' }">
-                          <select id="" class="side-form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.custom_class_type" style="background: transparent;">
+                          <select id="" class="side-form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.custom_class_type"
+                            style="background: transparent;">
                             <option *ngFor="let opt of customListDataSource">
                               {{opt}}
                             </option>
@@ -306,7 +322,8 @@
                       </td>
                       <td>
                         <div class="form-wrapper">
-                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.teacher_id">
+                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent"
+                            [(ngModel)]="row.teacher_id">
                             <option value="-1"></option>
                             <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
                               {{opt.teacher_name}}
@@ -316,20 +333,21 @@
                       </td>
                       <td class="desc">
                         <div class="form-wrapper">
-                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label"
-                            id="rowInp1">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent"
+                            [(ngModel)]="row.class_desc" name="label" id="rowInp1">
                         </div>
                       </td>
                       <td class="room">
                         <div class="form-wrapper">
-                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label"
-                            id="rowInp2">
+                          <input type="text" class="side-form-ctrl editCellInput" style="background: transparent"
+                            [(ngModel)]="row.room_no" name="label" id="rowInp2">
                         </div>
                       </td>
 
                       <td class="cl-type">
                         <div class="form-wrapper">
-                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.custom_class_type">
+                          <select id="" class="side-form-ctrl" name="row.category_id" style="background: transparent"
+                            [(ngModel)]="row.custom_class_type">
                             <option *ngFor="let opt of customListDataSource" [value]="opt">
                               {{opt}}
                             </option>
@@ -339,8 +357,8 @@
 
                       <td>
                         <div class="form-wrapper">
-                          <select *ngIf="(row.class_schedule_id != 0)" id="" style="background: transparent" class="side-form-ctrl" name="row.category_id"
-                            (change)="weeklyScheduleChange($event , row)">
+                          <select *ngIf="(row.class_schedule_id != 0)" id="" style="background: transparent" class="side-form-ctrl"
+                            name="row.category_id" (change)="weeklyScheduleChange($event , row)">
                             <option value="1">Does Not Repeat</option>
                             <option value="2">Select Dates</option>
                             <option value="3">Custom</option>
@@ -349,9 +367,10 @@
                       </td>
                       <td>
                         <div class="action-box">
-                          <span *ngIf="(row.class_schedule_id != 0)" class="mail-notification" title="Send Reminder" (click)="sendReminder()"></span>
-                          <span *ngIf="(row.class_schedule_id != 0)" class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
-                          <span (click)="removeRowFromSchedule(i , row)" title="Delete" class="delete-btn">
+                          <span *ngIf="row.class_schedule_id != 0 && row.is_attendance_marked == 'N'" class="reschedule-icon"
+                            title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
+                          <span *ngIf="row.is_attendance_marked == 'N'" (click)="removeRowFromSchedule(i , row)" title="Delete"
+                            class="delete-btn">
                             <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>
                           </span>
                           <!-- <span class="edit-icon"></span> -->
@@ -387,7 +406,8 @@
           <div class="filter-Section">
             <div class="row">
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <select class="side-form-ctrl" name="row.category_id" (ngModelChange)="scheduleSelection($event)" [(ngModel)]="batchFrequency">
+                <select class="side-form-ctrl" name="row.category_id" (ngModelChange)="scheduleSelection($event)"
+                  [(ngModel)]="batchFrequency">
                   <option value="1">Weekly</option>
                   <option value="2">Custom</option>
                 </select>
@@ -444,7 +464,8 @@
                 </div>
                 <div class="pull-right btnGroup">
                   <button class="btn fullBlue" (click)="applyButtonClick()">Apply</button>
-                  <button class="btn fullBlue" *ngIf="showCancelWeeklyBtn" (click)="cancelWeeklyScheduledClass()">Cancel Weekly Scheduled Class</button>
+                  <button class="btn fullBlue" *ngIf="showCancelWeeklyBtn" (click)="cancelWeeklyScheduledClass()">Cancel
+                    Weekly Scheduled Class</button>
                 </div>
               </div>
 
@@ -469,7 +490,8 @@
                         <td>
                           <div class="field-checkbox-wrapper">
 
-                            <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected" class="form-checkbox">
+                            <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected"
+                              class="form-checkbox">
                             <label for="checkbx{{i}}">
                               {{row.data_value}}
                             </label>
@@ -542,8 +564,8 @@
                   <label for="csd">Date
                     <span style="color:red">*</span>
                   </label>
-                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date" readonly="true" name="csd"
-                    bsDatepicker>
+                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date"
+                    readonly="true" name="csd" bsDatepicker>
 
                 </div>
               </div>
@@ -598,8 +620,9 @@
                     <span title="Special characters not allowed in Description">
 
                       <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        width="14px" height="14px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px" y="0px" width="14px" height="14px" viewBox="0 0 48 48" enable-background="new 0 0 48 48"
+                        xml:space="preserve">
                         <path fill="#1385F2" d="M24.067,0c-13.255,0-24,10.746-24,24s10.745,24,24,24c13.252,0,23.997-10.746,23.997-24S37.319,0,24.067,0z
 M23.779,38.121c-1.035,0.802-2.029,1.208-2.991,1.208c-0.625,0-1.145-0.188-1.549-0.561c-0.402-0.374-0.603-0.847-0.603-1.421
 c0-0.581,0.188-1.524,0.573-2.845l3.017-10.371c0.482-1.688,0.72-2.752,0.72-3.193c0-0.327-0.117-0.597-0.362-0.818
@@ -661,8 +684,10 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                       </td>
                       <td>
                         <a style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , index)" id="deleteAnch1">Delete</a>
-                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)" id="notifyAnch2">Notify</a>
-                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)" id="cancelAnch3">Cancel Class</a>
+                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)"
+                          id="notifyAnch2">Notify</a>
+                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)"
+                          id="cancelAnch3">Cancel Class</a>
                       </td>
                     </tr>
                     <tr *ngIf="customTable.length == 0">
@@ -694,8 +719,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                     <label for="csd">Date
                       <span style="color:red">*</span>
                     </label>
-                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
-                      bsDatepicker>
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date"
+                      readonly="true" name="csd" bsDatepicker>
 
                   </div>
                 </div>
@@ -796,8 +821,10 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                             {{row.note}}
                           </td>
                           <td>
-                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)" id="cancelAnch4">Cancel</a>
-                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)" id="notifyAnch5">Notify</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)"
+                              id="cancelAnch4">Cancel</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)"
+                              id="notifyAnch5">Notify</a>
                             <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)" id="deleteAnch6">Delete</a>
                           </td>
                         </tr>
@@ -905,8 +932,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
               <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
               <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -1054,7 +1081,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                     rotate(45) " />
             </g>
             <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                    " height="16 " transform="translate(1012 297) " />
+                    "
+              height="16 " transform="translate(1012 297) " />
           </g>
         </svg>
       </span>
@@ -1135,7 +1163,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
               <label for="row.category_id ">Class Type</label>
-              <select id="row.category_id" class="form-ctrl side-form-ctrl" name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
+              <select id="row.category_id" class="form-ctrl side-form-ctrl" name="row.category_id " style="background: transparent; "
+                [(ngModel)]="selctedScheduledClass.custom_class_type ">
                 <option *ngFor="let opt of customListDataSource ">
                   {{opt}}
                 </option>
@@ -1148,7 +1177,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
               <label for="label">Description</label>
-              <input type="textbox" class="form-ctrl side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.class_desc " id="slctdTxt3">
+              <input type="textbox" class="form-ctrl side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.class_desc "
+                id="slctdTxt3">
             </div>
           </div>
         </div>
@@ -1175,12 +1205,13 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                     <tr>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="textbox" value="" readonly="true" [(ngModel)]="addDates.selectedDate" class="form-ctrl bsDatepicker" name="endDate"
-                            bsDatepicker id="endTxt3">
+                          <input type="textbox" value="" readonly="true" [(ngModel)]="addDates.selectedDate" class="form-ctrl bsDatepicker"
+                            name="endDate" bsDatepicker id="endTxt3">
                         </div>
                       </td>
                       <td>
-                        <a style="font-size: 24px;font-weight: 600;" alt="Add " title="Add" (click)="addDateToArray() " id="addAnch11">+</a>
+                        <a style="font-size: 24px;font-weight: 600;" alt="Add " title="Add" (click)="addDateToArray() "
+                          id="addAnch11">+</a>
                       </td>
                       <td>
                       </td>
@@ -1191,7 +1222,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                       </td>
                       <td>
                         <i class="fas fa fa-trash " (click)="removeDateToArray(i, row) " style="font-size: 19px; font-family:
-                      FontAwesome; " alt="Remove " title="Remove " id="removeIcon1"></i>
+                      FontAwesome; "
+                          alt="Remove " title="Remove " id="removeIcon1"></i>
                       </td>
                       <td style="color:#0084f6">
                         {{row.error}}
@@ -1237,7 +1269,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                     rotate(45) " />
             </g>
             <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                    " height="16 " transform="translate(1012 297) " />
+                    "
+              height="16 " transform="translate(1012 297) " />
           </g>
         </svg>
       </span>
@@ -1290,7 +1323,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                       rotate(45) " />
             </g>
             <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                      " height="16 " transform="translate(1012 297) " />
+                      "
+              height="16 " transform="translate(1012 297) " />
           </g>
         </svg>
       </span>
@@ -1298,17 +1332,20 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
         <div class="" *ngIf="batchFrequency == '1'">
           <div class="row warningNote ">
             <h5>
-              Weekly Schedule already exist for the batch.You are trying to modify the batch schedule from weekly to other.If you do so,
+              Weekly Schedule already exist for the batch.You are trying to modify the batch schedule from weekly to
+              other.If you do so,
               changes (mentioned below) will be applied.
               <br> -Extra Classes (except who have not been scheduled) will be deleted.
               <br> -Already existing cancelled classes will be deleted.
-              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes will be
+              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes
+              will be
               moved to extra classes. Other Schedule already exist for the batch.
               <br> You are trying to modify the batch schedule from other to weekly.
               <br> If you do so, changes (mentioned below) will be applied.
               <br> -Extra Classes (except who have not been scheduled) will be deleted.
               <br> -Already existing cancelled classes will be deleted.
-              <br> -Custom classes (except who have not been scheduled) will be deleted and rest of the custom classes will be
+              <br> -Custom classes (except who have not been scheduled) will be deleted and rest of the custom classes
+              will be
               moved to extra classes
             </h5>
           </div>
@@ -1327,7 +1364,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
               <br> If you do so,changes (mentioned below) will be applied.
               <br> -Extra Classes (except who have not been scheduled) will be deleted.
               <br> -Already existing cancelled classes will be deleted.
-              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes will be
+              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes
+              will be
               moved to extra classes
             </h5>
           </div>
@@ -1364,7 +1402,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                     rotate(45) " />
             </g>
             <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                    " height="16 " transform="translate(1012 297) " />
+                    "
+              height="16 " transform="translate(1012 297) " />
           </g>
         </svg>
       </span>
@@ -1376,8 +1415,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
               <label for="dateWee">Date
                 <span style="color:red">*</span>
               </label>
-              <input type="text" value="" id="dateWee" class="form-ctrl bsDatepicker" [(ngModel)]="weeklyScheduleCan.date" readonly="true"
-                name="csd" bsDatepicker>
+              <input type="text" value="" id="dateWee" class="form-ctrl bsDatepicker" [(ngModel)]="weeklyScheduleCan.date"
+                readonly="true" name="csd" bsDatepicker>
 
             </div>
           </div>
@@ -1389,7 +1428,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
         <div class="row extraMargin">
           <div class="field-checkbox-wrapper pull-left">
 
-            <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox" id="NotifyStusde">
+            <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox"
+              id="NotifyStusde">
             <label for="NotifyStusde">Notify students</label>
           </div>
           <div class="pull-right" style="margin-right: 15px">
