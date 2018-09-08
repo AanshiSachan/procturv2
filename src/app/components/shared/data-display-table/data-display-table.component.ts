@@ -176,19 +176,40 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   checkCondition(data) {
+    let strExp = '';
 
-    // condition: [{ key: 'student_category', condition: "==", checkValue: "PAYMENT_HISTORY_STUD_CAT_ACTIVE", nextOperation: "&&" },
-    // { key: 'payment_mode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
-    // { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", nextOperation: undefined }],
+    let len = this.displayKeys.actionSetting.condition.length;
+    let conditionArray = this.displayKeys.actionSetting.condition;
+    for (let i in conditionArray) {
+      if (conditionArray[i].nextOperation != undefined) {
+        strExp = strExp + "'" + data[conditionArray[i].key] + "'" + conditionArray[i].condition + "'" + conditionArray[i].checkValue + "'";
+        if (conditionArray[Number(i) + 1].nextOperation != undefined)
+          strExp = strExp + conditionArray[i].nextOperation;
+      }
+      else {
+        if (conditionArray[i].insideOperation != undefined && conditionArray[i].checkValue.length > 0)
+          strExp = strExp + conditionArray[i].outerOperation + '('
+        for (let j in conditionArray[i].checkValue) {
+          strExp = strExp + data[conditionArray[i].key] + conditionArray[i].condition + conditionArray[i].checkValue[j];
+          if (Number(j) < conditionArray[i].checkValue.length - 1) {
+            strExp = strExp + conditionArray[i].insideOperation;
+          }
 
-    // let strExp = '';
+        }
+        strExp = strExp + ')';
+      }
+    }
 
-    // let len = this.displayKeys.actionSetting.condition.length;
-    // let conditionArray = this.displayKeys.actionSetting.condition;
-    // for (let i in conditionArray) {
-    //   if (Number(i) < len)
-    //     // strExp = data[key.primaryKey[i]] + '+';
-    // }
+
+    // console.log(strExp);
+    // console.log(eval(strExp));
+
+    if (eval(strExp))
+      return true;
+    else
+      return false;
+
+    // return eval(strExp);
 
   }
 
