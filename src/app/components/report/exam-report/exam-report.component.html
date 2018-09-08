@@ -2,7 +2,7 @@
 </loaders-css>
 <div class="middle-section clear-fix">
     <aside class="middle-full">
-        <section class="middle-main clearFix attendance-container" >
+        <section class="middle-main clearFix attendance-container">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left" style="font-weight: bold;">
                     <a routerLink="/view/reports/home" style="padding:0px; ">
@@ -255,8 +255,10 @@
                                 <label *ngIf="marks.grade == 'Leave'||marks.grade=='Absent' || isExamGrade == '1'">{{marks.grade | uppercase}}</label>
                                 <label *ngIf="marks.grade != 'Leave' && marks.grade!='Absent' ">{{marks.grade | uppercase}}</label>
                                 <label *ngIf="marks.grade == '' || isExamGrade == '0'">{{marks.student_marks_obtained}}</label> -->
-                                <label *ngIf="isExamGrade == '1'">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="isExamGrade == '0'">{{marks.student_marks_obtained}}</label>
+                                <label *ngIf="marks.isBatchExamGrade == 1">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.isBatchExamGrade == 0">{{marks.student_marks_obtained}}
+                                    <label *ngIf="marks.student_marks_obtained!=null && marks.student_marks_obtained!='Absent' &&marks.student_marks_obtained!='Leave' && marks.student_marks_obtained!=0">/{{marks.total_marks}}</label>
+                                </label>
 
                             </td>
 

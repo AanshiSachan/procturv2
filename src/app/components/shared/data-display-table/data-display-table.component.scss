@@ -20,7 +20,8 @@ table {
 th,
 td {
     text-align: left;
-    padding: 8px;
+    padding: 5px;
+    word-break: break-word;
 }
 
 tr:nth-child(even) {
