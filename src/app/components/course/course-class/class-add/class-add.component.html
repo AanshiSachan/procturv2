@@ -132,8 +132,8 @@
             </div>
             <div class="c-lg-5 c-sm-5 c-md-5 c-xs-12 align-right">
 
-              <button class="btn" *ngIf="hidePastClass() && !isProfessional" (click)="sendReminder()" style="padding: 5px;">Send
-                Reminder</button>
+              <button class="btn" *ngIf="hidePastClass() && !isProfessional && classScheduleArray.length > 0" (click)="sendReminder()"
+                style="padding: 5px;">Send Reminder</button>
 
               <!-- <input type="button" value="Calendar View fullBlue" class="btn fullBlue">
                 <input type="button" value="List View" class="btn "> -->
