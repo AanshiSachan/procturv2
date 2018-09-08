@@ -313,7 +313,7 @@ export class PaymentHistoryMainComponent implements OnInit {
           });
           this.varJson.total_amt_paid = totalAmount;
           if (this.updatedResult.paymentMode == "Cheque/PDC/DD No.") {
-            this.flagJson.isChequePayment = true;
+            // this.flagJson.isChequePayment = true;
           }
           else {
             this.flagJson.isChequePayment = false;
