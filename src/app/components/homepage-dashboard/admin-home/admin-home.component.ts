@@ -327,6 +327,18 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+
+
+  hideVisibilty() {
+    let d = moment(this.courseLevelSchedDate).format("YYYY-MM-DD");
+    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   getCourseHomeworkData(i): string {
     return this.courseLevelStudentAtt[i].dateLi[0].home_work_status;
   }

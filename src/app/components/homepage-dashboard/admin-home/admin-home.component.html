@@ -218,7 +218,7 @@
                               Attendance
                             </span>
                             <span class="" *ngIf='class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class
+                            <span class="" *ngIf='hideVisibilty() && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class
                               Reminder
                             </span>
                             <span class="" style="cursor:pointer" (click)="viewClassDetails(i, class)">View Details</span>
