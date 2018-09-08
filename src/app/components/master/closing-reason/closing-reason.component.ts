@@ -53,7 +53,7 @@ export class ClosingReasonComponent implements OnInit {
       },
       (error: any) => {
         this.dataStatus = false;
-        this.errorMessage(error);
+        // this.errorMessage(error);
       }
     )
   }

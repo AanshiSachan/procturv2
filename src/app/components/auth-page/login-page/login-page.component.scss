@@ -31,6 +31,15 @@
     background: linear-gradient(to right bottom, rgba(0, 72, 126, .97), rgba(0, 74, 126, .97) 50%, rgba(114, 183, 227, .97)); */
 }
 
+.user-ex{
+    margin-top: 15px;
+    /* margin-bottom: 30%; */
+    width: 75%;
+    margin-left: 15%;
+    text-align: left;
+    font-size: 11px;
+}
+
 .bg-img-virtual {
     top: 0px;
     left: 0px;
@@ -495,7 +504,7 @@ label {
         }
     }
     .agreement-row {
-        margin-top: 30%;
+        margin-top: 20%;
         margin-bottom: 30%;
         width: 75%;
         margin-left: 15%;
