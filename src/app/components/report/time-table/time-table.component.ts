@@ -74,23 +74,25 @@ export class TimeTableComponent implements OnInit {
   ) {
     this.insContact = sessionStorage.getItem('inst_phone');
     this.insName = sessionStorage.getItem('institute_name');
-  }
-
-  ngOnInit() {
     this.auth.institute_type.subscribe(
       res => {
         if (res == "LANG") {
           this.isProfessional = true;
-          this.fetchTimeTableReportPro('0');
-          this.showFilters = true;
         } else {
           this.isProfessional = false;
-          this.getMasterCoursesData();
-          this.getTeachersNameData();
         }
       }
     )
-    console.log(this.isProfessional);
+  }
+
+  ngOnInit() {
+    if (this.isProfessional) {
+      this.fetchTimeTableReportPro('0');
+      this.showFilters = true;
+    } else {
+      this.getMasterCoursesData();
+      this.getTeachersNameData();
+    }
   }
 
   /*========================================================================================================
