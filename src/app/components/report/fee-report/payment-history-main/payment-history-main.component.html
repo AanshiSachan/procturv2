@@ -65,7 +65,7 @@
                 <div class="c-lg-1">
                   </div>
               <div class="c-lg-8" style="margin-top: 10px;">
-                <div class="c-lg-12" >
+                <div class="c-lg-12" *ngIf="allPaymentRecords.length > 0">
                   <div class="c-lg-4  text-change" *ngIf="newData[0].hasOwnProperty('Cheque/PDC/DD No.') && allPaymentRecords.length > 0">
                     <span class="made-out"> Cheque/PDC/DD No</span>
                     <div class="font-element">₹{{newData[0]['Cheque/PDC/DD No.'].toLocaleString('en-IN')}}</div>
