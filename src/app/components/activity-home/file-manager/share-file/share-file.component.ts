@@ -413,6 +413,7 @@ export class ShareFileComponent implements OnInit {
   fetchCoursesData(subject_id, event, update?) {
     this.getStudentsData = [];
     this.dataStatus = true;
+    this.isStudentChecked = false;
     (update == true) ? update = 1 : update = 0;
     if (event == 0) {
       let arr = [];
@@ -439,6 +440,17 @@ export class ShareFileComponent implements OnInit {
               }
               if (data.file_access_start_time == "") {
                 data.file_access_start_time = moment().format('YYYY-MM-DD')
+              }
+              
+              if (update != 1) {
+                data.is_file_shared = "N"
+                data.isChecked = false
+              } else {
+                if (data.is_file_shared == 'Y') {
+                  data.isChecked = true;
+                } else {
+                  data.isChecked = false;
+                }
               }
             }
           )
@@ -512,6 +524,9 @@ export class ShareFileComponent implements OnInit {
   }
 
   fetchApiStudentsAndBatches() {
+
+    console.log(this.getBatchesData);
+    console.log(this.getStudentsData);
 
     this.getBatchesData.map(ele => {
       if (ele.isChecked == true) {
@@ -594,7 +609,7 @@ export class ShareFileComponent implements OnInit {
     }
   }
 
- 
+
 
   shareFile(unshare?) {
 
