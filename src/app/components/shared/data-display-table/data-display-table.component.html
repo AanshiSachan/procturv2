@@ -43,7 +43,7 @@
 
   </thead>
 
-  <tr *ngFor="let data of recordsTrimmed ; let i=index" [id]="'editTableRow-'+i">
+  <tr *ngFor="let data of recordsTrimmed ; let i=index" (click)="rowClick(i)"  [id]="'editTableRow-'+i">
     <td *ngIf="displayKeys.selectAll.showSelectAll" class="checkBoxCss">
       <!-- <input type="checkbox" class="form-checkbox" [checked]="data.checked" (change)="toggleCheckbox($event,data,displayKeys.selectAll.key)"> -->
 
