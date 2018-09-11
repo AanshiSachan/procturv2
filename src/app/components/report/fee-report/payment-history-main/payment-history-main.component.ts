@@ -73,7 +73,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       editOption: 'button',//or popup 
       condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
       { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
-      { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation:"&&",nextOperation: undefined }],
+      { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
       options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
     },
     displayMessage: "Enter Detail to Search"
@@ -343,8 +343,9 @@ export class PaymentHistoryMainComponent implements OnInit {
             if (feeSchedule_TxLst == false) {
               return
             }
+            this.chequeDetailsJson.cheque_date = moment(this.chequeDetailsJson.cheque_date).format('YYYY-MM-DD');
             let obj = {
-              chequeDetailsJson: this.chequeDetailsJson,
+              chequeDetailsJson: Object.assign({}, this.chequeDetailsJson),
               feeSchedule_TxLst: feeSchedule_TxLst,
               fee_receipt_update_reason: this.updatedResult.fee_receipt_update_reason,
               financial_year: this.personData.financial_year,
