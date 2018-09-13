@@ -1,164 +1,120 @@
 @import "./src/assets/css/common/variables.scss";
-
 .setting-footer {
     margin-right: 1%;
     margin-top: 5px;
+    position: fixed;
     float: right;
+    bottom: 0%;
+    right: 11%;
 }
 
-.setting-full {
-    padding: 15px;
-    max-height: 500px; // overflow: hidden;
-     ::-webkit-scrollbar {
-        display: block;
-    }
-    .row {
-        margin: 0px 5px;
-    }
-    .setting-left {
-        height: 100vh;
-        margin: -35px 0px 0px -30px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        border-right: 1px solid #dcdcdc;
-        ul {
-            // padding: 15px 10px;
-            li {
-                line-height: 60px; // border-radius: 5px;
-                font-size: 20px;
-                font-weight: 600;
-                background: white;
-                border-bottom: 1px solid #d0f4ff;
-                span {
-                    margin-left: 20px;
-                    a {
-                        color: #0084f6;
-                    }
-                }
-                &.active {
-                    background: #d0f4ff;
-                    span {
-                        margin-left: 20px;
-                        a {
-                            color: black;
-                        }
-                    }
-                }
-                &:hover {
-                    background: #d0f4ff;
-                    span {
-                        margin-left: 20px;
-                        a {
-                            color: black;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .setting-right {
-        background: #efefef;
-        padding: 0px 15px 15px 15px;
-        margin-top: -20px;
-        .general-wrapper {
-            max-height: 450px;
-            overflow-x: hidden;
-            overflow-y: scroll;
-            .field-wrapper {
-                background: transparent;
-                .form-ctrl {
-                    background: transparent;
-                    border-bottom: 1px solid #ccc;
-                }
-            }
-            .row {
-                h3 {
-                    padding-left: 15px;
-                    padding-top: 10px;
-                }
-                p {
-                    margin: 5px 15px;
-                    font-style: italic;
-                }
-            }
-        }
-        .plan-wrapper {
-            padding: 15px;
-            max-height: 450px;
-            overflow-x: hidden;
-            overflow-y: scroll;
-            .field-wrapper {
-                background: transparent;
-                .form-ctrl {
-                    background: transparent;
-                    border-bottom: 1px solid #ccc;
-                }
-            }
-            .row {
-                h3 {
-                    padding-left: 15px;
-                    padding-top: 10px;
-                }
-                p {
-                    margin: 5px 15px;
-                    font-style: italic;
-                }
-                table {
-                    margin-top: 10px;
-                }
-            }
-        }
-        .account-wrapper {
-            max-height: 450px;
-            overflow-x: hidden;
-            overflow-y: scroll;
-            .field-wrapper {
-                background: transparent;
-                .form-ctrl {
-                    background: transparent;
-                    border-bottom: 1px solid #ccc;
-                }
-            }
-            .row {
-                h3 {
-                    padding-left: 15px;
-                    padding-top: 10px;
-                }
-                p {
-                    margin: 5px 15px;
-                    font-style: italic;
-                }
-            }
-        }
-        .app-details-wrapper {
-            padding: 15px;
-            .field-wrapper {
-                background: transparent;
-                .form-ctrl {
-                    background: transparent;
-                    border-bottom: 1px solid #ccc;
-                }
-            }
-            .row {
-                h3 {
-                    padding-left: 15px;
-                    padding-top: 10px;
-                }
-                p {
-                    margin: 5px 15px;
-                    font-style: italic;
-                }
-            }
-        }
-        .images-wrapper {
-            padding: 15px;
-            .row {
-                margin: 0px 5px;
-                margin-top: 10px;
-                margin-bottom: 10px;
-            }
-        }
-    }
+.general-setting {
+    height: auto;
+    /* width: 70%; */
+    /* margin-left: 2%; */
+    background: white;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+}
+
+.assign-width{
+    width:96%;
+}
+
+.show-left{
+    padding-left: 2%;
+}
+
+.setting-visible{
+    margin: 0 10% 0 10%;
+}
+
+.heading-setting {
+    padding-top: 2%;
+    padding-left: 2%;
+}
+
+.middle-one{
+    background: #efefef;
+}
+
+.switch {
+    margin-top: 25px;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 21px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    top:3px;
+}
+
+.switch-n input:checked+.slider {
+    background-color: #2196F3;
+}
+
+.switch-n input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+.switch-n input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.newDisabled:disabled {
+    background: #efefef !important;
+}
+
+.newDisabled{
+    width:75%;
+    padding: 5px;
+    height: 30px;;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.heading-setting-main {
+    margin: 2% 0% 0% 0%
+}
+
+.main-setting {
+    margin: 2% -1% 0% 1%;
 }
 
 .middle-section {
@@ -362,7 +318,6 @@ table {
         }
     }
 }
-
 
 .field-checkbox-wrapper,
 .field-radio-wrapper {
