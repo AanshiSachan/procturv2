@@ -83,7 +83,8 @@ export class EnquiryEditComponent implements OnInit {
     walkin_followUpDate: '',
     walkin_followUpTime: '',
     courseIdArray: null,
-    closing_reason_id: '-1'
+    closing_reason_id: '-1',
+    is_follow_up_time_notification: false
   };
   isUpdateComment: boolean = false;
   additionDetails: boolean = false;
@@ -229,7 +230,7 @@ export class EnquiryEditComponent implements OnInit {
         }
       }
     )
-
+    console.log(this.editEnqData);
   }
 
 
@@ -245,7 +246,7 @@ export class EnquiryEditComponent implements OnInit {
       this.hour = '';
       this.meridian = '';
     }
-
+    this.notifyMeCheckBoxChangesDetect();
 
   }
   /* set the enquiry feilds for Form */
@@ -808,6 +809,14 @@ export class EnquiryEditComponent implements OnInit {
 
         this.enquiryStatus = this.editEnqData.status;
 
+        if (this.editEnqData.is_follow_up_time_notification == true) {
+          this.editEnqData.is_follow_up_time_notification = 1
+        }
+        else {
+          this.editEnqData.is_follow_up_time_notification = 0
+        }
+
+
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           (data: any) => {
             this.isEnquirySubmit = false;
@@ -1107,6 +1116,18 @@ export class EnquiryEditComponent implements OnInit {
       this.updateFormCommentsBy = res.commentedBy;
     });
 
+  }
+
+  notifyMeCheckBoxChangesDetect() {
+    if (this.editEnqData.followUpDate != "" && this.editEnqData.followUpDate != null) {
+      if (this.hour != "" && this.meridian != "" && this.minute != "") {
+        // Do nothing
+      } else {
+        this.editEnqData.is_follow_up_time_notification = false;
+      }
+    } else {
+      this.editEnqData.is_follow_up_time_notification = false;
+    }
   }
 
   pushUpdatedEnquiry() {
