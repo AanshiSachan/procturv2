@@ -8,7 +8,6 @@ import { DataDisplayTableComponent } from '../../../shared/data-display-table/da
 import { ColumnData2 } from '../../../shared/data-display-table/data-display-table.model';
 import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
 import { MessageShowService } from '../../../../services/message-show.service';
-import { error } from 'util';
 
 @Component({
   selector: 'app-payment-history-main',
@@ -526,8 +525,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     console.log(this.displayKeys);
   }
-  isChequeFormValid(): boolean {
 
+  isChequeFormValid(): boolean {
     if (this.chequeDetailsJson.bank_name.trim() != "") {
       if (this.chequeDetailsJson.cheque_no != 0 && this.chequeDetailsJson.cheque_no != null) {
         return true
@@ -539,8 +538,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     else {
       return false;
     }
-
-
   }
 
 

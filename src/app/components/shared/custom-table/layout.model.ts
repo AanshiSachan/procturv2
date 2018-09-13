@@ -3,6 +3,7 @@ export class ColumnSetting {
     header?: string;
     format?: string;
     alternativeKeys?: string[];
+    priority?:number
 }
 export class ColumnMap {
     primaryKey: string;

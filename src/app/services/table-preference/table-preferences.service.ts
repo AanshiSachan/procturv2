@@ -5,7 +5,9 @@ export class TablePreferencesService {
   jsonObject: any;
   localStrongeObject: any = {
     'modules': {
-      'enquiry': [],
+      'enquiry': {
+        'home': []
+      },
       'student': [],
       'activity': {
         'manageCheques': [],

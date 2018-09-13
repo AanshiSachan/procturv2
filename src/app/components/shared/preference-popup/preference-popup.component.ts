@@ -71,7 +71,7 @@ export class PreferencePopupComponent implements OnInit {
   }
 
   selctedFieldsDisplay() {
-    let obj = { callNotify: true };
+    let obj: any = { callNotify: true };
 
     if (this.displayKeys.length == 0) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.info, '', "You haven\'t selected any preferences");
@@ -80,6 +80,7 @@ export class PreferencePopupComponent implements OnInit {
     if (this._tablePreferencesService.getTablePreferences(this.settings.tableDetails.key).length == 0) {
       obj.callNotify = false;
     }
+    obj.displayKeys = this.displayKeys;
     this._tablePreferencesService.setTablePreferences(this.settings.tableDetails.key, this.displayKeys);
     this.closePopups(obj);
   }
