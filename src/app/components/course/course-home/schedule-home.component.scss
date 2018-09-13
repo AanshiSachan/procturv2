@@ -5,7 +5,7 @@
 } */
 
 .courses-list-table {
-    max-height: 400px;
+    max-height: 460px;
     overflow: auto;
     ::-webkit-scrollbar {
         display: block;
@@ -25,6 +25,26 @@
     }
 }
 
+.table-change {
+    table {
+        thead {
+            tr {
+                th {
+                    padding: 10px 5px;
+                    font-weight: 600;
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    padding: 5px 5px;
+                }
+            }
+        }
+    }
+}
+
 .filter-res label {
     font-size: 14px;
     font-weight: 600;
@@ -35,7 +55,10 @@
     margin-top: 15px;
 }
 
+
+
 .pagination {
+    margin-top: 15px;
     .first {
         &:before {
             content: "« ";

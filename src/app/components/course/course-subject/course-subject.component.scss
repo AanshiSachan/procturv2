@@ -65,6 +65,31 @@ table {
     margin-right: 15px;
 }
 
+.table-change {
+    table {
+        thead {
+            tr {
+                th {
+                    padding: 10px 5px;
+                    font-weight: 600;
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    padding: 5px 5px;
+                }
+            }
+        }
+    }
+}
+
+.pagination{
+    margin-top: 15px;
+    padding: 0px;
+}
+
 .create-standard-form {
     margin: 10px 0;
     padding: 10px 20px 10px;
