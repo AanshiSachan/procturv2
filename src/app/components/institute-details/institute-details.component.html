@@ -1,447 +1,667 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
-<div class="middle-section clearFix">
+<div class="middle-section clearFix middle-one">
 
-  <section class="row setting-full">
+  <section id="divGeneral" class="setting-right setting-visible">
+    <h2 class="heading-setting-main">General</h2>
 
-    <aside class="pull-left setting-left" style="width:20%;">
-      <ul>
-        <li id="liGeneral" class="menu-item" style="cursor: pointer" (click)="changeView('liGeneral', 'divGeneral')">
-          <span>
-            <a class="active">General</a>
-          </span>
-        </li>
-        <li id="liPlan" class="menu-item" style="cursor: pointer" (click)="changeView('liPlan', 'divPlanOption')">
-          <span>
-            <a class="">Plan/Options</a>
-          </span>
-        </li>
-        <li id="liAccount" class="menu-item" style="cursor: pointer" (click)="changeView('liAccount','divAccount')">
-          <span>
-            <a class="">Account</a>
-          </span>
-        </li>
-        <li id="liApp" class="menu-item" style="cursor: pointer" (click)="changeView('liApp','divAppDetail')">
-          <span>
-            <a class="">Mobile App Details</a>
-          </span>
-        </li>
-        <!-- <li id="liImages" class="menu-item" style="cursor: pointer" (click)="changeView('liImages','divImages')">
-          <span>
-            <a class="">Images</a>
-          </span>
-        </li> -->
-      </ul>
-    </aside>
-
-    <aside class="pull-right setting-right" style="width:80%;">
-
-      <section id="divGeneral" class="general-wrapper">
-        <div *ngIf="instDetails != ''">
-
-          <div class="basic-info borderClass">
-            <div class="row">
-              <h3>
-                Basic Information
-              </h3>
-            </div>
-
-            <div class="row" style="margin-top:5px;">
-              <!-- <p>Testing Purspose</p> -->
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" id="ch1" [(ngModel)]="instDetails.institute_name">
-                  <label for="ch1">Name
-                    <span style="color:red">*</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_phone != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_phone" id="ch2">
-                  <label for="ch2">Institution Contact No.
-                    <span style="color:red">*</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_addr != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr" id="ch3">
-                  <label for="ch3">Address
-                    <span style="color:red">*</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" readonly="true" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
-                  <input type="text" id="ch4" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_email">
-                  <label for="ch4">Email ID
-                    <span style="color:red">*</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
+    <div class="general-setting">
+      <div class="row">
+        <div class="c-lg-10 c-sm-10 c-md-10">
+          <h3 class="heading-setting">Basic Information</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('0')">
+            <i *ngIf='!dividersObj[0]' id="showAddBtn" class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[0]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[0]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch3">Institute Name
+              <span style="color:red">*</span>
+            </label>
           </div>
-
-          <div class="owner-details borderClass">
-
-            <div class="row">
-              <h3>
-                Owner Details
-              </h3>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch3" [(ngModel)]="instDetails.institute_name">
             </div>
-
-            <div class="row" style="margin-top:5px;">
-              <!-- <p>Testing Purspose</p> -->
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_name != ''}">
-                  <input type="text" id="ch5" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_name">
-                  <label for="ch5">Owner Name(s)
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_phone != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone" id="ch6">
-                  <label for="ch6">
-                    Owner Contact No(s)
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_email != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_email" id="ch7">
-                  <label for="ch7">Owner Primary Email ID
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_secondary_email != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email" id="ch8">
-                  <label for="ch8">Owner Secondary Email ID
-                  </label>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="admin-details borderClass">
-
-            <div class="row">
-              <h3>
-                Admin Details
-              </h3>
-            </div>
-
-            <div class="row" style="margin-top:5px;">
-              <!-- <p>Testing Purspose</p> -->
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_name != ''}">
-                  <input type="text" class="form-ctrl" id="ch9" name="slotNew" [(ngModel)]="instDetails.admin_name">
-                  <label for="ch9">Admin Name
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_phone != ''}">
-                  <input type="text" maxlength="10" id="ch10" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
-                  <label for="ch10">Admin Contact No.
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_email != ''}">
-                  <input type="text" id="ch11" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_email">
-                  <label for="ch11">Admin Email ID
-                  </label>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="additional-details borderClass">
-
-            <div class="row">
-              <h3>
-                Additional Details
-              </h3>
-            </div>
-
-            <div class="row" style="margin-top:5px;">
-              <!-- <p>Testing Purspose</p> -->
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.kyc_document_type != ''}">
-                  <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" name="hour" [(ngModel)]="instDetails.kyc_document_type"
-                    (ngModelChange)="changeKYCInformation($event)">
-                    <option value="-1">Select KYC Document Type</option>
-                    <option *ngFor="let opt of kycType" [value]="opt.data_key">
-                      {{opt.data_value}}
-                    </option>
-                  </select>
-                  <label for="hour">KYC Document Type</label>
-                </div>
-              </div>
-
-              <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="instDetails.kyc_document_type != '-1'">
-                <div class="field-wrapper">
-                  <input class="hide" type="file" #idUploadDoc accept="image/gif,image/jpeg,image/jpg,image/png">
-                  <button class="btn" (click)="uploadDocument()">Upload Document</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.fb_page_url != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.fb_page_url" id="ch12">
-                  <label for="ch12">FB Page Url
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.website_url != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.website_url" id="ch13">
-                  <label for="ch13">Website Url
-                  </label>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
-      </section>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch4">Institute Contact
+              <span style="color:red">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_phone != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.institute_primary_phone"
+                id="ch4">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch5">Institute Address
+              <span style="color:red">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_addr != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr"
+                id="ch5">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch6">Email ID
+              <span style="color:red">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
+              <input type="text" id="ch6" class="form-ctrl newDisabled" name="slotNew" disabled [(ngModel)]="instDetails.institute_primary_email">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-lg-10 c-sm-10 c-md-10">
+          <h3 class="heading-setting">Owner Details</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('1')">
+            <i *ngIf='!dividersObj[1]' id="showAddBtn" class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[1]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[1]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch7">Owner Name(s)
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_name != ''}">
+              <input type="text" id="ch7" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch8">
+              Owner Contact No(s)
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_phone != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone" id="ch8">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch9">Owner Primary Email ID
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_email != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_primary_email" id="ch9">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch10">Owner Secondary Email ID
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_secondary_email != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email"
+                id="ch10">
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <section id="divPlanOption" class="plan-wrapper">
+      <div class="row">
+        <div class="c-lg-10 c-md-10 c-sm-10">
+          <h3 class="heading-setting">Admin Details</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('2')">
+            <i id="showAddBtn" *ngIf='!dividersObj[2]' class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i id="showCloseBtn" *ngIf='dividersObj[2]' style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[2]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch11">Admin Name
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_name != ''}">
+              <input type="text" class="form-ctrl newDisabled" id="ch11" name="slotNew" [(ngModel)]="instDetails.admin_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch12">Admin Contact No.
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_phone != ''}">
+              <input type="text" maxlength="10" id="ch12" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch13">Admin Email ID</label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_email != ''}">
+              <input type="text" id="ch11" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.admin_primary_email">
+              <label for="ch13">Admin Email ID</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-lg-10 c-sm-10 c-md-10">
+          <h3 class="heading-setting">Additional Details</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('3')">
+            <i *ngIf='!dividersObj[3]' id="showAddBtn" class="fa fa-angle-up" style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[3]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;" class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[3]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="hour">KYC Document Type</label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.kyc_document_type != ''}">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty newDisabled" name="hour" [(ngModel)]="instDetails.kyc_document_type"
+                (ngModelChange)="changeKYCInformation($event)">
+                <option value="-1">Select KYC Document Type</option>
+                <option *ngFor="let opt of kycType" [value]="opt.data_key">
+                  {{opt.data_value}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="instDetails.kyc_document_type != '-1'">
+            <div class="field-wrapper">
+              <input class="hide" type="file" #idUploadDoc accept="image/gif,image/jpeg,image/jpg,image/png">
+              <button class="btn" (click)="uploadDocument()">Upload Document</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch14">FB Page Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.fb_page_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.fb_page_url" id="ch14">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Website Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.website_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.website_url" id="ch15">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <div class="row borderClass" style="margin-top:20px">
-          <h3 class="c-sm-4 c-md-4 c-lg-4">Current Plan</h3>
+    <h2 class="heading-setting-main">Plan</h2>
+
+    <div class="general-setting">
+      <div class="row">
+        <div class="c-lg-8">
+          <h3 class="heading-setting">Current Plans</h3>
+        </div>
+        <div class="c-lg-2">
+
+        </div>
+        <div class="c-lg-2" style="padding-right: 5%;">
           <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="getPaymentDeatils()">View History</a>
         </div>
+      </div>
 
-        <div class="row">
-          <!-- <p>Testing Purspose</p> -->
+      <div class="table-scroll-wrapper show-left">
+        <div class="table table-responsive">
+          <table class="assign-width">
+
+            <thead>
+              <tr>
+                <th>
+                  Plan Name
+                </th>
+                <th>
+                  Students Limit
+                </th>
+                <th>
+                  Expiry Date
+                </th>
+                <th>
+                  No. of SMS
+                </th>
+                <th>
+                  Download Limit(GB)
+                </th>
+                <th>
+                  Price
+                </th>
+                <th>
+                  Tax(%)
+                </th>
+                <th>
+                  Total Price (Rs.)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="rowPlan{{i}}" *ngFor="let row of planDetail; let i = index; trackBy: i;">
+                <td>
+                  {{row.plan_name}}
+                </td>
+                <td>
+                  {{row.student_limit}}
+                </td>
+                <td>
+                  {{row.expiry_months}}
+                </td>
+                <td>
+                  {{row.sms_allocation}}
+                </td>
+                <td>
+                  {{row.download_limit}}
+                </td>
+                <td>
+                  {{row.subscription_price}}
+                </td>
+                <td>
+                  {{row.tax}}
+                </td>
+                <td>
+                  {{row.total_price}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
+      <div class="row">
+        <div class="c-lg-10">
+          <h3 class="heading-setting">Additional Plans</h3>
+        </div>
+      </div>
+
+      <div class="table-scroll-wrapper show-left">
+        <div class="table table-responsive">
+          <table class="assign-width">
+            <thead>
+              <tr>
+                <th>
+                  Option Name
+                </th>
+                <th>
+                  Price(1st Time in Rs)
+                </th>
+                <th>
+                  Price (2nd Time Onwards in Rs)
+                </th>
+                <th>
+                  Tax
+                </th>
+                <th>
+                  Total Price (Rs.)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="rowPlan{{i}}" *ngFor="let row of instituteOptions; let i = index; trackBy: i;">
+                <td>
+                  {{row.option_name}}
+                </td>
+                <td>
+                  {{row.subscription_price}}
+                </td>
+                <td>
+                  {{row.renewal_price}}
+                </td>
+                <td>
+                  {{row.tax}}
+                </td>
+                <td>
+                  {{row.total_price}}
+                </td>
+              </tr>
+              <tr *ngIf="instituteOptions.length == 0">
+                <td colspan="5">
+                  No Option Available
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row show-left">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting ">
+          <label for="ch16">Total Price (Rs.)
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
+            <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option"
+              id="ch16" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">General Settings</h2>
+
+    <div class="general-setting">
+      <div class="row">
+        <div class="c-lg-10">
+          <h3 class="heading-setting">Basic Information</h3>
+        </div>
+      </div>
+      <div class="show-left">
         <div class="row">
-          <div class="table-scroll-wrapper">
-            <div class="table table-responsive">
-              <table>
-                <thead>
-                  <th>
-                    Plan Name
-                  </th>
-                  <th>
-                    Students Limit
-                  </th>
-                  <th>
-                    Expiry Date
-                  </th>
-                  <th>
-                    No. of SMS
-                  </th>
-                  <th>
-                    Download Limit(GB)
-                  </th>
-                  <th>
-                    Price
-                  </th>
-                  <th>
-                    Tax(%)
-                  </th>
-                  <th>
-                    Total Price (Rs.)
-                  </th>
-                </thead>
-                <tbody>
-                  <tr id="rowPlan{{i}}" *ngFor="let row of planDetail; let i = index; trackBy: i;">
-                    <td>
-                      {{row.plan_name}}
-                    </td>
-                    <td>
-                      {{row.student_limit}}
-                    </td>
-                    <td>
-                      {{row.expiry_months}}
-                    </td>
-                    <td>
-                      {{row.sms_allocation}}
-                    </td>
-                    <td>
-                      {{row.download_limit}}
-                    </td>
-                    <td>
-                      {{row.subscription_price}}
-                    </td>
-                    <td>
-                      {{row.tax}}
-                    </td>
-                    <td>
-                      {{row.total_price}}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch17">Institute code
+              <span style="color:red">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch17" [(ngModel)]="instDetails.institute_name">
             </div>
           </div>
         </div>
-
-        <div class="row borderClass" style="margin-top:20px">
-          <h3>Options</h3>
-        </div>
-
         <div class="row">
-          <div class="table-scroll-wrapper">
-            <div class="table table-responsive">
-              <table>
-                <thead>
-                  <th>
-                    Option Name
-                  </th>
-                  <th>
-                    Price(1st Time in Rs)
-                  </th>
-                  <th>
-                    Price (2nd Time Onwards in Rs)
-                  </th>
-                  <th>
-                    Tax
-                  </th>
-                  <th>
-                    Total Price (Rs.)
-                  </th>
-                </thead>
-                <tbody>
-                  <tr id="rowPlan{{i}}" *ngFor="let row of instituteOptions; let i = index; trackBy: i;">
-                    <td>
-                      {{row.option_name}}
-                    </td>
-                    <td>
-                      {{row.subscription_price}}
-                    </td>
-                    <td>
-                      {{row.renewal_price}}
-                    </td>
-                    <td>
-                      {{row.tax}}
-                    </td>
-                    <td>
-                      {{row.total_price}}
-                    </td>
-                  </tr>
-                  <tr *ngIf="instituteOptions.length == 0">
-                    <td colspan="5">
-                      No Option Available
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch18">Generate student id manually
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <label class="switch switch-n">
+              <input type="checkbox" [checked]="!(this.instDetails.is_student_displayId_manual == 0)" (click)="checkInputType($event)"
+                name="sFilter" class="form-radio" value="Automatic" id="idAutomatic" disabled>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <div class="row" *ngIf="(showPrefix == true)">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch20">Student Id Prefix
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.student_id_prefix" id="ch20">
             </div>
           </div>
         </div>
-
         <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option"
-                id="ch14">
-              <label for="ch14">Total Price (Rs.)
-              </label>
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch21">Tag Line
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.tag_line != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.tag_line" id="ch21">
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="row borderClass" style="margin-top:20px">
-          <h3>Student Quota</h3>
+    <h2 class="heading-setting-main">SMS Settings</h2>
+
+    <div class="general-setting show-left">
+
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch90">SMS sender id
+            <span style="color:red">*</span>
+          </label>
         </div>
-
-        <div class="row">
-          <!-- <p>Testing Purspose</p> -->
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.active_student_allocation != ''}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.active_student_allocation" id="ch15">
-              <label for="ch15">
-                Students Quota
-                <span style="color:red">*</span>
-              </label>
-            </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper">
+            <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.sms_shortcode" id="ch90">
           </div>
         </div>
 
+      </div>
+      <div class="row">
         <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':instDetails.institute_expiry_date != ''}">
-              <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="instDetails.institute_expiry_date" style="cursor: pointer;"
-                name="createdDate" readonly="true" bsDatepicker/>
-              <label for="followupdate">Expiry Date</label>
-            </div>
+          <div class="c-lg-8 c-sm-8 c-md-8">
+            <h3 class="heading-setting">Transactional SMS</h3>
+          </div>
+          <div class="c-lg-4 c-sm-4 c-md-4" style="padding-right: 5%;">
+            <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation History
+            </a>
           </div>
         </div>
+
+        <div class="table table-responsive show-left">
+          <table class="assign-width">
+            <thead>
+              <tr>
+                <th>
+                  Allocated Quota
+                </th>
+                <th>
+                  Used Quota
+                </th>
+                <th>
+                  Available Quota
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {{instDetails.institute_sms_quota}}
+                </td>
+                <td>
+                  {{instDetails.institute_sms_quota_used}}
+                </td>
+                <td>
+                  {{instDetails.institute_sms_quota_available}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row">
+          <div class="c-lg-10">
+            <h3 class="heading-setting">Promotional SMS</h3>
+          </div>
+        </div>
+        <div class="table table-responsive show-left">
+          <table class="assign-width">
+            <thead>
+              <tr>
+                <th>
+                  Allocated Quota
+                </th>
+                <th>
+                  Used Quota
+                </th>
+                <th>
+                  Available Quota
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {{instDetails.institute_campaign_sms_quota}}
+                </td>
+                <td>
+                  {{instDetails.institute_campaign_sms_quota_used}}
+                </td>
+                <td>
+                  {{instDetails.institute_campaign_sms_quota_available}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Email Settings</h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch28">Email sender id
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.email_sender_id != ''}">
+            <input type="text" disabled class="form-ctrl newDisabled" id="ch28" name="slotNew" [(ngModel)]="instDetails.email_sender_id">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">FEE</h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch29">GSTIN
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.gst_in != null }">
+            <input type="text" id="ch29" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.gst_in">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Storage</h2>
+
+    <div class="general-setting show-left">
+      <div class="row" *ngIf="(storageInfo != '')">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch30">Total Storage
+          </label>
+
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value': (storageInfo.limit_allocated != '') }">
+            <input type="text" disabled id="ch30" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="storageInfo.storage_allocated">
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3" style="padding: 2%;">
+          <a  style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch31">Used
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
+            <input type="text" id="ch31" disabled class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="storageInfo.limit_allocated">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Mobile app details</h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch32">Announcement
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
+            <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.announcement">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch33">About Us
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.about_us_text != ''}">
+            <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.about_us_text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch34">App Url
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_app_url != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.student_app_url">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="row setting-footer">
+      <button class="btn" routerLink="/home">Cancel</button>
+      <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
+    </section>
+  </section>
+
+  <!-- <section id="divPlanOption">
 
       </section>
 
-      <section id="divAccount" class="account-wrapper">
+      <section id="divAccount" class="general-wrapper"></section>
+      <section id="divAppDetail" class="general-wrapper"></section> -->
 
-        <div class="row borderClass" style="margin-top:20px">
-          <h3>General</h3>
-        </div>
+  <!-- <aside class="pull-right setting-right" style="width:80%;"> 
 
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_short_code != ''}">
-              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_short_code" id="ch19">
-              <label for="ch19">Institute Short Code
-                <span style="color:red">*
-                </span>
-              </label>
-            </div>
-          </div>
-        </div>
+      <section id="divGeneral" class="general-wrapper">
+       
+
+       
 
         <div class="row">
 
@@ -472,235 +692,29 @@
             </div>
           </fieldset>
 
-          <!-- <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
-              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix">
-              <label for="slotNew">Student ID
-              </label>
-            </div>
-          </div> -->
+
         </div>
 
 
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.tag_line != ''}">
-              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.tag_line" id="ch21">
-              <label for="ch21">Tag Line
-              </label>
-            </div>
-          </div>
-        </div>
 
 
         <div class="row borderClass" style="margin-top:20px">
           <h3 class='c-sm-4 c-md-4 c-lg-4'>SMS Setting</h3>
-          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation
-            History
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation History
           </a>
         </div>
-
-        <div class="row">
-          <!-- <p>Testing Purspose</p> -->
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.sms_shortcode" id="ch90">
-              <label for="ch90">SMS Sender ID
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota >= '0'}">
-              <input type="text" id="ch22" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota">
-              <label for="ch22">Transactional SMS Quota Allocated
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota_used >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_used" id="ch23">
-              <label for="ch23">Transactional SMS Quota Used
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota_available >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_available"
-                id="ch24">
-              <label for="ch24">Transactional SMS Quota Available
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota"
-                id="ch25">
-              <label for="ch25">Promotional SMS Quota Allocated
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_used >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_used"
-                id="ch26">
-              <label for="ch26">Promotional SMS Quota Used
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_available >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_available"
-                id="ch27">
-              <label for="ch27">Promotional SMS Available
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row borderClass" style="margin-top:20px">
-          <h3>Email Setting</h3>
-        </div>
-
-        <div class="row">
-          <!-- <p>Testing Purspose</p> -->
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.email_sender_id != ''}">
-              <input type="text" readonly="true" class="form-ctrl" id="ch28" name="slotNew" [(ngModel)]="instDetails.email_sender_id">
-              <label for="ch28">
-                Email Sender ID
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row borderClass" style="margin-top:20px">
-          <h3>Fee Setting</h3>
-        </div>
-
-        <div class="row">
-          <!-- <p>Testing Purspose</p> -->
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.gst_in != null }">
-              <input type="text" id="ch29" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.gst_in">
-              <label for="ch29">
-                GSTIN
-              </label>
-            </div>
-          </div>
-        </div>
+  
 
         <div class="row borderClass" style="margin-top:20px">
           <h3 class="c-sm-4 c-md-4 c-lg-4">Storage Setting</h3>
-          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download
-            Limit Allocation History</a>
-        </div>
-
-        <div class="row">
-          <!-- <p>Testing Purspose</p> -->
-        </div>
-
-        <div class="row" *ngIf="(storageInfo != '')">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value': (storageInfo.limit_allocated != '') }">
-              <input type="text" readonly="true" id="ch30" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.storage_allocated">
-              <label for="ch30">Total Storage (GB)
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="(storageInfo != '')">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
-              <input type="text" id="ch31" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.limit_allocated">
-              <label for="ch31">Used Upload/Download (GB)
-              </label>
-            </div>
-          </div>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
         </div>
 
       </section>
 
-      <section id="divAppDetail" style="margin-top:20px" class="app-details-wrapper borderClass">
+    </aside> -->
 
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
-              <input type="textbox" id="ch32" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.announcement">
-              <label for="ch32">Announcement
-              </label>
-            </div>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.about_us_text != ''}">
-              <input type="textbox" id="ch33" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.about_us_text">
-              <label for="ch33">
-                About Us Text
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_app_url != ''}">
-              <input type="textbox" id="ch34" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_app_url">
-              <label for="ch34">Student APP Url
-              </label>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- <section id="divImages" class="images-wrapper">
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-
-          </div>
-        </div>
-
-      </section> -->
-
-    </aside>
-  </section>
-
-  <section class="row setting-footer">
-    <button class="btn" routerLink="/home">Cancel</button>
-    <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
-  </section>
 
 </div>
 
