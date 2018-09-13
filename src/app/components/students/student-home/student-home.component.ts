@@ -16,6 +16,7 @@ import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { StudentForm } from '../../../model/student-add-form';
 import { ISubscription } from "rxjs/Subscription";
+import { CommonServiceFactory } from '../../../services/common-service';
 
 @Component({
   selector: 'app-student-home',
@@ -45,9 +46,28 @@ export class StudentHomeComponent implements OnInit {
     start_index: 0,
     batch_size: this.studentdisplaysize,
     sorted_by: '',
-    order_by: ''
+    order_by: '',
+    doa_from_date: moment().format('YYYY-MM-DD'),
+    doa_to_date: moment().format('YYYY-MM-DD')
   };
-  advancedFilterForm: instituteInfo = { school_id: -1, standard_id: -1, batch_id: -1, name: "", is_active_status: 1, mobile: "", language_inst_status: -1, subject_id: -1, slot_id: "", master_course_name: "", course_id: -1, start_index: 0, batch_size: this.studentdisplaysize, sorted_by: '', order_by: '' };
+  advancedFilterForm: instituteInfo = {
+    school_id: -1,
+    standard_id: -1,
+    batch_id: -1,
+    name: "",
+    is_active_status: 1,
+    mobile: "",
+    language_inst_status: -1,
+    subject_id: -1, slot_id: "",
+    master_course_name: "",
+    course_id: -1,
+    start_index: 0,
+    batch_size: this.studentdisplaysize,
+    sorted_by: '',
+    order_by: '',
+    doa_from_date: moment().format('YYYY-MM-DD'),
+    doa_to_date: moment().format('YYYY-MM-DD')
+  };
   applyLeave = { student_id: '', start_date: moment().format("YYYY-MM-DD"), end_date: moment().format("YYYY-MM-DD"), reason: '' };
   sendNotification = { loginMessageChkbx: false, smsChkbx: true, emailChkbx: false, studentChkbx: true, parentChkbx: false, gaurdianChkbx: false, subjectMessage: '' }
   loginField = { checkBox: 0 }; messageList: any = []; selectedUserId: any = [];
@@ -61,7 +81,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   /* =================================================================================================== */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService) {
+  constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService , private commonService:CommonServiceFactory) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -437,6 +457,16 @@ export class StudentHomeComponent implements OnInit {
       this.advancedFilterForm.stuCustomLi = tempCustomArr;
     }
 
+    if(moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD') > moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD') ){
+      this.appC.popToast({type:"error" , title:"" , body:"From date cannot be greater than to date"})
+      return false;
+    }
+    else{
+      this.advancedFilterForm.doa_from_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_from_date)?'':moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD');
+      this.advancedFilterForm.doa_to_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_to_date)?'':moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD');
+    }
+    
+    
     this.advancedFilterForm.is_active_status = parseInt(this.advancedFilterForm.is_active_status);
     this.instituteData = this.advancedFilterForm;
     this.PageIndex = 1;

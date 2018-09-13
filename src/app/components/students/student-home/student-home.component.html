@@ -81,8 +81,7 @@
                         <!-- Advance Filter Trigger -->
                         <div class="c-lg-4 c-md-4 c-sm-4">
                             <div class="filter-right" style="float: right;">
-                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance
-                                    Filter
+                                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance Filter
                                 </a>
                                 <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
@@ -234,6 +233,24 @@
                                         </option>
                                     </select>
                                 </div>
+                            </div>
+
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label>From date</label>
+                                    <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_from_date">
+                                    <a (click)="advancedFilterForm.doa_from_date = ''" style="float:right;">Clear</a>
+                                </div>
+
+                            </div>
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper datePickerBox">
+                                    <label>To date</label>
+                                    <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_to_date">
+                                    <a (click)="advancedFilterForm.doa_to_date = ''" style="float:right;">Clear</a>
+                                </div>
+
                             </div>
 
                             <!-- <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
