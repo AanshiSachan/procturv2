@@ -43,5 +43,6 @@ export interface addEnquiryForm {
 	source_instituteId?: any,
 	walkin_followUpDate: any,
 	walkin_followUpTime: any,
-	closing_reason_id: any
+	closing_reason_id: any,
+	is_follow_up_time_notification?:any
 }
