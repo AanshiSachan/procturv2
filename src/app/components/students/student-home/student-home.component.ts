@@ -1664,7 +1664,7 @@ export class StudentHomeComponent implements OnInit {
       isEnquiry_notifn: 0,
       isAlumniSMS: 0,
       isTeacherSMS: 0,
-      configuredMessage: false,
+      configuredMessage: true,
       message_id: messageSelected.messageId
     }
 
