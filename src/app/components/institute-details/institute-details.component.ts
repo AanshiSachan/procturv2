@@ -26,6 +26,15 @@ export class InstituteDetailsComponent implements OnInit {
   limitTable: any = [];
   storageInfo: any = {};
   showPrefix: boolean = false;
+  createNewSlot: boolean = false;
+  dividersObj = {
+    0: true,
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true
+  }
 
   constructor(
     private apiService: InstituteDetailService,
@@ -34,13 +43,12 @@ export class InstituteDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.commonService.removeSelectionFromSideNav();
-    this.changeView('liGeneral', 'divGeneral');
     this.updatePrefillData();
   }
 
   updatePrefillData(): any {
+
     this.getInstituteDetails();
-    // this.getInstituteLogoDetails();
     this.getInstituteKYCDetails();
     this.getOptionDetailsFromServer();
     this.getPlanDetailsFromServer();
@@ -65,15 +73,6 @@ export class InstituteDetailsComponent implements OnInit {
       }
     );
   }
-
-  // getInstituteLogoDetails() {
-  //   this.apiService.getInstituteLogoDetailsFromServer().subscribe(
-  //     res => {
-  //       this.instituteLogoDetails = res;
-  //     }, this.errorCallBack
-  //   )
-
-  // }
 
   getInstituteKYCDetails() {
     this.apiService.getKycTypeDetails().subscribe(
@@ -106,6 +105,8 @@ export class InstituteDetailsComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.planDetailDataSource = res;
+        this.instituteOptions = this.getOptionOfInstitute(this.instituteOptionDataSource);
+        this.planDetail = this.getPlanOfInstitute(this.planDetailDataSource);
       },
       err => {
         this.isRippleLoad = false;
@@ -143,7 +144,6 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
@@ -162,7 +162,6 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        //console.log(err);
         this.commonService.showErrorMessage('error', 'Error', err.error.message);
       }
     )
@@ -315,41 +314,18 @@ export class InstituteDetailsComponent implements OnInit {
     return obj;
   }
 
-
-  bindTableData() {
-    this.instituteOptions = this.getOptionOfInstitute(this.instituteOptionDataSource);
-    this.planDetail = this.getPlanOfInstitute(this.planDetailDataSource);
-  }
-
-
-  changeView(lidiv, showView) {
-    document.getElementById('divGeneral').classList.add('hideDivClass');
-    document.getElementById('divPlanOption').classList.add('hideDivClass');
-    document.getElementById('divAccount').classList.add('hideDivClass');
-    document.getElementById('divAppDetail').classList.add('hideDivClass');
-    // document.getElementById('divImages').classList.add('hideDivClass');
-    document.getElementById('liGeneral').classList.remove('active');
-    document.getElementById('liPlan').classList.remove('active');
-    document.getElementById('liAccount').classList.remove('active');
-    document.getElementById('liApp').classList.remove('active');
-    // document.getElementById('liImages').classList.remove('active');
-    document.getElementById(lidiv).classList.add('active');
-    document.getElementById(showView).classList.remove('hideDivClass');
-    if (showView == "divPlanOption") {
-      this.bindTableData();
+  toggleUpAndDownButton(index) {
+    if (this.dividersObj[index] == true) {
+      this.dividersObj[index] = false;
+    }
+    else {
+      this.dividersObj[index] = true;
     }
   }
-
 
   uploadDocument() {
     this.uploadDoc.nativeElement.click();
   }
-
-  // errorCallBack = (err) => {
-  //   this.isRippleLoad = false;
-  //console.log(err);
-  //   this.messageToast('error', 'Error', err.error.message);
-  // }
 
   validatePhoneNumber(data) {
     let check: boolean = false;

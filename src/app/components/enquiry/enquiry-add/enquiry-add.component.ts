@@ -95,7 +95,8 @@ export class EnquiryAddComponent implements OnInit {
       source_instituteId: '-1',
       walkin_followUpDate: '',
       walkin_followUpTime: '',
-      closing_reason_id: ''
+      closing_reason_id: '',
+      is_follow_up_time_notification: false
     };
   additionDetails: boolean = false;
   todayDate: number = Date.now();
@@ -244,7 +245,8 @@ export class EnquiryAddComponent implements OnInit {
       source_instituteId: '-1',
       walkin_followUpDate: '',
       walkin_followUpTime: '',
-      closing_reason_id: ''
+      closing_reason_id: '',
+      is_follow_up_time_notification: false
     };
 
     // Multi Branch Check
@@ -407,7 +409,7 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-   fetchMasterCourseDetails() {
+  fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe(
       (res: any) => {
         this.masterCourseData = res;
@@ -694,7 +696,8 @@ export class EnquiryAddComponent implements OnInit {
       enqCustomLi: [],
       walkin_followUpDate: '',
       walkin_followUpTime: '',
-      closing_reason_id: ''
+      closing_reason_id: '',
+      is_follow_up_time_notification: false
     };
     this.course_standard_id = '-1'
     this.selectedSubjectIds = null;
@@ -858,6 +861,12 @@ export class EnquiryAddComponent implements OnInit {
           }
         }
 
+        if (this.newEnqData.is_follow_up_time_notification == true) {
+          this.newEnqData.is_follow_up_time_notification = 1;
+        }
+        else {
+          this.newEnqData.is_follow_up_time_notification = 0;
+        }
 
         if (!this.isProfessional) {
           let obj = {
@@ -901,7 +910,8 @@ export class EnquiryAddComponent implements OnInit {
             status: this.newEnqData.status,
             subjectIdArray: this.selectedSubjectIds,
             walkin_followUpDate: this.newEnqData.walkin_followUpDate,
-            walkin_followUpTime: this.newEnqData.walkin_followUpTime
+            walkin_followUpTime: this.newEnqData.walkin_followUpTime,
+            is_follow_up_time_notification: this.newEnqData.is_follow_up_time_notification
           }
           this.isRippleLoad = true;
           this.poster.postNewEnquiry(obj).subscribe(
@@ -1091,7 +1101,17 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-
+  notifyMeCheckBoxChangesDetect() {
+    if (this.newEnqData.followUpDate != "" && this.newEnqData.followUpDate != null) {
+      if (this.hour != "" && this.meridian != "" && this.minute != "") {
+        // Do nothing
+      } else {
+        this.newEnqData.is_follow_up_time_notification = false;
+      }
+    } else {
+      this.newEnqData.is_follow_up_time_notification = false;
+    }
+  }
 
   getCustomValid(element): boolean {
 
@@ -1280,7 +1300,6 @@ export class EnquiryAddComponent implements OnInit {
       this.createInstitute.isActive = "N";
     }
   }
-
 
   /* function to add institute data to server */
   addInstituteData() {
@@ -1650,6 +1669,7 @@ export class EnquiryAddComponent implements OnInit {
       this.hour = '';
       this.meridian = '';
     }
+    this.notifyMeCheckBoxChangesDetect();
   }
 
 

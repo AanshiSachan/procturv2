@@ -796,6 +796,16 @@ export class AdminHomeComponent implements OnInit {
       return;
     }
 
+    if (moment().format('YYYY-MM-DD') > moment(this.reschedDate).format('YYYY-MM-DD')) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please provide future reschedule date'
+      }
+      this.appC.popToast(msg);
+      return;
+    }
+
     let check = this.checkIfTimeProvided(this.timepicker.reschedStartTime.hour);
     if (check) {
       let startTime = this.timepicker.reschedStartTime.hour.split(' ');

@@ -17,7 +17,7 @@ import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry-data.service';
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
-import { AlertService } from './services/alert.service';
+// import { AlertService } from './services/alert.service';
 import { TablePreferencesService } from './services/table-preference/table-preferences.service';
 import { ZendAuth } from './services/Chat-bot/chatbot.service';
 import { MultiBranchDataService } from './services/multiBranchdata.service';
@@ -71,7 +71,7 @@ import {ToasterModule} from 'angular2-toaster';
     ZendAuth,
     Title,
     MultiBranchDataService,
-    AlertService,
+    // AlertService,
     TablePreferencesService,
     PaginationService,
     CommonServiceFactory,

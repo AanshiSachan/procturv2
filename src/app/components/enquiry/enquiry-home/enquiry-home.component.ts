@@ -16,6 +16,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { MultiBranchDataService } from '../../../services/multiBranchdata.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { MessageShowService } from '../../../services/message-show.service';
+import { TablePreferencesService } from '../../../services/table-preference/table-preferences.service';
 
 @Component({
   selector: 'app-enquiry-home',
@@ -118,7 +119,8 @@ export class EnquiryHomeComponent implements OnInit {
     isRippleLoad: false,
     subBranchSelected: false,
     summaryOptions: false,
-    showDateRange: false
+    showDateRange: false,
+    showPreference: false
   }
   newSmsString = { data: "", type: "", };
   selectedRow: any = {};
@@ -278,15 +280,30 @@ export class EnquiryHomeComponent implements OnInit {
   };
   enquiryFullDetail: any;
   enquirySettings: ColumnSetting[] = [
-    { primaryKey: 'enquiry_no', header: 'Enquiry No', format: this.varJson.currentDirection },
-    { primaryKey: 'name', header: 'Name' },
-    { primaryKey: 'phone', header: 'Contact No' },
-    { primaryKey: 'statusValue', header: 'Status' },
-    { primaryKey: 'priority', header: 'Priority' },
-    { primaryKey: 'source_name', header: 'Source' },
-    { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection },
-    { primaryKey: 'updateDate', header: 'Last Updated' }];
+    { primaryKey: 'enquiry_no', header: 'Enquiry No', priority: 1, format: this.varJson.currentDirection },
+    { primaryKey: 'name', header: 'Name', priority: 2 },
+    { primaryKey: 'phone', header: 'Contact No', priority: 3 },
+    { primaryKey: 'statusValue', header: 'Status', priority: 4 },
+    { primaryKey: 'priority', header: 'Priority', priority: 5 },
+    { primaryKey: 'source_name', header: 'Source', priority: 6 },
+    { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection, priority: 7, },
+    { primaryKey: 'updateDate', header: 'Last Updated', priority: 8 },
+    { primaryKey: 'assigned_name', header: 'Asignee Name', priority: 9 }
+  ];
   assignMultipleForm: any = { enqLi: [], assigned_to: "" };
+
+  // Customizable Table VAriable
+
+  displayKeys: any[] = [];
+  tableSetting: any = {
+    tableDetails: { title: 'Enquiry List', key: 'enquiry.home', showTitle: false },
+    search: { title: 'Search', showSearch: false },
+    keys: this.displayKeys,
+    selectAll: { showSelectAll: true, title: 'Select Enquiry', checked: false, key: 'enquiry_no' },
+    actionSetting: {},
+    displayMessage: "Enter Detail to Search"
+  };
+
 
   /*Declaration Fin*/
   constructor(
@@ -300,7 +317,9 @@ export class EnquiryHomeComponent implements OnInit {
     private auth: AuthenticatorService,
     private multiBranchService: MultiBranchDataService,
     private commonServiceFactory: CommonServiceFactory,
-    private messageService: MessageShowService) {
+    private messageService: MessageShowService,
+    private _tablePreferencesService: TablePreferencesService,
+  ) {
     if (commonServiceFactory.valueCheck(sessionStorage.getItem('userid'))) {
       this.router.navigate(['/authPage']);
     }
@@ -395,6 +414,20 @@ export class EnquiryHomeComponent implements OnInit {
     });
     sessionStorage.setItem('varJson.displayBatchSize', this.varJson.displayBatchSize.toString());
     this.checkMultiBranchStatus();
+
+    // Customizable Table
+    this.tableSetting.keys = this.enquirySettings;
+    if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
+      this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
+      this.tableSetting.keys = this.displayKeys;
+      if (this.displayKeys.length == 0) {
+        this.setDefaultValues();
+      }
+    }
+    else {
+      this.setDefaultValues();
+    }
+
   }
 
   timeChanges(ev) {
@@ -677,7 +710,7 @@ export class EnquiryHomeComponent implements OnInit {
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     this.closeEnquiryFullDetails();
     this.flagJSON.isSideBar = false;
-    let classArray = ['adFilterOpen', 'adFilterExitVisible', 'qfilt'];
+    let classArray = ['adFilterOpen', 'adFilterExitVisible', 'qfilt', 'customizableTableSection'];
     this.addHideClass(classArray);
     let removeClassNames = ['adFilterExit', 'advanced-filter-section'];
     this.removeHideClass(removeClassNames);
@@ -695,7 +728,7 @@ export class EnquiryHomeComponent implements OnInit {
   }
   /* Function to close advanced filter */
   closeAdFilter() {
-    let hideClassNames = ['adFilterExitVisible', 'qfilt', 'adFilterOpen'];
+    let hideClassNames = ['adFilterExitVisible', 'qfilt', 'adFilterOpen', 'customizableTableSection'];
     this.removeHideClass(hideClassNames);
     let removeHideClassNames = ['advanced-filter-section', 'adFilterExit'];
     this.addHideClass(removeHideClassNames);
@@ -1409,6 +1442,8 @@ export class EnquiryHomeComponent implements OnInit {
       this.advancedFilterForm.is_recent = "Y";
     }
 
+    this.instituteData = this.advancedFilterForm;
+
     this.flagJSON.isRippleLoad = true;
     this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
@@ -1622,7 +1657,12 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-  downloadSummaryReport() { this.flagJSON.summaryOptions = true; setTimeout(() => { document.getElementById('anchTagToggle').text = "Download By Date Range"; }, 100); }
+  downloadSummaryReport() {
+    this.flagJSON.summaryOptions = true;
+    setTimeout(() => {
+      document.getElementById('anchTagToggle').text = "Download By Date Range";
+    }, 100);
+  }
 
   downloadSummaryReportXl() {
     switch (Number(this.varJson.downloadReportOption)) {
@@ -2000,6 +2040,7 @@ export class EnquiryHomeComponent implements OnInit {
       { label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => { this.bulkAssignEnquiriesOpen(); } }
     ];
   }
+
   // Multi Branch Check
   checkMultiBranchStatus() {
     const permissionArray = sessionStorage.getItem('permissions');
@@ -2392,6 +2433,40 @@ export class EnquiryHomeComponent implements OnInit {
   // toast function 
   showErrorMessage(objType, massage, body) {
     this.commonServiceFactory.showErrorMessage(objType, massage, body);
+  }
+
+  // Customizable Table Function
+
+  setDefaultValues() {
+    this.tableSetting.keys = [
+      { primaryKey: 'enquiry_no', header: 'Enquiry No', priority: 1, allowSortingFlag: true },
+      { primaryKey: 'name', header: 'Name', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'phone', header: "Contact No", priority: 3, allowSortingFlag: true },
+      { primaryKey: 'statusValue', header: 'Status', priority: 4, allowSortingFlag: true },
+      { primaryKey: 'priority', header: 'Priority', priority: 5, allowSortingFlag: true },
+      { primaryKey: 'source_name', header: 'Source', priority: 6, allowSortingFlag: true },
+      { primaryKey: 'followUpDate', header: 'Follow up Date', priority: 7, allowSortingFlag: true },
+      { primaryKey: 'updateDate', header: 'Last Updated', priority: 8, allowSortingFlag: true }
+    ];
+    this.displayKeys = this.tableSetting.keys;
+    this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
+  }
+
+  openPreferences() {
+    this.flagJSON.showPreference = true;
+  }
+
+  closePreferncesPopup(obj: any) {
+    console.log(obj);
+    this.flagJSON.showPreference = false;
+    if (obj != undefined) {
+      if (obj.hasOwnProperty('displayKeys')) {
+        this.displayKeys = obj.displayKeys.sort((a, b) => {
+          return a.priority - b.priority
+        });
+      }
+      this.cd.markForCheck();
+    }
   }
 
 }

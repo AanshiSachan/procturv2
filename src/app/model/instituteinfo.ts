@@ -1,4 +1,6 @@
 export interface instituteInfo {
+    doa_from_date?:any,
+    doa_to_date?:any
     institute_id?: any;
     function_type?: any;
     username?: any;

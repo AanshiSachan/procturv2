@@ -375,7 +375,8 @@ export class FeeTemplateAddComponent implements OnInit {
 
   userChangedInitialAmount(data, event) {
     if (data.service_tax_applicable == "Y") {
-      data.tax = data.initial_fee_amount * 0.01 * this.feeStructure.registeredServiceTax;
+      data.tax = Math.floor(data.initial_fee_amount * 0.01 * this.feeStructure.registeredServiceTax);
+      data.totalAmount = Math.floor(data.initial_fee_amount + data.tax);
     } else {
       data.tax = 0;
     }

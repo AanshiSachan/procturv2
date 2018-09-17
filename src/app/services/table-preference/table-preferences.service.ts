@@ -5,7 +5,9 @@ export class TablePreferencesService {
   jsonObject: any;
   localStrongeObject: any = {
     'modules': {
-      'enquiry': [],
+      'enquiry': {
+        'home': []
+      },
       'student': [],
       'activity': {
         'manageCheques': [],
@@ -40,7 +42,8 @@ export class TablePreferencesService {
         'category': []
       },
       'campaing': []
-    }
+    },
+    'version': '1',
   }
 
   constructor() { }
@@ -107,10 +110,29 @@ export class TablePreferencesService {
       })
     }
     else {
-      value = JSON.parse(localStorage.getItem(key));
+      return this.detectArchitcturalChanges();
     }
     // console.log('get using key  ' + key, value);
     return value;
+  }
+
+  detectArchitcturalChanges() {
+    let arch = JSON.parse(localStorage.getItem('procturTablePreference'));
+    if (arch != null && arch != undefined) {
+      if (arch.hasOwnProperty('version')) {
+        if (arch.version == this.localStrongeObject.version) {
+          return arch;
+        } else {
+          localStorage.clear();
+          return "";
+        }
+      } else {
+        localStorage.clear();
+        return "";
+      }
+    } else {
+      return "";
+    }
   }
 
   //set preferences as per key hirachie in LS
@@ -133,7 +155,7 @@ export class TablePreferencesService {
       objRef = value;
     })
     objRef[lastKey] = object;
-    localStorage.setItem("procturTablePreference", JSON.stringify({ 'modules': this.jsonObject }));
+    localStorage.setItem("procturTablePreference", JSON.stringify({ 'modules': this.jsonObject, 'version': this.localStrongeObject.version }));
   }
 
 
