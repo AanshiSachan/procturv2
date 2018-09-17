@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map'
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Rx';
 
 /* Method declared for future purpose for setting authorization after successfull login */
 
@@ -27,8 +23,8 @@ export class AuthenticatorService {
     course_flag = new BehaviorSubject('0');
     instituteType_name = new BehaviorSubject('LANG');
 
-    // public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+    public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    // public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
     public baseUrlStudent: string = window.location.origin;
 
     constructor() {
@@ -146,6 +142,13 @@ export class AuthenticatorService {
         } else {
             this.institute_type.next('LANG');
         }
+    }
+
+    checkInternetConnection() {
+        return Observable.merge(
+            Observable.of(navigator.onLine),
+            Observable.fromEvent(window, 'online').map(() => true),
+            Observable.fromEvent(window, 'offline').map(() => false));
     }
 
 }

@@ -41,6 +41,9 @@ export class ComponentsComponent implements OnInit {
     });
 
     this.checkTitleAndFavIcon();
+
+    this.checkInternetConnection();
+
   }
 
   // Change Password Pop up Section///
@@ -95,6 +98,18 @@ export class ComponentsComponent implements OnInit {
     if (title != undefined && title != "" && title != null) {
       this.title.setTitle(title);
     }
+  }
+
+  // Internet Issue
+
+  checkInternetConnection() {
+    this.auth.checkInternetConnection().subscribe(
+      res => {
+        if (!res) {
+          this.commonService.showErrorMessage('error', 'Internet Connectivity Issue', 'Please check your internet connection');
+        }
+      }
+    )
   }
 
 }
