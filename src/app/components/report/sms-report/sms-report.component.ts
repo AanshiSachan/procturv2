@@ -35,7 +35,7 @@ export class SmsReportComponent implements OnInit {
     { primaryKey: 'name', header: 'Name' },
     { primaryKey: 'phone', header: 'Contact No.' },
     { primaryKey: 'message', header: 'Message' },
-    { primaryKey: 'sentDateTime', header: 'Sent Date' },
+    { primaryKey: 'sentDateTime', header: 'Sent Date-Time' },
     { primaryKey: 'role', header: 'Role' },
     { primaryKey: 'sms_type', header: 'Type' },
     { primaryKey: 'func_type', header: 'Event' },

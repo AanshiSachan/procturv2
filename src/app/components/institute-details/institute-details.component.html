@@ -3,7 +3,7 @@
 
 <div class="middle-section clearFix middle-one">
 
-  <section id="divGeneral" class="setting-right setting-visible">
+  <section id="divGeneral" class="setting-visible">
     <h2 class="heading-setting-main">General</h2>
 
     <div class="general-setting">
@@ -171,7 +171,6 @@
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_email != ''}">
               <input type="text" id="ch11" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.admin_primary_email">
-              <label for="ch13">Admin Email ID</label>
             </div>
           </div>
         </div>
@@ -205,8 +204,9 @@
           </div>
           <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="instDetails.kyc_document_type != '-1'">
             <div class="field-wrapper">
-              <input class="hide" type="file" #idUploadDoc accept="image/gif,image/jpeg,image/jpg,image/png">
+              <input type="file" class="hide" #idUploadDoc accept="image/gif,image/jpeg,image/jpg,image/png">
               <button class="btn" (click)="uploadDocument()">Upload Document</button>
+              <i class="fa fa-download hide" *ngIf="instDetails.kyc_document_type!=''"></i>
             </div>
           </div>
         </div>
@@ -588,7 +588,7 @@
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3" style="padding: 2%;">
-          <a  style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
+          <a style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
         </div>
       </div>
       <div class="row">
@@ -797,13 +797,13 @@
                   Item
                 </th>
                 <th>
-                  Deatil
+                  Detail
                 </th>
                 <th>
                   Due Date
                 </th>
                 <th>
-                  Total Amount
+                  Added Date
                 </th>
                 <th>
                   Amount Paid
@@ -831,7 +831,9 @@
                   {{row.added_date}}
                 </td>
                 <td>
-                  {{row.amount_with_tax}}
+                  <span *ngIf="row.amount_with_tax!=null">
+                    ₹{{row.amount_with_tax.toLocaleString()}}
+                  </span>
                 </td>
                 <td>
                   {{row.pmt_status}}
