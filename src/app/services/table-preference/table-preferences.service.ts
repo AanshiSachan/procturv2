@@ -118,16 +118,20 @@ export class TablePreferencesService {
 
   detectArchitcturalChanges() {
     let arch = JSON.parse(localStorage.getItem('procturTablePreference'));
-    if (arch.hasOwnProperty('version')) {
-      if (arch.version == this.localStrongeObject.version) {
-        return arch;
+    if (arch != null && arch != undefined) {
+      if (arch.hasOwnProperty('version')) {
+        if (arch.version == this.localStrongeObject.version) {
+          return arch;
+        } else {
+          localStorage.clear();
+          return "";
+        }
       } else {
         localStorage.clear();
-        return ""
+        return "";
       }
     } else {
-      localStorage.clear();
-      return ""
+      return "";
     }
   }
 
@@ -151,7 +155,7 @@ export class TablePreferencesService {
       objRef = value;
     })
     objRef[lastKey] = object;
-    localStorage.setItem("procturTablePreference", JSON.stringify({ 'modules': this.jsonObject }));
+    localStorage.setItem("procturTablePreference", JSON.stringify({ 'modules': this.jsonObject, 'version': this.localStrongeObject.version }));
   }
 
 
