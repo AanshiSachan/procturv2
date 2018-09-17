@@ -599,7 +599,6 @@
           <div class="field-wrapper">
             <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value=""
               [(ngModel)]="cancellationReason">
-
             </textarea>
           </div>
         </div>
@@ -689,10 +688,10 @@
 
       <div class="row dueDate" style="margin-left: -15px;">
 
-        <div class="field-wrapper datePickerBox c-sm-4 c-md-4 c-lg-4" [ngClass]="{ 'has-value': reschedDate !='' }">
-          <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
-            bsDatepicker>
+        <div class="field-wrapper datePickerBox c-sm-4 c-md-4 c-lg-4" style="padding-top:0px">
           <label for="reschDate">Reschedule Date</label>
+          <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
+            bsDatepicker style="height:30px">
         </div>
 
         <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:-15px;">
