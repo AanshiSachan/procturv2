@@ -26,7 +26,8 @@
             <label for="masterCourse">Master Course
               <span style="color: red">*</span>
             </label>
-            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse" (ngModelChange)="onMasterCourseSelection()">
+            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
+              (ngModelChange)="onMasterCourseSelection()">
               <option value="-1"></option>
               <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
                 {{opt.standard_name}}
@@ -50,7 +51,8 @@
             <label for="masterCourse">Master Course
               <span style="color: red">*</span>
             </label>
-            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse" (ngModelChange)="onMasterCourseSelection()">
+            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
+              (ngModelChange)="onMasterCourseSelection()">
               <option value="-1"></option>
               <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
                 {{opt.master_course}}
@@ -71,7 +73,8 @@
           </div>
 
           <div class="field-checkbox-wrapper checkBoxAllignment">
-            <input type="checkbox" id="defTemplate" name="checkbx" [(ngModel)]="addNewTemplate.is_default_template" class="form-checkbox">
+            <input type="checkbox" id="defTemplate" name="checkbx" [(ngModel)]="addNewTemplate.is_default_template"
+              class="form-checkbox">
             <label for="defTemplate">Is Default Template
               <div class="questionInfo inline-relative">
                 <span class="qInfoIcon i-class">i</span>
@@ -101,7 +104,8 @@
                 </div>
               </div>
             </label>
-            <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="addNewTemplate.fee_amount" (keyup)="onAmountKeyUp()" name="feeAmount">
+            <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="addNewTemplate.fee_amount" (keyup)="onAmountKeyUp()"
+              name="feeAmount">
           </div>
 
 
@@ -113,13 +117,13 @@
                 </div>
               </legend>
               <div class="field-radio-wrapper">
-                <input type="radio" name="inclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type" (ngModelChange)="onTaxTypeChanges($event)"
-                  value="inclusive" id="idInclusive">
+                <input type="radio" name="inclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type"
+                  (ngModelChange)="onTaxTypeChanges($event)" value="inclusive" id="idInclusive">
                 <label for="idInclusive">Inclusive Of Tax</label>
               </div>
               <div class="field-radio-wrapper">
-                <input type="radio" name="exclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type" (ngModelChange)="onTaxTypeChanges($event)"
-                  value="exclusive" id="idExclusive">
+                <input type="radio" name="exclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type"
+                  (ngModelChange)="onTaxTypeChanges($event)" value="exclusive" id="idExclusive">
                 <label for="idExclusive">Exclusive Of Tax</label>
               </div>
             </fieldset>
@@ -199,20 +203,23 @@
                     </div>
                   </td>
                   <td>
-                    <div class="field-wrapper">
-                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type != '3'" class="editCellInput" [(ngModel)]="row.initial_fee_amount"
-                        (ngModelChange)="userChangedInitialAmount(row ,$event)" name="label">
-                    </div>
-                  </td>
-                  <td>
-                    <div class="field-wrapper">
-                      <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
+                    <div class="form-wrapper">
+                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == 'inclusive'" class="editCellInput side-form-ctrl"
+                        [(ngModel)]="row.initial_fee_amount" (ngModelChange)="userChangedInitialAmount(row ,$event)"
+                        name="label">
                     </div>
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == '3'" class="editCellInput" (keyup)="userChangedAmountTotalAmount(row ,$event)"
-                        [(ngModel)]="row.totalAmount" name="label" class="side-form-ctrl">
+                      <input type="number" min="0" readonly="true" class="editCellInput side-form-ctrl" [ngModel]='row.tax'
+                        name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == 'exclusive'" class="editCellInput"
+                        (keyup)="userChangedAmountTotalAmount(row ,$event)" [(ngModel)]="row.totalAmount" name="label"
+                        class="side-form-ctrl">
                     </div>
                   </td>
                 </tr>
@@ -230,8 +237,8 @@
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="form-wrapper has-value">
               <label for="row.category_id">Select Fee Type</label>
-              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type" (ngModelChange)="onAdditionalFeeSelection($event)"
-                name="row.category_id">
+              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type"
+                (ngModelChange)="onAdditionalFeeSelection($event)" name="row.category_id">
                 <option *ngFor="let opt of otherFeetype; let i= index ; trackBy : index" [value]="opt.id">
                   {{opt.value}}
                 </option>
@@ -243,7 +250,8 @@
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="form-wrapper has-value">
               <label for="row.category_id">Trigger Date</label>
-              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" name="row.category_id">
+              <select id="" class="side-form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type"
+                name="row.category_id">
                 <option value="1">Date Of Joining</option>
                 <option value="2">No of days after DOJ</option>
                 <option value="3">No of Month after DOJ</option>
@@ -266,7 +274,8 @@
             <div class="form-wrapper has-value">
               <label for="slotNew">Fee Amount
               </label>
-              <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount" name="slotNew">
+              <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount"
+                name="slotNew">
 
             </div>
           </div>
@@ -318,19 +327,21 @@
                     </div>
                   </td>
                   <td>
-                    <div class="field-wrapper">
-                      <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
-                    </div>
-                  </td>
-                  <td>
-                    <div class="field-wrapper">
-                      <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
+                    <div class="form-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput side-form-ctrl" [(ngModel)]="row.initial_fee_amount"
+                        name="label">
                     </div>
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <input type="number" min="0" class="editCellInput" (keyup)="userChangeAdditionalFeeAmount(row , $event)" [(ngModel)]="row.fees_amount"
-                        name="label" class="side-form-ctrl">
+                      <input type="number" min="0" readonly="true" class="editCellInput side-form-ctrl" [ngModel]='row.fees_amount - row.initial_fee_amount'
+                        name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-wrapper">
+                      <input type="number" min="0" class="editCellInput" (keyup)="userChangeAdditionalFeeAmount(row , $event)"
+                        [(ngModel)]="row.fees_amount" name="label" class="side-form-ctrl">
                     </div>
                   </td>
                   <td>

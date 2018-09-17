@@ -1442,6 +1442,8 @@ export class EnquiryHomeComponent implements OnInit {
       this.advancedFilterForm.is_recent = "Y";
     }
 
+    this.instituteData = this.advancedFilterForm;
+
     this.flagJSON.isRippleLoad = true;
     this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
@@ -1655,7 +1657,12 @@ export class EnquiryHomeComponent implements OnInit {
     }
   }
 
-  downloadSummaryReport() { this.flagJSON.summaryOptions = true; setTimeout(() => { document.getElementById('anchTagToggle').text = "Download By Date Range"; }, 100); }
+  downloadSummaryReport() {
+    this.flagJSON.summaryOptions = true;
+    setTimeout(() => {
+      document.getElementById('anchTagToggle').text = "Download By Date Range";
+    }, 100);
+  }
 
   downloadSummaryReportXl() {
     switch (Number(this.varJson.downloadReportOption)) {
@@ -2033,6 +2040,7 @@ export class EnquiryHomeComponent implements OnInit {
       { label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => { this.bulkAssignEnquiriesOpen(); } }
     ];
   }
+
   // Multi Branch Check
   checkMultiBranchStatus() {
     const permissionArray = sessionStorage.getItem('permissions');
