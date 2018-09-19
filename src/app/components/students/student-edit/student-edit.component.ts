@@ -1942,9 +1942,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
     obj.template_effective_date = moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD");
     obj.template_id = this.feeTemplateById.template_id;
-
+    this.isRippleLoad = true;
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = { type: 'success', title: 'Discount Applied', body: '' }
         this.appC.popToast(msg);
         this.pdcSelectedForm = { bank_name: '', cheque_amount: this.totalFeePaid, cheque_date: moment().format("YYYY-MM-DD"), cheque_no: '', pdc_cheque_id: '' };
@@ -1954,6 +1955,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.closeDiscountApply();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Incorrect PDC/Cheque Details',

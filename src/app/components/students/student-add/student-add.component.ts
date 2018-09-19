@@ -2993,9 +2993,10 @@ export class StudentAddComponent implements OnInit {
     obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
     obj.template_effective_date = moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD");
     obj.template_id = this.feeTemplateById.template_id;
-
+    this.isRippleLoad = true;
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Discount Applied',
@@ -3015,6 +3016,7 @@ export class StudentAddComponent implements OnInit {
         this.closeDiscountApply();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Incorrect PDC/Cheque Details',
