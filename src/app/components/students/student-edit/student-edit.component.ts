@@ -1592,8 +1592,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.totalFeeWithTax += parseInt(el.fees_amount);
 
             let obj = {
-              uiSelected: el.is_referenced == "Y" ? true : false,
-              isPaid: el.is_referenced == "Y" ? true : false
+              uiSelected: el.paid_full == "Y" ? true : false,
+              isPaid: el.paid_full == "Y" ? true : false
             }
 
             this.paymentStatusArr.push(obj);
@@ -1783,7 +1783,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.installmentMarkedForPayment.push(id);
       this.feeTemplateById.customFeeSchedules[id].is_paid = 1;
-      let value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+      let value = 0;
+      /// Full Payment Case
+      if (this.feeTemplateById.customFeeSchedules[id].amount_paid == 0 || this.feeTemplateById.customFeeSchedules[id].amount_paid == null) {
+        value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+      }
+      // Partial Payment Case
+      else {
+        value = this.feeTemplateById.customFeeSchedules[id].balance_amount;
+      }
       this.totalFeePaid += value;
     }
     else {
@@ -1792,7 +1800,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.installmentMarkedForPayment.splice(index, 1);
       }
       this.feeTemplateById.customFeeSchedules[id].is_paid = 0;
-      let value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+      let value = 0;
+      // Full Payment
+      if (this.feeTemplateById.customFeeSchedules[id].amount_paid == 0 || this.feeTemplateById.customFeeSchedules[id].amount_paid == null) {
+        value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+      }
+      // Partial Payment Case
+      else {
+        value = this.feeTemplateById.customFeeSchedules[id].balance_amount;
+      }
       this.totalFeePaid -= value;
       if (this.totalFeePaid < 0) {
         this.totalFeePaid = 0;
@@ -3436,7 +3452,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let temp: any[] = [];
     let total = this.total_amt_tobe_paid;
     let remaining = 0;
-
+    this.installmentMarkedForPayment.sort();
     /* only installment whose checkboxes have been checked */
     this.installmentMarkedForPayment.forEach(e => {
       /* e gives the index of the fee installment on the array */

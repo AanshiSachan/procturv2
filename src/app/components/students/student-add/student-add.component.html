@@ -643,7 +643,7 @@
               <ul>
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
-                    <div class="field-checkbox-wrapper" [class.hide]="installment.is_referenced == 'Y'">
+                    <div class="field-checkbox-wrapper" [ngClass]="{'hide':installment.paid_full == 'Y'}">
                       <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected" (ngModelChange)="paymentValueUpdate($event, i)"
                       />
                       <label for="instl{{i}}"></label>
@@ -741,8 +741,9 @@
                     <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" (click)="emailFeeReceipt(installment)">E-mail
                       receipt
                     </a>
-                    <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay
-                      Remaining Amount</a>
+                    <!-- <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay
+                      Remaining Amount
+                    </a> -->
                   </div>
                 </li>
               </ul>
@@ -1435,8 +1436,7 @@
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
               <label for="">Cheque No.*</label>
-              OnlyNumber
-              <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6"="true" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_no"
+              <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_no"
               />
             </div>
           </div>

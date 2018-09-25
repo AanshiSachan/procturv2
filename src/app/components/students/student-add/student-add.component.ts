@@ -4,17 +4,13 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { StudentForm } from '../../../model/student-add-form';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
-import { SelectItem } from 'primeng/primeng';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import { Subscription } from 'rxjs';
-import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
-import 'rxjs/add/operator/filter';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 
@@ -37,7 +33,7 @@ export class StudentAddComponent implements OnInit {
   private isProfessional: boolean = false; private multiOpt: boolean = false; private isDuplicateStudent: boolean = false; private genPdcAck: boolean = false;
   private sendPdcAck: boolean = false; private instituteList: any[] = []; private standardList: any[] = []; private courseList: any[] = []; private batchList: any[] = []; private slots: any[] = []; private langStatus: any[] = []; private selectedSlots: any[] = []; private customComponents: any[] = []; private slotIdArr: any[] = []; private uploadedFiles: any[] = [];
   private assignedBatch: string = ""; private selectedSlotsString: string = ''; private selectedSlotsID: string = ''; private assignedBatchString: string = '';
-  private userImageEncoded: string = ''; private busyPrefill: Subscription; private isConvertEnquiry: boolean = false; private isNewInstitute: boolean = true;
+  private userImageEncoded: string = ''; private isConvertEnquiry: boolean = false; private isNewInstitute: boolean = true;
   private isNewInstituteEditor: boolean = false; private school: any[] = []; public removeImage: boolean = false; private userCustommizedFee: any[] = [];
   private isBasicActive: boolean = true; private isOtherActive: boolean = false; private isFeeActive: boolean = false; private isInventoryActive: boolean = false;
   private isConfigureFees: boolean = false; private feeTempSelected: any = ""; private isDiscountApplied: boolean = false;
@@ -1252,55 +1248,56 @@ export class StudentAddComponent implements OnInit {
   studentAddedGetFee(id) {
     this.isRippleLoad = true;
 
-    this.fetchService.fetchStudentFeeDetailById(id).subscribe(res => {
-      if (res.customFeeSchedules != null) {
-        res.customFeeSchedules = this.uniqueConvertFeeJson(res.customFeeSchedules);
-        this.isRippleLoad = false;
-        this.allignStudentFeeView(res);
-      }
-      else if (res.customFeeSchedules == null) {
-        this.isRippleLoad = false;
-        this.totalFeeWithTax = 0;
-        this.totalDicountAmount = 0;
-        this.totalTaxAmount = 0;
-        this.totalInitalAmount = 0;
-        this.totalPaidAmount = 0;
-        this.totalAmountPaid = 0;
-        this.totalAmountDue = 0;
-        this.totalFeePaid = 0;
-        this.feeTemplateById = {
-          feeTypeMap: "",
-          customFeeSchedules: [],
-          registeredServiceTax: "",
-          toCreate: "",
-          studentArray: "",
-          studentwise_total_fees_amount: "",
-          studentwise_total_fees_balance_amount: "",
-          studentwise_total_fees_amount_paid: "",
-          studentwise_total_fees_discount: "",
-          studentwise_fees_tax_applicable: "",
-          no_of_installments: "",
-          discount_fee_reason: "",
-          template_name: "",
-          template_id: "",
-          template_effective_date: "",
-          is_fee_schedule_created: "",
-          is_fee_tx_done: "",
-          is_undo: "",
-          is_fee_other_inst_created: "",
-          is_delete_other_fee_types: "",
-          chequeDetailsJson: "",
-          payment_mode: "Cash",
-          remarks: "",
-          paid_date: "",
-          is_cheque_details_required: "",
-          reference_no: "",
-          invoice_no: "",
-          uiSelected: false
+    this.fetchService.fetchStudentFeeDetailById(id).subscribe(
+      res => {
+        if (res.customFeeSchedules != null) {
+          res.customFeeSchedules = this.uniqueConvertFeeJson(res.customFeeSchedules);
+          this.isRippleLoad = false;
+          this.allignStudentFeeView(res);
         }
-        this.navigateTo('feeDetails');
-      }
-    },
+        else if (res.customFeeSchedules == null) {
+          this.isRippleLoad = false;
+          this.totalFeeWithTax = 0;
+          this.totalDicountAmount = 0;
+          this.totalTaxAmount = 0;
+          this.totalInitalAmount = 0;
+          this.totalPaidAmount = 0;
+          this.totalAmountPaid = 0;
+          this.totalAmountDue = 0;
+          this.totalFeePaid = 0;
+          this.feeTemplateById = {
+            feeTypeMap: "",
+            customFeeSchedules: [],
+            registeredServiceTax: "",
+            toCreate: "",
+            studentArray: "",
+            studentwise_total_fees_amount: "",
+            studentwise_total_fees_balance_amount: "",
+            studentwise_total_fees_amount_paid: "",
+            studentwise_total_fees_discount: "",
+            studentwise_fees_tax_applicable: "",
+            no_of_installments: "",
+            discount_fee_reason: "",
+            template_name: "",
+            template_id: "",
+            template_effective_date: "",
+            is_fee_schedule_created: "",
+            is_fee_tx_done: "",
+            is_undo: "",
+            is_fee_other_inst_created: "",
+            is_delete_other_fee_types: "",
+            chequeDetailsJson: "",
+            payment_mode: "Cash",
+            remarks: "",
+            paid_date: "",
+            is_cheque_details_required: "",
+            reference_no: "",
+            invoice_no: "",
+            uiSelected: false
+          }
+          this.navigateTo('feeDetails');
+        }
+      },
       err => {
         let msg = err.error.message;
         this.isRippleLoad = false;
@@ -1479,14 +1476,35 @@ export class StudentAddComponent implements OnInit {
       if (index > -1) { this.installmentMarkedForPayment.splice(index, 1); }
       this.installmentMarkedForPayment.push(id);
       this.feeTemplateById.customFeeSchedules[id].is_paid = 1;
-      let value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+
+      let value = 0;
+      /// Full Payment Case
+      if (this.feeTemplateById.customFeeSchedules[id].amount_paid == 0 || this.feeTemplateById.customFeeSchedules[id].amount_paid == null) {
+        value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+      }
+      // Partial Payment Case
+      else {
+        value = this.feeTemplateById.customFeeSchedules[id].balance_amount;
+      }
+
+
       this.totalFeePaid += value;
     }
     else {
       var index = this.installmentMarkedForPayment.indexOf(id);
       if (index > -1) { this.installmentMarkedForPayment.splice(index, 1); }
       this.feeTemplateById.customFeeSchedules[id].is_paid = 0;
-      let value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+
+      let value = 0;
+      // Full Payment
+      if (this.feeTemplateById.customFeeSchedules[id].amount_paid == 0 || this.feeTemplateById.customFeeSchedules[id].amount_paid == null) {
+        value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
+      }
+      // Partial Payment Case
+      else {
+        value = this.feeTemplateById.customFeeSchedules[id].balance_amount;
+      }
+
       this.totalFeePaid -= value;
       if (this.totalFeePaid < 0) {
         this.totalFeePaid = 0;
@@ -2242,8 +2260,8 @@ export class StudentAddComponent implements OnInit {
             this.totalFeeWithTax += parseInt(el.fees_amount);
 
             let obj = {
-              uiSelected: el.is_referenced == "Y" ? true : false,
-              isPaid: el.is_referenced == "Y" ? true : false
+              uiSelected: el.paid_full == "Y" ? true : false,
+              isPaid: el.paid_full == "Y" ? true : false
             }
 
             this.paymentStatusArr.push(obj);
@@ -3034,6 +3052,7 @@ export class StudentAddComponent implements OnInit {
     let temp: any[] = [];
     let total = this.total_amt_tobe_paid;
     let remaining = 0;
+    this.installmentMarkedForPayment.sort();
     this.installmentMarkedForPayment.forEach(e => {
       let paid = 0;
       let previous = 0;
