@@ -372,7 +372,7 @@
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue"
+            <input type="button" #btnContinueDetailPage id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue"
               (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
               value="Submit" class="btn hide fullBlue">

@@ -46,7 +46,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   allocatedItem: any = [];
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-
+  @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
 
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
@@ -942,12 +942,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (data.is_active == "Y") {
           this.formIsActive = true;
         }
+
+        this.btnContinueDetailPage.nativeElement.disabled = true;
         /* For Batch Model Fetch the Student Batches */
         if (this.isProfessional) {
           /* Fetching the student Slots */
           this.getSlots();
           this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
             data => {
+              this.btnContinueDetailPage.nativeElement.disabled = false;
               this.batchList = [];
               data.forEach(el => {
                 if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -970,6 +973,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.updateAssignedBatches(this.batchList);
             },
             err => {
+              this.btnContinueDetailPage.nativeElement.disabled = false;
               let msg = err.error.message;
               this.isRippleLoad = false;
               let obj = {
@@ -987,6 +991,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         else {
           this.studentPrefillService.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
             res => {
+              this.btnContinueDetailPage.nativeElement.disabled = false;
               res.coursesList.forEach(el => {
                 if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
                   el.feeTemplateList.forEach(e => {
@@ -1009,6 +1014,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.updateAssignedBatches(this.batchList);
             },
             err => {
+              this.btnContinueDetailPage.nativeElement.disabled = false;
               let msg = err.error.message;
               this.isRippleLoad = false;
               let obj = {
