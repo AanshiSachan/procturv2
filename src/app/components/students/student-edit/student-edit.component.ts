@@ -44,6 +44,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     available_units: ''
   };
   allocatedItem: any = [];
+  thumbnailAvailable: boolean = false;
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
   @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
@@ -934,7 +935,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
         }
-        this.studentServerImage = data.photo;
+        this.thumbnailAvailable = true;
+        this.studentServerImage = data.thumbnail_photo;
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
@@ -2540,6 +2542,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   setImage(e) {
     this.studentServerImage = e;
+    this.thumbnailAvailable = false;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */

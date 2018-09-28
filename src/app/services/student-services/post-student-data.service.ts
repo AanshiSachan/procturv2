@@ -258,6 +258,19 @@ export class PostStudentDataService {
 
     }
 
+    downloadAdmissionForm(obj) {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/students/downloadAdmissionForm";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
 }
 
 

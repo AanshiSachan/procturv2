@@ -81,7 +81,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   /* =================================================================================================== */
   /* =================================================================================================== */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService , private commonService:CommonServiceFactory) {
+  constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService, private commonService: CommonServiceFactory) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -162,6 +162,11 @@ export class StudentHomeComponent implements OnInit {
       {
         label: 'Send Notification', icon: 'far fa-bell', command: () => {
           this.notifySelectedStudent();
+        }
+      },
+      {
+        label: 'Student Admission Form', icon: 'fa fa-address-card', command: () => {
+          this.downloadStudentAdmissionForm();
         }
       }
     ];
@@ -457,16 +462,16 @@ export class StudentHomeComponent implements OnInit {
       this.advancedFilterForm.stuCustomLi = tempCustomArr;
     }
 
-    if(moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD') > moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD') ){
-      this.appC.popToast({type:"error" , title:"" , body:"From date cannot be greater than to date"})
+    if (moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD') > moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD')) {
+      this.appC.popToast({ type: "error", title: "", body: "From date cannot be greater than to date" })
       return false;
     }
-    else{
-      this.advancedFilterForm.doa_from_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_from_date)?'':moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD');
-      this.advancedFilterForm.doa_to_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_to_date)?'':moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD');
+    else {
+      this.advancedFilterForm.doa_from_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_from_date) ? '' : moment(this.advancedFilterForm.doa_from_date).format('YYYY-MM-DD');
+      this.advancedFilterForm.doa_to_date = this.commonService.sourceValueCheck(this.advancedFilterForm.doa_to_date) ? '' : moment(this.advancedFilterForm.doa_to_date).format('YYYY-MM-DD');
     }
-    
-    
+
+
     this.advancedFilterForm.is_active_status = parseInt(this.advancedFilterForm.is_active_status);
     this.instituteData = this.advancedFilterForm;
     this.PageIndex = 1;
@@ -1016,6 +1021,7 @@ export class StudentHomeComponent implements OnInit {
   getRowCount(ev) {
     //console.log(ev);
     this.selectedRowCount = ev;
+    console.log(this.selectedRowCount);
   }
 
   /* =================================================================================================== */
@@ -1915,6 +1921,31 @@ export class StudentHomeComponent implements OnInit {
         this.appC.popToast(obj);
       }
     );
+  }
+
+  downloadStudentAdmissionForm() {
+    let obj: any = {
+      studentIds: this.selectedRowGroup.join(',')
+    };
+    this.isRippleLoad = true;
+    this.postService.downloadAdmissionForm(obj).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        let byteArr = this.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('hiddenAnchorTag');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+      }
+    )
   }
 
 }

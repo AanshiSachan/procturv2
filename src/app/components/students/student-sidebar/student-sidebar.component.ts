@@ -117,7 +117,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   fetchStudentDetails(ev) {
     this.cd.markForCheck();
     if (ev.photo != '' || ev.photo != null) {
-      this.studentServerImage = ev.photo;
+      this.studentServerImage = ev.thumbnail_photo;
     }
     else {
       this.studentServerImage = '';

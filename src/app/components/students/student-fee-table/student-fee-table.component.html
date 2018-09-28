@@ -72,9 +72,9 @@
 
                 <div class="installment-table">
                     <ul class="table-header">
-                        <li class="id" [ngClass]="{'bigger': taxEnableCheck == '0'}">#</li>
-                        <li class="date" [ngClass]="{'bigger': taxEnableCheck == '0'}">Due Date</li>
-                        <li class="course" >Course</li>
+                        <li class="id">#</li>
+                        <li class="date">Due Date</li>
+                        <li class="course" [ngClass]="{'bigger': taxEnableCheck == '0'}" >Course</li>
                         <li class="amount" [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
                         <li class="tax" [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
                         <li class="feeTax" [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
@@ -82,7 +82,7 @@
                     </ul>
                     <div class="table-data">
                         <ul class="table-row" *ngFor="let fee of installmentData; let i = index;">
-                            <li class="id" [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
+                            <li class="id">{{i+1}}</li>
                             <li class="date">
                                 <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
                                     <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="updateTableInstallment()"
@@ -92,7 +92,7 @@
                                     <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                                 </div>
                             </li>
-                            <li class="course">
+                            <li class="course" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
                                     <input type="text" class="form-ctrl" readonly="true" name="course" [ngModel]="fee.course_subject_name">
                                 </div>

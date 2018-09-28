@@ -19,8 +19,8 @@
         </div>
         <div class="profile-details-wrapper">
             <div class="profile-wrapper">
-                <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="studentServerImage" [readonly]="readonly"
-                    [defaultImg]="'assets/images/student_icon.png'">
+                <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="studentServerImage"
+                    [readonly]="readonly" [defaultImg]="'assets/images/student_icon.png'" [thumbnailAvailable]="true">
                 </proctur-image>
             </div>
         </div>
@@ -32,8 +32,8 @@
             <span class="svg-icon-wrap">
                 <span class="visually-hidden"></span>
                 <div aria-hidden="true" type="ellipsis-horizontal-icon">
-                    <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-                        focusable="false">
+                    <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
+                        class="artdeco-icon" focusable="false">
                         <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
                     </svg>
                 </div>
@@ -59,7 +59,8 @@
 
                         <li class="action-item" (click)="emitLeave($event)">
                             <a class="">
-                                <i style="font-family: FontAwesome;margin-right: 15px;margin-left: 8px;" class="fas fa-exclamation" aria-hidden="true"></i>Mark Leave
+                                <i style="font-family: FontAwesome;margin-right: 15px;margin-left: 8px;" class="fas fa-exclamation"
+                                    aria-hidden="true"></i>Mark Leave
                             </a>
                         </li>
 
@@ -75,14 +76,15 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 421 28 24" id="li7" style="height: 15px;width: 20px;">
                                         <g id="Group_1182" data-name="Group 1182" transform="translate(-46 -16)">
                                             <g id="Group_1171" data-name="Group 1171" transform="translate(0)">
-                                                <ellipse id="Ellipse_24" data-name="Ellipse 24" class="cls-1" cx="3.333" cy="10" rx="3.333" ry="10" transform="translate(28 439)"
-                                                />
-                                                <ellipse id="Ellipse_25" data-name="Ellipse 25" class="cls-1" cx="3.333" cy="10" rx="3.333" ry="10" transform="matrix(0.5, -0.866, 0.866, 0.5, 21, 446.876)"
-                                                />
-                                                <ellipse id="Ellipse_26" data-name="Ellipse 26" class="cls-1" cx="3.333" cy="10" rx="3.333" ry="10" transform="matrix(0.5, 0.866, -0.866, 0.5, 38.32, 441.124)"
-                                                />
+                                                <ellipse id="Ellipse_24" data-name="Ellipse 24" class="cls-1" cx="3.333"
+                                                    cy="10" rx="3.333" ry="10" transform="translate(28 439)" />
+                                                <ellipse id="Ellipse_25" data-name="Ellipse 25" class="cls-1" cx="3.333"
+                                                    cy="10" rx="3.333" ry="10" transform="matrix(0.5, -0.866, 0.866, 0.5, 21, 446.876)" />
+                                                <ellipse id="Ellipse_26" data-name="Ellipse 26" class="cls-1" cx="3.333"
+                                                    cy="10" rx="3.333" ry="10" transform="matrix(0.5, 0.866, -0.866, 0.5, 38.32, 441.124)" />
                                             </g>
-                                            <rect id="Rectangle_674" data-name="Rectangle 674" class="cls-2" width="28" height="24" transform="translate(17 437)" />
+                                            <rect id="Rectangle_674" data-name="Rectangle 674" class="cls-2" width="28"
+                                                height="24" transform="translate(17 437)" />
                                         </g>
                                     </svg>
                                 </i>
@@ -113,14 +115,16 @@
                                     color: #0084f6;
                                     text-transform: capitalize;
                                     cursor: pointer;
-                                "> Click to edit</span></label>
+                                ">
+                                        Click to edit</span></label>
                                 <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">Courses <span style="
                                     float: right;
                                     font-size: 8px;
                                     color: #0084f6;
                                     text-transform: capitalize;
                                     cursor: pointer;
-                                "> Click to edit</span></label>
+                                ">
+                                        Click to edit</span></label>
                                 <div [ngClass]="{'hide': batch == ''}" class="chipped" *ngFor="let batch of getBatchListArr()">
                                     {{batch}}
                                 </div>
@@ -128,27 +132,33 @@
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="dob">Date Of Birth</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.dob" type="text" name="dob">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.dob" type="text"
+                                name="dob">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="doj">Date Of Admission</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.doj" type="text" name="doj">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.doj" type="text"
+                                name="doj">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="doj">Student Email</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_email" type="text" name="email">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_email"
+                                type="text" name="email">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentName">Parent Name</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_name" type="text" name="ParentName">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_name" type="text"
+                                name="ParentName">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentPhone">Parent Phone</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_phone" type="text" name="ParentPhone">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_phone"
+                                type="text" name="ParentPhone">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentEmail">Parent Email</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_email" type="text" name="ParentEmail">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_email"
+                                type="text" name="ParentEmail">
                         </div>
 
                         <!-- <div class="form-wrapper c-xs-12">
@@ -173,7 +183,8 @@
                         </div> -->
                         <div class="form-wrapper c-xs-12">
                             <label for="Address">Address</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_curr_addr" type="text" name="Address">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_curr_addr"
+                                type="text" name="Address">
                         </div>
                     </div>
                 </section>
@@ -188,7 +199,8 @@
                     <div class="detail-wrapper" *ngFor="let custom of customComponent">
                         <div class="form-wrapper c-xs-12">
                             <label for="{{custom.label}}">{{custom.label}}</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="custom.enq_custom_value" type="text" name="{{custom.label}}">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="custom.enq_custom_value" type="text"
+                                name="{{custom.label}}">
                         </div>
                     </div>
                 </section>

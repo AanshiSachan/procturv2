@@ -397,7 +397,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         }
         else {
             if (this.discountApplyForm.type === 'amount') {
-                return this.discountApplyForm.value;
+                return Number(this.discountApplyForm.value);
             }
             else if (this.discountApplyForm.type === 'percentage') {
                 return this.precisionRound(((this.discountApplyForm.value / 100) * this.totalAmountDue), -1);

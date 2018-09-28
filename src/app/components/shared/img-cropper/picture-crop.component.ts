@@ -30,6 +30,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   @Input() serverImg: string;
   @Input() isSidenav: boolean = false;
   @Input() defaultImg: string = 'assets/images/bluecamera.png';
+  @Input() thumbnailAvailable: boolean = false;
 
   @Output() getImage = new EventEmitter<boolean>();
   @Output() setImage = new EventEmitter<any>();
@@ -50,7 +51,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if(this.isSidenav){
+    if (this.isSidenav) {
       this.imgContainer.nativeElement.classList.add("small")
     }
     this.setContainerSize();
@@ -75,10 +76,15 @@ export class PictureCropComponent implements OnInit, OnChanges {
       this.removeImage();
     }
     else {
-      const temp: any[] = [];
-      temp[0] = this.imgPrefill;
-      temp[1] = this.serverImg;
-      const imgFile = temp.join(',');
+      let imgFile = "";
+      if (this.thumbnailAvailable) {
+        imgFile = this.serverImg;
+      } else {
+        const temp: any[] = [];
+        temp[0] = this.imgPrefill;
+        temp[1] = this.serverImg;
+        imgFile = temp.join(',');
+      }
       setTimeout(() => {
         this.uploadedImage.nativeElement.src = imgFile;
       }, 300)
@@ -225,7 +231,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
 
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
-    if(this.eRef.nativeElement.contains(event.target)) {
+    if (this.eRef.nativeElement.contains(event.target)) {
     } else {
       this.isMenuVisible = false;
     }
