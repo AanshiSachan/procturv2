@@ -165,7 +165,7 @@ export class StudentHomeComponent implements OnInit {
         }
       },
       {
-        label: 'Student Admission Form', icon: 'fa fa-address-card', command: () => {
+        label: 'Admission Form', icon: 'fa fa-address-card', command: () => {
           this.downloadStudentAdmissionForm();
         }
       }
