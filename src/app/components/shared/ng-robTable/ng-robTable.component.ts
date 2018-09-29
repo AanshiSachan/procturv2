@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, DoCheck } from '@angular/core';
 import { ColumnSetting, ColumnMap } from './ng-robTable-layout.model';
 import * as moment from 'moment';
 
@@ -8,7 +8,7 @@ import * as moment from 'moment';
     styleUrls: ['./ng-robTable.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RobTableComponent implements OnChanges {
+export class RobTableComponent implements OnChanges, DoCheck {
     headerSort: any;
     @Input() records: any[];
     @Input() settings: ColumnSetting[];
@@ -17,15 +17,15 @@ export class RobTableComponent implements OnChanges {
     @Input() primaryKey: string = '';
     @Input() key1: string;
     @Input() reset: boolean;
-    @Input() defaultSort:string="";
-    @Input() batchListArr:any[] = [];
+    @Input() defaultSort: string = "";
+    @Input() batchListArr: any[] = [];
 
     @Output() userRowSelect = new EventEmitter();
     @Output() rowsSelected = new EventEmitter<number>();
     @Output() rowIdArr = new EventEmitter<any[]>();
     @Output() sortById = new EventEmitter<string>();
     @Output() rowUserId = new EventEmitter<string>();
-    @Output() sortDirection=new EventEmitter<boolean>();
+    @Output() sortDirection = new EventEmitter<boolean>();
 
 
     isAllSelected: boolean = false;
@@ -49,7 +49,7 @@ export class RobTableComponent implements OnChanges {
 
 
     ngOnChanges() {
-        this.cd.reattach();        
+        this.cd.reattach();
         this.cd.markForCheck();
         this.dataStatus;
         this.key1;
@@ -65,6 +65,12 @@ export class RobTableComponent implements OnChanges {
         }
         this.cd.detectChanges();
         this.cd.detach();
+    }
+
+    ngDoCheck() {
+        this.cd.detectChanges();
+        this.records;
+        this.cd.markForCheck();
     }
 
     selectAllRows(ev) {
@@ -112,7 +118,6 @@ export class RobTableComponent implements OnChanges {
         $event.preventDefault();
         $event.stopPropagation();
         this.selectedRow = ev;
-        console.log(this.selectedRow);
         this.cd.detectChanges();
         this.userRowSelect.emit(row);
         this.getSelectedRows();
@@ -147,29 +152,29 @@ export class RobTableComponent implements OnChanges {
     }
 
     refreshTable() {
-        this.cd.markForCheck();     
+        this.cd.markForCheck();
         this.headerSort = this.defaultSort;
         if (!this.reset) {
+            this.records.forEach(x => x.uiSelected = false);
             this.selectedRow = null;
             this.isAllSelected = false;
-            this.rowSelectedCount = 0;
             this.rowSelectedId = [];
             this.rowIdArr.emit(this.rowSelectedId);
-            this.rowsSelected.emit(this.rowSelectedCount);
-            this.records.forEach(x => x.uiSelected = false);
             this.rowSelectedCount = 0;
             this.rowsSelected.emit(this.rowSelectedCount);
-            this.getSelectedRows();
+            this.rowSelectedId = [];
+            this.userIdArray = [];
+            this.rowIdArr.emit(this.rowSelectedId);
+            this.rowUserId.emit(this.userIdArray);
         }
-
     }
 
 
     requestSort(ev) {
         this.cd.markForCheck();
         this.caret = true;
-        this.headerSort=ev;
-        (this.asc) ? (this.asc=false) : (this.asc=true);
+        this.headerSort = ev;
+        (this.asc) ? (this.asc = false) : (this.asc = true);
         this.sortById.emit(ev);
         this.sortDirection.emit(this.asc);
     }
@@ -224,17 +229,17 @@ export class RobTableComponent implements OnChanges {
         }
     }
 
-    isSorted(map):boolean{
+    isSorted(map): boolean {
         if (map.primaryKey != 'noOfBatchesAssigned') {
             this.cd.markForCheck();
-            return  (map.primaryKey==this.headerSort && this.caret);
+            return (map.primaryKey == this.headerSort && this.caret);
         }
-        else{
+        else {
             return false;
         }
     }
 
-    getBatchListArr(e: string){
+    getBatchListArr(e: string) {
         this.cd.detach();
         return e.trim().split(",");
     }
