@@ -1792,7 +1792,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .middle-section {
-    padding: 15px;
+    padding: 0;
 }
 
 .boxPadding15 {
@@ -2119,7 +2119,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .fee-section-page {
-    padding: 10px 20px;
+    padding: 10px 0px;
 }
 
 .fee-summary {
@@ -2445,5 +2445,183 @@ input[type=number]::-webkit-outer-spin-button {
     }
     .btn-section {
         padding-top: 17px;
+    }
+}
+
+////// New Layout
+.table-section {
+    font-size: 0.9em;
+    .table-rows {
+        display: inline-block;
+        width: 100%;
+        .checkbox-div {
+            width: 30%;
+            display: inline-block;
+            label {
+                font-size: 14px;
+                font-weight: bold;
+                font-style: normal;
+                font-stretch: normal;
+                letter-spacing: normal;
+                text-align: left;
+            }
+        }
+        .column-name {
+            width: 69%;
+            display: inline-block;
+            div {
+                display: inline-block;
+                margin: 0 1em;
+                width: 10%;
+                &.fee-amount {
+                    width: 15% !important;
+                }
+                &.status-amount {
+                    width: 14% !important;
+                }
+                &.amount {
+                    text-align: right;
+                }
+            }
+        }
+    }
+    .installment-row:nth-child(odd) {
+        background: white;
+    }
+    .installment-row:nth-child(even) {
+        background: #ebebeb;
+    }
+    .field-checkbox-wrapper {
+        margin-bottom: 0;
+        display: inline-block;
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.36;
+            text-align: left;
+            color: #000000;
+        }
+    }
+    .course-installment {
+        padding: 20px 5px;
+    }
+}
+
+.inner-table {
+    width: 100%;
+    display: inline-block;
+    padding: 0 5px;
+    .checkbox {
+        width: 15%;
+        display: inline-block;
+        label {
+            padding-left: 0px;
+        }
+    }
+    .column-map {
+        width: 84%;
+        display: inline-block;
+        div {
+            width: 10%;
+            display: inline-block;
+            margin: 0 0.7em;
+            &.amount,
+            &.Tax,
+            &.discount,
+            &.balance {
+                text-align: right; // span {
+                //     text-align: right;
+                // }
+            }
+        }
+        &.paymentMode {
+            width: 16%;
+        }
+    }
+}
+
+.title-section {
+    background-color: #c8dbef !important;
+    padding: 10px 5px;
+    span {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1.36;
+        text-align: left;
+        color: #000000;
+    }
+}
+
+.status-amount {
+    span {
+        display: inline-block;
+        border-radius: 4px;
+        padding: 4px 8px;
+        color: #fff;
+        font-size: 11px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        &.paid {
+            background: #78dd95;
+        }
+        &.due {
+            background: #f44167;
+        }
+        &.upcoming {
+            background: #fcc03d;
+        }
+        &.partial {
+            background: #24c4d0;
+        }
+    }
+}
+
+.visibilityHidden {
+    visibility: hidden;
+}
+
+.card-layout {
+    margin-bottom: 10px;
+    div {
+        width: 15%;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 4px;
+        margin-right: 1%;
+        span {
+            text-align: left;
+            font-size: 11px;
+            font-weight: bold;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.36;
+            letter-spacing: normal;
+            text-align: left;
+            color: #ffffff;
+            &.label {
+                padding: 0;
+            }
+            &.amount-Value {
+                font-size: 22px;
+            }
+        }
+    }
+    .actual-Amount {
+        background: #ff8f36;
+    }
+    .total-Amount {
+        background: #abaaaa;
+    }
+    .tax-Amount {
+        background: #fcc03d;
+    }
+    .discount-Amount {
+        background: #b159f2;
+    }
+    .amount-Paid {
+        background: #78dd95;
+    }
+    .amount-Due {
+        background: #f44167;
     }
 }

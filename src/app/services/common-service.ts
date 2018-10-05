@@ -192,46 +192,56 @@ export class CommonServiceFactory {
         document.getElementById('lizero').classList.remove('active');
     }
 
-    SortArray(key,array:any[]) {
+    SortArray(key, array: any[]) {
         // Regular expression to separate the digit string from the non-digit strings.
         let reParts = /\d+|\D+/g;
         // Regular expression to test if the string has a digit.
         let reDigit = /\d/;
         let sortedArray = array.sort((obj1, obj2) => {
-          let a = obj1[key.primaryKey];
-          let b = obj2[key.primaryKey];
-          // for case insensitive compare 
-          if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
-            a = obj1[key.primaryKey].toLowerCase();
-            b = obj2[key.primaryKey].toLowerCase();
-          }
-          let aParts = a.match(reParts);
-          let bParts = b.match(reParts);
-          let isDigitPart;
-    
-          if (aParts && bParts && (isDigitPart = reDigit.test(aParts[0])) == reDigit.test(bParts[0])) {
-            // Loop through each substring part to compare the overall strings.
-            let len = Math.min(aParts.length, bParts.length);
-            for (var i = 0; i < len; i++) {
-              let aPart: any = aParts[i];
-              let bPart: any = bParts[i];
-    
-              // If comparing digits, convert them to numbers (assuming base 10).
-              if (isDigitPart) {
-                aPart = parseInt(aPart, 10);
-                bPart = parseInt(bPart, 10);
-              }
-              // If the substrings aren't equal, return either -1 or 1.
-              if (aPart != bPart) {
-                return aPart < bPart ? -1 : 1;
-              }
-              // Toggle the value of isDigitPart since the parts will alternate.
-              isDigitPart = !isDigitPart;
+            let a = obj1[key.primaryKey];
+            let b = obj2[key.primaryKey];
+            // for case insensitive compare 
+            if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
+                a = obj1[key.primaryKey].toLowerCase();
+                b = obj2[key.primaryKey].toLowerCase();
             }
-          }
-          // Use normal comparison.
-          return Number((a <= b)) - Number((a >= b));
+            let aParts = a.match(reParts);
+            let bParts = b.match(reParts);
+            let isDigitPart;
+
+            if (aParts && bParts && (isDigitPart = reDigit.test(aParts[0])) == reDigit.test(bParts[0])) {
+                // Loop through each substring part to compare the overall strings.
+                let len = Math.min(aParts.length, bParts.length);
+                for (var i = 0; i < len; i++) {
+                    let aPart: any = aParts[i];
+                    let bPart: any = bParts[i];
+
+                    // If comparing digits, convert them to numbers (assuming base 10).
+                    if (isDigitPart) {
+                        aPart = parseInt(aPart, 10);
+                        bPart = parseInt(bPart, 10);
+                    }
+                    // If the substrings aren't equal, return either -1 or 1.
+                    if (aPart != bPart) {
+                        return aPart < bPart ? -1 : 1;
+                    }
+                    // Toggle the value of isDigitPart since the parts will alternate.
+                    isDigitPart = !isDigitPart;
+                }
+            }
+            // Use normal comparison.
+            return Number((a <= b)) - Number((a >= b));
         });
-      return sortedArray;
-      }
+        return sortedArray;
+    }
+
+
+    /// Ui Selction Iteration
+
+    changeUiSelectedKeyValue(data, key, value) {
+        data.forEach(element => {
+            element[key] = value;
+        });
+    }
+
 }

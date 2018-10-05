@@ -28,6 +28,7 @@ import { FetchStudentService } from '../../services/student-services/fetch-stude
 import { AddStudentPrefillService } from '../../services/student-services/add-student-prefill.service';
 import { SortPipe } from "./student-add/student-add.component";
 import { WidgetService } from '../../services/widget.service';
+import { StudentFeeService } from './student_fee.service';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { WidgetService } from '../../services/widget.service';
         AddStudentPrefillService,
         WidgetService,
         FetchStudentService,
-        PostStudentDataService
+        PostStudentDataService,
+        StudentFeeService
     ],
     entryComponents: [
         UserStudentComponent,
