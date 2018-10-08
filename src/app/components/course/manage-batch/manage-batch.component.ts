@@ -369,12 +369,13 @@ export class ManageBatchComponent implements OnInit {
     this.apiService.getStudentListFromServer(rowDetails.batch_id).subscribe(
       (res: any) => {
         this.radioOption = '0';
-        res.forEach(element => {
+        res.map(element => {
           if (element.assigned_fee_template_id == -1) {
             if (this.deafultTemplate != null && this.deafultTemplate != "") {
               element.assigned_fee_template_id = this.deafultTemplate.template_id;
             }
           }
+          element.immutableKey = element.assigned;
         });
         this.studentListDataSource = res;
         this.studentList = this.keepCloning(res);

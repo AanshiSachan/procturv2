@@ -225,7 +225,6 @@
                 <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                   <td>
                     <div class="field-checkbox-wrapper">
-
                       <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
                       <label></label>
                     </div>
@@ -244,7 +243,7 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <select class="form-ctrl" [(ngModel)]="row.academic_year" style="background: transparent">
+                      <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.academic_year" style="background: transparent">
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                           {{opt.inst_acad_year}}
@@ -254,7 +253,7 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <select class="form-ctrl" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
+                      <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
                           {{opt.template_name}}

@@ -166,6 +166,7 @@ export class CourseCourseListComponent implements OnInit {
     this.showTable = true;
     this.apiService.getStudentList(data).subscribe(
       (res: any) => {
+        res = res.map(ele => ele.immutableKey = ele.assigned);
         let data = this.makeTableJson(res);
         this.studentListDataSource = this.keepCloning(data);
         this.studentList = data;
