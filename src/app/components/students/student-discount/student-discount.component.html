@@ -1,4 +1,4 @@
-<proctur-popup [sizeWidth]="'small'">
+<proctur-popup>
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopups()" close-button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -7,64 +7,181 @@
                     <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
                     <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                 </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+                    transform="translate(1012 297)" />
             </g>
         </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Add Discount</h2>
+    <h2 popup-header style="margin-bottom:5px">Discount</h2>
 
     <div class="discount-wrapper" popup-content>
 
-        <div class="row">
+        <div class="common-tab row">
+            <ul>
+                <li id="addDiscountTab" #addDiscountTab (click)="switchActiveView('addDiscountTab')" class="active">
+                    <a>Add</a>
+                </li>
+                <li id="removeDiscountTab" #removeDiscountTab (click)="switchActiveView('removeDiscountTab')" class="">
+                    <a>Remove</a>
+                </li>
+                <li id="discountHistoryTab" #discountHistoryTab (click)="switchActiveView('discountHistoryTab')" class="">
+                    <a>Discount History</a>
+                </li>
+            </ul>
+        </div>
 
-            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.type != ''}">
+        <div class="row" *ngIf="showTab ==  'addDiscountTab' ||  showTab == 'removeDiscountTab'">
+
+            <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4 filter-section">
+
+                <div class="field-wrapper">
+                    <label for="masterCourse">Select Master Course</label>
+                    <select id="masterCourse" name="masterCourse" [(ngModel)]="discountPopUpForm.masterCourseName"
+                        class="form-ctrl" placeholder="Course" (ngModelChange)="masterCourseChange($event)">
+                        <option value="-1">Select Master Course</option>
+                        <option *ngFor="let item of masterCourseName" [value]="item">{{item}}</option>
+                    </select>
+                </div>
+
+                <div class="field-wrapper">
+                    <label for="courseNameDiv">Select Course</label>
+                    <select id="courseNameDiv" name="courseNameDiv" [(ngModel)]="discountPopUpForm.coursename" class="form-ctrl"
+                        placeholder="Course" (ngModelChange)="onCourseChange($event)">
+                        <option value="-1">Select Course</option>
+                        <option *ngFor="let item of courseName" [value]="item.course_id">{{item.course_subject_name}}</option>
+                    </select>
+                </div>
+
+                <div class="field-wrapper">
                     <label for="dtype">Discount Type*</label>
-
-                    <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
+                    <select id="dtype" name="dtype" [(ngModel)]="discountPopUpForm.type" class="form-ctrl"
+                        (ngModelChange)="onDiscountTypeChange(event)">
                         <option value="amount">Amount</option>
                         <option value="percentage">Percentage</option>
                     </select>
                 </div>
-                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.value != ''}">
+
+                <div class="field-wrapper">
                     <label for="ref">Discount Value*</label>
-
-                    <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+                    <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="ref"
+                        class="form-ctrl" name="ref" [(ngModel)]="discountPopUpForm.value" (ngModelChange)="onDiscountAmountChange($event)" />
                 </div>
 
-                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.reason != ''}">
-                    <label for="rema">Discount Reason*</label>
-
-                    <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+                <div class="field-wrapper">
+                    <label for="discReason">Discount Reason*</label>
+                    <select id="discReason" name="discReason" [(ngModel)]="discountPopUpForm.reason" class="form-ctrl"
+                        placeholder="Discount Reason">
+                        <option value="-1">Select Discount Reason</option>
+                        <option *ngFor="let item of discountReason" [value]="item.discount_reason_id">{{item.reason}}</option>
+                    </select>
                 </div>
 
-                <div style="margin: 15px 0px">
-                    <h4>Total Discount Amount :{{getTotalDiscountAmount()| commaSeprator}}</h4>
+                <div class="field-checkbox-wrapper">
+                    <input type="checkbox" [(ngModel)]="discountPopUpForm.equalInAllInstall" value="" id="equalInAllInstall"
+                        name="equalInAllInstall" class="form-checkbox" (ngModelChange)="onCheckboxApplyInAllClick($event)">
+                    <label for="equalInAllInstall">Equal In All Unpaid Installment</label>
                 </div>
 
-                <div class="" style="margin-top:10px;">
-                    <div class="field-radio-wrapper">
-                        <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
-                        <label for="r1">Equal in all installment</label>
-                    </div>
-
-                    <div class="field-radio-wrapper">
-                        <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
-                        <label for="r2">In last installment</label>
-                    </div>
-                </div>
             </div>
-            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="c-lg-8 c-md-8 c-sm-8 c-xs-8 table-section">
+                <h3>
+                    Select Installment to apply discount of {{discountPopUpForm.discountAmount |
+                    commaSeprator}}
+                </h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="textAllignLeft">
+                                <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" value="" class="form-checkbox" id="tableHeadChbx"
+                                        [(ngModel)]="discountPopUpForm.tableHead" (ngModelChange)="onTableHeaderCheckbox($event)" />
+                                    <label for="tableHeadChbx"></label>
+                                </div>
+                            </th>
+                            <th>Installment No.</th>
+                            <th>Course</th>
+                            <th class="textAllignRight">Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of installmentArray">
+                            <td class="textAllignLeft">
+                                <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="item.uiSelected"
+                                        (ngModelChange)="onRowCheckBoXClick()" />
+                                    <label></label>
+                                </div>
+                            </td>
+                            <td>{{item.installment_no}}</td>
+                            <td>{{item.course_subject_name}}</td>
+                            <td class="textAllignRight" *ngIf="item.balance_amount == 0">
+                                {{item.fees_amount | commaSeprator}}</td>
+                            <td class="textAllignRight" *ngIf="item.balance_amount != 0">
+                                {{item.balance_amount |commaSeprator}}</td>
+                            <td class="status-amount" *ngIf="item.balance_amount == 0">
+                                <span class="partial">Partially Paid</span></td>
+                            <td class="status-amount" *ngIf="item.balance_amount != 0">
+                                <span class="due">Unpaid</span></td>
+                        </tr>
+                        <tr *ngIf="installmentArray.length == 0">
+                            <td colspan="5">
+                                <h2>No Unpaid Installment Found</h2>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
+
         </div>
+
+        <div class="row history-table" *ngIf="showTab ==   'discountHistoryTab'">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Installment No</th>
+                        <th>Master Course</th>
+                        <th>Course</th>
+                        <th>Reason</th>
+                        <th>Discount Type</th>
+                        <th>Total Discount</th>
+                        <th>Discount Amount (per Installment)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of discountHistory">
+                        <td>{{item.installment_no}}</td>
+                        <td>{{item.master_course_name}}</td>
+                        <td>{{item.course_name}}</td>
+                        <td>{{item.disount_reason}}</td>
+                        <td>
+                            <span *ngIf="item.discount_status == 1">Discount Added</span>
+                            <span *ngIf="item.discount_status == 2">Discount Removed</span>
+                        </td>
+                        <td>{{item.total_discount_amount}}</td>
+                        <td>{{item.discount_amount}}</td>
+                    </tr>
+                    <tr *ngIf="discountHistory.length == 0">
+                        <td colspan="7">
+                            No Discount Applied or Removed
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
     <div class="" popup-footer>
         <div class="clearfix">
             <aside class="pull-right popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopups()">
-                <input type="button" value="Apply" (click)="applyAction()" class="fullBlue btn">
+                <input *ngIf="showTab ==  'addDiscountTab'" type="button" #btnApplyDiscount value="Apply Discount"
+                    (click)="applyAction()" class="fullBlue btn">
+                <input *ngIf="showTab ==  'removeDiscountTab'" type="button" #btnRemoveDiscount value="Remove Discount"
+                    (click)="removeDiscountAction()" class="fullBlue btn">
             </aside>
         </div>
     </div>

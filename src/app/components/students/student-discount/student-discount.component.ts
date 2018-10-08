@@ -1,10 +1,8 @@
-import {
-    Component, OnInit, OnChanges, Output, Input, ViewChild, ElementRef,
-    HostListener, EventEmitter, ChangeDetectorRef, Renderer2, ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, OnChanges, Output, Input, ElementRef, EventEmitter, ChangeDetectorRef, Renderer2, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-import { AppComponent } from '../../../app.component';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { StudentFeeService } from '../student_fee.service';
+import { CommonServiceFactory } from '../../../services/common-service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,409 +13,307 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 })
 export class StudentDiscountComponent implements OnInit, OnChanges {
 
- 
- 
- 
- 
- 
- 
+
+    taxEnabled: any = 0;
+    masterCourseName: any = [];
+    courseName: any = [];
+    installmentArray: any = [];
+    discountPopUpForm: any = {
+        masterCourseName: '-1',
+        coursename: '-1',
+        type: 'amount',
+        value: 0,
+        reason: "-1",
+        equalInAllInstall: false,
+        tableHead: false,
+        discountAmount: 0
+    };
+    discountReason: any = [];
+    clonedInstallmentArray: any = [];
+    totalFeesAmount: number = 0;
+    unPaidAmount: number = 0;
+    isRippleLoad: boolean = false;
+    showTab: string = 'addDiscountTab';
+    discountHistory: any = [];
+
+    @Input() feeObject: any = [];
+    @Input() totalDiscountApplied: number = 0;
+    @Input() initialAmountWithoutTax: number = 0;
 
     @Output() closePopup = new EventEmitter<any>();
-    @Output() apply = new EventEmitter<any>();
 
-    @Input() installmentData: any[] = [];
-    @Input() additionalData: any[] = [];
-    @Input() feeTemplateData: any;
-    @Input() totalAmountDue: any;
-    @Input() discountReason: any;
+    @ViewChild('btnApplyDiscount') btnApplyDiscount: ElementRef;
+    @ViewChild('btnRemoveDiscount') btnRemoveDiscount: ElementRef;
+    @ViewChild('addDiscountTab') addDiscountTab: ElementRef;
+    @ViewChild('removeDiscountTab') removeDiscountTab: ElementRef;
+    @ViewChild('discountHistoryTab') discountHistoryTab: ElementRef;
 
-    private taxEnableCheck: any = '1';
-    service_tax: number = 0;
+    constructor(
+        private cd: ChangeDetectorRef,
+        private feeService: StudentFeeService,
+        private commonService: CommonServiceFactory,
+        private actRoute: ActivatedRoute
+    ) {
 
-    discountApplyForm: any = {
-        type: 'amount',
-        value: null,
-        reason: '',
-        state: 'all'
     }
 
-
-
- 
- 
- 
- 
- 
- 
-    constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eRef: ElementRef, private appC: AppComponent, private studentPrefillService: AddStudentPrefillService, ) { }
-
     ngOnInit() {
-        this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+        this.getDiscountReasons();
+        this.taxEnabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     }
 
     ngOnChanges() {
-        this.installmentData;
-        this.feeTemplateData;
-        this.additionalData;
-        this.totalAmountDue;
-        this.discountReason;
-        this.service_tax = this.feeTemplateData.registeredServiceTax;
+        this.cd.markForCheck();
+        this.feeObject;
+        this.totalDiscountApplied;
+        this.initialAmountWithoutTax;
+        this.masterCourseName = this.feeService.getMasterCourseName(this.feeObject.customFeeSchedules);
+        this.installmentArray = Array.from(this.feeService.getUnpaidInstallment(this.feeObject));
+        this.installmentArray = this.commonService.changeUiSelectedKeyValue(this.installmentArray, 'uiSelected', false);
+        this.clonedInstallmentArray = Array.from(this.commonService.keepCloning(this.installmentArray));
+        this.totalFeesAmount = this.feeObject.customFeeSchedules.map(ele => ele.fees_amount).reduce((sum, first) => sum + first);
+        this.unPaidAmount = this.feeService.getUnPaidAmount(this.installmentArray);
+    }
 
+    getDiscountReasons() {
+        this.feeService.getReasonsForDiscount().subscribe(
+            res => {
+                this.discountReason = res;
+            },
+            err => {
+                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+            }
+        )
+    }
+
+    switchActiveView(id) {
+        this.addDiscountTab.nativeElement.classList.remove('active');
+        this.removeDiscountTab.nativeElement.classList.remove('active');
+        this.discountHistoryTab.nativeElement.classList.remove('active');
+        this[id].nativeElement.classList.add('active');
+        this.showTab = id;
+        if (id == "discountHistoryTab") {
+            this.getDiscountHistoryDetails();
+        }
+    }
+
+    masterCourseChange(event) {
+        this.discountPopUpForm.tableHead = false;
+        if (event == '-1') {
+            this.installmentArray = this.clonedInstallmentArray;
+            this.discountPopUpForm.coursename = '-1';
+            this.courseName = [];
+        } else {
+            this.installmentArray = this.clonedInstallmentArray.filter(el => el.master_course_name == event);
+            this.courseName = this.getCourseNameFromMasterCourse(this.feeObject.customFeeSchedules, event);
+        }
+    }
+
+    getCourseNameFromMasterCourse(installment, masterCourseName) {
+        let courseNameArray = {};
+        let arrayList = [];
+        for (let i = 0; i < installment.length; i++) {
+            if (installment[i].master_course_name == masterCourseName) {
+                if (courseNameArray.hasOwnProperty(installment[i].course_id)) {
+
+                } else {
+                    courseNameArray[installment[i].course_id] = { 'course_subject_name': installment[i].course_subject_name };
+                }
+            }
+        }
+        for (let data in courseNameArray) {
+            let obj = {
+                course_id: data,
+                course_subject_name: courseNameArray[data].course_subject_name
+            }
+            arrayList.push(obj);
+        }
+        return arrayList;
+    }
+
+    onCourseChange(event) {
+        if (event != '-1') {
+            this.installmentArray = this.clonedInstallmentArray.filter(
+                el => el.course_id == event
+            );
+        } else {
+            this.installmentArray = this.clonedInstallmentArray;
+        }
+        this.discountPopUpForm.tableHead = false;
+    }
+
+
+    onDiscountTypeChange(event) {
+        if (event == "amount") {
+            this.discountPopUpForm.value = 0;
+            this.discountPopUpForm.discountAmount = 0;
+        } else {
+            this.discountPopUpForm.value = 0;
+            this.discountPopUpForm.discountAmount = 0;
+        }
+    }
+
+    onDiscountAmountChange(event) {
+        event = Number(event)
+        if (event < 0) {
+            this.commonService.showErrorMessage('error', 'Invalid Discount', 'Please provide valid discount');
+            this.discountPopUpForm.value = 0;
+            this.discountPopUpForm.discountAmount = 0;
+            return
+        }
+        if (this.discountPopUpForm.type == "percentage") {
+            if (event >= 100) {
+                this.commonService.showErrorMessage('error', 'Invalid Discount Percentage', 'Please provide valid discount percentage');
+                this.discountPopUpForm.value = 0;
+                this.discountPopUpForm.discountAmount = 0;
+                return;
+            }
+            this.discountPopUpForm.discountAmount = Math.floor(Number((this.totalFeesAmount * event) / 100));
+        } else {
+            this.discountPopUpForm.discountAmount = Number(this.discountPopUpForm.value);
+        }
+    }
+
+    onCheckboxApplyInAllClick(event) {
+        this.discountPopUpForm.masterCourseName = '-1';
+        this.discountPopUpForm.coursename = '-1';
+        this.installmentArray = this.clonedInstallmentArray;
+        this.onTableHeaderCheckbox(event);
+    }
+
+    onTableHeaderCheckbox(event) {
+        if (event) {
+            this.discountPopUpForm.tableHead = true;
+        } else {
+            this.discountPopUpForm.tableHead = false;
+        }
+        this.installmentArray.forEach(el => {
+            el.uiSelected = event;
+        })
+    }
+
+    onRowCheckBoXClick() {
+        let count: number = this.installmentArray.filter(el => el.uiSelected).length;
+        if (count == this.installmentArray.length) {
+            this.discountPopUpForm.tableHead = true;
+        } else {
+            this.discountPopUpForm.tableHead = false;
+        }
+
+    }
+
+    applyAction() {
+        // common validation on the bais of amount and reason id
+        let validationCheck: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, this.unPaidAmount , 'add');
+        if (!validationCheck) {
+            return false;
+        }
+
+        // check whether selected installment can take discount or not
+
+        let installMentLevelCheck: boolean = this.feeService.checkDiscountCanBeAppliedOnInstallment(this.installmentArray, this.discountPopUpForm.discountAmount);
+        if (!installMentLevelCheck) {
+            return false;
+        }
+
+        // Condition For discount satisfy now apply discount
+        let jsonToSend: any = {
+            student_id: Number(this.actRoute.snapshot.paramMap.get('id')),
+            discountInstllmentList: this.feeService.makeDiscountingJSON(this.installmentArray, this.discountPopUpForm)
+        }
+
+        if (jsonToSend.discountInstllmentList == 0) {
+            return false;
+        }
+
+        this.btnApplyDiscount.nativeElement.disabled = true;
+        this.feeService.addDiscountToStudent(jsonToSend).subscribe(
+            res => {
+                this.btnApplyDiscount.nativeElement.disabled = false;
+                this.commonService.showErrorMessage('success', 'Discount Applied', 'Discount applied successfully');
+                this.closePopups();
+            },
+            err => {
+                this.btnApplyDiscount.nativeElement.disabled = false;
+                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+            }
+        )
+
+    }
+
+    removeDiscountAction() {
+
+        if (this.discountPopUpForm.discountAmount > this.totalDiscountApplied) {
+            this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater then discount given to student');
+            return false;
+        }
+
+        let selectedInstallment: any = this.installmentArray.filter(el => el.uiSelected == true);
+        if (selectedInstallment.length == 0) {
+            this.commonService.showErrorMessage('error', 'Installment not selected', 'Please select installment');
+            return false;
+        }
+
+        let unpaidAmount = this.feeService.getUnPaidAmount(selectedInstallment);
+        let check: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount , 'remove');
+        if (!check) {
+            return;
+        }
+
+        let jsonToSend: any = {
+            student_id: Number(this.actRoute.snapshot.paramMap.get('id')),
+            discountInstllmentList: this.feeService.makeRemoveDiscountJson(this.installmentArray, this.discountPopUpForm)
+        };
+
+        this.btnRemoveDiscount.nativeElement.disabled = true;
+        this.feeService.addDiscountToStudent(jsonToSend).subscribe(
+            res => {
+                this.btnRemoveDiscount.nativeElement.disabled = false;
+                this.commonService.showErrorMessage('success', 'Discount Removed', 'Discount removed successfully');
+                this.closePopups();
+            },
+            err => {
+                this.btnRemoveDiscount.nativeElement.disabled = false;
+                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+            }
+        )
+    }
+
+
+    getDiscountHistoryDetails() {
+        this.feeService.getDiscountHistory(this.actRoute.snapshot.paramMap.get('id')).subscribe(
+            (res: any) => {
+                this.cd.detectChanges();
+                this.discountHistory = res.discountInstllmentList;
+                this.cd.markForCheck();
+            },
+            err => {
+                this.commonService.showErrorMessage('error', 'Error', err.error.message);
+            }
+        )
     }
 
 
     closePopups() {
         this.closePopup.emit(null);
-        this.discountApplyForm = {
+        this.taxEnabled = 0;
+        this.courseName = [];
+        this.installmentArray = [];
+        this.discountPopUpForm = {
+            masterCourseName: '',
+            coursename: "-1",
             type: 'amount',
-            value: null,
-            reason: '',
-            state: 'all'
-        }
+            value: 0,
+            reason: "-1",
+            equalInAllInstall: false,
+            tableHead: false,
+            discountAmount: 0
+        };
+        this.discountReason = [];
+        this.clonedInstallmentArray = [];
+        this.totalFeesAmount = 0;
+        this.unPaidAmount = 0;
+        this.discountHistory = [];
     }
-
-    applyAction() {
-
-        //this.deselectAllSelectedCheckbox();
-        /* Form is correctly filled */
-        if (this.discountApplyForm.type != '' && this.discountApplyForm.value > 0 && this.discountApplyForm.reason != '' && this.discountApplyForm.reason != ' ') {
-            /* ================================= Amount Type Selected ======================================= */
-            /* discount in form of amount */
-            if (this.discountApplyForm.type === 'amount') {
-                /* invalid discount amount provided */
-                if (this.discountApplyForm.value > this.totalAmountDue) {
-                    let msg = {
-                        type: 'error',
-                        title: 'Invalid Discount Amount',
-                        body: 'Cannot provide discount more than the total amount due'
-                    }
-                    this.appC.popToast(msg);
-                }
-                /* valid total discount amount < total due */
-                else {
-                 
-                    /* apply discount to all */
-                    if (this.discountApplyForm.state === 'all') {
-                        /* Stores the index of all unpaid installments */
-                        let installmentPaidArr: any[] = this.calculateLengthPaid(this.installmentData);
-
-                        /* json for storing data for unpaid installments */
-                        let unPaidArr: any[] = installmentPaidArr.map(e => this.installmentData[e]);
-
-                        if (unPaidArr.length != 0) {
-                            let discount = this.precisionRound((this.discountApplyForm.value / installmentPaidArr.length), -1);
-                         
-                         
-                            /* discount is applicable to all installments, then proceed else alert */
-                            if (unPaidArr.every(e => e.fees_amount > discount)) {
-                                installmentPaidArr.forEach(i => {
-                                    this.installmentData[i].fees_amount = this.precisionRound((this.installmentData[i].fees_amount - discount), -1);
-                                    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                                        this.installmentData[i].initial_fee_amount = this.precisionRound(((this.installmentData[i].fees_amount * 100) / (this.service_tax + 100)), -1);
-                                    }
-                                    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-                                        this.installmentData[i].initial_fee_amount = this.precisionRound(((this.installmentData[i].fees_amount * 100) / (100)), -1);
-                                    }
-                                });
-
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason;
-
-                                let obj = {
-                                    reason: this.discountReason,
-                                    value: this.discountApplyForm.value,
-                                    installment: this.installmentData
-                                }
-                                this.apply.emit(obj);
-
-                                /* this.isDiscountApplied = true;
-                                this.applyDiscountCustomFeeSchedule();
-                                this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
-                                this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-                                this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
-                                this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
-                                this.updateDiscount(); */
-                                //console.log(this.discountApplyForm);
-                            }
-                         
-                         
-                            /* discount is not applicable to any one condition or multiple */
-                            else {
-                                let msg = {
-                                    type: 'error',
-                                    title: 'Discount Not Applicable',
-                                    body: 'Discount cannot be applied evenly to all installment'
-                                }
-                                this.appC.popToast(msg);
-                            }
-                        }
-                        else {
-                            let msg = {
-                                type: 'error',
-                                title: 'Discount Not Applicable',
-                                body: 'Discount cannot be applied to any installment'
-                            }
-                            this.appC.popToast(msg);
-                        }
-                    }
-                 
-                 
-                    /* apply to Last installment */
-                    else {
-                        /* Stores the index of all unpaid installments */
-                        let installmentPaidArr: any[] = this.calculateLengthPaid(this.installmentData);
-                        /* json for storing data for unpaid installments */
-                        if (installmentPaidArr.length != 0) {
-                            let lastUnPaid: any = this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]];
-                            if (lastUnPaid.fees_amount > this.discountApplyForm.value) {
-                                this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount = this.precisionRound((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount - this.discountApplyForm.value), -1);
-                                if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                                    this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (this.service_tax + 100))), -1);
-                                }
-                                else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-                                    this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (100))), -1);
-                                }
-
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason;
-
-                                let obj = {
-                                    reason: this.discountReason,
-                                    value: this.discountApplyForm.value,
-                                    installment: this.installmentData
-                                }
-                                this.apply.emit(obj);
-
-                                /* this.isDiscountApplied = true;
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
-                                this.applyDiscountCustomFeeSchedule();
-                                this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
-                                this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-                                this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
-                                this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
-                                this.updateDiscount(); */
-                            }
-                            /*  */
-                            else {
-                                let msg = {
-                                    type: 'error',
-                                    title: 'Unable To Process Request',
-                                    body: 'The discount amount exceed the last installment amount'
-                                }
-                                this.appC.popToast(msg);
-                            }
-                        }
-                        else {
-                            let obj = {
-                                type: 'error',
-                                title: 'Error Processing Discount',
-                                body: 'No applicable installment found to apply discount'
-                            }
-                            this.appC.popToast(obj);
-                        }
-
-                    }
-                }
-            }
-         
-         
-            /* =================================== Percentage Type ========================================== */
-         
-            /* discount in form of percentage */
-            else {
-                let discountValue = this.precisionRound(((this.discountApplyForm.value / 100) * this.totalAmountDue), -1);
-                /* invalid discount amount provided */
-                if (discountValue > this.totalAmountDue) {
-                    let msg = {
-                        type: 'error',
-                        title: 'Invalid Discount Amount',
-                        body: 'Cannot provide discount more than the total amount due'
-                    }
-                    this.appC.popToast(msg);
-                }/* valid total discount amount < total due */
-                else {
-                 
-                 
-                    /* apply discount to all */
-                    if (this.discountApplyForm.state === 'all') {
-                        /* Stores the index of all unpaid installments */
-                        let installmentPaidArr: any[] = this.calculateLengthPaid(this.installmentData);
-                        /* json for storing data for unpaid installments */
-                        let unPaidArr: any[] = [];
-                        installmentPaidArr.forEach(e => { unPaidArr.push(this.installmentData[e]) });
-                        //console.log(unPaidArr);
-                        let discount = this.precisionRound((discountValue / installmentPaidArr.length), -1);
-                        /* discount is applicable to all installments, then proceed else alert */
-                        if (unPaidArr.length != 0) {
-                            if (unPaidArr.every(e => e.fees_amount > discount)) {
-                                installmentPaidArr.forEach(i => {
-                                    this.installmentData[i].fees_amount = this.precisionRound((this.installmentData[i].fees_amount - discount), -1);
-                                    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                                        this.installmentData[i].initial_fee_amount = this.precisionRound((((this.installmentData[i].fees_amount * 100) / (this.service_tax + 100))), -1);
-                                    }
-                                    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-                                        this.installmentData[i].initial_fee_amount = this.precisionRound((((this.installmentData[i].fees_amount * 100) / (100))), -1);
-                                    }
-                                });
-
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason;
-
-                                let obj = {
-                                    reason: this.discountReason,
-                                    value: discountValue,
-                                    installment: this.installmentData
-                                }
-                                this.apply.emit(obj);
-
-                                /* 
-
-                                */
-                            }
-                            /* discount is not applicable to any one condition or multiple */
-                            else {
-                                //console.log(this.installmentData);
-                                let msg = {
-                                    type: 'error',
-                                    title: 'Discount Not Applicable',
-                                    body: 'Discount cannot be applied evenly to all installment'
-                                }
-                                this.appC.popToast(msg);
-                            }
-
-                        }
-                        else {
-                            let obj = {
-                                type: 'error',
-                                title: "Error Provecessing Discount",
-                                body: "Discount cannot be applied to any installment"
-                            }
-                            this.appC.popToast(obj);
-                        }
-                    }
-                 
-                 
-                    /* apply to Last installment */
-                    else {
-                        /* Stores the index of all unpaid installments */
-                        let installmentPaidArr: any[] = this.calculateLengthPaid(this.installmentData);
-
-                        if (installmentPaidArr.length != 0) {
-                            /* json for storing data for unpaid installments */
-                            let lastUnPaid: any = this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]];
-                            /* discount applicable proceed, else throw error */
-                            if (lastUnPaid.fees_amount > discountValue) {
-                                this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount = this.precisionRound((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount - discountValue), -1);
-
-                                if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                                    this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (this.service_tax + 100))), -1);
-                                }
-                                else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-                                    this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.installmentData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (100))), -1);
-                                }
-
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason : moment().format('DD-MMM-YYYY hh:mm:ss') + "#" + discountValue + "#" + this.discountApplyForm.reason;
-
-                                let obj = {
-                                    reason: this.discountReason,
-                                    value: discountValue,
-                                    installment: this.installmentData
-                                }
-                                this.apply.emit(obj);
-
-                                /* this.isDiscountApplied = true;
-                                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
-                                this.applyDiscountCustomFeeSchedule();
-                                this.totalDicountAmount = this.totalDicountAmount + discountValue;
-                                this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-                                this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
-                                this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
-                                this.updateDiscount(); */
-                            }
-                            /* error */
-                            else {
-                                let msg = {
-                                    type: 'error',
-                                    title: 'Unable To Process Request',
-                                    body: 'The discount amount exceed the last installment amount'
-                                }
-                                this.appC.popToast(msg);
-                            }
-                        }
-                        else {
-                            let obj = {
-                                type: 'error',
-                                title: "Error Provecessing Discount",
-                                body: "Discount cannot be applied to any installment"
-                            }
-                            this.appC.popToast(obj);
-                        }
-
-                    }
-                }
-            }
-        }
-        /* Incomplete form data detected */
-        else {
-            let msg = {
-                type: 'error',
-                title: 'Incomplete Form',
-                body: 'Please fill all the required fields indicated'
-            }
-            this.appC.popToast(msg);
-        }
-    }
-
-    /* ============================================================================================================================ */
-    /* ============================================================================================================================ */
-    precisionRound(number, precision) {
-        let o = number.toFixed(1);
-        let num = parseInt(o.toString().split('.')[0]);
-        let deci = parseInt(o.toString().split('.')[1]);
-        //console.log("number = " +num +" And Decimal = " +deci);
-        if (deci == 0) {
-            return num;
-        }
-        else if (deci != 0) {
-            /* increment by 1 */
-            if (deci >= 5) {
-                return num + 1;
-            }
-            /* return the same count */
-            else {
-                return num;
-            }
-        }
-        /* var factor = Math.pow(10, precision);
-        return Math.round(number * factor) / factor; */
-    }
-
-    /* ============================================================================================================================ */
-    /* ============================================================================================================================ */
-    getTotalDiscountAmount(): number {
-        if (this.discountApplyForm.value == 0 || this.discountApplyForm.value == '') {
-            return 0;
-        }
-        else {
-            if (this.discountApplyForm.type === 'amount') {
-                return Number(this.discountApplyForm.value);
-            }
-            else if (this.discountApplyForm.type === 'percentage') {
-                return this.precisionRound(((this.discountApplyForm.value / 100) * this.totalAmountDue), -1);
-            }
-        }
-    }
-
-    /* ============================================================================================================================ */
-    /* ============================================================================================================================ */
-    calculateLengthPaid(arr: any[]): any[] {
-        let temp: any[] = [];
-        for (var i = 0; i < this.installmentData.length; i++) {
-            if (this.installmentData[i].is_referenced == "N") {
-                temp.push(i);
-            }
-        }
-
-        return temp;
-    }
-
-
 
 }

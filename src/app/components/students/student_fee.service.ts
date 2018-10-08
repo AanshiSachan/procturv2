@@ -155,6 +155,14 @@ export class StudentFeeService {
         );
     }
 
+    getReasonsForDiscount() {
+        let url = this.baseUrl + "/api/v1/discount/reason/master/all/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        );
+    }
+
     public uniqueConvertFeeJson(res: CustomFeeSchedule[]): CustomFeeSchedule[] {
         let unique = {};
         let distinct = [];
@@ -169,14 +177,16 @@ export class StudentFeeService {
 
     categoriseCourseWise(data) {
         let subjectWiseSchduleArray = [];
-        let uniqueCourseName = Array.from(new Set(data.map(el => el.course_subject_name)));
-        uniqueCourseName.forEach((courseName: any) => {
+        let uniqueCourseName = Array.from(new Set(data.map(el => el.course_id)));
+        uniqueCourseName.forEach((courseId: any) => {
             let obj: any = {};
             let feeAmountIncludingTax: number = 0;
             let paidAmount: number = 0;
             let discount: number = 0;
             let initailAmountWithoutTax: number = 0;
-            let installment = data.filter(el => el.course_subject_name == courseName);
+            let master_course_name = "";
+            let courseName = "";
+            let installment = data.filter(el => el.course_id == courseId);
             installment.map((instal: any) => {
                 feeAmountIncludingTax = feeAmountIncludingTax + Number(instal.fees_amount);
                 paidAmount = paidAmount + Number(instal.amount_paid);
@@ -187,10 +197,14 @@ export class StudentFeeService {
                     initailAmountWithoutTax = initailAmountWithoutTax + Number(instal.fees_amount);
                 }
                 instal.uiSelected = false;
+                master_course_name = instal.master_course_name;
+                courseName = instal.course_subject_name;
             })
             obj.uiSelected = false;
             obj.feeType = "course_level";
+            obj.course_id = courseId;
             obj.courseName = courseName;
+            obj.master_course_name = master_course_name;
             obj.installmentArray = installment;
             obj.feeAmountIncludingTax = feeAmountIncludingTax;
             obj.paidAmount = paidAmount;
@@ -233,6 +247,49 @@ export class StudentFeeService {
         );
 
         return obj;
+    }
+
+    uiSelectionForCourse(data, key, value) {
+        data.forEach(element => {
+            let selected: number = 0;
+            element.installmentArray.forEach(installment => {
+                if (installment.paid_full == "N") {
+                    element.uiSelected = value;
+                    selected++;
+                }
+            });
+            if (selected == element.installmentArray.length) {
+                element.uiSelected = true;
+            } else {
+                element.uiSelected = false;
+            }
+        });
+        return data;
+    }
+
+    checkHeaderTableSelection(data) {
+        let selected: boolean = false;
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].uiSelected) {
+                // course wise all installment is selected
+                selected = true;
+            } else {
+                for (let j = 0; j < data[i].installmentArray.length; j++) {
+                    if (data[i].installmentArray[j].paid_full == 'N') {
+                        if (data[i].installmentArray[j].uiSelected == false) {
+                            selected = false;
+                            break;
+                        } else {
+                            selected = true;
+                        }
+                    }
+                }
+                if (selected == false) {
+                    return selected;
+                }
+            }
+        }
+        return selected;
     }
 
     changeUiSelectedKeyValue(data, key, value) {
@@ -319,8 +376,8 @@ export class StudentFeeService {
 
     checkForLastYearInstallmentPayment(courseWiseArray) {
         let acadYearFoundConfirmation: boolean = false;
-        for (let i = 0; i <= courseWiseArray.length; i++) {
-            for (let t = 0; t <= courseWiseArray[i].installmentArray.length; t++) {
+        for (let i = 0; i < courseWiseArray.length; i++) {
+            for (let t = 0; t < courseWiseArray[i].installmentArray.length; t++) {
                 let installment = courseWiseArray[i].installmentArray[t];
                 if (installment.uiSelected) {
                     if (moment(installment.due_date).format('YYYY-MM-DD') <= moment('2018-03-31').format('YYYY-MM-DD')) {
@@ -463,6 +520,297 @@ export class StudentFeeService {
         });
         console.log(install);
         return install;
+    }
+
+    getMasterCourseName(data) {
+        let uniqueMasterCourseName = Array.from(new Set(data.map(el => el.master_course_name)));
+        return uniqueMasterCourseName;
+    }
+
+    getUnpaidInstallment(data: FeeModel) {
+        let unpaidInstallment: any = [];
+        data.customFeeSchedules.forEach(
+            ele => {
+                if (ele.paid_full == "N" && ele.fee_type_name == "INSTALLMENT") {
+                    unpaidInstallment.push(ele);
+                }
+            }
+        );
+        return Array.from(unpaidInstallment);
+    }
+
+    // Discounting Functions
+
+    getUnPaidAmount(data) {
+        let unpaid: number = 0
+        data.forEach(element => {
+            if (element.paid_full == "N") {
+                if (element.balance_amount == 0) {
+                    unpaid = unpaid + element.fees_amount;
+                } else {
+                    unpaid = unpaid + element.balance_amount;
+                }
+            }
+        });
+        return unpaid;
+    }
+
+    checkDiscountValidations(discountJson, unpaidAmount, condition) {
+
+        if (Number(discountJson.discountAmount) <= 0) {
+            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide valid discount amount');
+            return false;
+        }
+
+        if (discountJson.discountAmount > unpaidAmount) {
+            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide discount amount less then due amount');
+            return false;
+        }
+
+        if (condition == "add") {
+            if (discountJson.discountAmount == unpaidAmount) {
+                this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide discount amount less then due amount');
+                return false;
+            }
+        }
+
+        if (discountJson.reason == '-1') {
+            this.commonService.showErrorMessage('error', 'Discount Reason', 'Please provide discount reason');
+            return false;
+        }
+
+        return true;
+    }
+
+    checkDiscountCanBeAppliedOnInstallment(data, discount) {
+        let selectedInstallment: any = data.filter(el => el.uiSelected == true);
+        if (selectedInstallment.length == 0) {
+            this.commonService.showErrorMessage('error', 'No installment selcected', 'Please select installment');
+            return false;
+        }
+        let unpaidAmount = this.getUnPaidAmount(selectedInstallment);
+        if (discount > unpaidAmount) {
+            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount is greater then due amount of selected installment');
+            return false;
+        }
+        return true;
+    }
+
+    makeDiscountingJSON(installmentArray, popUpFormObj) {
+        let discountArray: any = [];
+        let mutableDiscount: number = popUpFormObj.discountAmount;
+        let selectedInstallment = installmentArray.filter(el => el.uiSelected == true);
+        let perInstallmentDiscount = Math.floor(Number(popUpFormObj.discountAmount / selectedInstallment.length));
+
+
+        for (let i = 0; i < selectedInstallment.length; i++) {
+            let element: any = selectedInstallment[i];
+            let obj: any = {
+                fee_schedule_id: 0,
+                installment_no: 0,
+                reason_id: 0,
+                discount_date: "",
+                discount_amount: 0,
+                balance_amount: 0,
+                final_amount: 0,
+                discount_status: 1,
+                total_discount_amount: 0,
+                total_discount_percent: 0,
+                fee_template_mapping_id: 0
+            }
+
+            if (element.paid_full == "N" && element.uiSelected) {
+                obj.fee_schedule_id = Number(element.schedule_id);
+                obj.installment_no = Number(element.installment_no);
+                obj.reason_id = Number(popUpFormObj.reason);
+                obj.discount_date = moment().format('YYYY-MM-DD');
+
+                if (i == selectedInstallment.length - 1) {
+                    // last Installment 
+                    if (element.balance_amount == 0) {
+                        obj.discount_amount = Math.floor(mutableDiscount);
+                        obj.final_amount = Math.floor(element.fees_amount - mutableDiscount);
+                        obj.balance_amount = 0;
+                    } else {
+                        obj.discount_amount = Math.floor(mutableDiscount);
+                        obj.final_amount = 0;
+                        obj.balance_amount = Math.floor(element.balance_amount - mutableDiscount);
+                    }
+
+                    mutableDiscount = mutableDiscount - Math.floor(mutableDiscount);
+
+                } else {
+                    if (element.balance_amount == 0) {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = element.fees_amount - perInstallmentDiscount;
+                        obj.balance_amount = 0;
+                    } else {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = 0;
+                        obj.balance_amount = element.balance_amount - perInstallmentDiscount;
+                    }
+                    mutableDiscount = mutableDiscount - perInstallmentDiscount;
+                }
+
+                console.log(Math.floor(mutableDiscount));
+
+                obj.discount_status = 1;
+                if (popUpFormObj.type == "percentage") {
+                    obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                    obj.total_discount_percent = Number(popUpFormObj.value);
+                } else {
+                    obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                    obj.total_discount_percent = 0;
+                }
+
+                obj.fee_template_mapping_id = element.fee_template_id;
+
+                discountArray.push(obj);
+            }
+        }
+
+        return discountArray;
+    }
+
+    addDiscountToStudent(jsonObject) {
+        jsonObject.institute_id = Number(this.institute_id);
+        let url = this.baseUrl + "/api/v1/discount";
+        return this.http.post(url, jsonObject, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+
+    makeRemoveDiscountJson(installment, popUpFormObj) {
+        let discountArray: any = [];
+        let mutableDiscount: number = popUpFormObj.discountAmount;
+        let perInstallmentDiscount = Math.floor(Number(popUpFormObj.discountAmount / installment.length));
+
+
+        for (let i = 0; i < installment.length; i++) {
+            let element: any = installment[i];
+            let obj: any = {
+                fee_schedule_id: 0,
+                installment_no: 0,
+                reason_id: 0,
+                discount_date: "",
+                discount_amount: 0,
+                balance_amount: 0,
+                final_amount: 0,
+                discount_status: 1,
+                total_discount_amount: 0,
+                total_discount_percent: 0,
+                fee_template_mapping_id: 0
+            }
+
+            if (element.paid_full == "N" && element.uiSelected) {
+                obj.fee_schedule_id = Number(element.schedule_id);
+                obj.installment_no = Number(element.installment_no);
+                obj.reason_id = Number(popUpFormObj.reason);
+                obj.discount_date = moment().format('YYYY-MM-DD');
+
+                if (i == installment.length - 1) {
+                    // last Installment
+
+                    if (element.balance_amount == 0) {
+                        obj.discount_amount = Math.floor(mutableDiscount);
+                        obj.final_amount = element.fees_amount + Math.floor(mutableDiscount);
+                        obj.balance_amount = 0;
+                    } else {
+                        obj.discount_amount = Math.floor(mutableDiscount);
+                        obj.final_amount = 0;
+                        obj.balance_amount = element.balance_amount + Math.floor(mutableDiscount);
+                    }
+
+                    mutableDiscount = mutableDiscount - perInstallmentDiscount;
+
+                } else {
+
+                    if (element.balance_amount == 0) {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = element.fees_amount + perInstallmentDiscount;
+                        obj.balance_amount = 0;
+                    } else {
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = 0;
+                        obj.balance_amount = element.balance_amount + perInstallmentDiscount;
+                    }
+
+                    mutableDiscount = mutableDiscount - perInstallmentDiscount;
+                }
+
+                obj.discount_status = 2;
+                if (popUpFormObj.type == "percentage") {
+                    obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                    obj.total_discount_percent = Number(popUpFormObj.value);
+                } else {
+                    obj.total_discount_amount = Number(popUpFormObj.discountAmount);
+                    obj.total_discount_percent = 0;
+                }
+
+                obj.fee_template_mapping_id = element.fee_template_id;
+
+                discountArray.push(obj);
+            }
+        }
+
+        return discountArray;
+    }
+
+    getDiscountHistory(id) {
+        let url = this.baseUrl + "/api/v1/discount/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
+
+    getFeeDetailsById(i): Observable<any> {
+        let urlFeebyId = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + i + "/details";
+        return this.http.get(urlFeebyId, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            });
+    }
+
+    allocateStudentFees(obj) {
+        if (obj.hasOwnProperty('paid_date')) {
+            obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
+        }
+        let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
+        return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            });
+    }
+
+    precisionRound(number, precision) {
+        let o = number.toFixed(1);
+        let num = parseInt(o.toString().split('.')[0]);
+        let deci = parseInt(o.toString().split('.')[1]);
+        //console.log("number = " +num +" And Decimal = " +deci);
+        if (deci == 0) {
+            return num;
+        }
+        else if (deci != 0) {
+            /* increment by 1 */
+            if (deci >= 5) {
+                return num + 1;
+            }
+            /* return the same count */
+            else {
+                return num;
+            }
+        }
+        /* var factor = Math.pow(10, precision);
+        return Math.round(number * factor) / factor; */
     }
 
 }

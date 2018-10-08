@@ -2,7 +2,7 @@
 </loaders-css>
 
 <section class="middle-section homewrap clearFix">
-
+  <a id="payMultiReciept" class="hide"></a>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <section class="scroll-content" id="studentFlow">
@@ -543,223 +543,6 @@
         </section>
 
         <!--====================================middle <Main> section==========================-->
-        <section id="printView" class="middle-main clearFix hide">
-          <!-- Colored Tabs here -->
-          <div class="fee-summary">
-
-            <!-- Header Tabs Here -->
-            <ul *ngIf="userCustommizedFee.length != 0">
-
-              <li>
-                <label>Fee Amt Incl Taxes</label>
-                <div class="gray">
-                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0"> {{(totalFeeWithTax-totalDicountAmount) |
-                    commaSeprator}}</span>
-                </div>
-              </li>
-
-              <li>
-                <label>Taxes</label>
-                <div class="yellow">
-                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0"> {{totalTaxAmount | commaSeprator}}</span>
-                </div>
-              </li>
-
-              <li class="hide">
-                <label>Fee Amount</label>
-                <div class="blue">
-                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0"> {{totalInitalAmount | commaSeprator}}</span>
-                </div>
-              </li>
-
-              <li>
-                <label>Discount</label>
-                <div class="purple">
-                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0"> {{totalDicountAmount | commaSeprator}}</span>
-                  <a *ngIf="totalAmountDue != 0" (click)="openDiscountApply()">Add</a>
-                </div>
-              </li>
-
-
-              <li>
-                <label>Amount Paid</label>
-                <div class="green">
-                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0"> {{totalPaidAmount | commaSeprator}}</span>
-                </div>
-              </li>
-
-              <li>
-                <label>Amount Due</label>
-                <div class="red">
-                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0"> {{totalAmountDue | commaSeprator}}</span>
-                </div>
-              </li>
-
-            </ul>
-            <!-- In case No Fee Template Selected -->
-            <h1 *ngIf="userCustommizedFee.length == 0" style="text-align: center;">
-              No Fee Template Selected, Click Configure Fees To Select A Template
-            </h1>
-
-          </div>
-          <!-- Card layout here -->
-          <div class="fee-detail-summary" *ngIf="userCustommizedFee.length != 0">
-
-            <!-- Heading -->
-            <div class="clearfix fd-heading">
-              <div class="row">
-                <div class="pull-left c-xs-8 c-sm-8">
-                  <h2>Fee Details</h2>
-                  <!-- <span class="feename" *ngIf="userCustommizedFee.length != 0">{{getTemplateName(feeTemplateById.template_id)}}</span> -->
-                </div>
-                <div class="pull-right c-xs-4 c-sm-4">
-                  <ul style="width: 60px;float: right;" class="export-print align-right">
-                    <!-- <li style="cursor:pointer" (click)="printFee()" class="print-icon">
-                      Print
-                    </li> -->
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <!-- Fee Details Section Here -->
-            <div class="fee-inst-list">
-              <ul>
-                <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
-
-                  <div class="pull-left">
-                    <div class="field-checkbox-wrapper" [ngClass]="{'hide':installment.paid_full == 'Y'}">
-                      <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
-                        (ngModelChange)="paymentValueUpdate($event, i)" />
-                      <label for="instl{{i}}"></label>
-                    </div>
-                  </div>
-
-                  <div class="inst-detail">
-                    <div class="inst-label">
-                      Installment # {{installment.installment_no}}
-                      <span class="fee-status paid" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">Paid</span>
-                      <span class="fee-status due" *ngIf="((installment.is_referenced == 'N')&&(installment.paid_full == 'N'))">Due</span>
-                      <!-- <span class="fee-status upcoming">Upcoming</span> -->
-                      <span class="fee-status partial" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">Paid
-                        Partially
-                      </span>
-                    </div>
-                    <div class="instl-info">
-                      <ul>
-
-                        <li>
-                          <label>
-                            Fee Amount
-                          </label>
-                          <span>
-                            {{installment.fees_amount | commaSeprator}}
-                          </span>
-                        </li>
-
-                        <li>
-                          <label>
-                            Fee Type
-                          </label>
-                          <span>
-                            {{installment.fee_type_name}}
-                          </span>
-                        </li>
-
-                        <li>
-                          <label>
-                            Tax amount
-                          </label>
-                          <span>
-                            {{getTaxAmounted(installment) | commaSeprator}}
-                          </span>
-                        </li>
-
-                        <li>
-                          <label>
-                            Due Date
-                          </label>
-                          <span>
-                            {{installment.due_date | date: 'dd MMM yyyy'}}
-                          </span>
-                        </li>
-
-                        <li>
-                          <label>
-                            Course
-                          </label>
-                          <span>
-                            {{installment.course_subject_name}}
-                          </span>
-                        </li>
-
-                        <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
-                          <label>
-                            Balance Amount
-                          </label>
-                          <span>
-                            {{installment.balance_amount}}
-                          </span>
-                        </li>
-
-                        <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
-                          <label>
-                            Balance Due Date
-                          </label>
-                          <span>
-                            {{installment.latest_due_date | date:"dd MMM yyyy"}}
-                          </span>
-                        </li>
-
-                        <li *ngIf="installment.is_referenced == 'Y'">
-                          <label>
-                            Paid Date
-                          </label>
-                          <span>
-                            {{installment.paid_date | date:"dd MMM yyyy"}}
-                          </span>
-                        </li>
-
-                        <li *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">
-                          <label>
-                            Payment Mode
-                          </label>
-                          <span>
-                            {{installment.paymentMode}}
-                          </span>
-                        </li>
-
-
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
-                    <a (click)="getPartialPaymentHistory(installment)">
-                      View Payment History
-                    </a>
-                    <a class="hide" id="downloadEditFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">
-                      Download receipt
-                    </a>
-                    <a *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '0')" (click)="emailFeeReceipt(installment)">
-                      E-mail receipt
-                    </a>
-                    <!-- <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">
-                      Pay Remaining Amount
-                    </a> -->
-                  </div>
-
-                </li>
-              </ul>
-            </div>
-          </div>
-
-        </section>
 
         <section *ngIf="subjectWiseInstallmentArray.length > 0">
 
@@ -771,18 +554,18 @@
             </div>
 
             <div class="total-Amount">
-              <span class="label">Total Fee Incl. Of Tax</span><br />
+              <span class="label">Total Fee (Incl. of tax)</span><br />
               <span class="amount-Value">{{cardAmountObject.feeAmountInclTax | commaSeprator}}</span>
-            </div>
-
-            <div class="tax-Amount">
-              <span class="label">Tax</span><br />
-              <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
             </div>
 
             <div class="discount-Amount">
               <span class="label">Discount</span><br />
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
+            </div>
+
+            <div class="tax-Amount">
+              <span class="label">Tax</span><br />
+              <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
             </div>
 
             <div class="amount-Paid">
@@ -803,7 +586,8 @@
 
                 <aside class="checkbox-div">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" (click)="mainTAbleCheckboxClicked()" />
+                    <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="tableHeaderCheckbox"
+                      (ngModelChange)="mainTAbleCheckboxClicked($event)" />
                     <label for="instl{{i}}">Course Name</label>
                   </div>
                 </aside>
@@ -811,6 +595,10 @@
                 <aside class="column-name">
                   <div class="fee-amount amount">
                     <span>Fee (Incl. Tax)</span>
+                  </div>
+
+                  <div class="discount-amount amount">
+                    <span>Discount</span>
                   </div>
 
                   <div class="tax-amount amount">
@@ -823,10 +611,6 @@
 
                   <div class="due-amount amount">
                     <span>Due</span>
-                  </div>
-
-                  <div class="discount-amount amount">
-                    <span>Discount</span>
                   </div>
 
                   <div class="status">
@@ -847,7 +631,7 @@
                       <label></label>
                     </div>
                     <span>
-                      {{data.courseName}}
+                      <span>{{data.master_course_name}} - {{data.courseName}}</span>
                       <i id="idDownIcon{{i}}" class="fa fa-angle-down" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
                       <i id="idUpIcon{{i}}" class="fa fa-angle-up hide" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
                     </span>
@@ -856,6 +640,10 @@
                   <div class="column-name">
                     <div class="fee-amount amount">
                       <span>{{data.feeAmountIncludingTax | commaSeprator}}</span>
+                    </div>
+
+                    <div class="discount-amount amount">
+                      <span>{{data.discount | commaSeprator}}</span>
                     </div>
 
                     <div class="tax-amount amount">
@@ -868,10 +656,6 @@
 
                     <div class="due-amount amount">
                       <span>{{data.dueAmount | commaSeprator}}</span>
-                    </div>
-
-                    <div class="discount-amount amount">
-                      <span>{{data.discount | commaSeprator}}</span>
                     </div>
 
                     <div class="status-amount">
@@ -894,6 +678,11 @@
                       </div>
 
                       <div class="column-map">
+
+                        <div class="fee-Type">
+                          <span>Fee Type</span>
+                        </div>
+
                         <div class="amount">
                           <span>Amount</span>
                         </div>
@@ -902,9 +691,9 @@
                           <span>Tax</span>
                         </div>
 
-                        <div class="discount">
+                        <!-- <div class="discount">
                           <span>Discount</span>
-                        </div>
+                        </div> -->
 
                         <div class="balance">
                           <span>Balance</span>
@@ -937,10 +726,15 @@
                             [(ngModel)]="installment.uiSelected" (ngModelChange)="onCheckBoxSelection($event ,  'installment' , installment)" />
                           <label for="installmentCh{{installment.installment_no}}"></label>
                         </div>
-                        <span>Installment {{installment.installment_no}}</span>
+                        <span>{{installment.installment_no}}</span>
                       </div>
 
                       <div class="column-map">
+
+                        <div class="fee-Type">
+                          <span>{{installment.fee_type_name}}</span>
+                        </div>
+
                         <div class="amount">
                           <span>{{installment.fees_amount | commaSeprator}}</span>
                         </div>
@@ -949,9 +743,9 @@
                           <span>{{installment.tax | commaSeprator}}</span>
                         </div>
 
-                        <div class="discount">
+                        <!-- <div class="discount">
                           <span>{{installment.discount | commaSeprator}}</span>
-                        </div>
+                        </div> -->
 
                         <div class="balance">
                           <span>{{installment.balance_amount | commaSeprator}}</span>
@@ -1328,7 +1122,7 @@
       </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Configure Fees :
+    <h2 popup-header>Configure Fees :
       <span style="font-weight: 100">{{studentAddFormData.student_name}}</span>
     </h2>
 
@@ -1373,17 +1167,15 @@
   <!-- ======================================================== -->
   <!-- =============== assign fees =============================== -->
   <student-fee-table *ngIf="isDefineFees" [courseDropdown]="courseDropdown" (closePopup)="closeAllFeePops($event)"
-    (apply)="fetchCustomFeeSchedule($event)" [installmentData]="instalmentTableData" [additionalData]="otherFeeTableData"
     [feeTemplateData]="feeTemplateById" [studentName]="studentName">
   </student-fee-table>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Apply Discounts ============================ -->
-  <student-discount *ngIf="isDiscountApply" (closePopup)="closeDiscountApply($event)" (apply)="fetchDiscountData($event)"
-    [installmentData]="instalmentTableData" [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById"
-    [discountReason]="discountReason" [totalAmountDue]="totalAmountDue">
-  </student-discount>
+
+  <student-discount *ngIf="isDiscountApply" [feeObject]="feeObject" [totalDiscountApplied]="cardAmountObject.discountAmount"
+    [initialAmountWithoutTax]="cardAmountObject.feeAmountExclTax" (closePopup)="onDiscountPopUpClose(event)"></student-discount>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
@@ -1592,7 +1384,7 @@
   <!-- =============== Fees Payment Manager=============================== -->
   <proctur-popup [sizeWidth]="'small'" *ngIf="isFeePaymentUpdate">
 
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePaymentDetails()" close-button>
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="flushPaymentPopUpData()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -1714,16 +1506,17 @@
         </div>
 
         <div class="row" style="margin-top: 10px;">
-          <a id="payMultiReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="paymentPopUpJson.genFeeRecipt" class="form-checkbox" id="isGenPdc">
+              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="paymentPopUpJson.genFeeRecipt" class="form-checkbox"
+                id="isGenPdc">
               <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="paymentPopUpJson.emailFeeRecipt" class="form-checkbox" id="emailPdc">
+              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="paymentPopUpJson.emailFeeRecipt" class="form-checkbox"
+                id="emailPdc">
               <label for="emailPdc">Email Receipt</label>
             </div>
           </div>
@@ -1739,7 +1532,7 @@
 
         </aside>
         <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="closePaymentDetails()">
+          <input type="button" value="Cancel" class="btn" (click)="flushPaymentPopUpData()">
           <input type="button" value="Update" (click)="payFeeInstallments()" class="fullBlue btn">
         </aside>
       </div>
@@ -1749,7 +1542,7 @@
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [paymentHistory]="studentPartialPaymentData"
+  <partial-pay-history *ngIf="isPartialPayHistory" (closeHist)="closeHistory($event)" [schedule_id]="schedule_id"
     [studentid]="student_id"></partial-pay-history>
 
 </section>
