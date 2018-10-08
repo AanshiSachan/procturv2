@@ -563,6 +563,11 @@
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
             </div>
 
+            <div class="discount-Amount" *ngIf="cardAmountObject.oldDiscountAmount > 0">
+              <span class="label">Old Discount</span><br />
+              <span class="amount-Value">{{cardAmountObject.oldDiscountAmount | commaSeprator}}</span>
+            </div>
+
             <div class="tax-Amount">
               <span class="label">Tax</span><br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>

@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { StudentFeeService } from '../student_fee.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -35,6 +36,12 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     isRippleLoad: boolean = false;
     showTab: string = 'addDiscountTab';
     discountHistory: any = [];
+    isProfessional: boolean = true;
+    filterForModel = {
+        course_id: "course_id",
+        course_subject_name: "course_subject_name",
+        master_course_name: 'master_course_name'
+    };
 
     @Input() feeObject: any = [];
     @Input() totalDiscountApplied: number = 0;
@@ -52,7 +59,8 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         private cd: ChangeDetectorRef,
         private feeService: StudentFeeService,
         private commonService: CommonServiceFactory,
-        private actRoute: ActivatedRoute
+        private actRoute: ActivatedRoute,
+        private auth: AuthenticatorService
     ) {
 
     }
@@ -60,6 +68,18 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.getDiscountReasons();
         this.taxEnabled = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+        this.auth.institute_type.subscribe(
+            res => {
+                if (res == 'LANG') {
+                    this.isProfessional = true;
+                    this.filterForModel.course_id = "standard_id";
+                    this.filterForModel.course_subject_name = "course_subject_name";
+                    this.filterForModel.master_course_name = 'standard_name';
+                } else {
+                    this.isProfessional = false;
+                }
+            }
+        )
     }
 
     ngOnChanges() {
@@ -104,7 +124,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             this.discountPopUpForm.coursename = '-1';
             this.courseName = [];
         } else {
-            this.installmentArray = this.clonedInstallmentArray.filter(el => el.master_course_name == event);
+            this.installmentArray = this.clonedInstallmentArray.filter(el => el[this.filterForModel.master_course_name] == event);
             this.courseName = this.getCourseNameFromMasterCourse(this.feeObject.customFeeSchedules, event);
         }
     }
@@ -113,11 +133,11 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         let courseNameArray = {};
         let arrayList = [];
         for (let i = 0; i < installment.length; i++) {
-            if (installment[i].master_course_name == masterCourseName) {
-                if (courseNameArray.hasOwnProperty(installment[i].course_id)) {
+            if (installment[i][this.filterForModel.master_course_name] == masterCourseName) {
+                if (courseNameArray.hasOwnProperty(installment[i][this.filterForModel.course_id])) {
 
                 } else {
-                    courseNameArray[installment[i].course_id] = { 'course_subject_name': installment[i].course_subject_name };
+                    courseNameArray[installment[i][this.filterForModel.course_id]] = { 'course_subject_name': installment[i][this.filterForModel.course_subject_name] };
                 }
             }
         }
@@ -134,7 +154,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     onCourseChange(event) {
         if (event != '-1') {
             this.installmentArray = this.clonedInstallmentArray.filter(
-                el => el.course_id == event
+                el => el[this.filterForModel.course_id] == event
             );
         } else {
             this.installmentArray = this.clonedInstallmentArray;
@@ -204,7 +224,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
 
     applyAction() {
         // common validation on the bais of amount and reason id
-        let validationCheck: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, this.unPaidAmount , 'add');
+        let validationCheck: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, this.unPaidAmount, 'add');
         if (!validationCheck) {
             return false;
         }
@@ -255,7 +275,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         }
 
         let unpaidAmount = this.feeService.getUnPaidAmount(selectedInstallment);
-        let check: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount , 'remove');
+        let check: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'remove');
         if (!check) {
             return;
         }

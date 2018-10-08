@@ -125,6 +125,12 @@ export class StudentFeeService {
     institute_id: number;
     headers: any;
     baseUrl: string = '';
+    isProfessional: boolean = false;
+    filterForModel: any = {
+        course_id_filter: '',
+        master_course_name: ''
+    };
+
 
     constructor(
         private http: HttpClient,
@@ -140,6 +146,19 @@ export class StudentFeeService {
             this.institute_id = id;
         });
         this.baseUrl = this.auth.getBaseUrl();
+        this.auth.institute_type.subscribe(
+            res => {
+                if (res == 'LANG') {
+                    this.isProfessional = true;
+                    this.filterForModel.course_id_filter = "subject_id";
+                    this.filterForModel.master_course_name = 'standard_name';
+                } else {
+                    this.isProfessional = false;
+                    this.filterForModel.course_id_filter = "course_id";
+                    this.filterForModel.master_course_name = 'master_course_name';
+                }
+            }
+        )
     }
 
 
@@ -177,7 +196,7 @@ export class StudentFeeService {
 
     categoriseCourseWise(data) {
         let subjectWiseSchduleArray = [];
-        let uniqueCourseName = Array.from(new Set(data.map(el => el.course_id)));
+        let uniqueCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.course_id_filter])));
         uniqueCourseName.forEach((courseId: any) => {
             let obj: any = {};
             let feeAmountIncludingTax: number = 0;
@@ -186,7 +205,7 @@ export class StudentFeeService {
             let initailAmountWithoutTax: number = 0;
             let master_course_name = "";
             let courseName = "";
-            let installment = data.filter(el => el.course_id == courseId);
+            let installment = data.filter(el => el[this.filterForModel.course_id_filter] == courseId);
             installment.map((instal: any) => {
                 feeAmountIncludingTax = feeAmountIncludingTax + Number(instal.fees_amount);
                 paidAmount = paidAmount + Number(instal.amount_paid);
@@ -197,7 +216,7 @@ export class StudentFeeService {
                     initailAmountWithoutTax = initailAmountWithoutTax + Number(instal.fees_amount);
                 }
                 instal.uiSelected = false;
-                master_course_name = instal.master_course_name;
+                master_course_name = instal[this.filterForModel.master_course_name];
                 courseName = instal.course_subject_name;
             })
             obj.uiSelected = false;
@@ -404,13 +423,6 @@ export class StudentFeeService {
                         }
                     }
                 )
-                // let installment = courseWiseInstallment.installmentArray.filter(
-                //     installment => installment.uiSelected == true
-                // );
-                // if (installment.length > 0) {
-                //     seletectedInstallment.push(installment);
-                // }
-                console.log('selectedInstallment', seletectedInstallment);
             });
         if (seletectedInstallment.length == 0) {
             return;
@@ -523,7 +535,7 @@ export class StudentFeeService {
     }
 
     getMasterCourseName(data) {
-        let uniqueMasterCourseName = Array.from(new Set(data.map(el => el.master_course_name)));
+        let uniqueMasterCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.master_course_name])));
         return uniqueMasterCourseName;
     }
 
