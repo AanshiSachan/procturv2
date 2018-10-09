@@ -539,8 +539,12 @@ export class StudentFeeService {
     }
 
     getMasterCourseName(data) {
-        let uniqueMasterCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.master_course_name])));
-        return uniqueMasterCourseName;
+        if (data.length > 0) {
+            let uniqueMasterCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.master_course_name])));
+            return uniqueMasterCourseName;
+        } else {
+            return [];
+        }
     }
 
     getUnpaidInstallment(data: FeeModel) {
@@ -828,5 +832,35 @@ export class StudentFeeService {
         /* var factor = Math.pow(10, precision);
         return Math.round(number * factor) / factor; */
     }
+
+    // Discount Reason
+
+    getAllDiscountReasons(): Observable<any> {
+        let url = this.baseUrl + "/api/v1/discount/reason/master/all/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        );
+    }
+
+
+    createDiscountReason(obj): Observable<any> {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/discount/reason/master";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        );
+    }
+
+    updateDiscountReasons(obj: any, id: string | number): Observable<any> {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/discount/reason/master/" + id;
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        );
+    }
+
 
 }

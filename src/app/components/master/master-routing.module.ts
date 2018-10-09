@@ -10,6 +10,7 @@ import { EventManagmentComponent } from '../../components/event-managment/event-
 import { TopicsComponent } from '../../components/topics/topics.component';
 import { ManageExamGradesComponent } from './manage-exam-grades/manage-exam-grades.component';
 import { ClosingReasonComponent } from './closing-reason/closing-reason.component';
+import { DiscountReasonComponent } from '../discount-reason/discount-reason.component';
 
 @NgModule({
     imports: [
@@ -51,9 +52,13 @@ import { ClosingReasonComponent } from './closing-reason/closing-reason.componen
                             component: CityAreaMapComponent,
                         },
                         {
-                            path:'closingReason',
-                            component : ClosingReasonComponent,
+                            path: 'closingReason',
+                            component: ClosingReasonComponent,
                             canLoad: [AuthGuard]
+                        },
+                        {
+                            path: 'discount-reason',
+                            component: DiscountReasonComponent
                         }
                     ]
                 }
