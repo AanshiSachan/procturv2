@@ -362,6 +362,10 @@ export class StudentFeeService {
             this.commonService.showErrorMessage('Error', 'Mandatory Details', 'Please provide payment date');
             return false;
         }
+        if (data.payingAmount > data.immutableAmount) {
+            this.commonService.showErrorMessage('Error', '', 'Please provide paying amount less than total amount to pay.');
+            return false;
+        }
         if (data.selectedPdcId == "") {
             return true;
         } else {
@@ -504,7 +508,7 @@ export class StudentFeeService {
 
                     if (element.fees_amount < payingAmount) {
                         obj.previous_balance_amt = element.fees_amount;
-                        obj.total_amt_paid = payingAmount;
+                        obj.total_amt_paid = element.fees_amount;
                         obj.paid_full = "Y";
                         payingAmount = payingAmount - element.fees_amount;
                     }

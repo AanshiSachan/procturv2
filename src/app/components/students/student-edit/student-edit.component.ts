@@ -1698,7 +1698,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   downloadDocument(res) {
     let body = res;
-    let byteArr = this.commonServiceFactory.convertBase64ToArray(body.document);
+    let byteArr = this.convertBase64ToArray(body.document);
     let fileName = body.docTitle;
     let file = new Blob([byteArr], { type: 'application/pdf' });
     let url = URL.createObjectURL(file);
@@ -1707,6 +1707,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       link.setAttribute("href", url);
       link.setAttribute("download", fileName);
       link.click();
+      link.setAttribute("href", "");
     }
   }
 
@@ -2116,12 +2117,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   generateAcknowledgeAPi(chequeId, student_id, key) {
     this.isRippleLoad = true;
-    this.postService.generateAcknowledge(chequeId, student_id, "Y").subscribe(
+    this.postService.generateAcknowledge(chequeId, student_id, key).subscribe(
       res => {
         this.isRippleLoad = false;
         if (key == 'Y') {
           this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
-        } else {
+        } else if (key == "undefined") {
           this.downloadDocument(res);
         }
       },
@@ -2273,6 +2274,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let msg = { type: 'success', title: 'Student Registered', body: 'Student details have been updated' };
     this.appC.popToast(msg);
     this.router.navigate(['/view/student']);
+  }
+
+  /* Converts base64 string into a byte[] */
+
+  convertBase64ToArray(val) {
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
   }
 
   /* ============================================================================================================================ */

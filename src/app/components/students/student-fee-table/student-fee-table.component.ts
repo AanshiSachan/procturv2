@@ -1,10 +1,6 @@
-import {
-  Component, OnInit, OnChanges, Output, Input, ViewChild, ElementRef,
-  HostListener, EventEmitter, ChangeDetectorRef, Renderer2, ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, OnChanges, Output, Input, ElementRef, HostListener, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { StudentFeeService } from '../student_fee.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -20,6 +16,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   @Input() feeTemplateData: any;
   @Input() courseDropdown: any = null;
   @Input() studentName: string = "";
+  @Input() student_id: any;
 
   @Output() closePopup = new EventEmitter<boolean>();
 
@@ -142,7 +139,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   service_tax: number = 0;
   installmentData: any = [];
   additionalData: any = [];
-  student_id: number = 0;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -154,10 +150,10 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    this.student_id = this.actRoute.snapshot.params.id;
   }
 
   ngOnChanges() {
+    this.student_id;
     this.cd.markForCheck()
     this.feeTemplateData;
     this.courseDropdown;
