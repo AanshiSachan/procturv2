@@ -1536,7 +1536,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   generateFeeRecipt(res) {
-    this.fetchService.getFeeReceiptById(this.student_id, res.other, res.otherDetails.financial_year).subscribe(
+    this.fetchService.getFeeReceiptById(this.student_id, res.other).subscribe(
       (res: any) => {
         this.downloadDocument(res);
       },
@@ -1546,7 +1546,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   emailFeeReceipt(res) {
-    this.fetchService.emailReceiptById(this.student_id, res.other, res.otherDetails.financial_year).subscribe(
+    this.fetchService.emailReceiptById(this.student_id, res.other).subscribe(
       res => {
         this.commonServiceFactory.showErrorMessage('success', 'Reciept Sent', 'Receipt has been sent to student/parent email ID');
       }
@@ -1608,27 +1608,6 @@ export class StudentAddComponent implements OnInit {
   onDiscountPopUpClose() {
     this.isDiscountApply = false;
     this.updateStudentFeeDetails();
-  }
-
-  downloadFeeReceipt(ins) {
-    let yr: any;
-    if (ins.financial_year == null) {
-      ins.financial_year = this.defaultAcadYear;
-    }
-    this.academicYear.forEach(e => {
-      if (ins.financial_year == e.inst_acad_year_id) {
-        yr = e.inst_acad_year
-      }
-    });
-    this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
-      (res: any) => {
-        this.downloadDocument(res);
-      },
-      err => {
-        this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
-      }
-    )
-
   }
 
   // payment history pop up
