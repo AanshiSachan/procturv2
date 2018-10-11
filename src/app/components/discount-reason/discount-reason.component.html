@@ -38,9 +38,6 @@
             <thead>
               <tr>
                 <th>
-                  Id
-                </th>
-                <th>
                   Reason
                 </th>
                 <th>
@@ -53,10 +50,6 @@
             </thead>
             <tbody>
               <tr id="row{{i}}" class="displayComp" *ngFor="let row of discountReasonArray; let i = index; trackBy: i;">
-                <td>
-                  {{row.discount_reason_id}}
-                </td>
-
                 <td class="view-comp">
                   {{row.reason}}
                 </td>
@@ -79,7 +72,7 @@
                 </td>
               </tr>
               <tr *ngIf="discountReasonArray.length ==0">
-                <td colspan="4" style="text-align: center">
+                <td colspan="3" style="text-align: center">
                   No Discount Reason Available
                 </td>
               </tr>

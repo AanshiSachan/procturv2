@@ -92,6 +92,7 @@ export class DiscountReasonComponent implements OnInit {
   cancelEditRow(index) {
     document.getElementById(("row" + index).toString()).classList.add('displayComp');
     document.getElementById(("row" + index).toString()).classList.remove('editComp');
+    this.getDiscountReson();
   }
 
 

@@ -66,15 +66,12 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        console.log('ngOnChanges', this.batchList);
         this.batchList = [];
         this.batchList = this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
             return e;
         });
         this.clonedArray = this.commonService.keepCloning(this.batchList);
-        console.log('ngOnChanges 2', this.batchList);
-        this.isEdit;
         if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {
             this.defaultAcadYear = "-1";
         }
@@ -371,6 +368,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     onFeeTemplateChanges(batchdata) {
+        this.cd.markForCheck();
+        this.cd.detectChanges();
         for (let i = 0; i < this.clonedArray.length; i++) {
             if (this.clonedArray[i].data.course_id == batchdata.course_id) {
                 if (batchdata.selected_fee_template_id != "-1" && batchdata.selected_fee_template_id != null && batchdata.selected_fee_template_id != undefined) {
@@ -379,6 +378,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = true;
                         } else {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = false;
+                            batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
                         }
                         break;
                     }

@@ -1,5 +1,4 @@
 @import "./src/assets/css/common/variables.scss";
-
 table {
     thead {
         tr {
@@ -23,17 +22,17 @@ table {
                 .form-ctrl {
                     display: block;
                     box-sizing: border-box;
-                    padding: 0px 0px 0px 5px;
+                    padding: 5px;
                     outline: none;
-                    border: 0;
-                    height: 26px;
+                    height: 30px;
                     box-shadow: none;
                     border-radius: 0;
                     line-height: 25px;
-                    background: transparent;
-                    width: 80px;
-                    text-align: center;
-                    border-bottom: 1px solid #ccc;
+                    border: 1px solid #e4dede;
+                    width: 65%;
+                    word-break: break-word;
+                    background: #efefef;
+                    border-radius: 2px;
                 }
             }
         }
