@@ -531,8 +531,8 @@
             Fees :
             <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
           </h1>
-          <aside class="pull-right btn-diff" *ngIf="subjectWiseInstallmentArray.length > 0">
-            <button class="btn-header" (click)="openDiscountApply()">
+          <aside class="pull-right btn-diff">
+            <button class="btn-header" (click)="openDiscountApply()" *ngIf="subjectWiseInstallmentArray.length > 0">
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
             </button>

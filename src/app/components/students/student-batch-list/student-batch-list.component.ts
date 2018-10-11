@@ -205,10 +205,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 if (ind != null) {
                     if (confirm("If you unassign the student from course then corresponding fee instalments will be deleted.")) {
                         this.dataList[index].isSelected = false;
+                        this.dataList[index].deleteCourse_SubjectUnPaidFeeSchedules = true;
                     }
                     else {
                         this.dataList[index].isSelected = true;
-                        //document.getElementById('batchcheck' + index).checked = true;
+                        this.dataList[index].deleteCourse_SubjectUnPaidFeeSchedules = true;
                     }
                 }
                 /* else */

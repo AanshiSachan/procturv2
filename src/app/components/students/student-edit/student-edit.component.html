@@ -534,7 +534,7 @@
 
         <section *ngIf="subjectWiseInstallmentArray.length > 0">
 
-          <div class="card-layout">
+          <div class="card-layout" [ngClass]="{'oldDiscount': cardAmountObject.oldDiscountAmount > 0}">
 
             <div class="actual-Amount">
               <span class="label">Actual Amount</span><br />
@@ -554,6 +554,8 @@
             <div class="discount-Amount" *ngIf="cardAmountObject.oldDiscountAmount > 0">
               <span class="label">Old Discount</span><br />
               <span class="amount-Value">{{cardAmountObject.oldDiscountAmount | commaSeprator}}</span>
+              <span class="tooltip-content">This is the old discount which is provided on the student. Now you can apply discount on the
+                installment level.</span>
             </div>
 
             <div class="tax-Amount">
@@ -707,6 +709,11 @@
                         <div class="status">
                           <span>Status</span>
                         </div>
+
+                        <div class="actionDiv">
+
+                        </div>
+
                       </div>
 
                     </li>
@@ -736,10 +743,6 @@
                           <span>{{installment.tax | commaSeprator}}</span>
                         </div>
 
-                        <!-- <div class="discount">
-                          <span>{{installment.discount | commaSeprator}}</span>
-                        </div> -->
-
                         <div class="balance">
                           <span>{{installment.balance_amount | commaSeprator}}</span>
                         </div>
@@ -763,6 +766,34 @@
                             Partially Paid
                           </span>
                         </div>
+
+                        <div class="actionDiv">
+
+                          <span class="spanTitle" *ngIf="installment.balance_amount != 0 || installment.paid_full == 'Y'">
+                            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
+                              class="artdeco-icon" focusable="false">
+                              <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                            </svg>
+
+                            <div class="dropdown-data">
+                              <ul class="">
+                                <li class="" (click)="openPartialPaymentHistor(installment)">
+                                  <a class="">
+                                    View Payment History
+                                  </a>
+                                </li>
+                                <li class="" (click)="emailFeeReciptInstallment(installment)">
+                                  <a class="">
+                                    E-mail Recipt
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+
+                          </span>
+
+                        </div>
+
                       </div>
 
                     </li>

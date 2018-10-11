@@ -36,19 +36,21 @@
             <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4 filter-section">
 
                 <div class="field-wrapper">
-                    <label for="masterCourse">Select Master Course</label>
+                    <label for="masterCourse" *ngIf="isProfessional">Standard</label>
+                    <label for="masterCourse" *ngIf="!isProfessional">Select Master Course</label>
                     <select id="masterCourse" name="masterCourse" [(ngModel)]="discountPopUpForm.masterCourseName"
                         class="form-ctrl" placeholder="Course" (ngModelChange)="masterCourseChange($event)">
-                        <option value="-1">Select Master Course</option>
+                        <option value="-1">Select</option>
                         <option *ngFor="let item of masterCourseName" [value]="item">{{item}}</option>
                     </select>
                 </div>
 
                 <div class="field-wrapper">
-                    <label for="courseNameDiv">Select Course</label>
+                    <label for="masterCourse" *ngIf="isProfessional">Subject</label>
+                    <label for="masterCourse" *ngIf="!isProfessional">Course</label>
                     <select id="courseNameDiv" name="courseNameDiv" [(ngModel)]="discountPopUpForm.coursename" class="form-ctrl"
                         placeholder="Course" (ngModelChange)="onCourseChange($event)">
-                        <option value="-1">Select Course</option>
+                        <option value="-1">Select</option>
                         <option *ngFor="let item of courseName" [value]="item.course_id">{{item.course_subject_name}}</option>
                     </select>
                 </div>

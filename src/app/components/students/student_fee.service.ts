@@ -640,6 +640,7 @@ export class StudentFeeService {
             }
 
             if (element.paid_full == "N" && element.uiSelected) {
+
                 obj.fee_schedule_id = Number(element.schedule_id);
                 obj.installment_no = Number(element.installment_no);
                 obj.reason_id = Number(popUpFormObj.reason);
@@ -648,26 +649,49 @@ export class StudentFeeService {
                 if (i == selectedInstallment.length - 1) {
                     // last Installment 
                     if (element.balance_amount == 0) {
-                        obj.discount_amount = Math.floor(mutableDiscount);
-                        obj.final_amount = Math.floor(element.fees_amount - mutableDiscount);
-                        obj.balance_amount = 0;
+                        if (element.fees_amount <= perInstallmentDiscount) {
+                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
+                            return false;
+                        } else {
+                            obj.discount_amount = Math.floor(mutableDiscount);
+                            obj.final_amount = Math.floor(element.fees_amount - mutableDiscount);
+                            obj.balance_amount = 0;
+                        }
                     } else {
-                        obj.discount_amount = Math.floor(mutableDiscount);
-                        obj.final_amount = 0;
-                        obj.balance_amount = Math.floor(element.balance_amount - mutableDiscount);
+                        if (element.balance_amount <= perInstallmentDiscount) {
+                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
+                            return false;
+                        } else {
+                            obj.discount_amount = Math.floor(mutableDiscount);
+                            obj.final_amount = 0;
+                            obj.balance_amount = Math.floor(element.balance_amount - mutableDiscount);
+                        }
                     }
 
                     mutableDiscount = mutableDiscount - Math.floor(mutableDiscount);
 
                 } else {
                     if (element.balance_amount == 0) {
-                        obj.discount_amount = perInstallmentDiscount;
-                        obj.final_amount = element.fees_amount - perInstallmentDiscount;
-                        obj.balance_amount = 0;
+
+                        if (element.fees_amount <= perInstallmentDiscount) {
+                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
+                            return false;
+                        } else {
+                            obj.discount_amount = perInstallmentDiscount;
+                            obj.final_amount = element.fees_amount - perInstallmentDiscount;
+                            obj.balance_amount = 0;
+                        }
+
                     } else {
-                        obj.discount_amount = perInstallmentDiscount;
-                        obj.final_amount = 0;
-                        obj.balance_amount = element.balance_amount - perInstallmentDiscount;
+
+                        if (element.balance_amount <= perInstallmentDiscount) {
+                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
+                            return false;
+                        } else {
+                            obj.discount_amount = perInstallmentDiscount;
+                            obj.final_amount = 0;
+                            obj.balance_amount = element.balance_amount - perInstallmentDiscount;
+                        }
                     }
                     mutableDiscount = mutableDiscount - perInstallmentDiscount;
                 }
@@ -769,7 +793,7 @@ export class StudentFeeService {
                     obj.total_discount_percent = 0;
                 }
 
-                obj.fee_template_mapping_id = element.fee_template_id;
+                obj.fee_template_mapping_id = element.student_fee_template_mapping_id;
 
                 discountArray.push(obj);
             }
