@@ -1373,6 +1373,7 @@ export class StudentAddComponent implements OnInit {
 
   updateStudentFeeDetails() {
     this.isRippleLoad = true
+    this.flushDataAfterPayement();
     this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
       res => {
         this.isRippleLoad = false;

@@ -124,9 +124,9 @@
                             <td class="textAllignRight" *ngIf="item.balance_amount != 0">
                                 {{item.balance_amount |commaSeprator}}</td>
                             <td class="status-amount" *ngIf="item.balance_amount == 0">
-                                <span class="partial">Partially Paid</span></td>
-                            <td class="status-amount" *ngIf="item.balance_amount != 0">
                                 <span class="due">Unpaid</span></td>
+                            <td class="status-amount" *ngIf="item.balance_amount != 0">
+                                <span class="partial">Partially Paid</span></td>
                         </tr>
                         <tr *ngIf="installmentArray.length == 0">
                             <td colspan="5">

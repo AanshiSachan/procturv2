@@ -1,8 +1,6 @@
-import { Component, OnInit, OnChanges, Output, Input, ElementRef, EventEmitter, ChangeDetectorRef, Renderer2, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+import { Component, OnInit, OnChanges, Output, Input, ElementRef, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { StudentFeeService } from '../student_fee.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { ActivatedRoute } from '@angular/router';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
@@ -46,6 +44,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     @Input() feeObject: any = [];
     @Input() totalDiscountApplied: number = 0;
     @Input() initialAmountWithoutTax: number = 0;
+    @Input() student_id: any;
 
     @Output() closePopup = new EventEmitter<any>();
 
@@ -59,7 +58,6 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         private cd: ChangeDetectorRef,
         private feeService: StudentFeeService,
         private commonService: CommonServiceFactory,
-        private actRoute: ActivatedRoute,
         private auth: AuthenticatorService
     ) {
 
@@ -239,7 +237,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
 
         // Condition For discount satisfy now apply discount
         let jsonToSend: any = {
-            student_id: Number(this.actRoute.snapshot.paramMap.get('id')),
+            student_id: Number(this.student_id),
             discountInstllmentList: this.feeService.makeDiscountingJSON(this.installmentArray, this.discountPopUpForm)
         }
 
@@ -282,7 +280,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         }
 
         let jsonToSend: any = {
-            student_id: Number(this.actRoute.snapshot.paramMap.get('id')),
+            student_id: Number(this.student_id),
             discountInstllmentList: this.feeService.makeRemoveDiscountJson(this.installmentArray, this.discountPopUpForm)
         };
 
@@ -302,7 +300,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
 
 
     getDiscountHistoryDetails() {
-        this.feeService.getDiscountHistory(this.actRoute.snapshot.paramMap.get('id')).subscribe(
+        this.feeService.getDiscountHistory(this.student_id).subscribe(
             (res: any) => {
                 this.cd.detectChanges();
                 this.discountHistory = res.discountInstllmentList;

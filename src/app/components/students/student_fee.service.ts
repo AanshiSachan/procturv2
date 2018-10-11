@@ -270,14 +270,19 @@ export class StudentFeeService {
 
     uiSelectionForCourse(data, key, value) {
         data.forEach(element => {
-            let selected: number = 0;
+            let Uiselected: number = 0;
+            let upPaidInstallment: number = 0;
             element.installmentArray.forEach(installment => {
                 if (installment.paid_full == "N") {
-                    element.uiSelected = value;
-                    selected++;
+                    installment.uiSelected = value;
+                    upPaidInstallment++;
+                }
+
+                if (installment.uiSelected == true) {
+                    Uiselected++;
                 }
             });
-            if (selected == element.installmentArray.length) {
+            if (Uiselected == upPaidInstallment) {
                 element.uiSelected = true;
             } else {
                 element.uiSelected = false;
@@ -605,7 +610,7 @@ export class StudentFeeService {
     checkDiscountCanBeAppliedOnInstallment(data, discount) {
         let selectedInstallment: any = data.filter(el => el.uiSelected == true);
         if (selectedInstallment.length == 0) {
-            this.commonService.showErrorMessage('error', 'No installment selcected', 'Please select installment');
+            this.commonService.showErrorMessage('error', 'No installment selected', 'Please select installment');
             return false;
         }
         let unpaidAmount = this.getUnPaidAmount(selectedInstallment);

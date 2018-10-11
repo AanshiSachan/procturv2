@@ -395,16 +395,20 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         }
         for (let i = 0; i < clonedArray.length; i++) {
             for (let j = 0; j < batchList.length; j++) {
-                if (clonedArray[i][course_id] == batchList[j][course_id]) {
+                if (clonedArray[i].data[course_id] == batchList[j].data[course_id]) {
                     if (clonedArray[i].isSelected == true) {
                         if (batchList[j].isSelected == false) {
                             // Course is unassigned
-                            return batchList[j].data.deleteCourse_SubjectUnPaidFeeSchedules;
+                            if (batchList[j].data.deleteCourse_SubjectUnPaidFeeSchedules == true) {
+                                return batchList[j].data.deleteCourse_SubjectUnPaidFeeSchedules;
+                            }
                         }
                     }
                 }
             }
         }
+
+        return false;
     }
 
 }

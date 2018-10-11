@@ -554,7 +554,8 @@
             <div class="discount-Amount" *ngIf="cardAmountObject.oldDiscountAmount > 0">
               <span class="label">Old Discount</span><br />
               <span class="amount-Value">{{cardAmountObject.oldDiscountAmount | commaSeprator}}</span>
-              <span class="tooltip-content">This is the old discount which is provided on the student. Now you can apply discount on the
+              <span class="tooltip-content">This is the old discount which is provided on the student. Now you can
+                apply discount on the
                 installment level.</span>
             </div>
 
@@ -1199,7 +1200,8 @@
   <!-- =============== Apply Discounts ============================ -->
 
   <student-discount *ngIf="isDiscountApply" [feeObject]="feeObject" [totalDiscountApplied]="cardAmountObject.discountAmount"
-    [initialAmountWithoutTax]="cardAmountObject.feeAmountExclTax" (closePopup)="onDiscountPopUpClose(event)"></student-discount>
+    [initialAmountWithoutTax]="cardAmountObject.feeAmountExclTax" (closePopup)="onDiscountPopUpClose(event)"
+    [student_id]="student_id"></student-discount>
 
   <!-- ======================================================== -->
   <!-- ======================================================== -->

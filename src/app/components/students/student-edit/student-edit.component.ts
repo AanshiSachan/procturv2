@@ -1514,6 +1514,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   updateStudentFeeDetails() {
     this.isRippleLoad = true;
+    this.flushDataAfterPayement();
     this.feeService.fetchStudentFeeSchedule(this.student_id).subscribe(
       (res: FeeModel) => {
         this.isRippleLoad = false;
