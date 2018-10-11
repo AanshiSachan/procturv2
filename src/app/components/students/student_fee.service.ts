@@ -707,7 +707,7 @@ export class StudentFeeService {
                     obj.total_discount_percent = 0;
                 }
 
-                obj.fee_template_mapping_id = element.fee_template_id;
+                obj.fee_template_mapping_id = element.student_fee_template_mapping_id;
 
                 discountArray.push(obj);
             }

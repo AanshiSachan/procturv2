@@ -139,6 +139,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         }
 
         if (batchString.length != 0) {
+            deleteCourse_SubjectUnPaidFeeSchedules = this.checkIfCourseIsUnassigned(this.clonedArray, this.batchList);
             let obj = {
                 batchString: batchString,
                 assignedBatches: assignedBatches,
@@ -205,11 +206,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 if (ind != null) {
                     if (confirm("If you unassign the student from course then corresponding fee instalments will be deleted.")) {
                         this.dataList[index].isSelected = false;
-                        this.dataList[index].deleteCourse_SubjectUnPaidFeeSchedules = true;
+                        this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
                     }
                     else {
                         this.dataList[index].isSelected = true;
-                        this.dataList[index].deleteCourse_SubjectUnPaidFeeSchedules = true;
+                        this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
                     }
                 }
                 /* else */
@@ -380,6 +381,26 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = false;
                         }
                         break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    checkIfCourseIsUnassigned(clonedArray, batchList) {
+        let course_id = "course_id";
+        if (this.isProfessional) {
+            course_id = "batch_id";
+        }
+        for (let i = 0; i < clonedArray.length; i++) {
+            for (let j = 0; j < batchList.length; j++) {
+                if (clonedArray[i][course_id] == batchList[j][course_id]) {
+                    if (clonedArray[i].isSelected == true) {
+                        if (batchList[j].isSelected == false) {
+                            // Course is unassigned
+                            return batchList[j].data.deleteCourse_SubjectUnPaidFeeSchedules;
+                        }
                     }
                 }
             }
