@@ -56,6 +56,7 @@ export class StudentAddComponent implements OnInit {
   allocatedItem: any = [];
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPayment') btnPayment: ElementRef;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -3227,8 +3228,10 @@ export class StudentAddComponent implements OnInit {
         this.isPaymentPdc = false;
         obj.studentFeeReportJsonList = this.getStudentFeeReportJsonList();
         this.isRippleLoad = true;
+        this.btnPayment.nativeElement.disabled = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            this.btnPayment.nativeElement.disabled = false;
             if (this.genPdcAck || this.sendPdcAck) {
               if (this.genPdcAck) {
                 let doc = res;
@@ -3297,6 +3300,7 @@ export class StudentAddComponent implements OnInit {
             this.closePaymentDetails();
           },
           err => {
+            this.btnPayment.nativeElement.disabled = false;
             this.isRippleLoad = false;
             let msg = err.error.message;
             this.isRippleLoad = false;
@@ -3339,8 +3343,10 @@ export class StudentAddComponent implements OnInit {
       this.isPaymentPdc = false;
       obj.studentFeeReportJsonList = this.getStudentFeeReportJsonList();
       this.isRippleLoad = true;
+      this.btnPayment.nativeElement.disabled = true;
       this.postService.payPartialFeeAmount(obj).subscribe(
         res => {
+          this.btnPayment.nativeElement.disabled = false;
           if (this.genPdcAck || this.sendPdcAck) {
             if (this.genPdcAck) {
               let doc = res;
@@ -3409,6 +3415,7 @@ export class StudentAddComponent implements OnInit {
           this.updateStudentFeeDetails();
         },
         err => {
+          this.btnPayment.nativeElement.disabled = false;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',

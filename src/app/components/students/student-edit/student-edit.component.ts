@@ -48,6 +48,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
   @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
+  @ViewChild('btnPayment') btnPayment: ElementRef;
 
   /* =========================================================================================================================================== */
   /* =========================================================================================================================================== */
@@ -2760,8 +2761,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isPaymentPdc = false;
         obj.studentFeeReportJsonList = this.getStudentFeeReportJsonList();
         this.isRippleLoad = true;
+        this.btnPayment.nativeElement.disabled = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            this.btnPayment.nativeElement.disabled = false;
             if (this.genPdcAck || this.sendPdcAck) {
               if (this.genPdcAck) {
                 let doc = res;
@@ -2830,6 +2833,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.closePaymentDetails();
           },
           err => {
+            this.btnPayment.nativeElement.disabled = false;
             let msg = err.error.message;
             this.isRippleLoad = false;
             let obj = {
@@ -2868,8 +2872,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.isPaymentPdc = false;
       obj.studentFeeReportJsonList = this.getStudentFeeReportJsonList();
       this.isRippleLoad = true;
+      this.btnPayment.nativeElement.disabled = true;
       this.postService.payPartialFeeAmount(obj).subscribe(
         res => {
+          this.btnPayment.nativeElement.disabled = false;
           if (this.genPdcAck || this.sendPdcAck) {
             if (this.genPdcAck) {
               let doc = res;
@@ -2938,6 +2944,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.closePaymentDetails();
         },
         err => {
+          this.btnPayment.nativeElement.disabled = false;
           let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
