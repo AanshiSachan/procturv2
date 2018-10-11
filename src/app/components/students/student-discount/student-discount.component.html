@@ -104,6 +104,7 @@
                             </th>
                             <th>Installment No.</th>
                             <th>Course</th>
+                            <th>Discount</th>
                             <th class="textAllignRight">Amount</th>
                             <th>Status</th>
                         </tr>
@@ -119,6 +120,7 @@
                             </td>
                             <td>{{item.installment_no}}</td>
                             <td>{{item.course_subject_name}}</td>
+                            <td class="textAllignRight">{{item.discount | commaSeprator}}</td>
                             <td class="textAllignRight" *ngIf="item.balance_amount == 0">
                                 {{item.fees_amount | commaSeprator}}</td>
                             <td class="textAllignRight" *ngIf="item.balance_amount != 0">
@@ -129,8 +131,11 @@
                                 <span class="partial">Partially Paid</span></td>
                         </tr>
                         <tr *ngIf="installmentArray.length == 0">
-                            <td colspan="5">
+                            <td colspan="6" *ngIf="showTab ==  'addDiscountTab'">
                                 <h2>No Unpaid Installment Found</h2>
+                            </td>
+                            <td colspan="6" *ngIf="showTab ==  'removeDiscountTab'">
+                                No installment on which amount is due and discount is applied found.
                             </td>
                         </tr>
                     </tbody>

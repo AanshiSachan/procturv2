@@ -210,11 +210,7 @@ export class StudentFeeService {
                 feeAmountIncludingTax = feeAmountIncludingTax + Number(instal.fees_amount);
                 paidAmount = paidAmount + Number(instal.amount_paid);
                 discount = discount + Number(instal.discount);
-                if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                    initailAmountWithoutTax = initailAmountWithoutTax + Number(instal.initial_fee_amount_before_disocunt_before_tax);
-                } else {
-                    initailAmountWithoutTax = initailAmountWithoutTax + Number(instal.fees_amount);
-                }
+                initailAmountWithoutTax = initailAmountWithoutTax + Number(instal.initial_fee_amount_before_disocunt_before_tax);
                 instal.uiSelected = false;
                 master_course_name = instal[this.filterForModel.master_course_name];
                 courseName = instal.course_subject_name;
@@ -566,6 +562,18 @@ export class StudentFeeService {
 
     // Discounting Functions
 
+    getRemoveDiscountInstallment(data) {
+        let unpaidInstallment: any = [];
+        data.forEach(
+            ele => {
+                if (ele.paid_full == "N" && ele.fee_type_name == "INSTALLMENT" && ele.discount > 0) {
+                    unpaidInstallment.push(ele);
+                }
+            }
+        );
+        return Array.from(unpaidInstallment);
+    }
+
     getUnPaidAmount(data) {
         let unpaid: number = 0
         data.forEach(element => {
@@ -751,6 +759,11 @@ export class StudentFeeService {
                 total_discount_amount: 0,
                 total_discount_percent: 0,
                 fee_template_mapping_id: 0
+            }
+
+            if (element.discount < perInstallmentDiscount) {
+                this.commonService.showErrorMessage('error', 'Error', 'Please provide discount amount less than discount provided in installment');
+                return false;
             }
 
             if (element.paid_full == "N" && element.uiSelected) {

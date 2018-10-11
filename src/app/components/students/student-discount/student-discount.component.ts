@@ -91,7 +91,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.installmentArray = this.commonService.changeUiSelectedKeyValue(this.installmentArray, 'uiSelected', false);
         this.clonedInstallmentArray = Array.from(this.commonService.keepCloning(this.installmentArray));
         this.totalFeesAmount = this.feeObject.customFeeSchedules.map(ele => ele.fees_amount).reduce((sum, first) => sum + first);
-        this.unPaidAmount = this.feeService.getUnPaidAmount(this.installmentArray);
+        this.unPaidAmount = this.feeService.getUnPaidAmount(this.feeObject.customFeeSchedules);
     }
 
     getDiscountReasons() {
@@ -106,14 +106,23 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     }
 
     switchActiveView(id) {
+        this.cd.markForCheck();
         this.addDiscountTab.nativeElement.classList.remove('active');
         this.removeDiscountTab.nativeElement.classList.remove('active');
         this.discountHistoryTab.nativeElement.classList.remove('active');
         this[id].nativeElement.classList.add('active');
         this.showTab = id;
-        if (id == "discountHistoryTab") {
+        this.flushDataOnTabChange();
+        if (id == "addDiscountTab") {
+            this.installmentArray = Array.from(this.feeService.getUnpaidInstallment(this.feeObject));
+        } else if (id == "removeDiscountTab") {
+            this.installmentArray = Array.from(this.feeService.getRemoveDiscountInstallment(this.feeObject.customFeeSchedules));
+        } else {
             this.getDiscountHistoryDetails();
+            return;
         }
+        this.installmentArray = this.commonService.changeUiSelectedKeyValue(this.installmentArray, 'uiSelected', false);
+        this.clonedInstallmentArray = Array.from(this.commonService.keepCloning(this.installmentArray));
     }
 
     masterCourseChange(event) {
@@ -279,9 +288,14 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             return;
         }
 
+        let installmentList = this.feeService.makeRemoveDiscountJson(selectedInstallment, this.discountPopUpForm);
+        if (installmentList == false) {
+            return;
+        }
+
         let jsonToSend: any = {
             student_id: Number(this.student_id),
-            discountInstllmentList: this.feeService.makeRemoveDiscountJson(this.installmentArray, this.discountPopUpForm)
+            discountInstllmentList: installmentList
         };
 
         this.btnRemoveDiscount.nativeElement.disabled = true;
@@ -319,7 +333,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.courseName = [];
         this.installmentArray = [];
         this.discountPopUpForm = {
-            masterCourseName: '',
+            masterCourseName: '-1',
             coursename: "-1",
             type: 'amount',
             value: 0,
@@ -333,6 +347,21 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.totalFeesAmount = 0;
         this.unPaidAmount = 0;
         this.discountHistory = [];
+    }
+
+    flushDataOnTabChange() {
+        this.installmentArray = [];
+        this.discountPopUpForm = {
+            masterCourseName: '-1',
+            coursename: "-1",
+            type: 'amount',
+            value: 0,
+            reason: "-1",
+            equalInAllInstall: false,
+            tableHead: false,
+            discountAmount: 0
+        };
+        this.clonedInstallmentArray = [];
     }
 
 }
