@@ -139,7 +139,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         }
 
         if (batchString.length != 0) {
-            deleteCourse_SubjectUnPaidFeeSchedules = this.checkIfCourseIsUnassigned(this.clonedArray, this.batchList);
             let obj = {
                 batchString: batchString,
                 assignedBatches: assignedBatches,
@@ -153,6 +152,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.assignList.emit(obj);
         }
         else {
+            deleteCourse_SubjectUnPaidFeeSchedules = this.checkIfCourseIsUnassigned(this.clonedArray, this.batchList);
             let obj = {
                 batchString: batchString,
                 assignedBatches: assignedBatches,
