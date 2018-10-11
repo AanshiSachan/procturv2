@@ -1448,7 +1448,8 @@
           <div class="field-wrapper">
             <label for="pMode">Payment Mode*</label>
             <!-- (ngModelChange)="paymentModeUpdate($event)" -->
-            <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl">
+            <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl"
+              (ngModelChange)="paymentModeUpdate($event)">
               <option value="Cash" selected>Cash</option>
               <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
               <option value="Credit/Debit Card">Credit/Debit Card</option>

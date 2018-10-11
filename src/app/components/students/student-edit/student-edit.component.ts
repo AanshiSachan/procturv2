@@ -1235,6 +1235,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.removeImage = true;
             this.appC.popToast(alert);
             this.isDuplicateContactOpen();
+            this.getCourseDropdown(this.student_id);
           }
         },
         err => {
@@ -1725,6 +1726,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     else {
       this.paymentPopUpJson.pdcSelectedForm.cheque_amount = Number(e);
+    }
+  }
+
+  paymentModeUpdate(e) {
+    if (e == 'Cheque/PDC/DD No.') {
+      this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
+    } else {
+      this.paymentPopUpJson.pdcSelectedForm.cheque_amount = 0;
     }
   }
 
