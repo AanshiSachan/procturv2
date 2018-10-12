@@ -541,11 +541,6 @@
               <span class="amount-Value">{{cardAmountObject.feeAmountExclTax | commaSeprator}}</span>
             </div>
 
-            <div class="total-Amount">
-              <span class="label">Total Fee (Incl. of tax)</span><br />
-              <span class="amount-Value">{{cardAmountObject.feeAmountInclTax | commaSeprator}}</span>
-            </div>
-
             <div class="discount-Amount">
               <span class="label">Discount</span><br />
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
@@ -562,6 +557,11 @@
             <div class="tax-Amount">
               <span class="label">Tax</span><br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
+            </div>
+
+            <div class="total-Amount">
+              <span class="label">Total Fee (Incl. of tax)</span><br />
+              <span class="amount-Value">{{cardAmountObject.feeAmountInclTax | commaSeprator}}</span>
             </div>
 
             <div class="amount-Paid">
@@ -745,7 +745,8 @@
                         </div>
 
                         <div class="balance">
-                          <span>{{installment.balance_amount | commaSeprator}}</span>
+                          <span *ngIf="installment.balance_amount > 0">{{installment.balance_amount | commaSeprator}}</span>
+                          <span *ngIf="installment.balance_amount == 0">{{installment.fees_amount | commaSeprator}}</span>
                         </div>
 
                         <div class="dueDate">
@@ -757,7 +758,7 @@
                         </div>
 
                         <div class="paymentMode">
-                          <span>{{installment.paymentMode}}</span>
+                          <span *ngIf="installment.amount_paid > 0">{{installment.paymentMode}}</span>
                         </div>
 
                         <div class="status-amount">
@@ -1272,7 +1273,7 @@
               </li>
 
               <li>
-                <button (click)="addNewPDCState()" class="fullBlue btn">
+                <button #btnPdcPopUpAdd (click)="addNewPDCState()" class="fullBlue btn">
                   <i style="font-family: FontAwesome;" class="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </li>

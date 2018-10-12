@@ -2535,9 +2535,13 @@ input[type=number]::-webkit-outer-spin-button {
             &.Tax,
             &.discount,
             &.balance {
-                text-align: right; // span {
-                //     text-align: right;
-                // }
+                text-align: right;
+            }
+            .balance {
+                margin-right: 5px;
+            }
+            span{
+                cursor: default;
             }
         }
         &.paymentMode {
@@ -2555,6 +2559,7 @@ input[type=number]::-webkit-outer-spin-button {
         line-height: 1.36;
         text-align: left;
         color: #000000;
+        cursor: default;
     }
 }
 
@@ -2615,6 +2620,7 @@ input[type=number]::-webkit-outer-spin-button {
             &.amount-Value {
                 font-size: 22px;
             }
+            cursor: default;
         }
     }
     .actual-Amount {

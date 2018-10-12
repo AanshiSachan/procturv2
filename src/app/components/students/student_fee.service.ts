@@ -367,10 +367,15 @@ export class StudentFeeService {
             this.commonService.showErrorMessage('Error', '', 'Please provide paying amount less than total amount to pay.');
             return false;
         }
-        if (data.selectedPdcId == "") {
+        if (data.payment_mode != "Cheque/PDC/DD No.") {
             return true;
         } else {
-            return this.validateChequePDCJSon(data.pdcSelectedForm);
+            if (data.payingAmount != data.pdcSelectedForm.cheque_amount) {
+                this.commonService.showErrorMessage('error', 'Error', 'Please provide paying amount equals to cheque amount');
+                return false;
+            } else {
+                return this.validateChequePDCJSon(data.pdcSelectedForm);
+            }
         }
     }
 

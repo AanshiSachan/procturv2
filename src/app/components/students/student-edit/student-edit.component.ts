@@ -197,6 +197,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
   @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
+  @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -1999,14 +2000,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.newPdcArr = [];
     this.genPdcAck = false;
     this.sendPdcAck = false;
+    this.btnPdcPopUpAdd.nativeElement.disabled = true;
     this.postService.addChequePdc(temp).subscribe(
       res => {
+        this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.chequePdcList = [];
         this.newPdcArr = [];
         this.pdcAddForm = { bank_name: '', cheque_amount: '', cheque_date: '', cheque_id: 0, cheque_no: '', cheque_status: '', cheque_status_key: 0, clearing_date: '', institution_id: sessionStorage.getItem('institute_id'), student_id: 0 };
         this.getPdcChequeList();
       },
       err => {
+        this.btnPdcPopUpAdd.nativeElement.disabled = false;
         this.commonServiceFactory.showErrorMessage('error', err.error.message, '');
         this.chequePdcList = [];
         this.getPdcChequeList();

@@ -87,8 +87,13 @@
 
             </div>
             <div class="c-lg-8 c-md-8 c-sm-8 c-xs-8 table-section">
-                <h3>
+                <h3 *ngIf="showTab ==  'addDiscountTab'">
                     Select Installment to apply discount of {{discountPopUpForm.discountAmount |
+                    commaSeprator}}
+                </h3>
+
+                <h3 *ngIf="showTab ==  'removeDiscountTab'">
+                    Select Installment to remove discount of {{discountPopUpForm.discountAmount |
                     commaSeprator}}
                 </h3>
 
