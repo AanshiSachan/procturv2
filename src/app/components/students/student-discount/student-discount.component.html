@@ -62,6 +62,8 @@
                         <option value="amount">Amount</option>
                         <option value="percentage">Percentage</option>
                     </select>
+                    <p *ngIf="discountPopUpForm.type == 'percentage'">Discount amount will be calculated on the
+                        percentage of actual fee amount</p>
                 </div>
 
                 <div class="field-wrapper">

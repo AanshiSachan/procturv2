@@ -378,7 +378,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = true;
                         } else {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = false;
-                            batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
+                            // batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
                         }
                         break;
                     }

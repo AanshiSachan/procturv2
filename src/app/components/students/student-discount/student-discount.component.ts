@@ -30,7 +30,6 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     discountReason: any = [];
     clonedInstallmentArray: any = [];
     totalFeesAmount: number = 0;
-    unPaidAmount: number = 0;
     isRippleLoad: boolean = false;
     showTab: string = 'addDiscountTab';
     discountHistory: any = [];
@@ -90,8 +89,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.installmentArray = Array.from(this.feeService.getUnpaidInstallment(this.feeObject));
         this.installmentArray = this.commonService.changeUiSelectedKeyValue(this.installmentArray, 'uiSelected', false);
         this.clonedInstallmentArray = Array.from(this.commonService.keepCloning(this.installmentArray));
-        this.totalFeesAmount = this.feeObject.customFeeSchedules.map(ele => ele.fees_amount).reduce((sum, first) => sum + first);
-        this.unPaidAmount = this.feeService.getUnPaidAmount(this.feeObject.customFeeSchedules);
+        this.totalFeesAmount = this.feeObject.customFeeSchedules.map(ele => ele.initial_fee_amount_before_disocunt_before_tax).reduce((sum, first) => sum + first);
     }
 
     getDiscountReasons() {
@@ -232,14 +230,15 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
 
     applyAction() {
         // common validation on the bais of amount and reason id
-        let validationCheck: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, this.unPaidAmount, 'add');
+        let unpaidAmount = this.feeService.getUnPaidAmount(this.feeObject.customFeeSchedules, this.feeObject.registeredServiceTax);
+        let validationCheck: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'add');
         if (!validationCheck) {
             return false;
         }
 
         // check whether selected installment can take discount or not
 
-        let installMentLevelCheck: boolean = this.feeService.checkDiscountCanBeAppliedOnInstallment(this.installmentArray, this.discountPopUpForm.discountAmount);
+        let installMentLevelCheck: boolean = this.feeService.checkDiscountCanBeAppliedOnInstallment(this.installmentArray, this.discountPopUpForm.discountAmount, this.feeObject.registeredServiceTax);
         if (!installMentLevelCheck) {
             return false;
         }
@@ -247,7 +246,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         // Condition For discount satisfy now apply discount
         let jsonToSend: any = {
             student_id: Number(this.student_id),
-            discountInstllmentList: this.feeService.makeDiscountingJSON(this.installmentArray, this.discountPopUpForm)
+            discountInstllmentList: this.feeService.makeDiscountingJSON(this.installmentArray, this.discountPopUpForm, this.feeObject.registeredServiceTax)
         }
 
         if (jsonToSend.discountInstllmentList == 0) {
@@ -282,13 +281,13 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             return false;
         }
 
-        let unpaidAmount = this.feeService.getUnPaidAmount(selectedInstallment);
+        let unpaidAmount = this.feeService.getUnPaidAmount(selectedInstallment, this.feeObject.registeredServiceTax);
         let check: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'remove');
         if (!check) {
             return;
         }
 
-        let installmentList = this.feeService.makeRemoveDiscountJson(selectedInstallment, this.discountPopUpForm);
+        let installmentList = this.feeService.makeRemoveDiscountJson(selectedInstallment, this.discountPopUpForm, this.feeObject.registeredServiceTax);
         if (installmentList == false) {
             return;
         }
@@ -345,7 +344,6 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.discountReason = [];
         this.clonedInstallmentArray = [];
         this.totalFeesAmount = 0;
-        this.unPaidAmount = 0;
         this.discountHistory = [];
     }
 

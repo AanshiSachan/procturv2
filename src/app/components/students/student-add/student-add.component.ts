@@ -1380,7 +1380,7 @@ export class StudentAddComponent implements OnInit {
         this.feeObject = res;
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules , res.registeredServiceTax);
           console.log('subjectWise', this.subjectWiseInstallmentArray);
           this.cardAmountObject = this.feeService.makeCardLayoutJson(this.subjectWiseInstallmentArray);
           this.cardAmountObject.oldDiscountAmount = res.studentwise_total_fees_discount;

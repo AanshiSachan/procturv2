@@ -194,12 +194,13 @@ export class StudentFeeService {
         return distinct;
     }
 
-    categoriseCourseWise(data) {
+    categoriseCourseWise(data, tax) {
+        tax = Number(tax);
         let subjectWiseSchduleArray = [];
         let uniqueCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.course_id_filter])));
         uniqueCourseName.forEach((courseId: any) => {
             let obj: any = {};
-            let feeAmountIncludingTax: number = 0;
+            // let feeAmountIncludingTax: number = 0;
             let paidAmount: number = 0;
             let discount: number = 0;
             let initailAmountWithoutTax: number = 0;
@@ -207,7 +208,6 @@ export class StudentFeeService {
             let courseName = "";
             let installment = data.filter(el => el[this.filterForModel.course_id_filter] == courseId);
             installment.map((instal: any) => {
-                feeAmountIncludingTax = feeAmountIncludingTax + Number(instal.fees_amount);
                 paidAmount = paidAmount + Number(instal.amount_paid);
                 discount = discount + Number(instal.discount);
                 initailAmountWithoutTax = initailAmountWithoutTax + Number(instal.initial_fee_amount_before_disocunt_before_tax);
@@ -221,11 +221,15 @@ export class StudentFeeService {
             obj.courseName = courseName;
             obj.master_course_name = master_course_name;
             obj.installmentArray = installment;
-            obj.feeAmountIncludingTax = feeAmountIncludingTax;
+            obj.feeAmountIncludingTax = this.calucalteAmountAfterApplyingTax(initailAmountWithoutTax, tax) - discount;
             obj.paidAmount = paidAmount;
             obj.initialAmountWithoutTax = initailAmountWithoutTax;
             obj.discount = discount;
-            obj.taxAmount = obj.feeAmountIncludingTax - obj.initialAmountWithoutTax;
+            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+                obj.taxAmount = Math.floor(Number((initailAmountWithoutTax * tax) / 100));
+            } else {
+                obj.taxAmount = 0;
+            }
             obj.dueAmount = obj.feeAmountIncludingTax - obj.paidAmount;
             if (obj.feeAmountIncludingTax == obj.paidAmount) {
                 obj.paid_Full_Installment_CourseWise = "Paid";
@@ -579,18 +583,19 @@ export class StudentFeeService {
         return Array.from(unpaidInstallment);
     }
 
-    getUnPaidAmount(data) {
+    getUnPaidAmount(data, tax) {
+        tax = Number(tax);
         let unpaid: number = 0
         data.forEach(element => {
             if (element.paid_full == "N") {
                 if (element.balance_amount == 0) {
-                    unpaid = unpaid + element.fees_amount;
+                    unpaid = unpaid + this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax);
                 } else {
-                    unpaid = unpaid + element.balance_amount;
+                    unpaid = unpaid + this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax);
                 }
             }
         });
-        return unpaid;
+        return Math.floor(unpaid);
     }
 
     checkDiscountValidations(discountJson, unpaidAmount, condition) {
@@ -620,13 +625,14 @@ export class StudentFeeService {
         return true;
     }
 
-    checkDiscountCanBeAppliedOnInstallment(data, discount) {
+    checkDiscountCanBeAppliedOnInstallment(data, discount, tax) {
+        tax = Number(tax);
         let selectedInstallment: any = data.filter(el => el.uiSelected == true);
         if (selectedInstallment.length == 0) {
             this.commonService.showErrorMessage('error', 'No installment selected', 'Please select installment');
             return false;
         }
-        let unpaidAmount = this.getUnPaidAmount(selectedInstallment);
+        let unpaidAmount = this.getUnPaidAmount(selectedInstallment, tax);
         if (discount > unpaidAmount) {
             this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount is greater then due amount of selected installment');
             return false;
@@ -634,12 +640,12 @@ export class StudentFeeService {
         return true;
     }
 
-    makeDiscountingJSON(installmentArray, popUpFormObj) {
+    makeDiscountingJSON(installmentArray, popUpFormObj, tax) {
         let discountArray: any = [];
         let mutableDiscount: number = popUpFormObj.discountAmount;
         let selectedInstallment = installmentArray.filter(el => el.uiSelected == true);
         let perInstallmentDiscount = Math.floor(Number(popUpFormObj.discountAmount / selectedInstallment.length));
-
+        tax = Number(tax);
 
         for (let i = 0; i < selectedInstallment.length; i++) {
             let element: any = selectedInstallment[i];
@@ -663,56 +669,36 @@ export class StudentFeeService {
                 obj.installment_no = Number(element.installment_no);
                 obj.reason_id = Number(popUpFormObj.reason);
                 obj.discount_date = moment().format('YYYY-MM-DD');
-
                 if (i == selectedInstallment.length - 1) {
-                    // last Installment 
-                    if (element.balance_amount == 0) {
-                        if (element.fees_amount <= perInstallmentDiscount) {
-                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
-                            return false;
-                        } else {
-                            obj.discount_amount = Math.floor(mutableDiscount);
-                            obj.final_amount = Math.floor(element.fees_amount - mutableDiscount);
-                            obj.balance_amount = 0;
-                        }
-                    } else {
-                        if (element.balance_amount <= perInstallmentDiscount) {
-                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
-                            return false;
-                        } else {
-                            obj.discount_amount = Math.floor(mutableDiscount);
-                            obj.final_amount = 0;
-                            obj.balance_amount = Math.floor(element.balance_amount - mutableDiscount);
-                        }
-                    }
-
-                    mutableDiscount = mutableDiscount - Math.floor(mutableDiscount);
-
-                } else {
-                    if (element.balance_amount == 0) {
-
-                        if (element.fees_amount <= perInstallmentDiscount) {
-                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
-                            return false;
-                        } else {
-                            obj.discount_amount = perInstallmentDiscount;
-                            obj.final_amount = element.fees_amount - perInstallmentDiscount;
-                            obj.balance_amount = 0;
-                        }
-
-                    } else {
-
-                        if (element.balance_amount <= perInstallmentDiscount) {
-                            this.commonService.showErrorMessage('error', 'Error', 'Equal Discount Amount can not applied to installment');
-                            return false;
-                        } else {
-                            obj.discount_amount = perInstallmentDiscount;
-                            obj.final_amount = 0;
-                            obj.balance_amount = element.balance_amount - perInstallmentDiscount;
-                        }
-                    }
-                    mutableDiscount = mutableDiscount - perInstallmentDiscount;
+                    perInstallmentDiscount = mutableDiscount;
                 }
+                if (element.balance_amount == 0) {
+                    let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax));
+                    if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        return false;
+                    } else {
+                        let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
+                        let finalAmountAfterTax = Math.floor(this.calucalteAmountAfterApplyingTax(amountAfterDiscount, tax));
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = finalAmountAfterTax;
+                        obj.balance_amount = 0;
+                    }
+                } else {
+                    let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax));
+                    if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        return false;
+                    } else {
+                        let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
+                        let finalAmountAfterTax = Math.floor(this.calucalteAmountAfterApplyingTax(amountAfterDiscount, tax));
+                        obj.discount_amount = perInstallmentDiscount;
+                        obj.final_amount = 0;
+                        obj.balance_amount = Number(finalAmountAfterTax);
+                    }
+
+                }
+                mutableDiscount = mutableDiscount - perInstallmentDiscount;
 
                 console.log(Math.floor(mutableDiscount));
 
@@ -734,6 +720,24 @@ export class StudentFeeService {
         return discountArray;
     }
 
+    calculateInitialAmountOfRemainingAmount(amount: number, tax: number) {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+            let initialAmount: number = (amount * 100) / (100 + tax);
+            return initialAmount;
+        } else {
+            return amount;
+        }
+    }
+
+    calucalteAmountAfterApplyingTax(amount, tax) {
+        if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+            let taxAmount: number = (amount * tax) / 100;
+            return amount + taxAmount;
+        } else {
+            return amount;
+        }
+    }
+
     addDiscountToStudent(jsonObject) {
         jsonObject.institute_id = Number(this.institute_id);
         let url = this.baseUrl + "/api/v1/discount";
@@ -744,11 +748,11 @@ export class StudentFeeService {
     }
 
 
-    makeRemoveDiscountJson(installment, popUpFormObj) {
+    makeRemoveDiscountJson(installment, popUpFormObj, tax) {
         let discountArray: any = [];
         let mutableDiscount: number = popUpFormObj.discountAmount;
         let perInstallmentDiscount = Math.floor(Number(popUpFormObj.discountAmount / installment.length));
-
+        tax = Number(tax);
 
         for (let i = 0; i < installment.length; i++) {
             let element: any = installment[i];
@@ -779,33 +783,27 @@ export class StudentFeeService {
 
                 if (i == installment.length - 1) {
                     // last Installment
-
-                    if (element.balance_amount == 0) {
-                        obj.discount_amount = Math.floor(mutableDiscount);
-                        obj.final_amount = element.fees_amount + Math.floor(mutableDiscount);
-                        obj.balance_amount = 0;
-                    } else {
-                        obj.discount_amount = Math.floor(mutableDiscount);
-                        obj.final_amount = 0;
-                        obj.balance_amount = element.balance_amount + Math.floor(mutableDiscount);
-                    }
-
-                    mutableDiscount = mutableDiscount - perInstallmentDiscount;
-
-                } else {
-
-                    if (element.balance_amount == 0) {
-                        obj.discount_amount = perInstallmentDiscount;
-                        obj.final_amount = element.fees_amount + perInstallmentDiscount;
-                        obj.balance_amount = 0;
-                    } else {
-                        obj.discount_amount = perInstallmentDiscount;
-                        obj.final_amount = 0;
-                        obj.balance_amount = element.balance_amount + perInstallmentDiscount;
-                    }
-
-                    mutableDiscount = mutableDiscount - perInstallmentDiscount;
+                    perInstallmentDiscount = mutableDiscount;
                 }
+
+                if (element.balance_amount == 0) {
+                    let amountBeforeTax = this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax)
+                    let amountAfterAddDiscount = amountBeforeTax + perInstallmentDiscount;
+                    let finalAMountAfterTax = Number(this.calucalteAmountAfterApplyingTax(amountAfterAddDiscount, tax));
+                    obj.discount_amount = perInstallmentDiscount;
+                    obj.final_amount = Math.floor(finalAMountAfterTax);
+                    obj.balance_amount = 0;
+                } else {
+                    let amountBeforeTax = this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax)
+                    let amountAfterAddDiscount = amountBeforeTax + perInstallmentDiscount;
+                    let finalAMountAfterTax = Number(this.calucalteAmountAfterApplyingTax(amountAfterAddDiscount, tax));
+                    obj.discount_amount = perInstallmentDiscount;
+                    obj.final_amount = 0;
+                    obj.balance_amount = Math.floor(finalAMountAfterTax);
+                }
+
+                mutableDiscount = mutableDiscount - perInstallmentDiscount;
+
 
                 obj.discount_status = 2;
                 if (popUpFormObj.type == "percentage") {
