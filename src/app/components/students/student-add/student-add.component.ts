@@ -1379,12 +1379,12 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = false;
         this.feeObject = res;
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
-          let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
-          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules , res.registeredServiceTax);
-          console.log('subjectWise', this.subjectWiseInstallmentArray);
-          this.cardAmountObject = this.feeService.makeCardLayoutJson(this.subjectWiseInstallmentArray);
+          this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.oldDiscountAmount = res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
+          let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
+          this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax);
+          console.log('subjectWise', this.subjectWiseInstallmentArray);
         }
       },
       err => {

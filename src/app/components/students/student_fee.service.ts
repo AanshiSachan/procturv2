@@ -200,7 +200,8 @@ export class StudentFeeService {
         let uniqueCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.course_id_filter])));
         uniqueCourseName.forEach((courseId: any) => {
             let obj: any = {};
-            // let feeAmountIncludingTax: number = 0;
+            let taxAmount: number = 0;
+            let amountAfterTax: number = 0;
             let paidAmount: number = 0;
             let discount: number = 0;
             let initailAmountWithoutTax: number = 0;
@@ -210,7 +211,11 @@ export class StudentFeeService {
             installment.map((instal: any) => {
                 paidAmount = paidAmount + Number(instal.amount_paid);
                 discount = discount + Number(instal.discount);
-                initailAmountWithoutTax = initailAmountWithoutTax + Number(instal.initial_fee_amount_before_disocunt_before_tax);
+                let amountBeforTAx: number = this.calculateInitialAmountOfRemainingAmount(instal.fees_amount, tax);
+                initailAmountWithoutTax = initailAmountWithoutTax + amountBeforTAx;
+                amountAfterTax = amountAfterTax + instal.fees_amount;
+                instal.tax = Math.floor(instal.fees_amount - amountBeforTAx);
+                taxAmount = taxAmount + instal.tax;
                 instal.uiSelected = false;
                 master_course_name = instal[this.filterForModel.master_course_name];
                 courseName = instal.course_subject_name;
@@ -221,15 +226,11 @@ export class StudentFeeService {
             obj.courseName = courseName;
             obj.master_course_name = master_course_name;
             obj.installmentArray = installment;
-            obj.feeAmountIncludingTax = this.calucalteAmountAfterApplyingTax(initailAmountWithoutTax, tax) - discount;
+            obj.feeAmountIncludingTax = amountAfterTax - discount;
             obj.paidAmount = paidAmount;
-            obj.initialAmountWithoutTax = initailAmountWithoutTax;
+            obj.initialAmountWithoutTax = Math.floor(initailAmountWithoutTax);
             obj.discount = discount;
-            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                obj.taxAmount = Math.floor(Number((initailAmountWithoutTax * tax) / 100));
-            } else {
-                obj.taxAmount = 0;
-            }
+            obj.taxAmount = taxAmount;
             obj.dueAmount = obj.feeAmountIncludingTax - obj.paidAmount;
             if (obj.feeAmountIncludingTax == obj.paidAmount) {
                 obj.paid_Full_Installment_CourseWise = "Paid";
@@ -244,7 +245,7 @@ export class StudentFeeService {
         return subjectWiseSchduleArray;
     }
 
-    makeCardLayoutJson(data) {
+    makeCardLayoutJson(data, tax) {
         let obj: any = {
             feeAmountInclTax: 0,
             feeAmountExclTax: 0,
@@ -256,15 +257,17 @@ export class StudentFeeService {
 
         data.forEach(
             installment => {
-                obj.feeAmountInclTax = obj.feeAmountInclTax + Number(installment.feeAmountIncludingTax);
-                obj.feeAmountExclTax = obj.feeAmountExclTax + Number(installment.initialAmountWithoutTax);
-                obj.taxAmount = obj.taxAmount + Number(installment.taxAmount);
+                obj.feeAmountExclTax = obj.feeAmountExclTax + Number(installment.initial_fee_amount_before_disocunt_before_tax);
+                obj.feeAmountInclTax = obj.feeAmountInclTax + Number(installment.fees_amount);
+                let initialAmount = this.calculateInitialAmountOfRemainingAmount(installment.fees_amount, tax);
+                obj.taxAmount = obj.taxAmount + Math.floor(installment.fees_amount - initialAmount);
                 obj.discountAmount = obj.discountAmount + Number(installment.discount);
-                obj.amountPaid = obj.amountPaid + Number(installment.paidAmount);
+                obj.amountPaid = obj.amountPaid + Number(installment.amount_paid);
                 obj.amountDue = obj.feeAmountInclTax - obj.amountPaid;
             }
         );
 
+        obj.initialAmount = Math.floor(obj.taxAmount);
         return obj;
     }
 

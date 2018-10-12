@@ -745,8 +745,11 @@
                         </div>
 
                         <div class="balance">
-                          <span *ngIf="installment.balance_amount > 0">{{installment.balance_amount | commaSeprator}}</span>
-                          <span *ngIf="installment.balance_amount == 0">{{installment.fees_amount | commaSeprator}}</span>
+                          <span *ngIf="installment.paid_full == 'Y'">{{ 0 | commaSeprator}}</span>
+                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{installment.balance_amount
+                            | commaSeprator}}</span>
+                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{installment.fees_amount
+                            | commaSeprator}}</span>
                         </div>
 
                         <div class="dueDate">
@@ -1509,9 +1512,9 @@
             <div class="field-wrapper datePickerBox">
               <label for="pdcfeeselect">Cheque Date*</label>
               <input *ngIf="paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
-                readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="">
-              <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
                 readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" bsDatepicker>
+              <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
+                readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="">
             </div>
           </div>
 

@@ -135,6 +135,12 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             }
         }
 
+        if (deleteCourse_SubjectUnPaidFeeSchedules) {
+
+        } else {
+            deleteCourse_SubjectUnPaidFeeSchedules = this.checkIfCourseIsUnassigned(this.clonedArray, this.batchList);
+        }
+
         if (batchString.length != 0) {
             let obj = {
                 batchString: batchString,
@@ -149,7 +155,6 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             this.assignList.emit(obj);
         }
         else {
-            deleteCourse_SubjectUnPaidFeeSchedules = this.checkIfCourseIsUnassigned(this.clonedArray, this.batchList);
             let obj = {
                 batchString: batchString,
                 assignedBatches: assignedBatches,
@@ -168,6 +173,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         for (let i = 0; i < this.dataList.length; i++) {
             if (!this.isProfessional) {
                 if (this.dataList[i].data.course_id == batch.data.course_id) {
+                    //finding index on dataList
+                    this.createUpdate(value, i);
+                }
+            } else {
+                if (this.dataList[i].data.batch_id == batch.data.batch_id) {
                     //finding index on dataList
                     this.createUpdate(value, i);
                 }
@@ -368,10 +378,14 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     onFeeTemplateChanges(batchdata) {
+        let course_id = "course_id";
+        if (this.isProfessional) {
+            course_id = "batch_id";
+        }
         this.cd.markForCheck();
         this.cd.detectChanges();
         for (let i = 0; i < this.clonedArray.length; i++) {
-            if (this.clonedArray[i].data.course_id == batchdata.course_id) {
+            if (this.clonedArray[i].data[course_id] == batchdata[course_id]) {
                 if (batchdata.selected_fee_template_id != "-1" && batchdata.selected_fee_template_id != null && batchdata.selected_fee_template_id != undefined) {
                     if (this.clonedArray[i].data.selected_fee_template_id != batchdata.selected_fee_template_id) {
                         if (confirm('If you change fee template then all your unpaid installment will delete. Do you want to continue?')) {

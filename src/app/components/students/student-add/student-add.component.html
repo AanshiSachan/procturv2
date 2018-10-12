@@ -559,16 +559,11 @@
         <!--====================================middle <Main> section==========================-->
         <section *ngIf="subjectWiseInstallmentArray.length > 0">
 
-          <div class="card-layout">
+          <div class="card-layout" [ngClass]="{'oldDiscount': cardAmountObject.oldDiscountAmount > 0}">
 
             <div class="actual-Amount">
               <span class="label">Actual Amount</span><br />
               <span class="amount-Value">{{cardAmountObject.feeAmountExclTax | commaSeprator}}</span>
-            </div>
-
-            <div class="total-Amount">
-              <span class="label">Total Fee (Incl. of tax)</span><br />
-              <span class="amount-Value">{{cardAmountObject.feeAmountInclTax | commaSeprator}}</span>
             </div>
 
             <div class="discount-Amount">
@@ -579,11 +574,19 @@
             <div class="discount-Amount" *ngIf="cardAmountObject.oldDiscountAmount > 0">
               <span class="label">Old Discount</span><br />
               <span class="amount-Value">{{cardAmountObject.oldDiscountAmount | commaSeprator}}</span>
+              <span class="tooltip-content">This is the old discount which is provided on the student. Now you can
+                apply discount on the
+                installment level.</span>
             </div>
 
             <div class="tax-Amount">
               <span class="label">Tax</span><br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
+            </div>
+
+            <div class="total-Amount">
+              <span class="label">Total Fee (Incl. of tax)</span><br />
+              <span class="amount-Value">{{cardAmountObject.feeAmountInclTax | commaSeprator}}</span>
             </div>
 
             <div class="amount-Paid">
@@ -1493,9 +1496,9 @@
             <div class="field-wrapper datePickerBox">
               <label for="pdcfeeselect">Cheque Date*</label>
               <input *ngIf="paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
-                readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="">
-              <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
                 readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" bsDatepicker>
+              <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
+                readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" >
             </div>
           </div>
 
