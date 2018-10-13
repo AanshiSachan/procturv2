@@ -706,6 +706,12 @@ export class StudentFeeService {
                         obj.final_amount = finalAmountAfterTax;
                         obj.balance_amount = 0;
                     }
+
+                    if (obj.final_amount == 0) {
+                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        return false;
+                    }
+
                 } else {
                     let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax));
                     if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
@@ -717,6 +723,11 @@ export class StudentFeeService {
                         obj.discount_amount = perInstallmentDiscount;
                         obj.final_amount = 0;
                         obj.balance_amount = Number(finalAmountAfterTax);
+                    }
+
+                    if (obj.balance_amount == 0) {
+                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        return false;
                     }
 
                 }
