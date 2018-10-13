@@ -76,7 +76,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     student_fee_template_mapping_id: '-1',
     tax: 0,
     update_date: null,
-    updated_by: null
+    updated_by: null,
+    initial_fee_amount_before_disocunt_before_tax: 0
   }
   addFeeOther: any = {
     amount_paid: '',
@@ -132,7 +133,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     student_phone: "",
     tax: 0,
     update_date: null,
-    updated_by: null
+    updated_by: null,
+    initial_fee_amount_before_disocunt_before_tax: 0
   }
   otherFeeType: any[] = [];
   taxEnableCheck: any = '1';
@@ -235,7 +237,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     obj.studentArray.push(this.student_id);
     obj.studentwise_fees_tax_applicable = this.feeTemplateData.studentwise_fees_tax_applicable;
     obj.studentwise_total_fees_amount = totalAmountDue.toString();
-    obj.studentwise_total_fees_discount = this.feeTemplateData.studentwise_total_fees_amount;
+    obj.studentwise_total_fees_discount = this.feeTemplateData.studentwise_total_fees_discount;
     obj.template_effective_date = moment(this.feeTemplateData.template_effective_date).format("YYYY-MM-DD");
     obj.template_id = this.feeTemplateData.template_id;
 
@@ -293,7 +295,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         schedule_id: el.schedule_id,
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
-        student_fee_template_mapping_id: el.student_fee_template_mapping_id
+        student_fee_template_mapping_id: el.student_fee_template_mapping_id,
+        initial_fee_amount_before_disocunt_before_tax: el.initial_fee_amount_before_disocunt_before_tax
       }
       temp.push(obj);
     });
@@ -353,7 +356,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         this.addFeeInstallment.student_fee_template_mapping_id = id;
         this.addFeeInstallment.course_subject_name = name;
       }
-
+      this.addFeeInstallment.initial_fee_amount_before_disocunt_before_tax = this.addFeeInstallment.initial_fee_amount;
       this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
       this.addFeeInstallment.amount_paid = 0;
       this.addFeeInstallment.balance_amount = 0;
@@ -413,7 +416,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         student_fee_template_mapping_id: '-1',
         tax: 0,
         update_date: null,
-        updated_by: null
+        updated_by: null,
+        initial_fee_amount_before_disocunt_before_tax: 0
       }
     }
   }
@@ -505,6 +509,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         this.addFeeOther.service_tax = 0;
         this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
       }
+      this.addFeeOther.initial_fee_amount_before_disocunt_before_tax = this.addFeeOther.initial_fee_amount;
       otherFeesArr.push(this.addFeeOther);
       this.clearOtherFees(otherFeesArr);
     }
@@ -567,7 +572,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       student_phone: "",
       tax: 0,
       update_date: null,
-      updated_by: null
+      updated_by: null,
+      initial_fee_amount_before_disocunt_before_tax: 0
     }
   }
 

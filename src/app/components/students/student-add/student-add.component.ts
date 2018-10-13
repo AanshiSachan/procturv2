@@ -1345,7 +1345,7 @@ export class StudentAddComponent implements OnInit {
     discountAmount: 0,
     amountPaid: 0,
     amountDue: 0,
-    oldDiscountAmount: 0
+    additionalFees: 0
   };
   totalAmountToPay: number = 0;
   paymentPopUpJson: any = {
@@ -1380,7 +1380,7 @@ export class StudentAddComponent implements OnInit {
         this.feeObject = res;
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
-          this.cardAmountObject.oldDiscountAmount = res.studentwise_total_fees_discount;
+          this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
           this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax);

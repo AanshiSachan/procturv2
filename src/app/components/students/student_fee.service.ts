@@ -211,7 +211,12 @@ export class StudentFeeService {
             installment.map((instal: any) => {
                 paidAmount = paidAmount + Number(instal.amount_paid);
                 discount = discount + Number(instal.discount);
-                let amountBeforTAx: number = this.calculateInitialAmountOfRemainingAmount(instal.fees_amount, tax);
+                let amountBeforTAx: number = 0;
+                if (instal.fee_type_name == "INSTALLMENT") {
+                    amountBeforTAx = this.calculateInitialAmountOfRemainingAmount(instal.fees_amount, tax);
+                } else {
+                    amountBeforTAx = this.calculateInitialAmountOfRemainingAmount(instal.fees_amount, instal.service_tax);
+                }
                 initailAmountWithoutTax = initailAmountWithoutTax + amountBeforTAx;
                 amountAfterTax = amountAfterTax + instal.fees_amount;
                 instal.tax = Math.floor(instal.fees_amount - amountBeforTAx);
@@ -252,15 +257,23 @@ export class StudentFeeService {
             taxAmount: 0,
             discountAmount: 0,
             amountPaid: 0,
-            amountDue: 0
+            amountDue: 0,
+            additionalFees: 0
         }
 
         data.forEach(
             installment => {
-                obj.feeAmountExclTax = obj.feeAmountExclTax + Number(installment.initial_fee_amount_before_disocunt_before_tax);
-                obj.feeAmountInclTax = obj.feeAmountInclTax + Number(installment.fees_amount);
-                let initialAmount = this.calculateInitialAmountOfRemainingAmount(installment.fees_amount, tax);
-                obj.taxAmount = obj.taxAmount + Math.floor(installment.fees_amount - initialAmount);
+                let initialAmount: number = 0;
+                if (installment.fee_type_name == "INSTALLMENT") {
+                    obj.feeAmountInclTax = obj.feeAmountInclTax + Number(installment.fees_amount);
+                    obj.feeAmountExclTax = obj.feeAmountExclTax + Number(installment.initial_fee_amount_before_disocunt_before_tax);
+                    initialAmount = this.calculateInitialAmountOfRemainingAmount(installment.fees_amount, tax);
+                    obj.taxAmount = obj.taxAmount + Math.floor(installment.fees_amount - initialAmount);
+                } else {
+                    initialAmount = this.calucalteAmountAfterApplyingTax(installment.initial_fee_amount_before_disocunt_before_tax, installment.service_tax);
+                    obj.additionalFees = obj.additionalFees + initialAmount;
+                    obj.feeAmountInclTax = obj.feeAmountInclTax + Number(initialAmount);
+                }
                 obj.discountAmount = obj.discountAmount + Number(installment.discount);
                 obj.amountPaid = obj.amountPaid + Number(installment.amount_paid);
                 obj.amountDue = obj.feeAmountInclTax - obj.amountPaid;
