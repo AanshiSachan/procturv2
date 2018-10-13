@@ -2059,7 +2059,6 @@ ul.customDropdown li:hover {
     transform: scale(1);
 }
 
-
 .dropdown {
     &>ul {
         background: $bg-white;
@@ -2079,5 +2078,18 @@ ul.customDropdown li:hover {
                 color: #333;
             }
         }
+    }
+}
+
+.select-dates {
+    .field-wrapper.datePickerBox:after {
+        content: '';
+        background: url(/./assets/images/calendar.svg) no-repeat;
+        position: absolute;
+        right: 2px;
+        top: 35px;
+        width: 21px;
+        height: 21px;
+        z-index: 0;
     }
 }

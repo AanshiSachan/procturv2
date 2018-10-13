@@ -544,9 +544,9 @@
             <div class="discount-Amount">
               <span class="label">Discount</span><br />
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
-              <span class="tooltip-content">This is the old discount which is provided on the student. Now you can
-                apply discount on the
-                installment level.</span>
+              <span class="tooltip-content">The discount value is the total discount applied to the student across all
+                its course(s). This value is the combination of previous discount and the new discount applied post the
+                release of new discount feature recently introduced.</span>
             </div>
 
             <div class="tax-Amount">
@@ -554,7 +554,7 @@
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
             </div>
 
-            <div class="discount-Amount">
+            <div class="additional-Amount">
               <span class="label">Additional Fee</span><br />
               <span class="amount-Value">{{cardAmountObject.additionalFees | commaSeprator}}</span>
             </div>

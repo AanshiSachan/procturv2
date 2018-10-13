@@ -2627,13 +2627,16 @@ input[type=number]::-webkit-outer-spin-button {
         background: #ff8f36;
     }
     .total-Amount {
-        background: #abaaaa;
+        background: #67e845;
     }
     .tax-Amount {
         background: #fcc03d;
     }
     .discount-Amount {
         background: #b159f2;
+    }
+    .additional-Amount {
+        background: #59b4f2;
     }
     .amount-Paid {
         background: #78dd95;
@@ -2679,7 +2682,7 @@ input[type=number]::-webkit-outer-spin-button {
 .discount-Amount:hover {
     .tooltip-content {
         padding: 6px;
-        width: 150px;
+        width: 200px;
         background: white;
         color: black;
         -webkit-box-shadow: 0 0 3px inset;

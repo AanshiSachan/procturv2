@@ -62,8 +62,7 @@
                         <option value="amount">Amount</option>
                         <option value="percentage">Percentage</option>
                     </select>
-                    <p *ngIf="discountPopUpForm.type == 'percentage'">Discount amount
-                        will be calculated on the
+                    <p *ngIf="discountPopUpForm.type == 'percentage'">Discount amount is calculated based on the
                         percentage of actual initial fee amount i.e {{totalFeesAmount | commaSeprator}}</p>
 
                 </div>

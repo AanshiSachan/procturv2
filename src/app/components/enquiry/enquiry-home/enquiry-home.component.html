@@ -1304,9 +1304,9 @@
                 <button class="btn fullBlue" (click)="downloadSummaryReportXl()" style="margin-top: 10px" id="btnDownloadSummary">Download</button>
               </div>
             </div>
-            <div id="divRangeSelection" *ngIf="flagJSON.showDateRange" class="row select-dates">
+            <div id="divRangeSelection" *ngIf="flagJSON.showDateRange" class="row select-dates" style="margin:0 -15px">
               <div class="c-sm-4 c-lg-4 c-lg-4">
-                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':varJson.summaryReport.from_date != ''}">
+                <div class="field-wrapper datePickerBox">
                   <label for="fromDate">From Date</label>
                   <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.from_date"
                     name="fromDate" readonly="true" bsDatepicker />
@@ -1314,7 +1314,7 @@
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">
-                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':varJson.summaryReport.to_date != ''}">
+                <div class="field-wrapper datePickerBox">
                   <label for="toDate">To Date</label>
                   <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="varJson.summaryReport.to_date"
                     name="toDate" readonly="true" bsDatepicker />
@@ -1322,7 +1322,7 @@
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4" style="margin-top: 15px;">
-                <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px" id="btnDownloadDatewise">Download</button>
+                <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()" style="margin-top: 10px; padding: 5px" id="btnDownloadDatewise">Download</button>
               </div>
             </div>
             <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download
