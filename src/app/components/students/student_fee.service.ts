@@ -589,8 +589,17 @@ export class StudentFeeService {
 
     getSumOfAmountBeforeTaxOfInstallment(data, tax) {
         tax = Number(tax);
-        let unPaidInitialAmount = data.map(el => el.fees_amount).reduce((s, f) => s + f);
-        return this.calculateInitialAmountOfRemainingAmount(unPaidInitialAmount, tax)
+        let unPaidInitialAmount: number = 0;
+        data.forEach(
+            el => {
+                if (el.fee_type_name == "INSTALLMENT") {
+                    unPaidInitialAmount = unPaidInitialAmount + Number(el.initial_fee_amount_before_disocunt_before_tax);
+                }
+            }
+        )
+        return Number(unPaidInitialAmount);
+        // let unPaidInitialAmount = data.map(el => el.initial_fee_amount_before_disocunt_before_tax).reduce((s, f) => s + f);
+        // return this.calculateInitialAmountOfRemainingAmount(unPaidInitialAmount, tax)
     }
 
     getRemoveDiscountInstallment(data) {

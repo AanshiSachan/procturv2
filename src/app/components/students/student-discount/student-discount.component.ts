@@ -89,7 +89,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.installmentArray = Array.from(this.feeService.getUnpaidInstallment(this.feeObject));
         this.installmentArray = this.commonService.changeUiSelectedKeyValue(this.installmentArray, 'uiSelected', false);
         this.clonedInstallmentArray = Array.from(this.commonService.keepCloning(this.installmentArray));
-        this.totalFeesAmount = this.feeService.getSumOfAmountBeforeTaxOfInstallment(this.installmentArray, this.feeObject.registeredServiceTax);
+        this.totalFeesAmount = this.feeService.getSumOfAmountBeforeTaxOfInstallment(this.feeObject.customFeeSchedules, this.feeObject.registeredServiceTax);
     }
 
     getDiscountReasons() {
