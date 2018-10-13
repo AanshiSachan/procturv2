@@ -62,8 +62,10 @@
                         <option value="amount">Amount</option>
                         <option value="percentage">Percentage</option>
                     </select>
-                    <p *ngIf="discountPopUpForm.type == 'percentage'">Discount amount will be calculated on the
-                        percentage of actual initial fee amount</p>
+                    <p *ngIf="discountPopUpForm.type == 'percentage'">Discount amount
+                        will be calculated on the
+                        percentage of actual initial fee amount i.e {{totalFeesAmount | commaSeprator}}</p>
+
                 </div>
 
                 <div class="field-wrapper">
@@ -84,7 +86,7 @@
                 <div class="field-checkbox-wrapper">
                     <input type="checkbox" [(ngModel)]="discountPopUpForm.equalInAllInstall" value="" id="equalInAllInstall"
                         name="equalInAllInstall" class="form-checkbox" (ngModelChange)="onCheckboxApplyInAllClick($event)">
-                    <label for="equalInAllInstall">Equal In All Unpaid Installment</label>
+                    <label for="equalInAllInstall">Equal In All Installment</label>
                 </div>
 
             </div>

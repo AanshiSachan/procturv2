@@ -587,6 +587,12 @@ export class StudentFeeService {
 
     // Discounting Functions
 
+    getSumOfAmountBeforeTaxOfInstallment(data, tax) {
+        tax = Number(tax);
+        let unPaidInitialAmount = data.map(el => el.fees_amount).reduce((s, f) => s + f);
+        return this.calculateInitialAmountOfRemainingAmount(unPaidInitialAmount, tax)
+    }
+
     getRemoveDiscountInstallment(data) {
         let unpaidInstallment: any = [];
         data.forEach(
