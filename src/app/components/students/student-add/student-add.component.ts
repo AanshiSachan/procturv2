@@ -206,6 +206,7 @@ export class StudentAddComponent implements OnInit {
   allocatedItem: any = [];
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPayment') btnPayment: ElementRef;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -1517,8 +1518,10 @@ export class StudentAddComponent implements OnInit {
     JsonToSendOnServer.student_id = this.student_id;
     console.log(JsonToSendOnServer);
     this.isRippleLoad = true;
+    this.btnPayment.nativeElement.disabled = true;
     this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
       res => {
+        this.btnPayment.nativeElement.disabled = false;
         this.isRippleLoad = false;
         this.commonServiceFactory.showErrorMessage('success', 'Fees Updated', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
@@ -1531,7 +1534,9 @@ export class StudentAddComponent implements OnInit {
         this.updateStudentFeeDetails();
       },
       err => {
+        this.btnPayment.nativeElement.disabled = false;
         this.isRippleLoad = false;
+        this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       }
     )
   }

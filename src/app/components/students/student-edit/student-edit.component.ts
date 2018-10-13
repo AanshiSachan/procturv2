@@ -198,6 +198,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
   @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
   @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
+  @ViewChild('btnPayment') btnPayment: ElementRef;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -1662,8 +1663,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     JsonToSendOnServer.student_id = this.student_id;
     console.log(JsonToSendOnServer);
     this.isRippleLoad = true;
+    this.btnPayment.nativeElement.disabled = true;
     this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
       res => {
+        this.btnPayment.nativeElement.disabled = false;
         this.isRippleLoad = false;
         this.commonServiceFactory.showErrorMessage('success', 'Fees Updated', 'Fee details has been updated');
         if (this.paymentPopUpJson.genFeeRecipt) {
@@ -1676,7 +1679,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.updateStudentFeeDetails();
       },
       err => {
+        this.btnPayment.nativeElement.disabled = false;
         this.isRippleLoad = false;
+        this.commonServiceFactory.showErrorMessage('error', '', err.error.message);
       }
     )
   }
