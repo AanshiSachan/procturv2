@@ -220,7 +220,7 @@ export class StudentFeeService {
                 initailAmountWithoutTax = initailAmountWithoutTax + amountBeforTAx;
                 amountAfterTax = amountAfterTax + instal.fees_amount;
                 instal.tax = Math.floor(instal.fees_amount - amountBeforTAx);
-                taxAmount = taxAmount + instal.tax;
+                taxAmount = taxAmount + (instal.fees_amount - amountBeforTAx);
                 instal.uiSelected = false;
                 master_course_name = instal[this.filterForModel.master_course_name];
                 courseName = instal.course_subject_name;
@@ -239,7 +239,7 @@ export class StudentFeeService {
             obj.paidAmount = paidAmount;
             obj.initialAmountWithoutTax = Math.floor(initailAmountWithoutTax);
             obj.discount = discount;
-            obj.taxAmount = taxAmount;
+            obj.taxAmount = Math.floor(taxAmount);
             obj.dueAmount = obj.feeAmountIncludingTax - obj.paidAmount;
             if (obj.feeAmountIncludingTax == obj.paidAmount) {
                 obj.paid_Full_Installment_CourseWise = "Paid";
@@ -272,7 +272,7 @@ export class StudentFeeService {
                     obj.feeAmountInclTax = obj.feeAmountInclTax + Number(installment.fees_amount);
                     obj.feeAmountExclTax = obj.feeAmountExclTax + Number(installment.initial_fee_amount_before_disocunt_before_tax);
                     initialAmount = this.calculateInitialAmountOfRemainingAmount(installment.fees_amount, tax);
-                    obj.taxAmount = obj.taxAmount + Math.floor(installment.fees_amount - initialAmount);
+                    obj.taxAmount = obj.taxAmount + Number(installment.fees_amount - initialAmount);
                 } else {
                     initialAmount = this.calucalteAmountAfterApplyingTax(installment.initial_fee_amount_before_disocunt_before_tax, installment.service_tax);
                     obj.additionalFees = obj.additionalFees + initialAmount;
@@ -284,7 +284,7 @@ export class StudentFeeService {
             }
         );
 
-        obj.initialAmount = Math.floor(obj.taxAmount);
+        obj.taxAmount = Math.floor(obj.taxAmount);
         return obj;
     }
 

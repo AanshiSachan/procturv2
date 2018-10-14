@@ -2456,6 +2456,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 ////// New Layout
 .table-section {
+    cursor: default;
     font-size: 0.9em;
     .table-rows {
         display: inline-block;
@@ -2698,4 +2699,13 @@ input[type=number]::-webkit-outer-spin-button {
 
 .tooltip-content {
     display: none;
+}
+
+.iconStyling {
+    font-size: 1.3em;
+    text-align: center;
+    font-weight: 200;
+    padding: 0em 0.5em;
+    color: #797979;
+    vertical-align: bottom;
 }
