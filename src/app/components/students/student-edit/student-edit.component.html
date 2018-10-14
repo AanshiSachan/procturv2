@@ -759,7 +759,7 @@
                         </div>
 
                         <div class="paidDate">
-                          <span>{{installment.paid_date | date:"dd MMM yyyy"}}</span>
+                          <span *ngIf="installment.amount_paid > 0">{{installment.paid_date | date:"dd MMM yyyy"}}</span>
                         </div>
 
                         <div class="paymentMode">
