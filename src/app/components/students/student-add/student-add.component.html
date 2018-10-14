@@ -639,7 +639,7 @@
               </li>
             </ul>
             <ul>
-              <li *ngFor="let data of subjectWiseInstallmentArray; let i= index" class="table-rows installment-row">
+              <li *ngFor="let data of subjectWiseInstallmentArray; let i= index" class="table-rows">
 
                 <div class="course-installment">
                   <div class="checkbox-div">
@@ -649,9 +649,13 @@
                       <label></label>
                     </div>
                     <span>
-                      <span>{{data.master_course_name}} - {{data.courseName}}</span>
-                      <i id="idDownIcon{{i}}" class="fa fa-angle-down" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
-                      <i id="idUpIcon{{i}}" class="fa fa-angle-up hide" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
+                      <span *ngIf="data.master_course_name != '' && data.master_course_name != null">{{data.master_course_name}}
+                        - {{data.courseName}}</span>
+                      <span *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
+                      <i id="idDownIcon{{i}}" class="fa fa-angle-down" style="font-size: 20px;text-align: center;font-weight: 600;"
+                        aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
+                      <i id="idUpIcon{{i}}" class="fa fa-angle-up hide" style="font-size: 20px;text-align: center;font-weight: 600;"
+                        aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
                     </span>
                   </div>
 
@@ -713,7 +717,7 @@
                             <span>Discount</span>
                           </div> -->
 
-                        <div class="balance">
+                        <div class="balance" style="margin-right:5px">
                           <span>Balance</span>
                         </div>
 
@@ -765,7 +769,7 @@
                             <span>{{installment.discount | commaSeprator}}</span>
                           </div> -->
 
-                        <div class="balance">
+                        <div class="balance" style="margin-right:5px">
                           <span>{{installment.balance_amount | commaSeprator}}</span>
                         </div>
 

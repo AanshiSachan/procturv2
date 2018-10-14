@@ -228,10 +228,14 @@ export class StudentFeeService {
             obj.uiSelected = false;
             obj.feeType = "course_level";
             obj.course_id = courseId;
-            obj.courseName = courseName;
+            if (courseId == 0 && courseName == "-") {
+                obj.courseName = "Other Installment"
+            } else {
+                obj.courseName = courseName;
+            }
             obj.master_course_name = master_course_name;
             obj.installmentArray = installment;
-            obj.feeAmountIncludingTax = amountAfterTax - discount;
+            obj.feeAmountIncludingTax = amountAfterTax;
             obj.paidAmount = paidAmount;
             obj.initialAmountWithoutTax = Math.floor(initailAmountWithoutTax);
             obj.discount = discount;
