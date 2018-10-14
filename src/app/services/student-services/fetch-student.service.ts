@@ -160,7 +160,7 @@ export class FetchStudentService {
     )
   }
 
-  getFeeReceiptById(sid, id, yr) {
+  getFeeReceiptById(sid, id) {
     let url = this.baseUrl + "/api/v1/studentWise/fee/" + sid + "/feeReceipt/" + id + "/download"
     //?fin_yr=17-18;
     return this.http.get(url, { headers: this.headers }).map(
@@ -173,7 +173,7 @@ export class FetchStudentService {
     )
   }
 
-  emailReceiptById(sid, id, yr): any {
+  emailReceiptById(sid, id): any {
     let url = this.baseUrl + "/api/v1/studentWise/fee/" + sid + "/feeReceipt/" + id + "/download?emailSent=Y";
     //fin_yr=18-19& 
     return this.http.get(url, { headers: this.headers }).map(

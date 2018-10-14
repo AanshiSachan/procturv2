@@ -198,13 +198,21 @@ export class FeeTemplateAddComponent implements OnInit {
       obj.push(test);
     }
     if (Number(this.addNewTemplate.total_fee) != totalAmount) {
-      let length = obj.length;
-      obj[length - 1].totalAmount = obj[length - 1].totalAmount + Number(this.addNewTemplate.total_fee) - totalAmount;
+      let lastInstallment: any = obj[obj.length - 1];
+      lastInstallment.totalAmount = lastInstallment.totalAmount + Number(this.addNewTemplate.total_fee) - totalAmount;
+      if (this.enableTaxOptions == '1') {
+        lastInstallment.initial_fee_amount = Math.floor(Number(lastInstallment.totalAmount * 100 / (100 + this.feeStructure.registeredServiceTax)))
+        lastInstallment.tax = lastInstallment.totalAmount - lastInstallment.initial_fee_amount;
+      } else {
+        lastInstallment.tax = 0;
+        lastInstallment.initial_fee_amount = lastInstallment.totalAmount;
+      }
+      obj[length - 1] = lastInstallment;
     }
-    if (Number(this.addNewTemplate.tax_amount) != taxAmount) {
-      let length = obj.length;
-      obj[length - 1].tax = obj[length - 1].tax + Number(this.addNewTemplate.tax_amount) - taxAmount;
-    }
+    // if (Number(this.addNewTemplate.tax_amount) != taxAmount) {
+    //   let length = obj.length;
+    //   obj[length - 1].tax = obj[length - 1].tax + Number(this.addNewTemplate.tax_amount) - taxAmount;
+    // }
     this.installMentTable = obj;
   }
 

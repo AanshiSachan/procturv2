@@ -12,6 +12,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { GlobalSearchPopupComponent } from './global-search-popup/global-search-popup.component';
 import { SearchBoxComponent } from './core/search-box/search-box.component';
 import { EnquiryModule } from './enquiry/enquiry.module';
+import { StudentFeeService } from './students/student_fee.service';
 
 @NgModule({
     imports: [
@@ -35,7 +36,7 @@ import { EnquiryModule } from './enquiry/enquiry.module';
     entryComponents: [
     ],
     providers: [
-
+        StudentFeeService
     ],
     exports: [
     ]

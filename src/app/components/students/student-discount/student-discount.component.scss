@@ -1,56 +1,136 @@
+$common-blue: #0084f6;
+$bg-white: #fff;
 .discount-wrapper {
-    .field-checkbox-wrapper,
-    .field-radio-wrapper {
-        position: relative;
-        padding-left: 25px;
-        margin-bottom: 10px;
+    margin-bottom: 10px;
+    .row {
+        // margin: 0;
+        .filter-section {
+            div {
+                margin: 5px 0;
+                &.field-wrapper {
+                    padding-top: 0;
+                }
+                &.field-checkbox-wrapper {
+                    margin: 5px 0 0 0;
+                }
+            }
+        }
+        .table-section {
+            h3 {
+                margin-bottom: 5px;
+            }
+            max-height: 295px;
+            overflow: auto;
+            thead {
+                th {
+                    background: #c8dbef;
+                    padding: 10px;
+                }
+            }
+            tbody {
+                td {
+                    padding: 5px 10px;
+                }
+                tr:nth-child(odd) {
+                    background: white;
+                }
+                tr:nth-child(even) {
+                    background: #ebebeb;
+                }
+            }
+        }
     }
-    .field-radio-wrapper .form-radio {
-        opacity: 0;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 20px;
-        height: 20px;
-        z-index: 1;
+}
+
+.textAllignRight {
+    text-align: right;
+}
+
+.textAllignLeft {
+    text-align: left;
+}
+
+.field-wrapper {
+    .form-ctrl {
+        border: solid 1px #0660a1;
+        border-radius: 4px;
     }
-    .field-radio-wrapper .form-radio+label {
+}
+
+.status-amount {
+    span {
+        display: inline-block;
+        border-radius: 4px;
+        padding: 4px 8px;
+        color: #fff;
+        font-size: 11px;
         vertical-align: middle;
-        transition: all 0.1s;
+        text-transform: uppercase;
+        &.paid {
+            background: #78dd95;
+        }
+        &.due {
+            background: #f44167;
+        }
+        &.upcoming {
+            background: #fcc03d;
+        }
+        &.partial {
+            background: #24c4d0;
+        }
     }
-    .field-radio-wrapper .form-radio+label:after {
-        content: '';
-        width: 16px;
-        height: 16px;
-        border: 2px solid #ccc;
-        border-radius: 50%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: all 0.1s;
+}
+
+.common-tab {
+    // padding-top: 5px;
+    ul {
+        font-size: 0;
+        border-bottom: 1px solid #f1f1f1;
+        li {
+            margin-right: 1px;
+            display: inline-block; // width: 10%;
+            // max-width: 158px;
+            cursor: pointer;
+            a {
+                display: block;
+                padding: 10px;
+                background: #eff7ff;
+                border: 1px solid #cccdcd;
+                color: $common-blue;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            &:hover,
+            &.active {
+                a {
+                    background: $common-blue;
+                    color: $bg-white;
+                    border-color: $common-blue;
+                    font-weight: normal;
+                }
+            }
+        }
     }
-    .field-radio-wrapper .form-radio:checked+label:after {
-        border: 2px solid #0084f6;
-    }
-    .field-radio-wrapper .form-radio+label:before {
-        transition: all 0.1s;
-        width: 1px;
-        height: 1px;
-        left: 9px;
-        top: 9px;
-        position: absolute;
-        content: '';
-    }
-    .field-radio-wrapper .form-radio:checked+label:before {
-        content: '';
-        width: 8px;
-        height: 8px;
-        background: #0084f6;
-        border-radius: 50%;
-        left: 4px;
-        top: 4px;
-    }
-    .field-radio-wrapper .form-radio:checked+label {
-        color: #0084f6;
+}
+
+.history-table {
+    max-height: 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    table {
+        margin-top: 5px;
+        th {
+            padding: 10px;
+        }
+        td {
+            padding: 5px 10px;
+        }
+        tr:nth-child(odd) {
+            background: white;
+        }
+        tr:nth-child(even) {
+            background: #ebebeb;
+        }
     }
 }

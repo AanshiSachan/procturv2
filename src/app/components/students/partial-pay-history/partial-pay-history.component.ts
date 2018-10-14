@@ -8,11 +8,13 @@ import { AppComponent } from '../../../app.component';
 })
 export class PartialPayHistoryComponent implements OnInit, OnChanges {
 
-    @Input() paymentHistory: any[] = [];
+    @Input() schedule_id: any;
     @Input() studentid: any[] = [];
     @Input() defaultAcadYear: any = "";
-    
+
     @Output() closeHist = new EventEmitter<boolean>(false);
+
+    studentPartialPaymentData: any = [];
 
     constructor(private appC: AppComponent, private fetchService: FetchStudentService) { }
 
@@ -20,20 +22,25 @@ export class PartialPayHistoryComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        console.log(this.paymentHistory);
-        console.log(this.studentid);
+        this.schedule_id;
+        if (this.schedule_id != "") {
+            this.getPartialPaymentHistory();
+        }
+    }
+
+    getPartialPaymentHistory() {
+        this.studentPartialPaymentData = [];
+        this.fetchService.getStudentPartialPaymentHistory(this.studentid, this.schedule_id).subscribe(
+            res => {
+                this.studentPartialPaymentData = res;
+            },
+            err => { }
+        )
     }
 
     download(ins) {
-        console.log(ins)
-        let yr: any = ins.financial_year;
         let link = document.getElementById("partialHistory" + ins.invoice_no);
-
-        if (ins.financial_year == null) {
-            ins.financial_year = this.defaultAcadYear
-        }
-
-        this.fetchService.getFeeReceiptById(this.studentid, ins.invoice_no, yr).subscribe(
+        this.fetchService.getFeeReceiptById(this.studentid, ins.invoice_no).subscribe(
             (res: any) => {
                 let body = res;
                 let byteArr = this.convertBase64ToArray(body.document);
@@ -64,17 +71,17 @@ export class PartialPayHistoryComponent implements OnInit, OnChanges {
         this.closeHist.emit(true);
     }
 
-     /* Converts base64 string into a byte[] */
-  convertBase64ToArray(val) {
+    /* Converts base64 string into a byte[] */
+    convertBase64ToArray(val) {
 
-    var binary_string = window.atob(val);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
+        var binary_string = window.atob(val);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
+
     }
-    return bytes.buffer;
-
-  }
 
 }

@@ -1,10 +1,8 @@
-import {
-  Component, OnInit, OnChanges, Output, Input, ViewChild, ElementRef,
-  HostListener, EventEmitter, ChangeDetectorRef, Renderer2, ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, OnChanges, Output, Input, ElementRef, HostListener, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
-import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { StudentFeeService } from '../student_fee.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,21 +12,13 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StudentFeeTableComponent implements OnInit, OnChanges {
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
 
-  @Output() closePopup = new EventEmitter<any>();
-  @Output() apply = new EventEmitter<any>();
-
-  @Input() installmentData: any[] = [];
-  @Input() additionalData: any[] = [];
   @Input() feeTemplateData: any;
   @Input() courseDropdown: any = null;
-  @Input() studentName:string = ""
+  @Input() studentName: string = "";
+  @Input() student_id: any;
+
+  @Output() closePopup = new EventEmitter<boolean>();
 
   addFeeInstallment: any = {
     amount_paid: '',
@@ -86,7 +76,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     student_fee_template_mapping_id: '-1',
     tax: 0,
     update_date: null,
-    updated_by: null
+    updated_by: null,
+    initial_fee_amount_before_disocunt_before_tax: 0
   }
   addFeeOther: any = {
     amount_paid: '',
@@ -142,37 +133,47 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     student_phone: "",
     tax: 0,
     update_date: null,
-    updated_by: null
+    updated_by: null,
+    initial_fee_amount_before_disocunt_before_tax: 0
   }
   otherFeeType: any[] = [];
-  private taxEnableCheck: any = '1';
+  taxEnableCheck: any = '1';
   service_tax: number = 0;
+  installmentData: any = [];
+  additionalData: any = [];
 
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eRef: ElementRef, private appC: AppComponent, private studentPrefillService: AddStudentPrefillService, ) { }
+  constructor(
+    private cd: ChangeDetectorRef,
+    private eRef: ElementRef,
+    private appC: AppComponent,
+    private feeService: StudentFeeService,
+    private actRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
   }
 
   ngOnChanges() {
-    this.installmentData;
-    this.additionalData;
+    this.student_id;
+    this.cd.markForCheck()
     this.feeTemplateData;
     this.courseDropdown;
-    this.updateTableAndFields();
+    this.service_tax = this.feeTemplateData.registeredServiceTax;
+    this.splitCustomizedFee();
   }
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-  /* ============================================================================================== */
+
+  splitCustomizedFee() {
+    this.feeTemplateData.customFeeSchedules.forEach(el => {
+      el.due_date = new Date(el.due_date);
+      if (el.fee_type_name === "INSTALLMENT") {
+        this.installmentData.push(el);
+      }
+      else if (el.fee_type_name != "INSTALLMENT") {
+        this.additionalData.push(el);
+      }
+    });
+  }
 
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
@@ -182,15 +183,10 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       }
     }
   }
-  /* ============================================================================================== */
-  /* ============================================================================================== */
 
   closePopups($event) {
     this.closePopup.emit(false);
   }
-  /* ============================================================================================== */
-  /* ============================================================================================== */
-
 
   applyAction() {
 
@@ -206,10 +202,11 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
 
     let customFees = this.installmentData.concat(this.additionalData);
 
-    if(customFees.length != 0){
-      this.apply.emit(customFees);
+    if (customFees.length != 0) {
+      // this.apply.emit(customFees);
+      this.makeServerCallToSave(customFees);
     }
-    else{
+    else {
       let obj = {
         type: "error",
         title: "Invalid Fee Structure",
@@ -218,17 +215,106 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       this.appC.popToast(obj);
     }
 
-
-
   }
-  /* ============================================================================================== */
-  /* ============================================================================================== */
 
-  updateTableAndFields() {
-    this.service_tax = this.feeTemplateData.registeredServiceTax;
+
+  makeServerCallToSave(feeSch) {
+    let totalAmountDue = this.getTotalAmountDue(feeSch);
+    let obj = {
+      customFeeSchedules: feeSch,
+      discount_fee_reason: "",
+      is_delete_other_fee_types: 0,
+      is_undo: this.feeTemplateData.is_undo,
+      studentArray: [],
+      studentwise_fees_tax_applicable: "",
+      studentwise_total_fees_amount: "",
+      studentwise_total_fees_discount: 0,
+      template_effective_date: "",
+      template_id: ""
+    };
+    obj.customFeeSchedules = this.getFeeStructure(feeSch);
+    obj.discount_fee_reason = this.feeTemplateData.discount_fee_reason;
+    obj.studentArray.push(this.student_id);
+    obj.studentwise_fees_tax_applicable = this.feeTemplateData.studentwise_fees_tax_applicable;
+    obj.studentwise_total_fees_amount = totalAmountDue.toString();
+    obj.studentwise_total_fees_discount = this.feeTemplateData.studentwise_total_fees_discount;
+    obj.template_effective_date = moment(this.feeTemplateData.template_effective_date).format("YYYY-MM-DD");
+    obj.template_id = this.feeTemplateData.template_id;
+
+    this.feeService.allocateStudentFees(obj).subscribe(
+      res => {
+        let obj = {
+          type: "success",
+          title: "Applied Successfully",
+          body: ""
+        }
+        this.appC.popToast(obj);
+        this.closePopup.emit(true);
+      },
+      err => {
+        let obj = {
+          type: "error",
+          title: err.error.message,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
+    )
   }
-  /* ============================================================================================== */
-  /* ============================================================================================== */
+
+  getTotalAmountDue(data) {
+    let totalAmountDue: number = 0;
+    data.forEach(
+      el => {
+        if (el.paid_full == "N") {
+          if (el.balance_amount == 0) {
+            totalAmountDue += el.fees_amount;
+          } else {
+            totalAmountDue += el.balance_amount;
+          }
+        }
+      }
+    )
+    return totalAmountDue;
+  }
+
+  getFeeStructure(fee: any[]): any[] {
+    let temp: any[] = [];
+
+    fee.forEach(el => {
+      if (el.due_date == null) {
+        el.due_date = moment().format("YYYY-MM-DD");
+      }
+      let obj = {
+        fee_date: moment(el.due_date).format("YYYY-MM-DD"),
+        fee_type: el.fee_type_name === "INSTALLMENT" ? 0 : el.fee_type,
+        fees_amount: el.fees_amount,
+        initial_fee_amount: el.initial_fee_amount,
+        is_paid: this.getPaidStatus(el),
+        is_referenced: el.is_referenced,
+        schedule_id: el.schedule_id,
+        service_tax: el.service_tax,
+        service_tax_applicable: el.service_tax_applicable,
+        student_fee_template_mapping_id: el.student_fee_template_mapping_id,
+        initial_fee_amount_before_disocunt_before_tax: el.initial_fee_amount_before_disocunt_before_tax
+      }
+      temp.push(obj);
+    });
+    //console.log(temp);
+    return temp;
+  }
+
+  getPaidStatus(el): any {
+    if (el.is_referenced == 'Y') {
+      return 0;
+    }
+    else if (el.is_referenced == 'N' && el.is_paid == 1) {
+      return 1;
+    }
+    else if (el.is_referenced == 'N' && el.is_paid == 0) {
+      return 0;
+    }
+  }
 
   addNewInstallmentFee() {
     if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null || isNaN(this.addFeeInstallment.initial_fee_amount) || this.addFeeInstallment.initial_fee_amount == "" || this.addFeeInstallment.initial_fee_amount <= 0) {
@@ -250,7 +336,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       }
     }
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
-      
+
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
       }
@@ -262,7 +348,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.fee_type = 0;
 
-      if(this.addFeeInstallment.student_fee_template_mapping_id != '-1'){
+      if (this.addFeeInstallment.student_fee_template_mapping_id != '-1') {
 
         let id = this.addFeeInstallment.student_fee_template_mapping_id.split(',')[0];
         let name = this.addFeeInstallment.student_fee_template_mapping_id.split(',')[1];
@@ -270,7 +356,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         this.addFeeInstallment.student_fee_template_mapping_id = id;
         this.addFeeInstallment.course_subject_name = name;
       }
-
+      this.addFeeInstallment.initial_fee_amount_before_disocunt_before_tax = this.addFeeInstallment.initial_fee_amount;
       this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
       this.addFeeInstallment.amount_paid = 0;
       this.addFeeInstallment.balance_amount = 0;
@@ -330,13 +416,12 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         student_fee_template_mapping_id: '-1',
         tax: 0,
         update_date: null,
-        updated_by: null
+        updated_by: null,
+        initial_fee_amount_before_disocunt_before_tax: 0
       }
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
 
   precisionRound(number, precision) {
     let o = number.toFixed(1);
@@ -357,8 +442,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
 
   getOtherFeesArray(): any[] {
     if (this.otherFeeType.length == 0) {
@@ -383,8 +466,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
 
   addNewOtherFee() {
     let otherFeesArr: any[] = this.additionalData;
@@ -428,13 +509,12 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         this.addFeeOther.service_tax = 0;
         this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
       }
+      this.addFeeOther.initial_fee_amount_before_disocunt_before_tax = this.addFeeOther.initial_fee_amount;
       otherFeesArr.push(this.addFeeOther);
       this.clearOtherFees(otherFeesArr);
     }
   }
 
-  /* ============================================================================================== */
-  /* ============================================================================================== */
 
   clearOtherFees(arr: any[]) {
     this.additionalData = arr;
@@ -492,16 +572,15 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       student_phone: "",
       tax: 0,
       update_date: null,
-      updated_by: null
+      updated_by: null,
+      initial_fee_amount_before_disocunt_before_tax: 0
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
 
   updateOtherFeeData(e) {
     this.cd.markForCheck();
-    this.studentPrefillService.getFeeDetailsById(e).subscribe(
+    this.feeService.getFeeDetailsById(e).subscribe(
       el => {
         this.cd.markForCheck();
         this.addFeeOther.initial_fee_amount = el.fee_amount;
@@ -520,8 +599,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     )
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getTaxedAmount(amt, stat, i): number {
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let tax: number = 0;
@@ -534,8 +611,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
 
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
@@ -551,24 +626,18 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
 
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   deleteInstallment(i) {
     //console.log(i);
     this.installmentData.splice(i, 1);
     this.updateTableInstallment();
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateTableInstallment() {
     this.installmentData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
     });
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   getOtherTaxes(amt, stat, i): number {
     if (this.additionalData.length > 0) {
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
@@ -585,8 +654,6 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   updateAdditionalInitialAmount(amount, tax, index) {
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let value: number = 0;
@@ -600,14 +667,10 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     }
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   deleteOtherFee(i) {
     this.additionalData.splice(i, 1);
   }
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
 
 
 

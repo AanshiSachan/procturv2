@@ -1,0 +1,95 @@
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Discount Reason
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreateNew()">
+        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+        <span>Add Discount Reason</span>
+      </a>
+    </div>
+    <section class="clearFix create-standard-form" *ngIf="createNewDiscount">
+      <div class="row create-standard-field">
+
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-wrapper">
+            <label for="newDiscount">Reason</label>
+            <input type="text" [(ngModel)]="discountReason" class="form-ctrl" name="newDiscount">
+          </div>
+        </div>
+        <div class="c-lg-2 c-md-2 c-sm-2">
+          <aside class="pull-left create-cancel-small">
+            <button class="btn fullBlue" (click)="addNewDiscountReason()" style="margin-top:25px;">Add</button>
+          </aside>
+        </div>
+      </div>
+
+    </section>
+    <div id="divSlotTable">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Reason
+                </th>
+                <th>
+                  Created Date
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of discountReasonArray; let i = index; trackBy: i;">
+                <td class="view-comp">
+                  {{row.reason}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.reason" name="label">
+                  </div>
+                </td>
+
+                <td class="CreatedOn">
+                  {{row.created_date}}
+                </td>
+
+                <td class="view-comp">
+                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                </td>
+                <td class="edit-comp">
+                  <a class="anchorTagCursor" (click)="saveInformation(row , i)"> Save </a>
+                  <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
+                </td>
+              </tr>
+              <tr *ngIf="discountReasonArray.length ==0">
+                <td colspan="3" style="text-align: center">
+                  No Discount Reason Available
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginator Here -->
+    <!-- <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div> -->
+  </section>
+
+</div>

@@ -18,8 +18,8 @@
           <ul style="display: inline-flex;">
             <li class="headerBtn" routerLink='add'>
               <i>
-                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-                  focusable="false">
+                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
+                  class="artdeco-icon" focusable="false">
                   <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
                 </svg>
               </i>
@@ -111,8 +111,8 @@
 
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
           </pagination>
         </div>
       </div>
@@ -135,8 +135,8 @@
               <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
               <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
             </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
           </g>
         </svg>
       </span>
@@ -185,7 +185,8 @@
 
             <div class="c-sm-4 c-md-4 c-lg-4">
               <div class="search-filter-wrapper">
-                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
+                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData"
+                  [(ngModel)]="searchData">
               </div>
             </div>
 
@@ -225,8 +226,7 @@
                 <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                   <td>
                     <div class="field-checkbox-wrapper">
-
-                      <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                      <input type="checkbox" [disabled]="row.immutableKey" class="form-checkbox" [(ngModel)]="row.assigned">
                       <label></label>
                     </div>
                   </td>
@@ -244,7 +244,7 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <select class="form-ctrl" [(ngModel)]="row.academic_year" style="background: transparent">
+                      <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.academic_year" style="background: transparent">
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                           {{opt.inst_acad_year}}
@@ -254,7 +254,8 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <select class="form-ctrl" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
+                      <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.assigned_fee_template_id"
+                        style="background: transparent">
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
                           {{opt.template_name}}

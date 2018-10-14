@@ -66,15 +66,12 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        console.log('ngOnChanges', this.batchList);
         this.batchList = [];
         this.batchList = this.dataList.map(e => {
             e.data.deleteCourse_SubjectUnPaidFeeSchedules = false;
             return e;
         });
         this.clonedArray = this.commonService.keepCloning(this.batchList);
-        console.log('ngOnChanges 2', this.batchList);
-        this.isEdit;
         if (this.defaultAcadYear == null && this.defaultAcadYear == undefined) {
             this.defaultAcadYear = "-1";
         }
@@ -138,6 +135,12 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             }
         }
 
+        if (deleteCourse_SubjectUnPaidFeeSchedules) {
+
+        } else {
+            deleteCourse_SubjectUnPaidFeeSchedules = this.checkIfCourseIsUnassigned(this.clonedArray, this.batchList);
+        }
+
         if (batchString.length != 0) {
             let obj = {
                 batchString: batchString,
@@ -173,6 +176,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     //finding index on dataList
                     this.createUpdate(value, i);
                 }
+            } else {
+                if (this.dataList[i].data.batch_id == batch.data.batch_id) {
+                    //finding index on dataList
+                    this.createUpdate(value, i);
+                }
             }
         }
     }
@@ -205,10 +213,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                 if (ind != null) {
                     if (confirm("If you unassign the student from course then corresponding fee instalments will be deleted.")) {
                         this.dataList[index].isSelected = false;
+                        this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
                     }
                     else {
                         this.dataList[index].isSelected = true;
-                        //document.getElementById('batchcheck' + index).checked = true;
+                        this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
                     }
                 }
                 /* else */
@@ -369,20 +378,51 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
     }
 
     onFeeTemplateChanges(batchdata) {
+        let course_id = "course_id";
+        if (this.isProfessional) {
+            course_id = "batch_id";
+        }
+        this.cd.markForCheck();
+        this.cd.detectChanges();
         for (let i = 0; i < this.clonedArray.length; i++) {
-            if (this.clonedArray[i].data.course_id == batchdata.course_id) {
+            if (this.clonedArray[i].data[course_id] == batchdata[course_id]) {
                 if (batchdata.selected_fee_template_id != "-1" && batchdata.selected_fee_template_id != null && batchdata.selected_fee_template_id != undefined) {
                     if (this.clonedArray[i].data.selected_fee_template_id != batchdata.selected_fee_template_id) {
                         if (confirm('If you change fee template then all your unpaid installment will delete. Do you want to continue?')) {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = true;
                         } else {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = false;
+                            // batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
                         }
                         break;
                     }
                 }
             }
         }
+    }
+
+
+    checkIfCourseIsUnassigned(clonedArray, batchList) {
+        let course_id = "course_id";
+        if (this.isProfessional) {
+            course_id = "batch_id";
+        }
+        for (let i = 0; i < clonedArray.length; i++) {
+            for (let j = 0; j < batchList.length; j++) {
+                if (clonedArray[i].data[course_id] == batchList[j].data[course_id]) {
+                    if (clonedArray[i].isSelected == true) {
+                        if (batchList[j].isSelected == false) {
+                            // Course is unassigned
+                            if (batchList[j].data.deleteCourse_SubjectUnPaidFeeSchedules == true) {
+                                return batchList[j].data.deleteCourse_SubjectUnPaidFeeSchedules;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
 }

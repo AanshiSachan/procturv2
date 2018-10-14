@@ -1792,7 +1792,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .middle-section {
-    padding: 15px;
+    padding: 0;
 }
 
 .boxPadding15 {
@@ -1846,7 +1846,7 @@ input[type=number]::-webkit-outer-spin-button {
 /*=====================================middle top section css===================*/
 
 .middle-top {
-    padding-bottom: 10px;
+    // padding-bottom: 10px;
     border-bottom: 1px solid $borderccc;
     margin-bottom: 10px;
     h1 {
@@ -2109,9 +2109,18 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .btn-diff {
-    .btn {
-        padding: 0 10px 0 5px;
-        svg {
+    .btn-header {
+        margin-right: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.36;
+        letter-spacing: normal;
+        text-align: center;
+        color: #00a2ff;
+        background: transparent;
+        img {
             display: inline-block;
             vertical-align: middle;
         }
@@ -2119,7 +2128,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .fee-section-page {
-    padding: 10px 20px;
+    padding: 10px 0px;
 }
 
 .fee-summary {
@@ -2350,14 +2359,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .configureFee {
     border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
-    max-height: 400px;
-    overflow-x: hidden;
-    overflow-y: auto;
     ::-webkit-scrollbar {
         display: block;
     }
     .row {
-        margin: 0px 10px;
+        margin: 0px 5px;
         .field-wrapper {
             width: 40%;
         }
@@ -2446,4 +2452,250 @@ input[type=number]::-webkit-outer-spin-button {
     .btn-section {
         padding-top: 17px;
     }
+}
+
+////// New Layout
+.table-section {
+    font-size: 0.9em;
+    .table-rows {
+        display: inline-block;
+        width: 100%;
+        .checkbox-div {
+            width: 30%;
+            display: inline-block;
+            label {
+                font-size: 14px;
+                font-weight: bold;
+                font-style: normal;
+                font-stretch: normal;
+                letter-spacing: normal;
+                text-align: left;
+            }
+        }
+        .column-name {
+            width: 69%;
+            display: inline-block;
+            div {
+                display: inline-block;
+                margin: 0 1em;
+                width: 10%;
+                &.fee-amount {
+                    width: 15% !important;
+                }
+                &.status-amount {
+                    width: 14% !important;
+                }
+                &.amount {
+                    text-align: right;
+                }
+            }
+            .actionDiv {}
+        }
+    }
+    .installment-row:nth-child(odd) {
+        background: white;
+    }
+    .installment-row:nth-child(even) {
+        background: #ebebeb;
+    }
+    .field-checkbox-wrapper {
+        margin-bottom: 0;
+        display: inline-block;
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.36;
+            text-align: left;
+            color: #000000;
+        }
+    }
+    .course-installment {
+        padding: 20px 5px;
+    }
+}
+
+.inner-table {
+    width: 100%;
+    display: inline-block;
+    padding: 0 5px;
+    .checkbox {
+        width: 15%;
+        display: inline-block;
+        label {
+            padding-left: 0px;
+        }
+    }
+    .column-map {
+        width: 84%;
+        display: inline-block;
+        div {
+            width: 10%;
+            display: inline-block; // margin: 0 0.7em;
+            &.amount,
+            &.Tax,
+            &.discount,
+            &.balance {
+                text-align: right;
+            }
+            .balance {
+                margin-right: 5px;
+            }
+            span {
+                cursor: default;
+            }
+        }
+        &.paymentMode {
+            width: 16%;
+        }
+    }
+}
+
+.title-section {
+    background-color: #c8dbef !important;
+    padding: 10px 5px;
+    span {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1.36;
+        text-align: left;
+        color: #000000;
+        cursor: default;
+    }
+}
+
+.status-amount {
+    span {
+        display: inline-block;
+        border-radius: 4px;
+        padding: 4px 8px;
+        color: #fff;
+        font-size: 11px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        &.paid {
+            background: #78dd95;
+        }
+        &.due {
+            background: #f44167;
+        }
+        &.upcoming {
+            background: #fcc03d;
+        }
+        &.partial {
+            background: #24c4d0;
+        }
+    }
+}
+
+.visibilityHidden {
+    visibility: hidden;
+}
+
+.card-layout {
+    margin-bottom: 10px;
+    &.oldDiscount {
+        div {
+            width: 13% !important;
+        }
+    }
+    div {
+        width: 13% !important;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 4px;
+        margin-right: 5px;
+        span {
+            text-align: left;
+            font-size: 11px;
+            font-weight: bold;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.36;
+            letter-spacing: normal;
+            text-align: left;
+            color: #ffffff;
+            &.label {
+                padding: 0;
+            }
+            &.amount-Value {
+                font-size: 22px;
+            }
+            cursor: default;
+        }
+    }
+    .actual-Amount {
+        background: #ff8f36;
+    }
+    .total-Amount {
+        background: #67e845;
+    }
+    .tax-Amount {
+        background: #fcc03d;
+    }
+    .discount-Amount {
+        background: #b159f2;
+    }
+    .additional-Amount {
+        background: #59b4f2;
+    }
+    .amount-Paid {
+        background: #78dd95;
+    }
+    .amount-Due {
+        background: #f44167;
+    }
+}
+
+//Action Menu
+.actionDiv {
+    width: 8% !important;
+    .spanTitle:hover {
+        .dropdown-data {
+            display: block !important;
+            background: #efefef;
+            width: max-content;
+            padding: 5px;
+            z-index: 99999;
+            opacity: 3;
+            box-shadow: 0px 5px 6px 0px #dedede;
+            float: right;
+            border: 1pt solid #ddd;
+            position: relative;
+            margin-right: 2em;
+            li {
+                margin: 5px 0;
+                a {
+                    padding: 5px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    svg {
+        transform: rotate(90deg);
+    }
+    .dropdown-data {
+        display: none !important;
+    }
+}
+
+.discount-Amount:hover {
+    .tooltip-content {
+        padding: 6px;
+        width: 200px;
+        background: white;
+        color: black;
+        -webkit-box-shadow: 0 0 3px inset;
+        box-shadow: 0 0 3px #784646;
+        margin-top: -30px;
+        margin-left: 30px;
+        position: absolute;
+        display: block;
+        border-radius: 0.2em;
+        cursor: default;
+    }
+}
+
+.tooltip-content {
+    display: none;
 }

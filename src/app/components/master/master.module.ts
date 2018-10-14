@@ -28,6 +28,7 @@ import { AcademicYearComponent } from '../academic-year/academic-year.component'
 import { HomeComponent } from '../academic-year/home/home.component';
 import { ClosingReasonComponent } from './closing-reason/closing-reason.component';
 import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
+import { DiscountReasonComponent } from '../discount-reason/discount-reason.component';
 
 @NgModule({
     imports: [
@@ -38,7 +39,7 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
         MasterRoutingModule
     ],
     exports: [
-       
+
     ],
     declarations: [
         MasterComponent,
@@ -49,7 +50,8 @@ import { ClosingReasonService } from '../../services/closingReasons/closing-reas
         EventManagmentComponent,
         CityAreaMapComponent,
         TopicsComponent,
-        ClosingReasonComponent
+        ClosingReasonComponent,
+        DiscountReasonComponent
     ],
     providers: [
         ExamGradeServiceService,

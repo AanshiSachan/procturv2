@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.173 17.644">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #00a2ff;
+      }
+    </style>
+  </defs>
+  <g id="_002-RECONFIGURE" data-name="002-RECONFIGURE" transform="translate(-1083.483 -172)">
+    <g id="Group_439" data-name="Group 439" transform="translate(1083.483 172)">
+      <g id="Group_438" data-name="Group 438">
+        <path id="Path_86" data-name="Path 86" class="cls-1" d="M10.586,42.667A10.615,10.615,0,0,0,0,53.253a.882.882,0,0,0,1.764,0,8.822,8.822,0,1,1,17.644,0,.882.882,0,0,0,1.764,0A10.615,10.615,0,0,0,10.586,42.667Z" transform="translate(0 -42.667)"/>
+        <path id="Path_87" data-name="Path 87" class="cls-1" d="M117.209,172.475l-.006-.005a6.185,6.185,0,1,0,.011.011Zm-4.367,8.778a4.411,4.411,0,1,1,2.432-8.091l-3.056,3.056a.882.882,0,0,0,1.248,1.248l3.056-3.056a4.411,4.411,0,0,1-3.68,6.843Z" transform="translate(-102.256 -165.374)"/>
+      </g>
+    </g>
+  </g>
+</svg>
