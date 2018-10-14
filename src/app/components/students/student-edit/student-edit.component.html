@@ -537,7 +537,7 @@
           <div class="card-layout">
 
             <div class="actual-Amount">
-              <span class="label">Actual Amount</span><br />
+              <span class="label">Fee Amount</span><br />
               <span class="amount-Value">{{cardAmountObject.feeAmountExclTax | commaSeprator}}</span>
             </div>
 
@@ -630,10 +630,8 @@
                       <span *ngIf="data.master_course_name != '' &&  data.master_course_name != null">{{data.master_course_name}}
                         - {{data.courseName}}</span>
                       <span *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
-                      <i id="idDownIcon{{i}}" class="fa fa-angle-down" style="font-size: 20px;text-align: center;font-weight: 600;"
-                        aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
-                      <i id="idUpIcon{{i}}" class="fa fa-angle-up hide" style="font-size: 20px;text-align: center;font-weight: 600;"
-                        aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
+                      <i id="idDownIcon{{i}}" class="fa fa-angle-down iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
+                      <i id="idUpIcon{{i}}" class="fa fa-angle-up hide iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
                     </span>
                   </div>
 
