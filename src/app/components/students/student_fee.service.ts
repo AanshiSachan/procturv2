@@ -581,7 +581,7 @@ export class StudentFeeService {
 
     getMasterCourseName(data) {
         if (data.length > 0) {
-            let uniqueMasterCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.master_course_name])));
+            let uniqueMasterCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.master_course_name]))).filter(el => el != null);
             return uniqueMasterCourseName;
         } else {
             return [];
