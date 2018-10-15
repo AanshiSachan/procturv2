@@ -773,7 +773,11 @@
                           </div> -->
 
                         <div class="balance" style="margin-right:5px">
-                          <span>{{installment.balance_amount | commaSeprator}}</span>
+                          <span *ngIf="installment.paid_full == 'Y'">{{ 0 | commaSeprator}}</span>
+                          <span *ngIf="installment.balance_amount > 0 && installment.paid_full == 'N'">{{installment.balance_amount
+                            | commaSeprator}}</span>
+                          <span *ngIf="installment.balance_amount == 0 && installment.paid_full == 'N'">{{installment.fees_amount
+                            | commaSeprator}}</span>
                         </div>
 
                         <div class="dueDate">
