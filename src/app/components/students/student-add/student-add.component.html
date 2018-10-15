@@ -579,7 +579,7 @@
             </div>
 
             <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
-              <span class="label">Additional Fee Incl of Tax</span><br />
+              <span class="label">Additional Fee (Incl of Tax)</span><br />
               <span class="amount-Value">{{cardAmountObject.additionalFees | commaSeprator}}</span>
             </div>
 
@@ -651,9 +651,10 @@
                       <label></label>
                     </div>
                     <span>
-                      <span *ngIf="data.master_course_name != '' && data.master_course_name != null">{{data.master_course_name}}
+                      <span class="elipsisText" *ngIf="data.master_course_name != '' && data.master_course_name != null"
+                        title="{{data.master_course_name}} - {{data.courseName}}">{{data.master_course_name}}
                         - {{data.courseName}}</span>
-                      <span *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
+                      <span class="elipsisText" *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
                       <i id="idDownIcon{{i}}" class="fa fa-angle-down iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
                       <i id="idUpIcon{{i}}" class="fa fa-angle-up hide iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
                     </span>
