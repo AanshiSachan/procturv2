@@ -1489,6 +1489,7 @@ export class StudentAddComponent implements OnInit {
           obj.pdc_cheque_id = el.pdc_cheque_id;
           this.paymentPopUpJson.pdcSelectedForm = obj;
           this.paymentPopUpJson.selectedPdcId = id;
+          this.paymentPopUpJson.payingAmount = el.cheque_amount;
         }
       });
     }
