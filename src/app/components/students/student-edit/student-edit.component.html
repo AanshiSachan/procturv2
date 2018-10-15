@@ -541,7 +541,7 @@
               <span class="amount-Value">{{cardAmountObject.feeAmountExclTax | commaSeprator}}</span>
             </div>
 
-            <div class="discount-Amount">
+            <div class="discount-Amount tooltipDiv">
               <span class="label">Discount</span><br />
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
               <span class="tooltip-content">The discount value is the total discount applied to the student across all
@@ -549,12 +549,14 @@
                 release of new discount feature recently introduced.</span>
             </div>
 
-            <div class="tax-Amount">
-              <span class="label">Tax</span><br />
+            <div class="tax-Amount tooltipDiv">
+              <span class="label">Tax On Installment</span><br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
+              <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may
+                differ due to rounding off decimal values.</span>
             </div>
 
-            <div class="additional-Amount">
+            <div class="additional-Amount" *ngIf="cardAmountObject.additionalFees > 0">
               <span class="label">Additional Fee</span><br />
               <span class="amount-Value">{{cardAmountObject.additionalFees | commaSeprator}}</span>
             </div>

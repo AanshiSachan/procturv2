@@ -571,12 +571,14 @@
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
             </div>
 
-            <div class="tax-Amount">
+            <div class="tax-Amount tooltipDiv">
               <span class="label">Tax on Installment</span><br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
+              <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may
+                differ due to rounding off decimal values.</span>
             </div>
 
-            <div class="discount-Amount">
+            <div class="discount-Amount" *ngIf="cardAmountObject.additionalFees > 0">
               <span class="label">Additional Fee Incl of Tax</span><br />
               <span class="amount-Value">{{cardAmountObject.additionalFees | commaSeprator}}</span>
             </div>
