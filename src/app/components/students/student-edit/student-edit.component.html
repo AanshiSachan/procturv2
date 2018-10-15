@@ -542,7 +542,9 @@
             </div>
 
             <div class="discount-Amount tooltipDiv">
-              <span class="label">Discount</span><br />
+              <span class="label">Discount</span>
+              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
+              <br />
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
               <span class="tooltip-content">The discount value is the total discount applied to the student across all
                 its course(s). This value is the combination of previous discount and the new discount applied post the
@@ -550,7 +552,9 @@
             </div>
 
             <div class="tax-Amount tooltipDiv">
-              <span class="label">Tax On Installment</span><br />
+              <span class="label">Tax On Installment</span>
+              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
+              <br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
               <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may
                 differ due to rounding off decimal values.</span>
@@ -667,7 +671,7 @@
                   </div>
                 </div>
 
-                <div id="installmentTable{{i}}" class="hide installment-list">
+                <div id="installmentTable{{i}}" class="hide installment-list" style="border-bottom: 3px solid #0060a3;">
                   <ul>
                     <li class="inner-table title-section">
 

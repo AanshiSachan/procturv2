@@ -572,7 +572,9 @@
             </div>
 
             <div class="tax-Amount tooltipDiv">
-              <span class="label">Tax on Installment</span><br />
+              <span class="label">Tax on Installment</span>
+              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
+              <br />
               <span class="amount-Value">{{cardAmountObject.taxAmount | commaSeprator}}</span>
               <span class="tooltip-content">Tax component in Summary card and total tax in individual Instalments may
                 differ due to rounding off decimal values.</span>
@@ -689,7 +691,7 @@
                   </div>
                 </div>
 
-                <div id="installmentTable{{i}}" class="hide installment-list">
+                <div id="installmentTable{{i}}" class="hide installment-list" style="border-bottom: 3px solid #0060a3;">
                   <ul>
                     <li class="inner-table title-section">
 

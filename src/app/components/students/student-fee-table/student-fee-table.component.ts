@@ -268,9 +268,9 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       el => {
         if (el.paid_full == "N") {
           if (el.balance_amount == 0) {
-            totalAmountDue += el.fees_amount;
+            totalAmountDue = totalAmountDue + Number(el.fees_amount);
           } else {
-            totalAmountDue += el.balance_amount;
+            totalAmountDue = totalAmountDue + Number(el.balance_amount);
           }
         }
       }
@@ -296,7 +296,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
         student_fee_template_mapping_id: el.student_fee_template_mapping_id,
-        initial_fee_amount_before_disocunt_before_tax: el.initial_fee_amount_before_disocunt_before_tax
+        initial_fee_amount_before_disocunt_before_tax: el.initial_fee_amount
       }
       temp.push(obj);
     });
