@@ -1616,12 +1616,10 @@ export class StudentAddComponent implements OnInit {
   }
 
   totalPartialChange(e) {
-    e = Number(e);
-    if (e > this.paymentPopUpJson.immutableAmount) {
-      this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
-      this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
-      this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
-    } else if (e <= 0) {
+
+
+    e = Number(e.target.value);
+    if (e == 0) {
       this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
       this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
       this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
@@ -1629,6 +1627,21 @@ export class StudentAddComponent implements OnInit {
     else {
       this.paymentPopUpJson.pdcSelectedForm.cheque_amount = Number(e);
     }
+
+
+    // e = Number(e);
+    // if (e > this.paymentPopUpJson.immutableAmount) {
+    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+    //   this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
+    //   this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
+    // } else if (e <= 0) {
+    //   this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
+    //   this.paymentPopUpJson.payingAmount = this.paymentPopUpJson.immutableAmount;
+    //   this.paymentPopUpJson.pdcSelectedForm.cheque_amount = this.paymentPopUpJson.immutableAmount;
+    // }
+    // else {
+    //   this.paymentPopUpJson.pdcSelectedForm.cheque_amount = Number(e);
+    // }
   }
 
   flushDataAfterPayement() {

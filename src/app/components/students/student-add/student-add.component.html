@@ -1449,7 +1449,7 @@
           <div class="field-wrapper">
             <label for="payamt">Payment for</label>
             <input type="text" id="payamt" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-              [(ngModel)]="paymentPopUpJson.payingAmount" name="payamt" (ngModelChange)="totalPartialChange($event)" />
+              [(ngModel)]="paymentPopUpJson.payingAmount" name="payamt" (keyup)="totalPartialChange($event)" />
           </div>
 
           <div class="field-wrapper datePickerBox">

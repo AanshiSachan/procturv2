@@ -390,16 +390,20 @@ export class StudentFeeService {
     }
 
     validatePaymentDetails(data) {
+        if (Number(data.payingAmount) <= 0) {
+            this.commonService.showErrorMessage('error', 'Paying Amount', 'Please provide payment amount');
+            return false;
+        }
         if (data.paid_date == null || data.paid_date == "") {
             this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
             return false;
         }
         if (data.payment_mode == "" || data.payment_mode == null) {
-            this.commonService.showErrorMessage('Error', 'Mandatory Details', 'Please provide payment date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
             return false;
         }
         if (data.payingAmount > data.immutableAmount) {
-            this.commonService.showErrorMessage('Error', '', 'Please provide paying amount less than total amount to pay.');
+            this.commonService.showErrorMessage('error', '', 'Please provide paying amount less than total amount to pay.');
             return false;
         }
         if (data.payment_mode != "Cheque/PDC/DD No.") {
@@ -416,22 +420,22 @@ export class StudentFeeService {
 
     validateChequePDCJSon(data) {
         if (data.bank_name.trim() == '') {
-            this.commonService.showErrorMessage('Error', 'Mandatory Details', 'Please provide Bank Name');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide Bank Name');
             return false;
         }
 
         if (data.cheque_date == null || data.cheque_date == "") {
-            this.commonService.showErrorMessage('Error', 'Mandatory Details', 'Please provide Cheque Date');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide Cheque Date');
             return false;
         }
 
         if (data.cheque_no.trim() == "") {
-            this.commonService.showErrorMessage('Error', 'Mandatory Details', 'Please provide a Cheque Number');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide a Cheque Number');
             return false;
         }
 
         if (data.cheque_no.trim().length != 6) {
-            this.commonService.showErrorMessage('Error', 'Mandatory Details', 'Please provide a valid Cheque Number');
+            this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide a valid Cheque Number');
             return false;
         }
 
