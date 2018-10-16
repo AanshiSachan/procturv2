@@ -506,7 +506,7 @@
             <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
           </h1>
           <aside class="pull-right btn-diff">
-            <button class="btn-header" (click)="openDiscountApply()" *ngIf="subjectWiseInstallmentArray.length > 0">
+            <button class="btn-header" (click)="openDiscountApply()" *ngIf="showFeeSection">
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
             </button>
@@ -514,7 +514,7 @@
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
-            <button class="btn-header" *ngIf="subjectWiseInstallmentArray.length == 0" (click)="configureFees($event)">
+            <button class="btn-header" *ngIf="!showFeeSection" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="vertical-align: middle;">
                 <g fill="#0084F6" fill-rule="nonzero">
                   <path d="M6.014 15.478a.458.458 0 1 0 .917 0c0-4.987 3.99-9.056 8.921-9.135l-.625.63a.461.461 0 0 0 .324.788.462.462 0 0 0 .325-.135l1.407-1.418a.461.461 0 0 0 0-.653l-1.407-1.419a.453.453 0 0 0-.649 0 .461.461 0 0 0 0 .654l.63.634c-5.44.07-9.843 4.553-9.843 10.054zM25.528 15.016a.458.458 0 0 0-.458.462c0 4.987-3.99 9.055-8.921 9.135l.625-.63a.461.461 0 0 0 0-.653.453.453 0 0 0-.648 0l-1.408 1.418a.46.46 0 0 0 0 .653l1.408 1.418a.462.462 0 0 0 .324.136.462.462 0 0 0 .324-.789l-.63-.634c5.44-.07 9.843-4.554 9.843-10.054a.458.458 0 0 0-.459-.462zM14.87 12.73a2.948 2.948 0 0 0-1.596 1.61c-.301.732-.301 1.544 0 2.276A2.944 2.944 0 0 0 16 18.454a2.86 2.86 0 0 0 1.13-.228 2.948 2.948 0 0 0 1.596-1.61c.301-.732.301-1.544 0-2.276a2.944 2.944 0 0 0-2.726-1.839c-.39 0-.769.08-1.13.229zm3.01 1.964a2.056 2.056 0 0 1 0 1.572c-.208.509-.597.9-1.102 1.11-.25.103-.509.16-.777.16-.83 0-1.565-.5-1.88-1.27a2.056 2.056 0 0 1 0-1.572c.208-.508.597-.9 1.102-1.11.25-.103.509-.159.778-.159.824 0 1.564.5 1.88 1.27z" />
@@ -523,7 +523,7 @@
               </svg>
               <span>Configure Fees</span>
             </button>
-            <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="subjectWiseInstallmentArray.length != 0">
+            <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="showFeeSection">
               <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
               <span>Reconfigure Fees</span>
             </button>
