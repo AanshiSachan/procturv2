@@ -645,20 +645,20 @@
             <ul>
               <li *ngFor="let data of subjectWiseInstallmentArray; let i= index" class="table-rows">
 
-                <div class="course-installment">
+                <div class="course-installment" (click)="openInstallmentListOfCourse(i ,  'open' , $event)">
                   <div class="checkbox-div">
-                    <div class="field-checkbox-wrapper" [ngClass]="{visibilityHidden: data.paid_Full_Installment_CourseWise == 'Paid'}">
+                    <div class="field-checkbox-wrapper hide" [ngClass]="{visibilityHidden: data.paid_Full_Installment_CourseWise == 'Paid'}">
                       <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="data.uiSelected"
                         (ngModelChange)="onCheckBoxSelection($event ,  'course' , data)" />
                       <label></label>
                     </div>
                     <span>
-                      <span class="elipsisText" *ngIf="data.master_course_name != '' && data.master_course_name != null"
+                      <i id="idDownIcon{{i}}" class="fa fa-angle-right iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
+                      <i id="idUpIcon{{i}}" class="fa fa-angle-down hide iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
+                      <span class="elipsisText" *ngIf="data.master_course_name != '' &&  data.master_course_name != null"
                         title="{{data.master_course_name}} - {{data.courseName}}">{{data.master_course_name}}
                         - {{data.courseName}}</span>
                       <span class="elipsisText" *ngIf="data.master_course_name == '' ||  data.master_course_name == null">{{data.courseName}}</span>
-                      <i id="idDownIcon{{i}}" class="fa fa-angle-down iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'open' , $event)"></i>
-                      <i id="idUpIcon{{i}}" class="fa fa-angle-up hide iconStyling" aria-hidden="true" (click)="openInstallmentListOfCourse(i ,  'close' , $event)"></i>
                     </span>
                   </div>
 

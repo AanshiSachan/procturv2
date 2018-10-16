@@ -23,7 +23,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         type: 'amount',
         value: 0,
         reason: "-1",
-        equalInAllInstall: false,
+        // equalInAllInstall: false,
         tableHead: false,
         discountAmount: 0
     };
@@ -200,12 +200,12 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         }
     }
 
-    onCheckboxApplyInAllClick(event) {
-        this.discountPopUpForm.masterCourseName = '-1';
-        this.discountPopUpForm.coursename = '-1';
-        this.installmentArray = this.clonedInstallmentArray;
-        this.onTableHeaderCheckbox(event);
-    }
+    // onCheckboxApplyInAllClick(event) {
+    //     this.discountPopUpForm.masterCourseName = '-1';
+    //     this.discountPopUpForm.coursename = '-1';
+    //     this.installmentArray = this.clonedInstallmentArray;
+    //     this.onTableHeaderCheckbox(event);
+    // }
 
     onTableHeaderCheckbox(event) {
         if (event) {
@@ -337,7 +337,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             type: 'amount',
             value: 0,
             reason: "-1",
-            equalInAllInstall: false,
+            // equalInAllInstall: false,
             tableHead: false,
             discountAmount: 0
         };
@@ -355,7 +355,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             type: 'amount',
             value: 0,
             reason: "-1",
-            equalInAllInstall: false,
+            // equalInAllInstall: false,
             tableHead: false,
             discountAmount: 0
         };

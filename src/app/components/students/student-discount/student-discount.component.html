@@ -82,21 +82,21 @@
                     </select>
                 </div>
 
-                <div class="field-checkbox-wrapper">
+                <!-- <div class="field-checkbox-wrapper hide">
                     <input type="checkbox" [(ngModel)]="discountPopUpForm.equalInAllInstall" value="" id="equalInAllInstall"
                         name="equalInAllInstall" class="form-checkbox" (ngModelChange)="onCheckboxApplyInAllClick($event)">
                     <label for="equalInAllInstall">Equal In All Installment</label>
-                </div>
+                </div> -->
 
             </div>
             <div class="c-lg-8 c-md-8 c-sm-8 c-xs-8 table-section">
                 <h3 *ngIf="showTab ==  'addDiscountTab'">
-                    Select Installment to apply discount of {{discountPopUpForm.discountAmount |
+                    Select Installment(s) to apply discount of {{discountPopUpForm.discountAmount |
                     commaSeprator}}
                 </h3>
 
                 <h3 *ngIf="showTab ==  'removeDiscountTab'">
-                    Select Installment to remove discount of {{discountPopUpForm.discountAmount |
+                    Select Installment(s) to remove discount of {{discountPopUpForm.discountAmount |
                     commaSeprator}}
                 </h3>
 
@@ -112,7 +112,7 @@
                             </th>
                             <th>Installment No.</th>
                             <th>Course</th>
-                            <th>Discount</th>
+                            <th>Prev Discount</th>
                             <th class="textAllignRight">Balance Amount</th>
                             <th>Status</th>
                         </tr>
@@ -162,8 +162,8 @@
                         <th>Course</th>
                         <th>Reason</th>
                         <th>Discount Type</th>
-                        <th>Total Discount</th>
-                        <th>Discount Amount (per Installment)</th>
+                        <!-- <th>Total Discount</th> -->
+                        <th class="textAllignRight">Discount amount</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -176,11 +176,11 @@
                             <span *ngIf="item.discount_status == 1">Discount Added</span>
                             <span *ngIf="item.discount_status == 2">Discount Removed</span>
                         </td>
-                        <td>{{item.total_discount_amount}}</td>
-                        <td>{{item.discount_amount}}</td>
+                        <!-- <td>{{item.total_discount_amount}}</td> -->
+                        <td class="textAllignRight">{{item.discount_amount | commaSeprator}}</td>
                     </tr>
                     <tr *ngIf="discountHistory.length == 0">
-                        <td colspan="7">
+                        <td colspan="6">
                             No Discount Applied or Removed
                         </td>
                     </tr>

@@ -644,21 +644,30 @@ export class StudentFeeService {
         return Math.floor(unpaid);
     }
 
-    checkDiscountValidations(discountJson, unpaidAmount, condition) {
+    //This function will be working to check validation for add and remove discount both
+    // Amount in add is due amount during add
+    // amount in case of remove become discount amount that is given
+    checkDiscountValidations(discountJson, amount, condition) {
 
         if (Number(discountJson.discountAmount) <= 0) {
             this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide valid discount amount');
             return false;
         }
 
-        if (discountJson.discountAmount > unpaidAmount) {
-            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide discount amount less then due amount');
+        if (discountJson.discountAmount > amount) {
+            let msg: string = "";
+            if (condition == "add") {
+                msg = 'Discount amount can not be more than total installment due amount i.e Rs. ' + amount;
+            } else {
+                msg = 'Discount amount to be removed can not be more than total discount applied i.e Rs. ' + amount;
+            }
+            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', msg);
             return false;
         }
 
         if (condition == "add") {
-            if (discountJson.discountAmount == unpaidAmount) {
-                this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Please provide discount amount less then due amount');
+            if (discountJson.discountAmount == amount) {
+                this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount amount can not be more than total installment due amount i.e Rs. ' + amount);
                 return false;
             }
         }
@@ -671,21 +680,23 @@ export class StudentFeeService {
         return true;
     }
 
+    // Check if any installment is selected or not and if selected then discount can be applied or not on installment
     checkDiscountCanBeAppliedOnInstallment(data, discount, tax) {
         tax = Number(tax);
         let selectedInstallment: any = data.filter(el => el.uiSelected == true);
         if (selectedInstallment.length == 0) {
-            this.commonService.showErrorMessage('error', 'No installment selected', 'Please select installment');
+            this.commonService.showErrorMessage('error', 'No installment selected', 'Please select atleast one or more installments.');
             return false;
         }
         let unpaidAmount = this.getUnPaidAmount(selectedInstallment, tax);
         if (discount > unpaidAmount) {
-            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount is greater then due amount of selected installment');
+            this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount amount can not be more than the total due amount of selected insatllments.');
             return false;
         }
         return true;
     }
 
+    // Make Final JSON for discount to send on server
     makeDiscountingJSON(installmentArray, popUpFormObj, tax) {
         let discountArray: any = [];
         let mutableDiscount: number = popUpFormObj.discountAmount;
@@ -721,7 +732,7 @@ export class StudentFeeService {
                 if (element.balance_amount == 0) {
                     let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax));
                     if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
                         return false;
                     } else {
                         let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
@@ -732,14 +743,14 @@ export class StudentFeeService {
                     }
 
                     if (obj.final_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
                         return false;
                     }
 
                 } else {
                     let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax));
                     if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
                         return false;
                     } else {
                         let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
@@ -750,7 +761,7 @@ export class StudentFeeService {
                     }
 
                     if (obj.balance_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Discount Amount is greater than initial amount of installment with out tax');
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
                         return false;
                     }
 
@@ -804,7 +815,7 @@ export class StudentFeeService {
         )
     }
 
-
+    // Remove discount applied to the installment
     makeRemoveDiscountJson(installment, popUpFormObj, tax) {
         let discountArray: any = [];
         let mutableDiscount: number = popUpFormObj.discountAmount;
@@ -828,7 +839,7 @@ export class StudentFeeService {
             }
 
             if (element.discount < perInstallmentDiscount) {
-                this.commonService.showErrorMessage('error', 'Error', 'Please provide discount amount less than discount provided in installment');
+                this.commonService.showErrorMessage('error', 'Error', 'Installment No. ' + element.installment_no + ':  discount amount to be removed can not be more than discount provided in installment.');
                 return false;
             }
 

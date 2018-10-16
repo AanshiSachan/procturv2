@@ -1539,15 +1539,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   openInstallmentListOfCourse(index, operation, event) {
-    if (operation == 'open') {
-      document.getElementById('idDownIcon' + index).classList.add('hide');
-      document.getElementById('idUpIcon' + index).classList.remove('hide');
-      document.getElementById('installmentTable' + index).classList.remove('hide');
-    } else {
-      document.getElementById('idDownIcon' + index).classList.remove('hide');
-      document.getElementById('idUpIcon' + index).classList.add('hide');
-      document.getElementById('installmentTable' + index).classList.add('hide');
-    }
+    document.getElementById('idDownIcon' + index).classList.toggle('hide');
+    document.getElementById('idUpIcon' + index).classList.toggle('hide');
+    document.getElementById('installmentTable' + index).classList.toggle('hide');
+    // if (operation == 'open') {
+    //   document.getElementById('idDownIcon' + index).classList.add('hide');
+    //   document.getElementById('idUpIcon' + index).classList.remove('hide');
+    //   document.getElementById('installmentTable' + index).classList.remove('hide');
+    // } else {
+    //   document.getElementById('idDownIcon' + index).classList.remove('hide');
+    //   document.getElementById('idUpIcon' + index).classList.add('hide');
+    //   document.getElementById('installmentTable' + index).classList.add('hide');
+    // }
     event.stopPropagation();
   }
 
