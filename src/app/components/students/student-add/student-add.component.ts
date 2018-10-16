@@ -1384,7 +1384,7 @@ export class StudentAddComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.feeObject = res;
-        this.clonedFeeObject = this.commonServiceFactory.keepCloning(this.clonedFeeObject);
+        this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
           this.showFeeSection = true;
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
