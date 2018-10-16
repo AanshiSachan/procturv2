@@ -633,7 +633,7 @@ export class StudentFeeService {
         tax = Number(tax);
         let unpaid: number = 0
         data.forEach(element => {
-            if (element.paid_full == "N") {
+            if (element.paid_full == "N" && element.fee_type_name == "INSTALLMENT") {
                 if (element.balance_amount == 0) {
                     unpaid = unpaid + this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax);
                 } else {
