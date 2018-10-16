@@ -657,9 +657,9 @@ export class StudentFeeService {
         if (discountJson.discountAmount > amount) {
             let msg: string = "";
             if (condition == "add") {
-                msg = 'Discount amount can not be more than total installment due amount i.e Rs. ' + amount;
+                msg = 'Discount amount can not be more than total installment due amount i.e Rs. ' + Math.floor(Number(amount));
             } else {
-                msg = 'Discount amount to be removed can not be more than total discount applied i.e Rs. ' + amount;
+                msg = 'Discount amount to be removed can not be more than total discount applied i.e Rs. ' + Math.floor(Number(amount));
             }
             this.commonService.showErrorMessage('error', 'Invalid Discount Amount', msg);
             return false;
@@ -667,7 +667,7 @@ export class StudentFeeService {
 
         if (condition == "add") {
             if (discountJson.discountAmount == amount) {
-                this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount amount can not be more than total installment due amount i.e Rs. ' + amount);
+                this.commonService.showErrorMessage('error', 'Invalid Discount Amount', 'Discount amount can not be more than total installment due amount i.e Rs. ' + Math.floor(Number(amount)));
                 return false;
             }
         }
@@ -732,7 +732,7 @@ export class StudentFeeService {
                 if (element.balance_amount == 0) {
                     let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax));
                     if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
                         return false;
                     } else {
                         let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
@@ -743,14 +743,14 @@ export class StudentFeeService {
                     }
 
                     if (obj.final_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
                         return false;
                     }
 
                 } else {
                     let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax));
                     if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
                         return false;
                     } else {
                         let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
@@ -761,7 +761,7 @@ export class StudentFeeService {
                     }
 
                     if (obj.balance_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + initialAmountOfunPaidAmount);
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
                         return false;
                     }
 

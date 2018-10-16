@@ -1370,7 +1370,12 @@ export class StudentAddComponent implements OnInit {
   feeObject: FeeModel;
   tableHeaderCheckbox: boolean = false;
   isFeePaymentUpdate: boolean = false;
-
+  checkBoxGroup: any = {
+    unpaidInstallment: true,
+    paidInstallment: false
+  };
+  clonedFeeObject: FeeModel;
+  showFeeSection: boolean = false;
 
   updateStudentFeeDetails() {
     this.isRippleLoad = true
@@ -1379,13 +1384,18 @@ export class StudentAddComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.feeObject = res;
+        this.clonedFeeObject = this.commonServiceFactory.keepCloning(this.clonedFeeObject);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
+          this.showFeeSection = true;
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
           let customFeeSchedules = this.feeService.uniqueConvertFeeJson(res.customFeeSchedules);
           this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(customFeeSchedules, res.registeredServiceTax);
           console.log('subjectWise', this.subjectWiseInstallmentArray);
+          this.onPaidOrUnpaidCheckbox();
+        } else {
+          this.showFeeSection = false;
         }
       },
       err => {
@@ -1437,6 +1447,33 @@ export class StudentAddComponent implements OnInit {
       } else {
         this.totalAmountToPay = this.feeService.getTotalAmount(this.subjectWiseInstallmentArray);
       }
+    }
+  }
+
+  onPaidOrUnpaidCheckbox() {
+    if (this.checkBoxGroup.unpaidInstallment && this.checkBoxGroup.paidInstallment) {
+      let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(installment, this.clonedFeeObject.registeredServiceTax);
+      return;
+    }
+
+    if (this.checkBoxGroup.unpaidInstallment) {
+      let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
+      let unpaidInstallment = installment.filter(el => el.paid_full == "N");
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax);
+      return;
+    }
+
+    if (this.checkBoxGroup.paidInstallment) {
+      let installment = this.commonServiceFactory.keepCloning(this.clonedFeeObject.customFeeSchedules);
+      let unpaidInstallment = installment.filter(el => el.paid_full == "Y");
+      this.subjectWiseInstallmentArray = this.feeService.categoriseCourseWise(unpaidInstallment, this.clonedFeeObject.registeredServiceTax);
+      return;
+    }
+
+    if (this.checkBoxGroup.paidInstallment == false && this.checkBoxGroup.unpaidInstallment == false) {
+      this.subjectWiseInstallmentArray = [];
+      return;
     }
   }
 
