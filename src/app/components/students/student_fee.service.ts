@@ -240,7 +240,7 @@ export class StudentFeeService {
             obj.master_course_name = master_course_name;
             obj.installmentArray = installment;
             obj.feeAmountIncludingTax = amountAfterTax;
-            obj.paidAmount = paidAmount;
+            obj.paidAmount = Number(paidAmount);
             obj.initialAmountWithoutTax = Math.floor(initailAmountWithoutTax);
             obj.discount = discount;
             obj.taxAmount = Math.floor(taxAmount);
@@ -734,38 +734,33 @@ export class StudentFeeService {
                     perInstallmentDiscount = mutableDiscount;
                 }
                 if (element.balance_amount == 0) {
-                    let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax));
-                    if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
+
+                    if (element.fees_amount <= perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;
                     } else {
-                        let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
-                        let finalAmountAfterTax = Math.floor(this.calucalteAmountAfterApplyingTax(amountAfterDiscount, tax));
                         obj.discount_amount = perInstallmentDiscount;
-                        obj.final_amount = finalAmountAfterTax;
+                        obj.final_amount = element.fees_amount - perInstallmentDiscount;
                         obj.balance_amount = 0;
                     }
-
                     if (obj.final_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(element.fees_amount)));
                         return false;
                     }
 
                 } else {
-                    let initialAmountOfunPaidAmount = Number(this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax));
-                    if (initialAmountOfunPaidAmount <= perInstallmentDiscount) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
+
+                    if (element.balance_amount <= perInstallmentDiscount) {
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(element.balance_amount)));
                         return false;
                     } else {
-                        let amountAfterDiscount = initialAmountOfunPaidAmount - perInstallmentDiscount;
-                        let finalAmountAfterTax = Math.floor(this.calucalteAmountAfterApplyingTax(amountAfterDiscount, tax));
                         obj.discount_amount = perInstallmentDiscount;
                         obj.final_amount = 0;
-                        obj.balance_amount = Number(finalAmountAfterTax);
+                        obj.balance_amount = Number(element.balance_amount - perInstallmentDiscount);
                     }
 
                     if (obj.balance_amount == 0) {
-                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(initialAmountOfunPaidAmount)));
+                        this.commonService.showErrorMessage('error', 'Error', 'Installment No ' + element.installment_no + ': Discount amount can not be more than installment amount before tax i.e Rs. ' + Math.floor(Number(element.balance_amount)));
                         return false;
                     }
 
@@ -859,19 +854,13 @@ export class StudentFeeService {
                 }
 
                 if (element.balance_amount == 0) {
-                    let amountBeforeTax = this.calculateInitialAmountOfRemainingAmount(element.fees_amount, tax)
-                    let amountAfterAddDiscount = amountBeforeTax + perInstallmentDiscount;
-                    let finalAMountAfterTax = Number(this.calucalteAmountAfterApplyingTax(amountAfterAddDiscount, tax));
                     obj.discount_amount = perInstallmentDiscount;
-                    obj.final_amount = Math.floor(finalAMountAfterTax);
+                    obj.final_amount = Math.floor(element.fees_amount + perInstallmentDiscount);
                     obj.balance_amount = 0;
                 } else {
-                    let amountBeforeTax = this.calculateInitialAmountOfRemainingAmount(element.balance_amount, tax)
-                    let amountAfterAddDiscount = amountBeforeTax + perInstallmentDiscount;
-                    let finalAMountAfterTax = Number(this.calucalteAmountAfterApplyingTax(amountAfterAddDiscount, tax));
                     obj.discount_amount = perInstallmentDiscount;
                     obj.final_amount = 0;
-                    obj.balance_amount = Math.floor(finalAMountAfterTax);
+                    obj.balance_amount = Math.floor(element.balance_amount + perInstallmentDiscount);
                 }
 
                 mutableDiscount = mutableDiscount - perInstallmentDiscount;

@@ -2649,7 +2649,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 //Action Menu
 .actionDiv {
-    width: 8% !important;
+    vertical-align: middle;
+    width: 5% !important;
     .spanTitle:hover {
         .dropdown-data {
             display: block !important;

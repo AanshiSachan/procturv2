@@ -2441,7 +2441,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: inline-block;
     padding: 0 5px;
     .checkbox {
-        width: 15%;
+        width: 10%;
         display: inline-block;
         label {
             padding-left: 0px;
@@ -2453,7 +2453,7 @@ input[type=number]::-webkit-outer-spin-button {
         div {
             width: 10%;
             display: inline-block;
-            margin: 0 0.7em;
+            // margin: 0 0.7em;
             &.amount,
             &.Tax,
             &.discount,
