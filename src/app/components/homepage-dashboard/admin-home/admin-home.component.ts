@@ -123,7 +123,6 @@ export class AdminHomeComponent implements OnInit {
     notify: true
   };
   markExamAttendancePopUp: boolean = false;
-  smsAbsenteesChkbx: boolean = false;
   examMarksPopup: boolean = false;
   examData: any = "";
   examGradeFeature: any;
@@ -551,7 +550,6 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateAttendance() {
-    let sendSms = "N";
     if (this.homework != null && this.homework != "") {
       if (this.validateSpecialCharacters(this.homework)) {
         // Do nothing
@@ -571,16 +569,17 @@ export class AdminHomeComponent implements OnInit {
     }
     let check = this.checkIfStudentIsAbsent(this.studentAttList);
     if (check) {
-      let checkboxAbsentees = document.getElementById("EnableSmsAbsentees").checked;
-      if (checkboxAbsentees) {
-        sendSms = "Y";
-        this.markAttendanceServerCall(sendSms);
+      if (this.settingInfo.sms_absent_notification != 0) {
+        if (confirm('Do you want to send SMS Alert to Absent students ?')) {
+          this.markAttendanceServerCall("Y");
+        } else {
+          this.markAttendanceServerCall("N");
+        }
       } else {
-        sendSms = "N";
-        this.markAttendanceServerCall(sendSms);
+        this.markAttendanceServerCall("N");
       }
     } else {
-      this.markAttendanceServerCall(sendSms);
+      this.markAttendanceServerCall("N");
     }
 
   }
@@ -1231,7 +1230,7 @@ export class AdminHomeComponent implements OnInit {
   updateCourseAttendance() {
     let isNotify = 'N';
     let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
-    if (checkAbsent) {
+    if (checkAbsent && this.settingInfo.sms_absent_notification != 0) {
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
         isNotify = 'Y';
         this.makeServerCallForUpdateMarks(isNotify);
@@ -2513,7 +2512,19 @@ export class AdminHomeComponent implements OnInit {
 
   // Batch Section
   updateCourseAttendanceExam() {
-    let dataToSend = this.makeJsonForAttendceMark();
+    if (this.settingInfo.sms_absent_notification != 0) {
+      if (confirm('Do you want to send SMS Alert to Absent students ?')) {
+        this.updateAttendancetoServer("Y");
+      } else {
+        this.updateAttendancetoServer("N");
+      }
+    } else {
+      this.updateAttendancetoServer("N");
+    }
+  }
+
+  updateAttendancetoServer(notify) {
+    let dataToSend = this.makeJsonForAttendceMark(notify);
     this.widgetService.markAttendance(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
@@ -2527,13 +2538,7 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  makeJsonForAttendceMark() {
-    let notify: any = "";
-    if (this.smsAbsenteesChkbx) {
-      notify = "Y";
-    } else {
-      notify = "N";
-    }
+  makeJsonForAttendceMark(notify) {
     let obj: any = [];
     for (let i = 0; i < this.studentList.length; i++) {
       let test: any = {};
@@ -2875,26 +2880,23 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttCourseExam() {
-    let data = this.constructJsonForAttendance();
-    // let check = this.checkIfStudentIsAbsentForExam(data);
-    if (data.length == 0) {
-      this.messageNotifier('error', 'Error', 'Please select student from student list');
-      return;
+    if (this.settingInfo.sms_absent_notification != 0) {
+      if (confirm('Do you want to send SMS Alert to Absent students ?')) {
+        this.makeServerCallForExamUpdate('Y');
+      } else {
+        this.makeServerCallForExamUpdate('N');
+      }
     } else {
-      this.makeServerCallForExamUpdate(data);
-      // if (check) {
-      //   if (confirm('Do you want to send SMS Alert to Absent students ?')) {
-      //     this.isRippleLoad = true;
-      //     this.makeServerCallForExamUpdate(data)
-      //   }
-      // }
-      // else {
-      //   this.makeServerCallForExamUpdate(data);
-      // }
+      this.makeServerCallForExamUpdate('N');
     }
   }
 
-  makeServerCallForExamUpdate(data) {
+  makeServerCallForExamUpdate(notify) {
+    let data = this.constructJsonForAttendance(notify);
+    if (data.length == 0) {
+      this.messageNotifier('error', 'Error', 'Please select student from student list');
+      return;
+    }
     this.widgetService.markStudentAttendance(data).subscribe(
       res => {
         this.isRippleLoad = false;
@@ -2909,12 +2911,7 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  constructJsonForAttendance() {
-    let absentKey = "N";
-    let sendSMS = <HTMLInputElement>document.getElementById('chkBxAbsenteesCourse');
-    if (sendSMS.checked) {
-      absentKey = "Y";
-    }
+  constructJsonForAttendance(absentKey) {
     let arr = [];
     for (let i = 0; i < this.studentList.length; i++) {
       let obj: any = {};

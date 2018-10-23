@@ -16,17 +16,17 @@
     </div>
     <section class="clearFix create-standard-form" *ngIf="createNewSlot">
       <div class="row create-standard-field">
-       
+
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper">
             <label for="slotNew">Slot</label>
-            <input type="text" #idSlot class="form-ctrl" name="slotNew" >
+            <input type="text" #idSlot class="form-ctrl" name="slotNew">
           </div>
           <!-- <p>* You can provide time Example 10-12 PM</p> -->
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2" style="margin-top: 2%;">
           <aside class="pull-left create-cancel-small">
-            <button class="btn fullBlue" (click)="addNewSlot(idSlot)" style="margin-top:-5px;">Add</button>
+            <button class="btn fullBlue" (click)="addNewSlot(idSlot)">Add</button>
           </aside>
         </div>
       </div>
@@ -39,9 +39,6 @@
             <thead>
               <tr>
                 <th>
-                  S No.
-                </th>
-                <th>
                   Name
                 </th>
                 <th>
@@ -49,12 +46,8 @@
                 </th>
               </tr>
             </thead>
-            <tbody *ngIf="slotTableList.length !=0">
+            <tbody>
               <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
-                <td>
-                  {{i + 1}}
-                </td>
-
                 <td class="view-comp">
                   {{row.slot_name}}
                 </td>
@@ -72,11 +65,11 @@
                   <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
                 </td>
               </tr>
-            </tbody>
-            <tbody *ngIf="slotTableList.length ==0">
-              <td colspan="3" style="text-align: center">
-                No Slots List Available
-              </td>
+              <tr *ngIf="slotTableList.length ==0">
+                <td colspan="2" style="text-align: center">
+                  No Slots List Available
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -86,8 +79,8 @@
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
         </pagination>
       </div>
     </div>

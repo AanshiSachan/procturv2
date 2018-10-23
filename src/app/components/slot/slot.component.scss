@@ -67,7 +67,7 @@ screen and (max-height: 768px) {
         .table-scroll-wrapper {
             max-height: 430px;
         }
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: block;
             width: 7px;
             height: 7px;
@@ -111,12 +111,12 @@ screen and (max-height: 768px) {
 }
 
 .create-standard-form {
-    margin: 10px 0;
-    padding: 10px 20px 20px;
+    margin: 0 0 10px 0;
+    padding: 10px;
     background: #efefef;
     border-top: 1px solid #d8d8d8;
     .form-ctrl {
-        background: transparent;
+        background: white;
         border-bottom: solid 1px #cccccc;
     }
 }

@@ -289,7 +289,8 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.varJson.currentDirection, priority: 7, },
         { primaryKey: 'updateDate', header: 'Last Updated', priority: 8 },
         { primaryKey: 'assigned_name', header: 'Asignee Name', priority: 9 },
-        { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 }
+        { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
+        { primaryKey: 'standard', header: 'Standard', priority: 11 }
     ];
     assignMultipleForm: any = { enqLi: [], assigned_to: "" };
 
@@ -356,13 +357,17 @@ export class EnquiryHomeComponent implements OnInit {
                     this.flagJSON.isProfessional = false;
                 }
             }
-        )
+        );
 
         this.auth.currentInstituteId.subscribe(
             res => {
                 this.varJson.insttitueId = res;
             }
-        )
+        );
+
+        if (this.flagJSON.isProfessional) {
+            this.enquirySettings[10].header = "Master Course";
+        }
 
         this.isEnquiryAdministrator();
         this.FetchEnquiryPrefilledData();
@@ -718,17 +723,17 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     addHideClass(classArray) {
-        classArray.forEach(function(className) {
+        classArray.forEach(function (className) {
             document.getElementById(className).classList.add('hide');
         });
     }
 
     removeHideClass(removeClassNames) {
-        removeClassNames.forEach(function(className) {
+        removeClassNames.forEach(function (className) {
             document.getElementById(className).classList.remove('hide');
         });
     }
-    
+
     /* Function to close advanced filter */
     closeAdFilter() {
         let hideClassNames = ['adFilterExitVisible', 'qfilt', 'adFilterOpen', 'customizableTableSection'];

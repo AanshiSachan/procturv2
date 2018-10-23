@@ -1,16 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
+import { FormGroup, NgForm } from '@angular/forms';
 import 'rxjs/Rx';
 import * as moment from 'moment';
-
-import { EnquiryCampaign } from '../../../model/enquirycampaign';
-import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
-
-import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -116,9 +109,8 @@ export class EnquiryAddComponent implements OnInit {
   submitError: boolean = false;
   addNextCheck: boolean = false;
   isEnquiryAdmin: boolean = false;
-  busy: Subscription;
   isNewInstitute: boolean = true;
-  private customComponents: any[] = [];
+  customComponents: any[] = [];
   instituteList: any;
   isNewSource: boolean = true;
   sourceList: any;
@@ -168,6 +160,16 @@ export class EnquiryAddComponent implements OnInit {
     hour: '',
     minute: ''
   }
+  minuteArr: any[] = ['', '00', '15', '30', '45'];
+  addCityAreaPopUp: any = {
+    showPopUp: false,
+    addNew: false,
+    newCity: {
+      city: '',
+      area: '',
+      branch: '-1'
+    }
+  };
 
 
   constructor(
@@ -393,6 +395,16 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
+    this.getCityAreaList()
+
+    this.fetchCustomComponentData();
+
+    if (!this.isProfessional) {
+      this.fetchMasterCourseDetails();
+    }
+  }
+
+  getCityAreaList() {
     this.prefill.getCityList().subscribe(
       data => {
         this.cityListDataSource = data;
@@ -401,12 +413,6 @@ export class EnquiryAddComponent implements OnInit {
 
       }
     )
-
-    this.fetchCustomComponentData();
-
-    if (!this.isProfessional) {
-      this.fetchMasterCourseDetails();
-    }
   }
 
   fetchMasterCourseDetails() {
@@ -904,6 +910,7 @@ export class EnquiryAddComponent implements OnInit {
             referred_by: this.newEnqData.referred_by,
             religion: this.newEnqData.religion,
             school_id: this.newEnqData.school_id,
+            standard_id: this.newEnqData.standard_id,
             slot_id: this.newEnqData.slot_id,
             source_id: this.newEnqData.source_id,
             source_instituteId: this.newEnqData.source_instituteId,
@@ -1822,4 +1829,50 @@ export class EnquiryAddComponent implements OnInit {
       this.course_course = [];
     }
   }
+
+  // City Area Pop uP
+  addNewAreaCity() {
+    this.addCityAreaPopUp.showPopUp = true;
+  }
+
+  toggleCityAreaAdd() {
+    this.addCityAreaPopUp.addNew = !this.addCityAreaPopUp.addNew;
+    let icon = document.getElementById('add-areaCity-icon').innerHTML;
+    if (icon == '+') {
+      document.getElementById('add-areaCity-icon').innerHTML = '-';
+      this.addCityAreaPopUp.newCity.city = "";
+      this.addCityAreaPopUp.newCity.area = "";
+    }
+    else if (icon == '-') {
+      document.getElementById('add-areaCity-icon').innerHTML = '+';
+    }
+  }
+
+  addNewCityArea() {
+    if (this.addCityAreaPopUp.newCity.city.trim() != "" && this.addCityAreaPopUp.newCity.city != null) {
+      let obj: any = {
+        area: this.addCityAreaPopUp.newCity.area,
+        city: this.addCityAreaPopUp.newCity.city,
+        sub_branch_instId: this.addCityAreaPopUp.newCity.branch
+      }
+      this.poster.saveNewCity(obj).subscribe(
+        res => {
+          this.commonServiceFactory.showErrorMessage('success', "Success", "Added Successfully");
+          this.getCityAreaList();
+          this.toggleCityAreaAdd();
+        },
+        err => {
+          this.commonServiceFactory.showErrorMessage('error', "Error", err.error.message);
+        }
+      )
+    } else {
+      this.commonServiceFactory.showErrorMessage('error', "Error", "Please provide city name");
+    }
+  }
+
+  closeCityAreaPopup() {
+    this.addCityAreaPopUp.showPopUp = false;
+    this.addCityAreaPopUp.addNew = false;
+  }
+
 }

@@ -74,6 +74,12 @@ $color-highlight: lighten($color-base, 7%);
         margin-top: 15px;
         max-height: 280px;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
+        th {
+            padding: 10px 10px;
+        }
+        td {
+            padding: 5px 10px;
+        }
     }
 }

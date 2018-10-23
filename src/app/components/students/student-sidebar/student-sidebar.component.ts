@@ -72,7 +72,6 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.rowData;
     this.studentDetails;
     this.customComponent;
-    //console.log(this.studentDetails);
     this.cd.markForCheck();
     this.fetchStudentDetails(this.studentDetails);
   }
@@ -117,7 +116,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   fetchStudentDetails(ev) {
     this.cd.markForCheck();
     if (ev.photo != '' || ev.photo != null) {
-      this.studentServerImage = ev.thumbnail_photo;
+      this.studentServerImage = ev.photo;
     }
     else {
       this.studentServerImage = '';

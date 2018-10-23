@@ -72,8 +72,8 @@
           <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
           <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
         </g>
-        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-        />
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+          transform="translate(1012 297)" />
       </g>
     </svg>
   </span>
@@ -83,40 +83,44 @@
   <div popup-content class="student-assign-popup">
 
     <div class="row filter-section">
-      <div class="c-sm-6 c-md-6 c-lg-6 radio-button">
+      <div class="c-sm-4 c-md-4 c-lg-4 radio-button">
         <div class="field-radio-wrapper">
-          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption"
+            (ngModelChange)="onRadioButtonChange()">
           <label for="bothRadio">Both</label>
         </div>
         <div class="field-radio-wrapper">
-          <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio" [(ngModel)]="radioOption"
+            (ngModelChange)="onRadioButtonChange()">
           <label for="assignRadio">Assigned</label>
         </div>
         <div class="field-radio-wrapper">
-          <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+          <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio" [(ngModel)]="radioOption"
+            (ngModelChange)="onRadioButtonChange()">
           <label for="unassignStudent">UnAssigned</label>
         </div>
       </div>
       <div class="c-sm-6 c-md-6 c-lg-6">
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="field-wrapper">
-            <select class="form-ctrl" [(ngModel)]="standard_id" name="standard" id="standard" (ngModelChange)="getAllStudentList()">
-              <option value="-1">Select</option>
-              <option *ngFor="let opt of standardList" [value]="opt.standard_id">
-                {{opt.standard_name}}
-              </option>
-            </select>
-          </div>
-        </div>
+        <div class="c-sm-12 c-md-12 c-lg-12">
 
-        <!-- <div class="c-sm-2 c-md-2 c-lg-2">
-          <button class="btn" (click)="getAllStudentList()">Go</button>
-        </div> -->
-
-        <div class="c-sm-4 c-md-4 c-lg-4">
-          <div class="search-filter-wrapper">
-            <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData" [(ngModel)]="searchData">
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper">
+              <select class="form-ctrl" [(ngModel)]="standard_id" name="standard" id="standard" (ngModelChange)="getAllStudentList()">
+                <option value="-1">Select</option>
+                <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                  {{opt.standard_name}}
+                </option>
+              </select>
+            </div>
           </div>
+
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="search-filter-wrapper">
+              <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent" name="searchData"
+                [(ngModel)]="searchData">
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -141,9 +145,10 @@
         </thead>
         <tbody *ngIf="tableData.length > 0 && dataStatus === 2">
           <tr *ngFor="let data of (tableData | searchPipe:searchData)">
-            <td>
+            <td style="text-align: left">
               <div class="field-checkbox-wrapper">
-                <input [disabled]="data.user_type == '99'" type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
+                <input [disabled]="data.user_type == '99'" type="checkbox" class="form-checkbox" [(ngModel)]="data.assigned"
+                  (ngModelChange)="checkIfHeaderChecked()">
                 <label></label>
               </div>
             </td>

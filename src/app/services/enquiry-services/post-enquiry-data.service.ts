@@ -273,4 +273,17 @@ export class PostEnquiryDataService {
   }
 
 
+  saveNewCity(obj) {
+    obj.main_branch_instId = this.institute_id;
+    let url = this.baseUrl + "/api/v1/cityArea/create";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => {
+        return data;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
+
 }

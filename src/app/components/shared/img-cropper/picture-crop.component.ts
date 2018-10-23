@@ -51,6 +51,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    this.serverImg;
     if (this.isSidenav) {
       this.imgContainer.nativeElement.classList.add("small")
     }
@@ -78,7 +79,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
     else {
       let imgFile = "";
       if (this.thumbnailAvailable) {
-        imgFile = this.serverImg;
+        imgFile = this.serverImg + '?' + Math.random().toFixed(2);
       } else {
         const temp: any[] = [];
         temp[0] = this.imgPrefill;
@@ -86,6 +87,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
         imgFile = temp.join(',');
       }
       setTimeout(() => {
+        this.uploadedImage.nativeElement.src = "";
         this.uploadedImage.nativeElement.src = imgFile;
       }, 300)
 

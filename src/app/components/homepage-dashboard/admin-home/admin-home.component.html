@@ -501,7 +501,7 @@
                 (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
-            <div class="field-checkbox-wrapper" [ngClass]="{'hide':settingInfo.sms_absent_notification == 0}">
+            <!-- <div class="field-checkbox-wrapper" [ngClass]="{'hide':settingInfo.sms_absent_notification == 0}">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Send SMS for Absentees
                 <div class="questionInfo lefts" style="margin-left: 30px;">
@@ -511,7 +511,7 @@
                   </div>
                 </div>
               </label>
-            </div>
+            </div> -->
           </div>
 
           <div style="margin-top: 0px">
@@ -1639,12 +1639,6 @@
             <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
           </div>
         </div>
-        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
-            <label for="msgAbsentees">Send Sms For Absentees</label>
-          </div>
-        </div>
       </div>
 
       <div class="row filterSection">
@@ -1903,10 +1897,10 @@
         </div>
 
         <div class="c-sm-3 c-md-3 c-lg-3">
-          <div class="field-checkbox-wrapper">
+          <!-- <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="chkBxAbsenteesCourse">
             <label for="chkBxAbsenteesCourse">Send SMS To Absentees</label>
-          </div>
+          </div> -->
         </div>
 
       </div>

@@ -17,31 +17,28 @@
     <section class="clearFix create-standard-form" *ngIf="createNew">
       <div class="row create-standard-field">
         <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" name="slotNew" [ngClass]="{'has-value' : newCity.city != '' }">
-              <label for="slotNew">City  <span style="color: red">*</span> </label>
+          <div class="field-wrapper" name="slotNew">
+            <label for="slotNew">City <span style="color: red">*</span> </label>
             <input type="text" class="form-ctrl" name="city" [(ngModel)]="newCity.city">
-            
-            
-           
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" name="area" [ngClass]="{'has-value' : newCity.area != '' }">
-              <label for="area">Area</label>
+          <div class="field-wrapper" name="area">
+            <label for="area">Area</label>
             <input type="text" class="form-ctrl" name="area" [(ngModel)]="newCity.area">
-           
+
           </div>
         </div>
         <div *ngIf="isMultiBranch" class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" name="subBranch" [ngClass]="{'has-value' : newCity.branch != '-1' }">
-              <label for="subBranch">Sub Branch</label>
+          <div class="field-wrapper" name="subBranch">
+            <label for="subBranch">Sub Branch</label>
             <select class="form-ctrl" [(ngModel)]="newCity.branch">
               <option value="-1"></option>
               <option *ngFor="let opt of branchesList" [value]="opt.institute_id">
                 {{opt.institute_name}}
               </option>
             </select>
-           
+
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
@@ -57,9 +54,6 @@
             <thead>
               <tr>
                 <th>
-                  S No.
-                </th>
-                <th>
                   City
                 </th>
                 <th>
@@ -67,11 +61,8 @@
                 </th>
               </tr>
             </thead>
-            <tbody *ngIf="cityAreaList.length !=0">
+            <tbody>
               <tr id="row{{i}}" *ngFor="let row of cityAreaList; let i = index; trackBy: i;">
-                <td>
-                  {{i + 1}}
-                </td>
 
                 <td>
                   {{row.city}}
@@ -81,11 +72,13 @@
                   {{row.area}}
                 </td>
               </tr>
-            </tbody>
-            <tbody *ngIf="cityAreaList.length ==0">
-              <td colspan="3" style="text-align: center">
-                No City Area List Available
-              </td>
+
+              <tr *ngIf="cityAreaList.length ==0">
+                <td colspan="2" style="text-align: center">
+                  No City Area List Available
+                </td>
+              </tr>
+
             </tbody>
           </table>
         </div>
@@ -95,8 +88,8 @@
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width: 100%;">
       <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
         </pagination>
       </div>
     </div>

@@ -32,8 +32,6 @@ export class CityAreaMapComponent implements OnInit {
     private apiService: CityAreaService,
     private msgService: MessageShowService
   ) {
-    this.removeFullscreen();
-    this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
@@ -79,7 +77,7 @@ export class CityAreaMapComponent implements OnInit {
       }
       this.apiService.saveNewCity(obj).subscribe(
         res => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error,"Success","Added Successfully");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success,"Success","Added Successfully");
           this.getCityAreaList();
           this.toggleCreateNewSlot();
         },
@@ -142,35 +140,6 @@ export class CityAreaMapComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.cityAreaListDataSource.slice(startindex, startindex + this.studentdisplaysize);
     return t;
-  }
-
-  // Helper Functions
-
-  removeFullscreen() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
-
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-  }
-
-  removeSelectionFromSideNav() {
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('lizero').classList.remove('active');
-    /* document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active'); */
   }
 
 }

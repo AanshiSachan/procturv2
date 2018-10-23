@@ -598,7 +598,7 @@ export class FetchprefilldataService {
   // Get City LIst
 
   getCityList() {
-    let urlSlots = this.baseUrl + "/api/v1/cityArea/" + this.institute_id + "/all";
+    let urlSlots = this.baseUrl + "/api/v1/cityArea/" + this.institute_id;
 
     return this.http.get(urlSlots, { headers: this.headers }).map(
       res => {
