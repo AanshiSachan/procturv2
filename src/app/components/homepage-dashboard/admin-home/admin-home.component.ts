@@ -554,7 +554,7 @@ export class AdminHomeComponent implements OnInit {
       if (this.validateSpecialCharacters(this.homework)) {
         // Do nothing
       } else {
-        this.messageNotifier('error', 'Error', 'Special characters are not allowed in homework field.');
+        this.messageNotifier('error', 'Error', 'Special characters are not allowed in homework field');
         return
       }
     }
@@ -563,7 +563,7 @@ export class AdminHomeComponent implements OnInit {
       if (this.validateSpecialCharacters(this.attendanceNote)) {
         // Do nothing
       } else {
-        this.messageNotifier('error', 'Error', 'Special characters are not allowed in attendance field.');
+        this.messageNotifier('error', 'Error', 'Only dot operator and full Stop special characters are allowed in attendance field');
         return
       }
     }
@@ -3315,7 +3315,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   validateSpecialCharacters(str) {
-    let regex = /[^ a-zA-Z0-9]/g;
+    let regex = /[^ a-zA-Z0-9.,]/g;
     if (str.match(regex) == null) {
       return true;
     } else {

@@ -34,7 +34,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'remarks', header: 'Remarks', priority: 9, allowSortingFlag: true },
     { primaryKey: 'reference_no', header: 'Ref No', priority: 9, allowSortingFlag: true },
     { primaryKey: 'amount_paid', header: 'Amount Paid', priority: 10, amountValue: true, allowSortingFlag: true },
-    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 11, allowSortingFlag: true }
+    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 11, allowSortingFlag: true },
+    { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 12, allowSortingFlag: true }
   ];
   paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "Other"];
   chequeStatus: any = [{ value: 1, title: '' }, { value: 2, title: 'Dishonoured' }, { value: 3, title: 'Cleared' }];
@@ -471,7 +472,8 @@ export class PaymentHistoryMainComponent implements OnInit {
         "Remarks": data.remarks,
         "Amount Paid": data.amount_paid,
         "Student_Category": data.student_category,
-        "Counsellor": data.enquiry_counsellor_name
+        "Counsellor": data.enquiry_counsellor_name,
+        'Cheque Number': data.cheque_no
       }
 
       exportedArray.push(obj);
@@ -568,12 +570,13 @@ export class PaymentHistoryMainComponent implements OnInit {
           ele.remarks,
           ele.reference_no,
           ele.amount_paid,
-          ele.enquiry_counsellor_name
+          ele.enquiry_counsellor_name,
+          ele.cheque_no
         ]
         arr.push(json);
       })
 
-    let rows = [['ID', 'Name', 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor']]
+    let rows = [['ID', 'Name', 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor','Cheque Number']]
     let columns = arr;
     this.pdf.exportToPdf(rows, columns);
   }
