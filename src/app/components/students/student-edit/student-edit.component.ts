@@ -715,6 +715,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getSlots() {
+    this.slots=[];
     this.studentPrefillService.fetchSlots().subscribe(
       res => {
         res.forEach(el => {
@@ -726,7 +727,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.slots.push(obj);
         });
         this.getlangStudentStatus();
-        // console.log(this.slots);
+        console.log(this.slots);
+
       },
       err => {
         let msg = err.error.message;
