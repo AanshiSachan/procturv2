@@ -2279,19 +2279,26 @@ export class AdminHomeComponent implements OnInit {
 
 
   markAttendaceBtnClickCourse(event, rowData, index) {
-    if (event.target.innerText == "L") {
-      this.courseLevelStudentAtt[index].dateLi[0].status = "L";
-      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
-      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-    } else if (event.target.innerText == "A") {
-      this.courseLevelStudentAtt[index].dateLi[0].status = "A";
-      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
-      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-    } else {
-      this.courseLevelStudentAtt[index].dateLi[0].status = "P";
-      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
+    switch (event.target.innerText) {
+      case "L": {
+        this.courseLevelStudentAtt[index].dateLi[0].status = "L";
+        this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+        this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
+        break;
+      }
+      case "A": {
+        this.courseLevelStudentAtt[index].dateLi[0].status = "A";
+        this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+        this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
+        break;
+      }
+      default: {
+        this.courseLevelStudentAtt[index].dateLi[0].status = "P";
+        this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
+        this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
+      }
     }
+
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }
 
@@ -2880,7 +2887,14 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttCourseExam() {
-    if (this.settingInfo.sms_absent_notification != 0) {
+    let absectCount = 0;
+    this.studentList.forEach(element => {
+      if (element.attendance == "A") {
+        absectCount++;
+      }
+    });
+    if (this.settingInfo.sms_absent_notification != 0 && absectCount) {
+
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
         this.makeServerCallForExamUpdate('Y');
       } else {
