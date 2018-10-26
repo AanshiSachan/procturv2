@@ -930,28 +930,7 @@ export class EnquiryAddComponent implements OnInit {
               this.prefill.fetchLastDetail().subscribe(data => {
                 this.lastDetail = data;
                 if (this.isRegisterStudent) {
-                  let obj: any = {
-                    name: this.newEnqData.name,
-                    phone: this.newEnqData.phone,
-                    email: this.newEnqData.email,
-                    gender: this.newEnqData.gender,
-                    dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
-                    parent_email: this.newEnqData.parent_email,
-                    school_name: this.newEnqData.school_id,
-                    standard_id: this.newEnqData.standard_id,
-                    parent_name: this.newEnqData.parent_name,
-                    parent_phone: this.newEnqData.parent_phone,
-                    enquiry_id: instituteEnqId,
-                    institute_enquiry_id: instituteEnqId,
-                    school_id: this.newEnqData.school_id
-                  }
-                  if (!this.isProfessional) {
-                    obj.standard_id = this.course_standard_id;
-                  } else {
-                    obj.standard_id = this.course_mastercourse_id;
-                  }
-                  sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
-                  this.router.navigate(['/view/student/add']);
+                  this.convertTOStudent(instituteEnqId);
                 }
                 else {
                   if (this.addNextCheck) {
@@ -988,22 +967,7 @@ export class EnquiryAddComponent implements OnInit {
               this.prefill.fetchLastDetail().subscribe(data => {
                 this.lastDetail = data;
                 if (this.isRegisterStudent) {
-                  let obj = {
-                    name: this.newEnqData.name,
-                    phone: this.newEnqData.phone,
-                    email: this.newEnqData.email,
-                    gender: this.newEnqData.gender,
-                    dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
-                    parent_email: this.newEnqData.parent_email,
-                    school_name: this.newEnqData.school_id,
-                    standard_id: this.newEnqData.standard_id,
-                    parent_name: this.newEnqData.parent_name,
-                    parent_phone: this.newEnqData.parent_phone,
-                    enquiry_id: instituteEnqId,
-                    institute_enquiry_id: instituteEnqId
-                  }
-                  sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
-                  this.router.navigate(['/view/student/add']);
+                  this.convertTOStudent(instituteEnqId);
                 }
                 else {
                   if (this.addNextCheck) {
@@ -1041,6 +1005,31 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
+
+  convertTOStudent(instituteEnqId) {
+    let obj: any = {
+      name: this.newEnqData.name,
+      phone: this.newEnqData.phone,
+      email: this.newEnqData.email,
+      gender: this.newEnqData.gender,
+      dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+      parent_email: this.newEnqData.parent_email,
+      school_name: this.newEnqData.school_id,
+      standard_id: this.newEnqData.standard_id,
+      parent_name: this.newEnqData.parent_name,
+      parent_phone: this.newEnqData.parent_phone,
+      enquiry_id: instituteEnqId,
+      institute_enquiry_id: instituteEnqId,
+      school_id: this.newEnqData.school_id
+    }
+    if (!this.isProfessional) {
+      obj.standard_id = this.course_standard_id;
+    } else {
+      obj.standard_id = this.course_mastercourse_id;
+    }
+    sessionStorage.setItem('studentPrefill', JSON.stringify(obj));
+    this.router.navigate(['/view/student/add']);
+  }
 
   getFollowupTime(): any {
     let hour: any = parseInt(moment(new Date()).format('hh'));

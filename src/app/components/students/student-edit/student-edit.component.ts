@@ -994,7 +994,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentName = data.student_name;
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
-        this.studentAddFormData.student_class = data.student_class_key;
+        this.studentAddFormData.standard_id = data.student_class_key;
         this.fetchCourseFromMaster(data.standard_id);
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];

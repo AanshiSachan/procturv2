@@ -56,7 +56,6 @@ export class StudentAddComponent implements OnInit {
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
     school_name: "-1",
-    student_class: "-1",
     parent_name: "",
     parent_email: "",
     parent_phone: "",
@@ -1224,7 +1223,43 @@ export class StudentAddComponent implements OnInit {
 
   clearFormAndMove() {
     this.navigateTo('studentForm');
-    this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: null, stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
+    this.studentAddFormData = {
+      student_name: "",
+      student_sex: "",
+      student_email: "",
+      student_phone: "",
+      student_curr_addr: "",
+      dob: "",
+      doj: moment().format('YYYY-MM-DD'),
+      school_name: "-1",
+      parent_name: "",
+      parent_email: "",
+      parent_phone: "",
+      guardian_name: "",
+      guardian_email: "",
+      guardian_phone: "",
+      is_active: "Y",
+      institution_id: sessionStorage.getItem('institute_id'),
+      assignedBatches: [],
+      assignedBatchescademicYearArray: [""],
+      fee_type: 0,
+      fee_due_day: 0,
+      batchJoiningDates: [],
+      comments: "",
+      photo: null,
+      enquiry_id: "",
+      student_disp_id: "",
+      student_manual_username: null,
+      social_medium: -1,
+      attendance_device_id: "",
+      religion: "",
+      standard_id: "-1",
+      subject_id: "-1",
+      slot_id: null,
+      language_inst_status: null,
+      stuCustomLi: [],
+      deleteCourse_SubjectUnPaidFeeSchedules: false
+    };
     this.removeImage = true;
     this.fetchPrefillFormData();
   }
@@ -1238,7 +1273,6 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.student_sex = this.enquiryData.gender;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     this.studentAddFormData.school_name = this.enquiryData.school_id;
-    this.studentAddFormData.student_class = this.enquiryData.standard_id;
     this.studentAddFormData.standard_id = this.enquiryData.standard_id;
     this.studentAddFormData.parent_name = this.enquiryData.parent_name;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_phone;
@@ -1302,8 +1336,43 @@ export class StudentAddComponent implements OnInit {
   }
 
   clearFormAndRoute(form: NgForm) {
-    let previousUrl: string = '';
-    this.studentAddFormData = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: null, stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
+    this.studentAddFormData = {
+      student_name: "",
+      student_sex: "",
+      student_email: "",
+      student_phone: "",
+      student_curr_addr: "",
+      dob: "",
+      doj: moment().format('YYYY-MM-DD'),
+      school_name: "-1",
+      parent_name: "",
+      parent_email: "",
+      parent_phone: "",
+      guardian_name: "",
+      guardian_email: "",
+      guardian_phone: "",
+      is_active: "Y",
+      institution_id: sessionStorage.getItem('institute_id'),
+      assignedBatches: [],
+      assignedBatchescademicYearArray: [""],
+      fee_type: 0,
+      fee_due_day: 0,
+      batchJoiningDates: [],
+      comments: "",
+      photo: null,
+      enquiry_id: "",
+      student_disp_id: "",
+      student_manual_username: null,
+      social_medium: -1,
+      attendance_device_id: "",
+      religion: "",
+      standard_id: "-1",
+      subject_id: "-1",
+      slot_id: null,
+      language_inst_status: null,
+      stuCustomLi: [],
+      deleteCourse_SubjectUnPaidFeeSchedules: false
+    };
     form.reset();
 
     if (this.isConvertEnquiry) {

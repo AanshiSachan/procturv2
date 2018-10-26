@@ -65,7 +65,7 @@
               <div class="times " style=" width: 45px; display: inline-block; ">
                 <select id="minute" class="side-form-ctrl mers" [(ngModel)]="this.updateFormData.followUpTime.minute" (ngModelChange)="isNotifyDisplayed()"
                   name="minute" style="width: 70px;">
-                  <option *ngFor="let minute of minArr" [value]="minute">
+                  <option *ngFor="let minute of minuteArr" [value]="minute">
                     {{minute}}
                   </option>
                 </select>

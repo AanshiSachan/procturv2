@@ -129,7 +129,7 @@
                                             </div>
                                             <div class="times">
                                                 <select id="minute" class="mers side-form-ctrl" [(ngModel)]="followUpTime.minute" name="minute" (change)="isNotifyDisplayed()">
-                                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                                    <option *ngFor="let minute of minuteArr" [value]="minute">
                                                         {{minute}}
                                                     </option>
                                                 </select>

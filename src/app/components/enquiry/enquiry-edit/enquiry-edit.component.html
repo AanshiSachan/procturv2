@@ -111,7 +111,7 @@
                   </div>
 
                   <!-- Source -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.source_id != '-1'}">
+                  <div class="field-wrapper">
                     <label for="source">Source*</label>
                     <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source">
                       <option value="-1"></option>
@@ -134,20 +134,20 @@
                   <br>
 
                   <!-- Address -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.curr_address != ''}">
+                  <div class="field-wrapper">
                     <label for="userAddress">Address</label>
                     <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="editEnqData.curr_address" name="address" />
                   </div>
 
                   <!-- Phone -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone2 != ''}">
+                  <div class="field-wrapper">
                     <label for="phone2">Alternate Contact</label>
                     <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10" minlength="10"
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
                   </div>
 
                   <!-- Email -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.email2 != ''}">
+                  <div class="field-wrapper">
                     <label for="email2">Alternate Email ID</label>
                     <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email2" name="email2"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" />
@@ -160,7 +160,7 @@
                   </div>
 
                   <!-- Name -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_name != ''}">
+                  <div class="field-wrapper">
                     <label for="guardianName">Parent Name</label>
                     <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="editEnqData.parent_name" name="guardianName"
                       pattern="^([a-zA-Z .-]){1,30}$" maxlength="50" #guardianName="ngModel" />
@@ -173,7 +173,7 @@
                   </div>
 
                   <!-- Phone -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_phone != ''}">
+                  <div class="field-wrapper">
                     <label for="guardianContact">Parent Contact</label>
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
                       maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
@@ -181,7 +181,7 @@
                   </div>
 
                   <!-- Email -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_email != ''}">
+                  <div class="field-wrapper">
                     <label for="guardianEmail">Parent Email</label>
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="editEnqData.parent_email" name="guardianEmail"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" #guardianEmail="ngModel" />
@@ -194,14 +194,14 @@
                   </div>
 
                   <!-- Link -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.link != ''}">
+                  <div class="field-wrapper">
                     <label for="enquirerLink">Link Details</label>
                     <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="editEnqData.link" name="enquirerLink" />
 
                   </div>
 
                   <!-- Fee Commited -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.fee_committed != ''}">
+                  <div class="field-wrapper">
                     <label for="feeCommitted">Fees Committed Details</label>
                     <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="editEnqData.fee_committed" name="feeCommitted"
                       #feeCommitted="ngModel" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
@@ -209,7 +209,7 @@
                   </div>
 
                   <!-- Discount -->
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.discount_offered != ''}">
+                  <div class="field-wrapper">
                     <label for="discount">Discount Offered Details</label>
                     <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="editEnqData.discount_offered" name="discount" pattern="[0-9]+"
                       onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #discount="ngModel" />
@@ -231,7 +231,7 @@
               <div class="accordian-content">
                 <div class="form-type2">
 
-                  <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.school_id != '-1'}">
+                  <div class="field-wrapper">
                     <label for="institutionName">Institution Name</label>
                     <select id="institutionName" class="form-ctrl" [(ngModel)]="editEnqData.school_id" name="institutename">
                       <option value="-1"></option>
@@ -242,7 +242,7 @@
                   </div>
 
                   <!-- standard Course-->
-                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.standard_id != '-1'}">
+                  <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="editStandard">Standard</label>
                     <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)"
                       name="editStandard">
@@ -258,7 +258,7 @@
                   </div>
 
                   <!-- subject Course -->
-                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.subjectIdArray != ''}">
+                  <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="forSubject">Subject</label>
                     <select multiple id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.subjectIdArray" name="subject">
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
@@ -281,7 +281,7 @@
                   </div>
 
                   <!-- course course-->
-                  <div *ngIf="!isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.courseIdArray != ''}">
+                  <div *ngIf="!isProfessional" class="field-wrapper">
                     <label for="editCC">Course</label>
                     <select id="editCC" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.courseIdArray" name="editCC" multiple>
                       <option *ngFor="let cc of course_course" [value]="cc.course_id">{{cc.course_name}}</option>
@@ -289,7 +289,7 @@
                   </div>
 
                   <!-- master Professional -->
-                  <div *ngIf="isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.standard_id != '-1'}">
+                  <div *ngIf="isProfessional" class="field-wrapper">
                     <label for="editStandard">Master Course</label>
                     <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)"
                       name="editStandard">
@@ -305,7 +305,7 @@
                   </div>
 
                   <!-- course Professional -->
-                  <div *ngIf="isProfessional" class="field-wrapper" [ngClass]="{'has-value': editEnqData.subjectIdArray != '-1'}">
+                  <div *ngIf="isProfessional" class="field-wrapper">
                     <label for="forSubject">Course</label>
                     <select id="forSubject" class="form-ctrl form-ctrl-multiple" [(ngModel)]="editEnqData.subjectIdArray" name="subject" multiple>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
@@ -377,7 +377,7 @@
                     </div>
 
                     <div class="newDate" *ngIf="component.type == 5" input-def>
-                      <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                      <div class="field-wrapper datePickerBox">
                         <label for="component.id">{{component.label}} </label>
                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                           name="{{component.label}}" bsDatepicker/>
@@ -414,7 +414,7 @@
         <h4>
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite AdFilter">
-          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': editEnqData.enquiry_date != 'Invalid date'}">
+          <div class="field-wrapper datePickerBox">
             <label for="enquiryDate">Enquiry Date</label>
             <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
               readonly="true" bsDatepicker>
@@ -438,7 +438,7 @@
             <span style="right: 5px;" class="sourceI iconPlus" (click)="closingReason()">+</span>
           </div>
 
-          <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.priority != ''}">
+          <div class="field-wrapper">
             <label for="priority">Enquiry Priority</label>
             <select id="priority" class="form-ctrl" [(ngModel)]="editEnqData.priority" name="priority">
               <option value="-1"></option>
@@ -482,7 +482,7 @@
               <label for="minute">Minute</label>
               <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;"
                 (ngModelChange)="notifyMeCheckBoxChangesDetect()">
-                <option *ngFor="let minute of minArr" [value]="minute">
+                <option *ngFor="let minute of minuteArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>

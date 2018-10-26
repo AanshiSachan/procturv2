@@ -287,10 +287,10 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
+                <div class="field-wrapper" *ngIf="isAcad">
                   <label for="standard">Standard</label>
 
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
+                  <select id="standard" [(ngModel)]="studentAddFormData.standard_id" name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -312,7 +312,7 @@
                 <!-- ================================================================= -->
                 <!-- Professional Model For student Update -->
 
-                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
+                <div class="field-wrapper" *ngIf="isProfessional">
                   <label for="masterCourse">Master Course</label>
 
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id"
@@ -324,7 +324,7 @@
                   </select>
                 </div>
 
-                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != ''}">
+                <div class="field-wrapper" *ngIf="isProfessional">
                   <label for="course">Course</label>
 
                   <select id="course" [(ngModel)]="studentAddFormData.subject_id" name="course" class="form-ctrl">
@@ -733,8 +733,8 @@
                         </div>
 
                         <div class="discount">
-                            <span>Discount</span>
-                          </div>
+                          <span>Discount</span>
+                        </div>
 
                         <div class="balance" style="margin-right:5px">
                           <span>Balance</span>
@@ -785,8 +785,8 @@
                         </div>
 
                         <div class="discount">
-                            <span>{{installment.discount | commaSeprator}}</span>
-                          </div>
+                          <span>{{installment.discount | commaSeprator}}</span>
+                        </div>
 
                         <div class="balance" style="margin-right:5px">
                           <span *ngIf="installment.paid_full == 'Y'">{{ 0 | commaSeprator}}</span>

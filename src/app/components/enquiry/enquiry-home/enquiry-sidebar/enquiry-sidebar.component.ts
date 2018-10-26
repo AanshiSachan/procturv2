@@ -73,6 +73,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   isNotifyVisible: boolean = false;
   courseIdArray: any;
   openEnquiryFeature: string = '0';
+  minuteArr: any[] = ['', '00', '15', '30', '45'];
 
   @Input() enquiryRow: any;
   @Input() priorityArr: any;

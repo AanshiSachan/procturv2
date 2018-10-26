@@ -166,6 +166,8 @@ export class EnquiryEditComponent implements OnInit {
     hour: '',
     minute: ''
   }
+  minuteArr: any[] = ['', '00', '15', '30', '45'];
+
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(
     private prefill: FetchprefilldataService,
