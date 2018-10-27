@@ -189,6 +189,7 @@ export class ManageBatchComponent implements OnInit {
 
   onMasterCourseSelection(data) {
     this.isRippleLoad = true;
+    this.addNewBatch.subject_id ='-1';
     if (data != '-1') {
 
       this.apiService.getPerticularCourseList(data).subscribe(
@@ -205,14 +206,14 @@ export class ManageBatchComponent implements OnInit {
       )
     } else {
       this.isRippleLoad = false;
-      this.addNewBatch.subject_id='-1';
+     
       this.messageToast('error', 'Error', 'You Can not select empty value');
       return;
     }
   }
 
 
-  addNewBatchToList() {    
+  addNewBatchToList() {   
     if (this.addNewBatch.standard_id != '-1') {
 
       if (this.addNewBatch.subject_id != "-1") {
@@ -222,10 +223,10 @@ export class ManageBatchComponent implements OnInit {
           if (this.addNewBatch.batch_name.trim() != '') {
             if (this.addNewBatch.batch_code.length < 5) {
 
-              if (this.addNewBatch.start_date != "" || this.addNewBatch.start_date != null) {
+              if (this.addNewBatch.start_date != "" && this.addNewBatch.start_date != null) {
                 this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("YYYY-MM-DD");
 
-                if (this.addNewBatch.end_date != "" || this.addNewBatch.end_date != null) {
+                if (this.addNewBatch.end_date != "" && this.addNewBatch.end_date != null) {
                   this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
 
                   if (this.addNewBatch.start_date < this.addNewBatch.end_date) {

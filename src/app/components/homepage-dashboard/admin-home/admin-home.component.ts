@@ -199,7 +199,6 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   fetchWidgetPrefill() {
-
     this.widgetService.getSettings().subscribe(
       res => {
         this.settingInfo = res;
@@ -559,17 +558,8 @@ export class AdminHomeComponent implements OnInit {
       }
     }
 
-    if (this.attendanceNote != null && this.attendanceNote != "") {
-      if (this.validateSpecialCharacters(this.attendanceNote)) {
-        // Do nothing
-      } else {
-        this.messageNotifier('error', 'Error', 'Only dot operator and full Stop special characters are allowed in attendance field');
-        return
-      }
-    }
-    let check = this.checkIfStudentIsAbsent(this.studentAttList);
-    if (check) {
-      if (this.settingInfo.sms_absent_notification != 0) {
+    let check = this.checkIfStudentIsAbsent(this.studentAttList);  
+      if (this.settingInfo.sms_absent_notification != 0 && check) {
         if (confirm('Do you want to send SMS Alert to Absent students ?')) {
           this.markAttendanceServerCall("Y");
         } else {
@@ -578,9 +568,7 @@ export class AdminHomeComponent implements OnInit {
       } else {
         this.markAttendanceServerCall("N");
       }
-    } else {
-      this.markAttendanceServerCall("N");
-    }
+    
 
   }
 
@@ -1228,6 +1216,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateCourseAttendance() {
+
     let isNotify = 'N';
     let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
     if (checkAbsent && this.settingInfo.sms_absent_notification != 0) {
@@ -2519,7 +2508,13 @@ export class AdminHomeComponent implements OnInit {
 
   // Batch Section
   updateCourseAttendanceExam() {
-    if (this.settingInfo.sms_absent_notification != 0) {
+    let absectCount = 0;
+    this.studentList.forEach(element => {
+      if (element.attendance == "A") {
+        absectCount++;
+      }
+    });
+    if (this.settingInfo.sms_absent_notification != 0 && absectCount) {
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
         this.updateAttendancetoServer("Y");
       } else {
@@ -2894,7 +2889,7 @@ export class AdminHomeComponent implements OnInit {
       }
     });
     if (this.settingInfo.sms_absent_notification != 0 && absectCount) {
-
+      
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
         this.makeServerCallForExamUpdate('Y');
       } else {
