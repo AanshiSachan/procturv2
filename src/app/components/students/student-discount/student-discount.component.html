@@ -37,7 +37,7 @@
 
                 <div class="field-wrapper">
                     <label for="masterCourse" *ngIf="isProfessional">Standard</label>
-                    <label for="masterCourse" *ngIf="!isProfessional">Select Master Course</label>
+                    <label for="masterCourse" *ngIf="!isProfessional">Master Course</label>
                     <select id="masterCourse" name="masterCourse" [(ngModel)]="discountPopUpForm.masterCourseName"
                         class="form-ctrl" placeholder="Course" (ngModelChange)="masterCourseChange($event)">
                         <option value="-1">Select</option>
@@ -77,7 +77,7 @@
                     <label for="discReason">Discount Reason*</label>
                     <select id="discReason" name="discReason" [(ngModel)]="discountPopUpForm.reason" class="form-ctrl"
                         placeholder="Discount Reason">
-                        <option value="-1">Select Discount Reason</option>
+                        <option value="-1">Discount Reason</option>
                         <option *ngFor="let item of discountReason" [value]="item.discount_reason_id">{{item.reason}}</option>
                     </select>
                 </div>
