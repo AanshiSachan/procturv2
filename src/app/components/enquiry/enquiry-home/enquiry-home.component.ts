@@ -1757,13 +1757,14 @@ export class EnquiryHomeComponent implements OnInit {
         if (this.flagJSON.isProfessional) {
             this.selectedRow.standard_id = this.selectedRow.master_course_name;
         }
-        console.log(ev,this.selectedRow);
-        
+        console.log(ev,this.selectedRow);        
         return this.enquire.fetchEnquiryStudentData(institute_id,this.selectedRow.institute_enquiry_id).subscribe(
             (data:any) => {
                 this.flagJSON.isRippleLoad = false;
                console.log(data);
                this.selectedRow.standard_id = data.standard_id;
+               this.selectedRow.address = data.curr_address;
+               this.selectedRow.curr_address = data.curr_address;
                sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
                this.router.navigate(['/view/student/add'])
                this.closePopup();

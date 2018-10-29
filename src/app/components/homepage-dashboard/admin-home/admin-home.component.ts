@@ -549,6 +549,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateAttendance() {
+    debugger
     if (this.homework != null && this.homework != "") {
       if (this.validateSpecialCharacters(this.homework)) {
         // Do nothing
@@ -573,6 +574,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttendanceServerCall(sendSms) {
+    debugger
     this.isRippleLoad = true;
     let arr = [];
     this.studentAttList.forEach(e => {
@@ -615,14 +617,14 @@ export class AdminHomeComponent implements OnInit {
   getCustomAttendanceObject(d, detail): any {
     let obj = {
       attendance_note: this.attendanceNote,
-      date: moment(new Date()).format("YYYY-MM-DD"),
+      date: d.date,
       home_work_status: d.home_work_status,
       homework_assigned: this.homework,
       isStatusModified: "Y",
       is_home_work_status_changed: d.is_home_work_status_changed,
       schId: d.schId,
       status: d.status,
-      teacher_id: d.teacher_id,
+      teacher_id: Number(this.teacher_id),
     }
 
     return obj;
