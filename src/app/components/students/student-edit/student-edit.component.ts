@@ -1070,6 +1070,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               if (this.btnContinueDetailPage != undefined) {
                 this.btnContinueDetailPage.nativeElement.disabled = false;
               }
+              this.batchList = [];
               res.coursesList.forEach(el => {
                 if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
                   el.feeTemplateList.forEach(e => {
