@@ -201,6 +201,7 @@ export class AdminHomeComponent implements OnInit {
   fetchWidgetPrefill() {
     this.widgetService.getSettings().subscribe(
       res => {
+        debugger
         this.settingInfo = res;
       },
       err => {
@@ -558,18 +559,19 @@ export class AdminHomeComponent implements OnInit {
         return
       }
     }
+    debugger
 
-    let check = this.checkIfStudentIsAbsent(this.studentAttList);  
-      if (this.settingInfo.sms_absent_notification != 0 && check) {
-        if (confirm('Do you want to send SMS Alert to Absent students ?')) {
-          this.markAttendanceServerCall("Y");
-        } else {
-          this.markAttendanceServerCall("N");
-        }
+    let check = this.checkIfStudentIsAbsent(this.studentAttList);
+    if (this.settingInfo.sms_absent_notification != 0 && check) {
+      if (confirm('Do you want to send SMS Alert to Absent students ?')) {
+        this.markAttendanceServerCall("Y");
       } else {
         this.markAttendanceServerCall("N");
       }
-    
+    } else {
+      this.markAttendanceServerCall("N");
+    }
+
 
   }
 
@@ -1218,7 +1220,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateCourseAttendance() {
-
+    debugger
     let isNotify = 'N';
     let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
     if (checkAbsent && this.settingInfo.sms_absent_notification != 0) {
@@ -2512,9 +2514,11 @@ export class AdminHomeComponent implements OnInit {
   updateCourseAttendanceExam() {
     let absectCount = 0;
     this.studentList.forEach(element => {
-      if (element.attendance == "A") {
-        absectCount++;
-      }
+      element.dateLi.forEach(obj => {
+        if (obj.status == "A") {
+          absectCount++;
+        }
+      });
     });
     if (this.settingInfo.sms_absent_notification != 0 && absectCount) {
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
@@ -2884,14 +2888,17 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttCourseExam() {
+
+    debugger
     let absectCount = 0;
     this.studentList.forEach(element => {
       if (element.attendance == "A") {
         absectCount++;
       }
     });
+
     if (this.settingInfo.sms_absent_notification != 0 && absectCount) {
-      
+
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
         this.makeServerCallForExamUpdate('Y');
       } else {
