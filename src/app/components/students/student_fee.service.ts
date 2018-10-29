@@ -496,7 +496,7 @@ export class StudentFeeService {
         obj.paid_date = moment(paymentPopUpJson.paid_date).format('YYYY-MM-DD');
         obj.paymentMode = paymentPopUpJson.payment_mode;
         obj.reference_no = paymentPopUpJson.reference_no;
-        obj.remarks = obj.remarks;
+        obj.remarks = paymentPopUpJson.remarks;
         obj.studentFeeReportJsonList = this.makePaymentInstallList(seletectedInstallment, paymentPopUpJson.payingAmount);
         return obj;
     }

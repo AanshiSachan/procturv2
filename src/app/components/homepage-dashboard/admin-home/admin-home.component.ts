@@ -199,7 +199,6 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   fetchWidgetPrefill() {
-
     this.widgetService.getSettings().subscribe(
       res => {
         this.settingInfo = res;
@@ -554,22 +553,13 @@ export class AdminHomeComponent implements OnInit {
       if (this.validateSpecialCharacters(this.homework)) {
         // Do nothing
       } else {
-        this.messageNotifier('error', 'Error', 'Special characters are not allowed in homework field.');
+        this.messageNotifier('error', 'Error', 'Special characters are not allowed in homework field');
         return
       }
     }
 
-    if (this.attendanceNote != null && this.attendanceNote != "") {
-      if (this.validateSpecialCharacters(this.attendanceNote)) {
-        // Do nothing
-      } else {
-        this.messageNotifier('error', 'Error', 'Special characters are not allowed in attendance field.');
-        return
-      }
-    }
-    let check = this.checkIfStudentIsAbsent(this.studentAttList);
-    if (check) {
-      if (this.settingInfo.sms_absent_notification != 0) {
+    let check = this.checkIfStudentIsAbsent(this.studentAttList);  
+      if (this.settingInfo.sms_absent_notification != 0 && check) {
         if (confirm('Do you want to send SMS Alert to Absent students ?')) {
           this.markAttendanceServerCall("Y");
         } else {
@@ -578,9 +568,7 @@ export class AdminHomeComponent implements OnInit {
       } else {
         this.markAttendanceServerCall("N");
       }
-    } else {
-      this.markAttendanceServerCall("N");
-    }
+    
 
   }
 
@@ -1228,6 +1216,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateCourseAttendance() {
+
     let isNotify = 'N';
     let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
     if (checkAbsent && this.settingInfo.sms_absent_notification != 0) {
@@ -2279,19 +2268,26 @@ export class AdminHomeComponent implements OnInit {
 
 
   markAttendaceBtnClickCourse(event, rowData, index) {
-    if (event.target.innerText == "L") {
-      this.courseLevelStudentAtt[index].dateLi[0].status = "L";
-      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
-      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-    } else if (event.target.innerText == "A") {
-      this.courseLevelStudentAtt[index].dateLi[0].status = "A";
-      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
-      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-    } else {
-      this.courseLevelStudentAtt[index].dateLi[0].status = "P";
-      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
+    switch (event.target.innerText) {
+      case "L": {
+        this.courseLevelStudentAtt[index].dateLi[0].status = "L";
+        this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+        this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
+        break;
+      }
+      case "A": {
+        this.courseLevelStudentAtt[index].dateLi[0].status = "A";
+        this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+        this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
+        break;
+      }
+      default: {
+        this.courseLevelStudentAtt[index].dateLi[0].status = "P";
+        this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
+        this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
+      }
     }
+
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }
 
@@ -2512,7 +2508,13 @@ export class AdminHomeComponent implements OnInit {
 
   // Batch Section
   updateCourseAttendanceExam() {
-    if (this.settingInfo.sms_absent_notification != 0) {
+    let absectCount = 0;
+    this.studentList.forEach(element => {
+      if (element.attendance == "A") {
+        absectCount++;
+      }
+    });
+    if (this.settingInfo.sms_absent_notification != 0 && absectCount) {
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
         this.updateAttendancetoServer("Y");
       } else {
@@ -2880,7 +2882,14 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttCourseExam() {
-    if (this.settingInfo.sms_absent_notification != 0) {
+    let absectCount = 0;
+    this.studentList.forEach(element => {
+      if (element.attendance == "A") {
+        absectCount++;
+      }
+    });
+    if (this.settingInfo.sms_absent_notification != 0 && absectCount) {
+      
       if (confirm('Do you want to send SMS Alert to Absent students ?')) {
         this.makeServerCallForExamUpdate('Y');
       } else {
@@ -3315,7 +3324,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   validateSpecialCharacters(str) {
-    let regex = /[^ a-zA-Z0-9]/g;
+    let regex = /[^ a-zA-Z0-9.,]/g;
     if (str.match(regex) == null) {
       return true;
     } else {

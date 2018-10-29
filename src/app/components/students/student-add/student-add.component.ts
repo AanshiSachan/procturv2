@@ -231,13 +231,10 @@ export class StudentAddComponent implements OnInit {
     this.fetchPrefillFormData();
     if (this.isProfessional) {
       if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
-        this.getSlots();
-        this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
       this.getSlots();
       this.getlangStudentStatus();
-
       this.updateBatchList();
     }
     else if (!this.isProfessional) {
@@ -612,6 +609,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   getSlots() {
+    this.slots=[];
     return this.studentPrefillService.fetchSlots().subscribe(
       res => {
         res.forEach(el => {

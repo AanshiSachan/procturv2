@@ -31,7 +31,7 @@ export class ManageBatchComponent implements OnInit {
   };
   addNewBatch: any = {
     standard_id: '-1',
-    subject_id: '',
+    subject_id: '-1',
     class_room_id: '-1',
     teacher_id: '-1',
     batch_name: '',
@@ -189,6 +189,7 @@ export class ManageBatchComponent implements OnInit {
 
   onMasterCourseSelection(data) {
     this.isRippleLoad = true;
+    this.addNewBatch.subject_id ='-1';
     if (data != '-1') {
 
       this.apiService.getPerticularCourseList(data).subscribe(
@@ -205,61 +206,92 @@ export class ManageBatchComponent implements OnInit {
       )
     } else {
       this.isRippleLoad = false;
+     
       this.messageToast('error', 'Error', 'You Can not select empty value');
       return;
     }
   }
 
-  addNewBatchToList() {
-    if (this.addNewBatch.batch_code.length > 4) {
-      this.messageToast('error', 'Error', 'Batch Code can not be greater than 4 alphabet.');
-      return;
-    }
-    if (this.addNewBatch.start_date == "" || this.addNewBatch.start_date == null) {
-      this.messageToast('error', 'Error', 'Please Provide Start Date.');
-      return;
-    } else {
-      this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("YYYY-MM-DD");
-    }
-    if (this.addNewBatch.end_date == "" || this.addNewBatch.end_date == null) {
-      this.messageToast('error', 'Error', 'Please Provide End Date.');
-      return;
-    } else {
-      this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
-    }
 
-    if (this.addNewBatch.teacher_id == "-1") {
-      this.messageToast('error', 'Error', 'Provide provide faculty name.');
-      return;
-    }
+  addNewBatchToList() {   
+    if (this.addNewBatch.standard_id != '-1') {
 
-    if (this.addNewBatch.start_date > this.addNewBatch.end_date) {
-      this.messageToast('error', 'Error', 'Provide valid details of Start Date.');
-      return;
-    }
-    if (this.addNewBatch.is_active == true) {
-      this.addNewBatch.is_active = 'Y';
-    } else {
-      this.addNewBatch.is_active = 'N';
-    }
-    if (this.addNewBatch.is_exam_grad_feature == true) {
-      this.addNewBatch.is_exam_grad_feature = 1;
-    } else {
-      this.addNewBatch.is_exam_grad_feature = 0;
-    }
-    this.apiService.addNewBatch(this.addNewBatch).subscribe(
-      res => {
-        this.messageToast('success', 'Added Batch', "Successfully created batch.");
-        this.clearFormData();
-        this.getAllBatchesList();
-        this.createNewBatch = false;
-      },
-      error => {
-        //console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+      if (this.addNewBatch.subject_id != "-1") {
+
+        if (this.addNewBatch.teacher_id != "-1") {
+
+          if (this.addNewBatch.batch_name.trim() != '') {
+            if (this.addNewBatch.batch_code.length < 5) {
+
+              if (this.addNewBatch.start_date != "" && this.addNewBatch.start_date != null) {
+                this.addNewBatch.start_date = moment(this.addNewBatch.start_date).format("YYYY-MM-DD");
+
+                if (this.addNewBatch.end_date != "" && this.addNewBatch.end_date != null) {
+                  this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
+
+                  if (this.addNewBatch.start_date < this.addNewBatch.end_date) {
+                    
+                    if (this.addNewBatch.is_active == true) {
+                      this.addNewBatch.is_active = 'Y';
+                    } else {
+                      this.addNewBatch.is_active = 'N';
+                    }
+                    if (this.addNewBatch.is_exam_grad_feature == true) {
+                      this.addNewBatch.is_exam_grad_feature = 1;
+                    } else {
+                      this.addNewBatch.is_exam_grad_feature = 0;
+                    }
+                    this.apiService.addNewBatch(this.addNewBatch).subscribe(
+                      res => {
+                        this.messageToast('success', 'Added Batch', "Successfully created batch");
+                        this.clearFormData();
+                        this.getAllBatchesList();
+                        this.togglecreateNewBatch() ;
+                      },
+                      error => {
+                        //console.log(error);
+                        this.messageToast('error', 'Error', error.error.message);
+                      }
+                    )
+                  }
+                  else {
+                    this.messageToast('error', 'Error', 'Provide valid details of Start Date');
+                    return;
+                  }
+                } else {
+                  this.messageToast('error', 'Error', 'Please Provide End Date');
+                  return;
+                }
+              } else {
+                this.messageToast('error', 'Error', 'Please Provide Start Date');
+                return;
+              }
+            }
+            else {
+              this.messageToast('error', 'Error', 'Batch Code can not be greater than 4 alphabet');
+              return;
+            }
+          }
+          else {
+            this.messageToast('error', 'Error', 'Provide batch name');
+            return;
+          }
+        } else {
+          this.messageToast('error', 'Error', 'Provide  faculty name');
+          return;
+        }
       }
-    )
+      else {
+        this.messageToast('error', 'Error', 'select course');
+        return;
+      }
+    }
+    else {
+      this.messageToast('error', 'Error', 'Select master course');
+    }
+
   }
+
 
   updateTableRow(rowDetails, index) {
     let dataToSend: any = {
@@ -313,17 +345,19 @@ export class ManageBatchComponent implements OnInit {
   }
 
   clearFormData() {
-    this.addNewBatch = {
-      standard_id: '',
-      subject_id: '',
-      class_room_id: '',
-      teacher_id: '',
+    this.addNewBatch =  {
+      standard_id: '-1',
+      subject_id: '-1',
+      class_room_id: '-1',
+      teacher_id: '-1',
       batch_name: '',
       batch_code: '',
       start_date: '',
       end_date: '',
       is_active: true,
+      is_exam_grad_feature: false
     }
+   
   }
 
   addStudentToBatch(rowDetails) {
