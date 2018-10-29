@@ -1753,13 +1753,29 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Convert enquiry to student */
     convertRow(ev) {
+       let institute_id = sessionStorage.getItem("institute_id");
         if (this.flagJSON.isProfessional) {
             this.selectedRow.standard_id = this.selectedRow.master_course_name;
         }
-        sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
-        this.router.navigate(['/view/student/add'])
-        this.closePopup();
-        this.cd.markForCheck();
+        console.log(ev,this.selectedRow);
+        
+        return this.enquire.fetchEnquiryStudentData(institute_id,this.selectedRow.institute_enquiry_id).subscribe(
+            (data:any) => {
+                this.flagJSON.isRippleLoad = false;
+               console.log(data);
+               this.selectedRow.standard_id = data.standard_id;
+               sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
+               this.router.navigate(['/view/student/add'])
+               this.closePopup();
+               this.cd.markForCheck();
+               
+            },
+            err => {
+                this.flagJSON.isRippleLoad = false;               
+                this.showErrorMessage(this.messageService.toastTypes.error, 'Unable To Connect To Server', 'Please check your internet connection or contact proctur support if the issue persist');
+                this.cd.markForCheck();
+            });
+     
     }
 
     /* Download Receipt API */

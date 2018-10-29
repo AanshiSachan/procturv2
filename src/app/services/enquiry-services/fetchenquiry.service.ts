@@ -106,6 +106,15 @@ export class FetchenquiryService {
     }
   }
 
+    /* return the template user has to edit */
+    fetchEnquiryStudentData(instituteID,id) {
+      this.urlDownloadTemplate = this.baseUrl + "/api/v1/enquiry/"+instituteID+"/"+id;
+  
+      return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
+        data => { return data },
+        err => { return err; }
+      );
+    }
 
   /* return the template user has to edit */
   fetchDownloadTemplate() {
