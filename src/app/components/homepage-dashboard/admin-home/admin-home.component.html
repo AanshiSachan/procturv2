@@ -65,7 +65,7 @@
                       <ul class="sche-top-det">
                         <li class="schedule-det" *ngIf="!isProfessional && isSubjectView">
                           <div>
-                            <label>Total Classes :</label>
+                            <label>Total Classes1 :</label>
                             <span>{{classScheduleCount}}</span>
                             <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                               [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker
@@ -333,7 +333,7 @@
       </svg>
     </span>
 
-    <h2 widget-header>Mark / Update Attendance a
+    <h2 widget-header>Mark / Update Attendance 
       <span style="font-weight: normal; font-size: 0.8em">: {{classMarkedForAction.batch_name}}</span>
     </h2>
 
@@ -383,7 +383,7 @@
 
             <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: -10px">
               <div class="field-wrapper" [ngClass]="{ 'has-value': teacher_id !='' }">
-                <label for="feeType" style="color:#4191da">Faculty</label>
+                <label for="feeType" style="color:#4191da"> Faculty </label>
                 <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id" style="background: transparent;
                   border-bottom: 1px solid #4191da">
                   <option value='-1'>Select Faculty</option>
