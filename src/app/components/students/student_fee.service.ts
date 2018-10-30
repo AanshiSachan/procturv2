@@ -200,31 +200,36 @@ export class StudentFeeService {
         let uniqueCourseName = Array.from(new Set(data.map(el => el[this.filterForModel.course_id_filter])));
         uniqueCourseName.forEach((courseId: any) => {
             let obj: any = {};
-            let taxAmount: number = 0;
-            let amountAfterTax: number = 0;
             let paidAmount: number = 0;
             let discount: number = 0;
-            let initailAmountWithoutTax: number = 0;
             let master_course_name = "";
             let courseName = "";
+            let totalFeeAmount: number = 0;
+            let unPaidAmount: number = 0;
+            let amountOfInstallment: number = 0;
             let installment = data.filter(el => el[this.filterForModel.course_id_filter] == courseId);
             installment.map((instal: any) => {
                 paidAmount = paidAmount + Number(instal.amount_paid);
                 discount = discount + Number(instal.discount);
-                let amountBeforTAx: number = 0;
+                let amountDue: number = 0;
                 if (instal.fee_type_name == "INSTALLMENT") {
-                    if (instal.balance_amount > 0) {
-                        instal.fees_amount = instal.balance_amount + instal.amount_paid;
+                    if (instal.paid_full == "N" && instal.balance_amount > 0) {
+                        amountDue = Number(instal.balance_amount);
+                    } else if (instal.paid_full == "N" && instal.balance_amount == 0) {
+                        amountDue = Number(instal.fees_amount);
                     }
-                    amountBeforTAx = this.calculateInitialAmountOfRemainingAmount(instal.fees_amount, tax);
-                    instal.tax = Math.floor(instal.fees_amount - amountBeforTAx);
-                    taxAmount = taxAmount + (instal.fees_amount - amountBeforTAx);
+                    unPaidAmount = unPaidAmount + amountDue;
+                    totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
+                    amountOfInstallment = amountOfInstallment + amountDue + instal.amount_paid;
                 } else {
-                    amountBeforTAx = this.calculateInitialAmountOfRemainingAmount(instal.fees_amount, instal.service_tax);
-                    instal.tax = Math.floor(instal.fees_amount - amountBeforTAx);
+                    if (instal.paid_full == "N" && instal.balance_amount > 0) {
+                        amountDue = Number(instal.balance_amount);
+                    } else if (instal.paid_full == "N" && instal.balance_amount == 0) {
+                        amountDue = Number(instal.fees_amount);
+                    }
+                    unPaidAmount = unPaidAmount + amountDue;
+                    totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
                 }
-                initailAmountWithoutTax = initailAmountWithoutTax + amountBeforTAx;
-                amountAfterTax = amountAfterTax + instal.fees_amount;
                 instal.uiSelected = false;
                 master_course_name = instal[this.filterForModel.master_course_name];
                 courseName = instal.course_subject_name;
@@ -239,18 +244,18 @@ export class StudentFeeService {
             }
             obj.master_course_name = master_course_name;
             obj.installmentArray = installment;
-            obj.feeAmountIncludingTax = amountAfterTax;
+            obj.feeAmountIncludingTax = totalFeeAmount;
             obj.paidAmount = Number(paidAmount);
-            obj.initialAmountWithoutTax = Math.floor(initailAmountWithoutTax);
             obj.discount = discount;
-            obj.taxAmount = Math.floor(taxAmount);
-            obj.dueAmount = obj.feeAmountIncludingTax - obj.paidAmount;
-            if (obj.feeAmountIncludingTax == obj.paidAmount) {
+            let initAmout: number = this.calculateInitialAmountOfRemainingAmount(amountOfInstallment, tax);
+            obj.taxAmount = Math.floor(amountOfInstallment - initAmout);
+            obj.dueAmount = unPaidAmount;
+            if (obj.dueAmount == 0) {
                 obj.paid_Full_Installment_CourseWise = "Paid";
-            } else if (obj.paidAmount > 0) {
+            } else if (obj.dueAmount > 0) {
                 obj.paid_Full_Installment_CourseWise = "Partially Paid";
             }
-            else {
+            if (paidAmount == 0) {
                 obj.paid_Full_Installment_CourseWise = "Due";
             }
             subjectWiseSchduleArray.push(obj);
@@ -268,32 +273,40 @@ export class StudentFeeService {
             amountDue: 0,
             additionalFees: 0
         }
-
+        let installmentDueAmount: number = 0;
         data.forEach(
             installment => {
                 let initialAmount: number = 0;
                 if (installment.fee_type_name == "INSTALLMENT") {
                     obj.feeAmountExclTax = obj.feeAmountExclTax + Number(installment.initial_fee_amount_before_disocunt_before_tax);
-                    if (installment.balance_amount > 0) {
-                        let amountIncTax: number = installment.balance_amount + installment.amount_paid;
-                        obj.feeAmountInclTax = obj.feeAmountInclTax + amountIncTax;
-                        initialAmount = this.calculateInitialAmountOfRemainingAmount(amountIncTax, tax);
-                        obj.taxAmount = obj.taxAmount + Number(amountIncTax - initialAmount);
-                    } else {
-                        obj.feeAmountInclTax = obj.feeAmountInclTax + Number(installment.fees_amount);
-                        initialAmount = this.calculateInitialAmountOfRemainingAmount(installment.fees_amount, tax);
-                        obj.taxAmount = obj.taxAmount + Number(installment.fees_amount - initialAmount);
+                    let amountDue: number = 0;
+                    if (installment.paid_full == "N" && installment.balance_amount > 0) {
+                        amountDue = Number(installment.balance_amount);
+                        obj.amountDue = obj.amountDue + Number(installment.balance_amount)
+                    } else if (installment.paid_full == "N" && installment.balance_amount == 0) {
+                        amountDue = Number(installment.fees_amount);
+                        obj.amountDue = obj.amountDue + Number(installment.fees_amount);
                     }
+                    installmentDueAmount = installmentDueAmount + amountDue + installment.amount_paid;
                 } else {
+                    if (installment.paid_full == "N" && installment.balance_amount > 0) {
+                        obj.amountDue = obj.amountDue + Number(installment.balance_amount);
+                    } else if (installment.paid_full == "N" && installment.balance_amount == 0) {
+                        obj.amountDue = obj.amountDue + Number(installment.fees_amount);
+                    }
                     initialAmount = this.calucalteAmountAfterApplyingTax(installment.initial_fee_amount_before_disocunt_before_tax, installment.service_tax);
                     obj.additionalFees = obj.additionalFees + initialAmount;
-                    obj.feeAmountInclTax = obj.feeAmountInclTax + Number(initialAmount);
                 }
                 obj.discountAmount = obj.discountAmount + Number(installment.discount);
                 obj.amountPaid = obj.amountPaid + Number(installment.amount_paid);
-                obj.amountDue = obj.feeAmountInclTax - obj.amountPaid;
+                obj.feeAmountInclTax = obj.amountPaid + obj.amountDue;
             }
         );
+
+
+        let initialAmountWithoutTax: number = this.calculateInitialAmountOfRemainingAmount(Number(installmentDueAmount), tax);
+        obj.taxAmount = installmentDueAmount - initialAmountWithoutTax;
+
 
         obj.taxAmount = Math.floor(obj.taxAmount);
         return obj;
