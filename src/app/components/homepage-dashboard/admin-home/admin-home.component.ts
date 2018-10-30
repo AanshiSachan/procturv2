@@ -200,8 +200,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   fetchWidgetPrefill() {
     this.widgetService.getSettings().subscribe(
-      res => {
-        debugger
+      res => {        
         this.settingInfo = res;
       },
       err => {
@@ -550,7 +549,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateAttendance() {
-    debugger
+    
     if (this.homework != null && this.homework != "") {
       if (this.validateSpecialCharacters(this.homework)) {
         // Do nothing
@@ -559,7 +558,7 @@ export class AdminHomeComponent implements OnInit {
         return
       }
     }
-    debugger
+    
 
     let check = this.checkIfStudentIsAbsent(this.studentAttList);
     if (this.settingInfo.sms_absent_notification != 0 && check) {
@@ -576,7 +575,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttendanceServerCall(sendSms) {
-    debugger
+    
     this.isRippleLoad = true;
     let arr = [];
     this.studentAttList.forEach(e => {
@@ -1220,7 +1219,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateCourseAttendance() {
-    debugger
+    
     let isNotify = 'N';
     let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
     if (checkAbsent && this.settingInfo.sms_absent_notification != 0) {
@@ -2889,7 +2888,7 @@ export class AdminHomeComponent implements OnInit {
 
   markAttCourseExam() {
 
-    debugger
+    
     let absectCount = 0;
     this.studentList.forEach(element => {
       if (element.attendance == "A") {
