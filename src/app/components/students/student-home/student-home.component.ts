@@ -129,7 +129,7 @@ export class StudentHomeComponent implements OnInit {
             { primaryKey: 'student_disp_id', header: 'Student Id' },
             { primaryKey: 'student_name', header: 'Name' },
             { primaryKey: 'student_phone', header: 'Contact No' },
-            { primaryKey: 'student_class', header: 'Class' },
+            { primaryKey: 'student_class', header: 'Standard' },
             { primaryKey: 'batchesAssigned', header: 'Batch Assigned' }
           ];
         }
@@ -138,7 +138,7 @@ export class StudentHomeComponent implements OnInit {
             { primaryKey: 'student_disp_id', header: 'Student Id' },
             { primaryKey: 'student_name', header: 'Name' },
             { primaryKey: 'student_phone', header: 'Contact No' },
-            { primaryKey: 'student_class', header: 'Class' },
+            { primaryKey: 'student_class', header: 'Standard' },
             { primaryKey: 'batchesAssigned', header: 'Course Assigned' }
           ];
         }

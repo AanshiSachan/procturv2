@@ -1005,10 +1005,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
         }
         this.thumbnailAvailable = true;
-        this.studentServerImage = data.photo == null ? " " : data.photo;
-        if (!this.studentServerImage.includes("https:")) {
-          this.studentServerImage = ""; // if wrong url comes from server then it set default image
-        }
+        this.studentServerImage = data.photo;
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
