@@ -715,7 +715,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   getSlots() {
-    this.slots=[];
+    this.slots = [];
     this.studentPrefillService.fetchSlots().subscribe(
       res => {
         res.forEach(el => {
@@ -866,25 +866,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, id).subscribe(
           res => {
             console.log(res);
-            res.coursesList.forEach(el => {
-              if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-                el.feeTemplateList.forEach(e => {
-                  if (e.is_default == 1) {
-                    el.selected_fee_template_id = e.template_id;
-                  }
-                })
-              }
-              if (el.academic_year_id == '-1') {
-                el.academic_year_id = this.defaultAcadYear;
-              }
-              let obj = {
-                isSelected: el.isAssigned == "Y" ? true : false,
-                data: el,
-                assignDate: this.getAssignDate(el.created_date)
-              }
-              this.batchList.push(obj);
-            });
-            console.log(this.batchList);
+            if (res.coursesList != null) {
+              res.coursesList.forEach(el => {
+                if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                  el.feeTemplateList.forEach(e => {
+                    if (e.is_default == 1) {
+                      el.selected_fee_template_id = e.template_id;
+                    }
+                  })
+                }
+                if (el.academic_year_id == '-1') {
+                  el.academic_year_id = this.defaultAcadYear;
+                }
+                let obj = {
+                  isSelected: el.isAssigned == "Y" ? true : false,
+                  data: el,
+                  assignDate: this.getAssignDate(el.created_date)
+                }
+                this.batchList.push(obj);
+              });
+              console.log(this.batchList);
+            }
           },
           err => {
             let msg = err.error.message;
@@ -1003,7 +1005,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
         }
         this.thumbnailAvailable = true;
-        this.studentServerImage = data.photo;
+        this.studentServerImage = data.photo == null ? " " : data.photo;
+        if (!this.studentServerImage.includes("https:")) {
+          this.studentServerImage = ""; // if wrong url comes from server then it set default image
+        }
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
@@ -1071,25 +1076,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 this.btnContinueDetailPage.nativeElement.disabled = false;
               }
               this.batchList = [];
-              res.coursesList.forEach(el => {
-                if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-                  el.feeTemplateList.forEach(e => {
-                    if (e.is_default == 1) {
-                      el.selected_fee_template_id = e.template_id;
-                    }
-                  })
-                }
-                if (el.academic_year_id == '-1') {
-                  el.academic_year_id = this.defaultAcadYear;
-                }
-                console.log(el, 'update form el');
-                let obj = {
-                  isSelected: el.isAssigned == "Y" ? true : false,
-                  data: el,
-                  assignDate: this.getAssignDate(el.created_date)
-                }
-                this.batchList.push(obj);
-              });
+              if (res.coursesList != null) {
+                res.coursesList.forEach(el => {
+                  if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                    el.feeTemplateList.forEach(e => {
+                      if (e.is_default == 1) {
+                        el.selected_fee_template_id = e.template_id;
+                      }
+                    })
+                  }
+                  if (el.academic_year_id == '-1') {
+                    el.academic_year_id = this.defaultAcadYear;
+                  }
+                  // console.log(el, 'update form el');
+                  let obj = {
+                    isSelected: el.isAssigned == "Y" ? true : false,
+                    data: el,
+                    assignDate: this.getAssignDate(el.created_date)
+                  }
+                  this.batchList.push(obj);
+                });
+              }
               this.updateAssignedBatches(this.batchList);
             },
             err => {

@@ -221,6 +221,7 @@ export class StudentFeeService {
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
                     amountOfInstallment = amountOfInstallment + amountDue + instal.amount_paid;
+                    instal.tax = Math.round(Number(amountDue + instal.amount_paid) - this.calculateInitialAmountOfRemainingAmount(Number(amountDue + instal.amount_paid), tax));
                 } else {
                     if (instal.paid_full == "N" && instal.balance_amount > 0) {
                         amountDue = Number(instal.balance_amount);
@@ -229,6 +230,7 @@ export class StudentFeeService {
                     }
                     unPaidAmount = unPaidAmount + amountDue;
                     totalFeeAmount = totalFeeAmount + amountDue + instal.amount_paid;
+                    instal.tax = this.calucalteAmountAfterApplyingTax(instal.initial_fee_amount_before_disocunt_before_tax, instal.service_tax) - instal.initial_fee_amount_before_disocunt_before_tax;
                 }
                 instal.uiSelected = false;
                 master_course_name = instal[this.filterForModel.master_course_name];
