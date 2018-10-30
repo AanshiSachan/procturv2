@@ -200,7 +200,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   fetchWidgetPrefill() {
     this.widgetService.getSettings().subscribe(
-      res => {        
+      res => {
         this.settingInfo = res;
       },
       err => {
@@ -549,7 +549,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateAttendance() {
-    
+
     if (this.homework != null && this.homework != "") {
       if (this.validateSpecialCharacters(this.homework)) {
         // Do nothing
@@ -558,7 +558,7 @@ export class AdminHomeComponent implements OnInit {
         return
       }
     }
-    
+
 
     let check = this.checkIfStudentIsAbsent(this.studentAttList);
     if (this.settingInfo.sms_absent_notification != 0 && check) {
@@ -575,14 +575,16 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttendanceServerCall(sendSms) {
-    
+
     this.isRippleLoad = true;
     let arr = [];
     this.studentAttList.forEach(e => {
+      let arrDateLi = []; // as per v1 only single dateli array object will send --laxmi
       e.dateLi[0] = Object.assign({}, this.getCustomAttendanceObject(e.dateLi[0], e));
+      arrDateLi.push(e.dateLi[0]);
       let temp = {
         batch_id: this.classMarkedForAction.batch_id,
-        dateLi: e.dateLi,
+        dateLi: arrDateLi,
         home_work_notifn: e.home_work_notifn,
         isNotify: sendSms,
         is_home_work_enabled: e.is_home_work_enabled,
@@ -1219,7 +1221,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateCourseAttendance() {
-    
+
     let isNotify = 'N';
     let checkAbsent = this.checkIfStudentIsAbsent(this.courseLevelStudentAtt);
     if (checkAbsent && this.settingInfo.sms_absent_notification != 0) {
@@ -2888,7 +2890,7 @@ export class AdminHomeComponent implements OnInit {
 
   markAttCourseExam() {
 
-    
+
     let absectCount = 0;
     this.studentList.forEach(element => {
       if (element.attendance == "A") {
