@@ -33,7 +33,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
     isRippleLoad: boolean = false;
     showTab: string = 'addDiscountTab';
     discountHistory: any = [];
-    isProfessional: boolean = true;
+    // isProfessional: boolean = true;
     filterForModel = {
         course_id: "course_id",
         course_subject_name: "course_subject_name",
@@ -68,13 +68,14 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
         this.auth.institute_type.subscribe(
             res => {
                 if (res == 'LANG') {
-                    this.isProfessional = true;
+                    // this.isProfessional = true;
                     this.filterForModel.course_id = "standard_id";
                     this.filterForModel.course_subject_name = "course_subject_name";
                     this.filterForModel.master_course_name = 'standard_name';
-                } else {
-                    this.isProfessional = false;
                 }
+                //  else {
+                //     this.isProfessional = false;
+                // }
             }
         )
     }

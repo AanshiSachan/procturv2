@@ -36,8 +36,8 @@
             <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4 filter-section">
 
                 <div class="field-wrapper">
-                    <label for="masterCourse" *ngIf="isProfessional">Standard</label>
-                    <label for="masterCourse" *ngIf="!isProfessional">Master Course</label>
+                    <!-- <label for="masterCourse" *ngIf="isProfessional">Standard</label> -->
+                    <label for="masterCourse" >Master Course</label>
                     <select id="masterCourse" name="masterCourse" [(ngModel)]="discountPopUpForm.masterCourseName"
                         class="form-ctrl" placeholder="Course" (ngModelChange)="masterCourseChange($event)">
                         <option value="-1">Select</option>
@@ -46,8 +46,8 @@
                 </div>
 
                 <div class="field-wrapper">
-                    <label for="masterCourse" *ngIf="isProfessional">Subject</label>
-                    <label for="masterCourse" *ngIf="!isProfessional">Course</label>
+                    <!-- <label for="masterCourse" *ngIf="isProfessional">Subject</label> -->
+                    <label for="masterCourse" >Course</label>
                     <select id="courseNameDiv" name="courseNameDiv" [(ngModel)]="discountPopUpForm.coursename" class="form-ctrl"
                         placeholder="Course" (ngModelChange)="onCourseChange($event)">
                         <option value="-1">Select</option>
