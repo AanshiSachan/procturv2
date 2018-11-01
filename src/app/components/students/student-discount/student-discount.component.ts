@@ -282,7 +282,7 @@ export class StudentDiscountComponent implements OnInit, OnChanges {
             return false;
         }
 
-        let unpaidAmount = this.feeService.getUnPaidAmount(selectedInstallment, this.feeObject.registeredServiceTax);
+        let unpaidAmount = selectedInstallment.filter(el => el.discount).reduce((a, b) => { a + b });
         let check: boolean = this.feeService.checkDiscountValidations(this.discountPopUpForm, unpaidAmount, 'remove');
         if (!check) {
             return;
