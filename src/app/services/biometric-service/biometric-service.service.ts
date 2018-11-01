@@ -24,8 +24,6 @@ export class BiometricServiceService {
     this.baseUrl = this.auth.getBaseUrl();
   }
 
-
-
   getAllData() {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all"
     return this.http.get(url, { headers: this.headers }).map(
@@ -64,6 +62,18 @@ export class BiometricServiceService {
     )
   }
 
+  sendSMSToAbsenties(obj) {
+    obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
+    let url = this.baseUrl + "/api/v1/attendance/sendSMSToAbsenties";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      (data: any) => {
+        return data;
+      },
+      (error) => {
+        return error;
+      }
+    )
+  }
 
   getAttendanceReport(obj) {
     obj.biometric_attendance_date = moment(obj.biometric_attendance_date).format('YYYY-MM-DD');
