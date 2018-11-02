@@ -244,6 +244,8 @@ export class BiometricComponent implements OnInit {
     this.dataStatus = true;
     this.getData.name = "";
     this.getData.subject_id = -1;
+    this.getAbsentiesData.course_id = -1;
+    this.getAbsentiesData.subject_id = -1;
     // this.batchPro = [];
     this.coursePro = [];
     if (this.isProfessional) {

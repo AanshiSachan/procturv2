@@ -1885,7 +1885,7 @@
                     <tr>
                       <td>
                         <h3>Report Setting</h3>
-                        <div class="row">
+                        <div  class="row" >
                           <div class="c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
                               <label for="pre_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification
@@ -1924,7 +1924,9 @@
                                 <option value="24:00">After 1 day</option>
                               </select>
                             </div>
-                          </div>
+                          </div>                        
+                        </div>
+                        <div class="row">
                           <div class="c-lg-6" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
@@ -1959,6 +1961,8 @@
                                 name="daily_account_summary" id="dailyConatctID">
                             </div>
                           </div>
+                        </div>
+                        <div class="row">
                           <div class="c-lg-6" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.teacher_monthly_report"
