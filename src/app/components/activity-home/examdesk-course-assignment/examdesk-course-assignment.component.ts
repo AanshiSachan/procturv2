@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { ExamDeskCourseAssignmentService } from '../../../services/examdesk-service/examdeskcourseassignment.service';
+import { WidgetService } from '../../../services/widget.service';
+
 
 
 @Component({
@@ -10,23 +12,40 @@ import { ExamDeskCourseAssignmentService } from '../../../services/examdesk-serv
 })
 export class ExamdeskCourseAssignmentComponent implements OnInit {
 
-  dataStatus: number = 1;
-  isRippleLoad: boolean = false;
+
   coursesList: any = [];
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2];
   columnMapsTr: any[] = [0, 1, 2, 3, 4, 5];
   searchValue: string = "";
   coursesListDataSource: any = [];
-  tempData: any = "";
   standardList: any = [];
-  assignPopUp: boolean = false;
-  standard_id: number = -1;
   studentDataSourceList: any = [];
   studentList: any = [];
   tableData: any = [];
+  masterCourse: any[] = [];
+  courses: any[] = [];
+  subjectList: any[] = [];
+  batchList: any[] = [];
   radioOption: any = '0';
+  filterOption: any = '0';
+  standard_id: number = -1;
+  assignPopUp: boolean = false;
   headerChecked: boolean = false;
+  isCourse: boolean = false;
+  isRippleLoad: boolean = false;
+  isCourseModule: boolean = false;
+  tempData: any = "";
+  dataStatus: number = 1;
+
+  examAssignmentData = {
+    "institute_id": 0,
+    "master_course_name": "",
+    "course_id": -1,
+    "subject_id": -1,
+    "standard_id": -1,
+    "batch_id": -1
+  }
 
   constructor(
     private apiService: ExamDeskCourseAssignmentService,
@@ -36,6 +55,13 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   ngOnInit() {
     this.fetchCoursesList();
     this.getAllStandardList();
+    this.getMasterCourse();
+    if (sessionStorage.getItem('course_structure_flag') == '1') {
+      this.isCourseModule = true;
+    } else {
+      this.isCourseModule = false;
+    }
+
   }
 
   fetchCoursesList() {
@@ -90,6 +116,23 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.getAllStudentList();
   }
 
+  getExamAssignmentData() {
+    this.isRippleLoad = true;
+    this.apiService.getStudentList2(this.examAssignmentData).subscribe(
+      res => {
+        this.dataStatus = 2;
+        this.isRippleLoad = false;
+        this.studentDataSourceList = res;
+        this.studentList = this.keepCloning(res);
+        this.onRadioButtonChange();
+      },
+      err => {
+        this.dataStatus = 2;
+        this.isRippleLoad = false;
+        this.messageNotifier('error', 'Error', err.error.message);
+      });
+  }
+
   getAllStudentList() {
     this.studentList = [];
     this.studentDataSourceList = [];
@@ -113,6 +156,33 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
+  }
+
+  onfilterOptionChange() {
+    this.isCourse = false;
+    switch (this.filterOption) {
+      case '0': {
+        this.standard_id = -1;
+        this.isCourse = false;
+        this.getAllStudentList();
+        break;
+      }
+      case '1': {
+        this.isCourse = true;
+        this.tableData = [];
+        this.studentList =[];
+        this.examAssignmentData = {
+          "institute_id": 0,
+          "master_course_name": "",
+          "course_id": -1,
+          "subject_id": -1,
+          "standard_id": -1,
+          "batch_id": -1
+        }
+        break;
+      }
+    }
+    this.onRadioButtonChange();
   }
 
   onRadioButtonChange() {
@@ -163,10 +233,20 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
 
   closePopup() {
     this.assignPopUp = false;
+    this.isCourse = false;
     this.radioOption = '0';
     this.studentDataSourceList = [];
     this.studentList = [];
     this.standard_id = -1;
+    this.filterOption = '0';
+    this.examAssignmentData = {
+      "institute_id": 0,
+      "master_course_name": "",
+      "course_id": -1,
+      "subject_id": -1,
+      "standard_id": -1,
+      "batch_id": -1
+    }
   }
 
   addStudentToCourse() {
@@ -192,6 +272,59 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       }
     )
 
+  }
+
+  getMasterCourse() {
+    this.isRippleLoad = true;
+    this.apiService.getAllMasterCourse().subscribe(
+      (data: any) => {
+        this.examAssignmentData.master_course_name = "";
+        this.examAssignmentData.course_id = -1;
+        this.masterCourse = data;
+        this.isRippleLoad = false;
+      },
+      (error) => {
+        this.isRippleLoad = false;
+        return error;
+      }
+    )
+  }
+
+
+  getCourses(name) {
+    this.isRippleLoad = true;
+    this.apiService.getAllCourse(name).subscribe(
+      (data: any) => {
+        this.courses = data.coursesList;
+        this.isRippleLoad = false;
+
+      },
+      (error) => {
+        this.isRippleLoad = false;
+        return error;
+      }
+    )
+  }
+
+  getData(name) {
+   
+    this.dataStatus = 2;
+    this.apiService.batchData(this.examAssignmentData).subscribe(
+      res => {
+        console.log(res);
+        if (this.examAssignmentData.subject_id == -1) {
+          this.examAssignmentData.batch_id = -1;
+          this.subjectList = res.subjectLi;
+          return;
+        }
+        if(this.examAssignmentData.batch_id == -1){
+          this.batchList = res.batchLi;
+        }
+      },
+      err => {    
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
   }
 
   getSelectedStudent() {
