@@ -17,7 +17,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   recordCount: any;
   sortKey: any;
   recordsTrimmed: any[] = [];
-
+  isCourse:boolean= true;
   constructor(
     private _tablePreferencesService: TablePreferencesService,
     private _paginationService: PaginationService
@@ -26,6 +26,10 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.keysArray = this.displayKeys.keys;
     this.sortKey = this.keysArray[0];
+    if (sessionStorage.getItem('course_structure_flag')=="0") {
+      this.isCourse=false;     
+    }
+    
     if (this.displayKeys.selectAll.checked) {
       this.toggleAllCheckBox();
     }
@@ -38,6 +42,13 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     if (this.displayData.length > 0) {
       this.recordCount = this.displayData.length;
       this.keysArray = this.displayKeys.keys;
+      if(!this.isCourse){
+        this.keysArray.forEach(element => {
+          if(element.header=='Master Course'){
+            element.primaryKey = 'standard_name';
+          }
+        });
+       }
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     }
     else {
