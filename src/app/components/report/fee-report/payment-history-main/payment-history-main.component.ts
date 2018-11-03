@@ -133,15 +133,12 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPaymentHistory();
-    if (sessionStorage.getItem('course_structure_flag')!="0") {
-      this.feeSettings1[4] = { primaryKey: 'course_subject_name', header: "Course", priority: 5, allowSortingFlag: true };
+    if (sessionStorage.getItem('course_structure_flag')=="0") {
+      let obj= { primaryKey: 'batch_name', header: "Batch", priority: 17, allowSortingFlag: true };
+      this.feeSettings1.push(obj);
     }
-    else {
-      this.feeSettings1[4] = { primaryKey: 'course_subject_name', header: "Subject", priority: 5, allowSortingFlag: true };
-    }
-
+    
     this.tableSetting.keys = this.feeSettings1;
-
     if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
       this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
       this.tableSetting.keys = this.displayKeys;

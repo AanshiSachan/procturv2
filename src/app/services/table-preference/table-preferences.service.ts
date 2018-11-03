@@ -112,25 +112,6 @@ export class TablePreferencesService {
     else {
       return this.detectArchitcturalChanges();
     }
-    // console.log('get using key  ' + key, value);
-    if (sessionStorage.getItem('course_structure_flag') != "0") { // for course module
-      if (value != null &&value.length !=0){
-        value.forEach(element => {
-          if(element.primaryKey=='course_subject_name'){
-            element.header ='Course';
-          }
-        });
-      }
-    }
-    else {
-      if (value != null &&value.length !=0){// for batch module
-        value.forEach(element => {
-          if(element.primaryKey=='course_subject_name'){
-            element.header ='Subject';
-          }
-        });
-      }
-    }
     return value;
   }
 

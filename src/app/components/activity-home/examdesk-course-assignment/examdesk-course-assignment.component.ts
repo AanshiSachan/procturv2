@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../../app.component';
 import { ExamDeskCourseAssignmentService } from '../../../services/examdesk-service/examdeskcourseassignment.service';
-import { WidgetService } from '../../../services/widget.service';
-
 
 
 @Component({
@@ -11,7 +9,6 @@ import { WidgetService } from '../../../services/widget.service';
   styleUrls: ['./examdesk-course-assignment.component.scss']
 })
 export class ExamdeskCourseAssignmentComponent implements OnInit {
-
 
   coursesList: any = [];
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
@@ -27,6 +24,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   courses: any[] = [];
   subjectList: any[] = [];
   batchList: any[] = [];
+  tempBatchList: any[] = [];
   radioOption: any = '0';
   filterOption: any = '0';
   standard_id: number = -1;
@@ -56,6 +54,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.fetchCoursesList();
     this.getAllStandardList();
     this.getMasterCourse();
+    this.getData('first');
     if (sessionStorage.getItem('course_structure_flag') == '1') {
       this.isCourseModule = true;
     } else {
@@ -64,6 +63,16 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
 
   }
 
+  clearData(type) {
+    if (type == 1) {
+      this.examAssignmentData.subject_id = -1;
+      this.batchList = this.tempBatchList;
+    }
+    else {
+      this.examAssignmentData.batch_id = -1
+    }
+
+  }
   fetchCoursesList() {
     this.isRippleLoad = true;
     this.dataStatus = 1;
@@ -170,7 +179,7 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
       case '1': {
         this.isCourse = true;
         this.tableData = [];
-        this.studentList =[];
+        this.studentList = [];
         this.examAssignmentData = {
           "institute_id": 0,
           "master_course_name": "",
@@ -306,22 +315,31 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     )
   }
 
+
   getData(name) {
-   
     this.dataStatus = 2;
     this.apiService.batchData(this.examAssignmentData).subscribe(
       res => {
         console.log(res);
-        if (this.examAssignmentData.subject_id == -1) {
-          this.examAssignmentData.batch_id = -1;
-          this.subjectList = res.subjectLi;
+        if (name=='first') {
+          this.tempBatchList = res.batchLi;
+          this.batchList = this.tempBatchList;
           return;
         }
-        if(this.examAssignmentData.batch_id == -1){
-          this.batchList = res.batchLi;
+        if (this.examAssignmentData.subject_id == -1 ) {
+          this.examAssignmentData.batch_id = -1;
+          this.subjectList = res.subjectLi;        
+          return;
         }
+        if (this.examAssignmentData.batch_id == -1 ) {
+          this.batchList = res.batchLi;
+          if (this.batchList.length == 0) {
+            this.batchList = this.tempBatchList;
+          }
+        }
+    
       },
-      err => {    
+      err => {
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )

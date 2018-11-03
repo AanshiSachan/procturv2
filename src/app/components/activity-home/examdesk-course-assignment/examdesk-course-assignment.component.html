@@ -97,13 +97,13 @@
             <label for="unassignStudent">UnAssigned</label>
           </div>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3 radio-button">
+        <div class="c-sm-3 c-md-3 c-lg-3 radio-button" >
 
-          <div class="field-radio-wrapper">
+          <div class="field-radio-wrapper"  *ngIf="isCourseModule">
             <input type="radio" name="standardRadio" id="standardRadio" value="0" class="form-radio" [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
             <label for="standardRadio">Standard</label>
           </div>
-          <div class="field-radio-wrapper">
+          <div class="field-radio-wrapper" *ngIf="isCourseModule">
             <input type="radio" name="courseStudent" id="courseStudent" value="1" class="form-radio" [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
             <label for="courseStudent">Course</label>
           </div>
@@ -120,7 +120,7 @@
 
         </div>
       </div>
-      <div class="row extraMargin" *ngIf="!isCourse">
+      <div class="row extraMargin" *ngIf="(!isCourse)&&isCourseModule">
         <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
           <div class="field-wrapper">
             <label for="master">Standard
@@ -167,12 +167,12 @@
 
         </div>
       </div>
-      <div class="row extraMargin" *ngIf="isCourse&&(!isCourseModule)">
+      <div class="row extraMargin" *ngIf="(!isCourseModule)">
           <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
             <div class="field-wrapper">
               <label for="master">Master Course
               </label>
-              <select class="form-ctrl" [(ngModel)]="examAssignmentData.standard_id" (change)="examAssignmentData.subject_id=-1;examAssignmentData.batch_id=-1;getData($event.target.value)">
+              <select class="form-ctrl" [(ngModel)]="examAssignmentData.standard_id" (change)="clearData(1);getData($event.target.value)">
                 <option value="-1">select master course</option>
                 <option *ngFor="let i of standardList" [value]="i.standard_id">
                   {{i.standard_name}}
@@ -183,10 +183,10 @@
   
           <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
             <div class="field-wrapper">
-              <label for="course">Subject
+              <label for="course">Course
               </label>
-              <select class="form-ctrl" [(ngModel)]="examAssignmentData.subject_id"  (change)="examAssignmentData.batch_id= -1;getData($event.target.value)">
-                <option value="-1">select subejct</option>
+              <select class="form-ctrl" [(ngModel)]="examAssignmentData.subject_id"  (change)="clearData(2);getData($event.target.value)">
+                <option value="-1">select course</option>
                 <option *ngFor="let i of subjectList" [value]="i.subject_id">
                   {{i.subject_name}}
                 </option>>
@@ -213,7 +213,6 @@
           </div>
         </div>
     </div>
-
 
     <div class="table-wrapper">
       <table>
