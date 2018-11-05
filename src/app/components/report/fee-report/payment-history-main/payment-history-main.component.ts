@@ -28,7 +28,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'parent_name', header: "Parent Name", priority: 3, allowSortingFlag: true },
     { primaryKey: 'master_course_name', header: "Master Course", priority: 4, allowSortingFlag: true },
     { primaryKey: 'course_subject_name', header: "Course", priority: 5, allowSortingFlag: true },
-    { primaryKey: 'standard_name', header: "Standard", priority: 6, allowSortingFlag: true },
     { primaryKey: 'display_invoice_no', header: 'Receipt No', priority: 7, allowSortingFlag: true },
     { primaryKey: 'paymentMode', header: 'Payment Mode', priority: 8, allowSortingFlag: true },
     { primaryKey: 'fee_type_name', header: 'Fee Type', priority: 9, allowSortingFlag: true },
@@ -137,7 +136,10 @@ export class PaymentHistoryMainComponent implements OnInit {
       let obj= { primaryKey: 'batch_name', header: "Batch", priority: 17, allowSortingFlag: true };
       this.feeSettings1.push(obj);
     }
-    
+    else{
+      let obj= { primaryKey: 'standard_name', header: "Standard", priority: 6, allowSortingFlag: true };
+      this.feeSettings1.push(obj);
+    }
     this.tableSetting.keys = this.feeSettings1;
     if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
       this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
