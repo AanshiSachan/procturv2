@@ -1013,6 +1013,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (data.is_active == "Y") {
           this.formIsActive = true;
         }
+        else{
+          this.router.navigate(['/view/student']);
+        }
 
 
         if (this.btnContinueDetailPage != undefined) {
@@ -1231,8 +1234,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               body: ''
             }
             this.appC.popToast(alert);
-            this.updateStudentFeeDetails();
-            this.navigateTo('feeDetails');
+             if(this.studentAddFormData.is_active=="N"){
+              this.router.navigate(['/view/student']);
+             }
+             else{
+              this.updateStudentFeeDetails();
+              this.navigateTo('feeDetails');
+             }
+            
           }
           else if (statusCode == 2) {
             let alert = {
