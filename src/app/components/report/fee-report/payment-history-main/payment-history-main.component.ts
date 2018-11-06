@@ -224,6 +224,16 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
+  // take print of report 
+  takePrint(){
+    // window.print();
+    let divToPrint=document.getElementById("printDiv");
+    let newWin= window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
+  }
+
   closeReportPopup() {
     this.flagJson.addReportPopUp = false;
   }

@@ -98,6 +98,16 @@ export class ViewReportCardComponent implements OnInit {
     this.getStudentInfo();
   }
 
+    // take print of report 
+    takePrint(){
+      // window.print();
+      let divToPrint=document.getElementById("printDiv1");
+      let newWin= window.open("");
+      newWin.document.write(divToPrint.outerHTML);
+      newWin.print();
+      newWin.close();
+    }
+
   getStudentInfo() {
     this.isRippleLoad = true;
     this.apiService.fetchStudentReportDet(this.studentId).subscribe(
