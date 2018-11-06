@@ -13,12 +13,12 @@
                         <a routerLink="/view/reports/fee">
                             Fee Report
                         </a>
-                        <div *ngIf=!isProfessional style="display:inline-block;">
+                        <div style="display:inline-block;">
                             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Course wise Report
                         </div>
-                        <div *ngIf=isProfessional style="display:inline-block;">
+                        <!-- <div *ngIf=isProfessional style="display:inline-block;">
                             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Course wise Report
-                        </div>
+                        </div> -->
                     </h2>
                     <aside class="pull-left" style="position: relative;top:10px;">
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
@@ -56,11 +56,11 @@
                 <div id="secondary" *ngIf="isFilterReversed">
 
                     <div class="c-lg-12" style="margin-left: -5%;">
-                        <div class="c-lg-10">
+                        <div class="c-lg-12">
                             <div class="c-lg-12">
-                                <div class="c-lg-11">
+                                <div class="c-lg-12">
                                     <div class="c-lg-12">
-                                        <div class="c-lg-3">
+                                        <div class="c-lg-4">
                                             <div class="field-wrapper" [ngClass]="{'has-value': true }">
                                                 <label for="mc">Master Course</label>
                                                 <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl"
@@ -75,7 +75,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="c-lg-3">
+                                        <div class="c-lg-4">
                                             <div class="field-wrapper">
                                                 <label for="cc">Course</label>
                                                 <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl"
@@ -89,7 +89,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="c-lg-3" *ngIf="isProfessional">
+                                        <div class="c-lg-4" *ngIf="isProfessional">
                                             <div class="field-wrapper">
                                                 <label for="ba">Batch</label>
                                                 <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected()" name="" id="ba">
@@ -99,7 +99,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="c-lg-3 sky-form field-wrapper">
+                                        <div class="c-lg-4 sky-form field-wrapper" *ngIf="isProfessional">
                                             <label>Academic Year</label>
                                             <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
                                                 class="form-ctrl sky-inner">
@@ -110,14 +110,27 @@
                                                 </option>
                                             </select>
                                         </div>
+                                        <div class="c-lg-3 sky-form field-wrapper" *ngIf="!isProfessional">
+                                            <label>Academic Year</label>
+                                            <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
+                                                class="form-ctrl sky-inner">
+                                                <option value="-1">
+                                                </option>
+                                                <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
+                                                    {{i.inst_acad_year}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="c-lg-1 filter-btn" *ngIf="!isProfessional" style="margin-top: 25px;">
+                                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                        </div>
+                                        <div class="c-lg-1 filter-btn" *ngIf="isProfessional" style="margin-top: 25px;">
+                                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="c-lg-1 filter-btn" *ngIf="!isProfessional" style="margin-top: 25px;">
-                                    <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                                </div>
-                                <div class="c-lg-1 filter-btn" *ngIf="isProfessional" style="margin-top: 25px;">
-                                    <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                                </div>
+                                
+                                
 
                             </div>
                         </div>

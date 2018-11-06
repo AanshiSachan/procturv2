@@ -200,10 +200,13 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
         this.tableData = this.studentList;
         this.checkIfHeaderChecked();
       } else if (this.radioOption == "1") {
-        this.headerChecked = true;
+        this.headerChecked = false;
         this.tableData = this.studentList.filter(
           el => el.assigned == true
         );
+        if(this.tableData.length>0){
+          this.headerChecked = true;
+        }
       } else {
         this.headerChecked = false;
         this.tableData = this.studentList.filter(

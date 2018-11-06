@@ -100,9 +100,9 @@
                             </div>
                         </td>
 
-                        <td class="mcourse" *ngIf="!isProfessional">{{batch.data.master_course}}</td>
+                        <td class="mcourse" [title]="batch.data.master_course" *ngIf="!isProfessional">{{batch.data.master_course}}</td>
 
-                        <td class="courseN" *ngIf="!isProfessional">{{batch.data.course_name}}</td>
+                        <td class="courseN"  [title]="batch.data.course_name" *ngIf="!isProfessional">{{batch.data.course_name}}</td>
 
                         <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
 

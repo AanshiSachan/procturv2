@@ -226,7 +226,7 @@ $color-highlight: lighten($color-base, 7%);
                         text-align: left;
                     }
                     &.Total {
-                        text-align: left;
+                        text-align: right;
                         padding-right: 18px;
                     }
                 }
@@ -239,7 +239,7 @@ $color-highlight: lighten($color-base, 7%);
                     padding-left: 18px;
                 }
                 &.Dues {
-                    text-align:left;
+                    text-align:right;
                     padding-right: 18px;
                 }
                 &.Value {
@@ -292,12 +292,16 @@ $color-highlight: lighten($color-base, 7%);
                     width: 5% !important;
                     padding: 10px 0px 0px 10px !important;
                 }
+                &.Name{
+                    white-space: unset!important;
+                    text-overflow: unset!important;
+                }
                 &.Fee {
                     &.Type {
                         text-align: left;
                     }
                     &.Total {
-                        text-align:left;
+                        text-align:right;
                     }
                 }
                 &.Amount {
@@ -314,16 +318,16 @@ $color-highlight: lighten($color-base, 7%);
                     width: 10%;
                 }
                 &.Dues {
-                    text-align: left;
+                    text-align: right;
                     &.Past {
-                        text-align: left;
+                        text-align: right;
                         color: #ff0000;
                     }
                 }
                 &.Due {
-                    text-align: left;
+                    text-align: right;
                     &.Past {
-                        text-align: left;
+                        text-align: right;
                         color: #ff0000;
                     }
                     &.Date {

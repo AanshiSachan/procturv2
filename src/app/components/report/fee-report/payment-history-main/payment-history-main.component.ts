@@ -132,12 +132,12 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPaymentHistory();
-    if (sessionStorage.getItem('course_structure_flag')=="0") {
-      let obj= { primaryKey: 'batch_name', header: "Batch", priority: 17, allowSortingFlag: true };
+    if (sessionStorage.getItem('course_structure_flag') == "0") {
+      let obj = { primaryKey: 'batch_name', header: "Batch", priority: 17, allowSortingFlag: true };
       this.feeSettings1.push(obj);
     }
-    else{
-      let obj= { primaryKey: 'standard_name', header: "Standard", priority: 6, allowSortingFlag: true };
+    else {
+      let obj = { primaryKey: 'standard_name', header: "Standard", priority: 6, allowSortingFlag: true };
       this.feeSettings1.push(obj);
     }
     this.tableSetting.keys = this.feeSettings1;
@@ -459,6 +459,16 @@ export class PaymentHistoryMainComponent implements OnInit {
               temp.push(obj);
             }
           }
+          else {
+            // If Amount is equal
+            let obj = {
+              schedule_id: data[i].schedule_id,
+              payment_tx_id: data[i].payment_tx_id,
+              amount_paid: data[i].amount_paid,
+              balance_amount: data[i].balance_amount
+            }
+            temp.push(obj);
+          }
         }
       }
     }
@@ -472,7 +482,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       obj["Id"] = data.student_disp_id;
       obj["Name"] = data.student_name;
       obj["Master Course"] = data.master_course_name;
-      if (sessionStorage.getItem('course_structure_flag')!="0") {
+      if (sessionStorage.getItem('course_structure_flag') != "0") {
         obj["Course"] = data.course_subject_name;
       }
       else {
@@ -595,11 +605,11 @@ export class PaymentHistoryMainComponent implements OnInit {
       })
 
     let rows = [];
-    if (sessionStorage.getItem('course_structure_flag')!="0") {
+    if (sessionStorage.getItem('course_structure_flag') != "0") {
       rows = [['ID', 'Name', "Master Course", "Course", "Standard", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
     }
     else {
-       rows = [['ID', 'Name', "Master Course", "Subject", "Standard", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
+      rows = [['ID', 'Name', "Master Course", "Subject", "Standard", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
     }
 
     let columns = arr;
