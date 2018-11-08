@@ -625,7 +625,7 @@ export class ShareFileComponent implements OnInit {
 
 
   shareFile(unshare?) {
-    debugger
+    // debugger
     this.fetchShareOption.file_id = this.fileIdGet;
     this.fetchShareOption.share_type = "3";
     this.fetchShareOption.student_batch_share = "1"
