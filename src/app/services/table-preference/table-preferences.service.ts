@@ -112,7 +112,6 @@ export class TablePreferencesService {
     else {
       return this.detectArchitcturalChanges();
     }
-    // console.log('get using key  ' + key, value);
     return value;
   }
 

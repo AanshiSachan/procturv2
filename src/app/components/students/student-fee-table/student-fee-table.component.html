@@ -99,7 +99,8 @@
                             </li>
                             <li class="amount" [ngClass]="{'hide': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
-                                    <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
+                                    <input *ngIf="fee.discount == 0" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
+                                    <input *ngIf="fee.discount != 0" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="amt" [ngModel]="fee.initial_fee_amount_before_disocunt_before_tax">
                                 </div>
                             </li>
                             <li class="tax" [ngClass]="{'hide': taxEnableCheck == '0'}">
@@ -110,14 +111,16 @@
                             <li class="feeTax" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
                                     <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
-                                    <input *ngIf="fee.is_referenced == 'N'" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount"
+                                    <input *ngIf="fee.is_referenced == 'N' && fee.discount == 0 " type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount"
                                         (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                                    <input *ngIf="fee.is_referenced == 'N' && fee.discount != 0" readonly="true" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [ngModel]="fee.fees_amount">
                                 </div>
                             </li>
                             <li class="action" [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                                <a *ngIf="fee.is_referenced == 'N'" (click)="deleteInstallment(i)">
+                                <a *ngIf="fee.is_referenced == 'N' && fee.discount == 0" (click)="deleteInstallment(i)">
                                     <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                                 </a>
+                                <a *ngIf="fee.is_referenced == 'N' && fee.discount != 0" class="paid-fee">Discount Applied</a>
                                 <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
                             </li>
                         </ul>

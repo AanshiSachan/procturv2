@@ -1,6 +1,6 @@
 @import "./src/assets/css/common/variables.scss";
 .filter-form {
-    padding-top: 30px;
+    padding-top: 40px;
 }
 
 p {
@@ -678,4 +678,10 @@ $color-highlight: lighten($color-base,
             z-index: 0;
         }
     }
+}
+
+/// by laxmi
+.extraMargin{
+    margin-left: -3px !important;
+    margin-right: -3px !important;
 }

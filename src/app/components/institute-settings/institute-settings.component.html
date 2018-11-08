@@ -1885,7 +1885,7 @@
                     <tr>
                       <td>
                         <h3>Report Setting</h3>
-                        <div class="row">
+                        <div  class="row" >
                           <div class="c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
                               <label for="pre_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification
@@ -1924,7 +1924,9 @@
                                 <option value="24:00">After 1 day</option>
                               </select>
                             </div>
-                          </div>
+                          </div>                        
+                        </div>
+                        <div class="row">
                           <div class="c-lg-6" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
@@ -1957,6 +1959,42 @@
                               </label>
                               <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl"
                                 name="daily_account_summary" id="dailyConatctID">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="c-lg-6" style="margin-left:-15px;margin-top:15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.teacher_monthly_report"
+                               id="teacher_monthly_report" >
+                              <label for="teacher_monthly_report">Monthly Faculty Activity
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    Enable this to receive
+                                    <br>Monthly Summary
+                                    <br>Report via Email at
+                                    <br>End of Day
+                                  </div>
+                                </div>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="c-lg-6" style="margin-left: 15px;" *ngIf="instituteSettingDet.teacher_monthly_report == '1' || instituteSettingDet.teacher_monthly_report == true">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailid_for_teacher_report != ''}">
+                              <label for="monthlyConatctID">Point Of Contact(s)(Email IDs) for Reports
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    Specify  Faculty Emails
+                                    <br>Id's on which you
+                                    <br>want to receive
+                                    <br>monthly summary report
+                                  </div>
+                                </div>
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.emailid_for_teacher_report" class="form-ctrl"
+                                name="teacher_monthly_report" id="monthlyConatctID">
                             </div>
                           </div>
                         </div>
@@ -2324,12 +2362,38 @@
                       </td>
                     </tr>
 
-                    <tr>
+                    <tr  style="border-bottom: none;">
                       <div class="row extraMarginTen checkboxes">
                         <div class="c-sm-6 c-md-6 c-lg-6">
                           <div class="field-wrapper">
                             <label>Buffered Duration in mins (for send SMS - Late for first class of the day)</label>
                             <input type="number" class="form-ctrl" max='90' min='0' [(ngModel)]="instituteSettingDet.biometric_late_sms_buffer">
+                          </div>
+                        </div>
+                      </div>
+                    </tr>
+
+                    <tr >
+                      <div class="row extraMarginTen checkboxes">
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                          <div class="field-wrapper">
+                              <label for="teacher_monthly_report">Class In Time Buffer
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    Set buffer time 
+                                    <br>in minute's                                  
+                                  </div>
+                                </div>
+                              
+                            </label>
+                            <input type="number" class="form-ctrl"  max='90' min='0'  [(ngModel)]="instituteSettingDet.biometric_class_in_time_buffer_in_min">
+                          </div>
+                        </div>
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                          <div class="field-wrapper">
+                            <label>Class Out Time Buffer</label>
+                            <input type="number" class="form-ctrl"  max='90' min='0' [(ngModel)]="instituteSettingDet.biometric_class_out_time_buffer_in_min">
                           </div>
                         </div>
                       </div>

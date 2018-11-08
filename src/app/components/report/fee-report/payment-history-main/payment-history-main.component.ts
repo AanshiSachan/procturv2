@@ -26,16 +26,18 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
     { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
     { primaryKey: 'parent_name', header: "Parent Name", priority: 3, allowSortingFlag: true },
-    { primaryKey: 'display_invoice_no', header: 'Receipt No', priority: 4, allowSortingFlag: true },
-    { primaryKey: 'paymentMode', header: 'Payment Mode', priority: 5, allowSortingFlag: true },
-    { primaryKey: 'fee_type_name', header: 'Fee Type', priority: 6, allowSortingFlag: true },
-    { primaryKey: 'installment_nos', header: 'Inst No', priority: 7, allowSortingFlag: true },
-    { primaryKey: 'paid_date', header: 'Paid Date', priority: 8, allowSortingFlag: true },
-    { primaryKey: 'remarks', header: 'Remarks', priority: 9, allowSortingFlag: true },
-    { primaryKey: 'reference_no', header: 'Ref No', priority: 9, allowSortingFlag: true },
-    { primaryKey: 'amount_paid', header: 'Amount Paid', priority: 10, amountValue: true, allowSortingFlag: true },
-    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 11, allowSortingFlag: true },
-    { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 12, allowSortingFlag: true }
+    { primaryKey: 'master_course_name', header: "Master Course", priority: 4, allowSortingFlag: true },
+    { primaryKey: 'course_subject_name', header: "Course", priority: 5, allowSortingFlag: true },
+    { primaryKey: 'display_invoice_no', header: 'Receipt No', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'paymentMode', header: 'Payment Mode', priority: 8, allowSortingFlag: true },
+    { primaryKey: 'fee_type_name', header: 'Fee Type', priority: 9, allowSortingFlag: true },
+    { primaryKey: 'installment_nos', header: 'Inst No', priority: 10, allowSortingFlag: true },
+    { primaryKey: 'paid_date', header: 'Paid Date', priority: 11, allowSortingFlag: true },
+    { primaryKey: 'remarks', header: 'Remarks', priority: 12, allowSortingFlag: true },
+    { primaryKey: 'reference_no', header: 'Ref No', priority: 13, allowSortingFlag: true },
+    { primaryKey: 'amount_paid', header: 'Amount Paid', priority: 14, amountValue: true, allowSortingFlag: true },
+    { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 15, allowSortingFlag: true },
+    { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 16, allowSortingFlag: true }
   ];
   paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "Other"];
   chequeStatus: any = [{ value: 1, title: '' }, { value: 2, title: 'Dishonoured' }, { value: 3, title: 'Cleared' }];
@@ -130,6 +132,14 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPaymentHistory();
+    if (sessionStorage.getItem('course_structure_flag') == "0") {
+      let obj = { primaryKey: 'batch_name', header: "Batch", priority: 17, allowSortingFlag: true };
+      this.feeSettings1.push(obj);
+    }
+    else {
+      let obj = { primaryKey: 'standard_name', header: "Standard", priority: 6, allowSortingFlag: true };
+      this.feeSettings1.push(obj);
+    }
     this.tableSetting.keys = this.feeSettings1;
     if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
       this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
@@ -212,6 +222,16 @@ export class PaymentHistoryMainComponent implements OnInit {
     else {
       return true;
     }
+  }
+
+  // take print of report 
+  takePrint(){
+    // window.print();
+    let divToPrint=document.getElementById("printDiv");
+    let newWin= window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
   }
 
   closeReportPopup() {
@@ -449,6 +469,16 @@ export class PaymentHistoryMainComponent implements OnInit {
               temp.push(obj);
             }
           }
+          else {
+            // If Amount is equal
+            let obj = {
+              schedule_id: data[i].schedule_id,
+              payment_tx_id: data[i].payment_tx_id,
+              amount_paid: data[i].amount_paid,
+              balance_amount: data[i].balance_amount
+            }
+            temp.push(obj);
+          }
         }
       }
     }
@@ -457,25 +487,30 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   exportToExcel() {
     let exportedArray: any[] = [];
-
     this.allPaymentRecords.map((data: any) => {
-      let obj = {
-        "Id": data.student_disp_id,
-        "Name": data.student_name,
-        "Parent Name": data.parent_name,
-        "Reciept No": data.display_invoice_no,
-        "Payment Mode": data.paymentMode,
-        "Fee Type": data.fee_type_name,
-        "Inst No": data.installment_nos,
-        "Paid Date": data.paid_date,
-        "Reference No": data.reference_no,
-        "Remarks": data.remarks,
-        "Amount Paid": data.amount_paid,
-        "Student_Category": data.student_category,
-        "Counsellor": data.enquiry_counsellor_name,
-        'Cheque Number': data.cheque_no
+      let obj = {};
+      obj["Id"] = data.student_disp_id;
+      obj["Name"] = data.student_name;
+      obj["Master Course"] = data.master_course_name;
+      if (sessionStorage.getItem('course_structure_flag') != "0") {
+        obj["Course"] = data.course_subject_name;
       }
-
+      else {
+        obj["Subject"] = data.course_subject_name;
+      }
+      obj["Standard"] = data.standard_name;
+      obj["Parent Name"] = data.parent_name;
+      obj["Reciept No"] = data.display_invoice_no;
+      obj["Payment Mode"] = data.paymentMode;
+      obj["Fee Type"] = data.fee_type_name;
+      obj["Inst No"] = data.installment_nos;
+      obj["Paid Date"] = data.paid_date;
+      obj["Reference No"] = data.reference_no;
+      obj["Remarks"] = data.remarks;
+      obj["Amount Paid"] = data.amount_paid;
+      obj["Student_Category"] = data.student_category;
+      obj["Counsellor"] = data.enquiry_counsellor_name;
+      obj['Cheque Number'] = data.cheque_no;
       exportedArray.push(obj);
     })
     this.excelService.exportAsExcelFile(
@@ -561,6 +596,9 @@ export class PaymentHistoryMainComponent implements OnInit {
         let json = [
           ele.student_disp_id,
           ele.student_name,
+          ele.master_course_name,
+          ele.course_subject_name,
+          ele.standard_name,
           ele.parent_name,
           ele.display_invoice_no,
           ele.paymentMode,
@@ -576,7 +614,14 @@ export class PaymentHistoryMainComponent implements OnInit {
         arr.push(json);
       })
 
-    let rows = [['ID', 'Name', 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor','Cheque Number']]
+    let rows = [];
+    if (sessionStorage.getItem('course_structure_flag') != "0") {
+      rows = [['ID', 'Name', "Master Course", "Course", "Standard", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
+    }
+    else {
+      rows = [['ID', 'Name', "Master Course", "Subject", "Standard", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
+    }
+
     let columns = arr;
     this.pdf.exportToPdf(rows, columns);
   }

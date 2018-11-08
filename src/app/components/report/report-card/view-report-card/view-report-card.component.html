@@ -165,8 +165,12 @@
               </div>
 
             </div>
+            <div style="top: 166px;position: absolute; right: 40px;" (click)="takePrint()">              <label>
+                <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                Print</label>
+            </div>
           </div>
-          <div class="row table-wrapper">
+          <div class="row table-wrapper" id="printDiv1">
             <table>
               <thead>
                 <tr>
@@ -681,7 +685,7 @@
               <tbody *ngIf="timeTableSchedule.length == 0">
                 <tr>
                   <td colspan="6" style="text-align: center">
-                   No Schedule Found
+                    No Schedule Found
                   </td>
                 </tr>
               </tbody>

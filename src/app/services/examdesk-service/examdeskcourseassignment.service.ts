@@ -54,6 +54,27 @@ export class ExamDeskCourseAssignmentService {
         )
     }
 
+    batchData(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id ;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+
+        )
+    }
+
+    getStudentList2(obj): Observable<any> {
+        obj.institute_id = this.institute_id;
+        let url = `${this.baseUrl}/api/v1/institute/studentCourseMapping/v2/fetchStudentsFilterWise`;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res },
+            err => { return err }
+        )
+    }
     assignStudentToCourse(obj, id): Observable<any> {
         obj.institute_id = this.institute_id;
         let url = `${this.baseUrl}/api/v1/institute/studentCourseMapping/${id}/assignStudents`;
@@ -62,5 +83,31 @@ export class ExamDeskCourseAssignmentService {
             err => { return err }
         )
     }
+
+      getAllMasterCourse() {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getAllCourse(name) {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + name;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+  
 
 }
