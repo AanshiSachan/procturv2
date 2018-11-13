@@ -32,10 +32,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         this.keysArray.forEach((element, index) => {
           if (element.header == 'Master Course') {
             element.primaryKey = 'standard_name';
-          }
-          if (element.header == 'Standard') {
-            this.keysArray.splice(index, 1);
-          }
+          }    
         });
       }
     }
@@ -56,10 +53,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         this.keysArray.forEach((element, index) => {
           if (element.header == 'Master Course') {
             element.primaryKey = 'standard_name';
-          }
-          if (element.header == 'Standard') {
-            this.keysArray.splice(index, 1);
-          }
+          }        
         });
       }
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
