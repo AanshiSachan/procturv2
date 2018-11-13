@@ -79,15 +79,15 @@ export class MessageShowService {
     loginMsg: {
       invalid: {
         title: "Invalid Input",
-        body: "Please enter valid Email ID/Mobile number and Password"
+        body: "Please specify Email ID/Phone No"
       },
       invalidPass: {
-        title: "Invalid Password",
-        body: "Please enter Password"
+        title: "Error",
+        body: "Please specify Password"
       },
       notRegister: {
-        title: "User not Registered",
-        body: "You are not registered with our System"
+        title: "Error",
+        body: "Invalid Login Credentials"
       },
       instituteNotRegister: {
         title: "Institute not registered",
