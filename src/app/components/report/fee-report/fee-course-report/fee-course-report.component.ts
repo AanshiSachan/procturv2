@@ -84,7 +84,7 @@ export class FeeCourseReportComponent implements OnInit {
     master_course_name: -1,
     course_id: -1,
     contact_no: '',
-    type: '-1',
+    type: '0',
     installment_id: -1,
     is_fee_report_view: 1,
     academic_year_id: ""
