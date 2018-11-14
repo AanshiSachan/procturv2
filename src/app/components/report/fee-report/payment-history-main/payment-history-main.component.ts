@@ -218,10 +218,23 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   // take print of report 
   takePrint(){
-    // window.print();
+    let printHtml= '<html><body><table><thead><tr>';
+    this.tableSetting.keys.forEach(key => {
+      printHtml +='<th>'+ key.header+'</th>';
+    });
+    printHtml +='</tr></thead><tbody>';
+    this.allPaymentRecords.forEach((record)=>{
+      printHtml +='<tr>';
+      this.tableSetting.keys.forEach(key => {
+        printHtml +='<td>'+record[key["primaryKey"]]+'</td>';
+      });
+      printHtml +='</tr>';
+    })
+    
+    printHtml +='</tbody></body></html>';
     let divToPrint=document.getElementById("printDiv");
     let newWin= window.open("");
-    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write(printHtml);
     newWin.print();
     newWin.close();
   }

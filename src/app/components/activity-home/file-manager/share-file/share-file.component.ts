@@ -295,6 +295,7 @@ export class ShareFileComponent implements OnInit {
 
   getBatches(update?) {
     this.getBatchesData = [];
+    let batchesData =[];
     this.isChecked = false;
     this.getBatch = "0";
     this.batchesId = true;
@@ -307,8 +308,18 @@ export class ShareFileComponent implements OnInit {
     }
     this.fileService.shareFileWithBatches(this.fetchBatchesData).subscribe(
       (data: any) => {
+        debugger
+        let currentDate = new Date();
         this.dataStatus = false;
-        this.getBatchesData = data;
+       let filterbatches = data;
+       filterbatches.forEach(batch => {
+         let batchDate = new Date(batch.file_access_end_time);   
+           if(batchDate.getTime() >= currentDate.getTime()){
+            batchesData.push(batch)
+           }
+       });
+         
+        this.getBatchesData = batchesData;
 
         this.getBatchesData.map(
           (data: any) => {
