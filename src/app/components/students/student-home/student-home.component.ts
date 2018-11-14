@@ -1014,6 +1014,7 @@ export class StudentHomeComponent implements OnInit {
   /* =================================================================================================== */
   getSelectedUserIDS(ev) {
     this.selectedUserId = ev;
+    sessionStorage.removeItem('global_search_edit_student');
   }
 
   /* =================================================================================================== */
