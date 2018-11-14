@@ -198,12 +198,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       2. Send login Info to Server
   */
   loginViaServer() {
-    if (this.loginDataForm.alternate_email_id.trim() == "" && this.loginDataForm.password == "") {
+    if (this.loginDataForm.alternate_email_id.trim() == "" && this.loginDataForm.password.trim() == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.invalid.title, this.messages.loginMsg.invalid.body);
 
     }
-    else if (this.loginDataForm.password == "") {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.warning, this.messages.loginMsg.invalidPass.title, this.messages.loginMsg.invalidPass.body);
+    else if (this.loginDataForm.password.trim() == "") {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.invalidPass.title, this.messages.loginMsg.invalidPass.body);
     }
     else {
       this.login.postLoginDetails(this.loginDataForm).subscribe(

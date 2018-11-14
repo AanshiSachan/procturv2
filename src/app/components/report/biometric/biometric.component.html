@@ -571,7 +571,7 @@
                 <label for="master">Master Course
                 </label>
                 <select class="form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name" (change)="getCourses($event.target.value)">
-                    <option value="-1">select master course</option>
+                    <option value="-1">Master Course</option>
                   <option *ngFor="let i of masterCourse" [value]="i.master_course">
                     {{i.master_course}}
                   </option>
@@ -584,7 +584,7 @@
                 <label for="course">Course
                 </label>
                 <select class="form-ctrl" [(ngModel)]="getAbsentiesData.course_id" (change)="getSubjects($event.target.value)">
-                    <option value="-1">select course</option>
+                    <option value="-1">Course</option>
                   <option *ngFor="let i of courses" [value]="i.course_id">
                     {{i.course_name}}
                   </option>>
@@ -599,7 +599,7 @@
                 <label for="course">Subject
                 </label>
                 <select id="course" class="form-ctrl" [(ngModel)]="getAbsentiesData.subject_id">
-                  <option value="-1">select subject</option>
+                  <option value="-1">Subject</option>
                   <option *ngFor="let opt of subjects" [value]="opt.subject_id">
                     {{opt.subject_name}}
                   </option>

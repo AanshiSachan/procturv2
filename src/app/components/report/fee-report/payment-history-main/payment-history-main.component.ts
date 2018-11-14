@@ -132,14 +132,6 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPaymentHistory();
-    if (sessionStorage.getItem('course_structure_flag') == "0") {
-      let obj = { primaryKey: 'batch_name', header: "Batch", priority: 17, allowSortingFlag: true };
-      this.feeSettings1.push(obj);
-    }
-    else {
-      let obj = { primaryKey: 'standard_name', header: "Standard", priority: 6, allowSortingFlag: true };
-      this.feeSettings1.push(obj);
-    }
     this.tableSetting.keys = this.feeSettings1;
     if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
       this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
@@ -226,10 +218,23 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   // take print of report 
   takePrint(){
-    // window.print();
+    let printHtml= '<html><body><table><thead><tr>';
+    this.tableSetting.keys.forEach(key => {
+      printHtml +='<th>'+ key.header+'</th>';
+    });
+    printHtml +='</tr></thead><tbody>';
+    this.allPaymentRecords.forEach((record)=>{
+      printHtml +='<tr>';
+      this.tableSetting.keys.forEach(key => {
+        printHtml +='<td>'+record[key["primaryKey"]]+'</td>';
+      });
+      printHtml +='</tr>';
+    })
+    
+    printHtml +='</tbody></body></html>';
     let divToPrint=document.getElementById("printDiv");
     let newWin= window.open("");
-    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write(printHtml);
     newWin.print();
     newWin.close();
   }
@@ -497,8 +502,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       }
       else {
         obj["Subject"] = data.course_subject_name;
-      }
-      obj["Standard"] = data.standard_name;
+      }   
       obj["Parent Name"] = data.parent_name;
       obj["Reciept No"] = data.display_invoice_no;
       obj["Payment Mode"] = data.paymentMode;
@@ -598,7 +602,6 @@ export class PaymentHistoryMainComponent implements OnInit {
           ele.student_name,
           ele.master_course_name,
           ele.course_subject_name,
-          ele.standard_name,
           ele.parent_name,
           ele.display_invoice_no,
           ele.paymentMode,
@@ -616,10 +619,10 @@ export class PaymentHistoryMainComponent implements OnInit {
 
     let rows = [];
     if (sessionStorage.getItem('course_structure_flag') != "0") {
-      rows = [['ID', 'Name', "Master Course", "Course", "Standard", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
+      rows = [['ID', 'Name', "Master Course", "Course", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
     }
     else {
-      rows = [['ID', 'Name', "Master Course", "Subject", "Standard", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
+      rows = [['ID', 'Name', "Master Course", "Subject",'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
     }
 
     let columns = arr;

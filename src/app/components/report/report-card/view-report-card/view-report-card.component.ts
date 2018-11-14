@@ -99,9 +99,9 @@ export class ViewReportCardComponent implements OnInit {
   }
 
     // take print of report 
-    takePrint(){
+    takePrint(id){
       // window.print();
-      let divToPrint=document.getElementById("printDiv1");
+      let divToPrint=document.getElementById(id);
       let newWin= window.open("");
       newWin.document.write(divToPrint.outerHTML);
       newWin.print();

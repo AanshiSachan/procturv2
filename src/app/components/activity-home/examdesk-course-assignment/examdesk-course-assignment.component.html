@@ -126,7 +126,7 @@
             <label for="master">Standard
             </label>
             <select class="form-ctrl" [(ngModel)]="standard_id" (change)="getAllStudentList()">
-              <option value="-1">select standard</option>
+              <option value="-1">Standard</option>
               <option *ngFor="let i of standardList" [value]="i.standard_id">
                 {{i.standard_name}}
               </option>
@@ -140,7 +140,7 @@
             <label for="master">Master Course
             </label>
             <select class="form-ctrl" [(ngModel)]="examAssignmentData.master_course_name" (change)="getCourses($event.target.value)">
-              <option value="">select master course</option>
+              <option value="">Master Course</option>
               <option *ngFor="let i of masterCourse" [value]="i.master_course">
                 {{i.master_course}}
               </option>
@@ -153,7 +153,7 @@
             <label for="course">Course
             </label>
             <select class="form-ctrl" [(ngModel)]="examAssignmentData.course_id">
-              <option value="-1">select course</option>
+              <option value="-1">Course</option>
               <option *ngFor="let i of courses" [value]="i.course_id">
                 {{i.course_name}}
               </option>>
@@ -173,7 +173,7 @@
               <label for="master">Master Course
               </label>
               <select class="form-ctrl" [(ngModel)]="examAssignmentData.standard_id" (change)="clearData(1);getData($event.target.value)">
-                <option value="-1">select master course</option>
+                <option value="-1">Master Course</option>
                 <option *ngFor="let i of standardList" [value]="i.standard_id">
                   {{i.standard_name}}
                 </option>
@@ -186,7 +186,7 @@
               <label for="course">Course
               </label>
               <select class="form-ctrl" [(ngModel)]="examAssignmentData.subject_id"  (change)="clearData(2);getData($event.target.value)">
-                <option value="-1">select course</option>
+                <option value="-1">Course</option>
                 <option *ngFor="let i of subjectList" [value]="i.subject_id">
                   {{i.subject_name}}
                 </option>>
@@ -199,7 +199,7 @@
                 <label for="course">Batch
                 </label>
                 <select class="form-ctrl" [(ngModel)]="examAssignmentData.batch_id">
-                  <option value="-1">select batch</option>
+                  <option value="-1">Batch</option>
                   <option *ngFor="let i of batchList" [value]="i.batch_id">
                     {{i.batch_name}}
                   </option>>
