@@ -308,11 +308,10 @@ export class ShareFileComponent implements OnInit {
     }
     this.fileService.shareFileWithBatches(this.fetchBatchesData).subscribe(
       (data: any) => {
-        debugger
         let currentDate = new Date();
         this.dataStatus = false;
        let filterbatches = data;
-       filterbatches.forEach(batch => {
+       filterbatches.forEach(batch => { /// expire batch removes from data 
          let batchDate = new Date(batch.file_access_end_time);   
            if(batchDate.getTime() >= currentDate.getTime()){
             batchesData.push(batch)
