@@ -10,10 +10,10 @@
             Report
             <!-- <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i> -->
           </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Biometric Report
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Biometric Reports
         </h2>
-        <div class="c-lg-2 hide" *ngIf="showButton" style="float:right;">
-          <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
+        <div class="c-lg-2" *ngIf="showButton" style="float:right;">
+          <button class="btn btn-sm fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
         </div>
         <aside class="pull-right">
         </aside>
@@ -125,7 +125,7 @@
                 margin-top: 2%;
                 margin-right: 1%; display: inline-block;" class="form">Show Name Filter
                 </a>
-               
+
               </div>
             </div>
           </div>
@@ -540,3 +540,130 @@
     </section>
   </aside>
 </div>
+
+<!-- Create absent student filter Pop Up -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="absentStudentPopUp">
+  <div class="popup pos-abs popup-body-container" style="    max-width: 87%">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAbsentiesPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div>
+        <div class="text-center">
+          <h2>SMS To Absent Students</h2>
+        </div>
+
+        <div class="row">
+
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="master">Master Course
+                </label>
+                <select class="form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name" (change)="getCourses($event.target.value)">
+                    <option value="-1">Master Course</option>
+                  <option *ngFor="let i of masterCourse" [value]="i.master_course">
+                    {{i.master_course}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="course">Course
+                </label>
+                <select class="form-ctrl" [(ngModel)]="getAbsentiesData.course_id" (change)="getSubjects($event.target.value)">
+                    <option value="-1">Course</option>
+                  <option *ngFor="let i of courses" [value]="i.course_id">
+                    {{i.course_name}}
+                  </option>>
+                </select>
+
+              </div>
+            </div>
+          </div>
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <label for="course">Subject
+                </label>
+                <select id="course" class="form-ctrl" [(ngModel)]="getAbsentiesData.subject_id">
+                  <option value="-1">Subject</option>
+                  <option *ngFor="let opt of subjects" [value]="opt.subject_id">
+                    {{opt.subject_name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper datePickerBox">
+                <label>Date</label>
+                <input type="text" class="form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getAbsentiesData.from_date" (change)="dateValidationForFuture($event)">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row text-center">
+            <button id="btnSave" class="btn fullBlue" type="submit" (click)="fetchAbsentsStudentsData()"> View </button>
+          </div>
+        </div>
+
+        <div class="table table-responsive" style="height: 250px;">
+          <table>
+            <thead>
+
+              <tr>
+                <th>Action</th>
+                <th>
+                  Student ID
+                </th>
+                <th>
+                  Student Name
+                </th>
+                <th>
+                  Joining Date
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="absendStudentData.length==0">
+
+              <tr>
+                <td colspan="4">
+                  No Records Found
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="absendStudentData.length>0">
+              <tr *ngFor="let obj of absendStudentData">
+                <td class="checkBoxCss">
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" [value]="obj.student_id"  (change)="toggleCheckbox($event.target.value)"
+                      [id]="'checkbox-'+i">
+                    <label [for]="'checkbox-'+i"></label>
+                  </div>
+                </td>
+                <td *ngFor="let key of displayKeys" style="padding:10px;">
+                  {{obj[key]}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row text-center" *ngIf="absendStudentData.length>0">
+            <button id="btnSave" class="btn fullBlue" type="submit" (click)="sendSMSToAbsenties()"> Send SMS </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>

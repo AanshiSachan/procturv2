@@ -124,6 +124,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     }
 
     performAction(a: string, d) {
+        sessionStorage.setItem('global_search_edit_student','true');
         switch (a) {
             case 'studentEdit': {
                 let obj = {

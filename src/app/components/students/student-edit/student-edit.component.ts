@@ -63,8 +63,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
   studentAddnMove: boolean;
-  studentServerImage: string = '';
-  newPdcArr: any[] = [];
   userHasFees: boolean;
   closeFee: boolean;
   formIsActive: boolean = false;
@@ -110,21 +108,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     studentArray: ["-1"],
     template_effective_date: moment().format('YYYY-MM-DD')
   };
+  is_undo: string = "N";
+  studentServerImage: string = '';
   feeTemplateStore: any[] = [];
   inventoryItemsArr: any[] = [];
+  newPdcArr: any[] = [];
+  chequePdcList: any[] = [];
+  pdcStatus: any[] = [];
   createInstitute = {
     instituteName: "",
     isActive: "Y"
   };
-  is_undo: string = "N";
-  pdcStatus: any[] = [];
   pdcSearchObj = {
     cheque_status: '-1',
     student_id: '',
     cheque_date_from: '',
     cheque_date_to: ''
   };
-  chequePdcList: any[] = [];
+
   allocationForm: any = {
     alloted_units: "",
     item_id: "",
@@ -1010,11 +1011,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
         this.getCourseDropdown(id);
+        let globalInactiveStudent = sessionStorage.getItem('global_search_edit_student');
         if (data.is_active == "Y") {
           this.formIsActive = true;
         }
-
-
+        else {         
+          if ((globalInactiveStudent == 'true'&& data.is_active !='Y')) {
+            this.router.navigate(['/view/student']);
+          }
+        }
         if (this.btnContinueDetailPage != undefined) {
           this.btnContinueDetailPage.nativeElement.disabled = true;
         }
@@ -1231,8 +1236,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               body: ''
             }
             this.appC.popToast(alert);
-            this.updateStudentFeeDetails();
-            this.navigateTo('feeDetails');
+            if (this.studentAddFormData.is_active == "N") {
+              this.router.navigate(['/view/student']);
+            }
+            else {
+              this.updateStudentFeeDetails();
+              this.navigateTo('feeDetails');
+            }
+
           }
           else if (statusCode == 2) {
             let alert = {

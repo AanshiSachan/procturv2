@@ -11,7 +11,8 @@
 
         </div>
         <div class="c-lg-2">
-          <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="displayImage" [readonly]="true" [thumbnailAvailable]="true" [defaultImg]="'assets/images/student_icon.png'">
+          <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="displayImage" [readonly]="true" [thumbnailAvailable]="true"
+            [defaultImg]="'assets/images/student_icon.png'">
           </proctur-image>
         </div>
       </div>
@@ -165,8 +166,13 @@
               </div>
 
             </div>
+            <!-- <div style="top: 166px;position: absolute; right: 40px;" (click)="takePrint('printDiv1')">
+              <label>
+                <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                Print</label>
+            </div> -->
           </div>
-          <div class="row table-wrapper">
+          <div class="row table-wrapper" id="printDiv1">
             <table>
               <thead>
                 <tr>
@@ -239,7 +245,7 @@
                 <label for="idSubjectRadio">Subject Wise</label>
               </div>
             </div>
-            <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="c-sm-2 c-md-2 c-lg-2">
               <div class="field-radio-wrapper">
                 <input id="idCourseRadio" type="radio" value="1" [(ngModel)]="examType" name="idCourseRadio" class="form-radio" (ngModelChange)="onRadioButtonSelectionExam()">
                 <label for="idCourseRadio">Course Wise</label>
@@ -251,12 +257,18 @@
                 <label for="idNextWeek">Upcoming Exam</label>
               </div>
             </div>
-            <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="examType == '1'">
-              <button class="btn pull-right expand-collapse-btn" (click)="expandCollapseAll()">Expand/Collapse All</button>
+            <div class="c-sm-3 c-md-3 c-lg-3">
+              <button *ngIf="examType == '1'" class="btn pull-right expand-collapse-btn" (click)="expandCollapseAll()">Expand/Collapse All</button>
+            
             </div>
+            <!-- <div style="top: 150px;position: absolute; right: 40px;" (click)="takePrint('examPrint')">
+              <label>
+                <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                Print</label>
+            </div> -->
           </div>
 
-          <div class="table-wrapper" *ngIf="examType == '0'">
+          <div class="table-wrapper" *ngIf="examType == '0'" id="examPrint">
             <table>
               <thead>
                 <tr>
@@ -323,7 +335,7 @@
             </table>
           </div>
 
-          <div class="table-wrapper" *ngIf="examType == '1'">
+          <div class="table-wrapper" *ngIf="examType == '1'" id="examPrint">
             <table>
               <thead>
                 <tr>
@@ -399,7 +411,7 @@
 
           <h3 *ngIf="examType == '2'">Next 4 weeks Exam Schedule</h3>
 
-          <div class="table-wrapper" *ngIf="examType == '2'">
+          <div class="table-wrapper" *ngIf="examType == '2'" id="examPrint">
             <table>
               <thead>
                 <tr>
@@ -430,8 +442,12 @@
 
         </div>
 
-        <div class="fee-content-section" *ngIf="liFeeView">
-
+        <div class="fee-content-section" *ngIf="liFeeView" id="feePrint">
+          <!-- <div style="top: 140px;position: absolute; right: 40px;" (click)="takePrint('feePrint')">
+            <label>
+              <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+              Print</label>
+          </div> -->
           <h2>Payment History</h2>
           <div class="">
             <table>
@@ -594,15 +610,20 @@
                 </div>
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <button class="btn fullBlue" style="margin-top:20px" (click)="getTimeTableDetails()">GO</button>
+                  <button class="btn fullBlue" style="margin-top:20px" (click)="getTimeTableDetails()">GO</button>                 
                 </div>
 
               </div>
 
             </div>
+            <!-- <div style="top: 166px;position: absolute; right: 40px;" (click)="takePrint('timetable')">
+              <label>
+                <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+                Print</label>
+            </div> -->
           </div>
 
-          <div class="nested-table">
+          <div class="nested-table" id="timetable">
             <table class="table-wrapper">
               <thead>
                 <tr class="head-width">
@@ -681,7 +702,7 @@
               <tbody *ngIf="timeTableSchedule.length == 0">
                 <tr>
                   <td colspan="6" style="text-align: center">
-                   No Schedule Found
+                    No Schedule Found
                   </td>
                 </tr>
               </tbody>
@@ -693,7 +714,12 @@
         <div class="ptm-section" *ngIf="liPTMView">
 
           <h2>PTM Details</h2>
-          <div class="">
+          <!-- <div style="top: 146px;position: absolute; right: 40px;" (click)="takePrint('PTMDetails')">
+            <label>
+              <i class="fa fa-print" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
+              Print</label>
+          </div> -->
+          <div class="" id="PTMDetails">
             <table>
               <thead>
                 <tr>

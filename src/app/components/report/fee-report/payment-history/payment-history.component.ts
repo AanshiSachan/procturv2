@@ -6,8 +6,6 @@ import { AppComponent } from '../../../../app.component';
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
 
-
-
 @Component({
   selector: 'payment-history',
   templateUrl: './payment-history.component.html',
@@ -17,15 +15,22 @@ export class PaymentHistoryComponent implements OnChanges {
 
   @Input() feeData: any;
   @Output() closeButton = new EventEmitter<any>()
-
+  @Input() standardList: any[];
+  @Input() subjectList: any[] = [];
+  @Input() batchList: any[] = [];
+  @Input() masterId: any;
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  columnMaps2: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  pastDues: any[] = [];
   pastHIstoryData: any[] = [];
   nextDuesData: any[] = [];
+
+  dataStatus: boolean = false;
   sendPayload = {
     from_date: "",
     to_date: "",
   }
-
-
   courseFetchForm: any = {
     standard_id: -1,
     subject_id: -1,
@@ -42,18 +47,6 @@ export class PaymentHistoryComponent implements OnChanges {
     academic_year_id: ""
   }
 
-
-  pastDues: any[] = [];
-
-  @Input() standardList: any[];
-  @Input() subjectList: any[] = [];
-  @Input() batchList: any[] = [];
-  @Input() masterId: any;
-
-  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-  dataStatus: boolean = false;
-  columnMaps2: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   constructor(private getter: GetFeeService, private putter: PostFeeService) { }
 
   ngOnChanges() {
@@ -104,10 +97,10 @@ export class PaymentHistoryComponent implements OnChanges {
       disp_id: r.invoice_no,
       fin_yr: r.financial_year
     }
-    let link = document.getElementById("customreceipt" +i);
+    let link = document.getElementById("customreceipt" + i);
     this.getter.getReceiptById(obj).subscribe(
       res => {
-        let body:any = res;
+        let body: any = res;
         let byteArr = this.convertBase64ToArray(body.document);
         let format = body.format;
         let fileName = body.docTitle;
@@ -127,7 +120,6 @@ export class PaymentHistoryComponent implements OnChanges {
 
 
   convertBase64ToArray(val) {
-
     var binary_string = window.atob(val);
     var len = binary_string.length;
     var bytes = new Uint8Array(len);
@@ -135,7 +127,6 @@ export class PaymentHistoryComponent implements OnChanges {
       bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes.buffer;
-
   }
 
   getSubjectList(i) {
@@ -152,12 +143,9 @@ export class PaymentHistoryComponent implements OnChanges {
         this.subjectList = res.subjectLi;
       },
       err => {
-
       }
     )
   }
-
-
 
   closePopups() {
     this.closeButton.emit(null);

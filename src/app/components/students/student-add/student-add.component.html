@@ -804,7 +804,7 @@
                           <span>{{installment.paid_date | date:"dd MMM yyyy"}}</span>
                         </div>
 
-                        <div class="paymentMode">
+                        <div class="paymentMode" style="overflow: hidden;  text-overflow: ellipsis;">
                           <span>{{installment.paymentMode}}</span>
                         </div>
 
@@ -1464,8 +1464,9 @@
             <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl">
               <option value="Cash" selected>Cash</option>
               <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
-              <option value="Credit/Debit Card">Credit/Debit Card</option>
+              <option value="Credit/Debit Card">Credit/Debit Card</option>            
               <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
+              <option value="NEFT/RTGS"> NEFT/RTGS</option>              
               <option value="Other">Other</option>
             </select>
           </div>

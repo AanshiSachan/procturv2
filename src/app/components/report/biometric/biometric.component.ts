@@ -12,49 +12,72 @@ import { ExcelService } from '../../../services/excel.service';
 })
 export class BiometricComponent implements OnInit {
 
+  @ViewChild('biometricTable') biometricTable: ElementRef;
+  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
   masterCourse: any[] = [];
   studentsData: any[] = [];
-  master: any = "";
-  courses: any[] = [];
-  masterCourseNames: boolean = false;
-  students: any = "";
-  isProfessional: boolean = true;
-  addReportPopUp: boolean = false;
-  popupCtrl: any = "";
-  addAcademicPopUp: boolean = false;
-  isRippleLoad: boolean = true;
   monthAttendance: any[] = [];
-  showStudentTable: boolean = false;
-  showTeachersTable: boolean = false;
+  courses: any[] = [];
   othersData: any[] = [];
-  showCustomTable: boolean = false;
-  PageIndex: number = 1;
-  pagedisplaysize: number = 10;
-  totalRow: number;
-  showTable: boolean = false;
-  showMonth: boolean = false;
-  studentsDisplayData: any[] = [];
-  showRange: boolean = false;
-  showWeek: boolean = false;
   weekAttendance: any[] = [];
+  studentsDisplayData: any[] = [];
   range: any[] = [];
-  addAbsentiesPopup = false;
-  showButton: boolean = true;
   masters: any[] = [];
   subjects: any[] = [];
   absentiesRecords: any[] = [];
-  absentTable: boolean = false;
+  findName: any[] = [];
+  masterCoursePro: any[] = [];
+  batchPro: any[] = [];
+  coursePro: any[] = [];
+  nameOfPeople: any[] = [];
+  absendStudentData: any[] = [];
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6];
-  dataStatus: boolean = false;
-  showTeacherButton: boolean = true;
+  columnMapRecords: any[] = [0, 1, 2];
+  searchData: any[] = [];
+  studentArray:any[]=[];
+  //need for selected keys 
+  displayKeys: any[] = ['student_id', 'student_name', 'doj'];
+  master: any = "";
+  students: any = "";
+  popupCtrl: any = "";
+  PageIndex: number = 1;
+  pagedisplaysize: number = 10;
+  totalRow: number;
   direction = 0;
   searchText = "";
-  searchData = [];
-  searchflag: boolean = false;
-  columnMapRecords: any[] = [0, 1, 2];
-  sortedenabled: boolean = true;
   sortedBy: string = "";
+  studentName: string = "";
+  teacherName: string = "";
+  customName: string = "";
+  studentId: string = "";
+  teacherId: string = "";
+  customId: string = "";
+  masterCourseNames: boolean = false;
+  isProfessional: boolean = true;
+  addReportPopUp: boolean = false;
+  addAcademicPopUp: boolean = false;
+  isRippleLoad: boolean = true;
+  showStudentTable: boolean = false;
+  showTeachersTable: boolean = false;
+  showCustomTable: boolean = false;
+  showTable: boolean = false;
+  showMonth: boolean = false;
+  addAbsentiesPopup = false;
+  showButton: boolean = true;
+  showRange: boolean = false;
+  showWeek: boolean = false;
+  absentTable: boolean = false;
+  dataStatus: boolean = false;
+  showTeacherButton: boolean = true;
+  searchflag: boolean = false;
+  sortedenabled: boolean = true;
+  showTableEvent: boolean = false;
+  showRangeValue: boolean = false;
+  showNameFilter: boolean = true;
+  showCourseFilter: boolean = true;
+  absentStudentPopUp: boolean = false;
+
   getData = {
     school_id: -1,
     name: "",
@@ -67,39 +90,26 @@ export class BiometricComponent implements OnInit {
     user_Type: 1,
     biometric_attendance_date: moment().format('YYYY-MM-DD')
   }
+
+
+
+
   getAbsentiesData = {
     batch_id: -1,
     course_id: -1,
-    from_date: "",
+    from_date: moment().format('YYYY-MM-DD'),
     institution_id: this.reportService.institute_id,
     master_course_name: -1,
     standard_id: -1,
     subject_id: -1
   }
+
   getAllData = {
     from_date: "",
     institute_id: this.reportService.institute_id,
     to_date: "",
     user_id: ""
   }
-  studentName: string = "";
-  teacherName: string = "";
-  customName: string = "";
-  findName: any[] = [];
-  masterCoursePro: any[] = [];
-  batchPro: any[] = [];
-  coursePro: any[] = [];
-  nameOfPeople: any[] = [];
-  studentId: string = "";
-  teacherId: string = "";
-  customId: string = "";
-  showTableEvent: boolean = false;
-  showRangeValue: boolean = false;
-  showNameFilter: boolean = true;
-  showCourseFilter: boolean = true;
-
-  @ViewChild('biometricTable') biometricTable: ElementRef;
-  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
 
   constructor(private reportService: BiometricServiceService,
     private appc: AppComponent,
@@ -107,7 +117,6 @@ export class BiometricComponent implements OnInit {
     private excelService: ExcelService) { }
 
   ngOnInit() {
-
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -118,6 +127,59 @@ export class BiometricComponent implements OnInit {
       }
     )
     this.getMasterCourses();
+  }
+
+  fetchAbsentiesReport() {
+    this.absentStudentPopUp = true;
+  }
+  toggleCheckbox(value){
+    console.log(value);
+    let index =this.studentArray.indexOf(value);
+    if(index== -1){
+      this.studentArray.push(value)
+    }
+    else{
+      this.studentArray.splice(index,value);
+    }
+
+  }
+  
+  sendSMSToAbsenties() {
+    if (confirm("Are u sure, you want to send sms to Absent students?")) {
+    this.isRippleLoad = true;
+    let obj = {
+      "from_date": this.getAbsentiesData.from_date,
+      "institution_id":sessionStorage.getItem('institute_id'),
+      "studentArray":this.studentArray
+    }
+
+    this.reportService.sendSMSToAbsenties(obj).subscribe(
+      (data: any) => {      
+        this.isRippleLoad = false;
+        if(data.statusCode==200){
+          let obj = {
+            type: 'success',
+            title: '',
+            body: "SMS sent successfully !"
+          }
+          this.appc.popToast(obj);
+        }
+      
+      },
+      (error: any) => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: "error",
+          body: error.error.message
+        }
+        this.appc.popToast(msg);
+      }
+    )
+  }
+
+  }
+  closeAbsentiesPopup() {
+    this.absentStudentPopUp = false;
   }
 
   getMasterCourses() {
@@ -139,22 +201,23 @@ export class BiometricComponent implements OnInit {
         }
       )
     }
-    else {
-      this.reportService.getAllData().subscribe(
-        (data: any) => {
-          this.getData.master_course_name = "";
-          this.getData.course_id = -1;
-          this.masterCourse = data;
-          this.isRippleLoad = false;
-        },
-        (error) => {
-          this.isRippleLoad = false;
-          return error;
-        }
-      )
-    }
+    this.getMasterCourse();
   }
 
+  getMasterCourse(){
+    this.reportService.getAllData().subscribe(
+      (data: any) => {
+        this.getData.master_course_name = "";
+        this.getData.course_id = -1;
+        this.masterCourse = data;
+        this.isRippleLoad = false;
+      },
+      (error) => {
+        this.isRippleLoad = false;
+        return error;
+      }
+    )
+  }
   switchFilter() {
     this.studentsData = [];
     this.getData.name = "";
@@ -181,6 +244,8 @@ export class BiometricComponent implements OnInit {
     this.dataStatus = true;
     this.getData.name = "";
     this.getData.subject_id = -1;
+    this.getAbsentiesData.course_id = -1;
+    this.getAbsentiesData.subject_id = -1;
     // this.batchPro = [];
     this.coursePro = [];
     if (this.isProfessional) {
@@ -212,6 +277,7 @@ export class BiometricComponent implements OnInit {
       )
     }
   }
+
   getSubjects(i) {
     this.dataStatus = true;
     this.reportService.getSubjects(i).subscribe(
@@ -344,12 +410,14 @@ export class BiometricComponent implements OnInit {
       }
     )
   }
+
   showAttendanceReport() {
     this.showMonth = false;
     this.showWeek = false;
     this.showRange = false;
     this.addReportPopUp = true;
   }
+
   closeReportPopup() {
     this.addReportPopUp = false;
     this.range = [];
@@ -367,6 +435,28 @@ export class BiometricComponent implements OnInit {
       this.showCourseFilter = false;
       this.studentsData = [];
     }
+  }
+
+  fetchAbsentsStudentsData() {
+    this.isRippleLoad = true;
+    this.getAbsentiesData.from_date = moment(this.getAbsentiesData.from_date).format('YYYY-MM-DD');
+    this.reportService.fetchAbsentiesData(this.getAbsentiesData).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data != null) {
+          this.absendStudentData = data;
+        }
+        else {
+          this.absendStudentData = [];
+        }
+        this.isRippleLoad = false;
+      },
+      (error: any) => {
+
+        this.isRippleLoad = false;
+        return error;
+      }
+    )
   }
 
   futureDateValid(selectDate) {
@@ -425,6 +515,7 @@ export class BiometricComponent implements OnInit {
       this.fetchTableDataByPage(this.PageIndex);
     }
   }
+
   getCaretVisiblity(e): boolean {
 
     if (this.sortedenabled && this.sortedBy == e) {
@@ -435,7 +526,6 @@ export class BiometricComponent implements OnInit {
       return false;
     }
   }
-
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
@@ -457,14 +547,11 @@ export class BiometricComponent implements OnInit {
     }
   }
 
-
   //pagination functions
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.pagedisplaysize * (index - 1);
-
     this.studentsDisplayData = this.getDataFromDataSource(startindex);
-
   }
 
   fetchNext() {
@@ -490,15 +577,11 @@ export class BiometricComponent implements OnInit {
     }
   }
 
-
-
   dateValidationForFuture(e) {
     //console.log(e);
     let today = moment(new Date);
     let selected = moment(e);
-
     let diff = moment(selected.diff(today))['_i'];
-
     if (diff <= 0) {
 
     }
@@ -506,7 +589,6 @@ export class BiometricComponent implements OnInit {
       this.getData.biometric_attendance_date = moment(new Date).format('YYYY-MM-DD');
       this.getAllData.to_date = moment(new Date).format('YYYY-MM-DD');
       this.getAllData.from_date = moment(new Date).format('YYYY-MM-DD');
-
       let msg = {
         type: "info",
         body: "Future date is not allowed"
@@ -515,7 +597,6 @@ export class BiometricComponent implements OnInit {
       this.dataStatus = false;
       this.appc.popToast(msg);
     }
-
   }
   // ====================================================================================================================
 
@@ -523,7 +604,6 @@ export class BiometricComponent implements OnInit {
     this.range = [];
     this.dataStatus = true;
     this.showTableEvent = false;
-
     let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
 
     if (this.getAllData.from_date == "" || this.getAllData.from_date == null || this.getAllData.to_date == "" || this.getAllData.to_date == null) {
@@ -567,28 +647,20 @@ export class BiometricComponent implements OnInit {
   }
 
   popupCtrlChange(event) {
-
-
     if (event == 0) {
-
       this.getAllData.from_date = moment().subtract('months', 1).format('YYYY-MM-DD')
       this.getAllData.to_date = moment().format('YYYY-MM-DD')
       this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
       this.showRangeValue = false;
     }
-
     else if (event == 1) {
-
       this.getAllData.from_date = moment().subtract('days', 7).format('YYYY-MM-DD')
       this.getAllData.to_date = moment().format('YYYY-MM-DD');
       this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
       this.showRangeValue = false;
     }
-
     else if (event == 2) {
-
       this.getAllDataService(this.getAllData.from_date, this.getAllData.to_date);
-
     }
   }
 
@@ -602,9 +674,7 @@ export class BiometricComponent implements OnInit {
   }
 
   exportToExcel(event) {
-
-    let arr = []
-
+    let arr = [];
     this.range.map((ele: any) => {
       let json = {
         "Date": ele.attendance_date,
@@ -612,14 +682,8 @@ export class BiometricComponent implements OnInit {
         "Out Time": ele.out_time
       }
       arr.push(json);
-    }
-
-    )
-
-    this.excelService.exportAsExcelFile(
-      arr,
-      'biometric'
-    )
+    });
+    this.excelService.exportAsExcelFile(arr, 'biometric');
   }
 
 

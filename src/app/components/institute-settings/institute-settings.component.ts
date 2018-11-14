@@ -216,7 +216,9 @@ export class InstituteSettingsComponent implements OnInit {
     allow_simple_registration: '',
     virtual_host_url: '',
     daily_account_summary: '',
+    teacher_monthly_report: '',
     emailids_for_report: '',
+    emailid_for_teacher_report: '',
     enable_online_payment_email_notification: '',
     enable_online_payment_sms_notification: '',
     online_payment_notify_emailIds: '',
@@ -224,7 +226,10 @@ export class InstituteSettingsComponent implements OnInit {
     allow_fee_due_amount_in_notification: '',
     discount_amount_in_fee_receipt: '',
     balance_amount_in_fee_receipt: '',
-    biometric_late_sms_buffer: 0
+    biometric_late_sms_buffer: 0,
+    biometric_class_in_time_buffer_in_min: 0,
+    biometric_class_out_time_buffer_in_min: 0
+
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
@@ -359,6 +364,7 @@ export class InstituteSettingsComponent implements OnInit {
       return;
     }
     obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
+    obj.teacher_monthly_report = this.convertBoolenToNumber(this.instituteSettingDet.teacher_monthly_report);
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
@@ -382,6 +388,9 @@ export class InstituteSettingsComponent implements OnInit {
     obj.biometric_absent_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_absent_sms);
     obj.biometric_in_out_sms = this.getSumOfTableField(this.instituteSettingDet.biometric_in_out_sms);
     obj.biometric_late_sms_buffer = this.instituteSettingDet.biometric_late_sms_buffer;
+    obj.biometric_class_in_time_buffer_in_min = this.instituteSettingDet.biometric_class_in_time_buffer_in_min;
+    obj.biometric_class_out_time_buffer_in_min = this.instituteSettingDet.biometric_class_out_time_buffer_in_min;
+
 
     return obj;
   }
@@ -424,6 +433,8 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_absent_sms, data.biometric_absent_sms);
     this.fillTableCheckboxValue(this.instituteSettingDet.biometric_in_out_sms, data.biometric_in_out_sms);
     this.instituteSettingDet.biometric_late_sms_buffer = data.biometric_late_sms_buffer;
+    this.instituteSettingDet.biometric_class_in_time_buffer_in_min = data.biometric_class_in_time_buffer_in_min;
+    this.instituteSettingDet.biometric_class_out_time_buffer_in_min = data.biometric_class_out_time_buffer_in_min;
 
     this.instituteSettingDet.exam_min_marks = data.exam_min_marks;
     this.instituteSettingDet.exam_average_marks = data.exam_average_marks;
@@ -462,7 +473,9 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.allow_simple_registration = data.allow_simple_registration;
     this.instituteSettingDet.virtual_host_url = data.virtual_host_url;
     this.instituteSettingDet.daily_account_summary = data.daily_account_summary;
+    this.instituteSettingDet.teacher_monthly_report = data.teacher_monthly_report;
     this.instituteSettingDet.emailids_for_report = data.emailids_for_report;
+    this.instituteSettingDet.emailid_for_teacher_report = data.emailid_for_teacher_report;
     this.instituteSettingDet.enable_online_payment_email_notification = data.enable_online_payment_email_notification;
     this.instituteSettingDet.enable_online_payment_sms_notification = data.enable_online_payment_sms_notification;
     this.instituteSettingDet.online_payment_notify_emailIds = data.online_payment_notify_emailIds;

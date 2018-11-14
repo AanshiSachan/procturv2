@@ -295,6 +295,7 @@ export class ShareFileComponent implements OnInit {
 
   getBatches(update?) {
     this.getBatchesData = [];
+    let batchesData =[];
     this.isChecked = false;
     this.getBatch = "0";
     this.batchesId = true;
@@ -307,8 +308,17 @@ export class ShareFileComponent implements OnInit {
     }
     this.fileService.shareFileWithBatches(this.fetchBatchesData).subscribe(
       (data: any) => {
+        let currentDate = new Date();
         this.dataStatus = false;
-        this.getBatchesData = data;
+       let filterbatches = data;
+       filterbatches.forEach(batch => { /// expire batch removes from data 
+         let batchDate = new Date(batch.file_access_end_time);   
+           if(batchDate.getTime() >= currentDate.getTime()){
+            batchesData.push(batch)
+           }
+       });
+         
+        this.getBatchesData = batchesData;
 
         this.getBatchesData.map(
           (data: any) => {
@@ -441,7 +451,7 @@ export class ShareFileComponent implements OnInit {
               if (data.file_access_start_time == "") {
                 data.file_access_start_time = moment().format('YYYY-MM-DD')
               }
-              
+
               if (update != 1) {
                 data.is_file_shared = "N"
                 data.isChecked = false
@@ -587,13 +597,26 @@ export class ShareFileComponent implements OnInit {
   }
 
   validationsOfTime() {
+    let isNotCountSelected = 0;
     if (this.batchesId) {
       for (let i = 0; i < this.getBatchesData.length; i++) {
-        if (moment(this.getBatchesData[i].file_access_start_time) > moment(this.getBatchesData[i].file_access_end_time)) {
-          this.services.showErrorMessage("error", "Incorrect Details", "Access start Date Cannot be more than access end date")
-          return false;
+        if (this.getBatchesData[i].isChecked) {
+          let a = new Date(this.getBatchesData[i].file_access_start_time.toString());
+          let b = new Date(this.getBatchesData[i].file_access_end_time.toString());
+          if (a.getTime() > b.getTime()) {
+            this.services.showErrorMessage("error", "Incorrect Details", "Access start Date Cannot be more than access end date")
+            return false;
+          }
+        }
+        else {
+          isNotCountSelected++;
         }
 
+      }
+
+      if (isNotCountSelected == this.getBatchesData.length) {
+        this.services.showErrorMessage("error", "Incorrect Details", "Please select batch for share file")
+        return false;
       }
       return true;
     }
@@ -612,8 +635,7 @@ export class ShareFileComponent implements OnInit {
 
 
   shareFile(unshare?) {
-
-
+    // debugger
     this.fetchShareOption.file_id = this.fileIdGet;
     this.fetchShareOption.share_type = "3";
     this.fetchShareOption.student_batch_share = "1"
