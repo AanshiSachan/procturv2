@@ -171,9 +171,19 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     this.isCourse = false;
     switch (this.filterOption) {
       case '0': {
-        this.standard_id = -1;
+        
         this.isCourse = false;
-        this.getAllStudentList();
+        this.tableData = [];
+        this.studentList = [];
+        this.examAssignmentData = {
+          "institute_id": 0,
+          "master_course_name": "",
+          "course_id": -1,
+          "subject_id": -1,
+          "standard_id": this.standard_id,
+          "batch_id": -1
+        }
+        this.getExamAssignmentData();
         break;
       }
       case '1': {

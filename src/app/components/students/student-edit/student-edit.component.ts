@@ -1015,8 +1015,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (data.is_active == "Y") {
           this.formIsActive = true;
         }
-        else {         
-          if ((globalInactiveStudent == 'true'&& data.is_active !='Y')) {
+        else {
+          if ((globalInactiveStudent == 'true' && data.is_active != 'Y')
+            || (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null && data.is_active != 'Y')
+            || (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null && data.is_active != 'Y')) {
             this.router.navigate(['/view/student']);
           }
         }
