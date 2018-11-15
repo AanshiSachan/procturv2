@@ -10,7 +10,7 @@ ul {
                 display: inline-block;
                 width: 14%;
                 padding: 10px 10px 10px;
-                border: 1px solid #846565;
+                border:1px solid #f0f0f0;
             }
             &.inner-date {
                 font-size: 14px;
@@ -27,28 +27,31 @@ ul {
         // display: inline-block;
         display: inline-grid;
         width: 14%; // padding: 10px 10px 10px;
-        border-bottom: 1px solid #846565;
-        border-left: 1px solid #846565;
-        border-right: 1px solid #846565;
+        border-bottom:1px solid #f0f0f0;
+        border-left:1px solid #f0f0f0;
+        border-right:1px solid #f0f0f0;
         li {
             &.time-item:not(:first-child) {
                 // padding: 5px;
                 padding-top: 7px;
                 padding-bottom: 7px;
                 text-align: center;
-                border-top: 1px solid #846565;
+                border-top: 1px solid #f0f0f0;
                 li {
                     &.one {
                         // font-size: 0.82rem;
                         font-size: 1.10vw;
                         font-weight: 900;
+                        padding: 5px;
                     }
                     &.two {
                         font-size: 0.9vw;
                         font-weight: 600;
+                        padding: 5px;
                     }
                     &.three {
                         font-size: 0.9vw;
+                        padding: 5px;
                     }
                 }
             }
@@ -67,15 +70,18 @@ ul {
                         font-weight: 900;
                         position: relative;
                         top: -2.8vw;
+                        padding: 5px;
                     }
                     &.two {
                         font-size: 0.9vw;
                         font-weight: 600;
+                        padding: 5px;
                     }
                     &.three {
                         font-size: 0.9vw;
                         position: relative;
                         top: -2.8vw;
+                        padding: 5px;
                     }
                 }
             }
@@ -121,7 +127,7 @@ ul {
 .emptyclass {
     padding-top: 2.85vw;
     position: relative;
-    bottom: 1.5vw;
+    bottom: -0.5vw;
     font-size: 1vw;
 }
 
@@ -139,8 +145,8 @@ ul {
     }
     .emptyclass {
         padding-top: 2.85vw;
-        position: relative;
-        bottom: 1.5vw;
+        position: relative;   
+        bottom: -0.5vw;
         font-size: 1vw;
     }
     body {
@@ -164,4 +170,40 @@ ul {
     width: 98%;
     text-align: center;
     padding: 10px;
+}
+.douteClassColor{
+    background-color: #ff8996;
+
+}
+.revisionClass{
+    background-color: #ffef89;
+}
+
+.extraClassColor{
+    background-color: #89ffdb; 
+}
+
+.extraClass{
+    border-radius: 4px;  
+    color: black;
+    width: 10;
+    height: 20px;
+    width: 120px;
+    margin-left: 25px;
+    font-size: 12px;
+}
+
+.center { 
+    height: 65px;
+    position: relative; 
+    color: #0660a1;   
+}
+.center p {
+    font-size: 20px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
