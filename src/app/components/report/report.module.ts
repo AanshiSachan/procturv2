@@ -44,6 +44,7 @@ import { EnquiryReportRoutingModule } from './enquiry-report/enquiry-report-rout
 import { BsDatepickerModule } from 'ngx-bootstrap-custome';
 import { TimepickerModule } from 'ngx-bootstrap-custome';
 import { ExcelService } from '../../services/excel.service';
+import { ExportToPdfService } from '../../services/export-to-pdf.service';
 
 @NgModule({
     imports: [
@@ -63,7 +64,8 @@ import { ExcelService } from '../../services/excel.service';
         ReportComponent,
         ReportHomeComponent,
         SmsReportComponent,
-        AttendanceReportComponent, FilterPipe,
+        AttendanceReportComponent, 
+        FilterPipe,
         ExamReportComponent,
         TimeTableComponent,
         tableComponent,
@@ -79,13 +81,16 @@ import { ExcelService } from '../../services/excel.service';
     ],
     providers: [
         getSMSService,
-        postSMSService, ExamService,
+        postSMSService,
+         ExamService,
         AttendanceReportServiceService,
         getEmailService,
-        postEmailService, timeTableService,
+        postEmailService, 
+        timeTableService,
         BiometricServiceService,
         ProfitLossServiceService,
-        ExcelService
+        ExcelService,
+        ExportToPdfService
     ],
     exports: [
         FilterPipe
