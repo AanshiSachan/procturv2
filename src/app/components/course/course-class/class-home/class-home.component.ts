@@ -36,6 +36,7 @@ export class ClassHomeComponent implements OnInit {
   showManageClass: boolean = false;
   showAdvanceFilter: boolean = false;
   isChecked: boolean = false;
+  isExpand:boolean = true;
 
   currentDate: Date = new Date();
   reschedDate: any = new Date();
@@ -82,7 +83,7 @@ export class ClassHomeComponent implements OnInit {
     batch_id: -1,
   }
   advanceFilter: any = {
-    startdate: moment().subtract(1, 'months').format('YYYY-MM-DD'),
+    startdate: moment().subtract(30, 'days').format('YYYY-MM-DD'),
     enddate: moment().format('YYYY-MM-DD'),
     type: '3',
     isExamIncludedInTimeTable: 'Y'
@@ -276,6 +277,18 @@ export class ClassHomeComponent implements OnInit {
     document.getElementById('tbodyItem' + i).classList.toggle("active");
     document.getElementById('tbodyView' + i).classList.toggle("hide");
     //document.getElementById('tbodyItem'+i).classList.toggle('active');
+  }
+
+  // it expands all rows for show child records 
+  expandAll(i){
+    document.getElementById('tbodyItem' + i).classList.add("active");
+    document.getElementById('tbodyView' + i).classList.remove("hide");
+  }
+
+  // it collapes all rows for hide child records 
+  collapesAll(i){
+    document.getElementById('tbodyItem' + i).classList.remove("active");
+    document.getElementById('tbodyView' + i).classList.add("hide");
   }
 
   submitMasterCourse() {
@@ -660,7 +673,7 @@ export class ClassHomeComponent implements OnInit {
   }
 
   checkInputType(event) {
-    if (event.target.value == "All") {
+    if (event.target.value == "All" || event == "All") {
       this.weekScheduleList = [];
       this.selectedRadioButton = "All";
       this.fetchBatchModule = {
@@ -878,6 +891,7 @@ export class ClassHomeComponent implements OnInit {
   showhideAdvanceFilter(key) {
     if (key == '0') {
       this.showAdvanceFilter = false;
+      this.checkInputType(this.selectedRadioButton);
     } else {
       this.showAdvanceFilter = true;
     }
@@ -1028,8 +1042,13 @@ export class ClassHomeComponent implements OnInit {
   expandAllRows() {
     let count = this.weekScheduleList.length;
     for (let i = 0; i < count; i++) {
-      this.toggleTbodyClass(i);
+        if(this.isExpand){
+          this.expandAll(i);
+        }else{
+          this.collapesAll(i)
+        }     
     }
+    this.isExpand = (!this.isExpand);
   }
 
   checkAllCheckbox() {
