@@ -13,10 +13,43 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class ClassHomeComponent implements OnInit {
 
+  masterCourse: any = [];
+  courseList: any = [];
+  subjectList: any = [];
+  teacherList: any = [];
+  timeTableResponse: any = [];
+  weekScheduleList: any[] = [];
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
+  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['', '00', '15', '30', '45'];
+  meridianArr: any[] = ['', "AM", "PM"];
+  combinedData: any = [];
+  batchMasterCourse: any = [];
+  subjectListBatch: any = [];
+  batchList: any = [];
 
+  showContent: boolean = false;
   isLangInstitute: boolean = false;
   isRippleLoad: boolean = false;
+  reschedulePopUp: boolean = false;
+  isCourseCancel: boolean = false;
+  showManageClass: boolean = false;
+  showAdvanceFilter: boolean = false;
+  isChecked: boolean = false;
 
+  currentDate: Date = new Date();
+  reschedDate: any = new Date();
+  weekStart: any = moment(this.currentDate).isoWeekday("Monday").format("DD MMMM YYYY");
+  weekEnd: any = moment(this.currentDate).isoWeekday("Sunday").format("DD MMMM YYYY");
+
+  cancellationReason: string = '';
+  classMarkedForAction: any = '';
+  selectedRadioButton: string = 'All';
+  is_notified: any = 'Y';
+  allotedTeacher: any = '-1';
+  reschedReason: any = "";
+  resheduleNotified: any = "Y";
+  rescheduleDet: any = "";
 
   fetchMasterCourseModule = {
     master_course: "-1",
@@ -24,18 +57,6 @@ export class ClassHomeComponent implements OnInit {
     subject_id: '-1',
     teacher_id: '-1',
   }
-  masterCourse: any = [];
-  courseList: any = [];
-  subjectList: any = [];
-  teacherList: any = [];
-  timeTableResponse: any = [];
-  weekScheduleList: any[] = [];
-  showContent: boolean = false;
-  currentDate: Date = new Date();
-  weekStart: any = moment(this.currentDate).isoWeekday("Monday").format("DD MMMM YYYY");
-  weekEnd: any = moment(this.currentDate).isoWeekday("Sunday").format("DD MMMM YYYY");
-  reschedulePopUp: boolean = false;
-  reschedDate: any = new Date();
   timepicker: any = {
     reschedStartTime: {
       hour: '12 PM',
@@ -48,12 +69,6 @@ export class ClassHomeComponent implements OnInit {
       meridian: ''
     },
   }
-  reschedReason: any = "";
-  resheduleNotified: any = "Y";
-  rescheduleDet: any = "";
-  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45'];
-  meridianArr: any[] = ['', "AM", "PM"];
   fetchBatchModule = {
     batch_id: null,
     master_course: "",
@@ -61,24 +76,11 @@ export class ClassHomeComponent implements OnInit {
     subject_id: -1,
     teacher_id: null,
   }
-  selectedRadioButton: string = '';
-  combinedData: any = [];
   batchData = {
     standard_id: -1,
     subject_id: -1,
     batch_id: -1,
   }
-  batchMasterCourse: any = [];
-  subjectListBatch: any = [];
-  batchList: any = [];
-  public cancellationReason: string = '';
-  isCourseCancel: boolean = false;
-  classMarkedForAction: any = '';
-  is_notified: any = 'Y';
-  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
-  showManageClass: boolean = false;
-  allotedTeacher: any = '-1';
-  showAdvanceFilter: boolean = false;
   advanceFilter: any = {
     startdate: moment().subtract(1, 'months').format('YYYY-MM-DD'),
     enddate: moment().format('YYYY-MM-DD'),
@@ -658,9 +660,9 @@ export class ClassHomeComponent implements OnInit {
   }
 
   checkInputType(event) {
-    if (event.target.id == "idAll") {
+    if (event.target.value == "All") {
       this.weekScheduleList = [];
-      this.selectedRadioButton = "";
+      this.selectedRadioButton = "All";
       this.fetchBatchModule = {
         batch_id: null,
         master_course: "",
@@ -668,8 +670,9 @@ export class ClassHomeComponent implements OnInit {
         subject_id: -1,
         teacher_id: null,
       }
+      this.getPrefillData();
     }
-    else if (event.target.id == "idTeacher") {
+    else if (event.target.value == "Teacher") {
       this.weekScheduleList = [];
       this.selectedRadioButton = "Teacher";
     } else {
@@ -956,12 +959,27 @@ export class ClassHomeComponent implements OnInit {
   }
 
   userSelectedData(event, data) {
+    let isUnseleted = false;
     if (event) {
       if (moment(data.date) > moment()) {
         if (data.class_type == "Exam") {
           this.selectedArray.examSchldId.push(data.schd_id);
         } else {
           this.selectedArray.classSchldId.push(data.schd_id);
+        }
+      }
+      else {
+        if (data.class_type == "Exam") {
+          if (this.selectedArray.examSchldId.indexOf(data.schd_id) > -1) {
+            this.selectedArray.examSchldId.splice(this.selectedArray.examSchldId.indexOf(data.schd_id), 1);
+          }
+        } else {
+          if (this.selectedArray.classSchldId.indexOf(data.schd_id) > -1) {
+            this.selectedArray.classSchldId.splice(this.selectedArray.classSchldId.indexOf(data.schd_id), 1);
+          }
+          else {
+            this.selectedArray.classSchldId.push(data.schd_id);
+          }
         }
       }
     } else {
@@ -973,8 +991,27 @@ export class ClassHomeComponent implements OnInit {
         if (this.selectedArray.classSchldId.indexOf(data.schd_id) > -1) {
           this.selectedArray.classSchldId.splice(this.selectedArray.classSchldId.indexOf(data.schd_id), 1);
         }
+        else {
+          this.selectedArray.classSchldId.push(data.schd_id);
+        }
       }
     }
+    if (this.weekScheduleList.length > 0) { /// this code used to check is all checked or not
+      for (let i = 0; i < this.weekScheduleList.length; i++) {
+        if (this.weekScheduleList[i].data.length > 0) {
+          this.weekScheduleList[i].data.forEach(
+            sch => {
+              if (sch.selected == false) {
+                isUnseleted = true;
+                return;
+              }
+            }
+          )
+        }
+      }
+    }
+    this.isChecked = isUnseleted ? false : true;
+
   }
 
   showDeleteBTN() {
@@ -988,7 +1025,6 @@ export class ClassHomeComponent implements OnInit {
   }
 
   // Expand All 
-
   expandAllRows() {
     let count = this.weekScheduleList.length;
     for (let i = 0; i < count; i++) {
@@ -997,6 +1033,7 @@ export class ClassHomeComponent implements OnInit {
   }
 
   checkAllCheckbox() {
+    this.isChecked = (!this.isChecked);
     this.expandAllRows();
     if (this.weekScheduleList.length > 0) {
       for (let i = 0; i < this.weekScheduleList.length; i++) {
@@ -1005,12 +1042,25 @@ export class ClassHomeComponent implements OnInit {
           document.getElementById('tbodyView' + i).classList.remove("hide");
           this.weekScheduleList[i].data.forEach(
             sch => {
-              if (sch.class_type != "Exam") {
-                if (sch.selected == false) {
-                  sch.selected = true;
-                  this.selectedArray.classSchldId.push(sch.schd_id);
+              if (!this.isChecked) {
+                if (sch.class_type != "Exam") {
+                  if (sch.selected == true) {
+                    sch.selected = false;
+                    if (this.selectedArray.classSchldId.indexOf(sch.schd_id) > -1) {
+                      this.selectedArray.classSchldId.splice(this.selectedArray.classSchldId.indexOf(sch.schd_id), 1);
+                    }
+                  }
                 }
               }
+              else {
+                if (sch.class_type != "Exam") {
+                  if (sch.selected == false) {
+                    sch.selected = true;
+                    this.selectedArray.classSchldId.push(sch.schd_id);
+                  }
+                }
+              }
+
             }
           )
         }
@@ -1019,7 +1069,6 @@ export class ClassHomeComponent implements OnInit {
   }
 
   // Hide Past Schedules
-
   hidePastClassAction(data) {
     let date = data.id.split('(');
     if (moment(date[0]).format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD')) {
