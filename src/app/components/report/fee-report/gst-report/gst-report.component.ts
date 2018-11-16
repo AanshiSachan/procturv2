@@ -257,7 +257,7 @@ export class GstReportComponent implements OnInit {
 
     let rows = [['ID', 'Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Cgst', 'Sgst', 'Tax', 'Reference No', 'Amount paid' , 'Counsellor']]
     let columns = arr;
-    this.pdf.exportToPdf(rows, columns);
+    this.pdf.exportToPdf(rows, columns,'GST_Report');
   }
 
 

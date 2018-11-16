@@ -250,7 +250,7 @@ export class AllDataReportComponent implements OnInit {
   exportToPdf() {
     let rows = this.getColumns();
     let columns = this.getRows();
-    this.pdf.exportToPdf(rows, columns);
+    this.pdf.exportToPdf(rows, columns,'All_dues_Report');
   }
 
   // batchSelected() {

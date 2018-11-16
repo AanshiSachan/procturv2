@@ -8,7 +8,7 @@ export class ExportToPdfService {
   constructor() {
 
   }
-  exportToPdf(rows, columns) {
+  exportToPdf(rows, columns,fileName) {
     let pdf = new jsPDF('l', 'pt', 'a4');
     pdf.autoTable({
       head: rows,
@@ -17,6 +17,7 @@ export class ExportToPdfService {
         cellWidth: 20
       }
     });
-    pdf.save('table.pdf');
+    pdf.save(fileName + '_export_' + new Date().getTime() + '.pdf');
+    
   }
 }

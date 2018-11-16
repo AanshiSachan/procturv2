@@ -929,7 +929,7 @@ export class FeeCourseReportComponent implements OnInit {
 
     let rows = [['ID', 'Name', 'Total Fee', 'Amount Paid', 'Past Dues', 'Next Due Date', 'Next Due Amount', 'PDC Date', 'Balance Amount', 'Master Course Name', 'Course Name']]
     let columns = arr;
-    this.pdf.exportToPdf(rows, columns);
+    this.pdf.exportToPdf(rows, columns,'Course_wise_Report');
   }
 
 

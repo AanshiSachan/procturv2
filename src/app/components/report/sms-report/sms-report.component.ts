@@ -222,7 +222,7 @@ export class SmsReportComponent implements OnInit {
   let rows = []; 
     rows = [['Name', "Contact No.", "Message",'Sent Date-Time', 'Role','Type', 'Event', 'Status']]
    let columns = arr;
-  this._pdfService.exportToPdf(rows, columns);
+  this._pdfService.exportToPdf(rows, columns,'SMS');
 }
 
 
