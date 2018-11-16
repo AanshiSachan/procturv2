@@ -13,8 +13,7 @@
         <aside class="pull-right">
         </aside>
       </section>
-
-      <div *ngIf="showFilters">
+      <div>
         <section class="filter-form">
           <div class="row proFilterForm" *ngIf="isProfessional">
             <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 col-val">
@@ -102,80 +101,31 @@
           </div>
         </section>
       </div>
-      <div *ngIf="!showFilters">
-        <div class="showFilterBtn">
-          <input type="button" class="normal-btn fullBlue btn" value="Show Filters" (click)="toggleFilter()" />
-        </div>
-      </div>
     </section>
     <section class="clearFix calender-view1">
-      <div class="row btn-wrap" *ngIf="isProfessional">
-        <div class="grid-datadisplay">
-          <i class="fa fa-print" style="font-size:32px;float:right;margin-right:20px" (click)="printTimeTableData()"></i>
-          <!-- <a (click)="printTimeTableData()" class="printMe"> Print Time Table</a> -->
-          <div style="display: inline-block">
-            <a (click)="fetchTimeTableReportPro('-1')" class="directBtn previous">&#8249;</a>
-            <a (click)="fetchTimeTableReportPro('1')" class="directBtn next">&#8250;</a>
-          </div>
-          <div class="legend pull-right">
-            <!-- <ul class="legend-ul">
-              <li>
-                <span class="dot" style="color:black"></span>Regular
-              </li>
-              <li>
-                <span class="dot" style="color:yellowgreen"></span>Extra
-              </li>
-              <li>
-                <span class="dot" style="color:blue"></span>Doubt
-              </li>
-              <li>
-                <span class="dot" style="color: red"></span>Exam
-              </li>
-              <li>
-                <span class="dot" style="color:green"></span>Revision
-              </li>
-            </ul> -->
-          </div>
-        </div>
-      </div>
-      <div class="row btn-wrap" *ngIf="!isProfessional">
-        <div class="grid-datadisplay">
-          <i class="fa fa-print" style="font-size:32px;float:right;margin-right:20px" (click)="printTimeTableData()"></i>
-          <!-- <a (click)="printTimeTableData()" class="printMe"> Print Time Table</a> -->
-          <div style="display: inline-block">
-            <a (click)="fetchTimeTableReport('-1')" class="directBtn previous">&#8249;</a>
-            <a (click)="fetchTimeTableReport('1')" class="directBtn next">&#8250;</a>
-          </div>
-          <div class="legend pull-right">
-            <!-- <ul class="legend-ul">
-              <li>
-                <span class="dot" style="color:black"></span>Regular
-              </li>
-              <li>
-                <span class="dot" style="color:yellowgreen"></span>Extra
-              </li>
-              <li>
-                <span class="dot" style="color:blue"></span>Doubt
-              </li>
-              <li>
-                <span class="dot" style="color: red"></span>Exam
-              </li>
-              <li>
-                <span class="dot" style="color:green"></span>Revision
-              </li>
-            </ul> -->
-          </div>
-        </div>
-      </div>
-      <!-- <h3 id="tableHead" class="printHead" style="">Proctur Time-Table</h3>-->
 
-      <h4 class="dateHeader">{{dateFormat(startdateweek)}} - {{dateFormat(enddateweek)}}</h4>
+      <div class="grid-datadisplay text-center" *ngIf="isProfessional">
+        <i class="fa fa-print" style="font-size:32px;float:right;margin-right:20px" (click)="printTimeTableData()"></i>
+        <i (click)="fetchTimeTableReportPro('-1')" class="fa fa-angle-left" style="font-size:60px;color:#0660a1"></i>
+        <i class="dateHeader">
+          <span> {{dateFormat(startdateweek)}} - {{dateFormat(enddateweek)}}</span>
+        </i>
+        <i (click)="fetchTimeTableReportPro('1')" class="fa fa-angle-right" style="font-size:60px;color:#0660a1"></i>
+      </div>
+
+      <div class="grid-datadisplay text-center" *ngIf="!isProfessional">
+        <i class="fa fa-print" style="font-size:32px;float:right;margin-right:20px" (click)="printTimeTableData()"></i>
+        <i (click)="fetchTimeTableReport('-1')" class="fa fa-angle-left" style="font-size:60px;color:#0660a1"></i>
+        <i class="dateHeader">
+          <span> {{dateFormat(startdateweek)}} - {{dateFormat(enddateweek)}}</span>
+        </i>
+        <i (click)="fetchTimeTableReport('1')" class="fa fa-angle-right" style="font-size:60px;color:#0660a1"></i>
+      </div>
+
       <div class="timetableWrap" *ngIf="!isProfessional">
         <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
         </time-table>
       </div>
-
-
       <div class="timetableWrap" *ngIf="isProfessional">
         <time-table [recordInput]="timeTableArr">
         </time-table>

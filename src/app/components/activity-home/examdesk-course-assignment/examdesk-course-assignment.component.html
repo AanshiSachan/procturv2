@@ -63,7 +63,7 @@
 </section>
 
 
-<proctur-popup *ngIf="assignPopUp">
+<proctur-popup  [sizeWidth]="'medium'" *ngIf="assignPopUp">
 
   <span class="closePopup pos-abs fbold show" (click)="closePopup()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -125,7 +125,7 @@
           <div class="field-wrapper">
             <label for="master">Standard
             </label>
-            <select class="form-ctrl" [(ngModel)]="standard_id" (change)="getAllStudentList()">
+            <select class="form-ctrl" [(ngModel)]="standard_id" (change)="onfilterOptionChange()">
               <option value="-1">Standard</option>
               <option *ngFor="let i of standardList" [value]="i.standard_id">
                 {{i.standard_name}}

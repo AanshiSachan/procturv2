@@ -626,7 +626,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
 
     let columns = arr;
-    this.pdf.exportToPdf(rows, columns);
+    this.pdf.exportToPdf(rows, columns,'Payment_History_report');
   }
 }
 

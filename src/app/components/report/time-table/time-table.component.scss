@@ -1284,7 +1284,7 @@ p {
                 stroke-width: 2px;
             }
         }
-        &:hover {}
+      
     }
     .popup-content {
         height: 100%;
@@ -1520,8 +1520,8 @@ p {
 }
 
 .grid-datadisplay {
-    margin-left: 22px;
-    margin-top: 7px
+    // margin-left: 22px;
+    margin-top: 1%;
 }
 
 .button-display {
@@ -1726,10 +1726,9 @@ a:hover {
 }
 
 .dateHeader {
-    text-align: center;
-    margin-top: -2%;
-    margin-bottom: 2%;
-    margin-left: -3px;
+    font-size:16px;
+    color:#0660a1;
+    vertical-align: super;
 }
 
 .inshead {

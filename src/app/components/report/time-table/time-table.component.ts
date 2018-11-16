@@ -238,14 +238,7 @@ export class TimeTableComponent implements OnInit {
   }
 
 
-  /*To show an hide filters */
-  toggleFilter() {
-    if (this.showFilters) {
-      this.showFilters = false;
-    } else {
-      this.showFilters = true;
-    }
-  }
+
   /*fetch time table list for nonProfessional model */
   fetchTimeTableReport(flag) {
     this.isRippleLoad = true;

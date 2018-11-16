@@ -2,54 +2,42 @@
 
     <ul class="time-head" *ngIf="recordInput.length">
         <li class="head-item" *ngFor="let head of recordInput">
-            <ul>
+            <!-- <ul>
                 <li class="inner-date">{{head.headerDate}}</li>
                 <li class="inner-day">{{head.headerDays}}</li>
-            </ul>
+            </ul> -->
+            <div class="center text-center">
+                <p><b>{{head.headerDate}}&nbsp;&nbsp;{{head.headerDays}}</b></p>
+            </div>
         </li>
     </ul>
 
 
     <div class="table-scroller" *ngIf="recordInput.length">
         <div *ngIf="recordInput[0].data.length!=0">
-            <ul class="time-body" *ngFor="let time of recordInput" style="height: auto;" >
+            <ul class="time-body" *ngFor="let time of recordInput" style="height: auto;">
                 <li class="time-item" *ngFor="let i  of time.data" style="height: 140px;">
                     <ul class="emptyclass" *ngIf="i == undefined">
-                        NA
+                        <p>NA</p>
                     </ul>
                     <ul class="nonemptyclass" *ngIf="i != undefined">
-                        <li class="one">
-                            <!-- <span *ngIf="i.class_type=='Exam'" class="dotto" style="background-color:red"></span>
-                        <span *ngIf="i.class_type=='REGULAR'" class="dotto" style="background-color:black"></span> -->
-                            <!-- <span *ngIf="i.class_type=='DOUBT'" class="dotto" style="border-color:blue"></span>
-                        <span *ngIf="i.class_type =='REVISION'" class="dotto" style="border-color:darkgreen"></span>
-                        <span *ngIf="i.class_type =='EXTRA'" class="dotto" style="border-color:yellow"></span> -->
-                            {{i.start_time}}-{{i.end_time}}
-                        </li>
-
-                        <li *ngIf="i.class_type =='REVISION'" class="three">
-                            (Revision)
-                        </li>
-
-                        <li *ngIf="i.class_type == 'DOUBT'" class="three">(Doubt)
-                        </li>
-
-                        <li *ngIf="i.class_type =='Exam'" class="three" style="background-color: #ff00009e">
-                            (Exam)
-                        </li>
-
-                        <li *ngIf="i.class_type =='EXTRA'" class="three">
-                            (Extra)
-                        </li>
-                        <li *ngIf=" !(i.class_type =='EXTRA' || i.class_type =='Exam' || i.class_type == 'DOUBT' || i.class_type =='REVISION')" class="three"
-                            style="visibility:hidden">
-                            (Regular)
+                        <li class="three">
+                            <div *ngIf="i.class_type =='REVISION'"  class="revisionClass extraClass text-center">(Revision)</div>
+                            <div *ngIf="i.class_type == 'DOUBT'"  class="douteClassColor extraClass text-center">(Doubt)</div>
+                            <div *ngIf="i.class_type =='Exam'" style="background-color: #ff00009e"  class="extraClass text-center">(Exam)</div>
+                            <div *ngIf="i.class_type =='EXTRA'" class="extraClassColor extraClass text-center" > (Extra)</div>
+                            <div style="visibility:hidden" *ngIf="(i.class_type !='EXTRA' && i.class_type !='Exam' && i.class_type != 'DOUBT' && i.class_type !='REVISION')">
+                                (Regular)
+                            </div>
                         </li>
                         <li class="three" title={{i.batchName}}>
                             {{i.batchName}}
                         </li>
                         <li class="three">
                             {{i.teacher_name}}
+                        </li>
+                        <li class="one">
+                            {{i.start_time}}-{{i.end_time}}
                         </li>
                     </ul>
                 </li>
@@ -61,21 +49,5 @@
         <div class="noSchedule" *ngIf="recordInput[0].data.length==0">No Schedule Available
         </div>
     </div>
-
-    <!-- <table id="basic-table" class="hide">
-        <thead>
-            <tr>
-                <th>
-                   Date
-                </th>
-                <th>
-                    Time
-                </th>
-                <th>
-                    Moments
-                </th>
-            </tr>
-        </thead>
-    </table> -->
 
 </section>

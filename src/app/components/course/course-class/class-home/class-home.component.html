@@ -39,19 +39,19 @@
                       <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top :20px;">
                         <div class="radio-main">
                           <div class="field-radio-wrapper">
-                            <input type="radio" checked (click)="checkInputType($event)" name="sFilter" class="form-radio"
-                              value="Automatic" id="idAll">
-                            <label for="active">All</label>
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter" class="form-radio"
+                              value="All" id="idAll">
+                            <label for="idAll">All</label>
                           </div>
                           <div class="field-radio-wrapper">
-                            <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio"
-                              id="idTeacher">
-                            <label for="Inactive">Faculty</label>
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter" 
+                            value="Teacher" class="form-radio"    id="idTeacher">
+                            <label for="idTeacher">Faculty</label>
                           </div>
                           <div class="field-radio-wrapper">
-                            <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio"
-                              id="idBatch">
-                            <label for="Inactive">Batch</label>
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter" 
+                            value="Batch" class="form-radio"   id="idBatch">
+                            <label for="idBatch">Batch</label>
                           </div>
                         </div>
                       </div>
@@ -173,7 +173,7 @@
               </div>
 
               <div class="row" style="margin-top: 10px">
-                <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Filter</a>
+                <a class="pull-right advancefilter" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Filter</a>
               </div>
 
             </div>
@@ -283,7 +283,8 @@
               </div>
 
               <div class="row" style="margin-top: 10px;">
-                <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('0');">Back</a>
+                <a class="pull-right advancefilter" style="cursor: pointer; right: 85px;
+                top: 225px;" (click)="showhideAdvanceFilter('0');">Back</a>
               </div>
             </div>
 
@@ -321,11 +322,12 @@
         <div class="row" *ngIf="weekScheduleList.length > 0">
           <div class="pull-right extra-button">
             <button class="btn" (click)="expandAllRows()">Expand/Collapse All</button>
-            <button class="btn" (click)="checkAllCheckbox()">Check All</button>
+            <button class="btn" *ngIf="!isChecked" (click)="checkAllCheckbox()">Check All</button>
+            <button class="btn"  *ngIf="isChecked" (click)="checkAllCheckbox()">Uncheck All</button>
           </div>
         </div>
 
-        <section class="clearFix calender-view1" *ngIf="showContent">
+        <section class="clearFix calender-view1" >
           <div class="table-responsive ">
             <table>
               <thead>
@@ -374,8 +376,8 @@
                           <td style="width:10%">
                             <div class="field-checkbox-wrapper">
                               <input type="checkbox" name="uiSelected" class="form-checkbox" [(ngModel)]="sc.selected"
-                                id="uiSelected" (ngModelChange)="userSelectedData($event , sc)">
-                              <label for="uiSelected"></label>
+                                id="uiSelected{{i}}" (ngModelChange)="userSelectedData($event , sc)">
+                              <label ></label>
                             </div>
                           </td>
                           <td style="width:10%">{{sc.class_type}}</td>

@@ -286,7 +286,7 @@ export class InactiveStudentReportComponent implements OnInit {
 
     let rows = [['ID', 'Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Student Category', 'Counsellor']]
     let columns = arr;
-    this.pdf.exportToPdf(rows, columns);
+    this.pdf.exportToPdf(rows, columns,'Student_Report');
   }
 
 }
