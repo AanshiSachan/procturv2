@@ -683,6 +683,11 @@ export class ClassHomeComponent implements OnInit {
         subject_id: -1,
         teacher_id: null,
       }
+      this.batchData = {
+        standard_id: -1,
+        subject_id: -1,
+        batch_id: -1,
+      }
       this.getPrefillData();
     }
     else if (event.target.value == "Teacher") {
