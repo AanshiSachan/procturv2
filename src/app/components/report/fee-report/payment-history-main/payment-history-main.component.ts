@@ -318,6 +318,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   optionSelected(e) {
     console.log(e);
     this.personData = e.data;
+    this.updatedResult.paid_date = e.data.paid_date;
     this.chequeDetailsJson = [];
     this.varJson.tempData = {};
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
