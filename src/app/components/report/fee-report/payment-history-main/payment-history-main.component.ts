@@ -369,9 +369,6 @@ export class PaymentHistoryMainComponent implements OnInit {
               return
             }
             this.chequeDetailsJson.cheque_date = moment(this.chequeDetailsJson.cheque_date).format('YYYY-MM-DD');
-            if (moment(this.updatedResult.paid_date).format("YYYY-MM-DD") == this.personData.paid_date) {
-              this.updatedResult.paid_date = moment(new Date()).format("DD-MMM-YYYY");
-            }
 
             let obj = {
               chequeDetailsJson: Object.assign({}, this.chequeDetailsJson),
@@ -410,9 +407,6 @@ export class PaymentHistoryMainComponent implements OnInit {
           let feeSchedule_TxLst = this.fetchhStudentPaymentJson(this.perPersonData);
           if (feeSchedule_TxLst == false) {
             return
-          }
-          if (moment(this.updatedResult.paid_date).format("YYYY-MM-DD") == this.personData.paid_date) {
-            this.updatedResult.paid_date = moment(new Date()).format("DD-MMM-YYYY");
           }
           let obj = {
             feeSchedule_TxLst: feeSchedule_TxLst,

@@ -235,8 +235,23 @@ export class FileCardComponent implements OnChanges {
       var hiddenDownload = <HTMLAnchorElement>document.getElementById('downloadFileClick');
       hiddenDownload.href = url;
       hiddenDownload.download = fileObj.res.file_name;
-      hiddenDownload.click();
+      // hiddenDownload.download = this.getOriginalFileName(fileObj.res.file_name);
+      hiddenDownload.click();     
     }, 500);
   }
 
+  /**
+   * 
+   * Method to get the original file name from filename(with autoID)
+   * 
+   */
+  getFileName(fileName) {
+    return fileName.substring(0, fileName.lastIndexOf("_"));
+  }
+  getOriginalFileName(fileName) {
+    var filenamePart1 = fileName.substring(0, fileName.lastIndexOf("_"));
+    var filenamePart2 = fileName.substring(fileName.lastIndexOf("."));
+    fileName = filenamePart1 + filenamePart2;
+    return fileName;
+  }
 }
