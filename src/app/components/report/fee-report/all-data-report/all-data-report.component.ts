@@ -6,7 +6,6 @@ import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTabl
 import { ColumnData2 } from '../../../shared/data-display-table/data-display-table.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 /**  compoents imports*/
-import { AppComponent } from '../../../../app.component';
 import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
 /**  services imports */
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
@@ -15,7 +14,7 @@ import { ExcelService } from '../../../../services/excel.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
 import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
   selector: 'app-all-data-report',
@@ -116,7 +115,7 @@ export class AllDataReportComponent implements OnInit {
     tableDetails: { title: 'All Dues Report', key: 'reports.fee.allDuesReport', showTitle: false },
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
-    selectAll: { showSelectAll: false, title: 'Purchase Item', checked: true, key: 'student_disp_id' },
+    selectAll: { showSelectAll: true, title: 'Send Due SMS', checked: true, key: 'student_disp_id' },
     actionSetting:
     {
       showActionButton: true,
@@ -132,15 +131,14 @@ export class AllDataReportComponent implements OnInit {
   };
 
   constructor(
-    private appC: AppComponent,
-    private getter: GetFeeService,
-    private putter: PostFeeService,
+    private _getter: GetFeeService,
+    private _putter: PostFeeService,
     private excelService: ExcelService,
     private auth: AuthenticatorService,
     private _tablePreferencesService: TablePreferencesService,
     private ref: ChangeDetectorRef,
     private pdf: ExportToPdfService,
-    private messageService: MessageService
+    private _msgService: MessageShowService
   ) {
     this.excelService = excelService;
     this.switchActiveView('fee');
@@ -159,7 +157,6 @@ export class AllDataReportComponent implements OnInit {
         }
       }
     )
-
     this.form.valueChanges
       .debounceTime(100)
       .distinctUntilChanged()
@@ -186,8 +183,8 @@ export class AllDataReportComponent implements OnInit {
     this.tableSetting.keys = [
       { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
       { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
-      { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true,amountValue: true, },
-      { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true,amountValue: true, }
+      { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true, amountValue: true, },
+      { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, allowSortingFlag: true, amountValue: true, }
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
@@ -199,7 +196,7 @@ export class AllDataReportComponent implements OnInit {
   }
 
   getAcademicYear() {
-    this.getter.getAcademicYear().subscribe(
+    this._getter.getAcademicYear().subscribe(
       (res: any) => {
         this.getAllAcademic = res;
       },
@@ -210,7 +207,7 @@ export class AllDataReportComponent implements OnInit {
   }
 
   fetchInstallmentData() {
-    this.getter.getinstallmentData().subscribe(
+    this._getter.getinstallmentData().subscribe(
       res => {
         this.installmentList = res;
       },
@@ -250,7 +247,7 @@ export class AllDataReportComponent implements OnInit {
   exportToPdf() {
     let rows = this.getColumns();
     let columns = this.getRows();
-    this.pdf.exportToPdf(rows, columns,'All_dues_Report');
+    this.pdf.exportToPdf(rows, columns, 'All_dues_Report');
   }
 
   // batchSelected() {
@@ -310,7 +307,7 @@ export class AllDataReportComponent implements OnInit {
   // }
 
   fetchFeeDetails() {
-  
+
     let arr = [];
     arr.push(this.courseFetchForm.academic_year_id);
     let obj = {
@@ -329,7 +326,7 @@ export class AllDataReportComponent implements OnInit {
       academic_year_id: arr
     }
     /* Fetch By Master Course and Other Details */
-      // if (this.showPopupKeys.isFilterReversed) {
+    // if (this.showPopupKeys.isFilterReversed) {
     //   /* Checks if user has filled the form correctly and selected a batch or master course course */
     //   if (this.courseFormValidator()) {
     //     if (this.dateRangeValid()) {
@@ -345,15 +342,15 @@ export class AllDataReportComponent implements OnInit {
       obj["master_course_name"] = this.courseFetchForm.standard_id;
       obj["course_id"] = this.courseFetchForm.subject_id;
     }
-    
+
     //   }
     // }}
     // console.log(obj);
     // /* Fetch by name or Dues Type */
     if (this.due_type == '-1') {
-      this.appC.popToast({ type: "error", body: "Please select dues" });
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',"Please select dues");
       this.tableSetting.displayMessage = "Data not found";
-      this.feeDataSource1 =[];
+      this.feeDataSource1 = [];
       return false;
     }
     // else if (this.due_type != 'custom') {
@@ -386,13 +383,8 @@ export class AllDataReportComponent implements OnInit {
       if (d >= 0) {
         return true;
       }
-      else {
-        let obj = {
-          type: 'error',
-          title: 'From date cannot be more than to date',
-          body: ''
-        }
-        this.appC.popToast(obj);
+      else {      
+        this._msgService.showErrorMessage(this._msgService.toastTypes.error, 'From date cannot be more than to date',"")
         return false;
       }
     }
@@ -418,7 +410,7 @@ export class AllDataReportComponent implements OnInit {
     //console.log(obj);
     this.isRippleLoad = true;
     this.dataStatus = 1;
-    this.getter.getFeeReportData(obj).subscribe(
+    this._getter.getFeeReportData(obj).subscribe(
       res => {
         if (res.length == 0) {
           this.dataStatus = 2;
@@ -444,30 +436,13 @@ export class AllDataReportComponent implements OnInit {
   }
 
   switchActiveView(id) {
-    document.getElementById('home').classList.remove('active');
-    document.getElementById('attendance').classList.remove('active');
-    document.getElementById('sms').classList.remove('active');
-    document.getElementById('fee').classList.remove('active');
-    document.getElementById('exam').classList.remove('active');
-    document.getElementById('report').classList.remove('active');
-    document.getElementById('time').classList.remove('active');
-    document.getElementById('email').classList.remove('active');
-    document.getElementById('profit').classList.remove('active');
-    switch (id) {
-      case 'home': { document.getElementById('home').classList.add('active'); break; }
-      case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
-      case 'sms': { document.getElementById('sms').classList.add('active'); break; }
-      case 'fee': { document.getElementById('fee').classList.add('active'); break; }
-      case 'exam': { document.getElementById('exam').classList.add('active'); break; }
-      case 'report': { document.getElementById('report').classList.add('active'); break; }
-      case 'time': { document.getElementById('time').classList.add('active'); break; }
-      case 'email': { document.getElementById('email').classList.add('active'); break; }
-      case 'profit': { document.getElementById('profit').classList.add('active'); break; }
-    }
+    let classArray = ['home','attendance','sms','fee','exam','report','time','email','profit'];
+
+    classArray.forEach((classname)=>{
+      document.getElementById(classname).classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');   
   }
-
-
-
 
   // fetchSubjectList() {
   //   this.courseFetchForm.subject_id = -1;
@@ -603,13 +578,9 @@ export class AllDataReportComponent implements OnInit {
     if (id == 'from') {
       let selected = moment(this.courseFetchForm.from_date);
       let v = today.diff(selected, 'days');
-      if (v < 0) {
-        let obj = {
-          type: 'info',
-          title: 'Future date cannot be selected',
-          body: ''
-        }
-        this.appC.popToast(obj);
+      if (v < 0) {       
+        this._msgService.showErrorMessage(this._msgService.toastTypes.info,'Future date cannot be selected',"")
+        
         this.courseFetchForm.from_date = moment(new Date()).format('DD-MMM-YYYY');
       }
     }
@@ -618,13 +589,7 @@ export class AllDataReportComponent implements OnInit {
       let selected = moment(this.courseFetchForm.to_date);
       let v = today.diff(selected, 'days');
       if (v < 0) {
-
-        let obj = {
-          type: 'info',
-          title: 'Future date cannot be selected',
-          body: ''
-        }
-        this.appC.popToast(obj);
+        this._msgService.showErrorMessage(this._msgService.toastTypes.info,'Future date cannot be selected',"")
         this.courseFetchForm.to_date = moment(new Date()).format('DD-MMM-YYYY');
       }
     }
@@ -742,8 +707,8 @@ export class AllDataReportComponent implements OnInit {
       this.courseFetchForm.type = "1";
       this.showPopupKeys.isCustomDate = true;
     }
-    else if (this.due_type == '-1') {
-      this.appC.popToast({ type: "error", body: "Please select dues" })
+    else if (this.due_type == '-1') {    
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error,"","Please select dues" );
     }
 
   }
@@ -783,9 +748,12 @@ export class AllDataReportComponent implements OnInit {
     this.selectedRecordsList = rec;
   }
 
-  sendBulkSms() {
+  /** send sms to student about dues   
+   * created by laxmi 
+  */
+  sendBulkSms(event) {  
     if (confirm("Are you sure u want to send Fee Dues SMS to the selected students?")) {
-      let arr: any[] = this.selectedRecordsList.map(e => {
+      let arr: any[] = event.data.map(e => {
         return e.student_id;
       });
       let obj = {
@@ -793,28 +761,22 @@ export class AllDataReportComponent implements OnInit {
         institution_id: '',
         student_ids: arr.join(',')
       }
-      this.putter.sendBulkSMS(obj).subscribe(
-        res => {
-          let obj = {
-            type: 'success',
-            title: 'SMS Sent',
-            body: ""
-          }
-          this.appC.popToast(obj);
+      this._putter.sendBulkSMS(obj).subscribe(
+        res => {    
+         console.log(res);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.success, '',res.message);
         },
         err => {
-
-          let obj = {
-            type: 'error',
-            title: 'An Error Occured',
-            body: err.error.message
-          }
-          this.appC.popToast(obj);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',err.error.message);
         }
       );
     }
   }
 
+  
+  /**
+   * send bulk sms to student about thier fine 
+   */
   sendBulkFineSms() {
     if (confirm("Are you sure u want to send Fine SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
@@ -827,27 +789,20 @@ export class AllDataReportComponent implements OnInit {
         student_ids: arr.join(',')
       }
 
-      this.putter.sendBulkFineSMS(obj).subscribe(
+      this._putter.sendBulkFineSMS(obj).subscribe(
         res => {
-          let obj = {
-            type: 'success',
-            title: 'SMS Sent',
-            body: ""
-          }
-          this.appC.popToast(obj);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.success, '',res.message);
         },
         err => {
-          let obj = {
-            type: 'error',
-            title: 'An Error Occured',
-            body: err.error.message
-          }
-          this.appC.popToast(obj);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',err.error.message);
         }
       );
     }
   }
 
+  /**
+   * export as excel
+   */
   exportToExcel() {
     let arr = []
     this.feeDataSource1.map(

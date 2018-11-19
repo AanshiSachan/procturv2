@@ -147,7 +147,7 @@
                                                         <strong style="display: inline-block;">Export as Pdf</strong>
                                                     </li>
                                                     <hr>
-                                                    <li (click)="openPreferences()" class="asHover" >
+                                                    <li (click)="openPreferences()" class="asHover">
                                                         <i class="fa fa-low-vision" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
                                                         <strong style="display: inline-block;">Show/Hide Columns</strong>
                                                     </li>
@@ -172,20 +172,9 @@
             </section>
 
             <div class="table table-responsive" *ngIf="showPopupKeys.isFilterReversed">
-                <!-- <div style="margin-left: 10px;display: inline-block; margin-top: 10px;">
-                    <button (click)="exportToExcel()" class="download btn fullBlue">Excel</button>
-                    <button (click)="exportToPdf()" class="btn fullBlue">Pdf</button>
-                    
-                </div> -->
-
-
-                <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="feeDataSource1" (editView)='optionSelected($event)'>
+                <data-display-table *ngIf="displayKeys.length" #child [displayKeys]="tableSetting" [displayData]="feeDataSource1" (editView)='optionSelected($event)'
+                    (selectAllView)="sendBulkSms($event)">
                 </data-display-table>
-                <!-- <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
-                    [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [dataStatus]="dataStatus" [tableName]="'feereport'"
-                    [settings]="feeSettings1">
-                </rob-table> -->
-
             </div>
             <div class="table-content" *ngIf="!showPopupKeys.isFilterReversed">
                 <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'"

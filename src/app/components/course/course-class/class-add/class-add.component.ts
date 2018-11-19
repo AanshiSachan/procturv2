@@ -1830,12 +1830,13 @@ export class ClassAddComponent implements OnInit {
     return temporaryStorage;
   }
 
+  // change by laxmi
   switchActiveView() {
-    document.getElementById('liStandard').classList.remove('active');
-    document.getElementById('liSubject').classList.remove('active');
-    document.getElementById('liExam').classList.remove('active');
+    let classArray = ['liStandard', 'liSubject', 'liExam', 'liManageBatch'];
+    classArray.forEach((classname) => {
+      document.getElementById(classname).classList.remove('active');
+    });
     document.getElementById('liClass').classList.add('active');
-    document.getElementById('liManageBatch').classList.remove('active');
   }
 
 

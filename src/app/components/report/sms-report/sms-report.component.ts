@@ -114,18 +114,7 @@ export class SmsReportComponent implements OnInit {
     classArray.forEach((classname)=>{
       document.getElementById(classname).classList.remove('active');
     });
-    
-    switch (id) {
-      case 'home': { document.getElementById('home').classList.add('active'); break; }
-      case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
-      case 'sms': { document.getElementById('sms').classList.add('active'); break; }
-      case 'fee': { document.getElementById('fee').classList.add('active'); break; }
-      case 'exam': { document.getElementById('exam').classList.add('active'); break; }
-      case 'report': { document.getElementById('report').classList.add('active'); break; }
-      case 'time': { document.getElementById('time').classList.add('active'); break; }
-      case 'email': { document.getElementById('email').classList.add('active'); break; }
-      case 'profit': { document.getElementById('profit').classList.add('active'); break; }
-    }
+    document.getElementById(id).classList.add('active');
   }
 
   fetchSmsByDate() {
