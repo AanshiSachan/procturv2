@@ -1289,12 +1289,12 @@
                     </ul>
                   </div>
 
-                  <div class="row" *ngIf="!openMessageFlag">
-                    <span>Configured Notification Messages(showing last 30 days added messages):</span>
-                    <a class="pull-right" style="cursor: pointer;" (click)="getAllSavedMessages()">See All Message</a>
+                  <div class="row" *ngIf="!jsonFlag.openMessageFlag">
+                    <span><b style="font-weight: 600;" >Configured Notification Messages</b><b *ngIf="!jsonFlag.showAllMessage">&nbsp;&nbsp;(showing last 30 days added messages)</b>:</span>
+                    <a class="pull-right" style="cursor: pointer; margin-right: 10px;"  (click)="getAllSavedMessages()">See All Messages</a>
                   </div>
 
-                  <div class="row message-table-wrapper" *ngIf="!openMessageFlag">
+                  <div class="row message-table-wrapper" *ngIf="!jsonFlag.openMessageFlag">
                     <table class="message-table">
                       <thead>
                         <tr>
@@ -1336,7 +1336,7 @@
                     </table>
                   </div>
 
-                  <div class="row message-table-wrapper" *ngIf="openMessageFlag">
+                  <div class="row message-table-wrapper" *ngIf="jsonFlag.openMessageFlag">
                     <table class="message-table">
                       <thead>
                         <tr>

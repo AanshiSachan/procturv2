@@ -751,7 +751,11 @@ export class AllDataReportComponent implements OnInit {
   /** send sms to student about dues   
    * created by laxmi 
   */
-  sendBulkSms(event) {  
+  sendBulkSms(event) { 
+    if(event.data.length==0){
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',"Select record to send due sms");
+     return;
+    } 
     if (confirm("Are you sure u want to send Fee Dues SMS to the selected students?")) {
       let arr: any[] = event.data.map(e => {
         return e.student_id;

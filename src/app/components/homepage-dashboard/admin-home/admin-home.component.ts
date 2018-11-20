@@ -20,11 +20,63 @@ import { BiometricStatusServiceService } from '../../../services/biometric-statu
 })
 export class AdminHomeComponent implements OnInit {
 
-  public isProfessional: boolean = false;
-  public grid: any;
+  @ViewChild('ref')  private ref: ElementRef;
+  permissionArray = sessionStorage.getItem('permissions');  
+  public order: string[] = ['1', '2', '3', '4', '5']; 
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
+  minArr: any[] = ['', '00', '15', '30', '45'];
+  public enquiryDate: any[] = [];
+  public studentAttList: any = [];
+  public schedDate: any[] = [];
+  public teacherListArr: any[] = [];
+  batchList: any = [];
+  topicsList: any = [];
+  courseLevelStudentAtt: any = [];
+ courseLevelSchedule: any = [];
+ masterCourseList: any = [];
+ courseList: any = [];
+ studentList: any = [];
+ viewDetTable: any = [];
+ settingInfo: any = [];
+ gradesList: any = [];
+ openMessageList: any = [];
+ tempData: any = [];
+ messageList: any = [];
+  public teacher_id: number = -1;
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
-  public teacherListArr: any[] = [];
+
+
+  public schedStat: any = {};
+  public grid: any;
+  is_notified: any = 'Y';
+  reschedDate: any = new Date();
+  reschedReason: any = "";
+  resheduleNotified: any = "Y";
+  public classMarkedForAction: any;
+  selectedOption: any = "";
+  selectedViewDet: any;
+  examData: any = "";
+  examGradeFeature: any;
+  courseLevelSchedDate: any = new Date();
+  searchData: string = "";  
+  public attendanceNote: string = "";
+  public homework: string = "";
+  public cancellationReason: string = '';
+  selectedType: string = "course";
+  biometricEnable: string = "0";
+  newMessageText: string = "";  
+
+
+  isCourseAttendance: boolean = false;
+  isCourseCancel: boolean = false;
+  isCourseReminder: boolean = false;  
+  showTopicList: boolean = false;
+  notificationPopUp: boolean = false;
+  addNotification: boolean = false;
+  showTableFlag: boolean = false;
+  showEmailSubject: boolean = false;
+  studentSelected: boolean = false;
   public isPopupOpened: boolean = false;
   public isAttendancePop: boolean = false;
   public isCancelExamPop: boolean = false;
@@ -32,28 +84,25 @@ export class AdminHomeComponent implements OnInit {
   public isReschedulePop: boolean = false;
   public isRippleLoad: boolean = false;
   public AllPresent: boolean = true;
-  public teacher_id: number = -1;
-  public schedStat: any = {};
-
-  is_notified: any = 'Y';
-  public selectedRow: number = null;
-  public order: string[] = ['1', '2', '3', '4', '5'];
+  public isProfessional: boolean = false;
+  isSubjectView: boolean = false;
   public schedSelected: boolean = false;
   public isOptionVisible: boolean = false;
-  public enquiryDate: any[] = [];
-
-  public schedDate: any[] = [];
-  public classMarkedForAction: any;
-  public attendanceNote: string = "";
-  public homework: string = "";
-  public studentAttList: any = [];
-  public cancellationReason: string = '';
-
-  resheduleNotified: any = "Y";
-  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
-  minArr: any[] = ['', '00', '15', '30', '45'];
-  reschedDate: any = new Date();
-  reschedReason: any = "";
+  markExamAttendancePopUp: boolean = false;
+  examMarksPopup: boolean = false;
+  allChecked: boolean = true; 
+  biometricWidget: boolean;
+  cancelExamPopUP: boolean = false;
+  viewDetailsPopUp: boolean = false;
+  classScheduleCount: number = 0; 
+  absentCount: number = 0;
+  presentCount: number = 0;
+  leaveCount: number = 0; 
+  public selectedRow: number = null;
+  jsonFlag :any={
+    showAllMessage:false,
+    openMessageFlag:false,
+  };
   timepicker: any = {
     reschedStartTime: {
       hour: '12 PM',
@@ -66,74 +115,31 @@ export class AdminHomeComponent implements OnInit {
       meridian: ''
     },
   }
-  isSubjectView: boolean = false;
   types: SelectItem[] = [
     { label: 'Course', value: 'course' },
     { label: 'Subject', value: 'subject' }
   ];
-
-  selectedType: string = "course";
-  courseLevelSchedDate: any = new Date();
-  courseLevelSchedule: any = [];
-  isCourseAttendance: boolean = false;
-  isCourseCancel: boolean = false;
-  isCourseReminder: boolean = false;
-  courseLevelStudentAtt: any = [];
-  absentCount: number = 0;
-  presentCount: number = 0;
-  leaveCount: number = 0;
-  topicsList: any = [];
-  showTopicList: boolean = false;
-  notificationPopUp: boolean = false;
   combinedDataRes: any = {};
-  batchList: any = [];
-  masterCourseList: any = [];
-  courseList: any = [];
-  studentList: any = [];
-  addNotification: boolean = false;
-  showTableFlag: boolean = false;
-  newMessageText: string = "";
   sendNotification = {
     standard_id: '-1',
     subject_id: '-1',
     batch_id: '-1',
   }
-  showEmailSubject: boolean = false;
-  studentSelected: boolean = false;
-  messageList: any = [];
-  selectedOption: any = "";
   sendNotificationCourse = {
     master_course: '',
     course_id: ''
   }
   loginField = {
     checkBox: '0'
-  }
-  permissionArray = sessionStorage.getItem('permissions');
-  settingInfo: any = [];
-  viewDetailsPopUp: boolean = false;
-  selectedViewDet: any;
-  viewDetTable: any = [];
-  searchData: string = "";
-  allChecked: boolean = true; u
-  cancelExamPopUP: boolean = false;
-  tempData: any = [];
+  } 
   cancelPopUpData = {
     reason: "",
     notify: true
   };
-  markExamAttendancePopUp: boolean = false;
-  examMarksPopup: boolean = false;
-  examData: any = "";
-  examGradeFeature: any;
-  gradesList: any = [];
-  classScheduleCount: number = 0;
-  biometricWidget: boolean;
-  biometricEnable: string = "0";
-  openMessageFlag: boolean = false;
-  openMessageList: any = [];
-  @ViewChild('ref')
-  private ref: ElementRef;
+  
+
+ 
+ 
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -1862,6 +1868,7 @@ export class AdminHomeComponent implements OnInit {
 
   getAllSavedMessages() {
     this.messageList = [];
+    this.jsonFlag.showAllMessage = true;
     this.widgetService.getMessageList({ status: 1 }).subscribe(
       res => {
         //console.log(res);
@@ -3257,12 +3264,12 @@ export class AdminHomeComponent implements OnInit {
 
 
   //SMS Approve AND Reject
-
   onTabChange(tabname) {
-    this.openMessageFlag = false;
+    this.jsonFlag.openMessageFlag= false;
     document.getElementById('approvedSMSTab').classList.remove('active');
     document.getElementById('openSMSTab').classList.remove('active');
     if (tabname == 'approved') {
+      this.jsonFlag.showAllMessage = false;
       document.getElementById('approvedSMSTab').classList.add('active');
       this.getAllMessageFromServer();
     } else {
@@ -3272,7 +3279,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getOpenStatusSMS() {
-    this.openMessageFlag = true;
+    this.jsonFlag.openMessageFlag = true;
     this.openMessageList = [];
     this.widgetService.getMessageList({}).subscribe(
       res => {

@@ -39,7 +39,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 15, allowSortingFlag: true },
     { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 16, allowSortingFlag: true }
   ];
-  paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "Other"];
+  
+  paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "NEFT/RTGS","Other"];
   chequeStatus: any = [{ value: 1, title: '' }, { value: 2, title: 'Dishonoured' }, { value: 3, title: 'Cleared' }];
   flagJson: any = {
     searchflag: false,
