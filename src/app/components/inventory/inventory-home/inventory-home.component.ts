@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
-import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -15,6 +14,7 @@ import { InventoryService } from '../../../services/inventory-services/inventory
 import { instituteInfo } from '../../../model/instituteinfo';
 import { AddCategoryInInventory } from '../../../model/add-item-inventory';
 import { MessageShowService } from '../../../services/message-show.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -24,37 +24,44 @@ import { MessageShowService } from '../../../services/message-show.service';
 })
 export class HomeComponent implements OnInit {
 
+  @ViewChild('ActionInv') ActionInv: ElementRef;
+  addItemForm: FormGroup;
+  allocateItemForm: FormGroup;
+  courseList: any = [];
   itemTableDatasource: any = [];
   itemList: any = [];
   categoryList: any = [];
+  masterCategoryList: any = [];
+  subBranchList: any = [];
+  searchData: any = [];
+
   selectedRow = "";
   operationFlag = "";
-  isAddUnit: boolean = false;
-  masterCategoryList: any = [];
-  deleteItemPopUp: boolean = false;
+  allocateItemRowClicked: any;
+  allocateItemDetails: any; 
+  subBranchItemList: any;
+  availabelItemCount: any;
+  allocationHistoryList;
+  itemName: any = "";
   deleteRowDetails: any;
+
   PageIndex = 1;
   studentdisplaysize = 10;
   totalRow: number = 0;
-  createItemPopUp: boolean = false;
-  addItemForm: FormGroup;
-  courseList: any = [];
+
+  isAddUnit: boolean = false;
+  subtractFlag: boolean = false;
+  deleteItemPopUp: boolean = false; 
+  createItemPopUp: boolean = false;  
   showAllocateOption: boolean = false;
   showAllocationBranchPopUp: boolean = false;
-  allocateItemForm: FormGroup;
-  allocateItemRowClicked: any;
-  allocateItemDetails: any;
-  subBranchList: any = [];
-  subBranchItemList: any;
   showAvailableUnits: boolean = false;
-  availabelItemCount: any;
+  isProfessional:boolean = false; 
   showAllocationHistoryPopUp: boolean = false;
-  allocationHistoryList;
-  itemName: any = "";
-  searchData: any = [];
-  searchDataFlag: boolean = false;
+   searchDataFlag: boolean = false;
   isRippleLoad: boolean = false;
-  private showMenu: boolean = false;
+  showMenu: boolean = false; 
+
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
     category: { id: 'category', title: 'Category', filter: false, show: true },
@@ -66,20 +73,26 @@ export class HomeComponent implements OnInit {
     edit: { id: 'edit', title: 'Action', filter: false, show: true },
     add_units: { id: 'add_units', title: 'Add Units', filter: false, show: true },
     cost: { id: 'cost', title: 'Unit Cost', filter: false, show: true },
-
   };
-  subtractFlag: boolean = false;
-  @ViewChild('ActionInv') ActionInv: ElementRef;
-
+  
   constructor(
     private inventoryApi: InventoryService,
     private fb: FormBuilder,
-    private appC: AppComponent,
-    private msg:MessageShowService
+    private msg:MessageShowService,
+    private auth: AuthenticatorService
   ) {
   }
 
   ngOnInit() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') { // batch 
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
     this.checkMainBranchOrSubBranch()
     this.loadTableDatatoSource();
     this.loadItemCategories();
@@ -199,12 +212,7 @@ export class HomeComponent implements OnInit {
         error => {
           this.isRippleLoad = false;
           this.subtractFlag = false;
-          let data = {
-            type: 'error',
-            title: "Error",
-            body: error.error.message
-          }
-          this.appC.popToast(data);
+          this.msg.showErrorMessage("error" , "Error" , error.error.message);
           this.loadTableDatatoSource();
           //console.log('Add Stock Error', error);
         }
@@ -240,13 +248,8 @@ export class HomeComponent implements OnInit {
         document.getElementById(("row" + i).toString()).classList.remove('editComp');
       },
       error => {
-        this.isRippleLoad = false;
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: error.error.message
-        }
-        this.appC.popToast(data);
+        this.isRippleLoad = false;      
+        this.msg.showErrorMessage("error" , "Error" , error.error.message);
       }
     )
   }
@@ -270,13 +273,8 @@ export class HomeComponent implements OnInit {
         this.msg.showErrorMessage("success" , "" , "Inventory Deleted Successfully")
       },
       error => {
-        this.isRippleLoad = false;
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: error.error.message
-        }
-        this.appC.popToast(data);
+        this.isRippleLoad = false;   
+        this.msg.showErrorMessage("error" , "Error" , error.error.message);
       }
     )
   }
@@ -294,12 +292,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: error.error.message
-        }
-        this.appC.popToast(data);
+        this.msg.showErrorMessage("error" , "Error" , error.error.message);
       }
     )
   }
@@ -403,13 +396,8 @@ export class HomeComponent implements OnInit {
     let data: AddCategoryInInventory = {};
     data.alloted_units = this.addItemForm.value.alloted_units.toString();
     data.category_id = this.addItemForm.value.categoryDet;
-    if (data.category_id == -1) {
-      let msg = {
-        type: 'error',
-        title: "Error",
-        body: "Please provide category"
-      }
-      this.appC.popToast(msg);
+    if (data.category_id == -1) {    
+      this.msg.showErrorMessage("error" , "Error" ,"Please provide category");
       return;
     }
     data.created_date = this.addItemForm.value.created_date;
@@ -434,12 +422,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: error.error.message
-        }
-        this.appC.popToast(data);
+        this.msg.showErrorMessage("error" , "Error" , error.error.message);
       }
     )
 
@@ -479,12 +462,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        let data = {
-          type: 'error',
-          title: "Error",
-          body: error.error.message
-        }
-        this.appC.popToast(data);
+        this.msg.showErrorMessage("error" , "Error" , error.error.message);
       }
     )
   }
@@ -566,24 +544,16 @@ export class HomeComponent implements OnInit {
   }
 
   validateMandatoryFields() {
-    let msg = {
-      type: 'error',
-      title: "Error",
-      body: ""
-    }
     if (this.allocateItemForm.value.sub_branch_id == "" || this.allocateItemForm.value.sub_branch_id == null || this.allocateItemForm.value.sub_branch_id == '-1') {
-      msg.body = "Please provide sub branch";
-      this.appC.popToast(msg);
+           this.msg.showErrorMessage("error" , "Error" , "Please provide sub branch");
       return false;
     }
     if (this.allocateItemForm.value.sub_branch_item_id == "" || this.allocateItemForm.value.sub_branch_item_id == null) {
-      msg.body = "Please provide sub branch item";
-      this.appC.popToast(msg);
+         this.msg.showErrorMessage("error" , "Error" , "Please provide sub branch item");
       return false;
     }
     if (this.allocateItemForm.value.alloted_units == "" || this.allocateItemForm.value.alloted_units == null) {
-      msg.body = "Please provide no of allocation units";
-      this.appC.popToast(msg);
+        this.msg.showErrorMessage("error" , "Error" , "Please provide no of allocation units");
       return false;
     }
     return true;
@@ -605,24 +575,14 @@ export class HomeComponent implements OnInit {
     data.sub_branch_id = this.allocateItemForm.value.sub_branch_id;
     data.item_id = this.allocateItemRowClicked.item_id.toString();
     this.inventoryApi.allocateItemToSubBranch(data).subscribe(
-      data => {
-        let msg = {
-          type: 'success',
-          title: "Success",
-          body: "Successfully allocated to sub branch"
-        }
-        this.appC.popToast(msg);
+      data => {   
+        this.msg.showErrorMessage("success" , "Success" , "Successfully allocated to sub branch");
         this.showAllocationBranchPopUp = false;
         this.loadTableDatatoSource();
       },
       error => {
         //console.log("Allocate Item", error);
-        let msg = {
-          type: 'error',
-          title: "Error",
-          body: error.error.message
-        }
-        this.appC.popToast(msg);
+        this.msg.showErrorMessage("error" , "Error" , error.error.message);
       }
     )
   }
