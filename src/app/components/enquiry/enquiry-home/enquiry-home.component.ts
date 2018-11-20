@@ -625,7 +625,13 @@ export class EnquiryHomeComponent implements OnInit {
     /* Custom Compoenent array creater */
     createPrefilledData(dataArr: any[]): any[] {
         let customPrefilled: any[] = [];
-        dataArr.forEach(el => { let obj = { data: el.toLowerCase(), checked: false }; customPrefilled.push(obj); });
+        dataArr.forEach(el => { 
+            let obj = {
+                displayName: el.toLowerCase(),// this is display label
+                 data: el, //// this is key for select dropdwon 
+                 checked: false };
+             customPrefilled.push(obj);
+         });
         return customPrefilled;
     }
 
