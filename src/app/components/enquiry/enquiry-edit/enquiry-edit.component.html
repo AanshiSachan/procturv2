@@ -347,7 +347,7 @@
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="a{{component.label}}">
                           <option value=""></option>
-                          <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
+                          <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.displayName}}</option>
                         </select>
                       </div>
                     </div>

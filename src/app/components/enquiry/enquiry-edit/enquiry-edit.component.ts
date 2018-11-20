@@ -631,7 +631,8 @@ export class EnquiryEditComponent implements OnInit {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
       let obj = {
-        data: el.toLowerCase(),
+        displayName: el.toLowerCase(), // this is display label
+        data: el,// this is key for select dropdwon 
         checked: false
       }
       customPrefilled.push(obj);
