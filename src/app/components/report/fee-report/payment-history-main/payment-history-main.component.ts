@@ -444,10 +444,11 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
 
-  fetchhStudentPaymentJson(data: any[]) {
+fetchhStudentPaymentJson(data: any[]) {
     let temp: any[] = [];
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < this.varJson.tempData.feeSchedule_TxLst.length; j++) {
+        data[i].amount_paid = Number(data[i].amount_paid);
         if (data[i].schedule_id == this.varJson.tempData.feeSchedule_TxLst[j].schedule_id) {
           if (data[i].amount_paid != this.varJson.tempData.feeSchedule_TxLst[j].amount_paid) {
             if (data[i].amount_paid > this.varJson.tempData.feeSchedule_TxLst[j].amount_paid) {
