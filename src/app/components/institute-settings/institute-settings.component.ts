@@ -355,6 +355,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.student_report_card_fee_module = this.convertBoolenToNumber(this.instituteSettingDet.student_report_card_fee_module);
     obj.tax_payable_on_reverse_charge_basis = this.convertBoolenToNumber(this.instituteSettingDet.tax_payable_on_reverse_charge_basis);
     obj.home_work_feature_enable = this.convertBoolenToNumber(this.instituteSettingDet.home_work_feature_enable);
+    obj.absenteeism_report_flag = this.convertBoolenToNumber(this.instituteSettingDet.absenteeism_report_flag);
     if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
       this.isRippleLoad = false;
       return;
@@ -467,6 +468,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.state_code = data.state_code;
     this.instituteSettingDet.accounting_code = data.accounting_code;
     this.instituteSettingDet.home_work_feature_enable = data.home_work_feature_enable;
+    this.instituteSettingDet.absenteeism_report_flag = data.absenteeism_report_flag;
     this.instituteSettingDet.inst_enquiry_handler_no = data.inst_enquiry_handler_no;
     this.instituteSettingDet.pre_enquiry_follow_up_reminder_time = data.pre_enquiry_follow_up_reminder_time;
     this.instituteSettingDet.post_enquiry_follow_up_reminder_time = data.post_enquiry_follow_up_reminder_time;

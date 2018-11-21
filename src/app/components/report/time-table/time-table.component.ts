@@ -248,18 +248,13 @@ export class TimeTableComponent implements OnInit {
       return;
     }
     if (flag == '-1') {
-
       this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
     }
     else if (flag == '1') {
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
-    }
-    else {
-      this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
-      this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
-    }
+    }   
     this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
@@ -310,6 +305,8 @@ export class TimeTableComponent implements OnInit {
     if (para == 'all') {
       this.batchBox = false;
       this.teacherBox = false;
+      this.fetchTimeTableReportPro(0)
+
     }
     else if (para == 'teacher') {
       this.batchBox = false;
@@ -348,10 +345,10 @@ export class TimeTableComponent implements OnInit {
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
     }
-    else {
-      this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
-      this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
-    }
+    // else {
+    //   this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
+    //   this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
+    // }
     this.showFilters = false;
     this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
@@ -457,9 +454,6 @@ export class TimeTableComponent implements OnInit {
     document.getElementById('middle-sectionId').style.display = "block";
     document.getElementById('printTimeTable').style.display = "none";
     // document.getElementById('tableHead').style.display = "none";
-
-
-
   }
 
 }

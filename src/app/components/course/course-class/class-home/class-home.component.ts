@@ -673,7 +673,7 @@ export class ClassHomeComponent implements OnInit {
   }
 
   checkInputType(event) {
-    if (event.target.value == "All" || event == "All") {
+    if (event.target.value == "All") {
       this.weekScheduleList = [];
       this.selectedRadioButton = "All";
       this.fetchBatchModule = {
@@ -682,6 +682,11 @@ export class ClassHomeComponent implements OnInit {
         course_id: -1,
         subject_id: -1,
         teacher_id: null,
+      }
+      this.batchData = {
+        standard_id: -1,
+        subject_id: -1,
+        batch_id: -1,
       }
       this.getPrefillData();
     }
@@ -889,9 +894,13 @@ export class ClassHomeComponent implements OnInit {
   }
 
   showhideAdvanceFilter(key) {
+    this.weekScheduleList = [];
     if (key == '0') {
       this.showAdvanceFilter = false;
-      this.checkInputType(this.selectedRadioButton);
+      let obj ={target:{
+        value:this.selectedRadioButton
+      }}
+      this.checkInputType(obj);
     } else {
       this.showAdvanceFilter = true;
     }

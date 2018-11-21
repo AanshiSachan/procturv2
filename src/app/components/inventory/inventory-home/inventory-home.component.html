@@ -331,7 +331,7 @@
           <form [formGroup]="addItemForm" novalidate (ngSubmit)="saveItemDetails()">
 
 
-            <div class="row extraMargin">
+            <div class="row">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
                 <div class="field-wrapper">
                   <label for="In">Item Name
@@ -347,7 +347,7 @@
                   </div>
                 </div>
               </div>
-              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="top:-10px">
                 <div class="field-wrapper">
                   <label for="label">Item Description
                   </label>
@@ -357,7 +357,7 @@
               </div>
             </div>
 
-            <div class="row extraMargin">
+            <div class="row">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <label for="cat">Category
@@ -395,11 +395,11 @@
               </div>
             </div>
 
-            <div class="row extraMargin">
+            <div class="row">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <label for="master">Master Course
-                  </label>
+                  <label for="master" *ngIf="isProfessional">Master Course </label>
+                  <label for="master" *ngIf="!isProfessional">Standard </label>
                   <select id="master" class="form-ctrl" formControlName="standardDet" (change)="masterCourseSelected()">
                     <option value="-1"></option>
                     <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
@@ -412,8 +412,8 @@
 
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <label for="course">Course
-                  </label>
+                  <label for="course" *ngIf="isProfessional">Course   </label>
+                  <label for="course" *ngIf="!isProfessional">Subject   </label>
                   <select id="course" class="form-ctrl" formControlName="subjectDet">
                     <option value="-1"></option>
                     <option *ngFor="let opt of courseList" [value]="opt.subject_id">
@@ -425,7 +425,7 @@
               </div>
             </div>
 
-            <div class="row extraMargin">
+            <div class="row">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <label for="UnitCost">Unit Cost
@@ -446,7 +446,7 @@
               </div>
             </div>
 
-            <div class="row extraMargin">
+            <div class="row">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <label for="lowUnit">Low Stock Indicator Units
@@ -500,7 +500,7 @@
         </div>
 
         <form [formGroup]="allocateItemForm" novalidate (ngSubmit)="allocateItemToBranches()">
-          <div class="row extraMargin">
+          <div class="row ">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper has-value">
                 <label for="item">Sub Branch
@@ -544,7 +544,7 @@
           </div>
 
 
-          <div class="row extraMargin">
+          <div class="row ">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
                 <label for="item">Allocate Unit
@@ -571,7 +571,7 @@
           </div>
 
 
-          <div class="row extraMargin">
+          <div class="row ">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
                 <label for="item">Challan No.
@@ -590,7 +590,7 @@
             </div>
           </div>
 
-          <div class="row extraMargin">
+          <div class="row">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
                 <label for="item">Challan Amount (Rs)

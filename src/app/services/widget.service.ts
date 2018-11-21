@@ -39,7 +39,8 @@ export class WidgetService {
 
 
     fetchFeeWidgetData(obj): Observable<any> {
-        let url = this.baseUrl + "/api/v1/studentWise/fee/students/" + this.institute_id;
+        obj.institute_id = this.institute_id ;
+        let url = this.baseUrl + "/api/v1/studentWise/fee/feesStats/" + this.institute_id;
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }

@@ -93,18 +93,13 @@ export class FeeWidgetComponent implements OnInit {
 
     updateFeeByDate(e) {
         this.cd.markForCheck();
-        let obj = {
-            standard_id: -1,
-            batch_id: -1,
-            type: 2,
-            installment_id: -1,
-            subject_id: -1,
-            master_course_name: '-1',
-            course_id: -1,
-            is_fee_report_view: 1,
+
+        let obj = {   
+            institute_id:'',       
             from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
             to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
         }
+        
         this.isOptionVisible = false;
         this.widgetService.fetchFeeWidgetData(obj).subscribe(
             res => {
@@ -130,13 +125,13 @@ export class FeeWidgetComponent implements OnInit {
         this.cd.markForCheck();
         if (this.feeStat != null && this.feeStat != undefined && this.feeStat.length != 0) {
             if (id === 'total') {
-                return this.feeStat[0].total_fees_collected;
+                return this.feeStat.feeCollected; //Total fee collection 
             }
             else if (id === 'pending') {
-                return this.feeStat[0].total_future_dues;
+                return this.feeStat.upcomingDue; //Total Future Due
             }
             else if (id === 'past') {
-                return this.feeStat[0].total_dues_pending;
+                return this.feeStat.feeDue; // Total Past Due
             }
         }
         else {

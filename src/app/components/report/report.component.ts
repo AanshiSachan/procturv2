@@ -18,18 +18,12 @@ export class ReportComponent implements OnInit {
     this.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
   }
 
-
+  // changed by laxmi
   switchActiveView(id) {
-    document.getElementById('home').classList.remove('active');
-    document.getElementById('attendance').classList.remove('active');
-    document.getElementById('biometric').classList.remove('active');
-    document.getElementById('sms').classList.remove('active');
-    document.getElementById('fee').classList.remove('active');
-    document.getElementById('exam').classList.remove('active');
-    document.getElementById('report').classList.remove('active');
-    document.getElementById('time').classList.remove('active');
-    document.getElementById('email').classList.remove('active');
-    document.getElementById('profit').classList.remove('active');
+    let classArray = ['home','attendance','sms','biometric','fee','exam','report','time','email','profit'];
+    classArray.forEach((classname)=>{
+      document.getElementById(classname).classList.remove('active');
+    });
     switch (id) {
       case 'home': { document.getElementById('home').classList.add('active'); break; }
       case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }

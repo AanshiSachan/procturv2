@@ -1,7 +1,7 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
-<div class="middle-section clearFix" class="">
+<div class="middle-section clearFix" >
 
   <section class="row setting-full">
 
@@ -1703,8 +1703,6 @@
                             <input type="checkbox" value="" name="taxPayEnable" class="form-checkbox" [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis"
                               id="taxPayEnable">
                             <label for="taxPayEnable">Tax payable on reverse charge basis
-
-
                               <div class="questionInfo inline-relative">
                                 <span class="qInfoIcon i-class">i</span>
                                 <div class="tooltip-box-field">
@@ -1995,6 +1993,26 @@
                             </div>
                           </div>
                         </div>
+                        <div class="row">                         
+                        
+                          <div class="c-sm-9 c-lg-9 c-md-9" style="margin-left:-15px">
+                              <div class="field-checkbox-wrapper" style="width: 100%" >
+                                <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.absenteeism_report_flag"
+                                  id="idAbsenteesReport">
+                                <label for="idAbsenteesReport">Send Absentees / Homework Report 
+                                  <div class="questionInfo inline-relative">
+                                    <span class="qInfoIcon i-class">i</span>
+                                    <div class="tooltip-box-field md">
+                                        When enabled, 
+                                      <br>absentees and 
+                                      <br>Homework not done                                     
+                                    </div>
+                                  </div>
+                                </label>
+                              </div>
+                            </div>
+                        </div>
+                        <br><br>
                       </td>
                     </tr>
 
@@ -2059,7 +2077,7 @@
                       <td>
                         <h3>Home Work Setting</h3>
                         <div class="row">
-                          <div class="c-sm-7 c-lg-7 c-md-7" style="margin-left:-15px">
+                          <div class="c-sm-5 c-lg-5 c-md-5" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="isHomeWorkFeatureEnable" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_feature_enable"
                                 id="isHomeWorkFeatureEnable">
@@ -2076,6 +2094,8 @@
                               </label>
                             </div>
                           </div>
+                        
+                          
                         </div>
                       </td>
                     </tr>

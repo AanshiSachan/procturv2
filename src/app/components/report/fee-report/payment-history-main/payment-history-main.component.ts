@@ -39,7 +39,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 15, allowSortingFlag: true },
     { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 16, allowSortingFlag: true }
   ];
-  paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "Other"];
+  
+  paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "NEFT/RTGS","Other"];
   chequeStatus: any = [{ value: 1, title: '' }, { value: 2, title: 'Dishonoured' }, { value: 3, title: 'Cleared' }];
   flagJson: any = {
     searchflag: false,
@@ -54,7 +55,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     searchBy: 'date',
     searchName: "",
     tempData: {},
-    total_amt_paid: 0,
+    total_amt_paid: 0,    
   };
   personData: any = {
     paid_date: "",
@@ -128,7 +129,6 @@ export class PaymentHistoryMainComponent implements OnInit {
     private ref: ChangeDetectorRef,
     private _tablePreferencesService: TablePreferencesService,
   ) { }
-
 
   ngOnInit() {
     this.getAllPaymentHistory();
@@ -217,23 +217,23 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
   // take print of report 
-  takePrint(){
-    let printHtml= '<html><body><table><thead><tr>';
+  takePrint() {
+    let printHtml = '<html><body><table><thead><tr>';
     this.tableSetting.keys.forEach(key => {
-      printHtml +='<th>'+ key.header+'</th>';
+      printHtml += '<th>' + key.header + '</th>';
     });
-    printHtml +='</tr></thead><tbody>';
-    this.allPaymentRecords.forEach((record)=>{
-      printHtml +='<tr>';
+    printHtml += '</tr></thead><tbody>';
+    this.allPaymentRecords.forEach((record) => {
+      printHtml += '<tr>';
       this.tableSetting.keys.forEach(key => {
-        printHtml +='<td>'+record[key["primaryKey"]]+'</td>';
+        printHtml += '<td>' + record[key["primaryKey"]] + '</td>';
       });
-      printHtml +='</tr>';
+      printHtml += '</tr>';
     })
-    
-    printHtml +='</tbody></body></html>';
-    let divToPrint=document.getElementById("printDiv");
-    let newWin= window.open("");
+
+    printHtml += '</tbody></body></html>';
+    let divToPrint = document.getElementById("printDiv");
+    let newWin = window.open("");
     newWin.document.write(printHtml);
     newWin.print();
     newWin.close();
@@ -314,10 +314,11 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.varJson.total_amt_paid = total;
   }
 
-
+  // this sued for edit 
   optionSelected(e) {
     console.log(e);
     this.personData = e.data;
+    this.updatedResult.paid_date = e.data.paid_date;
     this.chequeDetailsJson = [];
     this.varJson.tempData = {};
     this.payment.getPerPersonData(e.data.financial_year, e.data.invoice_no).subscribe(
@@ -369,6 +370,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               return
             }
             this.chequeDetailsJson.cheque_date = moment(this.chequeDetailsJson.cheque_date).format('YYYY-MM-DD');
+
             let obj = {
               chequeDetailsJson: Object.assign({}, this.chequeDetailsJson),
               feeSchedule_TxLst: feeSchedule_TxLst,
@@ -502,7 +504,7 @@ export class PaymentHistoryMainComponent implements OnInit {
       }
       else {
         obj["Subject"] = data.course_subject_name;
-      }   
+      }
       obj["Parent Name"] = data.parent_name;
       obj["Reciept No"] = data.display_invoice_no;
       obj["Payment Mode"] = data.paymentMode;
@@ -622,11 +624,11 @@ export class PaymentHistoryMainComponent implements OnInit {
       rows = [['ID', 'Name', "Master Course", "Course", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
     }
     else {
-      rows = [['ID', 'Name', "Master Course", "Subject",'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
+      rows = [['ID', 'Name', "Master Course", "Subject", 'Parent Name', 'Reciept No', 'Payment Mode', 'Fee Type', 'Installment No', 'Paid Date', 'Remarks', 'Reference No', 'Amount Paid', 'Counsellor', 'Cheque Number']]
     }
 
     let columns = arr;
-    this.pdf.exportToPdf(rows, columns,'Payment_History_report');
+    this.pdf.exportToPdf(rows, columns, 'Payment_History_report');
   }
 }
 

@@ -26,17 +26,47 @@
 </div>
 <div class="fees-state-bottom">
     <ul>
-        <li>
-            <label>Total Fees Collection</label>
-            <div>Rs. {{getFeeAmount('total') | commaSeprator}}</div>
+        <li>    
+            <label for="idEnableSMS">Total Fees Collection
+                <div class="questionInfo inline-relative" style="left: 53%;">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field" style="font-size: 10px;" >
+                    Total fee collection 
+                    <br> will be based 
+                    <br>on selected date filter
+                  </div>
+                </div>
+               
+              </label>
+            <div style="margin-top: -20px;">Rs. {{getFeeAmount('total') | commaSeprator}}</div>
         </li>
         <li>
-            <label>Future Dues</label>
-            <div>Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
+            <label>Future Dues     
+                <div class="questionInfo inline-relative" style="left: 30%;">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field" style="font-size: 10px;">
+                    Total Future Due will
+                    <br>be from current date
+                    <br> to future date
+                  </div>
+                </div>
+               
+              </label>
+            <div style="margin-top: -20px;">Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
         </li>
         <li>
-            <label>Past Dues</label>
-            <div>Rs. {{getFeeAmount('past') | commaSeprator}}</div>
+            
+            <label>Past Dues
+                <div class="questionInfo inline-relative" style="left: 24%;">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field" style="font-size: 10px;">                   
+                    Total Past Due will 
+                    <br> be till day 
+                    <br>before current date
+                  </div>
+                </div>               
+              </label>
+            <div style="margin-top: -20px;">Rs. {{getFeeAmount('past') | commaSeprator}}</div>
         </li>
     </ul>
 </div>

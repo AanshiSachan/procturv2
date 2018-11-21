@@ -11,12 +11,14 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   @Input() displayData: any;
   @Input() displayKeys: any;
   @Output() editView = new EventEmitter();
+  @Output() selectAllView = new EventEmitter();
   isEditRow: string;
   editObject: any;
   keysArray: any;
   recordCount: any;
   sortKey: any;
   recordsTrimmed: any[] = [];
+  selectedRecord:any[]=[];
   isCourse: boolean = true;
   constructor(
     private _tablePreferencesService: TablePreferencesService,
@@ -84,6 +86,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   toggleCheckbox(event, obj, key) {
     // console.log(event.currentTarget.checked, obj);
+this.selectedRecord =[];
     let flag = true;
     this.displayData.forEach(element => {
       if (element[key] == obj[key]) {
@@ -92,6 +95,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       if (!element.checked) {
         flag = false;
       }
+      if(element.checked==true){
+        this.selectedRecord.push(element);
+      }
     });
     this.displayKeys.selectAll.checked = flag;
   }
@@ -99,12 +105,10 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   recordSelected(e) {
     console.log(e);
     this.editView.emit(e);
-
-
   }
 
   SelectAlleventTrigger() {
-    this.editView.emit({ 'obj': this.displayData, option: 'selectAll' })
+    this.selectAllView.emit({ 'data': this.selectedRecord, option: 'selectAll' })
   }
 
   changeView(obj, mode) { // You can give any function name

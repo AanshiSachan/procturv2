@@ -18,7 +18,11 @@ export class HomeComponent implements OnInit {
   showExamDesk: boolean = false;
   showLiveClasses:boolean = false;
 
-  constructor(private router: Router, private login: LoginService, private auth: AuthenticatorService) {
+  constructor(
+    private router: Router, 
+    private login: LoginService, 
+    private auth: AuthenticatorService
+  ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigateByUrl('/authPage');
     }
