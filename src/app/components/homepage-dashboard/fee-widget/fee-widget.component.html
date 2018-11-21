@@ -19,53 +19,60 @@
         </svg>
     </button>
     <input type="text" value="" id="feeWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="feeDate"
-        (ngModelChange)="updateFeeByDate()" readonly="true" bsDaterangepicker/>
-    <span class="enquiry-state-date pull-right">
-        {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}
+    (ngModelChange)="updateFeeByDate()" readonly="true" bsDaterangepicker/>
+    <span class="enquiry-state-date pull-right" style="font-size:12px ">
+        {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}       
     </span>
 </div>
 <div class="fees-state-bottom">
     <ul>
-        <li>    
-            <label for="idEnableSMS">Total Fees Collection
-                <div class="questionInfo inline-relative" style="left: 53%;">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field" style="font-size: 10px;" >
-                    Total fee collection 
-                    <br> will be based 
-                    <br>on selected date filter
-                  </div>
+        <li>
+            <label for="idEnableSMS" style="font-size:14px ">Total Fees Collection
+                <div class="questionInfo inline-relative" style="left: 62%;">
+
+                    <span class="qInfoIcon i-class">i</span>
+                    <div class="tooltip-box-field" style="font-size: 10px;">
+                        Total fee collection
+                        <br> will be based
+                        <br>on selected date filter
+                    </div>
                 </div>
-               
-              </label>
+
+            </label>
             <div style="margin-top: -20px;">Rs. {{getFeeAmount('total') | commaSeprator}}</div>
+
         </li>
         <li>
-            <label>Future Dues     
-                <div class="questionInfo inline-relative" style="left: 30%;">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field" style="font-size: 10px;">
-                    Total Future Due will
-                    <br>be from current date
-                    <br> to future date
-                  </div>
+            <label style="font-size:14px ">Future Dues
+                <br>
+                <span style="  text-transform: lowercase; font-size:12px ">{{getDate(0)}} - onword's </span>
+                <div class="questionInfo inline-relative" style="left: 35%; top: -30px;">
+                    <span class="qInfoIcon i-class">i</span>
+                    <div class="tooltip-box-field" style="font-size: 10px;">
+                        It will show all
+                        <br> future dues
+                        <br> including current date.
+                    </div>
                 </div>
-               
-              </label>
+
+            </label>
             <div style="margin-top: -20px;">Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
         </li>
+        <li></li>
         <li>
-            
+
             <label>Past Dues
-                <div class="questionInfo inline-relative" style="left: 24%;">
-                  <span class="qInfoIcon i-class">i</span>
-                  <div class="tooltip-box-field" style="font-size: 10px;">                   
-                    Total Past Due will 
-                    <br> be till day 
-                    <br>before current date
-                  </div>
-                </div>               
-              </label>
+                <br>
+                <span style="  text-transform: lowercase;"> upto - {{getDate(1)}}</span>
+                <div class="questionInfo inline-relative" style="left: 24%; top: -30px;">
+                    <span class="qInfoIcon i-class">i</span>
+                    <div class="tooltip-box-field" style="font-size: 10px;">
+                        It will show all
+                        <br> past dues
+                        <br>before current date.
+                    </div>
+                </div>
+            </label>
             <div style="margin-top: -20px;">Rs. {{getFeeAmount('past') | commaSeprator}}</div>
         </li>
     </ul>

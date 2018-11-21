@@ -37,6 +37,9 @@ export class FeeWidgetComponent implements OnInit {
         this.cd.markForCheck();
         // this.fetchFeeWidgetData();
     }
+    getDate(days){
+        return moment().subtract(days, 'd').format('DD-MM-YYYY');
+    }
 
     fetchFeeWidgetData() {
         this.cd.markForCheck();
