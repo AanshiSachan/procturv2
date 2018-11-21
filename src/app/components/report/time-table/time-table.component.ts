@@ -248,18 +248,13 @@ export class TimeTableComponent implements OnInit {
       return;
     }
     if (flag == '-1') {
-
       this.startdateweek = moment(this.startdateweek).subtract(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).subtract(7, 'days').format('DD-MMM-YYYY');
     }
     else if (flag == '1') {
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
-    }
-    else {
-      this.startdateweek = moment().isoWeekday("Monday").format("DD-MMM-YYYY");
-      this.enddateweek = moment().isoWeekday("Sunday").format("DD-MMM-YYYY");
-    }
+    }   
     this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
