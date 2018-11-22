@@ -952,6 +952,16 @@ div#enqChart {
     }
 }
 
+.fees-state-bottom:after { // center line
+    content:"";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 1px solid #dedddd;
+    transform: translate(-50%);
+}
 .sche-top-det {
     float: right;
     display: inline-flex;
