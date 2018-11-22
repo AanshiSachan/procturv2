@@ -30,6 +30,17 @@ export class getSMSService {
 
     }
 
+    fetchCampainSMSReport(){
+        let urlCampaign =this.baseUrl +'/api/v1/campaign/fetch/'+this.institute_id;
+        return this.http.post(urlCampaign, {}, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
 
     fetchSmsReport(obj) {
 

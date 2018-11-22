@@ -83,19 +83,19 @@
           </td>
         </ng-container>
         <ng-container *ngSwitchDefault>
-          <td *ngIf="key.ngClassShow" [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
+          <td *ngIf="key.ngClassShow " [ngClass]="getClass(key.primaryKey,key.ngClassShow,data)">
             <input [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
           </td>
-          <td *ngIf="!key.ngClassShow">
+          <td *ngIf="!key.ngClassShow ">
             <input [type]="key.inputType" [(ngModel)]="data[key['primaryKey']]">
           </td>
         </ng-container>
       </ng-container>
     </ng-template>
     <!-- popup editView -->
-    <td *ngIf="isEditRow!='editTableRow-'+i">
+    <td *ngIf="displayKeys.actionSetting.showActionButton && isEditRow!='editTableRow-'+i ">
       <button class="button" *ngIf="displayKeys.actionSetting.editOption=='button'&& checkCondition(data)" (click)="editRow('editTableRow-'+i,data)">Edit</button>
-      <ng-template [ngIf]="displayKeys.actionSetting.editOption=='popup'">
+      <ng-template [ngIf]="displayKeys.actionSetting.editOption=='popup'  ">
         <!-- <div class="dropup"> -->
         <!-- <i class=" fa fa-ellipsis-v dropbtn" style="font-size:24px;">
           </i> -->
@@ -109,7 +109,7 @@
       </ng-template>
     </td>
     <!-- button editView -->
-    <td *ngIf="isEditRow=='editTableRow-'+i">
+    <td *ngIf=" displayKeys.actionSetting.showActionButton && isEditRow=='editTableRow-'+i ">
       <!-- <i *ngFor="let option of displayKeys.actionSetting.options" [ngClass]="option.class" style="font-size:24px;" (click)="changeView(data,option.title)">
         &nbsp;&nbsp;</i> -->
       <drop-menu [dropType]="dropType" [info]="data" [menuOptions]="displayKeys.actionSetting.options" (selectedRecord)="recordSelected($event)"></drop-menu>
