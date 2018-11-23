@@ -8,6 +8,7 @@ import { CompaignSmsComponent } from './compaign-sms/compaign-sms.component';
 import { SmsHomeComponent } from './sms-home/sms-home.component';
 import { FormsModule, ReactiveFormsModule } from '../../../../../node_modules/@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
+import { CompaignBaseReportComponent } from './compaign-base-report/compaign-base-report.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
     BsDatepickerModule,
   ],
-  declarations: [SmsReportsComponent, TransctionalSmsComponent, CompaignSmsComponent, SmsHomeComponent]
+  declarations: [SmsReportsComponent, TransctionalSmsComponent, CompaignSmsComponent, SmsHomeComponent, CompaignBaseReportComponent]
 })
 export class SmsReportsModule { }

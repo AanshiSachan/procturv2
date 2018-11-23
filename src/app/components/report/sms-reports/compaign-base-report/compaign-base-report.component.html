@@ -1,0 +1,66 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="clearFix sms-view-wrapper">
+
+  <aside class="middle-full">
+
+    <section class="middle-main clearFix">
+      <div class="filter-box">
+        <section class="middle-top mb0 clearFix sms-header">
+
+          <h1 class="pull-left">
+            <a routerLink="/view/reports/home">
+              Report
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/reports/sms">
+              SMS
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/reports/sms/compaign">
+              Campaigns
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Base Report
+          </h1>
+
+          <aside class="pull-right">
+          </aside>
+
+        </section>
+      </div>
+
+      <section class="table-control">
+        <br>
+        <br>
+        <div class="row ">
+          <span style="font-weight: 600">Campaign List :{{msgObject.campaign_list_name}}</span>
+          <br>
+          <br>
+          <span style="font-weight: 600">Campaign Message :{{msgObject.message}}</span>
+          <br>
+          <br>
+        </div>
+        <div class="row ">
+          <div class="c-lg-4 " style="font-weight: 600;    left: -13px;">Total Count :&nbsp;{{smsSource.length}}</div>
+          <div class="c-lg-4 " style="font-weight: 600">Success Count : &nbsp;{{successCount}}</div>
+          <div class="c-lg-4 " style="font-weight: 600">Failure Count :&nbsp;{{failureCount}}</div>
+        </div>
+         <div class="row pull-right">
+          <div class="field-wrapper">
+            <input class="search-box form-ctrl" type="text" placeholder="Search" (keyup)="searchDatabase()" [(ngModel)]="searchText"
+              #search>
+          </div>
+          <div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sms-table-wrapper">
+        <div class="table table-responsive student-table">
+          <data-display-table #child [displayKeys]="tableSetting" [displayData]="smsSource" (editView)='optionSelected($event)'>
+          </data-display-table>
+        </div>
+      </section>
+    </section>
+  </aside>
+</div>

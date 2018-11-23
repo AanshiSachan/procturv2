@@ -302,12 +302,29 @@ this.selectedRecord =[];
     } // else end
     return value;
   }
-
+isShow(option,object){
+  debugger
+   switch(option.condition){
+     case "==":{
+        if(object[option.key]==option.value){
+          return true ;
+        }
+        else{
+          return false;
+        }
+       break;
+     }
+   }
+}
   editRow(id, obj) {
     console.log(id, obj);
     this.editView.emit({ 'data': obj })
     // this.isEditRow = id;
     // this.editObject = obj;
+  }
+
+  handleEvent(obj,type){
+    this.editView.emit({ 'data': obj ,type:type})
   }
 
   /* Fetches Data as per the user selected batch size */

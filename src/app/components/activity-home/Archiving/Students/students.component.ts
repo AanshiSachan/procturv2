@@ -10,37 +10,36 @@ import { AppComponent } from '../../../../app.component';
 })
 export class StudentsComponent implements OnInit {
 
+  newPaginated: any[] = [];
   getStudents: any[] = [];
+  searchData: any[] = [];
+  arr = [];
+  getArr: any[] = [];
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
   pagedisplaysize: number = 10;
   pagedisplaysizePopup: number = 10;
   totalRow: number = 0;
-  newPaginated: any[] = [];
+ 
   searchText: string = ""
-  searchData: any[] = [];
-  searchflag: boolean = false;
-  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  checkedStatus: boolean;
+  searchflag: boolean = false; 
   dataStatus: boolean;
   courseFetchForm = {
     studentAlumniArrayString: "Y",
     studentIds: ""
   }
 
-  checkedStatus: boolean
-
-  arr = []
   obj = {
     id: "",
     event: ""
   };
   obj2 = {}
 
-  status: boolean;
-  getArr: any[] = []
+  status: boolean; 
   checkedAlumni: boolean = true;
-
   sortedenabled: boolean = true;
   sortedBy: string = "";
   direction = 0;
@@ -57,7 +56,6 @@ export class StudentsComponent implements OnInit {
 
   studentsData() {
     this.dataStatus = true;
-
     this.students.studentsArchiveData().subscribe(
       (data: any) => {
         let arr = [];
