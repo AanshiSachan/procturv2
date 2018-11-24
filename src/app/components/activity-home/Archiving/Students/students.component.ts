@@ -10,41 +10,38 @@ import { AppComponent } from '../../../../app.component';
 })
 export class StudentsComponent implements OnInit {
 
+  newPaginated: any[] = [];
   getStudents: any[] = [];
+  searchData: any[] = [];
+  arr = [];
+  getArr: any[] = [];
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  selectedStudents = [];
+  // selectedAlumanies = [];
   PageIndex: number = 1;
   PageIndexPopup: number = 1;
   pagedisplaysize: number = 10;
   pagedisplaysizePopup: number = 10;
   totalRow: number = 0;
-  newPaginated: any[] = [];
+  direction = 0;
+  sortedBy: string = "";
   searchText: string = ""
-  searchData: any[] = [];
+  checkedStatus: boolean =false;
   searchflag: boolean = false;
-  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  checkedAlumni: boolean = true;
+  sortedenabled: boolean = true;
   dataStatus: boolean;
+  status: boolean;
   courseFetchForm = {
     studentAlumniArrayString: "Y",
     studentIds: ""
   }
-
-  checkedStatus: boolean
-
-  arr = []
   obj = {
     id: "",
     event: ""
   };
   obj2 = {}
-
-  status: boolean;
-  getArr: any[] = []
-  checkedAlumni: boolean = true;
-
-  sortedenabled: boolean = true;
-  sortedBy: string = "";
-  direction = 0;
-
 
   constructor(private students: CoursesServiceService,
     private appc: AppComponent,
@@ -57,7 +54,6 @@ export class StudentsComponent implements OnInit {
 
   studentsData() {
     this.dataStatus = true;
-
     this.students.studentsArchiveData().subscribe(
       (data: any) => {
         let arr = [];
@@ -89,6 +85,7 @@ export class StudentsComponent implements OnInit {
         this.totalRow = data.length;
         this.PageIndex = 1;
         this.fetchTableDataByPage(this.PageIndex);
+        this.sortedData('student_disp_id');
       },
       (error: any) => {
         this.dataStatus = false;
@@ -183,22 +180,39 @@ export class StudentsComponent implements OnInit {
   // }
 
   getValueChanged(event) {
-    let arr = []
-    let str = ""
+    let i = 0;
+    let length = (10 * this.PageIndex);
+    if (this.PageIndex == 1) {
+      i = 0;
+    }
+    else {
+      i = length - (this.pagedisplaysize);
+    }
+
+    let arr = [];
+    let str = "";
     if (event == true) {
-      for (let i = 0; i < this.getStudents.length; i++) {
-        this.getStudents[i].status = true;
+      for (i; i < length; i++) {
+        if (i < this.getStudents.length) {
+          this.getStudents[i].status = true;
+        }
         arr.push(this.getStudents[i].student_id)
       }
       str = arr.join(',')
+      this.selectedStudents.push(this.PageIndex);
+      this.checkedStatus = true;
       this.courseFetchForm.studentIds = str;
     }
     else {
-      for (let i = 0; i < this.getStudents.length; i++) {
-        this.getStudents[i].status = false;
+      for (i; i < length; i++) {
+        if (i < this.getStudents.length) {
+          this.getStudents[i].status = false;
+        }
       }
       arr = [];
       str = arr.join();
+      this.selectedStudents.splice(this.selectedStudents.indexOf(this.PageIndex), 1);
+      this.checkedStatus = false;
       this.courseFetchForm.studentIds = str;
     }
   }
@@ -263,6 +277,7 @@ export class StudentsComponent implements OnInit {
       });
 
       this.PageIndex = 1;
+      this.checkedStatus = (this.selectedStudents.length>0)&& (this.selectedStudents.indexOf(this.PageIndex)!= -1) ? true : false;
       this.fetchTableDataByPage(this.PageIndex);
     }
   }
@@ -282,6 +297,9 @@ export class StudentsComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.pagedisplaysize * (index - 1);
+    console.log(this.selectedStudents.indexOf(this.PageIndex))
+    this.checkedStatus = (this.selectedStudents.length>0)&& (this.selectedStudents.indexOf(this.PageIndex)!= -1) ? true : false;
+    // this.checkedAlumni =  this.selectedAlumanies.indexOf(this.PageIndex) ? true : false;
     this.newPaginated = this.getDataFromDataSource(startindex);
 
   }
@@ -294,7 +312,7 @@ export class StudentsComponent implements OnInit {
 
   fetchPrevious() {
     if (this.PageIndex != 1) {
-      this.PageIndex--;
+ this.PageIndex--; 
       this.fetchTableDataByPage(this.PageIndex);
     }
   }

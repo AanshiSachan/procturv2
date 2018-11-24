@@ -12,7 +12,11 @@
             <a routerLink="/view/reports/home">
               Report
             </a>
-            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> SMS Report
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/reports/sms">
+              SMS
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Transactional SMS Report
           </h1>
 
           <aside class="pull-right">
@@ -24,16 +28,16 @@
           <div class="row">
             <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
-                  <label for="fromDate">Sent From</label>
-                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" 
-                  [(ngModel)]="smsFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event) " bsDatepicker/>
-               
+                <label for="fromDate">Sent From</label>
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" [(ngModel)]="smsFetchForm.from_date"
+                  (ngModelChange)="dateValidationForFuture($event) " bsDatepicker/>
+
               </div>
               <div class="field-wrapper datePickerBox has-value">
-                  <label for="toDate">Sent To</label>
-                <input type="text" value="" id="updateDate"  readonly="true" [(ngModel)]="smsFetchForm.to_date"
-                  class="form-ctrl bsDatepicker" name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker/>
-               
+                <label for="toDate">Sent To</label>
+                <input type="text" value="" id="updateDate" readonly="true" [(ngModel)]="smsFetchForm.to_date" class="form-ctrl bsDatepicker"
+                  name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker/>
+
               </div>
             </div>
             <div class="c-lg-2">
@@ -48,19 +52,16 @@
 
       <section class="table-control">
         <div class="c-lg-8">
-          <div *ngIf="smsSource.length" class="c-lg-6" style="padding: 15px;font-size: 16px;font-weight: 500;">
-            Showing {{smsSource.length}} SMS
-          </div>
           <div *ngIf="smsSource.length == 0" class="c-lg-6"></div>
           <div class="c-lg-6"></div>
         </div>
         <div class="c-lg-4">
           <div class="field-wrapper">
-            <input class="search-box form-ctrl" type="text" placeholder="Search" 
-              (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
+            <input class="search-box form-ctrl" type="text" placeholder="Search" (keyup)="searchDatabase()" [(ngModel)]="searchText"
+              #search>
           </div>
           <div>
-            <section class="login-tube pull-right" style="margin-top: 5px; position: absolute;right: -4px;">
+            <section class="login-tube pull-right" style="margin-top:5px; position: absolute;right:7px;">
               <nav>
                 <ul class="login-nav">
                   <li class="pos-rel">
@@ -75,11 +76,11 @@
                         <li (click)="exportToExcel()" class="asHover">
                           <i class="fa fa-file-excel-o" style="font-family: 'FontAwesome'; display: inline-block;"></i>
                           <strong style="display: inline-block;">Export as Excel</strong>
-                        </li>                    
+                        </li>
                         <li (click)="exportToPdf()" class="asHover">
                           <i class="fa fa-file-pdf-o" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
                           <strong style="display: inline-block;">Export as Pdf</strong>
-                        </li>                                      
+                        </li>
                       </ul>
 
                     </div>
@@ -92,15 +93,13 @@
       </section>
 
       <section class="sms-table-wrapper">
-
         <div class="table table-responsive student-table">
-          <proctur-table [dataStatus]="dataStatus" [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
-          </proctur-table>
+          <!-- <proctur-table [dataStatus]="dataStatus" [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
+          </proctur-table> -->
+          <data-display-table  #child [displayKeys]="tableSetting" [displayData]="smsSource" >
+          </data-display-table>
         </div>
       </section>
-
     </section>
-
   </aside>
-
 </div>

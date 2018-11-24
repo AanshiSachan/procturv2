@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReportComponent } from './report.component';
 import { ReportHomeComponent } from './report-home/report-home.component'
-import { SmsReportComponent } from './sms-report/sms-report.component'
 import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { EmailReportComponent } from './email-report/email-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
@@ -38,7 +37,8 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                     },
                     {
                         path: 'sms',
-                        component: SmsReportComponent
+                        loadChildren: 'app/components/report/sms-reports/sms-reports.module#SmsReportsModule',
+                        pathMatch: 'prefix'
                     },
                     {
                         path: 'fee',

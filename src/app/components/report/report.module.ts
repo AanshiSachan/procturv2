@@ -14,9 +14,7 @@ import { FilterPipe } from './exam-report/filter.pipe';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 
 import { ReportHomeComponent } from './report-home/report-home.component';
-import { SmsReportComponent } from './sms-report/sms-report.component';
 import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
-
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { tableComponent } from './time-table/table/table.component';
@@ -63,8 +61,7 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
     declarations: [
         ReportComponent,
         ReportHomeComponent,
-        SmsReportComponent,
-        AttendanceReportComponent, 
+        AttendanceReportComponent,
         FilterPipe,
         ExamReportComponent,
         TimeTableComponent,
@@ -82,10 +79,10 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
     providers: [
         getSMSService,
         postSMSService,
-         ExamService,
+        ExamService,
         AttendanceReportServiceService,
         getEmailService,
-        postEmailService, 
+        postEmailService,
         timeTableService,
         BiometricServiceService,
         ProfitLossServiceService,

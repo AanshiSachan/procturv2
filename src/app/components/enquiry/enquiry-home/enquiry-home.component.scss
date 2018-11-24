@@ -1122,6 +1122,8 @@ ul.customDropdown li:hover {
     box-shadow: 1px 8px 20px 5px #9c9c9c;
     transition: unset;
     background: #fff;
+    width: 100%;
+    height: 75%;
     h2 {
         margin-bottom: 15px;
         font-size: 22px;
@@ -1480,7 +1482,7 @@ ul.customDropdown li:hover {
         max-width: 100%;
         min-height: 200px;
         overflow: auto;
-        max-height: 300px;
+        max-height: 220px;
     }
 }
 
@@ -1568,6 +1570,9 @@ ul.customDropdown li:hover {
         border-top: 1px solid $border-common;
         width: 30%;
         padding: 0px 5px;
+        position: absolute;
+        right: 9px;
+        top: 35px;
         .sms-preview-header {
             margin-bottom: 25px;
         }

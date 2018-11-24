@@ -1,0 +1,124 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="clearFix sms-view-wrapper">
+
+  <aside class="middle-full">
+
+    <section class="middle-main clearFix">
+      <div class="filter-box">
+        <section class="middle-top mb0 clearFix sms-header">
+
+          <h1 class="pull-left">
+            <a routerLink="/view/reports/home">
+              Report
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/reports/sms">
+              SMS
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/reports/sms/compaign">
+              Campaigns
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Base Report
+          </h1>
+
+          <aside class="pull-right">
+          </aside>
+
+        </section>
+      </div>
+
+      <section class="table-control">
+        <div class="enq-state-bottom">
+          <div classenq-state-bottom="enq-left" style="  width: 60%;">
+            <span style="font-weight: 600"></span>
+            <div class="enq-state-details">
+              <div class="enq">
+                <div class="enqs-label1">
+                  <label style="font-weight: 600;color: #0084f6;">
+                    Campaign List
+                  </label>
+                </div>
+                <div class="enqs-value1">
+                  <span style="color: #0084f6;">:</span> &nbsp; &nbsp; {{msgObject.campaign_list_name}}
+                </div>
+              </div>
+              <div class="enq">
+                <div class="enqs-label1">
+                  <label style="font-weight: 600;color: #0084f6;">
+                    Campaign Message
+                  </label>
+                </div>
+                <div class="enqs-value1" style="width: 70%;">
+                  <span style="color: #0084f6;">:</span> &nbsp; &nbsp; {{msgObject.message}}
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="enq-right" style="  width: 40%;">
+            <div class="enq-state-details">
+              <div class="enq">
+                <div class="enqs-label">
+                  <span class=""></span>
+                  <label>
+                    Total Count
+                  </label>
+                </div>
+                <div class="enqs-value">
+                  <span style="color: #0084f6;">:</span> &nbsp; &nbsp; {{smsSource.length}}
+                </div>
+              </div>
+              <div class="enq">
+                <div class="enqs-label">
+                  <span class="success"></span>
+                  <label>
+                    Success Count
+                  </label>
+                </div>
+                <div class="enqs-value">
+                  <span style="color: #0084f6;">:</span> &nbsp; &nbsp; {{successCount}}
+                </div>
+              </div>
+              <div class="enq">
+                <div class="enqs-label">
+                  <span class="failure"></span>
+                  <label>
+                    Failure Count
+                  </label>
+                </div>
+                <div class="enqs-value">
+                  <span style="color: #0084f6;">:</span> &nbsp; &nbsp; {{failureCount}}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row "></div>
+        <!-- <div class="row ">
+          <div class="c-lg-4 " style="font-weight: 600;    left: -13px;">Total Count :&nbsp;{{smsSource.length}}</div>
+          <div class="c-lg-4 " style="font-weight: 600">Success Count : &nbsp;{{successCount}}</div>
+          <div class="c-lg-4 " style="font-weight: 600">Failure Count :&nbsp;{{failureCount}}</div>
+        </div> -->
+        <div class="row pull-right">
+          <div class="field-wrapper">
+            <input class="search-box form-ctrl" type="text" placeholder="Search" (keyup)="searchDatabase()" [(ngModel)]="searchText"
+              #search>
+          </div>
+          <div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sms-table-wrapper">
+        <div class="table table-responsive student-table">
+          <data-display-table #child [displayKeys]="tableSetting" [displayData]="smsSource" (editView)='optionSelected($event)'>
+          </data-display-table>
+        </div>
+      </section>
+    </section>
+  </aside>
+</div>

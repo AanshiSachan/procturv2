@@ -30,6 +30,44 @@ export class getSMSService {
 
     }
 
+    getCamapignView(campaignID){
+        ///StdMgmtWebAPI/api/v1/campaign/fetch/<Institute Id>/<campaign msg id>
+        let campignViewURL =this.baseUrl + '/api/v1/campaign/fetch/'+this.institute_id+'/'+campaignID;
+        return this.http.get(campignViewURL, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    // delete campign
+    deleteCampaign(campaignID){
+        //http://test999.proctur.com/StdMgmtWebAPI/api/v1/campaign/delete/campaign/100058/54
+        let deleteURL =this.baseUrl + '/api/v1/campaign/delete/campaign/'+this.institute_id+'/'+campaignID;
+        return this.http.delete(deleteURL, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    fetchCampainSMSReport(){
+        let urlCampaign =this.baseUrl +'/api/v1/campaign/fetch/'+this.institute_id;
+        return this.http.post(urlCampaign, {}, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
 
     fetchSmsReport(obj) {
 

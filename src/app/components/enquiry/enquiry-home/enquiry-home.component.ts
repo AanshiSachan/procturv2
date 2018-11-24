@@ -92,6 +92,7 @@ export class EnquiryHomeComponent implements OnInit {
         downloadReportOption: 1,
         summaryReport: { from_date: "", to_date: "" },
         enquiryInfo: '',
+        smsShowType:'approvedSms'
     };
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
@@ -975,6 +976,7 @@ export class EnquiryHomeComponent implements OnInit {
                         this.smsSourceOpen.push(el);
                     }
                 })
+                this.switchSmsTab(this.varJson.smsShowType);
             },
             err => {
                 this.flagJSON.isRippleLoad = false;
@@ -984,7 +986,7 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
     switchSmsTab(id) {
-
+        this.varJson.smsShowType = id;
         switch (id) {
             case 'approvedSms': {
                 this.flagJSON.isApprovedTab = true;
