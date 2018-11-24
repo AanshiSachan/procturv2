@@ -503,10 +503,11 @@ export class CampaignHomeComponent implements OnInit {
       this.postData.saveSMSservice(queryParam).subscribe(
         res => {
           this.showErrorMessage(this.msgService.toastTypes.success, this.msgService.object.campaignMessages.selectMsg, "");
+          this.closePopup();
         },
-        error => {
+        errorResponce => {
           //console.log(error);
-          this.showErrorMessage(this.msgService.toastTypes.error, error.statusText, JSON.parse(error._body).message);
+          this.showErrorMessage(this.msgService.toastTypes.error,"Error", errorResponce.error.message);
         }
       );
     }

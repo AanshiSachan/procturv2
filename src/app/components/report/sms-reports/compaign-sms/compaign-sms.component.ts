@@ -27,7 +27,7 @@ export class CompaignSmsComponent implements OnInit {
     { primaryKey: 'campaign_list_name', header: 'List Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'message', header: 'Message', priority: 2, allowSortingFlag: true },
     { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true },
-    { primaryKey: 'running_date', header: 'Craeted Date', priority: 4, allowSortingFlag: true },
+    { primaryKey: 'running_date', header: 'Created Date', priority: 4, allowSortingFlag: true },
     { primaryKey: 'statusValue', header: 'Status', priority: 5, allowSortingFlag: true }
   ];
 
@@ -88,6 +88,7 @@ export class CompaignSmsComponent implements OnInit {
       (res: any) => {
         this.isRippleLoad = false;
        this._msgService.showErrorMessage('success','','campaign deleted successfully');
+       this.fetchCampainSMSReport();
       },
       err => {
         this._msgService.showErrorMessage('error','','error while deleting campaign');
@@ -112,7 +113,7 @@ export class CompaignSmsComponent implements OnInit {
       case "delete": {
       if (confirm('Are you sure, you want to delete?')) {
         this.deleteCampainSMS($event.data);
-        this.fetchCampainSMSReport();
+      
       }
         break;
       }
@@ -148,8 +149,8 @@ export class CompaignSmsComponent implements OnInit {
       let obj = {};
       obj["List Name"] = data.campaign_list_name;
       obj["Message"] = data.message;
-      obj["Schedule Date Time"] = data.date;
-      obj["Craeted Date"] = data.running_date;
+      obj["Schedule Date Time"] = data.running_date;
+      obj["Created Date"] = data.date;
       obj["Status"] = data.statusValue;
       exportedArray.push(obj);
     })
@@ -169,15 +170,15 @@ export class CompaignSmsComponent implements OnInit {
         let json = [
           ele.campaign_list_name,
           ele.message,
-          ele.date,
           ele.running_date,
+          ele.date,
           ele.statusValue,
         ]
         arr.push(json);
       })
 
     let rows = [];
-    rows = [['List Name', "Message", 'Schedule Date Time', 'Craeted Date', 'Status']]
+    rows = [['List Name', "Message", 'Schedule Date Time', 'Created Date', 'Status']]
     let columns = arr;
     this._pdfService.exportToPdf(rows, columns, 'SMS');
   }
