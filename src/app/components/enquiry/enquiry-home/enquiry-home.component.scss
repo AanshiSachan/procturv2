@@ -1568,6 +1568,9 @@ ul.customDropdown li:hover {
         border-top: 1px solid $border-common;
         width: 30%;
         padding: 0px 5px;
+        position: absolute;
+        right: 9px;
+        top: 35px;
         .sms-preview-header {
             margin-bottom: 25px;
         }
