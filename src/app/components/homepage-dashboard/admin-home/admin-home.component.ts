@@ -68,7 +68,7 @@ export class AdminHomeComponent implements OnInit {
   selectedType: string = "course";
   biometricEnable: string = "0";
   newMessageText: string = "";  
-
+  
   courseCommonExamCancelPopUP = false;
   examMerkMassUpload = false;
   isCourseAttendance: boolean = false;
@@ -103,6 +103,7 @@ export class AdminHomeComponent implements OnInit {
   leaveCount: number = 0; 
   public selectedRow: number = null;
   jsonFlag :any={
+    smsTabType:'approved',
     showAllMessage:false,
     openMessageFlag:false,
   };
@@ -139,7 +140,7 @@ export class AdminHomeComponent implements OnInit {
     reason: "",
     notify: true
   };
-  
+
 
  
  
@@ -1545,7 +1546,7 @@ export class AdminHomeComponent implements OnInit {
         };
         this.appC.popToast(msg);
         this.closeNewMessageDiv();
-        this.getAllMessageFromServer();
+        this.onTabChange( this.jsonFlag.smsTabType ) ;// as per view it get the sms data --laxmi
       },
       err => {
         //console.log(err);
@@ -3270,6 +3271,7 @@ export class AdminHomeComponent implements OnInit {
   //SMS Approve AND Reject
   onTabChange(tabname) {
     this.jsonFlag.openMessageFlag= false;
+    this.jsonFlag.smsTabType =tabname;
     document.getElementById('approvedSMSTab').classList.remove('active');
     document.getElementById('openSMSTab').classList.remove('active');
     if (tabname == 'approved') {
