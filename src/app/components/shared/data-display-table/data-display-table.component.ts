@@ -18,7 +18,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   recordCount: any;
   sortKey: any;
   recordsTrimmed: any[] = [];
-  selectedRecord:any[]=[];
+  selectedRecord: any[] = [];
   isCourse: boolean = true;
   constructor(
     private _tablePreferencesService: TablePreferencesService,
@@ -34,7 +34,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         this.keysArray.forEach((element, index) => {
           if (element.header == 'Master Course') {
             element.primaryKey = 'standard_name';
-          }    
+          }
         });
       }
     }
@@ -55,7 +55,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         this.keysArray.forEach((element, index) => {
           if (element.header == 'Master Course') {
             element.primaryKey = 'standard_name';
-          }        
+          }
         });
       }
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
@@ -86,7 +86,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   toggleCheckbox(event, obj, key) {
     // console.log(event.currentTarget.checked, obj);
-this.selectedRecord =[];
+    this.selectedRecord = [];
     let flag = true;
     this.displayData.forEach(element => {
       if (element[key] == obj[key]) {
@@ -95,7 +95,7 @@ this.selectedRecord =[];
       if (!element.checked) {
         flag = false;
       }
-      if(element.checked==true){
+      if (element.checked == true) {
         this.selectedRecord.push(element);
       }
     });
@@ -302,20 +302,20 @@ this.selectedRecord =[];
     } // else end
     return value;
   }
-isShow(option,object){
-  debugger
-   switch(option.condition){
-     case "==":{
-        if(object[option.key]==option.value){
-          return true ;
+
+  isShow(option, object) {
+    switch (option.condition) {
+      case "==": {
+        if (object[option.key] == option.value) {
+          return true;
         }
-        else{
+        else {
           return false;
         }
-       break;
-     }
-   }
-}
+       
+      }
+    }
+  }
   editRow(id, obj) {
     console.log(id, obj);
     this.editView.emit({ 'data': obj })
@@ -323,8 +323,8 @@ isShow(option,object){
     // this.editObject = obj;
   }
 
-  handleEvent(obj,type){
-    this.editView.emit({ 'data': obj ,type:type})
+  handleEvent(obj, type) {
+    this.editView.emit({ 'data': obj, type: type })
   }
 
   /* Fetches Data as per the user selected batch size */

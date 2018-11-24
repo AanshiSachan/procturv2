@@ -32,12 +32,12 @@
         <table>
           <thead>
             <tr>
-              <th style="text-align: left;" (click)="sortedData('student_disp_id') ">
+              <th style="text-align: left;" >
                 <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
                   <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedStatus" (ngModelChange)="getValueChanged($event)">
                   <label></label>
                 </div>
-                Student ID &nbsp;
+                <span (click)="sortedData('student_disp_id') "> Student ID &nbsp;</span>
                 <i class="fa fa-caret-up" *ngIf="getCaretVisiblity('student_disp_id') && direction == 1"></i>
                 <i class="fa fa-caret-down" *ngIf="getCaretVisiblity('student_disp_id') && direction != 1"></i>
               </th>

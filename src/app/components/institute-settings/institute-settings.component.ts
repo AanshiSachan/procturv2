@@ -224,6 +224,7 @@ export class InstituteSettingsComponent implements OnInit {
     online_payment_notify_emailIds: '',
     online_payment_notify_mobiles: '',
     allow_fee_due_amount_in_notification: '',
+    due_date_in_fee_receipt:'',
     discount_amount_in_fee_receipt: '',
     balance_amount_in_fee_receipt: '',
     biometric_late_sms_buffer: 0,
@@ -379,6 +380,7 @@ export class InstituteSettingsComponent implements OnInit {
     obj.fee_dues_interval = this.instituteSettingDet.fee_dues_interval;
     obj.pre_fee_dues_interval = this.instituteSettingDet.pre_fee_dues_interval;
     obj.allow_fee_due_amount_in_notification = this.convertBoolenToNumber(this.instituteSettingDet.allow_fee_due_amount_in_notification);
+    obj.due_date_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.due_date_in_fee_receipt);
     obj.discount_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.discount_amount_in_fee_receipt);
     obj.balance_amount_in_fee_receipt = this.convertBoolenToNumber(this.instituteSettingDet.balance_amount_in_fee_receipt);
     obj.alumni_birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.alumni_birthday_daily_schedule);
@@ -485,6 +487,7 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.fee_dues_interval = data.fee_dues_interval;
     this.instituteSettingDet.pre_fee_dues_interval = data.pre_fee_dues_interval;
     this.instituteSettingDet.allow_fee_due_amount_in_notification = data.allow_fee_due_amount_in_notification;
+    this.instituteSettingDet.due_date_in_fee_receipt = data.due_date_in_fee_receipt;
     this.instituteSettingDet.balance_amount_in_fee_receipt = data.balance_amount_in_fee_receipt;
     this.instituteSettingDet.discount_amount_in_fee_receipt = data.discount_amount_in_fee_receipt;
     this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);

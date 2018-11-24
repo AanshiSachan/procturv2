@@ -59,6 +59,8 @@ export class AdminHomeComponent implements OnInit {
   examData: any = "";
   examGradeFeature: any;
   courseLevelSchedDate: any = new Date();
+  showReasonSection: any = '';
+  courseTempData: any = '';
   searchData: string = "";  
   public attendanceNote: string = "";
   public homework: string = "";
@@ -67,7 +69,8 @@ export class AdminHomeComponent implements OnInit {
   biometricEnable: string = "0";
   newMessageText: string = "";  
 
-
+  courseCommonExamCancelPopUP = false;
+  examMerkMassUpload = false;
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;  
@@ -629,7 +632,7 @@ export class AdminHomeComponent implements OnInit {
       date: d.date,
       home_work_status: d.home_work_status,
       homework_assigned: this.homework,
-      isStatusModified: "Y",
+      isStatusModified:d.isStatusModified,
       is_home_work_status_changed: d.is_home_work_status_changed,
       schId: d.schId,
       status: d.status,
@@ -652,9 +655,13 @@ export class AdminHomeComponent implements OnInit {
   }
 
   isHomeworkStatusChanged(i) {
+    this.studentAttList[i].dateLi[0].isStatusModified = "Y";
     this.studentAttList[i].dateLi[0].is_home_work_status_changed = "Y";
   }
 
+  showUploadCourseMarksSection(){
+    this.examMerkMassUpload= true;
+  }
   /* ======================================================================================================= */
   /* ===================================Cancel Class=================================== */
   /* ======================================================================================================= */
@@ -1398,8 +1405,7 @@ export class AdminHomeComponent implements OnInit {
   markAttendaceBtnClick(event, rowData, index) {
     if (event.target.innerText == "L") {
       rowData.dateLi[0].status = "L";
-      rowData.dateLi[0].home_work_status = "N";
-      rowData.dateLi[0].isStatusModified = "Y";
+      rowData.dateLi[0].home_work_status = "N";      
     } else if (event.target.innerText == "A") {
       rowData.dateLi[0].status = "A";
       rowData.dateLi[0].home_work_status = "N";
@@ -1407,6 +1413,7 @@ export class AdminHomeComponent implements OnInit {
       rowData.dateLi[0].status = "P";
       rowData.dateLi[0].home_work_status = "Y";
     }
+    rowData.dateLi[0].isStatusModified = "Y";
     this.getCountOfAbsentPresentLeave(this.studentAttList);
   }
 
@@ -2980,6 +2987,7 @@ export class AdminHomeComponent implements OnInit {
 
   closePopUpCommon() {
     this.courseExamAttPopup = false;
+    this.examMerkMassUpload = false;
     this.tempData = "";
     this.studentList = [];
     this.courseExamMarkPopup = false;
@@ -3182,10 +3190,6 @@ export class AdminHomeComponent implements OnInit {
       }
     }
   }
-
-  courseCommonExamCancelPopUP = false;
-  showReasonSection: any = '';
-  courseTempData: any = '';
 
   onCancelExamClickCourse(data) {
     this.tempData = data;
