@@ -99,22 +99,46 @@ export class StudentsComponent implements OnInit {
   }
 
 
-  getStatusValue(e) {
-    let str = ""
-    if (this.newPaginated[e].status == true) {
-      this.getArr.push(this.newPaginated[e].student_id)
+  getStatusValue(event,e) {
+    let arr = [];
+    let str = "";
+    let index=0;
+    let i = 0;
+    let length = (10 * this.PageIndex);
+    if (this.PageIndex == 1) {
+      i = 0;
     }
     else {
-      this.getArr = this.getArr.filter((ele) => {
-        if (ele == this.newPaginated[e].student_id) {
-          return false;
-        } else {
-          return true;
-        }
-      })
+      i = length - (this.pagedisplaysize);
     }
-    str = this.getArr.join(',');
-    this.courseFetchForm.studentIds = str
+
+    if (event == true) {
+      for ( i; (i < length && i<this.getStudents.length); i++) {
+        if (this.getStudents[i].student_id== e.student_id ) {
+          this.getStudents[i].status = true;        
+          arr.push(this.getStudents[i].student_id);      
+        }     
+        if(this.getStudents[i].status) {
+          index++;
+        }   
+      }
+
+    }
+    else {
+      for (i; (i < length && i<this.getStudents.length); i++) {
+        if (this.getStudents[i].student_id== e.student_id ) {
+          this.getStudents[i].status = false;             
+        }
+        else{
+          index++; 
+          arr.push(this.getStudents[i].student_id);   
+        }
+      }
+     
+    }
+    this.checkedStatus =  index==10?true:false; 
+    str = arr.join(',');    
+    this.courseFetchForm.studentIds = str;
   }
 
   valueChange(event, id, j) {
@@ -196,7 +220,7 @@ export class StudentsComponent implements OnInit {
         if (i < this.getStudents.length) {
           this.getStudents[i].status = true;
         }
-        arr.push(this.getStudents[i].student_id)
+        arr.push(this.getStudents[i].student_id);       
       }
       str = arr.join(',')
       this.selectedStudents.push(this.PageIndex);
@@ -206,7 +230,7 @@ export class StudentsComponent implements OnInit {
     else {
       for (i; i < length; i++) {
         if (i < this.getStudents.length) {
-          this.getStudents[i].status = false;
+          this.getStudents[i].status = false;        
         }
       }
       arr = [];

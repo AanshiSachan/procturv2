@@ -20,9 +20,9 @@ import { BiometricStatusServiceService } from '../../../services/biometric-statu
 })
 export class AdminHomeComponent implements OnInit {
 
-  @ViewChild('ref')  private ref: ElementRef;
-  permissionArray = sessionStorage.getItem('permissions');  
-  public order: string[] = ['1', '2', '3', '4', '5']; 
+  @ViewChild('ref') private ref: ElementRef;
+  permissionArray = sessionStorage.getItem('permissions');
+  public order: string[] = ['1', '2', '3', '4', '5'];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['', '00', '15', '30', '45'];
   public enquiryDate: any[] = [];
@@ -32,16 +32,16 @@ export class AdminHomeComponent implements OnInit {
   batchList: any = [];
   topicsList: any = [];
   courseLevelStudentAtt: any = [];
- courseLevelSchedule: any = [];
- masterCourseList: any = [];
- courseList: any = [];
- studentList: any = [];
- viewDetTable: any = [];
- settingInfo: any = [];
- gradesList: any = [];
- openMessageList: any = [];
- tempData: any = [];
- messageList: any = [];
+  courseLevelSchedule: any = [];
+  masterCourseList: any = [];
+  courseList: any = [];
+  studentList: any = [];
+  viewDetTable: any = [];
+  settingInfo: any = [];
+  gradesList: any = [];
+  openMessageList: any = [];
+  tempData: any = [];
+  messageList: any = [];
   public teacher_id: number = -1;
   public home_work_notifn: number = 0;
   public topics_covered_notifn: number = 0;
@@ -61,19 +61,19 @@ export class AdminHomeComponent implements OnInit {
   courseLevelSchedDate: any = new Date();
   showReasonSection: any = '';
   courseTempData: any = '';
-  searchData: string = "";  
+  searchData: string = "";
   public attendanceNote: string = "";
   public homework: string = "";
   public cancellationReason: string = '';
   selectedType: string = "course";
   biometricEnable: string = "0";
-  newMessageText: string = "";  
-  
+  newMessageText: string = "";
+
   courseCommonExamCancelPopUP = false;
   examMerkMassUpload = false;
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
-  isCourseReminder: boolean = false;  
+  isCourseReminder: boolean = false;
   showTopicList: boolean = false;
   notificationPopUp: boolean = false;
   addNotification: boolean = false;
@@ -93,19 +93,19 @@ export class AdminHomeComponent implements OnInit {
   public isOptionVisible: boolean = false;
   markExamAttendancePopUp: boolean = false;
   examMarksPopup: boolean = false;
-  allChecked: boolean = true; 
+  allChecked: boolean = true;
   biometricWidget: boolean;
   cancelExamPopUP: boolean = false;
   viewDetailsPopUp: boolean = false;
-  classScheduleCount: number = 0; 
+  classScheduleCount: number = 0;
   absentCount: number = 0;
   presentCount: number = 0;
-  leaveCount: number = 0; 
+  leaveCount: number = 0;
   public selectedRow: number = null;
-  jsonFlag :any={
-    smsTabType:'approved',
-    showAllMessage:false,
-    openMessageFlag:false,
+  jsonFlag: any = {
+    smsTabType: 'approved',
+    showAllMessage: false,
+    openMessageFlag: false,
   };
   timepicker: any = {
     reschedStartTime: {
@@ -135,15 +135,15 @@ export class AdminHomeComponent implements OnInit {
   }
   loginField = {
     checkBox: '0'
-  } 
+  }
   cancelPopUpData = {
     reason: "",
     notify: true
   };
 
 
- 
- 
+
+
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -598,7 +598,7 @@ export class AdminHomeComponent implements OnInit {
         home_work_notifn: e.home_work_notifn,
         isNotify: sendSms,
         is_home_work_enabled: e.is_home_work_enabled,
-        student_id: e.student_id,
+        student_id: e.student_id.toString(),
         topics_covered_notifn: e.topics_covered_notifn
       };
       arr.push(temp);
@@ -628,18 +628,23 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getCustomAttendanceObject(d, detail): any {
-    let obj = {
+    let obj:any = {
       attendance_note: this.attendanceNote,
       date: d.date,
       home_work_status: d.home_work_status,
       homework_assigned: this.homework,
-      isStatusModified:d.isStatusModified,
+      isStatusModified: d.isStatusModified,
       is_home_work_status_changed: d.is_home_work_status_changed,
       schId: d.schId,
       status: d.status,
-      teacher_id: Number(this.teacher_id),
+      teacher_id: this.teacher_id,
     }
-
+    if (d.schId) {
+      obj['schId'] = d.schId.toString();
+    }
+    if(this.teacher_id){
+      obj['teacher_id'] = this.teacher_id.toString();
+    }
     return obj;
   }
 
@@ -656,12 +661,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   isHomeworkStatusChanged(i) {
-    this.studentAttList[i].dateLi[0].isStatusModified = "Y";
+    // this.studentAttList[i].dateLi[0].isStatusModified = "Y";
     this.studentAttList[i].dateLi[0].is_home_work_status_changed = "Y";
   }
 
-  showUploadCourseMarksSection(){
-    this.examMerkMassUpload= true;
+  showUploadCourseMarksSection() {
+    this.examMerkMassUpload = true;
   }
   /* ======================================================================================================= */
   /* ===================================Cancel Class=================================== */
@@ -1406,7 +1411,7 @@ export class AdminHomeComponent implements OnInit {
   markAttendaceBtnClick(event, rowData, index) {
     if (event.target.innerText == "L") {
       rowData.dateLi[0].status = "L";
-      rowData.dateLi[0].home_work_status = "N";      
+      rowData.dateLi[0].home_work_status = "N";
     } else if (event.target.innerText == "A") {
       rowData.dateLi[0].status = "A";
       rowData.dateLi[0].home_work_status = "N";
@@ -1546,7 +1551,7 @@ export class AdminHomeComponent implements OnInit {
         };
         this.appC.popToast(msg);
         this.closeNewMessageDiv();
-        this.onTabChange( this.jsonFlag.smsTabType ) ;// as per view it get the sms data --laxmi
+        this.onTabChange(this.jsonFlag.smsTabType);// as per view it get the sms data --laxmi
       },
       err => {
         //console.log(err);
@@ -3270,8 +3275,8 @@ export class AdminHomeComponent implements OnInit {
 
   //SMS Approve AND Reject
   onTabChange(tabname) {
-    this.jsonFlag.openMessageFlag= false;
-    this.jsonFlag.smsTabType =tabname;
+    this.jsonFlag.openMessageFlag = false;
+    this.jsonFlag.smsTabType = tabname;
     document.getElementById('approvedSMSTab').classList.remove('active');
     document.getElementById('openSMSTab').classList.remove('active');
     if (tabname == 'approved') {

@@ -74,7 +74,7 @@
             <tr *ngFor="let i of newPaginated , let j=index;">
               <td style="text-align: left;">
                 <div class="field-checkbox-wrapper" style="height: 16px;">
-                  <input type="checkbox" class="form-checkbox" [(ngModel)]="i.status" (ngModelChange)="getStatusValue(j)">
+                  <input type="checkbox" class="form-checkbox" [(ngModel)]="i.status" (ngModelChange)="getStatusValue($event,i)">
                   <label></label>
                 </div>
                 {{i.student_disp_id}}
