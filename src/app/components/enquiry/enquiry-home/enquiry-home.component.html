@@ -862,7 +862,7 @@
   <section id="popup" class="popupWrapper fadeIn" *ngIf="varJson.message === 'sms'">
     <!-- -->
     <div class="popup pos-abs popup-body-container">
-      <div class="popup-wrapper pos-rel">
+      <div class="popup-wrapper pos-rel" style="height: 80%;">
 
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -877,7 +877,7 @@
           </svg>
         </span>
 
-        <div class="popup-content">
+        <div class="popup-content" >
           <h2>Send SMS </h2>
           <div class="sms-form sms-popup-content">
             <div class="sms-update">
@@ -1061,7 +1061,7 @@
   <section id="popup" class="popupWrapper fadeIn" *ngIf="flagJSON.isMultiSms">
     <!--  -->
     <div class="popup pos-abs popup-body-container">
-      <div class="popup-wrapper pos-rel">
+      <div class="popup-wrapper pos-rel" style="height: 80%;">
 
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBulkSms()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
