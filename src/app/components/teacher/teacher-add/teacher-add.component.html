@@ -40,7 +40,7 @@
         <div class="row field-wrapper">
           <label for="emailID">Email Id
           </label>
-          <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email">
+          <input type="email" class="form-ctrl" name="emailID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" formControlName="teacher_email">
         </div>
         <div class="row field-wrapper">
           <label for="CurrentAddress">Current Address

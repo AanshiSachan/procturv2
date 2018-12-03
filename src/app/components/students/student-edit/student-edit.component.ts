@@ -277,8 +277,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     else if (text === "feeDetails") {
       document.getElementById('li-one').classList.remove('active');
       document.getElementById('li-two').classList.remove('active');
-      document.getElementById('li-three').classList.add('active');
       document.getElementById('li-four').classList.remove('active');
+      document.getElementById('li-three').classList.add('active');      
       this.isBasicActive = false;
       this.isOtherActive = false;
       this.isFeeActive = true;
@@ -293,6 +293,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.isOtherActive = false;
       this.isFeeActive = false;
       this.isInventoryActive = true;
+      this.fetchInventoryList();
     }
   }
 
@@ -2252,7 +2253,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchInventoryList() {
-    this.studentPrefillService.fetchInventoryList().subscribe(
+    this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
       data => {
         this.isRippleLoad = false;
         this.inventoryItemsArr = data;
