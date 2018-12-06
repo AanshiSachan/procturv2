@@ -143,4 +143,19 @@ export class LoginService {
     )
   }
 
+  getGuestUserCourses(institudeId) {
+    let url = this.baseUrl + "/api/v1/institute/courseMapping/" + institudeId;
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res; },
+      err => { return err; }
+    )
+  }
+
+  updateCourseforGuestUser(obj) {
+    let url = this.baseUrl + "/api/v1/authenticate/openAppUser/updateProfile";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      res => { return res; },
+      err => { return err; }
+    )
+  }
 }

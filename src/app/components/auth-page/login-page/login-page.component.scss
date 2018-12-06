@@ -619,3 +619,9 @@ $shadow-L3: 0 10px 20px rgba(0, 0, 0, 0.19),
         left: 10%;
     }
 }
+table tr:nth-child(even):hover{
+    background: white;
+}
+table tr:nth-child(odd):hover{
+    background: white;
+}

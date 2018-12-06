@@ -126,9 +126,10 @@
     <div #virtualStyle>
       <div class="login-form-wrapper">
         <div class="row">
-          <h2>Login to Dashboard</h2>
+          <h2 *ngIf="!isGuestUserCourse">Login to Dashboard</h2>
+          <h2 *ngIf="isGuestUserCourse">Select your courses</h2>
         </div>
-        <div class="row" *ngIf="isLoginView">
+        <div class="row" *ngIf="isLoginView &&(!isGuestUserCourse)">
           <div class="field-wrapper has-value">
             <input class="form-ctrl" type="text" [(ngModel)]="loginDataForm.alternate_email_id" name="alternate_email_id" id="emailid"
               placeholder="Enter your Mobile or Email" #emailid="ngModel" required (keyup.enter)="loginViaServer()">
@@ -156,6 +157,15 @@
               <a style="cursor:pointer">Forgot Password?</a>
             </div>
           </div>
+          <div class="row" style="text-align:center" *ngIf="isGuestUser">
+            <div class="login-field-btn">
+
+              <p class="user-ex">
+                If you don't have account
+                <a routerLink="/guestRegister"> &nbsp;&nbsp; Register here</a>
+              </p>
+            </div>
+          </div>
           <div class="row" style="text-align:center">
             <div class="login-field-btn">
               <input type="button" value="Secure Login" id="btnSecureLogin" (click)="loginViaServer()" class="fullBlue btn login-btn">
@@ -177,9 +187,6 @@
         <div class="row" *ngIf="!isLoginView && isInstituteListPop">
           <div class="field-wrapper" style="margin:0;">
             <p>You are registered with multiple Institutes, Kindly select one to Continue</p>
-          </div>
-          <div class="field-wrapper insititute-field-wrapper">
-            <h2 class="insititue-list-header">Login to</h2>
           </div>
           <div class="insititue-field-wrapper">
             <div class="row" *ngFor="let institute of instituteListArr">
@@ -245,8 +252,36 @@
           </div>
         </div>
         <!-- OTP verification End -->
-      </div>
-    </div>
 
+        <!-- Show User List -->
+        <div class="row" *ngIf="isGuestUserCourse">
+          <div class="insititue-field-wrapper pull-left" style="margin-left: 4rem;overflow-y: scroll;height: 250px;">
+            <table>
+              <tbody>
+                <tr *ngFor="let data of courses ; let i=index" style="border: unset;">
+                  <td class="checkBoxCss" style="border: unset;
+                  padding: 5px 0px">
+                    <div class="field-checkbox-wrapper pull-left">
+                      <input type="checkbox" class="form-checkbox" [checked]="data.checked" (change)="toggleCheckbox($event,data)" [id]="'checkbox-'+i">
+                      <label [for]="'checkbox-'+i"></label>
+                      <p style="    display: block; color:#0084f6;
+                      margin: 10px;     margin-bottom: 0px;">{{data.course_type}}</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>   
+          <!-- Show User List End -->
+        </div>
+        <div class="row text-center"  *ngIf="isGuestUserCourse">
+          <div class="login-field-btn">
+            <input type="button" value="Select" id="btnSecureLogin" class="fullBlue btn " (click)="updateCourseforGuestUser()">
+            <input type="button" value="Cancel" id="btnSecureLogin" class="btn" (click)="gotoStudentPortal()">
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
