@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
 
 
   registerGuestUser() {
-    this.isRippleLoad= true;
+  
     let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/
     this.loginDataForm.institution_id = sessionStorage.getItem('institution_id');
     if (this.loginDataForm.alternate_email_id.trim() != ""
@@ -101,6 +101,7 @@ export class RegisterComponent implements OnInit {
             if (this.loginDataForm.password.length >= 5 && this.loginDataForm.confirmPassword.length >= 5) {
 
               if (this.loginDataForm.password == this.loginDataForm.confirmPassword) {
+                this.isRippleLoad= true;
                 this.login.guestUserRegistration(this.loginDataForm).subscribe(
                   (res: any) => {
                     this.otpVerificationInfo = res;
