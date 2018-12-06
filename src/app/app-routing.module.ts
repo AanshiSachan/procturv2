@@ -14,7 +14,7 @@ import { AuthGuard } from './guards/auth.guard';
                     loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule'
                 },
                 {
-                    path: 'guestRegister',
+                    path: 'guest',
                     loadChildren: 'app/components/guest-user/guest-user.module#GuestUserModule'
                 },
                 {

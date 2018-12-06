@@ -82,6 +82,13 @@ export class LoginService {
     );
   }
 
+  guestUserRegistration(data){
+    this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register";
+    return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
+      return res;
+    })
+  }
+
   validateOTPCode(data) {
     this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register/validateOTP";
     return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
