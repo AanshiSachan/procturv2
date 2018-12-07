@@ -22,7 +22,9 @@ export class RegisterComponent implements OnInit {
     institution_id: "",
     name: ""
   };
-  otpVerificationInfo: any = {};
+  otpVerificationInfo: any = {
+    otp_code:""
+  };
   instituteListArr: any = [];
   otpVerificationPhoneNumber: any;
   messages: any;
@@ -48,8 +50,14 @@ export class RegisterComponent implements OnInit {
   }
 
   alternateLoginOTPVerification() {  
-    this.isRippleLoad= true;
+    
+    if(this.otpVerificationInfo.otp_code.trim()==""){
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Please enter OTP ");
+      return;
+      
+    }
     this.otpVerificationInfo.otp_validate_mode= 2;
+    this.isRippleLoad= true;
     this.login.validateOTPCode(this.otpVerificationInfo).subscribe(
       (res: any) => {
         if (res) {
