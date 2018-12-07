@@ -57,16 +57,16 @@ export class RegisterComponent implements OnInit {
           this.isRippleLoad= false;
           switch(res.otp_status){
             case 1:{
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "your otp expired ");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Your OTP expired ");
               break;
             }
             case 2:{
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "your otp is wrong ");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Your OTP is wrong ");
               break;
             }
             default:{
               this. gotoLogin();
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "your account verified successfully");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, "", "Your account verified successfully");
               break;
             }
           }
@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
       err => {
         console.log(err);
         this.isRippleLoad= false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "somthing went wrong ! please try again");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", "Somthing went wrong ! please try again");
       }
     );
   }
@@ -123,31 +123,33 @@ export class RegisterComponent implements OnInit {
                   },
                   err => {
                     console.log(err);
+                    this.isView = 'register';
                     this.isRippleLoad= false;
+                    this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Error", err.message);
                   }
                 );
 
               }
               else {
-                this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "password should be same  ");
+                this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Password should be same  ");
               }
             }
             else {
-              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "password must be atleast 5 characters long");
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Password must be atleast 5 characters long");
             }
           } else {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "please enter 10 digit mobile number");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please enter 10 digit mobile number");
           }
         } else {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "please enter valid email id");
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please enter valid email id");
         }
       }
       else {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "please enter name");
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please enter name");
       }
     }
     else {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "please fill the details");
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "Invalid Input", "Please fill the details");
     }
 
   }
