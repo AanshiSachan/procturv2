@@ -82,6 +82,13 @@ export class LoginService {
     );
   }
 
+  guestUserRegistration(data){
+    this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register";
+    return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
+      return res;
+    })
+  }
+
   validateOTPCode(data) {
     this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register/validateOTP";
     return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
@@ -143,4 +150,19 @@ export class LoginService {
     )
   }
 
+  getGuestUserCourses(institudeId) {
+    let url = this.baseUrl + "/api/v1/institute/courseMapping/" + institudeId;
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res; },
+      err => { return err; }
+    )
+  }
+
+  updateCourseforGuestUser(obj) {
+    let url = this.baseUrl + "/api/v1/authenticate/openAppUser/updateProfile";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      res => { return res; },
+      err => { return err; }
+    )
+  }
 }

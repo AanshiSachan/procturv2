@@ -487,10 +487,8 @@ label {
     .field-wrapper {
         width: 70%;
         left: 15%;
-        margin-top: 10%;
-    }
-    .password {
-        margin-top: 5%;
+        font-size: 12px;
+        // margin-top: 10%;
     }
     .forgot-password {
         float: right;
@@ -518,7 +516,7 @@ label {
         }
     }
     .insititue-field-wrapper {
-        height: 350px;
+        height: 250px;
         overflow-y: auto;
         .row {
             margin: 0px;
@@ -529,12 +527,6 @@ label {
             cursor: pointer;
             padding: 15px;
             box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.15), 0 0 2px 0 rgba(0, 0, 0, 0.2);
-            &::after {
-                content: '\2794';
-                color: #58666e;
-                font-size: 20px;
-                float: right;
-            }
         }
     }
 }
@@ -556,72 +548,9 @@ label {
     cursor: pointer;
 }
 
-$transition: all 0.1s;
-$shadow-L1: 0 1px 3px rgba(0, 0, 0, 0.12),
-0 1px 2px rgba(0, 0, 0, 0.24);
-$shadow-L2: 0 3px 6px rgba(0, 0, 0, 0.16),
-0 3px 6px rgba(0, 0, 0, 0.23);
-$shadow-L3: 0 10px 20px rgba(0, 0, 0, 0.19),
-0 6px 6px rgba(0, 0, 0, 0.23);
-@media only screen and (max-width:1200px) {
-    .login-box {
-        top: 115px !important;
-    }
-    .detailslog {
-        width: 60%;
-    }
+
+.fontCss{
+    font-size: 12px;
+
 }
 
-@media only screen and (max-width:985px) {
-    .detailslog {
-        width: 50%;
-    }
-}
-
-@media only screen and (max-width:800px) {
-    .box {
-        display: none;
-    }
-    .auth-page-header {
-        position: relative;
-        top: 0;
-        left: 35%;
-        width: 100%;
-        .row {
-            margin: 0 5%;
-            padding-top: 10px;
-        }
-    }
-    .login-box {
-        top: 135px !important;
-        height: 70%;
-        left: 30%;
-    }
-}
-
-@media only screen and (max-width:550px) {
-    .box {
-        display: none;
-    }
-    .auth-page-header {
-        position: relative;
-        top: 0;
-        left: 15%;
-        width: 100%;
-        .row {
-            margin: 0 5%;
-            padding-top: 10px;
-        }
-    }
-    .login-box {
-        top: 135px !important;
-        height: 70%;
-        left: 10%;
-    }
-}
-table tr:nth-child(even):hover{
-    background: white;
-}
-table tr:nth-child(odd):hover{
-    background: white;
-}

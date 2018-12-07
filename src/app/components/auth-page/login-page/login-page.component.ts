@@ -23,7 +23,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   @ViewChild('backgroundChange') backgroundChange: ElementRef;
   @ViewChild('virtualStyle') virtualStyle: ElementRef;
   loginDataForm: LoginAuth;
-
+  selectedCourseNames= [];
+  courses: any = [];
   userListArr: any[] = [];
   instituteListArr: any = [];
 
@@ -50,6 +51,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   OTPVerificationPopUp: boolean = false;
   isUserListPop: boolean = false;
   loading: boolean = false;
+  isGuestUser: boolean = false;
+  isGuestUserCourse: boolean = false;
 
   instituteListObj: instituteList = {
     institute_id: "",
@@ -144,13 +147,19 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     let url: string = window.location.href;
     let test = url.split("/")[2];
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
-      this.isProcturVisible = true;
-      this.backgroundChange.nativeElement.className = "bg-img"
-      this.dynamicImgSrc = "./assets/images/logoProctur.png";
-      this.virtualStyle.nativeElement.className = "login-box";
-      this.titleService.setTitle('Proctur - Your Pocket Classroom');
-      sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
-      sessionStorage.setItem('institute_logo_web', this.dynamicImgSrc);
+      // this.isProcturVisible = true;
+      // this.backgroundChange.nativeElement.className = "bg-img"
+      // this.dynamicImgSrc = "./assets/images/logoProctur.png";
+      // this.virtualStyle.nativeElement.className = "login-box";
+      // this.titleService.setTitle('Proctur - Your Pocket Classroom');
+      // sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
+      // sessionStorage.setItem('institute_logo_web', this.dynamicImgSrc);
+      this.checkForVirtualHost("webtest.proctur.com"); // for guest user 
+      this.isProcturVisible = false;
+      this.backgroundChange.nativeElement.className = "bg-img-virtual"
+      this.virtualStyle.nativeElement.className = "login-virtual"
+      this.titleService.setTitle("Login");
+      sessionStorage.setItem('institute_title_web', 'Login');
     }
     else {
       this.checkForVirtualHost(test);
@@ -166,6 +175,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.getLogoAndFavcon(str).subscribe(
       res => {
         if (res != null) {
+          this.isGuestUser = true;       
+          sessionStorage.setItem('institution_id', res[0].instituteId);
           if (res[0].logoPath != null && res[0].logoPath != "") {
             this.dynamicImgSrc = res[0].logoPath;
           }
@@ -252,8 +263,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
   //End -2
 
-  validInstituteCheck(data): boolean {
+  validInstituteCheck(res): boolean {
     /* Open For All Institute Currently */
+    if (res.data.inst_branding_feature == "N" && res.user_type == 99) {
+      return false;
+    }
     return true;
     /* Code to Resrict Users from login without invitation */
     /* let instIdArr = this.login.getAllInstituteId();
@@ -269,7 +283,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
       //console.log('Institute ID Not Found');
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, this.messages.loginMsg.instituteNotRegister.title, this.messages.loginMsg.instituteNotRegister.body);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, "Success Alert", "There is no access for Open User login in web..Kindly access the same through APP");
       sessionStorage.clear();
       localStorage.clear();
       return
@@ -282,6 +296,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.auth.changeAuthenticationKey(Authorization);
       this.auth.changeInstituteId(institute_data.institution_id);
       sessionStorage.setItem('institute_id', institute_data.institution_id);
+      sessionStorage.setItem('institution_id', institute_data.institution_id);
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
       sessionStorage.setItem('accountId', institute_data.accountId);
@@ -385,8 +400,79 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('is_cobranding', res.data.is_cobranding);
         window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
       }
+      else if (sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
+        && institute_data.courseType == "") {
+          sessionStorage.setItem('student_id', "0");
+          sessionStorage.setItem('institution_id', res.institution_id);
+          sessionStorage.setItem('institution_name', res.data.institute_name);
+          sessionStorage.setItem('userid', this.serverUserData.userid);
+          sessionStorage.setItem('user_type',this.serverUserData.user_type);        
+        this.getGuestUserCourser(sessionStorage.getItem('institute_id'));
+      }
+      else if(sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
+      && institute_data.courseType != ""){
+        sessionStorage.setItem('student_id', "0");
+        sessionStorage.setItem('userid', this.serverUserData.userid);
+        sessionStorage.setItem('user_type',this.serverUserData.user_type);
+        sessionStorage.setItem('institution_id', res.institution_id);
+        sessionStorage.setItem('institution_name', res.data.institute_name);
+        this.gotoStudentPortal();
+      }
     }
   }
+
+  getGuestUserCourser(institute_id) {
+    this.login.getGuestUserCourses(institute_id).subscribe((res:any) => {
+      console.log(res);  
+      if(res.length!= 0){
+        this.isGuestUserCourse = true;
+        this.courses  = res;
+      }
+      else{
+        this.gotoStudentPortal();
+      }
+  
+    }, err => {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
+    });
+  }
+
+  updateCourseforGuestUser() {
+    let obj = {
+      userid: sessionStorage.getItem('userid'),
+      courseType:  this.selectedCourseNames.toString()
+    };
+    this.login.updateCourseforGuestUser(obj).subscribe(res => {
+      console.log(res);
+       sessionStorage.setItem("courseType",this.selectedCourseNames.toString());
+      this.gotoStudentPortal();
+    }, err => {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
+    });
+  }
+
+  gotoStudentPortal(){
+    if(sessionStorage.getItem('testprepEnabled')!='false'){
+      window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
+    }
+    else{
+      window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Documents";
+    }
+    
+  }
+
+  toggleCheckbox(course,data) {
+    console.log(course,data);
+    let index = this.selectedCourseNames.indexOf(data.course_type);
+    if(index==-1){
+      this.selectedCourseNames.push(data.course_type);
+    }
+    else{
+      this.selectedCourseNames.splice(index, 1);
+    }
+  }
+ 
+
   //End - 3
   //if login email is not verified ( Start - 4 )
   alternateLoginEmailNotVerified() {
@@ -575,7 +661,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             }
           );
         }
-        else if (sessionStorage.getItem('userType') == '1') {
+        else if (sessionStorage.getItem('userType') == '1' && this.serverUserData) {
           //sessionStorage.setItem('student_id', this.serverUserData.data.studentId);
           //sessionStorage.setItem('user_type_name', 'Student');
           //window.location.href = "http://127.0.0.1:8001/sPortal/dashboard.html#/Dashboard";
@@ -587,7 +673,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('is_cobranding', this.serverUserData.data.is_cobranding);
           window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Dashboard";
         }
-        else if (sessionStorage.getItem('userType') == '5') {
+        else if (sessionStorage.getItem('userType') == '5' && this.serverUserData) {
           // sessionStorage.setItem('student_id', this.serverUserData.data.parentStudentList[0].student_id);
           // sessionStorage  .setItem('user_type_name', 'Parent');
 

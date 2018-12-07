@@ -1,0 +1,131 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="login-virtual">
+<div class="middle-section clearFix">
+  <!-- Login Box -->
+  <div #virtualStyle>
+    <div class="login-form-wrapper">
+      <div class="row text-center">
+        <h2  *ngIf=" isView == 'register'">Register</h2>
+        <h2  *ngIf=" isView == 'institute'">Select Institute</h2>
+      </div>
+      <div class="row" *ngIf=" isView == 'register'">
+        <div class="field-wrapper has-value">
+          <input class="form-ctrl" type="text" [(ngModel)]="loginDataForm.name" name="name" id="name" placeholder="Name" #name="ngModel"
+            required>
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
+            <div *ngIf="name.errors.required">
+              Please enter full name
+            </div>
+          </div>
+          <label for="name"></label>
+        </div>
+        <div class="row" style="margin:0;">
+          <div class="field-wrapper has-value password">
+            <input class="form-ctrl" type="text" [(ngModel)]="loginDataForm.alternate_email_id" name="emailid" id="emailid" #emailid="ngModel" placeholder="Email"
+              required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$">
+            <div *ngIf="emailid.invalid && (emailid.dirty || emailid.touched )" class="alert invalid-alert">
+              <div *ngIf="emailid.errors.required" class="fontCss">
+                Please enter valid Email ID
+              </div>
+            </div>
+            <label for="emailid"></label>
+          </div>
+        </div>
+        <div class="field-wrapper has-value">
+          <input class="form-ctrl" type="text" [(ngModel)]="loginDataForm.mobile_no"  id="mobile_no"
+            placeholder="Mobile" #mobile_no="ngModel" maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required>
+          <div *ngIf="mobile_no.invalid && (mobile_no.dirty || mobile_no.touched )" class="alert invalid-alert">
+            <div *ngIf="mobile_no.errors.required" class="fontCss">
+              Please enter valid Mobile number
+            </div>
+          </div>
+          <label for="mobile_no"></label>
+        </div>
+        <div class="row" style="margin:0;">
+          <div class="field-wrapper has-value password">
+            <input class="form-ctrl" type="password" [(ngModel)]="loginDataForm.password" name="password" id="password" #password="ngModel"
+              placeholder="Password" required>
+            <div *ngIf="password.invalid && (password.dirty || password.touched )" class="alert invalid-alert">
+              <div *ngIf="password.errors.required" class="fontCss">
+                Please enter password
+              </div>
+            </div>
+            <label for="password"></label>
+          </div>
+        </div>
+        <div class="field-wrapper has-value">
+          <input class="form-ctrl" type="password" [(ngModel)]="loginDataForm.confirmPassword" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
+            #confirmPassword="ngModel" required>
+          <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched || no_email_found)" class="alert invalid-alert">
+            <div *ngIf="confirmPassword.errors.required" class="fontCss">
+              Please enter same password
+            </div>
+          </div>
+          <label for="confirmPassword"></label>
+        </div>
+      </div>
+      <!-- Show Insititue List -->
+      <div class="row" *ngIf="isView=='institute'">
+        <div class="field-wrapper" style="margin:0;">
+          <p>You are registered with multiple Institutes, Kindly select one to Continue</p>
+        </div>
+        <div class="insititue-field-wrapper">
+          <div class="row" *ngFor="let institute of instituteListArr">
+            <div class="field-institute-wrapper" (click)="alternateLoginMultiInstituteData(institute.institute_id)">
+              {{institute.institute_name}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Show Insititute List End -->
+
+      <!-- OTP verification Start -->
+      <div class="row" *ngIf="isView=='validateOTP'">
+        <div class="field-wrapper insititute-field-wrapper">
+          <h2 class="insititue-list-header" style="padding-right:20px;">Enter One Time Password</h2>
+        </div>
+        <div class="field-wrapper" style="margin:0;">
+          <p>One Time Password (OTP) has been sent to your mobile ******{{otpVerificationPhoneNumber}}, please enter the same
+            here to login.</p>
+        </div>
+        <div class="form-type1">
+          <div class="field-wrapper has-value">
+            <label>OTP</label>
+            <input type="text" value="" class="form-ctrl" [(ngModel)]="otpVerificationInfo.otp_code" maxlength="4" name="otpData" id="otpData"
+              #otpData="ngModel" enquiryInput required style="margin-top: 18px;">
+            <div *ngIf="otpData.invalid && (otpData.dirty || otpData.touched)" class="alert invalid-alert">
+              <div *ngIf="otpData.errors.required" class="fontCss">
+                Please enter OTP.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="counter != 0">
+          <div class="forgot-password" style="margin-right:18%;">
+            <a style="cursor:pointer">Resend in 00:{{countDown | async}}</a>
+          </div>
+        </div>
+        <div class="row" *ngIf="counter == 0">
+          <div class="forgot-password" style="margin-right:18%;">
+            <a style="cursor:pointer" (click)="alternateLoginOTPRegenerate()">Resend?</a>
+          </div>
+        </div>
+        <div class="row" style="text-align:center; margin-top:2%; margin-bottom: 15px;">
+          <div class="login-field-btn">
+            <input type="button" value="VERIFY" (click)="alternateLoginOTPVerification()" class="fullBlue btn">
+          </div>
+        </div>
+      </div>
+      <!-- OTP verification End -->
+
+      <div class="row text-center" style="margin: 10px;margin-top: 20px;"  *ngIf=" isView == 'register'">
+        <div class="login-field-btn">
+          <input type="button" value="Submit" id="btnSecureLogin" class="fullBlue btn " (click)="registerGuestUser()">
+          <input type="button" value="Cancel" id="btnSecureLogin" class="btn" (click)="gotoLogin()">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
