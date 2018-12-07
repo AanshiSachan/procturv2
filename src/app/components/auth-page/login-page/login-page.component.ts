@@ -147,19 +147,19 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     let url: string = window.location.href;
     let test = url.split("/")[2];
     if (test === "webtest.proctur.com" || test === "web.proctur.com" || test === "localhost:4200") {
-      // this.isProcturVisible = true;
-      // this.backgroundChange.nativeElement.className = "bg-img"
-      // this.dynamicImgSrc = "./assets/images/logoProctur.png";
-      // this.virtualStyle.nativeElement.className = "login-box";
-      // this.titleService.setTitle('Proctur - Your Pocket Classroom');
-      // sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
-      // sessionStorage.setItem('institute_logo_web', this.dynamicImgSrc);
-      this.checkForVirtualHost("webtest.proctur.com"); // for guest user 
-      this.isProcturVisible = false;
-      this.backgroundChange.nativeElement.className = "bg-img-virtual"
-      this.virtualStyle.nativeElement.className = "login-virtual"
-      this.titleService.setTitle("Login");
-      sessionStorage.setItem('institute_title_web', 'Login');
+      this.isProcturVisible = true;
+      this.backgroundChange.nativeElement.className = "bg-img"
+      this.dynamicImgSrc = "./assets/images/logoProctur.png";
+      this.virtualStyle.nativeElement.className = "login-box";
+      this.titleService.setTitle('Proctur - Your Pocket Classroom');
+      sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
+      sessionStorage.setItem('institute_logo_web', this.dynamicImgSrc);
+      // this.checkForVirtualHost("webtest.proctur.com"); // for guest user 
+      // this.isProcturVisible = false;
+      // this.backgroundChange.nativeElement.className = "bg-img-virtual"
+      // this.virtualStyle.nativeElement.className = "login-virtual"
+      // this.titleService.setTitle("Login");
+      // sessionStorage.setItem('institute_title_web', 'Login');
     }
     else {
       this.checkForVirtualHost(test);
@@ -176,7 +176,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       res => {
         if (res != null) {
           this.isGuestUser = true;       
-          sessionStorage.setItem('institution_id', res[0].instituteId);
+          sessionStorage.setItem('institution_id', res[0].instituteId); // this id is used for guest user registration do not change it
           if (res[0].logoPath != null && res[0].logoPath != "") {
             this.dynamicImgSrc = res[0].logoPath;
           }
