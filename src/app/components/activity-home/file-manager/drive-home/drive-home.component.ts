@@ -3,7 +3,7 @@ import { Tree } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
 import { FileManagerService } from '../file-manager.service';
 import { UploadPopupComponent } from '../upload-popup/upload-popup.component';
-import { AppComponent } from '../../../../app.component';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
   selector: 'app-drive-home',
@@ -15,17 +15,8 @@ export class DriveHomeComponent implements OnInit {
   @ViewChild('DragContainer') dragBox: ElementRef;
   @ViewChild('dropZone') dropZone: ElementRef;
   @ViewChild('uploaders') uploaders: ElementRef;
-
-  isGridView: boolean = true;
-  isFirstTimeLoad: boolean = false;
-  manualUpload = false;
-  msg = '';
-
-  @ViewChild('expandingTree')
-
-  expandingTree: Tree;
-  folderFileArr: any[] = [];
-  usedSpaceDetails: any;
+  @ViewChild('expandingTree') expandingTree: Tree;
+  nodes: TreeNode;
   treeNodeData: TreeNode[] = [
     {
       label: "My Drive",
@@ -35,53 +26,50 @@ export class DriveHomeComponent implements OnInit {
       type: "folder",
       children: []
     }];
-  fileDisplayArr: any[] = [];
-  folderDisplayArr: any[] = [];
-  selectedFolder: any;
-  prevLocalFolder: any;
-
-  headertext: string = '';
-  customstyle: string = "drop-area";
-  dragoverflag: boolean = false;
-  addCategoryPopup: boolean = false;
-  selectedFiles: FileList[] = [];
-  getCategoryData: any[] = [];
-  addNewRow = []
-  sendPayload = {
-
-  }
-
-  getPopupOpen: boolean = false;
-
-  fileIdGet: string;
-
-  fileName: any[];
-  shareOptions: any;
-
-  createFolderControl: boolean = false;
-
   createFetchFolder = {
     folderName: "",
     institute_id: this.fileService.institute_id,
     keyName: ""
   }
 
+  customstyle: string = "drop-area";
+  fileIdGet: string;
+  shareOptions: any;
+  selectedFiles: FileList[] = [];
+  getCategoryData: any[] = [];
+  addNewRow = []
+  fileName: any[];
+  pathArray = [];
+  localFolder: any[];
+  children: any[] = [];
+  fileDisplayArr: any[] = [];
+  folderDisplayArr: any[] = [];
+  folderFileArr: any[] = [];
+  usedSpaceDetails: any;
+  isFolderEmpty: boolean = false;
+  collapseFlag: boolean = false;
+  getPopupOpen: boolean = false;
+  createFolderControl: boolean = false;
+  dragoverflag: boolean = false;
+  addCategoryPopup: boolean = false;
+  isGridView: boolean = true;
+  isFirstTimeLoad: boolean = false;
+  manualUpload = false;
+  msg = '';
+  selectedFolder: any;
+  prevLocalFolder: any;
   filePath1: "";
   filePathPopup: "";
   str: string;
   getPath: string = "";
-  pathArray = [];
-  nodes: TreeNode;
-  isFolderEmpty: boolean = false;
-  collapseFlag: boolean = false;
-  localFolder: any[];
-  children: any[] = [];
+  headertext: string = '';
 
-  constructor(private zone: NgZone, private fileService: FileManagerService, private appC: AppComponent) { }
+  constructor(private zone: NgZone,
+    private fileService: FileManagerService,
+    private msgService: MessageShowService) { }
 
 
   ngOnInit(refreshTree?) {
-
     let institute_id = sessionStorage.getItem("institute_id");
     if (refreshTree == true) {
       this.fetchPrefillFolderAndFiles(institute_id + "/", refreshTree);
@@ -170,11 +158,7 @@ export class DriveHomeComponent implements OnInit {
     if (confirm('Are you sure, you want to delete the file?')) {
       this.fileService.deleteFiles(getDeletedFiles).subscribe(
         (data: any) => {
-          let msg = {
-            type: "success",
-            body: "Folder Deleted Successfully"
-          }
-          this.appC.popToast(msg);
+          this.msgService.showErrorMessage('success', '', "Folder Deleted Successfully");
           let path = getDeletedFiles[0].keyName.split('/');
           path.pop();
           path.pop();
@@ -183,15 +167,11 @@ export class DriveHomeComponent implements OnInit {
             this.fetchPrefillFolderAndFiles(newPath + "/", true);
           }
           else {
-            this.fetchPrefillFolderAndFiles(newPath + '/' , true);
+            this.fetchPrefillFolderAndFiles(newPath + '/', true);
           }
         },
         (error: any) => {
-          let msg = {
-            type: 'error',
-            body: error.error.message
-          }
-          this.appC.popToast(msg);
+          this.msgService.showErrorMessage('success', '', error.error.message);
         }
       )
     }
@@ -213,7 +193,7 @@ export class DriveHomeComponent implements OnInit {
   duplicateFolderCheck(name) {
     for (let i = 0; i < this.folderDisplayArr.length; i++) {
       if (this.folderDisplayArr[i].label == name) {
-        this.appC.popToast({ type: "error", body: "Folder already exists" })
+        this.msgService.showErrorMessage('error', '', "Folder already exists");
         return false
       }
 
@@ -226,8 +206,13 @@ export class DriveHomeComponent implements OnInit {
       return
     }
 
-    else if(this.createFetchFolder.folderName == ""){
-      this.appC.popToast({type:"error" , body:"Folder name is manadatory"})
+    else if (this.createFetchFolder.folderName == "") {
+      this.msgService.showErrorMessage('error', '', "Folder name is manadatory");
+      return
+    }
+    else if (this.createFetchFolder.folderName.indexOf(".") != -1 ||
+      this.createFetchFolder.folderName.indexOf(" ") != -1) {
+      this.msgService.showErrorMessage('error', '', "space and dot is not allowed in Folder name");
       return
     }
     else {
@@ -238,17 +223,13 @@ export class DriveHomeComponent implements OnInit {
       this.fileService.craeteFolder(this.createFetchFolder).subscribe(
         (data: any) => {
           this.createFolderControl = false;
-          let msg = {
-            type: "success",
-            body: "Folder Created successfully"
-          }
-          this.appC.popToast(msg);
-          this.fetchPrefillFolderAndFiles(this.createFetchFolder.keyName, true);
           this.createFetchFolder.folderName = "";
+          this.msgService.showErrorMessage('success', '', "Folder Created successfully");
+          this.fetchPrefillFolderAndFiles(this.createFetchFolder.keyName, true);
           // this.ngOnInit(true);
         },
         (error: any) => {
-
+          this.msgService.showErrorMessage('error', '', error.error.message);
         }
       )
     }
