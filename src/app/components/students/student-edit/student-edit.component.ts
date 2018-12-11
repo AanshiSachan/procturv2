@@ -1214,6 +1214,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
       });
       let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+      if (this.studentAddFormData.student_email != "") {
+        if (!email.test(this.studentAddFormData.student_email)) {
+          let alert = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Please enter valid email id'
+          }
+          this.appC.popToast(alert);
+          return;
+        }        
+      }
       if (this.studentAddFormData.parent_email != "") {
         if (!email.test(this.studentAddFormData.parent_email)) {
           let alert = {
