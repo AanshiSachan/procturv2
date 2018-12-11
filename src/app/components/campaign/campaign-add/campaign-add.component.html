@@ -63,7 +63,7 @@
       <div class="c-lg-6 c-md-6 c-sm-6">
         <div class="field-wrapper">
             <label for="sEmail">Email ID</label>
-            <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="campaignAddFormData.email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="campaignAddFormData.email" name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$"
               #sEmail="ngModel" />
            
             <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">

@@ -609,7 +609,7 @@ export class StudentAddComponent implements OnInit {
   }
 
   getSlots() {
-    this.slots=[];
+    this.slots = [];
     return this.studentPrefillService.fetchSlots().subscribe(
       res => {
         res.forEach(el => {
@@ -992,6 +992,32 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
+      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+      if (this.studentAddFormData.parent_email != "") {
+        if (!email.test(this.studentAddFormData.parent_email)) {
+          let alert = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Please enter valid parent email id'
+          }
+          this.appC.popToast(alert);
+          return;
+        }
+        
+      }
+      if (this.studentAddFormData.guardian_email != "") {        
+        if (!email.test(this.studentAddFormData.guardian_email)) {
+          let alert = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Please enter valid guardian email id'
+          }
+          this.appC.popToast(alert);
+          return;
+        }
+        
+      }
+      
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
