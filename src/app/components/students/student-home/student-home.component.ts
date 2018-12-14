@@ -25,12 +25,76 @@ import { CommonServiceFactory } from '../../../services/common-service';
 })
 export class StudentHomeComponent implements OnInit {
 
+  private subscriptionStudent: ISubscription;
+  private subscriptionCustomComp: ISubscription;
+  @ViewChild('studentPage') studentPage: ElementRef;
+  @ViewChild('mySidenav') mySidenav: ElementRef;
+  @ViewChild('optMenu') optMenu: ElementRef;
 
-  private enqstatus: any = []; private masterCourseList: any = []; private schoolList: any = []; private subjectList: any = []; private studentStatusList: any = []; private batchList: any = []; private standardList: any = []; private subCourseList: any = []; private customComponent: any = []; private studentDataSource: any[] = []; private selectedRowGroup: any[] = []; private optionsModel: any = null; private customComponents: any[] = []; private advancedFilter: boolean = false; private studentdisplaysize: number = 50; isConfirmBulkDelete: boolean; isNotifyStudent: boolean; isMarkLeave: boolean;
-  private isAllSelected: boolean = false; private selectedRow: any; studentDetailsById: any; studentCustomComponent: any; today: any = Date.now(); searchBarData: any = null; bulkActionItems: MenuItem[]; isProfessional: boolean = false; currentDirection: string = 'asc'; isDeleteStudentPrompt: boolean = false; isAddComment: boolean = false; perPage: number = 10; PageIndex: number = 1; maxPageSize: number = 0; totalRow: number = 0; private slots: any[] = [];
-  private selectedSlots: any[] = []; academicYear: any[] = []; defaultAcadYear: any; private slotIdArr: any[] = []; private selectedSlotsString: string = ''; loading_message: number = 1; private selectedSlotsID: string = ''; selectedRowCount: number = 0; isRippleLoad: boolean = false; isSideBar: boolean = false; isOptions: boolean = false;
-  private editForm: any = { comments: "", institution_id: sessionStorage.getItem('institute_id') }; StudentSettings: ColumnSetting[]; leaveDataArray: any = []; sortBy: string = "student_name";
-  @ViewChild('studentPage') studentPage: ElementRef; @ViewChild('mySidenav') mySidenav: ElementRef; @ViewChild('optMenu') optMenu: ElementRef; sizeArr: any[] = [50, 100, 250, 500, 1000];
+  sizeArr: any[] = [50, 100, 250, 500, 1000];
+  private enqstatus: any = [];
+  private masterCourseList: any = [];
+  private schoolList: any = [];
+  private subjectList: any = [];
+  private studentStatusList: any = [];
+  private batchList: any = [];
+  private standardList: any = [];
+  private subCourseList: any = [];
+  private customComponent: any = [];
+  private studentDataSource: any[] = [];
+  private selectedRowGroup: any[] = [];
+  private optionsModel: any = null;
+  private customComponents: any[] = [];
+  bulkActionItems: MenuItem[];
+  private slots: any[] = [];
+  private selectedSlots: any[] = [];
+  academicYear: any[] = [];
+  defaultAcadYear: any;
+  private slotIdArr: any[] = [];
+  StudentSettings: ColumnSetting[];
+  leaveDataArray: any = [];
+  messageList: any = [];
+  selectedUserId: any = [];
+  studentbatchList: any[] = [];
+  studentByIdcustomComponents: any[] = [];
+
+  private studentdisplaysize: number = 50;
+  perPage: number = 10;
+  PageIndex: number = 1;
+  maxPageSize: number = 0;
+  totalRow: number = 0;
+  selectedRowCount: number = 0;
+  loading_message: number = 1;
+
+  isConfirmBulkDelete: boolean;
+  isNotifyStudent: boolean;
+  isMarkLeave: boolean;
+  private advancedFilter: boolean = false;
+  private isAllSelected: boolean = false;
+  isDeleteStudentPrompt: boolean = false;
+  isProfessional: boolean = false;
+  isAddComment: boolean = false;
+  isRippleLoad: boolean = false;
+  isSideBar: boolean = false;
+  isOptions: boolean = false;
+  private isAssignBatch: boolean = false;
+  isEdit: boolean = true;
+  private selectedRow: any;
+  studentDetailsById: any;
+  studentCustomComponent: any; today: any = Date.now();
+  searchBarData: any = null;
+  private selectedSlotsID: string = '';
+  private selectedSlotsString: string = '';
+  private assignedBatchString: string = '';
+  currentDirection: string = 'asc';
+  sortBy: string = "student_name";
+
+
+  private editForm: any = {
+    comments: "",
+    institution_id: sessionStorage.getItem('institute_id')
+  };
+
   instituteData: instituteInfo = {
     school_id: -1,
     standard_id: -1,
@@ -50,6 +114,7 @@ export class StudentHomeComponent implements OnInit {
     doa_from_date: moment().format('YYYY-MM-DD'),
     doa_to_date: moment().format('YYYY-MM-DD')
   };
+
   advancedFilterForm: instituteInfo = {
     school_id: -1,
     standard_id: -1,
@@ -68,20 +133,77 @@ export class StudentHomeComponent implements OnInit {
     doa_from_date: moment().format('YYYY-MM-DD'),
     doa_to_date: moment().format('YYYY-MM-DD')
   };
-  applyLeave = { student_id: '', start_date: moment().format("YYYY-MM-DD"), end_date: moment().format("YYYY-MM-DD"), reason: '' };
-  sendNotification = { loginMessageChkbx: false, smsChkbx: true, emailChkbx: false, studentChkbx: true, parentChkbx: false, gaurdianChkbx: false, subjectMessage: '' }
-  loginField = { checkBox: 0 }; messageList: any = []; selectedUserId: any = [];
-  private studentAddFormData: StudentForm = { student_name: "", student_sex: "", student_email: "", student_phone: "", student_curr_addr: "", dob: "", doj: moment().format('YYYY-MM-DD'), school_name: "-1", student_class_key: "", parent_name: "", parent_email: "", parent_phone: "", guardian_name: "", guardian_email: "", guardian_phone: "", is_active: "Y", institution_id: sessionStorage.getItem('institute_id'), assignedBatches: [], assignedBatchescademicYearArray: [""], assignedCourse_Subject_FeeTemplateArray: [""], fee_type: 0, fee_due_day: 0, batchJoiningDates: [], comments: "", photo: null, enquiry_id: "", student_disp_id: "", student_manual_username: null, social_medium: -1, attendance_device_id: "", religion: "", standard_id: "-1", subject_id: "-1", slot_id: null, language_inst_status: "admitted", stuCustomLi: [], deleteCourse_SubjectUnPaidFeeSchedules: false };
-  private assignedBatchString: string = ''; studentbatchList: any[] = []; private isAssignBatch: boolean = false; isEdit: boolean = true;
-  studentByIdcustomComponents: any[] = [];
-  private subscriptionStudent: ISubscription;
-  private subscriptionCustomComp: ISubscription;
+
+  applyLeave = {
+    student_id: '',
+    start_date: moment().format("YYYY-MM-DD"),
+    end_date: moment().format("YYYY-MM-DD"),
+    reason: ''
+  };
+
+  sendNotification = {
+    loginMessageChkbx: false,
+    smsChkbx: true,
+    emailChkbx: false,
+    studentChkbx: true,
+    parentChkbx: false,
+    gaurdianChkbx: false,
+    subjectMessage: ''
+  }
+  loginField = { checkBox: 0 };
+
+  private studentAddFormData: StudentForm = {
+    student_name: "",
+    student_sex: "",
+    student_email: "",
+    student_phone: "",
+    student_curr_addr: "",
+    dob: "",
+    doj: moment().format('YYYY-MM-DD'),
+    school_name: "-1",
+    student_class_key: "",
+    parent_name: "",
+    parent_email: "",
+    parent_phone: "",
+    guardian_name: "",
+    guardian_email: "",
+    guardian_phone: "",
+    is_active: "Y",
+    institution_id: sessionStorage.getItem('institute_id'),
+    assignedBatches: [],
+    assignedBatchescademicYearArray: [""],
+    assignedCourse_Subject_FeeTemplateArray: [""],
+    fee_type: 0,
+    fee_due_day: 0,
+    batchJoiningDates: [],
+    comments: "",
+    photo: null,
+    enquiry_id: "",
+    student_disp_id: "",
+    student_manual_username: null,
+    social_medium: -1,
+    attendance_device_id: "",
+    religion: "",
+    standard_id: "-1",
+    subject_id: "-1",
+    slot_id: null,
+    language_inst_status: "admitted",
+    stuCustomLi: [],
+    deleteCourse_SubjectUnPaidFeeSchedules: false
+  };
 
   /* =================================================================================================== */
-  /* =================================================================================================== */
-  /* =================================================================================================== */
-  /* =================================================================================================== */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private studentFetch: FetchStudentService, private login: LoginService, private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private widgetService: WidgetService, private postService: PostStudentDataService, private actRoute: ActivatedRoute, private auth: AuthenticatorService, private commonService: CommonServiceFactory) {
+  constructor(private prefill: FetchprefilldataService,
+    private router: Router,
+    private studentFetch: FetchStudentService,
+    private login: LoginService,
+    private appC: AppComponent,
+    private studentPrefill: AddStudentPrefillService,
+    private widgetService: WidgetService,
+    private postService: PostStudentDataService,
+    private actRoute: ActivatedRoute,
+    private auth: AuthenticatorService,
+    private commonService: CommonServiceFactory) {
 
     this.auth.institute_type.subscribe(
       res => {
@@ -146,11 +268,7 @@ export class StudentHomeComponent implements OnInit {
     });
   }
 
-
-
-
   /* OnInit function to set toggle default columns and load student data for table*/
-  /* =================================================================================================== */
   /* =================================================================================================== */
   ngOnInit() {
     this.isRippleLoad = true;
@@ -168,14 +286,15 @@ export class StudentHomeComponent implements OnInit {
         label: 'Admission Form', icon: 'fa fa-address-card', command: () => {
           this.downloadStudentAdmissionForm();
         }
+      }, {
+        label: 'Fee Installment', icon: 'fa fa-dollar', command: () => {
+          this.studentFeeInstallment();
+        }
       }
     ];
   }
 
-
   /* Fetch data from server and convert to custom array */
-  /* =================================================================================================== */
-  /* =================================================================================================== */
   loadTableDataSource(obj) {
     console.log(obj);
     this.isRippleLoad = true;
@@ -1949,4 +2068,30 @@ export class StudentHomeComponent implements OnInit {
     )
   }
 
+  //get all selected studnet fee installment 
+  studentFeeInstallment() {
+    console.log('studentFeeInstallment');
+    let object = {
+      student_ids: this.selectedRowGroup.toString(),// string by ids common seperated
+      institution_id: ''
+    }
+    this.isRippleLoad = true;
+
+    this.postService.getFeeInstallments(object).subscribe((res:any) => {
+      this.isRippleLoad = false;
+      let byteArr = this.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('hiddenAnchorTag2');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+     }, 
+    (err) => { 
+      this.isRippleLoad = false;
+      this.commonService.showErrorMessage('error', 'Error', err.error.message);
+    })
+  }
 }

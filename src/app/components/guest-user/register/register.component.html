@@ -23,7 +23,7 @@
         <div class="row" style="margin:0;">
           <div class="field-wrapper has-value password">
             <input class="form-ctrl" type="text" [(ngModel)]="loginDataForm.alternate_email_id" name="emailid" id="emailid" #emailid="ngModel" placeholder="Email"
-              required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$">
+              required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$">
             <div *ngIf="emailid.invalid && (emailid.dirty || emailid.touched )" class="alert invalid-alert">
               <div *ngIf="emailid.errors.required" class="fontCss">
                 Please enter valid Email ID

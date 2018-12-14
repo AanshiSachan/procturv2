@@ -92,7 +92,7 @@ export class RegisterComponent implements OnInit {
 
   registerGuestUser() {
   
-    let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/
+    let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/
     this.loginDataForm.institution_id = sessionStorage.getItem('institution_id');
     if (this.loginDataForm.alternate_email_id.trim() != ""
       && this.loginDataForm.password.trim() != ""

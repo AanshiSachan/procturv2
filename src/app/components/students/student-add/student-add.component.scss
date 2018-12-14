@@ -1,7 +1,11 @@
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
 /* ============================================================================================================= */
-
+.downloadbtn{
+    position: absolute;
+    right: 17px;
+    border-radius: 6px;
+}
 @media only screen and (max-width: 767px) {
     .boxPadding15 {
         padding: 0;

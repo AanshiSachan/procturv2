@@ -27,7 +27,12 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.keysArray = this.displayKeys.keys;
-    this.sortKey = this.keysArray[0];
+    if(this.displayKeys.defaultSort==undefined){
+      this.sortKey = this.keysArray[0];
+    }
+    else{
+      this.sortKey = this.displayKeys.defaultSort;
+    }
     if (sessionStorage.getItem('course_structure_flag') == "0") {
       this.isCourse = false;
       if (!this.isCourse) {
@@ -313,6 +318,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           return false;
         }
        
+      }
+      default:{
+        return true;
       }
     }
   }

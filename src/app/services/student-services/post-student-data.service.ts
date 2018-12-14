@@ -32,14 +32,7 @@ export class PostStudentDataService {
         form.doj = moment(form.doj).format('YYYY-MM-DD');
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
-        return this.http.post(urlQuickAdd, form, { headers: this.headers }).map(
-            res => {
-                return res;
-            },
-            err => {
-                return err;
-            }
-        )
+        return this.postData(urlQuickAdd, form);
     }
 
 
@@ -62,11 +55,7 @@ export class PostStudentDataService {
 
     archieveStudents(obj) {
         let urlDeleteStudent = this.baseUrl + '/api/v1/archive/students';
-
-        return this.http.post(urlDeleteStudent, obj, { headers: this.headers }).map(
-            res => { return res },
-            err => { return err }
-        )
+        return this.postData(urlDeleteStudent, obj);
     }
 
 
@@ -99,27 +88,16 @@ export class PostStudentDataService {
 
 
     deleteInstitute(id) {
-
         let urlInstituteDeleter = this.baseUrl + "/api/v1/schools/" + id;
-
         return this.http.delete(urlInstituteDeleter, { headers: this.headers }).map(
             res => { return res; }
         )
     }
 
-
     allocateInventory(obj) {
         let urlInventory = this.baseUrl + "/api/v1/inventory/item/allocate";
-        return this.http.post(urlInventory, obj, { headers: this.headers }).map(
-            res => {
-                return res;
-            },
-            err => {
-                return err;
-            }
-        );
+        return this.postData(urlInventory, obj);
     }
-
 
     getAllocatedHistory(id) {
         let urlInventory = this.baseUrl + "/api/v1/inventory/item/student/txHistory/" + id;
@@ -147,17 +125,8 @@ export class PostStudentDataService {
 
 
     allocateStudentInventory(obj) {
-
         let urlInventory = this.baseUrl + "/api/v1/inventory/item/allocate/multiple";
-
-        return this.http.post(urlInventory, obj, { headers: this.headers }).map(
-            res => {
-                return res;
-            },
-            err => {
-                return err;
-            }
-        );
+        return this.postData(urlInventory, obj);
     }
 
     allocateStudentFees(obj) {
@@ -165,26 +134,14 @@ export class PostStudentDataService {
             obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
         }
         let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
-
-        return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).map(
-            res => {
-                return res;
-            },
-            err => {
-                return err;
-            });
+        return this.postData(urlFeeUpdate, obj);
     }
 
 
     addChequePdc(obj) {
         let urlAddCheque: string = this.baseUrl + "/api/v1/student_cheque/createList";
-
-        return this.http.post(urlAddCheque, obj, { headers: this.headers }).map(
-            res => { return res; },
-            err => { return err; }
-        )
+        return this.postData(urlAddCheque, obj);
     }
-
 
     updateFeeDetails(obj): Observable<any> {
 
@@ -195,7 +152,6 @@ export class PostStudentDataService {
             err => { return err }
         )
     }
-
 
     deletePdcById(id): Observable<any> {
         let urlDeletePdc = this.baseUrl + "/api/v1/student_cheque/delete/" + this.institute_id + "/" + id;
@@ -208,28 +164,18 @@ export class PostStudentDataService {
 
     generateAcknowledge(chid, id, email): Observable<any> {
         let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + chid + "&sendEmail=" + email;
-        return this.http.post(urlsend, null, { headers: this.headers }).map(
-            res => { return res },
-            err => { return err }
-        )
+        return this.postData(urlsend, null);
     }
 
     sendAcknowledge(chid, id): Observable<any> {
         let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + chid + "&sendEmail=Y";
-
-        return this.http.post(urlsend, null, { headers: this.headers }).map(
-            res => { return res },
-            err => { return err }
-        )
+        return this.postData(urlsend, null);
     }
 
     uploadStudentBulk(obj): Observable<any> {
         let urlPostXlsDocument = this.baseUrl + "/api/v1/students/studentBulkUploadV2";
+        return this.postData(urlPostXlsDocument, obj);
 
-        return this.http.post(urlPostXlsDocument, obj, { headers: this.headers }).map(
-            res => { return res },
-            err => { return err }
-        )
     }
 
     generateFeeReceipt(id, feeid): Observable<any> {
@@ -246,21 +192,27 @@ export class PostStudentDataService {
 
     payPartialFeeAmount(obj): any {
         let url = this.baseUrl + "/api/v1/studentWise/fee/students/" + this.institute_id + "/save";
-        return this.http.post(url, obj, { headers: this.headers }).map(
-            res => {
-                return res;
-            },
-            err => {
-                return err;
-            }
-
-        )
-
+        return this.postData(url, obj);
     }
 
     downloadAdmissionForm(obj) {
         obj.institution_id = this.institute_id;
         let url = this.baseUrl + "/api/v1/students/downloadAdmissionForm";
+        return this.postData(url, obj);
+    }
+
+    getFeeInstallments(obj){
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl +"/api/v1/studentWise/fee/downloadStudentsFeeInstallments";
+        return this.postData(url, obj);
+        
+    }
+
+    /**
+     * this method is used to call http post 
+     *  written by laxmi
+     */
+    postData(url, obj) {
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;

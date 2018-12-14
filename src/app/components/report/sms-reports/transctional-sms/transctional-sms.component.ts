@@ -64,8 +64,9 @@ export class TransctionalSmsComponent implements OnInit {
   }
 
   tableSetting: any = {//inventory.item
-    tableDetails: { title: 'Lead SMS Report', key: 'reports.fee.LeadSMSReport', showTitle: false },
+    tableDetails: { title: 'Lead SMS Report', key: 'reports.fee.LeadSMSReport', showTitle: false},
     search: { title: 'Search', showSearch: false },
+    defaultSort: { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     keys: this.projectSettings,
     selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
@@ -243,5 +244,4 @@ export class TransctionalSmsComponent implements OnInit {
       this._msgService.showErrorMessage(this._msgService.toastTypes.info, '', "Future date is not allowed");
     }
   }
-
 }

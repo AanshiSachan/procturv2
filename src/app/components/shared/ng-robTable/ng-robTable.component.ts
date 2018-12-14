@@ -44,7 +44,11 @@ export class RobTableComponent implements OnChanges, DoCheck {
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 
-    constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eleRef: ElementRef) { }
+    constructor(
+        private rd: Renderer2,
+        private cd: ChangeDetectorRef,
+        private eleRef: ElementRef
+    ) { }
 
 
 

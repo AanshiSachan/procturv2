@@ -34,7 +34,7 @@
           <div class="field-wrapper">
               <label for="Name">Name</label>
               <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name" maxlength="50"
-              pattern="[a-zA-Z .]+[a-zA-Z .]+" #name="ngModel" >
+              pattern="[a-zA-Z.]+[a-zA-Z.]+" #name="ngModel" >
            
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
               <!-- <div *ngIf="name.errors.required">
@@ -63,7 +63,7 @@
       <div class="c-lg-6 c-md-6 c-sm-6">
         <div class="field-wrapper">
             <label for="sEmail">Email ID</label>
-            <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="campaignAddFormData.email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="campaignAddFormData.email" name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
               #sEmail="ngModel" />
            
             <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">

@@ -20,7 +20,9 @@ export class CourseEditComponent implements OnInit {
   subjectList: any;
   dummyArray: any = [];
   examGradeFeature: any;
-
+  jsonVar: any = {
+    callApi: true,
+  }
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
@@ -119,16 +121,23 @@ export class CourseEditComponent implements OnInit {
     if (dataToSend == false) {
       return
     }
-    this.apiService.updateDetailsInEdit(dataToSend).subscribe(
-      res => {
-        this.router.navigateByUrl('/view/course/courselist');
-        this.messageToast('success', 'Course Updated', 'Course updated sucessfully.')
-      },
-      err => {
-        //console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
-      }
-    )
+
+    if (this.jsonVar.callApi) {
+      this.jsonVar.callApi = false;
+      this.apiService.updateDetailsInEdit(dataToSend).subscribe(
+        res => {
+          this.jsonVar.callApi = true;
+          this.router.navigateByUrl('/view/course/courselist');
+          this.messageToast('success', 'Course Updated', 'Course updated sucessfully.');
+
+        },
+        err => {
+          this.jsonVar.callApi = true;
+          //console.log(err);
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
   }
 
   removeRowFromTable(row, i) {

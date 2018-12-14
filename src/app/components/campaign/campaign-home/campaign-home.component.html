@@ -422,7 +422,7 @@
             <div class="row addSection" *ngIf="createNew">
               <h3>Add Promotional Message
                 <div class="questionInfo inline-relative">
-                  <span class="qInfoIcon i-class">i</span>
+                  <span class="qInfoIcon i-class" style="    border: 1px solid #0084f6;  color:#0084f6">i</span>
                   <div class="tooltip-box-field md">
                     Promotional SMS : These messages are sent with the objective
                     <br>of promoting your product or service. Promotional SMS can be
@@ -439,9 +439,14 @@
                   </div>
                 </div>
                 <div class="c-cm-2 c-md-2 c-lg-2 spanTagInfo">
-                  <span title="Note: Message having apostrophe or any other special character will be treated as unicode message. A unicode message has a character limit of 70 per SMS.">
-                    <i class="fas fa-info" style="font-family: Fontawesome;font-size: 20px;color: #3184f6;"></i>
-                  </span>
+                  <div class="questionInfo inline-relative">
+                    <span class=" i-class noteCss" >i</span>
+                    <div class="tooltip-box-field md">
+                      Note: Message having apostrophe or any other special
+                      <br> character willbe treated as unicode message.
+                      <br> A unicode message has a character limit of 70 per SMS.
+                    </div>
+                  </div>
                 </div>
                 <div class="c-sm-4 c-md-4 c-lg-4 btnActionGrp">
                   <input type="button" class="btn" value="Cancel" (click)="closeAddDiv()">

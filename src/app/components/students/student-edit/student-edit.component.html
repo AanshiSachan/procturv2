@@ -89,7 +89,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
                     <label for="sEmail">Email ID</label>
                     <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email"
-                      name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #sEmail="ngModel" />
+                      name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
                     <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="sEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -146,7 +146,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
                     <label for="parentEmail">Parent Email ID</label>
                     <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email"
-                      name="parentEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #parentEmail="ngModel">
+                      name="parentEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #parentEmail="ngModel">
                     <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="parentEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -213,12 +213,12 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
-                    <label for="guardianEmail">Guardian Email Id</label>
-                    <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                    <label for="guardianEmail">Guardian Email ID</label>
+                    <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
                       name="guardianEmail" [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
-                        please enter a valid email ID.
+                        Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
                   </div>
@@ -583,7 +583,7 @@
           </div>
 
           <div class="row">
-            <div class="c-sm-6 c-md-6 c-lg-6">
+            <div  class="c-sm-12 c-md-12 c-lg-12" style="margin-bottom: 10px ">
               <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 15px;">
                 <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="checkBoxGroup.unpaidInstallment"
                   (ngModelChange)="onPaidOrUnpaidCheckbox()" name="chkBoxUnpaidMain" id="chkBoxUnpaidMain" />
@@ -595,6 +595,10 @@
                   (ngModelChange)="onPaidOrUnpaidCheckbox()" name="chkBoxpaidMain" id="chkBoxpaidMain" />
                 <label for="chkBoxpaidMain">Paid</label>
               </div>
+
+              <!-- <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
+              <input *ngIf="showFeeSection" type="button" value="Download" (click)="studentFeeInstallment()"
+                class="btn downloadbtn"> -->
             </div>
           </div>
 
@@ -1137,7 +1141,7 @@
           <div class="field-wrapper">
             <label for="sEmail2">Student's Email*</label>
             <input type="text" value="" id="sEmail2" class="form-ctrl" [(ngModel)]="studentAddFormData.student_manual_username"
-              name="sEmail2" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #sEmail2="ngModel" required />
+              name="sEmail2" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$ss" #sEmail2="ngModel" required />
             <div *ngIf="sEmail2.invalid && (sEmail2.dirty || sEmail2.touched)" class="alert invalid-alert">
               <div *ngIf="sEmail2.errors.required">
                 Email ID is required.

@@ -1844,7 +1844,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /*=====================================middle top section css===================*/
-
+.downloadbtn{
+    position: absolute;
+    right: 17px;
+    border-radius: 6px;
+}
 .middle-top {
     // padding-bottom: 10px;
     border-bottom: 1px solid $borderccc;

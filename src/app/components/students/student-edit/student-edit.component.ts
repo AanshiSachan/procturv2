@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import * as moment from 'moment';
+import 'rxjs/Rx';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AppComponent } from '../../../app.component';
+import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { StudentForm } from '../../../model/student-add-form';
-import { NgForm } from '@angular/forms';
-import * as moment from 'moment';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AppComponent } from '../../../app.component';
-import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
-import 'rxjs/Rx';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
@@ -22,6 +22,99 @@ import { StudentFeeService, FeeModel } from '../student_fee.service';
   styleUrls: ['./student-edit.component.scss']
 })
 export class StudentEditComponent implements OnInit, OnDestroy {
+
+  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
+  @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
+  @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
+  @ViewChild('btnPayment') btnPayment: ElementRef;
+
+  studentAddnMove: boolean;
+  userHasFees: boolean;
+  closeFee: boolean;
+  formIsActive: boolean = false;
+  isConvertEnquiry: boolean = false;
+  isNewInstitute: boolean = true;
+  isNewInstituteEditor: boolean = false;
+  quickAddStudent: boolean = false;
+  additionalBasicDetails: boolean = false;
+  isAssignBatch: boolean = false;
+  isAcad: boolean = false;
+  isProfessional: boolean = false;
+  multiOpt: boolean = false;
+  isDuplicateStudent: boolean = false;
+  isUpdateFeeAndExit: boolean = false;
+  removeImage: boolean = false;
+  isBasicActive: boolean = true;
+  isOtherActive: boolean = false;
+  isFeeActive: boolean = false;
+  isInventoryActive: boolean = false;
+  isConfigureFees: boolean = false;
+  isPartialPayHistory: boolean = false;
+  isEdit: boolean = true;
+  isDefineFees: boolean = false;
+  isNewInstallment: boolean = false;
+  isDiscountApply: boolean = false;
+  isPdcApply: boolean = false;
+  isDiscountApplied: boolean = false;
+  reverse: boolean = false;
+  genPdcAck: boolean = false;
+  sendPdcAck: boolean = false;
+  isRippleLoad: boolean = false;
+  isManualDisplayId: boolean = false;
+  thumbnailAvailable: boolean = false;
+  tableHeaderCheckbox: boolean = false;
+  isFeePaymentUpdate: boolean = false;
+  showFeeSection: boolean = false;
+
+  instituteList: any[] = [];
+  standardList: any[] = [];
+  courseList: any[] = [];
+  batchList: any[] = [];
+  slots: any[] = [];
+  langStatus: any[] = [];
+  selectedSlots: any[] = [];
+  customComponents: any[] = [];
+  slotIdArr: any[] = [];
+  uploadedFiles: any[] = [];
+  school: any[] = [];
+  feeTemplateStore: any[] = [];
+  inventoryItemsArr: any[] = [];
+  newPdcArr: any[] = [];
+  chequePdcList: any[] = [];
+  pdcStatus: any[] = [];
+  studentPartialPaymentData: any[] = [];
+  paymentStatusArr: any[] = [];
+  allocatedInventoryHistory: any[] = [];
+  allotInventoryArr: any[] = [];
+  studentAssisnedBatches: any[] = [];
+  academicYear: any[] = [];
+  savedAssignedBatch: any[] = [];
+  allocatedItem: any = [];
+  subjectWiseInstallmentArray: any = [];
+
+  taxEnableCheck: any = '1';
+  feeTempSelected: any = "";
+  defaultAcadYear: any = '-1';
+  courseDropdown: any = null;
+  enableBiometric: any = "";
+  pdcSelectedForPayment: any;
+  containerWidth: any = "200px";
+  student_id: any;
+  schedule_id: any = "";
+  assignedBatch: string = "";
+  studentImage: string = '';
+  selectedSlotsString: string = '';
+  selectedSlotsID: string = '';
+  assignedBatchString: string = '';
+  userImageEncoded: string = '';
+  is_undo: string = "N";
+  studentServerImage: string = '';
+  studentName: string = "";
+  key: string = 'name';
+  service_tax: number = 0;
+  totalAmountToPay: number = 0;
+  clonedFeeObject: FeeModel;
+  feeObject: FeeModel;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -62,63 +155,31 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     stuCustomLi: [],
     deleteCourse_SubjectUnPaidFeeSchedules: false
   };
-  studentAddnMove: boolean;
-  userHasFees: boolean;
-  closeFee: boolean;
-  formIsActive: boolean = false;
-  studentImage: string = '';
-  quickAddStudent: boolean = false;
-  additionalBasicDetails: boolean = false;
-  isAssignBatch: boolean = false;
-  isAcad: boolean = false;
-  isProfessional: boolean = false;
-  multiOpt: boolean = false;
-  isDuplicateStudent: boolean = false;
-  isUpdateFeeAndExit: boolean = false;
-  instituteList: any[] = [];
-  standardList: any[] = [];
-  courseList: any[] = [];
-  batchList: any[] = [];
-  slots: any[] = [];
-  langStatus: any[] = [];
-  selectedSlots: any[] = [];
-  customComponents: any[] = [];
-  slotIdArr: any[] = [];
-  uploadedFiles: any[] = [];
-  taxEnableCheck: any = '1';
-  assignedBatch: string = "";
-  selectedSlotsString: string = '';
-  selectedSlotsID: string = '';
-  assignedBatchString: string = '';
-  userImageEncoded: string = '';
-  isConvertEnquiry: boolean = false;
-  isNewInstitute: boolean = true;
-  isNewInstituteEditor: boolean = false;
-  school: any[] = [];
-  removeImage: boolean = false;
-  isBasicActive: boolean = true;
-  isOtherActive: boolean = false;
-  isFeeActive: boolean = false;
-  isInventoryActive: boolean = false;
-  isConfigureFees: boolean = false;
-  feeTempSelected: any = "";
-  studentPartialPaymentData: any[] = [];
-  isPartialPayHistory: boolean = false;
+
+  // PDC Cheque PopUp
+  pdcAddForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_id: 0,
+    cheque_no: '',
+    cheque_status: '',
+    cheque_status_key: 0,
+    clearing_date: '',
+    institution_id: sessionStorage.getItem('institute_id'),
+    student_id: 0
+  };
+
   feeStructureForm: any = {
     studentArray: ["-1"],
     template_effective_date: moment().format('YYYY-MM-DD')
   };
-  is_undo: string = "N";
-  studentServerImage: string = '';
-  feeTemplateStore: any[] = [];
-  inventoryItemsArr: any[] = [];
-  newPdcArr: any[] = [];
-  chequePdcList: any[] = [];
-  pdcStatus: any[] = [];
+
   createInstitute = {
     instituteName: "",
     isActive: "Y"
   };
+
   pdcSearchObj = {
     cheque_status: '-1',
     student_id: '',
@@ -132,8 +193,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_id: 0,
     institution_id: sessionStorage.getItem('institute_id')
   };
-  isEdit: boolean = true;
-  containerWidth: any = "200px";
+
   feeTemplateById: StudentFeeStructure = {
     feeTypeMap: "",
     customFeeSchedules: [],
@@ -164,42 +224,46 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     invoice_no: "",
     uiSelected: false
   };
-  student_id: any;
-  service_tax: number = 0;
-  paymentStatusArr: any[] = [];
-  isDefineFees: boolean = false;
-  isNewInstallment: boolean = false;
-  isDiscountApply: boolean = false;
-  isPdcApply: boolean = false;
-  allocatedInventoryHistory: any[] = [];
-  isDiscountApplied: boolean = false;
-  key: string = 'name';
-  reverse: boolean = false;
-  allotInventoryArr: any[] = [];
-  isRippleLoad: boolean = false;
-  studentAssisnedBatches: any[] = [];
-  genPdcAck: boolean = false;
-  sendPdcAck: boolean = false;
-  pdcSelectedForPayment: any;
-  defaultAcadYear: any = '-1';
-  courseDropdown: any = null;
-  enableBiometric: any = "";
-  academicYear: any[] = [];
-  savedAssignedBatch: any[] = [];
-  isManualDisplayId: boolean = false;
-  studentName: string = "";
+
   addInventory: any = {
     alloted_units: 0,
     item_id: -1,
     available_units: ''
   };
-  allocatedItem: any = [];
-  thumbnailAvailable: boolean = false;
 
-  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-  @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
-  @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
-  @ViewChild('btnPayment') btnPayment: ElementRef;
+  cardAmountObject: any = {
+    feeAmountInclTax: 0,
+    feeAmountExclTax: 0,
+    taxAmount: 0,
+    discountAmount: 0,
+    amountPaid: 0,
+    amountDue: 0,
+    additionalFees: 0
+  };
+
+  paymentPopUpJson: any = {
+    immutableAmount: 0,
+    payingAmount: 0,
+    paid_date: moment().format('YYYY-MM-DD'),
+    payment_mode: 'Cash',
+    reference_no: '',
+    remarks: "",
+    selectedPdcId: '',
+    pdcSelectedForm: {
+      bank_name: '',
+      cheque_amount: 0,
+      cheque_date: moment().format("YYYY-MM-DD"),
+      cheque_no: '',
+      pdc_cheque_id: ''
+    },
+    genPdcAck: false,
+    sendPdcAck: false
+  };
+
+  checkBoxGroup: any = {
+    unpaidInstallment: true,
+    paidInstallment: false
+  };
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -228,15 +292,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
       this.switchToView('inventory-icon');
     }
-
     this.updateStudentForm(this.student_id);
   }
 
-
+  // remove the object value from session
   ngOnDestroy() {
     sessionStorage.setItem('editPdc', '');
     sessionStorage.setItem('editInv', '');
-
   }
 
   getInstType() {
@@ -253,59 +315,86 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * this function is used for navigation as student selected type
+   * changed by laxmi 
+   */
   navigateTo(text) {
-    if (text === "studentForm") {
-      document.getElementById('li-one').classList.add('active');
-      document.getElementById('li-two').classList.remove('active');
-      document.getElementById('li-three').classList.remove('active');
-      document.getElementById('li-four').classList.remove('active');
-      this.isBasicActive = true;
-      this.isOtherActive = false;
-      this.isFeeActive = false;
-      this.isInventoryActive = false;
-    }
-    else if (text === "kyc") {
-      document.getElementById('li-one').classList.remove('active');
-      document.getElementById('li-two').classList.add('active');
-      document.getElementById('li-three').classList.remove('active');
-      document.getElementById('li-four').classList.remove('active');
-      this.isBasicActive = false;
-      this.isOtherActive = true;
-      this.isFeeActive = false;
-      this.isInventoryActive = false;
-    }
-    else if (text === "feeDetails") {
-      document.getElementById('li-one').classList.remove('active');
-      document.getElementById('li-two').classList.remove('active');
-      document.getElementById('li-four').classList.remove('active');
-      document.getElementById('li-three').classList.add('active');      
-      this.isBasicActive = false;
-      this.isOtherActive = false;
-      this.isFeeActive = true;
-      this.isInventoryActive = false;
-    }
-    else if (text === "inventory") {
-      document.getElementById('li-one').classList.remove('active');
-      document.getElementById('li-two').classList.remove('active');
-      document.getElementById('li-three').classList.remove('active');
-      document.getElementById('li-four').classList.add('active');
-      this.isBasicActive = false;
-      this.isOtherActive = false;
-      this.isFeeActive = false;
-      this.isInventoryActive = true;
-      this.fetchInventoryList();
+
+    let classArray = ['li-one', 'li-two', 'li-three', 'li-four'];
+    classArray.forEach(function (className) {
+      document.getElementById(className).classList.remove('active');
+    });
+    this.isBasicActive = false;
+    this.isOtherActive = false;
+    this.isFeeActive = false;
+    this.isInventoryActive = false;
+
+    switch (text) {
+      case "studentForm": {
+        document.getElementById('li-one').classList.add('active');
+        this.isBasicActive = true;
+        break;
+      }
+      case "kyc": {
+        document.getElementById('li-two').classList.add('active');
+        this.isOtherActive = true;
+        break;
+      }
+      case "feeDetails": {
+        document.getElementById('li-three').classList.add('active');
+        this.isFeeActive = true;
+        break;
+      }
+      case "inventory": {
+        document.getElementById('li-four').classList.add('active');
+        this.isInventoryActive = true;
+        this.fetchInventoryList();
+        break;
+      }
     }
   }
 
+  //get courses
   getCourseDropdown(id) {
     this.fetchService.getStudentCourseDetails(id).subscribe(
       res => {
         this.courseDropdown = res;
       },
       err => {
-
       }
     )
+  }
+
+  //get all selected studnet fee installment 
+  studentFeeInstallment() {
+    let object = {
+      student_ids: this.student_id,// string by ids common seperated
+      institution_id: ''
+    }
+    this.isRippleLoad = true;
+    this.postService.getFeeInstallments(object).subscribe((res: any) => {
+      this.isRippleLoad = false;
+      let byteArr = this.convertBase64ToArray(res.document);
+      let fileName = res.docTitle;
+      let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+      let url = URL.createObjectURL(file);
+      let dwldLink = document.getElementById('hiddenAnchorTag2');
+      dwldLink.setAttribute("href", url);
+      dwldLink.setAttribute("download", fileName);
+      document.body.appendChild(dwldLink);
+      dwldLink.click();
+    },
+      (err: any) => {
+        this.isRippleLoad = false;
+        // this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        let obj = {
+          type: 'error',
+          title: err.error.message,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      })
   }
 
   getAssignDate(e): string {
@@ -374,30 +463,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   switchToView(id) {
-
     switch (id) {
       case "studentForm-icon": {
-        //console.log(id);
         this.navigateTo("studentForm");
         break;
       }
       case "kyc-icon": {
-        //console.log(id);
         this.navigateTo("kyc");
         break;
       }
       case "feeDetails-icon": {
-        //console.log(id);
         this.navigateTo("feeDetails");
         break;
       }
       case "inventory-icon": {
-        //console.log(id);
         this.navigateTo("inventory");
         break;
       }
       default: {
-        //console.log("some error has occured");
         this.navigateTo("studentForm");
         break;
       }
@@ -410,9 +493,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   fetchPrefillFormData() {
-
     this.fetchInventoryList();
-
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
@@ -426,15 +507,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     );
-
     this.getAllocatedHistory();
-
     this.studentPrefillService.fetchAllFeeStructure().subscribe(
       res => {
         this.feeTemplateStore = res;
       }
     )
-
     this.studentPrefillService.getChequeStatus().subscribe(
       data => {
         this.pdcStatus = data;
@@ -450,9 +528,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     )
-
     this.getPdcChequeList();
-
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
@@ -487,7 +563,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     )
-
     this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(
       data => {
         if (data != null) {
@@ -905,10 +980,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   }
 
-  isDuplicateContactOpen() {
-    this.isDuplicateStudent = true;
-  }
-
   isDuplicateContactClose() {
     this.isDuplicateStudent = false;
   }
@@ -1169,10 +1240,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (!this.formValidator()) {
         return false;
       }
-
-
       let customArr = [];
-
       this.customComponents.forEach(el => {
         /* Not Checkbox and value not empty */
         if (el.value != '' && el.type != 2 && el.type != 5) {
@@ -1211,8 +1279,44 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           customArr.push(obj);
         }
-
       });
+
+      let email =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
+      if (this.studentAddFormData.student_email != null && this.studentAddFormData.student_email != "") {
+        if (!email.test(this.studentAddFormData.student_email)) {
+          let alert = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Please enter valid email id'
+          }
+          this.appC.popToast(alert);
+          return;
+        }
+      }
+      if (this.studentAddFormData.parent_email != null && this.studentAddFormData.parent_email != "") {
+        if (!email.test(this.studentAddFormData.parent_email)) {
+          let alert = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Please enter valid parent email id'
+          }
+          this.appC.popToast(alert);
+          return;
+        }
+      }
+
+      if (this.studentAddFormData.guardian_email != null && this.studentAddFormData.guardian_email != "") {
+        if (!email.test(this.studentAddFormData.guardian_email)) {
+          let alert = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Please enter valid guardian email id'
+          }
+          this.appC.popToast(alert);
+          return;
+        }
+      }
+
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
@@ -1257,7 +1361,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             form.reset();
             this.removeImage = true;
             this.appC.popToast(alert);
-            this.isDuplicateContactOpen();
+            this.isDuplicateStudent = true;
             this.getCourseDropdown(this.student_id);
           }
         },
@@ -1434,10 +1538,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearDateoJoining() {
-    this.studentAddFormData.doj = ''
-  }
-
   updateFormIsActive(ev) {
     if (ev) {
       this.studentAddFormData.is_active = "Y";
@@ -1490,58 +1590,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  validatePhone(): boolean {
-    let regex = /[789][0-9]{9}/;
-    if (regex.test(this.studentAddFormData.student_phone)) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-
   // New Function For Discounting
-
-  subjectWiseInstallmentArray: any = [];
-  cardAmountObject: any = {
-    feeAmountInclTax: 0,
-    feeAmountExclTax: 0,
-    taxAmount: 0,
-    discountAmount: 0,
-    amountPaid: 0,
-    amountDue: 0,
-    additionalFees: 0
-  };
-  totalAmountToPay: number = 0;
-  paymentPopUpJson: any = {
-    immutableAmount: 0,
-    payingAmount: 0,
-    paid_date: moment().format('YYYY-MM-DD'),
-    payment_mode: 'Cash',
-    reference_no: '',
-    remarks: "",
-    selectedPdcId: '',
-    pdcSelectedForm: {
-      bank_name: '',
-      cheque_amount: 0,
-      cheque_date: moment().format("YYYY-MM-DD"),
-      cheque_no: '',
-      pdc_cheque_id: ''
-    },
-    genPdcAck: false,
-    sendPdcAck: false
-  };
-  feeObject: FeeModel;
-  tableHeaderCheckbox: boolean = false;
-  isFeePaymentUpdate: boolean = false;
-  checkBoxGroup: any = {
-    unpaidInstallment: true,
-    paidInstallment: false
-  };
-  clonedFeeObject: FeeModel;
-  showFeeSection: boolean = false;
-
   updateStudentFeeDetails() {
     this.isRippleLoad = true;
     this.flushDataAfterPayement();
@@ -1839,7 +1888,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   // Add Edit Discount PopUp
-
   openDiscountApply() {
     this.isDiscountApply = true;
   }
@@ -1850,8 +1898,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   // payment history pop up
-
-  schedule_id: any = "";
   openPartialPaymentHistor(data) {
     this.isPartialPayHistory = true;
     this.schedule_id = data.schedule_id;
@@ -1862,11 +1908,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.schedule_id = "";
   }
 
-  ////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////
-
   // Configure Fee
-
   configureFees($event) {
     $event.preventDefault();
     this.isConfigureFees = true;
@@ -2000,7 +2042,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   //Reconfigure Pop up
-
   reConfigureFees() {
     this.isDefineFees = true;
     this.feeTemplateById = this.feeObject;
@@ -2026,20 +2067,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  // PDC Cheque PopUp
-
-  pdcAddForm: any = {
-    bank_name: '',
-    cheque_amount: '',
-    cheque_date: '',
-    cheque_id: 0,
-    cheque_no: '',
-    cheque_status: '',
-    cheque_status_key: 0,
-    clearing_date: '',
-    institution_id: sessionStorage.getItem('institute_id'),
-    student_id: 0
-  };
 
   getPdcChequeList() {
     let obj = {
@@ -2342,8 +2369,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  ////////////////////////////////////////////////
-
   cancelStudentUpload() {
     this.router.navigate(['/view/student']);
   }
@@ -2355,7 +2380,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   /* Converts base64 string into a byte[] */
-
   convertBase64ToArray(val) {
     var binary_string = window.atob(val);
     var len = binary_string.length;
@@ -2365,8 +2389,5 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     return bytes.buffer;
   }
-
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
 
 }

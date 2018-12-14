@@ -428,4 +428,14 @@ header {
 .branch-wrapper {
     position: relative;
     margin-bottom: 10px;
+      ::-webkit-scrollbar {
+        display: block  !important;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.branch-Scroll{
+    max-height: 220px;
+    overflow-y: auto ;
 }
