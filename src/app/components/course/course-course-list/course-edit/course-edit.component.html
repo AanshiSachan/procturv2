@@ -173,7 +173,7 @@
 
     <div class="row pull-right btn-group">
       <button class="btn" routerLink='/view/course/courselist'>Cancel</button>
-      <button class="btn fullBlue" *ngIf="mainTableDataSource.length >0" (click)="updateEditedDetails()">Save</button>
+      <button class="btn fullBlue" *ngIf="mainTableDataSource.length >0" [disabled]="!jsonVar.callApi" (click)="updateEditedDetails()">Save</button>
     </div>
   </div>
 

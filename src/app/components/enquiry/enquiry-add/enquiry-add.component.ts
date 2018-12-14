@@ -1153,7 +1153,10 @@ export class EnquiryAddComponent implements OnInit {
       return this.showErrorMessage('error', 'Enquiry Source Is Mandatory', '');
     }
     else {
-      if (this.validateEnquiryDate()) {
+      if (this.validateEnquiryDate()) {//newEnqData.parent_phone
+        if (this.newEnqData.parent_phone.length != 10 && this.newEnqData.parent_phone != "") {
+          return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
+        }
         return true;
       }
       else {

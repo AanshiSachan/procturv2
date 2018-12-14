@@ -318,6 +318,39 @@ export class StudentAddComponent implements OnInit {
   }
 
 
+  //get all selected studnet fee installment 
+  studentFeeInstallment() {
+    console.log('studentFeeInstallment');
+    let object = {
+      student_ids: this.student_id,// string by ids common seperated
+      institution_id: ''
+    }
+    this.isRippleLoad = true;
+
+    this.postService.getFeeInstallments(object).subscribe((res: any) => {
+      this.isRippleLoad = false;
+      let byteArr = this.convertBase64ToArray(res.document);
+      let fileName = res.docTitle;
+      let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+      let url = URL.createObjectURL(file);
+      let dwldLink = document.getElementById('hiddenAnchorTag2');
+      dwldLink.setAttribute("href", url);
+      dwldLink.setAttribute("download", fileName);
+      document.body.appendChild(dwldLink);
+      dwldLink.click();
+    },
+      (err: any) => {
+        this.isRippleLoad = false;
+        // this.commonService.showErrorMessage('error', 'Error', err.error.message);
+        let obj = {
+          type: 'error',
+          title: err.error.message,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      })
+  }
+
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
     if (text === "studentForm") {
@@ -992,7 +1025,7 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
       if (this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
           let alert = {
@@ -1002,9 +1035,9 @@ export class StudentAddComponent implements OnInit {
           }
           this.appC.popToast(alert);
           return;
-        }        
+        }
       }
-      
+
       if (this.studentAddFormData.parent_email != "") {
         if (!email.test(this.studentAddFormData.parent_email)) {
           let alert = {
@@ -1015,9 +1048,9 @@ export class StudentAddComponent implements OnInit {
           this.appC.popToast(alert);
           return;
         }
-        
+
       }
-      if (this.studentAddFormData.guardian_email != "") {        
+      if (this.studentAddFormData.guardian_email != "") {
         if (!email.test(this.studentAddFormData.guardian_email)) {
           let alert = {
             type: 'error',
@@ -1027,9 +1060,21 @@ export class StudentAddComponent implements OnInit {
           this.appC.popToast(alert);
           return;
         }
-        
       }
-      
+
+      if ((this.studentAddFormData.parent_phone.length < 10 &&
+        this.studentAddFormData.parent_phone != "")
+        || (this.studentAddFormData.guardian_phone.length < 10 &&
+          this.studentAddFormData.guardian_phone != "")) {
+        let alert = {
+          type: 'error',
+          title: 'Invalid Input',
+          body: 'Please enter valid Parent / Guardian mobile number'
+        }
+        this.appC.popToast(alert);
+        return;
+      }
+
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
