@@ -1,6 +1,5 @@
 
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as moment from 'moment';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
@@ -22,7 +21,6 @@ import { Router } from '../../../../../../node_modules/@angular/router';
 export class CompaignSmsComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
-  busy: Subscription;
   projectSettings: any[] = [
     { primaryKey: 'campaign_list_name', header: 'List Name', priority: 1, allowSortingFlag: true },
     { primaryKey: 'message', header: 'Message', priority: 2, allowSortingFlag: true },
@@ -30,7 +28,6 @@ export class CompaignSmsComponent implements OnInit {
     { primaryKey: 'running_date', header: 'Created Date', priority: 4, allowSortingFlag: true },
     { primaryKey: 'statusValue', header: 'Status', priority: 5, allowSortingFlag: true }
   ];
-
   smsSource: any[] = [];
   searchData = [];
   searchText = "";
@@ -40,16 +37,19 @@ export class CompaignSmsComponent implements OnInit {
   isRippleLoad: boolean = false;
 
   tableSetting: any = {//inventory.item
-    tableDetails: { title: 'Campaign SMS Report', key: 'reports.fee.campaignReport', showTitle: false },
+    tableDetails: {
+      title: 'Campaign SMS Report', key: 'reports.fee.campaignReport', showTitle: false,
+    },
     search: { title: 'Search', showSearch: false },
+    defaultSort:   { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true },
     keys: this.projectSettings,
     selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
     {
       showActionButton: true,
       editOption: 'icon',//or button 
-      options: [{viewName:'delete',key:'statusValue',condition:'==',value:'Pending'},
-      {viewName:'view',key:'statusValue',condition:'==',value:'Completed'} ]
+      options: [{ viewName: 'delete', key: 'statusValue', condition: '==', value: 'Pending' },
+      { viewName: 'view', key: 'statusValue', condition: '==', value: 'Completed' }]
     },
     displayMessage: "Campaign details does not exist"
   };
@@ -87,11 +87,11 @@ export class CompaignSmsComponent implements OnInit {
     return this.getSms.deleteCampaign(obj.campaign_list_message_id).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
-       this._msgService.showErrorMessage('success','','campaign deleted successfully');
-       this.fetchCampainSMSReport();
+        this._msgService.showErrorMessage('success', '', 'campaign deleted successfully');
+        this.fetchCampainSMSReport();
       },
       err => {
-        this._msgService.showErrorMessage('error','','error while deleting campaign');
+        this._msgService.showErrorMessage('error', '', 'error while deleting campaign');
         this.isRippleLoad = false;
       }
     )
@@ -111,14 +111,14 @@ export class CompaignSmsComponent implements OnInit {
     console.log($event)
     switch ($event.type) {
       case "delete": {
-      if (confirm('Are you sure, you want to delete?')) {
-        this.deleteCampainSMS($event.data);
-      
-      }
+        if (confirm('Are you sure, you want to delete?')) {
+          this.deleteCampainSMS($event.data);
+
+        }
         break;
       }
-      case "view": {        
-        this.router.navigate(['/view/reports/sms/compaign/' + $event.data.campaign_list_message_id],{ queryParams: { data: JSON.stringify($event.data)}});
+      case "view": {
+        this.router.navigate(['/view/reports/sms/compaign/' + $event.data.campaign_list_message_id], { queryParams: { data: JSON.stringify($event.data) } });
         break;
       }
     }

@@ -117,7 +117,7 @@
 
             <li class="pos-rel branch-wrapper" *ngIf="isMainBranch == 'Y' && checkAdmin">
               <span>Branches</span>
-              <div style="min-width:200px" class="dropdown">
+              <div style="min-width:200px" class="dropdown branch-Scroll ">
                 <ul class="user-detail">
                   <li *ngFor="let data of branchesList">
                     <a (click)="onSubBranchClick(data)">{{data.institute_name}}</a>
