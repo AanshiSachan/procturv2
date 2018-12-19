@@ -158,7 +158,14 @@
   <div popup-content class="popup-header-content">
     <div class="row">
       <div class="c-lg-4 field-wrapper">
-        <label>Folder Name</label>
+        <label>Folder Name
+          <div class="questionInfo inline-relative">
+            <span class="qInfoIcon i-class"> ?</span>
+            <div class="tooltip-box-field">
+                Dot(.) is not allowed .              
+            </div>
+          </div>
+        </label>
         <input type="text" class="form-ctrl" [(ngModel)]="createFetchFolder.folderName">
       </div>
       <div class="c-lg-2" style="margin-top: 4%;">
