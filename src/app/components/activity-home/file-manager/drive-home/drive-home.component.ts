@@ -210,11 +210,6 @@ export class DriveHomeComponent implements OnInit {
       this.msgService.showErrorMessage('error', '', "Folder name is manadatory");
       return
     }
-    else if (this.createFetchFolder.folderName.indexOf(".") != -1 ||
-      this.createFetchFolder.folderName.indexOf(" ") != -1) {
-      this.msgService.showErrorMessage('error', '', "space and dot is not allowed in Folder name");
-      return
-    }
     else {
       let path: string = "";
       let institute_id = sessionStorage.getItem("institute_id");
