@@ -126,7 +126,7 @@
 
                 </div>
 
-                <div class="row examAdder">
+                <div class="row examAdder" *ngIf="jsonVar.isSheduleBatch">
 
                     <div class="c-lg-2 c-md-2 c-sm-2">
                         <div class="form-wrapper datePickerBox">
@@ -196,7 +196,8 @@
                     <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="examScheduleData.is_exam_grad_feature == 0">
                         <div class="form-wrapper" style="width: 75px">
                             <label for="inpTotalMarks">Total Marks</label>
-                            <input type="number" class="side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.total_marks">
+                            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="side-form-ctrl constantHeight"
+                                [(ngModel)]="batchAdderData.total_marks">
                         </div>
                     </div>
 
@@ -206,7 +207,9 @@
                     </div>
 
                 </div>
-
+                <div class="row text-center" style="color: red; margin-bottom: 10px;font-weight: 600;" *ngIf="!jsonVar.isSheduleBatch">
+                    You are not allowed to schedule Class/Exam as current Batch is expired !!!!!!
+                </div>
                 <div class="table-wrapper-Lang">
                     <div class="">
                         <table>
@@ -227,7 +230,7 @@
                                     <th>
                                         Description
                                     </th>
-                                    <th>
+                                    <th *ngIf="jsonVar.isSheduleBatch">
                                         Action
                                     </th>
                                 </tr>
@@ -245,7 +248,8 @@
                                     </td>
                                     <td *ngIf="examScheduleData.is_exam_grad_feature == 0">
                                         <div class="form-wrapper">
-                                            <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
+                                            <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="side-form-ctrl torlMarksWidth"
+                                                name="label" [(ngModel)]="row.total_marks">
                                         </div>
                                     </td>
                                     <td>
@@ -253,7 +257,7 @@
                                             <input type="textbox" class="side-form-ctrl" name="label" [(ngModel)]="row.exam_desc">
                                         </div>
                                     </td>
-                                    <td>
+                                    <td *ngIf="jsonVar.isSheduleBatch">
 
                                         <div class="action-box">
                                             <span class="mail-notification" *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="notifyExamSchedule(row)"
@@ -283,7 +287,7 @@
                 </div>
 
                 <div class="row btn-Group">
-                    <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" (click)="addDataToExamSchedule()">Create Exam Schedule</button>
+                    <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" [disabled]="    " (click)="addDataToExamSchedule()">Create Exam Schedule</button>
                     <!-- <button class="btn fullBlue pull-right" *ngIf="examScheduleData.otherSchd.length !=0" (click)="addDataToExamSchedule()">Update</button> -->
                 </div>
 
@@ -299,7 +303,7 @@
                                     <th>End Time</th>
                                     <th *ngIf="examScheduleData.is_exam_grad_feature == 0">Total Marks</th>
                                     <th>Cancel Reason</th>
-                                    <th>Action</th>
+                                    <th *ngIf="jsonVar.isSheduleBatch">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -319,7 +323,7 @@
                                     <td>
                                         {{row.exam_desc}}
                                     </td>
-                                    <td>
+                                    <td *ngIf="jsonVar.isSheduleBatch">
                                         <div class="action-Menu">
 
                                             <div class="action-box">
@@ -717,8 +721,8 @@
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
-                            <input *ngIf="cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseLevelExam()" class="fullBlue btn">
-                            <input *ngIf="!cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
+                            <input *ngIf="jsonVar.cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseLevelExam()" class="fullBlue btn">
+                            <input *ngIf="!jsonVar.cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
                         </aside>
                     </div>
 
