@@ -1210,11 +1210,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   formValidator(): boolean {
 
-    if (this.commonServiceFactory.validateName(this.studentAddFormData.student_name.trim())) {
-      this.commonServiceFactory.showErrorMessage('error', 'Name Error', 'Special character are not allowed in name.');
-      return false;
-    }
-
     if (this.studentAddFormData.student_phone != null && this.studentAddFormData.student_phone != "") {
       if (isNaN(this.studentAddFormData.student_phone) == false && this.studentAddFormData.student_phone.trim().length == 10) {
         return true;
@@ -1573,16 +1568,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
       && this.studentAddFormData.student_phone != "" && this.studentAddFormData.student_phone != " "
       && this.studentAddFormData.student_phone.length == 10) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  validateName(): boolean {
-    let regex = /[a-zA-Z .]+[a-zA-Z .]+/;
-    if (regex.test(this.studentAddFormData.student_name)) {
       return true;
     }
     else {

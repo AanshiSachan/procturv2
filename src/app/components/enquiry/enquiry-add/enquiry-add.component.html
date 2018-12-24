@@ -39,15 +39,15 @@
                   <div class="field-wrapper">
                     <label for="name">Name*</label>
                     <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.name"
-                      name="name" maxlength="50" pattern="^([a-zA-Z .-]){1,30}$" required />
+                      name="name" maxlength="50"  required />
 
                     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
                       <div *ngIf="name.errors.required">
                         name is required.
                       </div>
-                      <div *ngIf="name.errors.pattern">
-                        Only Alphabets . - Allowed.
-                      </div>
+                      <!-- <div *ngIf="name.errors.pattern">
+                        Only Alphabets . - Allowed. pattern="^([a-zA-Z .-]){1,30}$"
+                      </div> -->
                     </div>
                   </div>
 
@@ -177,12 +177,12 @@
                   <div class="field-wrapper">
                     <label for="guardianName">Parent Name</label>
                     <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="newEnqData.parent_name"
-                      name="guardianName" pattern="^([a-zA-Z .-]){1,30}$" maxlength="50" #guardianName="ngModel" />
+                      name="guardianName"  maxlength="50" #guardianName="ngModel" />
 
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
-                      <div *ngIf="guardianName.errors.pattern">
-                        Only Alphabets . - Allowed.
-                      </div>
+                      <!-- <div *ngIf="guardianName.errors.pattern">
+                        Only Alphabets . - Allowed. pattern="^([a-zA-Z .-]){1,30}$"
+                      </div> -->
                     </div>
                   </div>
 

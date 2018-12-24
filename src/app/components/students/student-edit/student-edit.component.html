@@ -63,14 +63,14 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
                     <label for="sName">Student Name*</label>
                     <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name"
-                      name="sName" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" #sname="ngModel" required>
+                      name="sName" maxlength="50" #sname="ngModel" required>
                     <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
                       <div *ngIf="sname.errors.required">
                         name is required.
                       </div>
-                      <div *ngIf="sname.errors.pattern">
+                      <!-- <div *ngIf="sname.errors.pattern">
                         name cannot have special characters or numbers.
-                      </div>
+                      </div> -->
                     </div>
                   </div>
 
