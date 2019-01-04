@@ -25,10 +25,7 @@ export class StudentAddComponent implements OnInit {
 
   /* Local Variable and scope declaration */
   /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  /* ========================================================================================================== */
-  institute_enquiry_id: any;
+   institute_enquiry_id: any;
   defaultAcadYear: any = -1;
   closeFee: boolean;
   studentAddnMove: boolean;
@@ -348,7 +345,7 @@ export class StudentAddComponent implements OnInit {
         this.isShareDetails=false;
         let obj = {
           type: 'success',
-          title: "fee installement send on your mail successfully",
+          title: "Email sent successfully",
           body: ""
         }
         this.appC.popToast(obj);
@@ -1771,8 +1768,6 @@ export class StudentAddComponent implements OnInit {
   }
 
   totalPartialChange(e) {
-
-
     e = Number(e.target.value);
     if (e == 0) {
       this.commonServiceFactory.showErrorMessage('warning', 'Invalid Payment Amount', '');
