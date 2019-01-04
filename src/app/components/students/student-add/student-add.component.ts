@@ -133,6 +133,7 @@ export class StudentAddComponent implements OnInit {
   containerWidth: any = "200px"
   studentImage: string = '';
   student_id: any = 0;
+  paymentMode: number = 0;
   service_tax: number = 0;
   isDefineFees: boolean = false;
   isNewInstallment: boolean = false;
@@ -156,6 +157,7 @@ export class StudentAddComponent implements OnInit {
   };
   isPartialPayHistory: boolean = false;
   isManualDisplayId: boolean = false;
+  isShareDetails: boolean = false;
   feeTemplateById: StudentFeeStructure = {
     feeTypeMap: "",
     customFeeSchedules: [],
@@ -319,25 +321,38 @@ export class StudentAddComponent implements OnInit {
 
 
   //get all selected studnet fee installment 
-  studentFeeInstallment() {
-    console.log('studentFeeInstallment');
+  studentFeeInstallment(userType) {
     let object = {
       student_ids: this.student_id,// string by ids common seperated
-      institution_id: ''
+      institution_id: '',
+      sendEmail:userType,
+             
+    }
+    if(userType==1){
+   object['user_role']= this.paymentMode;
     }
     this.isRippleLoad = true;
-
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
       this.isRippleLoad = false;
-      let byteArr = this.convertBase64ToArray(res.document);
-      let fileName = res.docTitle;
-      let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
-      let url = URL.createObjectURL(file);
-      let dwldLink = document.getElementById('hiddenAnchorTag2');
-      dwldLink.setAttribute("href", url);
-      dwldLink.setAttribute("download", fileName);
-      document.body.appendChild(dwldLink);
-      dwldLink.click();
+      if (userType == -1) {
+        let byteArr = this.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('hiddenAnchorTag2');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      }else{
+        this.isShareDetails=false;
+        let obj = {
+          type: 'success',
+          title: "fee installement send on your mail successfully",
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
     },
       (err: any) => {
         this.isRippleLoad = false;
