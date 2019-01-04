@@ -1223,6 +1223,7 @@ export class ClassAddComponent implements OnInit {
     obj.course_id = this.selctedScheduledClass.course_id;
     obj.start_date = moment(this.selctedScheduledClass.start_date).format("YYYY-MM-DD");
     obj.end_date = moment(this.selctedScheduledClass.end_date).format("YYYY-MM-DD");
+    obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
     obj.courseClassSchdList = [{
       class_schedule_id: this.selctedScheduledClass.class_schedule_id
     }]

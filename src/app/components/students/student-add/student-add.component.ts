@@ -1154,24 +1154,14 @@ export class StudentAddComponent implements OnInit {
 
   formfullValidator() {
     let flag = this.commonServiceFactory.validatePhone(this.studentAddFormData.student_phone.trim()) == false ? false : true;
-    if ((!this.commonServiceFactory.validateName(this.studentAddFormData.student_name.trim()))
-      && (!flag)) {
+    if (!flag) {
       return true;
     }
     else {
       return false;
     }
   }
-
-  validateName(): boolean {
-    let regex = /[a-zA-Z .]+[a-zA-Z .]+/;
-    if (regex.test(this.studentAddFormData.student_name)) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
+  
   validateDOB(): string {
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date') {
       return '';

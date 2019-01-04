@@ -1143,9 +1143,6 @@ export class EnquiryAddComponent implements OnInit {
         return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
       }
     }
-    else if (this.commonServiceFactory.validateName(this.newEnqData.name.trim())) {
-      return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
-    }
     else if (this.commonServiceFactory.checkValueType(this.newEnqData.enquiry_date)) {
       return this.showErrorMessage('error', 'Enquiry Date Is Mandatory', '');
     }

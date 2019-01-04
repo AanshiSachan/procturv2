@@ -953,10 +953,11 @@ export class EnquiryEditComponent implements OnInit {
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
     let phoneFlag = this.commonServiceFactory.validatePhone(this.editEnqData.phone);
-    if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
-      return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
-    }
-    else if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
+    // if (this.commonServiceFactory.valueCheck(this.editEnqData.name.trim())) {
+    //   return this.showErrorMessage('error', 'Enquirer Name Is Mandatory', '');
+    // }
+    // else
+     if (phoneFlag == 'noNumber' || phoneFlag == 'lessThanTen') {
       if (phoneFlag == 'noNumber') {
         return this.showErrorMessage('error', 'Phone Number Is Mandatory', '');
       }
