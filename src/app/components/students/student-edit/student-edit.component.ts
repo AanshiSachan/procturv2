@@ -65,6 +65,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   tableHeaderCheckbox: boolean = false;
   isFeePaymentUpdate: boolean = false;
   showFeeSection: boolean = false;
+  isShareDetails: boolean = false;
 
   instituteList: any[] = [];
   standardList: any[] = [];
@@ -113,6 +114,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   key: string = 'name';
   service_tax: number = 0;
   totalAmountToPay: number = 0;
+  paymentMode: number = 0;
   clonedFeeObject: FeeModel;
   feeObject: FeeModel;
 
@@ -367,23 +369,38 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   //get all selected studnet fee installment 
-  studentFeeInstallment() {
+  studentFeeInstallment(userType) {
     let object = {
       student_ids: this.student_id,// string by ids common seperated
-      institution_id: ''
+      institution_id: '',
+      sendEmail:userType,
+             
+    }
+    if(userType==1){
+   object['user_role']= this.paymentMode;
     }
     this.isRippleLoad = true;
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
       this.isRippleLoad = false;
-      let byteArr = this.convertBase64ToArray(res.document);
-      let fileName = res.docTitle;
-      let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
-      let url = URL.createObjectURL(file);
-      let dwldLink = document.getElementById('hiddenAnchorTag2');
-      dwldLink.setAttribute("href", url);
-      dwldLink.setAttribute("download", fileName);
-      document.body.appendChild(dwldLink);
-      dwldLink.click();
+      if (userType == -1) {
+        let byteArr = this.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('hiddenAnchorTag2');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      }else{
+        this.isShareDetails=false;
+        let obj = {
+          type: 'success',
+          title: "fee installement send on your mail successfully",
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
     },
       (err: any) => {
         this.isRippleLoad = false;
@@ -1276,7 +1293,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       });
 
-      let email =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
+      let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
       if (this.studentAddFormData.student_email != null && this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
           let alert = {

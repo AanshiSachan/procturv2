@@ -26,6 +26,9 @@ export class CourseExamComponent implements OnInit {
   courseList: any = [];
   batchesList: any = [];
   examScheduleData: any = [];
+  cancelledSchedule: any = [];
+  studentList: any = [];
+  examSchedule: any = [];
   batchAdderData = {
     exam_date: moment().format("YYYY-MM-DD"),
     exam_desc: "",
@@ -41,13 +44,13 @@ export class CourseExamComponent implements OnInit {
   }
   batchStartDate: any = "";
   batchEndDate: any = "";
-  cancelledSchedule: any = [];
-  examSchedule: any = [];
+
+ 
   times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   markAttendancePopUp: boolean = false;
   markAttendanceData: any = "";
-  studentList: any = [];
+  
   cancelExamPopUp: boolean = false;
   absentCount: number = 0;
   presentCount: number = 0;
@@ -71,8 +74,11 @@ export class CourseExamComponent implements OnInit {
   ];
   selectedType: string = "course";
   viewList: any = [];
-  cancelCourseLevel: boolean = false;
   isRippleLoad: boolean = false;
+  jsonVar ={
+    isSheduleBatch:true,
+    cancelCourseLevel:false
+  }
 
   constructor(
     private apiService: ExamCourseService,
@@ -140,9 +146,17 @@ export class CourseExamComponent implements OnInit {
         (res: any) => {
           this.isRippleLoad = false;
           this.showContentSection = true;
+          this.jsonVar.isSheduleBatch = true;
           this.examScheduleData = res;
           this.batchStartDate = res.batch_start_date;
           this.batchEndDate = res.batch_end_date;
+
+          if (moment(this.batchEndDate).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
+           this.jsonVar.isSheduleBatch = false ;
+          }
+          else{
+            this.jsonVar.isSheduleBatch = true;  
+          }
           if (res.otherSchd != "" && res.otherSchd != null) {
             if (res.otherSchd.length > 0) {
               this.examSchedule = res.otherSchd;
@@ -174,7 +188,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   addNewExamSchedule() {
-    if (this.examScheduleData.is_exam_grad_feature == "0") {
+    if (this.examScheduleData.is_exam_grad_feature <= 0) {
       this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
       if (this.batchAdderData.total_marks == 0) {
         this.messageNotifier('error', 'Error', 'Please Provide Total Marks');
@@ -293,7 +307,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   closeCancelExamPopUp() {
-    this.cancelCourseLevel = false;
+    this.jsonVar.cancelCourseLevel = false;
     this.cancelExamPopUp = false;
     this.cancelExamData = "";
     this.cancelPopUpData = {
@@ -921,7 +935,7 @@ export class CourseExamComponent implements OnInit {
   cancelExamForFullCourse(data, index) {
     this.cancelExamPopUp = true;
     this.cancelExamData = data;
-    this.cancelCourseLevel = true;
+    this.jsonVar.cancelCourseLevel = true;
   }
 
   cancelCourseLevelExam() {
