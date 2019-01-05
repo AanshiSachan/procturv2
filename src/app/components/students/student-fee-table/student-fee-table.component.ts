@@ -189,7 +189,10 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   }
 
   applyAction() {
-
+    let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+    this.installmentData.sort(function (d1, d2) {
+      return moment(d1.due_date).unix() - moment(d2.due_date).unix();
+    });
     this.installmentData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
     });
@@ -201,7 +204,26 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     }
 
     let customFees = this.installmentData.concat(this.additionalData);
+   
+    if (!permissions.includes('707')) {
+      let isError = false;
+      for (let i = 0; i < customFees.length; i++) {
+        if (!(new Date(customFees[i].due_date).valueOf() >= new Date(customFees[i].temp_due_date).valueOf())) {
+          let obj = {
+            type: "error",
+            title: "you are not allowed to select past payment date ",
+            body: ""
+          }
+          this.appC.popToast(obj);
+          isError = true;
+        }
+      }
 
+      if(isError)
+      {
+        return false;
+      }
+    }
     if (customFees.length != 0) {
       // this.apply.emit(customFees);
       this.makeServerCallToSave(customFees);
