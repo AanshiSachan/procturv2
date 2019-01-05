@@ -2101,7 +2101,7 @@ export class StudentHomeComponent implements OnInit {
         this.isShareDetails=false;
         let obj = {
           type: 'success',
-          title: "Mail send successfully",
+          title: "Mails send successfully",
           body: ""
         }
         this.appC.popToast(obj);
