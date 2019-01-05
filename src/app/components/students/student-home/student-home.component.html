@@ -750,3 +750,54 @@
     (assignList)="getassignedBatchList($event)" [dataList]="studentbatchList" [isEdit]="isEdit" [standardList]="standardList"
     [academicYear]="academicYear">
 </student-batch-list>
+
+<!-- ======================================================== -->
+<proctur-popup [sizeWidth]="'small'" *ngIf="isShareDetails">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isShareDetails=false" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Send Fee Report </h2>
+
+    <div class="paymentWrapper" popup-content>
+        <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
+            <div>
+                <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+                    <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" [value]="0">
+                    <label for="batch">Student</label>
+                </div>
+                <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="1">
+                    <label for="student">Parent</label>
+                </div>
+                <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+                    <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="2">
+                    <label for="student">Both</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="text-center popup-btn">
+                <input type="button" value="Download" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(-1)" class=" btn">
+                <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class=" btn">
+                <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
+
+            </aside>
+        </div>
+    </div>
+
+</proctur-popup>
