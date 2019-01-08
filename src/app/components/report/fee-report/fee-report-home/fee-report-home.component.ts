@@ -9,13 +9,22 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 export class FeeReportHomeComponent implements OnInit {
 
   isProfessional: boolean;
-
   enable_online_payment: string = "";
-
   enable_online_payment_feature: number;
+  showChart: boolean = false;
   constructor(private auth: AuthenticatorService) { }
 
   ngOnInit() {
+    if (sessionStorage.getItem('permissions')) {
+      let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      if (permissions.includes('709') && (!permissions.includes('714'))) {
+        this.showChart = true;
+      }
+    }
+
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.showChart = true;
+    }
     
     this.auth.institute_type.subscribe(
       res => {

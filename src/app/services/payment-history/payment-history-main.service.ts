@@ -75,4 +75,13 @@ export class PaymentHistoryMainService {
     )
   }
 
+  //get user list for admin
+  getUserList(obj, active) {
+    let url = this.baseUrl + "/api/v1/profiles/all/" + this.institute_id + "?active=" + active;
+    return this.http.post(url, obj, { headers: this.headers }).map(
+        res => { return res; },
+        err => { return err; }
+    )
+}
+
 }

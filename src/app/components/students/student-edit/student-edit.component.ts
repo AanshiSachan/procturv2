@@ -264,7 +264,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   checkBoxGroup: any = {
     unpaidInstallment: true,
-    paidInstallment: false
+    paidInstallment: false,
+    feeDiscouting: false,
+    manageCheque: false,
+    hideReconfigure: false,
   };
 
   constructor(
@@ -295,6 +298,29 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.switchToView('inventory-icon');
     }
     this.updateStudentForm(this.student_id);
+    if (sessionStorage.getItem('permissions')) {
+      let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      if (permissions.includes('710') && (!permissions.includes('714'))) {
+        this.showFeeSection = true;
+        this.checkBoxGroup.hideReconfigure = true;
+      }
+      if (permissions.includes('713')) {  //fee discount
+        this.checkBoxGroup.feeDiscouting = true;
+      }
+      if (permissions.includes('714')) {
+        this.checkBoxGroup.manageCheque = true;
+        this.showFeeSection = false;
+        this.checkBoxGroup.hideReconfigure = false;
+      }
+    }
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.checkBoxGroup.feeDiscouting = true;
+      this.showFeeSection = true;
+      this.checkBoxGroup.hideReconfigure = true;
+      this.checkBoxGroup.manageCheque = true;
+    }
+
+
   }
 
   // remove the object value from session
@@ -373,11 +399,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let object = {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
-      sendEmail:userType,
-             
+      sendEmail: userType,
+
     }
-    if(userType==1){
-   object['user_role']= this.paymentMode;
+    if (userType == 1) {
+      object['user_role'] = this.paymentMode;
     }
     this.isRippleLoad = true;
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
@@ -392,8 +418,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
         dwldLink.click();
-      }else{
-        this.isShareDetails=false;
+      } else {
+        this.isShareDetails = false;
         let obj = {
           type: 'success',
           title: "fee installement send on your mail successfully",
@@ -1603,6 +1629,26 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
           this.showFeeSection = true;
+          this.checkBoxGroup.hideReconfigure = true;
+          if (sessionStorage.getItem('permissions')) {
+            let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+            if ((permissions.includes('710'))) {
+              this.showFeeSection = true;
+              this.checkBoxGroup.hideReconfigure = true;
+            } 
+            else{
+              this.checkBoxGroup.hideReconfigure = false;
+            }
+            if(permissions.includes('707')){ //fee payment for past date
+              this.showFeeSection = true;
+              this.checkBoxGroup.hideReconfigure = false;
+            }
+             if(permissions.includes('714')){
+              this.showFeeSection = true;
+              this.checkBoxGroup.feeDiscouting = false;
+              this.checkBoxGroup.hideReconfigure = false;
+             }          
+          }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);

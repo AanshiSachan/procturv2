@@ -184,6 +184,7 @@ export class AdminHomeComponent implements OnInit {
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
     this.fetchWidgetPrefill();
+
     this.grid = new Muuri('.grid', {
       dragEnabled: false,
       layout: {
@@ -628,7 +629,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getCustomAttendanceObject(d, detail): any {
-    let obj:any = {
+    let obj: any = {
       attendance_note: this.attendanceNote,
       date: d.date,
       home_work_status: d.home_work_status,
@@ -642,7 +643,7 @@ export class AdminHomeComponent implements OnInit {
     if (d.schId) {
       obj['schId'] = d.schId.toString();
     }
-    if(this.teacher_id){
+    if (this.teacher_id) {
       obj['teacher_id'] = this.teacher_id.toString();
     }
     return obj;
@@ -1010,7 +1011,9 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
         this.isRippleLoad = false;
-        this.grid.refreshItems().layout();
+        if (this.grid) {
+          this.grid.refreshItems().layout();
+        }
         let tempArr: any[] = [];
         for (let o in res) {
           let temp = res[o].course_ids.split(',');
@@ -1056,7 +1059,9 @@ export class AdminHomeComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         console.log(err);
-        this.grid.refreshItems().layout();
+        if (this.grid) {
+          this.grid.refreshItems().layout();
+        }
       }
     );
   }
@@ -2272,6 +2277,7 @@ export class AdminHomeComponent implements OnInit {
     return arr;
   }
 
+
   //  Role Based Access
   checkIfUserHadAccess(id) {
     this.permissionArray = sessionStorage.getItem('permissions');
@@ -2316,13 +2322,21 @@ export class AdminHomeComponent implements OnInit {
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }
 
-  checkRoleMAnagement() {
+  checkRoleMAnagement(id) {
     let userType: any = Number(sessionStorage.getItem('userType'));
     if (userType != 3) {
       let permissionArray = sessionStorage.getItem('permissions');
       if (permissionArray == "" || permissionArray == null) {
         return false;
       } else {
+        let data = JSON.parse(this.permissionArray);
+        if (id != "" && data != null && data != "") {
+          if (data.includes(id) && (!data.includes('714'))) {
+            return false;
+          }
+          else
+            return true;
+        }
         return true;
       }
     } else {
@@ -2335,7 +2349,9 @@ export class AdminHomeComponent implements OnInit {
   getAllExamsAndClass(obj) {
     this.schedStat = [];
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
-      this.grid.refreshItems().layout();
+      if (this.grid) {
+        this.grid.refreshItems().layout();
+      }
       this.schedStat = data;
       if (this.isProfessional) {
         this.getExamSchedule(obj);

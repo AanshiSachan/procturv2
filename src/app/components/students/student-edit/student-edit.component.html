@@ -542,11 +542,11 @@
             <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
           </h1>
           <aside class="pull-right btn-diff">
-            <button class="btn-header" (click)="openDiscountApply()" *ngIf="showFeeSection">
+            <button class="btn-header" (click)="openDiscountApply()" *ngIf="checkBoxGroup.feeDiscouting">
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
             </button>
-            <button class="btn-header" (click)="isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
+            <button class="btn-header" (click)="isPdcApply = true" *ngIf="(!feeTemplateById.toCreate)&&(checkBoxGroup.manageCheque)">
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
@@ -561,7 +561,7 @@
               </svg>
               <span>Configure Fees</span>
             </button>
-            <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="showFeeSection">
+            <button  class="btn-header" (click)="reConfigureFees($event)" *ngIf="showFeeSection && checkBoxGroup.hideReconfigure">
               <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
               <span>Reconfigure Fees</span>
             </button>
@@ -580,7 +580,7 @@
               <span class="amount-Value">{{cardAmountObject.feeAmountExclTax | commaSeprator}}</span>
             </div>
 
-            <div class="discount-Amount tooltipDiv">
+            <div class="discount-Amount tooltipDiv" *ngIf="checkBoxGroup.feeDiscouting">
               <span class="label">Discount</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />

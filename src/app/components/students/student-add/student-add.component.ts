@@ -25,7 +25,7 @@ export class StudentAddComponent implements OnInit {
 
   /* Local Variable and scope declaration */
   /* ========================================================================================================== */
-   institute_enquiry_id: any;
+  institute_enquiry_id: any;
   defaultAcadYear: any = -1;
   closeFee: boolean;
   studentAddnMove: boolean;
@@ -206,6 +206,51 @@ export class StudentAddComponent implements OnInit {
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
   @ViewChild('btnPayment') btnPayment: ElementRef;
 
+  checkBoxGroup: any = {
+    unpaidInstallment: true,
+    paidInstallment: false,
+    feeDiscouting: false,
+    manageCheque: false,
+    showFeeSection: false,
+    hideReconfigure:false,
+  };
+
+  // New Function For Discounting
+
+  subjectWiseInstallmentArray: any = [];
+  cardAmountObject: any = {
+    feeAmountInclTax: 0,
+    feeAmountExclTax: 0,
+    taxAmount: 0,
+    discountAmount: 0,
+    amountPaid: 0,
+    amountDue: 0,
+    additionalFees: 0
+  };
+  totalAmountToPay: number = 0;
+  paymentPopUpJson: any = {
+    immutableAmount: 0,
+    payingAmount: 0,
+    paid_date: moment().format('YYYY-MM-DD'),
+    payment_mode: 'Cash',
+    reference_no: '',
+    remarks: "",
+    selectedPdcId: '',
+    pdcSelectedForm: {
+      bank_name: '',
+      cheque_amount: 0,
+      cheque_date: moment().format("YYYY-MM-DD"),
+      cheque_no: '',
+      pdc_cheque_id: ''
+    },
+    genPdcAck: false,
+    sendPdcAck: false
+  };
+  feeObject: FeeModel;
+  tableHeaderCheckbox: boolean = false;
+  isFeePaymentUpdate: boolean = false;
+  clonedFeeObject: FeeModel;
+
   constructor(
     private studentPrefillService: AddStudentPrefillService,
     private prefill: FetchprefilldataService,
@@ -244,6 +289,32 @@ export class StudentAddComponent implements OnInit {
       }
       this.updateMasterCourseList(this.studentAddFormData.standard_id);
     }
+
+    if (sessionStorage.getItem('permissions')) {
+      let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      if (permissions.includes('710')) {
+        this.checkBoxGroup.showFeeSection = true;
+        this.checkBoxGroup.hideReconfigure = true;
+      }
+      if (!permissions.includes('707')) {//1.	Fee Payment for Past Dates
+        this.checkBoxGroup.showFeeSection = false;
+      }
+      if (permissions.includes('713')) {
+        this.checkBoxGroup.feeDiscouting = true;
+      }
+      if (permissions.includes('714')) {
+        this.checkBoxGroup.manageCheque = true;
+           this.checkBoxGroup.showFeeSection = false;
+      }
+    }
+    
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.checkBoxGroup.feeDiscouting = true;
+      this.checkBoxGroup.showFeeSection = true;
+      this.checkBoxGroup.manageCheque = true;
+      this.checkBoxGroup.hideReconfigure = true;
+    }
+
   }
 
 
@@ -322,11 +393,11 @@ export class StudentAddComponent implements OnInit {
     let object = {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
-      sendEmail:userType,
-             
+      sendEmail: userType,
+
     }
-    if(userType==1){
-   object['user_role']= this.paymentMode;
+    if (userType == 1) {
+      object['user_role'] = this.paymentMode;
     }
     this.isRippleLoad = true;
     this.postService.getFeeInstallments(object).subscribe((res: any) => {
@@ -341,8 +412,8 @@ export class StudentAddComponent implements OnInit {
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
         dwldLink.click();
-      }else{
-        this.isShareDetails=false;
+      } else {
+        this.isShareDetails = false;
         let obj = {
           type: 'success',
           title: "Email sent successfully",
@@ -1173,7 +1244,7 @@ export class StudentAddComponent implements OnInit {
       return false;
     }
   }
-  
+
   validateDOB(): string {
     if (this.studentAddFormData.dob == '' || this.studentAddFormData.dob == null || this.studentAddFormData.dob == undefined || this.studentAddFormData.dob == 'Invalid date') {
       return '';
@@ -1487,48 +1558,6 @@ export class StudentAddComponent implements OnInit {
   /* ======================================== Student Amission Methods End Here =========================================== */
   /* ========================================================================================================== */
 
-
-  // New Function For Discounting
-
-  subjectWiseInstallmentArray: any = [];
-  cardAmountObject: any = {
-    feeAmountInclTax: 0,
-    feeAmountExclTax: 0,
-    taxAmount: 0,
-    discountAmount: 0,
-    amountPaid: 0,
-    amountDue: 0,
-    additionalFees: 0
-  };
-  totalAmountToPay: number = 0;
-  paymentPopUpJson: any = {
-    immutableAmount: 0,
-    payingAmount: 0,
-    paid_date: moment().format('YYYY-MM-DD'),
-    payment_mode: 'Cash',
-    reference_no: '',
-    remarks: "",
-    selectedPdcId: '',
-    pdcSelectedForm: {
-      bank_name: '',
-      cheque_amount: 0,
-      cheque_date: moment().format("YYYY-MM-DD"),
-      cheque_no: '',
-      pdc_cheque_id: ''
-    },
-    genPdcAck: false,
-    sendPdcAck: false
-  };
-  feeObject: FeeModel;
-  tableHeaderCheckbox: boolean = false;
-  isFeePaymentUpdate: boolean = false;
-  checkBoxGroup: any = {
-    unpaidInstallment: true,
-    paidInstallment: false
-  };
-  clonedFeeObject: FeeModel;
-  showFeeSection: boolean = false;
-
   updateStudentFeeDetails() {
     this.isRippleLoad = true
     this.flushDataAfterPayement();
@@ -1538,7 +1567,33 @@ export class StudentAddComponent implements OnInit {
         this.feeObject = res;
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
-          this.showFeeSection = true;
+          this.checkBoxGroup.showFeeSection = true;
+          this.checkBoxGroup.hideReconfigure = true;
+          if (sessionStorage.getItem('permissions')) {
+            let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+            if (!permissions.includes('707')) {
+              this.checkBoxGroup.hideReconfigure = false;
+            }
+          }
+          if (sessionStorage.getItem('permissions')) {
+            let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+            if ((permissions.includes('710'))) {
+              this.checkBoxGroup.showFeeSection = true;
+              this.checkBoxGroup.hideReconfigure = true;
+            } 
+            else{
+              this.checkBoxGroup.hideReconfigure = false;
+            }
+            if(permissions.includes('707')){ //fee payment for past date
+              this.checkBoxGroup.showFeeSection = true;
+              this.checkBoxGroup.hideReconfigure = false;
+            }
+             if(permissions.includes('714')){
+              this.checkBoxGroup.showFeeSection = true;
+              this.checkBoxGroup.feeDiscouting = false;
+              this.checkBoxGroup.hideReconfigure = false;
+             }          
+          }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
@@ -1547,7 +1602,7 @@ export class StudentAddComponent implements OnInit {
           console.log('subjectWise', this.subjectWiseInstallmentArray);
           this.onPaidOrUnpaidCheckbox();
         } else {
-          this.showFeeSection = false;
+          this.checkBoxGroup.showFeeSection = false;
         }
       },
       err => {

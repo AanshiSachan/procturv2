@@ -52,7 +52,7 @@
                     Upload Enquiry
                   </label>
                 </li>
-                <li class="download-icon" (click)="downloadSummaryReport()" style="height: 35px;">
+                <li *ngIf="varJson.showDownloadSummary" class="download-icon" (click)="downloadSummaryReport()" style="height: 35px;">
                   <a id="summary_download"></a>
                   <label>Download Summary Report</label>
                 </li>
@@ -833,16 +833,39 @@
           <h2>Assign {{selectedRowGroup.length}} Enquiries </h2>
           <div class="update-enquiry-form overflowHidden">
             <div class="enquiry-update-history">
-              <div class="field-wrapper" style="max-width: 70%">
-                <label for="assignTo">Assign To</label>
-                <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
-                  <option></option>
-                  <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-                    {{ assigned.name }}
-                  </option>
-                </select>
-
+              <div class="field-wrapper" *ngIf="isMainBranch == 'Y' || flagJSON.subBranchSelected == true">
+                <div class="row" >
+                  <div class="c-lg-6 c-md-6 c-sm-6" >
+                      <label for="brchList">Branch</label>
+                      <select id="brchList" class="form-ctrl" name="brchList" [(ngModel)]="assignMultipleForm.source_instituteId" (ngModelChange)="branchUpdated(assignMultipleForm.source_instituteId)">
+                          <option value="-1"></option>
+                          <option *ngFor="let branch of branchesList" [value]="branch.institute_id">
+                              {{ branch.institute_name }}
+                          </option>
+                      </select>
+                  </div>
+                  <div class="c-lg-4 c-md-4 c-sm-4">
+                      <label for="assignTo">Assign To</label>
+                      <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
+                        <option></option>
+                        <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                          {{ assigned.name }}
+                        </option>
+                      </select>
+                  </div>
+                </div>          
               </div>
+              <div class="field-wrapper" style="max-width: 70%" *ngIf="isMainBranch=='N'">
+                  <div class="row" >
+                          <label for="assignTo">Assign To</label>
+                          <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
+                            <option></option>
+                            <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                              {{ assigned.name }}
+                            </option>
+                          </select>                 
+                    </div>             
+                </div>
             </div>
             <div class="">
               <div class="clearfix">
