@@ -289,8 +289,8 @@ export class StudentHomeComponent implements OnInit {
         }
       }, {
         label: 'Fee Installment', icon: 'fa fa-dollar', command: () => {
-          // this.studentFeeInstallment();
-          this.isShareDetails = true;
+          this.studentFeeInstallment(-1) // because fee install ment at multiple student has some issues
+          // this.isShareDetails = true;
         }
       }
     ];
