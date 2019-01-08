@@ -21,6 +21,7 @@ import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { LiveClasses } from '../../services/live-classes/live-class.service';
 import { TooltipModule } from 'ngx-bootstrap-custome';
+import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 
 @NgModule({
     imports: [
@@ -39,7 +40,8 @@ import { TooltipModule } from 'ngx-bootstrap-custome';
         HomeComponent,
         PtmManagementComponent,
         ExamdeskCourseAssignmentComponent,
-        LiveClassesComponent
+        LiveClassesComponent,
+        EcourseMappingComponent
     ],
     entryComponents: [
     ],

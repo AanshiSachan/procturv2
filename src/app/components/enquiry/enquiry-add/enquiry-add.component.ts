@@ -1154,6 +1154,9 @@ export class EnquiryAddComponent implements OnInit {
         if (this.newEnqData.parent_phone.length != 10 && this.newEnqData.parent_phone != "") {
           return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
         }
+        if (this.hour == '' && Number(this.minute)>0) {
+          return this.showErrorMessage('error', 'Please select time', '');
+        }
         return true;
       }
       else {
@@ -1664,6 +1667,7 @@ export class EnquiryAddComponent implements OnInit {
     else {
       this.hour = '';
       this.meridian = '';
+      this.minute = this.minArr[0];
     }
     this.notifyMeCheckBoxChangesDetect();
   }
