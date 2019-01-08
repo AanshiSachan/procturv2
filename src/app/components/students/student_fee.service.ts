@@ -54,6 +54,7 @@ export interface CustomFeeSchedule {
     schedule_id?: number;
     fee_type?: any;
     due_date?: string;
+    temp_due_date?:string;
     initial_fee_amount?: any;
     service_tax?: number;
     fees_amount?: number;
@@ -187,6 +188,7 @@ export class StudentFeeService {
         let distinct = [];
         for (let i in res) {
             if (typeof (unique[res[i].schedule_id]) == "undefined") {
+                res[i].temp_due_date =  res[i].due_date;
                 distinct.push(res[i]);
             }
             unique[res[i].schedule_id] = 0;
@@ -404,7 +406,7 @@ export class StudentFeeService {
         return Number(totalAmountToPay);
     }
 
-    validatePaymentDetails(data) {
+    validatePaymentDetails(data) {     
         if (Number(data.payingAmount) <= 0) {
             this.commonService.showErrorMessage('error', 'Paying Amount', 'Please provide payment amount');
             return false;
@@ -413,6 +415,22 @@ export class StudentFeeService {
             this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
             return false;
         }
+        if(sessionStorage.getItem('permissions')){
+        let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+        if (!permissions.includes('707')) {
+            if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
+                this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
+                return false;
+            }
+        }
+        if (permissions.includes('714')) {
+            if (!(new Date(data.paid_date).getTime() > moment().subtract(1, 'days').toDate().getTime())) {
+                this.commonService.showErrorMessage('error', '', "you are not allowed to select past payment date ");
+                return false;
+            }
+        }
+    }
+
         if (data.payment_mode == "" || data.payment_mode == null) {
             this.commonService.showErrorMessage('error', 'Mandatory Details', 'Please provide payment date');
             return false;

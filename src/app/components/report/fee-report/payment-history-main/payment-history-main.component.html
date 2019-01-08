@@ -29,6 +29,16 @@
                 <label for="to">To Date</label>
                 <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date">
               </div>
+              <div class="c-lg-4" *ngIf="flagJson.showAdmin">
+                <div class="field-wrapper">
+                    <label for="cc">Users</label>
+                    <select  [(ngModel)]="sendPayload.user_id" class="form-ctrl"
+                        name="cc" id="cc">
+                        <option value="-1">All</option>
+                        <option *ngFor="let user of userList" [value]="user.user_id">{{user.name}}</option>
+                    </select>
+                </div>
+            </div>
               <div class="c-lg-2" style="margin-top:2%;">
                 <input type="button" class="btn fullBlue" value="GO" (click)="getAllPaymentHistory()">
               </div>

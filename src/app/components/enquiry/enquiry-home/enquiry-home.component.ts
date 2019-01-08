@@ -92,7 +92,8 @@ export class EnquiryHomeComponent implements OnInit {
         downloadReportOption: 1,
         summaryReport: { from_date: "", to_date: "" },
         enquiryInfo: '',
-        smsShowType:'approvedSms'
+        smsShowType: 'approvedSms',
+        showDownloadSummary: false
     };
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
@@ -293,7 +294,11 @@ export class EnquiryHomeComponent implements OnInit {
         { primaryKey: 'follow_type', header: 'Follow Up Type', priority: 10 },
         { primaryKey: 'standard', header: 'Standard', priority: 11 }
     ];
-    assignMultipleForm: any = { enqLi: [], assigned_to: "" };
+    assignMultipleForm: any = {
+        enqLi: [],
+        assigned_to: "",
+        source_instituteId: ''
+    };
 
     // Customizable Table VAriable
 
@@ -435,6 +440,16 @@ export class EnquiryHomeComponent implements OnInit {
             this.setDefaultValues();
         }
 
+        if (sessionStorage.getItem('permissions')) {
+            let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+            if (permissions.includes('712') && (!permissions.includes('714'))) {
+                this.varJson.showDownloadSummary = true;
+            }
+        }
+
+        if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+            this.varJson.showDownloadSummary = true;
+        }
     }
 
     timeChanges(ev) {
@@ -626,13 +641,14 @@ export class EnquiryHomeComponent implements OnInit {
     /* Custom Compoenent array creater */
     createPrefilledData(dataArr: any[]): any[] {
         let customPrefilled: any[] = [];
-        dataArr.forEach(el => { 
+        dataArr.forEach(el => {
             let obj = {
                 displayName: el.toLowerCase(),// this is display label
-                 data: el, //// this is key for select dropdwon 
-                 checked: false };
-             customPrefilled.push(obj);
-         });
+                data: el, //// this is key for select dropdwon 
+                checked: false
+            };
+            customPrefilled.push(obj);
+        });
         return customPrefilled;
     }
 
@@ -1360,7 +1376,7 @@ export class EnquiryHomeComponent implements OnInit {
     /* Bulk Assign popup close */
     bulkAssignEnquiriesClose() {
         this.flagJSON.isAssignEnquiry = false;
-        this.assignMultipleForm = { enqLi: [], assigned_to: "" };
+        this.assignMultipleForm = { enqLi: [], assigned_to: "",   source_instituteId: '' };
         this.cd.markForCheck();
     }
 
@@ -1761,30 +1777,30 @@ export class EnquiryHomeComponent implements OnInit {
 
     /* Convert enquiry to student */
     convertRow(ev) {
-       let institute_id = sessionStorage.getItem("institute_id");
+        let institute_id = sessionStorage.getItem("institute_id");
         if (this.flagJSON.isProfessional) {
             this.selectedRow.standard_id = this.selectedRow.master_course_name;
         }
-        console.log(ev,this.selectedRow);        
-        return this.enquire.fetchEnquiryStudentData(institute_id,this.selectedRow.institute_enquiry_id).subscribe(
-            (data:any) => {
+        console.log(ev, this.selectedRow);
+        return this.enquire.fetchEnquiryStudentData(institute_id, this.selectedRow.institute_enquiry_id).subscribe(
+            (data: any) => {
                 this.flagJSON.isRippleLoad = false;
-               console.log(data);
-               this.selectedRow.standard_id = data.standard_id;
-               this.selectedRow.address = data.curr_address;
-               this.selectedRow.curr_address = data.curr_address;
-               sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
-               this.router.navigate(['/view/student/add'])
-               this.closePopup();
-               this.cd.markForCheck();
-               
+                console.log(data);
+                this.selectedRow.standard_id = data.standard_id;
+                this.selectedRow.address = data.curr_address;
+                this.selectedRow.curr_address = data.curr_address;
+                sessionStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
+                this.router.navigate(['/view/student/add'])
+                this.closePopup();
+                this.cd.markForCheck();
+
             },
             err => {
-                this.flagJSON.isRippleLoad = false;               
+                this.flagJSON.isRippleLoad = false;
                 this.showErrorMessage(this.messageService.toastTypes.error, 'Unable To Connect To Server', 'Please check your internet connection or contact proctur support if the issue persist');
                 this.cd.markForCheck();
             });
-     
+
     }
 
     /* Download Receipt API */

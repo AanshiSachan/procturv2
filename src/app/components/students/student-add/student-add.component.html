@@ -71,8 +71,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
                     <label for="sName">Student Name*</label>
 
-                    <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name"
-                     name="sName" maxlength="50"  #sname="ngModel" required>
+                    <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
+                      #sname="ngModel" required>
                     <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
                       <div *ngIf="sname.errors.required">
                         name is required.
@@ -86,9 +86,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
                     <label for="cNumber">Contact Number*</label>
 
-                    <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone"
-                     name="cNumber" maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                      #cNumber="ngModel" required />
+                    <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
+                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel"
+                      required />
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
                         Phone number is required.
@@ -99,8 +99,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
                     <label for="sEmail">Email ID</label>
 
-                    <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email"
-                     name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail="ngModel" />
+                    <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$"
+                      #sEmail="ngModel" />
                     <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="sEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -111,14 +111,14 @@
                   <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
                     <label for="cardId">Attendance Card ID</label>
 
-                    <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id"
-                     name="attCard" #cardId="ngModel" />
+                    <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
+                      #cardId="ngModel" />
                   </div>
 
                   <div *ngIf="isManualDisplayId" class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
                     <label for="manualId">Student Roll Number*</label>
-                    <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id"
-                     name="manualId" maxlength="50" #manualId="ngModel" required>
+                    <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId"
+                      maxlength="50" #manualId="ngModel" required>
                     <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
                       <div *ngIf="manualId.errors.required">
                         Roll Number is Mandatory
@@ -140,8 +140,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                     <label for="parentName">Parent Name</label>
 
-                    <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_name"
-                     name="parentName" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
+                    <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_name" name="parentName"
+                      maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
                     <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
                       <div *ngIf="parentName.errors.pattern">
                         Name cannot have number / special characters except '.'
@@ -152,16 +152,16 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
                     <label for="parentContactNo">Parent Contact Number</label>
 
-                    <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone"
-                     name="parentContactNo" maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                      #parentContactNo="ngModel" />
+                    <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
+                      maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #parentContactNo="ngModel"
+                    />
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
                     <label for="parentEmail">Parent Email ID</label>
 
-                    <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email"
-                     name="parentEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #parentEmail="ngModel">
+                    <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email" name="parentEmail"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #parentEmail="ngModel">
                     <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="parentEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -170,11 +170,8 @@
                   </div>
 
                   <div class="more-detail" style="font-size: 14px;">
-                    <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+
-                       &nbsp; Add Additional Details</a>
-                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">-
-                       &nbsp;
-                        Hide Additional Details</a>
+                    <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
+                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">- &nbsp; Hide Additional Details</a>
                   </div>
 
                 </div>
@@ -193,22 +190,21 @@
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
                     <label for="sdob">Date of Birth</label>
 
-                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob"
-                    #sdob="ngModel" readonly="true" bsDatepicker>
+                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
+                      readonly="true" bsDatepicker>
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_curr_addr != ''}">
                     <label for="currentAdd">Current Address Line1</label>
 
-                    <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr"
-                     class="form-ctrl">
+                    <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl">
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_name != ''}">
                     <label for="guardianName">Guardian Name</label>
 
-                    <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+"
-                    name="guardianName" [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
+                    <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
+                      [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
                         Name cannot have number / special characters except '.'
@@ -219,9 +215,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
                     <label for="guardianContact">Guardian Contact Number</label>
 
-                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10"
-                     [(ngModel)]="studentAddFormData.guardian_phone" name="guardianContact" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-                      #guardianContact="ngModel">
+                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
+                      name="guardianContact" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #guardianContact="ngModel">
                     <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
                       <div class="tooltip-box-field">
@@ -233,8 +228,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
                     <label for="guardianEmail">Guardian Email ID</label>
 
-                    <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" 
-                    name="guardianEmail" [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
+                    <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" name="guardianEmail"
+                      [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -245,8 +240,7 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
                     <label for="addCommentNote">Add Comment Note</label>
 
-                    <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote"
-                     class="form-ctrl">
+                    <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
                   </div>
 
                 </div>
@@ -266,16 +260,15 @@
 
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <label for="doj">Date of Admission</label>
-                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" readonly="true"
-                   [(ngModel)]="studentAddFormData.doj" />
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" readonly="true" [(ngModel)]="studentAddFormData.doj"
+                  />
                   <!-- <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span> -->
                 </div>
 
                 <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}">
                   <label for="schoolStitution">School/Institution</label>
 
-                  <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name"
-                   class="form-ctrl">
+                  <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
                     <option></option>
                     <option [value]="institute.school_id" *ngFor="let institute of instituteList">
                       {{institute.school_name}}
@@ -298,13 +291,11 @@
                   </select>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad"
-                 (click)="openAssignBatch()">
+                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
                   <label for="assignCourses">
                   </label>
-                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent"
-                   [ngModel]="assignedBatchString" placeholder="Assign Courses" id="assignCourses" class="form-ctrl" 
-                   readonly="true" cols="1" rows="1"></textarea>
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
+                    placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
                   <a style="cursor:pointer" (click)="openAssignBatch()">Assign Courses</a>
                 </div>
 
@@ -315,8 +306,8 @@
                 <div class="field-wrapper" *ngIf="isProfessional">
                   <label for="masterCourse">Master Course</label>
 
-                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id"
-                   (ngModelChange)="fetchCourseFromMaster($event)" class="form-ctrl">
+                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
+                    class="form-ctrl">
                     <option value="-1"></option>
                     <option *ngFor="let course of standardList" [value]="course.standard_id">
                       {{course.standard_name}}
@@ -517,55 +508,52 @@
     <!-- ======================================================== -->
     <proctur-popup [sizeWidth]="'small'" *ngIf="isShareDetails">
 
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isShareDetails=false" close-button>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-              </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-              />
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isShareDetails=false" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
             </g>
-          </svg>
-        </span>
-  
-        <h2 popup-header style="padding: 10px 5px;">Send Fee Report </h2>
-  
-        <div class="paymentWrapper" popup-content>
-          <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
-            <div >
-              <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-                <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" 
-                  [value]="0">
-                <label for="batch">Student</label>
-              </div>
-              <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-                <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" 
-                  [value]="1">
-                <label for="student">Parent</label>
-              </div>
-              <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-                <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" 
-                  [value]="2">
-                <label for="student">Both</label>
-              </div>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+
+      <h2 popup-header style="padding: 10px 5px;">Send Fee Report </h2>
+
+      <div class="paymentWrapper" popup-content>
+        <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
+          <div>
+            <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+              <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" [value]="0">
+              <label for="batch">Student</label>
             </div>
-  
+            <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="1">
+              <label for="student">Parent</label>
+            </div>
+            <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
+              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" [value]="2">
+              <label for="student">Both</label>
+            </div>
           </div>
+
         </div>
-  
-        <div class="" popup-footer>
-          <div class="clearfix">
-            <aside class="text-center popup-btn">
-                <input type="button" value="Send"  style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class="fullBlue btn">
-              <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
-             
-            </aside>
-          </div>
+      </div>
+
+      <div class="" popup-footer>
+        <div class="clearfix">
+          <aside class="text-center popup-btn">
+            <input type="button" value="Send" style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class="fullBlue btn">
+            <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
+
+          </aside>
         </div>
-  
-      </proctur-popup>
+      </div>
+
+    </proctur-popup>
     <!-- ======================================================== -->
     <!-- =============== Fee Details =============================== -->
     <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails">
@@ -578,15 +566,15 @@
             <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
           </h1>
           <aside class="pull-right btn-diff">
-            <button class="btn-header" (click)="openDiscountApply()" *ngIf="showFeeSection">
+            <button class="btn-header" (click)="openDiscountApply()" *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.feeDiscouting">
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
             </button>
-            <button class="btn-header" (click)="isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
+            <button class="btn-header" (click)="isPdcApply = true" *ngIf="(!feeTemplateById.toCreate)&&(checkBoxGroup.manageCheque)">
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
-            <button class="btn-header" *ngIf="!showFeeSection" (click)="configureFees($event)">
+            <button class="btn-header" *ngIf="!checkBoxGroup.showFeeSection" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="vertical-align: middle;">
                 <g fill="#0084F6" fill-rule="nonzero">
                   <path d="M6.014 15.478a.458.458 0 1 0 .917 0c0-4.987 3.99-9.056 8.921-9.135l-.625.63a.461.461 0 0 0 .324.788.462.462 0 0 0 .325-.135l1.407-1.418a.461.461 0 0 0 0-.653l-1.407-1.419a.453.453 0 0 0-.649 0 .461.461 0 0 0 0 .654l.63.634c-5.44.07-9.843 4.553-9.843 10.054zM25.528 15.016a.458.458 0 0 0-.458.462c0 4.987-3.99 9.055-8.921 9.135l.625-.63a.461.461 0 0 0 0-.653.453.453 0 0 0-.648 0l-1.408 1.418a.46.46 0 0 0 0 .653l1.408 1.418a.462.462 0 0 0 .324.136.462.462 0 0 0 .324-.789l-.63-.634c5.44-.07 9.843-4.554 9.843-10.054a.458.458 0 0 0-.459-.462zM14.87 12.73a2.948 2.948 0 0 0-1.596 1.61c-.301.732-.301 1.544 0 2.276A2.944 2.944 0 0 0 16 18.454a2.86 2.86 0 0 0 1.13-.228 2.948 2.948 0 0 0 1.596-1.61c.301-.732.301-1.544 0-2.276a2.944 2.944 0 0 0-2.726-1.839c-.39 0-.769.08-1.13.229zm3.01 1.964a2.056 2.056 0 0 1 0 1.572c-.208.509-.597.9-1.102 1.11-.25.103-.509.16-.777.16-.83 0-1.565-.5-1.88-1.27a2.056 2.056 0 0 1 0-1.572c.208-.508.597-.9 1.102-1.11.25-.103.509-.159.778-.159.824 0 1.564.5 1.88 1.27z"
@@ -597,7 +585,7 @@
               </svg>
               <span>Configure Fees</span>
             </button>
-            <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="showFeeSection">
+            <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.hideReconfigure">
               <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
               <span>Reconfigure Fees</span>
             </button>
@@ -605,7 +593,7 @@
         </section>
 
         <!--====================================middle <Main> section==========================-->
-        <section *ngIf="showFeeSection">
+        <section *ngIf="checkBoxGroup.showFeeSection">
 
           <div class="card-layout">
 
@@ -614,13 +602,16 @@
               <br />
               <span class="amount-Value">{{cardAmountObject.feeAmountExclTax | commaSeprator}}</span>
             </div>
-
-            <div class="discount-Amount">
+            <div class="discount-Amount tooltipDiv" *ngIf="checkBoxGroup.feeDiscouting">
               <span class="label">Discount</span>
+              <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>
               <br />
               <span class="amount-Value">{{cardAmountObject.discountAmount | commaSeprator}}</span>
+              <span class="tooltip-content">The discount value is the total discount applied to the student across all its course(s). This value is the
+                combination of previous discount and the new discount applied post the release of new discount feature recently
+                introduced.
+              </span>
             </div>
-
             <div class="tax-Amount tooltipDiv">
               <span class="label">Tax on Installment</span>
               <i class="fas fa-info-circle" style="font-family: FontAwesome;float: right;color: antiquewhite;"></i>

@@ -43,7 +43,7 @@
                                         Status Regarding The Enquiry
                                     </div>
                                 </div>
-                                <select id="enquiryStatusEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.statusValue" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' || rowData.statusValue == 'Closed'">
+                                <select id="enquiryStatusEdit" class="side-form-ctrl" [(ngModel)]="updateFormData.statusValue" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted'">
                                     <option value="-1"></option>
                                     <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
                                         [hidden]="status.data_key == 12 ? true : false">

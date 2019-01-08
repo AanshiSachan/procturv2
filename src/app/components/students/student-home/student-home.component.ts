@@ -65,10 +65,11 @@ export class StudentHomeComponent implements OnInit {
   totalRow: number = 0;
   selectedRowCount: number = 0;
   loading_message: number = 1;
-
+  paymentMode: number = 0;
   isConfirmBulkDelete: boolean;
   isNotifyStudent: boolean;
   isMarkLeave: boolean;
+  isShareDetails: boolean = false;
   private advancedFilter: boolean = false;
   private isAllSelected: boolean = false;
   isDeleteStudentPrompt: boolean = false;
@@ -288,7 +289,8 @@ export class StudentHomeComponent implements OnInit {
         }
       }, {
         label: 'Fee Installment', icon: 'fa fa-dollar', command: () => {
-          this.studentFeeInstallment();
+          this.studentFeeInstallment(-1) // because fee install ment at multiple student has some issues
+          // this.isShareDetails = true;
         }
       }
     ];
@@ -2069,17 +2071,22 @@ export class StudentHomeComponent implements OnInit {
   }
 
   //get all selected studnet fee installment 
-  studentFeeInstallment() {
+  studentFeeInstallment(userType) {
     console.log('studentFeeInstallment');
     let object = {
       student_ids: this.selectedRowGroup.toString(),// string by ids common seperated
-      institution_id: ''
+      institution_id: '',
+      sendEmail: userType,
+    }
+    if (userType == 1) {
+      object['user_role'] = this.paymentMode;
     }
     this.isRippleLoad = true;
 
-    this.postService.getFeeInstallments(object).subscribe((res:any) => {
+    this.postService.getFeeInstallments(object).subscribe((res: any) => {
       this.isRippleLoad = false;
-      let byteArr = this.convertBase64ToArray(res.document);
+      if (userType == -1) {
+        let byteArr = this.convertBase64ToArray(res.document);
         let fileName = res.docTitle;
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
@@ -2088,10 +2095,21 @@ export class StudentHomeComponent implements OnInit {
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
         dwldLink.click();
-     }, 
-    (err) => { 
-      this.isRippleLoad = false;
-      this.commonService.showErrorMessage('error', 'Error', err.error.message);
-    })
+      }
+      else
+      {
+        this.isShareDetails=false;
+        let obj = {
+          type: 'success',
+          title: "Mails send successfully",
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
+    },
+      (err) => {
+        this.isRippleLoad = false;
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+      })
   }
 }

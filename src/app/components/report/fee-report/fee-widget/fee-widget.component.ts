@@ -10,6 +10,7 @@ import { GetFeeService } from '../../../../services/report-services/fee-services
 })
 export class FeeWidgetComponent implements OnInit {
 
+    @ViewChild('chartWrap') chartWrap: ElementRef;
     chartType: any = "1";
     isRippleLoad: boolean = false;
     chartDate: any = {
@@ -17,7 +18,7 @@ export class FeeWidgetComponent implements OnInit {
         to_date: moment().endOf("year").format("YYYY-MM-DD")
     }
 
-    @ViewChild('chartWrap') chartWrap: ElementRef;
+ 
 
     constructor(private getService: GetFeeService) {
     }
@@ -28,7 +29,6 @@ export class FeeWidgetComponent implements OnInit {
 
     updateChartDate(e) {
         switch (parseInt(e)) {
-
             /* Current calendar year */
             case 1: {
                 this.chartDate = {

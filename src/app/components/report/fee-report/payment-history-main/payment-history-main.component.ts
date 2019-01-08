@@ -39,15 +39,16 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 15, allowSortingFlag: true },
     { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 16, allowSortingFlag: true }
   ];
-  
-  paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "NEFT/RTGS","Other"];
+  userList: any = [];
+  paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "NEFT/RTGS", "Other"];
   chequeStatus: any = [{ value: 1, title: '' }, { value: 2, title: 'Dishonoured' }, { value: 3, title: 'Cleared' }];
   flagJson: any = {
     searchflag: false,
     isRippleLoad: false,
     isChequePayment: false,
     addReportPopUp: false,
-    showPreference: false
+    showPreference: false,
+    showAdmin: false
   };
   varJson: any = {
     searchText: "",
@@ -55,7 +56,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     searchBy: 'date',
     searchName: "",
     tempData: {},
-    total_amt_paid: 0,    
+    total_amt_paid: 0,
   };
   personData: any = {
     paid_date: "",
@@ -70,15 +71,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     search: { title: 'Search', showSearch: false },
     keys: this.displayKeys,
     selectAll: { showSelectAll: false, title: 'Purchase Item', checked: true, key: 'student_disp_id' },
-    actionSetting:
-    {
-      showActionButton: true,
-      editOption: 'button',//or popup 
-      condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
-      { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
-      { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
-      options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
-    },
+    actionSetting: {},
     displayMessage: "Enter Detail to Search"
   };
   sendPayload = {
@@ -87,7 +80,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     to_date: moment().format('YYYY-MM-DD'),
     payment_history_student_category_option: 2,
     student_name: "",
-    contact_no: ""
+    contact_no: "",
+    user_id: -1
   }
   collectionData: any = {
     pdcNo: 0,
@@ -132,6 +126,44 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPaymentHistory();
+    if (sessionStorage.getItem('permissions')) {
+      let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      if (permissions.includes('708') && (!permissions.includes('714'))) {//	Fee Transaction Change if enambled then edit button will show 
+        this.tableSetting.actionSetting =
+          {
+            showActionButton: true,
+            editOption: 'button',//or popup 
+            condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
+            { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
+            { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
+            options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+          }
+      }
+      else {
+        this.tableSetting.actionSetting =
+          {
+            showActionButton: false,
+            editOption: '',
+            condition: [],
+            options: []
+          }
+      }
+
+    }
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.tableSetting.actionSetting =
+        {
+          showActionButton: true,
+          editOption: 'button',//or popup 
+          condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
+          { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
+          { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
+          options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+        }
+      this.flagJson.showAdmin = true;
+      this.getUserList();
+    }
+
     this.tableSetting.keys = this.feeSettings1;
     if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
       this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
@@ -158,6 +190,28 @@ export class PaymentHistoryMainComponent implements OnInit {
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
   }
 
+  getUserList() {
+    let object = {
+      "is_not_alr_users": "N",
+      "user_Type": "0",
+      "app_downloaded": -1,
+      user_id: Number(this.sendPayload.user_id)
+    }
+
+    this.flagJson.isRippleLoad = true;
+    this.payment.getUserList(object, 'Y').subscribe(
+      (res: any) => {
+        this.flagJson.isRippleLoad = false;
+        this.userList = res;
+        console.log(this.userList)
+      },
+      err => {
+        this.flagJson.isRippleLoad = false;
+        console.log(err);
+      });
+
+  }
+
   getAllPaymentHistory() {
     this.flagJson.isRippleLoad = true;
     this.allPaymentRecords = this.tempRecords;
@@ -180,6 +234,13 @@ export class PaymentHistoryMainComponent implements OnInit {
       return;
     }
     else {
+      
+      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+        this.sendPayload.user_id = Number(this.sendPayload.user_id);
+      }else{
+        this.sendPayload.user_id = Number(sessionStorage.getItem('userid'));
+      }
+      
       this.payment.getPaymentData(this.sendPayload).subscribe(
         (data: any) => {
           if (data.length == 0) {
@@ -198,6 +259,18 @@ export class PaymentHistoryMainComponent implements OnInit {
             this.flagJson.isRippleLoad = false;
           }
 
+          if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+            this.tableSetting.actionSetting =
+              {
+                showActionButton: true,
+                editOption: 'button',//or popup 
+                condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
+                { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
+                { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
+                options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
+              }
+            this.flagJson.showAdmin = true;
+          }
         },
         (error: any) => {
           this.flagJson.isRippleLoad = false;
@@ -444,7 +517,7 @@ export class PaymentHistoryMainComponent implements OnInit {
   }
 
 
-fetchhStudentPaymentJson(data: any[]) {
+  fetchhStudentPaymentJson(data: any[]) {
     let temp: any[] = [];
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < this.varJson.tempData.feeSchedule_TxLst.length; j++) {
