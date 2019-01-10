@@ -22,12 +22,13 @@ import { ClassRoomService } from '../../services/class-roomService/class-roomlis
 
 import { MasterRoutingModule } from './master-routing.module';
 import { TopicServiceService } from '../../services/topic-service.service';
+import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
+import { HttpService  } from '../../services/http.service';
 import { FilterPipe } from '../../components/event-managment/filterpipe';
 import { AcademicYearModule } from '../academic-year/academic-year.module';
 import { AcademicYearComponent } from '../academic-year/academic-year.component';
 import { HomeComponent } from '../academic-year/home/home.component';
 import { ClosingReasonComponent } from './closing-reason/closing-reason.component';
-import { ClosingReasonService } from '../../services/closingReasons/closing-reason.service';
 import { DiscountReasonComponent } from '../discount-reason/discount-reason.component';
 
 @NgModule({
@@ -57,6 +58,7 @@ import { DiscountReasonComponent } from '../discount-reason/discount-reason.comp
         ExamGradeServiceService,
         SlotApiService,
         CityAreaService,
+        HttpService ,
         ClassRoomService,
         EventManagmentService,
         TopicServiceService,
@@ -65,8 +67,4 @@ import { DiscountReasonComponent } from '../discount-reason/discount-reason.comp
 })
 
 export class ManageExamModule {
-
-
-
-
 }

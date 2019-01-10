@@ -206,6 +206,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     let strExp = '';
 
     let len = this.displayKeys.actionSetting.condition.length;
+    if(!len){
+      return true;
+    }
     let conditionArray = this.displayKeys.actionSetting.condition;
     for (let i in conditionArray) {
       if (conditionArray[i].nextOperation != undefined) {

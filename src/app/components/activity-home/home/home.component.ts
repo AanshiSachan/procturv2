@@ -11,12 +11,14 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 })
 export class HomeComponent implements OnInit {
 
-  isProfessional: boolean = false;
-  isAdmin: boolean = false;
-  isFeeActivity: boolean = false;
-  isMonitorDashboard: boolean = false;
-  showExamDesk: boolean = false;
-  showLiveClasses:boolean = false;
+  jsonFlag ={
+    isProfessional:false,
+    isAdmin:false,
+    isFeeActivity:false,
+    isMonitorDashboard:false,
+    showExamDesk:false,
+    showLiveClasses:false
+  }
 
   constructor(
     private router: Router, 
@@ -32,17 +34,17 @@ export class HomeComponent implements OnInit {
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
-          this.isProfessional = true;
+          this.jsonFlag.isProfessional = true;
         } else {
-          this.isProfessional = false;
+          this.jsonFlag.isProfessional = false;
         }
       }
     )
     this.checkUserAccess();
-    if (this.isAdmin) {
+    if (this.jsonFlag.isAdmin) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
-      this.showExamDesk = this.checkInstSetupType(type, 4);
-      this.showLiveClasses = this.checkInstSetupType(type , 256);
+      this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
+      this.jsonFlag.showLiveClasses = this.checkInstSetupType(type , 256);
     }
   }
 
@@ -50,18 +52,18 @@ export class HomeComponent implements OnInit {
     const permissionArray = sessionStorage.getItem('permissions');
     const userType = sessionStorage.getItem('userType');
     if (userType == '3') {
-      this.isAdmin = false;
+      this.jsonFlag.isAdmin = false;
     }
     else if (userType == '0') {
       if (permissionArray == "" || permissionArray == null) {
-        this.isAdmin = true;
-        this.isFeeActivity = true;
+        this.jsonFlag.isAdmin = true;
+        this.jsonFlag.isFeeActivity = true;
       }
       else {
         let perm: any[] = JSON.parse(permissionArray);
 
         if (perm.indexOf('102') != -1) {
-          this.isFeeActivity = true;
+          this.jsonFlag.isFeeActivity = true;
         }
 
       }

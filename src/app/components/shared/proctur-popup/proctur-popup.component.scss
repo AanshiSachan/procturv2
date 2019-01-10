@@ -47,6 +47,16 @@
             bottom: 0;
             margin: auto;
         }
+        &.extraSmall {
+            max-width: 40%;
+            width: 30%;
+            height: auto;
+            left: 0;
+            right: 0;
+            top: 5%;
+            bottom: 0;
+            margin: auto;
+        }
         ::-webkit-scrollbar {
             display: block;
             width: 7px;
