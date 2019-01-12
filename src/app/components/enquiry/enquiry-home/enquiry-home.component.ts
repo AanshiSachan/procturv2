@@ -442,12 +442,17 @@ export class EnquiryHomeComponent implements OnInit {
 
         if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if (permissions.includes('712') && (!permissions.includes('714'))) {
+            if (permissions.includes('714')) { ////update payment and manage cheque,pdc  hide download
+                this.varJson.showDownloadSummary = false;
+            }
+            if (permissions.includes('712')) { // show download summery 
                 this.varJson.showDownloadSummary = true;
             }
         }
 
-        if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+        if (sessionStorage.getItem('permissions') == undefined ||
+            sessionStorage.getItem('permissions') == ''
+            || sessionStorage.getItem('username') == 'admin') {
             this.varJson.showDownloadSummary = true;
         }
     }
@@ -1376,7 +1381,7 @@ export class EnquiryHomeComponent implements OnInit {
     /* Bulk Assign popup close */
     bulkAssignEnquiriesClose() {
         this.flagJSON.isAssignEnquiry = false;
-        this.assignMultipleForm = { enqLi: [], assigned_to: "",   source_instituteId: '' };
+        this.assignMultipleForm = { enqLi: [], assigned_to: "", source_instituteId: '' };
         this.cd.markForCheck();
     }
 

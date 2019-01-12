@@ -2331,7 +2331,7 @@ export class AdminHomeComponent implements OnInit {
       } else {
         let data = JSON.parse(this.permissionArray);
         if (id != "" && data != null && data != "") {
-          if (data.includes(id) && (!data.includes('714'))) {
+          if (data.includes(id)) {
             return false;
           }
           else

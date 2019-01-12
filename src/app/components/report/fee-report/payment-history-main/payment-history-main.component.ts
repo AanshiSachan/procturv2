@@ -128,7 +128,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.getAllPaymentHistory();
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('708') && (!permissions.includes('714'))) {//	Fee Transaction Change if enambled then edit button will show 
+      if (permissions.includes('708')) {//	Fee Transaction Change if enambled then edit button will show 
         this.tableSetting.actionSetting =
           {
             showActionButton: true,
@@ -150,7 +150,8 @@ export class PaymentHistoryMainComponent implements OnInit {
       }
 
     }
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
+    || sessionStorage.getItem('username') == 'admin') {
       this.tableSetting.actionSetting =
         {
           showActionButton: true,
@@ -235,7 +236,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     else {
       
-      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
         this.sendPayload.user_id = Number(this.sendPayload.user_id);
       }else{
         this.sendPayload.user_id = Number(sessionStorage.getItem('userid'));
@@ -259,7 +260,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             this.flagJson.isRippleLoad = false;
           }
 
-          if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+          if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
             this.tableSetting.actionSetting =
               {
                 showActionButton: true,

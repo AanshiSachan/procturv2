@@ -94,7 +94,7 @@
       </ng-template>
       <!-- popup editView and or for trash -->
       <td *ngIf="displayKeys.actionSetting.showActionButton && isEditRow!='editTableRow-'+i ">
-        <button class="button" *ngIf="displayKeys.actionSetting.editOption=='button'&& checkCondition(data)" (click)="editRow('editTableRow-'+i,data)">Edit</button>
+        <button class="button" *ngIf="displayKeys.actionSetting.editOption=='button'&& checkCondition(data)" (click)="editRow('editTableRow-'+i,data)">{{ displayKeys.actionSetting.options[0].title}}</button>
         <div style="padding: 15px;font-size: 16px;font-weight: 500;" *ngIf="displayKeys.actionSetting.editOption=='icon'">
             <ng-template [ngIf]="true">
                 <ng-container *ngFor="let option of displayKeys.actionSetting.options">

@@ -212,7 +212,7 @@ export class StudentAddComponent implements OnInit {
     feeDiscouting: false,
     manageCheque: false,
     showFeeSection: false,
-    hideReconfigure:false,
+    hideReconfigure: false,
   };
 
   // New Function For Discounting
@@ -292,23 +292,24 @@ export class StudentAddComponent implements OnInit {
 
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('710')) {
+      if (permissions.includes('710')) { //fee reconfiguration
         this.checkBoxGroup.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
       if (!permissions.includes('707')) {//1.	Fee Payment for Past Dates
         this.checkBoxGroup.showFeeSection = false;
       }
-      if (permissions.includes('713')) {
+      if (permissions.includes('713')) { //1.	Fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
-      if (permissions.includes('714')) {
+      if (permissions.includes('714')) { //update payment and manage cheque,pdc
         this.checkBoxGroup.manageCheque = true;
-           this.checkBoxGroup.showFeeSection = false;
+        this.checkBoxGroup.showFeeSection = false;
       }
     }
-    
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' 
+    || sessionStorage.getItem('username') == 'admin') {
       this.checkBoxGroup.feeDiscouting = true;
       this.checkBoxGroup.showFeeSection = true;
       this.checkBoxGroup.manageCheque = true;
@@ -1577,22 +1578,31 @@ export class StudentAddComponent implements OnInit {
           }
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if ((permissions.includes('710'))) {
-              this.checkBoxGroup.showFeeSection = true;
-              this.checkBoxGroup.hideReconfigure = true;
-            } 
-            else{
-              this.checkBoxGroup.hideReconfigure = false;
-            }
-            if(permissions.includes('707')){ //fee payment for past date
-              this.checkBoxGroup.showFeeSection = true;
-              this.checkBoxGroup.hideReconfigure = false;
-            }
-             if(permissions.includes('714')){
+            if (permissions.includes('714')) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
-             }          
+            }
+            if ((permissions.includes('710'))) {
+              this.checkBoxGroup.showFeeSection = true;
+              this.checkBoxGroup.hideReconfigure = true;
+            }
+            else {
+              this.checkBoxGroup.hideReconfigure = false;
+            }
+
+            if (permissions.includes('713')) {
+              this.checkBoxGroup.feeDiscouting = true;
+            }
+
+            if (sessionStorage.getItem('permissions') == undefined
+            || sessionStorage.getItem('permissions') == ''
+            || sessionStorage.getItem('username') == 'admin') {
+            this.checkBoxGroup.feeDiscouting = true;
+            this.checkBoxGroup.showFeeSection = true;
+            this.checkBoxGroup.hideReconfigure = true;
+            this.checkBoxGroup.manageCheque = true;
+          }
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;

@@ -15,29 +15,41 @@
           </h2>
           <a (click)="clearObjects()" *ngIf="jsonflag.isUpadted" class="form btnAdd">Add E-Course
           </a>
- 
+
         </div>
 
         <div class="row">
           <div class="c-lg-12 field-made">
             <div class="c-lg-3 field-wrapper">
-              <label for="from">E-course name*</label>
+              <label for="from">E-course Name*</label>
               <input type="text" class="form-ctrl" [(ngModel)]="ecourseObject.course_type">
             </div>
-            <div id="assignCoursesParent" class="c-lg-3 c-md-3 c-ms-3 field-wrapper field-view" style="height:auto" (click)="openAssignBatch()">
+            <!-- <div id="assignCoursesParent" class="c-lg-3 c-md-3 c-ms-3 field-wrapper field-view" style="height:auto" (click)="openAssignBatch()">
               <label for="assignCourses"> </label>
               <textarea style="height:80px;padding:5px;background: #efefef;"  name="assignCoursesParent" [(ngModel)]="ecourseObject.master_course_names"
                 [placeholder]="jsonflag.isProfessional?'Assign Standard':'Assign Courses'" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
+                <a style="cursor:pointer" *ngIf="!jsonflag.isProfessional" (click)="openAssignBatch()">Assign Courses</a>
+                <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
+            </div> -->
+            <div class="c-lg-3 c-md-3 c-ms-3" style="height: auto;" (click)="openAssignBatch()">
+              <div style="height: 80px; padding: 5px; background: #efefef; overflow-y: auto;">
+                <div *ngFor="let course of assignCourses" class="chipped intable">
+                  {{course}}
+                </div>
+                <span *ngIf="!jsonflag.isProfessional &&(assignCourses.length==0)" style="    color: gray;">Assign Courses</span>
+                <span *ngIf="jsonflag.isProfessional &&(assignCourses.length==0)" style="    color: gray;">Assign Standard</span>
+              </div>
               <a style="cursor:pointer" *ngIf="!jsonflag.isProfessional" (click)="openAssignBatch()">Assign Courses</a>
               <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
             </div>
-  
-            <div class="c-lg-2 c-md-2 c-ms-2" style="padding-top:10px">
+
+            <!-- <div class="c-lg-2 c-md-2 c-ms-2" style="padding-top:10px">
               <div class="field-checkbox-wrapper" style="margin-bottom: 10px; margin-top: 25px; margin-left: 25px;">
                 <input type="checkbox" name="testSeries" class="form-checkbox" [(ngModel)]="ecourseObject.is_test_series" id="testSeries">
                 <label for="testSeries">Allow Test Series</label>
               </div>
-            </div>
+            </div> -->
+
             <div class="c-lg-2" style="margin-top:2%;">
               <input type="button" class="btn fullBlue" *ngIf="!jsonflag.isUpadted" value="Add" (click)="addEcourseMapping()">
               <input type="button" class="btn fullBlue" *ngIf="jsonflag.isUpadted" value="Update" (click)="updateCourseMapping()">
@@ -71,8 +83,8 @@
     </svg>
   </span>
 
-  <h2 popup-header  *ngIf="!jsonflag.isProfessional">Select Courses</h2>
-  <h2 popup-header  *ngIf="jsonflag.isProfessional">Select Batches</h2>
+  <h2 popup-header *ngIf="!jsonflag.isProfessional">Select Courses</h2>
+  <h2 popup-header *ngIf="jsonflag.isProfessional">Select Batches</h2>
   <!-- <h2 popup-header>Select Standards</h2> -->
 
   <div popup-content class="student-assign-popup">
@@ -84,8 +96,7 @@
               <td style="text-align: left;">
                 <div class="inst-no">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" name="batchcheck{{i}}" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" 
-                      class="form-checkbox">
+                    <input type="checkbox" name="batchcheck{{i}}" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" class="form-checkbox">
                     <label for="batchcheck{{i}}">{{batch.title}}</label>
                   </div>
                 </div>
@@ -108,8 +119,8 @@
     <div class="clearfix" style="margin-top :10px">
       <aside class="pull-right popup-btn">
         <input type="button" value="Cancel" class="btn" (click)="jsonflag.isAssignBatch = false">
-        <input type="button" *ngIf="!jsonflag.isProfessional" value="Add course" class="fullBlue btn" (click)="addCourseOrStandard()">
-        <input type="button" *ngIf="jsonflag.isProfessional" value="Add Batch" class="fullBlue btn" (click)="addCourseOrStandard()">
+        <input type="button" *ngIf="!jsonflag.isProfessional" value="Assign course" class="fullBlue btn" (click)="addCourseOrStandard()">
+        <input type="button" *ngIf="jsonflag.isProfessional" value="Assign Batch" class="fullBlue btn" (click)="addCourseOrStandard()">
       </aside>
     </div>
   </div>

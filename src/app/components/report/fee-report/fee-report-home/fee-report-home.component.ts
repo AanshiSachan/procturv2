@@ -17,15 +17,19 @@ export class FeeReportHomeComponent implements OnInit {
   ngOnInit() {
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('709') && (!permissions.includes('714'))) {
+      if (permissions.includes('714')) { //update payment and manage cheque,pdc  hide download
+        this.showChart = false;
+      }
+      if (permissions.includes('709')) {
         this.showChart = true;
       }
     }
 
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
+      || sessionStorage.getItem('username') == 'admin') {
       this.showChart = true;
     }
-    
+
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {

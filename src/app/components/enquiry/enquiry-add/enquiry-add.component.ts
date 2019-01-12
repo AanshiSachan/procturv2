@@ -1697,7 +1697,8 @@ export class EnquiryAddComponent implements OnInit {
 
 
   isEnquiryAdministrator() {
-    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined 
+    || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
       this.isEnquiryAdmin = true;
     }
     else {

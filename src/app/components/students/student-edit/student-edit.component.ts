@@ -300,25 +300,29 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.updateStudentForm(this.student_id);
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('710') && (!permissions.includes('714'))) {
+      
+      if (permissions.includes('714')) {
+        this.checkBoxGroup.manageCheque = true;
+        this.showFeeSection = false;
+        this.checkBoxGroup.hideReconfigure = false;
+      }
+      if (permissions.includes('710')) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
       }
       if (permissions.includes('713')) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
       }
-      if (permissions.includes('714')) {
+      if (sessionStorage.getItem('permissions') == undefined
+        || sessionStorage.getItem('permissions') == ''
+        || sessionStorage.getItem('username') == 'admin') {
+        this.checkBoxGroup.feeDiscouting = true;
+        this.showFeeSection = true;
+        this.checkBoxGroup.hideReconfigure = true;
         this.checkBoxGroup.manageCheque = true;
-        this.showFeeSection = false;
-        this.checkBoxGroup.hideReconfigure = false;
       }
     }
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
-      this.checkBoxGroup.feeDiscouting = true;
-      this.showFeeSection = true;
-      this.checkBoxGroup.hideReconfigure = true;
-      this.checkBoxGroup.manageCheque = true;
-    }
+
 
 
   }
@@ -1629,25 +1633,33 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
           this.showFeeSection = true;
+          this.checkBoxGroup.feeDiscouting = true;
           this.checkBoxGroup.hideReconfigure = true;
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-            if ((permissions.includes('710'))) {
-              this.showFeeSection = true;
-              this.checkBoxGroup.hideReconfigure = true;
-            } 
-            else{
-              this.checkBoxGroup.hideReconfigure = false;
-            }
-            if(permissions.includes('707')){ //fee payment for past date
-              this.showFeeSection = true;
-              this.checkBoxGroup.hideReconfigure = false;
-            }
-             if(permissions.includes('714')){
+            if (permissions.includes('714')) {
               this.showFeeSection = true;
               this.checkBoxGroup.feeDiscouting = false;
               this.checkBoxGroup.hideReconfigure = false;
-             }          
+            }
+            if ((permissions.includes('710'))) {
+              this.showFeeSection = true;
+              this.checkBoxGroup.hideReconfigure = true;
+            }
+            else {
+              this.checkBoxGroup.hideReconfigure = false;
+            }
+            if (permissions.includes('713')) {  //fee discount
+              this.checkBoxGroup.feeDiscouting = true;
+            }
+            if (sessionStorage.getItem('permissions') == undefined
+            || sessionStorage.getItem('permissions') == ''
+            || sessionStorage.getItem('username') == 'admin') {
+            this.checkBoxGroup.feeDiscouting = true;
+            this.showFeeSection = true;
+            this.checkBoxGroup.hideReconfigure = true;
+            this.checkBoxGroup.manageCheque = true;
+          }
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
