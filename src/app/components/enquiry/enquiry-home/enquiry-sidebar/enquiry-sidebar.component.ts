@@ -317,6 +317,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
           this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide closing reason' });
           return;
         }
+        this.updateFormData.followUpDate = ""; // closed enquiry should not have a follow up date --laxmi 
       }
 
       // Follow Up Type Walkin Manadatory
