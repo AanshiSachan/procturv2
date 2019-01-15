@@ -26,7 +26,6 @@ export class RegisterComponent implements OnInit {
     otp_code:""
   };
   instituteListArr: any = [];
-  otpVerificationPhoneNumber: any;
   messages: any;
   counter: number = 30;
   countDown: any;
@@ -122,7 +121,6 @@ export class RegisterComponent implements OnInit {
                     else {
                       this.isView = 'validateOTP';
                       this.counter = 30;
-                      this.otpVerificationPhoneNumber = this.loginDataForm.mobile_no.substring(6);
                       this.otpVerificationInfo.otp_code = "";
                       this.countDown = Observable.timer(0, 1000)
                         .take(this.counter)
@@ -171,7 +169,6 @@ export class RegisterComponent implements OnInit {
           this.isRippleLoad= false;
           this.otpVerificationInfo = res;
           this.otpVerificationInfo.otp_code = "";
-          this.otpVerificationPhoneNumber = this.loginDataForm.mobile_no.substring(6);
           this.isView = 'validateOTP';
           this.counter = 30;
           this.countDown = Observable.timer(0, 1000)

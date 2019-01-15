@@ -37,8 +37,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   headers: any;
   institute_id: any;
   messages: any;
-
-  otpVerificationPhoneNumber: string;
   returnUrl: string;
   dynamicImgSrc: string = '';
   baseUrl: string = '';
@@ -512,7 +510,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   OTPVerification(res) {
     this.OTPRegenerateData = res;
     let phone_no = res.mobile_no;
-    this.otpVerificationPhoneNumber = phone_no.substring(6);
     this.otpVerificationInfo.alternate_email_id = this.loginDataForm.alternate_email_id;
     this.otpVerificationInfo.password = this.loginDataForm.password;
     this.otpVerificationInfo.mobile_no = res.mobile_no;
