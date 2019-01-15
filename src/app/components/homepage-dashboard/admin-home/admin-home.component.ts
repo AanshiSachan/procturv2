@@ -1357,20 +1357,32 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getClassStatus(row) {
-    if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
-      let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-      let startMinute = this.convertIntOMinutes(row.start_time);
-      let endMinute = this.convertIntOMinutes(row.end_time);
-      currentTime = this.convertIntOMinutes(currentTime);
-      if (startMinute <= currentTime && currentTime <= endMinute) {
-        return "";
+    let date;
+    if (row.isExam) { // if it is exam then we need to use exam date for check exam is today or not and exam is ongoin
+      date = row.exam_date;
+    }
+    else {     
+      date = row.class_date; // if it is class then we need to use class date for check class is today or not and class is ongoin
+    }
+
+    if (date) {
+      if (moment(date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
+        let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+        let startMinute = this.convertIntOMinutes(row.start_time);
+        let endMinute = this.convertIntOMinutes(row.end_time);
+        currentTime = this.convertIntOMinutes(currentTime);
+        if (startMinute <= currentTime && currentTime <= endMinute) {
+          return "";
+        } else {
+          return "hide";
+        }
       } else {
         return "hide";
       }
-    } else {
-      return "hide";
     }
+    return "hide";
   }
+
 
   getReminderAndCancel(row) {
     if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
