@@ -25,16 +25,16 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   subjectList: any[] = [];
   batchList: any[] = [];
   tempBatchList: any[] = [];
+  tempData: any = "";
   radioOption: any = '0';
   filterOption: any = '0';
   standard_id: number = -1;
+  dataStatus: number = 1;
   assignPopUp: boolean = false;
   headerChecked: boolean = false;
   isCourse: boolean = false;
   isRippleLoad: boolean = false;
   isCourseModule: boolean = false;
-  tempData: any = "";
-  dataStatus: number = 1;
 
   examAssignmentData = {
     "institute_id": 0,
@@ -71,8 +71,8 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
     else {
       this.examAssignmentData.batch_id = -1
     }
-
   }
+
   fetchCoursesList() {
     this.isRippleLoad = true;
     this.dataStatus = 1;
@@ -118,7 +118,6 @@ export class ExamdeskCourseAssignmentComponent implements OnInit {
   }
 
   //Pop up Function
-
   assignStudent(data) {
     this.tempData = data;
     this.assignPopUp = true;
