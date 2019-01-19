@@ -96,7 +96,7 @@ export class EcourseMappingComponent implements OnInit {
           this.jsonflag.isProfessional = false;// course
           this.tableSetting.keys = [{ primaryKey: 'course_type', header: 'E-Course Name', priority: 1, allowSortingFlag: true, inputType: 'text' }];
           this.tableSetting.actionSetting.options = [{ title: "Edit", class: 'fa fa-check updateCss', optionType: 'editRow' }];
-          this.tableSetting.actionSetting.editOptions = [ { title: "update", class: 'fa fa-check updateCss', optionType: 'update' }];
+          this.tableSetting.actionSetting.editOptions = [{ title: "update", class: 'fa fa-check updateCss', optionType: 'update' }];
 
           if (this.jsonflag.allowMapping == '1') { // if assign course enabled
             this.getListOfCourses();
@@ -140,6 +140,7 @@ export class EcourseMappingComponent implements OnInit {
         let object = {
           isSelected: false,
           title: courseTitle,
+          temp:course.course_name,
           id: course.course_id
         }
         this.batchList.push(object);
@@ -212,8 +213,22 @@ export class EcourseMappingComponent implements OnInit {
           let names = this.updateEcourseObject.master_course_names.split(",");
           this.assignCourses = this.updateEcourseObject.master_course_names.split(',');
           names.forEach((title) => {
-            let obj: any = this.batchList.filter((data) => data.title == title);
-            if (obj.length) { obj[0].isSelected = true; }
+            if (this.jsonflag.isProfessional) {
+              let obj: any = this.batchList.filter((data) => data.title == title);
+              if (obj.length) {
+                obj.forEach((element) => {
+                  element.isSelected = true;
+                })
+              }
+            }
+            else {
+              this.batchList.filter((data) => {
+                if (data.temp == title) {
+                  data.isSelected = true;
+                }
+              });
+            }
+
           })
           console.log(this.batchList);
         }
@@ -243,7 +258,7 @@ export class EcourseMappingComponent implements OnInit {
       course_type: this.updateEcourseObject.course_type,
       course_type_id: this.updateEcourseObject.course_type_id,
       is_test_series: "Y",
-      master_course_ids: this.updateEcourseObject.master_course_ids.toString()
+      master_course_ids: this.updateEcourseObject.master_course_ids
     }
     // data.push(obj);
     console.log(this.updateEcourseObject, data);
@@ -320,7 +335,7 @@ export class EcourseMappingComponent implements OnInit {
       this.ecourseData = [];
       data.forEach(obj => {
         let eCourse = obj;
-        eCourse.tempName =obj.course_type;
+        eCourse.tempName = obj.course_type;
         eCourse.assignCourses = '';
         if (obj.eCourseMapping) {
           obj.eCourseMapping.forEach((element, index) => {
