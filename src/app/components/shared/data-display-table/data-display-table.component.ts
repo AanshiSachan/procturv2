@@ -19,6 +19,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   sortKey: any;
   recordsTrimmed: any[] = [];
   selectedRecord: any[] = [];
+  tempData: any[] = [];
   isCourse: boolean = true;
   constructor(
     private _tablePreferencesService: TablePreferencesService,
@@ -27,10 +28,10 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.keysArray = this.displayKeys.keys;
-    if(this.displayKeys.defaultSort==undefined){
+    if (this.displayKeys.defaultSort == undefined) {
       this.sortKey = this.keysArray[0];
     }
-    else{
+    else {
       this.sortKey = this.displayKeys.defaultSort;
     }
     if (sessionStorage.getItem('course_structure_flag') == "0") {
@@ -66,16 +67,21 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     }
     else {
-      this.recordsTrimmed = this.displayData;
+      this.tempData =this.displayData;
+      this.recordsTrimmed =  Object.assign([], this.displayData);
       this.recordCount = this.displayData.length;
       // this.displayKeys.displayMessage = "Data not found";
     }
   }
 
   notifyMe(e) {
-    this.keysArray = e.keys;
-    this.keysArray[0].type = null;
-    this.sortData(this.keysArray[0]);
+    if (e == 'clearRow') {
+      this.isEditRow = "";
+    } else {
+      this.keysArray = e.keys;
+      this.keysArray[0].type = null;
+      this.sortData(this.keysArray[0]);
+    }
     console.log('notifyMe');
   }
 
@@ -206,7 +212,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     let strExp = '';
 
     let len = this.displayKeys.actionSetting.condition.length;
-    if(!len){
+    if (!len) {
       return true;
     }
     let conditionArray = this.displayKeys.actionSetting.condition;
@@ -320,18 +326,30 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         else {
           return false;
         }
-       
+
       }
-      default:{
+      default: {
         return true;
       }
     }
   }
-  editRow(id, obj) {
+  editRow(id, obj, type) {
     console.log(id, obj);
-    this.editView.emit({ 'data': obj })
-    // this.isEditRow = id;
-    // this.editObject = obj;
+    this.recordsTrimmed = Object.assign([], this.displayData);
+    if (type == 'editRow') {
+      this.isEditRow = id;
+      this.editObject = obj;
+      this.recordsTrimmed.forEach((obj)=>{
+        obj.course_type = obj.tempName ;
+      })
+    }
+    else {
+
+      this.editView.emit({ 'data': obj, type: type })
+    }
+
+
+
   }
 
   handleEvent(obj, type) {
@@ -340,7 +358,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
-    this.recordsTrimmed = this._paginationService.updateTableBatchSize(num, this.displayData);
+    this.recordsTrimmed = this._paginationService.updateTableBatchSize(num, Object.assign([], this.displayData));
     if (this.recordsTrimmed.length > 0) {
       this._paginationService.setPageIndex(1);
       this.sortKey.type = null;
@@ -349,7 +367,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   fectchTableDataByPage($event) {
-    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, this.displayData);
+    this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, Object.assign([], this.displayData));
     // console.log(this.recordsTrimmed,this.displayData);    
     this.sortKey.type = null;
     this.sortData(this.sortKey);
@@ -359,14 +377,14 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   /* Fetch next set of data from server and update table */
   fetchNext() {
-    this.recordsTrimmed = this._paginationService.fetchNext(this.displayData);
+    this.recordsTrimmed = this._paginationService.fetchNext(Object.assign([], this.displayData));
     this.sortKey.type = null;
     this.sortData(this.sortKey);
   }
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
-    this.recordsTrimmed = this._paginationService.fetchPrevious(this.displayData);
+    this.recordsTrimmed = this._paginationService.fetchPrevious(Object.assign([], this.displayData));
     this.sortKey.type = null;
     this.sortData(this.sortKey);
   }

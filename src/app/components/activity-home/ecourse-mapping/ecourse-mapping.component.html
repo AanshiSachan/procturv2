@@ -13,8 +13,8 @@
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> E-course Mapping
           </h2>
-          <a (click)="clearObjects()" *ngIf="jsonflag.isUpadted" class="form btnAdd">Add E-Course
-          </a>
+          <!-- <a (click)="clearObjects()" *ngIf="jsonflag.isUpadted" class="form btnAdd">Add E-Course
+          </a> -->
 
         </div>
 
@@ -24,35 +24,24 @@
               <label for="from">E-course Name*</label>
               <input type="text" class="form-ctrl" [(ngModel)]="ecourseObject.course_type">
             </div>
-            <!-- <div id="assignCoursesParent" class="c-lg-3 c-md-3 c-ms-3 field-wrapper field-view" style="height:auto" (click)="openAssignBatch()">
-              <label for="assignCourses"> </label>
-              <textarea style="height:80px;padding:5px;background: #efefef;"  name="assignCoursesParent" [(ngModel)]="ecourseObject.master_course_names"
-                [placeholder]="jsonflag.isProfessional?'Assign Standard':'Assign Courses'" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
-                <a style="cursor:pointer" *ngIf="!jsonflag.isProfessional" (click)="openAssignBatch()">Assign Courses</a>
-                <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
-            </div> -->
-            <div class="c-lg-3 c-md-3 c-ms-3" style="height: auto;" (click)="openAssignBatch()">
-              <div style="height: 80px; padding: 5px; background: #efefef; overflow-y: auto;">
-                <div *ngFor="let course of assignCourses" class="chipped intable">
-                  {{course}}
+
+            <div class="c-lg-3 c-md-3 c-ms-3" style="height: auto;" *ngIf="jsonflag.allowMapping=='1'" (click)="openAssignBatch()">
+              <div style="height: 80px; padding: 5px; background: #efefef; overflow-y: auto;" >
+                <div *ngFor="let course of assignCourses"  [ngClass]="!jsonflag.isUpadted?'chipped intable':''">
+                  
+                  <span  *ngIf="!jsonflag.isUpadted">{{course}}</span>
                 </div>
-                <span *ngIf="!jsonflag.isProfessional &&(assignCourses.length==0)" style="    color: gray;">Assign Courses</span>
-                <span *ngIf="jsonflag.isProfessional &&(assignCourses.length==0)" style="    color: gray;">Assign Standard</span>
+           
+                <span *ngIf="(!jsonflag.isProfessional &&(assignCourses.length==0))||(!jsonflag.isProfessional && jsonflag.isUpadted)" style="    color: gray;">Assign Courses</span>
+                <span *ngIf="jsonflag.isProfessional &&(assignCourses.length==0) ||(jsonflag.isProfessional && jsonflag.isUpadted)" style="    color: gray;">Assign Standard</span>
               </div>
               <a style="cursor:pointer" *ngIf="!jsonflag.isProfessional" (click)="openAssignBatch()">Assign Courses</a>
               <a style="cursor:pointer" *ngIf="jsonflag.isProfessional" (click)="openAssignBatch()">Assign Standard</a>
             </div>
 
-            <!-- <div class="c-lg-2 c-md-2 c-ms-2" style="padding-top:10px">
-              <div class="field-checkbox-wrapper" style="margin-bottom: 10px; margin-top: 25px; margin-left: 25px;">
-                <input type="checkbox" name="testSeries" class="form-checkbox" [(ngModel)]="ecourseObject.is_test_series" id="testSeries">
-                <label for="testSeries">Allow Test Series</label>
-              </div>
-            </div> -->
-
-            <div class="c-lg-2" style="margin-top:2%;">
-              <input type="button" class="btn fullBlue" *ngIf="!jsonflag.isUpadted" value="Add" (click)="addEcourseMapping()">
-              <input type="button" class="btn fullBlue" *ngIf="jsonflag.isUpadted" value="Update" (click)="updateCourseMapping()">
+            <div class="c-lg-2" style="margin-top:2%;"> 
+              <input type="button" class="btn fullBlue"  value="Add" (click)="addEcourseMapping()">
+              <!-- <input type="button" class="btn fullBlue" *ngIf="jsonflag.isUpadted" value="Update" (click)="updateCourseMapping()"> -->
             </div>
           </div>
         </div>
