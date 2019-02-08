@@ -93,6 +93,11 @@ export class CourseEditComponent implements OnInit {
     this.apiService.getTeacherListFromServer().subscribe(
       data => {
         this.activeTeachers = data;
+        this.activeTeachers.sort(function(a, b) {
+          var textA = a.teacher_name.toUpperCase();
+          var textB = b.teacher_name.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        });
       },
       error => {
         //console.log(error);

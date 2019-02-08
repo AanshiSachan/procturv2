@@ -117,6 +117,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   paymentMode: number = 0;
   clonedFeeObject: FeeModel;
   feeObject: FeeModel;
+  selectedInstallment: number = 0;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -300,7 +301,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.updateStudentForm(this.student_id);
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      
+
       if (permissions.includes('714')) {
         this.checkBoxGroup.manageCheque = true;
         this.showFeeSection = false;
@@ -349,7 +350,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   /**
    * this function is used for navigation as student selected type
-   * changed by laxmi 
+   * changed by laxmi
    */
   navigateTo(text) {
 
@@ -398,7 +399,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     )
   }
 
-  //get all selected studnet fee installment 
+  //get all selected studnet fee installment
   studentFeeInstallment(userType) {
     let object = {
       student_ids: this.student_id,// string by ids common seperated
@@ -1275,7 +1276,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
 
-    /* Both Form are Valid Else there seems to 
+    /* Both Form are Valid Else there seems to
         be an error on custom component */
     if (form.valid && isCustomComponentValid) {
 
@@ -1724,7 +1725,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         // this.subjectWiseInstallmentArray = this.feeService.checkForUiSelection(this.subjectWiseInstallmentArray);
       }
     }
+    this.updateSelectedInstallment(event);
   }
+
+  updateSelectedInstallment(event){
+    if(event){
+      this.selectedInstallment = this.selectedInstallment + 1;
+    }
+    else{
+      this.selectedInstallment = this.selectedInstallment - 1;
+    }
+  }
+
 
   onPaidOrUnpaidCheckbox() {
     if (this.checkBoxGroup.unpaidInstallment && this.checkBoxGroup.paidInstallment) {
@@ -2137,6 +2149,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
+        console.log("res is for edit  "+res);
         let temp: any[] = [];
         res.forEach(el => {
           let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false };
@@ -2286,7 +2299,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       res => {
         this.isRippleLoad = false;
         if (key == 'Y') {
-          this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
+          // this.commonServiceFactory.showErrorMessage('success', 'Send Successfullly', '');
+          this.commonServiceFactory.showErrorMessage('success', 'Acknowledgement receipt sent to '+this.studentAddFormData.student_email, '');
         } else if (key == "undefined") {
           this.downloadDocument(res);
         }

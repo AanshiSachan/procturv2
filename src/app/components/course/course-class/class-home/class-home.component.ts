@@ -175,9 +175,15 @@ export class ClassHomeComponent implements OnInit {
     this.isRippleLoad = true;
     this.classService.getAllTeachersList().subscribe(
       res => {
-        //console.log('teacher', res);
+        // console.log('teacher', res);
         this.isRippleLoad = false;
         this.teacherList = res;
+
+        this.teacherList.sort(function(a, b) {
+          var textA = a.teacher_name.toUpperCase();
+          var textB = b.teacher_name.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        });
       },
       err => {
         this.isRippleLoad = false;
@@ -279,13 +285,13 @@ export class ClassHomeComponent implements OnInit {
     //document.getElementById('tbodyItem'+i).classList.toggle('active');
   }
 
-  // it expands all rows for show child records 
+  // it expands all rows for show child records
   expandAll(i){
     document.getElementById('tbodyItem' + i).classList.add("active");
     document.getElementById('tbodyView' + i).classList.remove("hide");
   }
 
-  // it collapes all rows for hide child records 
+  // it collapes all rows for hide child records
   collapesAll(i){
     document.getElementById('tbodyItem' + i).classList.remove("active");
     document.getElementById('tbodyView' + i).classList.add("hide");
@@ -1047,7 +1053,7 @@ export class ClassHomeComponent implements OnInit {
     return false;
   }
 
-  // Expand All 
+  // Expand All
   expandAllRows() {
     let count = this.weekScheduleList.length;
     for (let i = 0; i < count; i++) {
@@ -1055,7 +1061,7 @@ export class ClassHomeComponent implements OnInit {
           this.expandAll(i);
         }else{
           this.collapesAll(i)
-        }     
+        }
     }
     this.isExpand = (!this.isExpand);
   }

@@ -122,25 +122,6 @@
                             margin: 0px;
                             border: none;
                             padding: 0;
-                            &.datePickerBox {
-                                .bsDatepicker {
-                                    cursor: pointer;
-                                    position: relative;
-                                    z-index: 1;
-                                    background: transparent;
-                                    width: 95%;
-                                }
-                                &:after {
-                                    content: '';
-                                    background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                    position: absolute;
-                                    right: 13px;
-                                    top: 15px;
-                                    width: 21px;
-                                    height: 21px;
-                                    z-index: 0;
-                                }
-                            }
                             .date-clear {
                                 position: absolute;
                                 right: 60%;
@@ -196,6 +177,25 @@
                                     font-size: 14px;
                                     color: black;
                                 }
+                            }
+                        }
+                        .datePickerBox {
+                            .bsDatepicker {
+                                cursor: pointer;
+                                position: relative;
+                                z-index: 1;
+                                background: transparent;
+                                width: 95%;
+                            }
+                            &:after {
+                                content: '';
+                                background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                position: absolute;
+                                right: 13px;
+                                top: 15px;
+                                width: 21px;
+                                height: 21px;
+                                z-index: 0;
                             }
                         }
                     }
@@ -603,6 +603,7 @@
     padding: 8px 5px;
     border-radius: 5px;
     width: 100%;
+    position: relative;
     border: 1px solid rgba(119, 119, 119, 0.34);
     .form-ctrl {
         width: inherit;
@@ -610,6 +611,25 @@
     }
     &.disable {
         background: #dddddd !important;
+    }
+}
+.datePickerBox {
+    .bsDatepicker {
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        background: transparent;
+        width: 95%;
+    }
+    &:after {
+        content: '';
+        background: url("../../../../assets/images/calendar.svg") no-repeat;
+        position: absolute;
+        right: 20px;
+        top: 30px;
+        width: 21px;
+        height: 21px;
+        z-index: 0;
     }
 }
 
@@ -646,6 +666,9 @@
             td {
                 .field-checkbox-wrapper {
                     background: transparent;
+                    .checkbox{
+                      padding-left: 0px;
+                    }
                 }
             }
         }
@@ -781,7 +804,7 @@
         .pdc-shell {
             box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
             .pdc-header {
-                background: #efefef;
+                // background: #efefef;
                 padding: 10px;
                 font-size: 18px;
                 font-weight: 700;
@@ -789,7 +812,7 @@
                 border-top-right-radius: 5px;
             }
             .pdc-adder {
-                background: #efefef;
+                // background: #efefef;
                 padding: 20px 5px 10px 5px;
                 ul {
                     li {
@@ -1414,7 +1437,7 @@ input[type=number]::-webkit-outer-spin-button {
         right: 0;
         left: 0px;
         background: rgba(230, 230, 230, 0.5);
-        z-index: 100; // display: none;  
+        z-index: 100; // display: none;
         visibility: hidden;
         opacity: 0;
         -webkit-transition: all 0.5s ease-in;
