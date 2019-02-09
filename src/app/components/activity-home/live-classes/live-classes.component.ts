@@ -505,9 +505,12 @@ export class LiveClassesComponent implements OnInit {
         this.courses = [];
         this.batches = [];
         this.courseIds = [];
+        this.customId =[];
+        this.studentId=[];
         this.isUserCheckedArr = [];
         this.isStudentCheckedArr = [];
         this.teacherIdArr = [];
+        this.batchesIds=[];
         this.hourFrom = "";
         this.hourTo = "";
         this.minuteFrom = "";
