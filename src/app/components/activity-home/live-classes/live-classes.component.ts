@@ -342,6 +342,8 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getStudents() {
+    this.studentsAssigned =[];
+    this.JsonVars.selected =false;
     let str = []
     if (this.isProfessional) {
       this.batchesIds.map(
@@ -486,8 +488,7 @@ export class LiveClassesComponent implements OnInit {
     this.dateFrom = moment().format('YYYY-MM-DD');
     this.classDetails = "";
     this.teacherId = "";
-    this.getCheckedBox(this.teachersAssigned);// unselect selected teachers
-    this.getCheckedBox(this.userAssigned);// unselect selected users
+  
   }
 
   getOnlineSchedules() {
@@ -520,10 +521,16 @@ export class LiveClassesComponent implements OnInit {
         this.JsonVars.submitReq = false;
         this.JsonVars.isRippleLoad = false;
         this.clearOnlineSchedulesObject();
+        this.getCheckedBox(this.teachersAssigned);// unselect selected teachers
+        this.getCheckedBox(this.userAssigned);// unselect selected users
       },
       (error: any) => {
         this.JsonVars.isRippleLoad = false;
         this.JsonVars.submitReq = false;
+        // this.clearOnlineSchedulesObject() ;
+        this.teacherIdArr =[];
+        this.customId =[];
+        this.studentId =[];
         this.appC.popToast({ type: "error", body: error.error.message })
       }
     )
