@@ -98,7 +98,14 @@
 :host /deep/ .bs-datepicker {
   .bs-datepicker-container {
     padding: 10px; //background: #004b7f;
+
   }
+}
+.bs-calendar-container div:nth-child(1) {
+  display: flex;
+}
+.bs-datepicker-head{
+  display: block !important;
 }
 
 :host /deep/ bs-days-calendar-view {
@@ -1444,7 +1451,7 @@ input:-webkit-autofill {
   right: 0;
   left: 0;
   background: rgba(230, 230, 230, 0.5);
-  z-index: 100; // display: none;  
+  z-index: 100; // display: none;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: all .5s ease-in;

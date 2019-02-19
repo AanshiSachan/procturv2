@@ -323,7 +323,7 @@
                   <label for="status">Status</label>
                   <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
                     <option></option>
-                    <option *ngFor="let status of langStatus" [value]="status.data_key" [attr.selected]="status.data_key == 'admitted' ? 
+                    <option *ngFor="let status of langStatus" [value]="status.data_key" [attr.selected]="status.data_key == 'admitted' ?
                     '' : null">
                       {{status.data_value}}
                     </option>
@@ -501,17 +501,17 @@
         <div style="overflow: hidden; font-weight: 600; font-size: 14px;">
           <div >
             <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-              <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode" 
+              <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="paymentMode"
                 [value]="0">
               <label for="batch">Student</label>
             </div>
             <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" 
+              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode"
                 [value]="1">
               <label for="student">Parent</label>
             </div>
             <div class="row field-radio-wrapper" style="margin-top: 10px; margin-left: 26px;">
-              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode" 
+              <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="paymentMode"
                 [value]="2">
               <label for="student">Both</label>
             </div>
@@ -525,7 +525,7 @@
           <aside class="text-center popup-btn">
               <input type="button" value="Send"  style="font-size:12px; height: 30px;" (click)="studentFeeInstallment(1)" class="fullBlue btn">
             <input type="button" value="Cancel" style="font-size:12px; height: 30px;" class="btn" (click)="isShareDetails=false">
-           
+
           </aside>
         </div>
       </div>
@@ -643,7 +643,7 @@
               <input  style="    right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
               class="btn downloadbtn">
               <!-- <input *ngIf="showFeeSection" type="button" value="Download" (click)="studentFeeInstallment()" class="btn downloadbtn"> -->
-              <i  class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;" 
+              <i  class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;"
               placeholder="Download fee installment"></i>
             </div>
           </div>
@@ -1331,7 +1331,7 @@
               </li>
 
               <li>
-                <div class="form-wrapper">
+                <div class="form-wrapper datePickerBox">
                   <input type="text" value="" placeholder="Cheque Date" id="chequedate" class="form-ctrl bsDatepicker" name="chequedate" [(ngModel)]="pdcAddForm.cheque_date"
                     readonly="true" #chequedate="ngModel" bsDatepicker>
                 </div>
@@ -1469,8 +1469,8 @@
     <div class="" popup-footer>
       <div class="clearfix">
         <aside class="pull-left popup-btn">
-          <input type="button" value="Generate Acknowledgement" (click)="generateAck()" class="fullBlue btn">
-          <input type="button" value="Send Acknowledgement" (click)="sendAck()" class="btn">
+          <input type="button" value="Download Acknowledgement" (click)="generateAck()" class="fullBlue btn">
+          <input type="button" value="Email Acknowledgement" (click)="sendAck()" class="btn">
         </aside>
       </div>
     </div>
@@ -1495,9 +1495,13 @@
       </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Student Fee Payment
+    <h2 popup-header style="padding: 10px 5px;">Update Fee
       <span>(Payment Details for {{paymentPopUpJson.immutableAmount| commaSeprator}})</span>
+      <br>
+      <h5 style="margin-top:10px;font-weight:bold;">Selected Installments : {{selectedInstallment}}</h5>
     </h2>
+
+
 
     <div class="paymentWrapper" popup-content>
 
@@ -1506,7 +1510,7 @@
         <div class="row">
 
           <div class="field-wrapper">
-            <label for="payamt">Payment for</label>
+            <label for="payamt">Amount for</label>
             <input type="text" id="payamt" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="paymentPopUpJson.payingAmount"
               name="payamt" (keyup)="totalPartialChange($event)" />
           </div>
@@ -1602,16 +1606,16 @@
         </div>
 
         <div class="row" style="margin-top: 10px;">
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-5 c-md-5 c-sm-5">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="paymentPopUpJson.genFeeRecipt" class="form-checkbox" id="isGenPdc">
-              <label for="isGenPdc">Generate Fee Receipt</label>
+              <label for="isGenPdc">Download Fee Receipt</label>
             </div>
           </div>
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-7 c-md-7 c-sm-7">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="emailPdc" [(ngModel)]="paymentPopUpJson.emailFeeRecipt" class="form-checkbox" id="emailPdc">
-              <label for="emailPdc">Email Receipt</label>
+              <label for="emailPdc">Email to students and parents</label>
             </div>
           </div>
         </div>

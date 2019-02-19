@@ -16,7 +16,7 @@
         <li>
             <label for="idEnableSMS" style="font-size:14px ">Fees Collection
                 <br>
-             
+
                 <span class="enquiry-state-date" style="font-size:12px ">
                     {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}
                     <button (click)="openCalendar('feeWidDate')" style="background: white;
@@ -47,7 +47,7 @@
         <li>
             <label style="font-size:14px;padding-left: 25px; ">Future Dues
                 <br>
-              
+
                 <div class="questionInfo inline-relative" style="left: 38%; top: -15px;">
                     <span class="qInfoIcon i-class">i</span>
                     <div class="tooltip-box-field" style="font-size: 10px;">
@@ -60,14 +60,14 @@
             </label>
             <div style="margin-top: -20px; padding-left: 25px;">Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
             <div style="  text-transform: lowercase;     font-size: 10px; padding-left: 25px;
-            margin-top: 1px ">{{getDate(0)}} - onword's </div>
+            margin-top: 1px ">{{getDate(0)}} - onwards </div>
         </li>
         <li></li>
         <li>
 
             <label style="padding-left: 25px;">Past Dues
                 <br>
-               
+
                 <div class="questionInfo inline-relative" style="left: 25%; top: -15px;">
                     <span class="qInfoIcon i-class">i</span>
                     <div class="tooltip-box-field" style="font-size: 10px;">

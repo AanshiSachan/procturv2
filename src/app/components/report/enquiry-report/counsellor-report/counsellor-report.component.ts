@@ -39,7 +39,7 @@ export class CounsellorReportComponent implements OnInit {
 
   feeSettings1: ColumnData[] = [
     { primaryKey: 'source', header: 'Counsellor' },
-    { primaryKey: 'newEnqCount', header: 'New Enquiries' },
+    // { primaryKey: 'newEnqCount', header: 'New Enquiries' },
     { primaryKey: 'open', header: 'Open' },
     { primaryKey: 'inProgress', header: 'In Progress' },
     { primaryKey: 'Converted', header: 'Converted' },
@@ -51,7 +51,7 @@ export class CounsellorReportComponent implements OnInit {
   showPopup: boolean = false;
 
   statusKeys = {
-    'newEnqcount': '-1',
+    // 'newEnqcount': '-1',
     'open': '0',
     'inProgress': '3',
     'Converted': '2',
@@ -134,7 +134,7 @@ export class CounsellorReportComponent implements OnInit {
           this.getCounsellorDetails = this.newArray;
           this.getCounsellorDetails.map(
             (ele: any) => {
-              ele.newEnqCount = ele.data.newEnqcount;
+              // ele.newEnqCount = ele.data.newEnqcount;
               ele.totalcount = ele.data.totalcount;
               ele.source_id = ele.key
               ele.source = ele.data.uniqueCatName

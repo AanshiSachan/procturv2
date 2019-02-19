@@ -84,7 +84,8 @@ export class FeePieComponent {
       caution: 0,
       credit: 0,
       other: 0,
-      cheque: 0
+      cheque: 0,
+      neft: 0
     }
 
     temp.forEach(e => {
@@ -102,6 +103,9 @@ export class FeePieComponent {
       }
       else if (e.paymentMode == "Cheque") {
         obj.cheque = e.total_fees;
+      }
+      else if(e.paymentMode == "NEFT/RTGS"){
+        obj.neft = e.total_fees;
       }
     });
 
@@ -160,6 +164,9 @@ export class FeePieComponent {
         }, {
           name: 'Cheque',
           y: obj.cheque
+        }, {
+          name: 'NEFT/RTGS',
+          y: obj.neft
         }]
       }]
     });
