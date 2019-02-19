@@ -522,6 +522,9 @@ export class StudentFeeService {
 
         if (paymentPopUpJson.payment_mode == "Cheque/PDC/DD No." && paymentPopUpJson.pdcSelectedForm != '') {
             paymentPopUpJson.pdcSelectedForm.cheque_date = moment(paymentPopUpJson.pdcSelectedForm.cheque_date).format('YYYY-MM-DD');
+            // console.log("pdc id : "+paymentPopUpJson.pdcSelectedForm.pdc_cheque_id);
+            paymentPopUpJson.pdcSelectedForm.pdc_cheque_id = paymentPopUpJson.pdcSelectedForm.pdc_cheque_id;
+
             obj.chequeDetailsJson = paymentPopUpJson.pdcSelectedForm;
         } else {
             obj.chequeDetailsJson = {};
@@ -552,8 +555,8 @@ export class StudentFeeService {
                     total_amt_paid: 0,
                 };
 
-                // Two Cases is there 
-                // 1. Fully Unpaid 
+                // Two Cases is there
+                // 1. Fully Unpaid
                 // 2. Partial Payment
 
                 if (element.balance_amount != 0) {

@@ -625,8 +625,8 @@
         content: '';
         background: url("../../../../assets/images/calendar.svg") no-repeat;
         position: absolute;
-        right: 20px;
-        top: 30px;
+        right: 8px;
+        top: 5px;
         width: 21px;
         height: 21px;
         z-index: 0;
@@ -2410,6 +2410,26 @@ input[type=number]::-webkit-outer-spin-button {
         ::-webkit-scrollbar {
             display: block;
         }
+        .datePickerBox {
+            .bsDatepicker {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+                width: 95%;
+            }
+            &:after {
+                content: '';
+                background: url("../../../../assets/images/calendar.svg") no-repeat;
+                position: absolute;
+                right: 20px;
+                top: 30px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+
     }
     .row {
         margin: 0px 10px;
