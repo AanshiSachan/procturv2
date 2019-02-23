@@ -1,0 +1,232 @@
+.black-bg{
+  background: rgba(10,10,10,0.3);
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  left: 0px;
+  z-index: 1;
+  width: 100%;
+}
+
+// TO Do LIST style
+.toDoList-container{
+  position: fixed;
+  bottom: 10%;
+  right: 4.5%;
+  z-index: 100;
+
+}
+.toDoList-button{
+  width: 150px;
+  background: #1283f4;
+  color: #ffffff;
+  line-height: 22px;
+  font-size: 16px;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 30px;
+  border-bottom-right-radius: 0px;
+  z-index: 100;
+  position: fixed;
+  bottom: 10%;
+  right: 4.5%;
+}
+
+.toDoList-widget{
+  position: fixed;
+  top: 33%;
+  right: 4.5%;
+  width: 55%;
+  height: 310px;
+  border-radius: 6px;
+  background: white;
+  animation-name: 'slideInUp';
+  animation-duration: 0.5s;
+  z-index: 100;
+}
+.toDoList-header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  font-size: 16px;
+  background: rgba(18,131,244,0.1);
+  color: #1283f4;
+}
+
+.widgetDatepicker {
+  position: absolute;
+  margin-left: 25%;
+  width: 1px;
+  visibility: hidden;
+  opacity: 0;
+}
+.bsDatepicker {
+  padding: 5px;
+  width: 100%;
+}
+
+.toDoList-input-container{
+  padding-top: 15px;
+  padding-bottom: 10px;
+  width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
+  z-index: 1;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  .toDoList-input{
+    border: none;
+    border-bottom: 1px solid #cbcbcb;
+    padding-left: 15px;
+    box-shadow: none;
+    padding-bottom: 5px;
+    border-radius: 0px;
+  }
+  .plus-icon-box{
+    background: none;
+    border: none;
+  }
+  .plus-icon{
+    color: #1283f4;
+    cursor: pointer;
+  }
+}
+
+.toDoList-task-container{
+  width: 100%;
+  padding-left: 05%;
+  padding-right: 05%;
+  overflow-y: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 190px;
+}
+
+
+.toDoList{
+  position: relative;
+  min-height: 95px;
+  .item, .completed-item {
+    position: absolute;
+    width: 100%;
+    margin: 5px 0;
+  }
+  .item.muuri-item-hidden {
+    z-index: 11;
+  }
+  .item.muuri-item-releasing {
+    z-index: 12;
+  }
+  .item.muuri-item-dragging {
+    z-index: 13;
+    cursor: move;
+  }
+  .item-content {
+    position: relative;
+    background: #fff;
+    font-size: 17px;
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    .toDoList-completion, .toDoList-selection{
+      margin: 10px 0px;
+      padding: 10px;
+    }
+    .toDoList-content{
+      width: 78%;
+      margin: 10px;
+      font-size: 14px;
+      border: 1px solid #87c0f9;
+      border-radius: 3px;
+      padding: 10px;
+      padding-bottom: 7px;
+      .toDoEdit{
+        border: none;
+        width: 93%;
+        border-bottom: 1px solid #cbcbcb;
+        padding-left: 5px;
+        box-shadow: none;
+        padding-bottom: 5px;
+        border-radius: 0px;
+        display: none;
+      }
+      .fa-paper-plane{
+        color: #87c0f9;
+        right: 0px;
+        position: absolute;
+        top: 5px;
+        display: none;
+      }
+      .input-wrapper{
+        position: relative;
+      }
+
+    }
+    .toDoList-date{
+      width: max-content;
+      padding: 3px;
+      border-radius: 2px;
+      margin-top: 10px;
+      span{
+        font-size: 12px;
+        color: #1283f4;
+        cursor: default;
+      }
+    }
+    .toDoList-button-container{
+      margin: 10px 0px;
+      font-size: 14px;
+      padding: 10px;
+      position: relative;
+      .bsDatepicker{
+        position: absolute;
+      }
+    }
+    .fa-check-circle{
+      color: #bfbfbf;
+    }
+    .fa-bars{
+      cursor: move;
+    }
+    .task-completed{
+      color: #87c0f9;
+    }
+  }
+
+}
+
+@media (max-width: 600px) {
+  .item-content {
+    text-align: center;
+  }
+}
+
+
+
+
+
+@-webkit-keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
