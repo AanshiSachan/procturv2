@@ -12,31 +12,66 @@ import * as moment from 'moment';
 
 export class LiveClassesComponent implements OnInit {
 
+
   activeIndex: number = 1;
   studentForm: boolean = true;
   kyc: boolean = false;
-  isProfessional;
+  isProfessional: boolean = false;
   feeDetails: boolean = false;
   inventory: boolean = false;
+  openClassPopup: boolean = false;
+  pastClassesPopup: boolean = false;
+  futureClassesPopup: boolean = false;
+  allClasses: boolean = false;
+  validations: boolean = false;
+  sendNotifyMe: boolean = false;
+  rescheduleClass: boolean = false;
+  JsonVars: any = {
+    isRippleLoad: false,
+    selected: false,
+    submitReq: false
+
+  }
   batches: any[] = [];
   hour = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM', '10 AM', '11 AM', '12 AM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM', '07 PM', '08 PM', '09 PM', '10 PM', '11 PM', '12 PM'];
   minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']
   batchesIds: any[] = [];
-  courseIds: any[] = []
-  getPayloadBatch = {
-    inst_id: this.service.institute_id,
-    coursesArray: [''],
-    role: 'student'
-  }
+  courseIds: any[] = [];
   studentsAssigned: any[] = []
   teachersAssigned: any[] = [];
   userAssigned: any[] = [];
   masters: any[] = []
   courses: any[] = []
-  courseValue: string = '';
   isStudentCheckedArr: any[] = []
+  isUserCheckedArr: any[] = [];
+  teacherIdArr: any[] = [];
+  getClasses: any[] = [];
+  getPastClasses: any[] = [];
+  getFutureClasses: any[] = [];
+  customId = [];
+  studentId = [];
+  columnMaps: any[] = [0, 1, 2, 3];
+  hourFrom: string = "";
+  hourTo: string = "";
+  minuteTo: string = "";
+  minuteFrom: string = "";
   teacherId: string = '';
-  selected: boolean;
+  courseValue: string = '';
+  session: string = "";
+  hourFromReschedule: string = "";
+  minuteFromReschedule: string = "";
+  hourToReschedule: string = "";
+  minuteToReschedule: string = "";
+  classDetails: string = "";
+  dateToday = moment().format('YYYY-MM-DD');
+  dateFrom = moment(new Date()).format('YYYY-MM-DD');
+  rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
+  rescheduleclass = {
+    end_datetime: "",
+    institution_id: this.service.institute_id,
+    session_id: "",
+    start_datetime: ""
+  }
   getOnlineClasses = {
     custUserIds: [],
     end_datetime: "",
@@ -47,42 +82,12 @@ export class LiveClassesComponent implements OnInit {
     studentIds: [],
     teacherIds: []
   }
-  isUserCheckedArr: any[] = [];
-  teacherIdArr: any[] = [];
-  dateFrom = moment(new Date()).format('YYYY-MM-DD');
-  rescheduledateFrom = moment(new Date()).format('YYYY-MM-DD');
-  hourFrom: string = "";
-  hourTo: string = "";
-  minuteTo: string = "";
-  minuteFrom: string = "";
-  dateToday = moment().format('YYYY-MM-DD')
-  openClassPopup: boolean = false;
-  session: string = "";
-  getClasses: any[] = [];
-  getPastClasses: any[] = [];
-  getFutureClasses: any[] = [];
-  pastClassesPopup: boolean = false;
-  futureClassesPopup: boolean = false;
-  allClasses: boolean = false;
-  validations: boolean = false;
-  sendNotifyMe: boolean = false;
-  rescheduleClass: boolean = false;
-  hourFromReschedule: string = "";
-  minuteFromReschedule: string = "";
-  hourToReschedule: string = "";
-  minuteToReschedule: string = "";
-  rescheduleclass = {
-    end_datetime: "",
-    institution_id: this.service.institute_id,
-    session_id: "",
-    start_datetime: ""
+  getPayloadBatch = {
+    inst_id: this.service.institute_id,
+    coursesArray: [''],
+    role: 'student'
   }
-  classDetails: string = ""
-  customId = [];
-  studentId = [];
-  dataStatus: boolean = false;
-  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3];
+
 
   constructor(
     private auth: AuthenticatorService,
@@ -113,9 +118,7 @@ export class LiveClassesComponent implements OnInit {
   navigateTo(text) {
     if (this.getTimeInfo()) {
       if (text == "studentForm") {
-        document.getElementById('li-two').classList.remove('active');
-        document.getElementById('li-three').classList.remove('active');
-        document.getElementById('li-four').classList.remove('active');
+        this.getElementsRemove();
         document.getElementById('li-one').classList.add('active');
         this.studentForm = true;
         this.kyc = false;
@@ -133,42 +136,40 @@ export class LiveClassesComponent implements OnInit {
           this.feeDetails = false;
           this.inventory = false;
         }
-
         else {
-          document.getElementById('li-two').classList.remove('active');
+          this.getElementsRemove();
           document.getElementById('li-three').classList.add('active');
-          document.getElementById('li-four').classList.remove('active');
-          document.getElementById('li-one').classList.remove('active');
           this.studentForm = false;
           this.kyc = false;
           this.feeDetails = true;
           this.inventory = false;
-          this.getTeachers();
+          if (this.teachersAssigned.length == 0) {
+            this.getTeachers();
+          }
         }
       }
       else if (text == "assignUsers") {
         if (this.isStudentCheckedArr.length != 0) {
           if (this.teacherId == '') {
-            this.appC.popToast({ type: "info", body: "Please select a teacher" })
-            document.getElementById('li-two').classList.remove('active');
+            this.appC.popToast({ type: "info", body: "Please select a teacher" });
+            this.getElementsRemove();
             document.getElementById('li-three').classList.add('active');
-            document.getElementById('li-four').classList.remove('active');
-            document.getElementById('li-one').classList.remove('active');
             this.studentForm = false;
             this.kyc = false;
             this.feeDetails = true;
             this.inventory = false;
           }
           else {
-            document.getElementById('li-two').classList.remove('active');
-            document.getElementById('li-three').classList.remove('active');
+            this.getElementsRemove();
             document.getElementById('li-four').classList.add('active');
-            document.getElementById('li-one').classList.remove('active');
             this.studentForm = false;
             this.kyc = false;
             this.feeDetails = false;
             this.inventory = true;
-            this.getCustomUsers();
+            if(this.userAssigned.length==0){
+              this.getCustomUsers();
+            }
+            
           }
         }
         else {
@@ -208,7 +209,6 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getTimeInfo() {
-
     let fromTime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourFrom.split(' ')[0] + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
     let fromDate = moment().format('YYYY-MM-DD');
     let toTime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourTo.split(' ')[0] + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
@@ -219,22 +219,18 @@ export class LiveClassesComponent implements OnInit {
       this.appC.popToast({ type: "error", body: "From time cannot be greater than to time" })
       return false;
     }
-
     else if (this.hourFrom == "" || this.hourTo == "" || this.minuteFrom == "" || this.minuteTo == "" || this.getOnlineClasses.session_name == "") {
-      this.appC.popToast({ type: "error", body: "All fields are required" })
+      this.appC.popToast({ type: "error", body: "All mandatory fields are required" })
       return false;
     }
-
     else if (moment(fromTimeT).diff(moment(), 'minutes') <= 20) {
       this.appC.popToast({ type: "error", body: "Class can be schedule 20 minutes from current time" })
       return false;
     }
-
     else if (fromTimeT == toTimeT) {
       this.appC.popToast({ type: "error", body: "From time and to time cannot be same" })
       return false;
     }
-
     else {
       this.getElementsRemove();
       document.getElementById('li-two').classList.add('active');
@@ -248,12 +244,15 @@ export class LiveClassesComponent implements OnInit {
   }
 
   getBatchesCourses() {
+    this.JsonVars.isRippleLoad = true;
     if (this.isProfessional) {
       this.service.fetchBatches().subscribe(
         (data: any) => {
           this.batches = data;
+          this.JsonVars.isRippleLoad = false;
         },
         (error: any) => {
+          this.JsonVars.isRippleLoad = false;
           this.errorMessage(error);
         }
       )
@@ -262,26 +261,23 @@ export class LiveClassesComponent implements OnInit {
       this.service.fetchMasters().subscribe(
         (data: any) => {
           this.masters = data;
+          this.JsonVars.isRippleLoad = false;
         },
         (error: any) => {
           this.errorMessage(error);
+          this.JsonVars.isRippleLoad = false;
         }
       )
     }
   }
 
-  getAllStudents(event) {
-    if (event == true) {
-      for (let i = 0; i < this.studentsAssigned.length; i++) {
-        this.studentsAssigned[i].isChecked = true;
-        this.isStudentCheckedArr.push(this.studentsAssigned[i].student_id);
-      }
-    }
-    else {
-      for (let i = 0; i < this.studentsAssigned.length; i++) {
-        this.studentsAssigned[i].isChecked = false;
-        this.isStudentCheckedArr = [];
-      }
+  getAllStudents(flag) {
+    this.studentsAssigned.forEach((student) => {
+      student.isChecked = flag;
+      this.isStudentCheckedArr.push(student.student_id);
+    });
+    if (!flag) {
+      this.isStudentCheckedArr = [];
     }
   }
 
@@ -300,16 +296,22 @@ export class LiveClassesComponent implements OnInit {
     this.kyc = false;
     this.feeDetails = false;
     this.inventory = true;
-    this.getCustomUsers();
+    if(this.userAssigned.length==0){
+      this.getCustomUsers();
+    }
+    
   }
 
   getCourses(master_course_name) {
+    this.JsonVars.isRippleLoad = true;
     this.service.fetchCourses(master_course_name).subscribe(
       (data: any) => {
         this.courses = data.coursesList;
+        this.JsonVars.isRippleLoad = false;
       },
       (error: any) => {
         this.errorMessage(error);
+        this.JsonVars.isRippleLoad = false;
       }
     )
   }
@@ -324,22 +326,24 @@ export class LiveClassesComponent implements OnInit {
   }
 
   fetchStudentsApi(courseArray) {
-    this.dataStatus = true;
+    this.JsonVars.isRippleLoad = true;
     this.getPayloadBatch.coursesArray = courseArray;
     this.service.fetchStudents(this.getPayloadBatch).subscribe(
       (data: any) => {
-        this.dataStatus = false;
         this.studentsAssigned = data.studentsAssigned;
         this.getCheckedBox(this.studentsAssigned);
+        this.JsonVars.isRippleLoad = false;
       },
       (error: any) => {
-        this.dataStatus = false;
+        this.JsonVars.isRippleLoad = false;
         this.errorMessage(error);
       }
     )
   }
 
   getStudents() {
+    this.studentsAssigned =[];
+    this.JsonVars.selected =false;
     let str = []
     if (this.isProfessional) {
       this.batchesIds.map(
@@ -361,39 +365,42 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
+    /** this function is used to fetch teacher details */
   getTeachers() {
-    this.dataStatus = true;
+    this.JsonVars.isRippleLoad = true;
     this.service.fetchTeachers().subscribe(
       (data: any) => {
-        this.dataStatus = false;
         this.teachersAssigned = data;
         this.getCheckedBox(this.teachersAssigned);
+        this.JsonVars.isRippleLoad = false;
       },
       (error: any) => {
-        this.dataStatus = false;
+        this.teachersAssigned = [];
         this.errorMessage(error);
+        this.JsonVars.isRippleLoad = false;
       }
     )
   }
 
+  /** this function is used to fetch customer details */
   getCustomUsers() {
-    this.dataStatus = true;
+    this.JsonVars.isRippleLoad = true;
     this.service.fetchUsers().subscribe(
       (data: any) => {
-        this.dataStatus = false;
         this.userAssigned = data;
         this.getCheckedBox(this.userAssigned);
+        this.JsonVars.isRippleLoad = false;
       },
       (error: any) => {
-        this.dataStatus = false;
         this.errorMessage(error);
+        this.userAssigned =[];
+        this.JsonVars.isRippleLoad = false;
       }
     )
   }
 
 
   getUserCheckedValue(isChecked, index) {
-
     if (isChecked == true) {
       this.isUserCheckedArr.push(this.userAssigned[index].userid);
     }
@@ -409,26 +416,17 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
+  // this function select student 
   getStudentCheckedValue(isChecked, index) {
-    if (isChecked == true) {
+    this.studentsAssigned[index].isChecked = isChecked;
+    if (isChecked) {
       this.isStudentCheckedArr.push(this.studentsAssigned[index].student_id);
     }
     else {
-      this.isStudentCheckedArr = this.isStudentCheckedArr.filter((ele: any) => {
-        if (ele == this.studentsAssigned[index].student_id) {
-          return false;
-        }
-        else {
-          return true;
-        }
-      })
+      this.isStudentCheckedArr = this.isStudentCheckedArr.filter(
+        (ele: any) => { return ele != this.studentsAssigned[index].student_id })
     }
-
-
-    if (this.isStudentCheckedArr.length == 0) {
-      this.appC.popToast({ type: "info", body: "Please select at least one student" })
-      return;
-    }
+    this.JsonVars.selected = this.studentsAssigned.length == this.isStudentCheckedArr.length ? true : false;
   }
 
   isStudent() {
@@ -438,7 +436,10 @@ export class LiveClassesComponent implements OnInit {
     this.kyc = false;
     this.feeDetails = true;
     this.inventory = false;
-    this.getTeachers();
+    if (this.teachersAssigned.length == 0) {
+      this.getTeachers();
+    }
+
   }
 
   getEvent(event) {
@@ -453,8 +454,45 @@ export class LiveClassesComponent implements OnInit {
     }
   }
 
-  getOnlineSchedules() {
+  clearOnlineSchedulesObject() {
+    this.studentForm = true;
+    this.kyc = false;
+    this.feeDetails = false;
+    this.inventory = false;
+    this.getOnlineClasses = {
+      custUserIds: [],
+      end_datetime: "",
+      institution_id: this.service.institute_id,
+      sent_notification_flag: 0,
+      session_name: "",
+      start_datetime: "",
+      studentIds: [],
+      teacherIds: []
+    }
+    this.masters = [];
+    this.courseValue = "";
+     this.courses = [];
+    this.batches = [];
+    this.courseIds = [];
+    this.customId = [];
+    this.studentId = [];
+    this.isUserCheckedArr = [];
+    this.isStudentCheckedArr = [];
+    this.teacherIdArr = [];
+    this.batchesIds = [];
+    this.hourFrom = "";
+    this.hourTo = "";
+    this.minuteFrom = "";
+    this.minuteTo = ""
+    this.studentsAssigned = [];
+    this.dateFrom = moment().format('YYYY-MM-DD');
+    this.classDetails = "";
+    this.teacherId = "";
+  
+  }
 
+  getOnlineSchedules() {
+    this.JsonVars.submitReq = true;
     this.isUserCheckedArr.map(
       (ele: any) => {
         let x = ele.toString();
@@ -475,57 +513,31 @@ export class LiveClassesComponent implements OnInit {
     this.getOnlineClasses.start_datetime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourFrom.split(' ')[0] + "" + ":" + this.minuteFrom + " " + this.hourFrom.split(' ')[1];
     this.getOnlineClasses.end_datetime = moment(this.dateFrom).format('YYYY-MM-DD') + " " + this.hourTo.split(' ')[0] + "" + ":" + this.minuteTo + " " + this.hourTo.split(' ')[1];
     this.session = this.getOnlineClasses.session_name;
+    this.JsonVars.isRippleLoad = true;
     this.service.getOnlineClasses(this.getOnlineClasses).subscribe(
       (data: any) => {
         this.appC.popToast({ type: "success", body: this.session + " " + "created successfully" });
         this.navigateTo("studentForm");
-        this.studentForm = true;
-        this.kyc = false;
-        this.feeDetails = false;
-        this.inventory = false;
-        this.getOnlineClasses = {
-          custUserIds: [],
-          end_datetime: "",
-          institution_id: this.service.institute_id,
-          sent_notification_flag: 0,
-          session_name: "",
-          start_datetime: "",
-          studentIds: [],
-          teacherIds: []
-        }
-        this.masters = [];
-        this.courseValue = "";
-        for (let i = 0; i < this.studentsAssigned.length; i++) {
-          this.studentsAssigned[i].isChecked = false;
-        }
-
-        for (let i = 0; i < this.userAssigned.length; i++) {
-          this.userAssigned[i].isChecked = false;
-        }
-        this.courses = [];
-        this.batches = [];
-        this.courseIds = [];
-        this.isUserCheckedArr = [];
-        this.isStudentCheckedArr = [];
-        this.teacherIdArr = [];
-        this.hourFrom = "";
-        this.hourTo = "";
-        this.minuteFrom = "";
-        this.minuteTo = ""
-        this.studentsAssigned = [];
-        this.userAssigned = [];
-        this.teachersAssigned = [];
-        this.dateFrom = moment().format('YYYY-MM-DD');
-        this.classDetails = "";
-        this.teacherId = "";
+        this.JsonVars.submitReq = false;
+        this.JsonVars.isRippleLoad = false;
+        this.clearOnlineSchedulesObject();
+        this.getCheckedBox(this.teachersAssigned);// unselect selected teachers
+        this.getCheckedBox(this.userAssigned);// unselect selected users
       },
       (error: any) => {
+        this.JsonVars.isRippleLoad = false;
+        this.JsonVars.submitReq = false;
+        // this.clearOnlineSchedulesObject() ;
+        this.teacherIdArr =[];
+        this.customId =[];
+        this.studentId =[];
         this.appC.popToast({ type: "error", body: error.error.message })
       }
     )
   }
 
   viewOnlineClasses() {
+    this.JsonVars.isRippleLoad = true;
     this.openClassPopup = true;
     this.allClasses = true;
     this.pastClassesPopup = false;
@@ -535,15 +547,17 @@ export class LiveClassesComponent implements OnInit {
     }
     this.service.fetchOnlineClasses(obj).subscribe(
       (data: any) => {
+        this.JsonVars.isRippleLoad = false;
         this.getClasses = data;
-        this.getClasses.map((ele)=>{
+        this.getClasses.map((ele) => {
           ele.start_datetime = moment(ele.start_datetime).format('YYYY-MM-DD hh:mm a')
         })
-        this.getClasses.map((ele)=>{
+        this.getClasses.map((ele) => {
           ele.end_datetime = moment(ele.end_datetime).format('YYYY-MM-DD hh:mm a')
         })
       },
       (error: any) => {
+        this.JsonVars.isRippleLoad = false;
         this.errorMessage(error);
       }
     )
@@ -596,9 +610,7 @@ export class LiveClassesComponent implements OnInit {
   }
 
   pushNotification(id) {
-    let obj = {
-
-    }
+    let obj = {};
     if (confirm("Are you sure you want to send push notification ?")) {
       this.service.pushNotification(id, obj).subscribe(
         (data: any) => {
@@ -637,8 +649,7 @@ export class LiveClassesComponent implements OnInit {
     this.openClassPopup = true;
   }
 
-  getRescheduleTime(){
-
+  getRescheduleTime() {
     let fromTime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourFromReschedule.split(' ')[1];
     let fromDate = moment().format('YYYY-MM-DD');
     let toTime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
@@ -664,15 +675,13 @@ export class LiveClassesComponent implements OnInit {
       this.appC.popToast({ type: "error", body: "From time and to time cannot be same" })
       return false;
     }
-
     else {
-     this.isReschedule();
+      this.isReschedule();
     }
-
   }
 
+
   isReschedule() {
-  
     this.rescheduleclass.end_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourToReschedule.split(' ')[0] + ":" + this.minuteToReschedule + " " + this.hourToReschedule.split(' ')[1];
     this.rescheduleclass.start_datetime = moment(this.rescheduledateFrom).format('YYYY-MM-DD') + " " + this.hourFromReschedule.split(' ')[0] + ":" + this.minuteFromReschedule + " " + this.hourToReschedule.split(' ')[1]
 
