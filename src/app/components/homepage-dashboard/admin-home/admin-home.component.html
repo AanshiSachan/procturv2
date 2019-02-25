@@ -25,7 +25,6 @@
                   </g>
                 </g>
               </svg>
-
               Add/Send Notification
             </button>
           </div>
@@ -1961,7 +1960,7 @@
               </div>
             </div> -->
         </div>
-        
+
 
       </div>
 
@@ -2181,9 +2180,9 @@
         </svg>
       </span>
       <h2 widget-header>Upload Student Marks</h2>
-  
+
       <div class="attendanceWrapperCourse" widget-content>
-  
+
         <div class="row" style="margin: 5px 0px 5px 15px;">
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="radio-options">
@@ -2203,9 +2202,9 @@
               <div style="display: inline-block;"><a href="#" (click)="showUploadCourseMarksSection()">Upload Marks</a>
                 <a href="javascript:void(0);" data-html="true" data-placement="right" data-toggle="tooltip" style="font-weight: bold;font-size: 15px;" title="" data-original-title="<div style='text-align:left;font-size:12px;z-index:4;'>Download the marks/grade template for selected course and upload that with updated marks/grades</div>"><b>?</b></a></div>
             </div> -->
-            
+
         </div>
-  
+
         <div class="attendanceMain table-wrapper-exam">
           <div class="table-scroll-wrapper exam-Attendance-Table">
             <div class="table table-responsive">
@@ -2249,12 +2248,12 @@
                       {{s.attendance}}
                     </td>
                     <td *ngFor="let subject of s.batchExamMarksLi; let i=index;">
-  
+
                       <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
                         <input type="text" class="side-form-ctrl paddingLess" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')" [(ngModel)]="subject.marks_obtained"
                           (focusout)="checkSubjectMarks(s,subject,$event)">
                       </div>
-  
+
                       <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
                         <select id="" class="side-form-ctrl" [(ngModel)]="subject.grade_id" name="grade_id" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')"
                           style="padding: 0px 0px">
@@ -2264,7 +2263,7 @@
                           </option>
                         </select>
                       </div>
-  
+
                     </td>
                     <td>
                       <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
@@ -2292,9 +2291,9 @@
             </div>
           </div>
         </div>
-  
+
       </div>
-  
+
       <div class="" widget-footer>
         <div class="clearfix" style="padding-top: 15px">
           <aside class="pull-right popup-btn">
@@ -2306,4 +2305,37 @@
       </div>
     </proctur-widget>
 
+    <!-- <div class="toDoList-container" id="toDoList-container">
+      <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
+    </div> -->
+
+    <div class="plus-icon-container">
+      <button type="button" name="button" class="plus-button" (click)="showList()">
+        + </button>
+    </div>
+
+    <div class="more-about-plus-icon" *ngIf="showExpenseToDo">
+      <!-- <div class="to-do" (click)="showExpensesList()">
+        <span>Add Expenses</span>
+        <i class="fa fa-list-alt toDo"></i>
+      </div> -->
+      <div class="to-do" (click)="showToDoList()">
+        <span>To Do List</span>
+        <i class="fa fa-list-alt toDo"></i>
+      </div>
+    </div>
+
+
+    <div class="toDoList-container" id="toDoList-container" *ngIf="showToDo">
+      <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
+    </div>
+
+    <!-- <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
+      <app-expenses></app-expenses>
+    </div> -->
+
 </section>
+
+<div class="black-bg" id="black-bg" *ngIf="showExpenseToDo">
+
+</div>

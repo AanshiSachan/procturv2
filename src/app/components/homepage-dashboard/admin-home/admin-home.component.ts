@@ -12,6 +12,7 @@ import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
+// import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'admin-home',
@@ -75,6 +76,9 @@ export class AdminHomeComponent implements OnInit {
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
   showTopicList: boolean = false;
+  showExpenseToDo: boolean = false;
+  showToDo: boolean = false;
+  showExpenses: boolean = false;
   notificationPopUp: boolean = false;
   addNotification: boolean = false;
   showTableFlag: boolean = false;
@@ -204,7 +208,9 @@ export class AdminHomeComponent implements OnInit {
     this.grid.on('dragEnd', (item, event) => {
       this.getOrder();
     });
+
   }
+
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -1361,7 +1367,7 @@ export class AdminHomeComponent implements OnInit {
     if (row.isExam) { // if it is exam then we need to use exam date for check exam is today or not and exam is ongoin
       date = row.exam_date;
     }
-    else {     
+    else {
       date = row.class_date; // if it is class then we need to use class date for check class is today or not and class is ongoin
     }
 
@@ -2631,7 +2637,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
 
-  // Lang Model 
+  // Lang Model
   cancelExamClassSchedule() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
       this.messageNotifier('error', 'Error', 'Please provide cancellation reason');
@@ -3388,5 +3394,44 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-}
+  onOfLoaderFromTodoList(ev) {
+    this.isRippleLoad = ev;
+  }
 
+  showList(){
+    if (this.showExpenseToDo) {
+      this.showExpenseToDo = false;
+      if (this.showToDo) {
+        this.showToDo = false;
+        // Need to call to  to do list destroy function;
+      }
+      else if(this.showExpenses){
+        this.showExpenses = false;
+      }
+    }
+    else {
+      this.showExpenseToDo = true;
+    }
+  }
+
+  showToDoList(){
+    if (this.showToDo) {
+      this.showToDo = false;
+      // Need to call to  to do list destroy function;
+    }
+    else {
+      this.showToDo = true;
+    }
+  }
+
+  showExpensesList(){
+    if (this.showExpenses) {
+      this.showExpenses = false;
+    }
+    else {
+      this.showExpenses = true;
+    }
+  }
+
+
+}

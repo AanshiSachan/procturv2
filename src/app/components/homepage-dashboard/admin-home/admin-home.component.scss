@@ -160,7 +160,7 @@ fieldset {
             width: 100px;
         }
     }
-	
+
 }
 
 .rescheduleWrapper {
@@ -2529,4 +2529,106 @@ div#enqChart {
             }
         }
     }
+}
+
+
+.black-bg{
+  background: rgba(10,10,10,0.3);
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  left: 0px;
+  z-index: 1;
+  width: 100%;
+}
+
+
+// TO Do LIST style
+.toDoList-container{
+  position: fixed;
+  bottom: 10%;
+  right: 4.5%;
+  z-index: 100;
+}
+
+.plus-icon-container{
+  position: fixed;
+  bottom: 10%;
+  right: 4.5%;
+  z-index: 100;
+}
+
+.plus-button{
+  text-align: center;
+  background: #1283f4;
+  color: #ffffff;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 100;
+  position: fixed;
+  bottom: 10%;
+  right: 4.5%;
+  line-height: unset;
+}
+.more-about-plus-icon{
+  z-index: 100;
+  position: fixed;
+  bottom: 20%;
+  right: 5.3%;
+  animation-name: slideInUp;
+  animation-duration: 0.5s;
+  .to-do{
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 3px;
+    cursor: pointer;
+    span{
+      text-align: right;
+      margin-top: 5px;
+      margin-bottom: 6px;
+      margin-right: 10px;
+      background: #ffffff;
+      padding: 3px 15px;
+      border-radius: 10px;
+      -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+      color: #3e3d4a;
+    }
+    .toDo{
+      padding: 10px;
+      background: #1283f4;
+      color: #ffffff;
+      border-radius: 50%;
+    }
+  }
+
+}
+
+@-webkit-keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
 }
