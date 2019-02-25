@@ -11,12 +11,12 @@
       <span>
         <i class="fa fa-calendar" style="cursor: pointer;" (click)="openCalendar('sortDate')"></i>
         &nbsp; Sort by date   &nbsp;&nbsp;
-        <i class="fa fa-refresh" style="cursor: pointer;" title="Reset" (click)="resetSortByDate()"></i>
+        <i class="fa fa-refresh" style="cursor: pointer;" title="Date Reset" (click)="resetSortByDate()"></i>
       </span>
     </div>
     <div class="toDoList-input-container input-group">
-      <input type="text" name="" value="" class="form-control toDoList-input" [(ngModel)]="taskInput" placeholder="Write a task..." autofocus>
-      <span class="input-group-addon plus-icon-box"><i class="fa fa-plus-circle plus-icon" (click)="addTask()"></i></span>
+      <input type="text" name="" value="" class="form-control toDoList-input" [(ngModel)]="taskInput" (keypress)="showAddOption()" placeholder="Add a task..." autofocus>
+      <span *ngIf="addTaskStatus" class="input-group-addon plus-icon-box"><i class="fa fa-plus-circle plus-icon" title="Add Task" (click)="addTask()"></i></span>
     </div>
 
     <div class="toDoList-task-container">
@@ -25,7 +25,7 @@
           <div class="item" *ngFor="let toDo of defaultToDoList; let i = index;" id="{{toDo.task_squence}}">
             <div class="item-content">
               <div class="toDoList-completion">
-                <i class="fa fa-check-circle" style="cursor:pointer;" (click)="taskCompleted(toDo.task_id)"></i>
+                <i class="fa fa-check-circle" style="cursor:pointer;" title="Mark completed" (click)="taskCompleted(toDo.task_id)"></i>
               </div>
               <!-- <div class="toDoList-selection">
                 <i class="fa fa-bars"></i>
@@ -33,19 +33,19 @@
               <div class="toDoList-content">
                 <span class="taskName" id="name_{{toDo.task_id}}">{{toDo.task_name}}</span>
                 <div class="input-wrapper">
-                  <input type="text" name="" value="{{toDo.task_name}}" class="toDoEdit" id="{{toDo.task_id}}" (keyup.enter)="updateToDo(toDo)" placeholder="Write a task...">
+                  <input type="text" name="" value="{{toDo.task_name}}" class="toDoEdit" id="{{toDo.task_id}}" (keyup.enter)="updateToDo(toDo)" placeholder="Add a task...">
                   <!-- <i class="fa fa-paper-plane pull-right" aria-hidden="true"></i> -->
-                  <label for="{{toDo.task_id}}" class="fa fa-paper-plane pull-right" id="fa_{{toDo.task_id}}"></label>
+                  <!-- <label for="{{toDo.task_id}}" class="fa fa-paper-plane pull-right" id="fa_{{toDo.task_id}}"></label> -->
                 </div>
                 <div class=toDoList-date>
                   <span>{{toDo.task_date | date: 'EEE, dd MMM'}}</span>
                 </div>
               </div>
               <div class="toDoList-button-container">
-                <i class="fa fa-pencil"  title="Edit" style="color: #1283f4; cursor:pointer;" (click)="editToDo(toDo.task_id)"></i>
+                <i class="fa fa-pencil"  title="Edit To-Do" style="color: #1283f4; cursor:pointer;" (click)="editToDo(toDo.task_id)"></i>
               </div>
               <div class="toDoList-button-container">
-                <i class="fa fa-trash" title="Delete" style="color: #ff0000; cursor:pointer;" (click)="deleteToDo(toDo.task_id)"></i>
+                <i class="fa fa-trash" title="Delete To-Do" style="color: #ff0000; cursor:pointer;" (click)="deleteToDo(toDo.task_id)"></i>
               </div>
               <div class="toDoList-button-container">
                   <input style="margin-left: -60px;" type="text" value="" [id]="'date-'+toDo.task_id" class="widgetDatepicker bsDatepicker" name="sortDate"
@@ -74,7 +74,7 @@
                 &nbsp;&nbsp;&nbsp;
               </div>
               <div class="toDoList-button-container">
-                <i class="fa fa-trash" title="Delete" style="color: #ff0000; cursor:pointer;" (click)="deleteToDo(toDo.task_id)"></i>
+                <i class="fa fa-trash" title="Delete To-Do" style="color: #ff0000; cursor:pointer;" (click)="deleteToDo(toDo.task_id)"></i>
               </div>
               <div class="toDoList-button-container">
                 &nbsp;&nbsp;&nbsp;

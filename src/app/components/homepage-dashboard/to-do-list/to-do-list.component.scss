@@ -140,9 +140,10 @@
       border-radius: 3px;
       padding: 10px;
       padding-bottom: 7px;
+      word-break: break-all;
       .toDoEdit{
         border: none;
-        width: 93%;
+        width: 100%;
         border-bottom: 1px solid #cbcbcb;
         padding-left: 5px;
         box-shadow: none;
@@ -185,11 +186,14 @@
     .fa-check-circle{
       color: #bfbfbf;
     }
+    .fa-check-circle:hover{
+      color: #87c0f9;
+    }
     .fa-bars{
       cursor: move;
     }
     .task-completed{
-      color: #87c0f9;
+      color: #28ac31;
     }
   }
 

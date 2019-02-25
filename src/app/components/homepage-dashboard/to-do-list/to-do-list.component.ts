@@ -30,6 +30,7 @@ export class ToDoListComponent implements OnInit {
   dataId: any;
   defaultSequence = [];
   toDoListForReset: any;
+  addTaskStatus: boolean = false;
 
   @Output() loaderOn = new EventEmitter<boolean>(false);
 
@@ -67,6 +68,15 @@ export class ToDoListComponent implements OnInit {
 
     this.getAllTask();
 
+  }
+
+  showAddOption(){
+    if (this.taskInput != null && this.taskInput != "") {
+      this.addTaskStatus = true;
+    }
+    else{
+      this.addTaskStatus = false;
+    }
   }
 
   openCalendar(id) {
@@ -156,8 +166,8 @@ export class ToDoListComponent implements OnInit {
     else{
       let msg = {
         type: 'error',
-        title: 'No To Do Found',
-        body: 'Reset to get back to To Do List'
+        title: 'No To-Do List Found',
+        body: 'Reset to get back to To-Do List'
       }
       this.appC.popToast(msg);
     }
@@ -321,14 +331,14 @@ export class ToDoListComponent implements OnInit {
         }
       )
     }
-    else{
-      let msg = {
-        type: 'error',
-        title: 'Enter Task Name',
-        body: ''
-      }
-      this.appC.popToast(msg);
-    }
+    // else{
+    //   let msg = {
+    //     type: 'error',
+    //     title: 'Enter Task Name',
+    //     body: ''
+    //   }
+    //   this.appC.popToast(msg);
+    // }
 
   }
 
