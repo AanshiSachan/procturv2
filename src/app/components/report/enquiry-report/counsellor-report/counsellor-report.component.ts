@@ -24,7 +24,6 @@ export class CounsellorReportComponent implements OnInit {
     assigned_to: -1,
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD'),
-
   }
 
   getCounsellorDetails: any = {};
@@ -111,6 +110,9 @@ export class CounsellorReportComponent implements OnInit {
       this.dataStatus = 2;
     }
     else {
+
+      this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD'),
+      this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD')
 
       this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
         (data: any) => {
