@@ -14,6 +14,7 @@ import { AppComponent } from '../../../app.component';
   styleUrls: ['./to-do-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class ToDoListComponent implements OnInit {
 
   public grid: any;
@@ -31,8 +32,10 @@ export class ToDoListComponent implements OnInit {
   defaultSequence = [];
   toDoListForReset: any;
   addTaskStatus: boolean = false;
+  noRecord: boolean = false;
+  is_edit : boolean = false;
 
-  @Output() loaderOn = new EventEmitter<boolean>(false);
+  // @Output() loaderOn = new EventEmitter<boolean>(false);
 
   constructor(
     private router: Router,
@@ -83,9 +86,6 @@ export class ToDoListComponent implements OnInit {
     document.getElementById(id).click();
   }
 
-  // openCalendarForAddDate(e){
-  //   document.getElementById('date-'+e).click();
-  // }
 
   changeDate(date,index,task_id){
     let d = moment(date).format("YYYY-MM-DD");
@@ -124,6 +124,28 @@ export class ToDoListComponent implements OnInit {
 
   sortByDate() {
     let d = moment(this.sortDate).format("DD-MMM-YYYY");
+    if(this.sortDate != "" && this.sortDate != null){
+      document.getElementById("sortDateSpan").innerHTML = "&nbsp;&nbsp;"+ d +"&nbsp;&nbsp;&nbsp;";
+      document.getElementById("refresh-icon").style.color = "#1283f4";
+      document.getElementById("refresh-icon").style.cursor = "pointer";
+    }
+    else{
+      document.getElementById("sortDateSpan").innerHTML = "&nbsp;&nbsp; Sort by date   &nbsp;&nbsp;&nbsp;";
+      document.getElementById("refresh-icon").style.color = "gray";
+      document.getElementById("refresh-icon").style.cursor = "default";
+    }
+
+    let currentDate = new Date();
+    if(currentDate <= this.sortDate){
+      this.is_edit = false;
+      // (document.getElementById("taskInput") as HTMLInputElement).disabled  = false;
+    }
+    else{
+      this.is_edit = true;
+      // (document.getElementById("taskInput") as HTMLInputElement).disabled = true;
+    }
+
+    this.defaultSequence = [];
     this.defaultToDoList = this.toDoListForReset.filter(el => el.task_date == d && el.is_completed == "N");
     this.completedToDoList = this.toDoListForReset.filter(el => el.task_date == d && el.is_completed == "Y");
 
@@ -161,15 +183,10 @@ export class ToDoListComponent implements OnInit {
     })
 
     if(shownItems.length > 0){
-
+      this.noRecord = true;
     }
     else{
-      let msg = {
-        type: 'error',
-        title: 'No To-Do List Found',
-        body: 'Reset to get back to To-Do List'
-      }
-      this.appC.popToast(msg);
+      this.noRecord = false;
     }
 
     this.grid.hide(hiddenItems);
@@ -178,10 +195,13 @@ export class ToDoListComponent implements OnInit {
     this.grid.refreshItems();
     this.grid.layout(true);
 
+
   }
 
   resetSortByDate() {
     this.sortDate = "";
+    this.noRecord = true;
+    this.is_edit = false;
     this.getAllTask();
   }
 
@@ -193,11 +213,18 @@ export class ToDoListComponent implements OnInit {
   }
 
   getAllTask() {
-    this.loaderOn.emit(true);
+    // this.loaderOn.emit(true);
     this.toDoService.getAllToDoList().subscribe(
       res => {
         // res = this.commonService.changeUiSelectedKeyValue(res,'date',new Date);
         this.defaultToDoList = res;
+        if(this.defaultToDoList.length > 0){
+          this.noRecord = true;
+        }
+        else{
+          this.noRecord = false;
+        }
+        this.is_edit = false;
         this.toDoListForReset = res;
         this.defaultSequence = [];
         this.defaultToDoList = this.toDoListForReset.filter(el => el.is_completed == "N");
@@ -217,15 +244,19 @@ export class ToDoListComponent implements OnInit {
         this.gridlength = this.defaultToDoList.length;
         // if(!this.toDoListOpenStatus){
         setTimeout(() => {
-          this.loaderOn.emit(false);
+          // this.loaderOn.emit(false);
           this.toDoListDrag();
+
+          if(this.sortDate != "" && this.sortDate != null){
+            this.sortByDate();
+          }
         }, 1000);
 
         this.toDoListOpenStatus = true;
         // }
       },
       err => {
-        this.loaderOn.emit(false)
+        // this.loaderOn.emit(false)
         console.log(err)
       }
     )
@@ -290,8 +321,16 @@ export class ToDoListComponent implements OnInit {
   addTask() {
 
     if (this.taskInput != null && this.taskInput != "") {
-      this.loaderOn.emit(true);
-      let date = new Date();
+      // this.loaderOn.emit(true);
+      let date;
+      if(this.sortDate != "" && this.sortDate != null){
+        date = moment(this.sortDate).format("YYYY-MM-DD");
+      }
+      else{
+        date = new Date();
+        date = moment(date).format("YYYY-MM-DD")
+      }
+
       let maxValue;
       if(this.defaultToDoList.length > 0){
         maxValue = Math.max.apply(Math, this.defaultToDoList.map(function (o) { return o.task_squence; }));
@@ -304,7 +343,7 @@ export class ToDoListComponent implements OnInit {
         task_name: this.taskInput,
         is_completed: "N",
         task_squence: maxValue + 1,
-        task_date: moment(date).format("YYYY-MM-DD")
+        task_date: date
       }
 
       this.toDoService.addToDoList(obj).subscribe(
@@ -348,7 +387,7 @@ export class ToDoListComponent implements OnInit {
         console.log(res)
         let msg = {
           type: 'success',
-          title: 'Added Successfully',
+          title: 'Deleted Successfully',
           body: ''
         }
         this.appC.popToast(msg);
@@ -397,6 +436,7 @@ export class ToDoListComponent implements OnInit {
     )
 
   }
+
   toDoListDrag() {
 
     this.grid = new Muuri('.toDoList', {
@@ -404,18 +444,18 @@ export class ToDoListComponent implements OnInit {
       // itemPositioningClass: 'muuri-item-positioning',
       // itemDraggingClass: 'muuri-item-dragging',
       // itemReleasingClass: 'muuri-item-releasing',
-      // dragEnabled: true,
+      // dragEnabled: false,
       // dragAxis: 'y',
-      showDuration: 200,
+      // showDuration: 200,
       // dragSortInterval: 0,
       // dragReleaseDuration: 200,
       // dragReleaseEasing: 'ease',
       dragSort: [this.grid],
-      dragStartPredicate: {
-        distance: 0,
-        delay: 0,
-        handle: '.toDoList-selection'
-      },
+      // dragStartPredicate: {
+      //   distance: 0,
+      //   delay: 0,
+      //   handle: '.toDoList-selection'
+      // },
       // dragSortPredicate: {
       //   threshold: 90,
       //   action: 'swap'
@@ -427,10 +467,10 @@ export class ToDoListComponent implements OnInit {
         alignBottom: false,
         rounding: true
       },
-      layoutOnResize: 100,
-      layoutOnInit: true,
-      layoutDuration: 300,
-      layoutEasing: 'ease',
+      // layoutOnResize: 100,
+      // layoutOnInit: true,
+      // layoutDuration: 300,
+      // layoutEasing: 'ease',
       sortData: {
         id: (item, element) => {
           return this.order.indexOf(element.getAttribute('id'));
@@ -440,9 +480,6 @@ export class ToDoListComponent implements OnInit {
 
     this.getOrder();
 
-    this.grid.on('dragEnd', (item) => {
-      this.getOrder();
-    })
 
   }
 
@@ -493,10 +530,10 @@ export class ToDoListComponent implements OnInit {
     // }
   }
 
-  clickedOut(event){
-    if(event.target.className === "black-bg") {
-      // this.showToDoList();
-    }
-  }
+  // clickedOut(event){
+  //   if(event.target.className === "black-bg") {
+  //     // this.showToDoList();
+  //   }
+  // }
 
 }
