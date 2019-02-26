@@ -117,7 +117,7 @@ export class ClassHomeComponent implements OnInit {
       this.showManageClass = true;
     } else {
       if (permissionArray != "") {
-        if (permissionArray.indexOf('701') != -1) {
+        if (permissionArray.indexOf('701') != -1 || permissionArray.indexOf('402') != -1) {
           this.showManageClass = true;
         } else {
           this.showManageClass = false;

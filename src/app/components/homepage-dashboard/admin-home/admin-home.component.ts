@@ -3424,14 +3424,14 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  showExpensesList(){
-    if (this.showExpenses) {
-      this.showExpenses = false;
-    }
-    else {
-      this.showExpenses = true;
-    }
-  }
+  // showExpensesList(){
+  //   if (this.showExpenses) {
+  //     this.showExpenses = false;
+  //   }
+  //   else {
+  //     this.showExpenses = true;
+  //   }
+  // }
 
 
 }

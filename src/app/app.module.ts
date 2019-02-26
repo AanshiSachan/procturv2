@@ -17,6 +17,7 @@ import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry-data.service';
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
+import { ToDoListService } from './services/to-do-list.service';
 // import { AlertService } from './services/alert.service';
 import { TablePreferencesService } from './services/table-preference/table-preferences.service';
 import { ZendAuth } from './services/Chat-bot/chatbot.service';
@@ -57,7 +58,7 @@ import { HttpService } from './services/http.service';
   ],
   declarations: [
     AppComponent,
-    chatBotComponent
+    chatBotComponent,
   ],
   entryComponents: [
     chatBotComponent
@@ -77,7 +78,8 @@ import { HttpService } from './services/http.service';
     PaginationService,
     CommonServiceFactory,
     MessageShowService,
-    HttpService
+    HttpService,
+    ToDoListService
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first

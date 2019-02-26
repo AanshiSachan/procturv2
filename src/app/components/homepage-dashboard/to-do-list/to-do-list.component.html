@@ -8,18 +8,23 @@
       <input style="margin-left:12%;" type="text" value="" id="sortDate" class="widgetDatepicker bsDatepicker" name="sortDate"
         [(ngModel)]="sortDate" (ngModelChange)="sortByDate($event)" readonly="true" bsDatepicker
       />
+
       <span>
         <i class="fa fa-calendar" style="cursor: pointer;" (click)="openCalendar('sortDate')"></i>
-        &nbsp; Sort by date   &nbsp;&nbsp;
-        <i class="fa fa-refresh" style="cursor: pointer;" title="Date Reset" (click)="resetSortByDate()"></i>
+        <span id="sortDateSpan">  &nbsp;&nbsp; Sort by date   &nbsp;&nbsp;&nbsp;</span>
+        <i class="glyphicon glyphicon-repeat" id="refresh-icon" title="Date Reset" (click)="resetSortByDate()"></i>
       </span>
     </div>
     <div class="toDoList-input-container input-group">
-      <input type="text" name="" value="" class="form-control toDoList-input" [(ngModel)]="taskInput" (keypress)="showAddOption()" placeholder="Add a task..." autofocus>
-      <span *ngIf="addTaskStatus" class="input-group-addon plus-icon-box"><i class="fa fa-plus-circle plus-icon" title="Add Task" (click)="addTask()"></i></span>
+      <input type="text" name="" value="" id="taskInput" [disabled]="is_edit" class="form-control toDoList-input" [(ngModel)]="taskInput" (ngModelChange)="showAddOption()" placeholder="Add a task..." autofocus>
+      <span *ngIf="addTaskStatus" class="input-group-addon plus-icon-box"><i class="fa fa-plus-circle plus-icon"  title="Add Task" (click)="addTask()"></i></span>
     </div>
 
     <div class="toDoList-task-container">
+
+      <div class="no-toDo" [hidden]="noRecord">
+        <span>No To-Do Record found</span>
+      </div>
 
       <div class="toDoList">
           <div class="item" *ngFor="let toDo of defaultToDoList; let i = index;" id="{{toDo.task_squence}}">
