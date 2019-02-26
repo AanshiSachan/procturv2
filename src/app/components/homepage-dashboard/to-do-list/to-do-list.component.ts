@@ -91,33 +91,47 @@ export class ToDoListComponent implements OnInit {
     let d = moment(date).format("YYYY-MM-DD");
 
     if(date != null && date != ""){
-      this.defaultToDoList.forEach(e => {
-          if(e.task_id == task_id){
-            let obj = {
-              task_name: e.task_name,
-              is_completed: "N",
-              task_id: task_id,
-              task_squence: e.task_squence,
-              task_date: d
-            }
-
-            this.toDoService.updateToDo(obj).subscribe(
-              res => {
-                let obj = {
-                  type: 'success',
-                  title: 'Updated Successfully',
-                  body: ''
-                }
-                this.appC.popToast(obj);
-                this.editDate[index] = "";
-                this.getAllTask();
-              },
-              err => {
-                console.log(err)
+      let currentDate = new Date();
+      if(currentDate <= date){
+        this.defaultToDoList.forEach(e => {
+            if(e.task_id == task_id){
+              let obj = {
+                task_name: e.task_name,
+                is_completed: "N",
+                task_id: task_id,
+                task_squence: e.task_squence,
+                task_date: d
               }
-            )
-          }
-      })
+
+              this.toDoService.updateToDo(obj).subscribe(
+                res => {
+                  let obj = {
+                    type: 'success',
+                    title: 'Updated Successfully',
+                    body: ''
+                  }
+                  this.appC.popToast(obj);
+                  this.editDate[index] = "";
+                  this.getAllTask();
+                },
+                err => {
+                  console.log(err)
+                }
+              )
+            }
+        })
+      }
+      else{
+        let obj = {
+          type: 'error',
+          title: 'Please choose appropriate date',
+          body: ''
+        }
+        this.appC.popToast(obj);
+        this.editDate[index] = "";
+
+      }
+
     }
 
   }
@@ -294,10 +308,11 @@ export class ToDoListComponent implements OnInit {
             body: ''
           }
           this.appC.popToast(msg);
-          (<HTMLInputElement>document.getElementById("name_"+toDo.task_id)).innerHTML = task_name;
-          document.getElementById("name_"+toDo.task_id).style.display = "block";
-          document.getElementById(toDo.task_id).style.display = "none";
-          document.getElementById("fa_"+toDo.task_id).style.display = "none";
+          this.getAllTask();
+          // (<HTMLInputElement>document.getElementById("name_"+toDo.task_id)).innerHTML = task_name;
+          // document.getElementById("name_"+toDo.task_id).style.display = "block";
+          // document.getElementById(toDo.task_id).style.display = "none";
+          // document.getElementById("fa_"+toDo.task_id).style.display = "none";
 
         },
         err => {
