@@ -19,7 +19,7 @@ import { BiometricWidgetComponent } from './biometric-widget/biometric-widget.co
 import { BiometricStatusServiceService } from '../../services/biometric-status/biometric-status-service.service';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome';
 import { ToDoListComponent } from './to-do-list/to-do-list.component';
-import { ExpensesComponent } from './expenses/expenses.component';
+// import { ExpensesComponent } from './expenses/expenses.component';
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import { ExpensesComponent } from './expenses/expenses.component';
         GeneralWidgetComponent,
         BiometricWidgetComponent,
         ToDoListComponent,
-        ExpensesComponent,
+        // ExpensesComponent,
     ],
     entryComponents: [
         ProcturWidgetComponent,
