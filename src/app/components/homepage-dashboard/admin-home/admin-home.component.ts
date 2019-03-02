@@ -3189,11 +3189,7 @@ export class AdminHomeComponent implements OnInit {
   checkSubjectMarks(student, data, event) {
     let total: number = 0;
     let number = Number(data.marks_obtained);
-    if (0 > number) {
-      this.messageNotifier('error', 'Error', 'Please provide valid value');
-      data.marks_obtained = 0;
-      return;
-    } else if (data.total_marks < number) {
+    if (data.total_marks < number) {
       this.messageNotifier('error', 'Error', 'Please provide mark less than total marks');
       data.marks_obtained = 0;
     } else {
@@ -3207,11 +3203,7 @@ export class AdminHomeComponent implements OnInit {
 
   checkTotalMarks(data, event) {
     let number = Number(data.course_exam_marks_obtained);
-    if (0 > number) {
-      this.messageNotifier('error', 'Error', 'Please provide valid value');
-      data.course_exam_marks_obtained = 0;
-      return;
-    } else if (data.cours_exam_total_marks < number) {
+    if (data.cours_exam_total_marks < number) {
       this.messageNotifier('error', 'Error', 'Please provide mark less than total marks');
       data.course_exam_marks_obtained = 0;
     }
@@ -3398,14 +3390,14 @@ export class AdminHomeComponent implements OnInit {
     this.isRippleLoad = ev;
   }
 
-  showList(){
+  showList() {
     if (this.showExpenseToDo) {
       this.showExpenseToDo = false;
       if (this.showToDo) {
         this.showToDo = false;
         // Need to call to  to do list destroy function;
       }
-      else if(this.showExpenses){
+      else if (this.showExpenses) {
         this.showExpenses = false;
       }
     }
@@ -3414,7 +3406,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  showToDoList(){
+  showToDoList() {
     if (this.showToDo) {
       this.showToDo = false;
       // Need to call to  to do list destroy function;
