@@ -155,7 +155,7 @@ export class EnquiryAddComponent implements OnInit {
   masterCourseData: any[] = [];
   selectedCourseIds: any = null;
   selectedSubjectIds: any = null;
-  isEnquirySubmit: boolean = false;
+  isEnquirySubmit: boolean = true;
   walkinTime: any = {
     hour: '',
     minute: ''
@@ -717,6 +717,7 @@ export class EnquiryAddComponent implements OnInit {
     this.customComponents.forEach(el => {
       el.value = '';
     });
+    this.isEnquirySubmit = true;
     this.fetchCustomComponentData();
   }
 
@@ -801,7 +802,7 @@ export class EnquiryAddComponent implements OnInit {
   submitForm(form: NgForm) {
 
     //Validates if the custom component required fields are selected or not
-    this.isEnquirySubmit = true;
+    
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
 
     /* Validate the predefine required fields of the form */
@@ -874,7 +875,8 @@ export class EnquiryAddComponent implements OnInit {
           this.newEnqData.is_follow_up_time_notification = 0;
         }
 
-        if (!this.isProfessional) {
+        if (!this.isProfessional && (this.isEnquirySubmit)) {
+          this.isEnquirySubmit = false;
           let obj = {
             area: this.newEnqData.area,
             assigned_to: this.newEnqData.assigned_to,
@@ -923,8 +925,7 @@ export class EnquiryAddComponent implements OnInit {
           this.isRippleLoad = true;
           this.poster.postNewEnquiry(obj).subscribe(
             (data: any) => {
-              this.isRippleLoad = false;
-              this.isEnquirySubmit = false;
+              this.isRippleLoad = false;       
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
               this.prefill.fetchLastDetail().subscribe(data => {
@@ -951,56 +952,58 @@ export class EnquiryAddComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
-              this.isEnquirySubmit = false;
+              this.isEnquirySubmit = true;
               this.showErrorMessage('error', "Error", err.error.message);
             }
           );
         }
         else {
           this.isRippleLoad = true;
-          this.poster.postNewEnquiry(this.newEnqData).subscribe(
-            (data: any) => {
-              this.isRippleLoad = false;
-              this.isEnquirySubmit = false;
-              this.enquiryConfirm = data;
-              let instituteEnqId = data.generated_id;
-              this.prefill.fetchLastDetail().subscribe(data => {
-                this.lastDetail = data;
-                if (this.isRegisterStudent) {
-                  this.convertTOStudent(instituteEnqId);
-                }
-                else {
-                  if (this.addNextCheck) {
-                    //form.reset();                    
-                    this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
-                    this.clearFormData();
+          if (this.isEnquirySubmit) {
+            this.isEnquirySubmit = false;
+            this.poster.postNewEnquiry(this.newEnqData).subscribe(
+              (data: any) => {
+                this.isRippleLoad = false;
+                this.enquiryConfirm = data;
+                let instituteEnqId = data.generated_id;
+                this.prefill.fetchLastDetail().subscribe(data => {
+                  this.lastDetail = data;
+                  if (this.isRegisterStudent) {
+                    this.convertTOStudent(instituteEnqId);
                   }
                   else {
-                    this.openConfirmationPopup();
-                    this.clearFormData();
+                    if (this.addNextCheck) {
+                      //form.reset();                    
+                      this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
+                      this.clearFormData();
+                    }
+                    else {
+                      this.openConfirmationPopup();
+                      this.clearFormData();
+                    }
+
                   }
+                },
+                  err => {
 
-                }
+                  });
               },
-                err => {
-
-                });
-            },
-            err => {
-              this.isRippleLoad = false;
-              this.isEnquirySubmit = false;
-              this.showErrorMessage('error', 'Error', '');
-            }
-          );
+              err => {
+                this.isRippleLoad = false;
+                this.isEnquirySubmit = true;
+                this.showErrorMessage('error', 'Error', '');
+              }
+            );
+          }
         }
       }
       else {
-        this.isEnquirySubmit = false;
+        this.isEnquirySubmit = true;
         this.showErrorMessage('error', 'Invalid Time Input', 'Please select a valid time for follow up');
       }
     }
     else {
-      this.isEnquirySubmit = false;
+      this.isEnquirySubmit = true;
       this.submitError = true;
     }
   }
@@ -1154,7 +1157,7 @@ export class EnquiryAddComponent implements OnInit {
         if (this.newEnqData.parent_phone.length != 10 && this.newEnqData.parent_phone != "") {
           return this.showErrorMessage('error', 'Enter 10 Digit Contact Number', '');
         }
-        if (this.hour == '' && Number(this.minute)>0) {
+        if (this.hour == '' && Number(this.minute) > 0) {
           return this.showErrorMessage('error', 'Please select time', '');
         }
         return true;
@@ -1697,8 +1700,8 @@ export class EnquiryAddComponent implements OnInit {
 
 
   isEnquiryAdministrator() {
-    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined 
-    || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined
+      || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
       this.isEnquiryAdmin = true;
     }
     else {
