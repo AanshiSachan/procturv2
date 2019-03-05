@@ -19,8 +19,10 @@ import { BiometricWidgetComponent } from './biometric-widget/biometric-widget.co
 import { BiometricStatusServiceService } from '../../services/biometric-status/biometric-status-service.service';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome';
 import { ToDoListComponent } from './to-do-list/to-do-list.component';
-// import { ExpensesComponent } from './expenses/expenses.component';
-
+import { ExpensesComponent } from './expenses/expenses.component';
+import { ExcelService } from '../../services/excel.service';
+// import { MdFormFieldModule } from '@angular/material';
+// import { MdInputModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -30,7 +32,9 @@ import { ToDoListComponent } from './to-do-list/to-do-list.component';
         HomepageDashboardRoutingModule,
         BsDatepickerModule,
         SharedModule,
-        ChartModule
+        ChartModule,
+        // MdFormFieldModule,
+        // MdInputModule
     ],
     declarations: [
         HomepageDashboardComponent,
@@ -42,7 +46,7 @@ import { ToDoListComponent } from './to-do-list/to-do-list.component';
         GeneralWidgetComponent,
         BiometricWidgetComponent,
         ToDoListComponent,
-        // ExpensesComponent,
+        ExpensesComponent,
     ],
     entryComponents: [
         ProcturWidgetComponent,
@@ -52,6 +56,7 @@ import { ToDoListComponent } from './to-do-list/to-do-list.component';
     ],
     providers: [
         WidgetService,
+        ExcelService,
         BiometricStatusServiceService
     ]
 })

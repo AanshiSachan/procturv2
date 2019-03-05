@@ -111,8 +111,8 @@ export class CounsellorReportComponent implements OnInit {
     }
     else {
 
-      this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD'),
-      this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD')
+      this.counsellorInfoDetails.updateDateFrom = moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD');
+      this.counsellorInfoDetails.updateDateTo = moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD');
 
       this.counsellor.counsellorDetails(this.counsellorInfoDetails).subscribe(
         (data: any) => {
@@ -211,8 +211,8 @@ export class CounsellorReportComponent implements OnInit {
           institution_id: "",
           isRport: "Y",
           status: this.statusKeys[dataObj.key],
-          updateDateFrom: this.counsellorInfoDetails.updateDateFrom,
-          updateDateTo: this.counsellorInfoDetails.updateDateTo
+          enquireDateFrom: moment(this.counsellorInfoDetails.updateDateFrom).format('YYYY-MM-DD'),
+          enquireDateTo: moment(this.counsellorInfoDetails.updateDateTo).format('YYYY-MM-DD')
         }
         this.popupDataEnquiries = [];
         this.counsellor.enquiryCategorySearch(payload).subscribe(

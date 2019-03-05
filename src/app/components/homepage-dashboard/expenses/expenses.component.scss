@@ -1,0 +1,384 @@
+.expenses-widget{
+  position: fixed;
+  top: 22%;
+  right: 4.5%;
+  width: 55%;
+  height: 380px;
+  border-radius: 6px;
+  background: white;
+  animation-name: 'slideInUp';
+  animation-duration: 0.5s;
+  z-index: 100;
+}
+.expenses-header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  font-size: 16px;
+  background: rgba(18,131,244,0.1);
+  color: #1283f4;
+
+
+  .tooltip-box-field {
+      color: black;
+      min-height: 22px;
+      width: 140px !important;
+      right: 40px !important;
+      z-index: 1;
+      padding: 5px 10px !important;
+      position: absolute;
+      right: 40px !important;
+      left: auto !important;
+      top: 13px !important;
+      &:after {
+          display: none;
+      }
+  }
+  .qInfoIcon {
+      margin-left: 5px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #0084f6;;
+      border-radius: 50%;
+      display: block;
+      text-align: center;
+      box-sizing: border-box;
+      line-height: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0px 0px 1px 0px #ccc inset;
+      color: white;
+      background:  #0084f6;
+      transition: all 0.2s linear;
+      &:hover {
+          border-color: #0084f6;
+          box-shadow: 0px 0px 1px 0px #0084f6 inset;
+          .tooltip-box-field {
+            visibility: visible !important;
+            opacity: 1 !important;
+          }
+      }
+  }
+  // &.hover {
+  //     &.lefts {
+  //         left: 80%;
+  //         .tooltip-box-field {
+  //             color: black;
+  //             min-height: 22px;
+  //             width: 140px !important;
+  //             right: 40px !important;
+  //             z-index: 1;
+  //             padding: 5px 10px !important;
+  //             top: -12px !important;
+  //             &:after {
+  //                 display: none;
+  //             }
+  //         }
+  //     }
+  // }
+
+}
+
+
+.expenses-input-container{
+  padding-top: 15px;
+  padding-bottom: 10px;
+  width: 100%;
+  padding-left: 2%;
+  z-index: 1;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  .expenses-radio-container{
+    display: flex;
+    flex-direction: row;
+    .field-radio-wrapper {
+      position: relative;
+      margin-right: 20px;
+    }
+  }
+  .expense-form-container-for-total-amount{
+    display: flex;
+    flex-direction: row;
+
+    .form-wrapper{
+      margin-right: 15px;
+    }
+
+    .add-cat-container{
+      // width: 30%;
+      position: relative;
+      .form-control-done{
+        position: absolute;
+        right: 5px;
+        height: 25px;
+        top: 1px;
+        color: #10aa35;
+        padding-top: 10px;
+        background: white;
+        cursor: pointer;
+      }
+      .form-control-cross{
+        position: absolute;
+        right: 25px;
+        height: 25px;
+        top: 1px;
+        color: #d53b3b;
+        padding-top: 10px;
+        background: white;
+        cursor: pointer;
+      }
+      .new-cat {
+        padding: 7px 10px;
+        border: 1px solid #87c0f9;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+        width: 100%;
+        border-radius: 2px;
+      }
+      .new-cat::placeholder {
+        color: #cbcbcb;
+        padding-left: 0px;
+      }
+    }
+    .calendar-container{
+      display: flex;
+      flex-direction: row;
+      padding-top: 10px;
+    }
+
+    .expense-form-ctrl {
+        background: white;
+        border: 1px solid #87c0f9;
+        width: 100%;
+        padding: 8px 5px;
+        font-size: 14px;
+        color: black;
+        border-radius: 3px;
+        &.bsDatepicker {
+            padding: 5px;
+            width: 100%;
+        }
+      }
+      .expense-form-ctrl::placeholder {
+        color: #cbcbcb;
+      }
+      .select-box{
+        padding: 5px 5px;
+        width: 150px;
+        option{
+          padding: 5px;
+        }
+        .addCategory{
+          color: #1283f4;
+          cursor: pointer;
+        }
+      }
+  }
+
+}
+
+.expenses-search-and-filter-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 17px;
+  width: 100%;
+  border-bottom: 1px solid rgba(10,10,10,0.3);
+  .expense-search-container{
+    width: 30%;
+    position: relative;
+    .filterCategoryByItem{
+      background: white;
+      border: 1px solid #87c0f9;
+      font-size: 14px;
+      color: black;
+      padding: 5px;
+      border-radius: 3px;
+      animation-name: zoomIn;
+      animation-duration: 0.5s;
+      .filterCategoryByItem::placeholder {
+        color: #cbcbcb;
+      }
+    }
+  }
+  .selected-date-range-container{
+    margin-top: 10px;
+  }
+  .dropdown-trigger{
+    background: white;
+    margin-top: 5px;
+  }
+}
+
+.dd-list-container {
+    position: absolute; //top: 40px;
+    border: 1px solid rgba(119, 119, 119, 0.29);
+    right: 30px;
+    z-index: 100;
+    top: 170px;
+    width: 180px; //max-width: 250px;
+    height: auto;
+    background: white;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.611764705882353);
+    .dropdown-list {}
+}
+
+.actions-menu {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+    padding: 5px;
+    .action-item {
+        padding: 3px;
+        background: white;
+        display: flex !important;
+        margin: 0 !important;
+        cursor: pointer;
+        span {
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-right: 8px;
+        }
+        &:hover {
+            background: #eff1f5;
+        }
+    }
+}
+
+.expenses-table-container{
+  overflow-y: auto;
+  height: 145px;
+  table {
+      width: 100%;
+      box-sizing: border-box;
+      border-collapse: collapse;
+      color: #3e3d4a;
+  }
+  th,
+  td {
+      font-size: 12px;
+      padding: 6px 2px;
+      vertical-align: middle;
+      text-align: center;
+      padding-left: 5px;
+  }
+  th {
+      font-size: 14px;
+      font-weight: 600;
+  }
+  td {
+    cursor: default;
+    border-bottom: 1px solid rgba(211, 212, 213, 0.5);
+  }
+  tbody tr:hover {
+      background: none;
+  }
+  table tr {
+    cursor: default;
+  }
+
+  .edit-comp{
+    .bsDatepicker{
+      position: absolute;
+    }
+  }
+  .displayComp {
+      .view-comp {}
+      .edit-comp {
+          display: none
+      }
+  }
+  .editComp {
+      .view-comp {
+          display: none
+      }
+      .edit-comp {}
+  }
+  .table-action {
+      ul {
+          li {
+              display: inline-block;
+              margin: 0px 5px;
+              cursor: pointer;
+          }
+      }
+  }
+  .expense-edit-form-ctrl{
+    background: white;
+    border: 1px solid #87c0f9;
+    width: 80px;
+    font-size: 14px;
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+    animation-name: zoomIn;
+    animation-duration: 0.5s;
+  }
+
+}
+
+.widgetDatepicker {
+  position: absolute;
+  margin-left: 25%;
+  width: 1px;
+  visibility: hidden;
+  opacity: 0;
+}
+.bsDatepicker {
+  padding: 5px;
+  width: 100%;
+  position: absolute;
+}
+
+.total-expenses-container{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  background: #e6f1fd;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  padding: 10px;
+  text-align: right;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  font-size: 12px;
+  .total-expense-value{
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0px 5px;
+    border-left: 0.5px solid rgba(10,10,10,0.2);
+  }
+}
+
+
+@-webkit-keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}

@@ -38,6 +38,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
 import {ToasterModule} from 'angular2-toaster';
 import { HttpService } from './services/http.service';
+import { ExpensesService } from './services/expenses.service';
 
 
 
@@ -79,7 +80,9 @@ import { HttpService } from './services/http.service';
     CommonServiceFactory,
     MessageShowService,
     HttpService,
-    ToDoListService
+    ToDoListService,
+    ExpensesService
+
     //   {
     //     provide: HTTP_INTERCEPTORS,
     //     useClass: I2,               // <-- I2 first
