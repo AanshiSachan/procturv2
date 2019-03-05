@@ -61,4 +61,16 @@ export class HttpService {
       }
     )
   }
+
+  deleteData(objecturl) {
+    let url = this.baseUrl + objecturl;
+    return this.http.delete(url,  { headers: this.headers }).map(
+      data => {
+        return data;
+      },
+      err => {
+        return err;
+      }
+    )
+  }
 }

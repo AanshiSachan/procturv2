@@ -2305,20 +2305,16 @@
       </div>
     </proctur-widget>
 
-    <!-- <div class="toDoList-container" id="toDoList-container">
-      <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
-    </div> -->
-
     <div class="plus-icon-container">
       <button type="button" name="button" class="plus-button" (click)="showList()">
         + </button>
     </div>
 
     <div class="more-about-plus-icon" *ngIf="showExpenseToDo">
-      <!-- <div class="to-do" (click)="showExpensesList()">
+      <div class="to-do" (click)="showExpensesList()" *ngIf="!userTypeForExpenses">
         <span>Add Expenses</span>
-        <i class="fa fa-list-alt toDo"></i>
-      </div> -->
+        <i class="fa fa-money toDo"></i>
+      </div>
       <div class="to-do" (click)="showToDoList()">
         <span>To Do List</span>
         <i class="fa fa-list-alt toDo"></i>
@@ -2330,12 +2326,12 @@
       <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
     </div>
 
-    <!-- <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
+    <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
       <app-expenses></app-expenses>
-    </div> -->
+    </div>
 
 </section>
 
-<div class="black-bg" id="black-bg" *ngIf="showExpenseToDo">
+<div class="black-bg" id="black-bg" *ngIf="showExpenseToDo" (click)="closeShowList()">
 
 </div>

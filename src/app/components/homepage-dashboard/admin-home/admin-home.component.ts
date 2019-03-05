@@ -79,6 +79,7 @@ export class AdminHomeComponent implements OnInit {
   showExpenseToDo: boolean = false;
   showToDo: boolean = false;
   showExpenses: boolean = false;
+  userTypeForExpenses: boolean = true;
   notificationPopUp: boolean = false;
   addNotification: boolean = false;
   showTableFlag: boolean = false;
@@ -187,6 +188,17 @@ export class AdminHomeComponent implements OnInit {
 
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
+
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    let username = sessionStorage.getItem('username');
+    if(userType == 0 && username == "admin"){
+      this.userTypeForExpenses = false;
+    }
+    else{
+      this.userTypeForExpenses = true;
+    }
+
+
     this.fetchWidgetPrefill();
 
     this.grid = new Muuri('.grid', {
@@ -3416,14 +3428,18 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  // showExpensesList(){
-  //   if (this.showExpenses) {
-  //     this.showExpenses = false;
-  //   }
-  //   else {
-  //     this.showExpenses = true;
-  //   }
-  // }
+  showExpensesList(){
+    if (this.showExpenses) {
+      this.showExpenses = false;
+    }
+    else {
+      this.showExpenses = true;
+    }
+  }
+
+  closeShowList(){
+    this.showList();
+  }
 
 
 }
