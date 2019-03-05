@@ -34,7 +34,8 @@ export class StudentCustomComponent implements OnInit {
     prefilled_data: "",
     sequence_number: "",
     type: "",
-    defaultValue: ""
+    defaultValue: "",
+    show_field_in_student_admission_form: 0
   }
   editCustomComponentForm: any = {
     comp_length: "",
@@ -47,7 +48,8 @@ export class StudentCustomComponent implements OnInit {
     prefilled_data: "",
     sequence_number: "",
     type: "",
-    defaultValue: ""
+    defaultValue: "",
+    show_field_in_student_admission_form: 0
   }
   busy: Subscription;
 
@@ -95,13 +97,21 @@ export class StudentCustomComponent implements OnInit {
         prefilled_data: "",
         sequence_number: "",
         type: "",
-        defaultValue: ""
+        defaultValue: "",
+        show_field_in_student_admission_form: ""
       }
       document.getElementById('addComponent-icon').innerHTML = "+"
     }
   }
 
   addNewCustomComponent() {
+
+    if(this.createCustomComponentForm.show_field_in_student_admission_form){
+      this.createCustomComponentForm.show_field_in_student_admission_form = 1;
+    }
+    else{
+      this.createCustomComponentForm.show_field_in_student_admission_form = 0;
+    }
     //Case 1 Label/Type is not empty and MaxLength and Sequence
     if (this.createCustomComponentForm.label != "" && this.createCustomComponentForm.label != " "
       && this.createCustomComponentForm.type != "") {
@@ -295,13 +305,21 @@ export class StudentCustomComponent implements OnInit {
       prefilled_data: "",
       sequence_number: "",
       type: "",
-      defaultValue: ""
+      defaultValue: "",
+      show_field_in_student_admission_form: 0
     }
     this.fetchPrefillData();
     this.isEdit = false;
   }
 
   updateRow() {
+    if(this.editCustomComponentForm.show_field_in_student_admission_form){
+      this.editCustomComponentForm.show_field_in_student_admission_form = 1;
+    }
+    else{
+      this.editCustomComponentForm.show_field_in_student_admission_form = 0;
+    }
+
     let data = this.editCustomComponentForm;
     //Case 1 Label/Type is not empty and MaxLength and Sequence
     if (data.label.trim() != "" && data.type != "") {
@@ -437,7 +455,8 @@ export class StudentCustomComponent implements OnInit {
       prefilled_data: "",
       sequence_number: "",
       type: "",
-      defaultValue: ""
+      defaultValue: "",
+      show_field_in_student_admission_form: 0
     }
   }
 
@@ -459,7 +478,8 @@ export class StudentCustomComponent implements OnInit {
       prefilled_data: "",
       sequence_number: "",
       type: "",
-      defaultValue: ""
+      defaultValue: "",
+      show_field_in_student_admission_form: 0
     }
   }
 
@@ -486,7 +506,8 @@ export class StudentCustomComponent implements OnInit {
           prefilled_data: "",
           sequence_number: "",
           type: "",
-          defaultValue: ""
+          defaultValue: "",
+          show_field_in_student_admission_form: 0
         }
       },
       err => {
@@ -508,7 +529,8 @@ export class StudentCustomComponent implements OnInit {
           prefilled_data: "",
           sequence_number: "",
           type: "",
-          defaultValue: ""
+          defaultValue: "",
+          show_field_in_student_admission_form: 0
         }
       }
     );
