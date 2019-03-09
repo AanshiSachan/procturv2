@@ -218,7 +218,12 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                     else {
                         this.dataList[index].isSelected = true;
                         this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
+                        // document.getElementById("batchcheck"+index).checked = true;
+
+                        (document.getElementById("batchcheck"+index) as HTMLInputElement).checked = true;
                     }
+
+                    // this.batchChangeAlert(this.dataList[index].isSelected, this.dataList[index]);
                 }
                 /* else */
                 else if (ind == null) {
@@ -232,6 +237,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.getAssignedCount();
         this.cd.markForCheck();
         this.cd.detectChanges();
+
+
     }
 
     changed(text: string) {
@@ -392,7 +399,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = true;
                         } else {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = false;
-                            // batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
+                            batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
                         }
                         break;
                     }
