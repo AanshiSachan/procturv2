@@ -232,12 +232,12 @@ export class InstituteSettingsComponent implements OnInit {
     biometric_class_in_time_buffer_in_min: 0,
     biometric_class_out_time_buffer_in_min: 0,
 
-    user_registration_send_sms: '',
-    user_registration_send_email: '',
-    enable_daily_enquiry_routing_report: '',
-    email_contact_of_receiver: '',
-    assign_teacher_for_parallel_classes: '',
-    allow_ecourse_and_course_mapping: ''
+    user_registration_otp_via_sms: '',
+    user_registration_otp_via_email: '',
+    enable_justDial_routing_report: '',
+    emailIds_for_justDail_ext_lead: '',
+    enable_teacher_for_multiple_class: '',
+    enable_elearn_course_mapping_feature: ''
 
   };
   onlinePayment: any = '0';
