@@ -380,6 +380,12 @@ export class InstituteSettingsComponent implements OnInit {
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
+	obj.user_registration_otp_via_sms = this.convertBoolenToNumber(this.instituteSettingDet.user_registration_otp_via_sms);
+	obj.user_registration_otp_via_email = this.convertBoolenToNumber(this.instituteSettingDet.user_registration_otp_via_email);
+	obj.enable_justDial_routing_report = this.convertBoolenToNumber(this.instituteSettingDet.enable_justDial_routing_report);
+	obj.enable_teacher_for_multiple_class = this.convertBoolenToNumber(this.instituteSettingDet.enable_teacher_for_multiple_class);
+	obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
+	
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;
@@ -502,6 +508,12 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.due_date_in_fee_receipt = data.due_date_in_fee_receipt;
     this.instituteSettingDet.balance_amount_in_fee_receipt = data.balance_amount_in_fee_receipt;
     this.instituteSettingDet.discount_amount_in_fee_receipt = data.discount_amount_in_fee_receipt;
+	this.instituteSettingDet.user_registration_otp_via_sms = data.user_registration_otp_via_sms;
+	this.instituteSettingDet.user_registration_otp_via_email = data.user_registration_otp_via_email;
+	this.instituteSettingDet.enable_justDial_routing_report = data.enable_justDial_routing_report;
+	this.instituteSettingDet.enable_teacher_for_multiple_class = data.enable_teacher_for_multiple_class;
+	this.instituteSettingDet.enable_elearn_course_mapping_feature = data.enable_elearn_course_mapping_feature;
+	this.instituteSettingDet.emailIds_for_justDail_ext_lead = data.emailIds_for_justDail_ext_lead;
     this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);
   }
 
