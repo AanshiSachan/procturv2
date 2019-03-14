@@ -34,7 +34,7 @@
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.label != ''}">
             <label for="label">Label*</label>
           <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.label" name="label" id="label">
-        
+
         </div>
       </div>
 
@@ -47,23 +47,21 @@
               {{opt.data_value}}
             </option>
           </select>
-          
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.prefilled_data != ''}">
-            <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
+          <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
           <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.prefilled_data" name="prefilledData" id="prefilledData">
-        
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.description != ''}">
-            <label for="description">Description</label>
+          <label for="description">Description</label>
           <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.description" name="description" id="description">
-        
         </div>
       </div>
 
@@ -84,7 +82,6 @@
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
-         
         </div>
       </div>
 
@@ -95,7 +92,7 @@
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
-          
+
         </div>
       </div>
 
@@ -104,7 +101,7 @@
             <label for="sequencenumber">Sequence (Numerals Only)</label>
           <input type="text" id="sequencenumber" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
             name="sequencenumber">
-         
+
         </div>
       </div>
 
@@ -113,7 +110,7 @@
             <label for="complength">Max- Length (Numerals Only)</label>
           <input type="text" class="form-ctrl" id="complength"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="createCustomComponentForm.comp_length"
             name="complength">
-        
+
         </div>
       </div>
 
@@ -121,7 +118,14 @@
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.defaultValue != ''}">
             <label for="defVal">Default Value</label>
           <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal" id="defVal">
-         
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-checkbox-wrapper" style="margin-top:20px;">
+          <input type="checkbox" class="form-checkbox" name="show_field" id="show_field" [(ngModel)]="createCustomComponentForm.show_field_in_student_admission_form" value="0" style="height:15px; margin-right: 10px;">
+          <label for="show_field">Show field</label>
         </div>
       </div>
 
@@ -236,7 +240,7 @@
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.label != ''}">
             <label for="label">Label*</label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.label" name="label">
-       
+
         </div>
       </div>
 
@@ -249,7 +253,7 @@
               {{opt.data_value}}
             </option>
           </select>
-       
+
         </div>
       </div>
 
@@ -257,7 +261,7 @@
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.prefilled_data != ''}">
             <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.prefilled_data" id="prefilledData" name="prefilledData">
-         
+
         </div>
       </div>
 
@@ -265,7 +269,7 @@
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.description != ''}">
             <label for="description">Description</label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.description" name="description" id="description">
-        
+
         </div>
       </div>
 
@@ -277,7 +281,7 @@
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
-        
+
         </div>
       </div>
 
@@ -288,7 +292,7 @@
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
-         
+
         </div>
       </div>
 
@@ -297,7 +301,7 @@
             <label for="sequencenumber">Sequence (Numerals Only)</label>
           <input type="text" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3" [(ngModel)]="editCustomComponentForm.sequence_number"
             name="sequencenumber" id="sequencenumber">
-         
+
         </div>
       </div>
 
@@ -306,7 +310,7 @@
             <label for="complength">Max- Length (Numerals Only)</label>
           <input type="text" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="editCustomComponentForm.comp_length" name="complength"
             id="complength">
-         
+
         </div>
       </div>
 
@@ -314,7 +318,14 @@
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.defaultValue != ''}">
             <label for="defVal">Default Value</label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.defaultValue" name="defVal" id="defVal">
-         
+
+        </div>
+      </div>
+
+      <div class="c-lg-4">
+        <div class="field-checkbox-wrapper" style="margin-top:20px;">
+          <input type="checkbox" class="form-checkbox" name="show_field" id="show_field" [(ngModel)]="editCustomComponentForm.show_field_in_student_admission_form" value="0" style="height:15px; margin-right: 10px;">
+          <label for="show_field">Show field</label>
         </div>
       </div>
 

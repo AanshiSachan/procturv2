@@ -1010,6 +1010,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 }
                 this.batchList.push(obj);
               });
+              this.updateAssignedBatches(this.batchList);
               console.log(this.batchList);
             }
           },
@@ -1120,7 +1121,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
-        this.fetchCourseFromMaster(data.standard_id);
+        this.fetchCourseFromMaster(-1);
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
@@ -2149,7 +2150,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
       res => {
-        console.log("res is for edit  "+res);
         let temp: any[] = [];
         res.forEach(el => {
           let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: el.cheque_date, cheque_date_from: el.cheque_date_from, cheque_date_to: el.cheque_date_from, cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status: el.cheque_status, cheque_status_key: el.cheque_status_key, clearing_date: el.clearing_date, genAck: el.genAck, institution_id: el.institution_id, sendAck: el.sendAck, student_id: el.student_id, student_name: el.student_name, student_phone: el.student_phone, uiSelected: false };

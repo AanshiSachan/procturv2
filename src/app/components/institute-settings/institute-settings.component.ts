@@ -3,6 +3,7 @@ import { InstituteSettingService } from '../../services/institute-setting-servic
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonServiceFactory } from '../../services/common-service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-institute-settings',
@@ -224,12 +225,19 @@ export class InstituteSettingsComponent implements OnInit {
     online_payment_notify_emailIds: '',
     online_payment_notify_mobiles: '',
     allow_fee_due_amount_in_notification: '',
-    due_date_in_fee_receipt:'',
+    due_date_in_fee_receipt: '',
     discount_amount_in_fee_receipt: '',
     balance_amount_in_fee_receipt: '',
     biometric_late_sms_buffer: 0,
     biometric_class_in_time_buffer_in_min: 0,
-    biometric_class_out_time_buffer_in_min: 0
+    biometric_class_out_time_buffer_in_min: 0,
+
+    user_registration_send_sms: '',
+    user_registration_send_email: '',
+    enable_daily_enquiry_routing_report: '',
+    email_contact_of_receiver: '',
+    assign_teacher_for_parallel_classes: '',
+    allow_ecourse_and_course_mapping: ''
 
   };
   onlinePayment: any = '0';
@@ -280,6 +288,8 @@ export class InstituteSettingsComponent implements OnInit {
         this.isRippleLoad = false;
         this.test_series_feature = res.test_series_feature;
         this.fillJSONData(res);
+        console.log(res);
+        
       },
       err => {
         this.isRippleLoad = false;
@@ -393,6 +403,8 @@ export class InstituteSettingsComponent implements OnInit {
     obj.biometric_late_sms_buffer = this.instituteSettingDet.biometric_late_sms_buffer;
     obj.biometric_class_in_time_buffer_in_min = this.instituteSettingDet.biometric_class_in_time_buffer_in_min;
     obj.biometric_class_out_time_buffer_in_min = this.instituteSettingDet.biometric_class_out_time_buffer_in_min;
+
+
 
 
     return obj;

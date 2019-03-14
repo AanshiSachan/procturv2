@@ -211,14 +211,19 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
                 /* if index is not null */
                 if (ind != null) {
-                    if (confirm("If you unassign the student from course then corresponding fee instalments will be deleted.")) {
+                    if (confirm("If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?")) {
                         this.dataList[index].isSelected = false;
                         this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
                     }
                     else {
                         this.dataList[index].isSelected = true;
                         this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
+                        // document.getElementById("batchcheck"+index).checked = true;
+
+                        (document.getElementById("batchcheck"+index) as HTMLInputElement).checked = true;
                     }
+
+                    // this.batchChangeAlert(this.dataList[index].isSelected, this.dataList[index]);
                 }
                 /* else */
                 else if (ind == null) {
@@ -232,6 +237,8 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.getAssignedCount();
         this.cd.markForCheck();
         this.cd.detectChanges();
+
+
     }
 
     changed(text: string) {
@@ -388,11 +395,11 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
             if (this.clonedArray[i].data[course_id] == batchdata[course_id]) {
                 if (batchdata.selected_fee_template_id != "-1" && batchdata.selected_fee_template_id != null && batchdata.selected_fee_template_id != undefined) {
                     if (this.clonedArray[i].data.selected_fee_template_id != batchdata.selected_fee_template_id) {
-                        if (confirm('If you change fee template then all your unpaid installment will delete. Do you want to continue?')) {
+                        if (confirm('If you change fee template of an assigned course, then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = true;
                         } else {
                             batchdata.deleteCourse_SubjectUnPaidFeeSchedules = false;
-                            // batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
+                            batchdata.selected_fee_template_id = this.clonedArray[i].data.selected_fee_template_id;
                         }
                         break;
                     }
