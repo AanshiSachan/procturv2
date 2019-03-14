@@ -26,7 +26,7 @@ export class ExamReportComponent implements OnInit {
   pagedDetailExamSource: any[] = [];
   batchCourseData: any = [];
   isRippleLoad: boolean = false;
-
+  selectedSubject: any = '';
   subjectData: any[] = [];
   masterCourses: any[] = [];
 
@@ -127,7 +127,7 @@ export class ExamReportComponent implements OnInit {
     }
     this.fetchExamData();
     this.pageIndex = 1;
-   
+
   }
 
   closeReportPopup() {
@@ -286,6 +286,12 @@ export class ExamReportComponent implements OnInit {
   ========================================================================================== */
   getExamScheduleData(i) {
     console.log(i);
+  if(this.isProfessional){
+    this.selectedSubject = this.getSubjectData.filter(item => item.batch_id == i)[0].batch_name;
+  }
+   else{
+    this.selectedSubject = this.subjectData.filter(item => item.batch_id == i)[0].subject_name;
+   } 
     this.isRippleLoad = true;
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
@@ -469,10 +475,9 @@ export class ExamReportComponent implements OnInit {
     this.isRippleLoad = true;
     if (this.isProfessional) {
 
-      if (this.fetchFieldData.batch_id == "" || this.fetchFieldData.exam_schd_id == "") {
+      if (this.fetchFieldData.batch_id == "") {
         let msg = {
           type: "error",
-          title: "Invalid Data Range Selected",
           body: "All field must be filled"
         }
         this.appC.popToast(msg);
@@ -484,7 +489,7 @@ export class ExamReportComponent implements OnInit {
             (res: any) => {
               if (res.length) {
                 this.detailSource = res;
-               
+
                 this.dateSource = this.detailSource.map((store) => {
                   this.dateStore = store.detailExamReportList;
                   this.isRippleLoad = false;
@@ -512,11 +517,9 @@ export class ExamReportComponent implements OnInit {
       }
     }
     else {
-      if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "" ||
-        this.fetchFieldData.exam_schd_id == "") {
+      if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "") {
         let msg = {
           type: "error",
-          title: "Invalid Data Range Selected",
           body: "All Field must be filled"
         }
         this.isRippleLoad = false;
@@ -534,7 +537,6 @@ export class ExamReportComponent implements OnInit {
                   // this.totalRecords = this.detailSource.length;
                   //this.fetchTableDataByPagePopup(this.pageIndexPopup);
                 });
-
                 this.addReportPopup = true;
               }
               else {
@@ -543,7 +545,6 @@ export class ExamReportComponent implements OnInit {
                   title: "No Data Found",
                   body: ""
                 }
-
                 this.appC.popToast(msg);
                 this.isRippleLoad = false;
               }
@@ -561,6 +562,18 @@ export class ExamReportComponent implements OnInit {
       case 'Leave': return 'blue';
       case 'Absent': return 'red';
     }
+  }
+
+  getMark(value, marks) {
+    if (value == null) {
+      return '-';
+    }
+    else {
+      if (value == "Leave" || value == "leave") { return ''; } else {
+        return value;
+      }
+    }
+
   }
 
   fetchTableDataByPage(index) {
@@ -632,14 +645,14 @@ export class ExamReportComponent implements OnInit {
 
   // changed by laxmi
   switchActiveView(id) {
-    let classArray = ['home','attendance','sms','fee','exam','report','time','email','profit'];
+    let classArray = ['home', 'attendance', 'sms', 'fee', 'exam', 'report', 'time', 'email', 'profit'];
 
-    classArray.forEach((classname)=>{
+    classArray.forEach((classname) => {
       document.getElementById(classname).classList.remove('active');
     });
-    document.getElementById(id).classList.add('active');   
+    document.getElementById(id).classList.add('active');
   }
-  
+
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       this.pageIndex = 1;
