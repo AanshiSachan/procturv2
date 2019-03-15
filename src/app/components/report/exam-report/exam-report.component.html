@@ -202,10 +202,16 @@
                             <td style="text-align:left;">{{det.student_name}}</td>
 
                             <td class="marks" *ngFor="let marks of det.detailExamReportList" [style.color]="getColor(marks.student_marks_obtained)">
-                                <label *ngIf="marks.grade == 'Leave'||(marks.grade=='Absent' && marks.isBatchExamGrade == 1)">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && marks.isBatchExamGrade == 1">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && marks.isBatchExamGrade == 0">{{getMark(marks.student_marks_obtained,marks)}}
+                                <!-- <label *ngIf="marks.grade == 'Leave'||(marks.grade=='Absent' && marks.isBatchExamGrade == 1)">{{marks.grade | uppercase}}</label> -->
+                                <!-- <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && marks.isBatchExamGrade == 1">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.grade != 'Leave'&& marks.grade!='Absent' && marks.isBatchExamGrade == 0">{{getMark(marks.student_marks_obtained)}}
                                     <span *ngIf="marks.student_marks_obtained!=null">/&nbsp;{{marks.total_marks}}</span>
+                                </label> -->
+                                <label *ngIf="marks.isBatchExamGrade == 1">{{marks.grade | uppercase}}</label>
+                                <label *ngIf="marks.isBatchExamGrade == 0">{{getMark(marks.student_marks_obtained)}}
+                                    <label *ngIf="marks.student_marks_obtained!=null && marks.student_marks_obtained!='Absent' &&marks.student_marks_obtained!='Leave' && marks.student_marks_obtained!=0">
+                                        <span *ngIf="marks.student_marks_obtained!=null">/&nbsp;{{marks.total_marks}}</span>
+                                    </label>
                                 </label>
                             </td>
 
@@ -258,8 +264,10 @@
                                 <label *ngIf="marks.grade != 'Leave' && marks.grade!='Absent' ">{{marks.grade | uppercase}}</label>
                                 <label *ngIf="marks.grade == '' || isExamGrade == '0'">{{marks.student_marks_obtained}}</label> -->
                                 <label *ngIf="marks.isBatchExamGrade == 1">{{marks.grade | uppercase}}</label>
-                                <label *ngIf="marks.isBatchExamGrade == 0">{{marks.student_marks_obtained}}
-                                    <label *ngIf="marks.student_marks_obtained!=null && marks.student_marks_obtained!='Absent' &&marks.student_marks_obtained!='Leave' && marks.student_marks_obtained!=0">/{{marks.total_marks}}</label>
+                                <label *ngIf="marks.isBatchExamGrade == 0">{{getMark(marks.student_marks_obtained)}}
+                                    <label *ngIf="marks.student_marks_obtained!=null && marks.student_marks_obtained!='Absent' &&marks.student_marks_obtained!='Leave' && marks.student_marks_obtained!=0">
+                                        <span *ngIf="marks.student_marks_obtained!=null">/&nbsp;{{marks.total_marks}}</span>
+                                    </label>
                                 </label>
 
                             </td>

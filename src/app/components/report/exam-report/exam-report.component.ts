@@ -286,12 +286,12 @@ export class ExamReportComponent implements OnInit {
   ========================================================================================== */
   getExamScheduleData(i) {
     console.log(i);
-  if(this.isProfessional){
-    this.selectedSubject = this.getSubjectData.filter(item => item.batch_id == i)[0].batch_name;
-  }
-   else{
-    this.selectedSubject = this.subjectData.filter(item => item.batch_id == i)[0].subject_name;
-   } 
+    if (this.isProfessional) {
+      this.selectedSubject = this.getSubjectData.filter(item => item.batch_id == i)[0].batch_name;
+    }
+    else {
+      this.selectedSubject = this.subjectData.filter(item => item.batch_id == i)[0].subject_name;
+    }
     this.isRippleLoad = true;
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
@@ -564,14 +564,12 @@ export class ExamReportComponent implements OnInit {
     }
   }
 
-  getMark(value, marks) {
-    if (value == null) {
+  getMark(value) {
+    if (value == null || value == "" || value == "0") {
       return '-';
     }
     else {
-      if (value == "Leave" || value == "leave") { return ''; } else {
-        return value;
-      }
+      return value;
     }
 
   }
