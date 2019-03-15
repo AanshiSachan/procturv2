@@ -83,7 +83,7 @@ export class CourseCourseListComponent implements OnInit {
     )
   }
 
-  // pagination functions 
+  // pagination functions
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;
@@ -245,9 +245,17 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   saveChanges() {
-    if (confirm('If you unassign the student from course then corresponding fee instalments will be deleted.')) {
-      this.apiToAllocateAndDeallocate();
+    let data = this.getCheckedRows();
+    if(Object.keys(data).length > 0){
+      if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
+        this.apiToAllocateAndDeallocate();
+      }
     }
+    else{
+      this.addStudentPopUp = false;
+      this.showTable = false;
+    }
+
   }
 
   getUISelectedRows(data) {

@@ -191,12 +191,20 @@ export class AdminHomeComponent implements OnInit {
 
     let userType: any = Number(sessionStorage.getItem('userType'));
     let username = sessionStorage.getItem('username');
+    let permissions: any = [];
+    permissions = sessionStorage.getItem('permissions');
+
     if(userType == 0 && username == "admin"){
+      this.userTypeForExpenses = false;
+    }
+    else if(permissions.includes("715")){
       this.userTypeForExpenses = false;
     }
     else{
       this.userTypeForExpenses = true;
     }
+
+
 
 
     this.fetchWidgetPrefill();

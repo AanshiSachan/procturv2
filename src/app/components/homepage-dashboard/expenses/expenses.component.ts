@@ -53,7 +53,8 @@ export class ExpensesComponent implements OnInit {
   expensesSearchFilter: any = {
     from_date: '',
     to_date: '',
-    categoryIds: ''
+    categoryIds: '',
+    user_id: ''
   };
 
 
@@ -81,6 +82,16 @@ export class ExpensesComponent implements OnInit {
         }
       }
     )
+
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    let username = sessionStorage.getItem('username');
+    let userid = sessionStorage.getItem('userid');
+    if(userType == 0 && username == "admin"){
+      this.expensesSearchFilter.user_id = 0;
+    }
+    else{
+      this.expensesSearchFilter.user_id = 0;
+    }
 
     this.getAllCategory();
     this.getAllExpenses();
