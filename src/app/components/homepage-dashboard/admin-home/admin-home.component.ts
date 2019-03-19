@@ -197,7 +197,7 @@ export class AdminHomeComponent implements OnInit {
     if(userType == 0 && username == "admin"){
       this.userTypeForExpenses = false;
     }
-    else if(permissions.includes("715")){
+    else if(permissions.includes("715") || permissions.includes("716")){
       this.userTypeForExpenses = false;
     }
     else{

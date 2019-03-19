@@ -106,7 +106,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
         this.stream = stream;
-        this.video.nativeElement.src = window.URL.createObjectURL(stream);
+        this.video.nativeElement.srcObject = stream;;
         this.video.nativeElement.play();
       });
     }
@@ -160,6 +160,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
 
   destroy() {
     this.vanilla.destroy();
+    this.video.nativeElement.pause();
   }
 
   openUploader() {

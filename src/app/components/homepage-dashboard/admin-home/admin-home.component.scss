@@ -2607,6 +2607,23 @@ div#enqChart {
 
 }
 
+.close_button{
+  background: white;
+  color: rgba(102, 102, 102, 0.6);
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  /* padding: 16px; */
+  font-weight: bold;
+  border: none;
+  outline: none;
+  text-align: center;
+  position: fixed;
+  top: 17%;
+  right: 2.5%;
+  z-index: 100;
+}
+
 @-webkit-keyframes slideInUp {
   from {
     -webkit-transform: translate3d(0, 100%, 0);

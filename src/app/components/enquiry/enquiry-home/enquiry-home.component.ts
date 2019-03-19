@@ -446,7 +446,7 @@ export class EnquiryHomeComponent implements OnInit {
             if (permissions.includes('714')) { ////update payment and manage cheque,pdc  hide download
                 this.varJson.showDownloadSummary = false;
             }
-            if (permissions.includes('712')) { // show download summery 
+            if (permissions.includes('712')) { // show download summery
                 this.varJson.showDownloadSummary = true;
             }
         }
@@ -650,7 +650,7 @@ export class EnquiryHomeComponent implements OnInit {
         dataArr.forEach(el => {
             let obj = {
                 displayName: el.toLowerCase(),// this is display label
-                data: el, //// this is key for select dropdwon 
+                data: el, //// this is key for select dropdwon
                 checked: false
             };
             customPrefilled.push(obj);
@@ -1479,8 +1479,8 @@ export class EnquiryHomeComponent implements OnInit {
          && this.advancedFilterForm.followUpDate != 'Invalid date') {
             this.advancedFilterForm.is_recent = "Y";
         }
-        else if (this.advancedFilterForm.followUpDate == null && 
-            this.advancedFilterForm.followUpDate == '' && 
+        else if (this.advancedFilterForm.followUpDate == null &&
+            this.advancedFilterForm.followUpDate == '' &&
             this.advancedFilterForm.followUpDate == 'Invalid date') {
             this.advancedFilterForm.is_recent = "N";
         }
@@ -1602,7 +1602,7 @@ export class EnquiryHomeComponent implements OnInit {
     fectchTableDataByPage(index) {
         this.varJson.PageIndex = index;
         let startindex = this.varJson.displayBatchSize * (index - 1);
-        if(this.varJson.isFilterApplied){            
+        if(this.varJson.isFilterApplied){
             this.advancedFilterForm.start_index = startindex;
             this.advancedFilterForm.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
             this.advancedFilterForm.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
@@ -1615,7 +1615,7 @@ export class EnquiryHomeComponent implements OnInit {
             this.instituteData.filtered_statuses = this.statusString.join(',');
             this.loadTableDatatoSource(this.instituteData);
         }
-       
+
     }
 
     /* Fetches Data as per the user selected batch size */
@@ -1639,6 +1639,21 @@ export class EnquiryHomeComponent implements OnInit {
     downloadAllEnquiries() {
         this.cd.markForCheck();
         this.flagJSON.isRippleLoad = true;
+        let courseArray = [];
+        if(this.advancedFilterForm.courseIdArray == null){
+          courseArray = [""];
+        }
+        else{
+          courseArray = this.advancedFilterForm.courseIdArray;
+        }
+        let subjectArray = [];
+        if(this.advancedFilterForm.subjectIdArray == null){
+          subjectArray = [""];
+        }
+        else{
+          subjectArray = this.advancedFilterForm.subjectIdArray;
+        }
+
         let obj = {
             name: this.instituteData.name,
             phone: this.instituteData.phone,
@@ -1652,6 +1667,9 @@ export class EnquiryHomeComponent implements OnInit {
             enquiry_date: this.advancedFilterForm.enquiry_date,
             assigned_to: this.advancedFilterForm.assigned_to,
             standard_id: this.advancedFilterForm.standard_id,
+            subjectIdArray: subjectArray,
+            master_course_name: this.advancedFilterForm.master_course_name,
+            courseIdArray: courseArray,
             subject_id: this.advancedFilterForm.subject_id,
             is_recent: this.advancedFilterForm.is_recent,
             slot_id: this.advancedFilterForm.slot_id,
@@ -1674,7 +1692,9 @@ export class EnquiryHomeComponent implements OnInit {
             sorted_by: "",
             order_by: "",
             commentShow: 'false',
-            source_id: this.advancedFilterForm.source_id
+            source_id: this.advancedFilterForm.source_id,
+            school_id: this.advancedFilterForm.school_id,
+            list_id: this.advancedFilterForm.list_id
         };
 
         this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
@@ -2487,7 +2507,7 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
-    // This function gives you full information of enquiry selected which is fetched from server 
+    // This function gives you full information of enquiry selected which is fetched from server
     completeEnquiryDeatils(event) {
         this.selectedRow.gender = event.gender;
         this.selectedRow.institute_enquiry_id = event.institute_enquiry_id;
@@ -2499,7 +2519,7 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
-    // toast function 
+    // toast function
     showErrorMessage(objType, massage, body) {
         this.commonServiceFactory.showErrorMessage(objType, massage, body);
     }
@@ -2539,4 +2559,3 @@ export class EnquiryHomeComponent implements OnInit {
     }
 
 }
-

@@ -245,11 +245,32 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   saveChanges() {
-    let data = this.getCheckedRows();
-    if(Object.keys(data).length > 0){
-      if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
+    let checkAssignedCourseList = this.checkAssignedCourse();
+
+    if(checkAssignedCourseList.length > 0){
+      let checkFlag = true;
+
+      for (let i = 0; i < checkAssignedCourseList.length; i++) {
+        if (checkAssignedCourseList[i] == 'false') {
+          checkFlag = false;
+          break;
+        }
+      }
+      if(!checkFlag){
+        if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
+          this.apiToAllocateAndDeallocate();
+        }
+        else{
+          let data = this.getCheckedRows();
+          for (let i = 0; i < Object.keys(data).length; i++) {
+            (document.getElementById("studentcheck"+Object.keys(data)[i]) as HTMLInputElement).checked = true;
+          }
+        }
+      }
+      else{
         this.apiToAllocateAndDeallocate();
       }
+
     }
     else{
       this.addStudentPopUp = false;
@@ -296,6 +317,21 @@ export class CourseCourseListComponent implements OnInit {
         if (this.studentList[t].student_id == this.studentListDataSource[i].student_id) {
           if (this.studentList[t].assigned != this.studentListDataSource[i].assigned) {
             test[this.studentList[t].student_id] = [this.studentList[t].assigned.toString(), this.studentList[t].academic_year.toString(), this.studentList[i].assigned_fee_template_id.toString()];
+            break;
+          }
+        }
+      }
+    }
+    return test;
+  }
+
+  checkAssignedCourse(){
+    let test = [];
+    for (let i = 0; i < this.studentListDataSource.length; i++) {
+      for (let t = 0; t < this.studentList.length; t++) {
+        if (this.studentList[t].student_id == this.studentListDataSource[i].student_id) {
+          if (this.studentList[t].assigned != this.studentListDataSource[i].assigned) {
+            test = [this.studentList[t].assigned.toString()];
             break;
           }
         }

@@ -2327,6 +2327,7 @@
     </div>
 
     <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
+      <button type="button" name="button" class="close_button" (click)="closeShowList()">X</button>
       <app-expenses></app-expenses>
     </div>
 
