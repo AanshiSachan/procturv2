@@ -199,7 +199,7 @@
               <thead>
                 <th>
                   <div class="field-checkbox-wrapper">
-                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)" [attr.disabled] = "searchFilter.unassignFlag == 1 ? 'disabled' : null">
+                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">  <!-- [attr.disabled] = "searchFilter.unassignFlag == 1 ? 'disabled' : null" -->
                     <label></label>
                   </div>
                 </th>
@@ -226,7 +226,7 @@
                 <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                   <td>
                     <div class="field-checkbox-wrapper">
-                      <input type="checkbox" [disabled]="row.immutableKey" class="form-checkbox" [(ngModel)]="row.assigned">
+                      <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox" [(ngModel)]="row.assigned">  <!-- [disabled]="row.immutableKey" -->
                       <label></label>
                     </div>
                   </td>

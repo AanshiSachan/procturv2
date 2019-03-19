@@ -17,7 +17,9 @@ import { ExcelService } from '../../../services/excel.service';
 
 export class ExpensesComponent implements OnInit {
 
+  permissionArray = sessionStorage.getItem('permissions');
   today: any = Date.now();
+  todayDateForEdit: any = moment(Date.now()).format("YYYY-MM-DD");
   addDate: any;
   editDate: any;
   expenseFor: boolean = false;
@@ -33,7 +35,12 @@ export class ExpensesComponent implements OnInit {
   selectedRow = "";
   filterCategory = "-1";
   filterDateRange: any;
+  limitedAccess: boolean = true;
   public isProfessional: boolean = false;
+  sortDate: any;
+  userid = sessionStorage.getItem('userid');
+  username = sessionStorage.getItem('username');
+  userType: any = Number(sessionStorage.getItem('userType'));
   expenses: any = {
     category_id: '',
     expense_type: '',
@@ -53,7 +60,8 @@ export class ExpensesComponent implements OnInit {
   expensesSearchFilter: any = {
     from_date: '',
     to_date: '',
-    categoryIds: ''
+    categoryIds: '',
+    user_id: ''
   };
 
 
@@ -82,10 +90,26 @@ export class ExpensesComponent implements OnInit {
       }
     )
 
-    this.getAllCategory();
-    this.getAllExpenses();
-  }
+    if(this.userType == 0 && this.username == "admin" || this.permissionArray.includes("715")){
+      this.expensesSearchFilter.user_id = 0;
+    }
+    else{
+      this.expensesSearchFilter.user_id = this.userid;
+    }
 
+    if(this.permissionArray.includes("715") || this.username == "admin"){
+      this.limitedAccess = true;
+    }
+    else{
+      this.limitedAccess = false;
+    }
+
+
+    this.getAllCategory();
+    this.sortDate = "this_month";
+    this.dateRangeChanges();
+    // this.getAllExpenses();
+  }
 
   getAllCategory(){
     this.expensesService.getAllCategory().subscribe(
@@ -240,14 +264,15 @@ export class ExpensesComponent implements OnInit {
   }
 
   filterExpenses(){
-    console.log(this.filterCategory);
+    // console.log(this.filterCategory);
 
     if(this.filterCategory != null && this.filterCategory != "" && this.filterCategory != "-1"){
 
       this.expensesSearchFilter = {
         from_date: '',
         to_date: '',
-        categoryIds: this.filterCategory
+        categoryIds: this.filterCategory,
+        user_id: this.userid
       }
 
       this.getAllExpenses();
@@ -285,6 +310,84 @@ export class ExpensesComponent implements OnInit {
 
   }
 
+  dateRangeChanges(e){
+    console.log(e)
+    console.log(this.sortDate);
+    this.filteredDate = false;
+    // this.filterDateRange = "";
+
+    if(this.sortDate == "all"){
+      this.filteredDate = true;
+      this.expensesSearchFilter = {
+        from_date: '',
+        to_date: '',
+        categoryIds: this.filterCategory,
+        user_id: this.userid
+      }
+    }
+    else if(this.sortDate == "last_week"){
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('week', 1).format('YYYY-MM-DD');
+      this.expensesSearchFilter = {
+        from_date: end,
+        to_date: begin,
+        categoryIds: this.filterCategory,
+        user_id: this.userid
+      }
+    }
+    else if(this.sortDate == "this_month"){
+      let begin = moment().format("YYYY-MM-01");
+      let end = moment().format("YYYY-MM-") + moment().daysInMonth();
+
+      this.expensesSearchFilter = {
+        from_date: begin,
+        to_date: end,
+        categoryIds: this.filterCategory,
+        user_id: this.userid
+      }
+    }
+    else if(this.sortDate == "last_month"){
+      let begin = moment().subtract('months', 1).format('YYYY-MM-01');
+      let end = moment().date(0).format("YYYY-MM-DD");
+      this.expensesSearchFilter = {
+        from_date: begin,
+        to_date: end,
+        categoryIds: this.filterCategory,
+        user_id: this.userid
+      }
+    }
+    else if(this.sortDate == "last_three_month"){
+      let begin = moment().format('YYYY-MM-DD');
+      let end = moment().subtract('months', 3).format('YYYY-MM-DD');
+      this.expensesSearchFilter = {
+        from_date: end,
+        to_date: begin,
+        categoryIds: this.filterCategory,
+        user_id: this.userid
+      }
+    }
+    else if(this.sortDate == "custom_date_range"){
+      this.openCalendar('dateRange');
+    }
+
+    if(this.filterCategory != null && this.filterCategory != "" && this.filterCategory != "-1"){
+      this.expensesSearchFilter.categoryIds = this.filterCategory;
+    }
+    else{
+      this.expensesSearchFilter.categoryIds= "";
+    }
+
+
+    let from_date = moment(this.expensesSearchFilter.from_date).format("DD MMM YYYY");
+    let to_date = moment(this.expensesSearchFilter.to_date).format("DD MMM YYYY");
+
+    document.getElementById("filteredDate").innerHTML = from_date+"&nbsp; To &nbsp;"+to_date;
+    // console.log(this.expensesSearchFilter);
+    this.getAllExpenses();
+
+
+  }
+
   filteredDateRange(){
 
     if(this.filterDateRange.length > 0 && this.filterDateRange[0] != null && this.filterDateRange[0] != ""){
@@ -298,20 +401,20 @@ export class ExpensesComponent implements OnInit {
         this.expensesSearchFilter = {
           from_date: moment(this.filterDateRange[0]).format("YYYY-MM-DD"),
           to_date: moment(this.filterDateRange[1]).format("YYYY-MM-DD"),
-          categoryIds: this.filterCategory
+          categoryIds: this.filterCategory,
+          user_id: this.userid
         }
       }
       else{
         this.expensesSearchFilter = {
           from_date: moment(this.filterDateRange[0]).format("YYYY-MM-DD"),
           to_date: moment(this.filterDateRange[1]).format("YYYY-MM-DD"),
-          categoryIds: ''
+          categoryIds: '',
+          user_id: this.userid
         }
       }
 
-
-      this.closeMenu();
-
+      // this.closeMenu();
       this.getAllExpenses();
     }
 
@@ -425,7 +528,8 @@ export class ExpensesComponent implements OnInit {
     this.expensesSearchFilter = {
       from_date: '',
       to_date: '',
-      categoryIds: ''
+      categoryIds: '',
+      user_id: this.userid
     }
 
     this.getAllExpenses();

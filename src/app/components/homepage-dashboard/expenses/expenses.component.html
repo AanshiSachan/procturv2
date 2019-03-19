@@ -1,7 +1,7 @@
 <div class="expenses-widget">
 
   <div class="expenses-header">
-    <span style="font-weight:bold;">Add Expense</span>
+    <span style="font-weight:bold;">Manage Expense</span>
     <!-- <span class="qInfoIcon">i</span>
     <div class="tooltip-box-field">
       Send message for todays homework OR If Last class Homework is Not Done/Incomplete
@@ -9,7 +9,7 @@
   </div>
 
   <div class="expenses-input-container">
-    <div class="expenses-radio-container">
+    <!-- <div class="expenses-radio-container">
       <div class="field-radio-wrapper">
         <input type="radio" [value]="false" [(ngModel)]="expenseFor" name="expenses" (ngModelChange)="changeExpenseType()" class="form-radio">
         <label for="expenses">Total Amount</label>
@@ -18,12 +18,12 @@
         <input type="radio" [value]="true" [(ngModel)]="expenseFor" name="expenses" (ngModelChange)="changeExpenseType()" class="form-radio">
         <label for="expenses">Quantity</label>
       </div>
-    </div>
+    </div> -->
 
     <div class="expense-form-container-for-total-amount">
       <div class="form-wrapper" >
         <select id="category" class="expense-form-ctrl select-box" name="item_cat" [(ngModel)]="expenses.category_id" (ngModelChange)="cat()">    <!--  [(ngModel)]="expensesCategory" (ngModelChange)="cat()"-->
-          <option value="" disabled  selected="selected" hidden style="color: #cbcbcb;">Item Category</option>
+          <option value="" disabled  selected="selected" hidden>Item Category</option>
           <option value="-1" class="addCategory"> + Add Category</option>
           <option value="{{category.category_id}}" *ngFor="let category of allCategory">{{category.category_name}}</option>
         </select>
@@ -36,13 +36,13 @@
 
       </div>
       <div class="form-wrapper" [hidden]="!expenseFor">
-        <input type="text" class="expense-form-ctrl" style="width:80px;" placeholder="Quantity" [(ngModel)]="expenses.total_quantity" (ngModelChange)="calculateTotalAmount()">
+        <input type="number" class="expense-form-ctrl" style="width:80px;" placeholder="Quantity" [(ngModel)]="expenses.total_quantity" (ngModelChange)="calculateTotalAmount()">
       </div>
       <div class="form-wrapper" [hidden]="!expenseFor">
-        <input type="text" class="expense-form-ctrl" style="width:80px;" placeholder="Rate" [(ngModel)]="expenses.rate_per_quantity" (ngModelChange)="calculateTotalAmount()">
+        <input type="number" class="expense-form-ctrl" style="width:80px;" placeholder="Rate" [(ngModel)]="expenses.rate_per_quantity" (ngModelChange)="calculateTotalAmount()">
       </div>
       <div class="form-wrapper">
-        <input type="text" class="expense-form-ctrl" style="width:120px;" placeholder="Total Amount" [(ngModel)]="expenses.total_amount">
+        <input type="number" class="expense-form-ctrl" style="width:120px;" placeholder="Total Amount" [(ngModel)]="expenses.total_amount"><br>
       </div>
       <div class="form-wrapper calendar-container">
        <span id="changeDate">{{today | date: 'dd MMM yyyy'}}</span> &nbsp;&nbsp;
@@ -54,28 +54,52 @@
         <button class="btn fullBlue" (click)="addExpense()">Add &nbsp;&nbsp;+</button>
       </div>
     </div>
+
+    <div class="field-checkbox-wrapper" style="display: inline-block;left: 22.5%;margin:5px;">
+      <input type="checkbox" name="expenses" [(ngModel)]="expenseFor" [value]="false" class="form-checkbox" id="qun">
+      <label for="qun">Quantity</label>
+    </div>
   </div>
 
   <div class="expenses-search-and-filter-container">
     <div class="expense-search-container">
       <select id="filterCategoryByName" class="filterCategoryByItem select-box" name="filterCategoryByName" [(ngModel)]="filterCategory" (ngModelChange)="filterExpenses()">
-        <!-- <option value="" disabled  selected="selected" hidden style="color: #cbcbcb;">Filter Category</option> -->
-        <option value="-1" selected="selected">Filter Category</option>
+        <option value="-1" selected="selected">Filter By Category</option>
+        <!-- <option value="-1" disabled  selected="selected" hidden>Filter By Category</option> -->
         <option value="{{category.category_id}}" *ngFor="let category of allCategory">{{category.category_name}}</option>
       </select>
+    </div>
 
+    <div class="sort-by-date-container">
+      <select id="sortDate" class="filterCategoryByItem select-box" name="sortDate" [(ngModel)]="sortDate" (ngModelChange)="dateRangeChanges()">
+        <!-- <option value="" disabled  selected="selected" hidden>Sort By Date</option> -->
+        <option value="-1" disabled  selected="selected" hidden>Filter By Date</option>
+        <option value="last_week">Last 7 Days</option>
+        <option value="this_month">This Month</option>
+        <option value="last_month">Last Month</option>
+        <option value="last_three_month">Last 3 months</option>
+        <option value="custom_date_range">Custom Date range</option>
+        <option value="all">All</option>
+      </select>
     </div>
 
     <div class="selected-date-range-container" [hidden]="filteredDate">
       <!-- <span style="font-weight: 600;">Date Range :</span> &nbsp;&nbsp; -->
-      <span id="filteredDate"></span>&nbsp;&nbsp;
-      <span (click)="resetSortByDate()" style="color:#87c0f9;cursor:pointer;text-decoration: underline;">clear</span>
+      <span id="filteredDate"></span>
+      <!-- <span (click)="resetSortByDate()" style="color:#87c0f9;cursor:pointer;text-decoration: underline;">clear</span> -->
     </div>
 
     <input  type="text" value="" id="dateRange" class="widgetDatepicker bsDatepicker" name="addDate"
       readonly="true" bsDaterangepicker  style="width:0px;margin-right: 10px;" [(ngModel)]="filterDateRange" (ngModelChange)="filteredDateRange()"/>
 
-    <div class="expense-filter-container">
+    <div class="export-excel-container">
+      <button type="button" name="button" (click)="downloadExpenses()" class="export-excel">
+        <i class="fa fa-file-excel-o" style="cursor: pointer;color: #1283f4;font-weight:bold;"></i>
+        &nbsp;
+      </button>
+    </div>
+
+    <!-- <div class="expense-filter-container">
       <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu(i)">
         <span class="svg-icon-wrap">
           <span class="visually-hidden"></span>
@@ -108,7 +132,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 
@@ -116,21 +140,20 @@
     <table>
       <thead>
         <tr style="height: 35px;" id="table-header" class="displayComp">
-          <th>Sr. No.</th>
           <th>Item</th>
           <th>Quantity</th>
           <th>Rate</th>
           <th>Total</th>
           <th>Date</th>
+          <th *ngIf="limitedAccess">Source</th>
+          <!-- <th *ngIf="limitedAccess">Remarks</th> -->
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let expense of allExpenses; let i = index" id="row{{i}}" class="displayComp">
-          <td style="text-align: center;">
-            <span> {{i + 1}}</span>
-          </td>
 
+          <!-- Item name -->
           <td class="edit-comp">
             <select id="" class="expense-edit-form-ctrl edit-select-box" name="item_cat" [(ngModel)]="editExpense.category_id">    <!--  [(ngModel)]="expensesCategory" (ngModelChange)="cat()"-->
               <option value="" disabled  selected="selected" hidden style="color: #cbcbcb;">Item Category</option>
@@ -141,33 +164,33 @@
             <span>{{expense.category_name}}</span>
           </td>
 
-
+          <!-- Rate -->
           <td class="edit-comp">
-            <input type="text" class="expense-edit-form-ctrl" placeholder="Quantity" [(ngModel)]="editExpense.total_quantity" *ngIf="editExpense.expense_type == 1">
+            <input type="number" class="expense-edit-form-ctrl" placeholder="Quantity" [(ngModel)]="editExpense.total_quantity" *ngIf="editExpense.expense_type == 1">
           </td>
           <td class="view-comp" style="text-align: center;">
             <span *ngIf="expense.total_quantity == null || expense.total_quantity == '' || expense.total_quantity == 0">-</span>
             <span *ngIf="expense.total_quantity != null && expense.total_quantity != '' && expense.total_quantity != 0">{{expense.total_quantity}}</span>
           </td>
 
-
+          <!-- Quantity -->
           <td class="edit-comp">
-            <input type="text" class="expense-edit-form-ctrl"  placeholder="Rate" [(ngModel)]="editExpense.rate_per_quantity"  *ngIf="editExpense.expense_type == 1">
+            <input type="number" class="expense-edit-form-ctrl"  placeholder="Rate" [(ngModel)]="editExpense.rate_per_quantity"  *ngIf="editExpense.expense_type == 1">
           </td>
           <td class="view-comp" style="text-align: center;">
             <span *ngIf="expense.rate_per_quantity == null || expense.rate_per_quantity == '' || expense.rate_per_quantity == 0">-</span>
             <span *ngIf="expense.rate_per_quantity != null && expense.rate_per_quantity != '' && expense.rate_per_quantity != 0">{{expense.rate_per_quantity}}</span>
           </td>
 
-
+          <!-- Total Amount -->
           <td class="edit-comp">
-            <input type="text" style="width:120px;" class="expense-edit-form-ctrl" placeholder="Total Amount" [(ngModel)]="editExpense.total_amount">
+            <input type="number" style="width:120px;" class="expense-edit-form-ctrl" placeholder="Total Amount" [(ngModel)]="editExpense.total_amount">
           </td>
           <td class="view-comp" style="text-align: center;">
             <span >{{expense.total_amount}}</span>
           </td>
 
-
+          <!-- Added Date -->
           <td class="edit-comp" style="position: relative;">
             <span id="changeDate_{{i}}">{{expense.added_date}}</span>
             <input  type="text" value="" id="editDate" class="widgetDatepicker bsDatepicker" name="editDate"
@@ -178,6 +201,22 @@
             <span id="editDate">{{expense.added_date}}</span>
           </td>
 
+          <!-- Source -->
+          <td class="edit-comp" *ngIf="limitedAccess">
+            <span>{{expense.userName}}</span>
+          </td>
+          <td class="view-comp" *ngIf="limitedAccess">
+            <span id="debitFrom">{{expense.userName}}</span>
+          </td>
+
+          <!-- Remarks -->
+          <!-- <td class="edit-comp" *ngIf="limitedAccess">
+            <input type="text" style="width:120px;" class="expense-edit-form-ctrl" placeholder="Enter Remarks" [(ngModel)]="editExpense.total_amount">
+          </td>
+          <td class="view-comp" *ngIf="limitedAccess">
+            <span id="">{{expense.userName}}</span>
+          </td> -->
+
           <td class="table-action edit-comp">
             <a style="cursor:pointer" (click)="updateRow(expense.expense_id)">
               <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
@@ -186,8 +225,11 @@
               <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
             </a>
           </td>
-          <td class="view-comp">
+          <td class="view-comp" *ngIf="expense.created_date == todayDateForEdit && userType == 0 || username == 'admin'">
             <i class="fa fa-pencil"  title="Edit Expense" style="color: #1283f4; cursor:pointer;" (click)="editCurrentExpense(i,expense)"></i>
+          </td>
+          <td class="view-comp" *ngIf="expense.created_date != todayDateForEdit">
+            <!-- <i class="fa fa-pencil"  title="Edit Expense" style="color: #1283f4; cursor:pointer;" (click)="editCurrentExpense(i,expense)"></i> -->
           </td>
         </tr>
 
