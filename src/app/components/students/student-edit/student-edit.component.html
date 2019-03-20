@@ -284,7 +284,7 @@
 
                 <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != '-1'}">
                   <label for="masterCourse">Master Course</label>
-                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
+                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id"
                     class="form-ctrl">
                     <option value="-1"></option>
                     <option *ngFor="let course of standardList" [value]="course.standard_id">
