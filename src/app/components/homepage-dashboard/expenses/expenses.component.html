@@ -94,7 +94,7 @@
 
     <div class="export-excel-container">
       <button type="button" name="button" (click)="downloadExpenses()" class="export-excel">
-        <i class="fa fa-file-excel-o" style="cursor: pointer;color: #1283f4;font-weight:bold;"></i>
+        <i class="fa fa-file-excel-o" style="font-size:20px;float:right;display:inline-block;"></i>
         &nbsp;
       </button>
     </div>
@@ -225,7 +225,7 @@
               <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
             </a>
           </td>
-          <td class="view-comp" *ngIf="expense.created_date == todayDateForEdit && userType == 0 || username == 'admin'">
+          <td class="view-comp" *ngIf="expense.created_date == todayDateForEdit || limitedAccess">
             <i class="fa fa-pencil"  title="Edit Expense" style="color: #1283f4; cursor:pointer;" (click)="editCurrentExpense(i,expense)"></i>
           </td>
           <td class="view-comp" *ngIf="expense.created_date != todayDateForEdit">

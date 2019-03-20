@@ -34,11 +34,11 @@ export class ExpensesComponent implements OnInit {
   noRecord: boolean = false;
   selectedRow = "";
   filterCategory = "-1";
-  filterDateRange: any;
+  filterDateRange: any = "";
   limitedAccess: boolean = true;
   public isProfessional: boolean = false;
   sortDate: any;
-  userid = sessionStorage.getItem('userid');
+  userid:any = sessionStorage.getItem('userid');
   username = sessionStorage.getItem('username');
   userType: any = Number(sessionStorage.getItem('userType'));
   expenses: any = {
@@ -90,8 +90,9 @@ export class ExpensesComponent implements OnInit {
       }
     )
 
-    if(this.userType == 0 && this.username == "admin" || this.permissionArray.includes("715")){
+    if(this.username == "admin" || this.permissionArray.includes("715")){
       this.expensesSearchFilter.user_id = 0;
+      this.userid = 0;
     }
     else{
       this.expensesSearchFilter.user_id = this.userid;
@@ -114,7 +115,6 @@ export class ExpensesComponent implements OnInit {
   getAllCategory(){
     this.expensesService.getAllCategory().subscribe(
       res => {
-        console.log(res)
         this.allCategory = res;
       },
       err => {
@@ -226,39 +226,76 @@ export class ExpensesComponent implements OnInit {
       this.expenses.expense_type = 0;
     }
 
-    if(this.expenses.category_id != "" && this.expenses.category_id != ""){
-      this.expensesService.addExpense(this.expenses).subscribe(
-        res => {
-          this.expenses = {
-            category_id: '',
-            expense_type: '',
-            total_quantity: '',
-            rate_per_quantity: '',
-            added_date: '',
-            total_amount: ''
-          }
-          let obj = {
-            type: 'success',
-            title: 'Expense Added Successfully',
-            body: ''
-          }
-          this.appC.popToast(obj);
-          this.addDate = Date.now();
-          this.getAllExpenses();
-        },
-        err => {
-          console.log(err)
+    let validation_flag = true;
+    if(this.expenses.total_amount == "" || this.expenses.total_amount == null){
+      validation_flag = false;
+    }
+    if(this.expenseFor){
+      if(this.expenses.total_quantity == "" || this.expenses.total_quantity == null){
+        let obj = {
+          type: 'error',
+          title: 'Enter Total Quantity',
+          body: ''
         }
-      )
+        this.appC.popToast(obj);
+        return;
+      }
+      if(this.expenses.rate_per_quantity == "" || this.expenses.rate_per_quantity == null){
+        let obj = {
+          type: 'error',
+          title: 'Enter Rate per Quantity',
+          body: ''
+        }
+        this.appC.popToast(obj);
+        return;
+      }
+    }
+
+    if(validation_flag){
+      if(this.expenses.category_id != "" && this.expenses.category_id != ""){
+        this.expensesService.addExpense(this.expenses).subscribe(
+          res => {
+            this.expenses = {
+              category_id: '',
+              expense_type: '',
+              total_quantity: '',
+              rate_per_quantity: '',
+              added_date: '',
+              total_amount: ''
+            }
+            let obj = {
+              type: 'success',
+              title: 'Expense Added Successfully',
+              body: ''
+            }
+            this.appC.popToast(obj);
+            this.addDate = Date.now();
+            this.getAllExpenses();
+          },
+          err => {
+            console.log(err)
+          }
+        )
+      }
+      else{
+        let obj = {
+          type: 'error',
+          title: 'Choose Item Category',
+          body: ''
+        }
+        this.appC.popToast(obj);
+      }
     }
     else{
       let obj = {
         type: 'error',
-        title: 'Choose Item Category',
+        title: 'Enter Total Amount',
         body: ''
       }
       this.appC.popToast(obj);
     }
+
+
 
 
   }
@@ -310,9 +347,7 @@ export class ExpensesComponent implements OnInit {
 
   }
 
-  dateRangeChanges(e){
-    console.log(e)
-    console.log(this.sortDate);
+  dateRangeChanges(){
     this.filteredDate = false;
     // this.filterDateRange = "";
 
@@ -421,7 +456,6 @@ export class ExpensesComponent implements OnInit {
   }
 
   editCurrentExpense(row_no, expense){
-    console.log(row_no)
     this.isShow = true;
     this.isEdit = false;
 
@@ -457,7 +491,6 @@ export class ExpensesComponent implements OnInit {
           body: ''
         }
         this.appC.popToast(obj);
-        console.log(res);
         this.getAllExpenses();
       },
       err => {

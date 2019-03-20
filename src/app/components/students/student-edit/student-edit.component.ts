@@ -1144,8 +1144,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         }
         if (this.btnContinueDetailPage != undefined) {
-          this.btnContinueDetailPage.nativeElement.disabled = true;
+          this.btnContinueDetailPage.nativeElement.disabled = false;
         }
+  
         /* For Batch Model Fetch the Student Batches */
         if (this.isProfessional) {
           /* Fetching the student Slots */
@@ -1194,51 +1195,51 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
         }
         /* For Course Model fetch the Student Courses */
-        else {
-          this.studentPrefillService.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
-            res => {
-              if (this.btnContinueDetailPage != undefined) {
-                this.btnContinueDetailPage.nativeElement.disabled = false;
-              }
-              this.batchList = [];
-              if (res.coursesList != null) {
-                res.coursesList.forEach(el => {
-                  if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-                    el.feeTemplateList.forEach(e => {
-                      if (e.is_default == 1) {
-                        el.selected_fee_template_id = e.template_id;
-                      }
-                    })
-                  }
-                  if (el.academic_year_id == '-1') {
-                    el.academic_year_id = this.defaultAcadYear;
-                  }
-                  // console.log(el, 'update form el');
-                  let obj = {
-                    isSelected: el.isAssigned == "Y" ? true : false,
-                    data: el,
-                    assignDate: this.getAssignDate(el.created_date)
-                  }
-                  this.batchList.push(obj);
-                });
-              }
-              this.updateAssignedBatches(this.batchList);
-            },
-            err => {
-              if (this.btnContinueDetailPage != undefined) {
-                this.btnContinueDetailPage.nativeElement.disabled = false;
-              }
-              let msg = err.error.message;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
-            }
-          );
-        }
+        // else {
+        //   this.studentPrefillService.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
+        //     res => {
+        //       if (this.btnContinueDetailPage != undefined) {
+        //         this.btnContinueDetailPage.nativeElement.disabled = false;
+        //       }
+        //       this.batchList = [];
+        //       if (res.coursesList != null) {
+        //         res.coursesList.forEach(el => {
+        //           if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+        //             el.feeTemplateList.forEach(e => {
+        //               if (e.is_default == 1) {
+        //                 el.selected_fee_template_id = e.template_id;
+        //               }
+        //             })
+        //           }
+        //           if (el.academic_year_id == '-1') {
+        //             el.academic_year_id = this.defaultAcadYear;
+        //           }
+        //           // console.log(el, 'update form el');
+        //           let obj = {
+        //             isSelected: el.isAssigned == "Y" ? true : false,
+        //             data: el,
+        //             assignDate: this.getAssignDate(el.created_date)
+        //           }
+        //           this.batchList.push(obj);
+        //         });
+        //       }
+        //       this.updateAssignedBatches(this.batchList);
+        //     },
+        //     err => {
+        //       if (this.btnContinueDetailPage != undefined) {
+        //         this.btnContinueDetailPage.nativeElement.disabled = false;
+        //       }
+        //       let msg = err.error.message;
+        //       this.isRippleLoad = false;
+        //       let obj = {
+        //         type: 'error',
+        //         title: msg,
+        //         body: ""
+        //       }
+        //       this.appC.popToast(obj);
+        //     }
+        //   );
+        // }
       },
       err => {
         let al = {
