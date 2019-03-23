@@ -94,7 +94,7 @@
 
     <div class="export-excel-container">
       <button type="button" name="button" (click)="downloadExpenses()" class="export-excel">
-        <i class="fa fa-file-excel-o" style="font-size:20px;float:right;display:inline-block;"></i>
+        <i class="fa fa-file-excel-o" style="font-size:20px;float:right;display:inline-block;" title="Export to Excel"></i>
         &nbsp;
       </button>
     </div>
@@ -170,7 +170,7 @@
           </td>
           <td class="view-comp" style="text-align: center;">
             <span *ngIf="expense.total_quantity == null || expense.total_quantity == '' || expense.total_quantity == 0">-</span>
-            <span *ngIf="expense.total_quantity != null && expense.total_quantity != '' && expense.total_quantity != 0">{{expense.total_quantity}}</span>
+            <span *ngIf="expense.total_quantity != null && expense.total_quantity != '' && expense.total_quantity != 0">{{expense.total_quantity | number: '2.0'}}</span>
           </td>
 
           <!-- Quantity -->
@@ -179,7 +179,7 @@
           </td>
           <td class="view-comp" style="text-align: center;">
             <span *ngIf="expense.rate_per_quantity == null || expense.rate_per_quantity == '' || expense.rate_per_quantity == 0">-</span>
-            <span *ngIf="expense.rate_per_quantity != null && expense.rate_per_quantity != '' && expense.rate_per_quantity != 0">{{expense.rate_per_quantity}}</span>
+            <span *ngIf="expense.rate_per_quantity != null && expense.rate_per_quantity != '' && expense.rate_per_quantity != 0">{{expense.rate_per_quantity | number: '2.0'}}</span>
           </td>
 
           <!-- Total Amount -->
@@ -187,7 +187,7 @@
             <input type="number" style="width:120px;" class="expense-edit-form-ctrl" placeholder="Total Amount" [(ngModel)]="editExpense.total_amount">
           </td>
           <td class="view-comp" style="text-align: center;">
-            <span >{{expense.total_amount}}</span>
+            <span >{{expense.total_amount | number: '2.0'}}</span>
           </td>
 
           <!-- Added Date -->
@@ -244,7 +244,7 @@
 
   <div class="total-expenses-container">
     <span>Total Expense </span>
-    <span class="total-expense-value">Rs {{total_expense}}/-</span>
+    <span class="total-expense-value">Rs {{total_expense | number}}/-</span>
   </div>
 
 </div>
