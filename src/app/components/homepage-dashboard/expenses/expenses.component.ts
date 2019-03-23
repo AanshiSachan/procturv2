@@ -145,6 +145,7 @@ export class ExpensesComponent implements OnInit {
     )
   }
 
+
   cat(){
     if(this.expenses.category_id == -1){
       document.getElementById(("category").toString()).classList.add('hide');
