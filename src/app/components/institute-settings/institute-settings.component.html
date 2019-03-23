@@ -1539,7 +1539,7 @@
                                 </div>
                               </div>
                             </label>
-                            <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" id="panCard">
+                            <input type="text"  [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" id="panCard">
                           </div>
                         </div>
 
@@ -2053,14 +2053,14 @@
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
-                              <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox" [(ngModel)]="instituteSettingDet.user_registration_send_sms"
+                              <input type="checkbox" value="" name="usRegSendSms" class="form-checkbox" [(ngModel)]="instituteSettingDet.user_registration_otp_via_sms"
                                 id="usRegSendSms">
                               <label for="usRegSendSms">Send OTP via SMS</label>
                             </div>
                           </div>
                           <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="field-checkbox-wrapper" style="width: 100%">
-                              <input type="checkbox" value="" name="usRegSendEmail" class="form-checkbox" [(ngModel)]="instituteSettingDet.user_registration_send_email"
+                              <input type="checkbox" value="" name="usRegSendEmail" class="form-checkbox" [(ngModel)]="instituteSettingDet.user_registration_otp_via_email"
                                 id="usRegSendEmail">
                               <label for="usRegSendEmail">Send OTP via Email</label>
                             </div>
@@ -2165,7 +2165,7 @@
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
-                              <input type="checkbox" value="" name="dailyEnq" [(ngModel)]="instituteSettingDet.enable_daily_enquiry_routing_report" class="form-checkbox"
+                              <input type="checkbox" value="" name="dailyEnq" [(ngModel)]="instituteSettingDet.enable_justDial_routing_report" class="form-checkbox"
                                 id="dailyEnq">
                               <label for="dailyEnq">Enable Daily Enquiry Routing Report of External Leads
                                 <div class="questionInfo inline-relative">
@@ -2193,7 +2193,7 @@
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
                             <label for="instenquiry">Enter email contacts of Receiver (Comma seperated):
                             </label>
-                            <input type="text" [(ngModel)]="instituteSettingDet.email_contact_of_receiver" class="form-ctrl" id="ecor">
+                            <input type="text" [(ngModel)]="instituteSettingDet.emailIds_for_justDail_ext_lead" class="form-ctrl" id="ecor">
                           </div>
                         </div>
 
@@ -2205,7 +2205,7 @@
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
-                              <input type="checkbox" value="" name="dailyEnq" [(ngModel)]="instituteSettingDet.assign_teacher_for_parallel_classes" class="form-checkbox"
+                              <input type="checkbox" value="" name="dailyEnq" [(ngModel)]="instituteSettingDet.enable_teacher_for_multiple_class" class="form-checkbox"
                                 id="dailyEnq">
                               <label for="dailyEnq">Assign Teacher for parallel classes
                                 <div class="questionInfo inline-relative">
@@ -2227,7 +2227,7 @@
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
-                              <input type="checkbox" value="" name="dailyEnq" [(ngModel)]="instituteSettingDet.allow_ecourse_and_course_mapping" class="form-checkbox"
+                              <input type="checkbox" value="" name="dailyEnq" [(ngModel)]="instituteSettingDet.enable_elearn_course_mapping_feature" class="form-checkbox"
                                 id="dailyEnq">
                               <label for="dailyEnq">Allow eCourse (eLearn Course) and Course Mapping
                                 <div class="questionInfo inline-relative">

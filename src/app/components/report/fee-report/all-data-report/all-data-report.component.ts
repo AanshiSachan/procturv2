@@ -35,7 +35,7 @@ export class AllDataReportComponent implements OnInit {
   subjectList: any[] = [];
   batchList: any[] = [];
   feeDataSource: any[] = []
-  displayKeys: any = [];//need for selected keys 
+  displayKeys: any = [];//need for selected keys
 
   selectedFeeRecord: any;
   installmentList: any;
@@ -119,12 +119,12 @@ export class AllDataReportComponent implements OnInit {
     actionSetting:
     {
       showActionButton: true,
-      editOption: 'popup',//or button 
+      editOption: 'popup',//or button
       options: this.menuOptions
     },
     displayMessage: "Enter Detail to Search"
     // {
-    //     editOption: 'button',//or button 
+    //     editOption: 'button',//or button
     //     options: [{ title: "update", class: 'fa fa-check updateCss' }
     //         , { title: "delete", class: 'fa fa-remove deleteCss' }]
     // }
@@ -383,7 +383,7 @@ export class AllDataReportComponent implements OnInit {
       if (d >= 0) {
         return true;
       }
-      else {      
+      else {
         this._msgService.showErrorMessage(this._msgService.toastTypes.error, 'From date cannot be more than to date',"")
         return false;
       }
@@ -441,7 +441,7 @@ export class AllDataReportComponent implements OnInit {
     classArray.forEach((classname)=>{
       document.getElementById(classname).classList.remove('active');
     });
-    document.getElementById(id).classList.add('active');   
+    document.getElementById(id).classList.add('active');
   }
 
   // fetchSubjectList() {
@@ -578,9 +578,9 @@ export class AllDataReportComponent implements OnInit {
     if (id == 'from') {
       let selected = moment(this.courseFetchForm.from_date);
       let v = today.diff(selected, 'days');
-      if (v < 0) {       
+      if (v < 0) {
         this._msgService.showErrorMessage(this._msgService.toastTypes.info,'Future date cannot be selected',"")
-        
+
         this.courseFetchForm.from_date = moment(new Date()).format('DD-MMM-YYYY');
       }
     }
@@ -637,7 +637,7 @@ export class AllDataReportComponent implements OnInit {
   }
 
   dateRangeChanges(e) {
-    console.log(this.due_type);
+    // console.log(this.due_type);
     this.showPopupKeys.isCustomDate = false;
     this.courseFetchForm.standard_id = '-1';
     this.courseFetchForm.subject_id = '-1';
@@ -707,7 +707,7 @@ export class AllDataReportComponent implements OnInit {
       this.courseFetchForm.type = "1";
       this.showPopupKeys.isCustomDate = true;
     }
-    else if (this.due_type == '-1') {    
+    else if (this.due_type == '-1') {
       this._msgService.showErrorMessage(this._msgService.toastTypes.error,"","Please select dues" );
     }
 
@@ -748,26 +748,29 @@ export class AllDataReportComponent implements OnInit {
     this.selectedRecordsList = rec;
   }
 
-  /** send sms to student about dues   
-   * created by laxmi 
+  /** send sms to student about dues
+   * created by laxmi
   */
-  sendBulkSms(event) { 
-    if(event.data.length==0){
+  sendBulkSms(event) {
+    if(event.data.length == 0){
       this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',"Select record to send due sms");
      return;
-    } 
-    if (confirm("Are you sure u want to send Fee Dues SMS to the selected students?")) {
+    }
+    if (confirm("Due SMS shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
       let arr: any[] = event.data.map(e => {
-        return e.student_id;
+        if(e.total_balance_amt != 0){
+          return e.student_id;
+        }
       });
+      arr.toString().replace(',',' ')
       let obj = {
         delivery_mode: 0,
         institution_id: '',
         student_ids: arr.join(',')
       }
       this._putter.sendBulkSMS(obj).subscribe(
-        res => {    
-         console.log(res);
+        res => {
+         // console.log(res);
           this._msgService.showErrorMessage(this._msgService.toastTypes.success, '',res.message);
         },
         err => {
@@ -777,12 +780,12 @@ export class AllDataReportComponent implements OnInit {
     }
   }
 
-  
+
   /**
-   * send bulk sms to student about thier fine 
+   * send bulk sms to student about thier fine
    */
   sendBulkFineSms() {
-    if (confirm("Are you sure u want to send Fine SMS to the selected students?")) {
+    if (confirm("Are you sure you want to send Fine SMS to the selected students?")) {
       let arr: any[] = this.selectedRecordsList.map(e => {
         return e.student_id;
       });
@@ -833,4 +836,3 @@ export class AllDataReportComponent implements OnInit {
   }
 
 }
-
