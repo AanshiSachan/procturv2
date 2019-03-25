@@ -69,6 +69,7 @@ export class AdminHomeComponent implements OnInit {
   selectedType: string = "course";
   biometricEnable: string = "0";
   newMessageText: string = "";
+  messageCount: number = 0;
 
   courseCommonExamCancelPopUP = false;
   examMerkMassUpload = false;
@@ -1583,6 +1584,31 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = true;
   }
 
+  hasUnicode (str) {
+    for (var i = 0; i < str.length; i++) {
+        if (str.charCodeAt(i) > 127) return true;
+    }
+    return false;
+  }
+  countNumberOfMessage(){
+    let uniCodeFlag = this.hasUnicode(this.newMessageText);
+    let charLimit = 160;
+    if(uniCodeFlag){
+      charLimit = 70
+    }
+    if(this.newMessageText.length == 0){
+      this.messageCount = 0;
+    }
+    else if(this.newMessageText.length > 0 && this.newMessageText.length <= charLimit){
+      this.messageCount = 1;
+    }
+    else{
+      let count = Math.ceil(this.newMessageText.length / charLimit);
+      console.log(count);
+      this.messageCount = count;
+    }
+  }
+
   saveNewMessage() {
     let obj = { message: this.newMessageText };
     this.widgetService.saveMessageTOServer(obj).subscribe(
@@ -1611,6 +1637,7 @@ export class AdminHomeComponent implements OnInit {
   closeNewMessageDiv() {
     this.addNotification = false;
     this.newMessageText = "";
+    this.messageCount = 0;
   }
 
   selectTabMenu(id, div) {

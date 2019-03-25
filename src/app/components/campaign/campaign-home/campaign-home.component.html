@@ -434,13 +434,16 @@
               <div class="row">
                 <div class="c-cm-6 c-md-6 c-lg-6">
                   <div class="field-wrapper">
-                    <textarea class="form-ctrl textBox" value="" [(ngModel)]="messageText" placeholder="Message/SMS" style="height:50px"></textarea>
-                    <p>Total Character Count : {{messageText.length}}</p>
+                    <textarea class="form-ctrl textBox" value="" [(ngModel)]="messageText" (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS" style="height:50px"></textarea>
+                    <div style="width=100%; display:flex; justify-content:space-between;">
+                      <span>Character Count : {{messageText.length}}</span>
+                      <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
+                    </div>
                   </div>
                 </div>
                 <div class="c-cm-2 c-md-2 c-lg-2 spanTagInfo">
                   <div class="questionInfo inline-relative">
-                    <span class=" i-class noteCss" >i</span>
+                    <span class="qInfoIcon i-class" style="    border: 1px solid #0084f6;  color:#0084f6">i</span>
                     <div class="tooltip-box-field md">
                       Note: Message having apostrophe or any other special
                       <br> character willbe treated as unicode message.
