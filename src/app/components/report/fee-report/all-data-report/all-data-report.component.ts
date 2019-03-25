@@ -757,16 +757,23 @@ export class AllDataReportComponent implements OnInit {
      return;
     }
     if (confirm("Due SMS shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
-      let arr: any[] = event.data.map(e => {
-        if(e.total_balance_amt != 0){
+      let filtered = [];
+      let arr: any[] = event.data.filter(e => {
+        if(e.total_balance_amt != 0 ){
+          filtered.push(e.student_id);
           return e.student_id;
         }
       });
-      arr.toString().replace(',',' ')
+
+      let student_ids = [];
+      for (let i = 0; i < filtered.length; i++) {
+        student_ids.push(filtered[i])
+      }
+
       let obj = {
         delivery_mode: 0,
         institution_id: '',
-        student_ids: arr.join(',')
+        student_ids: student_ids.join()
       }
       this._putter.sendBulkSMS(obj).subscribe(
         res => {

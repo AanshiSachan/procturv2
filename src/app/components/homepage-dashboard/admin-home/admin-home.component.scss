@@ -259,6 +259,9 @@ fieldset {
         padding: 10px;
     }
 }
+.red{
+  color: red;
+}
 
 .closePopup {
     right: 4%;
@@ -1939,6 +1942,11 @@ div#enqChart {
                 margin-top: 5px;
                 font-size: 15px;
                 font-weight: 400;
+            }
+            .note-section{
+              span{
+                font-size: 12px;
+              }
             }
             .btn-Group {
                 padding-top: 50px;

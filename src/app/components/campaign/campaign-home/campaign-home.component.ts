@@ -160,6 +160,7 @@ export class CampaignHomeComponent implements OnInit {
   addEditPromotional: boolean = false;
   createNew: boolean = false;
   messageText: any = "";
+  messageCount: number = 0;
   enableApprove = sessionStorage.getItem('allow_sms_approve_feature');
   isAdmin = sessionStorage.getItem('permissions');
 
@@ -576,7 +577,7 @@ export class CampaignHomeComponent implements OnInit {
           this.showErrorMessage(this.msgService.toastTypes.success, this.msgService.object.SMSMessages.sendSMS, '');
         },
         error => {
-          //console.log(error);        
+          //console.log(error);
           this.showErrorMessage(this.msgService.toastTypes.error, error.statusText, JSON.parse(error._body).message);
         }
       );
@@ -689,7 +690,7 @@ export class CampaignHomeComponent implements OnInit {
 
   ///////PAGINATION/////////////////
 
-  // pagination functions 
+  // pagination functions
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
@@ -798,6 +799,32 @@ export class CampaignHomeComponent implements OnInit {
     this.createNew = false;
   }
 
+  hasUnicode (str) {
+    for (var i = 0; i < str.length; i++) {
+        if (str.charCodeAt(i) > 127) return true;
+    }
+    return false;
+  }
+
+  countNumberOfMessage(){
+    let uniCodeFlag = this.hasUnicode(this.messageText);
+    let charLimit = 160;
+    if(uniCodeFlag){
+      charLimit = 70
+    }
+    if(this.messageText.length == 0){
+      this.messageCount = 0;
+    }
+    else if(this.messageText.length > 0 && this.messageText.length <= charLimit){
+      this.messageCount = 1;
+    }
+    else{
+      let count = Math.ceil(this.messageText.length / charLimit);
+      console.log(count);
+      this.messageCount = count;
+    }
+  }
+
   addNewMessage() {
     if (this.messageText.trim() != "" && this.messageText.trim() != null) {
       let test = {
@@ -809,6 +836,7 @@ export class CampaignHomeComponent implements OnInit {
           this.showErrorMessage(this.msgService.toastTypes.success, "Added", "Added Successfully");
           this.getSMSList('');
           this.messageText = "";
+          this.messageCount = 0;
           this.closeAddDiv();
         },
         err => {
@@ -855,16 +883,9 @@ export class CampaignHomeComponent implements OnInit {
     }
   }
 
-  // toast function 
+  // toast function
   showErrorMessage(objType, massage, body) {
     this.msgService.showErrorMessage(objType, massage, body);
   }
 
 }
-
-
-
-
-
-
-

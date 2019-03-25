@@ -934,9 +934,12 @@
         <div class="add-notificaton-wrapper" *ngIf="addNotification">
           <div class="row">
             <div class="c-sm-4 c-md-4 c-lg-4">
-              <div class="field-wrapper">
-                <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText" placeholder="Message/SMS"></textarea>
-                <p>Total Character Count : {{newMessageText.length}}</p>
+              <div class="field-wrapper" style="padding-top:0px;">
+                <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS"></textarea>
+                <div style="width=100%; display:flex; justify-content:space-between;">
+                  <span>Character Count : {{newMessageText.length}}</span>
+                  <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
+                </div>
               </div>
             </div>
             <div class="c-sm-5 c-md-5 c-lg-5 note-section">
