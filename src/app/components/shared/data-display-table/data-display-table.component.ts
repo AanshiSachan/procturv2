@@ -131,8 +131,10 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   // this function is used for select or deselect all checkbox
   toggleAllCheckBox() {
     this.displayKeys.selectAll.checked = !this.displayKeys.selectAll.checked;
+    this.selectedRecord = [];
     this.recordsTrimmed.forEach(element => {
       element.checked = this.displayKeys.selectAll.checked;
+      this.selectedRecord.push(element);
     });
   }
 
@@ -168,7 +170,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           let sortedArray = this.recordsTrimmed.sort((obj1, obj2) => {
             let a = obj1[key.primaryKey];
             let b = obj2[key.primaryKey];
-            // for case insensitive compare 
+            // for case insensitive compare
             if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
               a = obj1[key.primaryKey].toLowerCase();
               b = obj2[key.primaryKey].toLowerCase();
@@ -300,7 +302,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       return value;
   }
 
-  // convert string as type 
+  // convert string as type
   checkValueType(value: any) {
 
     if (/^\d{2}([-])[a-zA-Z]{3}([-])\d{4}/.test(value)) { //date
@@ -368,7 +370,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
   fectchTableDataByPage($event) {
     this.recordsTrimmed = this._paginationService.fectchTableDataByPage($event, Object.assign([], this.displayData));
-    // console.log(this.recordsTrimmed,this.displayData);    
+    // console.log(this.recordsTrimmed,this.displayData);
     this.sortKey.type = null;
     this.sortData(this.sortKey);
 
@@ -397,7 +399,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     let sortedArray = this.recordsTrimmed.sort((obj1, obj2) => {
       let a = obj1[key.primaryKey];
       let b = obj2[key.primaryKey];
-      // for case insensitive compare 
+      // for case insensitive compare
       if ((typeof obj1[key.primaryKey] === "string") && (obj1[key.primaryKey] != null && obj2[key.primaryKey] != null)) {
         a = obj1[key.primaryKey].toLowerCase();
         b = obj2[key.primaryKey].toLowerCase();
