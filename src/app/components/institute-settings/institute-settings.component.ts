@@ -289,7 +289,7 @@ export class InstituteSettingsComponent implements OnInit {
         this.test_series_feature = res.test_series_feature;
         this.fillJSONData(res);
         console.log(res);
-        
+
       },
       err => {
         this.isRippleLoad = false;
@@ -367,14 +367,16 @@ export class InstituteSettingsComponent implements OnInit {
     obj.tax_payable_on_reverse_charge_basis = this.convertBoolenToNumber(this.instituteSettingDet.tax_payable_on_reverse_charge_basis);
     obj.home_work_feature_enable = this.convertBoolenToNumber(this.instituteSettingDet.home_work_feature_enable);
     obj.absenteeism_report_flag = this.convertBoolenToNumber(this.instituteSettingDet.absenteeism_report_flag);
-    if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
-      this.isRippleLoad = false;
-      return;
-    }
-    if (this.checkDropDownSelection(this.instituteSettingDet.post_enquiry_follow_up_reminder_time) == false) {
-      this.isRippleLoad = false;
-      return;
-    }
+    obj.pre_enquiry_follow_up_reminder_time = this.convertBoolenToNumber(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time);
+    obj.post_enquiry_follow_up_reminder_time = this.convertBoolenToNumber(this.instituteSettingDet.post_enquiry_follow_up_reminder_time);
+    // if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
+    //   this.isRippleLoad = false;
+    //   return;
+    // }
+    // if (this.checkDropDownSelection(this.instituteSettingDet.post_enquiry_follow_up_reminder_time) == false) {
+    //   this.isRippleLoad = false;
+    //   return;
+    // }
     obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
     obj.teacher_monthly_report = this.convertBoolenToNumber(this.instituteSettingDet.teacher_monthly_report);
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
@@ -385,7 +387,7 @@ export class InstituteSettingsComponent implements OnInit {
 	obj.enable_justDial_routing_report = this.convertBoolenToNumber(this.instituteSettingDet.enable_justDial_routing_report);
 	obj.enable_teacher_for_multiple_class = this.convertBoolenToNumber(this.instituteSettingDet.enable_teacher_for_multiple_class);
 	obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
-	
+
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;

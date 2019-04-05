@@ -37,6 +37,10 @@ export class CourseCourseListComponent implements OnInit {
   deafultTemplate: any;
   searchData: any = "";
 
+  alertBox: boolean = true;
+  delete_unpaid_fee: boolean = false;
+  unselected_checkbox_id: number;
+
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
@@ -257,17 +261,19 @@ export class CourseCourseListComponent implements OnInit {
         }
       }
       if(!checkFlag){
-        if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
-          this.apiToAllocateAndDeallocate();
-        }
-        else{
-          let data = this.getCheckedRows();
-          for (let i = 0; i < Object.keys(data).length; i++) {
-            (document.getElementById("studentcheck"+Object.keys(data)[i]) as HTMLInputElement).checked = true;
-          }
-        }
+        this.alertBox = false;
+        // if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
+        //   this.apiToAllocateAndDeallocate();
+        // }
+        // else{
+        //   let data = this.getCheckedRows();
+        //   for (let i = 0; i < Object.keys(data).length; i++) {
+        //     (document.getElementById("studentcheck"+Object.keys(data)[i]) as HTMLInputElement).checked = true;
+        //   }
+        // }
       }
       else{
+        this.addStudentPopUp = false;
         this.apiToAllocateAndDeallocate();
       }
 
@@ -277,6 +283,20 @@ export class CourseCourseListComponent implements OnInit {
       this.showTable = false;
     }
 
+  }
+
+  unassign_course(){
+    this.alertBox = true;
+     this.apiToAllocateAndDeallocate();
+  }
+
+  closeAlert(){
+    this.alertBox = true;
+    this.delete_unpaid_fee = false;
+    let data = this.getCheckedRows();
+      for (let i = 0; i < Object.keys(data).length; i++) {
+        (document.getElementById("studentcheck"+Object.keys(data)[i]) as HTMLInputElement).checked = true;
+      }
   }
 
   getUISelectedRows(data) {
@@ -294,7 +314,9 @@ export class CourseCourseListComponent implements OnInit {
     let data = this.getCheckedRows();
     let dataToSend = {
       studentAssignedUnassigned_and_AcademicYearMapping: data,
+      deleteCourse_SubjectUnPaidFeeSchedules: this.delete_unpaid_fee
     };
+    // console.log(dataToSend)
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
         this.messageToast('success', 'Saved', 'Changes saved successfully.');

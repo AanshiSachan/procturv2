@@ -547,7 +547,7 @@ export class TemplateHomeComponent implements OnInit {
   }
 
 
-  // pagination functions 
+  // pagination functions
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;
@@ -598,9 +598,10 @@ export class TemplateHomeComponent implements OnInit {
   ////Delete Fee Structure
 
   deleteFeeStructure(fee) {
+    let is_archived = "N";
     if (confirm('Are you sure, you want to delete Fee Structure?')) {
       this.isRippleLoad = true;
-      this.fetchService.deleteFeeStructure(fee.template_id).subscribe(
+      this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
         res => {
           this.isRippleLoad = false;
           this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
@@ -610,7 +611,27 @@ export class TemplateHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          this.commonService.showErrorMessage('error', 'Error', err.error.message);
+
+          if(err.error.message.includes("Fee template(s) are assigned to student(s).")){
+            if (confirm('Fee template(s) are assigned to student(s). Do you wish to delete it ?')) {
+              is_archived = "Y";
+              this.isRippleLoad = true;
+              this.fetchService.deleteFeeStructure(fee.template_id, is_archived).subscribe(
+                res => {
+                  this.isRippleLoad = false;
+                  this.commonService.showErrorMessage('success', 'Deleted', 'Fee Structure Deleted Successfully');
+                  this.getFeeStructures();
+                },
+                  err => {
+                    this.isRippleLoad = false;
+                    this.commonService.showErrorMessage('error', 'Error', err.error.message);
+                  }
+              )
+            }
+          }
+          else{
+            this.commonService.showErrorMessage('error', 'Error', err.error.message);
+          }
         }
       )
     }
@@ -634,6 +655,3 @@ export class TemplateHomeComponent implements OnInit {
   }
 
 }
-
-
-

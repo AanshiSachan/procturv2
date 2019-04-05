@@ -15,8 +15,8 @@
         </svg>
     </span>
 
-    <h2 popup-header style="margin-bottom: 10px;" *ngIf="!isProfessional">Course Assignment</h2>
-    <h2 popup-header style="margin-bottom: 10px;" *ngIf="isProfessional">Batch Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="!isProfessional">Course and Fee Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="isProfessional">Batch and Fee Assignment</h2>
 
     <div class="batch-wrapper" popup-content>
         <div class="filter-row row">
@@ -153,9 +153,36 @@
         <div class="clearfix">
             <aside class="pull-right popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closeBatchAssign()">
-                <input type="button" value="Assign" class="fullBlue btn" (click)="assignBatch()">
+                <input type="button" value="Save" class="fullBlue btn" (click)="assignBatch()">
             </aside>
         </div>
     </div>
 
 </proctur-popup>
+
+<section [hidden]="alertBox">
+  <div class="confirmation_popup">
+    <div class="confirm_title">
+      <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: rgba(255,0,0,0.7);"></i> &nbsp;
+      <span>Alert</span>
+    </div>
+    <div class="confirmation_msg_box">
+      <span id="confirm_msg">Do you wish to unassign student from the course?</span>
+    </div>
+    <br>
+    <div class="field-checkbox-wrapper">
+      <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee"
+          class="form-checkbox">
+      <label> Delete unpaid fees installments</label>
+    </div>
+    <div class="confirmation_button_container">
+      <input type="button" value="Yes" class="btn" (click)="unassign_course()">
+      <input type="button" value="No" class="btn" (click)="closeAlert()">
+      <!-- <input type="button" value="Cancel" class="btn" (click)="closeAlert()"> -->
+    </div>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">
+
+</div>
