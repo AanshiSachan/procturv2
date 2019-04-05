@@ -1550,6 +1550,56 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 0 15px;
 }
 
+.toggle {
+	cursor: pointer;
+	display: inline-block;
+}
+.toggle-switch {
+	display: inline-block;
+	background: #0084f6;
+	border-radius: 16px;
+	width: 46px;
+	height: 16px;
+	position: relative;
+	vertical-align: middle;
+	transition: background 0.25s;
+	&:before,
+	&:after {
+		content: "";
+	}
+	&:before {
+		display: block;
+		background: linear-gradient(to bottom, #fff 0%,#eee 100%);
+		border-radius: 50%;
+		box-shadow: 0 0 0 1px rgba(0,0,0,0.25);
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		transition: left 0.25s;
+	}
+	.toggle:hover &:before {
+		background: linear-gradient(to bottom, #fff 0%,#fff 100%);
+		box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+	}
+	.toggle-checkbox:checked + & {
+		background: #0084f6;
+		&:before {
+			left: 30px;
+		}
+	}
+}
+.toggle-checkbox {
+	position: absolute;
+	visibility: hidden;
+}
+.toggle-label {
+	margin-left: 5px;
+  margin-right: 5px;
+	position: relative;
+	top: 2px;
+  font-weight: 600;
+}
+
 .map-courses {
     margin: 15px 0 10px;
     font-size: 13px;
@@ -2631,6 +2681,53 @@ input[type=number]::-webkit-outer-spin-button {
         }
         &.partial {
             background: #24c4d0;
+        }
+    }
+}
+
+.academicYearFilter{
+  margin-left: 5px;
+  padding: 5px;
+  border: 1px solid lightgray;
+  margin-bottom: 5px;
+}
+
+.dd-list-container {
+    position: absolute; //top: 40px;
+    border: 1px solid rgba(119, 119, 119, 0.29);
+    right: 35px;
+    z-index: 100;
+    top: 190px;
+    width: 200px; //max-width: 250px;
+    height: auto;
+    background: white;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.611764705882353);
+    .dropdown-list {}
+}
+
+.actions-menu {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+    padding: 5px;
+    .action-item {
+        padding: 3px;
+        background: white;
+        display: flex !important;
+        margin: 0 !important;
+        cursor: pointer;
+        span {
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-right: 8px;
+        }
+        &:hover {
+            background: #eff1f5;
         }
     }
 }

@@ -538,10 +538,24 @@
         <!--====================================middle Top section==========================-->
         <section class="middle-top clearFix">
           <h1 class="pull-left">
-            Fees :
-            <span style="font-weight: 100; ">{{studentAddFormData.student_name}}</span>
+            <span style="font-weight: 600; ">{{studentAddFormData.student_name}}</span>
           </h1>
+
           <aside class="pull-right btn-diff">
+            <!-- <label for="academicYearFilter" style="font-weight: 600;color:#00a2ff">Academic Year</label>
+            <select id="academicYearFilter" name="academicYearFilter" class="form-ctrl academicYearFilter" [(ngModel)]="academicYearFilter">
+              <option *ngFor="let year of academicYear" [value]="year.inst_acad_year_id">
+                {{year.inst_acad_year}}
+              </option>
+            </select> -->
+
+            <label class="toggle">
+            	<span class="toggle-label" id="unassigned">Unassigned/Archived courses</span>
+            	<input class="toggle-checkbox" type="checkbox" [(ngModel)]="resultForUnAssigned" (ngModelChange)="updateStudentFeeDetails()">
+            	<div class="toggle-switch"></div>
+            	<span class="toggle-label" id="assigned">Assigned courses</span>
+            </label>
+
             <button class="btn-header" (click)="openDiscountApply()" *ngIf="checkBoxGroup.feeDiscouting">
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
@@ -565,6 +579,31 @@
               <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
               <span>Reconfigure Fees</span>
             </button>
+            <button class="btn-header" (click)="openMenu(i)">
+              <img src="../../../../assets/images/vert.png" style="height:16px;">
+            </button>
+
+            <div id="menuList" class="dd-list-container hide">
+              <div class="dropdown-list">
+                <div class="dd-list-inner">
+                  <ul class="actions-menu">
+                    <li class="action-item" (click)="isShareDetails= !isShareDetails;closeMenu()">
+                      <span class="textContent">
+                        <i class="fa fa-share-alt" style="cursor: pointer;color: #0084f6;"></i>
+                        &nbsp;Share Fee Template
+                      </span>
+                    </li>
+                    <li class="action-item" (click)="studentFeeInstallment(-1)">
+                      <span class="textContent">
+                        <i class="fa fa-download" style="cursor: pointer;color: #0084f6;"></i>
+                        &nbsp;Download Fee Template
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
           </aside>
         </section>
 
@@ -639,12 +678,26 @@
                 <label for="chkBoxpaidMain">Paid</label>
               </div>
 
+              <!-- <div class="field-radio-wrapper">
+                  <input type="radio" value="1" name="bFilter"
+                      class="form-radio" id="assigned">
+                  <label for="assigned">Assigned</label>
+              </div>
+              <div class="field-radio-wrapper">
+                  <input type="radio" value="2" name="bFilter"
+                      class="form-radio" id="unassigned">
+                  <label for="unassigned">Unassigned/All</label>
+              </div> -->
+
+
+
               <a id="hiddenAnchorTag2" class="hide">Element Made For fee Installment Download</a>
-              <input  style="    right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
+
+              <!-- <input  style="    right: 115px;" type="button" value="Share" (click)="isShareDetails= !isShareDetails"
               class="btn downloadbtn">
-              <!-- <input *ngIf="showFeeSection" type="button" value="Download" (click)="studentFeeInstallment()" class="btn downloadbtn"> -->
+              <input *ngIf="showFeeSection" type="button" value="Download" (click)="studentFeeInstallment()" class="btn downloadbtn">
               <i  class="fa fa-download" (click)="studentFeeInstallment(-1)" style="font-size: 25px;color: #0084f6;position: absolute;right: 70px;top: 6px;"
-              placeholder="Download fee installment"></i>
+              placeholder="Download fee installment"></i> -->
             </div>
           </div>
 

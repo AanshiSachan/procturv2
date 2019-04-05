@@ -14,17 +14,6 @@
           </ul>
         </div>
 
-        <div class="c-lg-4 hide" *ngIf="!isProfessional">
-          <ul class="card" routerLink="./batches">
-            <li>
-              Courses
-            </li>
-            <li>
-              Manage Student Wise Fees and Cheque Payments
-            </li>
-          </ul>
-        </div>
-
         <div class="c-lg-4" *ngIf="isProfessional">
           <ul class="card" routerLink="./batchesArchivedReport">
             <li>
@@ -36,8 +25,19 @@
           </ul>
         </div>
 
-        <div class="c-lg-4 hide" *ngIf="!isProfessional">
-          <ul class="card" routerLink="./batchesArchivedReport">
+        <div class="c-lg-4" *ngIf="!isProfessional">
+          <ul class="card" routerLink="./courses">
+            <li>
+              Courses
+            </li>
+            <li>
+              Manage Student Wise Fees and Cheque Payments
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4" *ngIf="!isProfessional">
+          <ul class="card" routerLink="./coursesArchivedReport">
             <li>
               Courses Archived Status Report
             </li>

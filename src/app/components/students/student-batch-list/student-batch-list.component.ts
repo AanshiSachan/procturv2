@@ -25,6 +25,9 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         state: '0'
     };
     clonedArray: any = [];
+    alertBox: boolean = true;
+    delete_unpaid_fee: boolean = false;
+    unselected_checkbox_id: number;
 
     @Input() dataList: any[] = [];
     @Input() academicYear: any[] = [];
@@ -211,17 +214,19 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
                 /* if index is not null */
                 if (ind != null) {
-                    if (confirm("If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?")) {
-                        this.dataList[index].isSelected = false;
-                        this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
-                    }
-                    else {
-                        this.dataList[index].isSelected = true;
-                        this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
-                        // document.getElementById("batchcheck"+index).checked = true;
-
-                        (document.getElementById("batchcheck"+index) as HTMLInputElement).checked = true;
-                    }
+                    this.alertBox = false;
+                    this.unselected_checkbox_id = index;
+                    // if (confirm("If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?")) {
+                    //     this.dataList[index].isSelected = false;
+                    //     this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
+                    // }
+                    // else {
+                    //     this.dataList[index].isSelected = true;
+                    //     this.dataList[index].data.deleteCourse_SubjectUnPaidFeeSchedules = true;
+                    //     // document.getElementById("batchcheck"+index).checked = true;
+                    //
+                    //     (document.getElementById("batchcheck"+index) as HTMLInputElement).checked = true;
+                    // }
 
                     // this.batchChangeAlert(this.dataList[index].isSelected, this.dataList[index]);
                 }
@@ -239,6 +244,23 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
         this.cd.detectChanges();
 
 
+    }
+
+    unassign_course(){
+      this.alertBox = true;
+      this.dataList[this.unselected_checkbox_id].isSelected = false;
+      this.dataList[this.unselected_checkbox_id].data.deleteCourse_SubjectUnPaidFeeSchedules = this.delete_unpaid_fee;
+
+      this.getAssignedCount();
+      this.cd.markForCheck();
+      this.cd.detectChanges();
+      
+    }
+    closeAlert(){
+      this.alertBox = true;
+      this.delete_unpaid_fee = false;
+      this.dataList[this.unselected_checkbox_id].isSelected = true;
+      (document.getElementById("batchcheck"+this.unselected_checkbox_id) as HTMLInputElement).checked = true;
     }
 
     changed(text: string) {
@@ -431,5 +453,7 @@ export class StudentBatchListComponent implements OnInit, OnChanges {
 
         return false;
     }
+
+
 
 }

@@ -163,8 +163,9 @@ export class StudentFeeService {
     }
 
 
-    public fetchStudentFeeSchedule(id): Observable<FeeModel> {
-        let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
+    public fetchStudentFeeSchedule(id, is_archived): Observable<FeeModel> {
+        let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id + "?is_archived="+is_archived;
+        // let url = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
         return this.http.get(url, { headers: this.headers }).map(
             (res: FeeModel) => {
                 return res;

@@ -135,8 +135,8 @@ export class FeeStrucService {
 
     // Delete Fee Structure
 
-    deleteFeeStructure(id) {
-        let url = `${this.baseUrl}/api/v1/student_wise/feeStructure/${this.institute_id}/${id}`;
+    deleteFeeStructure(id, is_archived) {
+        let url = this.baseUrl + "/api/v1/student_wise/feeStructure/"+ this.institute_id +"/"+id+ "?is_archived="+is_archived;
         return this.http.delete(url, { headers: this.headers }).map(
             res => { return res },
             err => { return err }

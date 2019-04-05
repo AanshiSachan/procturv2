@@ -35,7 +35,9 @@ export class StudentsComponent implements OnInit {
   status: boolean;
   courseFetchForm = {
     studentAlumniArrayString: "Y",
-    studentIds: ""
+    studentIds: "",
+    archivedStudent: true
+
   }
   obj = {
     id: "",
@@ -113,31 +115,55 @@ export class StudentsComponent implements OnInit {
     }
 
     if (event == true) {
-      for ( i; (i < length && i<this.getStudents.length); i++) {
-        if (this.getStudents[i].student_id== e.student_id ) {
-          this.getStudents[i].status = true;        
-          arr.push(this.getStudents[i].student_id);      
-        }     
-        if(this.getStudents[i].status) {
-          index++;
-        }   
+      if(this.searchflag){
+        for ( i; (i < length && i < this.newPaginated.length); i++) {
+          if (this.newPaginated[i].student_id === e.student_id ) {
+            this.newPaginated[i].status = true;
+            arr.push(this.newPaginated[i].student_id);
+          }
+          if(this.newPaginated[i].status) {
+            index++;
+          }
+        }
       }
-
+      else{
+        for ( i; (i < length && i < this.getStudents.length); i++) {
+          if (this.getStudents[i].student_id === e.student_id ) {
+            this.getStudents[i].status = true;
+            arr.push(this.getStudents[i].student_id);
+          }
+          if(this.getStudents[i].status) {
+            index++;
+          }
+        }
+      }
     }
     else {
-      for (i; (i < length && i<this.getStudents.length); i++) {
-        if (this.getStudents[i].student_id== e.student_id ) {
-          this.getStudents[i].status = false;             
-        }
-        else{
-          index++; 
-          arr.push(this.getStudents[i].student_id);   
+      if(this.searchflag){
+        for (i; (i < length && i < this.newPaginated.length); i++) {
+          if (this.newPaginated[i].student_id === e.student_id ) {
+            this.newPaginated[i].status = false;
+          }
+          else{
+            index++;
+            arr.push(this.newPaginated[i].student_id);
+          }
         }
       }
-     
+      else{
+        for (i; (i < length && i < this.getStudents.length); i++) {
+          if (this.getStudents[i].student_id === e.student_id ) {
+            this.getStudents[i].status = false;
+          }
+          else{
+            index++;
+            arr.push(this.getStudents[i].student_id);
+          }
+        }
+      }
     }
-    this.checkedStatus =  index==10?true:false; 
-    str = arr.join(',');    
+    this.checkedStatus =  index==10?true:false;
+    str = arr.join(',');
     this.courseFetchForm.studentIds = str;
   }
 
@@ -177,31 +203,38 @@ export class StudentsComponent implements OnInit {
     }
     str = arr.join(',');
     this.courseFetchForm.studentAlumniArrayString = str;
+    this.courseFetchForm.archivedStudent = true;
 
-    if (confirm("The selected students and the related data will be archived and made inactive and cannot be recovered. Are you sure you want to proceed?")) {
-      this.students.archiveStudents(this.courseFetchForm).subscribe(
-        (data: any) => {
-          this.router.navigateByUrl("/view/activity/archiving/studentsArchivedReport")
-          let msg = {
-            type: "success",
-            body: "Students archived successfully"
+    if(str == "" || str == null){
+      let msg = {
+        type: "error",
+        body: "At least one student should be selected"
+      }
+      this.appc.popToast(msg);
+    }
+    else{
+      if (confirm("If the selected student(s) are archived, the related data can not be recovered. \nDo you wish to archive the student(s) ?")) {
+        // console.log(this.courseFetchForm)
+        this.students.archiveStudents(this.courseFetchForm).subscribe(
+          (data: any) => {
+            this.router.navigateByUrl("/view/activity/archiving/studentsArchivedReport")
+            let msg = {
+              type: "success",
+              body: "Students archived successfully"
+            }
+            this.appc.popToast(msg);
+          },
+          (error: any) => {
+            let msg = {
+              type: "error",
+              body: error.error.message
+            }
+            this.appc.popToast(msg);
           }
-          this.appc.popToast(msg);
-        },
-        (error: any) => {
-          let msg = {
-            type: "error",
-            body: error.error.message
-          }
-          this.appc.popToast(msg);
-        }
-      )
+        )
+      }
     }
   }
-  // studentsDataPost() {
-  //  this.students.archive
-  //
-  // }
 
   getValueChanged(event) {
     let i = 0;
@@ -216,28 +249,56 @@ export class StudentsComponent implements OnInit {
     let arr = [];
     let str = "";
     if (event == true) {
-      for (i; i < length; i++) {
-        if (i < this.getStudents.length) {
-          this.getStudents[i].status = true;
+      if(this.searchflag){
+        for (i; i < length; i++) {
+          if (i < this.newPaginated.length) {
+            this.newPaginated[i].status = true;
+          }
+          arr.push(this.newPaginated[i].student_id);
         }
-        arr.push(this.getStudents[i].student_id);       
+        str = arr.join(',')
+        this.selectedStudents.push(this.PageIndex);
+        this.checkedStatus = true;
+        this.courseFetchForm.studentIds = str;
       }
-      str = arr.join(',')
-      this.selectedStudents.push(this.PageIndex);
-      this.checkedStatus = true;
-      this.courseFetchForm.studentIds = str;
+      else{
+        for (i; i < length; i++) {
+          if (i < this.getStudents.length) {
+            this.getStudents[i].status = true;
+          }
+          arr.push(this.getStudents[i].student_id);
+        }
+        str = arr.join(',')
+        this.selectedStudents.push(this.PageIndex);
+        this.checkedStatus = true;
+        this.courseFetchForm.studentIds = str;
+      }
     }
     else {
-      for (i; i < length; i++) {
-        if (i < this.getStudents.length) {
-          this.getStudents[i].status = false;        
+      if(this.searchflag){
+        for (i; i < length; i++) {
+          if (i < this.newPaginated.length) {
+            this.newPaginated[i].status = false;
+          }
         }
+        arr = [];
+        str = arr.join();
+        this.selectedStudents.splice(this.selectedStudents.indexOf(this.PageIndex), 1);
+        this.checkedStatus = false;
+        this.courseFetchForm.studentIds = str;
       }
-      arr = [];
-      str = arr.join();
-      this.selectedStudents.splice(this.selectedStudents.indexOf(this.PageIndex), 1);
-      this.checkedStatus = false;
-      this.courseFetchForm.studentIds = str;
+      else{
+        for (i; i < length; i++) {
+          if (i < this.getStudents.length) {
+            this.getStudents[i].status = false;
+          }
+        }
+        arr = [];
+        str = arr.join();
+        this.selectedStudents.splice(this.selectedStudents.indexOf(this.PageIndex), 1);
+        this.checkedStatus = false;
+        this.courseFetchForm.studentIds = str;
+      }
     }
   }
 
@@ -321,7 +382,7 @@ export class StudentsComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.pagedisplaysize * (index - 1);
-    console.log(this.selectedStudents.indexOf(this.PageIndex))
+    // console.log(this.selectedStudents.indexOf(this.PageIndex))
     this.checkedStatus = (this.selectedStudents.length>0)&& (this.selectedStudents.indexOf(this.PageIndex)!= -1) ? true : false;
     // this.checkedAlumni =  this.selectedAlumanies.indexOf(this.PageIndex) ? true : false;
     this.newPaginated = this.getDataFromDataSource(startindex);
@@ -336,7 +397,7 @@ export class StudentsComponent implements OnInit {
 
   fetchPrevious() {
     if (this.PageIndex != 1) {
- this.PageIndex--; 
+ this.PageIndex--;
       this.fetchTableDataByPage(this.PageIndex);
     }
   }

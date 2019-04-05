@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   sendNotificationPopUp: boolean = false;
   messageList: any = [];
   addNewMessageText: string = "";
+  messageCount: number = 0;
   addNewMessageSection: boolean = false;
   isAdminRole: boolean = false;
   showOpenMessage: boolean = false;
@@ -196,6 +197,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  countNumberOfMessage(){
+    if(this.addNewMessageText.length == 0){
+      this.messageCount = 0;
+    }
+    else{
+      let count = Math.floor(this.addNewMessageText.length / 160);
+      console.log(count);
+
+    }
+  }
+
   saveNewMessage() {
     if (this.addNewMessageText.trim() == "") {
       this.messageNotifier('error', 'Error', "Please provide text");
@@ -357,7 +369,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  // pagination functions 
+  // pagination functions
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;

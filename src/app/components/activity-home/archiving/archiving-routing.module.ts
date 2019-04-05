@@ -6,6 +6,8 @@ import { BatchesComponent } from "./batches/batches.component";
 import { BatchesArchivedReportComponent } from "./batches-archived-report/batches-archived-report.component";
 import { StudentsComponent } from "./students/students.component";
 import { StudentsArchivedReportComponent } from "./students-archived-report/students-archived-report.component";
+import { CoursesComponent } from "./courses/courses.component";
+import { CoursesArchivedReportComponent } from './courses-archived-report/courses-archived-report.component';
 
 
 @NgModule({
@@ -39,6 +41,14 @@ import { StudentsArchivedReportComponent } from "./students-archived-report/stud
                     {
                         path:'studentsArchivedReport',
                         component: StudentsArchivedReportComponent
+                    },
+                    {
+                        path:'courses',
+                        component:CoursesComponent
+                    },
+                    {
+                        path:'coursesArchivedReport',
+                        component: CoursesArchivedReportComponent
                     }
                 ]
             }

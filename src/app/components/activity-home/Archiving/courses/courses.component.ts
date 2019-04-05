@@ -5,13 +5,12 @@ import { concat } from 'rxjs/observable/concat';
 import { AppComponent } from '../../../../app.component';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-batches',
-  templateUrl: './batches.component.html',
-  styleUrls: ['./batches.component.scss']
+  selector: 'app-courses',
+  templateUrl: './courses.component.html',
+  styleUrls: ['./courses.component.scss']
 })
-export class BatchesComponent implements OnInit {
+export class CoursesComponent implements OnInit {
 
   isProfessional: boolean = false;
   getCourses: any[] = [];
@@ -30,7 +29,6 @@ export class BatchesComponent implements OnInit {
   }
   sendPayloadBatch = {
     batchIds: "",
-    archived: false
   }
   courseIds: any[] = []
   checked: boolean;
@@ -40,6 +38,7 @@ export class BatchesComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   columnMaps2: any[] = [0, 1, 2, 3, 4, 5 ,6, 7];
   dataStatus: boolean;
+  isRippleLoad: boolean = false;
 
   sortedenabled: boolean = true;
   sortedBy: string = "";
@@ -65,10 +64,12 @@ export class BatchesComponent implements OnInit {
 
   getCoursesList() {
     this.dataStatus = true;
+    this.isRippleLoad = true;
     if (this.isProfessional) {
       this.batch.getBatches().subscribe(
         (data: any) => {
           this.dataStatus = false;
+          this.isRippleLoad = false;
           this.getCourses = data;
           this.getCourses.map(
             (ele) => {
@@ -82,6 +83,7 @@ export class BatchesComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
+          this.isRippleLoad = false;
           let msg = {
             type: "error",
             body: error.error.message
@@ -92,9 +94,11 @@ export class BatchesComponent implements OnInit {
     }
     else {
       this.dataStatus = true;
+      this.isRippleLoad = true;
       this.batch.getCoursesList().subscribe(
         (data: any) => {
           this.dataStatus = false;
+          this.isRippleLoad = false;
           this.getCourses = data;
           this.getCourses.map(
             (ele) => {
@@ -107,6 +111,7 @@ export class BatchesComponent implements OnInit {
         },
         (error: any) => {
           this.dataStatus = false;
+          this.isRippleLoad = false;
           let msg = {
             type: "error",
             body: error.error.message
@@ -164,15 +169,40 @@ export class BatchesComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
+        this.sendPayload.archived = false;
         if (confirm('Are you sure, you want to Archive?')) {
           this.batch.courses(this.sendPayload).subscribe(
             (data: any) => {
-              this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-              let msg={
-                type:"success",
-                body:"Course(s) archived successfully"
+              if(data.status_code == 202){
+                if (confirm(data.message)) {
+                    this.sendPayload.archived = true;
+                    this.batch.courses(this.sendPayload).subscribe(
+                      (data: any) => {
+                        this.router.navigateByUrl("/view/activity/archiving/coursesArchivedReport")
+                        let msg={
+                          type:"success",
+                          body:"Course(s) archived successfully"
+                        }
+                        this.appc.popToast(msg);
+                      },
+                      (error: any) => {
+                        let msg = {
+                          type: "error",
+                          body: error.error.message
+                        }
+                        this.appc.popToast(msg);
+                      }
+                    )
+                }
               }
-              this.appc.popToast(msg);
+              else{
+                this.router.navigateByUrl("/view/activity/archiving/coursesArchivedReport")
+                let msg={
+                  type:"success",
+                  body:"Course(s) archived successfully"
+                }
+                this.appc.popToast(msg);
+              }
             },
             (error: any) => {
               let msg = {
@@ -197,67 +227,19 @@ export class BatchesComponent implements OnInit {
         if (confirm('Are you sure, you want to Archive?')) {
           this.batch.batches(this.sendPayloadBatch).subscribe(
             (data: any) => {
-              if(data.status_code == 202){
-                if(confirm(data.message)){
-                  this.sendPayloadBatch.archived = true;
-                  this.batch.batches(this.sendPayloadBatch).subscribe(
-                    (data: any) => {
-                      this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-                      let msg={
-                        type:"success",
-                        body:"Batch(s) archived successfully"
-                      }
-                      this.appc.popToast(msg);
-                    },
-                    (error: any) => {
-                      let msg = {
-                        type: "error",
-                        body: error.error.message
-                      }
-                      this.appc.popToast(msg);
-                    }
-                  )
-                }
+              this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+              let msg={
+                type:"success",
+                body:"Batch(s) archived successfully"
               }
-              else{
-                this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-                let msg={
-                  type:"success",
-                  body:"Batch(s) archived successfully"
-                }
-                this.appc.popToast(msg);
-              }
+              this.appc.popToast(msg);
             },
             (error: any) => {
-              if(error.error.message.includes("Batch Already assigned with active Student")){
-                if (confirm(error.error.message)) {
-                    this.sendPayloadBatch.archived = true;
-                    this.batch.batches(this.sendPayloadBatch).subscribe(
-                      (data: any) => {
-                        this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-                        let msg={
-                          type:"success",
-                          body:"Batch(s) archived successfully"
-                        }
-                        this.appc.popToast(msg);
-                      },
-                      (error: any) => {
-                        let msg = {
-                          type: "error",
-                          body: error.error.message
-                        }
-                        this.appc.popToast(msg);
-                      }
-                    )
-                }
+              let msg = {
+                type: "error",
+                body: error.error.message
               }
-              else{
-                let msg = {
-                  type: "error",
-                  body: error.error.message
-                }
-                this.appc.popToast(msg);
-              }
+              this.appc.popToast(msg);
             }
           )
         }

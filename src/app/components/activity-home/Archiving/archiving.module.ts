@@ -12,6 +12,8 @@ import { BatchesArchivedReportComponent } from './batches-archived-report/batche
 import { StudentsComponent } from './students/students.component';
 import { StudentsArchivedReportComponent } from './students-archived-report/students-archived-report.component';
 import { CoursesServiceService } from "../../../services/archiving-service/courses-service.service";
+import { CoursesComponent } from './courses/courses.component';
+import { CoursesArchivedReportComponent } from './courses-archived-report/courses-archived-report.component';
 
 @NgModule({
     imports: [
@@ -30,6 +32,8 @@ import { CoursesServiceService } from "../../../services/archiving-service/cours
         BatchesArchivedReportComponent,
         StudentsComponent,
         StudentsArchivedReportComponent,
+        CoursesComponent,
+        CoursesArchivedReportComponent,
     ],
     entryComponents:[
         ArchivingComponent,
