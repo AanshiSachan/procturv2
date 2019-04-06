@@ -58,6 +58,10 @@ export class ManageBatchComponent implements OnInit {
   radioOption: string = '0';
   dataTable: any = [];
 
+  alertBox: boolean = true;
+  delete_unpaid_fee: boolean = false;
+  unselected_checkbox_id: number;
+
   constructor(
     private apiService: ManageBatchService,
     private toastCtrl: AppComponent
@@ -206,14 +210,14 @@ export class ManageBatchComponent implements OnInit {
       )
     } else {
       this.isRippleLoad = false;
-     
+
       this.messageToast('error', 'Error', 'You Can not select empty value');
       return;
     }
   }
 
 
-  addNewBatchToList() {   
+  addNewBatchToList() {
     if (this.addNewBatch.standard_id != '-1') {
 
       if (this.addNewBatch.subject_id != "-1") {
@@ -230,7 +234,7 @@ export class ManageBatchComponent implements OnInit {
                   this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
 
                   if (this.addNewBatch.start_date < this.addNewBatch.end_date) {
-                    
+
                     if (this.addNewBatch.is_active == true) {
                       this.addNewBatch.is_active = 'Y';
                     } else {
@@ -357,7 +361,7 @@ export class ManageBatchComponent implements OnInit {
       is_active: true,
       is_exam_grad_feature: false
     }
-   
+
   }
 
   addStudentToBatch(rowDetails) {
@@ -463,12 +467,27 @@ export class ManageBatchComponent implements OnInit {
   saveChanges() {
     let studentUnAssigned = this.checkIfStudentUnassigned();
     if (studentUnAssigned) {
-      if (confirm("If you unassign the student from batch then corresponding unpaid fee instalments might be deleted.")) {
-        this.saveStudentListToServer();
-      }
+      this.alertBox = false;
+      // if (confirm("If you unassign the student from batch then corresponding unpaid fee instalments might be deleted.")) {
+      //   this.saveStudentListToServer();
+      // }
     } else {
       this.saveStudentListToServer();
     }
+  }
+
+  closeAlert(){
+    this.alertBox = true;
+    this.delete_unpaid_fee = false;
+    let data = this.getCheckedRows();
+      for (let i = 0; i < Object.keys(data).length; i++) {
+        (document.getElementById("studentcheck"+Object.keys(data)[i]) as HTMLInputElement).checked = true;
+      }
+  }
+
+  unassign_course(){
+    this.alertBox = true;
+    this.saveStudentListToServer();
   }
 
   saveStudentListToServer() {
@@ -476,8 +495,10 @@ export class ManageBatchComponent implements OnInit {
     let dataToSend = {
       batch_id: this.batchDetails.batch_id,
       studentAssignedUnassigned_and_AcademicYearMapping: data,
+      deleteCourse_SubjectUnPaidFeeSchedules: this.delete_unpaid_fee
     };
     this.isRippleLoad = true;
+    // console.log(dataToSend)
     this.apiService.saveUpdatedList(dataToSend, this.batchDetails.batch_id).subscribe(
       res => {
         this.messageToast('success', 'Saved', 'Changes saved successfully.');
@@ -519,6 +540,7 @@ export class ManageBatchComponent implements OnInit {
   closeStudentPopup() {
     this.addStudentPopUp = false;
     this.searchData = "";
+    this.alertBox = true;
   }
 
   changeDateFormat(date) {
@@ -587,7 +609,7 @@ export class ManageBatchComponent implements OnInit {
     }
   }
 
-  // pagination functions 
+  // pagination functions
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;

@@ -162,7 +162,7 @@
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <proctur-image [containerWidth]="containerWidth" [serverImg]="studentServerImage" (setImage)="setImage($event)" [thumbnailAvailable]="thumbnailAvailable">
+                <proctur-image [containerWidth]="containerWidth" [serverImg]="studentServerImage" (setImage)="setImage($event)" [thumbnailAvailable]="thumbnailAvailable" [defaultImg]="'assets/images/student_icon.png'">
                 </proctur-image>
               </div>
             </div>
@@ -550,10 +550,10 @@
             </select> -->
 
             <label class="toggle">
-            	<span class="toggle-label" id="unassigned">Unassigned/Archived courses</span>
+            	<span class="toggle-label" id="unassigned" [ngClass]="(this.resultForUnAssigned)?'inactive_toggle_button':'active_toggle_button'" >Unassigned/Archived courses</span>
             	<input class="toggle-checkbox" type="checkbox" [(ngModel)]="resultForUnAssigned" (ngModelChange)="updateStudentFeeDetails()">
             	<div class="toggle-switch"></div>
-            	<span class="toggle-label" id="assigned">Assigned courses</span>
+            	<span class="toggle-label" id="assigned" [ngClass]="(this.resultForUnAssigned)?'active_toggle_button':'inactive_toggle_button'">Assigned courses</span>
             </label>
 
             <button class="btn-header" (click)="openDiscountApply()" *ngIf="checkBoxGroup.feeDiscouting">

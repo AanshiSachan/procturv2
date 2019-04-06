@@ -596,11 +596,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
         this.academicYear = data;
-        console.log(this.academicYear);
+        // console.log(this.academicYear);
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
             this.defaultAcadYear = e.inst_acad_year_id;
-            console.log(this.academicYearFilter)
+            // console.log(this.academicYearFilter)
             this.academicYearFilter = this.defaultAcadYear;
           }
         });
@@ -1132,7 +1132,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
         }
         this.thumbnailAvailable = true;
-        this.studentServerImage = data.photo;
+        if(data.photo != null && data.photo != ""){
+          this.studentServerImage = data.photo;
+        }
+      
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
@@ -1257,8 +1260,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   setImage(e) {
-    this.studentServerImage = e;
-    this.thumbnailAvailable = false;
+    if(e != null && e != ""){
+      this.studentServerImage = e;
+      this.thumbnailAvailable = false;
+    }
+
   }
 
   /* ============================================================================================================================ */
@@ -1397,8 +1403,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.router.navigate(['/view/student']);
             }
             else {
-              this.updateStudentFeeDetails();
               this.navigateTo('feeDetails');
+              this.updateStudentFeeDetails();
             }
 
           }
@@ -1632,23 +1638,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   // New Function For Discounting
   updateStudentFeeDetails() {
-    this.isRippleLoad = true;
     this.flushDataAfterPayement();
-    let is_archived;
-    if(this.resultForUnAssigned){
+    let is_archived = "";
+    if(this.resultForUnAssigned && this.isFeeActive){
       is_archived = "N";
-      document.getElementById("assigned").style.color = "#0084f6";
-      document.getElementById("unassigned").style.color = "lightgray";
-      // document.getElementById("toggle_label").innerHTML = "Un-assigned course(s)";
     }
-    else{
+    else if(this.isFeeActive){
       is_archived = "Y";
-      document.getElementById("unassigned").style.color = "#0084f6";
-      document.getElementById("assigned").style.color = "lightgray";
-      // document.getElementById("toggle_label").innerHTML = "Assigned course(s)";
     }
     // console.log(is_archived);
-
+    this.isRippleLoad = true;
     this.feeService.fetchStudentFeeSchedule(this.student_id, is_archived).subscribe(
       (res: FeeModel) => {
         this.isRippleLoad = false;

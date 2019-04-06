@@ -287,7 +287,7 @@ export class CourseCourseListComponent implements OnInit {
 
   unassign_course(){
     this.alertBox = true;
-     this.apiToAllocateAndDeallocate();
+    this.apiToAllocateAndDeallocate();
   }
 
   closeAlert(){
@@ -384,6 +384,7 @@ export class CourseCourseListComponent implements OnInit {
 
   closeStudentPopup() {
     this.addStudentPopUp = false;
+    this.alertBox = true;
     this.searchFilter = {
       unassignFlag: '0',
       standard_id: -1,

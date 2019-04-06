@@ -1599,6 +1599,13 @@ input[type=number]::-webkit-outer-spin-button {
 	top: 2px;
   font-weight: 600;
 }
+.active_toggle_button{
+  color: #00a2ff;
+}
+.inactive_toggle_button{
+  color: lightgray;
+}
+
 
 .map-courses {
     margin: 15px 0 10px;
