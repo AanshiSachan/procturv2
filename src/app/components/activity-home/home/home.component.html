@@ -9,7 +9,7 @@
                             Manage Cheque
                         </li>
                         <li>
-                            Manage Student Wise Fees and Cheque Payments
+                          Get the details of the fees paid by cheques
                         </li>
                     </ul>
                 </div>
@@ -20,7 +20,7 @@
                             Monitoring Dashboard
                         </li>
                         <li>
-                            Monitor the growth of your institute through our state of the art reporting system.
+                          Get the graphical representation of the fees details.
                         </li>
                     </ul>
                 </div>
@@ -30,8 +30,12 @@
                         <li>
                             Archiving
                         </li>
-                        <li>
-                            Archiving and archived students and batches/courses data is shown here.
+                        <li *ngIf="jsonFlag.isProfessional">
+                          Archive the batches, students and get the report of archived batches and students.
+                        </li>
+                        <li *ngIf="!jsonFlag.isProfessional">
+                          Archive the courses, students and get the
+report of archived courses and students.
                         </li>
                     </ul>
                 </div>
@@ -54,7 +58,8 @@
                             File Manager
                         </li>
                         <li>
-                            Manage Storage Of Uploaded And Downloaded Files By Catergory.
+                          Upload or download the files and manage files in folders
+and by category.
                         </li>
                     </ul>
                 </div>
@@ -65,7 +70,8 @@
                             ExamDesk Course Assignment
                         </li>
                         <li>
-                            Manage Student assigned in ExamDesk Courses.
+                          Assign the students to E-course mapped
+Examdesk courses.
                         </li>
                     </ul>
                 </div>
@@ -76,7 +82,8 @@
                             Live Classes
                         </li>
                         <li>
-                            Online Classes can be created through it and also can be reschedule and viewed.
+                          Create live classes, assign students, faculty and users
+to the live classes.
                         </li>
                     </ul>
                 </div>
@@ -87,8 +94,13 @@
                             <li>
                                  E-course Mapping
                             </li>
-                            <li>
-                                    E-course can be created through it , also can be assign multiple course and we assign test series as well .
+                            <li *ngIf="!jsonFlag.isProfessional">
+                              Create E-courses and assign multiple
+standards to the E-courses.
+                            </li>
+                            <li *ngIf="jsonFlag.isProfessional">
+                              Create E-courses and assign multiple
+batches to the E-courses
                             </li>
                         </ul>
                     </div>

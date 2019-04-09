@@ -51,6 +51,7 @@ export class InstituteSettingsComponent implements OnInit {
       student: '',
       parent: '',
       gaurdian: '',
+      admin: ''
     },
     cancel_class_schedule_notification: {
       student: '',
