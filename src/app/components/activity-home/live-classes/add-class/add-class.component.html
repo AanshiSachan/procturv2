@@ -1,0 +1,198 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+
+<div class="middle-section">
+  <aside class="middle-full">
+    <section class="middle-main clearFix activity-wrapper">
+      <section class="row header">
+        <div class="row" style="margin-left: 15px;">
+          <h2 class="pull-left">
+            <a routerLink="/view/activity/dashboard">
+            Activity
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            <a routerLink="/view/activity/liveClass">
+            Live classes
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            Add Live Class
+          </h2>
+        </div>
+      </section>
+
+      <!-- <h2 class="" style="margin:10px 0px;">
+        Add Live Class
+      </h2> -->
+
+      <div class="border-container">
+      </div>
+
+      <section class="student-tab">
+        <ul class="nav-tab">
+          <li id="li-one" class="active">
+            <div class="navigator" id="class-icon" (click)="switchToView($event.target.id)">
+              <span id="class-icon">1</span>
+              <p id="class-icon">Class Details</p>
+            </div>
+          </li>
+          <li class="" id="li-two">
+            <div class="navigator" id="assignStudent-icon" (click)="switchToView($event.target.id)">
+              <span id="assignStudent-icon">2</span>
+              <p id="assignStudent-icon">Assign Students</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="classDetails" *ngIf="isBasicActive">
+        <div class="class_details_container">
+          <div class="field-wrapper">
+            <label for="topicName">Topic Name* </label>
+            <input type="text" value="" id="topicName" class="form-ctrl" name="topicName" required [(ngModel)]="topicName" placeholder="Enter Topic Name"/>
+          </div>
+
+          <div class="field-wrapper-container">
+
+            <div class="field-wrapper datePickerBox" style="width: 25%;">
+              <label for="date">Date*</label>
+              <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date">
+              <!-- <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('date')"></i> -->
+            </div>
+
+            <div class="field-wrapper" style="width: 25%;">
+              <label for="date">From*</label>
+              <div class="from">
+                <select class="made-out" id="from1" [(ngModel)]="hoursFrom" (ngModelChange)="getEventHourFrom($event)">
+                    <option value="" disabled  selected="selected" hidden>HH</option>
+                    <option *ngFor="let i of hour" [value]="i">
+                        {{i}}
+                    </option>
+                </select>
+                <select class="made-out" id="from2" style="margin-left:15px;" [(ngModel)]="minuteFrom" (ngModelChange)="getEventHourFrom($event)">
+                    <option value="" disabled  selected="selected" hidden>MM</option>
+                    <option [value]="i" *ngFor="let i of minutes" >
+                        {{i}}
+                    </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-wrapper" style="width: 25%;">
+              <label for="date">To*</label>
+              <div class="from">
+                <select class="made-out" id="to1" [(ngModel)]="hoursTo" (ngModelChange)="getEventHourFrom()">
+                    <option value="" disabled  selected="selected" hidden>HH</option>
+                    <option *ngFor="let i of hour" [value]="i">
+                        {{i}}
+                    </option>
+                </select>
+                <select class="made-out" id="to2" style="margin-left:15px;" [(ngModel)]="minuteTo" (ngModelChange)="getEventHourFrom($event)">
+                    <option value="" disabled  selected="selected" hidden>MM</option>
+                    <option *ngFor="let i of minutes" [value]="i">
+                        {{i}}
+                    </option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="field-wrapper faculty_container">
+            <label for="faculty">Faculty Name(s)* </label>
+            <!-- <input type="text" value="" id="faculty" class="form-ctrl" name="faculty" required /> -->
+            <ng-multiselect-dropdown
+              [placeholder]="'Select Faculty'"
+              [data]="teachersAssigned"
+              [settings]="facultySettings"
+              [(ngModel)]="selectedFacultyList">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="field-wrapper moderator_container">
+            <label for="moderator">Moderator Name(s)* </label>
+            <ng-multiselect-dropdown
+              [placeholder]="'Select Moderator'"
+              [data]="userAssigned"
+              [settings]="moderatorSettings"
+              [(ngModel)]="selectedModeratorList" >
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="action-button-container">
+            <div class="action-btn-item-1">
+              <!-- <button type="button" name="button" class="back-btn" (click)="cancel()">Back</button> -->
+            </div>
+            <div class="action-btn-item-2">
+              <button type="button" name="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+              <button type="button" name="button" class="next-btn" (click)="checkMandatoryFields()">Next</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section id="assignStudent" *ngIf="isOtherActive">
+        <div class="add_student_container">
+          <div class="field-wrapper"  *ngIf="!isProfessional">
+            <label for="master_course">Master Course* </label>
+            <select class="form-ctrl" name="master_course" id="master_course" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
+              <option value="" disabled  selected="selected" hidden>Select Master Course</option>
+              <option *ngFor="let i of masters" [value]="i.master_course">
+                  {{i.master_course}}
+              </option>
+            </select>
+          </div>
+
+          <div class="field-wrapper"  *ngIf="isProfessional">
+            <label for="batch">Batches* </label>
+            <select class="form-ctrl" name="batch" id="batch" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
+              <option value="" disabled  selected="selected" hidden>Select Batch</option>
+              <option *ngFor="let i of batches" [value]="i.batch_id">
+                  {{i.batch_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="field-wrapper" *ngIf="!isProfessional">
+            <label for="course">Course* </label>
+            <select class="form-ctrl" name="course" id="course" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
+              <option value=""  disabled  selected="selected" hidden>Select Course</option>
+              <option *ngFor="let i of courses" [value]="i.course_id">
+                  {{i.course_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="field-wrapper student_list_container">
+            <label for="students">Student Name(s)* </label>
+            <ng-multiselect-dropdown class="container"
+              [placeholder]="'Select Students'"
+              [data]="studentList"
+              [settings]="studentListSettings"
+              [(ngModel)]="selectedStudentList" >
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class="field-checkbox-wrapper" style="display: inline-block;margin:5px;margin-top: 20px;">
+            <input type="checkbox" name="expenses" [(ngModel)]="addOnlineClass.sent_notification_flag" [value]="0" class="form-checkbox" id="qun">
+            <label for="qun">Send Notification</label>
+            <!-- <i class="fa fa-commenting" aria-hidden="true" style="color: #1283f4;margin-left: 5px;"></i> -->
+          </div>
+
+          <div class="action-button-container">
+            <div class="action-btn-item-1">
+              <button type="button" name="button" class="back-btn" (click)="navigateTo('classDetails')">Back</button>
+            </div>
+            <div class="action-btn-item-2">
+              <button type="button" name="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+              <button type="button" name="button" class="next-btn" (click)="scheduleClass()">Submit</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </section>
+  </aside>
+</div>
