@@ -1,0 +1,28 @@
+.ecourse-item{
+    padding: 1em;
+    .ecourse-card{
+        border-radius: 4px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        border: solid 1px #cedff3;
+        background-color: #ffffff;
+        height: 100%;
+        .head{
+            text-align: center;
+            padding: 0.8em 0.6em;
+            background-color: #cedff3;
+            font-weight: bold;
+        }
+        .body{
+            padding: 0.6em 0.8em;
+            ul{
+                padding-left: 1.4em;
+                li{
+                    list-style-type: disc;
+                    padding: 0.2em 0;
+                    font-size: 0.9em;
+                    color: #666;
+                }
+            }
+        }
+    }
+}

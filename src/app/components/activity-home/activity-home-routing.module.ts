@@ -49,6 +49,11 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
                         pathMatch: "prefix"
                     },
                     {
+                        path: 'ecourse-file-manager',
+                        loadChildren: 'app/components/activity-home/ecourse-file-manager/ecourse-file-manager.module#EcourseFileManagerModule',
+                        pathMatch: "prefix"
+                    },
+                    {
                         path: 'examcourse',
                         component: ExamdeskCourseAssignmentComponent,
                         pathMatch: 'prefix'
