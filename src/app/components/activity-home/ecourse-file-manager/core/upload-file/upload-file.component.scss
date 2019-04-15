@@ -1,0 +1,75 @@
+.ga-modal-wrapper{
+    right: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background:rgba(136, 136, 136, 0.6);
+    z-index: 999;
+    .ga-modal-container{
+        display: flex;
+        overflow-y: auto;
+        height: 100%;
+        .ga-modal{
+            margin: auto;
+            background: #fff;
+            border: 2pt solid #fff;
+            border-radius: 0.2em;
+            box-shadow: 0pt 2pt 3pt #999;
+            min-width: 50%;
+            .ga-modal-head{
+                padding: 0.5em 1em;
+                border-bottom: 1pt solid #ddd;
+                font-weight: bold;
+                .close{
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    position: relative;
+                    right: -2.4em;
+                    top: -2.4em;
+                    background: #fff;
+                    border-radius: 100%;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    opacity: 1;
+                    cursor: pointer;
+                    &:after{
+                        content: 'X';
+                        margin: auto;
+                        font-size: 0.85em;
+                    }
+                }
+            }
+            .ga-modal-body{
+                padding: 1em;
+            }
+        }
+    }
+}
+
+.ga-form-input{
+    border: 1pt solid #ddd;
+    width: 100%;
+    border-radius: 3px;
+    padding: 0.2em;
+    color: #334e4c;
+    box-shadow: inset 0pt 0pt 2pt #f1f1f1;
+}
+
+
+.upload-box{
+    display: flex;
+    .file-form{
+
+    }
+    .file-drop-wrapper{
+        padding: 0em 1em;
+        .drop-box{
+            background: #ecf7ff;
+            height: 100%;
+            border: 1pt solid #9E9E9E;
+            border-style: dashed;
+        }
+    }
+}

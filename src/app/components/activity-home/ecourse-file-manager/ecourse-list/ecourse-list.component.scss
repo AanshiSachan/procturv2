@@ -6,6 +6,12 @@
         border: solid 1px #cedff3;
         background-color: #ffffff;
         height: 100%;
+        cursor: pointer;
+        &:hover{
+            .head{
+                background: #b1ccec;
+            }
+        }
         .head{
             text-align: center;
             padding: 0.8em 0.6em;

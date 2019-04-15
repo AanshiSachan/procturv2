@@ -11,7 +11,7 @@
 <div class="row">
   <div class="col-md-2 file-mgr-sidebar">
     <div>
-      <button class="btn btn-wide-blue">Upload File</button>
+      <button class="btn btn-wide-blue" (click)="toggleFileUploadModal()">Upload File</button>
     </div>
 
     <div class="sidecard">
@@ -43,4 +43,6 @@
     </div>
   </div>
 </div>
+
+<app-upload-file></app-upload-file>
 

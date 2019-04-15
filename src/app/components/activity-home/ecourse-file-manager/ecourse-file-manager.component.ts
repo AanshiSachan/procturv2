@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { UploadFileComponent } from './core/upload-file/upload-file.component';
 
 @Component({
   selector: 'app-ecourse-file-manager',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EcourseFileManagerComponent implements OnInit {
 
+  @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
+  
+  showUploadFileModal: boolean = false;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleFileUploadModal()
+  {
+    this.uploadFile.showModal = (this.uploadFile.showModal)?false:true;
   }
 
 }
