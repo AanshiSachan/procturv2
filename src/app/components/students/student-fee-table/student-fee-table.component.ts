@@ -17,6 +17,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   @Input() courseDropdown: any = null;
   @Input() studentName: string = "";
   @Input() student_id: any;
+  @Input() resultForUnAssigned: boolean;
 
   @Output() closePopup = new EventEmitter<boolean>();
 
@@ -152,6 +153,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    console.log(this.resultForUnAssigned)
   }
 
   ngOnChanges() {
@@ -221,7 +223,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
               break;
             }
           }
-      
+
         }
 
         if (isError) {
@@ -247,11 +249,19 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
 
   makeServerCallToSave(feeSch) {
     let totalAmountDue = this.getTotalAmountDue(feeSch);
+    let temp;
+    if(!this.resultForUnAssigned){
+      temp = "Y";
+    }
+    else{
+      temp = "N";
+    }
     let obj = {
       customFeeSchedules: feeSch,
       discount_fee_reason: "",
       is_delete_other_fee_types: 0,
       is_undo: this.feeTemplateData.is_undo,
+      is_archived: temp,
       studentArray: [],
       studentwise_fees_tax_applicable: "",
       studentwise_total_fees_amount: "",
