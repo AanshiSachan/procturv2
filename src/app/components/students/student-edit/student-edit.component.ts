@@ -976,15 +976,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     return test;
   }
 
-  fetchCourseFromMaster(id) {
-    console.log(id);
+  fetchCourseFromMaster(student_id) {
+    let id = "-1";
     if (id == null || id == '') {
       this.courseList = [];
     }
     else {
       /* Fetch Course Mapped to Master Course */
       if (this.isProfessional) {
-        this.studentPrefillService.fetchCourseList(id).subscribe(
+        this.studentPrefillService.fetchCourseList(student_id).subscribe(
           res => {
             this.courseList = res;
           }
@@ -993,7 +993,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* fetch batch details */
       else {
         this.batchList = [];
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, id).subscribe(
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, student_id).subscribe(
           res => {
             console.log(res);
             if (res.coursesList != null) {
@@ -1126,7 +1126,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
-        this.fetchCourseFromMaster(-1);
+        this.fetchCourseFromMaster(this.studentAddFormData.standard_id);
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
@@ -1135,7 +1135,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if(data.photo != null && data.photo != ""){
           this.studentServerImage = data.photo;
         }
-      
+
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
