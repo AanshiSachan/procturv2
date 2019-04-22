@@ -39,7 +39,7 @@ import { SharedModule } from './components/shared/shared.module';
 import {ToasterModule} from 'angular2-toaster';
 import { HttpService } from './services/http.service';
 import { ExpensesService } from './services/expenses.service';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
