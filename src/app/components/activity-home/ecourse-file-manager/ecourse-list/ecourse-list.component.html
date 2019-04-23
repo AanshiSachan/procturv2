@@ -1,37 +1,19 @@
-<div class="row" style="display: flex;">
-  <div class="col-md-3 ecourse-item">
-    <div class="ecourse-card" routerLink="../ecourses/12/subjects">
+<div class="row"> 
+  <!--  style="display: flex;" -->
+  <div class="col-md-3 ecourse-item" *ngFor="let ecourse of categiesList;  ">
+    <div class="ecourse-card" routerLink="../ecourses/{{ecourse.course_type_id}}/subjects">
       <div class="head">
-        RRB - Para Medical
+        {{ecourse.course_type}}
       </div>
       <div class="body">
-        <ul>
-          <li>Videos</li>
-          <li>Notes</li>
+        <ul *ngFor="let item of ecourse.categoryList">
+          <li>{{item}}</li>
+          <!-- <li>Notes</li>
           <li>Assignements</li>
           <li>Images</li>
           <li>eBooks</li>
           <li>Audio Notes</li>
-          <li>Previous Year Question Papers</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-3 ecourse-item">
-    <div class="ecourse-card">
-      <div class="head">
-        Bank PO & Clerical Railways (RRB)
-      </div>
-      <div class="body">
-        <ul>
-          <li>Videos</li>
-          <li>Notes</li>
-          <li>Assignements</li>
-          <li>Images</li>
-          <li>eBooks</li>
-          <li>Audio Notes</li>
-          <li>Previous Year Question Papers</li>
+          <li>Previous Year Question Papers</li> -->
         </ul>
       </div>
     </div>

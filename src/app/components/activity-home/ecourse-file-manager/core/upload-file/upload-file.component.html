@@ -33,7 +33,9 @@
           </div>
           <div class="col-md-8 file-drop-wrapper">
             <div class="drop-box">
-              
+                <p-fileUpload #uploaders mode="advanced" [showCancelButton]="false" *ngIf="dragoverflag" customUpload="true" multiple="multiple" 
+                (onSelect)="onSelect($event, uploaders)" (clear)="clearSelectedFiles($event)">
+              </p-fileUpload>
             </div>
           </div>
         </div>

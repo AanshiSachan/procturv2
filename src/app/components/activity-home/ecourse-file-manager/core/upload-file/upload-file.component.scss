@@ -1,3 +1,5 @@
+@import "./src/assets/css/common/variables.scss";
+
 .ga-modal-wrapper{
     right: 0;
     position: fixed;
@@ -71,5 +73,34 @@
             border: 1pt solid #9E9E9E;
             border-style: dashed;
         }
+    }
+}
+
+::ng-deep .ui-fileupload{
+    width: 100%;
+    cursor: pointer;
+}
+
+::ng-deep .ui-fileupload-buttonbar{
+    background: $header-bg;
+    width: auto;
+}
+
+::ng-deep .ui-fileupload-content{
+    min-height: 200px;
+    width: auto;
+    padding: 5px;
+    border-top: none;
+    border-right: 3px dashed $border-common;
+    border-bottom: 3px dashed $border-common;
+    border-left: 3px dashed $border-common;
+    cursor: pointer;
+    &::after{
+        content: "Drag & Drop Files Here";
+        color: rgba(0, 0, 0, 0.09);
+        position: absolute;
+        top: 35%;
+        left: 5%;
+        font-size: 36px;
     }
 }

@@ -1,17 +1,8 @@
 <div class="row">
   <div class="col-md-12 subject-wrapper">
     
-    <span class="subject-item">
-      <span class="subject-label">History</span>
+    <span class="subject-item"  *ngFor="let subject of subjectList;">
+      <span class="subject-label">{{subject.subject_name}}</span>
     </span>
-
-    <span class="subject-item">
-      <span class="subject-label">Chemistry</span>
-    </span>
-
-    <span class="subject-item">
-      <span class="subject-label">Geography</span>
-    </span>
-
   </div>
 </div>
