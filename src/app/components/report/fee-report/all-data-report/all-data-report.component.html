@@ -25,8 +25,8 @@
                     </aside>
                 </div>
 
-                <div class="row fee-filter" [ngClass]="{'long': showPopupKeys.isFilterReversed}" style="margin-left: 0px;">
-                    <div id="secondary">
+                <div class="row fee-filter" [ngClass]="{'long': showPopupKeys.isFilterReversed}" style="margin-left: 0px;     margin-top: 2em;">
+                    <!-- <div id="secondary">
 
                         <div class="c-lg-3">
                             <div class="field-wrapper">
@@ -95,6 +95,29 @@
                             </div>
                         </div>
 
+                    </div> -->
+                    <div id="secondary">
+                        <div class="c-lg-3 ">
+                            <div class="c-lg-12 field-checkbox-wrapper">
+                                <input class="form-checkbox" type="checkbox" name="assign_course"  id='assign_course' [(ngModel)]="courseFetchForm.is_AssignedCourseBatchFees" checked>
+                                <label for="assign_course">&nbsp;&nbsp; Active Assigned Course Fee</label>
+                            </div>
+                        </div>
+                        <div class="c-lg-3 ">
+                            <div class="c-lg-12 field-checkbox-wrapper">
+                                <input class="form-checkbox" type="checkbox" name="unassign_course" id='unassign_course' [(ngModel)]="courseFetchForm.is_unAssignedCourseBatchFees" >
+                                <label for="unassign_course">&nbsp;&nbsp; Active Unassigned Course Fee</label>
+                            </div>
+                        </div>
+                        <div class="c-lg-3 ">
+                            <div class="c-lg-12 field-checkbox-wrapper">
+                                <input class="form-checkbox" type="checkbox" name="archived_course"  id='archived_course' [(ngModel)]="courseFetchForm.is_archivedCourseBatchFees" >
+                                <label for="archived_course">&nbsp;&nbsp; Active Archived Course Fee</label>
+                            </div>
+                        </div>                        
+                        <div class="c-lg-2">
+                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,7 +179,7 @@
                                         </li>
                                     </ul>
                                 </nav>
-                            </section>                           
+                            </section>
                         </div>
                     </div>
 

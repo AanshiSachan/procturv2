@@ -96,19 +96,22 @@ export class AllDataReportComponent implements OnInit {
     subject_id: -1,
     batch_id: -1,
     student_name: '',
-    from_date: '',
-    to_date: '',
+    // from_date: '',
+    // to_date: '',
     master_course_name: -1,
     course_id: -1,
     contact_no: '',
     type: '0',
     installment_id: -1,
     is_fee_report_view: 1,
-    academic_year_id: ""
+    academic_year_id: "",
+    is_AssignedCourseBatchFees: true,
+    is_unAssignedCourseBatchFees: false,
+    is_archivedCourseBatchFees: false
   }
 
 
-  helpMsg: string = "Active Student fee details are shown based on dues and academic year filter applied."
+  helpMsg: string = "Active Student Due Report ";//fee details are shown based on dues and academic year filter applied.
   //table setting
 
   tableSetting: any = {//inventory.item
@@ -316,15 +319,31 @@ export class AllDataReportComponent implements OnInit {
       master_course_name: null,
       course_id: null,
       batch_id: this.courseFetchForm.batch_id,
-      type: this.courseFetchForm.type,
-      from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-      to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+      type: '0',// this.courseFetchForm.type,
+      // from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+      // to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
       installment_id: this.courseFetchForm.installment_id,
       student_name: this.courseFetchForm.student_name,
       contact_no: this.courseFetchForm.contact_no,
       is_fee_report_view: this.courseFetchForm.is_fee_report_view,
-      academic_year_id: arr
+      academic_year_id: arr,
+      is_AssignedCourseBatchFees: 'N',
+      is_unAssignedCourseBatchFees: 'N',
+      is_archivedCourseBatchFees: 'N'
     }
+
+    obj.is_AssignedCourseBatchFees = this.courseFetchForm.is_AssignedCourseBatchFees == true ? 'Y' : 'N';
+    obj.is_unAssignedCourseBatchFees = this.courseFetchForm.is_unAssignedCourseBatchFees == true ? 'Y' : 'N';
+    obj.is_archivedCourseBatchFees = this.courseFetchForm.is_archivedCourseBatchFees == true ? 'Y' : 'N';
+
+
+    if (obj.is_AssignedCourseBatchFees == 'N' &&
+      obj.is_unAssignedCourseBatchFees == 'N' &&
+      obj.is_archivedCourseBatchFees == 'N') {
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Please select at least one option");
+      return false;
+    }
+
     /* Fetch By Master Course and Other Details */
     // if (this.showPopupKeys.isFilterReversed) {
     //   /* Checks if user has filled the form correctly and selected a batch or master course course */
@@ -348,7 +367,7 @@ export class AllDataReportComponent implements OnInit {
     // console.log(obj);
     // /* Fetch by name or Dues Type */
     if (this.due_type == '-1') {
-      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',"Please select dues");
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Please select dues");
       this.tableSetting.displayMessage = "Data not found";
       this.feeDataSource1 = [];
       return false;
@@ -384,7 +403,7 @@ export class AllDataReportComponent implements OnInit {
         return true;
       }
       else {
-        this._msgService.showErrorMessage(this._msgService.toastTypes.error, 'From date cannot be more than to date',"")
+        this._msgService.showErrorMessage(this._msgService.toastTypes.error, 'From date cannot be more than to date', "")
         return false;
       }
     }
@@ -424,6 +443,10 @@ export class AllDataReportComponent implements OnInit {
         else {
           this.feeDataSource2 = res;
         }
+      },
+      err => {
+        this.isRippleLoad = false;
+        //console.log(err);
       }
     )
   }
@@ -436,9 +459,9 @@ export class AllDataReportComponent implements OnInit {
   }
 
   switchActiveView(id) {
-    let classArray = ['home','attendance','sms','fee','exam','report','time','email','profit'];
+    let classArray = ['home', 'attendance', 'sms', 'fee', 'exam', 'report', 'time', 'email', 'profit'];
 
-    classArray.forEach((classname)=>{
+    classArray.forEach((classname) => {
       document.getElementById(classname).classList.remove('active');
     });
     document.getElementById(id).classList.add('active');
@@ -579,7 +602,7 @@ export class AllDataReportComponent implements OnInit {
       let selected = moment(this.courseFetchForm.from_date);
       let v = today.diff(selected, 'days');
       if (v < 0) {
-        this._msgService.showErrorMessage(this._msgService.toastTypes.info,'Future date cannot be selected',"")
+        this._msgService.showErrorMessage(this._msgService.toastTypes.info, 'Future date cannot be selected', "")
 
         this.courseFetchForm.from_date = moment(new Date()).format('DD-MMM-YYYY');
       }
@@ -589,7 +612,7 @@ export class AllDataReportComponent implements OnInit {
       let selected = moment(this.courseFetchForm.to_date);
       let v = today.diff(selected, 'days');
       if (v < 0) {
-        this._msgService.showErrorMessage(this._msgService.toastTypes.info,'Future date cannot be selected',"")
+        this._msgService.showErrorMessage(this._msgService.toastTypes.info, 'Future date cannot be selected', "")
         this.courseFetchForm.to_date = moment(new Date()).format('DD-MMM-YYYY');
       }
     }
@@ -708,7 +731,7 @@ export class AllDataReportComponent implements OnInit {
       this.showPopupKeys.isCustomDate = true;
     }
     else if (this.due_type == '-1') {
-      this._msgService.showErrorMessage(this._msgService.toastTypes.error,"","Please select dues" );
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, "", "Please select dues");
     }
 
   }
@@ -752,14 +775,14 @@ export class AllDataReportComponent implements OnInit {
    * created by laxmi
   */
   sendBulkSms(event) {
-    if(event.data.length == 0){
-      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',"Select record to send due sms");
-     return;
+    if (event.data.length == 0) {
+      this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Select record to send due sms");
+      return;
     }
     if (confirm("Due SMS shall be sent to those students/parents whose amount is due. Do you want to continue ? ")) {
       let filtered = [];
       let arr: any[] = event.data.filter(e => {
-        if(e.total_balance_amt != 0 ){
+        if (e.total_balance_amt != 0) {
           filtered.push(e.student_id);
           return e.student_id;
         }
@@ -777,11 +800,11 @@ export class AllDataReportComponent implements OnInit {
       }
       this._putter.sendBulkSMS(obj).subscribe(
         res => {
-         // console.log(res);
-          this._msgService.showErrorMessage(this._msgService.toastTypes.success, '',res.message);
+          // console.log(res);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.success, '', res.message);
         },
         err => {
-          this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',err.error.message);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', err.error.message);
         }
       );
     }
@@ -805,10 +828,10 @@ export class AllDataReportComponent implements OnInit {
 
       this._putter.sendBulkFineSMS(obj).subscribe(
         res => {
-          this._msgService.showErrorMessage(this._msgService.toastTypes.success, '',res.message);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.success, '', res.message);
         },
         err => {
-          this._msgService.showErrorMessage(this._msgService.toastTypes.error, '',err.error.message);
+          this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', err.error.message);
         }
       );
     }
