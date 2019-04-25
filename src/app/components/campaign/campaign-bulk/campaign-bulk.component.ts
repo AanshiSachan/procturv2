@@ -14,12 +14,15 @@ import { MessageShowService } from '../../../services/message-show.service';
 })
 export class CampaignBulkComponent implements OnInit {
 
+  private referralList: any[] = [];
+  private sourceList: any[] = [];
   isCancelUpload: boolean = false;
   isUploadingXls: boolean = false;
-  progress: number = 0;
-  fileLoading: string = "";
   isBulkUploadStatus: boolean = false;
+  isProfessional: boolean = false;
   bulkUploadRecords: any;
+  fileLoading: string = ""; 
+  progress: number = 0; 
 
   private campaignAddFormData: addCampaign = {
     name: "",
@@ -27,9 +30,8 @@ export class CampaignBulkComponent implements OnInit {
     source: ""
   };
 
-  private referralList: any[] = [];
-  private sourceList: any[] = [];
-  isProfessional: boolean = false;
+
+
 
   constructor(
     private fetchData: CampaignService,
@@ -56,7 +58,6 @@ export class CampaignBulkComponent implements OnInit {
     let referralList = this.prefill.getLeadReffered().subscribe((data: any) => {
       this.referralList = data;
     });
-
     let sourceList = this.prefill.getLeadSource().subscribe((data: any) => {
       this.sourceList = data;
     });
@@ -197,8 +198,6 @@ export class CampaignBulkComponent implements OnInit {
         response = res;
 
         if (response.statusCode >= 200 && response.statusCode < 300) {
-
-
           this.showErrorMessage(this.msgService.toastTypes.success, this.msgService.object.functionalMsg.uploaded, '');
           this.clearFormAndMove();
           form.reset();
@@ -247,7 +246,6 @@ export class CampaignBulkComponent implements OnInit {
       source: ""
     }
     this.fetchPrefillFormData();
-
   }
 
   // toast function 

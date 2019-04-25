@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UploadFileComponent } from './core/upload-file/upload-file.component';
+import { HttpService } from '../../../services/http.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
+import { AlertService } from '../../../services/alert.service';
+
 
 @Component({
   selector: 'app-ecourse-file-manager',
@@ -9,16 +13,36 @@ import { UploadFileComponent } from './core/upload-file/upload-file.component';
 export class EcourseFileManagerComponent implements OnInit {
 
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
-  
   showUploadFileModal: boolean = false;
-  constructor() { }
+  institute_id: any;
 
-  ngOnInit() {
+  constructor(private _http: HttpService,
+    private auth: AuthenticatorService,
+  ) {
+    this._http.routeList =[];
+    let  obj ={routeLink:'../ecourse-file-manager',name:'eCourse'};
+    this._http.routeList.push(obj);
   }
 
-  toggleFileUploadModal()
-  {
-    this.uploadFile.showModal = (this.uploadFile.showModal)?false:true;
+
+  ngOnInit() {
+    this.auth.currentInstituteId.subscribe(id => {
+      this.institute_id = id;
+      this.getDataUsedInCourseList();
+    });
+  }
+
+  toggleFileUploadModal() {
+    this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+  }
+
+
+  // user data usage get
+  getDataUsedInCourseList() {
+    let url = "/api/v1/instFilesSystem/getUsedSpace/" + this.institute_id;
+    this._http.getData(url).subscribe((res: any) => {
+      console.log(res);
+    });
   }
 
 }

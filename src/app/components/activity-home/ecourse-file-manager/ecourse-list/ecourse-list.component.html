@@ -1,7 +1,7 @@
 <div class="row"> 
   <!--  style="display: flex;" -->
   <div class="col-md-3 ecourse-item" *ngFor="let ecourse of categiesList;  ">
-    <div class="ecourse-card" routerLink="../ecourses/{{ecourse.course_type_id}}/subjects">
+    <div class="ecourse-card" (click)="getToSubject(ecourse)">
       <div class="head">
         {{ecourse.course_type}}
       </div>

@@ -2,7 +2,7 @@
   <div class="col-md-12 text-headline">
     <a routerLink="/view/activity/dashboard">
       Activity
-    </a> 
+    </a>
     &gt;
     <span>ECourse File Manager</span>
   </div>
@@ -34,7 +34,12 @@
   <div class="col-md-10 file-mgr-wrapper">
     <div class="row">
       <div class="col-md-12 file-mgr-breadcrumb">
-        <h2 routerLink="../ecourse-file-manager">eCourse</h2>
+        <h2>
+          <a [routerLink]="route.routeLink" *ngFor="let route of _http.routeList ;let i = index">
+              {{route.name}}            
+            <i class="fas fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
+          </a>
+        </h2>
       </div>
 
       <div class="col-md-12 file-mgr-body">
@@ -45,4 +50,3 @@
 </div>
 
 <app-upload-file></app-upload-file>
-

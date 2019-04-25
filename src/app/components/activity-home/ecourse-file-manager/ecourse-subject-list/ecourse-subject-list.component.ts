@@ -13,7 +13,7 @@ export class EcourseSubjectListComponent implements OnInit {
   subjectList: any = [];
   institute_id: any;
   ecourse_id:any;
-  
+
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
@@ -37,7 +37,7 @@ export class EcourseSubjectListComponent implements OnInit {
   getSubjectList() {
     this.subjectList = [];
     let url = "/api/v1/ecourse/" + this.institute_id +"/"+ this.ecourse_id + "/subjects";
-
+    
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
       this.subjectList = res;

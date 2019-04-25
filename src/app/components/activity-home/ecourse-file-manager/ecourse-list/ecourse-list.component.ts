@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { EcourseFileManagerComponent } from '../ecourse-file-manager.component';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-ecourse-list',
@@ -15,6 +17,7 @@ export class EcourseListComponent implements OnInit {
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
+    private router: Router
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -23,6 +26,12 @@ export class EcourseListComponent implements OnInit {
 
   ngOnInit() {
     this.getcategoriesList();
+  }
+
+  getToSubject(ecourse){
+     this.router.navigateByUrl("/view/activity/ecourse-file-manager/ecourses/"+ecourse.course_type_id+"/subjects");
+     let  obj ={routeLink:'../ecourses/'+ecourse.course_type_id+'/subjects',name:ecourse.course_type};
+     this._http.routeList.push(obj);
   }
 
   getcategoriesList() {

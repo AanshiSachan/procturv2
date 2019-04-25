@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from './authenticator.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 @Injectable()
 export class HttpService {
 
+  public routeList = [];
   baseUrl: string = '';
   Authorization: any;
   headers: any;
@@ -64,7 +66,7 @@ export class HttpService {
 
   deleteData(objecturl) {
     let url = this.baseUrl + objecturl;
-    return this.http.delete(url,  { headers: this.headers }).map(
+    return this.http.delete(url, { headers: this.headers }).map(
       data => {
         return data;
       },
@@ -73,4 +75,6 @@ export class HttpService {
       }
     )
   }
+
+ 
 }

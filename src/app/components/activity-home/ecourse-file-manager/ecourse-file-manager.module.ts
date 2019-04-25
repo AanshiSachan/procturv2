@@ -7,18 +7,22 @@ import { EcourseListComponent } from './ecourse-list/ecourse-list.component';
 import { UploadFileComponent } from './core/upload-file/upload-file.component';
 import { EcourseSubjectListComponent } from './ecourse-subject-list/ecourse-subject-list.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     EcourseFileManagerRoutingModule,
-    FileUploadModule
+    FileUploadModule,
+    SharedModule
   ],
   declarations: [
     EcourseFileManagerComponent,
     EcourseListComponent,
     UploadFileComponent,
     EcourseSubjectListComponent
+  ],
+  providers: [
   ]
 })
 export class EcourseFileManagerModule { }

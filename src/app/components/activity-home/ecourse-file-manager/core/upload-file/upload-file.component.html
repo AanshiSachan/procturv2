@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+  </loaders-css>
 <div class="ga-modal-wrapper" *ngIf="showModal">
   <div class="ga-modal-container">
     <div class="ga-modal">
@@ -8,32 +10,40 @@
       <div class="ga-modal-body">
         <div class="row upload-box">
           <div class="col-md-4 file-form">
-            
+
             <div class="form-group">
-              <select class="form-ctrl ga-form-input">
-                <option>Exam 1</option>
-                <option>Exam 2</option>
+              <select class="form-ctrl ga-form-input" (change)="getSubjectsList($event.target.value)">
+                 <option></option>
+                <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
+                <!-- <option>Exam 2</option> -->
               </select>
             </div>
 
             <div class="form-group">
-              <select class="form-ctrl ga-form-input">
-                <option>Exam 1</option>
-                <option>Exam 2</option>
+              <select class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
+                  <option></option>
+                <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <select class="form-ctrl ga-form-input">
-                <option>Exam 1</option>
-                <option>Exam 2</option>
+              <select class="form-ctrl ga-form-input" (change)="getSubtopicList($event.target.value)">
+                  <option></option>
+                <option *ngFor="let topic of topicList; " [value]="topic.institute_topic_id">{{topic.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select class="form-ctrl ga-form-input"  >
+                  <option></option>
+                <option *ngFor="let subtopic of subtopicList; ">{{subtopic.name}}</option>
               </select>
             </div>
 
           </div>
           <div class="col-md-8 file-drop-wrapper">
             <div class="drop-box">
-                <p-fileUpload #uploaders mode="advanced" [showCancelButton]="false" *ngIf="dragoverflag" customUpload="true" multiple="multiple" 
+              <p-fileUpload #uploaders mode="advanced" [showCancelButton]="false" *ngIf="dragoverflag" customUpload="true" multiple="multiple"
                 (onSelect)="onSelect($event, uploaders)" (clear)="clearSelectedFiles($event)">
               </p-fileUpload>
             </div>
