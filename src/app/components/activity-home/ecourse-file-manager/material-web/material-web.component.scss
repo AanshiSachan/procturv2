@@ -1,0 +1,96 @@
+.row{
+    margin: 0;
+}
+
+.text-red{
+    color: red;
+}
+
+.text-blue{
+    color: #2680eb;
+}
+
+i.fa{
+    margin-right: 0.4em;
+}
+
+.btn-ga-white {
+    padding: 0.2em 0.8em;
+    height: auto;
+    box-shadow: 1pt 1pt 0pt #f1f1f1;
+    color: #555;
+    &:hover{
+        color: #07f;
+    }
+    &:focus{
+        outline: none;
+    }
+    &:active{
+        box-shadow: none;
+        color: #fff;
+        background: #0084f6;
+        border: 1px solid #0084f6;
+    }
+}
+
+.btn-xs{
+    font-size: 0.8em;
+}
+
+.field-checkbox-wrapper, .field-radio-wrapper {
+    position: absolute;
+    margin-left: -0.6em;
+    margin-top: 0.4em;
+}
+
+.singleton-row{
+    
+    .action-buttons{
+        visibility: hidden;
+    }
+    &:hover{
+        background: #ebf6ff;
+        .action-buttons{
+            visibility: visible;
+        }
+    }
+}
+
+.topic-data, .material-row{
+    padding-left: 1.2em !important;
+}
+
+.main-topic-row{
+    padding: 0;
+    margin: 1em 0;
+    border: 1pt solid #ddd;
+}
+.topic-row{
+    padding: 0;
+}
+.topic-data{
+    border-top: 1px solid #eee;
+    padding: 0.4em 0;
+    display: flex;
+    .topic-name{
+        margin: auto;
+    }
+}
+.main-topic-data{
+    color: #000;
+    font-weight: bold;
+}
+.topic-material-data{
+    padding: 0;
+    .material-row{
+        border-top: 1px solid #eee;
+        padding: 0.4em 0;
+        display: flex;
+        .material-title{
+            margin: auto;
+        }
+    }
+}
+.subTopics-data{
+    padding: 0;
+}

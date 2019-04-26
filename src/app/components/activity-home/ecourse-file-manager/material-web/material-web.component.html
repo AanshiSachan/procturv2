@@ -1,0 +1,94 @@
+
+<div class="fluid-container data-wrapper">
+  <div class="row main-topic-row" *ngFor="let topic of materialData;">
+    <div class="row singleton-row col-md-12 topic-data main-topic-data">
+      <div class="field-checkbox-wrapper">
+          <input type="checkbox" name="topicIds[]" id="topic{{topic.topic_id}}" class="topic-selector form-checkbox">
+          <label for="topic{{topic.topic_id}}"></label>
+      </div>
+      
+      <div class="col-md-4 topic-name">
+          {{topic.topic_name}}
+      </div>
+      <div class="col-md-4">
+  
+      </div>
+      <div class="col-md-4">
+        <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">Upload</button>
+          <button class="btn btn-xs btn-ga-white">Add Topic</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 topic-material-data">
+      <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList}"></ng-container>
+      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.videosList}"></ng-container>
+    </div>
+    <div class="row col-md-12 subTopics-data">
+      <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } "></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #recursiveNodes let-subTopics let-level="subLevel">
+  <div class="row topic-row" *ngFor="let topic of subTopics">
+    <div class="row singleton-row col-md-12 topic-data">
+      <div class="col-md-4 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+          {{topic.topic_name}}
+      </div>
+      <div class="col-md-4">
+  
+      </div>
+      <div class="col-md-4">
+        <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">Upload</button>
+          <button class="btn btn-xs btn-ga-white">Add Topic</button>
+        </div>
+      </div>
+    </div>
+    <div class="row col-md-12 topic-material-data">
+      <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level}"></ng-container>
+      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.videosList, level: level}"></ng-container>
+    </div>
+    <div class="row col-md-12 subTopics-data">
+      <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } "></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #youtubeData let-youtube let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">
+      <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
+        <i class="fa fa-youtube-play text-red"></i>
+        {{video.title}}
+      </div>
+      <div class="col-md-4">
+        {{video.category_name}}
+      </div>
+      <div class="col-md-4">
+        <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">Edit</button>
+          <button class="btn btn-xs btn-ga-white">Delete</button>
+        </div>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #assignmentData let-assignment let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of assignment">
+      <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
+        <i class="fa fa-file-text-o text-blue" aria-hidden="true"></i>
+        {{file.title}}
+      </div>
+      <div class="col-md-4">
+        {{file.size}}
+      </div>
+      <div class="col-md-4">
+        <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">Edit</button>
+          <button class="btn btn-xs btn-ga-white">Delete</button>
+        </div>
+      </div>
+  </div>
+</ng-template>

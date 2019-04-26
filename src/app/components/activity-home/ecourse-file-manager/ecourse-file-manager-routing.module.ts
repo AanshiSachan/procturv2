@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EcourseListComponent } from './ecourse-list/ecourse-list.component';
 import { EcourseFileManagerComponent } from './ecourse-file-manager.component';
 import { EcourseSubjectListComponent } from './ecourse-subject-list/ecourse-subject-list.component';
+import { MaterialWebComponent } from './material-web/material-web.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
           {
               path: 'ecourses/:ecourse_id/subjects',
               component: EcourseSubjectListComponent
+          },
+          {
+              path: 'ecourses/:ecourse_id/subjects/:subject_id/materials',
+              component: MaterialWebComponent
           }
       ]
   }
