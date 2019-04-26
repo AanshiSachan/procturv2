@@ -21,11 +21,10 @@ import { MaterialWebComponent } from './material-web/material-web.component';
     EcourseFileManagerComponent,
     EcourseListComponent,
     UploadFileComponent,
-    EcourseSubjectListComponent
+    EcourseSubjectListComponent,
+    MaterialWebComponent
   ],
   providers: [
-    EcourseSubjectListComponent,
-    EcourseListComponent, UploadFileComponent, EcourseSubjectListComponent, MaterialWebComponent
   ]
 })
 export class EcourseFileManagerModule { }
