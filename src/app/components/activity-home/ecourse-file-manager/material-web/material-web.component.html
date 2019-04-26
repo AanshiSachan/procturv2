@@ -8,7 +8,7 @@
       </div>
       
       <div class="col-md-4 topic-name">
-          {{topic.topic_name}}
+          <button class="btn-ga-collapse"> <i class="fa fa-minus"></i> </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
   
@@ -34,7 +34,7 @@
   <div class="row topic-row" *ngFor="let topic of subTopics">
     <div class="row singleton-row col-md-12 topic-data">
       <div class="col-md-4 topic-name" [ngStyle]="{'padding-left': level+'em'}">
-          {{topic.topic_name}}
+        <button class="btn-ga-collapse"> <i class="fa fa-minus"></i> </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
   

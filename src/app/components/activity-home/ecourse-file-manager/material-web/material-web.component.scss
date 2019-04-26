@@ -14,6 +14,14 @@ i.fa{
     margin-right: 0.4em;
 }
 
+.btn-ga-collapse{
+    vertical-align: middle;
+    background: transparent;
+    &:hover{
+        color: #07f;
+    }
+}
+
 .btn-ga-white {
     padding: 0.2em 0.8em;
     height: auto;
