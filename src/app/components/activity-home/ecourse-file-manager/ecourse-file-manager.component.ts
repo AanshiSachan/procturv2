@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { UploadFileComponent } from './core/upload-file/upload-file.component';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
-import { AlertService } from '../../../services/alert.service';
-
 
 @Component({
   selector: 'app-ecourse-file-manager',
   templateUrl: './ecourse-file-manager.component.html',
   styleUrls: ['./ecourse-file-manager.component.scss']
 })
-export class EcourseFileManagerComponent implements OnInit {
+export class EcourseFileManagerComponent implements OnInit  {
 
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
@@ -19,9 +17,7 @@ export class EcourseFileManagerComponent implements OnInit {
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
   ) {
-    this._http.routeList =[];
-    let  obj ={routeLink:'../ecourse-file-manager',name:'eCourse'};
-    this._http.routeList.push(obj);
+    
   }
 
 
@@ -30,6 +26,9 @@ export class EcourseFileManagerComponent implements OnInit {
       this.institute_id = id;
       this.getDataUsedInCourseList();
     });
+    this._http.routeList =[];
+    let  obj ={routeLink:'../ecourse-file-manager',name:'eCourse'};
+    this._http.routeList.push(obj);
   }
 
   toggleFileUploadModal() {

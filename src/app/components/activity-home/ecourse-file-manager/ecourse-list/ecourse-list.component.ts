@@ -1,8 +1,8 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnChanges } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { EcourseFileManagerComponent } from '../ecourse-file-manager.component';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ecourse-list',
@@ -13,6 +13,7 @@ export class EcourseListComponent implements OnInit {
 
   categiesList: any = [];
   institute_id: any;
+  isRippleLoad:boolean =false;
 
   constructor(
     private _http: HttpService,
@@ -26,20 +27,30 @@ export class EcourseListComponent implements OnInit {
 
   ngOnInit() {
     this.getcategoriesList();
+    this._http.routeList =[];
+    let  obj ={routeLink:'../ecourse-file-manager',name:'eCourse'};
+    this._http.routeList.push(obj);
   }
 
-  getToSubject(ecourse){
-     this.router.navigateByUrl("/view/activity/ecourse-file-manager/ecourses/"+ecourse.course_type_id+"/subjects");
-     let  obj ={routeLink:'../ecourses/'+ecourse.course_type_id+'/subjects',name:ecourse.course_type};
-     this._http.routeList.push(obj);
+  getToSubject(ecourse) {
+    this._http.routeList.splice(1,this._http.routeList.length);
+    this.router.navigateByUrl("/view/activity/ecourse-file-manager/ecourses/" + ecourse.course_type_id + "/subjects");
+    let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + ecourse.course_type_id + '/subjects', name: ecourse.course_type };
+    this._http.routeList.push(obj);
   }
 
   getcategoriesList() {
     this.categiesList = [];
+    this.isRippleLoad= true;
     let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecoursesList";
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
+      this.isRippleLoad= false;
       this.categiesList = res;
+
+    },err=>{
+      this.isRippleLoad= false;
     });
   }
+
 }

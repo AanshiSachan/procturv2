@@ -1,34 +1,53 @@
-.ecourse-item{
-    padding: 1em;
-    .ecourse-card{
-        border-radius: 4px;
-        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-        border: solid 1px #cedff3;
-        background-color: #ffffff;
-        height: 100%;
-        cursor: pointer;
-        &:hover{
-            .head{
-                background: #b1ccec;
-            }
-        }
-        .head{
-            text-align: center;
-            padding: 0.8em 0.6em;
-            background-color: #cedff3;
-            font-weight: bold;
-        }
-        .body{
-            padding: 0.6em 0.8em;
-            ul{
-                padding-left: 1.4em;
-                li{
-                    list-style-type: disc;
-                    padding: 0.2em 0;
-                    font-size: 0.9em;
-                    color: #666;
-                }
-            }
-        }
+.wrap-data {
+
+  height: 440px;
+  overflow-y: scroll;
+  overflow-x: none;
+
+  ::-webkit-scrollbar {
+    display: block !important;
+    width: 7px;
+    height: 7px;
+  }
+}
+
+.ecourse-item {
+  padding: 1em;
+
+  .ecourse-card {
+    border-radius: 4px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    border: solid 1px #cedff3;
+    background-color: #ffffff;
+    height: 100%;
+    cursor: pointer;
+
+    &:hover {
+      .head {
+        background: #b1ccec;
+      }
     }
+
+    .head {
+      text-align: center;
+      padding: .8em .6em;
+      background-color: #cedff3;
+      font-weight: bold;
+    }
+
+    .body {
+      padding: .6em .8em;
+
+      ul {
+        padding-left: 1.4em;
+
+        li {
+          list-style-type: disc;
+          padding: .2em 0;
+          font-size: .9em;
+          color: #666;
+        }
+      }
+    }
+  }
 }

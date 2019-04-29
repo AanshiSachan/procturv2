@@ -9,9 +9,12 @@ import { EcourseSubjectListComponent } from './ecourse-subject-list/ecourse-subj
 import { FileUploadModule } from 'primeng/fileupload';
 import { SharedModule } from '../../shared/shared.module';
 import { MaterialWebComponent } from './material-web/material-web.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     EcourseFileManagerRoutingModule,
     FileUploadModule,

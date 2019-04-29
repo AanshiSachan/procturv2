@@ -12,39 +12,42 @@
           <div class="col-md-4 file-form">
 
             <div class="form-group">
-              <select class="form-ctrl ga-form-input" (change)="getSubjectsList($event.target.value)">
-                 <option></option>
+              <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.course_types" (change)="getSubjectsList($event.target.value)">
+                  <option  value="0"></option>
                 <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
                 <!-- <option>Exam 2</option> -->
               </select>
             </div>
 
             <div class="form-group">
-              <select class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
-                  <option></option>
+              <select [(ngModel)]="varJson.subject_id" class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
+                  <option  value="0"></option>
                 <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <select class="form-ctrl ga-form-input" (change)="getSubtopicList($event.target.value)">
-                  <option></option>
+              <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.topic_id" (change)="getSubtopicList($event.target.value)">
+                  <option  value="0"></option>
                 <option *ngFor="let topic of topicList; " [value]="topic.institute_topic_id">{{topic.name}}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <select class="form-ctrl ga-form-input"  >
-                  <option></option>
-                <option *ngFor="let subtopic of subtopicList; ">{{subtopic.name}}</option>
+              <select class="form-ctrl ga-form-input"  [(ngModel)]="varJson.sub_topic_id">
+                  <option  value="0"></option>
+                <option *ngFor="let subtopic of subtopicList; " [value]="subtopic.institute_topic_id">{{subtopic.name}}</option>
               </select>
             </div>
 
           </div>
-          <div class="col-md-8 file-drop-wrapper">
-            <div class="drop-box">
-              <p-fileUpload #uploaders mode="advanced" [showCancelButton]="false" *ngIf="dragoverflag" customUpload="true" multiple="multiple"
-                (onSelect)="onSelect($event, uploaders)" (clear)="clearSelectedFiles($event)">
+          <div class="col-md-8 file-drop-wrapper">           
+            <div class="drop-box">              
+                <select [(ngModel)]="varJson.category_id"  (change)="setCategoryType($event.target.value)" class="form-ctrl ga-form-input" style="margin-bottom: 0.8em"  >
+                    <option value="0">--select categories--</option>
+                  <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">{{category.category_name}}</option>
+                </select>
+              <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false">
               </p-fileUpload>
             </div>
           </div>

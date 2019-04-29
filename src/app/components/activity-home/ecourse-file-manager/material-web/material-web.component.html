@@ -11,7 +11,6 @@
           <button class="btn-ga-collapse"> <i class="fa fa-minus"></i> </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
-  
       </div>
       <div class="col-md-4">
         <div class="action-buttons">
@@ -22,7 +21,8 @@
     </div>
     <div class="col-md-12 topic-material-data">
       <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList}"></ng-container>
-      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.videosList}"></ng-container>
+      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList}"></ng-container>
+      <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level}"></ng-container>
     </div>
     <div class="row col-md-12 subTopics-data">
       <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } "></ng-container>
@@ -48,7 +48,8 @@
     </div>
     <div class="row col-md-12 topic-material-data">
       <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level}"></ng-container>
-      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.videosList, level: level}"></ng-container>
+      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level}"></ng-container>
+      <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level}"></ng-container>
     </div>
     <div class="row col-md-12 subTopics-data">
       <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } "></ng-container>
@@ -65,6 +66,24 @@
       </div>
       <div class="col-md-4">
         {{video.category_name}}
+      </div>
+      <div class="col-md-4">
+        <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">Edit</button>
+          <button class="btn btn-xs btn-ga-white">Delete</button>
+        </div>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #imagelistData let-image let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of image">
+      <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
+        <i class="fa fa-file-image-o text-blue" aria-hidden="true"></i>
+        {{file.title}}
+      </div>
+      <div class="col-md-4">
+        {{file.size}}
       </div>
       <div class="col-md-4">
         <div class="action-buttons">
