@@ -64,9 +64,13 @@ export class HttpService {
     )
   }
 
-  deleteData(objecturl) {
+  deleteData(objecturl, obj) {
     let url = this.baseUrl + objecturl;
-    return this.http.delete(url, { headers: this.headers }).map(
+    let object = {
+      headers: this.headers, 
+      body: obj
+    }
+    return this.http.delete(url, object).map(
       data => {
         return data;
       },
@@ -76,5 +80,5 @@ export class HttpService {
     )
   }
 
- 
+
 }

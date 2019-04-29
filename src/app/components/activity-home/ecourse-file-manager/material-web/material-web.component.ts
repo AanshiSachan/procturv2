@@ -2,6 +2,7 @@ import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { HttpService } from '../../../../services/http.service';
 import { ActivatedRoute } from '@angular/router';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
     selector: 'app-material-web',
@@ -18,6 +19,8 @@ export class MaterialWebComponent implements OnInit {
     institute_id: any;
     course_types: any;
     subject_id: any;
+    tempfile:any;
+    showModal:boolean= false;
     @Input()
     treeData: any = [
         { name: "parent1", subnodes: [] },
@@ -345,6 +348,7 @@ export class MaterialWebComponent implements OnInit {
         private _http: HttpService,
         private auth: AuthenticatorService,
         private route: ActivatedRoute,
+        private msgService: MessageShowService
     ) {
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
@@ -377,10 +381,50 @@ export class MaterialWebComponent implements OnInit {
         this._http.postData(url, data).subscribe((res) => {
             console.log(res);
             this.materialData = res;
-
         },
             (err) => {
 
+            })
+    }
+
+    setRemoveDataFile(file){
+        this.tempfile = file;
+        this.showModal = true;
+    }
+
+    /// removed data
+    removeData() {
+        this.showModal = false;
+        this.isRippleLoad = true;
+        let url = "/api/v1/instFileSystem/deleteFiles";
+        let data =
+        {
+            "institute_id": this.institute_id,
+            "fileIdArray": []
+        }
+
+        data.fileIdArray.push(this.tempfile.file_id);
+        this._http.deleteData(url, data).subscribe((res) => {
+            console.log(res);
+            this.isRippleLoad = false;            
+            this.msgService.showErrorMessage('success', '', "File Deleted Successfully");
+            this.getMaterialData();
+        },
+            (err) => {
+                this.isRippleLoad = false;
+                this.msgService.showErrorMessage('error', '', "something  went wrong while deleting file");
+            })
+    }
+
+    downloadFile(file){
+        this.isRippleLoad = true;
+        let url = "/api/v1/instFileSystem/downloadFile/"+this.institute_id+"?fileId="+file.file_id;
+        this._http.getData(url).subscribe((res) => {
+            console.log(res);
+            this.msgService.showErrorMessage('success', '', "File Downloaded Successfully");
+        },
+            (err) => {
+                this.msgService.showErrorMessage('error', '', "something  went wrong while Downloading file");
             })
     }
 
