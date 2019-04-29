@@ -17,7 +17,8 @@ export class HomeComponent implements OnInit {
     isFeeActivity:false,
     isMonitorDashboard:false,
     showExamDesk:false,
-    showLiveClasses:false
+    showLiveClasses:false,
+    isEcourseFileManager:false
   }
 
   constructor(
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
 
   checkUserAccess() {
     const permissionArray = sessionStorage.getItem('permissions');
+   const permittedRoles=  sessionStorage.getItem('permitted_roles');
     const userType = sessionStorage.getItem('userType');
     if (userType == '3') {
       this.jsonFlag.isAdmin = false;
@@ -69,6 +71,9 @@ export class HomeComponent implements OnInit {
       }
     }
 
+    if(permittedRoles['717']!=undefined){
+      this.jsonFlag.isEcourseFileManager = true;
+    }
   }
 
   checkInstSetupType(value, role): boolean {

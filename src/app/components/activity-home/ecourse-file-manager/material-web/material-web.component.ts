@@ -368,10 +368,10 @@ export class MaterialWebComponent implements OnInit {
         let data =
         {
             "institute_id": this.institute_id,
-            "subject_id": 3041,
-            "course_types": "61"
-            // "subject_id": this.subject_id,
-            // "course_types": this.course_types
+            // "subject_id": 3041,
+            // "course_types": "61"
+            "subject_id": this.subject_id,
+            "course_types": this.course_types
         }
 
         this._http.postData(url, data).subscribe((res) => {

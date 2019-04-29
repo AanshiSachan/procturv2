@@ -23,11 +23,16 @@
       <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList}"></ng-container>
       <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList}"></ng-container>
       <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level}"></ng-container>
+      <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level}"></ng-container>
     </div>
     <div class="row col-md-12 subTopics-data">
       <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } "></ng-container>
     </div>
   </div>
+  <div *ngIf="materialData.length==0">
+    No Material Data Found
+  </div>
+
 </div>
 
 <ng-template #recursiveNodes let-subTopics let-level="subLevel">
@@ -50,6 +55,7 @@
       <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level}"></ng-container>
       <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level}"></ng-container>
       <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level}"></ng-container>
+      <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level}"></ng-container>
     </div>
     <div class="row col-md-12 subTopics-data">
       <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } "></ng-container>
@@ -68,8 +74,7 @@
         {{video.category_name}}
       </div>
       <div class="col-md-4">
-        <div class="action-buttons">
-          <button class="btn btn-xs btn-ga-white">Edit</button>
+        <div class="action-buttons">          
           <button class="btn btn-xs btn-ga-white">Delete</button>
         </div>
       </div>
@@ -86,8 +91,7 @@
         {{file.size}}
       </div>
       <div class="col-md-4">
-        <div class="action-buttons">
-          <button class="btn btn-xs btn-ga-white">Edit</button>
+        <div class="action-buttons">          
           <button class="btn btn-xs btn-ga-white">Delete</button>
         </div>
       </div>
@@ -104,8 +108,24 @@
         {{file.size}}
       </div>
       <div class="col-md-4">
-        <div class="action-buttons">
-          <button class="btn btn-xs btn-ga-white">Edit</button>
+        <div class="action-buttons">          
+          <button class="btn btn-xs btn-ga-white">Delete</button>
+        </div>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #audioNotesData let-assignment let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of assignment">
+      <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
+        <i class="fa fa-file-audio-o text-blue" aria-hidden="true"></i>
+        {{file.title}}
+      </div>
+      <div class="col-md-4">
+        {{file.size}}
+      </div>
+      <div class="col-md-4">
+        <div class="action-buttons">          
           <button class="btn btn-xs btn-ga-white">Delete</button>
         </div>
       </div>
