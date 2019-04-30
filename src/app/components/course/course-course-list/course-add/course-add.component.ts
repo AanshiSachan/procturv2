@@ -42,6 +42,8 @@ export class CourseAddComponent implements OnInit {
 
   nestedTableDataSource: any;
   examGradeFeature: any;
+  isRippleLoad: boolean = false;
+
   @ViewChild('standardNameDDn') StandardName: ElementRef;
   @ViewChild('masterCourseInput') MasterCourseDDn: ElementRef;
 
@@ -216,8 +218,10 @@ export class CourseAddComponent implements OnInit {
     if (dataToSend == false) {
       return;
     };
+    this.isRippleLoad = true;
     this.apiService.saveCourseDetails(dataToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: "success",
           title: "Course Creation",
@@ -228,6 +232,7 @@ export class CourseAddComponent implements OnInit {
       },
       error => {
         //console.log(error);
+        this.isRippleLoad = false;
         let warning = {
           type: "error",
           title: "Error",

@@ -1,15 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation  } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { LoginService } from '../../../../services/login-services/login.service';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { CheckableSettings } from '@progress/kendo-angular-treeview';
+import { of } from 'rxjs/observable/of';
+import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
+import { Observable } from 'rxjs/Observable';
+import { TreeItemLookup } from '@progress/kendo-angular-treeview';
+
 
 @Component({
   selector: 'app-class-add',
   templateUrl: './class-add.component.html',
-  styleUrls: ['./class-add.component.scss']
+  styleUrls: ['./class-add.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ClassAddComponent implements OnInit {
@@ -152,18 +160,45 @@ export class ClassAddComponent implements OnInit {
   showWarningPopup: boolean = false;
   cancelWeeklySchedulePop: boolean = false;
 
-
-
-
   weeklyScheduleCan = {
     date: moment().format("YYYY-MM-DD"),
     cancel_note: '',
     is_notified: true
   }
+
+  // Topic listing variables
+  topicBox: boolean = true;
+  selectAllTopics: boolean = false;
+  selectedSubId: any;
+  selectedRow: any;
+  public checkedKeys: any[] = [];
+
+  public enableCheck = true;
+  public checkChildren = true;
+  public checkParents = true;
+  public checkOnClick = true;
+  public checkMode: any = 'multiple';
+
+  public get checkableSettings(): CheckableSettings {
+      return {
+          checkChildren: this.checkChildren,
+          checkParents: this.checkParents,
+          enabled: this.enableCheck,
+          mode: this.checkMode,
+          checkOnClick: this.checkOnClick
+      };
+  }
+
+  public topicsData: any;
+  public children;
+  public hasChildren;
+  public isExpanded;
+
   constructor(
     private router: Router,
     private login: LoginService,
     private classService: ClassScheduleService,
+    private topicService: TopicListingService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService
   ) {
@@ -571,15 +606,18 @@ export class ClassAddComponent implements OnInit {
 
   getAllSubjectListFromServer(data) {
     this.isClassFormFilled = true;
+    this.isRippleLoad = true;
     this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format('YYYY-MM-DD');
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
+        this.isRippleLoad = false;
         this.subjectListDataSource = this.getSubjectList(res);
         this.classScheduleArray = this.constructJSONForTable(res);
       },
       err => {
         //console.log(err);
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
@@ -611,6 +649,7 @@ export class ClassAddComponent implements OnInit {
             obj.start_date = moment(data.coursesList[0].start_date).format('YYYY-MM-DD');
             obj.end_date = moment(data.coursesList[0].end_date).format('YYYY-MM-DD');
             obj.is_attendance_marked = courseScheduleList[i].is_attendance_marked;
+            obj.topics_covered = courseScheduleList[i].topics_covered;
             arr.push(obj);
           }
         }
@@ -629,24 +668,30 @@ export class ClassAddComponent implements OnInit {
   }
 
   getCustomList() {
+    this.isRippleLoad = true;
     this.classService.getCustomClassListFromServer().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.customListDataSource = res;
       },
       err => {
         //console.log(err);
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
   }
 
   getTeacherList() {
+    this.isRippleLoad = true;
     this.classService.getAllActiveTeachersList().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.teacherListDataSource = res;
       },
       err => {
         //console.log(err);
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
@@ -671,6 +716,9 @@ export class ClassAddComponent implements OnInit {
       custom_class_type: 'Regular',
       duration: ''
     }
+    this.checkedKeys = [];
+    this.selectAllTopics = false;
+    // this.topicsData = "";
   }
 
 
@@ -683,6 +731,161 @@ export class ClassAddComponent implements OnInit {
         }
       }
     )
+  }
+
+  topicListing(){
+    if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please Select Subject');
+      return;
+    }
+    else {
+      this.isRippleLoad = true;
+      this.topicService.getAllTopicsSubTopics(this.addClassDetails.subject_id).subscribe(
+        res => {
+          let temp: any;
+          temp = res;
+          if(temp != null && temp.length != 0){
+            this.topicBox = false;
+            console.log(res);
+            this.isRippleLoad = false;
+            this.topicsData = res;
+
+            let subjectName = "";
+            this.subjectListDataSource.forEach(
+              ele => {
+                if (ele.subject_id == this.addClassDetails.subject_id) {
+                  subjectName = ele.subject_name;
+                }
+              }
+            )
+            document.getElementById("topicSubName").innerHTML = subjectName;
+            document.getElementById("topicCount").innerHTML = this.topicsData.length;
+            this.children = (dataItem: any) => of(dataItem.subTopic);
+            this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
+          }
+          else{
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
+          }
+
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  topicListingForAlreadyLinkedTopics(row, subject_id, preSelectedTopics){
+    this.isRippleLoad = true;
+    this.selectedSubId = subject_id;
+    this.selectedRow = row;
+    this.topicsData = []
+    this.topicService.getAllTopicsSubTopics(subject_id).subscribe(
+      res => {
+        let temp: any;
+        temp = res;
+        if(temp != null && temp.length != 0){
+          this.checkedKeys = [];
+
+          this.topicBox = false;
+          this.isRippleLoad = false;
+          this.topicsData = res;
+
+          this.children = (dataItem: any) => of(dataItem.subTopic);
+          this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
+
+          if(preSelectedTopics != undefined && preSelectedTopics != null && preSelectedTopics != ""){
+            let x = preSelectedTopics.split('|');
+            let arrayOfNumbers = x.map(Number);
+            this.checkedKeys = arrayOfNumbers;
+            let subjectName = "";
+            this.subjectListDataSource.forEach(
+              ele => {
+                if (ele.subject_id == subject_id) {
+                  subjectName = ele.subject_name;
+                }
+              }
+            )
+            document.getElementById("topicSubName").innerHTML = subjectName;
+            document.getElementById("topicCount").innerHTML = this.topicsData.length;
+
+          }
+        }
+        else{
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+      }
+    )
+  }
+
+  checkAllTopics(){
+    if(this.selectAllTopics){
+      this.checkedKeys = [];
+      this.topicsData.forEach(
+        ele => {
+          this.checkedKeys.push(ele.topicId)
+        }
+      )
+      // this.topicsData.forEach(function(entry){
+      // console.log(entry.topicName)
+      // } );
+      //
+      // const iterate = (obj) => {
+      //     Object.keys(obj).forEach(key => {
+      //
+      //     console.log(`key: ${key}, value: ${obj[key]}`)
+      //
+      //     if (typeof obj[key] === 'object') {
+      //             iterate(obj[key])
+      //         }
+      //     })
+      // }
+
+    }
+    else{
+      this.checkedKeys = [];
+    }
+  }
+
+  topicSelection(){
+
+  }
+
+  saveTopic(){
+
+    if(this.selectedSubId != null && this.selectedSubId != undefined && this.selectedSubId != ""){
+      let temp = this.checkedKeys;
+      this.selectedRow.topics_covered = temp.join("|");
+      // this.selectedRow.topics_covered_names
+      let topicsName = [];
+      this.checkedKeys.forEach(
+        ele => {
+            this.topicsData.forEach(
+              e => {
+                if(ele == e)
+                topicsName.push(e.topicName)
+              }
+            )
+        }
+      )
+      this.checkedKeys = [];
+      this.selectedSubId = "";
+      this.selectedRow = "";
+    }
+    this.topicBox = true;
+  }
+
+  closeAlert(){
+    this.checkedKeys = [];
+    this.topicBox = true;
+    this.selectedSubId = "";
   }
 
 
@@ -735,7 +938,22 @@ export class ClassAddComponent implements OnInit {
     obj.batch_id = this.getBatchID(obj.subject_id);
     obj.class_desc = this.addClassDetails.class_desc;
     obj.room_no = this.addClassDetails.room_no;
+    let topicsName = [];
+    this.checkedKeys.forEach(
+      ele => {
+          this.topicsData.forEach(
+            e => {
+              if(ele == e.topicId)
+              topicsName.push(e.topicName)
+            }
+          )
+      }
+    )
+    console.log(topicsName)
+    let tempKeys = this.checkedKeys;
+    obj.topics_covered = tempKeys.join("|");
     this.classScheduleArray.push(obj);
+    this.checkedKeys = [];
     this.clearClassScheduleForm();
   }
 
@@ -831,14 +1049,17 @@ export class ClassAddComponent implements OnInit {
       return false;
     }
     if (dataTosend != undefined) {
+      this.isRippleLoad = true;
       this.classService.cancelClassSchedule(dataTosend).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'Class Cancelled Successfull');
           this.showPopUpCancellation = false;
           this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         },
         err => {
           //console.log(err);
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         }
       )
@@ -894,13 +1115,16 @@ export class ClassAddComponent implements OnInit {
       return;
     }
     let obj = this.makeJsonForCourseSave();
+    this.isRippleLoad = true;
     this.classService.saveDataOnServer(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Your class added successfully');
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+        // this.router.navigate(['/view/course/class']);
       },
       err => {
-        //console.log(err);
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
@@ -934,6 +1158,7 @@ export class ClassAddComponent implements OnInit {
       test.room_no = this.classScheduleArray[i].room_no;
       test.start_time = this.classScheduleArray[i].start_time;
       test.end_time = this.classScheduleArray[i].end_time;
+      test.topics_covered = this.classScheduleArray[i].topics_covered;
       temp.courseClassSchdList.push(test);
     }
     obj.coursesList.push(temp);
@@ -1086,13 +1311,16 @@ export class ClassAddComponent implements OnInit {
       return false;
     }
     let JsonToSend = this.makeJsonForRecurrence();
+    this.isRippleLoad = true;
     this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Saved Successfully');
         this.showPopUpRecurence = false;
       },
       err => {
         //console.log(err);
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )

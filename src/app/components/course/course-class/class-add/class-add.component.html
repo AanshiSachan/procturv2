@@ -21,7 +21,9 @@
                   <div class="search-filter-wrapper" *ngIf="isProfessional">
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
-                        <label for="smc">Select Master Course</label>
+                        <label for="smc">Select Master Course
+                          <span style="color:red">*</span>
+                        </label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id"
                           (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
@@ -34,7 +36,9 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
-                        <label for="sc">Select Course</label>
+                        <label for="sc">Select Course
+                          <span style="color:red">*</span>
+                        </label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id"
                           (ngModelChange)="filterSubjectBatches($event)">
                           <option value="-1"></option>
@@ -47,7 +51,9 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.batch_id != '-1'}">
-                        <label for="bn">Select Batch Name</label>
+                        <label for="bn">Select Batch Name
+                          <span style="color:red">*</span>
+                        </label>
                         <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
                           <option value="-1"></option>
                           <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
@@ -96,7 +102,7 @@
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
                           <label for="csd">Class Schedule Date
-                            <span style="color:red">*</span>
+                            <!-- <span style="color:red">*</span> -->
                           </label>
                           <input type="text" value="" id="csd" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.requested_date"
                             readonly="true" name="csd" bsDatepicker>
@@ -154,6 +160,10 @@
                       <th class="subj">
                         Subject
                         <span style="color:red">*</span>
+                      </th>
+                      <th>
+                        Topic
+                        <!-- <span style="color:red">*</span> -->
                       </th>
                       <th>
                         Start Time
@@ -216,6 +226,14 @@
                               {{opt.subject_name}}
                             </option>
                           </select>
+                        </div>
+                      </td>
+
+                      <td class="topic">
+                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
+                          <input type="textbox" class="side-form-ctrl topic-link" name="label"
+                            style="height: 31px;" id="classDetailsTxt9" placeholder="Link" readonly (click)="topicListing()">
+                            <i class="fa fa-link" aria-hidden="true" (click)="topicListing()" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
                         </div>
                       </td>
 
@@ -314,6 +332,20 @@
                       <td class="subj">
                         {{row.subject_name}}
                       </td>
+                      <td class="topic" *ngIf="row.topics_covered">
+                        <div class="form-wrapper">
+                          <input type="textbox" class="side-form-ctrl topic-linked" name="label"
+                            style="height: 31px;" id="classDetailsTxt9" placeholder="Linked" readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" title="{{row.topics_covered}}">
+                            <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" style="cursor: pointer;color: #1283f4;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
+                        </div>
+                      </td>
+                      <td class="topic" *ngIf="!row.topics_covered">
+                        <div class="form-wrapper">
+                          <input type="textbox" class="side-form-ctrl topic-link" name="label"
+                            style="height: 31px;" id="classDetailsTxt9" placeholder="Link" readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" title="{{row.topics_covered}}">
+                            <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
+                        </div>
+                      </td>
                       <td>
                         {{row.start_time}}
                       </td>
@@ -382,7 +414,7 @@
 
                   <tbody *ngIf="classScheduleArray.length ==0">
                     <tr>
-                      <td colspan="9">
+                      <td colspan="10">
                         No Schedule For Current Date Found
                       </td>
                     </tr>
@@ -393,7 +425,7 @@
             </div>
           </div>
 
-          <div class="extraMargin row  pull-right" style="margin-right: 15px">
+          <div class="extraMargin row  pull-right" style="margin-right: 15px; margin-bottom:10px;">
             <button class="btn" routerLink="/view/course/class/home" id="BtnCancelBtn">Cancel</button>
             <button class="btn fullBlue" (click)="saveCourseSchedule()" id="btnSaveBtn">Save</button>
           </div>
@@ -1442,3 +1474,55 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
     </div>
   </div>
 </section>
+
+
+<section [hidden]="topicBox">
+  <div class="topicBox">
+    <div class="close-btn">
+      <span (click)="closeAlert()">X</span>
+    </div>
+    <div class="header-container">
+      <div class="sub-header">
+        <span style="font-weight: 600;">Subject : </span>
+        <span id="topicSubName"></span>
+      </div>
+      <div class="total-topic">
+        <span style="font-weight: 600;">Total Topic : </span>
+        <span id="topicCount"></span>
+      </div>
+    </div>
+    <!-- <div class="field-checkbox-wrapper" style="margin:10px;">
+      <input type="checkbox" name="checkbx" id="select_all_topics" [(ngModel)]="selectAllTopics" (ngModelChange)="checkAllTopics()"
+        class="form-checkbox">
+      <label for="select_all_topics">
+        Select All
+      </label>
+    </div> -->
+    <div class="topic-listing-container">
+      <kendo-treeview
+          [nodes]="topicsData"
+          [hasChildren]="hasChildren"
+          [children]="children"
+          kendoTreeViewSelectable
+          kendoTreeViewHierarchyBinding
+          kendoTreeViewExpandable
+          textField="topicName"
+          [kendoTreeViewCheckable]="checkableSettings"
+          [(checkedKeys)]="checkedKeys"
+          checkBy="topicId"
+      >
+       </kendo-treeview>
+    </div>
+    <!-- <div class="example-config">
+           Checked keys: {{checkedKeys.join("|")}}
+       </div> -->
+    <div class="extraMargin row  pull-right" style="margin: 15px">
+      <button class="btn" (click)="closeAlert()">Cancel</button>
+      <button class="btn fullBlue" (click)="saveTopic()">Save</button>
+    </div>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" [hidden]="topicBox" (click)="closeAlert()">
+
+</div>
