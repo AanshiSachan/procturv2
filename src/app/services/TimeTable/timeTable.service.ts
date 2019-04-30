@@ -81,6 +81,18 @@ export class timeTableService {
         )
     }
 
+    downloadTimeTable(obj){
+      let url = this.baseUrl + "/api/v1/timeTable/printTimeTable";
+      return this.http.post(url, obj, { headers: this.headers }).map(
+          res => {
+              return <any>res;
+          },
+          err => {
+              return err;
+          }
+      )
+    }
+
     getProData(standard_id, subject_id) {
         let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=N";
         return this.http.get(url, { headers: this.headers }).map(

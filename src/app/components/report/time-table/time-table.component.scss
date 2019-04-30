@@ -1,5 +1,24 @@
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    @page {size: landscape}
+  }
+  html, body {
+    height: auto;
+   margin: 0 !important;
+   padding: 0 !important;
+   overflow: visible;
+   page-break-after: always;
+ }
+  @page {size: landscape}
+}
+
+.router-wrapper{
+  padding: 0px !important;
+}
+
 body {
-    background: #EEEEF4;
+    background: #f7f5f5;
     color: #999;
 }
 
@@ -17,11 +36,12 @@ p {
     padding: 5px 15px;
     width: 100%;
     box-sizing: border-box;
+    background: #f7f5f5;
     .middle-top {
         h2 {
             color: black;
             font-weight: unset;
-            padding-top: 20px;
+            padding-top: 00px;
         }
     }
     .form-wrapper {
@@ -58,7 +78,7 @@ p {
 
 .attendance-container {
     height: auto;
-    background: #efefef;
+    // background: #efefef;
     padding: 5px;
     overflow: auto;
 }
@@ -81,7 +101,8 @@ p {
 .filter-form {
     background: #fff;
     box-shadow: 0px 0px 2px 2px #dadada;
-    border-radius: 10px;
+    border-radius: 4px;
+    background: #e9e9e9;
     .row {
         margin: 5px 15px;
     }
@@ -224,7 +245,7 @@ p {
             h2 {
                 color: black;
                 font-weight: unset;
-                padding-top: 20px;
+                padding-top: 00px;
             }
         }
         .form-wrapper {
@@ -274,7 +295,7 @@ p {
         right: 0;
         left: 0px;
         background: rgba(230, 230, 230, 0.5);
-        z-index: 100; // display: none;  
+        z-index: 100; // display: none;
         visibility: hidden;
         opacity: 0;
         -webkit-transition: all 0.5s ease-in;
@@ -525,7 +546,7 @@ p {
         h2 {
             color: black;
             font-weight: unset;
-            padding-top: 20px;
+            padding-top: 00px;
         }
     }
     .form-wrapper {
@@ -567,7 +588,7 @@ p {
 
 .attendance-container {
     height: auto;
-    background: #efefef;
+    // background: #efefef;
     padding: 5px;
     overflow: auto;
 }
@@ -695,7 +716,7 @@ p {
         h2 {
             color: black;
             font-weight: unset;
-            padding-top: 20px;
+            padding-top: 0px;
         }
     }
     .form-wrapper {
@@ -747,7 +768,7 @@ p {
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
-    z-index: 100; // display: none;  
+    z-index: 100; // display: none;
     visibility: hidden;
     opacity: 0;
     -webkit-transition: all 0.5s ease-in;
@@ -1002,7 +1023,7 @@ p {
         h2 {
             color: black;
             font-weight: unset;
-            padding-top: 20px;
+            padding-top: 0px;
         }
     }
     .form-wrapper {
@@ -1044,7 +1065,7 @@ p {
 
 .attendance-container {
     height: auto;
-    background: #efefef;
+    // background: #efefef;
     padding: 5px;
     overflow: auto;
 }
@@ -1052,7 +1073,8 @@ p {
 .filter-form {
     background: #fff;
     box-shadow: 0px 0px 2px 2px #dadada;
-    border-radius: 10px;
+    border-radius: 4px;
+    background: #e9e9e9;
     .row {
         margin: 5px 15px;
     }
@@ -1159,7 +1181,7 @@ p {
             h2 {
                 color: black;
                 font-weight: unset;
-                padding-top: 20px;
+                padding-top: 0px;
             }
         }
         .form-wrapper {
@@ -1209,7 +1231,7 @@ p {
         right: 0;
         left: 0px;
         background: rgba(230, 230, 230, 0.5);
-        z-index: 100; // display: none;  
+        z-index: 100; // display: none;
         visibility: hidden;
         opacity: 0;
         -webkit-transition: all 0.5s ease-in;
@@ -1284,7 +1306,7 @@ p {
                 stroke-width: 2px;
             }
         }
-      
+
     }
     .popup-content {
         height: 100%;
@@ -1521,7 +1543,7 @@ p {
 
 .grid-datadisplay {
     // margin-left: 22px;
-    margin-top: 1%;
+    // margin-top: 1%;
 }
 
 .button-display {
@@ -1672,6 +1694,9 @@ a:hover {
 
 .nonProFilterForm {
     padding-bottom: 10px;
+    .form-ctrl{
+      border-radius: 4px;
+    }
 }
 
 .teacherBox {
@@ -1722,13 +1747,14 @@ a:hover {
 
 .fa-print:hover {
     cursor: pointer;
-    color: #0060A3;
+    color: #1283f4;
 }
 
 .dateHeader {
-    font-size:16px;
-    color:#0660a1;
-    vertical-align: super;
+  font-size:16px;
+  color:#1283f4;
+  vertical-align: super;
+  margin: 0px 10px;
 }
 
 .inshead {
