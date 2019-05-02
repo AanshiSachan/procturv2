@@ -82,11 +82,13 @@ i.fa{
     display: flex;
     .topic-name{
         margin: auto;
+        color:#0084f6;
     }
 }
 .main-topic-data{
     color: #000;
     font-weight: bold;
+    padding-left: 0 !important;
 }
 .topic-material-data{
     padding: 0;
@@ -138,4 +140,8 @@ i.fa{
         }
       }
     }
-  }
+  } 
+  
+.p-0{
+    padding: 0 !important;
+}

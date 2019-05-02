@@ -24,6 +24,7 @@ export class UploadFileComponent implements OnInit {
   dragoverflag: boolean = false;
   isRippleLoad: boolean = false;
   addCategoryPopup: boolean = false;
+  material_dataShow: boolean = false;
   varJson = {
     category_id: 0,
     name: '',
@@ -144,6 +145,7 @@ export class UploadFileComponent implements OnInit {
     }
     this.varJson.name = '';
   }
+  
   uploadHandler($event, values) {
 
     if(this.varJson.course_types=="" ||this.varJson.course_types=='0'){

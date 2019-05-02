@@ -12,7 +12,7 @@
           <div class="col-md-4 file-form">
 
             <div class="form-group">
-              <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.course_types" (change)="getSubjectsList($event.target.value)">
+              <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types" (change)="getSubjectsList($event.target.value)">
                 <option value=""> --select course--</option>
                 <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
                 <!-- <option>Exam 2</option> -->
@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-group">
-              <select [(ngModel)]="varJson.subject_id" class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
+              <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow"  class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
                 <option value="0">--select subject--</option>
                 <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}</option>
               </select>

@@ -13,6 +13,10 @@ export class EcourseFileManagerComponent implements OnInit  {
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
+  fileObject:any={
+    downloaded_size:10,
+    uploaded_size:1
+  }
 
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
@@ -38,7 +42,7 @@ export class EcourseFileManagerComponent implements OnInit  {
 
   // user data usage get
   getDataUsedInCourseList() {
-    let url = "/api/v1/instFilesSystem/getUsedSpace/" + this.institute_id;
+    let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
     });

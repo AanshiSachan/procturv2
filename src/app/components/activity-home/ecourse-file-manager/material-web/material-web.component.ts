@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, Input, TemplateRef } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
+import { UploadFileComponent } from './../core/upload-file/upload-file.component';
 import { HttpService } from '../../../../services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { element } from 'protractor';
 
 @Component({
     selector: 'app-material-web',
@@ -15,12 +17,13 @@ export class MaterialWebComponent implements OnInit {
     ngTemplateOutletContext: Object;
     @Input()
     ngTemplateOutlet: TemplateRef<any>;
+    @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
     isRippleLoad: boolean = false;
     institute_id: any;
     course_types: any;
     subject_id: any;
-    tempfile:any;
-    showModal:boolean= false;
+    tempfile: any;
+    showModal: boolean = false;
     @Input()
     treeData: any = [
         { name: "parent1", subnodes: [] },
@@ -43,306 +46,7 @@ export class MaterialWebComponent implements OnInit {
         }
     ];
 
-    materialData: any = [
-        // {
-        //     "topic_id": 103,
-        //     "topic_name": "Laws and Friction",
-        //     "total_videos": 0,
-        //     "total_study_materials": 0,
-        //     "total_exam": 0,
-        //     "total_assignments": 0,
-        //     "total_notes": 0,
-        //     "total_gallery": 0,
-        //     "total_others": 0,
-        //     "parent_topic_id": 0,
-        //     "institute_id": 0,
-        //     "total_audio_notes": 0,
-        //     "total_images": 0,
-        //     "total_previous_year_questions_paper": 0,
-        //     "videosList": [
-        //         {
-        //             "file_id": "403",
-        //             "file_name": null,
-        //             "size": "0.0",
-        //             "desc": "url aws",
-        //             "downloads": 0,
-        //             "institute_id": 0,
-        //             "title": "Prime YouTube Video",
-        //             "category_id": 231,
-        //             "category_name": "Youtube URL",
-        //             "subject_id": 0,
-        //             "topic_id": 0,
-        //             "uploadedBy": "admin",
-        //             "course_types": "",
-        //             "video_url": "100058/https://www.youtube.com/watch?v=MCYyUhjk-Ns",
-        //             "sub_topic_id": 0,
-        //             "fileIdArray": null,
-        //             "activeORInactivArray": null,
-        //             "is_readonly": "N"
-        //         }
-        //     ]
-        // },
-        // {
-        //     "topic_id": 109,
-        //     "topic_name": "Formulae",
-        //     "total_videos": 0,
-        //     "total_study_materials": 0,
-        //     "total_exam": 0,
-        //     "total_assignments": 0,
-        //     "total_notes": 0,
-        //     "total_gallery": 0,
-        //     "total_others": 0,
-        //     "parent_topic_id": 0,
-        //     "institute_id": 0,
-        //     "total_audio_notes": 0,
-        //     "total_images": 0,
-        //     "total_previous_year_questions_paper": 0,
-        //     "videosList": [
-        //         {
-        //             "file_id": "403",
-        //             "file_name": null,
-        //             "size": "0.0",
-        //             "desc": "url aws",
-        //             "downloads": 0,
-        //             "institute_id": 0,
-        //             "title": "SSC CGL Part I",
-        //             "category_id": 231,
-        //             "category_name": "Youtube URL",
-        //             "subject_id": 0,
-        //             "topic_id": 0,
-        //             "uploadedBy": "admin",
-        //             "course_types": "",
-        //             "video_url": "100058/https://www.youtube.com/watch?v=MCYyUhjk-Ns",
-        //             "sub_topic_id": 0,
-        //             "fileIdArray": null,
-        //             "activeORInactivArray": null,
-        //             "is_readonly": "N"
-        //         }
-        //     ],
-        //     "assignmentList": [
-        //         {
-        //             "file_id": "387",
-        //             "file_name": "https://s3-ap-southeast-1.amazonaws.com/testeduimspro/Admissions_Summary_Report.xls",
-        //             "size": "0.02836",
-        //             "desc": "upload aws",
-        //             "downloads": 0,
-        //             "institute_id": 0,
-        //             "title": "CGL Part I Notes",
-        //             "category_id": 63,
-        //             "category_name": "Assignment",
-        //             "subject_id": 0,
-        //             "topic_id": 0,
-        //             "uploadedBy": "admin",
-        //             "course_types": "",
-        //             "video_url": null,
-        //             "sub_topic_id": 0,
-        //             "fileIdArray": null,
-        //             "activeORInactivArray": null,
-        //             "is_readonly": "N"
-        //         }
-        //     ],
-        //     "subTopics": [
-        //         {
-        //             "topic_id": 103,
-        //             "topic_name": "Laws and Friction",
-        //             "total_videos": 0,
-        //             "total_study_materials": 0,
-        //             "total_exam": 0,
-        //             "total_assignments": 0,
-        //             "total_notes": 0,
-        //             "total_gallery": 0,
-        //             "total_others": 0,
-        //             "parent_topic_id": 0,
-        //             "institute_id": 0,
-        //             "total_audio_notes": 0,
-        //             "total_images": 0,
-        //             "total_previous_year_questions_paper": 0,
-        //             "videosList": [
-        //                 {
-        //                     "file_id": "403",
-        //                     "file_name": null,
-        //                     "size": "0.0",
-        //                     "desc": "url aws",
-        //                     "downloads": 0,
-        //                     "institute_id": 0,
-        //                     "title": "",
-        //                     "category_id": 231,
-        //                     "category_name": "Youtube URL",
-        //                     "subject_id": 0,
-        //                     "topic_id": 0,
-        //                     "uploadedBy": "admin",
-        //                     "course_types": "",
-        //                     "video_url": "100058/https://www.youtube.com/watch?v=MCYyUhjk-Ns",
-        //                     "sub_topic_id": 0,
-        //                     "fileIdArray": null,
-        //                     "activeORInactivArray": null,
-        //                     "is_readonly": "N"
-        //                 }
-        //             ]
-        //         },
-        //         {
-        //             "topic_id": 109,
-        //             "topic_name": "Formulae",
-        //             "total_videos": 0,
-        //             "total_study_materials": 0,
-        //             "total_exam": 0,
-        //             "total_assignments": 0,
-        //             "total_notes": 0,
-        //             "total_gallery": 0,
-        //             "total_others": 0,
-        //             "parent_topic_id": 0,
-        //             "institute_id": 0,
-        //             "total_audio_notes": 0,
-        //             "total_images": 0,
-        //             "total_previous_year_questions_paper": 0,
-        //             "videosList": [
-        //                 {
-        //                     "file_id": "403",
-        //                     "file_name": null,
-        //                     "size": "0.0",
-        //                     "desc": "url aws",
-        //                     "downloads": 0,
-        //                     "institute_id": 0,
-        //                     "title": "",
-        //                     "category_id": 231,
-        //                     "category_name": "Youtube URL",
-        //                     "subject_id": 0,
-        //                     "topic_id": 0,
-        //                     "uploadedBy": "admin",
-        //                     "course_types": "",
-        //                     "video_url": "100058/https://www.youtube.com/watch?v=MCYyUhjk-Ns",
-        //                     "sub_topic_id": 0,
-        //                     "fileIdArray": null,
-        //                     "activeORInactivArray": null,
-        //                     "is_readonly": "N"
-        //                 }
-        //             ],
-        //             "assignmentList": [
-        //                 {
-        //                     "file_id": "387",
-        //                     "file_name": "https://s3-ap-southeast-1.amazonaws.com/testeduimspro/Admissions_Summary_Report.xls",
-        //                     "size": "0.02836",
-        //                     "desc": "upload aws",
-        //                     "downloads": 0,
-        //                     "institute_id": 0,
-        //                     "title": "",
-        //                     "category_id": 63,
-        //                     "category_name": "Assignment",
-        //                     "subject_id": 0,
-        //                     "topic_id": 0,
-        //                     "uploadedBy": "admin",
-        //                     "course_types": "",
-        //                     "video_url": null,
-        //                     "sub_topic_id": 0,
-        //                     "fileIdArray": null,
-        //                     "activeORInactivArray": null,
-        //                     "is_readonly": "N"
-        //                 }
-        //             ],
-        //             "subTopics": [
-        //                 {
-        //                     "topic_id": 103,
-        //                     "topic_name": "Laws and Friction",
-        //                     "total_videos": 0,
-        //                     "total_study_materials": 0,
-        //                     "total_exam": 0,
-        //                     "total_assignments": 0,
-        //                     "total_notes": 0,
-        //                     "total_gallery": 0,
-        //                     "total_others": 0,
-        //                     "parent_topic_id": 0,
-        //                     "institute_id": 0,
-        //                     "total_audio_notes": 0,
-        //                     "total_images": 0,
-        //                     "total_previous_year_questions_paper": 0,
-        //                     "videosList": [
-        //                         {
-        //                             "file_id": "403",
-        //                             "file_name": null,
-        //                             "size": "0.0",
-        //                             "desc": "url aws",
-        //                             "downloads": 0,
-        //                             "institute_id": 0,
-        //                             "title": "",
-        //                             "category_id": 231,
-        //                             "category_name": "Youtube URL",
-        //                             "subject_id": 0,
-        //                             "topic_id": 0,
-        //                             "uploadedBy": "admin",
-        //                             "course_types": "",
-        //                             "video_url": "100058/https://www.youtube.com/watch?v=MCYyUhjk-Ns",
-        //                             "sub_topic_id": 0,
-        //                             "fileIdArray": null,
-        //                             "activeORInactivArray": null,
-        //                             "is_readonly": "N"
-        //                         }
-        //                     ]
-        //                 },
-        //                 {
-        //                     "topic_id": 109,
-        //                     "topic_name": "Formulae",
-        //                     "total_videos": 0,
-        //                     "total_study_materials": 0,
-        //                     "total_exam": 0,
-        //                     "total_assignments": 0,
-        //                     "total_notes": 0,
-        //                     "total_gallery": 0,
-        //                     "total_others": 0,
-        //                     "parent_topic_id": 0,
-        //                     "institute_id": 0,
-        //                     "total_audio_notes": 0,
-        //                     "total_images": 0,
-        //                     "total_previous_year_questions_paper": 0,
-        //                     "videosList": [
-        //                         {
-        //                             "file_id": "403",
-        //                             "file_name": null,
-        //                             "size": "0.0",
-        //                             "desc": "url aws",
-        //                             "downloads": 0,
-        //                             "institute_id": 0,
-        //                             "title": "",
-        //                             "category_id": 231,
-        //                             "category_name": "Youtube URL",
-        //                             "subject_id": 0,
-        //                             "topic_id": 0,
-        //                             "uploadedBy": "admin",
-        //                             "course_types": "",
-        //                             "video_url": "100058/https://www.youtube.com/watch?v=MCYyUhjk-Ns",
-        //                             "sub_topic_id": 0,
-        //                             "fileIdArray": null,
-        //                             "activeORInactivArray": null,
-        //                             "is_readonly": "N"
-        //                         }
-        //                     ],
-        //                     "assignmentList": [
-        //                         {
-        //                             "file_id": "387",
-        //                             "file_name": "https://s3-ap-southeast-1.amazonaws.com/testeduimspro/Admissions_Summary_Report.xls",
-        //                             "size": "0.02836",
-        //                             "desc": "upload aws",
-        //                             "downloads": 0,
-        //                             "institute_id": 0,
-        //                             "title": "",
-        //                             "category_id": 63,
-        //                             "category_name": "Assignment",
-        //                             "subject_id": 0,
-        //                             "topic_id": 0,
-        //                             "uploadedBy": "admin",
-        //                             "course_types": "",
-        //                             "video_url": null,
-        //                             "sub_topic_id": 0,
-        //                             "fileIdArray": null,
-        //                             "activeORInactivArray": null,
-        //                             "is_readonly": "N"
-        //                         }
-        //                     ]
-        //                 }
-        //             ]
-        //         }
-        //     ]
-        // }
-    ];
+    materialData: any = []
 
     constructor(
         private _http: HttpService,
@@ -363,7 +67,7 @@ export class MaterialWebComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getMaterialData();
+        this.getTopicListData();
     }
 
     getMaterialData() {
@@ -381,13 +85,107 @@ export class MaterialWebComponent implements OnInit {
         this._http.postData(url, data).subscribe((res) => {
             console.log(res);
             this.materialData = res;
+            this.materialData.forEach(element => {
+                element.isExpand = false;
+            });
+            this.isRippleLoad = false;
         },
             (err) => {
-
+                this.isRippleLoad = false;
             })
     }
 
-    setRemoveDataFile(file){
+
+    toggleObject(topic) {
+        topic.isExpand = !topic.isExpand;
+        if(topic.isExpand && topic.subTopics.length==0){
+            this.getSubtopicListData(topic);
+        }        
+        else{
+            topic.subTopics.forEach(subtopic => {
+                subtopic.isExpand = false;
+            });
+        }
+    }
+    
+    getTopicListData() {
+        this.isRippleLoad = true;
+        let url = "/api/v1/topic_manager/subject/" + this.subject_id + "/topicMaterials";
+        let parent_topic_id = -1;
+        let data =
+        {
+            "institute_id": this.institute_id,
+            "parent_topic_id": -1,
+        }
+
+        this._http.postData(url, data).subscribe((res) => {
+            console.log(res);
+            this.materialData = res;
+            this.materialData.forEach(element => {
+                element.isExpand = false;
+                element.subTopics =[];
+            });
+            this.isRippleLoad = false;
+        },
+            (err) => {
+                this.isRippleLoad = false;
+            })
+    }
+
+    getSubtopicListData(topic) {
+        this.isRippleLoad = true;
+        let url = "/api/v1/topic_manager/subject/" + this.subject_id + "/topicMaterials";
+        let parent_topic_id = -1;
+        let data =
+        {
+            "institute_id": this.institute_id,
+            "parent_topic_id": topic.topic_id,
+        }
+
+        this._http.postData(url, data).subscribe((res) => {
+            console.log(res);
+            topic.subTopics = res;
+            topic.subTopics.forEach(element => {
+                element.isExpand = false;
+                element.subTopics =[];
+            });
+            this.isRippleLoad = false;
+        },
+            (err) => {
+                this.isRippleLoad = false;
+            })
+    }
+
+    uploadPopupOpen(topic) {
+        console.log(topic);
+        this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+        this.uploadFile.varJson.course_types = this.course_types;
+        this.uploadFile.getSubjectsList(this.course_types);
+        this.uploadFile.varJson.subject_id = this.subject_id;
+        this.uploadFile.getTopicsList(this.subject_id);
+        this.uploadFile.material_dataShow = true;
+    }
+
+    getSubjectData() {
+        this.isRippleLoad = true;
+        let url = "/api/v1/topic_manager/" + this.institute_id + "/subjects/" + this.subject_id + "/materials_metadata";
+        this._http.getData(url).subscribe((res) => {
+            console.log(res);
+            this.materialData = res;
+            this.materialData.forEach(element => {
+                element.isExpand = false;
+                if (element.subTopics == undefined) {
+                    element.subTopics = [];
+                }             
+            });
+            this.isRippleLoad = false;
+        },
+            (err) => {
+                this.isRippleLoad = false;
+            })
+    }
+
+    setRemoveDataFile(file) {
         this.tempfile = file;
         this.showModal = true;
     }
@@ -406,7 +204,7 @@ export class MaterialWebComponent implements OnInit {
         data.fileIdArray.push(this.tempfile.file_id);
         this._http.deleteData(url, data).subscribe((res) => {
             console.log(res);
-            this.isRippleLoad = false;            
+            this.isRippleLoad = false;
             this.msgService.showErrorMessage('success', '', "File Deleted Successfully");
             this.getMaterialData();
         },
@@ -416,15 +214,17 @@ export class MaterialWebComponent implements OnInit {
             })
     }
 
-    downloadFile(file){
+    downloadFile(file) {
         this.isRippleLoad = true;
-        let url = "/api/v1/instFileSystem/downloadFile/"+this.institute_id+"?fileId="+file.file_id;
+        let url = "/api/v1/instFileSystem/downloadFile/" + this.institute_id + "?fileId=" + file.file_id;
         this._http.getData(url).subscribe((res) => {
             console.log(res);
             this.msgService.showErrorMessage('success', '', "File Downloaded Successfully");
+            this.isRippleLoad = false;
         },
             (err) => {
                 this.msgService.showErrorMessage('error', '', "something  went wrong while Downloading file");
+                this.isRippleLoad = false;
             })
     }
 

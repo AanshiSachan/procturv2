@@ -17,16 +17,16 @@
     <div class="sidecard">
       <ul>
         <li class="btn-wide-blue">eCourse</li>
-        <li>Recent</li>
+        <!-- <li>Recent</li> -->
       </ul>
     </div>
 
     <div class="sidecard">
       <div class="wrap">
         <h4>Download Usage</h4>
-        <p class="small">1GB used of 10GB</p>
+        <p class="small">{{fileObject.uploaded_size}}GB used of {{fileObject.downloaded_size}}GB</p>
         <div class="progress-bar">
-          <div class="progress-stat"></div>
+          <div class="progress-stat" style="width:50%"></div>
         </div>
       </div>
     </div>

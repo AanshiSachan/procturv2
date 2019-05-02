@@ -3,33 +3,36 @@
 <div class="fluid-container data-wrapper">
   <div class="row main-topic-row" *ngFor="let topic of materialData;">
     <div class="row singleton-row col-md-12 topic-data main-topic-data">
-      <div class="field-checkbox-wrapper">
+      <!-- <div class="field-checkbox-wrapper">
         <input type="checkbox" name="topicIds[]" id="topic{{topic.topic_id}}" class="topic-selector form-checkbox">
         <label for="topic{{topic.topic_id}}"></label>
-      </div>
+      </div> -->
 
       <div class="col-md-4 topic-name">
         <button class="btn-ga-collapse">
-          <i class="fa fa-minus"></i>
+          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
+          <i class="fa fa-plus"   *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
         </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
       </div>
       <div class="col-md-4">
         <div class="action-buttons">
-          <button class="btn btn-xs btn-ga-white">Upload</button>
-          <button class="btn btn-xs btn-ga-white">Add Topic</button>
+          <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
+          <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
         </div>
       </div>
     </div>
-    <div class="col-md-12 topic-material-data">
-      <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList}"></ng-container>
-      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList}"></ng-container>
-      <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level}"></ng-container>
-      <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level}"></ng-container>
-    </div>
-    <div class="row col-md-12 subTopics-data">
-      <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } "></ng-container>
+    <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
+      <div class="col-md-12 topic-material-data"  >
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: 1}"></ng-container>
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: 1}"></ng-container>
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: 1}"></ng-container>
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: 1}"></ng-container>
+      </div>
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } "></ng-container>
+      </div>
     </div>
   </div>
   <div *ngIf="materialData.length==0">
@@ -43,7 +46,8 @@
     <div class="row singleton-row col-md-12 topic-data">
       <div class="col-md-4 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <button class="btn-ga-collapse">
-          <i class="fa fa-minus"></i>
+          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
+          <i class="fa fa-plus"   *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
         </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
@@ -51,19 +55,21 @@
       </div>
       <div class="col-md-4">
         <div class="action-buttons">
-          <button class="btn btn-xs btn-ga-white">Upload</button>
-          <button class="btn btn-xs btn-ga-white">Add Topic</button>
+          <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
+          <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
         </div>
       </div>
     </div>
-    <div class="row col-md-12 topic-material-data">
-      <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level}"></ng-container>
-      <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level}"></ng-container>
-      <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level}"></ng-container>
-      <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level}"></ng-container>
-    </div>
-    <div class="row col-md-12 subTopics-data">
-      <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } "></ng-container>
+    <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
+      <div class="row col-md-12 topic-material-data"  >
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level+1}"></ng-container>
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level+1}"></ng-container>
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level+1}"></ng-container>
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level+1}"></ng-container>
+      </div>
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } "></ng-container>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -159,3 +165,5 @@
     </div>
   </div>
 </div>
+
+<app-upload-file ></app-upload-file>
