@@ -13,9 +13,10 @@ export class EcourseFileManagerComponent implements OnInit  {
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
-  fileObject:any={
-    downloaded_size:10,
-    uploaded_size:1
+  storageData:any={
+    storage_allocated:10,
+    uploaded_size:1,
+    width:1
   }
 
   constructor(private _http: HttpService,
@@ -45,6 +46,10 @@ export class EcourseFileManagerComponent implements OnInit  {
     let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
+      this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
+      this.storageData.uploaded_size = res.uploaded_size;
+      let width= (100*  res.uploaded_size)/this.storageData.storage_allocated ;
+      this.storageData.width = Math.round(width);
     });
   }
 

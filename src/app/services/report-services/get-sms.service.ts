@@ -45,7 +45,6 @@ export class getSMSService {
 
     // delete campign
     deleteCampaign(campaignID){
-        //http://test999.proctur.com/StdMgmtWebAPI/api/v1/campaign/delete/campaign/100058/54
         let deleteURL =this.baseUrl + '/api/v1/campaign/delete/campaign/'+this.institute_id+'/'+campaignID;
         return this.http.delete(deleteURL, { headers: this.headers }).map(
             res => {

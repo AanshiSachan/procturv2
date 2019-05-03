@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnChanges, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { EcourseFileManagerComponent } from '../ecourse-file-manager.component';
@@ -9,16 +9,17 @@ import { Router } from '@angular/router';
   templateUrl: './ecourse-list.component.html',
   styleUrls: ['./ecourse-list.component.scss']
 })
-export class EcourseListComponent implements OnInit {
+export class EcourseListComponent implements OnInit, AfterViewInit {
 
   categiesList: any = [];
   institute_id: any;
-  isRippleLoad:boolean =false;
+  isRippleLoad: boolean = false;
 
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -27,13 +28,17 @@ export class EcourseListComponent implements OnInit {
 
   ngOnInit() {
     this.getcategoriesList();
-    this._http.routeList =[];
-    let  obj ={routeLink:'../ecourse-file-manager',name:'eCourse'};
+  }
+
+  ngAfterViewInit() {
+    this._http.routeList = [];
+    let obj = { routeLink: '../ecourse-file-manager', name: 'eCourse' };
     this._http.routeList.push(obj);
+    this.cd.detectChanges();
   }
 
   getToSubject(ecourse) {
-    this._http.routeList.splice(1,this._http.routeList.length);
+    this._http.routeList.splice(1, this._http.routeList.length);
     this.router.navigateByUrl("/view/activity/ecourse-file-manager/ecourses/" + ecourse.course_type_id + "/subjects");
     let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + ecourse.course_type_id + '/subjects', name: ecourse.course_type };
     this._http.routeList.push(obj);
@@ -41,15 +46,15 @@ export class EcourseListComponent implements OnInit {
 
   getcategoriesList() {
     this.categiesList = [];
-    this.isRippleLoad= true;
+    this.isRippleLoad = true;
     let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecoursesList";
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
-      this.isRippleLoad= false;
+      this.isRippleLoad = false;
       this.categiesList = res;
 
-    },err=>{
-      this.isRippleLoad= false;
+    }, err => {
+      this.isRippleLoad = false;
     });
   }
 

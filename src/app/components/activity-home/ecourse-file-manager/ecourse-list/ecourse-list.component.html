@@ -1,21 +1,23 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<div class="row  wrap-data"> 
-  <!--  style="display: flex;" -->
-  <div class="col-md-3 ecourse-item" *ngFor="let ecourse of categiesList;  ">
-    <div class="ecourse-card" (click)="getToSubject(ecourse)">
-      <div class="head">
-        {{ecourse.course_type}}
-      </div>
-      <div class="body">
-        <ul *ngFor="let item of ecourse.categoryList">
-          <li>{{item}}</li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-md-12" *ngIf="categiesList.length==0">
-    No Data Found
-  </div>
-</div>
+
+        <div class="row  wrap-data">
+            <!--  style="display: flex;" -->
+            <div class="col-md-3 ecourse-item" *ngFor="let ecourse of categiesList;  ">
+              <div class="ecourse-card" (click)="getToSubject(ecourse)">
+                <div class="head">
+                  {{ecourse.course_type}}
+                </div>
+                <div class="body">
+                  <ul *ngFor="let item of ecourse.categoryList">
+                    <li>{{item}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        
+            <div class="col-md-12" *ngIf="categiesList.length==0">
+              No Data Found
+            </div>
+          </div>        

@@ -1,5 +1,5 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-  </loaders-css>
+</loaders-css>
 <div class="fluid-container data-wrapper">
   <div class="row main-topic-row" *ngFor="let topic of materialData;">
     <div class="row singleton-row col-md-12 topic-data main-topic-data">
@@ -11,7 +11,7 @@
       <div class="col-md-4 topic-name">
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
-          <i class="fa fa-plus"   *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
         </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
-      <div class="col-md-12 topic-material-data"  >
+      <div class="col-md-12 topic-material-data">
         <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: 1}"></ng-container>
         <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: 1}"></ng-container>
         <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: 1}"></ng-container>
@@ -47,7 +47,7 @@
       <div class="col-md-4 topic-name" [ngStyle]="{'padding-left': level+'em'}">
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
-          <i class="fa fa-plus"   *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
         </button> {{topic.topic_name}}
       </div>
       <div class="col-md-4">
@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
-      <div class="row col-md-12 topic-material-data"  >
+      <div class="row col-md-12 topic-material-data">
         <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level+1}"></ng-container>
         <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level+1}"></ng-container>
         <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level+1}"></ng-container>
@@ -86,7 +86,9 @@
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
-        <button class="btn btn-xs btn-ga-white" (click)="downloadFile(video)">Download</button>
+        <button class="btn btn-xs btn-ga-white">
+          <a [href]="video.file_name" [download]="video.title">Download</a>
+        </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(video)">Delete</button>
       </div>
     </div>
@@ -104,7 +106,9 @@
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
-        <button class="btn btn-xs btn-ga-white" (click)="downloadFile(file)">Download</button>
+        <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" [download]="file.title">Download</a>
+          </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
     </div>
@@ -122,7 +126,9 @@
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
-        <button class="btn btn-xs btn-ga-white" (click)="downloadFile(file)">Download</button>
+        <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" [download]="file.title">Download</a>
+          </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
     </div>
@@ -140,7 +146,9 @@
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
-        <button class="btn btn-xs btn-ga-white" (click)="downloadFile(audio)">Download</button>
+        <button class="btn btn-xs btn-ga-white">
+            <a [href]="audio.file_name" [download]="audio.title">Download</a>
+          </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(audio)">Delete</button>
       </div>
     </div>
@@ -157,13 +165,13 @@
       <div class="ga-modal-body">
         <div class="row upload-box">
           <div class="col-md-12 file-form">
-              <button class="btn btn-xs btn-ga-white" (click)="removeData()">Delete</button>
-              <button class="btn btn-xs btn-ga-white" (click)="showModal = false">Cancel</button>              
-            </div>
+            <button class="btn btn-xs btn-ga-white" (click)="removeData()">Delete</button>
+            <button class="btn btn-xs btn-ga-white" (click)="showModal = false">Cancel</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<app-upload-file ></app-upload-file>
+<app-upload-file></app-upload-file>
