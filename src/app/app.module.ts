@@ -39,8 +39,7 @@ import { SharedModule } from './components/shared/shared.module';
 import {ToasterModule} from 'angular2-toaster';
 import { HttpService } from './services/http.service';
 import { ExpensesService } from './services/expenses.service';
-
-
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -55,7 +54,8 @@ import { ExpensesService } from './services/expenses.service';
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SharedModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+
   ],
   declarations: [
     AppComponent,
