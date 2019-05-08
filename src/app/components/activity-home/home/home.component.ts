@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
   }
 
   constructor(
-    private router: Router, 
-    private login: LoginService, 
+    private router: Router,
+    private login: LoginService,
     private auth: AuthenticatorService
   ) {
     if (sessionStorage.getItem('userid') == null) {
@@ -46,6 +46,10 @@ export class HomeComponent implements OnInit {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
       this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
       this.jsonFlag.showLiveClasses = this.checkInstSetupType(type , 256);
+    }
+    const userType = sessionStorage.getItem('userType');
+    if (userType == '3') {
+      this.jsonFlag.showLiveClasses = true;
     }
   }
 

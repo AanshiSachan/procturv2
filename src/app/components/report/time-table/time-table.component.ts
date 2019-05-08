@@ -5,6 +5,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 import { timeTableService } from '../../../services/TimeTable/timeTable.service';
 import { MessageShowService } from '../../../services/message-show.service';
 import { error } from 'selenium-webdriver';
+
 @Component({
   selector: 'app-time-table',
   templateUrl: './time-table.component.html',
@@ -53,6 +54,20 @@ export class TimeTableComponent implements OnInit {
   }
 
   fetchFieldDataPro = {
+    batch_id: "-1",
+    course_id: "-1",
+    enddate: "",
+    institute_id: "",
+    isExamIncludedInTimeTable: "Y",
+    master_course: "",
+    standard_id: "-1",
+    startdate: "",
+    subject_id: "-1",
+    teacher_id: "-1",
+    type: 2
+  }
+
+  forDownloadPDF = {
     batch_id: "-1",
     course_id: "-1",
     enddate: "",
@@ -254,13 +269,14 @@ export class TimeTableComponent implements OnInit {
     else if (flag == '1') {
       this.startdateweek = moment(this.startdateweek).add(7, 'days').format('DD-MMM-YYYY');
       this.enddateweek = moment(this.enddateweek).add(7, 'days').format('DD-MMM-YYYY');
-    }   
+    }
     this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
     if (this.fetchFieldData.master_course == "-1") {
       this.onlyMasterData = false;
     }
+    this.forDownloadPDF = this.fetchFieldData;
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
       (
       res => {
@@ -380,8 +396,8 @@ export class TimeTableComponent implements OnInit {
       for (let prop in this.timeTableObj) {
         if (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY") == moment(prop).format("DD-MM-YYYY") && (moment(this.startdateweek).add(i, 'day').format("dddd") == moment(prop).format("dddd"))) {
           let obj = {
-            headerDate: moment(prop).format("DD"),
-            headerDays: moment(prop).format("ddd"),
+            headerDate: moment(prop).format("DD-MM-YYYY"),
+            headerDays: moment(prop).format("dddd"),
             data: this.timeTableObj[prop],
           }
           this.timeTableArr.push(obj);
@@ -391,19 +407,20 @@ export class TimeTableComponent implements OnInit {
       }
       if (this.flag == false) {
         let obj = {
-          headerDate: (moment(this.startdateweek).add(i, 'day').format("DD")),
-          headerDays: (moment(this.startdateweek).add(i, 'day').format("ddd")),
+          headerDate: (moment(this.startdateweek).add(i, 'day').format("DD-MM-YYYY")),
+          headerDays: (moment(this.startdateweek).add(i, 'day').format("dddd")),
           data: [],
         }
         this.timeTableArr.push(obj);
       }
-      this.timeTableArr.map((element) => {
-        element.data.length = this.maxEntries;
-      })
+      // this.timeTableArr.map((element) => {
+      //   element.data.length = this.maxEntries;
+      // })
     }
     if (!this.isProfessional) {
       this.notProTimeTable.push(this.timeTableArr);
     }
+      console.log(this.timeTableArr)
   }
   /* counting max length in a Coloumn */
   maxDataLengthCount() {
@@ -426,40 +443,38 @@ export class TimeTableComponent implements OnInit {
   }
 
   printTimeTableData() {
-    var header = document.getElementsByTagName('core-header');
-    var sidebar = document.getElementsByTagName('core-sidednav');
 
-    [].forEach.call(header, function (el) {
-      el.classList.add('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.add('hide');
-    });
-    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
-      el.style.display = 'none';
-    });
-    document.getElementById('middle-sectionId').style.display = "none";
-    document.getElementById('printTimeTable').style.display = "block";
-    document.getElementById('printTimeTable').style.pageBreakAfter = "always"
-    window.print();
-    [].forEach.call(header, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(sidebar, function (el) {
-      el.classList.remove('hide');
-    });
-    [].forEach.call(document.querySelectorAll('.bot-wrapper'), function (el) {
-      el.style.display = 'block';
-    });
-    document.getElementById('middle-sectionId').style.display = "block";
-    document.getElementById('printTimeTable').style.display = "none";
-    // document.getElementById('tableHead').style.display = "none";
+    this.timeTableServ.downloadTimeTable(this.forDownloadPDF).subscribe(
+      (res: any) => {
+        this.isRippleLoad = false;
+        let byteArr = this.convertBase64ToArray(res.document);
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('timeTable_download');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      },
+      err => {
+        this.isRippleLoad = false;
+        this.commonService.showErrorMessage('error', 'Error', err.error.message);
+      }
+    );
+
+
+  }
+  convertBase64ToArray(val) {
+
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+
   }
 
 }
-
-
-
-
-
-

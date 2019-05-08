@@ -1,482 +1,204 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="JsonVars.isRippleLoad">
 </loaders-css>
-<div class="middle-section clearFix">
-    <aside class="middle-full">
-        <section class="middle-main clearFix activity-wrapper">
-            <section class="row header">
-                <div class="row" style="margin-left: 15px;">
-                    <h2 class="pull-left">
-                        <a routerLink="/view/activity/dashboard">
-                            Activity
-                        </a>
-                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-                        Live Classes
-                    </h2>
+
+<div class="middle-section">
+  <aside class="middle-full">
+    <section class="middle-main clearFix activity-wrapper">
+      <section class="row header">
+        <div class="row" style="margin-left: 15px;">
+          <h2 class="pull-left">
+            <a routerLink="/view/activity/dashboard">
+            Activity
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+            Live Classes
+          </h2>
+        </div>
+      </section>
+
+
+      <!-- <h2 class="" style="margin:10px 0px;">
+        Live Classes
+      </h2> -->
+
+      <div class="border-container">
+      </div>
+
+      <section>
+        <div class="live-class-list">
+          <div class="live-class-container" style="width:50%;">
+            <div class="field-radio-wrapper">
+              <input type="radio" [value]="false" class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses" id="liveClasses1">
+              <label for="liveClasses1">Upcoming Classes</label>
+            </div>
+            <div class="field-radio-wrapper">
+              <input type="radio" [value]="true"  class="form-radio" [(ngModel)]="liveClassFor" (ngModelChange)="getClassesFor()" name="liveClasses" id="liveClasses2">
+              <label for="liveClasses2">Previous Classes</label>
+            </div>
+          </div>
+
+          <div class="search-add-class-container">
+            <div class="search-filter-wrapper">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              <input type="text" class="normal-field" placeholder="Search" name="searchData" #searchVal (keyup)="searchInList(searchVal)">
+            </div>
+            <!-- <div class="filter-wrapper">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              <select class="filter" name="" *ngIf="liveClassFor" [(ngModel)]="sortDate" (ngModelChange)="dateRangeChanges()">
+                <option value="-1" selected="selected" hidden disabled>Filter By Date</option>
+                <option value="last_week">Last 7 Days</option>
+                <option value="this_month">This Month</option>
+                <option value="last_month">Last Month</option>
+                <option value="last_three_month">Last 3 months</option>
+                <option value="custom_date_range">Custom Date range</option>
+                <option value="all">All</option>
+              </select>
+            </div> -->
+            <div class="add-class-container">
+              <button type="button" name="button" class="add-class" routerLink='/view/activity/add'>+ Add Live Class</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="live-class">
+        <div class="live-class-list-container" *ngIf="getClasses.length !=0">
+          <div class="live-class-item" *ngFor="let class of getClasses">
+            <div class="sub-item-1">
+              <div class="session_name_and_id_container">
+                <div class="session_name">
+                  <span>{{class.session_name}}</span>
                 </div>
-                <section class="student-tab">
-                    <ul class="nav-tab">
-                        <li id="li-one" class="active">
-                            <div class="navigator" id="studentForm-icon" (click)="switchToView($event.target.id)">
-                                <span id="studentForm-icon">1</span>
-                                <p id="studentForm-icon">Class Details</p>
-                            </div>
-                        </li>
-                        <li class="" id="li-two">
-                            <div class="navigator" id="kyc-icon" (click)="switchToView($event.target.id)">
-                                <span id="kyc-icon">2</span>
-                                <p id="kyc-icon">Assign Students</p>
-                            </div>
-                        </li>
-                        <li class="" id="li-three" [class.hide]="quickAddStudent">
-                            <div class="navigator" id="feeDetails-icon" (click)="switchToView($event.target.id)">
-                                <span id="feeDetails-icon">3</span>
-                                <p id="feeDetails-icon">Assign Faculty</p>
-                            </div>
-                        </li>
-                        <li class="" id="li-four" [class.hide]="quickAddStudent">
-                            <div class="navigator" id="inventory-icon" (click)="switchToView($event.target.id)">
-                                <span id="inventory-icon">4</span>
-                                <p id="inventory-icon">Assign User</p>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
+                <div class="session_id">
+                  <span>Session Id : {{class.session_id}}</span>
+                </div>
+              </div>
+              <div class="notification_container" *ngIf="!liveClassFor">
+                <span class="upcoming_class" *ngIf="timeLeft(today, class.start_datetime)">Ongoing</span>
+                <!-- <div class="spinner">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+                </div> -->
+                <button type="button" name="button" class="notification_btn" (click)="smsNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)">
+                  Send SMS Notification
+                  <i class="fa fa-commenting" aria-hidden="true"></i>
+                </button>
+                <button type="button" name="button" class="notification_btn" (click)="pushNotification(class.session_id)" *ngIf="!timeLeft(today, class.start_datetime)">
+                  Send Push Notification
+                  <i class="fa fa-bell" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="action_container" *ngIf="!liveClassFor && !timeLeft(today, class.start_datetime)" >
+                <button type="button" name="button" class="action_edit" (click)="editStudent(class.session_id)">
+                  Edit
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button type="button" name="button" class="action_delete" (click)="cancel(class.session_id)">
+                  Cancel
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            <div class="sub-item-2">
+              <div class="item_type_1">
+                <span style="color: #9898a3;">Faculty : </span>
+                <span style="color: #585574;font-weight: 600;">{{class.teachersName}}</span>
+              </div>
+              <div class="item_type_1">
+                <span  style="color: #585574;">
+                  <span style="color: #9898a3;">Date : </span>
+                  {{class.start_datetime | date: 'dd MMM yyyy'}}
+                 </span>
+                <span  style="color: #585574;">
+                  <span style="color: #9898a3;">Duration : </span>
+                  {{diffDate(class.start_datetime, class.end_datetime) }} hrs
+                </span>
+              </div>
+              <div class="item_type_1">
+                <span style="color: #585574;">
+                  <span style="color: #9898a3;">Time : </span>
+                  <span>{{class.start_datetime | date: 'shortTime'}} - {{class.end_datetime | date: 'shortTime'}}</span>
+                </span>
+                <span style="color: #585574;">
+                  <span style="color: #9898a3;">Moderator : </span>
+                  <span *ngIf="class.moderatorName != '' && class.moderatorName != null">{{class.moderatorName}}</span>
+                  <span *ngIf="class.moderatorName == '' || class.moderatorName == null">-</span>
+                </span>
+              </div>
+              <div class="item_type_3" *ngIf="!liveClassFor">
+                <span style="color: #9898a3;">Time left : </span>
+                <span  style="color: #585574;font-weight: 600;">{{getTimeLeft(today, class.start_datetime) }}</span>
+              </div>
+              <div class="item_type_3" *ngIf="liveClassFor">
+                <span style="color: #9898a3;">Attendees : </span>
+                <span  style="color: #585574;font-weight: 600;">{{class.attendeesCount}} of {{class.totalAttendeesLimit}}</span>
+              </div>
+              <div class="item_type_2">
+                <button type="button" name="button" *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.start_datetime) ? 'start_session' : 'notAllowed'" (click)="startLiveClass(class.session_link, class.start_datetime)">
+                  <i class="fa fa-play" aria-hidden="true"></i>
+                  &nbsp;
+                  Start Class
+                </button>
+                <button type="button" name="button" class="repeat_session" *ngIf="liveClassFor" (click)="repeatSession(class.session_id)">
+                  <i class="fa fa-repeat" aria-hidden="true"></i>
+                  &nbsp;
+                  Repeat Class
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                <section id="studentForm" *ngIf="studentForm">
-                    <a class="pull-right view-class" (click)="viewOnlineClasses()">View Online Classes</a>
-                    <div class="widget">
-                        <h2 style="margin-left: 3%; margin-top: 2%; ">Class Details</h2>
-                        <div class="row row-inner" style="margin-left: 2%; margin-top: 20px;">
-                            <div class="c-lg-4 field-wrapper">
-                                <label>Topic Name *</label>
-                                <input type="text" class="form-ctrl" [(ngModel)]="getOnlineClasses.session_name">
-                            </div>
-                            <div class="c-lg-2 field-wrapper datePickerBox" style="margin-left: 7%;">
-                                <label>Date *</label>
-                                <input type="text" class="form-ctrl" bsDatepicker [(ngModel)]="dateFrom" (ngModelChange)="getEvent($event)">
-                            </div>
-                            <div class="c-lg-2" style="margin-top: 11px;">
-                                <label style="display: block; font-size: 12px;"> From *</label>
-                                <select class="made-out" style="display: inline-block; height: 37px;" (ngModelChange)="minuteFrom='00'" [(ngModel)]="hourFrom">
-                                    <option *ngFor="let i of hour" [value]="i">
-                                        {{i}}
-                                    </option>
-                                </select>
-                                <select class="made-out" style="display: inline-block;height: 37px;" [(ngModel)]="minuteFrom">
-                                    <option *ngFor="let i of minutes" [value]="i">
-                                        {{i}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="c-lg-2" style="margin-top: 11px;">
-                                <label style="display: block; font-size: 12px;">To *</label>
-                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourTo" (ngModelChange)="minuteTo='00'">
-                                    <option *ngFor="let i of hour" [value]="i">
-                                        {{i}}
-                                    </option>
-                                </select>
-                                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="minuteTo">
-                                    <option *ngFor="let i of minutes" [value]="i" >
-                                        {{i}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
+      <section *ngIf="!liveClassFor">
+        <div class="note-container">
+          <span><span style="font-weight: 600;">NOTE : </span> Sessions can only be started before 30 minutes of start time.</span>
+        </div>
+      </section>
 
-                        <div class="row" style="margin-left: 2%;">
-                            <div class="c-lg-4 field-wrapper">
-                                <label>Class Details</label>
-                                <textarea class="form-ctrl" style="height: 200px;" [(ngModel)]="classDetails"></textarea>
-                            </div>
-                        </div>
+      <!-- Paginator Here -->
+      <div class="row filter-res pagination pagination-correct" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="displayClassSize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
 
-                        <div class="row">
-                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
-                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" [disabled]="getOnlineClasses.session_name==''||hourFrom==''|| hourTo==''" (click)="getTimeInfo()">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="kyc" *ngIf="kyc">
-                    <div class="widget">
-                        <h2 style="margin-left: 3%; margin-top: 2%; ">Select Students</h2>
-                        <div class="row" style="margin-left: 2%; margin-top: 20px;" *ngIf="!isProfessional">
-                            <div class="c-lg-3 field-wrapper">
-                                <label>Master Course</label>
-                                <select class="form-ctrl" [(ngModel)]="courseValue" (ngModelChange)="getCourses($event)">
-                                    <option *ngFor="let i of masters" [value]="i.master_course">
-                                        {{i.master_course}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="c-lg-3 field-wrapper">
-                                <label>Course</label>
-                                <select class="form-ctrl" multiple style="height: 87px;" [(ngModel)]="courseIds" (ngModelChange)="getBatchesCoursesIds($event)">
-                                    <option *ngFor="let i of courses" [value]="i.course_id">
-                                        {{i.course_name}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="c-lg-2" style="margin-top: 2%;">
-                                <button class="btn fullBlue" (click)="getStudents()">Go</button>
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-left: 2%; margin-top: 20px;" *ngIf="isProfessional">
-                            <div class="c-lg-3 field-wrapper">
-                                <label>Batch</label>
-                                <select class="form-ctrl" multiple style="height: 87px;" [(ngModel)]="batchesIds" (ngModelChange)="getBatchesCoursesIds($event)">
-                                    <option *ngFor="let i of batches" [value]="i.batch_id">
-                                        {{i.batch_name}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="c-lg-2" style="margin-top: 2%;">
-                                <button class="btn fullBlue" (click)="getStudents()">Go</button>
-                            </div>
-                        </div>
-
-                        <div class="table table-responsive madeNe">
-                            <div class="tabel-ne">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: left;padding-left: 15px;">
-                                                <div class="field-checkbox-wrapper" style="display: inline-block; height: 16px;">
-                                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="JsonVars.selected" (ngModelChange)="getAllStudents($event)">
-                                                    <label></label>
-                                                </div>
-                                                <div style="display: inline-block; padding-bottom: 8px;">
-                                                    Id
-                                                </div>
-                                            </th>
-                                            <th style="text-align: left;">
-                                                Name
-                                            </th>
-                                            <th style="text-align: left;">
-                                                Email Id
-                                            </th>
-                                            <th style="text-align: left;">
-                                                Phone Number
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody *ngIf="studentsAssigned.length!=0">
-                                        <tr *ngFor="let i of studentsAssigned ; let j=index;" class="made-in">
-                                            <td style="text-align: left;">
-                                                <div class="field-checkbox-wrapper" style="height: 16px;">
-                                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getStudentCheckedValue($event , j)">
-                                                    <label></label>
-                                                </div>
-                                                {{i.student_disp_id}}
-                                            </td>
-                                            <td style="text-align: left;">
-                                                {{i.student_name}}
-                                            </td>
-                                            <td style="text-align: left;">
-                                                {{i.student_email}}
-                                            </td>
-                                            <td style="text-align: left;">
-                                                {{i.student_phone}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                    <tbody *ngIf="studentsAssigned.length==0">
-                                        <tr>
-                                            <td colspan="4">
-                                                No Records Found
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
-                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" (click)="isStudent()" [disabled]="isStudentCheckedArr.length==0" >
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="feeDetails" *ngIf="feeDetails">
-                    <div class="widget">
-                        <h2 style="margin-left: 3%; margin-top: 2%; ">Select Teachers</h2>
-                        <div class="table table-responsive made-teacher">
-                            <div class="table-teacher">
-                                <table>
-                                    <thead>
-                                        <tr class="teacherId">
-                                            <th style="text-align: center; width:10%;">
-                                                Id
-                                            </th>
-                                            <th>
-                                                Name
-                                            </th>
-                                            <th>
-                                                Email
-                                            </th>
-                                            <th>
-                                                Phone
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody *ngIf="teachersAssigned.length!=0" class="form-submit">
-                                        <tr *ngFor="let i of teachersAssigned ; let j=index" class="teacherId">
-                                            <td>
-                                                <div class="field-radio-wrapper" style="display: inline-block; height: 16px;">
-                                                    <input type="radio" class="form-radio" name="checked" [(ngModel)]="teacherId" [value]="i.teacher_id">
-                                                    <label></label>
-                                                </div>
-                                                <div style="display: inline-block;">
-                                                    {{i.teacher_id}}
-                                                </div>
-                                            </td>
-                                            <td style="text-align: left">
-                                                {{i.teacher_name}}
-                                            </td>
-                                            <td style="text-align: left">
-                                                {{i.teacher_email}}
-                                            </td>
-                                            <td style="text-align: left">
-                                                {{i.teacher_phone}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody *ngIf="teachersAssigned.length==0">
-                                        <tr>
-                                            <td colspan='4'>
-                                                No Records Found
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
-                                <input type="button" class="btn fullBlue" value="Next" style="width:100%;" [disabled]="teacherId == ''" (click)="viewUsers()">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="inventory" *ngIf="inventory">
-                    <div class="widget">
-                        <h2 style="margin-left: 3%; margin-top: 2%; ">Select Users</h2>
-                        <div class="table table-responsive made-teacher">
-                            <div class="table-teacher">
-                                <table>
-                                    <thead>
-                                        <tr class="teacherId">
-                                            <th style="text-align: center; width:14%;">
-                                                Id
-                                            </th>
-                                            <th>
-                                                Name
-                                            </th>
-                                            <th>
-                                                Email
-                                            </th>
-                                            <th>
-                                                Phone
-                                            </th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody *ngIf="userAssigned.length!=0">
-                                        <tr *ngFor="let i of userAssigned ; let j=index" class="teacherId">
-                                            <td>
-                                                <div class="field-checkbox-wrapper" style="height: 16px;">
-                                                    <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getUserCheckedValue($event , j)">
-                                                    <label></label>
-                                                </div>
-                                                {{i.userid}}
-                                            </td>
-                                            <td>
-                                                {{i.name}}
-                                            </td>
-                                            <td>
-                                                {{i.email_id}}
-                                            </td>
-                                            <td>
-                                                {{i.phone}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody *ngIf="userAssigned.length==0">
-                                        <tr>
-                                            <td colspan="4">
-                                                No Records Found
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="c-lg-3 field-checkbox-wrapper" style="margin-left: 4%;
-                            margin-top: 1%;">
-                                <input type="checkbox" class="form-checkbox" [(ngModel)]="sendNotifyMe" (ngModelChange)="sendNotify($event)">
-                                <label>Send Notification</label>
-                            </div>
-                            <div class="pull-right" style="margin-right: 4%; margin-bottom: 2%;">
-                                <input type="button" class="btn fullBlue" value="Submit" style="width:100%;" [disabled]="JsonVars.submitReq" (click)="getOnlineSchedules()">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </section>
-        </section>
-    </aside>
+      </section>
+  </aside>
 </div>
 
-<proctur-popup [sizeWidth]="'large'" *ngIf="openClassPopup">
 
-    <span class="closePopup pos-abs fbold show" close-button (click)="close()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
-            </g>
-        </svg>
-    </span>
-    <div popup-header class="popup-header-content" style="margin-top: 20px;">
+<section [hidden]="alertBox">
+  <div class="confirmation_popup">
+    <div class="confirm_title">
+      <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: rgba(255,0,0,0.7);"></i> &nbsp;
+      <span>Alert</span>
+    </div>
+    <div class="confirmation_msg_box">
+      <span id="confirm_msg">Are you sure you want to cancel the session?</span>
+    </div>
+    <br>
+    <!-- <div class="field-checkbox-wrapper">
+      <input type="checkbox" id="sms" name="batch" [(ngModel)]="sendSMSNotification"
+          class="form-checkbox">
+      <label for="sms"> Send SMS Notification</label>
     </div>
 
-    <div popup-content class="popup-header-content">
-        <table *ngIf="allClasses">
-            <thead>
-                <tr class="alignment">
-                    <th>
-                        Session Id
-                    </th>
-                    <th>
-                        Session Name
-                    </th>
-                    <th>
-                        Start Time
-                    </th>
-                    <th>
-                        End Time
-                    </th>
-                    <th>
-                        SMS Notification
-                    </th>
-                    <th>
-                        Push Notification
-                    </th>
-                    <th>
-                        Cancel
-                    </th>
-                    <th>
-                        Reschedule
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody *ngIf="getClasses.length !=0">
-                <tr *ngFor="let i of getClasses" class="alignment">
-                    <td>
-                        {{i.session_id}}
-                    </td>
-                    <td>
-                        {{i.session_name}}
-                    </td>
-                    <td>
-                        {{i.start_datetime}}
-                    </td>
-                    <td>
-                        {{i.end_datetime}}
-                    </td>
-                    <td>
-                        <i class="fa fa-bell" aria-hidden="true" (click)="smsNotification(i.session_id)"></i>
-                    </td>
-                    <td>
-                        <i class="fa fa-bell" aria-hidden="true" (click)="pushNotification(i.session_id)"></i>
-                    </td>
-                    <td>
-                        <i class="fa fa-times" aria-hidden="true" (click)="cancel(i.session_id)"></i>
-                    </td>
-                    <td>
-                        <i class="fa fa-calendar" aria-hidden="true" (click)="reschedule(i.session_id)" *ngIf="i.start_datetime > dateToday"></i>
-                        <label *ngIf="i.start_datetime < dateToday">NA</label>
-                    </td>
-                </tr>
-            </tbody>
-
-            <tbody *ngIf="getClasses.length == 0">
-                <tr>
-                    <td colspan="8">
-                        No Records Found
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+    <div class="field-checkbox-wrapper">
+      <input type="checkbox" id="push" name="batch" [(ngModel)]="sendPushNotification"
+          class="form-checkbox">
+      <label for="push"> Send Push Notification</label>
+    </div> -->
+    <div class="confirmation_button_container">
+      <input type="button" value="Yes" class="btn" (click)="cancelSession()">
+      <input type="button" value="No" class="btn" (click)="closeAlert()">
     </div>
-</proctur-popup>
+  </div>
+</section>
 
-<proctur-popup [sizeWidth]="'medium'" *ngIf="rescheduleClass">
+<div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">
 
-    <span class="closePopup pos-abs fbold show" close-button (click)="closeReschedule()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
-            </g>
-        </svg>
-    </span>
-    <div popup-header class="popup-header-content">
-        <h2>Reschedule Class</h2>
-
-    </div>
-    <div popup-content class="popup-header-content">
-        <div class="row row-inner">
-            <div class="c-lg-4 field-wrapper datePickerBox">
-                <label>Date</label>
-                <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="rescheduledateFrom" (ngModelChange)="getEvent($event)">
-            </div>
-            <div class="c-lg-3" style="margin-top: 11px;">
-                <label style="display: block; font-size: 12px;"> From</label>
-                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourFromReschedule" (ngModelChange)="getEventHourFrom($event)">
-                    <option *ngFor="let i of hour" [value]="i">
-                        {{i}}
-                    </option>
-                </select>
-                <select class="made-out" style="display: inline-block;height: 37px;" [(ngModel)]="minuteFromReschedule" (ngModelChange)="getEventMinuteFrom($event)">
-                    <option *ngFor="let i of minutes" [value]="i">
-                        {{i}}
-                    </option>
-                </select>
-            </div>
-            <div class="c-lg-3" style="margin-top: 11px;">
-                <label style="display: block; font-size: 12px;">To</label>
-                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="hourToReschedule" (ngModelChange)="getEventHourTo($event)">
-                    <option *ngFor="let i of hour" [value]="i">
-                        {{i}}
-                    </option>
-                </select>
-                <select class="made-out" style="display: inline-block; height: 37px;" [(ngModel)]="minuteToReschedule" (ngModelChange)="getEventMinuteTo($event)">
-                    <option *ngFor="let i of minutes" [value]="i">
-                        {{i}}
-                    </option>
-                </select>
-            </div>
-            <div class="c-lg-1" style="margin-top: 3%;">
-                <button class="btn fullBlue" value="Go" (click)="getRescheduleTime()">Go</button>
-            </div>
-        </div>
-    </div>
-</proctur-popup>
+</div>
