@@ -114,7 +114,9 @@ export class UploadFileComponent implements OnInit {
           }
           this.appC.popToast(data);
           this.clearuploadObject();
-          this.router.navigate(['/view/activity/ecourse-file-manager/ecourses']);
+
+          this.material_dataShow ? this.router.navigate(['/view/activity/ecourse-file-manager/ecourses/' + this.varJson.course_types + '/subjects/' + this.varJson.subject_id + '/materials']) :
+            this.router.navigate(['/view/activity/ecourse-file-manager/ecourses']);
 
         } else {
           let data = {
@@ -145,17 +147,17 @@ export class UploadFileComponent implements OnInit {
     }
     this.varJson.name = '';
   }
-  
+
   uploadHandler($event, values) {
 
-    if(this.varJson.course_types=="" ||this.varJson.course_types=='0'){
-        let data = {
-          type: 'error',
-          title: "select course to upload data",
-          body: ''
-        }
-        this.appC.popToast(data);
-        return false;
+    if (this.varJson.course_types == "" || this.varJson.course_types == '0') {
+      let data = {
+        type: 'error',
+        title: "select course to upload data",
+        body: ''
+      }
+      this.appC.popToast(data);
+      return false;
     }
     if (this.checkCategoriesType($event.files)) {
       let filesForUpload = $event.files;
@@ -204,7 +206,8 @@ export class UploadFileComponent implements OnInit {
               body: newxhr.response.fileName
             }
             this.clearuploadObject();
-            this.router.navigate(['/view/activity/ecourse-file-manager/ecourses']);
+            this.material_dataShow ? this.router.navigate(['/view/activity/ecourse-file-manager/ecourses/' + this.varJson.course_types + '/subjects/' + this.varJson.subject_id + '/materials']) :
+              this.router.navigate(['/view/activity/ecourse-file-manager/ecourses']);
             this.appC.popToast(data);
           } else {
             let data = {
@@ -256,7 +259,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: this.varJson.name+" should be pdf, doc, docx form",
+              title: this.varJson.name + " should be pdf, doc, docx form",
               body: ''
             }
             this.appC.popToast(data);

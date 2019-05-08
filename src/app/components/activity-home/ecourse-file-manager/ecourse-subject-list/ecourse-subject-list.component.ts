@@ -12,8 +12,8 @@ export class EcourseSubjectListComponent implements OnInit {
 
   subjectList: any = [];
   institute_id: any;
-  ecourse_id:any;
-  isRippleLoad:boolean = false;
+  ecourse_id: any;
+  isRippleLoad: boolean = false;
 
   constructor(
     private _http: HttpService,
@@ -26,36 +26,42 @@ export class EcourseSubjectListComponent implements OnInit {
     });
     this.route.params.subscribe(
       params => {
-      console.log(params);
-      this.ecourse_id = params.ecourse_id;
+        console.log(params);
+        this.ecourse_id = params.ecourse_id;
       }
     )
   }
 
   ngOnInit() {
     this.getSubjectList();
-    this._http.routeList.splice(2,this._http.routeList.length);
+    if (sessionStorage.getItem('routeListForEcourse')) {
+      this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
+      this._http.routeList.splice(2, this._http.routeList.length);
+    }
   }
 
   getSubjectList() {
     this.subjectList = [];
-    this.isRippleLoad= true;
-    let url = "/api/v1/ecourse/" + this.institute_id +"/"+ this.ecourse_id + "/subjects";    
+    this.isRippleLoad = true;
+    let url = "/api/v1/ecourse/" + this.institute_id + "/" + this.ecourse_id + "/subjects";
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
-      this.isRippleLoad= false;
+      this.isRippleLoad = false;
       this.subjectList = res;
-    },err=>{
-      this.isRippleLoad= false;
+    }, err => {
+      this.isRippleLoad = false;
     });
   }
 
   getToSubjectMaterials(subject) {
-    let url ="/view/activity/ecourse-file-manager/ecourses/" +this.ecourse_id  + "/subjects/"+subject.subject_id+"/materials";
-    this._http.routeList.splice(2,this._http.routeList.length);
+    let url = "/view/activity/ecourse-file-manager/ecourses/" + this.ecourse_id + "/subjects/" + subject.subject_id + "/materials";
     this.router.navigateByUrl(url);
     let obj = { routeLink: url, name: subject.subject_name };
-    this._http.routeList.push(obj);
+    if (sessionStorage.getItem('routeListForEcourse')) {
+      this._http.routeList.splice(2, this._http.routeList.length);
+      this._http.routeList.push(obj);
+      sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
+    }
   }
 
 }

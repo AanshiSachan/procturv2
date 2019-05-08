@@ -8,21 +8,21 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
   templateUrl: './ecourse-file-manager.component.html',
   styleUrls: ['./ecourse-file-manager.component.scss']
 })
-export class EcourseFileManagerComponent implements OnInit  {
+export class EcourseFileManagerComponent implements OnInit {
 
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
-  storageData:any={
-    storage_allocated:10,
-    uploaded_size:1,
-    width:1
+  storageData: any = {
+    storage_allocated: 10,
+    uploaded_size: 1,
+    width: 1
   }
 
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
   ) {
-    
+
   }
 
 
@@ -31,9 +31,11 @@ export class EcourseFileManagerComponent implements OnInit  {
       this.institute_id = id;
       this.getDataUsedInCourseList();
     });
-    this._http.routeList =[];
-    let  obj ={routeLink:'../ecourse-file-manager',name:'eCourse'};
+    this._http.routeList = [];
+    let obj = { routeLink: '../ecourse-file-manager', name: 'eCourse' };
     this._http.routeList.push(obj);
+    sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
+
   }
 
   toggleFileUploadModal() {
@@ -48,7 +50,7 @@ export class EcourseFileManagerComponent implements OnInit  {
       console.log(res);
       this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
       this.storageData.uploaded_size = res.uploaded_size;
-      let width= (100*  res.uploaded_size)/this.storageData.storage_allocated ;
+      let width = (100 * this.storageData.uploaded_size) / this.storageData.storage_allocated;
       this.storageData.width = Math.round(width);
     });
   }
