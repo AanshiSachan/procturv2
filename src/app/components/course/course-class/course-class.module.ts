@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,9 +14,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap-custome/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, ButtonModule } from 'primeng/primeng';
 import { ClassScheduleService } from '../../../services/course-services/class-schedule.service';
+// import { TreeviewModule } from 'ngx-treeview';
+import { TopicListingService } from '../../../services/course-services/topic-listing.service';
 
 @NgModule({
     imports: [
+        TreeViewModule,
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
@@ -26,7 +30,7 @@ import { ClassScheduleService } from '../../../services/course-services/class-sc
         ButtonModule,
         MenuModule,
         SharedModule,
-        CourseClassRouting
+        CourseClassRouting,
     ],
     exports: [],
     declarations: [
@@ -34,9 +38,11 @@ import { ClassScheduleService } from '../../../services/course-services/class-sc
         ClassHomeComponent,
         ClassAddComponent,
         DateFormat
+
     ],
     providers: [
-        ClassScheduleService
+        ClassScheduleService,
+        TopicListingService
     ]
 })
 

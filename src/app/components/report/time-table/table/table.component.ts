@@ -1,9 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
 import { timeTableService } from '../../../../services/TimeTable/timeTable.service';
 import { AppComponent } from '../../../../app.component';
+import { AuthenticatorService } from '../../../../services/authenticator.service';
+// import { CommonServiceFactory } from '../../../services/common-service';
+import * as moment from 'moment';
+
+import { error } from 'selenium-webdriver';
 
 // var jsPDF = require('jspdf');
 // require('jspdf-autotable');
+
 
 @Component({
   selector: 'time-table',
@@ -12,8 +18,64 @@ import { AppComponent } from '../../../../app.component';
 })
 
 export class tableComponent {
+
+  maxNoOfClasses: number = 0;
+  maxClassArray: any[] = [];
+  x: number = 0;
+  isProfessional: boolean;
+  today: string = moment(Date.now()).format("DD-MM-YYYY");
+
+
+  constructor(
+    private auth: AuthenticatorService
+    )
+    {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == "LANG") {
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+  }
+
   @Input() recordInput: any[] = [];
   @Input() courseName: any;
+
+
+
+
+  ngOnInit(){
+
+    for (var i = 0; i < this.recordInput.length; i++) {
+      let validation_flag = true;
+      for(var x = 0; x < this.recordInput[i].data.length; x++){
+        if(this.recordInput[i].data[x].class_type == "Exam"){
+          validation_flag = false;
+          this.recordInput[i].data[x] = [];
+          this.recordInput[i].data.splice(x, 1);
+          x--;
+        }
+      }
+    }
+
+    for (var i = 0; i < this.recordInput.length; i++) {
+      if(this.recordInput[i].data.length > this.maxNoOfClasses){
+        this.maxNoOfClasses = this.recordInput[i].data.length;
+      }
+    }
+
+    for (var i = 0; i < this.maxNoOfClasses; i++) {
+      this.maxClassArray.push(i)
+    }
+
+  }
+
+  arrayOne(n: number): any[] {
+    return Array(n);
+  }
 
   ngOnChanges() {
     this.recordInput;

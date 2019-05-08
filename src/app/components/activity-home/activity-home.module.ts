@@ -22,6 +22,9 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { LiveClasses } from '../../services/live-classes/live-class.service';
 import { TooltipModule } from 'ngx-bootstrap-custome';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
+import { AddClassComponent } from './live-classes/add-class/add-class.component';
+import { EditClassComponent } from './live-classes/edit-class/edit-class.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
     imports: [
@@ -34,6 +37,7 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
         ArchivingModule,
         StepsModule,
         TooltipModule.forRoot(),
+        NgMultiSelectDropDownModule.forRoot()
     ],
     declarations: [
         ActivityHomeComponent,
@@ -41,7 +45,9 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
         PtmManagementComponent,
         ExamdeskCourseAssignmentComponent,
         LiveClassesComponent,
-        EcourseMappingComponent
+        EcourseMappingComponent,
+        AddClassComponent,
+        EditClassComponent
     ],
     entryComponents: [
     ],
