@@ -840,6 +840,7 @@ export class CourseExamComponent implements OnInit {
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
           this.isRippleLoad = false;
+          this.multiClickDisabled = false;
           this.examScheduleData = res;
           this.calculateDataAsPerSelection(res);
           console.log(this.subjectListData);
@@ -1409,8 +1410,8 @@ export class CourseExamComponent implements OnInit {
   }
 
   saveExamScheduleCourse() {
-    // this.multiClickDisabled = true;
-    // this.isRippleLoad = true;
+    this.multiClickDisabled = true;
+    this.isRippleLoad = true;
     let dataToSend = this.makeDataJsonToSendServer();
     if (dataToSend == false) {
       this.isRippleLoad = false;
@@ -1422,10 +1423,9 @@ export class CourseExamComponent implements OnInit {
         this.apiService.updateExamSch(dataToSend).subscribe(
           res => {
             this.isRippleLoad = false;
-            this.multiClickDisabled = false;
             this.messageNotifier('success', 'Success', 'Exam scheduled successfully');
-            this.getExamSchedule();
             this.clearAllField();
+            this.getExamSchedule();
           },
           err => {
             this.isRippleLoad = false;
