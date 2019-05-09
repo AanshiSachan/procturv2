@@ -42,6 +42,7 @@ export class StudentsComponent implements OnInit {
     event: ""
   };
   obj2 = {}
+  checkedStudentIds: any[] = [];
 
   constructor(private students: CoursesServiceService,
     private appc: AppComponent,
@@ -100,7 +101,7 @@ export class StudentsComponent implements OnInit {
 
 
   getStatusValue(event,e) {
-    let arr = [];
+    let arr = this.checkedStudentIds;
     let str = "";
     let index=0;
     let i = 0;
@@ -115,29 +116,35 @@ export class StudentsComponent implements OnInit {
     if (event == true) {
       for ( i; (i < length && i<this.getStudents.length); i++) {
         if (this.getStudents[i].student_id== e.student_id ) {
-          this.getStudents[i].status = true;        
-          arr.push(this.getStudents[i].student_id);      
-        }     
+          this.getStudents[i].status = true;
+          arr.push(this.getStudents[i].student_id);
+        }
         if(this.getStudents[i].status) {
           index++;
-        }   
+        }
       }
 
     }
     else {
       for (i; (i < length && i<this.getStudents.length); i++) {
-        if (this.getStudents[i].student_id== e.student_id ) {
-          this.getStudents[i].status = false;             
+        if (this.getStudents[i].student_id == e.student_id ) {
+          this.getStudents[i].status = false;
         }
         else{
-          index++; 
-          arr.push(this.getStudents[i].student_id);   
+          index++;
+          // arr.push(this.getStudents[i].student_id);
         }
       }
-     
+
+      for (let i = 0; i < arr.length; i++) {
+        if(arr[i] == e.student_id){
+          arr.splice(i, 1);
+        }
+      }
+
     }
-    this.checkedStatus =  index==10?true:false; 
-    str = arr.join(',');    
+    this.checkedStatus =  index==10?true:false;
+    str = arr.join(',');
     this.courseFetchForm.studentIds = str;
   }
 
@@ -167,7 +174,7 @@ export class StudentsComponent implements OnInit {
   }
 
 
-  studentsDataPost() {
+  studentsDataPost(e) {
     let arr = [];
     let str = "";
     for (let i = 0; i < this.getStudents.length; i++) {
@@ -220,7 +227,7 @@ export class StudentsComponent implements OnInit {
         if (i < this.getStudents.length) {
           this.getStudents[i].status = true;
         }
-        arr.push(this.getStudents[i].student_id);       
+        arr.push(this.getStudents[i].student_id);
       }
       str = arr.join(',')
       this.selectedStudents.push(this.PageIndex);
@@ -230,7 +237,7 @@ export class StudentsComponent implements OnInit {
     else {
       for (i; i < length; i++) {
         if (i < this.getStudents.length) {
-          this.getStudents[i].status = false;        
+          this.getStudents[i].status = false;
         }
       }
       arr = [];
@@ -336,7 +343,7 @@ export class StudentsComponent implements OnInit {
 
   fetchPrevious() {
     if (this.PageIndex != 1) {
- this.PageIndex--; 
+ this.PageIndex--;
       this.fetchTableDataByPage(this.PageIndex);
     }
   }

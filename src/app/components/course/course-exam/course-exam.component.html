@@ -5,8 +5,9 @@
     <section class="exam-schedule">
 
         <div class="heading-section">
+          <br>
             <h1>
-                Exam Schedule
+                Exam Schedule Details
             </h1>
         </div>
 
@@ -16,21 +17,20 @@
                 <div class="row">
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '-1'}">
-                            <label for="ddnMAsterCourse">Master Course*</label>
-                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
-                                <option value="-1"></option>
-                                <option [value]="master.standard_id" *ngFor="let  master of masterCourseList">
-                                    {{master.standard_name}}
-                                </option>
-                            </select>
-
+                          <label for="ddnMAsterCourse">Master Course*</label>
+                          <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
+                            <option value="-1">Select Master Course</option>
+                            <option [value]="master.standard_id" *ngFor="let  master of masterCourseList">
+                                {{master.standard_name}}
+                            </option>
+                          </select>
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '-1'}">
                             <label for="ddnMAsterCourse">Course*</label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onBatchCourseSelection($event)">
-                                <option value="-1"></option>
+                                <option value="-1">Select Course</option>
                                 <option [value]="master.subject_id" *ngFor="let  master of courseList">
                                     {{master.subject_name}}
                                 </option>
@@ -42,7 +42,7 @@
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '-1'}">
                             <label for="sc">Batch*</label>
                             <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
-                                <option value="-1"></option>
+                                <option value="-1">Select Batch</option>
                                 <option [value]="subject.batch_id" *ngFor="let subject of batchesList">
                                     {{subject.batch_name}}
                                 </option>
@@ -53,6 +53,13 @@
                     <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px">
                         <button class="btn fullBlue" (click)="batchModelGoClick()">Go</button>
                     </div>
+                </div>
+                <div class="row" *ngIf="showCourseStartEndDate">
+                  <div class="c-sm-6 c-md-6 c-lg-6">
+                      <span class="spanText">Course Start Date : {{batchStartDate}}</span>
+                      &emsp;
+                      <span class="spanText">Course End Date : {{batchEndDate}} </span>
+                  </div>
                 </div>
             </div>
 
@@ -66,7 +73,7 @@
                                 <span style="color:red">*</span>
                             </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
-                                <option value="-1"></option>
+                                <option value="-1">Select Master Course</option>
                                 <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
                                     {{master.master_course}}
                                 </option>
@@ -80,8 +87,8 @@
                             <label for="ddnMAsterCourse">Course
                                 <span style="color:red">*</span>
                             </label>
-                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.course_id">
-                                <option value="-1"></option>
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.course_id" (ngModelChange)="displayCourseDate()">
+                                <option value="-1">Select Course</option>
                                 <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
                                     {{master.course_name}}
                                 </option>
@@ -108,13 +115,20 @@
                     </div>
                 </div>
 
+                <div class="row" *ngIf="showCourseStartEndDate" style="margin-top: 5px;">
+                  <div class="c-sm-6 c-md-6 c-lg-6">
+                      <span class="spanText">Course Start Date : <span style="font-weight: 600;">{{batchStartDate}}</span></span>
+                      &emsp;
+                      <span class="spanText">Course End Date : <span style="font-weight: 600;">{{batchEndDate}}</span></span>
+                  </div>
+                </div>
+
             </div>
 
         </div>
 
         <div class="content-section" *ngIf="showContentSection">
 
-            <h3>Schedule</h3>
 
             <div *ngIf="isLangInstitute" class="langModelCss">
 
@@ -189,7 +203,7 @@
                     <div class="c-sm-2 c-lg-2 c-md-2">
                         <div class="form-wrapper">
                             <label for="customDescTxt">Description</label>
-                            <textarea class="side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.exam_desc" id="customDescTxt" name="customDescTxt"></textarea>
+                            <textarea class="side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.exam_desc" id="customDescTxt" name="customDescTxt" placeholder="Enter Exam Description"></textarea>
                         </div>
                     </div>
 
@@ -355,176 +369,408 @@
 
             <div *ngIf="!isLangInstitute" class="courseModelWrapper">
 
-                <div class="row spli-Btn">
+                <!-- <div class="row spli-Btn"> -->
 
                     <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
 
-                    <div class="pull-right" *ngIf="selectedType == 'course'" style="margin-right:10px;">
-                        <button class="btn fullBlue small-btn" (click)="addMoreSchedule()" title="Used to create an additional/ multiple exams in same course on same day but with different timings.">Add More</button>
-                    </div>
+                    <!-- <div class="pull-right" *ngIf="selectedType == 'course' && examScheduleData.coursesList[0].courseClassSchdList" style="margin-right:10px;">
+                        <button class="btn fullBlue small-btn add_exam_btn" (click)="addMoreSchedule()" title="Used to create an additional/ multiple exams in same course on same day but with different timings.">+ Add Exam</button>
+                    </div> -->
 
-                </div>
+                <!-- </div> -->
 
                 <div class="row course-model" *ngIf="selectedType == 'course'">
 
+                <!-- Add new Exam HTML -->
+
+                  <div class="exam_adder_div">
+
+                    <div class="row dateInfo">
+
+                      <div class="c-sm-3 c-lg-3 c-md-3">
+
+                          <div class="form-wrapper timepick">
+                              <label for="startTime">Exam Start Time</label>
+                              <div class="tbox">
+                                  <div class="times">
+                                      <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="newExamData.startTimeHrs" name="startTime">
+                                          <option [value]="time" *ngFor="let time of times">
+                                              {{time}}
+                                          </option>
+                                      </select>
+                                  </div>
+                                  <div class="times">
+                                      <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="newExamData.startTimeMins" name="minute">
+                                          <option *ngFor="let minute of minArr" [value]="minute">
+                                              {{minute}}
+                                          </option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+
+                      <div class="c-sm-3 c-lg-3 c-md-3">
+
+                          <div class="form-wrapper timepick">
+                              <label for="startTime">Exam End Time</label>
+                              <div class="tbox">
+                                  <div class="times">
+                                      <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="newExamData.endTimeHrs" name="startTime">
+                                          <option [value]="time" *ngFor="let time of times">
+                                              {{time}}
+                                          </option>
+                                      </select>
+                                  </div>
+                                  <div class="times">
+                                      <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="newExamData.endTimeMins" name="minute">
+                                          <option *ngFor="let minute of minArr" [value]="minute">
+                                              {{minute}}
+                                          </option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+
+                        <div class="pull-right" style="margin-right:10px;">
+                            <button (click)="clearField()" class="btn fullBlue small-btn">Clear</button>
+                        </div>
+
+                    </div>
+
+                    <div class="row basic-detail">
+
+                      <div class="c-sm-2 c-lg-2 c-md-2">
+                        <div class="form-wrapper">
+                            <label for="subject">Subject
+                              <span style="color:red">*</span>
+                            </label>
+                            <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="subject_id" (ngModelChange)="subjectChanged()">
+                                <option value="-1" selected="selected">Select Subject</option>
+                                <option [value]="time.subject_id" *ngFor="let time of subjectListData[0]">
+                                    {{time.subject_name}}
+                                </option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="c-sm-1 c-lg-1 c-md-1">
+                            <div class="form-wrapper" style="width: 75px">
+                                <label for="marks">Marks
+                                  <span style="color:red">*</span>
+                                </label>
+                                <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="exam_marks" id="marks">
+                            </div>
+                        </div>
+
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+                          <div class="form-wrapper">
+                            <label for="topics">Topic</label>
+                            <input type="textbox" class="side-form-ctrl constantHeight" name="label"
+                              style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicListing()" [ngClass]="topicsName.length > 0 ? 'topic-linked' : 'topic-link'">
+                              <i class="fa fa-link" aria-hidden="true" (click)="topicListing()" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 28px; right: 25px;"></i>
+                          </div>
+                        </div>
+
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                              <div class="form-wrapper">
+                                  <label for="customDescTxt">Description</label>
+                                  <textarea class="side-form-ctrl constantHeight" [(ngModel)]="exam_desc" id="customDescTxt" name="customDescTxt" placeholder="Enter Exam Description"></textarea>
+                              </div>
+                          </div>
+
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                              <div class="form-wrapper" style="width: 75px">
+                                  <label for="inpTotalMarks">Room No</label>
+                                  <input type="string" class="side-form-ctrl constantHeight" [(ngModel)]="exam_room_no" id="inpTotalMarks">
+                              </div>
+                          </div>
+
+                          <div class="c-sm-2 c-lg-2 c-md-2 pull-right" style="margin-top: 15px;">
+                            <button type="button" name="button" (click)="addNewExamSubject()" class="btn  small-btn action_btn pull-right">Add Subject &nbsp;<i class="fas fa-plus-circle" style="font-family: FontAwesome;font-size: 14px;color: #0083f6;cursor: pointer;"></i></button>
+                          </div>
+
+                      </div>
+
+
+                      <div class="row displayComp" *ngFor="let row of newExamSubjectData; let i= index ; trackBy : index" style="padding:0px 6px;" id="row{{i}}">
+
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+                          <span class="view-comp">{{row.subject_name}}</span>
+                          <span class="edit-comp">{{row.subject_name}}</span>
+                          <!-- <div class="form-wrapper edit-comp">
+                            <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="edit_subject_id">
+                                <option value="-1" selected="selected">Select Subject</option>
+                                <option [value]="time.subject_id" *ngFor="let time of subjectListData[0]">
+                                    {{time.subject_name}}
+                                </option>
+                            </select>
+                          </div> -->
+                        </div>
+
+                        <div class="c-sm-1 c-lg-1 c-md-1">
+                          <span class="view-comp">{{row.exam_marks}} marks</span>
+                          <div class="form-wrapper edit-comp">
+                            <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="edit_exam_marks">
+                          </div>
+                        </div>
+
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+                          <span class="view-comp" title={{row.subject_topics}}>{{row.subject_topics | slice:0:20}}</span>
+                          <div class="form-wrapper edit-comp">
+                            <input type="textbox" class="side-form-ctrl constantHeight" name="label"
+                              style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="preSelectedTopicListing()" [ngClass]="row.subject_topics ? 'topic-linked' : 'topic-link'">
+                              <i class="fa fa-link" aria-hidden="true" (click)="preSelectedTopicListing()" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 25px;"></i>
+                          </div>
+                        </div>
+
+
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                            <span class="view-comp">{{row.exam_desc}}</span>
+                            <div class="form-wrapper edit-comp">
+                              <textarea class="side-form-ctrl constantHeight" [(ngModel)]="edit_exam_desc" id="customDescTxt" name="customDescTxt" placeholder="Enter Exam Description"></textarea>
+                            </div>
+                          </div>
+
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                            <span class="view-comp">{{row.exam_room_no}}</span>
+                            <div class="form-wrapper edit-comp">
+                              <input type="string" class="side-form-ctrl constantHeight" [(ngModel)]="edit_exam_room_no">
+                            </div>
+                          </div>
+
+                          <div class="c-sm-2 c-lg-2 c-md-2 pull-right" >
+                            <div class="action-Menu view-comp" *ngIf="row.isReferenced != 'Y'">
+                              <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteSubject(row.subject_id)" title="Delete"></i>
+                              <i class="fa fa-pencil pull-right" style="color:#1283f4;margin: 0px 10px;" aria-hidden="true" (click)="editSubject(i , row)" title="Edit"></i>
+                            </div>
+                            <div class="action-Menu edit-comp" *ngIf="row.isReferenced != 'Y'">
+                              <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteSubject(row.subject_id)" title="Delete"></i>
+                              <!-- <i class="fa fa-pencil pull-right" style="color:#1283f4;margin: 0px 10px;" aria-hidden="true" (click)="editSubject(i , row)" title="Edit"></i> -->
+                              <span style="color:#1283f4;margin: 0px 10px;" class="pull-right" (click)="updateSubject(i , row)">Save</span>
+                            </div>
+                          </div>
+
+                      </div>
+
+                      <div class="row" style="padding: 6px; border-top: 1px solid rgba(119, 119, 119, 0.419608);" *ngIf="newExamSubjectData.length > 0">
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+                          <span style="font-weight: 600;">Total Marks</span>
+                        </div>
+
+                        <div class="c-sm-1 c-lg-1 c-md-1">
+                          <span class="view-comp" style="font-weight: 600;">{{total_marks_to_show}} marks</span>
+                        </div>
+                      </div>
+
+                  </div>
+
+                  <!-- Showing Already Scheduled Exam List with their edit option -->
+                  <div class="" *ngIf="examAdderContainer">
                     <div class="loopingDiv" *ngFor="let data of viewList;let j= index ; trackBy : index">
 
+                        <div class="row dateInfo">   <!-- *ngIf="data.courseTableList.length > 0"-->
 
-                        <div class="row dateInfo">
+                          <div class="c-sm-3 c-lg-3 c-md-3">
 
-                            <div class="c-sm-6 c-md-6 c-lg-6">
-                                <span class="spanText">Course Start Date : {{data.batchStartDate}}</span>
-                                &emsp;
-                                <span class="spanText">Course End Date : {{data.batchEndDate}} </span>
-                            </div>
+                              <div class="form-wrapper timepick">
+                                  <label for="startTime">Exam Start Time</label>
+                                  <div class="tbox">
+                                      <div class="times">
+                                          <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.start_time.hour" name="startTime">
+                                              <option [value]="time" *ngFor="let time of times">
+                                                  {{time}}
+                                              </option>
+                                          </select>
+                                      </div>
+                                      <div class="times">
+                                          <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.start_time.minute" name="minute">
+                                              <option *ngFor="let minute of minArr" [value]="minute">
+                                                  {{minute}}
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
+
+                          <div class="c-sm-3 c-lg-3 c-md-3">
+
+                              <div class="form-wrapper timepick">
+                                  <label for="startTime">Exam End Time</label>
+                                  <div class="tbox">
+                                      <div class="times">
+                                          <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.end_time.hour" name="startTime">
+                                              <option [value]="time" *ngFor="let time of times">
+                                                  {{time}}
+                                              </option>
+                                          </select>
+                                      </div>
+                                      <div class="times">
+                                          <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.end_time.minute" name="minute">
+                                              <option *ngFor="let minute of minArr" [value]="minute">
+                                                  {{minute}}
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
 
                             <div class="pull-right" style="margin-right:10px;">
                                 <button *ngIf="data.selectedCourseList.course_exam_schedule_id == -1" (click)="deleteWholeCourse(data, j)" class="btn fullBlue small-btn">Delete</button>
-                                <button (click)="cancelExamForFullCourse(data,j)" class="btn fullBlue small-btn">Cancel</button>
-                                <button (click)="sendReminderForCourse(data,j)" class="btn fullBlue small-btn">Send Reminder</button>
+                                <button (click)="cancelExamForFullCourse(data,j)" class="btn  small-btn action_btn">Cancel Exam</button>
+                                <button (click)="sendReminderForCourse(data,j)" class="btn  small-btn action_btn">Notify</button>
                             </div>
 
                         </div>
 
 
-                        <div class="row basic-detail">
+                       <div class="row basic-detail">   <!-- *ngIf="data.courseTableList.length > 0"-->
 
-                            <div class="c-sm-2 c-lg-2 c-md-2">
-
-                                <div class="form-wrapper timepick">
-                                    <label for="startTime">Start Time</label>
-                                    <div class="tbox">
-                                        <div class="times">
-                                            <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.start_time.hour" name="startTime">
-                                                <option [value]="time" *ngFor="let time of times">
-                                                    {{time}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="times">
-                                            <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.start_time.minute" name="minute">
-                                                <option *ngFor="let minute of minArr" [value]="minute">
-                                                    {{minute}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+                          <div class="form-wrapper">
+                              <label for="subject">Subject
+                                <span style="color:red">*</span>
+                              </label>
+                              <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="data.coursetableAdder.batch_id" name="startTime" (ngModelChange)="subjectChanged()">
+                                  <option value="-1">Select Subject</option>
+                                  <option [value]="time.batch_id" *ngFor="let time of data.subjectList">
+                                      {{time.subject_name}}
+                                  </option>
+                              </select>
                             </div>
+                          </div>
 
-                            <div class="c-sm-2 c-lg-2 c-md-2">
+                          <div class="c-sm-1 c-lg-1 c-md-1" *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
+                              <div class="form-wrapper" style="width: 75px">
+                                  <label for="marks">Marks
+                                    <span style="color:red">*</span>
+                                  </label>
+                                  <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="data.coursetableAdder.total_marks" id="marks">
+                              </div>
+                          </div>
 
-                                <div class="form-wrapper timepick">
-                                    <label for="startTime">End Time</label>
-                                    <div class="tbox">
-                                        <div class="times">
-                                            <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.end_time.hour" name="startTime">
-                                                <option [value]="time" *ngFor="let time of times">
-                                                    {{time}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="times">
-                                            <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.end_time.minute" name="minute">
-                                                <option *ngFor="let minute of minArr" [value]="minute">
-                                                    {{minute}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                            <div class="form-wrapper">
+                              <label for="topics">Topic</label>
+                              <input type="textbox" class="side-form-ctrl constantHeight" name="label"
+                                style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicLinking(data.subjectList, j)" [ngClass]="changeColor ? 'topic-linked' : 'topic-link'">    <!----   [ngClass]="checkedKeys.length > 0 ? 'topic-linked' : 'topic-link'"   ----->
+                                <i class="fa fa-link" aria-hidden="true" (click)="topicLinking(data.subjectList, j)" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 28px; right: 25px;"></i>
                             </div>
+                          </div>
 
-                            <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
+                            <!-- <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
                                 <div class="form-wrapper" style="width: 70px">
                                     <label for="inpTotalMarks">Total Marks</label>
                                     <input type="number" class="side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.total_marks">
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="c-sm-2 c-lg-2 c-md-2">
                                 <div class="form-wrapper">
                                     <label for="customDescTxt">Description</label>
-                                    <textarea class="side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.exam_desc" id="customDescTxt" name="customDescTxt"></textarea>
+                                    <textarea class="side-form-ctrl constantHeight" [(ngModel)]="data.coursetableAdder.exam_desc" id="customDescTxt" name="customDescTxt" placeholder="Enter Exam Description"></textarea>
                                 </div>
                             </div>
 
                             <div class="c-sm-2 c-lg-2 c-md-2">
                                 <div class="form-wrapper" style="width: 75px">
                                     <label for="inpTotalMarks">Room No</label>
-                                    <input type="string" class="side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.room_no">
+                                    <input type="string" class="side-form-ctrl constantHeight" [(ngModel)]="data.coursetableAdder.room_no" id="inpTotalMarks">
                                 </div>
+                            </div>
+
+                            <div class="c-sm-2 c-lg-2 c-md-2 pull-right" style="margin-top: 15px;">
+                              <button type="button" name="button" (click)="addNewExamSubjectCourse(j)" class="btn  small-btn action_btn pull-right">Add Subject &nbsp;<i class="fas fa-plus-circle" style="font-family: FontAwesome;font-size: 14px;color: #0083f6;cursor: pointer;"></i></button>
                             </div>
 
                         </div>
 
-                        <div class="subject-table">
 
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Subject</th>
-                                        <th *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">Marks</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="adder-table">
-                                        <td>
-                                            <div class="form-wrapper">
-                                                <select id="" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="data.coursetableAdder.batch_id" name="startTime">
-                                                    <option value="-1"></option>
-                                                    <option [value]="time.batch_id" *ngFor="let time of data.subjectList">
-                                                        {{time.subject_name}}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
-                                            <div class="form-wrapper">
-                                                <input type="number" class="side-form-ctrl torlMarksWidth constantHeight" [(ngModel)]="data.coursetableAdder.total_marks">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <i class="fas fa-plus-circle" style="font-family: FontAwesome;font-size: 25px;color: #0083f6;cursor: pointer;" (click)="addNewExamSubjectCourse(j)"></i>
-                                        </td>
-                                    </tr>
-                                    <tr *ngFor="let row of data.courseTableList; let i= index ; trackBy : index">
-                                        <td>
-                                            {{row.subject_name}}
-                                        </td>
-                                        <td *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
-                                            <div class="form-wrapper">
-                                                <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="action-Menu" *ngIf="row.isReferenced != 'Y'">
-                                                <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
-                                                    <i class="fa fa-trash-o " aria-hidden="true "></i>
-                                                </span>
-                                                <span (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0" title="Cancel Exam">
-                                                    <i class="fa fa-times" style="font-family: FontAwesome;font-size: 20px" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
+                        <div class="row displayComp" *ngFor="let row of data.courseTableList; let i= index ; trackBy : index" id="row_already{{i}}_{{j}}" style="padding:0px 6px;">
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                            <span class="view-comp">{{row.subject_name}}</span>
+                            <span class="edit-comp">{{row.subject_name}}</span>
+                            <!-- <div class="form-wrapper edit-comp">
+                              <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="edit_subject_id">
+                                  <option value="-1" selected="selected">Select Subject</option>
+                                  <option [value]="time.subject_id" *ngFor="let time of subjectListData[0]">
+                                      {{time.subject_name}}
+                                  </option>
+                              </select>
+                            </div> -->
+                          </div>
 
-                                            <!-- <div class="action-Menu">
-                                                <a (click)="deleteFromCourse(row , i , j)">Delete</a>
-                                                <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
-                                            </div> -->
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                          <div class="c-sm-1 c-lg-1 c-md-1">
+                            <span class="view-comp">{{row.total_marks}} marks</span>
+                            <div class="form-wrapper edit-comp">
+                              <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="row_edit_exam_marks">
+                            </div>
+                          </div>
+
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                            <span class="view-comp" title={{row.topicName}}>{{row.topicName | slice:0:20}}</span>
+                            <div class="form-wrapper edit-comp">
+                              <input type="textbox" class="side-form-ctrl constantHeight" name="label"
+                                style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicLinkingForPreSelectedTopics(data.subjectList)" [ngClass]="row.topicName ? 'topic-linked' : 'topic-link'">
+                                <i class="fa fa-link" aria-hidden="true" (click)="topicLinkingForPreSelectedTopics(data.subjectList)" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 25px;"></i>
+                            </div>
+                          </div>
+
+
+                            <div class="c-sm-2 c-lg-2 c-md-2">
+                              <span class="view-comp">{{row.class_desc}}</span>
+                              <div class="form-wrapper edit-comp">
+                                <textarea class="side-form-ctrl constantHeight" [(ngModel)]="row_edit_exam_desc" id="customDescTxt" name="customDescTxt" placeholder="Enter Exam Description"></textarea>
+                              </div>
+                            </div>
+
+                            <div class="c-sm-2 c-lg-2 c-md-2">
+                              <span class="view-comp">{{row.room_no}}</span>
+                              <div class="form-wrapper edit-comp">
+                                <input type="string" class="side-form-ctrl constantHeight" [(ngModel)]="row_edit_exam_room_no">
+                              </div>
+                            </div>
+
+
+                            <div class="c-sm-2 c-lg-2 c-md-2 pull-right" >
+                              <div class="action-Menu view-comp" *ngIf="row.isReferenced != 'Y'">
+                                <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteFromCourse(row , i , j)" title="Delete"></i>
+                                <i class="fa fa-pencil pull-right" style="color:#1283f4;margin: 0px 10px;" aria-hidden="true" (click)="editFromCourse(row , i , j)" title="Edit"></i>
+                              </div>
+                              <div class="action-Menu edit-comp" *ngIf="row.isReferenced != 'Y'">
+                                <i class="fa fa-trash-o pull-right" style="color:red;margin: 0px 10px;" aria-hidden="true" (click)="deleteFromCourse(row.subject_id)" title="Delete"></i>
+                                <!-- <i class="fa fa-pencil pull-right" style="color:#1283f4;margin: 0px 10px;" aria-hidden="true" (click)="editSubject(i , row)" title="Edit"></i> -->
+                                <span style="color:#1283f4;margin: 0px 10px;" class="pull-right" (click)="updateEditedSubject(row , i , j)">Save</span>
+                              </div>
+                            </div>
 
                         </div>
 
-                    </div>
+                        <div class="row" style="padding: 6px; border-top: 1px solid rgba(119, 119, 119, 0.419608);">     <!-- *ngIf="data.courseTableList.length > 0"-->
+                          <div class="c-sm-2 c-lg-2 c-md-2">
+                            <span style="font-weight: 600;">Total Marks</span>
+                          </div>
 
-                    <div class="row" style="margin-right:10px;">
-                        <button class="btn fullBlue pull-right" (click)="saveExamScheduleCourse()">Save</button>
+                          <div class="c-sm-1 c-lg-1 c-md-1">
+                            <span class="view-comp" style="font-weight: 600;">{{data.courseModelAdder.total_marks}} marks</span>
+                          </div>
+                        </div>
+
+                    </div>
+                  </div>
+
+
+
+                    <div class="row" style="padding-right:40px;" class="save_btn_container pull-right" >
+                        <button class="btn fullBlue pull-right" (click)="saveExamScheduleCourse()" [disabled]="multiClickDisabled">Save</button>
+                        <button type="button" name="button" class="btn pull-right">Cancel</button>
                     </div>
 
                 </div>
@@ -540,6 +786,61 @@
     </section>
 
 </section>
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section [hidden]="topicBox">
+  <div class="topicBox">
+    <div class="close-btn">
+      <span (click)="closeAlert()">X</span>
+    </div>
+    <div class="header-container">
+      <div class="sub-header">
+        <span style="font-weight: 600;">Subject : </span>
+        <span id="topicSubName"></span>
+      </div>
+      <div class="total-topic">
+        <span style="font-weight: 600;">Total Topic : </span>
+        <span id="topicCount"></span>
+      </div>
+    </div>
+    <!-- <div class="field-checkbox-wrapper" style="margin:10px;">
+      <input type="checkbox" name="checkbx" id="select_all_topics" [(ngModel)]="selectAllTopics" (ngModelChange)="checkAllTopics()"
+        class="form-checkbox">
+      <label for="select_all_topics">
+        Select All
+      </label>
+    </div> -->
+    <div class="topic-listing-container">
+      <kendo-treeview
+          [nodes]="topicsData"
+          [hasChildren]="hasChildren"
+          [children]="children"
+          kendoTreeViewSelectable
+          kendoTreeViewHierarchyBinding
+          kendoTreeViewExpandable
+          textField="topicName"
+          [kendoTreeViewCheckable]="checkableSettings"
+          [(checkedKeys)]="checkedKeys"
+          checkBy="topicId"
+      >
+       </kendo-treeview>
+    </div>
+    <!-- <div class="example-config">
+           Checked keys: {{checkedKeys.join("|")}}
+       </div> -->
+    <div class="extraMargin row  pull-right" style="margin: 15px">
+      <button class="btn" (click)="closeAlert()">Cancel</button>
+      <button class="btn fullBlue" (click)="saveTopic()">Save</button>
+    </div>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" [hidden]="topicBox" (click)="closeAlert()">
+
+</div>
 
 <!-- ///////// POPUP/////////////////////////////////// -->
 <!-- ///////// POPUP/////////////////////////////////// -->
@@ -571,7 +872,7 @@
                         <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="form-wrapper">
                                 <label for="attedNote">Exam Description</label>
-                                <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
+                                <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote" placeholder="Enter Exam Description"></textarea>
                             </div>
                         </div>
                         <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
@@ -693,16 +994,18 @@
                     Cancellation
                 </h2>
                 <h2 *ngIf="!isLangInstitute">
-                    Course Exam Schedule Cancellation
+                    Do you want to cancel scheduled Exam?
                 </h2>
 
                 <div class="cancel-Class-Wrapper">
 
                     <div class="row attendance-Note">
-                        <div class="c-sm-6 c-md-6 c-lg-6">
+                        <div class="c-sm-12 c-md-12 c-lg-12" style="padding: 0px 0px;">
                             <div class="form-wrapper">
-                                <label for="cancelTxtBx">Cancellation Reason*</label>
-                                <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+                                <label for="cancelTxtBx">Cancellation Reason
+                                  <span style="color:red">*</span>
+                                </label>
+                                <textarea class="side-form-ctrl" style="height: 90px;" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
                             </div>
                         </div>
                     </div>
@@ -710,19 +1013,18 @@
                     <div class="clearfix" style="margin-top: 10px">
                         <aside class="pull-left" style="margin-top: 10px">
                             <div class="field-checkbox-wrapper">
-
                                 <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
                                 <label for="chkBxNotifyStudent">Notify Students</label>
                             </div>
                         </aside>
                         <aside *ngIf="isLangInstitute" class="pull-right popup-btn">
-                            <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
-                            <input type="button" value="Cancel Exam" (click)="cancelExamClassSchedule()" class="fullBlue btn">
+                            <input type="button" value="No" class="btn" (click)="closeCancelExamPopUp()" style="width:70px;">
+                            <input type="button" value="Yes" (click)="cancelExamClassSchedule()" class="fullBlue btn" style="width:70px;">
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
-                            <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
-                            <input *ngIf="jsonVar.cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseLevelExam()" class="fullBlue btn">
-                            <input *ngIf="!jsonVar.cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
+                            <input type="button" value="No" class="btn" (click)="closeCancelExamPopUp()" style="width:70px;">
+                            <input *ngIf="jsonVar.cancelCourseLevel" type="button" value="Yes" (click)="cancelCourseLevelExam()" class="fullBlue btn" style="width:70px;">
+                            <input *ngIf="!jsonVar.cancelCourseLevel" type="button" value="Yes" (click)="cancelCourseExam()" class="fullBlue btn" style="width:70px;">
                         </aside>
                     </div>
 
@@ -732,3 +1034,32 @@
         </div>
     </div>
 </section>
+
+
+<!--
+<div class="c-sm-2 c-lg-2 c-md-2">
+  <span>{{row.subject_name}}</span>
+
+</div>
+
+<div class="c-sm-1 c-lg-1 c-md-1" *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
+  <span>{{row.total_marks}}</span>
+  <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
+</div>
+
+<div class="c-sm-2 c-lg-2 c-md-2">
+  <span>{{row.class_desc}}</span>
+  <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
+  <input type="Text" class="side-form-ctrl  constantHeight" placeholder="Topics" id="topics">
+</div>
+
+
+  <div class="c-sm-2 c-lg-2 c-md-2">
+    <span>{{row.exam_desc}}</span>
+    <textarea class="side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.exam_desc" id="customDescTxt" name="customDescTxt"></textarea>
+  </div>
+
+  <div class="c-sm-2 c-lg-2 c-md-2">
+    <span>{{row.room_no}}</span>
+    <input type="string" class="side-form-ctrl constantHeight" [(ngModel)]="data.courseModelAdder.room_no" id="inpTotalMarks">
+  </div> -->

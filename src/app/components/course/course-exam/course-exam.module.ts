@@ -8,20 +8,23 @@ import { CourseExamComponent, DateMonthFormat } from './course-exam.component';
 import { CourseExamRouting } from './course-exam.routing.module';
 import { ExamCourseService } from '../../../services/course-services/exam-schedule.service';
 //import { SplitButtonModule, MenuModule, MenuItem, SelectButtonModule, TabViewModule, ButtonModule } from 'primeng/primeng';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { TopicListingService } from '../../../services/course-services/topic-listing.service';
 
 
 @NgModule({
     imports: [
+        TreeViewModule,
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
         BsDatepickerModule,
         SharedModule,
         CourseExamRouting,
-        // SplitButtonModule, 
+        // SplitButtonModule,
         // MenuModule,
-        // SelectButtonModule, 
-        // TabViewModule, 
+        // SelectButtonModule,
+        // TabViewModule,
         // ButtonModule
     ],
     exports: [],
@@ -30,7 +33,8 @@ import { ExamCourseService } from '../../../services/course-services/exam-schedu
         DateMonthFormat
     ],
     providers: [
-        ExamCourseService
+        ExamCourseService,
+        TopicListingService
     ]
 })
 
