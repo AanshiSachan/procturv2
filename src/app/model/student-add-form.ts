@@ -36,5 +36,6 @@ export interface StudentForm {
 	slot_id?: any, // null,
 	language_inst_status?: any, // null,
 	stuCustomLi?: any, //
-	deleteCourse_SubjectUnPaidFeeSchedules: any
+	deleteCourse_SubjectUnPaidFeeSchedules: any,
+	archivedStudent?: any
 }

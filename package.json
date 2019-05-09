@@ -49,6 +49,7 @@
     "jspdf-autotable": "^3.0.0-alpha.3",
     "moment": "^2.22.1",
     "muuri": "^0.5.4",
+    "ng-multiselect-dropdown": "^0.2.3",
     "ng2-completer": "^1.6.3",
     "ng2-expansion-panels": "0.0.6",
     "ng2-material-dropdown": "^0.9.5",

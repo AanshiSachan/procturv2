@@ -9,18 +9,7 @@
               Batches
             </li>
             <li>
-              Batches archiving is done through it.
-            </li>
-          </ul>
-        </div>
-
-        <div class="c-lg-4 hide" *ngIf="!isProfessional">
-          <ul class="card" routerLink="./batches">
-            <li>
-              Courses
-            </li>
-            <li>
-              Manage Student Wise Fees and Cheque Payments
+              Select and archive the batches.
             </li>
           </ul>
         </div>
@@ -31,18 +20,29 @@
               Batches Archived Status Report
             </li>
             <li>
-              Having the report of all batches that are archived.
+              Get the report of archived batches.
             </li>
           </ul>
         </div>
 
-        <div class="c-lg-4 hide" *ngIf="!isProfessional">
-          <ul class="card" routerLink="./batchesArchivedReport">
+        <div class="c-lg-4" *ngIf="!isProfessional">
+          <ul class="card" routerLink="./courses">
+            <li>
+              Courses
+            </li>
+            <li>
+              Select and archive the courses.
+            </li>
+          </ul>
+        </div>
+
+        <div class="c-lg-4" *ngIf="!isProfessional">
+          <ul class="card" routerLink="./coursesArchivedReport">
             <li>
               Courses Archived Status Report
             </li>
             <li>
-              Monitor the growth of your institute through our state of the art reporting system.
+              Get the report of archived courses.
             </li>
           </ul>
         </div>
@@ -53,7 +53,7 @@
               Students
             </li>
             <li>
-              Students archiving is done through it.
+              Select and archive the students.
             </li>
           </ul>
         </div>
@@ -64,7 +64,7 @@
               Students Archived Status Report
             </li>
             <li>
-              Having the report of all students that are archived.
+              Get the report of archived students.
             </li>
           </ul>
         </div>

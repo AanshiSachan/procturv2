@@ -853,7 +853,7 @@
                         </option>
                       </select>
                   </div>
-                </div>          
+                </div>
               </div>
               <div class="field-wrapper" style="max-width: 70%" *ngIf="isMainBranch=='N'">
                   <div class="row" >
@@ -863,8 +863,8 @@
                             <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                               {{ assigned.name }}
                             </option>
-                          </select>                 
-                    </div>             
+                          </select>
+                    </div>
                 </div>
             </div>
             <div class="">
@@ -1125,8 +1125,11 @@
                         <div class="c-lg-8 pull-left new-sms-wrapper">
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox"
                             aria-autocomplete="list" placeholder="Enter your SMS here" [(ngModel)]="newSmsString.data"
-                            aria-haspopup="true" value="" id="txtRow"></textarea>
-                          <p>Message Characters: {{newSmsString.data.length}}</p>
+                            aria-haspopup="true" value="" id="listTxt" (ngModelChange)="countNumberOfMessage()"></textarea>
+                          <div style="width=100%; display:flex; justify-content:space-between;">
+                            <span>Character Count : {{newSmsString.data.length}}</span>
+                            <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
+                          </div>
                         </div>
 
                         <div class="c-lg-4 pull-right" style="margin-top: 16px;">
@@ -1258,7 +1261,11 @@
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox"
                       aria-autocomplete="list" aria-haspopup="true" id="sms-content" value="" [(ngModel)]="selectedSMS.message"
-                      [disabled]="!flagJSON.smsBtnToggle"></textarea>
+                      [disabled]="!flagJSON.smsBtnToggle" (ngModelChange)="countNumberOfMessageForEdit()"></textarea>
+                      <div style="width=100%; display:flex; justify-content:space-between;font-size:12px">
+                        <span>Character Count : {{selectedSMS.message.length}}</span>
+                        <span>Message Count : <span [ngClass]="{'red' : messageCountForEdit >= 2}">{{messageCountForEdit}}</span></span>
+                      </div>
                   </div>
                 </div>
                 <div class="sms-preview-footer">

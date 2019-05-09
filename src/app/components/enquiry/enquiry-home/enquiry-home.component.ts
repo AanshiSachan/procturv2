@@ -126,6 +126,8 @@ export class EnquiryHomeComponent implements OnInit {
         showPreference: false
     }
     newSmsString = { data: "", type: "", };
+    messageCount: number = 0;
+    messageCountForEdit: number = 0;
     selectedRow: any = {};
     componentListObject: any = {};
     /* Model For Registration, valid only for professional institute where status is registred else will thow an error with status code 400 */
@@ -1038,6 +1040,31 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
+    hasUnicode (str) {
+      for (var i = 0; i < str.length; i++) {
+          if (str.charCodeAt(i) > 127) return true;
+      }
+      return false;
+    }
+
+    countNumberOfMessage(){
+      let uniCodeFlag = this.hasUnicode(this.newSmsString.data);
+      let charLimit = 160;
+      if(uniCodeFlag){
+        charLimit = 70
+      }
+      if(this.newSmsString.data.length == 0){
+        this.messageCount = 0;
+      }
+      else if(this.newSmsString.data.length > 0 && this.newSmsString.data.length <= charLimit){
+        this.messageCount = 1;
+      }
+      else{
+        let count = Math.ceil(this.newSmsString.data.length / charLimit);
+        console.log(count);
+        this.messageCount = count;
+      }
+    }
     /* push new sms template to server and update the table */
     addNewSmsTemplate() {
         if (this.newSmsString.data.trim() == '') {
@@ -1129,6 +1156,25 @@ export class EnquiryHomeComponent implements OnInit {
         this.flagJSON.isAllSelected = false;
         this.flagJSON.smsBtnToggle = false;
         this.smsServicesInvoked();
+    }
+
+    countNumberOfMessageForEdit(){
+      let uniCodeFlag = this.hasUnicode(this.selectedSMS.message);
+      let charLimit = 160;
+      if(uniCodeFlag){
+        charLimit = 70
+      }
+      if(this.selectedSMS.message.length == 0){
+        this.messageCountForEdit = 0;
+      }
+      else if(this.selectedSMS.message.length > 0 && this.selectedSMS.message.length <= charLimit){
+        this.messageCountForEdit = 1;
+      }
+      else{
+        let count = Math.ceil(this.selectedSMS.message.length / charLimit);
+        console.log(count);
+        this.messageCountForEdit = count;
+      }
     }
 
     /* Update the sms template */

@@ -6,6 +6,9 @@ import { PtmManagementComponent } from './ptm-management/ptm-management.componen
 import { ExamdeskCourseAssignmentComponent } from './examdesk-course-assignment/examdesk-course-assignment.component';
 import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
+import { AddClassComponent } from './live-classes/add-class/add-class.component';
+import { EditClassComponent } from './live-classes/edit-class/edit-class.component';
+
 
 
 @NgModule({
@@ -62,7 +65,15 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
                         path: 'ecoursemapping',
                         component: EcourseMappingComponent,
                         pathMatch: 'prefix'
-                    }
+                    },
+                    {
+                        path: 'add',
+                        component: AddClassComponent
+                    },
+                    {
+                        path: 'edit/:id',
+                        component: EditClassComponent
+                    },
                 ]
             }
         ])

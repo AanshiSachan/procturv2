@@ -1615,6 +1615,40 @@
 
   </proctur-popup>
 
+  <section [hidden]="alertBox">
+    <div class="confirmation_popup">
+      <div class="confirm_title">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: rgba(255,0,0,0.7);"></i> &nbsp;
+        <span>Alert</span>
+      </div>
+      <div class="confirmation_msg_box">
+        <span id="confirm_msg"></span>
+      </div>
+      <br>
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" id="retrieveOldStudent" name="cb1" [(ngModel)]="retrieveOldStudent"
+            class="form-checkbox" (ngModelChange)="check(1)">
+        <label for="retrieveOldStudent"> Retrieve student data.</label>
+      </div>
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" id="createDuplicateStudent" name="cb2" [(ngModel)]="createDuplicateStudent"
+            class="form-checkbox" (ngModelChange)="check(2)">
+        <label for="createDuplicateStudent"> Add new student</label>
+      </div>
+
+      <div class="confirmation_button_container">
+        <input type="button" value="Yes" class="btn" (click)="archivedStudent()">
+        <input type="button" value="No" class="btn" (click)="closeAlert()">
+        <!-- <input type="button" value="Cancel" class="btn" (click)="closeAlert()"> -->
+      </div>
+    </div>
+  </section>
+
+  <div class="black-bg" id="black-bg" [hidden]="alertBox" (click)="closeAlert()">
+
+  </div>
+
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->

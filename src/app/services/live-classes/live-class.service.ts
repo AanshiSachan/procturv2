@@ -112,7 +112,7 @@ export class LiveClasses {
     }
 
     fetchOnlineClasses(obj) {
-        let url = this.baseUrl + '/api/v1/meeting_manager/getDetail/' + this.institute_id
+        let url = this.baseUrl + '/api/v1/meeting_manager/getMeeting/' + this.institute_id
         return this.http.post(url, obj, { headers: this.headers }).map(
             (data: any) => {
                 return data;
@@ -121,6 +121,30 @@ export class LiveClasses {
                 return error;
             }
         )
+    }
+
+    getOnlineClass(sessionId){
+      let url = this.baseUrl + '/api/v1/meeting_manager/getMeeting/' + this.institute_id +"/"+sessionId;
+      return this.http.get(url, { headers: this.headers }).map(
+          (data: any) => {
+              return data;
+          },
+          (error: any) => {
+              return error;
+          }
+      )
+    }
+
+    updateOnlineClass(obj, sessionId){
+      let url = this.baseUrl + '/api/v1/meeting_manager/update/'+ this.institute_id +"/"+ sessionId;
+      return this.http.post(url, obj, { headers: this.headers }).map(
+          (data: any) => {
+              return data;
+          },
+          (error: any) => {
+              return error;
+          }
+      )
     }
 
     pushNotification(sessionId, obj) {

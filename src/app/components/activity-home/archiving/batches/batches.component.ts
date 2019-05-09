@@ -26,9 +26,11 @@ export class BatchesComponent implements OnInit {
   searchflag: boolean = false;
   sendPayload = {
     courseIds: "",
+    archived: false
   }
   sendPayloadBatch = {
     batchIds: "",
+    archived: false
   }
   courseIds: any[] = []
   checked: boolean;
@@ -195,19 +197,67 @@ export class BatchesComponent implements OnInit {
         if (confirm('Are you sure, you want to Archive?')) {
           this.batch.batches(this.sendPayloadBatch).subscribe(
             (data: any) => {
-              this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
-              let msg={
-                type:"success",
-                body:"Batch(s) archived successfully"
+              if(data.status_code == 202){
+                if(confirm(data.message)){
+                  this.sendPayloadBatch.archived = true;
+                  this.batch.batches(this.sendPayloadBatch).subscribe(
+                    (data: any) => {
+                      this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                      let msg={
+                        type:"success",
+                        body:"Batch(s) archived successfully"
+                      }
+                      this.appc.popToast(msg);
+                    },
+                    (error: any) => {
+                      let msg = {
+                        type: "error",
+                        body: error.error.message
+                      }
+                      this.appc.popToast(msg);
+                    }
+                  )
+                }
               }
-              this.appc.popToast(msg);
+              else{
+                this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                let msg={
+                  type:"success",
+                  body:"Batch(s) archived successfully"
+                }
+                this.appc.popToast(msg);
+              }
             },
             (error: any) => {
-              let msg = {
-                type: "error",
-                body: error.error.message
+              if(error.error.message.includes("Batch Already assigned with active Student")){
+                if (confirm(error.error.message)) {
+                    this.sendPayloadBatch.archived = true;
+                    this.batch.batches(this.sendPayloadBatch).subscribe(
+                      (data: any) => {
+                        this.router.navigateByUrl("/view/activity/archiving/batchesArchivedReport")
+                        let msg={
+                          type:"success",
+                          body:"Batch(s) archived successfully"
+                        }
+                        this.appc.popToast(msg);
+                      },
+                      (error: any) => {
+                        let msg = {
+                          type: "error",
+                          body: error.error.message
+                        }
+                        this.appc.popToast(msg);
+                      }
+                    )
+                }
               }
-              this.appc.popToast(msg);
+              else{
+                let msg = {
+                  type: "error",
+                  body: error.error.message
+                }
+                this.appc.popToast(msg);
+              }
             }
           )
         }

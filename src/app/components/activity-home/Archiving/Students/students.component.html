@@ -16,7 +16,7 @@
               Archiving
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-            <span *ngIf="!isProfessional">Students Archived report</span>
+            <span *ngIf="!isProfessional">Students</span>
           </h2>
         </div>
       </div>
@@ -46,7 +46,7 @@
                   <input type="checkbox" class="form-checkbox" [(ngModel)]="checkedAlumni" (ngModelChange)="getAlumniValue($event)">
                   <label></label>
                 </div>
-                Alumni 
+                Alumni
               </th>
               <th style="text-align: left;" (click)="sortedData('student_name') ">
                 Student Name &nbsp;

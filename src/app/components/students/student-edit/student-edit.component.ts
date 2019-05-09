@@ -66,6 +66,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   isFeePaymentUpdate: boolean = false;
   showFeeSection: boolean = false;
   isShareDetails: boolean = false;
+  resultForUnAssigned: boolean = true;
 
   instituteList: any[] = [];
   standardList: any[] = [];
@@ -118,6 +119,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   clonedFeeObject: FeeModel;
   feeObject: FeeModel;
   selectedInstallment: number = 0;
+  academicYearFilter: any;
 
   studentAddFormData: StudentForm = {
     student_name: "",
@@ -401,11 +403,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   //get all selected studnet fee installment
   studentFeeInstallment(userType) {
+    this.closeMenu();
     let object = {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
       sendEmail: userType,
-
     }
     if (userType == 1) {
       object['user_role'] = this.paymentMode;
@@ -594,9 +596,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
         this.academicYear = data;
+        // console.log(this.academicYear);
         this.academicYear.forEach(e => {
           if (e.default_academic_year == 1) {
             this.defaultAcadYear = e.inst_acad_year_id;
+            // console.log(this.academicYearFilter)
+            this.academicYearFilter = this.defaultAcadYear;
           }
         });
       },
@@ -971,15 +976,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     return test;
   }
 
-  fetchCourseFromMaster(id) {
-    console.log(id);
+  fetchCourseFromMaster(student_id) {
+    let id = "-1";
     if (id == null || id == '') {
       this.courseList = [];
     }
     else {
       /* Fetch Course Mapped to Master Course */
       if (this.isProfessional) {
-        this.studentPrefillService.fetchCourseList(id).subscribe(
+        this.studentPrefillService.fetchCourseList(student_id).subscribe(
           res => {
             this.courseList = res;
           }
@@ -988,7 +993,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* fetch batch details */
       else {
         this.batchList = [];
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, id).subscribe(
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, student_id).subscribe(
           res => {
             console.log(res);
             if (res.coursesList != null) {
@@ -1121,13 +1126,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData = data;
         this.studentAddFormData.school_name = data.school_name;
         this.studentAddFormData.standard_id = data.standard_id;
-        this.fetchCourseFromMaster(-1);
+        this.fetchCourseFromMaster(this.studentAddFormData.standard_id);
         if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
           this.studentAddFormData.assignedBatchescademicYearArray = [];
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [];
         }
         this.thumbnailAvailable = true;
-        this.studentServerImage = data.photo;
+        if(data.photo != null && data.photo != ""){
+          this.studentServerImage = data.photo;
+        }
+
         /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
         this.updateStudentFeeDetails();
         this.isRippleLoad = false;
@@ -1146,7 +1154,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (this.btnContinueDetailPage != undefined) {
           this.btnContinueDetailPage.nativeElement.disabled = false;
         }
-  
+
         /* For Batch Model Fetch the Student Batches */
         if (this.isProfessional) {
           /* Fetching the student Slots */
@@ -1252,8 +1260,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   setImage(e) {
-    this.studentServerImage = e;
-    this.thumbnailAvailable = false;
+    if(e != null && e != ""){
+      this.studentServerImage = e;
+      this.thumbnailAvailable = false;
+    }
+
   }
 
   /* ============================================================================================================================ */
@@ -1392,8 +1403,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.router.navigate(['/view/student']);
             }
             else {
-              this.updateStudentFeeDetails();
               this.navigateTo('feeDetails');
+              this.updateStudentFeeDetails();
             }
 
           }
@@ -1627,9 +1638,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   // New Function For Discounting
   updateStudentFeeDetails() {
-    this.isRippleLoad = true;
     this.flushDataAfterPayement();
-    this.feeService.fetchStudentFeeSchedule(this.student_id).subscribe(
+    let is_archived = "";
+    if(this.resultForUnAssigned && this.isFeeActive){
+      is_archived = "N";
+    }
+    else if(this.isFeeActive){
+      is_archived = "Y";
+    }
+    // console.log(is_archived);
+    this.isRippleLoad = true;
+    this.feeService.fetchStudentFeeSchedule(this.student_id, is_archived).subscribe(
       (res: FeeModel) => {
         this.isRippleLoad = false;
         this.feeObject = res;
@@ -1663,7 +1682,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.checkBoxGroup.hideReconfigure = true;
             this.checkBoxGroup.manageCheque = true;
           }
-          }
+        }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
           console.log('cardObject', this.cardAmountObject);
@@ -1826,6 +1845,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  getAssignedUnassignedFees(){
+
+  }
+
   payFeeInstallments() {
     // Validate if proper data is given or not
     let check: boolean = this.feeService.validatePaymentDetails(this.paymentPopUpJson);
@@ -1848,7 +1871,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   makePaymentForInstallment() {
     let JsonToSendOnServer = this.feeService.makePaymentFinalJson(this.subjectWiseInstallmentArray, this.paymentPopUpJson);
     JsonToSendOnServer.student_id = this.student_id;
-    console.log(JsonToSendOnServer);
+    // console.log(JsonToSendOnServer);
     this.isRippleLoad = true;
     this.btnPayment.nativeElement.disabled = true;
     this.postService.payPartialFeeAmount(JsonToSendOnServer).subscribe(
@@ -2463,6 +2486,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes.buffer;
+  }
+
+  openMenu(index) {
+    document.getElementById('menuList').classList.toggle('hide');
+  }
+  closeMenu() {
+    document.getElementById('menuList').classList.add('hide');
   }
 
 }

@@ -39,7 +39,7 @@
       right: 2%;
       width: 150px;
       padding: 0 5px;
-      // height: 120px;            
+      // height: 120px;
       padding-bottom: 10px;
       box-shadow: 0 0 2px 0 #313030;
 
@@ -1196,7 +1196,7 @@ ul.customDropdown li:hover {
   right: 0;
   left: 0;
   background: rgba(230, 230, 230, 0.5);
-  z-index: 100; // display: none;  
+  z-index: 100; // display: none;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: all .5s ease-in;
@@ -1769,6 +1769,9 @@ ul.customDropdown li:hover {
       border: 1px solid $border-common;
       padding: 5px;
     }
+    .red{
+      color: red;
+    }
   }
 
   .create-cancel-small {
@@ -1777,6 +1780,10 @@ ul.customDropdown li:hover {
       padding: 0 5px;
     }
   }
+}
+
+.red{
+  color: red;
 }
 
 .add-edit {

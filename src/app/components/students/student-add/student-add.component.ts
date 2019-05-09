@@ -80,7 +80,8 @@ export class StudentAddComponent implements OnInit {
     slot_id: null,
     language_inst_status: "admitted",
     stuCustomLi: [],
-    deleteCourse_SubjectUnPaidFeeSchedules: false
+    deleteCourse_SubjectUnPaidFeeSchedules: false,
+    archivedStudent: false
   };
   quickAddStudent: boolean = false;
   additionalBasicDetails: boolean = false;
@@ -202,6 +203,9 @@ export class StudentAddComponent implements OnInit {
     available_units: ''
   };
   allocatedItem: any = [];
+  alertBox: boolean = true;
+  createDuplicateStudent: boolean = false;
+  retrieveOldStudent: boolean = true;
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
   @ViewChild('btnPayment') btnPayment: ElementRef;
@@ -308,7 +312,7 @@ export class StudentAddComponent implements OnInit {
       }
     }
 
-    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' 
+    if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
     || sessionStorage.getItem('username') == 'admin') {
       this.checkBoxGroup.feeDiscouting = true;
       this.checkBoxGroup.showFeeSection = true;
@@ -389,7 +393,7 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  //get all selected studnet fee installment 
+  //get all selected studnet fee installment
   studentFeeInstallment(userType) {
     let object = {
       student_ids: this.student_id,// string by ids common seperated
@@ -1166,9 +1170,11 @@ export class StudentAddComponent implements OnInit {
       this.isRippleLoad = true;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
+          let result: any = res;
           this.btnSaveAndContinue.nativeElement.disabled = false;
           this.isRippleLoad = false;
           let statusCode = res.statusCode;
+          let status_code = res.status_code;
           if (statusCode == 200) {
             this.removeImage = true;
             this.student_id = res.generated_id;
@@ -1189,6 +1195,11 @@ export class StudentAddComponent implements OnInit {
             this.removeImage = true;
             this.appC.popToast(alert);
             this.isDuplicateContactOpen();
+          }
+          else if(status_code == 202){
+            document.getElementById("confirm_msg").innerHTML = result.message;
+            this.alertBox = false;
+            this.student_id = result.student_id;
           }
         },
         err => {
@@ -1213,6 +1224,116 @@ export class StudentAddComponent implements OnInit {
     }
 
   }
+
+  check(val){
+    if(val == '1'){
+      this.retrieveOldStudent = true;
+      this.createDuplicateStudent = false;
+    }
+    if(val == '2'){
+      this.retrieveOldStudent = false;
+      this.createDuplicateStudent = true;
+    }
+  }
+
+  closeAlert(){
+    this.alertBox = true;
+    this.retrieveOldStudent = true;
+  }
+
+  archivedStudent(){
+    if(this.retrieveOldStudent){
+
+      this.studentAddFormData.is_active = "Y"
+
+      this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
+        (res: any) => {
+          let statusCode = res.statusCode;
+          if (statusCode == 200) {
+            let alert = {
+              type: 'success',
+              title: 'Student details updated successfully',
+              body: ''
+            }
+            this.appC.popToast(alert);
+
+            if (this.studentAddnMove) {
+              this.updateStudentFeeDetails();
+              this.navigateTo('feeDetails');
+            }
+          }
+          else {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Add Student',
+              body: ''
+            }
+            this.appC.popToast(alert);
+            this.isDuplicateContactOpen();
+          }
+          this.closeAlert();
+        },
+        err => {
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+          this.closeAlert();
+        }
+      );
+    }
+
+    if(this.createDuplicateStudent){
+      this.addDuplicateStudent();
+    }
+
+  }
+
+  addDuplicateStudent(){
+    this.studentAddFormData.archivedStudent = true;
+    this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+      (res: any) => {
+        let result: any = res;
+        this.isRippleLoad = false;
+        let statusCode = res.statusCode;
+        if (statusCode == 200) {
+          this.removeImage = true;
+          this.student_id = res.generated_id;
+          let msg = { type: 'success', title: 'Student Added', body: 'Student details Updated Successfully' };
+          this.appC.popToast(msg);
+          this.getCourseDropdown(res.generated_id);
+          if (this.studentAddnMove) {
+            this.updateStudentFeeDetails();
+            this.navigateTo('feeDetails');
+          }
+        }
+        else if (statusCode == 2) {
+          let alert = {
+            type: 'error',
+            title: 'Contact Number In Use',
+            body: 'An enquiry with the same contact number seems to exist'
+          }
+          this.removeImage = true;
+          this.appC.popToast(alert);
+          this.isDuplicateContactOpen();
+        }
+        this.closeAlert();
+      },
+      err => {
+        this.btnSaveAndContinue.nativeElement.disabled = false;
+        let msg = err.error.message;
+        this.isRippleLoad = false;
+        let obj = { type: 'error', title: msg, body: "" };
+        this.appC.popToast(obj);
+        this.closeAlert();
+      }
+    )
+  }
+
 
   getCustomValid(element): boolean {
     if (element.is_required == "Y" && element.value != "") {
@@ -2400,6 +2521,8 @@ export class StudentAddComponent implements OnInit {
     return bytes.buffer;
   }
 
+
+
 }
 
 
@@ -2419,8 +2542,3 @@ export class SortPipe {
     return array;
   }
 }
-
-
-
-
-
