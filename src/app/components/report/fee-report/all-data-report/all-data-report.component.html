@@ -19,10 +19,15 @@
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> All dues Report
                     </h2>
+
                     <aside class="pull-left" style="position:relative; top:10px;">
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
                         </rob-tooltip>
                     </aside>
+                    <div class="pull-right" style="    margin-top: 10px;margin-left: 0px;margin-right: 25px;">
+                      <a (click)="searchByValue('date')" class="showFilter" *ngIf="searchBy=='check'">Show Date Filter</a>
+                      <a (click)="searchByValue('check')" class="showFilter" *ngIf="searchBy=='date'">Hide Date Filter</a>
+                    </div>
                 </div>
 
                 <div class="row fee-filter" [ngClass]="{'long': showPopupKeys.isFilterReversed}" style="margin-left: 0px;     margin-top: 2em;">
@@ -96,7 +101,7 @@
                         </div>
 
                     </div> -->
-                    <div id="secondary">
+                    <div id="secondary" *ngIf="searchBy=='check'">
                         <div class="c-lg-3 ">
                             <div class="c-lg-12 field-checkbox-wrapper">
                                 <input class="form-checkbox" type="checkbox" name="assign_course"  id='assign_course' [(ngModel)]="courseFetchForm.is_AssignedCourseBatchFees" checked>
@@ -114,10 +119,28 @@
                                 <input class="form-checkbox" type="checkbox" name="archived_course"  id='archived_course' [(ngModel)]="courseFetchForm.is_archivedCourseBatchFees" >
                                 <label for="archived_course">&nbsp;&nbsp; Active Archived Course Fee</label>
                             </div>
-                        </div>                        
+                        </div>
                         <div class="c-lg-2">
                             <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
                         </div>
+                    </div>
+
+                    <div class="" *ngIf="searchBy=='date'">
+                      <div class="c-lg-3 ">
+                        <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;">
+                          <label for="from">From Date</label>
+                          <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="courseFetchForm.from_date">
+                        </div>
+                      </div>
+                      <div class="c-lg-3 ">
+                        <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;">
+                          <label for="to">To Date</label>
+                          <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="courseFetchForm.to_date">
+                        </div>
+                      </div>
+                      <div class="c-lg-2" [ngStyle]="{'padding-top':searchBy == 'date' ? '15px' : '0px' }">
+                          <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                      </div>
                     </div>
                 </div>
             </div>

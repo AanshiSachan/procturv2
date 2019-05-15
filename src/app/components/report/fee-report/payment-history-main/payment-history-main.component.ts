@@ -48,7 +48,8 @@ export class PaymentHistoryMainComponent implements OnInit {
     isChequePayment: false,
     addReportPopUp: false,
     showPreference: false,
-    showAdmin: false
+    showAdmin: false,
+    paymentCounseller: false
   };
   varJson: any = {
     searchText: "",
@@ -65,7 +66,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     reference_no: "",
     invoice_no: "",
   };
-  //payment history table settings 
+  //payment history table settings
   tableSetting: any = {
     tableDetails: { title: 'Payment History', key: 'reports.fee.paymentHistory', showTitle: false },
     search: { title: 'Search', showSearch: false },
@@ -126,13 +127,14 @@ export class PaymentHistoryMainComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPaymentHistory();
+
     if (sessionStorage.getItem('permissions')) {
       let permissions = JSON.parse(sessionStorage.getItem('permissions'));
-      if (permissions.includes('708')) {//	Fee Transaction Change if enambled then edit button will show 
+      if (permissions.includes('708')) {//	Fee Transaction Change if enambled then edit button will show
         this.tableSetting.actionSetting =
           {
             showActionButton: true,
-            editOption: 'button',//or popup 
+            editOption: 'button',//or popup
             condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
             { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
             { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
@@ -155,13 +157,20 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.tableSetting.actionSetting =
         {
           showActionButton: true,
-          editOption: 'button',//or popup 
+          editOption: 'button',//or popup
           condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
           { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
           { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
           options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
         }
       this.flagJson.showAdmin = true;
+      this.getUserList();
+    }
+
+    let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+
+    if(permissions.includes('718')){
+      this.flagJson.paymentCounseller = true;
       this.getUserList();
     }
 
@@ -235,13 +244,13 @@ export class PaymentHistoryMainComponent implements OnInit {
       return;
     }
     else {
-      
+
       if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
         this.sendPayload.user_id = Number(this.sendPayload.user_id);
       }else{
         this.sendPayload.user_id = Number(sessionStorage.getItem('userid'));
       }
-      
+
       this.payment.getPaymentData(this.sendPayload).subscribe(
         (data: any) => {
           if (data.length == 0) {
@@ -264,7 +273,7 @@ export class PaymentHistoryMainComponent implements OnInit {
             this.tableSetting.actionSetting =
               {
                 showActionButton: true,
-                editOption: 'button',//or popup 
+                editOption: 'button',//or popup
                 condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
                 { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
                 { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
@@ -290,7 +299,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
-  // take print of report 
+  // take print of report
   takePrint() {
     let printHtml = '<html><body><table><thead><tr>';
     this.tableSetting.keys.forEach(key => {
@@ -380,7 +389,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     console.log(this.perPersonData);
 
-    //installment total amount 
+    //installment total amount
     let total = 0;
     this.perPersonData.forEach((element, index) => {
       total += element.amount_paid;
@@ -388,7 +397,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.varJson.total_amt_paid = total;
   }
 
-  // this sued for edit 
+  // this sued for edit
   optionSelected(e) {
     console.log(e);
     this.personData = e.data;
@@ -614,7 +623,7 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
   }
 
-  // give option add payment details add 
+  // give option add payment details add
   payModeUpdated(e) {
     this.flagJson.isChequePayment = e == "Cheque/PDC/DD No." ? true : false;
   }
@@ -706,4 +715,3 @@ export class PaymentHistoryMainComponent implements OnInit {
     this.pdf.exportToPdf(rows, columns, 'Payment_History_report');
   }
 }
-
