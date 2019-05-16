@@ -586,11 +586,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
     this.login.regenerateOTP(this.OTPRegenerateData).subscribe(el => {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'OTP sent successfully');
+    this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'OTP sent successfully');
 
       //console.log("OTP Regenerate Success");
       //console.log(el);
       this.OTPVerification(el);
+    },
+    err => {
+      console.log(err);
     })
   }
 

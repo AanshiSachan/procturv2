@@ -167,9 +167,10 @@ export class PaymentHistoryMainComponent implements OnInit {
       this.getUserList();
     }
 
-    let permissions = JSON.parse(sessionStorage.getItem('permissions'));
+    let permissions: any = [];
+    permissions = sessionStorage.getItem('permissions');
 
-    if(permissions.includes('718')){
+    if(permissions.includes('717')){
       this.flagJson.paymentCounseller = true;
       this.getUserList();
     }
@@ -245,7 +246,10 @@ export class PaymentHistoryMainComponent implements OnInit {
     }
     else {
 
-      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
+      let permissions: any = [];
+      permissions = sessionStorage.getItem('permissions');
+
+      if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin' || permissions.includes('717')) {
         this.sendPayload.user_id = Number(this.sendPayload.user_id);
       }else{
         this.sendPayload.user_id = Number(sessionStorage.getItem('userid'));

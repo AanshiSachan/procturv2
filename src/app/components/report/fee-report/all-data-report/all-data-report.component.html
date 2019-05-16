@@ -24,7 +24,7 @@
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
                         </rob-tooltip>
                     </aside>
-                    <div class="pull-right" style="    margin-top: 10px;margin-left: 0px;margin-right: 25px;">
+                    <div class="pull-right" style="margin-top: 10px;margin-left: 0px;margin-right: 25px;cursor: pointer;">
                       <a (click)="searchByValue('date')" class="showFilter" *ngIf="searchBy=='check'">Show Date Filter</a>
                       <a (click)="searchByValue('check')" class="showFilter" *ngIf="searchBy=='date'">Hide Date Filter</a>
                     </div>
