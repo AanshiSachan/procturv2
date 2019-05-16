@@ -174,9 +174,9 @@
                 <div class="field-wrapper has-value">
                   <label for="row.category_id">Trigger Date</label>
                   <select id="" class="form-ctrl" style="background: transparent" name="AddInstallment.day_type" [(ngModel)]="AddInstallment.day_type">
-                    <option value="1">Date Of Joining</option>
-                    <option value="2">No of days after DOJ</option>
-                    <option value="3">No of Month after DOJ</option>
+                    <option value="1">Course Assign Date (CAD)</option>
+                    <option value="2">No of days after CAD</option>
+                    <option value="3">No of Month after CAD</option>
                   </select>
 
                 </div>
@@ -225,9 +225,9 @@
                       <tr *ngFor="let row of installmentList; let i= index ; trackBy : index">
                         <td>
                           <select [(ngModel)]="row.day_type" style="background: transparent">
-                            <option value="1">Date Of Joining</option>
-                            <option value="2">No of days after DOJ</option>
-                            <option value="3">No of Month after DOJ</option>
+                            <option value="1">Course Assign Date (CAD)</option>
+                            <option value="2">No of days after CAD</option>
+                            <option value="3">No of Month after CAD</option>
                           </select>
                         </td>
                         <td>

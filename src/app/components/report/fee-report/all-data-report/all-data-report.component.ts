@@ -54,6 +54,7 @@ export class AllDataReportComponent implements OnInit {
     isProfessional: false
   };
   isRippleLoad: boolean = false;
+  searchBy: string = 'check';
   dataStatus: number = 3;
   feeSettings1: ColumnData2[] = [
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
@@ -96,8 +97,8 @@ export class AllDataReportComponent implements OnInit {
     subject_id: -1,
     batch_id: -1,
     student_name: '',
-    // from_date: '',
-    // to_date: '',
+    from_date: '',
+    to_date: '',
     master_course_name: -1,
     course_id: -1,
     contact_no: '',
@@ -196,6 +197,11 @@ export class AllDataReportComponent implements OnInit {
   ngDoCheck() {
     this.ref.detectChanges();
     // console.log(this.displayKeys);
+  }
+
+  searchByValue(value) {
+    this.searchBy = value;
+    // this.sendPayload.payment_history_student_category_option = this.varJson.searchBy == 'name' ? 0 : 2;
   }
 
   getAcademicYear() {
@@ -313,6 +319,12 @@ export class AllDataReportComponent implements OnInit {
 
     let arr = [];
     arr.push(this.courseFetchForm.academic_year_id);
+    let date1 = moment(this.courseFetchForm.from_date).format('YYYY-MM-DD');
+    let date2 = moment(this.courseFetchForm.to_date).format('YYYY-MM-DD');
+    if(this.searchBy == 'check'){
+      date1 = "";
+      date2 = "";
+    }
     let obj = {
       standard_id: null,
       subject_id: null,
@@ -320,8 +332,8 @@ export class AllDataReportComponent implements OnInit {
       course_id: null,
       batch_id: this.courseFetchForm.batch_id,
       type: '0',// this.courseFetchForm.type,
-      // from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
-      // to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+      from_date: date1,
+      to_date: date2,
       installment_id: this.courseFetchForm.installment_id,
       student_name: this.courseFetchForm.student_name,
       contact_no: this.courseFetchForm.contact_no,

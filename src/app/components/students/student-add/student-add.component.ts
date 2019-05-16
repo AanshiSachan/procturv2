@@ -1489,12 +1489,12 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-
+      this.isRippleLoad = true;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
+          this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-
             this.removeImage = true;
             this.student_id = res.generated_id;
             this.getCourseDropdown(res.generated_id);
@@ -1509,7 +1509,7 @@ export class StudentAddComponent implements OnInit {
             }
             this.removeImage = true;
             this.appC.popToast(alert);
-            this.isDuplicateContactOpen();
+            this.isDuplicateContactClose();
           }
         },
         err => {
@@ -1725,6 +1725,7 @@ export class StudentAddComponent implements OnInit {
     this.flushDataAfterPayement();
     this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
       res => {
+        this.isDuplicateContactClose();
         this.isRippleLoad = false;
         this.feeObject = res;
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
