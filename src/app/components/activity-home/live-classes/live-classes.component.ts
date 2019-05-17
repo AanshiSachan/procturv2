@@ -4,6 +4,8 @@ import { LiveClasses } from '../../../services/live-classes/live-class.service';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import {Pipe, PipeTransform} from '@angular/core'
+
 
 @Component({
   selector: 'app-live-classes',

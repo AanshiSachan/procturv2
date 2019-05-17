@@ -108,17 +108,17 @@
               <div class="item_type_1">
                 <span  style="color: #585574;">
                   <span style="color: #9898a3;">Date : </span>
-                  {{class.start_datetime | date: 'dd MMM yyyy'}}
+                  {{class.startDateTime | date: 'dd MMM yyyy'}}
                  </span>
                 <span  style="color: #585574;">
                   <span style="color: #9898a3;">Duration : </span>
-                  {{diffDate(class.start_datetime, class.end_datetime) }} hrs
+                  {{diffDate(class.startDateTime, class.endDateTime) }} hrs
                 </span>
               </div>
               <div class="item_type_1">
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Time : </span>
-                  <span>{{class.start_datetime | date: 'shortTime'}} - {{class.end_datetime | date: 'shortTime'}}</span>
+                  <span>{{class.startDateTime | date: 'shortTime'}} - {{class.endDateTime | date: 'shortTime'}}</span>
                 </span>
                 <span style="color: #585574;">
                   <span style="color: #9898a3;">Moderator : </span>
@@ -128,14 +128,14 @@
               </div>
               <div class="item_type_3" *ngIf="!liveClassFor">
                 <span style="color: #9898a3;">Time left : </span>
-                <span  style="color: #585574;font-weight: 600;">{{getTimeLeft(today, class.start_datetime) }}</span>
+                <span  style="color: #585574;font-weight: 600;">{{getTimeLeft(today, class.startDateTime) }}</span>
               </div>
               <div class="item_type_3" *ngIf="liveClassFor">
                 <span style="color: #9898a3;">Attendees : </span>
                 <span  style="color: #585574;font-weight: 600;">{{class.attendeesCount}} of {{class.totalAttendeesLimit}}</span>
               </div>
               <div class="item_type_2">
-                <button type="button" name="button" *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.start_datetime) ? 'start_session' : 'notAllowed'" (click)="startLiveClass(class.session_link, class.start_datetime)">
+                <button type="button" name="button" *ngIf="!liveClassFor && forUser && forTeacher(class.teachersUserIds)" [ngClass]="checkForTime(class.startDateTime) ? 'start_session' : 'notAllowed'" (click)="startLiveClass(class.session_link, class.startDateTime)">
                   <i class="fa fa-play" aria-hidden="true"></i>
                   &nbsp;
                   Start Class
