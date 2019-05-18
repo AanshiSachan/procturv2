@@ -1246,26 +1246,26 @@ export class AdminHomeComponent implements OnInit {
       master_course: this.classMarkedForAction.master_course,
       requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
-    console.log(obj)
-    // this.widgetService.remindCourseLevel(obj).subscribe(
-    //   res => {
-    //     let msg = {
-    //       type: 'success',
-    //       title: 'Reminder Sent',
-    //       body: 'The student have been notified'
-    //     }
-    //     this.appC.popToast(msg);
-    //     this.closeRemiderClass();
-    //   },
-    //   err => {
-    //     let msg = {
-    //       type: 'error',
-    //       title: 'Unable to Send Reminder',
-    //       body: err.error.message
-    //     }
-    //     this.appC.popToast(msg);
-    //   }
-    // )
+    // console.log(obj)
+    this.widgetService.remindCourseLevel(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Reminder Sent',
+          body: 'The student have been notified'
+        }
+        this.appC.popToast(msg);
+        this.closeRemiderClass();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Unable to Send Reminder',
+          body: err.error.message
+        }
+        this.appC.popToast(msg);
+      }
+    )
   }
 
   closeCourseLevelAttendance() {
