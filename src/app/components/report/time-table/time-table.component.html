@@ -85,14 +85,14 @@
                 <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
               </select>
             </div>
-            <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+            <div class="c-sm-3 c-xs-2 c-lg-2 c-md-2 field-wrapper">
               <label>Subjects</label>
               <select class="form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id">
                 <option value="-1"></option>
                 <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
               </select>
             </div>
-            <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 field-wrapper">
+            <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
               <label>Faculty
                   <span style="color:red">*</span>
               </label>

@@ -49,17 +49,17 @@ export class tableComponent {
 
   ngOnInit(){
 
-    for (var i = 0; i < this.recordInput.length; i++) {
-      let validation_flag = true;
-      for(var x = 0; x < this.recordInput[i].data.length; x++){
-        if(this.recordInput[i].data[x].class_type == "Exam"){
-          validation_flag = false;
-          this.recordInput[i].data[x] = [];
-          this.recordInput[i].data.splice(x, 1);
-          x--;
-        }
-      }
-    }
+    // for (var i = 0; i < this.recordInput.length; i++) {
+    //   let validation_flag = true;
+    //   for(var x = 0; x < this.recordInput[i].data.length; x++){
+    //     if(this.recordInput[i].data[x].class_type == "Exam"){
+    //       validation_flag = false;
+    //       this.recordInput[i].data[x] = [];
+    //       this.recordInput[i].data.splice(x, 1);
+    //       x--;
+    //     }
+    //   }
+    // }
 
     for (var i = 0; i < this.recordInput.length; i++) {
       if(this.recordInput[i].data.length > this.maxNoOfClasses){

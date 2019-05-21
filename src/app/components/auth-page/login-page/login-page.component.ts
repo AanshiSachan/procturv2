@@ -152,7 +152,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.titleService.setTitle('Proctur - Your Pocket Classroom');
       sessionStorage.setItem('institute_title_web', 'Proctur - Your Pocket Classroom');
       sessionStorage.setItem('institute_logo_web', this.dynamicImgSrc);
-      // this.checkForVirtualHost("webtest.proctur.com"); // for guest user
+      // this.checkForVirtualHost("webtest.proctur.com"); // for guest user 
       // this.isProcturVisible = false;
       // this.backgroundChange.nativeElement.className = "bg-img-virtual"
       // this.virtualStyle.nativeElement.className = "login-virtual"
@@ -173,7 +173,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.login.getLogoAndFavcon(str).subscribe(
       res => {
         if (res != null) {
-          this.isGuestUser = true;
+          this.isGuestUser = true;       
           sessionStorage.setItem('institution_id', res[0].instituteId); // this id is used for guest user registration do not change it
           if (res[0].logoPath != null && res[0].logoPath != "") {
             this.dynamicImgSrc = res[0].logoPath;
@@ -406,7 +406,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
           sessionStorage.setItem('institution_id', res.institution_id);
           sessionStorage.setItem('institution_name', res.data.institute_name);
           sessionStorage.setItem('userid', this.serverUserData.userid);
-          sessionStorage.setItem('user_type',this.serverUserData.user_type);
+          sessionStorage.setItem('user_type',this.serverUserData.user_type);        
         this.getGuestUserCourser(sessionStorage.getItem('institute_id'));
       }
       else if(sessionStorage.getItem('userType') == '99' && sessionStorage.getItem('testprepEnabled')
@@ -423,7 +423,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   getGuestUserCourser(institute_id) {
     this.login.getGuestUserCourses(institute_id).subscribe((res:any) => {
-      console.log(res);
+      console.log(res);  
       if(res.length!= 0){
         this.isGuestUserCourse = true;
         this.courses  = res;
@@ -431,7 +431,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       else{
         this.gotoStudentPortal();
       }
-
+  
     }, err => {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, "", err.error.message);
     });
@@ -458,7 +458,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     else{
       window.location.href = this.baseUrl + "/sPortal/dashboard.html#/Documents";
     }
-
+    
   }
 
   toggleCheckbox(course,data) {
@@ -471,7 +471,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       this.selectedCourseNames.splice(index, 1);
     }
   }
-
+ 
 
   //End - 3
   //if login email is not verified ( Start - 4 )
@@ -586,14 +586,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
     this.login.regenerateOTP(this.OTPRegenerateData).subscribe(el => {
-    this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Success', 'OTP sent successfully');
-
       //console.log("OTP Regenerate Success");
       //console.log(el);
       this.OTPVerification(el);
-    },
-    err => {
-      console.log(err);
     })
   }
 
@@ -644,7 +639,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   openGetAdvice() {
-    let url = "https://proctur.com/contact_us/index.html";
+    let url = "http://proctur.com/get_advice.html";
     window.open(url);
   }
 

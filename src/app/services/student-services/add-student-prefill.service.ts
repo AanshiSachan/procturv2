@@ -75,8 +75,8 @@ export class AddStudentPrefillService {
   }
 
   /* return the list of custom component for the selected institute ID */
-  fetchCustomComponent(en_id): Observable<any> {
-    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=0&isSearhable=undefined&student_enq_id="+en_id+"&page=2";
+  fetchCustomComponent(): Observable<any> {
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=0&isSearhable=undefined&student_enq_id=&page=2";
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
         data => {

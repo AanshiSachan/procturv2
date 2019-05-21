@@ -1244,9 +1244,8 @@ export class AdminHomeComponent implements OnInit {
       course_ids: this.classMarkedForAction.course_ids,
       inst_id: sessionStorage.getItem('institute_id'),
       master_course: this.classMarkedForAction.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+      requested_date: moment().format("YYYY-MM-DD")
     }
-    // console.log(obj)
     this.widgetService.remindCourseLevel(obj).subscribe(
       res => {
         let msg = {

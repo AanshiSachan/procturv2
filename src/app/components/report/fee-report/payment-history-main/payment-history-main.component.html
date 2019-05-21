@@ -29,7 +29,7 @@
                 <label for="to">To Date</label>
                 <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="sendPayload.to_date">
               </div>
-              <div class="c-lg-4" *ngIf="flagJson.showAdmin || flagJson.paymentCounseller">
+              <div class="c-lg-4" *ngIf="flagJson.showAdmin">
                 <div class="field-wrapper">
                     <label for="cc">Users</label>
                     <select  [(ngModel)]="sendPayload.user_id" class="form-ctrl"
@@ -135,7 +135,7 @@
                               <li (click)="openPreferences()" class="asHover">
                                 <i class="fa fa-low-vision" style="font-family: 'FontAwesome' ; display: inline-block;"></i>
                                 <strong style="display: inline-block;">Show/Hide Columns</strong>
-                              </li>
+                              </li>                              
                             </ul>
 
                           </div>
