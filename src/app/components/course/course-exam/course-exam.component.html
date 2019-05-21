@@ -470,7 +470,7 @@
                           <div class="form-wrapper">
                             <label for="topics">Topic</label>
                             <input type="textbox" class="side-form-ctrl constantHeight" name="label"
-                              style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicListing()" [ngClass]="topicsName.length > 0 ? 'topic-linked' : 'topic-link'">
+                              style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicListing()" [ngClass]="topicsName.length > 0 && subject_id != '' ? 'topic-linked' : 'topic-link'">
                               <i class="fa fa-link" aria-hidden="true" (click)="topicListing()" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 28px; right: 25px;"></i>
                           </div>
                         </div>
@@ -718,7 +718,7 @@
                             <span class="view-comp" title={{row.topicName}}>{{row.topicName | slice:0:20}}</span>
                             <div class="form-wrapper edit-comp">
                               <input type="textbox" class="side-form-ctrl constantHeight" name="label"
-                                style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicLinkingForPreSelectedTopics(data.subjectList)" [ngClass]="row.topicName ? 'topic-linked' : 'topic-link'">
+                                style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicLinkingForPreSelectedTopics(data.subjectList)" [ngClass]="row_edit_subject_topicId != '' && row_edit_subject_topicId != undefined ? 'topic-linked' : 'topic-link'">
                                 <i class="fa fa-link" aria-hidden="true" (click)="topicLinkingForPreSelectedTopics(data.subjectList)" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 25px;"></i>
                             </div>
                           </div>

@@ -194,6 +194,8 @@ export class ClassAddComponent implements OnInit {
   public hasChildren;
   public isExpanded;
 
+  multiClickDisabled: boolean = false;
+
   constructor(
     private router: Router,
     private login: LoginService,
@@ -1307,20 +1309,22 @@ export class ClassAddComponent implements OnInit {
     }
     if (this.selctedScheduledClass.endTime.hour == "" || this.selctedScheduledClass.endTime.minute == "") {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid end time');
-
       return false;
     }
-    let JsonToSend = this.makeJsonForRecurrence();
+    this.multiClickDisabled = true;
     this.isRippleLoad = true;
+    let JsonToSend = this.makeJsonForRecurrence();
     this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
       res => {
-        this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Saved Successfully');
         this.showPopUpRecurence = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Saved', 'Saved Successfully');
+        this.isRippleLoad = false;
+        this.multiClickDisabled = false;
       },
       err => {
         //console.log(err);
         this.isRippleLoad = false;
+        this.multiClickDisabled = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )

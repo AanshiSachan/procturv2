@@ -123,7 +123,7 @@ export class CourseExamComponent implements OnInit {
   row_edit_subject_name: '';
   row_edit_exam_marks: '';
   row_edit_subject_topics: '';
-  row_edit_subject_topicId: any[];
+  row_edit_subject_topicId: any[] = [];
   row_edit_exam_desc: '';
   row_edit_exam_room_no: '';
 
@@ -372,7 +372,7 @@ export class CourseExamComponent implements OnInit {
   editSubject(row_no, subject_data){
 
     if (this.selectedRow !== "") {
-      if(this.row_edit_subject_id != ""){
+      if(this.row_edit_subject_id != "" && this.row_edit_subject_id !=  undefined){
         document.getElementById(("row_already" + this.selectedRow).toString()).classList.add('displayComp');
         document.getElementById(("row_already" + this.selectedRow).toString()).classList.remove('editComp');
       }
@@ -441,6 +441,8 @@ export class CourseExamComponent implements OnInit {
     this.calculateTotalMarks();
     document.getElementById(("row" + row_no).toString()).classList.add('displayComp');
     document.getElementById(("row" + row_no).toString()).classList.remove('editComp');
+
+    this.selectedRow = "";
   }
 
   clearAllField(){
@@ -983,7 +985,7 @@ export class CourseExamComponent implements OnInit {
       this.isRippleLoad = true;
       this.topicService.getAllTopicsSubTopics(this.row_edit_subject_id).subscribe(
         res => {
-          // this.checkedKeys = [];
+          this.checkedKeys = [];
           let temp: any;
           temp = res;
           if(temp != null && temp.length != 0){
@@ -992,19 +994,21 @@ export class CourseExamComponent implements OnInit {
             this.topicsData = res;
 
             let tempCheckedKeys;
-
-            if(this.row_edit_subject_topicId.includes("|")){
-              let x = this.row_edit_subject_topicId.toString();
-              tempCheckedKeys = x.replace("|", ",");
+            if(this.row_edit_subject_topicId != undefined){
+              if(this.row_edit_subject_topicId.includes("|")){
+                let x = this.row_edit_subject_topicId.toString();
+                tempCheckedKeys = x.replace("|", ",");
+              }
+              else{
+                tempCheckedKeys = this.row_edit_subject_topicId;
+              }
+              if(tempCheckedKeys.length > 0){
+                let arr = tempCheckedKeys.split(",");
+                let arrayOfNumbers = arr.map(Number);
+                this.checkedKeys = arrayOfNumbers;
+              }
             }
-            else{
-              tempCheckedKeys = this.row_edit_subject_topicId;
-            }
-            let arr = tempCheckedKeys.split(",");
-            let arrayOfNumbers = arr.map(Number);
-            this.checkedKeys = arrayOfNumbers;
-
-
+            
             let subjectName = "";
             subjectData.forEach(
               ele => {
@@ -1137,11 +1141,11 @@ export class CourseExamComponent implements OnInit {
           this.topicsName.splice(i, 1);
       }
     }
-    if(this.row_edit_subject_topicId){
+    if(this.row_edit_subject_id){
       this.row_edit_subject_topicId = this.checkedKeys;
       let joinedArr =  this.row_edit_subject_topicId.join(",").toString();
 
-      let x = joinedArr.replace(",", "|");
+      let x = joinedArr.replace(/,/g , "|");
       let y = x.split("|")
       this.row_edit_subject_topicId = y;
     }
@@ -1338,8 +1342,14 @@ export class CourseExamComponent implements OnInit {
     document.getElementById(("row_already" + index+"_"+j).toString()).classList.remove('displayComp');
     document.getElementById(("row_already" + index+"_"+j).toString()).classList.add('editComp');
 
-
-    this.row_edit_subject_id = data.subject_id;
+    let subject_id;
+    if(data.otherData){
+      subject_id = data.otherData.subject_id
+    }
+    else{
+      subject_id = data.subject_id;
+    }
+    this.row_edit_subject_id = subject_id;
     this.row_edit_subject_name = data.subject_name;
     this.row_edit_exam_marks = data.total_marks;
     this.row_edit_subject_topics = data.topicName;
@@ -1348,14 +1358,18 @@ export class CourseExamComponent implements OnInit {
     this.row_edit_exam_room_no = data.room_no;
     //
     let temp;
-    if(data.topics_covered.includes("|")){
-      temp = data.topics_covered.replace("|", ",");
-    }
-    else{
-      temp = data.topics_covered;
+    if(data.topics_covered != undefined){
+      if(data.topics_covered.includes("|")){
+        temp = data.topics_covered.replace("|", ",");
+      }
+      else{
+        temp = data.topics_covered;
+      }
+      this.checkedKeys = temp;
     }
 
-    this.checkedKeys = temp;
+
+
 }
 
   updateEditedSubject(row, index, j){
@@ -1376,12 +1390,19 @@ export class CourseExamComponent implements OnInit {
     )
 
     let topic_names = this.topicsName.join(", ");
+    let topicsNames;
+
+    if(this.topicsName.length > 0){
+      let y = this.row_edit_subject_topicId.join(",")
+       topicsNames = y.replace(/,/g , "|");
+    }
+
 
     this.viewList[j].courseTableList[index].subject_id = this.row_edit_subject_id;
     this.viewList[j].courseTableList[index].subject_name = subjectName;
     this.viewList[j].courseTableList[index].total_marks = this.row_edit_exam_marks;
-    this.viewList[j].courseTableList[index].topicName = this.row_edit_subject_topics;
-    this.viewList[j].courseTableList[index].topics_covered = this.row_edit_subject_topicId;
+    this.viewList[j].courseTableList[index].topicName = topic_names;
+    this.viewList[j].courseTableList[index].topics_covered = topicsNames;
     this.viewList[j].courseTableList[index].class_desc = this.row_edit_exam_desc;
     this.viewList[j].courseTableList[index].room_no = this.row_edit_exam_room_no;
 
@@ -1404,9 +1425,13 @@ export class CourseExamComponent implements OnInit {
     this.viewList[j].courseModelAdder.total_marks = total;
 
     this.checkedKeys = [];
+    this.topicsName = [];
+
 
     document.getElementById(("row_already" + index+"_"+j).toString()).classList.remove('editComp');
     document.getElementById(("row_already" + index+"_"+j).toString()).classList.add('displayComp');
+
+    this.selectedRow = "";
   }
 
   saveExamScheduleCourse() {
