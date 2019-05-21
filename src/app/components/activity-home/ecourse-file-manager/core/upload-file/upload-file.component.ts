@@ -96,10 +96,13 @@ export class UploadFileComponent implements OnInit {
     }
     let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
     newxhr.open("POST", urlPostUpload, true);
+    
+    newxhr.setRequestHeader("processData", "false");
+    newxhr.setRequestHeader("contentType", "false");  
     newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     newxhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
     newxhr.setRequestHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    newxhr.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    // newxhr.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     newxhr.setRequestHeader("enctype", "multipart/form-data");
     newxhr.setRequestHeader("Authorization", Authorization);
     this.isRippleLoad = true;
@@ -259,7 +262,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: this.varJson.name + " should be pdf, doc, docx form",
+              title: "please select "+this.varJson.name + " in pdf, doc, docx form",
               body: ''
             }
             this.appC.popToast(data);
@@ -275,7 +278,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "Images should be gif, png, jpg form",
+              title: "please select "+this.varJson.name +"in gif, png, jpg form",
               body: ''
             }
             this.appC.popToast(data);
@@ -291,7 +294,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "Assignment should be pdf, doc, docx, xls, xlsx form",
+              title: "please select "+this.varJson.name +"in pdf, doc, docx, xls, xlsx form",
               body: ''
             }
             this.appC.popToast(data);
@@ -307,7 +310,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "Ebooks should be epub, pdf form",
+              title: "please select "+this.varJson.name +"in epub, pdf form",
               body: ''
             }
             this.appC.popToast(data);
@@ -323,7 +326,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "Audio Notes should be : mp3, wav, aac, wma form",
+              title: "please select Audio Notes in mp3, wav, aac, wma form",
               body: ''
             }
             this.appC.popToast(data);

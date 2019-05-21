@@ -206,7 +206,7 @@ export class MaterialWebComponent implements OnInit {
             console.log(res);
             this.isRippleLoad = false;
             this.msgService.showErrorMessage('success', '', "File Deleted Successfully");
-            this.getMaterialData();
+            this.getTopicListData();
         },
             (err) => {
                 this.isRippleLoad = false;

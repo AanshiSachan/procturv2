@@ -45,7 +45,7 @@
             <div class="drop-box">
               <select [(ngModel)]="varJson.category_id" (change)="setCategoryType($event.target.value)" class="form-ctrl ga-form-input"
                 style="margin-bottom: 0.8em">
-                <option value="0">--select categories--</option>
+                <option value="0">--select file type--</option>
                 <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">{{category.category_name}}</option>
               </select>
               <input type="text" class="form-ctrl video-input" *ngIf="varJson.name=='Youtube URL'" placeholder="Video URL" [(ngModel)]="varJson.video_url">
