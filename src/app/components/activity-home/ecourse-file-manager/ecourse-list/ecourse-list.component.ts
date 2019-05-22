@@ -27,21 +27,16 @@ export class EcourseListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this._http.routeList = [];
-    // let obj = { routeLink: '../ecourse-file-manager', name: 'eCourse' };
-    // this._http.routeList.push(obj);
-    // this.cd.detectChanges();
     this.getcategoriesList();
+    this._http.routeList = [];
+    let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses', name: 'eCourse',  data: { data: null } };
+    this._http.routeList.push(obj);
+    sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
   }
 
   getToSubject(ecourse) {
     if (sessionStorage.getItem('routeListForEcourse')) {
-      this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
-      this._http.routeList.splice(1, this._http.routeList.length);
-      this.router.navigateByUrl("/view/activity/ecourse-file-manager/ecourses/" + ecourse.course_type_id + "/subjects");
-      let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + ecourse.course_type_id + '/subjects', name: ecourse.course_type };
-      this._http.routeList.push(obj);
-      sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
+      this.router.navigate(['/view/activity/ecourse-file-manager/ecourses/' + ecourse.course_type_id + "/subjects"], { queryParams: { data: window.btoa(ecourse.course_type) } });
     }
   }
 

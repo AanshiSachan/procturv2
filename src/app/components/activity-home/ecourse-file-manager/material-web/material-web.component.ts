@@ -63,7 +63,21 @@ export class MaterialWebComponent implements OnInit {
                 this.course_types = params.ecourse_id;
                 this.subject_id = params.subject_id;
             }
-        )
+        );
+
+        this.route
+            .queryParams
+            .subscribe(params => {
+                // console.log(window.atob(params['data']));
+                let name = window.atob(params['data']);
+                if (sessionStorage.getItem('routeListForEcourse')) {
+                    this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
+                    this._http.routeList.splice(2, this._http.routeList.length);
+                    let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + this.course_types + '/subjects' + this.subject_id + "/materials", data: { data: params['data'] }, name: name };
+                    this._http.routeList.push(obj);
+                    sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
+                }
+            });
     }
 
     ngOnInit() {
@@ -98,16 +112,16 @@ export class MaterialWebComponent implements OnInit {
 
     toggleObject(topic) {
         topic.isExpand = !topic.isExpand;
-        if(topic.isExpand && topic.subTopics.length==0){
+        if (topic.isExpand && topic.subTopics.length == 0) {
             this.getSubtopicListData(topic);
-        }        
-        else{
+        }
+        else {
             topic.subTopics.forEach(subtopic => {
                 subtopic.isExpand = false;
             });
         }
     }
-    
+
     getTopicListData() {
         this.isRippleLoad = true;
         let url = "/api/v1/topic_manager/subject/" + this.subject_id + "/topicMaterials";
@@ -123,7 +137,7 @@ export class MaterialWebComponent implements OnInit {
             this.materialData = res;
             this.materialData.forEach(element => {
                 element.isExpand = false;
-                element.subTopics =[];
+                element.subTopics = [];
             });
             this.isRippleLoad = false;
         },
@@ -147,7 +161,7 @@ export class MaterialWebComponent implements OnInit {
             topic.subTopics = res;
             topic.subTopics.forEach(element => {
                 element.isExpand = false;
-                element.subTopics =[];
+                element.subTopics = [];
             });
             this.isRippleLoad = false;
         },
@@ -176,7 +190,7 @@ export class MaterialWebComponent implements OnInit {
                 element.isExpand = false;
                 if (element.subTopics == undefined) {
                     element.subTopics = [];
-                }             
+                }
             });
             this.isRippleLoad = false;
         },

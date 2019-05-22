@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { UploadFileComponent } from './core/upload-file/upload-file.component';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ecourse-file-manager',
@@ -21,8 +22,9 @@ export class EcourseFileManagerComponent implements OnInit {
 
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
+    private router: Router
   ) {
-
+    
   }
 
 
@@ -31,17 +33,16 @@ export class EcourseFileManagerComponent implements OnInit {
       this.institute_id = id;
       this.getDataUsedInCourseList();
     });
-    this._http.routeList = [];
-    let obj = { routeLink: '../ecourse-file-manager', name: 'eCourse' };
-    this._http.routeList.push(obj);
-    sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
-
-  }
+    }
 
   toggleFileUploadModal() {
     this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
   }
 
+  gotoPageData(route){
+    // console.log(route)
+    this.router.navigate([route.routeLink], { queryParams: route.data });
+  }
 
   // user data usage get
   getDataUsedInCourseList() {

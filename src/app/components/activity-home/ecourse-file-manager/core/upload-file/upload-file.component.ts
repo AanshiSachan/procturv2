@@ -399,7 +399,6 @@ export class UploadFileComponent implements OnInit {
   getSubjectsList(ecourseId) {
     this.subjectList = [];
     this.isRippleLoad = true;
-    ///ecourse/{institute_id}/{ecourse_id}/subjects
     let url = "/api/v1/ecourse/" + this.institute_id + "/" + ecourseId + "/subjects";
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);

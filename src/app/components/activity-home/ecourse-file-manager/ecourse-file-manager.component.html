@@ -34,7 +34,7 @@
       <div class="row">
         <div class="col-md-12 file-mgr-breadcrumb">
           <h2>
-            <a [routerLink]="route.routeLink" *ngFor="let route of _http.routeList ;let i = index">
+            <a (click)="gotoPageData(route)" *ngFor="let route of _http.routeList ;let i = index">
                 {{route.name}}            
               <i class="fas fa-angle-right" *ngIf=" i < (_http.routeList.length-1) "></i>
             </a>

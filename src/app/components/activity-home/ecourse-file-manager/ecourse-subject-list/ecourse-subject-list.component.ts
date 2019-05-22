@@ -26,18 +26,26 @@ export class EcourseSubjectListComponent implements OnInit {
     });
     this.route.params.subscribe(
       params => {
-        console.log(params);
         this.ecourse_id = params.ecourse_id;
       }
     )
+    this.route
+      .queryParams
+      .subscribe(params => {
+        let name = window.atob(params['data']);
+        if (sessionStorage.getItem('routeListForEcourse')) {
+          this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
+          this._http.routeList.splice(1, this._http.routeList.length);
+          let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses/' + this.ecourse_id + '/subjects', data: { data: params['data'] }, name: name };
+          this._http.routeList.push(obj);
+          sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
+        }
+      });
   }
 
   ngOnInit() {
     this.getSubjectList();
-    if (sessionStorage.getItem('routeListForEcourse')) {
-      this._http.routeList = JSON.parse(sessionStorage.getItem('routeListForEcourse'));
-      this._http.routeList.splice(2, this._http.routeList.length);
-    }
+    this._http.routeList.splice(2, this._http.routeList.length);
   }
 
   getSubjectList() {
@@ -54,14 +62,7 @@ export class EcourseSubjectListComponent implements OnInit {
   }
 
   getToSubjectMaterials(subject) {
-    let url = "/view/activity/ecourse-file-manager/ecourses/" + this.ecourse_id + "/subjects/" + subject.subject_id + "/materials";
-    this.router.navigateByUrl(url);
-    let obj = { routeLink: url, name: subject.subject_name };
-    if (sessionStorage.getItem('routeListForEcourse')) {
-      this._http.routeList.splice(2, this._http.routeList.length);
-      this._http.routeList.push(obj);
-      sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
-    }
+    this.router.navigate(["/view/activity/ecourse-file-manager/ecourses/" + this.ecourse_id + "/subjects/" + subject.subject_id + "/materials"], { queryParams: { data: window.btoa(subject.subject_name) } });
   }
 
 }
