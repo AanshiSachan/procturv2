@@ -82,7 +82,8 @@ export class MaterialWebComponent implements OnInit {
     ngOnInit() {
         this.getTopicListData();
         this._http.data.subscribe(data => {
-            if (data == 'material') { this.getTopicListData(); }
+            if (data == 'material') { this.getTopicListData(); 
+                this._http.updatedDataSelection(null);}
           });
     }
 

@@ -34,7 +34,8 @@ export class EcourseListComponent implements OnInit {
 
     this._http.data.subscribe(data => {
       console.log(data);
-      if (data == 'list') { this.getcategoriesList(); }
+      if (data == 'list') { this.getcategoriesList();
+        this._http.updatedDataSelection(null); }
     });
   }
 

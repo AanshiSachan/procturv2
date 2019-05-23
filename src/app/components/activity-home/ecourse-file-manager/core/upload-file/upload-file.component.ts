@@ -1,9 +1,8 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Tree } from 'primeng/tree';
 import { Subject } from 'rxjs/Subject';
 import { HttpService } from '../../../../../services/http.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
-import { AppComponent } from '../../../../../app.component';
 import { MessageShowService } from '../../../../../services/message-show.service';;
 import { Router } from '@angular/router';
 
@@ -40,7 +39,7 @@ export class UploadFileComponent implements OnInit {
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
-    private appC: AppComponent,
+    private msgService: MessageShowService,
     private router: Router,
   ) {
     this.auth.currentInstituteId.subscribe(id => {
@@ -57,12 +56,7 @@ export class UploadFileComponent implements OnInit {
   uploadYoutubeURL($event) {
     var pattern = /^(http|https|www)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
     if (!pattern.test(this.varJson.video_url)) {
-      let data = {
-        type: 'error',
-        title: "Incorrect url",
-        body: ''
-      }
-      this.appC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
       return false;
     }
     let category_id;
@@ -110,25 +104,13 @@ export class UploadFileComponent implements OnInit {
       this.isRippleLoad = false;
       if (newxhr.readyState == 4) {
         if (newxhr.status >= 200 && newxhr.status < 300) {
-          let data = {
-            type: 'success',
-            title: "File uploaded successfully",
-            body: newxhr.response.fileName
-          }
-          this.appC.popToast(data);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
           this.clearuploadObject();
-          this.material_dataShow ? 
-          this._http.updatedDataSelection('material') :
-          this._http.updatedDataSelection('list');
-
-         
+          this.material_dataShow ?
+            this._http.updatedDataSelection('material') :
+            this._http.updatedDataSelection('list');
         } else {
-          let data = {
-            type: 'error',
-            title: "File uploaded Failed",
-            body: newxhr.response.fileName
-          }
-          this.appC.popToast(data);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File uploaded Failed");
         }
       }
     }
@@ -155,12 +137,7 @@ export class UploadFileComponent implements OnInit {
   uploadHandler($event, values) {
 
     if (this.varJson.course_types == "" || this.varJson.course_types == '0') {
-      let data = {
-        type: 'error',
-        title: "select course to upload data",
-        body: ''
-      }
-      this.appC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "select course to upload data");
       return false;
     }
     if (this.checkCategoriesType($event.files)) {
@@ -204,23 +181,14 @@ export class UploadFileComponent implements OnInit {
         this.isRippleLoad = false;
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
-            let data = {
-              type: 'success',
-              title: "File uploaded successfully",
-              body: newxhr.response.fileName
-            }
             this.clearuploadObject();
-            this.material_dataShow ? 
-            this._http.updatedDataSelection('material') :
-            this._http.updatedDataSelection('list');
-            this.appC.popToast(data);
+            this.material_dataShow ?
+              this._http.updatedDataSelection('material') :
+              this._http.updatedDataSelection('list');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+
           } else {
-            let data = {
-              type: 'error',
-              title: JSON.parse(newxhr.response).message,
-              body: ''
-            }
-            this.appC.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
           }
         }
       }
@@ -247,12 +215,7 @@ export class UploadFileComponent implements OnInit {
   checkCategoriesType(files) {
     let flag = true;
     if (this.varJson.category_id == 0) {
-      let data = {
-        type: 'error',
-        title: "select category to upload data",
-        body: ''
-      }
-      this.appC.popToast(data);
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "select file type to upload data");
       return false;
     }
 
@@ -262,12 +225,7 @@ export class UploadFileComponent implements OnInit {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf)$/i;
           if (!pattern.test(files[i].name)) {
-            let data = {
-              type: 'error',
-              title: "please select " + this.varJson.name + " in pdf, doc, docx form",
-              body: ''
-            }
-            this.appC.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in pdf, doc, docx form");
             flag = false;
             break;
           }
@@ -278,12 +236,7 @@ export class UploadFileComponent implements OnInit {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.gif|.png|.jpg|.jpeg)$/i;
           if (!pattern.test(files[i].name)) {
-            let data = {
-              type: 'error',
-              title: "please select " + this.varJson.name + "in gif, png, jpg form",
-              body: ''
-            }
-            this.appC.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + "in gif, png, jpg form");
             flag = false;
             break;
           }
@@ -294,28 +247,18 @@ export class UploadFileComponent implements OnInit {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.doc|.docx|.xls|.xlsx)$/i;
           if (!pattern.test(files[i].name)) {
-            let data = {
-              type: 'error',
-              title: "please select " + this.varJson.name + "in pdf, doc, docx, xls, xlsx form",
-              body: ''
-            }
-            this.appC.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + "in pdf, doc, docx, xls, xlsx form");
             flag = false;
             break;
           }
         }
         break;
       }
-      case "Ebooks": {
+      case "EBook": {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.epub)$/i;
           if (!pattern.test(files[i].name)) {
-            let data = {
-              type: 'error',
-              title: "please select " + this.varJson.name + "in epub, pdf form",
-              body: ''
-            }
-            this.appC.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " file in epub, pdf form");
             flag = false;
             break;
           }
@@ -326,19 +269,30 @@ export class UploadFileComponent implements OnInit {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.mp3|.wav|.aac|.wma)$/i;
           if (!pattern.test(files[i].name)) {
-            let data = {
-              type: 'error',
-              title: "please select Audio Notes in mp3, wav, aac, wma form",
-              body: ''
-            }
-            this.appC.popToast(data);
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select Audio Notes in mp3, wav, aac, wma form");
             flag = false;
             break;
           }
         }
         break;
       }
-
+      case "Slides": {
+        for (let i = 0; i < files.length; i++) {
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.ppt|.pptx)$/i;
+          if (!pattern.test(files[i].name)) {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select slides in ppt, pptx form");
+            flag = false;
+            break;
+          }
+        }
+        break;
+      }
+      default:
+        {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select type");
+          flag = false;
+          break;
+        }
     }
     return flag;
 
@@ -365,6 +319,9 @@ export class UploadFileComponent implements OnInit {
       console.log(res);
       this.isRippleLoad = false;
       this.topicList = res;
+      this.varJson.topic_id = 0;
+      this.varJson.sub_topic_id = 0;
+      this.subtopicList =[]; 
     }, err => {
       this.isRippleLoad = false;
     });
@@ -379,6 +336,7 @@ export class UploadFileComponent implements OnInit {
       console.log(res);
       this.isRippleLoad = false;
       this.subtopicList = res;
+      this.varJson.sub_topic_id = 0;
     }, err => {
       this.isRippleLoad = false;
     });
@@ -395,6 +353,10 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
+  clearData() {
+
+  }
+
   //Get subjects of ecourse 
   getSubjectsList(ecourseId) {
     this.subjectList = [];
@@ -403,6 +365,11 @@ export class UploadFileComponent implements OnInit {
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
       this.subjectList = res;
+      this.varJson.subject_id = 0;
+      this.varJson.topic_id = 0;
+      this.topicList=[];
+      this.varJson.sub_topic_id = 0;
+      this.subtopicList =[];   
       this.isRippleLoad = false;
     }, err => {
       this.isRippleLoad = false;
