@@ -24,6 +24,7 @@ export class UploadFileComponent implements OnInit {
   isRippleLoad: boolean = false;
   addCategoryPopup: boolean = false;
   material_dataShow: boolean = false;
+  material_dataFlag: string = '';
   varJson = {
     category_id: 0,
     name: '',
@@ -51,6 +52,11 @@ export class UploadFileComponent implements OnInit {
     this.dragoverflag = true;
     this.getcategoriesList();
     this.getCategories();
+    this._http.data.subscribe(data => {
+      if (data == 'material-web') {
+        this.material_dataFlag ='material' ;
+          this._http.updatedDataSelection(null);}
+    });
   }
 
   uploadYoutubeURL($event) {
@@ -108,7 +114,7 @@ export class UploadFileComponent implements OnInit {
           this.clearuploadObject();
           this.material_dataShow ?
             this._http.updatedDataSelection('material') :
-            this._http.updatedDataSelection('list');
+            this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
         } else {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File uploaded Failed");
         }
@@ -184,7 +190,8 @@ export class UploadFileComponent implements OnInit {
             this.clearuploadObject();
             this.material_dataShow ?
               this._http.updatedDataSelection('material') :
-              this._http.updatedDataSelection('list');
+              this.material_dataFlag == 'material' ?
+                this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
             this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
 
           } else {
@@ -321,7 +328,7 @@ export class UploadFileComponent implements OnInit {
       this.topicList = res;
       this.varJson.topic_id = 0;
       this.varJson.sub_topic_id = 0;
-      this.subtopicList =[]; 
+      this.subtopicList = [];
     }, err => {
       this.isRippleLoad = false;
     });
@@ -367,9 +374,9 @@ export class UploadFileComponent implements OnInit {
       this.subjectList = res;
       this.varJson.subject_id = 0;
       this.varJson.topic_id = 0;
-      this.topicList=[];
+      this.topicList = [];
       this.varJson.sub_topic_id = 0;
-      this.subtopicList =[];   
+      this.subtopicList = [];
       this.isRippleLoad = false;
     }, err => {
       this.isRippleLoad = false;
