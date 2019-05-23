@@ -1836,7 +1836,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           obj.cheque_amount = el.cheque_amount;
           obj.cheque_date = moment(el.cheque_date).format("YYYY-MM-DD");
           obj.cheque_no = el.cheque_no;
-          obj.pdc_cheque_id = el.pdc_cheque_id;
+          obj.pdc_cheque_id = el.cheque_id;
           this.paymentPopUpJson.pdcSelectedForm = obj;
           this.paymentPopUpJson.selectedPdcId = id;
           this.paymentPopUpJson.payingAmount = el.cheque_amount;

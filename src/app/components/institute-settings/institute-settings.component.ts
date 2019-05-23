@@ -368,8 +368,8 @@ export class InstituteSettingsComponent implements OnInit {
     obj.tax_payable_on_reverse_charge_basis = this.convertBoolenToNumber(this.instituteSettingDet.tax_payable_on_reverse_charge_basis);
     obj.home_work_feature_enable = this.convertBoolenToNumber(this.instituteSettingDet.home_work_feature_enable);
     obj.absenteeism_report_flag = this.convertBoolenToNumber(this.instituteSettingDet.absenteeism_report_flag);
-    obj.pre_enquiry_follow_up_reminder_time = this.convertBoolenToNumber(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time);
-    obj.post_enquiry_follow_up_reminder_time = this.convertBoolenToNumber(this.instituteSettingDet.post_enquiry_follow_up_reminder_time);
+    obj.pre_enquiry_follow_up_reminder_time = (this.instituteSettingDet.pre_enquiry_follow_up_reminder_time);
+    obj.post_enquiry_follow_up_reminder_time = (this.instituteSettingDet.post_enquiry_follow_up_reminder_time);
     // if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
     //   this.isRippleLoad = false;
     //   return;
