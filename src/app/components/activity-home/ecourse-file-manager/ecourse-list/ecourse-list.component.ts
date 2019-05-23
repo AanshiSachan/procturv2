@@ -18,8 +18,7 @@ export class EcourseListComponent implements OnInit {
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
-    private router: Router,
-    private cd: ChangeDetectorRef
+    private router: Router
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -29,9 +28,14 @@ export class EcourseListComponent implements OnInit {
   ngOnInit() {
     this.getcategoriesList();
     this._http.routeList = [];
-    let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses', name: 'eCourse',  data: { data: null } };
+    let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses', name: 'eCourse', data: { data: null } };
     this._http.routeList.push(obj);
     sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
+
+    this._http.data.subscribe(data => {
+      console.log(data);
+      if (data == 'list') { this.getcategoriesList(); }
+    });
   }
 
   getToSubject(ecourse) {

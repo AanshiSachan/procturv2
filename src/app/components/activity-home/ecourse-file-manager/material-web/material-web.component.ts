@@ -4,7 +4,6 @@ import { UploadFileComponent } from './../core/upload-file/upload-file.component
 import { HttpService } from '../../../../services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
-import { element } from 'protractor';
 
 @Component({
     selector: 'app-material-web',
@@ -82,6 +81,9 @@ export class MaterialWebComponent implements OnInit {
 
     ngOnInit() {
         this.getTopicListData();
+        this._http.data.subscribe(data => {
+            if (data == 'material') { this.getTopicListData(); }
+          });
     }
 
     getMaterialData() {

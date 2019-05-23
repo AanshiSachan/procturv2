@@ -12,6 +12,8 @@ export class HttpService {
   Authorization: any;
   headers: any;
   institute_id: any;
+  private dataSource = new BehaviorSubject<String>(null);
+  data = this.dataSource.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -26,6 +28,10 @@ export class HttpService {
     });
     this.baseUrl = this.auth.getBaseUrl();
 
+  }
+
+  updatedDataSelection(type: String){
+    this.dataSource.next(type);
   }
 
   getData(objecturl) {

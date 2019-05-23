@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { Tree } from 'primeng/tree';
 import { Subject } from 'rxjs/Subject';
 import { HttpService } from '../../../../../services/http.service';
@@ -96,9 +96,9 @@ export class UploadFileComponent implements OnInit {
     }
     let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
     newxhr.open("POST", urlPostUpload, true);
-    
+
     newxhr.setRequestHeader("processData", "false");
-    newxhr.setRequestHeader("contentType", "false");  
+    newxhr.setRequestHeader("contentType", "false");
     newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     newxhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
     newxhr.setRequestHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -117,10 +117,11 @@ export class UploadFileComponent implements OnInit {
           }
           this.appC.popToast(data);
           this.clearuploadObject();
+          this.material_dataShow ? 
+          this._http.updatedDataSelection('material') :
+          this._http.updatedDataSelection('list');
 
-          this.material_dataShow ? this.router.navigate(['/view/activity/ecourse-file-manager/ecourses/' + this.varJson.course_types + '/subjects/' + this.varJson.subject_id + '/materials']) :
-            this.router.navigate(['/view/activity/ecourse-file-manager/ecourses']);
-
+         
         } else {
           let data = {
             type: 'error',
@@ -209,14 +210,15 @@ export class UploadFileComponent implements OnInit {
               body: newxhr.response.fileName
             }
             this.clearuploadObject();
-            this.material_dataShow ? this.router.navigate(['/view/activity/ecourse-file-manager/ecourses/' + this.varJson.course_types + '/subjects/' + this.varJson.subject_id + '/materials']) :
-              this.router.navigate(['/view/activity/ecourse-file-manager/ecourses']);
+            this.material_dataShow ? 
+            this._http.updatedDataSelection('material') :
+            this._http.updatedDataSelection('list');
             this.appC.popToast(data);
           } else {
             let data = {
               type: 'error',
-              title: "File uploaded Failed",
-              body: newxhr.response.fileName
+              title: JSON.parse(newxhr.response).message,
+              body: ''
             }
             this.appC.popToast(data);
           }
@@ -262,7 +264,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "please select "+this.varJson.name + " in pdf, doc, docx form",
+              title: "please select " + this.varJson.name + " in pdf, doc, docx form",
               body: ''
             }
             this.appC.popToast(data);
@@ -278,7 +280,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "please select "+this.varJson.name +"in gif, png, jpg form",
+              title: "please select " + this.varJson.name + "in gif, png, jpg form",
               body: ''
             }
             this.appC.popToast(data);
@@ -294,7 +296,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "please select "+this.varJson.name +"in pdf, doc, docx, xls, xlsx form",
+              title: "please select " + this.varJson.name + "in pdf, doc, docx, xls, xlsx form",
               body: ''
             }
             this.appC.popToast(data);
@@ -310,7 +312,7 @@ export class UploadFileComponent implements OnInit {
           if (!pattern.test(files[i].name)) {
             let data = {
               type: 'error',
-              title: "please select "+this.varJson.name +"in epub, pdf form",
+              title: "please select " + this.varJson.name + "in epub, pdf form",
               body: ''
             }
             this.appC.popToast(data);
@@ -358,7 +360,6 @@ export class UploadFileComponent implements OnInit {
   getTopicsList(subjectId) {
     this.topicList = [];
     this.isRippleLoad = true;
-    ///topic_manager/{institute_id}/subjects/{subject_id}
     let url = "/api/v1/topic_manager/" + this.institute_id + "/subjects/" + subjectId + "/topics";
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
@@ -373,7 +374,6 @@ export class UploadFileComponent implements OnInit {
   getSubtopicList(subjectId) {
     this.subtopicList = [];
     this.isRippleLoad = true;
-    //>/topic_manager/subTopicList/{institute_id}/{parent_topic_id}
     let url = "/api/v1/topic_manager/subTopicList/" + this.institute_id + "/" + subjectId;
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
