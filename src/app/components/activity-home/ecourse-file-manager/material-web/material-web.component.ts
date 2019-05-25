@@ -12,10 +12,6 @@ import { MessageShowService } from '../../../../services/message-show.service';
 })
 export class MaterialWebComponent implements OnInit {
 
-    @Input()
-    ngTemplateOutletContext: Object;
-    @Input()
-    ngTemplateOutlet: TemplateRef<any>;
     @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
     isRippleLoad: boolean = false;
     institute_id: any;
@@ -23,28 +19,6 @@ export class MaterialWebComponent implements OnInit {
     subject_id: any;
     tempfile: any;
     showModal: boolean = false;
-    @Input()
-    treeData: any = [
-        { name: "parent1", subnodes: [] },
-        {
-            name: "parent2",
-            subnodes: [
-                { name: "parent2_child1", subnodes: [] }
-            ]
-        },
-        {
-            name: "parent3",
-            subnodes: [
-                {
-                    name: "parent3_child1",
-                    subnodes: [
-                        { name: "parent3_child1_child1", subnodes: [] }
-                    ]
-                }
-            ]
-        }
-    ];
-
     materialData: any = []
 
     constructor(
@@ -83,9 +57,11 @@ export class MaterialWebComponent implements OnInit {
         this.getTopicListData();
         this._http.updatedDataSelection('material-web');
         this._http.data.subscribe(data => {
-            if (data == 'material') { this.getTopicListData(); 
-                this._http.updatedDataSelection(null);}
-          });
+            if (data == 'material') {
+                this.getTopicListData();
+                this._http.updatedDataSelection(null);
+            }
+        });
     }
 
     getMaterialData() {
@@ -94,8 +70,6 @@ export class MaterialWebComponent implements OnInit {
         let data =
         {
             "institute_id": this.institute_id,
-            // "subject_id": 3041,
-            // "course_types": "61"
             "subject_id": this.subject_id,
             "course_types": this.course_types
         }
@@ -178,6 +152,7 @@ export class MaterialWebComponent implements OnInit {
         console.log(topic);
         this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
         this.uploadFile.varJson.course_types = this.course_types;
+        this.uploadFile.material_dataFlag = 'material';
         this.uploadFile.getSubjectsList(this.course_types);
         this.uploadFile.varJson.subject_id = this.subject_id;
         this.uploadFile.getTopicsList(this.subject_id);

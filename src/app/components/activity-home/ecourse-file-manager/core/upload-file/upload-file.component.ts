@@ -28,7 +28,7 @@ export class UploadFileComponent implements OnInit {
   varJson = {
     category_id: 0,
     name: '',
-    topic_id: -0,
+    topic_id: 0,
     course_types: "",
     video_url: "",
     sub_topic_id: 0,
@@ -54,73 +54,72 @@ export class UploadFileComponent implements OnInit {
     this.getCategories();
     this._http.data.subscribe(data => {
       if (data == 'material-web') {
-        this.material_dataFlag ='material' ;
-          this._http.updatedDataSelection(null);}
+        this.material_dataFlag = 'material';
+        this._http.updatedDataSelection(null);
+      }
     });
   }
 
   uploadYoutubeURL($event) {
-    var pattern = /^(http|https|www)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
-    if (!pattern.test(this.varJson.video_url)) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
-      return false;
-    }
-    let category_id;
-    this.categiesTypeList.forEach(element => {
-      if (element.category_id == -1) {
-        category_id = element.videoCategoryList[0].category_id;
+    let flag = this.uploadDatavalidation();
+    if (flag) {
+      var pattern = /^(http|https|www)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
+      if (!pattern.test(this.varJson.video_url)) {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
+        return false;
       }
-    });
-    const formData = new FormData();
-    let fileJson = {
-      institute_id: this.institute_id,
-      category_id: category_id,
-      topic_id: this.varJson.topic_id,
-      course_types: this.varJson.course_types,
-      video_url: this.varJson.video_url,
-      sub_topic_id: this.varJson.sub_topic_id,
-      subject_id: this.varJson.subject_id,
-      file_id: -1,
-      is_readonly: 'N'
-    }
+      let category_id;
+      this.categiesTypeList.forEach(element => {
+        if (element.category_id == -1) {
+          category_id = element.videoCategoryList[0].category_id;
+        }
+      });
+      const formData = new FormData();
+      let fileJson = {
+        institute_id: this.institute_id,
+        category_id: category_id,
+        topic_id: this.varJson.topic_id,
+        course_types: this.varJson.course_types,
+        video_url: this.varJson.video_url,
+        sub_topic_id: this.varJson.sub_topic_id,
+        subject_id: this.varJson.subject_id,
+        file_id: -1,
+        is_readonly: 'N'
+      }
 
-    let base = this.auth.getBaseUrl();
-    let urlPostUpload = base + "/api/v1/instFileSystem/uploadFile";
-    let newxhr = new XMLHttpRequest();
-    formData.append('fileJson', JSON.stringify(fileJson));
-    let auths: any = {
-      userid: sessionStorage.getItem('userid'),
-      userType: sessionStorage.getItem('userType'),
-      password: sessionStorage.getItem('password'),
-      institution_id: sessionStorage.getItem('institute_id'),
-    }
-    let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
-    newxhr.open("POST", urlPostUpload, true);
-
-    newxhr.setRequestHeader("processData", "false");
-    newxhr.setRequestHeader("contentType", "false");
-    newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    newxhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
-    newxhr.setRequestHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    // newxhr.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-    newxhr.setRequestHeader("enctype", "multipart/form-data");
-    newxhr.setRequestHeader("Authorization", Authorization);
-    this.isRippleLoad = true;
-    newxhr.onreadystatechange = () => {
-      this.isRippleLoad = false;
-      if (newxhr.readyState == 4) {
-        if (newxhr.status >= 200 && newxhr.status < 300) {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
-          this.clearuploadObject();
-          this.material_dataShow ?
-            this._http.updatedDataSelection('material') :
-            this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
-        } else {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "File uploaded Failed");
+      let base = this.auth.getBaseUrl();
+      let urlPostUpload = base + "/api/v1/instFileSystem/uploadFile";
+      let newxhr = new XMLHttpRequest();
+      formData.append('fileJson', JSON.stringify(fileJson));
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+      newxhr.open("POST", urlPostUpload, true);
+      newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      this.isRippleLoad = true;
+      newxhr.onreadystatechange = () => {
+        this.isRippleLoad = false;
+        if (newxhr.readyState == 4) {
+          if (newxhr.status >= 200 && newxhr.status < 300) {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+            this.clearuploadObject();
+            this.material_dataShow ?
+              this._http.updatedDataSelection('material') :
+              this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+          } else {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+          }
         }
       }
+      newxhr.send(formData);
     }
-    newxhr.send(formData);
   }
 
 
@@ -140,14 +139,32 @@ export class UploadFileComponent implements OnInit {
     this.varJson.name = '';
   }
 
-  uploadHandler($event, values) {
-
-    if (this.varJson.course_types == "" || this.varJson.course_types == '0') {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "select course to upload data");
+  uploadDatavalidation() {
+    if (this.varJson.category_id == 0) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "select file type to upload data");
       return false;
     }
-    if (this.checkCategoriesType($event.files)) {
-      let filesForUpload = $event.files;
+
+    if (this.varJson.course_types == "" || this.varJson.course_types == '0') {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select course to upload data");
+      return false;
+    }
+    if (this.varJson.subject_id == 0) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select subject to upload data");
+      return false;
+    }
+
+    if (this.varJson.topic_id == 0) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select topic to upload data");
+      return false;
+    }
+    return true;
+  }
+
+  uploadHandler($event) {
+    let flag = this.uploadDatavalidation();
+
+    if (flag && this.checkCategoriesType($event.files)) {
       const formData = new FormData();
       let fileJson = {
         institute_id: this.institute_id,
@@ -160,14 +177,13 @@ export class UploadFileComponent implements OnInit {
         file_id: -1,
         is_readonly: 'N'
       }
-
-      if (filesForUpload && filesForUpload.length) {
-        filesForUpload.forEach(file => formData.append('files', file));
+      if ($event.files && $event.files.length) {
+        $event.files.forEach(file => formData.append('files', file));
       }
+
       let base = this.auth.getBaseUrl();
-      let urlPostUpload = base + "/api/v1/instFileSystem/uploadFile";
+      let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
       let newxhr = new XMLHttpRequest();
-      formData.append('fileJson', JSON.stringify(fileJson));
       let auths: any = {
         userid: sessionStorage.getItem('userid'),
         userType: sessionStorage.getItem('userType'),
@@ -175,13 +191,12 @@ export class UploadFileComponent implements OnInit {
         institution_id: sessionStorage.getItem('institute_id'),
       }
       let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
-      newxhr.open("POST", urlPostUpload, true);
-      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      newxhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
-      newxhr.setRequestHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-      newxhr.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-      newxhr.setRequestHeader("enctype", "multipart/form-data");
+      formData.append('fileJson', JSON.stringify(fileJson));
+      newxhr.open("POST", urlPostXlsDocument, true);
       newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
       this.isRippleLoad = true;
       newxhr.onreadystatechange = () => {
         this.isRippleLoad = false;
@@ -201,7 +216,6 @@ export class UploadFileComponent implements OnInit {
       }
       newxhr.send(formData);
     }
-    console.log($event)
   }
 
   setCategoryType(value) {
@@ -221,11 +235,6 @@ export class UploadFileComponent implements OnInit {
 
   checkCategoriesType(files) {
     let flag = true;
-    if (this.varJson.category_id == 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "select file type to upload data");
-      return false;
-    }
-
     switch (this.varJson.name) {
       case "Notes":
       case "Previous Year Questions Paper": {
@@ -326,7 +335,6 @@ export class UploadFileComponent implements OnInit {
       console.log(res);
       this.isRippleLoad = false;
       this.topicList = res;
-      this.varJson.topic_id = 0;
       this.varJson.sub_topic_id = 0;
       this.subtopicList = [];
     }, err => {
@@ -360,10 +368,6 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
-  clearData() {
-
-  }
-
   //Get subjects of ecourse 
   getSubjectsList(ecourseId) {
     this.subjectList = [];
@@ -372,9 +376,9 @@ export class UploadFileComponent implements OnInit {
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
       this.subjectList = res;
-      this.varJson.subject_id = 0;
-      this.varJson.topic_id = 0;
-      this.topicList = [];
+      if (this.material_dataFlag != 'material') {
+        this.varJson.subject_id = 0;
+      }
       this.varJson.sub_topic_id = 0;
       this.subtopicList = [];
       this.isRippleLoad = false;
