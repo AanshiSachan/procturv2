@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
       }
     }
 
-    if(permittedRoles['717']!=undefined){
+    if(permittedRoles['718']!=undefined){
       this.jsonFlag.isEcourseFileManager = true;
     }
   }
