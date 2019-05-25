@@ -109,7 +109,7 @@
               </a>
             </div>
             <div class="c-xs-2">
-              <a href="https://itunes.apple.com/us/app/proctur/id1217766789?ls=1&mt=8" target="_blanks">
+              <a href="https://itunes.apple.com/us/app/proctur-admin/id1352882235" target="_blanks">
                 <img src="./assets/images/gapps2.png" alt="Proctur iOS Mobile Application for Coaching Institutes">
               </a>
             </div>
@@ -178,8 +178,8 @@
           <div class="row agreement-row" *ngIf="isProcturVisible">
             <p>
               By signing in you agree to our
-              <a style="cursor:pointer" href="http://www.proctur.com/privacypolicy.html" target="_blank">Privacy Policy</a> and
-              <a style="cursor:pointer" href="http://www.proctur.com/terms&amp;conditions.html" target="_blank">terms of use</a>.
+              <a style="cursor:pointer" href="https://proctur.com/policy/index.html" target="_blank">Privacy Policy</a> and
+              <a style="cursor:pointer" href="https://proctur.com/terms/index.html" target="_blank">terms of use</a>.
             </p>
           </div>
         </div>
@@ -242,6 +242,7 @@
           </div>
           <div class="row" *ngIf="counter == 0">
             <div class="forgot-password" style="margin-right:18%;">
+              <!-- <span style="cursor:pointer" (click)="alternateLoginOTPRegenerate()">Resend</span> -->
               <a style="cursor:pointer" (click)="alternateLoginOTPRegenerate()">Resend?</a>
             </div>
           </div>
@@ -272,7 +273,7 @@
               </tbody>
             </table>
 
-          </div>   
+          </div>
           <!-- Show User List End -->
         </div>
         <div class="row text-center"  *ngIf="isGuestUserCourse">

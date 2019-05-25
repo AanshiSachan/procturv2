@@ -1008,7 +1008,7 @@ export class CourseExamComponent implements OnInit {
                 this.checkedKeys = arrayOfNumbers;
               }
             }
-            
+
             let subjectName = "";
             subjectData.forEach(
               ele => {
@@ -1510,6 +1510,10 @@ export class CourseExamComponent implements OnInit {
             test.courseClassSchdList = [];
             for (let j = 0; j < this.viewList[i].courseTableList.length; j++) {
               let classLi: any = {};
+              if(this.viewList[i].courseTableList[j].topics_covered == undefined || this.viewList[i].courseTableList[j].total_marks == undefined){
+                this.messageNotifier('error', 'Error', 'Something is wrong, Please try again');
+                return false;
+              }
               let topics = this.viewList[i].courseTableList[j].topics_covered.toString();
               classLi.batch_id = this.viewList[i].courseTableList[j].batch_id.toString();
               classLi.start_time = startTime;

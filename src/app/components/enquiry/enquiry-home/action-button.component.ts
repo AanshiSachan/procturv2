@@ -74,7 +74,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
   }
 
   setRoleAccess() {
-    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined 
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined
     || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin' ) {
       this.hasStudentAccess = true;
       this.hasDeleteAccess = true;
@@ -88,7 +88,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
       }
       else if (permissions.includes('115')) {
         this.hasStudentAccess = false;
-        this.hasDeleteAccess = true;
+        // this.hasDeleteAccess = true;
       }
       else {
         this.hasStudentAccess = false;
