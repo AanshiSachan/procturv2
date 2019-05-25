@@ -254,6 +254,7 @@ export class StudentAddComponent implements OnInit {
   tableHeaderCheckbox: boolean = false;
   isFeePaymentUpdate: boolean = false;
   clonedFeeObject: FeeModel;
+  convertInstituteEnquiryId: any = '';
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -601,35 +602,74 @@ export class StudentAddComponent implements OnInit {
       }
     )
 
-    this.studentPrefillService.fetchCustomComponent().subscribe(
-      data => {
-        if (data != null) {
-          data.forEach(el => {
-            let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
-            if (el.type == 4) {
-              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
-            }
-            if (el.type == 3) {
-              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
-            }
-            if (el.type == 2) {
-              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true, };
-            }
-            else if (el.type != 2 && el.type != 4 && el.type != 3) {
-              obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
-            }
-            this.customComponents.push(obj);
-          });
+    if (sessionStorage.getItem('studentPrefill') != null && sessionStorage.getItem('studentPrefill') != undefined) {
+      let studentData = sessionStorage.getItem('studentPrefill');
+      let x = JSON.parse(studentData);
+      this.convertInstituteEnquiryId = x.institute_enquiry_id;
+
+      this.studentPrefillService.fetchCustomComponent(this.convertInstituteEnquiryId).subscribe(
+        data => {
+          if (data != null) {
+            data.forEach(el => {
+              let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
+              if (el.type == 4) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
+              }
+              if (el.type == 3) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
+              }
+              if (el.type == 2) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true, };
+              }
+              else if (el.type != 2 && el.type != 4 && el.type != 3) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
+              }
+              this.customComponents.push(obj);
+            });
+          }
+          this.isRippleLoad = false;
+        },
+        err => {
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = { type: 'error', title: msg, body: "" };
+          this.appC.popToast(obj);
         }
-        this.isRippleLoad = false;
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
-      }
-    );
+      );
+    }
+    else{
+      this.studentPrefillService.fetchCustomComponent(this.convertInstituteEnquiryId).subscribe(
+        data => {
+          if (data != null) {
+            data.forEach(el => {
+              let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
+              if (el.type == 4) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
+              }
+              if (el.type == 3) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value };
+              }
+              if (el.type == 2) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true, };
+              }
+              else if (el.type != 2 && el.type != 4 && el.type != 3) {
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value };
+              }
+              this.customComponents.push(obj);
+            });
+          }
+          this.isRippleLoad = false;
+        },
+        err => {
+          let msg = err.error.message;
+          this.isRippleLoad = false;
+          let obj = { type: 'error', title: msg, body: "" };
+          this.appC.popToast(obj);
+        }
+      );
+    }
+
+
   }
 
   getDefaultArr(d): any[] {
@@ -1449,12 +1489,12 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-
+      this.isRippleLoad = true;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
+          this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-
             this.removeImage = true;
             this.student_id = res.generated_id;
             this.getCourseDropdown(res.generated_id);
@@ -1469,7 +1509,7 @@ export class StudentAddComponent implements OnInit {
             }
             this.removeImage = true;
             this.appC.popToast(alert);
-            this.isDuplicateContactOpen();
+            this.isDuplicateContactClose();
           }
         },
         err => {
@@ -1685,6 +1725,7 @@ export class StudentAddComponent implements OnInit {
     this.flushDataAfterPayement();
     this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
       res => {
+        this.isDuplicateContactClose();
         this.isRippleLoad = false;
         this.feeObject = res;
         this.clonedFeeObject = this.commonServiceFactory.keepCloning(res);
