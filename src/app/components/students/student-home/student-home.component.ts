@@ -357,7 +357,7 @@ export class StudentHomeComponent implements OnInit {
             this.loading_message = 2;
             this.studentDataSource = [];
             this.appC.popToast(alert);
-            //this.totalRow = 0;            
+            //this.totalRow = 0;
             this.studentDataSource = res;
           }
         },
@@ -759,7 +759,8 @@ export class StudentHomeComponent implements OnInit {
       }
     )
 
-    this.studentPrefill.fetchCustomComponent().subscribe(data => {
+    let id = ''
+    this.studentPrefill.fetchCustomComponent(id).subscribe(data => {
       if (data != null) {
         data.forEach(el => {
           let obj = {
@@ -1351,8 +1352,8 @@ export class StudentHomeComponent implements OnInit {
           this.studentbatchList = [];
           data.forEach(el => {
 
-            /* 
-              if batch is not havng any templete by selected by default then we select the 
+            /*
+              if batch is not havng any templete by selected by default then we select the
               default template provided for the selected course
              */
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -1363,7 +1364,7 @@ export class StudentHomeComponent implements OnInit {
               })
             }
 
-            /* 
+            /*
             If the user has selected any fee template be previous interaction then we do not apply any template for the user
             */
             if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id != -1) {
@@ -1374,7 +1375,7 @@ export class StudentHomeComponent implements OnInit {
               // })
             }
 
-            /*  
+            /*
                If the user has not selected any academic year than we set the academic for the selected user by default
             */
             if (el.academic_year_id == '-1') {
@@ -2070,7 +2071,7 @@ export class StudentHomeComponent implements OnInit {
     )
   }
 
-  //get all selected studnet fee installment 
+  //get all selected studnet fee installment
   studentFeeInstallment(userType) {
     console.log('studentFeeInstallment');
     let object = {
