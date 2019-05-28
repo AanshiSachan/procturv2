@@ -178,9 +178,12 @@ export class UploadFileComponent implements OnInit {
         is_readonly: 'N'
       }
       if ($event.files && $event.files.length) {
-        $event.files.forEach(file => formData.append('files', file));
+        $event.files.forEach(file =>{
+          formData.append('files',$event.files)
+        });      
       }
-
+    
+    
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
       let newxhr = new XMLHttpRequest();
@@ -227,7 +230,6 @@ export class UploadFileComponent implements OnInit {
         } else {
           this.varJson.name = element.category_name;
         }
-
       }
     });
   }

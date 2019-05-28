@@ -3,6 +3,7 @@ import { UploadFileComponent } from './core/upload-file/upload-file.component';
 import { HttpService } from '../../../services/http.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { Router } from '@angular/router';
+import { FileService } from './file.service';
 
 @Component({
   selector: 'app-ecourse-file-manager',
@@ -14,15 +15,11 @@ export class EcourseFileManagerComponent implements OnInit {
   @ViewChild(UploadFileComponent) uploadFile: UploadFileComponent;
   showUploadFileModal: boolean = false;
   institute_id: any;
-  storageData: any = {
-    storage_allocated: 10,
-    uploaded_size: 1,
-    width: 1
-  }
 
   constructor(private _http: HttpService,
     private auth: AuthenticatorService,
-    private router: Router
+    private router: Router,
+    private _fservice:FileService
   ) {
     
   }
@@ -49,10 +46,10 @@ export class EcourseFileManagerComponent implements OnInit {
     let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
-      this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
-      this.storageData.uploaded_size = res.uploaded_size;
-      let width = (100 * this.storageData.uploaded_size) / this.storageData.storage_allocated;
-      this.storageData.width = Math.round(width);
+      this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
+      this._fservice.storageData.uploaded_size = res.uploaded_size;
+      let width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;
+      this._fservice.storageData.width = Math.round(width);
     });
   }
 

@@ -10,6 +10,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { SharedModule } from '../../shared/shared.module';
 import { MaterialWebComponent } from './material-web/material-web.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FileService } from './file.service';
+
+
 
 @NgModule({
   imports: [
@@ -28,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialWebComponent
   ],
   providers: [
+    FileService
   ]
 })
 export class EcourseFileManagerModule { }

@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, OnChanges, Input, TemplateRef } from '@angular/core';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { UploadFileComponent } from './../core/upload-file/upload-file.component';
+import { UploadFileComponent } from '../core/upload-file/upload-file.component';
 import { HttpService } from '../../../../services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageShowService } from '../../../../services/message-show.service';
+import { FileService } from '../file.service';
 
 @Component({
     selector: 'app-material-web',
@@ -25,7 +26,8 @@ export class MaterialWebComponent implements OnInit {
         private _http: HttpService,
         private auth: AuthenticatorService,
         private route: ActivatedRoute,
-        private msgService: MessageShowService
+        private msgService: MessageShowService,
+        private _fservice:FileService
     ) {
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
@@ -200,12 +202,25 @@ export class MaterialWebComponent implements OnInit {
             this.isRippleLoad = false;
             this.msgService.showErrorMessage('success', '', "File Deleted Successfully");
             this.getTopicListData();
+            this.getDataUsedInCourseList();
         },
             (err) => {
                 this.isRippleLoad = false;
                 this.msgService.showErrorMessage('error', '', "something  went wrong while deleting file");
             })
     }
+
+     // user data usage get
+  getDataUsedInCourseList() {
+    let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
+    this._http.getData(url).subscribe((res: any) => {
+      console.log(res);
+      this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
+      this._fservice.storageData.uploaded_size = res.uploaded_size;
+      let width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;
+      this._fservice.storageData.width = Math.round(width);
+    });
+  }
 
     downloadFile(file) {
         this.isRippleLoad = true;

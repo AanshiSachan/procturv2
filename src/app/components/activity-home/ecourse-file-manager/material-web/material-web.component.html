@@ -32,7 +32,7 @@
         <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}"></ng-container>
         <ng-container *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}"></ng-container>
         <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}"></ng-container>
-        </div>
+      </div>
       <div class="row col-md-12 subTopics-data">
         <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } "></ng-container>
       </div>
@@ -72,8 +72,8 @@
         <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}"></ng-container>
         <ng-container *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}"></ng-container>
         <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}"></ng-container>
-      
-        </div>
+
+      </div>
       <div class="row col-md-12 subTopics-data">
         <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } "></ng-container>
       </div>
@@ -109,13 +109,13 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size}}&nbsp;KB
+      {{file.size | number}}&nbsp;KB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-            <a [href]="file.file_name" [download]="file.title">Download</a>
-          </button>
+          <a [href]="file.file_name" [download]="file.title">Download</a>
+        </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
     </div>
@@ -129,13 +129,13 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size}}&nbsp;KB
+      {{file.size | number}}&nbsp;KB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-            <a [href]="file.file_name" [download]="file.title">Download</a>
-          </button>
+          <a [href]="file.file_name" [download]="file.title">Download</a>
+        </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
     </div>
@@ -149,13 +149,13 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size}}&nbsp;KB
+      {{file.size | number}}&nbsp;KB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-            <a [href]="file.file_name" [download]="file.title">Download</a>
-          </button>
+          <a [href]="file.file_name" [download]="file.title">Download</a>
+        </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
     </div>
@@ -169,13 +169,13 @@
       {{audio.title}}
     </div>
     <div class="col-md-4">
-      {{audio.size}}&nbsp;KB
+      {{audio.size | number}}&nbsp;KB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-            <a [href]="audio.file_name" [download]="audio.title">Download</a>
-          </button>
+          <a [href]="audio.file_name" [download]="audio.title">Download</a>
+        </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(audio)">Delete</button>
       </div>
     </div>
@@ -183,46 +183,46 @@
 </ng-template>
 
 <ng-template #previousYearQuesListData let-previousYearQuesList let-level="level">
-    <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
-      <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
-        <i class="fa fa-bars" style="color:#0084f6;" aria-hidden="true"></i>
-        {{file.title}}
-      </div>
-      <div class="col-md-4">
-        {{file.size}}&nbsp;KB
-      </div>
-      <div class="col-md-4">
-        <div class="action-buttons">
-          <button class="btn btn-xs btn-ga-white">
-              <a [href]="file.file_name" [download]="file.title">Download</a>
-            </button>
-          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
-        </div>
+  <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
+    <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
+      <i class="fa fa-bars" style="color:#0084f6;" aria-hidden="true"></i>
+      {{file.title}}
+    </div>
+    <div class="col-md-4">
+      {{file.size | number}}&nbsp;KB 
+    </div>
+    <div class="col-md-4">
+      <div class="action-buttons">
+        <button class="btn btn-xs btn-ga-white">
+          <a [href]="file.file_name" [download]="file.title">Download</a>
+        </button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
     </div>
-  </ng-template>
+  </div>
+</ng-template>
 
 
-  <ng-template #slidesListData let-slidesList let-level="level">
-      <div class="row singleton-row material-row" *ngFor="let file of slidesList">
-        <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
-          <i class="fa fa-slideshare" style="color:#0084f6;" aria-hidden="true"></i>
-          {{file.title}}
-        </div>
-        <div class="col-md-4">
-          {{file.size}}&nbsp;KB
-        </div>
-        <div class="col-md-4">
-          <div class="action-buttons">
-            <button class="btn btn-xs btn-ga-white">
-                <a [href]="file.file_name" [download]="file.title">Download</a>
-              </button>
-            <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
-          </div>
-        </div>
+<ng-template #slidesListData let-slidesList let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of slidesList">
+    <div class="col-md-4 material-title" [ngStyle]="{'padding-left': level+'em'}">
+      <i class="fa fa-slideshare" style="color:#0084f6;" aria-hidden="true"></i>
+      {{file.title}}
+    </div>
+    <div class="col-md-4">
+      {{file.size | number}}&nbsp;KB
+    </div>
+    <div class="col-md-4">
+      <div class="action-buttons">
+        <button class="btn btn-xs btn-ga-white">
+          <a [href]="file.file_name" [download]="file.title">Download</a>
+        </button>
+        <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
-    </ng-template>
-  
+    </div>
+  </div>
+</ng-template>
+
 <div class="ga-modal-wrapper" *ngIf="showModal">
   <div class="ga-modal-container">
     <div class="ga-modal">

@@ -23,9 +23,9 @@
     <div class="sidecard">
       <div class="wrap">
         <h4>Download Usage</h4>
-        <p class="small">{{storageData.uploaded_size}}GB used of {{storageData.storage_allocated}}GB</p>
+        <p class="small">{{_fservice.storageData.uploaded_size}} GB used of {{_fservice.storageData.storage_allocated}} GB</p>
         <div class="progress-bar">
-          <div class="progress-stat"   [ngStyle]="{'width': storageData.width+'%'}"></div>
+          <div class="progress-stat"   [ngStyle]="{'width': _fservice.storageData.width+'%'}"></div>
         </div>
       </div>
     </div>
