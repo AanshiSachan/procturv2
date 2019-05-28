@@ -179,7 +179,8 @@ export class UploadFileComponent implements OnInit {
       }
       if ($event.files && $event.files.length) {
         $event.files.forEach(file =>{
-          formData.append('files',$event.files)
+          formData.append('files',file);
+          //$event.files
         });      
       }
     
