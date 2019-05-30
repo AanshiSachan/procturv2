@@ -28,7 +28,7 @@ export class EcourseListComponent implements OnInit {
   ngOnInit() {
     this.getcategoriesList();
     this._http.routeList = [];
-    let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses', name: 'eCourse', data: { data: null } };
+    let obj = { routeLink: '/view/activity/ecourse-file-manager/ecourses', name: 'E-Course', data: { data: null } };
     this._http.routeList.push(obj);
     sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
 

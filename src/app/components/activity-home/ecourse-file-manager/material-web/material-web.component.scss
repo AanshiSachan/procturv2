@@ -98,6 +98,11 @@ i.fa{
         display: flex;
         .material-title{
             margin: auto;
+            width: 32%;
+            display: inline-block;
+            line-height: 15px;
+            padding: 0px 7px;
+            word-wrap: break-word;
         }
     }
 }

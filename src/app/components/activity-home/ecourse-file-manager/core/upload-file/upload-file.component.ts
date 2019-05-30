@@ -5,6 +5,7 @@ import { HttpService } from '../../../../../services/http.service';
 import { AuthenticatorService } from '../../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../../services/message-show.service';;
 import { Router } from '@angular/router';
+import { FileService } from '../../file.service';
 
 @Component({
   selector: 'app-upload-file',
@@ -42,6 +43,7 @@ export class UploadFileComponent implements OnInit {
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
     private router: Router,
+    private _fservice: FileService
   ) {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
@@ -178,13 +180,13 @@ export class UploadFileComponent implements OnInit {
         is_readonly: 'N'
       }
       if ($event.files && $event.files.length) {
-        $event.files.forEach(file =>{
-          formData.append('files',file);
-          //$event.files
-        });      
+        $event.files.forEach(file => {
+          formData.append('files', file);
+        });
+        // formData.append('files', $event.files);
       }
-    
-    
+
+
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
       let newxhr = new XMLHttpRequest();
@@ -207,11 +209,12 @@ export class UploadFileComponent implements OnInit {
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
             this.clearuploadObject();
-            this.material_dataShow ?
+              this.material_dataShow ?
               this._http.updatedDataSelection('material') :
               this.material_dataFlag == 'material' ?
-                this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+              this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+              this.getDataUsedInCourseList();
 
           } else {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
@@ -235,16 +238,30 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
+  // user data usage get
+  getDataUsedInCourseList() {
+    let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
+    this._http.getData(url).subscribe((res: any) => {
+      console.log(res);
+      this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
+      this._fservice.storageData.uploaded_size = res.uploaded_size;
+      let width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;
+      this._fservice.storageData.width = Math.round(width);
+    });
+  }
 
   checkCategoriesType(files) {
     let flag = true;
     switch (this.varJson.name) {
       case "Notes":
+      case "Assignment":
+      case "EBook":
       case "Previous Year Questions Paper": {
-        for (let i = 0; i < files.length; i++) {
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf)$/i;
+        for (let i = 0; i < files.length; i++) {//|.epub|.mp3|.wav|.aac|.wma 
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx|.doc|.docx|.pdf|.gif|.png|.jpg|.jpeg|.ppt|.pptx)$/i;
+          console.log(pattern.test(files[i].name));
           if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in pdf, doc, docx form");
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in pdf, doc, docx ,gif, png, jpg , xls, xlsx  form");
             flag = false;
             break;
           }
@@ -262,28 +279,28 @@ export class UploadFileComponent implements OnInit {
         }
         break;
       }
-      case "Assignment": {
-        for (let i = 0; i < files.length; i++) {
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.doc|.docx|.xls|.xlsx)$/i;
-          if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + "in pdf, doc, docx, xls, xlsx form");
-            flag = false;
-            break;
-          }
-        }
-        break;
-      }
-      case "EBook": {
-        for (let i = 0; i < files.length; i++) {
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.epub)$/i;
-          if (!pattern.test(files[i].name)) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " file in epub, pdf form");
-            flag = false;
-            break;
-          }
-        }
-        break;
-      }
+      // case "Assignment": {
+      //   for (let i = 0; i < files.length; i++) {
+      //     let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.doc|.docx|.xls|.xlsx)$/i;
+      //     if (!pattern.test(files[i].name)) {
+      //       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + "in pdf, doc, docx, xls, xlsx form");
+      //       flag = false;
+      //       break;
+      //     }
+      //   }
+      //   break;
+      // }
+      // case "EBook": {
+      //   for (let i = 0; i < files.length; i++) {
+      //     let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.epub)$/i;
+      //     if (!pattern.test(files[i].name)) {
+      //       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " file in epub, pdf form");
+      //       flag = false;
+      //       break;
+      //     }
+      //   }
+      //   break;
+      // }
       case "Audio Notes": {
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.mp3|.wav|.aac|.wma)$/i;
