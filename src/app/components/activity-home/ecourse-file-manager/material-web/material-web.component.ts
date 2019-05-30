@@ -20,14 +20,15 @@ export class MaterialWebComponent implements OnInit {
     subject_id: any;
     tempfile: any;
     showModal: boolean = false;
-    materialData: any = []
+    materialData: any = [];
+    outputMessage: any = '';
 
     constructor(
         private _http: HttpService,
         private auth: AuthenticatorService,
         private route: ActivatedRoute,
         private msgService: MessageShowService,
-        private _fservice:FileService
+        private _fservice: FileService
     ) {
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
@@ -79,6 +80,10 @@ export class MaterialWebComponent implements OnInit {
         this._http.postData(url, data).subscribe((res) => {
             console.log(res);
             this.materialData = res;
+            if (this.materialData.length==0) {
+                this.outputMessage = 'No Material Data Found';
+            }
+
             this.materialData.forEach(element => {
                 element.isExpand = false;
             });
@@ -115,6 +120,9 @@ export class MaterialWebComponent implements OnInit {
         this._http.postData(url, data).subscribe((res) => {
             console.log(res);
             this.materialData = res;
+            if (this.materialData.length==0) {
+                this.outputMessage = 'No Material Data Found';
+            }
             this.materialData.forEach(element => {
                 element.isExpand = false;
                 element.subTopics = [];
@@ -167,6 +175,9 @@ export class MaterialWebComponent implements OnInit {
         this._http.getData(url).subscribe((res) => {
             console.log(res);
             this.materialData = res;
+            if (this.materialData.length==0) {
+                this.outputMessage = 'No Material Data Found';
+            }
             this.materialData.forEach(element => {
                 element.isExpand = false;
                 if (element.subTopics == undefined) {
@@ -210,17 +221,17 @@ export class MaterialWebComponent implements OnInit {
             })
     }
 
-     // user data usage get
-  getDataUsedInCourseList() {
-    let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
-    this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
-      this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
-      this._fservice.storageData.uploaded_size = res.uploaded_size;
-      let width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;
-      this._fservice.storageData.width = Math.round(width);
-    });
-  }
+    // user data usage get
+    getDataUsedInCourseList() {
+        let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
+        this._http.getData(url).subscribe((res: any) => {
+            console.log(res);
+            this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
+            this._fservice.storageData.uploaded_size = res.uploaded_size;
+            let width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;
+            this._fservice.storageData.width = Math.round(width);
+        });
+    }
 
     downloadFile(file) {
         this.isRippleLoad = true;

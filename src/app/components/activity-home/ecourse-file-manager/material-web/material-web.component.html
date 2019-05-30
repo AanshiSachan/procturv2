@@ -40,7 +40,7 @@
     </div>
   </div>
   <div *ngIf="materialData.length==0">
-    No Material Data Found
+    {{outputMessage}}
   </div>
 
 </div>
@@ -96,7 +96,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="video.file_name" [download]="video.title">Download</a>
+          <a [href]="video.file_name" style="color:black" [download]="video.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(video)">Delete</button>
       </div>
@@ -116,7 +116,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="file.file_name" [download]="file.title">Download</a>
+          <a [href]="file.file_name" style="color:black" [download]="file.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
@@ -136,7 +136,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="file.file_name" [download]="file.title">Download</a>
+          <a [href]="file.file_name" style="color:black" [download]="file.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
@@ -156,7 +156,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="file.file_name" [download]="file.title">Download</a>
+          <a [href]="file.file_name" style="color:black" [download]="file.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
@@ -176,7 +176,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="audio.file_name" [download]="audio.title">Download</a>
+          <a [href]="audio.file_name" style="color:black" [download]="audio.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(audio)">Delete</button>
       </div>
@@ -196,7 +196,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="file.file_name" [download]="file.title">Download</a>
+          <a [href]="file.file_name" style="color:black" [download]="file.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
@@ -217,7 +217,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="file.file_name" [download]="file.title">Download</a>
+          <a [href]="file.file_name" style="color:black" [download]="file.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>
@@ -237,7 +237,7 @@
     <div class="col-md-4">
       <div class="action-buttons">
         <button class="btn btn-xs btn-ga-white">
-          <a [href]="file.file_name" [download]="file.title">Download</a>
+          <a [href]="file.file_name" style="color:black" [download]="file.title">Download</a>
         </button>
         <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
       </div>

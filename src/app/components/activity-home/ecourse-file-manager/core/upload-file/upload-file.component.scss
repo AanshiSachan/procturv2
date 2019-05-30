@@ -31,8 +31,10 @@
           font-weight: bold;
           font-size: 1.2em;
           position: relative;
-          right: -2.4em;
-          top: -2.4em;
+          // right: -2.4em;
+          // top: -2.4em;
+          right: -0.4em;
+          top: -0.2em;
           background: #fff;
           border-radius: 100%;
           width: 24px;
@@ -68,8 +70,7 @@
 .upload-box {
   display: flex;
 
-  .file-form {
-    }
+  .file-form {}
 
   .file-drop-wrapper {
     padding: 0 1em;
