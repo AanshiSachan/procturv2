@@ -209,12 +209,12 @@ export class UploadFileComponent implements OnInit {
         if (newxhr.readyState == 4) {
           if (newxhr.status >= 200 && newxhr.status < 300) {
             this.clearuploadObject();
-              this.material_dataShow ?
+            this.material_dataShow ?
               this._http.updatedDataSelection('material') :
               this.material_dataFlag == 'material' ?
-              this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
-              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
-              this.getDataUsedInCourseList();
+                this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+            this.getDataUsedInCourseList();
 
           } else {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
@@ -243,9 +243,11 @@ export class UploadFileComponent implements OnInit {
     let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
-      this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
-      this._fservice.storageData.uploaded_size = res.uploaded_size;
-      let width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;
+      this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) * 0.001048576);
+      this._fservice.storageData.uploaded_size = (Number(res.uploaded_size) * 0.001048576);
+      let width = 1;
+      if (this._fservice.storageData.uploaded_size != 0 &&
+        this._fservice.storageData.uploaded_size <= this._fservice.storageData.storage_allocated) { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated; }
       this._fservice.storageData.width = Math.round(width);
     });
   }
@@ -257,8 +259,8 @@ export class UploadFileComponent implements OnInit {
       case "Assignment":
       case "EBook":
       case "Previous Year Questions Paper": {
-        for (let i = 0; i < files.length; i++) {//|.epub|.mp3|.wav|.aac|.wma 
-          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx|.doc|.docx|.pdf|.gif|.png|.jpg|.jpeg|.ppt|.pptx)$/i;
+        for (let i = 0; i < files.length; i++) {//
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx|.doc|.docx|.pdf|.gif|.png|.jpg|.jpeg|.ppt|.pptx|.epub|.mp3|.wav|.aac|.wma )$/i;
           console.log(pattern.test(files[i].name));
           if (!pattern.test(files[i].name)) {
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + " in pdf, doc, docx ,gif, png, jpg , xls, xlsx  form");

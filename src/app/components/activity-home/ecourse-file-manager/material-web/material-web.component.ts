@@ -81,7 +81,7 @@ export class MaterialWebComponent implements OnInit {
             console.log(res);
             this.materialData = res;
             if (this.materialData.length==0) {
-                this.outputMessage = 'No Material Data Found';
+                this.outputMessage = 'No Data Found';
             }
 
             this.materialData.forEach(element => {
@@ -121,7 +121,7 @@ export class MaterialWebComponent implements OnInit {
             console.log(res);
             this.materialData = res;
             if (this.materialData.length==0) {
-                this.outputMessage = 'No Material Data Found';
+                this.outputMessage = 'No Data Found';
             }
             this.materialData.forEach(element => {
                 element.isExpand = false;
@@ -176,7 +176,7 @@ export class MaterialWebComponent implements OnInit {
             console.log(res);
             this.materialData = res;
             if (this.materialData.length==0) {
-                this.outputMessage = 'No Material Data Found';
+                this.outputMessage = 'No Data Found';
             }
             this.materialData.forEach(element => {
                 element.isExpand = false;
@@ -226,9 +226,12 @@ export class MaterialWebComponent implements OnInit {
         let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
         this._http.getData(url).subscribe((res: any) => {
             console.log(res);
-            this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(2);
-            this._fservice.storageData.uploaded_size = res.uploaded_size;
-            let width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;
+            this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) *0.001048576);
+            this._fservice.storageData.uploaded_size =(Number( res.uploaded_size) *0.001048576);
+            let width =1;
+            if(this._fservice.storageData.uploaded_size!=0 &&
+              this._fservice.storageData.uploaded_size<=this._fservice.storageData.storage_allocated)
+           { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;}
             this._fservice.storageData.width = Math.round(width);
         });
     }
