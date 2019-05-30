@@ -14,6 +14,7 @@ export class EcourseListComponent implements OnInit {
   categiesList: any = [];
   institute_id: any;
   isRippleLoad: boolean = false;
+  outputMessage:any ='';
 
   constructor(
     private _http: HttpService,
@@ -53,6 +54,9 @@ export class EcourseListComponent implements OnInit {
       console.log(res);
       this.isRippleLoad = false;
       this.categiesList = res;
+      if(this.categiesList.length==0){
+        this.outputMessage ='No Data Found';
+      }
 
     }, err => {
       this.isRippleLoad = false;

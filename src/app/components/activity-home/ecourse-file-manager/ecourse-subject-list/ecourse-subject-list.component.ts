@@ -14,7 +14,7 @@ export class EcourseSubjectListComponent implements OnInit {
   institute_id: any;
   ecourse_id: any;
   isRippleLoad: boolean = false;
-
+  outputMessage:any;
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
@@ -56,6 +56,9 @@ export class EcourseSubjectListComponent implements OnInit {
       console.log(res);
       this.isRippleLoad = false;
       this.subjectList = res;
+      if(this.subjectList.length==0){
+        this.outputMessage ='No Data Found';
+      }
     }, err => {
       this.isRippleLoad = false;
     });

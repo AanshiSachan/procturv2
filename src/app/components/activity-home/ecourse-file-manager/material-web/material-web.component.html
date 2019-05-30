@@ -17,7 +17,7 @@
       <div class="col-md-4">
       </div>
       <div class="col-md-4">
-        <div class="action-buttons">
+        <div >
           <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
           <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
         </div>
@@ -58,7 +58,7 @@
 
       </div>
       <div class="col-md-4">
-        <div class="action-buttons">
+        <div>
           <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
           <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
         </div>
@@ -111,7 +111,7 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size | number}}&nbsp;MB
+      {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
@@ -131,7 +131,7 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size | number}}&nbsp;MB
+      {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
@@ -151,7 +151,7 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size | number}}&nbsp;MB
+      {{file.size | number :'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
@@ -171,7 +171,7 @@
       {{audio.title}}
     </div>
     <div class="col-md-4">
-      {{audio.size | number}}&nbsp;MB
+      {{audio.size | number :'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
@@ -191,7 +191,7 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size | number}}&nbsp;MB 
+      {{file.size | number :'.2-2'}}&nbsp;MB 
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
@@ -212,7 +212,7 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size | number}}&nbsp;MB
+      {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">
@@ -232,7 +232,7 @@
       {{file.title}}
     </div>
     <div class="col-md-4">
-      {{file.size | number}}&nbsp;MB
+      {{file.size | number:'.2-2'}}&nbsp;MB
     </div>
     <div class="col-md-4">
       <div class="action-buttons">

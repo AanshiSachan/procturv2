@@ -13,7 +13,7 @@
 
 .ecourse-item {
   padding: 1em;
-
+  
   .ecourse-card {
     border-radius: 4px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -33,20 +33,34 @@
       padding: .8em .6em;
       background-color: #cedff3;
       font-weight: bold;
+      color:#3f2e2e;
     }
 
     .body {
       padding: .6em .8em;
+      height: 10em;
 
       ul {
         padding-left: 1.4em;
 
         li {
-          list-style-type: disc;
           padding: .2em 0;
           font-size: .9em;
-          color: #666;
+          color:#212c34;
         }
+      }
+
+      ul {
+        list-style: none;        
+      }
+      
+      ul li::before {
+        content: "\2022";
+        color: #85bdff;
+        font-weight: bold;
+        display: inline-block; 
+        width: 1em;
+        margin-left: -1em;
       }
     }
   }

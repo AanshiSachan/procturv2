@@ -1,15 +1,22 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-      <div class="row">
-        <div class="col-md-12 subject-wrapper">
+<div class="row">
+  <div class="col-md-12 subject-wrapper">
+    <div class="subject-title">
+      Subject List
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 subject-wrapper">
 
-          <div class="subject-item" *ngFor="let subject of subjectList;">
-            <div class="subject-label" (click)="getToSubjectMaterials(subject)">{{subject.subject_name}}</div>
-          </div>
+    <div class="subject-item" *ngFor="let subject of subjectList;">
+      <div class="subject-label" (click)="getToSubjectMaterials(subject)">{{subject.subject_name}}</div>
+    </div>
 
-          <div *ngIf="subjectList.length==0">
-            No Data Found
-          </div>
+    <div *ngIf="subjectList.length==0">
+        {{outputMessage}}
+    </div>
 
-        </div>
-      </div>
+  </div>
+</div>
