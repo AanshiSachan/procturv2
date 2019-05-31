@@ -119,15 +119,16 @@ export class MaterialWebComponent implements OnInit {
 
         this._http.postData(url, data).subscribe((res) => {
             console.log(res);
+            this.isRippleLoad = false;
             this.materialData = res;
             if (this.materialData.length==0) {
                 this.outputMessage = 'No Data Found';
-            }
-            this.materialData.forEach(element => {
-                element.isExpand = false;
-                element.subTopics = [];
-            });
-            this.isRippleLoad = false;
+            }else{
+                this.materialData.forEach(element => {
+                    element.isExpand = false;
+                    element.subTopics = [];
+                });
+            }       
         },
             (err) => {
                 this.isRippleLoad = false;

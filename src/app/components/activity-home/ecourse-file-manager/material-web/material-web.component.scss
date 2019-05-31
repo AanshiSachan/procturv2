@@ -18,6 +18,17 @@
   color: #c59441;
 }
 
+.btn-ga-white-download {
+  color: #555;
+}
+.txt-notes{
+  color: #3d89f0;
+}
+
+.audio-color{
+  color: #9968be;
+}
+
 .pdf-color {
   color: #d55252;
 }
@@ -27,12 +38,26 @@ i.fa {
   font-size: 18px;
 }
 
+.txt-color {
+  color: #3f2e2e !important;
+  text-decoration: none; 
+  .txt-title{
+    font-weight: 400;
+    display: inline-block;
+    overflow: hidden;
+    width: 72%;
+    text-overflow: ellipsis;
+    line-height: 15px;
+    white-space: nowrap;
+  }
+}
+
 .btn-ga-collapse {
   vertical-align: middle;
   background: transparent;
 
   &:hover {
-    color: #07f;
+    color: #3f2e2e;//#07f;
   }
 }
 
@@ -106,7 +131,7 @@ i.fa {
 
   .topic-name {
     margin: auto;
-    color: #0084f6;
+    // color: #0084f6;
   }
 }
 
