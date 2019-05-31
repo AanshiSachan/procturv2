@@ -78,16 +78,17 @@ export class MaterialWebComponent implements OnInit {
         }
 
         this._http.postData(url, data).subscribe((res) => {
-            console.log(res);
-            this.materialData = res;
-            if (this.materialData.length==0) {
-                this.outputMessage = 'No Data Found';
-            }
-
-            this.materialData.forEach(element => {
-                element.isExpand = false;
-            });
             this.isRippleLoad = false;
+            this.materialData = res;
+            if (this.materialData.length == 0) {
+                this.outputMessage = 'No Data Found';
+            } else {
+                this.materialData.forEach(element => {
+                    element.isExpand = false;
+                    this.addMaterialExtension(element);
+                });
+                console.log(this.materialData);
+            }
         },
             (err) => {
                 this.isRippleLoad = false;
@@ -121,18 +122,76 @@ export class MaterialWebComponent implements OnInit {
             console.log(res);
             this.isRippleLoad = false;
             this.materialData = res;
-            if (this.materialData.length==0) {
+            if (this.materialData.length == 0) {
                 this.outputMessage = 'No Data Found';
-            }else{
+            } else {
                 this.materialData.forEach(element => {
                     element.isExpand = false;
                     element.subTopics = [];
+                    this.addMaterialExtension(element);
                 });
-            }       
+                console.log(this.materialData);
+            }
         },
             (err) => {
                 this.isRippleLoad = false;
             })
+    }
+
+    addMaterialExtension(object) {
+        let keys = ["notesList", "assignmentList", "studyMaterialList", "imageList", "previousYearQuesList", "slidesList"];
+        keys.forEach(key => {
+            if (object[key]) {
+                object[key].forEach(element => {
+                    let str = element.file_path;
+                    let ext = str.substr(str.lastIndexOf(".") + 1, str.length);
+                    switch (ext) {
+                        case 'epub':
+                        case 'pdf': {
+                            element.extension = "fa fa-file-pdf-o pdf-color";
+                            break;
+                        }
+                        case 'docx':
+                        case 'doc': {
+                            element.extension = "fa fa-book assign-color ";
+                            break;
+                        }
+                        case 'xls':
+                        case 'xlsx': {
+                            element.extension = "fa fa-file-excel-o assign-color";
+                            break;
+                        }
+                        case 'ppt':
+                        case 'pptx': {
+                            element.extension = "fa fa-file-powerpoint-o text-blue";
+                            break;
+                        }
+                        case 'mp3':
+                        case 'wav':
+                        case 'aac':
+                        case 'wma': {
+                            element.extension = "fa fa-file-audio-o audio-color";
+                            break;
+                        }
+
+                        case 'jpeg':
+                        case 'jpg':
+                        case 'png':
+                        case 'gif': {
+                            element.extension = "fa fa-file-image-o img-color";
+                            break;
+                        }
+                        default: {
+                            element.extension = "fa fa-file-o assign-color";
+                        }
+                    }
+
+                });
+            }
+
+        });
+
+
     }
 
     getSubtopicListData(topic) {
@@ -151,6 +210,7 @@ export class MaterialWebComponent implements OnInit {
             topic.subTopics.forEach(element => {
                 element.isExpand = false;
                 element.subTopics = [];
+                this.addMaterialExtension(element);
             });
             this.isRippleLoad = false;
         },
@@ -176,15 +236,17 @@ export class MaterialWebComponent implements OnInit {
         this._http.getData(url).subscribe((res) => {
             console.log(res);
             this.materialData = res;
-            if (this.materialData.length==0) {
+            if (this.materialData.length == 0) {
                 this.outputMessage = 'No Data Found';
             }
             this.materialData.forEach(element => {
                 element.isExpand = false;
+                this.addMaterialExtension(element);
                 if (element.subTopics == undefined) {
                     element.subTopics = [];
                 }
             });
+            console.log(this.materialData);
             this.isRippleLoad = false;
         },
             (err) => {
@@ -227,12 +289,11 @@ export class MaterialWebComponent implements OnInit {
         let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
         this._http.getData(url).subscribe((res: any) => {
             console.log(res);
-            this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) *0.001048576);
-            this._fservice.storageData.uploaded_size =(Number( res.uploaded_size) *0.001048576);
-            let width =1;
-            if(this._fservice.storageData.uploaded_size!=0 &&
-              this._fservice.storageData.uploaded_size<=this._fservice.storageData.storage_allocated)
-           { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated;}
+            this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) * 0.001048576);
+            this._fservice.storageData.uploaded_size = (Number(res.uploaded_size) * 0.001048576);
+            let width = 1;
+            if (this._fservice.storageData.uploaded_size != 0 &&
+                this._fservice.storageData.uploaded_size <= this._fservice.storageData.storage_allocated) { width = (100 * this._fservice.storageData.uploaded_size) / this._fservice.storageData.storage_allocated; }
             this._fservice.storageData.width = Math.round(width);
         });
     }
