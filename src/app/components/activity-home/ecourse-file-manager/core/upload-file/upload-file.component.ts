@@ -105,22 +105,26 @@ export class UploadFileComponent implements OnInit {
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      this.isRippleLoad = true;
-      newxhr.onreadystatechange = () => {
-        this.isRippleLoad = false;
-        if (newxhr.readyState == 4) {
-          if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
-            this.clearuploadObject();
-            this.material_dataShow ?
-              this._http.updatedDataSelection('material') :
-              this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
-          } else {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+
+      if (!this.isRippleLoad) {
+        this.isRippleLoad = true;
+        newxhr.onreadystatechange = () => {
+          this.isRippleLoad = false;
+          if (newxhr.readyState == 4) {
+            if (newxhr.status >= 200 && newxhr.status < 300) {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+              this.clearuploadObject();
+              this.material_dataShow ?
+                this._http.updatedDataSelection('material') :
+                this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+            } else {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+            }
           }
         }
+        newxhr.send(formData);
       }
-      newxhr.send(formData);
+
     }
   }
 
@@ -203,25 +207,28 @@ export class UploadFileComponent implements OnInit {
       newxhr.setRequestHeader("enctype", "multipart/form-data;");
       newxhr.setRequestHeader("Accept", "application/json, text/javascript");
       newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      this.isRippleLoad = true;
-      newxhr.onreadystatechange = () => {
-        this.isRippleLoad = false;
-        if (newxhr.readyState == 4) {
-          if (newxhr.status >= 200 && newxhr.status < 300) {
-            this.clearuploadObject();
-            this.material_dataShow ?
-              this._http.updatedDataSelection('material') :
-              this.material_dataFlag == 'material' ?
-                this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
-            this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
-            this.getDataUsedInCourseList();
 
-          } else {
-            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+      if (!this.isRippleLoad) {
+        this.isRippleLoad = true;
+        newxhr.onreadystatechange = () => {
+          this.isRippleLoad = false;
+          if (newxhr.readyState == 4) {
+            if (newxhr.status >= 200 && newxhr.status < 300) {
+              this.clearuploadObject();
+              this.material_dataShow ?
+                this._http.updatedDataSelection('material') :
+                this.material_dataFlag == 'material' ?
+                  this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+              this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
+              this.getDataUsedInCourseList();
+
+            } else {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+            }
           }
         }
+        newxhr.send(formData);
       }
-      newxhr.send(formData);
     }
   }
 
