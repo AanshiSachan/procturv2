@@ -46,15 +46,19 @@ i.fa {
   text-decoration: none; 
   .txt-title{
     font-weight: 400;
+    font-size:12px; 
     display: inline-block;
     overflow: hidden;
     width: 72%;
     text-overflow: ellipsis;
     line-height: 15px;
     white-space: nowrap;
-  }
+  } 
 }
 
+.txt-font{
+  font-size:12px; 
+}
 .btn-ga-collapse {
   vertical-align: middle;
   background: transparent;
