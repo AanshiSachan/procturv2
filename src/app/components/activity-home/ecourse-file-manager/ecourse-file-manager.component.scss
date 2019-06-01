@@ -1,0 +1,102 @@
+.row {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  i {
+    color: black;
+    font-family: 'FontAwesome';
+  }
+}
+
+.text-headline {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: .6em;
+  margin-top: 0.6em;
+}
+
+.btn-wide-blue {
+  background: #2680eb;
+  color: #fff;
+  border-radius: 2px;
+  box-shadow: none;
+  border: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.file-mgr-sidebar {
+  .sidecard {
+    box-shadow: 0 1pt 3pt 0 rgba(0, 0, 0, 0.16);
+    border-radius: 2px;
+    margin: 1em 0;
+    padding: .5em 0;
+    cursor: default;
+    background: white;
+
+    ul {
+      li {
+        padding: .4em .6em;
+        cursor: pointer;
+        font-weight: bold;
+
+        &:hover {
+          background: #cedff3;
+        }
+      }
+    }
+
+    .wrap {
+      padding: .4em .6em;
+      display: inline-block;
+
+      h4 {
+        font-weight: bold;
+        margin-bottom: .5em;
+      }
+
+      .progress-bar {
+        background: #e8e8e8;
+        height: 4px;
+        width: 100%;
+        margin: .2em 0;
+        border: 0;
+        border-radius: 2px;
+
+        .progress-stat {
+          background: #2680eb;
+          width: 79%;
+          height: 4px;
+        }
+      }
+    }
+  }
+}
+
+.file-mgr-wrapper {
+  .file-mgr-breadcrumb {
+    border-bottom: 1pt solid #ddd;
+    padding: .5em 0;
+    margin-bottom: .8em;
+    cursor: pointer;
+  }
+
+  .file-mgr-body {
+    padding: 0;
+  }
+}
+
+a.breadcrums{
+  color: black !important;
+  font-size: 12px;
+}
+.usage{
+  color: #bfc2c4 !important;
+}
+
+.mainDiv{
+  background-color: #f5f5f5;
+    height: 100vh;
+}

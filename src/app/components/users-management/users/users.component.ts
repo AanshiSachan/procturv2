@@ -14,8 +14,9 @@ export class UsersComponent implements OnInit {
   userListDataSource: any = [];
   isLangInstitute: boolean = false;
   dataFilter: any = {
-    role: -1,
-    is_active: true
+    role: 0,
+    is_active: true,
+    is_show_credentials: false
   };
   allocateItemPopUp: boolean = false;
   tempdata: any = "";
@@ -36,7 +37,7 @@ export class UsersComponent implements OnInit {
   userSelected: any = [];
   searchText: any = "";
   isRippleLoad: boolean = false;
-  toottip : string = "We can customize our users via providing or assigning different roles according to their activities.User can login with their credentials and can operate only their defined roles."
+  toottip: string = "We can customize our users via providing or assigning different roles according to their activities.User can login with their credentials and can operate only their defined roles."
 
   constructor(
     private apiService: UserService,
@@ -46,6 +47,13 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.checkInstituteType();
+    this.getAllUserList();
+    if (sessionStorage.getItem('permitted_roles')) {
+      let permissions = Object.keys(JSON.parse(sessionStorage.getItem('permitted_roles')));
+      if (permissions.includes('720')) {
+        this.dataFilter.is_show_credentials = true;
+      }
+    }
   }
 
   getAllUserList() {
@@ -83,6 +91,13 @@ export class UsersComponent implements OnInit {
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
+  }
+
+  clearData(){
+    this.usersList=[];
+    this.totalRow=0;
+    this.PageIndex=1;
+    this.userListDataSource =[];
   }
 
   sendSmsForApp(type) {
@@ -222,13 +237,18 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  descriptPassword(object){
+    object.isEncript= (!object.isEncript);    
+  }
 
   // pagination functions 
-
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.usersList = this.getDataFromDataSource(startindex);
+    this.usersList.forEach(element => {
+      element.isEncript= true;
+    });
   }
 
   fetchNext() {

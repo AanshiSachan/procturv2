@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from './authenticator.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 @Injectable()
 export class HttpService {
 
+  public routeList = [];
   baseUrl: string = '';
   Authorization: any;
   headers: any;
   institute_id: any;
+  private dataSource = new BehaviorSubject<String>(null);
+  data = this.dataSource.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -24,6 +28,10 @@ export class HttpService {
     });
     this.baseUrl = this.auth.getBaseUrl();
 
+  }
+
+  updatedDataSelection(type: String){
+    this.dataSource.next(type);
   }
 
   getData(objecturl) {
@@ -62,9 +70,13 @@ export class HttpService {
     )
   }
 
-  deleteData(objecturl) {
+  deleteData(objecturl, obj) {
     let url = this.baseUrl + objecturl;
-    return this.http.delete(url,  { headers: this.headers }).map(
+    let object = {
+      headers: this.headers, 
+      body: obj
+    }
+    return this.http.delete(url, object).map(
       data => {
         return data;
       },
@@ -73,4 +85,6 @@ export class HttpService {
       }
     )
   }
+
+
 }

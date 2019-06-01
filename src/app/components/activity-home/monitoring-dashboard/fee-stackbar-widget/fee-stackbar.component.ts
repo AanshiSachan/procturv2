@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnChanges,  ElementRef } from '@angular/core';
 import { LoginService } from '../../../../services/login-services/login.service';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';

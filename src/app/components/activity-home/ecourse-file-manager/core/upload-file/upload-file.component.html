@@ -1,0 +1,64 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="ga-modal-wrapper" *ngIf="showModal">
+  <div class="ga-modal-container">
+    <div class="ga-modal">
+      <div class="ga-modal-head">
+        <span>Upload Files</span>
+        <span class="close" (click)="clearuploadObject()"></span>
+      </div>
+      <div class="ga-modal-body">
+        <div class="row upload-box">
+          <div class="col-md-4 file-form">
+
+            <div class="form-group">
+              <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types" (change)="getSubjectsList($event.target.value)">
+                <option value="">  Select course</option>
+                <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow"  class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
+                <option value="0">Select subject</option>
+                <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.topic_id" (change)="getSubtopicList($event.target.value)">
+                <option value="0">Select topic</option>
+                <option *ngFor="let topic of topicList; " [value]="topic.institute_topic_id">{{topic.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select class="form-ctrl ga-form-input" [(ngModel)]="varJson.sub_topic_id">
+                <option value="0">Select subtopic</option>
+                <option *ngFor="let subtopic of subtopicList; " [value]="subtopic.institute_topic_id">{{subtopic.name}}</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="col-md-8 file-drop-wrapper">
+            <div class="drop-box">
+              <select [(ngModel)]="varJson.category_id" (change)="setCategoryType($event.target.value)" class="form-ctrl ga-form-input"
+                style="margin-bottom: 0.8em">
+                <option value="0">Select file type</option>
+                <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">{{category.category_name}}</option>
+              </select>
+              <input type="text" class="form-ctrl video-input" *ngIf="varJson.name=='Youtube URL'" placeholder="Video URL" [(ngModel)]="varJson.video_url">
+              <div class="btn-div" *ngIf="varJson.name=='Youtube URL'">
+                <input class="btn fullBlue" type="button" value="Upload" [disabled]="varJson.video_url==''" (click)="uploadYoutubeURL($event)">
+                <input class="btn " (click)=" clearuploadObject()" type="button" value="Cancel">
+              </div>
+              <p-fileUpload customUpload="true"  multiple="multiple" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
+                *ngIf="varJson.name!='Youtube URL'">
+              </p-fileUpload>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

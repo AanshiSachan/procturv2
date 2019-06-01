@@ -52,6 +52,11 @@ import { EditClassComponent } from './live-classes/edit-class/edit-class.compone
                         pathMatch: "prefix"
                     },
                     {
+                        path: 'ecourse-file-manager',
+                        loadChildren: 'app/components/activity-home/ecourse-file-manager/ecourse-file-manager.module#EcourseFileManagerModule',
+                        pathMatch: "prefix"
+                    },
+                    {
                         path: 'examcourse',
                         component: ExamdeskCourseAssignmentComponent,
                         pathMatch: 'prefix'
