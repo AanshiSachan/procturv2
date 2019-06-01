@@ -5,6 +5,25 @@
     box-sizing: border-box;
 }
 
+ .align-txt-lft{
+     text-align: left;
+     font-size: 12px;
+ }
+
+ .align-number{
+    text-align: right;
+    font-size: 12px;
+ }
+
+  .psw-show{
+    font-size: 1.4em;   
+    color: #0084f6;
+  }
+
+  .credentials-view{
+    text-align: left;
+    font-size: 1em;
+  }
 .btnWrapper {
     .btn {
         padding: 2px 0px 0px 0px;
@@ -256,7 +275,7 @@
         box-sizing: border-box;
         margin: 0;
         float: left;
-        height: 35px;
+        height: 32px;
         font-size: 14px;
     }
     .field-wrapper {
@@ -265,6 +284,7 @@
         width: 30%;
         float: left !important;
         .form-ctrl {
+            height: 32px !important;
             font: 400 13.3333px Arial;
             border-top: none !important;
             border-right: none !important;
@@ -275,6 +295,7 @@
         position: absolute !important;
         left: 10% !important;
         top: 1% !important;
+        font-weight: bold;
         &:after {
             left: 85% !important;
             top: 10px !important;
