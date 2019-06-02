@@ -84,7 +84,6 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
                             canLoad: [AuthGuard]
                         },
-
                         {
                             path: 'help',
                             loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',
@@ -115,7 +114,10 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
                             canLoad: [AuthGuard]
                         },
-
+                        {
+                            path: 'library',
+                            loadChildren: 'app/components/library-management/library-management.module#LibraryManagementModule',
+                        },
                     ]
                 },
             ]

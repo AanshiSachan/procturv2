@@ -41,6 +41,12 @@ import { HttpService } from './services/http.service';
 import { ExpensesService } from './services/expenses.service';
 // import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+import { MastersService } from './services/library/master/masters.service';
+import { AddBookService } from './services/library/add/add-book.service';
+import { IssueBookService } from './services/library/issue/issue-book.service';
+import { ReturnBookService } from './services/library/return/return-book.service';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -81,7 +87,11 @@ import { ExpensesService } from './services/expenses.service';
     MessageShowService,
     HttpService,
     ToDoListService,
-    ExpensesService
+    ExpensesService,
+    MastersService,
+    AddBookService,
+    IssueBookService,
+    ReturnBookService
 
     //   {
     //     provide: HTTP_INTERCEPTORS,

@@ -15,6 +15,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   isLangInstitute: boolean = false;
   permissionData: any[] = [];
   userType: any = '';
+  instituteId: any;
 
   constructor(
     private login: LoginService,
@@ -24,6 +25,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    this.instituteId = sessionStorage.getItem('institute_id');
     this.login.currentUserType.subscribe(e => {
       if (e == '' || e == null || e == undefined) {
       }
@@ -107,7 +109,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
         document.getElementById('lieight').classList.remove('hide');
         document.getElementById('linine').classList.remove('hide');
         document.getElementById('lizero').classList.remove('active');
-        //document.getElementById('liten').classList.remove('hide');
+        // document.getElementById('liten').classList.remove('hide');
       }
       /* custom user detected */
       else {
@@ -127,6 +129,10 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     /* Teacher login detected */
     else if (userType == 3) {
       this.teacherLoginFound();
+    }
+
+    if(this.instituteId == 100128 && p.indexOf('721') != -1){
+      document.getElementById('liten').classList.remove('hide');
     }
 
   }
@@ -292,6 +298,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     }
     else if (id === 'liten' || id === 'liX') {
       id = 'liten';
+      document.getElementById('liten').classList.add('active');
     }
     else if (id === 'lizero' || id === 'li0') {
       id = 'lizero';
@@ -337,6 +344,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     document.getElementById('liseven').classList.remove('active');
     document.getElementById('lieight').classList.remove('active');
     document.getElementById('linine').classList.remove('active');
+    document.getElementById('liten').classList.remove('active');
     /* document.getElementById('liten').classList.add('active');
       document.getElementById('lieleven').classList.remove('active'); */
   }
@@ -360,6 +368,8 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
       document.getElementById('liseven').classList.add('active');
     } else if (url.includes('campaign')) {
       document.getElementById('linine').classList.add('active');
+    } else if (url.includes('library')) {
+      document.getElementById('liten').classList.add('active');
     }
   }
 

@@ -195,9 +195,33 @@
                         <div>
                           <ul>
 
-                            <li #divProfileTag id="divProfileTag">
+                            <li #divAcademicTag id="divAcademicTag">
                               <span>
-                                <a (click)="viewTeacherProfile()">Profile</a>
+                                <a routerLink="/view/academic/list">Academic Year</a>
+                              </span>
+                            </li>
+
+                            <li #divClassRoomTag id="divClassRoomTag">
+                              <span>
+                                <a routerLink="/view/master/classroom">Class Room</a>
+                              </span>
+                            </li>
+
+                            <li>
+                              <span>
+                                <a routerLink="/view/master/closingReason">Closing Reason</a>
+                              </span>
+                            </li>
+
+                            <li>
+                              <span>
+                                <a routerLink="/view/master/discount-reason">Discount Reason</a>
+                              </span>
+                            </li>
+
+                            <li #divManageTag id="divManageTag">
+                              <span>
+                                <a routerLink="/view/master/eventManagment">Event</a>
                               </span>
                             </li>
 
@@ -212,33 +236,10 @@
                                 <a routerLink="/view/fee">Fee</a>
                               </span>
                             </li>
-                            <li id="divTopicTag" style="display:none;">
-                              <span>
-                                <a routerLink="/view/master/Topics">Topic</a>
-                              </span>
-                            </li>
 
-                            <li #divSlotTag id="divSlotTag">
+                            <li #divLibraryTag id="divLibraryTag" *ngIf="globalSearchForm.instituteId == 100128 && libraryRole">
                               <span>
-                                <a routerLink="/view/master/slot">Slot</a>
-                              </span>
-                            </li>
-
-                            <li #divClassRoomTag id="divClassRoomTag">
-                              <span>
-                                <a routerLink="/view/master/classroom">Class Room</a>
-                              </span>
-                            </li>
-
-                            <li #divManageTag id="divManageTag">
-                              <span>
-                                <a routerLink="/view/master/eventManagment">Event</a>
-                              </span>
-                            </li>
-
-                            <li #divAcademicTag id="divAcademicTag">
-                              <span>
-                                <a routerLink="/view/academic/list">Academic Year</a>
+                                <a routerLink="/view/library/master">Library</a>
                               </span>
                             </li>
 
@@ -248,15 +249,21 @@
                               </span>
                             </li>
 
-                            <li>
+                            <li #divProfileTag id="divProfileTag">
                               <span>
-                                <a routerLink="/view/master/closingReason">Closing Reason</a>
+                                <a (click)="viewTeacherProfile()">Profile</a>
                               </span>
                             </li>
 
-                            <li>
+                            <li #divSlotTag id="divSlotTag">
                               <span>
-                                <a routerLink="/view/master/discount-reason">Discount Reason</a>
+                                <a routerLink="/view/master/slot">Slot</a>
+                              </span>
+                            </li>
+
+                            <li id="divTopicTag" style="display:none;">
+                              <span>
+                                <a routerLink="/view/master/Topics">Topic</a>
                               </span>
                             </li>
 
