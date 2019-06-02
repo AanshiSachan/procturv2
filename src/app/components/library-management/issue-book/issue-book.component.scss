@@ -1,0 +1,583 @@
+.main_container{
+  height: 100%;
+  min-height: stretch;
+
+}
+//  SEARCH BAR AND DROPDOWN
+
+.search_bar_container{
+  position: relative;
+  margin-left: 2%;
+  .search_box{
+    height: 35px;
+    width: 420px;
+    border: 1px solid #dcdcdc;
+    background: white;
+    border-radius: 4px;
+    padding-left: 32px;
+    padding-right: 18px;
+  }
+  .fa-search{
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    padding: 9px;
+    color: #9b9b9b;
+    background: white;
+    border-radius: 4px;
+  }
+
+  .fa-search:hover{
+    color: black;
+  }
+
+  .fa-sort-desc{
+    position: absolute;
+    left: 385px;
+    top: 8px;
+    background: white;
+    cursor: pointer;
+    padding-left: 10px;
+  }
+}
+
+.search_box_filter_container{
+  margin-left: 2%;
+  width: 420px;
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.27);
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 26px;
+  position: fixed;
+  .filter_item{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    .label_container{
+      width: 25%;
+      color: #3a3a3a;
+      text-align: left;
+      position: relative;
+      span{
+        position: absolute;
+        top: 5px;
+        font-size: 14px;
+      }
+    }
+    .input_container{
+      width: 70%;
+      input{
+        border-bottom: 1px solid #9b9b9b;
+        padding: 10px;
+        padding-bottom: 3px;
+        padding-left: 0px;
+        width: 100%;
+        color: #3a3a3a;
+        font-size: 14px;
+        line-height: 1.36;
+        letter-spacing: normal;
+        font-weight: normal;
+      }
+      ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #cfcfcf;
+      }
+      select{
+        border-bottom: 1px solid #9b9b9b;
+        padding-bottom: 3px;
+        padding-left: 0px;
+        width: 100%;
+        color: #3a3a3a;
+        font-size: 14px;
+        line-height: 1.36;
+        letter-spacing: normal;
+        font-weight: normal;
+      }
+      select option { color: #3a3a3a; }
+      option:first-child {
+        color: #cfcfcf !important;
+      }
+      input:focus {
+      border-bottom: 1px solid #1283f4;
+      }
+      select:focus {
+      border-bottom: 1px solid #1283f4;
+      }
+
+    }
+  }
+
+  .action_btn_container{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    .reset_btn{
+      margin-right: 10px;
+      padding: 6px 15px;
+      border-radius: 4px;
+      border: 1px solid #585574;
+      color: #585574;
+      text-align: center;
+      background: white;
+    }
+    .search_btn{
+      padding: 6px 15px;
+      border-radius: 4px;
+      border: 1px solid #1283f4;
+      color: white;
+      background: #1283f4;
+      text-align: center;
+    }
+  }
+
+}
+
+.suggestions_container{
+  background: white;
+  border-radius: 4px;
+  height: 200px;
+  max-height: 200px;
+  min-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.27);
+  display: flex;
+  flex-direction: column;
+  margin-left: 2%;
+  width: 420px;
+  margin-top: 4px;
+  position: fixed;
+  .suggestion{
+    padding: 10px;
+    .suggestion_item{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 10px;
+      cursor: pointer;
+      .img_container{
+        width: 10%;
+        padding: 6px;
+      }
+      .book_details{
+        display: flex;
+        flex-direction: column;
+        .name_container{
+          color: #585574;
+          font-size: 14px;
+        }
+        .book_more_info{
+          color: #9b9b9b;
+          display: flex;
+          flex-direction: row;
+          font-size: 12px;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
+
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 0;
+  border-top: 1px solid #eee;
+  width: 96%;
+  margin-left: 2%;
+}
+
+.widgetDatepicker {
+  position: absolute;
+  margin-left: 10%;
+  width: 1px;
+  visibility: hidden;
+  opacity: 0;
+}
+.bsDatepicker {
+  padding: 5px;
+  width: 100%;
+  position: absolute;
+  left: 80px
+}
+
+//  SEARCH FILTER
+.search_result_container{
+  display: flex;
+  flex-direction: column;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  .header_container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0px;
+    padding-top: 0px;
+    padding-left: 16px;
+    padding-right: 10px;
+    .header_item, .header_item1{
+      color: #9898a3;
+      font-weight: 600;
+      text-align: left;
+      width: 10%;
+    }
+    .header_item1{
+      width: 16%;
+    }
+  }
+  .value_container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 6px;
+    background: white;
+    font-size: 13px;
+    border-left: 6px solid #9b9b9b;
+    margin-bottom: 10px;
+    .value_item, .value_item1{
+      color: #585574;
+      text-align: left;
+      width: 10%;
+      /* Firefox */
+      display:-moz-box;
+      -moz-box-align:center;
+
+      /* Safari, Opera, and Chrome */
+      display:-webkit-box;
+      -webkit-box-align:center;
+
+      /* W3C */
+      // display:box;
+      // box-align:center;
+    }
+    .value_item1{
+      width: 16%;
+    }
+    .action_img{
+      cursor: pointer;
+    }
+  }
+  .border_div{
+    border-left: 6px solid #04bb11;
+  }
+  .non_border_div{
+    border-left: 6px solid #9b9b9b;
+  }
+}
+
+
+// FOR BOOK book_details
+.for_book_details{
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  .book_details_container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .book_details_item_1{
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid #DDDDDD;
+      padding: 10px 15px;
+      .book_icon{
+        width: 25px;
+        height: 25px;
+      }
+      .book_name_container{
+        display: flex;
+        flex-direction: column;
+        margin-left: 5px;
+        width: 20%;
+        .title{
+          font-size: 12px;
+          font-weight: normal;
+          font-style: normal;
+          text-align: left;
+          color: #9b9b9b;
+        }
+        .book_name{
+          font-size: 16px;
+          font-weight: 600;
+          font-style: normal;
+          text-align: left;
+          color: #585574;
+        }
+      }
+      .book_isbn{
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        .title{
+          font-size: 12px;
+          font-weight: normal;
+          font-style: normal;
+          text-align: left;
+          color: #9b9b9b;
+        }
+        .isbn_number{
+          font-size: 14px;
+          font-weight: 600;
+          font-style: normal;
+          text-align: left;
+          color: #585574;
+        }
+      }
+      .available_btn{
+        background: #cdffd1;
+        border: 1px solid #04bb11;
+        border-radius: 4px;
+        color: #434343;
+        padding: 1px 10px;
+        height: 20px;
+        font-size: 12px;
+        cursor: normal
+      }
+      .not_available_btn{
+        background: #f9f9f9;
+        border: 1px solid #b0b0b0;
+        border-radius: 4px;
+        color: #b0b0b0;
+        padding: 1px 10px;
+        height: 20px;
+        font-size: 12px;
+        cursor: normal
+      }
+    }
+    .book_details_item_2{
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid #DDDDDD;
+      padding: 10px 15px;
+      .title{
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        text-align: left;
+        color: #9b9b9b;
+      }
+      .book_more_info_item_1{
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        .more_info_value{
+          font-size: 14px;
+          font-weight: normal;
+          font-style: normal;
+          text-align: left;
+          color: #585574;
+        }
+      }
+      .book_more_info_item_2{
+        display: flex;
+        flex-direction: column;
+        width: 15%;
+        .more_info_value{
+          font-size: 14px;
+          font-weight: normal;
+          font-style: normal;
+          text-align: left;
+          color: #585574;
+        }
+      }
+    }
+
+    .book_details_item_3{
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid #DDDDDD;
+      padding: 10px 15px;
+      .search_box_container{
+        .search_box{
+          height: 35px;
+          width: 310px;
+          border: 1px solid #dcdcdc;
+          background: white;
+          border-radius: 4px;
+          padding-left: 10px;
+      }
+    }
+    .book_in_hand_container{
+      text-align: left;
+      width: 15%;
+      padding-left: 20px;
+      padding-top: 10px;
+      color: #585574;
+    }
+
+      .bor_suggestions_container{
+        background: white;
+        border-radius: 4px;
+        height: 200px;
+        max-height: 200px;
+        min-height: 200px;
+        overflow-y: auto;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.27);
+        display: flex;
+        flex-direction: column;
+        width: 310px;
+        margin-top: 4px;
+        position: fixed;
+        z-index: 100;
+        .suggestion{
+          padding: 10px;
+          .suggestion_item{
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 10px;
+            cursor: pointer;
+            .img_container{
+              width: 10%;
+              padding: 6px;
+            }
+            .book_details{
+              display: flex;
+              flex-direction: column;
+              margin-left: 10px;
+              .name_container{
+                color: #585574;
+                font-size: 14px;
+              }
+              .book_more_info{
+                color: #9b9b9b;
+                display: flex;
+                flex-direction: row;
+                font-size: 11px;
+                margin-top: 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .book_details_item_4{
+      display: flex;
+      flex-direction: column;
+      padding: 10px 15px;
+      .date_container{
+        display: flex;
+        flex-direction: row;
+        .from_date, .to_date{
+          display: flex;
+          flex-direction: column;
+          width: 20%;
+          position: relative;
+          span{
+            color: #9b9b9b;
+            font-size: 12px;
+          }
+          input{
+            border-radius: 4px;
+            border: 1px solid #dddddd;
+            padding: 5px;
+            width: 50%;
+          }
+          .fa-calendar{
+            position: absolute;
+            top: 21px;
+            right: 54%;
+          }
+        }
+      }
+      .notify_container{
+        display: flex;
+        flex-direction: row;
+        .checkbox_container{
+          width: 20%;
+          margin-top: 10px;
+        }
+        .field-checkbox-wrapper .form-checkbox+label {
+            vertical-align: middle;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .field-checkbox-wrapper .form-checkbox+label:after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ccc;
+            border-radius: 2px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .field-checkbox-wrapper .form-checkbox:checked+label:after {
+            border: 2px solid #0084f6;
+        }
+        .field-checkbox-wrapper .form-checkbox+label:before {
+            width: 1px;
+            height: 1px;
+            left: 8px;
+            top: 9px;
+            position: absolute;
+            content: '';
+            border-top: 0;
+            border-right: 0;
+            border-left: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+            transform: rotate(-45deg);
+        }
+        .field-checkbox-wrapper .form-checkbox:checked+label:before {
+            border-left: 2px solid #0084f6;
+            border-bottom: 2px solid #0084f6;
+            width: 12px;
+            height: 5px;
+            left: 2px;
+            top: 5px;
+        }
+        .field-checkbox-wrapper .form-checkbox:checked+label {
+            color: #0084f6;
+        }
+
+      }
+    }
+
+    .book_details_item_5{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 15px;
+      padding-top: 0px;
+      .left_side{
+        .back_btn{
+          background: white;
+          border-radius: 4px;
+          border: 1px solid #1283f4;
+          padding: 8px 15px;
+          text-align: center;
+          color: #1283f4;
+        }
+      }
+      .right_side{
+        display: flex;
+        flex-direction: row;
+        width: 15%;
+        justify-content: space-around;
+        .cancel_btn{
+          background: white;
+          border-radius: 4px;
+          border: 1px solid #1283f4;
+          padding: 8px 15px;
+          text-align: center;
+          color: #1283f4;
+        }
+        .issue_btn{
+          background: #1283f4;
+          border-radius: 4px;
+          border: 1px solid #1283f4;
+          padding: 8px 15px;
+          text-align: center;
+          color: white;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

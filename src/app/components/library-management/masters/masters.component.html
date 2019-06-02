@@ -1,0 +1,341 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+
+<section style="padding: 10px;height: -webkit-fill-available;" class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+        Create Library Master
+    </h1>
+  </section>
+
+  <hr style="color:#f9f9f9;">
+
+  <!-- HEADER LIST -->
+
+  <section class="master_list">
+    <div class="master_list_container">
+
+      <div class="master_menu">
+        <div class="master_list_item">
+          <button type="button" name="button" class="master_list_btn active" id="item1" (click)="changeMasterCategory('item1', 'for_category')">Category & Sub-categories</button>
+        </div>
+        <div class="master_list_item">
+          <button type="button" name="button" class="master_list_btn" id="item2" (click)="changeMasterCategory('item2', 'for_subject')">Subject</button>
+        </div>
+        <div class="master_list_item">
+          <button type="button" name="button" class="master_list_btn" id="item3" (click)="changeMasterCategory('item3', 'for_publication')">Publication</button>
+        </div>
+        <div class="master_list_item">
+          <button type="button" name="button" class="master_list_btn" id="item4" (click)="changeMasterCategory('item4', 'for_author')">Author</button>
+        </div>
+        <div class="master_list_item">
+          <button type="button" name="button" class="master_list_btn" id="item5" (click)="changeMasterCategory('item5', 'for_reference')">References</button>
+        </div>
+        <div class="master_list_item">
+          <button type="button" name="button" class="master_list_btn" id="item6" (click)="changeMasterCategory('item6', 'for_languages')">Language</button>
+        </div>
+      </div>
+
+      <div class="search_container pull-right">
+        <div class="pull-right" style="margin-right: 15px;">
+            <div class="search-filter-wrapper ">
+                <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" (keyup)="searchInList($event)" [(ngModel)]="searchInput">
+            </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOR Category and Sub-Category -->
+
+  <section id="for_category" class="middle_section">
+    <div class="add_container">
+      <div class="main_name_container">
+        <div class="name_container">
+          <span style="margin-bottom:5px;font-size: 12px;">Category*</span>
+          <input type="text" name="" value="" placeholder="Enter Category Name" class="add_input" style="width: 100%;" [(ngModel)]="categoryName" > <!--  (keyup)="showCategorySuggestions($event)" -->
+          <i class="fa fa-sort-desc" aria-hidden="true" (click)="showSuggestions()"></i>
+        </div>
+        <div class="name_container" style="margin-left: 10px;">
+          <span style="margin-bottom:5px;font-size: 12px;">Sub-Category</span>
+          <input type="text" name="" value="" placeholder="Enter Sub-Category Name" class="add_input" style="width: 100%;" [(ngModel)]="subcategoryName">
+        </div>
+      </div>
+      <div class="add_btn">
+        <button type="button" name="button" (click)="addCatAndSubCat()" [disabled]="multiClickDisabled">Add <i class="fa fa-plus-circle" style="color:#1984f6" aria-hidden="true"></i></button>
+      </div>
+
+      <div class="category_suggestions_container" *ngIf="categorySuggestions">
+        <div class="category_suggestions_item" *ngFor="let category of categoryList let i = index" (click)="chooseCategory(category.category_name)">
+          <span>{{category.category_name}}</span>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="added_list_container">
+
+      <div class="added_list_item" *ngFor="let category of categorySubCatList let i = index">
+        <div class="display_com" id="cat_row_dis{{i}}">
+          <div class="value_container">
+            <div class="value_item1 display_com" id="">
+              <span>{{category.category_name}}</span>
+            </div>
+            <div class="value_item2" style="margin-left: 10px;">
+              <span>{{category.sub_category_name}}</span>
+            </div>
+          </div>
+          <div class="action_container">
+            <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editCat(category, i)"></i>
+            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" *ngIf="category.sub_category_id != null" (click)="delete(category.sub_category_id, 'category')"></i>
+          </div>
+        </div>
+        <div class="edit_com" id="cat_row_edit{{i}}">
+          <div class="value_container">
+            <div class="value_item1">
+              <input type="text" name="" value="" placeholder="Enter Category Name" class="edit_input" [(ngModel)]="editCategoryName">
+            </div>
+            <div class="value_item2" style="margin-left: 10px;" *ngIf="subcatEdit">
+              <input type="text" name="" value="" placeholder="Enter Sub-Category Name" class="edit_input" [(ngModel)]="editSubCategoryName">
+            </div>
+          </div>
+          <div class="action_container">
+            <span (click)="saveCat(category.category_id, category.sub_category_id)">Save</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="new_sub_cat" *ngIf="newSubCat">
+        <div class="new_sub_cat_item">
+          <input type="text" name="" value="" placeholder="Enter Sub-Category Name" class="edit_input" >
+        </div>
+        <div class="new_sub_cat_action_item">
+          <button type="button" name="button" class="new_cat_save_btn">Save</button>
+          <button type="button" name="button" class="new_cat_cancel_btn">Cancel</button>
+        </div>
+      </div> -->
+
+    </div>
+
+    <div class="noResult" *ngIf="categorySubCatList.length == 0">
+      <span *ngIf="searchInput == ''">No category added!</span>
+      <span *ngIf="searchInput != ''">No search result found!</span>
+    </div>
+
+  </section>
+
+  <!-- FOR SUBJECT  -->
+
+  <section id="for_subject" class="middle_section">
+    <div class="add_container">
+      <div class="name_container">
+        <span style="margin-bottom:5px;font-size: 12px;">Subject*</span>
+        <input type="text" name="" value="" placeholder="Enter Subject Name" class="add_input" [(ngModel)]="subjectName">
+      </div>
+      <div class="add_btn">
+        <button type="button" name="button" (click)="addSubject()" [disabled]="multiClickDisabled">Add <i class="fa fa-plus-circle" style="color:#1984f6" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div class="added_list_container">
+      <div class="added_list_item" *ngFor="let subject of subjectList let i = index">
+        <div class="display_com" id="subject_row_dis{{i}}">
+          <div class="value_container">
+            <span>{{subject.subject_name}}</span>
+          </div>
+          <div class="action_container">
+            <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editSubject(subject, i)"></i>
+            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" (click)="delete(subject.subject_id, 'subject')"></i>
+          </div>
+        </div>
+        <div class="edit_com" id="subject_row_edit{{i}}">
+          <div class="value_container">
+            <input type="text" name="" value="" placeholder="Enter Subject Name" class="edit_input" [(ngModel)]="editSubjectName">
+          </div>
+          <div class="action_container">
+            <span (click)="saveSubject(subject.subject_id)">Save</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noResult" *ngIf="subjectList.length == 0">
+      <span *ngIf="searchInput == ''">No subject added!</span>
+      <span *ngIf="searchInput != ''">No search result found!</span>
+    </div>
+  </section>
+
+  <!-- FOR PUBLICATION -->
+
+  <section id="for_publication" class="middle_section">
+    <div class="add_container">
+      <div class="name_container">
+        <span style="margin-bottom:5px;font-size: 12px;">Publication*</span>
+        <input type="text" name="" value="" placeholder="Enter Publication Name" class="add_input" [(ngModel)]="publicationName">
+      </div>
+      <div class="add_btn">
+        <button type="button" name="button" (click)="addPublication()" [disabled]="multiClickDisabled">Add <i class="fa fa-plus-circle" style="color:#1984f6" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div class="added_list_container">
+      <div class="added_list_item" *ngFor="let publication of publicationList let i = index">
+        <div class="display_com" id="publication_row_dis{{i}}">
+          <div class="value_container">
+            <span>{{publication.publication_name}}</span>
+          </div>
+          <div class="action_container">
+            <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editPublication(publication, i)"></i>
+            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" (click)="delete(publication.publication_id, 'publication')"></i>
+          </div>
+        </div>
+        <div class="edit_com" id="publication_row_edit{{i}}">
+          <div class="value_container">
+            <input type="text" name="" value="" placeholder="Enter Publication Name" class="edit_input" [(ngModel)]="editPublicationName">
+          </div>
+          <div class="action_container">
+            <span (click)="savePublication(publication.publication_id)">Save</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noResult" *ngIf="publicationList.length == 0">
+      <span *ngIf="searchInput == ''">No publication added!</span>
+      <span *ngIf="searchInput != ''">No search result found!</span>
+    </div>
+  </section>
+
+
+  <!-- FOR AUTHOR -->
+
+  <section id="for_author" class="middle_section">
+    <div class="add_container">
+      <div class="name_container">
+        <span style="margin-bottom:5px;font-size: 12px;">Author*</span>
+        <input type="text" name="" value="" placeholder="Enter Author Name" class="add_input" [(ngModel)]="authorName">
+      </div>
+      <div class="add_btn">
+        <button type="button" name="button" (click)="addAuthor()" [disabled]="multiClickDisabled">Add <i class="fa fa-plus-circle" style="color:#1984f6" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div class="added_list_container">
+      <div class="added_list_item" *ngFor="let author of authorList let i = index">
+        <div class="display_com" id="author_row_dis{{i}}">
+          <div class="value_container">
+            <span>{{author.author_name}}</span>
+          </div>
+          <div class="action_container">
+            <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editAuthor(author, i)"></i>
+            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" (click)="delete(author.author_id, 'author')"></i>
+          </div>
+        </div>
+        <div class="edit_com" id="author_row_edit{{i}}">
+          <div class="value_container">
+            <input type="text" name="" value="" placeholder="Enter Author Name" class="edit_input" [(ngModel)]="editAuthorName">
+          </div>
+          <div class="action_container">
+            <span (click)="saveAuthor(author.author_id)">Save</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noResult" *ngIf="authorList.length == 0">
+      <span *ngIf="searchInput == ''">No author added!</span>
+      <span *ngIf="searchInput != ''">No search result found!</span>
+    </div>
+  </section>
+
+  <!-- FOR REFERENCES -->
+
+  <section id="for_reference" class="middle_section">
+    <div class="add_container">
+      <div class="name_container">
+        <span style="margin-bottom:5px;font-size: 12px;">References*</span>
+        <input type="text" name="" value="" placeholder="Enter References Name" class="add_input" [(ngModel)]="referenceName">
+      </div>
+      <div class="add_btn">
+        <button type="button" name="button" (click)="addReference()" [disabled]="multiClickDisabled">Add <i class="fa fa-plus-circle" style="color:#1984f6" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div class="added_list_container">
+      <div class="added_list_item" *ngFor="let reference of referenceList let i = index">
+        <div class="display_com" id="reference_row_dis{{i}}">
+          <div class="value_container">
+            <span>{{reference.reference_name}}</span>
+          </div>
+          <div class="action_container">
+            <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editReference(reference, i)"></i>
+            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" (click)="delete(reference.reference_id, 'reference')"></i>
+          </div>
+        </div>
+        <div class="edit_com" id="reference_row_edit{{i}}">
+          <div class="value_container">
+            <input type="text" name="" value="" placeholder="Enter Reference Name" class="edit_input" [(ngModel)]="editReferenceName">
+          </div>
+          <div class="action_container">
+            <span (click)="saveReference(reference.reference_id)">Save</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noResult" *ngIf="referenceList.length == 0">
+      <span *ngIf="searchInput == ''">No reference added!</span>
+      <span *ngIf="searchInput != ''">No search result found!</span>
+    </div>
+  </section>
+
+
+  <!-- FOR LANGUAGES -->
+
+  <section id="for_languages" class="middle_section">
+    <div class="add_container">
+      <div class="name_container">
+        <span style="margin-bottom:5px;font-size: 12px;">Language*</span>
+        <input type="text" name="" value="" placeholder="Enter Language Name" class="add_input" [(ngModel)]="languageName">
+      </div>
+      <div class="add_btn">
+        <button type="button" name="button" (click)="addLanguage()" [disabled]="multiClickDisabled">Add <i class="fa fa-plus-circle" style="color:#1984f6" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div class="added_list_container">
+      <div class="added_list_item" *ngFor="let language of languageList let i = index">
+        <div class="display_com" id="language_row_dis{{i}}">
+          <div class="value_container">
+            <span>{{language.language_name}}</span>
+          </div>
+          <div class="action_container">
+            <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editLanguage(language, i)"></i>
+            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" (click)="delete(language.language_id, 'language')"></i>
+          </div>
+        </div>
+        <div class="edit_com" id="language_row_edit{{i}}">
+          <div class="value_container">
+            <input type="text" name="" value="" placeholder="Enter Language Name" class="edit_input" [(ngModel)]="editLanguageName">
+          </div>
+          <div class="action_container">
+            <span (click)="saveLanguage(language.language_id)">Save</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="noResult" *ngIf="languageList.length == 0">
+      <span *ngIf="searchInput == ''">No language added!</span>
+      <span *ngIf="searchInput != ''">No search result found!</span>
+    </div>
+  </section>
+
+
+
+</section>

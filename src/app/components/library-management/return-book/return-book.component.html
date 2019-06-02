@@ -1,0 +1,328 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+
+<section *ngIf="!bookSuggestion">
+  <div class="search_bar_container">
+    <input type="text" name="" value="" placeholder="Search by Borrower/Book issued" class="search_box"  (keyup)="searchInList($event)" [(ngModel)]="searchInput">
+    <i class="fa fa-search" aria-hidden="true"></i>
+    <i class="fa fa-times" aria-hidden="true" (click)="clearFilter()" ></i>
+    <i class="fa fa-sort-desc" aria-hidden="true" (click)="showFilter()"></i>
+  </div>
+
+  <!-- FILTER -->
+  <div class="search_box_filter_container" *ngIf="filter">
+
+    <div class="filter_item">
+      <div class="label_container">
+        <span style="top: 10px;">Book Title</span>
+      </div>
+      <div class="input_container">
+        <input type="text" name="" value="" placeholder="Enter Book Name" [(ngModel)]="searchTitle">
+      </div>
+    </div>
+
+    <div class="filter_item">
+      <div class="label_container">
+        <span>Author</span>
+      </div>
+      <div class="input_container">
+        <select class="add_input1" name="" [(ngModel)]="searchAuthorId">
+          <option value="-1" style="color: #cfcfcf;">Select Author Name</option>
+          <option [value]="author.author_id" *ngFor="let author of authorList let i = index">{{author.author_name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter_item">
+      <div class="label_container">
+        <span>Category</span>
+      </div>
+      <div class="input_container">
+        <select class="add_input1" name="" (ngModelChange)="getSubCategory($event)" [(ngModel)]="searchCategoryId">
+          <option value="-1" style="color: #cfcfcf;">Select Category Name</option>
+          <option [value]="category.category_id" [attr.id]="category.category_id" *ngFor="let category of categoryList let i = index">{{category.category_name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter_item">
+      <div class="label_container">
+        <span>Sub-Category</span>
+      </div>
+      <div class="input_container">
+        <select class="add_input1" name="" [(ngModel)]="searchSubcategoryId">
+          <option value="-1" style="color: #cfcfcf;">Select Sub-Category Name</option>
+          <option [value]="subCategory.category_id" *ngFor="let subCategory of subcategoryList let i = index">{{subCategory.category_name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter_item">
+      <div class="label_container">
+        <span>Subject</span>
+      </div>
+      <div class="input_container">
+        <select class="add_input1" name="" [(ngModel)]="searchSubjectId">
+          <option value="-1" style="color: #cfcfcf;">Select Subject Name</option>
+          <option [value]="subject.subject_id" *ngFor="let subject of subjectList let i = index">{{subject.subject_name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter_item">
+      <div class="label_container">
+        <span>Publication</span>
+      </div>
+      <div class="input_container">
+        <select class="add_input1" name="" [(ngModel)]="searchPublicationId">
+          <option value="-1" style="color: #cfcfcf;">Select Publication Name</option>
+          <option [value]="publication.publication_id" *ngFor="let publication of publicationList let i = index">{{publication.publication_name}}</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="filter_item">
+      <div class="label_container">
+        <span>Language</span>
+      </div>
+      <div class="input_container">
+        <select class="add_input2" name="" [(ngModel)]="searchLangId">
+          <option value="-1" style="color: #cfcfcf;">Select Language</option>
+          <option [value]="language.language_id" *ngFor="let language of languageList let i = index">{{language.language_name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="action_btn_container pull-right">
+      <button type="button" name="button" class="reset_btn" (click)="resetFilter()">Reset</button>
+      <button type="button" name="button" class="search_btn" (click)="advanceSearch()">Search</button>
+    </div>
+
+  </div>
+
+  <!-- Suggestion -->
+  <div class="suggestions_container" *ngIf="suggestion">
+    <div class="suggestion">
+
+      <div class="suggestion_item" *ngFor="let suggestion of suggestionList.libraryBookDTOs let i = index" (click)="getIssuedBooksByBook(suggestion.book_id, suggestion.title)">
+        <div class="img_container">
+          <img src="./assets/images/library/gray_book.svg" alt="">
+        </div>
+        <div class="book_details">
+          <div class="name_container">
+            <span>{{suggestion.title}}</span>
+          </div>
+          <div class="book_more_info">
+            <span>Publication - {{ suggestion.publications.publication_name | slice:0:12 }}</span>
+            <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>Author(s) - <span *ngFor="let author of suggestion.authorObjects | slice:0:1;">{{author.author_name | slice:0:12}} &nbsp; </span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggestion_item" *ngFor="let suggestion of suggestionList.students let i = index" (click)="getIssuedBooksByStudent(suggestion.student_id, suggestion.student_name)">
+        <div class="img_container">
+          <img src="./assets/images/library/profile.svg" alt="">
+        </div>
+        <div class="book_details">
+          <div class="name_container">
+            <span>{{suggestion.student_name}}</span>
+          </div>
+          <div class="book_more_info">
+            <span>Mobile No. - {{suggestion.student_phone}}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<hr *ngIf="searchResult">
+
+
+<section *ngIf="searchResult">
+  <div class="search_result_container">
+    <div class="search_result_item" *ngFor="let returnBook of returnBookData let i = index">
+      <div class="sub_item_1_container">
+        <div class="sub_item1">
+          <img src="./assets/images/library/color_book.svg" alt="" class="book_icon">
+          <div class="book_name_container">
+            <span class="title">Book Title</span>
+            <span class="book_name">{{returnBook.book_complete_details.title}}</span>
+          </div>
+        </div>
+        <div class="sub_item2">
+          <img src="./assets/images/library/profile_color.svg" alt="" class="book_icon">
+          <div class="book_name_container">
+            <span class="title">Borrower</span>
+            <span class="book_name">{{returnBook.issued_book.student.student_name}}</span>
+          </div>
+        </div>
+        <div class="sub_item3">
+          <div class="book_name_container">
+            <span class="title">Mobile Number</span>
+            <span class="more_info" style="font-weight: 600;">{{returnBook.issued_book.student.student_phone}}</span>
+          </div>
+        </div>
+        <div class="sub_item3">
+          <div class="book_name_container">
+            <span class="title">ISBN No.</span>
+            <span class="more_info" style="font-weight: 600;">{{returnBook.book_complete_details.isbn_number}}</span>
+          </div>
+        </div>
+        <div class="sub_item3">
+          <div class="book_name_container">
+            <span class="title">Issued Date</span>
+            <span class="more_info">{{returnBook.issued_book.issued_on | date: 'dd MMM yyyy'}}</span>
+          </div>
+        </div>
+        <div class="sub_item3">
+          <div class="book_name_container">
+            <span class="title">Return Date</span>
+            <span class="more_info">{{returnBook.issued_book.to_return_on_date | date: 'dd MMM yyyy'}}</span>
+          </div>
+        </div>
+        <div class="sub_item3" style="text-align: right;">
+          <span class="issue_span">Issued</span>
+        </div>
+      </div>
+      <div class="sub_item_2_container">
+        <div class="item">
+          <div class="sub_item3">
+            <div class="book_name_container">
+              <span class="title">Author</span>
+              <div class="">
+                <span class="more_info" *ngFor="let author of returnBook.book_complete_details.authorObjects | slice:start:end let i = index">
+                  <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="i == 0">,&nbsp;</span>
+                    <span *ngIf="i < 3 && i == 1">...</span>
+                  </span>
+                </span>
+              </div>
+              <!-- <span class="more_info">{{returnBook.book_complete_details.authorObjects}}</span> -->
+            </div>
+          </div>
+          <div class="sub_item3">
+            <div class="book_name_container">
+              <span class="title">Publication</span>
+              <span class="more_info">{{returnBook.book_complete_details.publications.publication_name}}</span>
+            </div>
+          </div>
+          <div class="sub_item3">
+            <div class="book_name_container">
+              <span class="title">Subject</span>
+              <span class="more_info">{{returnBook.book_complete_details.subject.subject_name}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="item_2">
+          <button type="button" name="button" class="return_btn" (click)="showReturnBook(returnBook)">Return</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- POP UP -->
+
+<section *ngIf="returnBookPopup">
+  <div class="return_book_pop_up_container">
+    <div class="header_container">
+      <span>Return Book</span>
+      <i class="fa fa-times" aria-hidden="true" (click)="closePopup()"></i>
+    </div>
+    <div class="details_container">
+      <div class="book_info_container">
+        <div class="book_info_item1">
+          <img src="./assets/images/library/color_book.svg" alt="" class="book_icon">
+          <div class="book_name_container">
+            <span class="title">Book Title</span>
+            <span class="book_name">{{returnBookTitle}}</span>
+          </div>
+        </div>
+        <div class="book_info_item2">
+          <div class="book_name_container">
+            <span class="title">Issued Date</span>
+            <span class="more_info">{{returnBookIssuedDate}}</span>
+          </div>
+        </div>
+        <div class="book_info_item2">
+          <div class="book_name_container">
+            <span class="title">Return Date</span>
+            <span class="more_info">{{returnBookReturnDate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="book_status_container">
+        <span>Status of Book : </span>
+        <div class="field-checkbox-wrapper checkbox_container">
+          <input type="checkbox" value="lostBook" name="lost" class="form-checkbox" [(ngModel)]="lostBook">
+          <label for="lost">Lost/Scrap</label>
+        </div>
+      </div>
+      <div class="return_info_container" *ngIf="!lostBook">
+        <div class="return_info_item">
+          <span>Returned Date</span>
+          <input type="text" name="" value="" readonly [(ngModel)]="tempReturnDate" (click)="openCalendar('returnDate')">
+          <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('returnDate')"></i>
+
+          <input  type="text" value="" id="returnDate" class="widgetDatepicker bsDatepicker" name="returnDate"
+           [(ngModel)]="returnDate" (ngModelChange)="selectReturnDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+        </div>
+        <div class="return_info_item">
+          <span>Number of late days*</span>
+          <div class="input_container_for_days">
+            <input type="number" name="" value="" placeholder="" style="width: 30%;" [(ngModel)]="noOfLateDays" (ngModelChange)="calculateLateFine()" [disabled]="disableReturnAmt">
+            <span>*</span>
+            <span>{{perDayFine}}/- per day</span>
+          </div>
+        </div>
+        <div class="return_info_item">
+          <span>Total Fine in Rs.</span>
+          <input type="number" name="" value="" placeholder="" style="font-weight: 600;" [(ngModel)]="totalLateFine" [disabled]="disableReturnAmt" readonly>
+        </div>
+      </div>
+      <div class="lost_book_container" *ngIf="lostBook">
+        <div class="lost_book_item">
+          <span>Lost/Scrap Date</span>
+          <input type="text" name="" value="" readonly [(ngModel)]="tempLostDate" (click)="openCalendar('lostDate')">
+          <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('lostDate')"></i>
+
+          <input  type="text" value="" id="lostDate" class="widgetDatepicker bsDatepicker" name="lostDate"
+           [(ngModel)]="lostDate" (ngModelChange)="selectBookLostDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+        </div>
+        <div class="lost_book_item">
+          <span>Lost/Scrap Amount in Rs.</span>
+          <input type="number" name="" value="" placeholder="" style="font-weight: 600;" [(ngModel)]="lostBookAmt">
+        </div>
+      </div>
+      <div class="remarks_container">
+        <span>Remarks</span>
+        <textarea name="name" class="remarks_textarea" placeholder="Write Remarks..." [(ngModel)]="returnBookRemarks"></textarea>
+      </div>
+      <!-- <div class="notify_container">
+        <div class="field-checkbox-wrapper checkbox_container">
+          <input type="checkbox" value="" name="notify" class="form-checkbox">
+          <label for="notify">Notify to Student</label>
+        </div>
+        <div class="field-checkbox-wrapper checkbox_container">
+          <input type="checkbox" value="" name="download" class="form-checkbox">
+          <label for="download">Download Receipt</label>
+        </div>
+      </div> -->
+      <div class="action_btn_container pull-right">
+        <button type="button" name="button" class="cancel_btn" (click)="cancelReturnBook()">Cancel</button>
+        <button type="button" name="button" class="return_btn" [disabled]="multiClickDisabled" (click)="returnBook()">Return</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" *ngIf="returnBookPopup" (click)="closePopup()">
+
+</div>

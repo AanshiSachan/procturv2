@@ -1,0 +1,195 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<section>
+  <div class="add_book_container">
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Title*</span>
+      <input type="text" name="" value="" placeholder="Enter Book Name" class="add_input" [(ngModel)]="title">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Category*</span>
+      <div class="select_with_add">
+        <select class="add_input1" name="" (ngModelChange)="getSubCategory($event)" [(ngModel)]="categoryName">
+          <option value="-1">Select Category Name</option>
+          <option [value]="category.category_id" *ngFor="let category of categoryList let i = index">{{category.category_name}}</option>
+        </select>
+        <!-- <div class="add" *ngIf="!addCategory">
+          <button type="button" name="button" class="add_new" (click)="addNewCategory()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </div> -->
+        <!-- <div class="" *ngIf="addCategory">
+          <input type="number" name="" value="" placeholder="Enter Category Name" class="add_input1">
+        </div>
+        <div class="save_and_cancel" *ngIf="addCategory">
+          <span class="save">Save</span>
+          <span class="cancel">Cancel</span>
+        </div> -->
+      </div>
+    </div>
+
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Sub-Category</span>
+      <select class="add_input1" name="" [(ngModel)]="subcategoryName">
+        <option value="-1">Select Sub-Category Name</option>
+        <option [value]="subCategory.category_id" *ngFor="let subCategory of subcategoryList let i = index">{{subCategory.category_name}}</option>
+      </select>
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Subject*</span>
+      <select class="add_input1" name="" [(ngModel)]="subjectName">
+        <option value="-1">Select Subject Name</option>
+        <option [value]="subject.subject_id" *ngFor="let subject of subjectList let i = index">{{subject.subject_name}}</option>
+      </select>
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Publication*</span>
+      <select class="add_input1" name="" [(ngModel)]="publicationName">
+        <option value="-1">Select Publication Name</option>
+        <option [value]="publication.publication_id" *ngFor="let publication of publicationList let i = index">{{publication.publication_name}}</option>
+      </select>
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Author*</span>
+      <!-- <select class="add_input1" name="" [(ngModel)]="authorName">
+        <option value="-1">Select Author Name</option>
+        <option [value]="author.author_id" *ngFor="let author of authorList let i = index">{{author.author_name}}</option>
+      </select> -->
+      <ng-multiselect-dropdown
+        [placeholder]="'Select Author Name'"
+        [data]="authorList"
+        [settings]="authorSettings"
+        [(ngModel)]="selectedAuthorList" >
+      </ng-multiselect-dropdown>
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Quantity*</span>
+      <input type="number" name="" value="" placeholder="No of Books" class="add_input2" [(ngModel)]="bookQty">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Amount in Rs.*</span>
+      <input type="number" name="" value="" placeholder="Price per book" class="add_input2" [(ngModel)]="bookAmt">
+    </div>
+
+    <!-- <div class="add_book_item">
+      <span style="margin-bottom:3px;">Book Add Date*</span>
+      <input type="text" name="" value="" placeholder="" disabled class="add_input2" [(ngModel)]="today">
+      <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('addDate')"></i>
+
+      <input  type="text" value="" id="addDate" class="widgetDatepicker bsDatepicker" name="addDate"
+       [(ngModel)]="bookAddDate" (ngModelChange)="addNewDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+    </div> -->
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Language*</span>
+      <select class="add_input1" name="" [(ngModel)]="bookLang">
+        <option value="-1">Select Language</option>
+        <option [value]="language.language_id" *ngFor="let language of languageList let i = index">{{language.language_name}}</option>
+      </select>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="add_details_btn_container">
+    <button type="button" name="button" class="add_details" (click)="showAdditionalDetails()">
+      <i class="fa fa-plus" aria-hidden="true" *ngIf="!additiobnalDetailsDisplay"></i>
+      <i class="fa fa-minus" aria-hidden="true" *ngIf="additiobnalDetailsDisplay"></i> &nbsp;&nbsp;
+       Additional Details
+    </button>
+  </div>
+</section>
+
+<section class="addtional_details_section" *ngIf="additiobnalDetailsDisplay">
+  <div class="add_book_more_details">
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Barcode Number</span>
+      <input type="text" name="" value="" placeholder="Enter Barcode Number" class="add_input2" [(ngModel)]="bookBarCodeNumber">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">ISBN Number</span>
+      <input type="text" name="" value="" placeholder="Enter ISBN Number" class="add_input2" [(ngModel)]="bookISBN">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Number of pages</span>
+      <input type="number" name="" value="" placeholder="Enter No. of pages" class="add_input2" [(ngModel)]="bookPagesCount">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Volume</span>
+      <input type="number" name="" value="" placeholder="Enter Volume of books" class="add_input2" [(ngModel)]="bookVolume">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Edition</span>
+      <input type="text" name="" value="" placeholder="Enter Edition" class="add_input2" [(ngModel)]="bookEdition">
+    </div>
+
+    <div class="add_book_item">
+      <!-- <span style="margin-bottom:3px;">Language</span>
+      <select class="add_input2" name="" [(ngModel)]="bookLang">
+        <option value="-1">Select Language</option>
+        <option [value]="language.language_id" *ngFor="let language of languageList let i = index">{{language.language_name}}</option>
+      </select> -->
+    </div>
+
+  </div>
+
+  <hr>
+
+  <div class="book_detail_name_container">
+    <span>Book Bill Details</span>
+  </div>
+
+  <div class="books_details_container">
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Bill Number</span>
+      <input type="text" name="" value="" placeholder="Enter Bill Number" class="add_input2" [(ngModel)]="bookBillNumber">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Book Lost Amount in Rs.</span>
+      <input type="number" name="" value="" placeholder="Enter Book Lost Amount" class="add_input2" [(ngModel)]="bookLostAmt">
+    </div>
+
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Bill Date</span>
+      <input type="text" name="" value="" placeholder="" class="add_input2" readonly [(ngModel)]="tempBillDate" (click)="openCalendar('billDate')">
+      <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('billDate')"></i>
+
+      <input  type="text" value="" id="billDate" class="widgetDatepicker bsDatepicker" name="billDate"
+       [(ngModel)]="bookBillDate" (ngModelChange)="addBookDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+    </div>
+
+  </div>
+
+  <div class="books_details_remark_container">
+    <div class="add_book_item">
+      <span style="margin-bottom:3px;">Remark</span>
+      <textarea name="name" rows="3" class="add_input3" placeholder="Enter Remarks..." [(ngModel)]="bookRemarks"></textarea>
+    </div>
+  </div>
+
+</section>
+
+
+<section style="background: #f9f9f9;">
+  <div class="action_button_container">
+    <button type="button" name="button" class="cancel_btn" (click)="clearAllFields()">Cancel</button>
+    <button type="button" name="button" class="save_btn" (click)="addNewBook()" [disabled]="multiClickDisabled">Save</button>
+  </div>
+</section>

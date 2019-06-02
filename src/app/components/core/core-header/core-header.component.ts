@@ -13,6 +13,8 @@ import { CommonServiceFactory } from '../../../services/common-service';
   templateUrl: './core-header.component.html',
   styleUrls: ['./core-header.component.scss']
 })
+
+
 export class CoreHeaderComponent implements OnInit {
 
   isProfessional: boolean = false;
@@ -34,7 +36,8 @@ export class CoreHeaderComponent implements OnInit {
     instituteId: sessionStorage.getItem('institute_id'),
     start_index: '0',
     batch_size: '6'
-  }
+  };
+
   resultStat: any = 1;
   teacherId: any = 0;
   private userInput: string;
@@ -43,6 +46,7 @@ export class CoreHeaderComponent implements OnInit {
   isMainBranch: any = "N";
   showMainBranchBackBtn: boolean = false;
   checkAdmin: any = "";
+  libraryRole: boolean = false;
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
   @ViewChild('divMyAccountTag') divMyAccountTag: ElementRef;
@@ -95,6 +99,12 @@ export class CoreHeaderComponent implements OnInit {
     this.settings = sessionStorage.getItem('is_exam_grad_feature');
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
+
+    const permissionArray = sessionStorage.getItem('permissions');
+
+    if(permissionArray.indexOf('721') != -1){
+      this.libraryRole = true;
+    }
 
     this.checkAccessOfEnquiryStudentAndEnquiry();
 
