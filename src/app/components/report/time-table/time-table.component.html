@@ -33,7 +33,7 @@
             <div class="c-sm-8 c-xs-8 c-lg-8 c-md-8 field-wrapper teachBatch">
               <div class="teacherBox" *ngIf="isProfessional && teacherBox">
                 <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldDataPro.teacher_id">
-                  <option value="-1">Faculty</option>
+                  <option value="-1"> </option>
                   <option *ngFor="let i of getTeachersData" [value]="i.teacher_id" name="teachername">{{i.teacher_name}}</option>
                 </select>
               </div>
