@@ -2889,6 +2889,13 @@ export class AdminHomeComponent implements OnInit {
             }
           }
         }
+        else {
+          if (this.studentList[i].assigned && this.studentList[i].attendance != "L" 
+          && this.studentList[i].attendance != "A" && this.studentList[i].grade_id == '-1') {
+            this.messageNotifier('error', 'Error', 'Please provide total grades');
+            return false;
+          }
+        }
         arr.studLi.push(student);
       }
     }
