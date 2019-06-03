@@ -47,6 +47,7 @@ export class CoreHeaderComponent implements OnInit {
   showMainBranchBackBtn: boolean = false;
   checkAdmin: any = "";
   libraryRole: boolean = false;
+  instituteId: any;
 
   @ViewChild('divAdminTag') divAdminTag: ElementRef;
   @ViewChild('divMyAccountTag') divMyAccountTag: ElementRef;
@@ -99,10 +100,11 @@ export class CoreHeaderComponent implements OnInit {
     this.settings = sessionStorage.getItem('is_exam_grad_feature');
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
+    this.instituteId = sessionStorage.getItem('institute_id');
 
     const permissionArray = sessionStorage.getItem('permissions');
-
-    if(permissionArray.indexOf('721') != -1){
+    let username = sessionStorage.getItem('username');
+    if(((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 100952)) || permissionArray.indexOf('721') != -1){
       this.libraryRole = true;
     }
 
