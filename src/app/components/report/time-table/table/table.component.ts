@@ -19,6 +19,8 @@ import { error } from 'selenium-webdriver';
 
 export class tableComponent {
 
+  @Input() recordInput: any[] = [];
+  @Input() courseName: any;
   maxNoOfClasses: number = 0;
   maxClassArray: any[] = [];
   x: number = 0;
@@ -41,25 +43,28 @@ export class tableComponent {
     )
   }
 
-  @Input() recordInput: any[] = [];
-  @Input() courseName: any;
-
-
-
-
   ngOnInit(){
+  }
 
-    // for (var i = 0; i < this.recordInput.length; i++) {
-    //   let validation_flag = true;
-    //   for(var x = 0; x < this.recordInput[i].data.length; x++){
-    //     if(this.recordInput[i].data[x].class_type == "Exam"){
-    //       validation_flag = false;
-    //       this.recordInput[i].data[x] = [];
-    //       this.recordInput[i].data.splice(x, 1);
-    //       x--;
-    //     }
-    //   }
-    // }
+  arrayOne(n: number): any[] {
+    return Array(n);
+  }
+
+  ngOnChanges() {
+    this.recordInput;
+    console.log(this.recordInput);
+    
+    for (var i = 0; i < this.recordInput.length; i++) {
+      let validation_flag = true;
+      for(var x = 0; x < this.recordInput[i].data.length; x++){
+        if(this.recordInput[i].data[x].class_type == "Exam"){
+          validation_flag = false;
+          this.recordInput[i].data[x] = [];
+          this.recordInput[i].data.splice(x, 1);
+          x--;
+        }
+      }
+    }
 
     for (var i = 0; i < this.recordInput.length; i++) {
       if(this.recordInput[i].data.length > this.maxNoOfClasses){
@@ -70,15 +75,6 @@ export class tableComponent {
     for (var i = 0; i < this.maxNoOfClasses; i++) {
       this.maxClassArray.push(i)
     }
-
-  }
-
-  arrayOne(n: number): any[] {
-    return Array(n);
-  }
-
-  ngOnChanges() {
-    this.recordInput;
   }
 
   styling(para) {

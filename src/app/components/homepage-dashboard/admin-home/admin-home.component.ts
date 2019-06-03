@@ -12,6 +12,7 @@ import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
+import { NumberFormatStyle } from '../../../../../node_modules/@angular/common';
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -195,13 +196,13 @@ export class AdminHomeComponent implements OnInit {
     let permissions: any = [];
     permissions = sessionStorage.getItem('permissions');
 
-    if(userType == 0 && username == "admin"){
+    if (userType == 0 && username == "admin") {
       this.userTypeForExpenses = false;
     }
-    else if(permissions.includes("715") || permissions.includes("716")){
+    else if (permissions.includes("715") || permissions.includes("716")) {
       this.userTypeForExpenses = false;
     }
-    else{
+    else {
       this.userTypeForExpenses = true;
     }
 
@@ -1585,25 +1586,25 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = true;
   }
 
-  hasUnicode (str) {
+  hasUnicode(str) {
     for (var i = 0; i < str.length; i++) {
-        if (str.charCodeAt(i) > 127) return true;
+      if (str.charCodeAt(i) > 127) return true;
     }
     return false;
   }
-  countNumberOfMessage(){
+  countNumberOfMessage() {
     let uniCodeFlag = this.hasUnicode(this.newMessageText);
     let charLimit = 160;
-    if(uniCodeFlag){
+    if (uniCodeFlag) {
       charLimit = 70
     }
-    if(this.newMessageText.length == 0){
+    if (this.newMessageText.length == 0) {
       this.messageCount = 0;
     }
-    else if(this.newMessageText.length > 0 && this.newMessageText.length <= charLimit){
+    else if (this.newMessageText.length > 0 && this.newMessageText.length <= charLimit) {
       this.messageCount = 1;
     }
-    else{
+    else {
       let count = Math.ceil(this.newMessageText.length / charLimit);
       console.log(count);
       this.messageCount = count;
@@ -2888,6 +2889,13 @@ export class AdminHomeComponent implements OnInit {
             }
           }
         }
+        else {
+          if (this.studentList[i].assigned && this.studentList[i].attendance != "L" 
+          && this.studentList[i].attendance != "A" && this.studentList[i].grade_id == '-1') {
+            this.messageNotifier('error', 'Error', 'Please provide total grades');
+            return false;
+          }
+        }
         arr.studLi.push(student);
       }
     }
@@ -3088,7 +3096,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   examMarksUpdateCourse(data) {
-    this.examMarksLevel = data.course_marks_update_level.toString();
+    this.examMarksLevel = data.course_marks_update_level==3?'2':data.course_marks_update_level.toString();
     this.subjectList = [];
     this.totalExamMarks = 0;
     this.tempData = data;
@@ -3114,9 +3122,9 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  updateMarksOnServerCourse(type) {
-    if (this.examMarksLevel == 0) {
-      this.messageNotifier('error', 'Error', 'Please provide marks updation level');
+  updateMarksOnServerCourse(type) {NumberFormatStyle
+    if (this.examMarksLevel == 0 ||Number(this.examMarksLevel) == 3) {
+      this.messageNotifier('error', 'Error', 'Please select marks updation option course wise or subject wise');
       return;
     }
     let data: any;
@@ -3146,6 +3154,7 @@ export class AdminHomeComponent implements OnInit {
 
   makeJsonForMarksUpdate() {
     let arr = [];
+    let notassignCount = 0;
     for (let i = 0; i < this.studentList.length; i++) {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
@@ -3161,6 +3170,7 @@ export class AdminHomeComponent implements OnInit {
         obj.isUpdated = 'Y';
       } else {
         obj.isUpdated = 'N';
+        notassignCount++;
       }
       // obj.isUpdated = this.studentList[i].isUpdated;
       obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
@@ -3170,7 +3180,8 @@ export class AdminHomeComponent implements OnInit {
       if (this.tempData.is_exam_grad_feature == 0) {
         obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
       } else {
-        if (this.studentList[i].grade_id == '-1') {
+        if (this.studentList[i].assigned && this.studentList[i].attendance != "L" 
+        && this.studentList[i].attendance != "A" && this.studentList[i].grade_id == '-1') {
           this.messageNotifier('error', 'Error', 'Please provide total grades');
           return false;
         }
@@ -3178,11 +3189,17 @@ export class AdminHomeComponent implements OnInit {
       }
       arr.push(obj);
     }
+
+    if (notassignCount == this.studentList.length) {
+      arr = [];
+    }
     return arr;
   }
 
   fetchAllStudentJson() {
     let arr = [];
+    let notassignCount = 0;
+
     for (let i = 0; i < this.studentList.length; i++) {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
@@ -3202,18 +3219,27 @@ export class AdminHomeComponent implements OnInit {
       if (this.tempData.is_exam_grad_feature == 0) {
         obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
       } else {
-        if (this.studentList[i].grade_id == '-1') {
+        if (this.studentList[i].assigned && this.studentList[i].attendance != "L" 
+        && this.studentList[i].attendance != "A" && this.studentList[i].grade_id == '-1') {
           this.messageNotifier('error', 'Error', 'Please provide total grades');
           return false;
         }
         obj.grade_id = this.studentList[i].grade_id;
       }
+      if (!this.studentList[i].assigned) {
+        notassignCount++;
+      }
       arr.push(obj);
+    }
+
+    if (notassignCount == this.studentList.length) {
+      arr = [];
     }
     return arr;
   }
 
   makeMarksDataJSON(attendance, data) {
+
     let arr = [];
     for (let i = 0; i < data.length; i++) {
       let obj: any = {};
@@ -3464,7 +3490,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  showExpensesList(){
+  showExpensesList() {
     if (this.showExpenses) {
       this.showExpenses = false;
     }
@@ -3473,7 +3499,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  closeShowList(){
+  closeShowList() {
     this.showList();
   }
 

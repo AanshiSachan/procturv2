@@ -235,12 +235,12 @@ body{
         border-top-right-radius: 4px;
       }
     }
-    .subject_container, .topic_container{
+    .subject_container, .topic_container,.master_course_container{
       display: flex;
       flex-direction: row;
       text-align: center;
       border-bottom: 1px solid rgba(10,10,10,0.3);
-      .subject_header_item, .topic_header_item{
+      .subject_header_item, .topic_header_item , .course_header_item{
         width: 10%;
         padding: 5px;
         font-weight: 600;
@@ -248,12 +248,19 @@ body{
         background: white;
         border-right: 1px solid rgba(10,10,10,0.3);
       }
+      .course_item {
+        background: white;
+        word-break: break-word;
+        width: 12.85%;
+        padding: 5px;
+        border-right: 1px solid rgba(10,10,10,0.3);
+      }
       .subject_item{
         display: flex;
         flex-direction: row;
         justify-content: center;
       }
-      .subject_item, .topic_item{
+      .subject_item, .topic_item {
         width: 12.85%;
         padding: 5px;
         border-right: 1px solid rgba(10,10,10,0.3);
@@ -264,7 +271,14 @@ body{
       .topic_item:last-child{
         border-right: none;
       }
+      .course_item:last-child{
+        border-right: none;
+      }
     }
+
+
+
+
     .faculty_container{
       display: flex;
       flex-direction: row;

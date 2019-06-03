@@ -152,6 +152,7 @@ export class TimeTableComponent implements OnInit {
   getCourses(i) {
     this.isRippleLoad = true;
     if (this.isProfessional) {
+      this.coursePro = [];
       this.fetchFieldDataPro.batch_id = "-1";
       this.fetchFieldDataPro.subject_id = "-1";
       this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
@@ -197,7 +198,7 @@ export class TimeTableComponent implements OnInit {
       this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
         (
         res => {
-          this.isRippleLoad = true;
+          this.isRippleLoad = false;
           this.batchPro = res.batchLi;
         },
         err => {
