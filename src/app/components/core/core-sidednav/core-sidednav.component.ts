@@ -131,7 +131,8 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
       this.teacherLoginFound();
     }
 
-    if((this.instituteId == 100952 || this.instituteId == 100127) && p.indexOf('721') != -1){
+    let username = sessionStorage.getItem('username');
+    if((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 100952) || p.indexOf('721') != -1){
       document.getElementById('liten').classList.remove('hide');
     }
 
