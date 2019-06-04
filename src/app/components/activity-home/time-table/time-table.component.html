@@ -5,8 +5,8 @@
     <section class="middle-main clearFix attendance-container" id="filterWrap">
       <section class="middle-top mb0 clearFix sms-header">
         <h2 class="pull-left" style="font-weight: bold;">
-          <a routerLink="/view/reports/home" style="padding:0px; ">
-            Report
+          <a routerLink="/view/activity/dashboard" style="padding:0px; ">
+            Activity
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Time Table
         </h2>
@@ -133,8 +133,8 @@
       </div>
 
       <div class="timetableWrap" *ngIf="!isProfessional">
-        <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
-        </time-table>
+        <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]"> -->
+         </time-table>
       </div>
       <div class="timetableWrap" *ngIf="isProfessional">
         <time-table [recordInput]="timeTableArr">
@@ -143,21 +143,3 @@
     </section>
   </aside>
 </div>
-
-<!-- <section class="clearFix calender-view1" id="printTimeTable" style="display:none;">
-  <h2 class="inshead">{{insName}}</h2>
-  <h4 class="insCont">{{insContact}}</h4>
-  <h1 id="tableHead" style="text-align:center;padding-bottom:1%">Time-Table</h1>
-  <h4 style="text-align:center;margin-top: 2%;margin-bottom: 2%;">{{dateFormat(startdateweek)}} - {{dateFormat(enddateweek)}}</h4>
-  <div *ngIf="!isProfessional" style="border: 1px solid black;">
-    <time-table *ngFor="let rec of notProTimeTable; let j = index" [recordInput]="rec" [courseName]="namesArr[j]">
-    </time-table>
-  </div>
-  <div *ngIf="isProfessional" style="border: 1px solid black;">
-    <time-table [recordInput]="timeTableArr">
-    </time-table>
-  </div>
-  <br>
-  <br>
-  <br>
-</section> -->

@@ -16,8 +16,6 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
-import { TimeTableComponent } from './time-table/time-table.component';
-import { tableComponent } from './time-table/table/table.component';
 import { EmailReportComponent } from './email-report/email-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 
@@ -64,8 +62,6 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
         AttendanceReportComponent,
         FilterPipe,
         ExamReportComponent,
-        TimeTableComponent,
-        tableComponent,
         EmailReportComponent,
         ProfitLossComponent,
         searchPipe,
@@ -74,7 +70,6 @@ import { ExportToPdfService } from '../../services/export-to-pdf.service';
         ReportWidgetComponent
     ],
     entryComponents: [
-        tableComponent,
     ],
     providers: [
         getSMSService,

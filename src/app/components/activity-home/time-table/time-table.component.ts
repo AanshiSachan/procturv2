@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { timeTableService } from '../../../services/TimeTable/timeTable.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
-import { timeTableService } from '../../../services/TimeTable/timeTable.service';
 import { MessageShowService } from '../../../services/message-show.service';
-import { error } from 'selenium-webdriver';
+;
 
 @Component({
   selector: 'app-time-table',
@@ -319,6 +319,7 @@ export class TimeTableComponent implements OnInit {
     this.fetchFieldDataPro.batch_id = "-1";
     this.fetchFieldDataPro.standard_id = "-1";
     this.fetchFieldDataPro.subject_id = "-1";
+    this.timeTableArr=[];
     if (para == 'all') {
       this.batchBox = false;
       this.teacherBox = false;

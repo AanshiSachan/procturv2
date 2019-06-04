@@ -8,6 +8,7 @@ import { LiveClassesComponent } from './live-classes/live-classes.component';
 import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.component';
 import { AddClassComponent } from './live-classes/add-class/add-class.component';
 import { EditClassComponent } from './live-classes/edit-class/edit-class.component';
+import { TimeTableComponent } from './time-table/time-table.component';
 
 
 
@@ -55,6 +56,10 @@ import { EditClassComponent } from './live-classes/edit-class/edit-class.compone
                         path: 'ecourse-file-manager',
                         loadChildren: 'app/components/activity-home/ecourse-file-manager/ecourse-file-manager.module#EcourseFileManagerModule',
                         pathMatch: "prefix"
+                    },
+                       {
+                        path: 'timeTable',
+                        component: TimeTableComponent
                     },
                     {
                         path: 'examcourse',

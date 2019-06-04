@@ -1,15 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
-import { timeTableService } from '../../../../services/TimeTable/timeTable.service';
-import { AppComponent } from '../../../../app.component';
-import { AuthenticatorService } from '../../../../services/authenticator.service';
-// import { CommonServiceFactory } from '../../../services/common-service';
 import * as moment from 'moment';
-
-import { error } from 'selenium-webdriver';
-
-// var jsPDF = require('jspdf');
-// require('jspdf-autotable');
-
+import { AuthenticatorService } from '../../../../services/authenticator.service';
 
 @Component({
   selector: 'time-table',
@@ -52,19 +43,21 @@ export class tableComponent {
 
   ngOnChanges() {
     this.recordInput;
+    this.maxNoOfClasses = 0;
+    this.maxClassArray= [];
     console.log(this.recordInput);
     
-    for (var i = 0; i < this.recordInput.length; i++) {
-      let validation_flag = true;
-      for(var x = 0; x < this.recordInput[i].data.length; x++){
-        if(this.recordInput[i].data[x].class_type == "Exam"){
-          validation_flag = false;
-          this.recordInput[i].data[x] = [];
-          this.recordInput[i].data.splice(x, 1);
-          x--;
-        }
-      }
-    }
+    // for (var i = 0; i < this.recordInput.length; i++) {
+    //   let validation_flag = true;
+    //   for(var x = 0; x < this.recordInput[i].data.length; x++){
+    //     if(this.recordInput[i].data[x].class_type == "Exam"){
+    //       validation_flag = false;
+    //       this.recordInput[i].data[x] = [];
+    //       this.recordInput[i].data.splice(x, 1);
+    //       x--;
+    //     }
+    //   }
+    // }
 
     for (var i = 0; i < this.recordInput.length; i++) {
       if(this.recordInput[i].data.length > this.maxNoOfClasses){

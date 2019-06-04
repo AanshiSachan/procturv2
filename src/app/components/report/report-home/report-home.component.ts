@@ -11,16 +11,14 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 export class ReportHomeComponent implements OnInit {
 
   isProfessional: boolean;
-
-  isProfitnloss: boolean
-  isEmail: boolean
-  isTimetable: boolean
-  isReportCard: boolean
-  isExam: boolean
-  isSms: boolean
-  isFee: boolean
-  isBiometric: boolean
-  isAttendance: boolean
+  isProfitnloss: boolean;
+  isEmail: boolean;
+  isReportCard: boolean;
+  isExam: boolean;
+  isSms: boolean ;
+  isFee: boolean ;
+  isBiometric: boolean ;
+  isAttendance: boolean ;
   biometricAttendanceEnable: boolean = true;
   reportEnquiry: boolean;
 
@@ -63,7 +61,6 @@ export class ReportHomeComponent implements OnInit {
       if (sessionStorage.getItem('userType') == '0') {
         this.isProfitnloss = true;
         this.isEmail = true;
-        this.isTimetable = true;
         this.isReportCard = true;
         this.isExam = true;
         this.isSms = true;
@@ -75,7 +72,6 @@ export class ReportHomeComponent implements OnInit {
       else if (sessionStorage.getItem('userType') == '3') {
         this.isProfitnloss = false;
         this.isEmail = false;
-        this.isTimetable = true;
         this.isReportCard = true;
         this.isExam = true;
         this.isFee = false;
@@ -107,11 +103,6 @@ export class ReportHomeComponent implements OnInit {
       /* student report */
       if (perm.indexOf('204') != -1) {
         this.isReportCard = true;
-      }
-
-      /* timetable */
-      if (perm.indexOf('205') != -1) {
-        this.isTimetable = true;
       }
 
       /* sms */
