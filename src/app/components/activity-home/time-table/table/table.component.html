@@ -56,7 +56,7 @@
       <div class="subject_container" >
         <div class="subject_header_item">
           <span *ngIf="!isProfessional">Subject</span>
-          <span *ngIf="isProfessional">Batch Name</span>
+          <span *ngIf="isProfessional">Batch </span>
         </div>
         <div class="subject_item" [ngClass]="today == temp.headerDate ?'active_date':'inactive_date'" *ngFor="let temp  of recordInput">
           <div>

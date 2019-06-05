@@ -370,7 +370,7 @@ export class TimeTableComponent implements OnInit {
     this.showFilters = false;
     this.fetchFieldDataPro.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldDataPro.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-
+    this.forDownloadPDF = this.fetchFieldDataPro;
     this.timeTableServ.getTimeTable(this.fetchFieldDataPro).subscribe
       (
       res => {
@@ -419,9 +419,9 @@ export class TimeTableComponent implements OnInit {
       //   element.data.length = this.maxEntries;
       // })
     }
-    if (!this.isProfessional) {
+    // if (!this.isProfessional) {
       this.notProTimeTable.push(this.timeTableArr);
-    }
+    // }
       console.log(this.timeTableArr)
   }
   /* counting max length in a Coloumn */
@@ -444,8 +444,18 @@ export class TimeTableComponent implements OnInit {
     }
   }
 
-  printTimeTableData() {
+  callAaPerModule(data){
+    if(this.isProfessional){
+      this.fetchTimeTableReportPro(data);
+    }else{
+      this.fetchTimeTableReport(data);
+    }
 
+  }
+
+
+  printTimeTableData() {
+    this.isRippleLoad = true;
     this.timeTableServ.downloadTimeTable(this.forDownloadPDF).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
