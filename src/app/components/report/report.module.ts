@@ -9,10 +9,7 @@ import 'moment';
 import 'hammerjs';
 
 import { FilterPipe } from './exam-report/filter.pipe';
-
-
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
-
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
