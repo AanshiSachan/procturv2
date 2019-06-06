@@ -69,7 +69,7 @@
               <div class="c-lg-8 c-md-8 c-sm-8">
                 <div class="form-type1">
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
-                    <label for="sName">Student Name*</label>
+                    <label for="sName">Student Name<span class="text-danger">*</span></label>
 
                     <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
                       #sname="ngModel" required>
@@ -84,7 +84,7 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
-                    <label for="cNumber">Contact Number*</label>
+                    <label for="cNumber">Contact Number<span class="text-danger">*</span></label>
 
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
                       maxlength="10" minlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" #cNumber="ngModel"
@@ -116,7 +116,7 @@
                   </div>
 
                   <div *ngIf="isManualDisplayId" class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_disp_id != ''}">
-                    <label for="manualId">Student Roll Number*</label>
+                    <label for="manualId">Student Roll Number<span class="text-danger">*</span></label>
                     <input type="text" value="" class="form-ctrl" id="manualId" [(ngModel)]="studentAddFormData.student_disp_id" name="manualId"
                       maxlength="50" #manualId="ngModel" required>
                     <div *ngIf="manualId.invalid && (manualId.dirty || manualId.touched)" class="alert invalid-alert">
@@ -421,7 +421,7 @@
 
                 <div class="row" *ngIf="component.type == 1" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                     <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
@@ -434,14 +434,14 @@
                   <div class="field-checkbox-wrapper">
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                       value="{{component.value}}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 3" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                     <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
@@ -453,7 +453,7 @@
 
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.selectedString != ''}">
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
@@ -494,9 +494,9 @@
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" #saveAndContinue id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn fullBlue"
+            <input type="button" #saveAndContinue id="form-kyc-continue" [disabled]="!values.form.valid && isRippleLoad" value="Save and Continue" class="btn fullBlue"
               [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
-            <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
+            <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid && isRippleLoad" (click)="studentQuickAdder(values)" value="Submit"
               [class.hide]="!quickAddStudent" class="btn hide fullBlue">
           </aside>
         </section>
@@ -573,20 +573,9 @@
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
-            <button class="btn-header" *ngIf="!checkBoxGroup.showFeeSection" (click)="configureFees($event)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="vertical-align: middle;">
-                <g fill="#0084F6" fill-rule="nonzero">
-                  <path d="M6.014 15.478a.458.458 0 1 0 .917 0c0-4.987 3.99-9.056 8.921-9.135l-.625.63a.461.461 0 0 0 .324.788.462.462 0 0 0 .325-.135l1.407-1.418a.461.461 0 0 0 0-.653l-1.407-1.419a.453.453 0 0 0-.649 0 .461.461 0 0 0 0 .654l.63.634c-5.44.07-9.843 4.553-9.843 10.054zM25.528 15.016a.458.458 0 0 0-.458.462c0 4.987-3.99 9.055-8.921 9.135l.625-.63a.461.461 0 0 0 0-.653.453.453 0 0 0-.648 0l-1.408 1.418a.46.46 0 0 0 0 .653l1.408 1.418a.462.462 0 0 0 .324.136.462.462 0 0 0 .324-.789l-.63-.634c5.44-.07 9.843-4.554 9.843-10.054a.458.458 0 0 0-.459-.462zM14.87 12.73a2.948 2.948 0 0 0-1.596 1.61c-.301.732-.301 1.544 0 2.276A2.944 2.944 0 0 0 16 18.454a2.86 2.86 0 0 0 1.13-.228 2.948 2.948 0 0 0 1.596-1.61c.301-.732.301-1.544 0-2.276a2.944 2.944 0 0 0-2.726-1.839c-.39 0-.769.08-1.13.229zm3.01 1.964a2.056 2.056 0 0 1 0 1.572c-.208.509-.597.9-1.102 1.11-.25.103-.509.16-.777.16-.83 0-1.565-.5-1.88-1.27a2.056 2.056 0 0 1 0-1.572c.208-.508.597-.9 1.102-1.11.25-.103.509-.159.778-.159.824 0 1.564.5 1.88 1.27z"
-                  />
-                  <path d="M16.926 9.324l-.19.462a5.52 5.52 0 0 0-1.467 0l-.19-.462a1.015 1.015 0 0 0-1.328-.55l-.866.359a1.024 1.024 0 0 0-.551 1.339l.19.462c-.39.303-.741.653-1.037 1.045l-.459-.191a1.015 1.015 0 0 0-1.329.55l-.356.872a1.024 1.024 0 0 0 .55 1.339l.46.192a5.648 5.648 0 0 0 0 1.479l-.459.19a1.024 1.024 0 0 0-.55 1.34l.356.872a1.015 1.015 0 0 0 1.328.55l.459-.19c.3.391.648.746 1.037 1.045l-.19.461c-.213.523.032 1.12.55 1.335l.867.359a1.015 1.015 0 0 0 1.329-.55l.19-.462a5.52 5.52 0 0 0 1.467 0l.19.461a1.015 1.015 0 0 0 1.328.55l.866-.358a1.024 1.024 0 0 0 .55-1.34l-.189-.461c.389-.303.74-.653 1.037-1.045l.458.191a1.015 1.015 0 0 0 1.329-.55l.357-.873a1.024 1.024 0 0 0-.55-1.339l-.46-.191a5.648 5.648 0 0 0 0-1.479l.459-.191a1.024 1.024 0 0 0 .55-1.34l-.356-.872a1.015 1.015 0 0 0-1.329-.55l-.458.191a5.662 5.662 0 0 0-1.037-1.045l.19-.462a1.024 1.024 0 0 0-.55-1.339l-.867-.359a1.012 1.012 0 0 0-1.329.555zm.519 1.153l.329-.803a.096.096 0 0 1 .092-.06c.014 0 .023.004.037.009l.866.36a.089.089 0 0 1 .051.05.084.084 0 0 1 0 .075l-.329.802a.463.463 0 0 0 .167.56c.523.355.968.798 1.315 1.325.12.182.356.257.555.173l.797-.331c.014-.005.023-.01.037-.01.032 0 .074.014.092.061l.357.872a.106.106 0 0 1-.051.131l-.796.331a.46.46 0 0 0-.274.518c.125.62.12 1.25 0 1.876a.469.469 0 0 0 .274.517l.796.332a.089.089 0 0 1 .05.051.084.084 0 0 1 0 .075l-.356.872a.096.096 0 0 1-.092.06c-.014 0-.023-.004-.037-.009l-.797-.33a.455.455 0 0 0-.555.167 4.758 4.758 0 0 1-1.315 1.325.466.466 0 0 0-.171.56l.328.802c.014.033.01.06 0 .075-.009.019-.023.042-.055.051l-.866.36c-.014.004-.023.009-.037.009a.096.096 0 0 1-.093-.06l-.328-.803a.456.456 0 0 0-.51-.276 4.805 4.805 0 0 1-1.86 0 .463.463 0 0 0-.515.276l-.328.802a.096.096 0 0 1-.093.06c-.014 0-.023-.004-.037-.009l-.866-.359c-.05-.018-.074-.08-.05-.13l.328-.803a.463.463 0 0 0-.166-.56 4.759 4.759 0 0 1-1.315-1.325.459.459 0 0 0-.556-.172l-.796.331c-.014.005-.023.01-.037.01a.096.096 0 0 1-.093-.061l-.356-.873c-.014-.032-.01-.06 0-.074.009-.019.023-.042.05-.052l.797-.33a.46.46 0 0 0 .273-.519 4.824 4.824 0 0 1 0-1.875.469.469 0 0 0-.273-.518l-.796-.331a.089.089 0 0 1-.051-.052.084.084 0 0 1 0-.074l.356-.873a.096.096 0 0 1 .093-.06c.014 0 .023.004.037.009l.796.331a.455.455 0 0 0 .556-.168 4.758 4.758 0 0 1 1.315-1.325.466.466 0 0 0 .17-.56l-.328-.802c-.014-.033-.01-.06 0-.075a.107.107 0 0 1 .056-.056l.865-.359c.014-.004.024-.01.037-.01.033 0 .075.015.093.062l.329.802c.083.205.3.317.514.275a4.805 4.805 0 0 1 1.86 0 .447.447 0 0 0 .51-.27z"
-                  />
-                </g>
-              </svg>
-              <span>Configure Fees</span>
-            </button>
             <button class="btn-header" (click)="reConfigureFees($event)" *ngIf="checkBoxGroup.showFeeSection && checkBoxGroup.hideReconfigure">
               <img src="../../../../assets/images/reconfigure.svg" style="width:16px; height:16px;">
-              <span>Reconfigure Fees</span>
+              <span>Re-configure Fees</span>
             </button>
           </aside>
         </section>
@@ -874,7 +863,7 @@
 
         </section>
 
-        <section *ngIf="!showFeeSection">
+        <section *ngIf="!checkBoxGroup.showFeeSection">
 
           <h1 style="text-align: center;">
             No Fee Template Selected, Click Configure Fees To Select A Template
@@ -1163,7 +1152,7 @@
       <div class="row">
         <form #semail="ngForm" (ngSubmit)="registerDuplicateStudent(semail)">
           <div class="field-wrapper">
-            <label for="sEmail2">Student's Email*</label>
+            <label for="sEmail2">Student's Email<span class="text-danger">*</span></label>
 
             <input type="text" value="" id="sEmail2" class="form-ctrl" [(ngModel)]="studentAddFormData.student_manual_username" name="sEmail2"
               pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" #sEmail2="ngModel" />
@@ -1217,7 +1206,7 @@
       <div class="row">
 
         <div class="field-wrapper">
-          <label for="feeS">Fee Structure*</label>
+          <label for="feeS">Fee Structure<span class="text-danger">*</span></label>
 
           <select id="feeS" name="feeS" [(ngModel)]="feeTempSelected" class="form-ctrl">
             <option value="-1"></option>
@@ -1228,7 +1217,7 @@
         </div>
 
         <div class="field-wrapper datePickerBox has-value">
-          <label for="effD">Effective Date*</label>
+          <label for="effD">Effective Date<span class="text-danger">*</span></label>
 
           <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
             name="effD" bsDatepicker readonly="true">
@@ -1345,11 +1334,11 @@
           <div class="pdc-table">
             <ul class="table-header">
               <li></li>
-              <li>Bank*</li>
-              <li>Cheque Number*</li>
-              <li>Cheque Date*</li>
+              <li>Bank<span class="text-danger">*</span></li>
+              <li>Cheque Number<span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span></li>
+              <li>Cheque Date<span class="text-danger">*</span></li>
               <li>Clearing Date</li>
-              <li>Cheque Amount*</li>
+              <li>Cheque Amount<span class="text-danger" style="padding: 7px 30px 7px 2px;">*</span></li>
               <li>Status</li>
               <li>Action</li>
             </ul>
@@ -1493,13 +1482,13 @@
           </div>
 
           <div class="field-wrapper datePickerBox">
-            <label for="pd">Payment Date*</label>
+            <label for="pd">Payment Date<span class="text-danger">*</span></label>
             <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="paymentPopUpJson.paid_date"
               name="pd" bsDatepicker>
           </div>
 
           <div class="field-wrapper">
-            <label for="pMode">Payment Mode*</label>
+            <label for="pMode">Payment Mode<span class="text-danger">*</span></label>
             <!-- (ngModelChange)="paymentModeUpdate($event)" -->
             <select id="pMode" name="pMode" [(ngModel)]="paymentPopUpJson.payment_mode" class="form-ctrl">
               <option value="Cash" selected>Cash</option>
@@ -1549,7 +1538,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper">
-              <label for="pdcfeepay">Bank Name*</label>
+              <label for="pdcfeepay">Bank Name<span class="text-danger">*</span></label>
               <input [readonly]="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeepay" class="form-ctrl" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.bank_name"
                 name="" />
             </div>
@@ -1557,7 +1546,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper datePickerBox">
-              <label for="pdcfeeselect">Cheque Date*</label>
+              <label for="pdcfeeselect">Cheque Date<span class="text-danger">*</span></label>
               <input *ngIf="paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
                 readonly="true" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_date" name="" bsDatepicker>
               <input *ngIf="!paymentPopUpJson.selectedPdcId == ''" type="text" value="" id="pdcfeeselect" class="form-ctrl bsDatepicker"
@@ -1567,7 +1556,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper">
-              <label for="pdccheque">Cheque No.*</label>
+              <label for="pdccheque">Cheque No.<span class="text-danger">*</span></label>
               <input [readonly]="!paymentPopUpJson.selectedPdcId == ''" id="pdccheque" type="text" minlength="6" maxlength="6" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                 class="form-ctrl" name="" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_no" />
             </div>
@@ -1575,7 +1564,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper">
-              <label for="pdctrue">Cheque Amount*</label>
+              <label for="pdctrue">Cheque Amount<span class="text-danger">*</span></label>
               <input readonly='true' type="text" value="" id="pdctrue" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
                 class="form-ctrl" name="" [(ngModel)]="paymentPopUpJson.pdcSelectedForm.cheque_amount" />
             </div>

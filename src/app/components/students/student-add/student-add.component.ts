@@ -314,7 +314,7 @@ export class StudentAddComponent implements OnInit {
     }
 
     if (sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == ''
-    || sessionStorage.getItem('username') == 'admin') {
+      || sessionStorage.getItem('username') == 'admin') {
       this.checkBoxGroup.feeDiscouting = true;
       this.checkBoxGroup.showFeeSection = true;
       this.checkBoxGroup.manageCheque = true;
@@ -637,7 +637,7 @@ export class StudentAddComponent implements OnInit {
         }
       );
     }
-    else{
+    else {
       this.studentPrefillService.fetchCustomComponent(this.convertInstituteEnquiryId).subscribe(
         data => {
           if (data != null) {
@@ -1207,48 +1207,50 @@ export class StudentAddComponent implements OnInit {
       let dob = this.validateDOB();
       this.studentAddFormData.dob = dob;
       this.btnSaveAndContinue.nativeElement.disabled = true;
-      this.isRippleLoad = true;
-      this.postService.quickAddStudent(this.studentAddFormData).subscribe(
-        (res: any) => {
-          let result: any = res;
-          this.btnSaveAndContinue.nativeElement.disabled = false;
-          this.isRippleLoad = false;
-          let statusCode = res.statusCode;
-          let status_code = res.status_code;
-          if (statusCode == 200) {
-            this.removeImage = true;
-            this.student_id = res.generated_id;
-            let msg = { type: 'success', title: 'Student Added', body: 'Student details Updated Successfully' };
-            this.appC.popToast(msg);
-            this.getCourseDropdown(res.generated_id);
-            if (this.studentAddnMove) {
-              this.updateStudentFeeDetails();
-              this.navigateTo('feeDetails');
+      if (!this.isRippleLoad) {
+        this.isRippleLoad = true;
+        this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+          (res: any) => {
+            let result: any = res;
+            this.btnSaveAndContinue.nativeElement.disabled = false;
+            this.isRippleLoad = false;
+            let statusCode = res.statusCode;
+            let status_code = res.status_code;
+            if (statusCode == 200) {
+              this.removeImage = true;
+              this.student_id = res.generated_id;
+              let msg = { type: 'success', title: 'Student Added', body: 'Student details Updated Successfully' };
+              this.appC.popToast(msg);
+              this.getCourseDropdown(res.generated_id);
+              if (this.studentAddnMove) {
+                this.updateStudentFeeDetails();
+                this.navigateTo('feeDetails');
+              }
             }
-          }
-          else if (statusCode == 2) {
-            let alert = {
-              type: 'error',
-              title: 'Contact Number In Use',
-              body: 'An enquiry with the same contact number seems to exist'
+            else if (statusCode == 2) {
+              let alert = {
+                type: 'error',
+                title: 'Contact Number In Use',
+                body: 'An enquiry with the same contact number seems to exist'
+              }
+              this.removeImage = true;
+              this.appC.popToast(alert);
+              this.isDuplicateContactOpen();
             }
-            this.removeImage = true;
-            this.appC.popToast(alert);
-            this.isDuplicateContactOpen();
-          }
-          else if(status_code == 202){
-            document.getElementById("confirm_msg").innerHTML = result.message;
-            this.alertBox = false;
-            this.student_id = result.student_id;
-          }
-        },
-        err => {
-          this.btnSaveAndContinue.nativeElement.disabled = false;
-          let msg = err.error.message;
-          this.isRippleLoad = false;
-          let obj = { type: 'error', title: msg, body: "" };
-          this.appC.popToast(obj);
-        });
+            else if (status_code == 202) {
+              document.getElementById("confirm_msg").innerHTML = result.message;
+              this.alertBox = false;
+              this.student_id = result.student_id;
+            }
+          },
+          err => {
+            this.btnSaveAndContinue.nativeElement.disabled = false;
+            let msg = err.error.message;
+            this.isRippleLoad = false;
+            let obj = { type: 'error', title: msg, body: "" };
+            this.appC.popToast(obj);
+          });
+      }
     }
 
 
@@ -1265,24 +1267,24 @@ export class StudentAddComponent implements OnInit {
 
   }
 
-  check(val){
-    if(val == '1'){
+  check(val) {
+    if (val == '1') {
       this.retrieveOldStudent = true;
       this.createDuplicateStudent = false;
     }
-    if(val == '2'){
+    if (val == '2') {
       this.retrieveOldStudent = false;
       this.createDuplicateStudent = true;
     }
   }
 
-  closeAlert(){
+  closeAlert() {
     this.alertBox = true;
     this.retrieveOldStudent = true;
   }
 
-  archivedStudent(){
-    if(this.retrieveOldStudent){
+  archivedStudent() {
+    if (this.retrieveOldStudent) {
 
       this.studentAddFormData.is_active = "Y"
 
@@ -1327,13 +1329,13 @@ export class StudentAddComponent implements OnInit {
       );
     }
 
-    if(this.createDuplicateStudent){
+    if (this.createDuplicateStudent) {
       this.addDuplicateStudent();
     }
 
   }
 
-  addDuplicateStudent(){
+  addDuplicateStudent() {
     this.studentAddFormData.archivedStudent = true;
     this.postService.quickAddStudent(this.studentAddFormData).subscribe(
       (res: any) => {
@@ -1758,13 +1760,13 @@ export class StudentAddComponent implements OnInit {
             }
 
             if (sessionStorage.getItem('permissions') == undefined
-            || sessionStorage.getItem('permissions') == ''
-            || sessionStorage.getItem('username') == 'admin') {
-            this.checkBoxGroup.feeDiscouting = true;
-            this.checkBoxGroup.showFeeSection = true;
-            this.checkBoxGroup.hideReconfigure = true;
-            this.checkBoxGroup.manageCheque = true;
-          }
+              || sessionStorage.getItem('permissions') == ''
+              || sessionStorage.getItem('username') == 'admin') {
+              this.checkBoxGroup.feeDiscouting = true;
+              this.checkBoxGroup.showFeeSection = true;
+              this.checkBoxGroup.hideReconfigure = true;
+              this.checkBoxGroup.manageCheque = true;
+            }
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;
@@ -1775,6 +1777,7 @@ export class StudentAddComponent implements OnInit {
           this.onPaidOrUnpaidCheckbox();
         } else {
           this.checkBoxGroup.showFeeSection = false;
+          this.checkBoxGroup.hideReconfigure = false;
         }
       },
       err => {
