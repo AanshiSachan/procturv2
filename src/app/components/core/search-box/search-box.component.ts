@@ -9,15 +9,7 @@ import { Router } from '@angular/router';
 })
 export class SearchBoxComponent implements OnInit, OnChanges {
 
-    private searchResult: any[] = [];
-
-    private recentlySearched = new Set;
-
-    hasStudent: boolean = false;
-    hasEnquiry: boolean = false;
-
     @Input() searchValue: any;
-
     @Input() studentResult: any[] = [];
     @Input() enquiryResult: any[] = [];
     @Input() resultStat: any = 1;
@@ -28,9 +20,18 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     @Output() stuSelected = new EventEmitter<any>();
     @Output() actionSelected = new EventEmitter<any>();
     @Output() viewAll = new EventEmitter<any>();
+    private searchResult: any[] = [];
+    private recentlySearched = new Set;
+    hasStudent: boolean = false;
+    hasEnquiry: boolean = false;
 
-
-    constructor(private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef, private log: LoginService) {
+    constructor(
+        private router: Router,
+        private cd: ChangeDetectorRef,
+        private renderer: Renderer2,
+        private eRef: ElementRef,
+        private log: LoginService
+    ) {
     }
 
     ngOnInit() {
@@ -41,7 +42,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
         this.log.currentPermissions.subscribe(e => {
             if (e != '' && e != null && e != undefined && e != []) {
                 let perm = JSON.parse(sessionStorage.getItem('permissions'));
-                if (perm != '' && perm != null && perm != undefined && perm != []){
+                if (perm != '' && perm != null && perm != undefined && perm != []) {
                     let permissionArray: any[] = perm;
                     let id = '115';
                     let id2 = '110';
@@ -49,6 +50,9 @@ export class SearchBoxComponent implements OnInit, OnChanges {
                     let id4 = '303';
                     if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
                         this.hasEnquiry = true;
+                        if (permissionArray.indexOf(id3) != -1) { // if Students-Manage Students assign give full access to cutome user --laxmi 
+                            this.hasStudent = true;
+                        }
                     }
                     else if (permissionArray.indexOf(id3) != -1 || permissionArray.indexOf(id4) != -1) {
                         this.hasStudent = true;
@@ -56,11 +60,11 @@ export class SearchBoxComponent implements OnInit, OnChanges {
                 }
             }
             else {
-                this.hasEnquiry = false;                    
+                this.hasEnquiry = false;
                 this.hasStudent = false;
                 let type = sessionStorage.getItem('userType');
-                if(type == '0'){
-                    this.hasEnquiry = true;                    
+                if (type == '0') {
+                    this.hasEnquiry = true;
                     this.hasStudent = true;
                 }
             }
@@ -124,7 +128,7 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     }
 
     performAction(a: string, d) {
-        sessionStorage.setItem('global_search_edit_student','true');
+        sessionStorage.setItem('global_search_edit_student', 'true');
         switch (a) {
             case 'studentEdit': {
                 let obj = {
