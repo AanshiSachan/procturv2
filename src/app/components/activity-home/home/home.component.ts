@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
     showExamDesk: false,
     showLiveClasses: false,
     isEcourseFileManager: false,
-    isTimetable:false
+    isTimetable:false,
+    institute_id:''
   }
 
   constructor(
@@ -42,6 +43,7 @@ export class HomeComponent implements OnInit {
         }
       }
     )
+    this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.checkUserAccess();
     if (this.jsonFlag.isAdmin) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));

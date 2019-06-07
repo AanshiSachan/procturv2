@@ -61,10 +61,10 @@ export class HomeComponent implements OnInit {
       || this.addAcademicYearTemplate.start_date == "" || this.addAcademicYearTemplate.end_date === "" || this.addAcademicYearTemplate.start_date == null || this.addAcademicYearTemplate.end_date == null) {
       this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.dateTimeMessages.incorrectDetails, "Please fill All The Required Details");
     }
-    else if (moment(start_date_new).date() > moment(end_date_new).date()) {
+    else if (moment(start_date_new).valueOf() > moment(end_date_new).valueOf()) {
       this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.dateTimeMessages.incorrectDetails, "Start date cannot be less than end date");
     }
-    else if (moment(start_date_new).date() == moment(end_date_new).date()) {
+    else if (moment(start_date_new).valueOf() == moment(end_date_new).valueOf()) {
       {
         this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.dateTimeMessages.incorrectDetails, "Start date and end date cannot be same");
       }
