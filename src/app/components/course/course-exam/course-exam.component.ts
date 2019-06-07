@@ -74,7 +74,7 @@ export class CourseExamComponent implements OnInit {
   }
   currentDate: any = moment().format("YYYY-MM-DD");
   courseData = {
-    master_course: -1,
+    master_course: '-1',
     course_id: -1,
     requested_date: moment().format("YYYY-MM-DD")
   }
@@ -1027,7 +1027,7 @@ export class CourseExamComponent implements OnInit {
           }
           else {
             this.isRippleLoad = false;
-            this.messageNotifier('error', 'Error', 'No topics available to Link');
+            this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },
@@ -1070,7 +1070,7 @@ export class CourseExamComponent implements OnInit {
           }
           else {
             this.isRippleLoad = false;
-            this.messageNotifier('error', 'Error', 'No topics available to Link');
+            this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },
@@ -1115,7 +1115,7 @@ export class CourseExamComponent implements OnInit {
           }
           else {
             this.isRippleLoad = false;
-            this.messageNotifier('error', 'Error', 'No topics available to Link');
+            this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },

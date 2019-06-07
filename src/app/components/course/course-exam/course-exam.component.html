@@ -518,7 +518,7 @@
                           </div>
                         </div>
 
-                        <div class="c-sm-2 c-lg-2 c-md-2">
+                        <div class="c-sm-2 c-lg-2 c-md-2 topictext">
                           <span class="view-comp" title={{row.subject_topics}}>{{row.subject_topics | slice:0:20}}</span>
                           <div class="form-wrapper edit-comp">
                             <input type="textbox" class="side-form-ctrl constantHeight" name="label"
@@ -714,8 +714,8 @@
                             </div>
                           </div>
 
-                          <div class="c-sm-2 c-lg-2 c-md-2">
-                            <span class="view-comp" title={{row.topicName}}>{{row.topicName | slice:0:20}}</span>
+                          <div class="c-sm-2 c-lg-2 c-md-2 topictext">
+                            <span class="view-comp " title={{row.topicName}}>{{row.topicName | slice:0:20}}</span>
                             <div class="form-wrapper edit-comp">
                               <input type="textbox" class="side-form-ctrl constantHeight" name="label"
                                 style="height: 31px;" id="classDetailsTxt9" placeholder="Link Topic" readonly (click)="topicLinkingForPreSelectedTopics(data.subjectList)" [ngClass]="row_edit_subject_topicId != '' && row_edit_subject_topicId != undefined ? 'topic-linked' : 'topic-link'">

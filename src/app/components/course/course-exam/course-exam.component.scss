@@ -536,6 +536,12 @@ input[type=number]::-webkit-outer-spin-button {
   color: #1283f4;
 }
 
+.topictext{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 12%;
+}
 .displayComp {
 
     .view-comp {
