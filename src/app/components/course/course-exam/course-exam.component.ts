@@ -320,7 +320,7 @@ export class CourseExamComponent implements OnInit {
     } else {
       type = "put";
     }
-    if(!this.isRippleLoad){
+    if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       this.apiService.serverRequestToSaveSchedule(dataToSend, type).subscribe(
         res => {
@@ -334,7 +334,7 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
-    }   
+    }
   }
 
   makeJsonToSendData() {
@@ -513,7 +513,7 @@ export class CourseExamComponent implements OnInit {
         is_notified: notify
       }]
     }
-    
+
     this.apiService.cancelExamSchedule(obj).subscribe(
       res => {
         this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
@@ -1449,11 +1449,16 @@ export class CourseExamComponent implements OnInit {
     if (dataToSend.coursesList.length > 0) {
       if (dataToSend.coursesList[0].courseClassSchdList.length > 0) {
         this.apiService.updateExamSch(dataToSend).subscribe(
-          res => {
+          (res: any) => {
             this.isRippleLoad = false;
-            this.messageNotifier('success', 'Success', 'Exam scheduled successfully');
-            this.clearAllField();
-            this.getExamSchedule();
+            if (res.statusCode == 200) {
+              this.messageNotifier('success', 'Success', 'Exam scheduled successfully');
+              this.clearAllField();
+              this.getExamSchedule();
+            }
+            else {
+              this.messageNotifier('error', 'Error', res.message);
+            }
           },
           err => {
             this.isRippleLoad = false;
@@ -1497,7 +1502,6 @@ export class CourseExamComponent implements OnInit {
 
     if (validation_flag) {
       for (let i = 0; i < this.viewList.length; i++) {
-        // if(this.viewList[i].courseTableList.length > 0){
         let test: any = {};
         test.course_id = this.viewList[i].selectedCourseList.course_id;
         test.course_exam_schedule_id = this.viewList[i].selectedCourseList.course_exam_schedule_id;
@@ -1509,11 +1513,9 @@ export class CourseExamComponent implements OnInit {
         let endTime = this.createTimeInFormat(this.viewList[i].courseModelAdder.end_time.hour, this.viewList[i].courseModelAdder.end_time.minute, '');
         test.exam_start_time = startTime;
         test.exam_end_time = endTime;
-        // if (this.viewList[i].courseTableList.length > 0) {
         test.courseClassSchdList = [];
         for (let j = 0; j < this.viewList[i].courseTableList.length; j++) {
           let classLi: any = {};
-          //this.viewList[i].courseTableList[j].topics_covered == undefined ||
           if (this.viewList[i].courseTableList[j].total_marks == undefined) {
             this.messageNotifier('error', 'Error', 'please enter total marks');
             return false;
@@ -1529,7 +1531,12 @@ export class CourseExamComponent implements OnInit {
             classLi.topics_covered = topics.replace(/,/g, "|");
           }
           else {
-            classLi.topics_covered = topics;
+            if(typeof topics !='string'){
+              classLi.topics_covered = topics ? (topics.length == 0 ? "" : topics.join("|")) : "";
+            }
+            else{
+              classLi.topics_covered = topics;
+            }
           }
           classLi.room_no = this.viewList[i].courseTableList[j].room_no;
           classLi.class_schedule_id = this.viewList[i].courseTableList[j].class_schedule_id.toString();;
@@ -1540,14 +1547,12 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('error', 'Error', 'Please check total marks provided');
           return false;
         }
-        // }
+
         total = 0;
-        // data.coursesList.push(test);
         coursesLists.push(test);
         if (this.newExamSubjectData.length == 0) {
           data.coursesList.push(test);
         }
-        // }
       }
     }
 
