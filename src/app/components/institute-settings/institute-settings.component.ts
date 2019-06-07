@@ -238,7 +238,10 @@ export class InstituteSettingsComponent implements OnInit {
     enable_justDial_routing_report: '',
     emailIds_for_justDail_ext_lead: '',
     enable_teacher_for_multiple_class: '',
-    enable_elearn_course_mapping_feature: ''
+    enable_elearn_course_mapping_feature: '',
+    enable_exam_marks_not_update_notification:0,
+    enable_exam_attendance_not_marked_notification:0,
+    enable_class_attendance_not_marked_notification:0
 
   };
   onlinePayment: any = '0';
@@ -387,7 +390,11 @@ export class InstituteSettingsComponent implements OnInit {
 	obj.user_registration_otp_via_email = this.convertBoolenToNumber(this.instituteSettingDet.user_registration_otp_via_email);
 	obj.enable_justDial_routing_report = this.convertBoolenToNumber(this.instituteSettingDet.enable_justDial_routing_report);
 	obj.enable_teacher_for_multiple_class = this.convertBoolenToNumber(this.instituteSettingDet.enable_teacher_for_multiple_class);
-	obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
+  obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
+
+  obj.enable_class_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_class_attendance_not_marked_notification);
+  obj.enable_exam_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_attendance_not_marked_notification);
+  obj.enable_exam_marks_not_update_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_marks_not_update_notification);
 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
@@ -516,7 +523,12 @@ export class InstituteSettingsComponent implements OnInit {
 	this.instituteSettingDet.enable_justDial_routing_report = data.enable_justDial_routing_report;
 	this.instituteSettingDet.enable_teacher_for_multiple_class = data.enable_teacher_for_multiple_class;
 	this.instituteSettingDet.enable_elearn_course_mapping_feature = data.enable_elearn_course_mapping_feature;
-	this.instituteSettingDet.emailIds_for_justDail_ext_lead = data.emailIds_for_justDail_ext_lead;
+  this.instituteSettingDet.emailIds_for_justDail_ext_lead = data.emailIds_for_justDail_ext_lead;
+  
+  this.instituteSettingDet.enable_class_attendance_not_marked_notification = data.enable_class_attendance_not_marked_notification;
+  this.instituteSettingDet.enable_exam_attendance_not_marked_notification = data.enable_exam_attendance_not_marked_notification;
+  this.instituteSettingDet.enable_exam_marks_not_update_notification = data.enable_exam_marks_not_update_notification;
+
     this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);
   }
 

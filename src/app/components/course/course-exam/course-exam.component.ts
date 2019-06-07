@@ -74,7 +74,7 @@ export class CourseExamComponent implements OnInit {
   }
   currentDate: any = moment().format("YYYY-MM-DD");
   courseData = {
-    master_course: '',
+    master_course: -1,
     course_id: -1,
     requested_date: moment().format("YYYY-MM-DD")
   }
@@ -85,9 +85,9 @@ export class CourseExamComponent implements OnInit {
   selectedType: string = "course";
   viewList: any = [];
   isRippleLoad: boolean = false;
-  jsonVar ={
-    isSheduleBatch:true,
-    cancelCourseLevel:false
+  jsonVar = {
+    isSheduleBatch: true,
+    cancelCourseLevel: false
   }
 
   multiClickDisabled: boolean = false;
@@ -144,13 +144,13 @@ export class CourseExamComponent implements OnInit {
   changeColor: boolean = false;
 
   public get checkableSettings(): CheckableSettings {
-      return {
-          checkChildren: this.checkChildren,
-          checkParents: this.checkParents,
-          enabled: this.enableCheck,
-          mode: this.checkMode,
-          checkOnClick: this.checkOnClick
-      };
+    return {
+      checkChildren: this.checkChildren,
+      checkParents: this.checkParents,
+      enabled: this.enableCheck,
+      mode: this.checkMode,
+      checkOnClick: this.checkOnClick
+    };
   }
 
   public topicsData: any;
@@ -230,9 +230,9 @@ export class CourseExamComponent implements OnInit {
 
 
           if (moment(this.batchEndDate).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
-           this.jsonVar.isSheduleBatch = false ;
+            this.jsonVar.isSheduleBatch = false;
           }
-          else{
+          else {
             this.jsonVar.isSheduleBatch = true;
           }
           if (res.otherSchd != "" && res.otherSchd != null) {
@@ -361,24 +361,24 @@ export class CourseExamComponent implements OnInit {
 
   // Table Action Menu
 
-  clearExam(){
-    if(this.examScheduleData.coursesList[0].courseClassSchdList){
+  clearExam() {
+    if (this.examScheduleData.coursesList[0].courseClassSchdList) {
       this.calculateTotalMarks();
       this.clearAllField();
     }
-    else{
+    else {
       this.messageNotifier('error', 'Error', "Only class present");
     }
   }
 
-  editSubject(row_no, subject_data){
+  editSubject(row_no, subject_data) {
 
     if (this.selectedRow !== "") {
-      if(this.row_edit_subject_id != "" && this.row_edit_subject_id !=  undefined){
+      if (this.row_edit_subject_id != "" && this.row_edit_subject_id != undefined) {
         document.getElementById(("row_already" + this.selectedRow).toString()).classList.add('displayComp');
         document.getElementById(("row_already" + this.selectedRow).toString()).classList.remove('editComp');
       }
-      else{
+      else {
         document.getElementById(("row" + this.selectedRow).toString()).classList.add('displayComp');
         document.getElementById(("row" + this.selectedRow).toString()).classList.remove('editComp');
       }
@@ -402,23 +402,23 @@ export class CourseExamComponent implements OnInit {
 
   }
 
-  updateSubject(row_no, subject_data){
+  updateSubject(row_no, subject_data) {
 
-    if (this.edit_subject_id == null ||  this.edit_subject_id == '') {
+    if (this.edit_subject_id == null || this.edit_subject_id == '') {
       this.messageNotifier('error', 'Error', 'No subject(s) added!');
       return;
     }
     if (this.edit_exam_marks == '' || this.edit_exam_marks == null) {
-        this.messageNotifier('error', 'Error', 'Please Provide Marks');
-        return;
+      this.messageNotifier('error', 'Error', 'Please Provide Marks');
+      return;
     }
 
     let subjectName = ""
     this.subjectListData[0].forEach(
       ele => {
-          if(this.edit_subject_id == ele.subject_id){
-            subjectName = ele.subject_name;
-          }
+        if (this.edit_subject_id == ele.subject_id) {
+          subjectName = ele.subject_name;
+        }
       }
     )
 
@@ -447,9 +447,9 @@ export class CourseExamComponent implements OnInit {
     this.selectedRow = "";
   }
 
-  clearAllField(){
+  clearAllField() {
     this.newExamSubjectData = [];
-    this.newExamData.startTimeHrs =  '12 PM';
+    this.newExamData.startTimeHrs = '12 PM';
     this.newExamData.startTimeMins = '00';
     this.newExamData.endTimeHrs = '1 PM';
     this.newExamData.endTimeMins = '00';
@@ -803,11 +803,11 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
-  displayCourseDate(){
+  displayCourseDate() {
     console.log(this.courseData.course_id)
     this.showCourseStartEndDate = true;
     for (let i = 0; i < this.courseList.coursesList.length; i++) {
-      if(this.courseList.coursesList[i].course_id == this.courseData.course_id){
+      if (this.courseList.coursesList[i].course_id == this.courseData.course_id) {
         this.batchStartDate = this.courseList.coursesList[i].start_date;
         this.batchEndDate = this.courseList.coursesList[i].end_date;
       }
@@ -850,7 +850,7 @@ export class CourseExamComponent implements OnInit {
           this.calculateDataAsPerSelection(res);
           console.log(this.subjectListData);
           for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
-            if(this.examScheduleData.coursesList[i].courseClassSchdList){
+            if (this.examScheduleData.coursesList[i].courseClassSchdList) {
               this.examAdderContainer = true;
             }
           }
@@ -868,7 +868,7 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
-  subjectChanged(){
+  subjectChanged() {
     this.checkedKeys = [];
     this.changeColor = false;
     this.topicsName = [];
@@ -881,61 +881,61 @@ export class CourseExamComponent implements OnInit {
       if (result.coursesList.length > 0) {
         for (let i = 0; i < result.coursesList.length; i++) {
           // if(result.coursesList[i].courseClassSchdList != null && result.coursesList[i].courseClassSchdList.length > 0){
-            if (this.courseData.course_id == result.coursesList[i].course_id) {
-              this.subjectListData.push(result.coursesList[i].batchesList);
-              let obj: any = {};
-              obj.selectedCourseList = result.coursesList[i];
-              obj.subjectList = result.coursesList[i].batchesList;
-              obj.courseModelAdder = {
-                start_time: {
-                  hour: "12 PM",
-                  minute: '00'
-                },
-                end_time: {
-                  hour: "1 PM",
-                  minute: "00"
-                },
-                total_marks: "",
-                exam_desc: "",
-                room_no: ""
-              };
-              obj.coursetableAdder = {
-                batch_id: -1,
-                total_marks: ""
-              };
+          if (this.courseData.course_id == result.coursesList[i].course_id) {
+            this.subjectListData.push(result.coursesList[i].batchesList);
+            let obj: any = {};
+            obj.selectedCourseList = result.coursesList[i];
+            obj.subjectList = result.coursesList[i].batchesList;
+            obj.courseModelAdder = {
+              start_time: {
+                hour: "12 PM",
+                minute: '00'
+              },
+              end_time: {
+                hour: "1 PM",
+                minute: "00"
+              },
+              total_marks: "",
+              exam_desc: "",
+              room_no: ""
+            };
+            obj.coursetableAdder = {
+              batch_id: -1,
+              total_marks: ""
+            };
 
-              if (result.coursesList[i].courseClassSchdList != null && result.coursesList[i].courseClassSchdList.length > 0) {
-                obj.courseTableList = result.coursesList[i].courseClassSchdList;
-                if (result.coursesList[i].courseClassSchdList.length > 0) {
-                  obj.courseModelAdder.start_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].start_time);
-                  obj.courseModelAdder.end_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].end_time);
-                  obj.courseModelAdder.exam_desc = result.coursesList[i].courseClassSchdList[0].class_desc;
-                  obj.courseModelAdder.room_no = result.coursesList[i].courseClassSchdList[0].room_no;
-                  let total_marks: number = 0;
-                  result.coursesList[i].courseClassSchdList.forEach(element => {
-                    total_marks = Number(element.total_marks) + total_marks;
-                  })
-                  obj.courseModelAdder.total_marks = total_marks;
-                }
-              } else {
-                obj.courseTableList = [];
+            if (result.coursesList[i].courseClassSchdList != null && result.coursesList[i].courseClassSchdList.length > 0) {
+              obj.courseTableList = result.coursesList[i].courseClassSchdList;
+              if (result.coursesList[i].courseClassSchdList.length > 0) {
+                obj.courseModelAdder.start_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].start_time);
+                obj.courseModelAdder.end_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].end_time);
+                obj.courseModelAdder.exam_desc = result.coursesList[i].courseClassSchdList[0].class_desc;
+                obj.courseModelAdder.room_no = result.coursesList[i].courseClassSchdList[0].room_no;
+                let total_marks: number = 0;
+                result.coursesList[i].courseClassSchdList.forEach(element => {
+                  total_marks = Number(element.total_marks) + total_marks;
+                })
+                obj.courseModelAdder.total_marks = total_marks;
               }
-              this.viewList.push(obj);
+            } else {
+              obj.courseTableList = [];
             }
+            this.viewList.push(obj);
+          }
           // }
         }
       }
     }
   }
-  topicLinking(subjectData, index){
+  topicLinking(subjectData, index) {
     let subject_id;
-    for(let i = 0; i < subjectData.length; i++){
-      if(this.viewList[index].coursetableAdder.batch_id == subjectData[i].batch_id){
+    for (let i = 0; i < subjectData.length; i++) {
+      if (this.viewList[index].coursetableAdder.batch_id == subjectData[i].batch_id) {
         subject_id = subjectData[i].subject_id;
       }
     }
 
-    if (subject_id == '' || subject_id == null || subject_id == '-1'|| subject_id == undefined) {
+    if (subject_id == '' || subject_id == null || subject_id == '-1' || subject_id == undefined) {
       this.messageNotifier('error', 'Error', 'Please Select Subject');
       return;
     }
@@ -946,7 +946,7 @@ export class CourseExamComponent implements OnInit {
           this.topicLinkColor = true;
           let temp: any;
           temp = res;
-          if(temp != null && temp.length != 0){
+          if (temp != null && temp.length != 0) {
             this.topicBox = false;
             this.isRippleLoad = false;
             this.topicsData = res;
@@ -964,9 +964,9 @@ export class CourseExamComponent implements OnInit {
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
-          else{
+          else {
             this.isRippleLoad = false;
-            this.messageNotifier('error', 'Error', 'No topics available to Link');
+            this.messageNotifier('info', 'Info', 'No topics available to Link');
           }
 
         },
@@ -978,9 +978,9 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
-  topicLinkingForPreSelectedTopics(subjectData){
+  topicLinkingForPreSelectedTopics(subjectData) {
 
-    if (this.row_edit_subject_id == '' || this.row_edit_subject_id == null || this.row_edit_subject_id == '-1'|| this.row_edit_subject_id == undefined) {
+    if (this.row_edit_subject_id == '' || this.row_edit_subject_id == null || this.row_edit_subject_id == '-1' || this.row_edit_subject_id == undefined) {
       this.messageNotifier('error', 'Error', 'Please Select Subject');
       return;
     }
@@ -991,21 +991,21 @@ export class CourseExamComponent implements OnInit {
           this.checkedKeys = [];
           let temp: any;
           temp = res;
-          if(temp != null && temp.length != 0){
+          if (temp != null && temp.length != 0) {
             this.topicBox = false;
             this.isRippleLoad = false;
             this.topicsData = res;
 
             let tempCheckedKeys;
-            if(this.row_edit_subject_topicId != undefined){
-              if(this.row_edit_subject_topicId.includes("|")){
+            if (this.row_edit_subject_topicId != undefined) {
+              if (this.row_edit_subject_topicId.includes("|")) {
                 let x = this.row_edit_subject_topicId.toString();
                 tempCheckedKeys = x.replace("|", ",");
               }
-              else{
+              else {
                 tempCheckedKeys = this.row_edit_subject_topicId;
               }
-              if(tempCheckedKeys.length > 0){
+              if (tempCheckedKeys.length > 0) {
                 let arr = tempCheckedKeys.split(",");
                 let arrayOfNumbers = arr.map(Number);
                 this.checkedKeys = arrayOfNumbers;
@@ -1025,7 +1025,7 @@ export class CourseExamComponent implements OnInit {
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
-          else{
+          else {
             this.isRippleLoad = false;
             this.messageNotifier('error', 'Error', 'No topics available to Link');
           }
@@ -1039,8 +1039,8 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
-  topicListing(){
-    if (this.subject_id == '' || this.subject_id == null || this.subject_id == '-1'|| this.subject_id == undefined) {
+  topicListing() {
+    if (this.subject_id == '' || this.subject_id == null || this.subject_id == '-1' || this.subject_id == undefined) {
       this.messageNotifier('error', 'Error', 'Please Select Subject');
       return;
     }
@@ -1050,7 +1050,7 @@ export class CourseExamComponent implements OnInit {
         res => {
           let temp: any;
           temp = res;
-          if(temp != null && temp.length != 0){
+          if (temp != null && temp.length != 0) {
             this.topicBox = false;
             this.isRippleLoad = false;
             this.topicsData = res;
@@ -1068,7 +1068,7 @@ export class CourseExamComponent implements OnInit {
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
-          else{
+          else {
             this.isRippleLoad = false;
             this.messageNotifier('error', 'Error', 'No topics available to Link');
           }
@@ -1082,9 +1082,9 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
-  preSelectedTopicListing(){
+  preSelectedTopicListing() {
 
-    if (this.edit_subject_id == '' || this.edit_subject_id == null || this.edit_subject_id == '-1'|| this.edit_subject_id == undefined) {
+    if (this.edit_subject_id == '' || this.edit_subject_id == null || this.edit_subject_id == '-1' || this.edit_subject_id == undefined) {
       this.messageNotifier('error', 'Error', 'Please Select Subject');
       return;
     }
@@ -1094,7 +1094,7 @@ export class CourseExamComponent implements OnInit {
         res => {
           let temp: any;
           temp = res;
-          if(temp != null && temp.length != 0){
+          if (temp != null && temp.length != 0) {
             this.topicBox = false;
             this.isRippleLoad = false;
             this.topicsData = res;
@@ -1113,7 +1113,7 @@ export class CourseExamComponent implements OnInit {
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
-          else{
+          else {
             this.isRippleLoad = false;
             this.messageNotifier('error', 'Error', 'No topics available to Link');
           }
@@ -1129,7 +1129,7 @@ export class CourseExamComponent implements OnInit {
   }
 
 
-  saveTopic(){
+  saveTopic() {
     let temp = this.checkedKeys;
     this.topicsName = [];
     let join = temp.join("|");
@@ -1141,57 +1141,57 @@ export class CourseExamComponent implements OnInit {
     )
     for (var i = 0; i < this.topicsName.length; i++) {
       if (this.topicsName[i] == undefined) {
-          this.topicsName.splice(i, 1);
+        this.topicsName.splice(i, 1);
       }
     }
-    if(this.row_edit_subject_id){
+    if (this.row_edit_subject_id) {
       this.row_edit_subject_topicId = this.checkedKeys;
-      let joinedArr =  this.row_edit_subject_topicId.join(",").toString();
+      let joinedArr = this.row_edit_subject_topicId.join(",").toString();
 
-      let x = joinedArr.replace(/,/g , "|");
+      let x = joinedArr.replace(/,/g, "|");
       let y = x.split("|")
       this.row_edit_subject_topicId = y;
     }
     console.log(this.topicsName);
     this.topicBox = true;
 
-    if(this.topicLinkColor){
+    if (this.topicLinkColor) {
       this.changeColor = true;
     }
 
   }
 
   findNameInJSON(arr, nameVal) {
-   for (var i = 0; i < arr.length; i++) {
-       var item = arr[i];
-       if (item.topicId.toString() == nameVal.toString()) {
-           this.topicsName.push(item.topicName)
-       }
-       if (item.subTopic.length > 0) {
-           this.findNameInJSON(item.subTopic, nameVal);
-       }
-     }
+    for (var i = 0; i < arr.length; i++) {
+      var item = arr[i];
+      if (item.topicId.toString() == nameVal.toString()) {
+        this.topicsName.push(item.topicName)
+      }
+      if (item.subTopic.length > 0) {
+        this.findNameInJSON(item.subTopic, nameVal);
+      }
+    }
   }
 
-  closeAlert(){
+  closeAlert() {
     this.topicBox = true;
     this.topicLinkColor = false;
     this.changeColor = false;
   }
 
 
-  addNewExamSubject(){
-    if (this.subject_id == null ||  this.subject_id == '') {
+  addNewExamSubject() {
+    if (this.subject_id == null || this.subject_id == '') {
       this.messageNotifier('error', 'Error', 'No subject(s) added!');
       return;
     }
     if (this.exam_marks == '' || this.exam_marks == null) {
-        this.messageNotifier('error', 'Error', 'Please Provide Marks');
-        return;
+      this.messageNotifier('error', 'Error', 'Please Provide Marks');
+      return;
     }
 
-    for(let i = 0; i < this.newExamSubjectData.length; i++){
-      if(this.newExamSubjectData[i].subject_id == this.subject_id){
+    for (let i = 0; i < this.newExamSubjectData.length; i++) {
+      if (this.newExamSubjectData[i].subject_id == this.subject_id) {
         this.messageNotifier('error', 'Error', 'Selected subject already added!');
         return;
       }
@@ -1200,9 +1200,9 @@ export class CourseExamComponent implements OnInit {
     let subjectName = ""
     this.subjectListData[0].forEach(
       ele => {
-          if(this.subject_id == ele.subject_id){
-            subjectName = ele.subject_name;
-          }
+        if (this.subject_id == ele.subject_id) {
+          subjectName = ele.subject_name;
+        }
       }
     )
 
@@ -1226,14 +1226,14 @@ export class CourseExamComponent implements OnInit {
 
   }
 
-  calculateTotalMarks(){
+  calculateTotalMarks() {
     this.total_marks_to_show = 0;
     for (let i = 0; i < this.newExamSubjectData.length; i++) {
       this.total_marks_to_show += this.newExamSubjectData[i].exam_marks;
     }
   }
 
-  clearField(){
+  clearField() {
     this.subject_id = '';
     this.subject_name = '';
     this.exam_marks = '';
@@ -1260,7 +1260,7 @@ export class CourseExamComponent implements OnInit {
     let selectedSubjectDemo = this.getSubjectName(this.viewList[index].subjectList, this.viewList[index].coursetableAdder.batch_id);
 
     for (let i = 0; i < this.viewList[index].courseTableList.length; i++) {
-      if(this.viewList[index].courseTableList[i].subject_name == selectedSubjectDemo.subject_name){
+      if (this.viewList[index].courseTableList[i].subject_name == selectedSubjectDemo.subject_name) {
         this.messageNotifier('error', 'Error', 'Selected subject already added!');
         return;
       }
@@ -1295,7 +1295,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   getSubjectName(data, id) {
-    for(let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       if (data[i].batch_id == id) {
         return data[i];
       }
@@ -1303,22 +1303,22 @@ export class CourseExamComponent implements OnInit {
   }
 
 
-  deleteSubject(subject_id){
-    for(let i = 0; i < this.newExamSubjectData.length; i++) {
+  deleteSubject(subject_id) {
+    for (let i = 0; i < this.newExamSubjectData.length; i++) {
       if (this.newExamSubjectData[i].subject_id == subject_id) {
         this.newExamSubjectData.splice(i, 1);
       }
     }
-      this.messageNotifier('success', 'Success', 'Scheduled exam deleted successfully');
+    this.messageNotifier('success', 'Success', 'Scheduled exam deleted successfully');
   }
 
   deleteFromCourse(data, index, j) {
 
-    if(this.viewList[j].courseTableList.length == 1){
+    if (this.viewList[j].courseTableList.length == 1) {
       this.messageNotifier('error', 'Error', "Subject can't be deleted from the scheduled exam since only one subjcet is left!");
       return;
     }
-    else{
+    else {
       this.viewList[j].courseTableList.splice(index, 1);
       this.messageNotifier('success', 'Success', 'Scheduled exam deleted successfully');
     }
@@ -1330,26 +1330,26 @@ export class CourseExamComponent implements OnInit {
     this.viewList[j].courseModelAdder.total_marks = total;
   }
 
-  editFromCourse(data, index, j){
+  editFromCourse(data, index, j) {
     if (this.selectedRow !== "") {
-      if(this.edit_subject_id){
+      if (this.edit_subject_id) {
         document.getElementById(("row" + this.selectedRow).toString()).classList.add('displayComp');
         document.getElementById(("row" + this.selectedRow).toString()).classList.remove('editComp');
       }
-      else{
+      else {
         document.getElementById(("row_already" + this.selectedRow).toString()).classList.add('displayComp');
         document.getElementById(("row_already" + this.selectedRow).toString()).classList.remove('editComp');
       }
     }
-    this.selectedRow = index+"_"+j;
-    document.getElementById(("row_already" + index+"_"+j).toString()).classList.remove('displayComp');
-    document.getElementById(("row_already" + index+"_"+j).toString()).classList.add('editComp');
+    this.selectedRow = index + "_" + j;
+    document.getElementById(("row_already" + index + "_" + j).toString()).classList.remove('displayComp');
+    document.getElementById(("row_already" + index + "_" + j).toString()).classList.add('editComp');
 
     let subject_id;
-    if(data.otherData){
+    if (data.otherData) {
       subject_id = data.otherData.subject_id
     }
-    else{
+    else {
       subject_id = data.subject_id;
     }
     this.row_edit_subject_id = subject_id;
@@ -1361,11 +1361,11 @@ export class CourseExamComponent implements OnInit {
     this.row_edit_exam_room_no = data.room_no;
     //
     let temp;
-    if(data.topics_covered != undefined){
-      if(data.topics_covered.includes("|")){
+    if (data.topics_covered != undefined) {
+      if (data.topics_covered.includes("|")) {
         temp = data.topics_covered.replace("|", ",");
       }
-      else{
+      else {
         temp = data.topics_covered;
       }
       this.checkedKeys = temp;
@@ -1373,31 +1373,31 @@ export class CourseExamComponent implements OnInit {
 
 
 
-}
+  }
 
-  updateEditedSubject(row, index, j){
+  updateEditedSubject(row, index, j) {
 
     if (this.row_edit_exam_marks == '' || this.row_edit_exam_marks == null) {
-        this.messageNotifier('error', 'Error', 'Please Provide Marks');
-        return;
+      this.messageNotifier('error', 'Error', 'Please Provide Marks');
+      return;
     }
 
     let subjectName = ""
 
     this.viewList[j].subjectList.forEach(
       ele => {
-          if(this.row_edit_subject_id == ele.subject_id){
-            subjectName = ele.subject_name;
-          }
+        if (this.row_edit_subject_id == ele.subject_id) {
+          subjectName = ele.subject_name;
+        }
       }
     )
 
     let topic_names = this.topicsName.join(", ");
     let topicsNames;
 
-    if(this.topicsName.length > 0){
+    if (this.topicsName.length > 0) {
       let y = this.row_edit_subject_topicId.join(",")
-       topicsNames = y.replace(/,/g , "|");
+      topicsNames = y.replace(/,/g, "|");
     }
 
 
@@ -1431,8 +1431,8 @@ export class CourseExamComponent implements OnInit {
     this.topicsName = [];
 
 
-    document.getElementById(("row_already" + index+"_"+j).toString()).classList.remove('editComp');
-    document.getElementById(("row_already" + index+"_"+j).toString()).classList.add('displayComp');
+    document.getElementById(("row_already" + index + "_" + j).toString()).classList.remove('editComp');
+    document.getElementById(("row_already" + index + "_" + j).toString()).classList.add('displayComp');
 
     this.selectedRow = "";
   }
@@ -1446,8 +1446,8 @@ export class CourseExamComponent implements OnInit {
       this.multiClickDisabled = false;
       return;
     }
-    if(dataToSend.coursesList.length > 0){
-      if(dataToSend.coursesList[0].courseClassSchdList.length > 0){
+    if (dataToSend.coursesList.length > 0) {
+      if (dataToSend.coursesList[0].courseClassSchdList.length > 0) {
         this.apiService.updateExamSch(dataToSend).subscribe(
           res => {
             this.isRippleLoad = false;
@@ -1463,13 +1463,13 @@ export class CourseExamComponent implements OnInit {
           }
         )
       }
-      else{
+      else {
         this.multiClickDisabled = false;
         this.isRippleLoad = false;
         this.messageNotifier('error', 'Error', 'Required fields not mentioned!');
       }
     }
-    else{
+    else {
       this.multiClickDisabled = false;
       this.isRippleLoad = false;
       this.messageNotifier('error', 'Error', 'Required fields not mentioned!');
@@ -1490,117 +1490,118 @@ export class CourseExamComponent implements OnInit {
     // FOR ALREADY PRESENT EXAM
     let validation_flag = false;
     for (let p = 0; p < this.viewList.length; p++) {
-      if(this.viewList[p].courseTableList.length > 0){
+      if (this.viewList[p].courseTableList.length > 0) {
         validation_flag = true;
       }
     }
 
-    if(validation_flag){
+    if (validation_flag) {
       for (let i = 0; i < this.viewList.length; i++) {
         // if(this.viewList[i].courseTableList.length > 0){
-          let test: any = {};
-          test.course_id = this.viewList[i].selectedCourseList.course_id;
-          test.course_exam_schedule_id = this.viewList[i].selectedCourseList.course_exam_schedule_id;
-          let check = this.validateTime(this.viewList[i].courseModelAdder.start_time, this.viewList[i].courseModelAdder.end_time);
-          if (check == false) {
-            return;
+        let test: any = {};
+        test.course_id = this.viewList[i].selectedCourseList.course_id;
+        test.course_exam_schedule_id = this.viewList[i].selectedCourseList.course_exam_schedule_id;
+        let check = this.validateTime(this.viewList[i].courseModelAdder.start_time, this.viewList[i].courseModelAdder.end_time);
+        if (check == false) {
+          return;
+        }
+        let startTime = this.createTimeInFormat(this.viewList[i].courseModelAdder.start_time.hour, this.viewList[i].courseModelAdder.start_time.minute, '');
+        let endTime = this.createTimeInFormat(this.viewList[i].courseModelAdder.end_time.hour, this.viewList[i].courseModelAdder.end_time.minute, '');
+        test.exam_start_time = startTime;
+        test.exam_end_time = endTime;
+        // if (this.viewList[i].courseTableList.length > 0) {
+        test.courseClassSchdList = [];
+        for (let j = 0; j < this.viewList[i].courseTableList.length; j++) {
+          let classLi: any = {};
+          //this.viewList[i].courseTableList[j].topics_covered == undefined ||
+          if (this.viewList[i].courseTableList[j].total_marks == undefined) {
+            this.messageNotifier('error', 'Error', 'please enter total marks');
+            return false;
           }
-          let startTime = this.createTimeInFormat(this.viewList[i].courseModelAdder.start_time.hour, this.viewList[i].courseModelAdder.start_time.minute, '');
-          let endTime = this.createTimeInFormat(this.viewList[i].courseModelAdder.end_time.hour, this.viewList[i].courseModelAdder.end_time.minute, '');
-          test.exam_start_time = startTime;
-          test.exam_end_time = endTime;
-          // if (this.viewList[i].courseTableList.length > 0) {
-            test.courseClassSchdList = [];
-            for (let j = 0; j < this.viewList[i].courseTableList.length; j++) {
-              let classLi: any = {};
-              if(this.viewList[i].courseTableList[j].topics_covered == undefined || this.viewList[i].courseTableList[j].total_marks == undefined){
-                this.messageNotifier('error', 'Error', 'Something is wrong, Please try again');
-                return false;
-              }
-              let topics = this.viewList[i].courseTableList[j].topics_covered.toString();
-              classLi.batch_id = this.viewList[i].courseTableList[j].batch_id.toString();
-              classLi.start_time = startTime;
-              classLi.end_time = endTime;
-              classLi.class_desc = this.viewList[i].courseTableList[j].class_desc;
-              classLi.duration = check;
-              classLi.total_marks = this.viewList[i].courseTableList[j].total_marks.toString();
-              if(topics.includes(",")){
-                classLi.topics_covered = topics.replace(/,/g, "|");
-              }
-              else{
-                classLi.topics_covered = topics;
-              }
-              classLi.room_no = this.viewList[i].courseTableList[j].room_no;
-              classLi.class_schedule_id = this.viewList[i].courseTableList[j].class_schedule_id.toString();;
-              total += Number(this.viewList[i].courseTableList[j].total_marks);
-              test.courseClassSchdList.push(classLi);
-            }
-            if (total != this.viewList[i].courseModelAdder.total_marks) {
-              this.messageNotifier('error', 'Error', 'Please check total marks provided');
-              return false;
-            }
-          // }
-          total = 0;
-          // data.coursesList.push(test);
-          coursesLists.push(test);
-          if(this.newExamSubjectData.length == 0){
-            data.coursesList.push(test);
+          let topics = this.viewList[i].courseTableList[j].topics_covered;
+          classLi.batch_id = this.viewList[i].courseTableList[j].batch_id.toString();
+          classLi.start_time = startTime;
+          classLi.end_time = endTime;
+          classLi.class_desc = this.viewList[i].courseTableList[j].class_desc;
+          classLi.duration = check;
+          classLi.total_marks = this.viewList[i].courseTableList[j].total_marks.toString();
+          if (topics && topics.includes(",")) {
+            classLi.topics_covered = topics.replace(/,/g, "|");
           }
+          else {
+            classLi.topics_covered = topics;
+          }
+          classLi.room_no = this.viewList[i].courseTableList[j].room_no;
+          classLi.class_schedule_id = this.viewList[i].courseTableList[j].class_schedule_id.toString();;
+          total += Number(this.viewList[i].courseTableList[j].total_marks);
+          test.courseClassSchdList.push(classLi);
+        }
+        if (total != this.viewList[i].courseModelAdder.total_marks) {
+          this.messageNotifier('error', 'Error', 'Please check total marks provided');
+          return false;
+        }
+        // }
+        total = 0;
+        // data.coursesList.push(test);
+        coursesLists.push(test);
+        if (this.newExamSubjectData.length == 0) {
+          data.coursesList.push(test);
+        }
         // }
       }
     }
 
     // FOR NEWLY ADDED EXAM
-    if(this.newExamSubjectData.length > 0){
+    if (this.newExamSubjectData.length > 0) {
       // for (let i = 0; i < this.newExamSubjectData.length; i++) {
-        let test: any = {};
-        test.course_id = this.viewList[0].selectedCourseList.course_id;
-        test.course_exam_schedule_id = "-1";
-        let check = this.validateTime2();
-        if (check == false) {
-          return;
-        }
-        let startTime = this.createTimeInFormat(this.newExamData.startTimeHrs, this.newExamData.startTimeMins, '');
-        let endTime = this.createTimeInFormat(this.newExamData.endTimeHrs, this.newExamData.endTimeMins, '');
-        test.exam_start_time = startTime;
-        test.exam_end_time = endTime;
-        test.courseClassSchdList = [];
+      let test: any = {};
+      test.course_id = this.viewList[0].selectedCourseList.course_id;
+      test.course_exam_schedule_id = "-1";
+      let check = this.validateTime2();
+      if (check == false) {
+        return;
+      }
+      let startTime = this.createTimeInFormat(this.newExamData.startTimeHrs, this.newExamData.startTimeMins, '');
+      let endTime = this.createTimeInFormat(this.newExamData.endTimeHrs, this.newExamData.endTimeMins, '');
+      test.exam_start_time = startTime;
+      test.exam_end_time = endTime;
+      test.courseClassSchdList = [];
 
-        if (this.newExamSubjectData.length > 0) {
-          for (let j = 0; j < this.newExamSubjectData.length; j++) {
-            let classLi: any = {};
-            let bactch_id = "";
-            for(let k = 0; k < this.subjectListData[0].length; k++){
-              if(this.newExamSubjectData[j].subject_id == this.subjectListData[0][k].subject_id){
-                bactch_id = this.subjectListData[0][k].batch_id;
-              }
+      if (this.newExamSubjectData.length > 0) {
+        for (let j = 0; j < this.newExamSubjectData.length; j++) {
+          let classLi: any = {};
+          let bactch_id = "";
+          for (let k = 0; k < this.subjectListData[0].length; k++) {
+            if (this.newExamSubjectData[j].subject_id == this.subjectListData[0][k].subject_id) {
+              bactch_id = this.subjectListData[0][k].batch_id;
             }
-            classLi.batch_id = bactch_id.toString();;
-            classLi.start_time = startTime;
-            classLi.end_time = endTime;
-            classLi.class_desc = this.newExamSubjectData[j].exam_desc;
-            classLi.duration = check;
-            classLi.topics_covered = this.newExamSubjectData[j].topicsId.join("|")
-            classLi.total_marks = this.newExamSubjectData[j].exam_marks.toString();
-            classLi.room_no = this.newExamSubjectData[j].exam_room_no;
-            classLi.class_schedule_id = "0";
-            total += Number( this.newExamSubjectData[j].exam_marks.toString());
-            test.courseClassSchdList.push(classLi);
           }
-          // if (total != this.viewList[i].courseModelAdder.total_marks) {
-          //   this.messageNotifier('error', 'Error', 'Please check total marks provided');
-          //   return false;
+          classLi.batch_id = bactch_id.toString();;
+          classLi.start_time = startTime;
+          classLi.end_time = endTime;
+          classLi.class_desc = this.newExamSubjectData[j].exam_desc;
+          classLi.duration = check;
+          classLi.topics_covered = this.newExamSubjectData[j].topicsId.join("|")
+          classLi.total_marks = this.newExamSubjectData[j].exam_marks.toString();
+          classLi.room_no = this.newExamSubjectData[j].exam_room_no;
+          classLi.class_schedule_id = "0";
+          total += Number(this.newExamSubjectData[j].exam_marks.toString());
+          test.courseClassSchdList.push(classLi);
+        }
+        // if (total != this.viewList[i].courseModelAdder.total_marks) {
+        //   this.messageNotifier('error', 'Error', 'Please check total marks provided');
+        //   return false;
+        // }
+      }
+      total = 0;
+      data.coursesList.push(test);
+      if (validation_flag) {
+        for (let m = 0; m < coursesLists.length; m++) {
+          // if(i == 0){
+          data.coursesList.push(coursesLists[m]);
           // }
         }
-        total = 0;
-        data.coursesList.push(test);
-        if(validation_flag){
-          for(let m = 0; m < coursesLists.length; m++){
-            // if(i == 0){
-              data.coursesList.push(coursesLists[m]);
-            // }
-          }
-        }
+      }
       // }
     }
 
@@ -1775,7 +1776,7 @@ export class CourseExamComponent implements OnInit {
 
   validateTime2() {
     let start_time = moment(this.createTimeInFormat(this.newExamData.startTimeHrs, this.newExamData.startTimeMins, 'comp'), 'h:mma');
-    let end_time = moment(this.createTimeInFormat(this.newExamData.endTimeHrs,this.newExamData.endTimeMins, 'comp'), 'h:mma');
+    let end_time = moment(this.createTimeInFormat(this.newExamData.endTimeHrs, this.newExamData.endTimeMins, 'comp'), 'h:mma');
     if (!(start_time.isBefore(end_time))) {
       this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
       return false;

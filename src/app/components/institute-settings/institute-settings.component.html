@@ -1296,8 +1296,95 @@
                       </td>
                     </tr>
 
+                    <tr>
+                      <td>
+                        Exam Marks Not Updated Reminder
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder to
+                            <br> update exam marks
+                            <br> Currently, this setting will
+                            <br> be applicable only to faculty
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
 
+                    <tr>
+                      <td>
+                        Exam Attendance Not Marked Reminder
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder to
+                            <br> mark exam attendance
+                            <br> Currently, this setting will
+                            <br> be applicable only to faculty
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
 
+                    <tr>
+                      <td>
+                        Class Attendance Not Marked Reminder
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder to
+                            <br> mark class attendance
+                            <br> Currently, this setting will
+                            <br> be applicable only to faculty
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
 
                     <tr>
                       <td colspan="6">
@@ -1544,7 +1631,7 @@
                                 </div>
                               </div>
                             </label>
-                            <input type="text"  [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" id="panCard">
+                            <input type="text" [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" id="panCard">
                           </div>
                         </div>
 

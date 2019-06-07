@@ -2,9 +2,6 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild, E
 import { FileManagerService } from '../file-manager.service';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
-import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
-import { NewLineKind } from 'typescript';
-import { ContentType } from '@angular/http/src/enums';
 
 
 class fileObj {
@@ -38,8 +35,6 @@ class fileObj {
 export class UploadPopupComponent implements OnInit, OnChanges {
 
   getCategoryData: any[] = [];
-
-
   @ViewChild('icon') icon: ElementRef;
   @Output() closePopupValue = new EventEmitter<boolean>(true);
   @Input() selectedFiles: any[] = [];
@@ -104,7 +99,9 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       rtf: "7",
       jpg: "8",
       jpeg: "9",
-      png: "10"
+      png: "10",
+      pptx: "11",
+      ppt: "12"
     },
     66: {
       pdf: "1",
@@ -116,7 +113,9 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       rtf: "7",
       jpg: "8",
       jpeg: "9",
-      png: "10"
+      png: "10",
+      pptx: "11",
+      ppt: "12"
     },
     67: {
       pdf: "1",
@@ -189,7 +188,11 @@ export class UploadPopupComponent implements OnInit, OnChanges {
   inputFiles: any;
   isUploadingXls: boolean = false;
 
-  constructor(private cd: ChangeDetectorRef, private fileService: FileManagerService, private appC: AppComponent, private auth: AuthenticatorService) { }
+  constructor(
+    private cd: ChangeDetectorRef,
+    private fileService: FileManagerService,
+    private appC: AppComponent,
+    private auth: AuthenticatorService) { }
 
   ngOnInit() {
     this.getCategories();
@@ -204,8 +207,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
     this.fileService.getCategories().subscribe(
       (data: any) => {
         this.getCategoryData = data;
-        this.getCategoryData.map((ele:any)=>{
-          if(ele.category_id == "182"){
+        this.getCategoryData.map((ele: any) => {
+          if (ele.category_id == "182") {
             ele.category_name = "Study Material"
           }
         })
