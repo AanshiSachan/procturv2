@@ -10,6 +10,7 @@ import { AppComponent } from '../../../../app.component';
 })
 export class AddEditUserComponent implements OnInit {
 
+  isRippleLoad:boolean =false;
   userId: any = "-1";
   rolesList: any = [];
   roleDetails: any = {
@@ -68,8 +69,10 @@ export class AddEditUserComponent implements OnInit {
   }
 
   fetchUserDetails(id) {
+    this.isRippleLoad=true;
     this.apiService.fetchUserDetails(id).subscribe(
       res => {
+        this.isRippleLoad=false;
         this.roleDetails = res;
         if (this.roleDetails.is_active == 'Y') {
           this.roleDetails.is_active = true;
@@ -78,6 +81,7 @@ export class AddEditUserComponent implements OnInit {
         }
       },
       err => {
+        this.isRippleLoad=false;
         console.log(err);
       }
     )
@@ -93,16 +97,22 @@ export class AddEditUserComponent implements OnInit {
     } else {
       this.roleDetails.is_employee_to_be_create = 'N';
     }
-    this.apiService.createUser(this.roleDetails).subscribe(
+    if(!this.isRippleLoad){
+     this.isRippleLoad=true;
+     this.apiService.createUser(this.roleDetails).subscribe(
       res => {
+        this.isRippleLoad=false;
         this.messageNotifier('success', 'Added Successfully', 'User Added Successfully');
         this.route.navigateByUrl('/view/manage/user');
       },
       err => {
+        this.isRippleLoad=false;
         console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
+    }
+   
   }
 
   updateUserDetails() {
@@ -123,16 +133,21 @@ export class AddEditUserComponent implements OnInit {
       phone: this.roleDetails.username,
       role_id: this.roleDetails.role_id
     }
-    this.apiService.updateUserDetails(obj, this.userId).subscribe(
+    
+    if(!this.isRippleLoad){
+      this.isRippleLoad=true;
+      this.apiService.updateUserDetails(obj, this.userId).subscribe(
       res => {
+        this.isRippleLoad=false;
         this.messageNotifier('success', 'Updated Successfully', 'Details Updated Successfully');
         this.route.navigateByUrl('/view/manage/user');
       },
       err => {
+        this.isRippleLoad=false;
         console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
-    )
+    )}
   }
 
   validateUserDetails(obj) {

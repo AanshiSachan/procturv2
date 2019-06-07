@@ -19,6 +19,7 @@ export class AddEditRoleComponent implements OnInit {
   roleDesc: any = "";
   instituteId: any;
   libraryRoleInstituteId: any;
+  kakadeRoleInstituteId:any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,6 +31,7 @@ export class AddEditRoleComponent implements OnInit {
   ngOnInit() {
     this.instituteId = sessionStorage.getItem('institute_id');
     this.libraryRoleInstituteId = 100952;
+    this.kakadeRoleInstituteId=  100767;
     this.activatedRoute.params.subscribe(
       (res: any) => {
         this.getAllRolesList();
@@ -55,6 +57,16 @@ export class AddEditRoleComponent implements OnInit {
             }
           }
         }
+        if(this.instituteId != this.kakadeRoleInstituteId ){
+          if(this.instituteId != 100767){
+            for (let t = 0; t < this.featuresArray.length; t++) {
+              if (this.featuresArray[t].feature_id == 718) {
+                this.featuresArray.splice(t, 1);
+              }
+            }
+          }
+        }
+
         this.cloneFeatureArray = this.keepCloning(res);
         if (this.roleId != "-1") {
           this.getRolesOfUser(this.roleId);

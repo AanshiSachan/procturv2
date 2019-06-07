@@ -281,7 +281,7 @@
 
   <div class="pull-right" style="margin-top: 10px;">
     <button class="btn" routerLink="/view/course/courselist">Cancel</button>
-    <button id="btnSave" *ngIf="(mainArrayForTable.length>0)" class="btn fullBlue" (click)="submitCourseDetails()">Save Course</button>
+    <button id="btnSave" *ngIf="(mainArrayForTable.length>0)" class="btn fullBlue" [disabled]="isRippleLoad" (click)="submitCourseDetails()">Save</button>
   </div>
 
 </div>

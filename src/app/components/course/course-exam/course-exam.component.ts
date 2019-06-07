@@ -320,19 +320,21 @@ export class CourseExamComponent implements OnInit {
     } else {
       type = "put";
     }
-    this.isRippleLoad = true;
-    this.apiService.serverRequestToSaveSchedule(dataToSend, type).subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.messageNotifier('success', 'Successfully', 'Schedule Created Successfully');
-        this.batchModelGoClick();
-      },
-      err => {
-        this.isRippleLoad = false;
-        //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
-      }
-    )
+    if(!this.isRippleLoad){
+      this.isRippleLoad = true;
+      this.apiService.serverRequestToSaveSchedule(dataToSend, type).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Successfully', 'Schedule Created Successfully');
+          this.batchModelGoClick();
+        },
+        err => {
+          this.isRippleLoad = false;
+          //console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }   
   }
 
   makeJsonToSendData() {
@@ -511,6 +513,7 @@ export class CourseExamComponent implements OnInit {
         is_notified: notify
       }]
     }
+    
     this.apiService.cancelExamSchedule(obj).subscribe(
       res => {
         this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');

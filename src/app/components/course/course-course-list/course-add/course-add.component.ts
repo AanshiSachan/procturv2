@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class CourseAddComponent implements OnInit {
 
+  @ViewChild('standardNameDDn') StandardName: ElementRef;
+  @ViewChild('masterCourseInput') MasterCourseDDn: ElementRef;
+
   newCourseAdd: any = {
     master_course_name: '',
     standard_id: '-1',
@@ -21,17 +24,11 @@ export class CourseAddComponent implements OnInit {
     end_Date: '',
     allow_exam_grades: ''
   };
-  subjectListDataSource: any;
+
   tableRowData: any = {
     checkBox_value: '',
     selected_teacher: '',
   };
-  subjectList: any[] = [];
-  standardNameList;
-  activeTeachers: any;
-  dummyArrayOfSubjectList: any[] = [];
-  mainArrayForTable: any[] = new Array;
-  divCreateNewCourse: boolean = false;
 
   nestedTableForm: any = {
     course_name: '',
@@ -40,12 +37,16 @@ export class CourseAddComponent implements OnInit {
     allow_exam_grades: ''
   };
 
+  subjectList: any[] = [];
+  dummyArrayOfSubjectList: any[] = [];
+  mainArrayForTable: any[] = new Array;
+  standardNameList: any;
+  activeTeachers: any;
+  subjectListDataSource: any;
   nestedTableDataSource: any;
   examGradeFeature: any;
   isRippleLoad: boolean = false;
-
-  @ViewChild('standardNameDDn') StandardName: ElementRef;
-  @ViewChild('masterCourseInput') MasterCourseDDn: ElementRef;
+  divCreateNewCourse: boolean = false;
 
   constructor(
     private apiService: CourseListService,
@@ -115,7 +116,7 @@ export class CourseAddComponent implements OnInit {
     this.apiService.getTeacherListFromServer().subscribe(
       data => {
         this.activeTeachers = data;
-        this.activeTeachers.sort(function(a, b) {
+        this.activeTeachers.sort(function (a, b) {
           var textA = a.teacher_name.toUpperCase();
           var textB = b.teacher_name.toUpperCase();
           return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
@@ -218,29 +219,31 @@ export class CourseAddComponent implements OnInit {
     if (dataToSend == false) {
       return;
     };
-    this.isRippleLoad = true;
-    this.apiService.saveCourseDetails(dataToSend).subscribe(
-      res => {
-        this.isRippleLoad = false;
-        let msg = {
-          type: "success",
-          title: "Course Creation",
-          body: "Course Creation Successfull."
+
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.apiService.saveCourseDetails(dataToSend).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: "success",
+            title: "Course Creation",
+            body: "Course Creation Successfull."
+          }
+          this.toastCtrl.popToast(msg);
+          this.route.navigateByUrl('/view/course/courselist');
+        },
+        error => {
+          this.isRippleLoad = false;
+          let warning = {
+            type: "error",
+            title: "Error",
+            body: error.error.message
+          }
+          this.toastCtrl.popToast(warning);
         }
-        this.toastCtrl.popToast(msg);
-        this.route.navigateByUrl('/view/course/courselist');
-      },
-      error => {
-        //console.log(error);
-        this.isRippleLoad = false;
-        let warning = {
-          type: "error",
-          title: "Error",
-          body: error.error.message
-        }
-        this.toastCtrl.popToast(warning);
-      }
-    )
+      )
+    }
   }
 
   constructJsonToSend() {

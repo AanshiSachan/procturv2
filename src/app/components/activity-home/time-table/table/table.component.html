@@ -5,7 +5,7 @@
       <span class="dot_1"></span>
       <span>Regular</span>
     </div>
-    <div class="indicator_item">
+    <div class="indicator_item" *ngIf="!isProfessional">
       <span class="dot_2"></span>
       <span>Doubt</span>
     </div>
@@ -13,7 +13,7 @@
       <span class="dot_3"></span>
       <span>Extra</span>
     </div>
-    <div class="indicator_item">
+    <div class="indicator_item" *ngIf="!isProfessional">
       <span class="dot_4"></span>
       <span>Revision</span>
     </div>
@@ -53,9 +53,10 @@
           <span *ngIf="!temp.data[i]">-</span>
         </div>
       </div>
-      <div class="subject_container">
+      <div class="subject_container" >
         <div class="subject_header_item">
-          <span>Subject</span>
+          <span *ngIf="!isProfessional">Subject</span>
+          <span *ngIf="isProfessional">Batch </span>
         </div>
         <div class="subject_item" [ngClass]="today == temp.headerDate ?'active_date':'inactive_date'" *ngFor="let temp  of recordInput">
           <div>
@@ -75,11 +76,12 @@
             <span *ngIf="(temp.data[i] && temp.data[i].class_type =='Exam')" class="dot_55"></span>
           </div>
 
-          <span style="width:90%;" *ngIf="temp.data[i]">{{temp.data[i].subject_name}}</span>
+          <span  style="width:90%;" *ngIf="temp.data[i] && !isProfessional">{{temp.data[i].subject_name}}</span>
+          <span style="width:90%;" *ngIf="temp.data[i] && isProfessional">{{temp.data[i].batchName}}</span>
           <span *ngIf="!temp.data[i]">-</span>
         </div>
       </div>
-      <div class="master_course_container" *ngIf="false">
+      <div class="master_course_container" >
         <div class="course_header_item">
           <span>Master Course (Course) </span>
         </div>
@@ -90,7 +92,7 @@
         </div>
       </div>
 
-      <div class="topic_container">
+      <div class="topic_container" *ngIf="!isProfessional">
         <div class="topic_header_item">
           <span>Topic</span>
         </div>

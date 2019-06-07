@@ -24,10 +24,9 @@ import { CourseAddComponent, DateMonthFormatter } from './course-add/course-add.
         CourseCourseListComponent,
         CourseEditComponent,
         CourseAddComponent,
-        DateMonthFormatter
-    ],
+        DateMonthFormatter,    ],
     providers: [
-        CourseListService
+        CourseListService,
     ]
 })
 

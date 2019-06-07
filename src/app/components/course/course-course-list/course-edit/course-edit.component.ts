@@ -22,6 +22,9 @@ export class CourseEditComponent implements OnInit {
   examGradeFeature: any;
   jsonVar: any = {
     callApi: true,
+    isallowGrading: false,
+    message: '',
+    tempObject:{}
   }
   constructor(
     private apiService: CourseListService,
@@ -93,7 +96,7 @@ export class CourseEditComponent implements OnInit {
     this.apiService.getTeacherListFromServer().subscribe(
       data => {
         this.activeTeachers = data;
-        this.activeTeachers.sort(function(a, b) {
+        this.activeTeachers.sort(function (a, b) {
           var textA = a.teacher_name.toUpperCase();
           var textB = b.teacher_name.toUpperCase();
           return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
@@ -120,6 +123,30 @@ export class CourseEditComponent implements OnInit {
       }
     )
   }
+
+  openPopup(flag,data) {
+    // object.course_id
+    data.is_exam_grad_feature = (!flag);
+    this.jsonVar.tempObject = data;
+    this.jsonVar.isallowGrading = true;
+    this.jsonVar.message = '';
+    if (flag) {
+      this.jsonVar.message = 'If exam grades are allowed, previous data of exam marks will be corrupted. Do you wish to proceed?';
+    } else {
+      this.jsonVar.message = "If exam marks are allowed, previous data of exam grades will be corrupted. Do you wish to proceed?"
+    }
+  }
+
+  allowMarksORGrades(){
+    this.jsonVar.tempObject.is_exam_grad_feature = (!this.jsonVar.tempObject.is_exam_grad_feature);
+    this.closePopup();
+  }
+
+  closePopup() {
+    this.jsonVar.isallowGrading = false;
+    this.jsonVar.message = '';
+  }
+
 
   updateEditedDetails() {
     let dataToSend: any = this.constructJsonToSend();

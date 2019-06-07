@@ -6,7 +6,7 @@
   <!--  style="display: flex;" -->
   <div class="col-md-3 ecourse-item" *ngFor="let ecourse of categiesList;  ">
     <div class="ecourse-card" (click)="getToSubject(ecourse)">
-      <div class="head">
+      <div class="head" title="{{ecourse.course_type}}">
         {{ecourse.course_type}}
       </div>
       <div class="body">

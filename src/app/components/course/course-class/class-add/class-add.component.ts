@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { LoginService } from '../../../../services/login-services/login.service';
@@ -741,12 +741,58 @@ export class ClassAddComponent implements OnInit {
       return;
     }
     else {
+      if (!this.isRippleLoad) {
+        this.isRippleLoad = true;
+        this.topicService.getAllTopicsSubTopics(this.addClassDetails.subject_id).subscribe(
+          res => {
+            let temp: any;
+            temp = res;
+            if (temp != null && temp.length != 0) {
+              this.topicBox = false;
+              console.log(res);
+              this.isRippleLoad = false;
+              this.topicsData = res;
+
+              let subjectName = "";
+              this.subjectListDataSource.forEach(
+                ele => {
+                  if (ele.subject_id == this.addClassDetails.subject_id) {
+                    subjectName = ele.subject_name;
+                  }
+                }
+              )
+              document.getElementById("topicSubName").innerHTML = subjectName;
+              document.getElementById("topicCount").innerHTML = this.topicsData.length;
+              this.children = (dataItem: any) => of(dataItem.subTopic);
+              this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
+            }
+            else {
+              this.isRippleLoad = false;
+              this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', "No topics available to Link");
+            }
+
+          },
+          err => {
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          }
+        )
+      }
+    }
+  }
+
+  topicListingForAlreadyLinkedTopics(row, subject_id, preSelectedTopics) {
+    this.selectedSubId = subject_id;
+    this.selectedRow = row;
+    this.topicsData = []
+    if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.topicService.getAllTopicsSubTopics(this.addClassDetails.subject_id).subscribe(
+      this.topicService.getAllTopicsSubTopics(subject_id).subscribe(
         res => {
           let temp: any;
           temp = res;
           if(temp != null && temp.length != 0){
+            this.checkedKeys = [];
             this.topicBox = false;
             console.log(res);
             this.isRippleLoad = false;
@@ -777,54 +823,6 @@ export class ClassAddComponent implements OnInit {
         }
       )
     }
-  }
-
-  topicListingForAlreadyLinkedTopics(row, subject_id, preSelectedTopics){
-    this.isRippleLoad = true;
-    this.selectedSubId = subject_id;
-    this.selectedRow = row;
-    this.topicsData = []
-    this.topicService.getAllTopicsSubTopics(subject_id).subscribe(
-      res => {
-        let temp: any;
-        temp = res;
-        if(temp != null && temp.length != 0){
-          this.checkedKeys = [];
-
-          this.topicBox = false;
-          this.isRippleLoad = false;
-          this.topicsData = res;
-
-          this.children = (dataItem: any) => of(dataItem.subTopic);
-          this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
-
-          if(preSelectedTopics != undefined && preSelectedTopics != null && preSelectedTopics != ""){
-            let x = preSelectedTopics.split('|');
-            let arrayOfNumbers = x.map(Number);
-            this.checkedKeys = arrayOfNumbers;
-            let subjectName = "";
-            this.subjectListDataSource.forEach(
-              ele => {
-                if (ele.subject_id == subject_id) {
-                  subjectName = ele.subject_name;
-                }
-              }
-            )
-            document.getElementById("topicSubName").innerHTML = subjectName;
-            document.getElementById("topicCount").innerHTML = this.topicsData.length;
-
-          }
-        }
-        else{
-          this.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
-        }
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
-      }
-    )
   }
 
   checkAllTopics(){
@@ -1728,31 +1726,41 @@ export class ClassAddComponent implements OnInit {
   }
 
   serverCallPUT(data) {
-    this.classService.createCustomBatchPUT(data).subscribe(
-      res => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
-        this.showWarningPopup = false;
-        this.updateTableDataAgain();
-      },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
-        //console.log(err);
-      }
-    )
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.classService.createCustomBatchPUT(data).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
+          this.showWarningPopup = false;
+          this.updateTableDataAgain();
+        },
+        err => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          //console.log(err);
+        }
+      )
+    }
   }
 
   serverCallPOST(data) {
-    this.classService.createWeeklyBatchPost(data).subscribe(
-      res => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
-        this.showWarningPopup = false;
-        this.updateTableDataAgain();
-      },
-      err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
-        //console.log(err);
-      }
-    )
+    if(!this.isRippleLoad){
+      this.isRippleLoad=true;
+      this.classService.createWeeklyBatchPost(data).subscribe(
+        res => {
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
+          this.showWarningPopup = false
+          this.isRippleLoad=false;
+          this.updateTableDataAgain();
+        },
+        err => {
+          this.isRippleLoad=false;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
+          //console.log(err);
+        }
+      )
+    }   
   }
 
   notifyOfCustomClass(data, index) {

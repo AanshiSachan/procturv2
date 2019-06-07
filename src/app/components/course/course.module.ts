@@ -20,8 +20,10 @@ import { SharedModule } from '../shared/shared.module';
     declarations: [
         CourseComponent,
         CourseInput,
+        
     ],
     entryComponents: [
+        
     ],
     providers: [
     ]

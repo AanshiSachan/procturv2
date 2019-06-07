@@ -25,6 +25,9 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
 import { AddClassComponent } from './live-classes/add-class/add-class.component';
 import { EditClassComponent } from './live-classes/edit-class/edit-class.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { TimeTableComponent } from './time-table/time-table.component';
+import { timeTableService } from '../../services/TimeTable/timeTable.service';
+import { tableComponent } from './time-table/table/table.component';
 
 @NgModule({
     imports: [
@@ -47,14 +50,18 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
         LiveClassesComponent,
         EcourseMappingComponent,
         AddClassComponent,
-        EditClassComponent
+        EditClassComponent,
+        TimeTableComponent,
+        tableComponent
     ],
     entryComponents: [
+        tableComponent
     ],
     providers: [
         ActivityPtmService,
         ExamDeskCourseAssignmentService,
         MessageService,
+        timeTableService,
         LiveClasses
     ]
 })

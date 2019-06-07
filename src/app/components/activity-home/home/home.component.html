@@ -9,7 +9,7 @@
                             Manage Cheque
                         </li>
                         <li>
-                          Get the details of the fees paid by cheques
+                            Get the details of the fees paid by cheques
                         </li>
                     </ul>
                 </div>
@@ -20,7 +20,7 @@
                             Monitoring Dashboard
                         </li>
                         <li>
-                          Get the graphical representation of the fees details.
+                            Get the graphical representation of the fees details.
                         </li>
                     </ul>
                 </div>
@@ -31,15 +31,13 @@
                             Archiving
                         </li>
                         <li *ngIf="jsonFlag.isProfessional">
-                          Archive the batches, students and get the report of archived batches and students.
+                            Archive the batches, students and get the report of archived batches and students.
                         </li>
                         <li *ngIf="!jsonFlag.isProfessional">
-                          Archive the courses, students and get the
-report of archived courses and students.
+                            Archive the courses, students and get the report of archived courses and students.
                         </li>
                     </ul>
                 </div>
-
                 <div class="c-lg-4 hide">
                     <ul class="card" routerLink="../ptm">
                         <li>
@@ -64,29 +62,37 @@ report of archived courses and students.
                     </ul>
                 </div>
 
-
+                <!-- Timetable -->
+                <div *ngIf="jsonFlag.isTimetable" class="c-lg-4">
+                    <ul class="card" routerLink="/view/activity/timeTable">
+                        <li>
+                            Time Table
+                        </li>
+                        <li>
+                            Time table as per the subject on weekly and monthly basis
+                        </li>
+                    </ul>
+                </div>
                 <div class="c-lg-4">
-                    <ul class="card" routerLink="../ecourse-file-manager"  *ngIf="jsonFlag.isEcourseFileManager">
+                    <ul class="card" routerLink="../ecourse-file-manager" *ngIf="jsonFlag.isEcourseFileManager &&  jsonFlag.institute_id =='100767'">
                         <li>
                             Study Materials
                         </li>
                         <li>
-                            Manage storage of uploaded and downloaded files by E-Course.
-
-                          Upload or download the files and manage files in folders and by category.
+                            Manage storage of uploaded and downloaded files by E-Course. Upload or download the files and manage files in folders and
+                            by category.
 
                         </li>
                     </ul>
                 </div>
 
-                <div class="c-lg-4"  *ngIf="jsonFlag.showExamDesk">
+                <div class="c-lg-4" *ngIf="jsonFlag.showExamDesk">
                     <ul class="card" routerLink="../examcourse">
                         <li>
                             ExamDesk Course Assignment
                         </li>
                         <li>
-                          Assign the students to E-course mapped
-                            Examdesk courses.
+                            Assign the students to E-course mapped Examdesk courses.
                         </li>
                     </ul>
                 </div>
@@ -97,28 +103,25 @@ report of archived courses and students.
                             Live Classes
                         </li>
                         <li>
-                          Create live classes, assign students, faculty and users
-to the live classes.
+                            Create live classes, assign students, faculty and users to the live classes.
                         </li>
                     </ul>
                 </div>
 
                 <div class="c-lg-4" *ngIf="jsonFlag.isAdmin">
-                        <!-- *ngIf="jsonFlag.isAdmin" -->
-                        <ul class="card" routerLink="../ecoursemapping">
-                            <li>
-                                 E-course Mapping
-                            </li>
-                            <li *ngIf="!jsonFlag.isProfessional">
-                              Create E-courses and assign multiple
-standards to the E-courses.
-                            </li>
-                            <li *ngIf="jsonFlag.isProfessional">
-                              Create E-courses and assign multiple
-batches to the E-courses
-                            </li>
-                        </ul>
-                    </div>
+                    <!-- *ngIf="jsonFlag.isAdmin" -->
+                    <ul class="card" routerLink="../ecoursemapping">
+                        <li>
+                            E-course Mapping
+                        </li>
+                        <li *ngIf="!jsonFlag.isProfessional">
+                            Create E-courses and assign multiple standards to the E-courses.
+                        </li>
+                        <li *ngIf="jsonFlag.isProfessional">
+                            Create E-courses and assign multiple batches to the E-courses
+                        </li>
+                    </ul>
+                </div>
             </section>
         </section>
     </aside>

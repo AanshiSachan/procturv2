@@ -11,7 +11,7 @@
       <div class="row">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
-            <label for="nameUser">Name*</label>
+            <label for="nameUser">Name <span class="text-danger">*</span></label>
             <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.name" id="nameUser" name="nameUser">
           </div>
         </div>
@@ -20,7 +20,7 @@
       <div class="row">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
-            <label for="contactNO">Contact No*</label>
+            <label for="contactNO">Contact No<span class="text-danger">*</span></label>
             <input type="text" class="form-ctrl" [(ngModel)]="roleDetails.username" id="contactNO" name="contactNO" maxlength="10">
           </div>
         </div>
@@ -49,7 +49,7 @@
       <div class="row" *ngIf="userId == '-1' || roleDetails.userType == '0'">
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper">
-            <label for="">Role*</label>
+            <label for="">Role<span class="text-danger">*</span></label>
             <select id="" class="form-ctrl" [(ngModel)]="roleDetails.role_id">
               <option value="-1"></option>
               <option *ngFor="let opt of rolesList" [value]="opt.role_id">
@@ -97,8 +97,8 @@
         <div class="c-sm-6 c-lg-6 c-md-6">
           <div class="pull-right">
             <button class="btn" routerLink="/view/manage/user">Cancel</button>
-            <button class="btn fullBlue" *ngIf="userId == '-1'" (click)="saveUserDetails()">Save</button>
-            <button class="btn fullBlue" *ngIf="userId != '-1'" (click)="updateUserDetails()">Update</button>
+            <button class="btn fullBlue" *ngIf="userId == '-1'" [disabled]="isRippleLoad" (click)="saveUserDetails()">Save</button>
+            <button class="btn fullBlue" *ngIf="userId != '-1'" [disabled]="isRippleLoad" (click)="updateUserDetails()">Update</button>
           </div>
         </div>
       </div>

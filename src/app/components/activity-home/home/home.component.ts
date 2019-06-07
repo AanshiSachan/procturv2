@@ -11,14 +11,16 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 })
 export class HomeComponent implements OnInit {
 
-  jsonFlag ={
-    isProfessional:false,
-    isAdmin:false,
-    isFeeActivity:false,
-    isMonitorDashboard:false,
-    showExamDesk:false,
-    showLiveClasses:false,
-    isEcourseFileManager:false
+  jsonFlag = {
+    isProfessional: false,
+    isAdmin: false,
+    isFeeActivity: false,
+    isMonitorDashboard: false,
+    showExamDesk: false,
+    showLiveClasses: false,
+    isEcourseFileManager: false,
+    isTimetable:false,
+    institute_id:''
   }
 
   constructor(
@@ -41,11 +43,12 @@ export class HomeComponent implements OnInit {
         }
       }
     )
+    this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.checkUserAccess();
     if (this.jsonFlag.isAdmin) {
       let type = Number(sessionStorage.getItem('institute_setup_type'));
       this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
-      this.jsonFlag.showLiveClasses = this.checkInstSetupType(type , 256);
+      this.jsonFlag.showLiveClasses = this.checkInstSetupType(type, 256);
     }
     const userType = sessionStorage.getItem('userType');
     if (userType == '3') {
@@ -55,15 +58,17 @@ export class HomeComponent implements OnInit {
 
   checkUserAccess() {
     const permissionArray = sessionStorage.getItem('permissions');
-   const permittedRoles=  sessionStorage.getItem('permitted_roles');
+    const permittedRoles = sessionStorage.getItem('permitted_roles');
     const userType = sessionStorage.getItem('userType');
     if (userType == '3') {
       this.jsonFlag.isAdmin = false;
+      this.jsonFlag.isTimetable = true;
     }
     else if (userType == '0') {
       if (permissionArray == "" || permissionArray == null) {
         this.jsonFlag.isAdmin = true;
         this.jsonFlag.isFeeActivity = true;
+        this.jsonFlag.isTimetable = true;
       }
       else {
         let perm: any[] = JSON.parse(permissionArray);
@@ -72,10 +77,13 @@ export class HomeComponent implements OnInit {
           this.jsonFlag.isFeeActivity = true;
         }
 
+        if (perm.indexOf('205') != -1) {
+          this.jsonFlag.isTimetable = true;
+        }
       }
     }
 
-    if(permittedRoles['718']!=undefined){
+    if (permittedRoles['718'] != undefined) {
       this.jsonFlag.isEcourseFileManager = true;
     }
   }

@@ -7,7 +7,6 @@ import { EmailReportComponent } from './email-report/email-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { FeeReportComponent } from './fee-report/fee-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
-import { TimeTableComponent } from './time-table/time-table.component';
 import { BiometricComponent } from './biometric/biometric.component';
 import { EnquiryReportComponent } from './enquiry-report/enquiry-report.component';
 
@@ -52,10 +51,6 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                     {
                         path: 'reportCard',
                         loadChildren: 'app/components/report/report-card/report-card.module#ReportCardModule',
-                    },
-                    {
-                        path: 'timeTable',
-                        component: TimeTableComponent
                     },
                     {
                         path: 'email',
