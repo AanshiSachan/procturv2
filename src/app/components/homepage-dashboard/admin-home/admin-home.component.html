@@ -376,7 +376,11 @@
             <div class="c-sm-3 c-md-3 c-lg-3">
               <div class="field-checkbox-wrapper" *ngIf="classMarkedForAction.is_attendance_marked != 'Y'">
                 <input type="checkbox" value="" class="form-checkbox" id="MarkAllPresent" [checked]="AllPresent" (change)="markAllPresent($event)">
-                <label for="MarkAllPresent">Mark All Present</label>
+                <label for="MarkAllPresent" class="txt-font">Mark All Present</label>
+              </div>
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentAttList')">
+                <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
               </div>
             </div>
 
@@ -430,18 +434,17 @@
                         <button id="presentBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s, i)"
                           class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
                       </div>
-                    </li>
 
-                    <li style="width: 20%;" *ngIf="settingInfo.home_work_feature_enable==1">
-                      <div style="margin: 0px;" class="customDropdown top5">
-                        <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
-                          (ngModelChange)="isHomeworkStatusChanged(i)">
-                          <option value="Y" selected=" ">Completed</option>
-                          <option value="N">Not Done</option>
-                          <option value="NC">Incomplete</option>
-                        </select>
-                      </div>
-                    </li>
+                      <li style="width: 20%;" *ngIf="settingInfo.home_work_feature_enable==1">
+                        <div style="margin: 0px;" class="customDropdown top5">
+                          <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
+                            (ngModelChange)="isHomeworkStatusChanged(i)">
+                            <option value="Y" selected=" ">Completed</option>
+                            <option value="N">Not Done</option>
+                            <option value="NC">Incomplete</option>
+                          </select>
+                        </div>
+                      </li>
 
                   </ul>
                 </div>
@@ -778,7 +781,12 @@
           <span class="present">{{presentCount}}</span>
           <h5>Present</h5>
         </div>
-
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'courseLevelStudentAtt')">
+            <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
+          </div>
+        </div>
       </div>
 
       <div class="attendanceMain">
@@ -1615,7 +1623,11 @@
         <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="isProfessional">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatusExam()" (change)="markAllPresentExam($event)">
-            <label for="MarkAllPresent">Mark All Present</label>
+            <label for="MarkAllPresent" class="txt-font">Mark All Present</label>
+          </div>
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentList')">
+            <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
           </div>
         </div>
 
@@ -1852,6 +1864,10 @@
             <input type="checkbox" value="" class="form-checkbox" id="chkBxAbsenteesCourse">
             <label for="chkBxAbsenteesCourse">Send SMS To Absentees</label>
           </div> -->
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentList')">
+            <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
+          </div>
         </div>
 
       </div>
