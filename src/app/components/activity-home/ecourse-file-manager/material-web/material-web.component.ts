@@ -139,14 +139,17 @@ export class MaterialWebComponent implements OnInit {
     }
 
     addMaterialExtension(object) {
-        let keys = ["notesList", "assignmentList", "studyMaterialList", "imageList", "previousYearQuesList", "slidesList"];
+        let keys = ["notesList", "assignmentList", "studyMaterialList", "imageList", "previousYearQuesList","audioNotesList", "slidesList"];
         keys.forEach(key => {
             if (object[key]) {
                 object[key].forEach(element => {
                     let str = element.file_path;
                     let ext = str.substr(str.lastIndexOf(".") + 1, str.length);
                     switch (ext) {
-                        case 'epub':
+                        case 'epub':{
+                            element.extension = "fa fa-file epub-color";
+                            break;
+                        }
                         case 'pdf': {
                             element.extension = "fa fa-file-pdf-o pdf-color";
                             break;
