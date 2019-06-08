@@ -57,8 +57,8 @@ export class AddEditRoleComponent implements OnInit {
             }
           }
         }
-        if(this.instituteId != this.kakadeRoleInstituteId ){
-          if(this.instituteId != 100767){
+        if(this.instituteId != this.kakadeRoleInstituteId  || this.instituteId != 100127){
+          if(this.instituteId != 100767 && this.instituteId != 100127){
             for (let t = 0; t < this.featuresArray.length; t++) {
               if (this.featuresArray[t].feature_id == 718) {
                 this.featuresArray.splice(t, 1);
