@@ -170,7 +170,7 @@
   <div class="row singleton-row material-row" *ngFor="let audio of audios">
     <div class="col-md-4 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <h4 class="file__title" title="{{audio.title}}">
-        <i [class]= "file?.extension" aria-hidden="true"></i>
+        <i [class]= "audio?.extension" aria-hidden="true"></i>
         <span class="txt-title">{{audio.title}}</span>
       </h4>
     </div>
