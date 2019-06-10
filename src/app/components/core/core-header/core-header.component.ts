@@ -104,7 +104,7 @@ export class CoreHeaderComponent implements OnInit {
 
     const permissionArray = sessionStorage.getItem('permissions');
     let username = sessionStorage.getItem('username');
-    if(((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 100952)) || permissionArray.indexOf('721') != -1){
+    if(((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077)) || permissionArray.indexOf('721') != -1){
       this.libraryRole = true;
     }
 
