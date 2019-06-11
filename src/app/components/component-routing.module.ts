@@ -25,6 +25,10 @@ import { AuthGuard } from '../guards/auth.guard';
                             loadChildren: 'app/components/homepage-dashboard/homepage-dashboard.module#HomepageDashboardModule'
                         },
                         {
+                            path: 'SMS',
+                            loadChildren: 'app/components/allocate-sms/allocate-sms.module#AllocateSmsModule'
+                        },
+                        {
                             path: 'formField',
                             loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
                             canLoad: [AuthGuard]

@@ -1,0 +1,24 @@
+.container-sms {
+  padding: 10px;
+
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .allocate-sms {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid gray;
+
+    .btn {
+      border-radius: .25rem;
+    }
+  }
+}
+
+.sms-title {
+  font-size: 14px;
+  font-weight: 600;
+  padding-left :1rem; 
+}

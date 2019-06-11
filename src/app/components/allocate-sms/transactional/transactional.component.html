@@ -1,0 +1,41 @@
+<div class=" container-fluid">
+  <div class="container-sms">
+    <div class="title">Allocate SMS</div>
+    <div class="allocate-sms">
+      <input type="button" [ngClass]="{'fullBlue': type=='Transactional'}" class="btn" value="Transactional" (click)="changeType('Transactional')">
+      <input type="button" class="btn" [ngClass]="{'fullBlue': type=='Promotional'}" (click)="changeType('Promotional')" value="Promotional">
+    </div>
+  </div>
+  <div class="sms-title">SMS Plan</div>
+  <div class="container-fluid">
+    <table class="table table-hover">
+      <thead class="border-css">
+        <tr>
+          <th> Total SMS</th>
+          <th> Price (Per SMS in Paisa)</th>
+          <th>Tax(%)</th>
+          <th>Total Price in Rs.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let smsDetails  of transactionSMS; let i =index">
+          <td>
+            <div class="c-sm-1 c-md-1 c-lg-1">
+              <div class="field-radio-wrapper">
+                <input type="radio" name="bothRadio" [id]="'bothRadio-'+i" class="form-radio" [value]="i" [(ngModel)]="radioSelected">
+                <label [for]="'bothRadio-'+i">{{smsDetails.total_sms}}</label>
+              </div>
+            </div>
+          </td>
+          <td>{{smsDetails.price}}</td>
+          <td>{{smsDetails.tax}}</td>
+          <td class="total_price">{{smsDetails.total_price | number}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="text-right">
+      <input type="button" class="btn fullBlue btn-buy" (click)="openRazorpayCheckout()" value="Buy Now">
+    </div>
+  </div>
+</div>
