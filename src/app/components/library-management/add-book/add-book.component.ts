@@ -39,6 +39,7 @@ export class AddBookComponent implements OnInit {
   bookPagesCount: any = '';
   bookVolume: any = '';
   bookEdition: any = '';
+  bookReference: any = '-1';
   bookLang: any = '-1';
   bookBillNumber: any = '';
   bookLostAmt: any = '';
@@ -52,6 +53,7 @@ export class AddBookComponent implements OnInit {
   publicationList: any;
   authorList: any;
   languageList: any;
+  referenceList: any;
 
   constructor(
     private router: Router,
@@ -89,6 +91,7 @@ export class AddBookComponent implements OnInit {
         this.publicationList = res.response.publications;
         this.authorList = res.response.authors;
         this.languageList = res.response.languages;
+        this.referenceList = res.response.references;
       },
       errorResponse => {
         this.isRippleLoad = false;
@@ -208,7 +211,7 @@ export class AddBookComponent implements OnInit {
            "subject_id": this.subjectName,
            "publication_id": this.publicationName,
            "language_id": this.bookLang,
-           // "reference_id": '',
+           "reference_id": this.bookReference,
            "authors": custAuthorIds,
            "title": this.title,
            // "location": ,
@@ -282,6 +285,7 @@ export class AddBookComponent implements OnInit {
     this.bookPagesCount = "";
     this.bookVolume = "";
     this.bookEdition = "";
+    this.bookReference = "-1";
     this.bookLang = "-1";
     this.bookBillNumber = "";
     this.bookLostAmt = "";

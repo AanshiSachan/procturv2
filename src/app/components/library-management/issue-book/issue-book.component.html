@@ -7,17 +7,26 @@
       <input type="text" name="" value="" placeholder="Search Book" class="search_box"  (keyup)="searchInList($event)" [(ngModel)]="searchInput">
       <i class="fa fa-search" aria-hidden="true"></i>
       <i class="fa fa-sort-desc" aria-hidden="true" (click)="showFilter()"></i>
+
+      <!-- <span *ngIf="!searchResult">&#8701; Search here! </span> -->
     </div>
 
     <!-- FILTER -->
-    <div class="search_box_filter_container" *ngIf="filter">
+    <div class="search_box_filter_container" *ngIf="filter" (click)="closeBookTitleSuggestion()">
 
       <div class="filter_item">
         <div class="label_container">
           <span style="top: 10px;">Book Title</span>
         </div>
         <div class="input_container">
-          <input type="text" name="" value="" placeholder="Enter Book Name" [(ngModel)]="searchTitle">
+          <input type="text" name="" value="" placeholder="Enter Book Name" [(ngModel)]="searchTitle" (keyup)="searchInBookList($event)">
+          <div class="book_suggestion_container" *ngIf="bookSuggestionForTitle">
+            <div class="book_suggestion_item" *ngFor="let book of bookSuggestionListForTitle let i = index">
+              <div class="name_container" (click)="selectBookForAdvanceSearch(book.title)">
+                <span>{{book.title}}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -115,7 +124,7 @@
             <div class="book_more_info">
               <span>Publication - {{ suggestion.publications.publication_name | slice:0:12 }}</span>
               <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-              <span>Author(s) - <span *ngFor="let author of suggestion.authorObjects | slice:0:1;">{{author.author_name | slice:0:12}} &nbsp; </span></span>
+              <span>Author(s) - <span *ngFor="let author of suggestion.authorObjects | slice:0:1;">{{author.author_name | slice:0:12}} <span *ngIf="suggestion.authorObjects.length > 1">...</span></span></span>
             </div>
           </div>
         </div>
@@ -125,6 +134,12 @@
       </div>
     </div>
 
+  </section>
+
+  <section *ngIf="!searchResult && !bookSuggestion">
+    <div class="illustartion_container" (click)="closeSuggestionAndFilter()">
+      <img src="./assets/images/library/search_book.svg" alt="">
+    </div>
   </section>
 
   <hr *ngIf="searchResult">
@@ -168,12 +183,13 @@
           <span>{{book.publications.publication_name | slice:0:25}}</span>
         </div>
         <div class="value_item1">
-          <span *ngFor="let author of book.authorObjects | slice:start:end let i = index">
-            <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="i == 0">,&nbsp;</span>
-              <span *ngIf="i < 3 && i == 1">...</span>
+          <span title="{{concatString(book.authorObjects)}}">
+            <span *ngFor="let author of book.authorObjects | slice:start:end let i = index">
+              <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="book.authorObjects.length > 1 && i < 2">,&nbsp;</span>
+                <span *ngIf="i < 3 && i == 1">...</span>
+              </span>
             </span>
           </span>
-
           <!-- <span *ngFor="let author of book.authorObjects | slice:0:book.authorObjects.length >= 1 ? 2 : 1">{{author.author_name | slice:0:10}},&nbsp; </span> -->
         </div>
         <div class="value_item">
@@ -212,8 +228,13 @@
       <div class="book_details_item_2">
         <div class="book_more_info_item_1">
           <span class="title">Author</span>
-          <!-- <span class="more_info_value">Mr. Divesh Borse</span> -->
-          <span class="more_info_value" *ngFor="let author of bookDataForIssue.authorObjects | slice:0:1;">{{author.author_name | slice:0:12}} &nbsp; </span>
+          <span title="{{concatAuthorList(bookDataForIssue.authorObjects)}}">
+            <span class="more_info_value" *ngFor="let author of bookDataForIssue.authorObjects | slice:start:end let p = index;">
+              <span *ngIf="p < 2">{{author.author_name | slice:0:10}}<span *ngIf="bookDataForIssue.authorObjects.length > 1">,&nbsp;</span><span *ngIf="p < 3 && p == 1">...</span>
+
+              </span>
+             </span>
+          </span>
         </div>
         <div class="book_more_info_item_1">
           <span class="title">Publication</span>
@@ -264,6 +285,33 @@
           <span *ngIf="bookInHand == 0">No books in hand!</span>
         </div>
 
+        <div class="books_in_hand_details_container" *ngIf="booksInHandStatus">
+          <div class="books_in_hand_details_item" *ngFor="let book of booksInHandDetails">
+            <div class="item_container">
+              <img src="./assets/images/library/color_book.svg" alt="" class="book_icon">
+              <div class="book_name_container">
+                <span class="title">Book Title</span>
+                <span class="book_name">{{book.book_complete_details.title}}</span>
+              </div>
+              <div class="issue_date">
+                <span class="title">Issued Date</span>
+                <span class="book_name">{{book.issued_book.issued_on | date: 'dd MMM yyyy'}}</span>
+              </div>
+              <div class="return_date">
+                <span class="title">Return Date</span>
+                <span class="book_name">{{book.issued_book.to_return_on_date | date: 'dd MMM yyyy'}}</span>
+              </div>
+              <div class="book_status_container">
+                <button type="button" name="button" class="issued_btn" *ngIf="book.issued_book.no_of_late_days == 0">Issued</button>
+                <button type="button" name="button" class="overdue_btn" *ngIf="book.issued_book.no_of_late_days != 0">Overdue</button>
+              </div>
+            </div>
+            <!-- <div class="action_container">
+              <img src="./assets/images/library/issue_btn.svg" alt="" class="book_icon" (click)="returnBook(book)">
+            </div> -->
+          </div>
+        </div>
+
       </div>
 
       <div class="book_details_item_4">
@@ -278,11 +326,18 @@
           </div>
           <div class="to_date">
             <span>To</span>
-            <input type="text" name="" value="" placeholder="" readonly [(ngModel)]="tempToDate" (click)="openCalendar('bookToDate')">
-            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('bookToDate')"></i>
+            <input type="text" name="" value="" placeholder="" readonly [(ngModel)]="tempToDate">
+            <!-- <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                Enable this to
+                <br> start sending SMS
+              </div>
+            </div> -->
+            <!-- <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('bookToDate')"></i> -->
 
-            <input  type="text" value="" id="bookToDate" class="widgetDatepicker bsDatepicker" name="bookToDate"
-             [(ngModel)]="bookToDate" (ngModelChange)="selectBookToDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+            <!-- <input  type="text" value="" id="bookToDate" class="widgetDatepicker bsDatepicker" name="bookToDate" -->
+             <!-- [(ngModel)]="bookToDate" (ngModelChange)="selectBookToDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/> -->
           </div>
         </div>
         <!-- <div class="notify_container">
@@ -302,7 +357,7 @@
           <button type="button" name="button" class="back_btn" (click)="showSearchResult()">Back</button>
         </div>
         <div class="right_side">
-          <button type="button" name="button" class="cancel_btn" (click)="clearResult()">Cancel</button>
+          <button type="button" name="button" class="cancel_btn" (click)="clearResult()">Clear</button>
           <button type="button" name="button" class="issue_btn" (click)="issueBook()" [disabled]="multiClickDisabled">Issue</button>
         </div>
       </div>
@@ -311,3 +366,12 @@
   </section>
 
 </section>
+
+<div class="row filter-res pagination" #pager id="pager" style="width: 100%;" *ngIf="!bookSuggestion">
+  <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+    <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+      (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+    </pagination>
+  </div>
+</div>
