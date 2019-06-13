@@ -1,6 +1,6 @@
 
 .middle-section{
-  background: #f9f9f9;
+  background: #fdfdfd;
 }
 
 .menu_section{
@@ -8,8 +8,8 @@
   width: 100%;
   .library_menu_container{
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 8px;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
     display: flex;
     flex-direction: row;
     width: 70%;
@@ -52,9 +52,13 @@
       }
       .activeMenu{
         color: #1984f6;
+        visibility: visible;
       }
       .nonActive{
         color: #9b9b9b;
+        .fa-circle-o{
+          visibility: hidden;
+        }
       }
     }
   }

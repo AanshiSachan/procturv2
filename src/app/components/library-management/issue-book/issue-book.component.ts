@@ -6,6 +6,7 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { AddBookService } from '../../../services/library/add/add-book.service';
 import { IssueBookService } from '../../../services/library/issue/issue-book.service';
+
 import * as moment from 'moment';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
@@ -28,6 +29,8 @@ export class IssueBookComponent implements OnInit {
   searchInput: string;
   isRippleLoad: boolean = false;
   multiClickDisabled: boolean = false;
+  hoverTitle: string = "";
+  hoverTitleAuthor: string = "";
 
   searchTitle: any = "";
   searchCategoryId: any = '-1';
@@ -56,10 +59,22 @@ export class IssueBookComponent implements OnInit {
   bookToDate: any;
   booksInHandStatus: boolean = false;
   bookInHand: number = 0;
+  booksInHandDetails: any;
+
+  bookSuggestionForTitle: boolean = false;
+  bookSuggestionListForTitle: any;
 
   bookSearchData: any;
   bookDataForIssue: any;
   borrowerSearchData: any;
+
+  numberOfLateDaysWithoutFine: number;
+
+  // FOR PAGINATION
+  pageIndex: number = 1;
+  displayBatchSize: number = 20;
+  totalCount: number = 0;
+  sizeArr: any[] = [20, 50, 100, 150, 200, 500];
 
   constructor(
     private router: Router,
@@ -67,16 +82,35 @@ export class IssueBookComponent implements OnInit {
     private commonService : CommonServiceFactory,
     private appC: AppComponent,
     private addBookService: AddBookService,
-    private issueBookService: IssueBookService
+    private issueBookService: IssueBookService,
   ) { }
 
   ngOnInit() {
 
     this.tempFromDate = moment(new Date()).format("DD MMM YYYY");
-    this.tempToDate = moment(new Date()).format("DD MMM YYYY");
 
     this.getAllMasterData();
+    this.getInstituteData();
+  }
 
+  getInstituteData(){
+    this.isRippleLoad = true;
+    this.issueBookService.getInstituteSettingFromServer().subscribe(
+      response => {
+        this.isRippleLoad = false;
+        let res: any;
+        res = response;
+        this.numberOfLateDaysWithoutFine = res.lib_issue_for_days
+        console.log(this.numberOfLateDaysWithoutFine)
+
+        this.tempToDate = moment(new Date()).add(this.numberOfLateDaysWithoutFine, 'days').format("DD MMM YYYY");
+
+      },
+      errorResponse => {
+        this.isRippleLoad = false;
+        console.log(errorResponse)
+      }
+    )
   }
 
   getAllMasterData(){
@@ -119,14 +153,40 @@ export class IssueBookComponent implements OnInit {
     )
   }
 
+  searchInBookList(search_string: any){
+    this.isRippleLoad = true;
+    this.issueBookService.getSearchedBooks(this.searchTitle).subscribe(
+      response => {
+        let res: any;
+        res = response;
+        this.isRippleLoad = false;
+        if(res.response.length > 0){
+          this.bookSuggestionForTitle = true;
+          this.bookSuggestionListForTitle = res.response;
+        }
+        else{
+          this.bookSuggestionForTitle = false;
+        }
+      })
+  }
+
+  closeBookTitleSuggestion(){
+    this.bookSuggestionForTitle = false;
+  }
+
+  selectBookForAdvanceSearch(title){
+    this.searchTitle = title;
+    this.bookSuggestionForTitle = false;
+  }
+
   searchInList(search_string: any){
-    if (search_string.which <= 90 && search_string.which >= 48 || search_string.which == 8){
+    if (search_string.which <= 90 && search_string.which >= 48 || search_string.which == 8 || search_string.which == 13){
       this.filter = false;
       this.suggestionList = [];
       if(this.searchInput != ''){
         this.getSearchData();
       }
-      if(search_string.which === 13){
+      if(search_string.which == 13){
         this.showSearchResult();
       }
 
@@ -238,17 +298,17 @@ export class IssueBookComponent implements OnInit {
           "value": this.searchAuthorId
         }
       ],
-      "sort": [
-        {
-          "column": "publication_name",
-          "assending" : false
-        }
-      ],
-    	"pageNo": 1,
-    	"noOfRecords": 10
+      // "sort": [
+      //   {
+      //     "column": "updated",
+      //     "assending" : false
+      //   }
+      // ],
+    	"pageNo": this.pageIndex,
+    	"noOfRecords": this.displayBatchSize
     }
 
-    console.log(obj);
+    // console.log(obj);
 
     this.isRippleLoad = true;
     this.issueBookService.getBookFilterData(obj).subscribe(
@@ -259,6 +319,7 @@ export class IssueBookComponent implements OnInit {
         if(res.response.results.length  > 0){
           console.log(response)
           this.bookSearchData = res.response.results;
+          this.totalCount = res.response.totalRecords;
           this.searchResult = true;
         }
         else{
@@ -328,12 +389,11 @@ export class IssueBookComponent implements OnInit {
           console.log(response)
           this.booksInHandStatus = true;
           this.bookInHand = res.response.length;
-
+          this.booksInHandDetails = res.response;
         }
         else{
           this.messageHandler('error', 'Internal server error', '');
         }
-
     })
 
   }
@@ -342,6 +402,7 @@ export class IssueBookComponent implements OnInit {
     let fromDateNotGreaterThanToday = this.graterThanToday(this.bookFromDate);
     if(fromDateNotGreaterThanToday){
       this.tempFromDate = moment(this.bookFromDate).format("DD MMM YYYY");
+      this.tempToDate = moment(this.bookFromDate).add(this.numberOfLateDaysWithoutFine, 'days').format("DD MMM YYYY");
     }
     else{
       this.messageHandler('error', 'From date cannot be future date', '');
@@ -448,23 +509,45 @@ export class IssueBookComponent implements OnInit {
 
     this.booksInHandStatus = false;
     this.bookInHand = 0;
-
+    this.booksInHandDetails = [];
   }
 
   showIssueBookPopup(bookData){
     this.bookSuggestion = true;
     this.searchResult = false;
     this.borrower = "";
+    this.booksInHandDetails = [];
     this.booksInHandStatus = false;
     this.bookInHand = 0;
     this.tempFromDate = moment(new Date()).format("DD MMM YYYY");
-    this.tempToDate = moment(new Date()).format("DD MMM YYYY");
+    // this.tempToDate = moment(new Date()).format("DD MMM YYYY");
     this.bookFromDate = moment(new Date()).format("DD MMM YYYY");
-    this.bookToDate = moment(new Date()).format("DD MMM YYYY");
+    this.bookToDate = this.tempToDate;
     this.bookDataForIssue = bookData;
 
   }
 
+  concatString(authorArray){
+    this.hoverTitle = "";
+      for(let i = 0; i < authorArray.length; i++){
+        this.hoverTitle += authorArray[i].author_name;
+        if(i < authorArray.length - 1 && authorArray.length > 1){
+          this.hoverTitle += ", ";
+        }
+      }
+    return this.hoverTitle;
+  }
+
+  concatAuthorList(authorArray){
+    this.hoverTitleAuthor = "";
+      for(let i = 0; i < authorArray.length; i++){
+        this.hoverTitleAuthor += authorArray[i].author_name;
+        if(i >= 0 && i < authorArray.length - 1 && authorArray.length > 1){
+          this.hoverTitleAuthor += ", ";
+        }
+      }
+    return this.hoverTitleAuthor;
+  }
 
   messageHandler(type, title, body){
     let obj = {
@@ -483,11 +566,39 @@ export class IssueBookComponent implements OnInit {
 
   clearResult(){
     this.borrower = "";
+    this.booksInHandStatus = false;
+    this.booksInHandDetails = [];
   }
-
 
   openCalendar(id) {
     document.getElementById(id).click();
+  }
+
+  /*** pagination functions */
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+      this.pageIndex++;
+      this.fectchTableDataByPage(this.pageIndex);
+  }
+
+  /* Fetch previous set of data from server and update table */
+  fetchPrevious() {
+      this.pageIndex--;
+      this.fectchTableDataByPage(this.pageIndex);
+  }
+
+  /* Fetch table data by page index */
+  fectchTableDataByPage(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.advanceSearch();
+  }
+
+  /* Fetches Data as per the user selected batch size */
+  updateTableBatchSize(num) {
+    this.pageIndex = 1;
+    this.displayBatchSize = parseInt(num);
+    this.advanceSearch();
   }
 
 }

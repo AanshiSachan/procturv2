@@ -6,12 +6,13 @@
   <div class="search_bar_container">
     <input type="text" name="" value="" placeholder="Search by Borrower/Book issued" class="search_box"  (keyup)="searchInList($event)" [(ngModel)]="searchInput">
     <i class="fa fa-search" aria-hidden="true"></i>
-    <i class="fa fa-times" aria-hidden="true" (click)="clearFilter()" ></i>
-    <i class="fa fa-sort-desc" aria-hidden="true" (click)="showFilter()"></i>
+    <!-- <i class="fa fa-times" aria-hidden="true" (click)="clearFilter()" ></i> -->
+    <!-- <i class="fa fa-sort-desc" aria-hidden="true" (click)="showFilter()"></i> -->
+    <!-- <span *ngIf="!searchResult">&#8701; Search here! </span> -->
   </div>
 
   <!-- FILTER -->
-  <div class="search_box_filter_container" *ngIf="filter">
+  <!-- <div class="search_box_filter_container" *ngIf="filter">
 
     <div class="filter_item">
       <div class="label_container">
@@ -100,7 +101,7 @@
       <button type="button" name="button" class="search_btn" (click)="advanceSearch()">Search</button>
     </div>
 
-  </div>
+  </div> -->
 
   <!-- Suggestion -->
   <div class="suggestions_container" *ngIf="suggestion">
@@ -141,13 +142,18 @@
 
 </section>
 
+<section *ngIf="!searchResult">
+  <div class="illustartion_container" (close)="closeSuggestions()">
+    <img src="./assets/images/library/search_book.svg" alt="">
+  </div>
+</section>
 
 <hr *ngIf="searchResult">
 
 
 <section *ngIf="searchResult">
   <div class="search_result_container">
-    <div class="search_result_item" *ngFor="let returnBook of returnBookData let i = index">
+    <div class="search_result_item" *ngFor="let returnBook of returnBookData let p = index">
       <div class="sub_item_1_container">
         <div class="sub_item1">
           <img src="./assets/images/library/color_book.svg" alt="" class="book_icon">
@@ -178,17 +184,18 @@
         <div class="sub_item3">
           <div class="book_name_container">
             <span class="title">Issued Date</span>
-            <span class="more_info">{{returnBook.issued_book.issued_on | date: 'dd MMM yyyy'}}</span>
+            <span class="more_info" style="font-weight: 600;">{{returnBook.issued_book.issued_on | date: 'dd MMM yyyy'}}</span>
           </div>
         </div>
         <div class="sub_item3">
           <div class="book_name_container">
             <span class="title">Return Date</span>
-            <span class="more_info">{{returnBook.issued_book.to_return_on_date | date: 'dd MMM yyyy'}}</span>
+            <span class="more_info" style="font-weight: 600;">{{returnBook.issued_book.to_return_on_date | date: 'dd MMM yyyy'}}</span>
           </div>
         </div>
         <div class="sub_item3" style="text-align: right;">
-          <span class="issue_span">Issued</span>
+          <span class="issue_span" *ngIf="returnBook.issued_book.no_of_late_days == 0">Issued</span>
+          <span class="overdue_span" *ngIf="returnBook.issued_book.no_of_late_days != 0">Overdue</span>
         </div>
       </div>
       <div class="sub_item_2_container">
@@ -197,9 +204,11 @@
             <div class="book_name_container">
               <span class="title">Author</span>
               <div class="">
-                <span class="more_info" *ngFor="let author of returnBook.book_complete_details.authorObjects | slice:start:end let i = index">
-                  <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="i == 0">,&nbsp;</span>
-                    <span *ngIf="i < 3 && i == 1">...</span>
+                <span title="{{concatString(returnBook.book_complete_details.authorObjects)}}">
+                  <span class="more_info" *ngFor="let author of returnBook.book_complete_details.authorObjects | slice:start:end let i = index">
+                    <span *ngIf="i < 2">{{author.author_name | slice:0:10}}<span *ngIf="i == 0">,&nbsp;</span>
+                      <span *ngIf="i < 3 && i == 1">...</span>
+                    </span>
                   </span>
                 </span>
               </div>
@@ -278,7 +287,7 @@
           <span>Number of late days*</span>
           <div class="input_container_for_days">
             <input type="number" name="" value="" placeholder="" style="width: 30%;" [(ngModel)]="noOfLateDays" (ngModelChange)="calculateLateFine()" [disabled]="disableReturnAmt">
-            <span>*</span>
+            <span>X</span>
             <span>{{perDayFine}}/- per day</span>
           </div>
         </div>

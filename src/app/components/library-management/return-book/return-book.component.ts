@@ -27,6 +27,7 @@ export class ReturnBookComponent implements OnInit {
   lostBook: boolean = false;
   isRippleLoad: boolean = false;
   bookSuggestion: boolean = false;
+  hoverTitle: string = "";
 
   pageNo: number;
   noOfRecords: number;
@@ -56,7 +57,7 @@ export class ReturnBookComponent implements OnInit {
   authorList: any;
   languageList: any;
 
-  perDayFine: number = 2;
+  perDayFine: number;
   noOfLateDays: number;
   totalLateFine: number;
 
@@ -87,6 +88,25 @@ export class ReturnBookComponent implements OnInit {
     this.tempLostDate = moment(new Date()).format("DD MMM YYYY");
 
     this.getAllMasterData();
+    this.getInstituteData();
+  }
+
+  getInstituteData(){
+    this.isRippleLoad = true;
+    this.issueBookService.getInstituteSettingFromServer().subscribe(
+      response => {
+        this.isRippleLoad = false;
+        let res: any;
+        res = response;
+        this.perDayFine = res.lib_due_date_fine_per_day
+        console.log(this.perDayFine)
+
+      },
+      errorResponse => {
+        this.isRippleLoad = false;
+        console.log(errorResponse)
+      }
+    )
   }
 
   getAllMasterData(){
@@ -186,6 +206,83 @@ export class ReturnBookComponent implements OnInit {
       })
   }
 
+  advanceSearch(){
+    this.filter = false;
+    this.suggestion = false;
+    let obj = {
+      "by" : [
+        {
+          "column": "title",
+          "value": this.searchTitle
+        },
+        {
+          "column": "category_id",
+          "value": this.searchCategoryId
+        },
+        {
+          "column": "sub_category_id",
+          "value": this.searchSubcategoryId
+        },
+        {
+          "column": "subject_id",
+          "value": this.searchSubjectId
+        },
+        {
+          "column": "publication_id",
+          "value": this.searchPublicationId
+        },
+        {
+          "column": "language_id",
+          "value": this.searchLangId
+        },
+        {
+          "column": "author_id",
+          "value": this.searchAuthorId
+        }
+      ],
+      "sort": [
+        {
+          "column": "publication_name",
+          "assending" : false
+        }
+      ],
+    	"pageNo": 1,
+    	"noOfRecords": 10
+    }
+
+    console.log(obj);
+
+    this.isRippleLoad = true;
+    this.issueBookService.getBookFilterData(obj).subscribe(
+      response => {
+        this.isRippleLoad = false;
+        let res: any;
+        res = response;
+        if(res.response.results.length  > 0){
+          console.log(response)
+          // this.returnBookData = res.response.results;
+          this.searchResult = true;
+        }
+        else{
+          this.messageHandler('error', 'No data found', '');
+          // if(res.errorResponse[0].errorCode == 700){
+          //   this.messageHandler('error', 'No data found', '');
+          // }
+        }
+
+      })
+  }
+
+  resetFilter(){
+    this.searchTitle = "";
+    this.searchCategoryId = "-1";
+    this.searchSubcategoryId = "-1";
+    this.searchSubjectId = "-1";
+    this.searchPublicationId = "-1";
+    this.searchLangId = "-1";
+    this.searchAuthorId = "-1";
+  }
+
 
   getIssuedBooksByBook(book_id, book_title){
     this.isRippleLoad = true;
@@ -226,6 +323,7 @@ export class ReturnBookComponent implements OnInit {
 
   showReturnBook(returnBookData){
     this.lostBookAmt = 0;
+    this.noOfLateDays = 0;
     this.totalLateFine = 0;
     this.returnBookRemarks = "";
     this.returnBookPopup = true;
@@ -288,6 +386,10 @@ export class ReturnBookComponent implements OnInit {
           this.bookSuggestion = false
           this.searchResult = false;
           this.searchInput = "";
+          this.lostBookAmt = 0;
+          this.noOfLateDays = 0;
+          this.totalLateFine = 0;
+          this.returnBookRemarks = "";
           this.messageHandler('success', 'Book returned successfully', '');
         }
         else{
@@ -304,6 +406,7 @@ export class ReturnBookComponent implements OnInit {
 
   calculateLateFine(){
     this.totalLateFine = this.perDayFine * this.noOfLateDays;
+    this.totalLateFine = Math.round(this.totalLateFine);
   }
 
   selectReturnDate(){
@@ -323,7 +426,7 @@ export class ReturnBookComponent implements OnInit {
       this.tempLostDate = moment(this.lostDate).format("DD MMM YYYY");
     }
     else{
-      this.messageHandler('error', 'Book lost date cannot be future date', '');
+      this.messageHandler('error', 'Book lost/scrap date cannot be future date', '');
       return;
     }
   }
@@ -352,6 +455,14 @@ export class ReturnBookComponent implements OnInit {
       this.disableReturnAmt = false;
     }
 
+    let timeDiff: any = "";
+    let days: any = "";
+    timeDiff = Math.floor(<any>currentDate - <any>givenDate);
+    days = timeDiff / (1000 * 60 * 60 * 24);
+    if(days > 0){
+      this.noOfLateDays = days;
+      this.totalLateFine = this.perDayFine * this.noOfLateDays;
+    }
   }
 
   openCalendar(id) {
@@ -365,6 +476,21 @@ export class ReturnBookComponent implements OnInit {
 
   closePopup(){
     this.returnBookPopup = false;
+  }
+
+  closeSuggestions(){
+    this.suggestion = false;
+  }
+
+  concatString(authorArray){
+    this.hoverTitle = "";
+      for(let i = 0; i < authorArray.length; i++){
+        this.hoverTitle += authorArray[i].author_name;
+        if(i >= 0 && i < authorArray.length){
+          this.hoverTitle += ", ";
+        }
+      }
+    return this.hoverTitle;
   }
 
   messageHandler(type, title, body){
