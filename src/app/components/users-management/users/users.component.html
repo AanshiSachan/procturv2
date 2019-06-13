@@ -76,8 +76,8 @@
               <th class="align-txt-lft">Name</th>
               <th class="align-txt-lft">Contact No</th>
               <th class="align-txt-lft">Email Id</th>
-              <th class="align-txt-lft" *ngIf="dataFilter.role==1 && dataFilter.is_show_credentials">Credentials</th>
-              <th *ngIf="dataFilter.role==1 && dataFilter.is_show_credentials"></th>
+              <th class="align-txt-lft" *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 )&& dataFilter.is_show_credentials">Credentials</th>
+              <th *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials"></th>
               <th class="align-txt-lft">User Type</th>
               <th class="align-txt-lft"> Inventory</th>
               <th class="align-txt-lft">Action</th>
@@ -94,7 +94,7 @@
               <td class="align-txt-lft">{{data.name}}</td>
               <td class="align-txt-lft">{{data.username}}</td>
               <td class="align-txt-lft">{{data.alternate_email_id}}</td>
-              <td *ngIf="dataFilter.role==1 && dataFilter.is_show_credentials">
+              <td *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials">
                 <div class="credentials-view">
                   <span>Username :</span>
                   <span>{{data.username}}</span>
@@ -105,7 +105,7 @@
                   <span *ngIf="!data.isEncript">{{data.password}}</span>
                 </div>
               </td>
-              <td *ngIf="dataFilter.role==1 && dataFilter.is_show_credentials">
+              <td *ngIf="( dataFilter.role==1 || dataFilter.role==3 || dataFilter.role==5 ) && dataFilter.is_show_credentials">
                 <i class="fa fa-eye psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="!data.isEncript"></i>
                 <i class="fa fa-eye-slash psw-show" aria-hidden="true" (click)="descriptPassword(data)" *ngIf="data.isEncript"></i>
               </td>

@@ -45,11 +45,16 @@
       padding-top: 10px;
       padding-bottom: 10px;
       border-bottom: 1px solid gray;
-  
-      .btn {
-        border-radius: .25rem;
       }
-    }
+  }
+  
+  .btn {
+    border-radius: .25rem;
+  }
+  
+  .firstTh{
+    text-align: left;
+    padding-left: 18px;
   }
   
   .sms-title {

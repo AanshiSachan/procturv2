@@ -11,7 +11,7 @@
     <table class="table table-hover">
       <thead class="border-css">
         <tr>
-          <th> Total SMS</th>
+          <th class="firstTh"> Total SMS</th>
           <th> Price (Per SMS in Paisa)</th>
           <th>Tax(%)</th>
           <th>Total Price in Rs.</th>
@@ -35,6 +35,7 @@
     </table>
 
     <div class="text-right">
+      <input type="button" class="btn" routerLink="/view/home/admin" value="Back">
       <input type="button" class="btn fullBlue btn-buy" (click)="openRazorpayCheckout()" value="Buy Now">
     </div>
   </div>

@@ -227,8 +227,8 @@ export class CourseExamComponent implements OnInit {
           this.showContentSection = true;
           this.jsonVar.isSheduleBatch = true;
           this.examScheduleData = res;
-
-
+          this.batchStartDate =this.examScheduleData.batch_start_date;
+          this.batchEndDate = this.examScheduleData.batch_end_date;
           if (moment(this.batchEndDate).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
             this.jsonVar.isSheduleBatch = false;
           }
