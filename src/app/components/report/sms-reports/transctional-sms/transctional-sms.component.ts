@@ -35,7 +35,6 @@ export class TransctionalSmsComponent implements OnInit {
   searchData = [];
   currentDirection = 'desc';
   searchText = "";
-  displayBatchSize: number = 1000;
   PageIndex: number = 1;
   maxPageSize: number = 0;
   totalRecords: number = 0;
@@ -48,8 +47,8 @@ export class TransctionalSmsComponent implements OnInit {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
     from_date: moment(new Date()).format('YYYY-MM-DD'),
     to_date: moment(new Date()).format('YYYY-MM-DD'),
-    start_index: 0,
-    batch_size: this.displayBatchSize,
+    start_index: '-1',
+    batch_size: '-1',
     sorted_by: "",
     order_by: "",
   }
