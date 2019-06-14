@@ -281,6 +281,9 @@ export class InstituteSettingsComponent implements OnInit {
     emailIds_for_justDail_ext_lead: '',
     enable_teacher_for_multiple_class: '',
     enable_elearn_course_mapping_feature: '',
+    enable_exam_marks_not_update_notification:0,
+    enable_exam_attendance_not_marked_notification:0,
+    enable_class_attendance_not_marked_notification:0,
 
     lib_issue_for_days: '',
     lib_due_date_fine_per_day: ''
@@ -293,6 +296,10 @@ export class InstituteSettingsComponent implements OnInit {
   menuList: string[] = ['liSMS', 'liExamRep', 'liFee', 'liReport', 'liMisc', 'liBio', 'liLib'];
   contenTDiv: string[] = ['divSMSContent', 'divExamReport', 'divFeeContent', 'divReportContent', 'divMiscContent', 'divBioMetricContent', 'divLibraryContent'];
 
+  // Library Role
+  libraryRole: boolean = false;
+  instituteId: any;
+
   constructor(
     private apiService: InstituteSettingService,
     private auth: AuthenticatorService,
@@ -303,10 +310,20 @@ export class InstituteSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.instituteName = sessionStorage.getItem('institute_name');
+    this.instituteId = sessionStorage.getItem('institute_id');
     this.onlinePayment = sessionStorage.getItem('enable_online_payment_feature');
     this.biometricSetting = Number(sessionStorage.getItem('biometric_attendance_feature'));
     this.checkInstitutionType();
     this.getSettingFromServer();
+    this.libraryRoleSetting();
+  }
+
+  libraryRoleSetting(){
+    const permissionArray = sessionStorage.getItem('permissions');
+    let username = sessionStorage.getItem('username');
+    if(((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077)) || permissionArray.indexOf('721') != -1){
+      this.libraryRole = true;
+    }
   }
 
   changeView(lidiv, showView) {
@@ -433,6 +450,9 @@ export class InstituteSettingsComponent implements OnInit {
   	obj.enable_justDial_routing_report = this.convertBoolenToNumber(this.instituteSettingDet.enable_justDial_routing_report);
   	obj.enable_teacher_for_multiple_class = this.convertBoolenToNumber(this.instituteSettingDet.enable_teacher_for_multiple_class);
   	obj.enable_elearn_course_mapping_feature = this.convertBoolenToNumber(this.instituteSettingDet.enable_elearn_course_mapping_feature);
+    obj.enable_class_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_class_attendance_not_marked_notification);
+    obj.enable_exam_attendance_not_marked_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_attendance_not_marked_notification);
+    obj.enable_exam_marks_not_update_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_exam_marks_not_update_notification);
 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
@@ -572,6 +592,9 @@ export class InstituteSettingsComponent implements OnInit {
   	this.instituteSettingDet.enable_teacher_for_multiple_class = data.enable_teacher_for_multiple_class;
   	this.instituteSettingDet.enable_elearn_course_mapping_feature = data.enable_elearn_course_mapping_feature;
   	this.instituteSettingDet.emailIds_for_justDail_ext_lead = data.emailIds_for_justDail_ext_lead;
+    this.instituteSettingDet.enable_class_attendance_not_marked_notification = data.enable_class_attendance_not_marked_notification;
+    this.instituteSettingDet.enable_exam_attendance_not_marked_notification = data.enable_exam_attendance_not_marked_notification;
+    this.instituteSettingDet.enable_exam_marks_not_update_notification = data.enable_exam_marks_not_update_notification;
     this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);
 
     this.fillTableCheckboxValue(this.instituteSettingDet.lib_send_sms_for_book_issued, data.lib_send_sms_for_book_issued);
