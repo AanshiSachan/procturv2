@@ -195,9 +195,9 @@
           <!-- Added Date -->
           <td class="edit-comp" style="position: relative;">
             <span id="changeDate_{{i}}">{{expense.added_date}}</span>
-            <input  type="text" value="" id="editDate" class="widgetDatepicker bsDatepicker" name="editDate"
+            <input  type="text" value="" [id]="'editDate-'+i" class="widgetDatepicker bsDatepicker" name="editDate"
              [(ngModel)]="editDate" (ngModelChange)="expenseEditDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
-            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('editDate')"></i>
+            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('editDate-'+i)"></i>
           </td>
           <td class="view-comp">
             <span id="editDate">{{expense.added_date}}</span>
