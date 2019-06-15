@@ -43,6 +43,12 @@
             <i class="fas fa-random" style="font-family: FontAwesome"></i>
           </span>
         </li>
+        <li id="liLib" class="menu-item" style="cursor: pointer" (click)="changeView('liLib','divLibraryContent')" *ngIf="libraryRole">
+          <span>
+            <a class="">Library</a>
+            <i class="fas fa-random" style="font-family: FontAwesome"></i>
+          </span>
+        </li>
       </ul>
     </aside>
 
@@ -1297,16 +1303,106 @@
                     </tr>
 
                     <tr>
+                     <td>
+                       Exam Marks Not Updated Reminder
+                       <div class="questionInfo inline-relative">
+                         <span class="qInfoIcon i-class">i</span>
+                         <div class="tooltip-box-field lg">
+                           Enable to send reminder to
+                           <br> update exam marks
+                           <br> Currently, this setting will
+                           <br> be applicable only to faculty
+                         </div>
+                       </div>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                       <div class="field-checkbox-wrapper">
+                         <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification"
+                           id="ch72">
+                         <label for="ch742"></label>
+                       </div>
+                     </td>
+                     <td>
+                     </td>
+                   </tr>
+
+
+                    <tr>
+                     <td>
+                       Exam Attendance Not Marked Reminder
+                       <div class="questionInfo inline-relative">
+                         <span class="qInfoIcon i-class">i</span>
+                         <div class="tooltip-box-field lg">
+                           Enable to send reminder to
+                           <br> mark exam attendance
+                           <br> Currently, this setting will
+                           <br> be applicable only to faculty
+                         </div>
+                       </div>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                       <div class="field-checkbox-wrapper">
+                         <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification"
+                           id="ch72">
+                         <label for="ch742"></label>
+                       </div>
+                     </td>
+                     <td>
+                     </td>
+                   </tr>
+
+
+                    <tr>
+                     <td>
+                       Class Attendance Not Marked Reminder
+                       <div class="questionInfo inline-relative">
+                         <span class="qInfoIcon i-class">i</span>
+                         <div class="tooltip-box-field lg">
+                           Enable to send reminder to
+                           <br> mark class attendance
+                           <br> Currently, this setting will
+                           <br> be applicable only to faculty
+                         </div>
+                       </div>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                       <div class="field-checkbox-wrapper">
+                         <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification"
+                           id="ch72">
+                         <label for="ch742"></label>
+                       </div>
+                     </td>
+                     <td>
+                     </td>
+                   </tr>
+
+                    <tr *ngIf="libraryRole">
                       <td>
-                        Exam Marks Not Updated Reminder
-                        <div class="questionInfo inline-relative">
-                          <span class="qInfoIcon i-class">i</span>
-                          <div class="tooltip-box-field lg">
-                            Enable to send reminder to
-                            <br> update exam marks
-                            <br> Currently, this setting will
-                            <br> be applicable only to faculty
-                          </div>
+                        Send SMS- For book issued
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_issued.student"
+                            id="ch190">
+                          <label for="ch190"></label>
                         </div>
                       </td>
                       <td>
@@ -1317,26 +1413,22 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification"
-                            id="ch72">
-                          <label for="ch742"></label>
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_issued.admin"
+                            id="ch191">
+                          <label for="ch191"></label>
                         </div>
-                      </td>
-                      <td>
                       </td>
                     </tr>
 
-                    <tr>
+                    <tr *ngIf="libraryRole">
                       <td>
-                        Exam Attendance Not Marked Reminder
-                        <div class="questionInfo inline-relative">
-                          <span class="qInfoIcon i-class">i</span>
-                          <div class="tooltip-box-field lg">
-                            Enable to send reminder to
-                            <br> mark exam attendance
-                            <br> Currently, this setting will
-                            <br> be applicable only to faculty
-                          </div>
+                        Send SMS- For book returned (with applicable fine, if any)
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_returned.student"
+                            id="ch192">
+                          <label for="ch192"></label>
                         </div>
                       </td>
                       <td>
@@ -1347,26 +1439,22 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification"
-                            id="ch72">
-                          <label for="ch742"></label>
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_returned.admin"
+                            id="ch193">
+                          <label for="ch193"></label>
                         </div>
-                      </td>
-                      <td>
                       </td>
                     </tr>
 
-                    <tr>
+                    <tr *ngIf="libraryRole">
                       <td>
-                        Class Attendance Not Marked Reminder
-                        <div class="questionInfo inline-relative">
-                          <span class="qInfoIcon i-class">i</span>
-                          <div class="tooltip-box-field lg">
-                            Enable to send reminder to
-                            <br> mark class attendance
-                            <br> Currently, this setting will
-                            <br> be applicable only to faculty
-                          </div>
+                        Book Return Reminder - Pre Due Date
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_pre_due_date.student"
+                            id="ch198">
+                          <label for="ch198"></label>
                         </div>
                       </td>
                       <td>
@@ -1377,12 +1465,117 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification"
-                            id="ch72">
-                          <label for="ch742"></label>
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_pre_due_date.admin"
+                            id="ch199">
+                          <label for="ch199"></label>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr *ngIf="libraryRole">
+                      <td>
+                        Book Return Reminder - On Due Date
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_on_due_date.student"
+                            id="ch194">
+                          <label for="ch194"></label>
                         </div>
                       </td>
                       <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_on_due_date.admin"
+                            id="ch195">
+                          <label for="ch195"></label>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr *ngIf="libraryRole">
+                      <td>
+                        Book Return Reminder - Post Due Date (Overdue reminder with applicable fine)
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_post_due_date.student"
+                            id="ch196">
+                          <label for="ch196"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_post_due_date.admin"
+                            id="ch197">
+                          <label for="ch197"></label>
+                        </div>
+                      </td>
+                    </tr>
+
+
+
+                    <tr *ngIf="libraryRole">
+                      <td>
+                        Send SMS- Book Lost (with applicable fine, if any)
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_marked_lost.student"
+                            id="ch200">
+                          <label for="ch200"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox"  [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_marked_lost.admin"
+                            id="ch201">
+                          <label for="ch201"></label>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr *ngIf="libraryRole">
+                      <td>
+                        Send SMS- Book scrap (with applicable fine, if any)
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_marked_scrapped.student"
+                            id="ch202">
+                          <label for="ch202"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_marked_scrapped.admin"
+                            id="ch203">
+                          <label for="ch203"></label>
+                        </div>
                       </td>
                     </tr>
 
@@ -1391,6 +1584,7 @@
                         Note: SMS Notification on all the above events works when SMS Notification Flag is enabled
                       </td>
                     </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -2604,6 +2798,64 @@
           </div>
         </div>
 
+      </section>
+
+      <section id="divLibraryContent" *ngIf="libraryRole">
+        <div class="row">
+          <div class="misc-table-wrapper">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <tbody>
+                    <tr style="height: 45px; background-color: #efefef">
+                      <td colspan="6" class="tableHeader" style="text-align: left;">
+                        LIBRARY SETTING
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
+                            <div class="field-wrapper">
+                              <label for="ch89">No. of days without fine
+                                <div class="questionInfo inline-relative pointOfComtact">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+                                    This defines the no. of days
+                                    <br>allowed to issue the book
+                                    <br>without fine, common for all
+                                    <br>the books in the library
+                                  </div>
+                                </div>
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.lib_issue_for_days" class="form-ctrl" id="ch89">
+                            </div>
+                          </div>
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="text-align: left;">
+                            <div class="field-wrapper">
+                              <label for="ch455">Fine per day
+                                <div class="questionInfo inline-relative pointOfComtact">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+                                    This defines the fine to be
+                                    <br>incurred per day for all the
+                                    <br>books in the library after the
+                                    <br>book is overdue
+                                  </div>
+                                </div>
+                              </label>
+                              <input type="text" [(ngModel)]="instituteSettingDet.lib_due_date_fine_per_day" class="form-ctrl" id="ch455">
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
     </aside>

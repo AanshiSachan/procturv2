@@ -30,7 +30,7 @@ export class AddEditRoleComponent implements OnInit {
 
   ngOnInit() {
     this.instituteId = sessionStorage.getItem('institute_id');
-    this.libraryRoleInstituteId = 100952;
+    this.libraryRoleInstituteId = 101077;
     this.kakadeRoleInstituteId=  100767;
     this.activatedRoute.params.subscribe(
       (res: any) => {
