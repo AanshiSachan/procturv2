@@ -35,7 +35,6 @@ export class TransctionalSmsComponent implements OnInit {
   searchData = [];
   currentDirection = 'desc';
   searchText = "";
-  displayBatchSize: number = 1000;
   PageIndex: number = 1;
   maxPageSize: number = 0;
   totalRecords: number = 0;
@@ -48,8 +47,8 @@ export class TransctionalSmsComponent implements OnInit {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
     from_date: moment(new Date()).format('YYYY-MM-DD'),
     to_date: moment(new Date()).format('YYYY-MM-DD'),
-    start_index: 0,
-    batch_size: this.displayBatchSize,
+    start_index: '-1',
+    batch_size: '-1',
     sorted_by: "",
     order_by: "",
   }
@@ -66,7 +65,7 @@ export class TransctionalSmsComponent implements OnInit {
   tableSetting: any = {//inventory.item
     tableDetails: { title: 'Lead SMS Report', key: 'reports.fee.LeadSMSReport', showTitle: false},
     search: { title: 'Search', showSearch: false },
-    defaultSort: { primaryKey: 'sentDateTime', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
+    defaultSort: { primaryKey: 'sentDateTime', sortingType:'desc', header: 'Sent Date-Time', priority: 4, allowSortingFlag: true },
     keys: this.projectSettings,
     selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
@@ -134,17 +133,6 @@ export class TransctionalSmsComponent implements OnInit {
 
   fetchSmsByDate() {
     this.getSmsReport(this.smsFetchForm);
-  }
-
-  fectchTableDataByPage() {
-  }
-
-  fetchNext() {
-
-  }
-
-  fetchPrevious() {
-
   }
 
   getMin(): number {

@@ -1303,96 +1303,97 @@
                     </tr>
 
                     <tr>
-                     <td>
-                       Exam Marks Not Updated Reminder
-                       <div class="questionInfo inline-relative">
-                         <span class="qInfoIcon i-class">i</span>
-                         <div class="tooltip-box-field lg">
-                           Enable to send reminder to
-                           <br> update exam marks
-                           <br> Currently, this setting will
-                           <br> be applicable only to faculty
-                         </div>
-                       </div>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                       <div class="field-checkbox-wrapper">
-                         <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification"
-                           id="ch72">
-                         <label for="ch742"></label>
-                       </div>
-                     </td>
-                     <td>
-                     </td>
-                   </tr>
+                      <td>
+                        Exam Marks Not Updated Reminder
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder
+                            <br> to update exam marks,
+                            <br>on every 5th day reminder
+                            <br> will be sent to respective
+                            <br> faculty to update marks
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_marks_not_update_notification"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Exam Attendance Not Marked Reminder
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder
+                            <br> to mark exam attendance,
+                            <br> reminder will be sent after
+                            <br> 2 hours of exam completion to
+                            <br> respective faculty to mark attendance
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
 
 
                     <tr>
-                     <td>
-                       Exam Attendance Not Marked Reminder
-                       <div class="questionInfo inline-relative">
-                         <span class="qInfoIcon i-class">i</span>
-                         <div class="tooltip-box-field lg">
-                           Enable to send reminder to
-                           <br> mark exam attendance
-                           <br> Currently, this setting will
-                           <br> be applicable only to faculty
-                         </div>
-                       </div>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                       <div class="field-checkbox-wrapper">
-                         <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_exam_attendance_not_marked_notification"
-                           id="ch72">
-                         <label for="ch742"></label>
-                       </div>
-                     </td>
-                     <td>
-                     </td>
-                   </tr>
-
-
-                    <tr>
-                     <td>
-                       Class Attendance Not Marked Reminder
-                       <div class="questionInfo inline-relative">
-                         <span class="qInfoIcon i-class">i</span>
-                         <div class="tooltip-box-field lg">
-                           Enable to send reminder to
-                           <br> mark class attendance
-                           <br> Currently, this setting will
-                           <br> be applicable only to faculty
-                         </div>
-                       </div>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                       <div class="field-checkbox-wrapper">
-                         <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification"
-                           id="ch72">
-                         <label for="ch742"></label>
-                       </div>
-                     </td>
-                     <td>
-                     </td>
-                   </tr>
+                      <td>
+                        Class Attendance Not Marked Reminder
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+                            Enable to send reminder
+                            <br> to mark class attendance,
+                            <br> reminder will be sent after
+                            <br> 2 hours of class completion to
+                            <br> respective faculty to mark attendance
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_class_attendance_not_marked_notification"
+                            id="ch72">
+                          <label for="ch742"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
 
                     <tr *ngIf="libraryRole">
                       <td>
@@ -1546,7 +1547,7 @@
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox"  [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_marked_lost.admin"
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.lib_send_sms_for_book_marked_lost.admin"
                             id="ch201">
                           <label for="ch201"></label>
                         </div>

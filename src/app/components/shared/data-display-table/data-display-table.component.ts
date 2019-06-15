@@ -67,8 +67,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.updateTableBatchSize(this._paginationService.getDisplayBatchSize());
     }
     else {
-      this.tempData =this.displayData;
-      this.recordsTrimmed =  Object.assign([], this.displayData);
+      this.tempData = this.displayData;
+      this.recordsTrimmed = Object.assign([], this.displayData);
       this.recordCount = this.displayData.length;
       // this.displayKeys.displayMessage = "Data not found";
     }
@@ -138,10 +138,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     });
   }
 
-
-
   // this function is used for column wise sorting
   sortData(key) {
+    let indexValue = 0;
     // console.log(this.recordsTrimmed,this.displayData);
     if (this.sortKey.header != key.header) {
       this.sortKey = key;
@@ -153,11 +152,12 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         return;
       }
       else {
-        this.keysArray.forEach(element => {
+        this.keysArray.forEach((element, index) => {
           if (element.primaryKey == key.primaryKey) {
             element.filter = true;
             if (element.type == null) {
-              element.type = 'asc'
+              element.type = 'asc';
+              indexValue = index;
             }
           }
           else {
@@ -192,13 +192,17 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           });
 
           this.recordsTrimmed = sortedArray;
-          // console.log(this.recordsTrimmed);
+          // console.log(this.recordsTrimmed);          
         }
         else {
           this.newSortArray(key);
         }
+        if (key.sortingType == 'desc') {
+          this.keysArray[indexValue].type = key.type = 'desc';
+          key.sortingType = null;
+          this.recordsTrimmed = this.recordsTrimmed.reverse()
+        }
         // console.log(key);
-
       }
     }
   }
@@ -232,7 +236,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           if (Number(j) < conditionArray[i].checkValue.length - 1) {
             strExp = strExp + conditionArray[i].insideOperation;
           }
-
         }
         strExp = strExp + ')';
       }
@@ -335,23 +338,21 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       }
     }
   }
+
   editRow(id, obj, type) {
     console.log(id, obj);
     this.recordsTrimmed = Object.assign([], this.displayData);
     if (type == 'editRow') {
       this.isEditRow = id;
       this.editObject = obj;
-      this.recordsTrimmed.forEach((obj)=>{
-        obj.course_type = obj.tempName ;
+      this.recordsTrimmed.forEach((obj) => {
+        obj.course_type = obj.tempName;
       })
     }
     else {
 
       this.editView.emit({ 'data': obj, type: type })
     }
-
-
-
   }
 
   handleEvent(obj, type) {
@@ -373,8 +374,6 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
     // console.log(this.recordsTrimmed,this.displayData);
     this.sortKey.type = null;
     this.sortData(this.sortKey);
-
-
   }
 
   /* Fetch next set of data from server and update table */

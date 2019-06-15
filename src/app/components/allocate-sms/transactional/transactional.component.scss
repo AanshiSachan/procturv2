@@ -1,0 +1,83 @@
+.container-fluid {
+  color: #797979;
+  padding-top: 10px;
+
+  .border-css {
+    border: 1px solid rgba(211, 212, 213, 0.5);
+  }
+
+  table {
+    thead {
+      font-size: 14px;
+      font-weight: 600;
+      tr {
+          th{
+        color:#797979;
+      }
+
+      td{
+        color:#dbdbdb;
+      }
+      .total_price{
+          color:#585574;
+      }
+    }
+
+    }
+  }
+
+  .btn-buy{
+    width: 200px;
+    border-radius: .25rem;
+  }
+}
+
+
+.container-sms {
+    padding: 10px;
+  
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  
+    .allocate-sms {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid gray;
+      }
+  }
+  
+  .btn {
+    border-radius: .25rem;
+  }
+  
+  .firstTh{
+    text-align: left;
+    padding-left: 18px;
+  }
+  
+  .sms-title {
+    font-size: 14px;
+    font-weight: 600;
+    padding-left :1rem; 
+  }
+  
+  .filter-section {
+    padding: 10px 0px;
+    margin: 5px 0;
+    background: #efefef;
+    .radio-button {
+      margin-top: 10px;
+      display: inline-flex;
+      .field-radio-wrapper {
+        margin-right: 5px;
+      }
+    }
+    .field-wrapper {
+      padding-top: 0;
+    }
+    .btn {
+      margin-left: 0;
+    }
+  }
