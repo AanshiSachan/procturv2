@@ -893,6 +893,7 @@ export class ClassAddComponent implements OnInit {
 
 
   addClassSchedule() {
+    this.addLinkStatus=''
     let obj: any = {};
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please Select Subject');
