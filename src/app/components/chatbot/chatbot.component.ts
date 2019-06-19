@@ -4,8 +4,6 @@ import { Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { MessageShowService } from '../../services/message-show.service';
 import { ZendAuth } from '../../services/Chat-bot/chatbot.service';
-import { LoginService } from '../../services/login-services/login.service';
-import { error } from 'util';
 
 @Component({
   selector: 'app-chatbot',
@@ -16,7 +14,8 @@ export class chatBotComponent {
 
   @Output() flagData: EventEmitter<any>;
   @ViewChild('helpForm') help: ElementRef;
-
+  isProfessional: boolean = false;
+  closechatbot: boolean = true;
   payload = {
     "ticket": {
       "subject": "",
@@ -24,9 +23,6 @@ export class chatBotComponent {
       "requester_id": '362262131554'
     }
   }
-
-  isProfessional: boolean = false;
-  closechatbot: boolean = true;
 
   constructor(
     private router: Router,

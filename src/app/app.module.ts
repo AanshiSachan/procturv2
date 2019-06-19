@@ -1,7 +1,5 @@
 /* Components */
 import { AppComponent } from './app.component';
-import { chatBotComponent } from './components/chatbot/chatbot.component';
-
 
 /* Modules */
 import { BrowserModule, Title } from '@angular/platform-browser';
@@ -64,11 +62,9 @@ import { ReturnBookService } from './services/library/return/return-book.service
 
   ],
   declarations: [
-    AppComponent,
-    chatBotComponent,
+    AppComponent
   ],
   entryComponents: [
-    chatBotComponent
   ],
   providers: [
     FetchenquiryService,

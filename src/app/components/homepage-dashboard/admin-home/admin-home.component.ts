@@ -113,6 +113,8 @@ export class AdminHomeComponent implements OnInit {
     smsTabType: 'approved',
     showAllMessage: false,
     openMessageFlag: false,
+    editMessage: false,
+    messageObject: {}
   };
   timepicker: any = {
     reschedStartTime: {
@@ -624,7 +626,7 @@ export class AdminHomeComponent implements OnInit {
 
   markAttendanceServerCall(sendSms) {
     if (this.studentAttList.length > 0) {
-      let sendPresentStudntSMS = this.studentAttList[0].isSMSNotificationToPresentStudents==true || this.studentAttList[0].isSMSNotificationToPresentStudents =='Y' ? 'Y' : 'N';
+      let sendPresentStudntSMS = this.studentAttList[0].isSMSNotificationToPresentStudents == true || this.studentAttList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
       let arr = [];
       if (!this.isRippleLoad) {
         this.isRippleLoad = true;
@@ -1307,7 +1309,7 @@ export class AdminHomeComponent implements OnInit {
   makeServerCallForUpdateMarks(isNotify) {
     let arr = [];
     if (this.courseLevelStudentAtt.length > 0) {
-      let sendPresentStudntSMS = this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents==true ||this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents=='Y' ? 'Y' : 'N';
+      let sendPresentStudntSMS = this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents == true || this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
       this.courseLevelStudentAtt.forEach(element => {
         let temp = {
           "student_id": element.student_id,
@@ -1604,6 +1606,7 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = true;
   }
 
+
   hasUnicode(str) {
     for (var i = 0; i < str.length; i++) {
       if (str.charCodeAt(i) > 127) return true;
@@ -1658,6 +1661,7 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = false;
     this.newMessageText = "";
     this.messageCount = 0;
+    this.jsonFlag.editMessage = false;
   }
 
   selectTabMenu(id, div) {
@@ -2672,7 +2676,7 @@ export class AdminHomeComponent implements OnInit {
     let obj: any = [];
 
     if (this.studentList.length > 0) {
-      let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents==true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
+      let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents == true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
       for (let i = 0; i < this.studentList.length; i++) {
         let test: any = {};
         test.batch_id = this.tempData.batch_id;
@@ -3068,33 +3072,33 @@ export class AdminHomeComponent implements OnInit {
 
   constructJsonForAttendance(absentKey) {
     let arr = [];
-    if( this.studentList.length>0){
-    let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents==true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
-    for (let i = 0; i < this.studentList.length; i++) {
-      let obj: any = {};
-      obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
-      if (this.tempData.course_marks_update_level == '0') {
-        obj.course_marks_update_level = '3';
-      } else {
-        obj.course_marks_update_level = this.tempData.course_marks_update_level;
+    if (this.studentList.length > 0) {
+      let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents == true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
+      for (let i = 0; i < this.studentList.length; i++) {
+        let obj: any = {};
+        obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
+        if (this.tempData.course_marks_update_level == '0') {
+          obj.course_marks_update_level = '3';
+        } else {
+          obj.course_marks_update_level = this.tempData.course_marks_update_level;
+        }
+        obj.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
+        obj.isStudentExamSMS = absentKey;
+        obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
+        obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
+        obj.student_id = this.studentList[i].student_id;
+        obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
+        obj.attendance = this.studentList[i].attendance;
+        obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+        obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
+        if (this.studentList[i].assigned) {
+          obj.isUpdated = 'Y';
+        } else {
+          obj.isUpdated = 'N';
+        }
+        arr.push(obj);
       }
-      obj.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
-      obj.isStudentExamSMS = absentKey;
-      obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
-      obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
-      obj.student_id = this.studentList[i].student_id;
-      obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
-      obj.attendance = this.studentList[i].attendance;
-      obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
-      obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
-      if (this.studentList[i].assigned) {
-        obj.isUpdated = 'Y';
-      } else {
-        obj.isUpdated = 'N';
-      }
-      arr.push(obj);
     }
-  }
     return arr;
   }
 
@@ -3421,13 +3425,16 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getOpenStatusSMS() {
+    this.isRippleLoad = true;
     this.jsonFlag.openMessageFlag = true;
     this.openMessageList = [];
     this.widgetService.getMessageList({}).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.openMessageList = res;
       },
       err => {
+        this.isRippleLoad = false;
         //console.log(err);
       }
     )
@@ -3445,6 +3452,43 @@ export class AdminHomeComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  editSMS(row) {
+    this.addNotification = true;
+    this.jsonFlag.editMessage = true;
+    this.jsonFlag.messageObject = row;
+    this.newMessageText = row.message;
+    this.messageCount = 1;
+  }
+
+
+  updateMessage() {
+    let obj = { message: this.newMessageText };
+    this.isRippleLoad=true;
+    this.widgetService.changesSMSStatus(obj,this.jsonFlag.messageObject.message_id ).subscribe(
+      res => {
+        this.isRippleLoad=false;
+        let msg = {
+          type: 'success',
+          title: 'Message updated Successfully',
+        };
+        this.appC.popToast(msg);
+        this.closeNewMessageDiv();
+        this.onTabChange(this.jsonFlag.smsTabType);// as per view it get the sms data --laxmi
+      },
+      err => {
+        this.isRippleLoad=false;
+        //console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Message',
+          body: err.message
+        };
+        this.appC.popToast(msg);
+      }
+    )
+
   }
 
   approveRejectSms(data, statusCode) {

@@ -1,5 +1,5 @@
-<!-- <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-</loaders-css> -->
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <section class="mainHomePage">
 
   <section class="activity-page">
@@ -965,7 +965,8 @@
             </div>
             <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
               <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
-              <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
+              <button class="btn fullBlue" *ngIf="!jsonFlag.editMessage" (click)="saveNewMessage()">Save</button>
+              <button class="btn fullBlue" *ngIf="jsonFlag.editMessage" (click)="updateMessage()">Update</button>
             </div>
           </div>
         </div>
@@ -1259,25 +1260,25 @@
                   <div id="divSendOption" class="c-sm-4 c-md-4 c-lg-4">
                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                       <input type="checkbox" checked="true" value="" name="sms" class="form-checkbox" id="chkbxSmsSend">
-                      <label for="sms" style=" margin-left: 10px;">SMS</label>
+                      <label for="chkbxSmsSend" style=" margin-left: 10px;">SMS</label>
                     </div>
                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                       <input type="checkbox" value="" (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox" id="chkbxEmailSend">
-                      <label for="mail" style=" margin-left: 10px;">Mail</label>
+                      <label for="chkbxEmailSend" style=" margin-left: 10px;">Mail</label>
                     </div>
                   </div>
                   <div id="divParentOrGaurdian" class="c-sm-6 c-md-6 c-lg-6">
                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                       <input type="checkbox" checked="true" value="" name="student" class="form-checkbox" id="chkBoxStudent">
-                      <label for="student" style=" margin-left: 10px;">Student</label>
+                      <label for="chkBoxStudent" style=" margin-left: 10px;">Student</label>
                     </div>
                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                       <input type="checkbox" value="" name="parent" class="form-checkbox" id="chkBoxParent">
-                      <label for="parent" style=" margin-left: 10px;">Parent</label>
+                      <label for="chkBoxParent" style=" margin-left: 10px;">Parent</label>
                     </div>
                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                       <input type="checkbox" value="" name="guardian" class="form-checkbox" id="chkBoxGaurdian">
-                      <label for="guardian" style=" margin-left: 10px;">Guardian</label>
+                      <label for="chkBoxGaurdian" style=" margin-left: 10px;">Guardian</label>
                     </div>
                   </div>
                 </div>
@@ -1324,6 +1325,9 @@
                           <th style="text-align: left">
                             Message
                           </th>
+                          <th>
+                            Action
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1337,12 +1341,15 @@
                           <td class="dateSection">
                             {{row.date}}
                           </td>
-                          <td style="text-align: left">
+                          <td style="text-align: left;    word-wrap: break-word;">
                             {{row.message}}
+                          </td>
+                          <td>
+                            <i class="fa fa-pencil" (click)="editSMS(row )" style="font-family: FontAwesome;font-size: 25px;color: orange;"></i> &nbsp;
                           </td>
                         </tr>
                         <tr *ngIf="messageList.length == 0">
-                          <td colspan="3">
+                          <td colspan="4">
                             No Notification Available
                           </td>
                         </tr>
@@ -1351,13 +1358,14 @@
                   </div>
 
                   <div class="row message-table-wrapper" *ngIf="jsonFlag.openMessageFlag">
-                    <table class="message-table">
+                    <table class="message-table " style="table-layout: fixed;
+                    width: 100%">
                       <thead>
                         <tr>
                           <th class="dateSection">
                             Date
                           </th>
-                          <th style="text-align: left">
+                          <th style="text-align: left ;     width: 46rem;">
                             Message
                           </th>
                           <th>
@@ -1370,11 +1378,12 @@
                           <td class="dateSection">
                             {{row.date}}
                           </td>
-                          <td style="text-align: left">
+                          <td style="text-align: left; width: 46rem; word-wrap: break-word;">
                             {{row.message}}
                           </td>
                           <td>
-                            <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                            <i class="fa fa-pencil" (click)="editSMS(row )" style="font-family: FontAwesome;font-size: 25px;color: orange;"></i> &nbsp;
+                            <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i> &nbsp;
                             <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                           </td>
                         </tr>

@@ -41,15 +41,16 @@ export class CompaignSmsComponent implements OnInit {
       title: 'Campaign SMS Report', key: 'reports.fee.campaignReport', showTitle: false,
     },
     search: { title: 'Search', showSearch: false },
-    defaultSort:   { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true },
+    defaultSort: { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true },
     keys: this.projectSettings,
     selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:
     {
       showActionButton: true,
       editOption: 'icon',//or button 
-      options: [{ viewName: 'delete', key: 'statusValue', condition: '==', value: 'Pending' },
-      { viewName: 'view', key: 'statusValue', condition: '==', value: 'Completed' }]
+      options: [
+        { viewName: 'delete', key: 'statusValue', condition: '==', value: 'Pending' },
+        { viewName: 'view', key: 'statusValue', condition: '==', value: 'Completed' }]
     },
     displayMessage: "Campaign details does not exist"
   };
