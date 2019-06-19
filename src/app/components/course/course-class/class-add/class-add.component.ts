@@ -21,7 +21,7 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
 })
 
 export class ClassAddComponent implements OnInit {
-
+  public checkedKeys: any[] = [];
   customTable: any = [];
   courseModelStdList: any[] = [];
   courseModelSubList: any[] = [];
@@ -159,6 +159,7 @@ export class ClassAddComponent implements OnInit {
   showCancelWeeklyBtn: boolean = false;
   showWarningPopup: boolean = false;
   cancelWeeklySchedulePop: boolean = false;
+  IsTopicSelectedMode: string = 'add';
 
   weeklyScheduleCan = {
     date: moment().format("YYYY-MM-DD"),
@@ -171,22 +172,23 @@ export class ClassAddComponent implements OnInit {
   selectAllTopics: boolean = false;
   selectedSubId: any;
   selectedRow: any;
-  public checkedKeys: any[] = [];
+
 
   public enableCheck = true;
   public checkChildren = true;
   public checkParents = true;
   public checkOnClick = true;
   public checkMode: any = 'multiple';
+  public addLinkStatus = '';
 
   public get checkableSettings(): CheckableSettings {
-      return {
-          checkChildren: this.checkChildren,
-          checkParents: this.checkParents,
-          enabled: this.enableCheck,
-          mode: this.checkMode,
-          checkOnClick: this.checkOnClick
-      };
+    return {
+      checkChildren: this.checkChildren,
+      checkParents: this.checkParents,
+      enabled: this.enableCheck,
+      mode: this.checkMode,
+      checkOnClick: this.checkOnClick
+    };
   }
 
   public topicsData: any;
@@ -735,7 +737,7 @@ export class ClassAddComponent implements OnInit {
     )
   }
 
-  topicListing(){
+  topicListing() {
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please Select Subject');
       return;
@@ -782,6 +784,7 @@ export class ClassAddComponent implements OnInit {
   }
 
   topicListingForAlreadyLinkedTopics(row, subject_id, preSelectedTopics) {
+    this.addLinkStatus = '';
     this.selectedSubId = subject_id;
     this.selectedRow = row;
     this.topicsData = []
@@ -791,27 +794,25 @@ export class ClassAddComponent implements OnInit {
         res => {
           let temp: any;
           temp = res;
-          if(temp != null && temp.length != 0){
+          if (temp != null && temp.length != 0) {
             this.checkedKeys = [];
             this.topicBox = false;
             console.log(res);
             this.isRippleLoad = false;
             this.topicsData = res;
-
-            let subjectName = "";
-            this.subjectListDataSource.forEach(
-              ele => {
-                if (ele.subject_id == this.addClassDetails.subject_id) {
-                  subjectName = ele.subject_name;
-                }
+            let array = this.selectedRow.topics_covered.split("|"); //add selected array data 
+            array.forEach((value) => {
+              if (value != " " || value != "0") {
+                this.checkedKeys.push(Number(value));
               }
-            )
+            })
+            let subjectName = this.selectedRow.subject_name;
             document.getElementById("topicSubName").innerHTML = subjectName;
             document.getElementById("topicCount").innerHTML = this.topicsData.length;
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
-          else{
+          else {
             this.isRippleLoad = false;
             this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', "No topics available to Link");
           }
@@ -825,8 +826,8 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
-  checkAllTopics(){
-    if(this.selectAllTopics){
+  checkAllTopics() {
+    if (this.selectAllTopics) {
       this.checkedKeys = [];
       this.topicsData.forEach(
         ele => {
@@ -849,40 +850,42 @@ export class ClassAddComponent implements OnInit {
       // }
 
     }
-    else{
+    else {
       this.checkedKeys = [];
     }
   }
 
-  topicSelection(){
+  saveTopic() {
 
-  }
-
-  saveTopic(){
-
-    if(this.selectedSubId != null && this.selectedSubId != undefined && this.selectedSubId != ""){
+    if (this.selectedSubId != null && this.selectedSubId != undefined && this.selectedSubId != "") {
       let temp = this.checkedKeys;
       this.selectedRow.topics_covered = temp.join("|");
-      // this.selectedRow.topics_covered_names
       let topicsName = [];
       this.checkedKeys.forEach(
         ele => {
-            this.topicsData.forEach(
-              e => {
-                if(ele == e)
+          this.topicsData.forEach(
+            e => {
+              if (ele == e)
                 topicsName.push(e.topicName)
-              }
-            )
+            }
+          )
         }
       )
       this.checkedKeys = [];
       this.selectedSubId = "";
       this.selectedRow = "";
+    } else {
+      if (this.checkedKeys.length > 0) {
+        this.addLinkStatus = 'linked';
+      }
+      else {
+        this.addLinkStatus = '';
+      }
     }
     this.topicBox = true;
   }
 
-  closeAlert(){
+  closeAlert() {
     this.checkedKeys = [];
     this.topicBox = true;
     this.selectedSubId = "";
@@ -941,12 +944,12 @@ export class ClassAddComponent implements OnInit {
     let topicsName = [];
     this.checkedKeys.forEach(
       ele => {
-          this.topicsData.forEach(
-            e => {
-              if(ele == e.topicId)
+        this.topicsData.forEach(
+          e => {
+            if (ele == e.topicId)
               topicsName.push(e.topicName)
-            }
-          )
+          }
+        )
       }
     )
     console.log(topicsName)
@@ -1745,22 +1748,22 @@ export class ClassAddComponent implements OnInit {
   }
 
   serverCallPOST(data) {
-    if(!this.isRippleLoad){
-      this.isRippleLoad=true;
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
       this.classService.createWeeklyBatchPost(data).subscribe(
         res => {
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Updated', 'Details Updated Successfully');
           this.showWarningPopup = false
-          this.isRippleLoad=false;
+          this.isRippleLoad = false;
           this.updateTableDataAgain();
         },
         err => {
-          this.isRippleLoad=false;
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
           //console.log(err);
         }
       )
-    }   
+    }
   }
 
   notifyOfCustomClass(data, index) {

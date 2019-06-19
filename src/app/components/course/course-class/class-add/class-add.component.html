@@ -230,12 +230,18 @@
                       </td>
 
                       <td class="topic">
-                        <div class="form-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
-                          <input type="textbox" class="side-form-ctrl topic-link" name="label"
-                            style="height: 31px;" id="classDetailsTxt9" placeholder="Link" readonly (click)="topicListing()">
-                            <i class="fa fa-link" aria-hidden="true" (click)="topicListing()" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
-                        </div>
-                      </td>
+                          <div class="form-wrapper"  *ngIf="addLinkStatus==''" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
+                            <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 31px;" id="classDetailsTxt9" placeholder="Link"
+                              readonly (click)="topicListing()">
+                            <i class="fa fa-link" aria-hidden="true" (click)="topicListing  ()" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
+                          </div>
+                          <div class="form-wrapper" *ngIf="addLinkStatus=='linked'">
+                              <input type="textbox" class="side-form-ctrl topic-linked" name="label" style="height: 31px;" id="classDetailsTxt9" placeholder="Linked"
+                                readonly (click)="topicListing()">
+                              <i class="fa fa-link" aria-hidden="true" (click)="topicListing()"
+                                style="cursor: pointer;color: #1283f4;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
+                            </div>
+                        </td>
 
                       <td class="">
                         <div class="timePickerParent">
@@ -332,20 +338,24 @@
                       <td class="subj">
                         {{row.subject_name}}
                       </td>
-                      <td class="topic" *ngIf="row.topics_covered">
-                        <div class="form-wrapper">
-                          <input type="textbox" class="side-form-ctrl topic-linked" name="label"
-                            style="height: 31px;" id="classDetailsTxt9" placeholder="Linked" readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" title="{{row.topics_covered}}">
-                            <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" style="cursor: pointer;color: #1283f4;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
-                        </div>
-                      </td>
-                      <td class="topic" *ngIf="!row.topics_covered">
-                        <div class="form-wrapper">
-                          <input type="textbox" class="side-form-ctrl topic-link" name="label"
-                            style="height: 31px;" id="classDetailsTxt9" placeholder="Link" readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" title="{{row.topics_covered}}">
-                            <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)" style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
-                        </div>
-                      </td>
+                      <td class="topic" *ngIf="row.topics_covered!='0' && row.topics_covered!=''">
+                          <div class="form-wrapper">
+                            <input type="textbox" class="side-form-ctrl topic-linked" name="label" style="height: 31px;" id="classDetailsTxt9" placeholder="Linked"
+                              readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
+                              title="{{row.topics_covered}}">
+                            <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
+                              style="cursor: pointer;color: #1283f4;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
+                          </div>
+                        </td>
+                        <td class="topic" *ngIf="(row.topics_covered=='')||(row.topics_covered=='0')">
+                            <div class="form-wrapper">
+                              <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 31px;" id="classDetailsTxt9" placeholder="Link"
+                                readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
+                                title="{{row.topics_covered}}">
+                              <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
+                                style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
+                            </div>
+                          </td>
                       <td>
                         {{row.start_time}}
                       </td>
