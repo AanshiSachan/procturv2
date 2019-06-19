@@ -94,7 +94,7 @@
               <td class="align-txt-lft">{{data.name}}</td>
               <td class="align-txt-lft">{{data.username}}</td>
               <td class="align-txt-lft">{{data.alternate_email_id}}</td>
-              <td *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials">
+              <td class="align-txt-lft" *ngIf="(dataFilter.role==1 || dataFilter.role==3||dataFilter.role==5 ) && dataFilter.is_show_credentials">
                 <div class="credentials-view">
                   <span>Username :</span>
                   <span>{{data.username}}</span>
