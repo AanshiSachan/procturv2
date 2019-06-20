@@ -207,7 +207,7 @@ export class FeeTemplateAddComponent implements OnInit {
         lastInstallment.tax = 0;
         lastInstallment.initial_fee_amount = lastInstallment.totalAmount;
       }
-      obj[length - 1] = lastInstallment;
+      obj[obj.length - 1] = lastInstallment;
     }
     // if (Number(this.addNewTemplate.tax_amount) != taxAmount) {
     //   let length = obj.length;
