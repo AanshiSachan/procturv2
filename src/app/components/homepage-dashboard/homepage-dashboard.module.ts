@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { CommonModule } from '@angular/common';
 import { HomepageDashboardComponent } from './homepage-dashboard.component';
 import { HomepageDashboardRoutingModule } from "./homepage-dashboard-routing.module";
@@ -21,11 +22,16 @@ import { BsDatepickerModule } from 'ngx-bootstrap-custome';
 import { ToDoListComponent } from './to-do-list/to-do-list.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { ExcelService } from '../../services/excel.service';
+import { MarkAttendanceComponent } from './mark-attendance/mark-attendance.component';
 // import { MdFormFieldModule } from '@angular/material';
 // import { MdInputModule } from '@angular/material';
+import { TopicListingService } from '../../services/course-services/topic-listing.service';
+import { ExamMarkUpdateComponent } from './exam-mark-update/exam-mark-update.component';
+import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.component';
 
 @NgModule({
     imports: [
+        TreeViewModule,
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
@@ -47,6 +53,9 @@ import { ExcelService } from '../../services/excel.service';
         BiometricWidgetComponent,
         ToDoListComponent,
         ExpensesComponent,
+        MarkAttendanceComponent,
+        ExamMarkUpdateComponent,
+        BatchModelComponent,
     ],
     entryComponents: [
         ProcturWidgetComponent,
@@ -57,6 +66,7 @@ import { ExcelService } from '../../services/excel.service';
     providers: [
         WidgetService,
         ExcelService,
+        TopicListingService,
         BiometricStatusServiceService
     ]
 })

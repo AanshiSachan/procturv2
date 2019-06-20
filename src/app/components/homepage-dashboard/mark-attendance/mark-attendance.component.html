@@ -1,0 +1,407 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<section class="middle-section clear-fix" id="middle-sectionId">
+
+
+  <section class="middle-top mb0 clearFix sms-header">
+    <h2 class="pull-left" style="font-weight: bold;">
+      <span>Mark
+      <span *ngIf="batch_info.is_attendance_marked == 'Y'">/ Update</span>
+      Attendance</span>
+    </h2>
+    <aside class="pull-right" style="margin-right: 20px;">
+      <!-- <span style="font-weight: normal; font-size: 1em; color: #969696;">Last edited by : Mr. Ankush Bajaj</span> -->
+    </aside>
+  </section>
+
+  <hr>
+
+  <div class="header_container">
+    <div class="header_item1">
+      <h4 *ngIf="!isProfessional">
+        <span>{{batch_info.master_course_name}}</span>
+        <span *ngIf="batch_info.course_name != undefined">-</span>
+        <span>{{batch_info.course_name}}</span>
+      </h4>
+      <h4 *ngIf="isProfessional">
+        <span>{{batch_info.master_course_name}}</span>
+        <span *ngIf="batch_info.course_name != undefined">-</span>
+        <span>{{batch_info.course_name}}</span>
+        <span *ngIf="batch_info.course_name == undefined || batch_info.course_name == ''">{{batch_info.batch_name}}</span>
+      </h4>
+    </div>
+
+    <div class="">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox sms-notify" [(ngModel)]="presentSMSNotify" id="smsToPresent">
+        <label for="smsToPresent">Send SMS To Present Student</label>
+      </div>
+    </div>
+
+
+    <div class="header_item2" *ngIf="batch_info.forSubjectWise && !isProfessional">
+      <button type="button" name="button" class="fullBlue btn" style="height:30px;padding: 2px 12px;" (click)="topicListing()">Update Topic</button>
+    </div>
+  </div>
+
+  <div class="attendanceWrapper">
+
+    <div class="row" style="width: 100%;">
+      <aside class="tableSection">
+
+        <div class="row filterSection">
+          <div class="c-sm-5 c-md-5 c-lg-5" style="padding-top: 10px;margin-top:8px;">
+            <span style="font-weight: 600; font-size: 14px;">
+              Total Students :
+              <span style="color:#0084f6">{{studentAttList.length}}</span>
+            </span>
+          </div>
+
+          <div class="c-sm-4 c-md-4 c-lg-4 legendSection">
+            <div class="divSection">
+              <span class="leave">{{leaveCount}}</span>
+              <span class="legendSpan">Leave</span>
+            </div>
+
+            <div class="divSection">
+              <span class="absent">{{absentCount}}</span>
+              <span class="legendSpan">Absent</span>
+            </div>
+
+            <div class="divSection">
+              <span class="present">{{presentCount}}</span>
+              <span class="legendSpan">Present</span>
+            </div>
+          </div>
+
+          <!-- <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="field-checkbox-wrapper" *ngIf="classMarkedForAction.is_attendance_marked != 'Y'">
+              <input type="checkbox" value="" class="form-checkbox" id="MarkAllPresent" [checked]="AllPresent" (change)="markAllPresent($event)">
+              <label for="MarkAllPresent">Mark All Present</label>
+            </div>
+          </div> -->
+
+          <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: -10px;padding-top:10px;">
+            <div class="field-wrapper" [ngClass]="{ 'has-value': teacher_id !='' }" *ngIf="!batch_info.isExam && batch_info.forSubjectWise">
+              <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id" style="background: transparent; border: none;
+                border-bottom: 1px solid #4191da">
+                <option value='-1'>Select Faculty</option>
+                <option [value]="teacher.teacher_id" *ngFor="let teacher of teacherListArr">
+                  {{teacher.teacher_name}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row studentTableWrapper" style="padding: 0px;margin-left: 0px;margin-right:0px;">
+          <div class="schedule-bottom">
+            <div class="">
+              <div class="sche-head" *ngIf="settingInfo.home_work_feature_enable == 1">
+                <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper" *ngIf="batch_info.isExam">
+                  <!-- <input type="checkbox" value="" class="form-checkbox heading_checkbox" id="MarkPresent" [checked]="checkForMArks()" (change)="markAllCheckBoxClick($event)">
+                  <label></label> -->
+                </div>
+                <div class="sche-head-item-1">
+                  <span>Student ID</span>
+                </div>
+                <div class="sche-head-item-2">
+                  <span>Student Name</span>
+                </div>
+                <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam">
+                  <!-- This div is only for space purpose -->
+                </div>
+                <div class="sche-head-item-3">
+                  <span>Mark Attendance</span>
+                </div>
+                <div class="sche-head-item-4" *ngIf="!batch_info.isExam">
+                  <span>Home Work Status</span>
+                </div>
+              </div>
+              <div class="sche-head" *ngIf="settingInfo.home_work_feature_enable !=1">
+                <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper"  *ngIf="batch_info.isExam">
+                  <!-- <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkForMArks()" (change)="markAllCheckBoxClick($event)">
+                  <label></label> -->
+                </div>
+                <div class="sche-head-item-1">
+                  <span>Student ID</span>
+                </div>
+                <div class="sche-head-item-2">
+                  <span>Student Name</span>
+                </div>
+                <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam">
+                  <!-- This div is only for space purpose -->
+                </div>
+                <div class="sche-head-item-3">
+                  <span>Mark Attendance</span>
+                </div>
+              </div>
+            </div>
+            <div class="schedule-scroller" style="overflow-y: scroll; height: 295px;">
+              <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: settingInfo.home_work_feature_enable !=1 }">
+                <div class="ct-ongoing subject">
+                  <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper"  *ngIf="batch_info.isExam">
+                    <!-- <input type="checkbox" class="form-checkbox" [(ngModel)]="s.assigned">
+                    <label></label> -->
+                  </div>
+
+                  <div style="width: 15%;padding:5px;" class="subject_item">
+                    <div class="no-margin top5">{{s.student_disp_id}}</div>
+                  </div>
+
+                  <div style="width: 30%; padding:5px;" class="subject_item">
+                    <div class="no-margin top5">
+                      {{s.student_name}}
+                    </div>
+                  </div>
+                  <div style="width: 5%;padding:5px;" *ngIf="!batch_info.isExam">
+                    <!-- This div is only for space purpose -->
+                  </div>
+                  <div style="width: 35%" class="subject_item"  *ngIf="!batch_info.isExam">
+                    <div class="btnGroup  btns">
+                      <button id="leaveBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s , i)"
+                        class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
+                      <button id="absentBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s, i)"
+                        class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'A'}">A</button>
+                      <button id="presentBtn{{s.student_id}}" [disabled]="s.dateLi[0].serverStatus == 'L'" (click)="markAttendaceBtnClick($event , s, i)"
+                        class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
+                    </div>
+                  </div>
+
+                  <div style="width: 35%" class="subject_item"  *ngIf="batch_info.isExam && !isProfessional">
+                    <div class="btnGroup  btns">
+                      <button id="leaveBtn{{s.student_id}}" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N')" (click)="markAttendaceExamCourse($event , s , i)"
+                        class="btn" [ngClass]="{'classLeaveBtn' : s.attendance == 'L'}">L</button>
+                      <button id="absentBtn{{s.student_id}}" [disabled]="(s.attendance == 'L'&& s.isAttendanceUpdated == 'N')" (click)="markAttendaceExamCourse($event , s , i)"
+                        class="btn" [ngClass]="{'classAbsentBtn' : s.attendance == 'A'}">A</button>
+                      <button id="presentBtn{{s.student_id}}" [disabled]="(s.attendance == 'L'&& s.isAttendanceUpdated == 'N')" (click)="markAttendaceExamCourse($event , s , i)"
+                        class="btn" [ngClass]="{'classPresentBtn' : s.attendance == 'P'}">P</button>
+                    </div>
+                  </div>
+
+                  <div style="width: 35%" class="subject_item"  *ngIf="batch_info.isExam  && isProfessional">
+                    <div class="btnGroup  btns">
+                      <button id="leaveBtnCourse{{s.student_id}}" [disabled]="(s.dateLi[0].status == 'L' && s.dateLi[0].isStatusModified == 'N')"
+                        (click)="markAttendaceExam($event , s , i)" class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
+                      <button id="absentBtnCourse{{s.student_id}}" [disabled]="(s.dateLi[0].status == 'L' && s.dateLi[0].isStatusModified == 'N')"
+                        (click)="markAttendaceExam($event , s, i)" class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'A'}">A</button>
+                      <button id="presentBtnCourse{{s.student_id}}" [disabled]="(s.dateLi[0].status == 'L' && s.dateLi[0].isStatusModified == 'N')"
+                        (click)="markAttendaceExam($event , s, i)" class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
+                    </div>
+                  </div>
+
+                  <div style="width: 15%;padding:5px;" *ngIf="settingInfo.home_work_feature_enable==1 && !batch_info.isExam" class="subject_item">
+                    <div style="margin: 0px;" class="customDropdown top5">
+                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
+                        (ngModelChange)="isHomeworkStatusChanged(i)">
+                        <option value="Y" selected=" ">Completed</option>
+                        <option value="N">Not Done</option>
+                        <option value="NC">Incomplete</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="ct-disable-wrapper pos-rel img_container" *ngIf="studentAttList.length == 0">
+                <img src="./assets/images/no_student.svg" alt="No Student" class="no_student_img">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+      <aside class="detailsSection" *ngIf="!batch_info.isExam && batch_info.forSubjectWise">
+
+        <div style="margin-top: 0px">
+          <div class="aside_header">
+            <span style="font-weight: 600;">Attendance Note</span>
+            <div class="">
+              <span>Limit</span>
+              <span class="button_type">{{attendanceCount}}</span>
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <textarea style="width: 96%;height: 80px;margin-left: 2%;" class="form-ctrl textBox" value="" maxlength="50" [(ngModel)]="attendanceNote" (ngModelChange)="countAttendanceLimit()">
+            </textarea>
+          </div>
+        </div>
+
+        <div *ngIf="settingInfo.home_work_feature_enable==1">
+          <div class="aside_header">
+            <span style="font-weight: 600;">Homework</span>
+            <div class="">
+              <span>Limit</span>
+              <span class="button_type">{{homeworkCount}}</span>
+            </div>
+          </div>
+          <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
+            <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework" maxlength="50" style="width: 96%;height: 80px;margin-left: 2%;" (ngModelChange)="countHomeworkLimit()">
+              </textarea>
+          </div>
+        </div>
+
+        <!-- <div *ngIf="settingInfo.home_work_feature_enable==1">
+          <h3 style="display: inline-flex;">Last Class Homework</h3>
+          <div class="questionInfo lefts">
+            <span class="qInfoIcon">?</span>
+            <div class="tooltip-box-field">
+              Details of homework given in last class
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <textarea disabled="true" class="form-ctrl textBox" style="background: #efefef" value="" [ngModel]="studentAttList[0].dateLi[0].homework_assigned">
+            </textarea>
+          </div>
+        </div> -->
+
+
+        <div class="checkboxGroup">
+          <div class="field-checkbox-wrapper" [ngClass]="{'hide': settingInfo.home_work_feature_enable != 1}"> <!-- [ngClass]="{'hide': settingInfo.home_work_feature_enable != 1}" -->
+            <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
+              (change)="updateHomework($event)">
+            <label for="EnableHomeWorkSms" style="margin-left: 10px; margin-top: 5px;">Send Homework SMS</label>
+          </div>
+          <div class="field-checkbox-wrapper hide">
+            <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn == 1 ? true: false"
+              (change)="updateTopicCovered($event)">
+            <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
+          </div>
+          <!-- <div class="field-checkbox-wrapper" [ngClass]="{'hide':settingInfo.sms_absent_notification == 0}">
+            <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
+            <label for="EnableSmsTopic">Send SMS for Absentees
+              <div class="questionInfo lefts" style="margin-left: 30px;">
+                <span class="qInfoIcon">?</span>
+                <div class="tooltip-box-field">
+                  Send message if Absent is marked
+                </div>
+              </div>
+            </label>
+          </div> -->
+        </div>
+
+      </aside>
+    </div>
+  </div>
+
+  <div style="padding-top: 20px;margin-right: 15px;margin-left: 5px;margin-bottom: 30px;" class="clearfix">
+    <aside class="pull-left popup-btn"  style=" display: inline-flex; ">
+      <input type="button" value="Back" class="btn" (click)="backToHome()" style="margin-left:5px;">
+    </aside>
+    <aside class="pull-right popup-btn" style=" display: inline-flex; ">
+      <!-- <input type="button" value="Cancel" class="btn" (click)="closeAttendance()"> -->
+      <input type="button" *ngIf="!isProfessional && batch_info.is_attendance_marked != 'Y'" value="Mark Attendance"
+        (click)="updateAttendance()" class="fullBlue btn" style="margin-left:10px;" [disabled]="isRippleLoad">
+      <input type="button" *ngIf="!isProfessional && batch_info.is_attendance_marked == 'Y'" value="Update Attendance"
+        (click)="updateAttendance()" class="fullBlue btn" style="margin-left:10px;" [disabled]="isRippleLoad">
+      <input type="button" *ngIf="isProfessional" value="Mark Attendance" (click)="updateAttendance()" class="fullBlue btn"
+        style="margin-left:10px;" [disabled]="isRippleLoad">
+    </aside>
+  </div>
+
+</section>
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section class="absent_popup" *ngIf="absentPopUp">
+  <div class="absent_student">
+    <div class="header">
+      <span style="font-weight: 600;">Mark / Update Attendance</span>
+      <span style="font-weight: 600; cursor: pointer;" (click)="closeAbsentPopUp()">X</span>
+    </div>
+    <div class="main_container">
+      <div class="for_absent">
+        <span style="color: #3a3a3a;">Absent : </span>&nbsp;
+        <span>{{absentStudentNames}}</span>
+      </div>
+      <div class="for_absent" *ngIf="!batch_info.isExam">
+        <span style="color: #3a3a3a;">Homework not done/incomplete  : </span>&nbsp;
+        <span>{{homeWorkNotDoneStudentNames}}</span>
+      </div>
+
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox sms-notify" [(ngModel)]="notifyAbsentStudent" id="smsToAbsent">
+        <label for="smsToAbsent">Notify to students</label>
+      </div>
+
+      <div class="pull-right" style="margin-top:20px; display:flex; justify-content: flex-end;" *ngIf="batch_info.forCourseWise && !batch_info.isExam">
+        <input type="button" value="Cancel" class="btn" (click)="closePopUp()">
+        <input type="button" value="Mark Attendance" (click)="updateMarks()" class="fullBlue btn" [disabled]="isRippleLoad">
+      </div>
+
+      <div class="pull-right" style="margin-top:20px; display:flex; justify-content: flex-end;" *ngIf="batch_info.forCourseWise && batch_info.isExam">
+        <input type="button" value="Cancel" class="btn" (click)="closePopUp()">
+        <input type="button" value="Mark Attendance" (click)="examUpdate()" class="fullBlue btn" [disabled]="isRippleLoad">
+      </div>
+
+      <div class="pull-right" style="margin-top:20px; display:flex; justify-content: flex-end;" *ngIf="batch_info.forSubjectWise">
+        <input type="button" value="Cancel" class="btn" (click)="closePopUp()">
+        <input type="button" value="Mark Attendance" (click)="markAttendance()" class="fullBlue btn" [disabled]="isRippleLoad">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" *ngIf="absentPopUp" (click)="closeAbsentPopUp()">
+
+</div>
+
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section [hidden]="topicBox">
+  <div class="topicBox">
+    <div class="close-btn">
+      <span (click)="closeAlert()">X</span>
+    </div>
+    <div class="header-container">
+      <div class="sub-header">
+        <span style="font-weight: 600;">Subject : </span>
+        <span id="topicSubName"></span>
+      </div>
+      <div class="total-topic">
+        <span style="font-weight: 600;">Total Topic : </span>
+        <span id="topicCount"></span>
+      </div>
+    </div>
+    <!-- <div class="field-checkbox-wrapper" style="margin:10px;">
+      <input type="checkbox" name="checkbx" id="select_all_topics" [(ngModel)]="selectAllTopics" (ngModelChange)="checkAllTopics()"
+        class="form-checkbox">
+      <label for="select_all_topics">
+        Select All
+      </label>
+    </div> -->
+    <div class="topic-listing-container">
+      <kendo-treeview
+          [nodes]="topicsData"
+          [hasChildren]="hasChildren"
+          [children]="children"
+          kendoTreeViewSelectable
+          kendoTreeViewHierarchyBinding
+          kendoTreeViewExpandable
+          textField="topicName"
+          [kendoTreeViewCheckable]="checkableSettings"
+          [(checkedKeys)]="checkedKeys"
+          checkBy="topicId"
+      >
+       </kendo-treeview>
+    </div>
+    <!-- <div class="example-config">
+           Checked keys: {{checkedKeys.join("|")}}
+       </div> -->
+    <div class="extraMargin row  pull-right" style="margin: 15px">
+      <button class="btn" (click)="closeAlert()">Cancel</button>
+      <button class="btn fullBlue" (click)="saveTopic()">Save</button>
+    </div>
+  </div>
+</section>
+
+<div class="black-bg" id="black-bg" [hidden]="topicBox" (click)="closeAlert()">
+
+</div>
