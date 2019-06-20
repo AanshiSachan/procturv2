@@ -317,7 +317,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
           this.appC.popToast({ type: 'error', title: 'Error', body: 'Please provide closing reason' });
           return;
         }
-        this.updateFormData.followUpDate = ""; // closed enquiry should not have a follow up date --laxmi 
+        this.updateFormData.followUpDate = ""; // closed enquiry should not have a follow up date --laxmi
       }
 
       // Follow Up Type Walkin Manadatory
@@ -366,6 +366,13 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
         this.updateFormData.followUpTime = time[0] + ":" + this.followUpTime.minute + " " + time[1];
       } else {
         this.updateFormData.followUpTime = "";
+      }
+
+      if (this.notifyme) {
+        this.updateFormData.is_follow_up_time_notification = 1;
+      }
+      else {
+        this.updateFormData.is_follow_up_time_notification = 0;
       }
       this.pushUpdatedEnquiry(this.updateFormData);
     } else {
@@ -470,7 +477,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy, OnInit {
   }
 
   isEnquiryAdministrator() {
-    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined 
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined
     || sessionStorage.getItem('permissions') == '' || sessionStorage.getItem('username') == 'admin') {
       this.isEnquiryAdmin = true;
     }
