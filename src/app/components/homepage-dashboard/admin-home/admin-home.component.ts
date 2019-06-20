@@ -548,9 +548,9 @@ export class AdminHomeComponent implements OnInit {
   sendSMSToAllPresentStudent(e, arrayName) {
     let array = this[arrayName];
     let flag = e.target.checked;
-    array.forEach(student => {
-      student.isSMSNotificationToPresentStudents = flag;
-    });
+    // array.forEach(student => {
+    //   student.isSMSNotificationToPresentStudents = flag;
+    // });
   }
 
   markAllPresent(e) {
@@ -624,7 +624,7 @@ export class AdminHomeComponent implements OnInit {
 
   markAttendanceServerCall(sendSms) {
     if (this.studentAttList.length > 0) {
-      let sendPresentStudntSMS = this.studentAttList[0].isSMSNotificationToPresentStudents==true || this.studentAttList[0].isSMSNotificationToPresentStudents =='Y' ? 'Y' : 'N';
+      // let sendPresentStudntSMS = this.studentAttList[0].isSMSNotificationToPresentStudents==true || this.studentAttList[0].isSMSNotificationToPresentStudents =='Y' ? 'Y' : 'N';
       let arr = [];
       if (!this.isRippleLoad) {
         this.isRippleLoad = true;
@@ -634,7 +634,7 @@ export class AdminHomeComponent implements OnInit {
           arrDateLi.push(e.dateLi[0]);
           let temp = {
             batch_id: this.classMarkedForAction.batch_id,
-            isSMSNotificationToPresentStudents: sendPresentStudntSMS,
+            // isSMSNotificationToPresentStudents: sendPresentStudntSMS,
             dateLi: arrDateLi,
             home_work_notifn: e.home_work_notifn,
             isNotify: sendSms,
@@ -1307,12 +1307,12 @@ export class AdminHomeComponent implements OnInit {
   makeServerCallForUpdateMarks(isNotify) {
     let arr = [];
     if (this.courseLevelStudentAtt.length > 0) {
-      let sendPresentStudntSMS = this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents==true ||this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents=='Y' ? 'Y' : 'N';
+      // let sendPresentStudntSMS = this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents==true ||this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents=='Y' ? 'Y' : 'N';
       this.courseLevelStudentAtt.forEach(element => {
         let temp = {
           "student_id": element.student_id,
           "course_id": this.classMarkedForAction.course_ids,
-          "isSMSNotificationToPresentStudents": sendPresentStudntSMS,
+          // "isSMSNotificationToPresentStudents": sendPresentStudntSMS,
           "dateLi": [{
             "date": moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
             "status": element.dateLi[0].status,
@@ -2672,13 +2672,13 @@ export class AdminHomeComponent implements OnInit {
     let obj: any = [];
 
     if (this.studentList.length > 0) {
-      let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents==true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
+      // let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents==true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
       for (let i = 0; i < this.studentList.length; i++) {
         let test: any = {};
         test.batch_id = this.tempData.batch_id;
         test.isNotify = notify;
         test.student_id = this.studentList[i].student_id;
-        test.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
+        // test.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
         test.dateLi = [{
           date: this.studentList[i].dateLi[0].date,
           status: this.studentList[i].dateLi[0].status,
@@ -3069,7 +3069,7 @@ export class AdminHomeComponent implements OnInit {
   constructJsonForAttendance(absentKey) {
     let arr = [];
     if( this.studentList.length>0){
-    let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents==true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
+    // let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents==true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
     for (let i = 0; i < this.studentList.length; i++) {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
@@ -3078,7 +3078,7 @@ export class AdminHomeComponent implements OnInit {
       } else {
         obj.course_marks_update_level = this.tempData.course_marks_update_level;
       }
-      obj.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
+      // obj.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
       obj.isStudentExamSMS = absentKey;
       obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
       obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
