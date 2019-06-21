@@ -1350,7 +1350,7 @@
                             {{row.message}}
                           </td>
                           <td>
-                            <i class="fa fa-pencil" (click)="editSMS(row )" style="font-family: FontAwesome;font-size: 25px;color: orange;"></i> &nbsp;
+                            <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
                           </td>
                         </tr>
                         <tr *ngIf="messageList.length == 0">
@@ -1387,7 +1387,7 @@
                             {{row.message}}
                           </td>
                           <td>
-                            <i class="fa fa-pencil" (click)="editSMS(row )" style="font-family: FontAwesome;font-size: 25px;color: orange;"></i> &nbsp;
+                            <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i> &nbsp;
                             <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i> &nbsp;
                             <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                           </td>
