@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
     let start_date_new = row2.start_date
     let end_date_new = row2.end_date
 
-    if (moment(start_date_new).date() > moment(end_date_new).date()) {
+    if (moment(start_date_new).valueOf() > moment(end_date_new).valueOf()) {
       this.showErrorMessage(this.msgService.toastTypes.error, this.msgService.object.dateTimeMessages.incorrectDetails, "Start date cannot be less than end date");
     }
     else if (row2.academicyear == "" || row2.desc == "") {

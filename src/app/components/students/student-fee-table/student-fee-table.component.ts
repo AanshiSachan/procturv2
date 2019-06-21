@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
 import { StudentFeeService } from '../student_fee.service';
 import { ActivatedRoute } from '@angular/router';
+import { CourseListService } from '../../../services/course-services/course-list.service';
 
 
 @Component({
@@ -78,8 +79,10 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     tax: 0,
     update_date: null,
     updated_by: null,
-    initial_fee_amount_before_disocunt_before_tax: 0
+    initial_fee_amount_before_disocunt_before_tax: 0,
+    academic_year_id:'-1'
   }
+
   addFeeOther: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -135,20 +138,23 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     tax: 0,
     update_date: null,
     updated_by: null,
-    initial_fee_amount_before_disocunt_before_tax: 0
+    initial_fee_amount_before_disocunt_before_tax: 0,
+    academic_year_id:'-1'
   }
   otherFeeType: any[] = [];
   taxEnableCheck: any = '1';
   service_tax: number = 0;
   installmentData: any = [];
   additionalData: any = [];
+  academicList: any = [];
 
   constructor(
     private cd: ChangeDetectorRef,
     private eRef: ElementRef,
     private appC: AppComponent,
     private feeService: StudentFeeService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private apiService: CourseListService,
   ) { }
 
   ngOnInit() {
@@ -163,6 +169,18 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     this.courseDropdown;
     this.service_tax = this.feeTemplateData.registeredServiceTax;
     this.splitCustomizedFee();
+    this.getAcademicYearDetails();
+  }
+
+  getAcademicYearDetails() {
+    this.academicList = [];
+    this.apiService.getAcadYear().subscribe(
+      res => {
+        this.academicList = res;
+      },
+      err => {
+      }
+    )
   }
 
   splitCustomizedFee() {

@@ -19,7 +19,7 @@ export class CourseCourseListComponent implements OnInit {
   totalRow: number;
   dataStatus: number = 1;
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-  columnMaps: any[] = [0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4,5];
   selectedRow: number;
   addStudentPopUp: boolean = false;
   courseDetails: any;
@@ -36,10 +36,10 @@ export class CourseCourseListComponent implements OnInit {
   feeTemplateDataSource: any = [];
   deafultTemplate: any;
   searchData: any = "";
-
   alertBox: boolean = true;
   delete_unpaid_fee: boolean = false;
   unselected_checkbox_id: number;
+  academic_year_id:any='-1'
 
   constructor(
     private apiService: CourseListService,
@@ -137,6 +137,7 @@ export class CourseCourseListComponent implements OnInit {
   addStudentToBatch(rowDetails) {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
+    this.academic_year_id =rowDetails.coursesList[0].academic_year_id;
     // this.getAllStudentList();
     this.getAcademicYearDetails();
     this.getAllFeeTemplate();

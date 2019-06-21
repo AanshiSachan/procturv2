@@ -11,20 +11,10 @@
           <h1 class="pull-left">Activity Dashboard</h1>
 
           <div class="pull-right act-right-sec">
-            <button class="btn hide" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
-              <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" fill-rule="evenodd">
-                  <path d="M-1-1h191v34H-1z" stroke="#1984F6"></path>
-                  <g>
-                    <path d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
-                      fill="#0084F6" fill-rule="nonzero"></path>
-                    <path d="M20.443 11.075H6v9.907h18.55v-9.907h-4.107zm3.364 9.144H6.743v-8.381h17.064v8.381z" fill="#0084F6" fill-rule="nonzero"></path>
-                    <circle cx="22" cy="12" fill="#FFF" r="3" stroke="#0084F6" stroke-width=".5"></circle>
-                    <path d="M19.856 11.647h4.451v1h-4.451z" fill="#0084F6" fill-rule="nonzero"></path>
-                    <path d="M21.7 14.253v-4.45h1v4.45z" fill="#0084F6" fill-rule="nonzero"></path>
-                  </g>
-                </g>
-              </svg>
+            <button class="btn hide add_send_noti" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
+
+              +
+              &nbsp;
               Add/Send Notification
             </button>
           </div>
@@ -42,7 +32,7 @@
               </li>
 
               <li class="fees-state item" [ngClass]="{'hide' : checkRoleMAnagement('709')}" data-id="3">
-                <div class="item-content">
+                <div class="item-content"  >
                   <fee-widget></fee-widget>
                 </div>
               </li>
@@ -67,7 +57,7 @@
                             <label>Total Classes :</label>
                             <span>{{classScheduleCount}}</span>
                             <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
-                              [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker
+                              [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDatepicker
                             />
                           </div>
                         </li>
@@ -76,8 +66,7 @@
                             <label>Total Course :</label>
                             <span> {{courseLevelSchedule.length}}</span>
                             <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
-                              [(ngModel)]="courseLevelSchedDate" (ngModelChange)="updateCourseLevelSched($event)" readonly="true"
-                              bsDatepicker />
+                              [(ngModel)]="courseLevelSchedDate" (ngModelChange)="updateCourseLevelSched($event)" readonly="true" bsDatepicker />
                           </div>
                         </li>
                         <li class="schedule-det" *ngIf="isProfessional">
@@ -85,7 +74,7 @@
                             <label>Total Classes :</label>
                             <span>{{classScheduleCount}}</span>
                             <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
-                              [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker
+                              [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true"  bsDatepicker
                             />
                           </div>
                         </li>
@@ -107,13 +96,13 @@
                             </svg>
                           </button>
                           <span class="enquiry-state-date pull-right" *ngIf="!isProfessional && isSubjectView">
-                            {{getSchedStartDate()| date: 'dd MMM yyyy'}} To {{getSchedEndDate()| date: 'dd MMM yyyy'}}
+                            {{getSchedStartDate()| date: 'dd MMM yyyy'}}
                           </span>
                           <span class="enquiry-state-date pull-right" *ngIf="!isProfessional && !isSubjectView">
                             {{courseLevelSchedDate| date: 'dd MMM yyyy'}}
                           </span>
                           <span class="enquiry-state-date pull-right" *ngIf="isProfessional">
-                            {{getSchedStartDate()| date: 'dd MMM yyyy'}} To {{getSchedEndDate()| date: 'dd MMM yyyy'}}
+                            {{getSchedStartDate()| date: 'dd MMM yyyy'}}
                           </span>
                         </li>
                       </ul>
@@ -121,17 +110,18 @@
                     <div class="schedule-bottom">
                       <ul class="subjectViewHead" *ngIf="!isProfessional && isSubjectView">
                         <li class="timings">Timings</li>
-                        <li class="cls-type">Class type</li>
-                        <li class="cls-name">Subject</li>
                         <li class="course-name">Course</li>
-                        <li class="master-course-name">Master Course</li>
+                        <li class="subject">Subject</li>
                         <li class="faculty-name">Faculty</li>
+                        <li class="topic-link">Linked Topic</li>
+                        <li class="action pull-right">Action</li>
                       </ul>
                       <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
                         <li class="batch">Master Course</li>
                         <li class="cls-type batch">Courses</li>
                         <li class="batch cls-type">Timings</li>
                         <li class="batch">Type</li>
+                        <li class="action">Action</li>
                       </ul>
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li class="timings">Timings</li>
@@ -139,119 +129,129 @@
                         <li class="class_room">Class Room</li>
                         <li class="batch">Batch</li>
                         <li class="faculty">Faculty</li>
+                        <li class="action">Action</li>
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="subjectViewContent" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li class="timings">
-                              <div *ngIf="!class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.class_date}})
+                              <div *ngIf="!class.isExam">
+                                {{class.start_time}} - {{class.end_time}}
                               </div>
                               <p>{{class.class_room_name}}</p>
                             </li>
-                            <li class="cls-type">
-                              <div *ngIf="!class.isExam">
-                                <span *ngIf="class.custom_class_type== 'Regular' || class.custom_class_type== 'Revision' || class.custom_class_type== 'Doubt' ">{{class.custom_class_type}}</span>
-                                <span *ngIf="!(class.custom_class_type== 'Regular' || class.custom_class_type== 'Revision' || class.custom_class_type== 'Doubt')">Extra</span>
-                                <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
+                            <li class="course-name">
+                              <div title="{{class.course_name}}">
+                                <span title="{{class.course_name}}">
+                                  {{(class.course_name.length > 10)? (class.course_name | slice:0:10)+'..':(class.course_name) }}
+                                </span>
                               </div>
                             </li>
-                            <li class="cls-name">
+                            <!-- <li class="exam">
+                              <div title="{{class.course_name}}">{{class.course_name}}</div>
+                            </li> -->
+                            <li class="subject">
                               <div title="{{class.subject_name}}">{{class.subject_name}}</div>
                             </li>
-                            <li class="course-name">
-                              <div title="{{class.course_name}}">{{class.course_name}}</div>
-                            </li>
-                            <li class="master-course-name">
-                              <div title="{{class.master_course_name}}">{{class.master_course_name}}</div>
-                            </li>
                             <li class="faculty-name">
-                              <div *ngIf="!class.isExam">{{class.teacher_name}}</div>
+                              <div title="{{class.teacher_name}}">{{class.teacher_name}}</div>
                             </li>
+                            <li class="topic-link">
+                              <div title="{{class.topicName}}" *ngIf="class.topicName"> {{(class.topicName.length > 15) ? (class.topicName | slice:0:15)+'..':(class.topicName) }} </div>
+                              <div *ngIf="!class.topicName">-</div>
+                            </li>
+                            <li class="action">
+                              <div title="" class="pull-right">
+                                <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="getVisibility(class) && class.is_attendance_marked =='Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="getVisibility(class) && class.is_attendance_marked !='Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/reschedule.svg" alt="reschedule" title="Reschedule" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" (click)="initiateRescheduleClass(i, class)">
+                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' (click)="initiateRemiderClass(i, class)"></i>
+                                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" *ngIf='class.is_attendance_marked!="Y"' (click)="initiateCancelClass(i, class)"></i>
+                              </div>
+                            </li>
+
                           </ul>
-                          <div *ngIf="!class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance
-                            </span>
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance
-                            </span>
-                            <span class="" *ngIf='class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateRemiderClass(i, class)">Class Reminder
-                            </span>
-                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
-                          </div>
+
                         </div>
                       </div>
                       <div class="schedule-scroller" *ngIf="!isProfessional && !isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of courseLevelSchedule;let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
-                            <li class="batch">
-                              <div>{{class.master_course}}</div>
-                              <p></p>
+                            <li class="batch" title="{{class.master_course}}">
+                              <div title="{{class.master_course}}">{{ (class.master_course.length > 15) ? (class.master_course | slice:0:15)+'..':(class.master_course) }}
+                              </div>
+                            </li>
+                            <li class="batch cls-type" *ngIf="!class.isExam" title="{{class.coursee_names}}">
+                              <div>
+                                <span title="{{class.coursee_names}}">{{ (class.coursee_names.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
+                              </div>
+                              <!-- <div *ngIf="class.isExam">
+                                <span title="{{class.course_name}}">{{ (class.course_name.length > 15) ? (class.course_name | slice:0:15)+'..':(class.course_name) }} </span>
+                              </div> -->
+                            </li>
+                            <li class="batch cls-type" *ngIf="class.isExam" title="{{class.course_name}}">
+                              <!-- <div *ngIf="!class.isExam">
+                                <span title="{{class.coursee_names}}">{{ (class.coursee_names.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
+                              </div> -->
+                              <div *ngIf="class.isExam">
+                                <span title="{{class.course_name}}">{{ (class.course_name.length > 15) ? (class.course_name | slice:0:15)+'..':(class.course_name) }} </span>
+                              </div>
                             </li>
                             <li class="batch cls-type">
-                              <div *ngIf="!class.isExam">
-                                {{class.coursee_names}}
-                                <span></span>
-                              </div>
-                              <div *ngIf="class.isExam">
-                                {{class.course_name}}
-                              </div>
-                            </li>
-                            <li class="batch cls-type">
-                              <div *ngIf="class.isExam">
-                                {{class.course_exam_date}} ({{class.exam_start_time}} - {{class.exam_end_time}})
+                              <div>
+                                 {{class.exam_start_time}} - {{class.exam_end_time}}
                               </div>
                             </li>
                             <li class="batch">
                               <div *ngIf="!class.isExam">
-                                Class
+                                <span style="color: #1283f4">Class</span>
                               </div>
                               <div *ngIf="class.isExam">
-                                Exam
+                                <span style="color: #f41237">Exam</span>
                               </div>
+                            </li>
+                            <li class="action">
+                              <div *ngIf="!class.isExam" class="che-action pull-right">
+                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Attendance" title="Update Attendance" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">
+                                <i class="fa fa-eye" aria-hidden="true" style="color: #1283f4;ursor:pointer" (click)="viewClassDetails(i, class)" title="View Details"></i>
+                                <!-- <img src="./assets/images/exam-update.svg" style="cursor:pointer" alt="Update Exam Marks" title="Update Exam Marks" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)"> -->
+                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="initiateRemiderClass(i, class)" *ngIf='hideVisibilty() && class.is_attendance_marked!="Y"'></i>
+                                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel class" *ngIf='class.is_attendance_marked!="Y"' (click)="initiateCourseCancelClass(i, class)"></i>
+                              </div>
+
+                              <div *ngIf="class.isExam" class="che-action pull-right">
+                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.course_marks_update_level == '0'" (click)="markAttendanceExamCourse(class)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.course_marks_update_level != '0'" (click)="markAttendanceExamCourse(class)">
+                                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.course_marks_update_level != '0' && class.course_marks_update_level != '1' && class.course_marks_update_level != '2'" (click)="examMarksUpdateCourse(class)">
+                                <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Update Exam Marks" style="cursor:pointer" *ngIf="class.course_marks_update_level == '1' || class.course_marks_update_level == '2'" (click)="examMarksUpdateCourse(class)">
+                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="sendReminderForCourse(class)" *ngIf='class.course_marks_update_level == "0"'></i>
+                                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Exam" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClickCourse(class)"></i>
+                              </div>
+
                             </li>
                           </ul>
-                          <div *ngIf="!class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHideCourse()" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance
-                            </span>
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance
-                            </span>
-                            <span class="" *ngIf='class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='hideVisibilty() && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder
-                            </span>
-                            <span class="" style="cursor:pointer" (click)="viewClassDetails(i, class)">View Details</span>
-                          </div>
 
-                          <div *ngIf="class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('103')}">
-                            <span (click)="markAttendanceExamCourse(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance
-                            </span>
-                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="sendReminderForCourse(class)" style="cursor:pointer">Send Reminder
-                            </span>
-                            <span class="" *ngIf="class.course_marks_update_level == '0'" (click)="onCancelExamClickCourse(class)" style="cursor:pointer">Cancel Exam
-                            </span>
-                            <span class="" *ngIf="class.course_marks_update_level != '0'" (click)="examMarksUpdateCourse(class)" style="cursor:pointer">Exam Marks
-                            </span>
-                          </div>
 
                         </div>
                       </div>
                       <div class="schedule-scroller" *ngIf="isProfessional">
-                        <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
+                        <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails(); let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li class="timings">
-                              <div *ngIf="!class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.class_date}})
+                              <div *ngIf="!class.isExam">{{class.start_time}} - {{class.end_time}}
                               </div>
-                              <div *ngIf="class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.exam_date}})</div>
+                              <div *ngIf="class.isExam">{{class.start_time}} - {{class.end_time}}</div>
                             </li>
                             <li class="cls-type">
                               <div *ngIf="!class.isExam">
-                                <span *ngIf="(class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular'">Regular</span>
-                                <span *ngIf="!((class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular')">Extra</span>
-                                <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
+                                <span *ngIf="(class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular'" style="color: #1283f4">Regular</span>
+                                <span *ngIf="!((class.freq == 'WEEK' && class.custom_class_type == '') || class.custom_class_type == 'Regular(Custom)' || class.custom_class_type=='Regular')" style="color: #ff6600">Extra</span>
+                                <!-- <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span> -->
                               </div>
                               <div *ngIf="class.isExam">
-                                <span>Exam</span>
-                                <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
+                                <span style="color: #f41237">Exam</span>
+                                <!-- <span class="class-type-status" [ngClass]="getClassStatus(class)" >ongoing</span> -->
                               </div>
                             </li>
                             <li class="class_room">
@@ -260,7 +260,6 @@
                                   {{class.class_room_name}}
                                 </span>
                               </div>
-
                             </li>
                             <li class="batch">
                               <div>{{class.batch_name}}</div>
@@ -268,28 +267,24 @@
                             <li class="faculty">
                               <div>{{class.teacher_name}}</div>
                             </li>
+                            <li class="action">
+                              <div *ngIf="class.isExam" class="che-action pull-right"  [ngClass]="{hide : checkIfUserHadAccess('112')}">
+                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="hideFutureExamSchedule(class)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.is_attendance_marked == 'Y'" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)">
+                                <!-- <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Update Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)"> -->
+                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="notifyExamSchedule(i, class)" *ngIf='class.isReferenced != "Y"'></i>
+                                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Exam" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)"></i>
+                              </div>
+                              <div *ngIf="!class.isExam" class="che-action pull-right" [ngClass]="{hide : checkIfUserHadAccess('101')}">
+                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Attendance" title="Update Attendance" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/reschedule.svg" alt="reschedule" title="Reschedule" [ngClass]="getReminderAndCancel(class)" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" (click)="initiateRescheduleClass(i, class)">
+                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="initiateRemiderClass(i, class)" [ngClass]="getReminderAndCancel(class)" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"'></i>
+                                <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Class" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(i, class)"></i>
+                              </div>
+                            </li>
                           </ul>
-                          <div *ngIf="(!class.isExam)" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance
-                            </span>
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View Attendance
-                            </span>
-                            <span class="" *ngIf='class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateRemiderClass(i, class)">Class Reminder
-                            </span>
-                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateRescheduleClass(i, class)">Reschedule</span>
-                          </div>
-                          <div *ngIf="(class.isExam)" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('112')}">
-                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer" [ngClass]="hideFutureExamSchedule(class)">Exam Attendance
-                            </span>
-                            <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
-                            <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam
-                            </span>
-                            <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks
-                            </span>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -378,10 +373,10 @@
                 <input type="checkbox" value="" class="form-checkbox" id="MarkAllPresent" [checked]="AllPresent" (change)="markAllPresent($event)">
                 <label for="MarkAllPresent" class="txt-font">Mark All Present</label>
               </div>
-              <div class="field-checkbox-wrapper">
+              <!-- <div class="field-checkbox-wrapper">
                 <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentAttList')">
                 <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
-              </div>
+              </div> -->
             </div>
 
             <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: -10px">
@@ -592,14 +587,14 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCancelClass()">
-          <input type="button" value="Cancel Class" (click)="cancelClass()" class="btn fullBlue">
+          <input type="button" value="Cancel Class" (click)="cancelClass()" [disabled]="isRippleLoad" class="btn fullBlue">
         </aside>
       </div>
     </div>
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isReminderPop" [size]="'50%'">
+  <proctur-widget *ngIf="isReminderPop" [size]="'50%'" style="border-radius: 4px;">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRemiderClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -624,8 +619,20 @@
     </h2>
 
     <div class="reminderWrapper" widget-content>
-      <div class="row" style="margin: 30px 20px;">
+      <div class="row" style="margin: 20px 0px;">
         The reminder for the selected schedule will be sent!! click continue to proceed.
+      </div>
+    </div>
+
+    <div class="add_remarks" widget-content>
+      <div class="" style="margin-left: 38%">
+        <span>Limit</span>
+        <span class="button_type">{{remarksLimit}}</span>
+      </div>
+      <div class="field-wrapper" style="width: 50%;">
+        <textarea type="text" style="height:50px; border: 1px solid #d3d4d5;" id="reminderRemarks" name="reminderRemarks" [(ngModel)]="reminderRemarks" value="" placeholder="Remarks"
+          class="form-ctrl textbox" maxlength="50" (ngModelChange)="countRemarksLimit()">
+        </textarea>
       </div>
     </div>
 
@@ -633,7 +640,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeRemiderClass()">
-          <input type="button" value="Continue" (click)="sendReminder()" class="btn fullBlue">
+          <input type="button" value="Continue" (click)="sendReminder()" class="btn fullBlue" [disabled]="isRippleLoad">
         </aside>
       </div>
     </div>
@@ -736,7 +743,7 @@
         </aside>
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
-          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">
+          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn" [disabled]="isRippleLoad">
         </aside>
       </div>
     </div>
@@ -781,12 +788,12 @@
           <span class="present">{{presentCount}}</span>
           <h5>Present</h5>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3">
+        <!-- <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'courseLevelStudentAtt')">
             <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="attendanceMain">
@@ -899,8 +906,8 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-          <input *ngIf="!isProfessional" type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
-          <input *ngIf="isProfessional" type="button" value="Cancel Class" (click)="cancelBatchClass()" class="fullBlue btn">
+          <input *ngIf="!isProfessional" type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn" [disabled]="isRippleLoad">
+          <input *ngIf="isProfessional" type="button" value="Cancel Class" (click)="cancelBatchClass()" class="fullBlue btn" [disabled]="isRippleLoad">
         </aside>
       </div>
     </div>
@@ -946,9 +953,7 @@
                 <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText" (ngModelChange)="countNumberOfMessage()" placeholder="Message/SMS"></textarea>
                 <div style="width=100%; display:flex; justify-content:space-between;">
                   <span>Character Count : {{newMessageText.length}}</span>
-                  <span>Message Count :
-                    <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span>
-                  </span>
+                  <span>Message Count : <span [ngClass]="{'red' : messageCount >= 2}">{{messageCount}}</span></span>
                 </div>
               </div>
             </div>
@@ -1575,7 +1580,7 @@
           </aside>
           <aside class="pull-right popup-btn">
             <input type="button" value="Close" class="btn" (click)="closeExamPopup()">
-            <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
+            <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn" [disabled]="isRippleLoad">
           </aside>
         </div>
 
@@ -1634,10 +1639,10 @@
             <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatusExam()" (change)="markAllPresentExam($event)">
             <label for="MarkAllPresent" class="txt-font">Mark All Present</label>
           </div>
-          <div class="field-checkbox-wrapper">
+          <!-- <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentList')">
             <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
-          </div>
+          </div> -->
         </div>
 
       </div>
@@ -1873,10 +1878,10 @@
             <input type="checkbox" value="" class="form-checkbox" id="chkBxAbsenteesCourse">
             <label for="chkBxAbsenteesCourse">Send SMS To Absentees</label>
           </div> -->
-          <div class="field-checkbox-wrapper">
+          <!-- <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="SendSMSAllPresentSTD" [checked]="isSendSMSPresent" (change)="sendSMSToAllPresentStudent($event,'studentList')">
             <label for="SendSMSAllPresentSTD" class="txt-font">Send SMS To Present Student</label>
-          </div>
+          </div> -->
         </div>
 
       </div>
@@ -1970,16 +1975,15 @@
         <div class="c-sm-8 c-md-8 c-lg-8">
           <div class="radio-options">
             <div class="field-radio-wrapper">
-              <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
-                name="courseWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
-              <label for="both">Course Wise</label>
-            </div>
-            <div class="field-radio-wrapper">
               <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
                 value="1" name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
               <label for="student">Subject Wise</label>
             </div>
-
+            <div class="field-radio-wrapper">
+              <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
+                name="courseWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
+              <label for="both">Course Wise</label>
+            </div>
           </div>
           <!-- <div>
               <div style="display: inline-block;">
@@ -1992,248 +1996,6 @@
             </div> -->
         </div>
 
-
-      </div>
-
-      <div class="attendanceMain table-wrapper-exam">
-        <div class="table-scroll-wrapper exam-Attendance-Table">
-          <div class="table table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <div class="field-checkbox-wrapper">
-                      <input type="checkbox" class="form-checkbox" [checked]="checkForMArks()" (change)="markAllCheckBoxClick($event)">
-                      <label></label>
-                    </div>
-                  </th>
-                  <th style="font-size: 14px;font-weight: 600;">Student Id</th>
-                  <th style="font-size: 14px;font-weight: 600;">Student Name</th>
-                  <th style="font-size: 14px;font-weight: 600;">Attendance</th>
-                  <th *ngFor="let s of subjectList;" style="font-size: 14px;font-weight: 600;">
-                    {{s.subject_name}}
-                    <span *ngIf="tempData.is_exam_grad_feature == 0">({{s.total_marks}})</span>
-                  </th>
-                  <th style="font-size: 14px;font-weight: 600;">
-                    <span *ngIf="tempData.is_exam_grad_feature == 0">Total Marks ({{totalExamMarks}})</span>
-                    <span *ngIf="tempData.is_exam_grad_feature == 1">Total Grades</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let s of studentList; let i=index;">
-                  <td>
-                    <div class="field-checkbox-wrapper">
-                      <input type="checkbox" class="form-checkbox" [(ngModel)]="s.assigned">
-                      <label></label>
-                    </div>
-                  </td>
-                  <td>
-                    {{s.student_disp_id}}
-                  </td>
-                  <td>
-                    {{s.student_name}}
-                  </td>
-                  <td>
-                    {{s.attendance}}
-                  </td>
-                  <td *ngFor="let subject of s.batchExamMarksLi; let i=index;">
-
-                    <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
-                      <input type="text" class="side-form-ctrl paddingLess" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')" [(ngModel)]="subject.marks_obtained"
-                        (focusout)="checkSubjectMarks(s,subject,$event)">
-                    </div>
-
-                    <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
-                      <select id="" class="side-form-ctrl" [(ngModel)]="subject.grade_id" name="grade_id" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')"
-                        [ngClass]="{'bg-clr': (s.attendance != 'P') || (examMarksLevel != '1')}" style="padding: 0px 0px">
-                        <option value="-1"></option>
-                        <option [value]="time.grade_id" *ngFor="let time of gradesList">
-                          {{time.grade}}
-                        </option>
-                      </select>
-                    </div>
-
-                  </td>
-                  <td>
-                    <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
-                      <input type="text" class="side-form-ctrl paddingLess" [disabled]="(s.attendance != 'P') || (examMarksLevel != '2')" [(ngModel)]="s.course_exam_marks_obtained"
-                        (focusout)="checkTotalMarks(s , $event)">
-                    </div>
-                    <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
-                      <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P') || (examMarksLevel == '0')" [(ngModel)]="s.grade_id"
-                        name="grade_id" style="padding: 0px 0px">
-                        <option value="-1"></option>
-                        <option [value]="time.grade_id" *ngFor="let time of gradesList">
-                          {{time.grade}}
-                        </option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-                <tr *ngIf="studentList.length == 0">
-                  <td colspan="6">
-                    No Students Record
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="" widget-footer>
-      <div class="clearfix" style="padding-top: 15px">
-        <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="closePopUpCommon()">
-          <input type="button" value="Update Marks" (click)="updateMarksOnServerCourse('single')" class="fullBlue btn">
-          <input type="button" value="Update All And Send SMS" (click)="updateMarksOnServerCourse('all')" class="fullBlue btn">
-        </aside>
-      </div>
-    </div>
-  </proctur-widget>
-  <proctur-widget *ngIf="courseCommonExamCancelPopUP">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUpCommon()" close-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="Attendance9310 2185 16 16">
-        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
-                    305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
-                    305.77) rotate(45)" />
-          </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
-        </g>
-      </svg>
-    </span>
-    <h2 widget-header>Cancel Exam Schedule</h2>
-
-    <div class="cancelExamWrapper" widget-content>
-
-      <div class="details row">
-        <div class="c-sm-4 c-md-4 c-lg-4">
-          <h4>Master Course : {{courseTempData.master_course}} </h4>
-        </div>
-        <div class="c-sm-4 c-md-4 c-lg-4">
-          <h4>Exam Schedule Date : {{courseTempData.course_exam_date}} </h4>
-        </div>
-      </div>
-
-
-      <div class="content-wraper">
-        <div class="row button-Section">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <h4>Course : {{courseTempData.course_name}}</h4>
-          </div>
-          <div class="pull-right" *ngIf="showReasonSection == ''">
-            <button class="btn fullBlue" (click)="cancelExamCourseWise()">Cancel</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="table-responsive" *ngIf="showReasonSection == ''">
-        <table class="cancel-table">
-          <thead>
-            <tr>
-              <th>
-                Batch Name
-              </th>
-              <th>
-                Start Time
-              </th>
-              <th>
-                End Time
-              </th>
-              <th>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of tempData.batchExamSchdList">
-              <td>{{data.batch_name}}</td>
-              <td>{{data.exam_start_time}}</td>
-              <td>{{data.exam_end_time}}</td>
-              <td>
-                <a style="cursor: pointer;" (click)="cancelSubjectWiseExam(data)">Cancel Exam</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="cancel-section" *ngIf="showReasonSection == 'Course' || showReasonSection == 'Subject'">
-        <div class="cancel-Class-Wrapper">
-          <div class="row attendance-Note">
-            <div class="c-sm-6 c-md-6 c-lg-6">
-              <div class="form-wrapper">
-                <label for="cancelTxtBx">Cancellation Reason*</label>
-                <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="clearfix" style="margin-top: 10px">
-            <aside class="pull-left" style="margin-top: 10px">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
-                <label for="chkBxNotifyStudent">Notify Students</label>
-              </div>
-            </aside>
-            <aside class="pull-right popup-btn">
-              <input type="button" value="Close" class="btn" (click)="closePopUpCommon()">
-              <input type="button" value="Cancel Exam" (click)="cancelExamCall()" class="fullBlue btn">
-            </aside>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </proctur-widget>
-
-  <proctur-widget *ngIf="examMerkMassUpload">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUpCommon()" close-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="Attendance9310 2185 16 16">
-        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
-                    305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
-                    305.77) rotate(45)" />
-          </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
-        </g>
-      </svg>
-    </span>
-    <h2 widget-header>Upload Student Marks</h2>
-
-    <div class="attendanceWrapperCourse" widget-content>
-
-      <div class="row" style="margin: 5px 0px 5px 15px;">
-        <div class="c-sm-6 c-md-6 c-lg-6">
-          <div class="radio-options">
-            <div class="field-radio-wrapper">
-              <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
-                id="courseWise" name="courseWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
-              <label for="courseWise">Course Wise</label>
-            </div>
-            <div class="field-radio-wrapper">
-              <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
-                value="1" id="sujectWise" name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
-              <label for="sujectWise">Subject Wise</label>
-            </div>
-
-          </div>
-        </div>
-        <!-- <div class="c-sm-6 c-md-6 c-lg-6">
-              <div style="display: inline-block;"><a href="#" (click)="showUploadCourseMarksSection()">Upload Marks</a>
-                <a href="javascript:void(0);" data-html="true" data-placement="right" data-toggle="tooltip" style="font-weight: bold;font-size: 15px;" title="" data-original-title="<div style='text-align:left;font-size:12px;z-index:4;'>Download the marks/grade template for selected course and upload that with updated marks/grades</div>"><b>?</b></a></div>
-            </div> -->
 
       </div>
 
@@ -2337,31 +2099,276 @@
     </div>
   </proctur-widget>
 
-  <div class="plus-icon-container">
-    <button type="button" name="button" class="plus-button" (click)="showList()">
-      + </button>
-  </div>
 
-  <div class="more-about-plus-icon" *ngIf="showExpenseToDo">
-    <div class="to-do" (click)="showExpensesList()" *ngIf="!userTypeForExpenses">
-      <span>Add Expenses</span>
-      <i class="fa fa-money toDo"></i>
+
+
+  <proctur-widget *ngIf="courseCommonExamCancelPopUP">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUpCommon()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="Attendance9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                    305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                    305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+    <h2 widget-header>Cancel Exam Schedule</h2>
+
+    <div class="cancelExamWrapper" widget-content>
+
+      <div class="details row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <h4>Master Course : {{courseTempData.master_course}} </h4>
+        </div>
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <h4>Exam Schedule Date : {{courseTempData.course_exam_date}} </h4>
+        </div>
+      </div>
+
+
+      <div class="content-wraper">
+        <div class="row button-Section">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <h4>Course : {{courseTempData.course_name}}</h4>
+          </div>
+          <div class="pull-right" *ngIf="showReasonSection == ''">
+            <button class="btn fullBlue" (click)="cancelExamCourseWise()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" *ngIf="showReasonSection == ''">
+        <table class="cancel-table">
+          <thead>
+            <tr>
+              <th>
+                Batch Name
+              </th>
+              <th>
+                Start Time
+              </th>
+              <th>
+                End Time
+              </th>
+              <th>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of tempData.batchExamSchdList">
+              <td>{{data.batch_name}}</td>
+              <td>{{data.exam_start_time}}</td>
+              <td>{{data.exam_end_time}}</td>
+              <td>
+                <a style="cursor: pointer;" (click)="cancelSubjectWiseExam(data)">Cancel Exam</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cancel-section" *ngIf="showReasonSection == 'Course' || showReasonSection == 'Subject'">
+        <div class="cancel-Class-Wrapper">
+          <div class="row attendance-Note">
+            <div class="c-sm-6 c-md-6 c-lg-6">
+              <div class="form-wrapper">
+                <label for="cancelTxtBx">Cancellation Reason*</label>
+                <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix" style="margin-top: 10px">
+            <aside class="pull-left" style="margin-top: 10px">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+                <label for="chkBxNotifyStudent">Notify Students</label>
+              </div>
+            </aside>
+            <aside class="pull-right popup-btn">
+              <input type="button" value="Close" class="btn" (click)="closePopUpCommon()">
+              <input type="button" value="Cancel Exam" (click)="cancelExamCall()" class="fullBlue btn" [disabled]=isRippleLoad>
+            </aside>
+          </div>
+
+        </div>
+      </div>
+
     </div>
-    <div class="to-do" (click)="showToDoList()">
-      <span>To Do List</span>
-      <i class="fa fa-list-alt toDo"></i>
+  </proctur-widget>
+
+  <proctur-widget *ngIf="examMerkMassUpload">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUpCommon()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="Attendance9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                    305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                    305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <h2 widget-header>Upload Student Marks</h2>
+
+      <div class="attendanceWrapperCourse" widget-content>
+
+        <div class="row" style="margin: 5px 0px 5px 15px;">
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="radio-options">
+              <div class="field-radio-wrapper">
+                <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
+                  value="1" name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
+                <label for="student">Subject Wise</label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
+                  name="courseWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()">
+                <label for="both">Course Wise</label>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="c-sm-6 c-md-6 c-lg-6">
+              <div style="display: inline-block;"><a href="#" (click)="showUploadCourseMarksSection()">Upload Marks</a>
+                <a href="javascript:void(0);" data-html="true" data-placement="right" data-toggle="tooltip" style="font-weight: bold;font-size: 15px;" title="" data-original-title="<div style='text-align:left;font-size:12px;z-index:4;'>Download the marks/grade template for selected course and upload that with updated marks/grades</div>"><b>?</b></a></div>
+            </div> -->
+
+        </div>
+
+        <div class="attendanceMain table-wrapper-exam">
+          <div class="table-scroll-wrapper exam-Attendance-Table">
+            <div class="table table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" [checked]="checkForMArks()" (change)="markAllCheckBoxClick($event)">
+                        <label></label>
+                      </div>
+                    </th>
+                    <th style="font-size: 14px;font-weight: 600;">Student Id</th>
+                    <th style="font-size: 14px;font-weight: 600;">Student Name</th>
+                    <th style="font-size: 14px;font-weight: 600;">Attendance</th>
+                    <th *ngFor="let s of subjectList;" style="font-size: 14px;font-weight: 600;">
+                      {{s.subject_name}}
+                      <span *ngIf="tempData.is_exam_grad_feature == 0">({{s.total_marks}})</span>
+                    </th>
+                    <th style="font-size: 14px;font-weight: 600;">
+                      <span *ngIf="tempData.is_exam_grad_feature == 0">Total Marks ({{totalExamMarks}})</span>
+                      <span *ngIf="tempData.is_exam_grad_feature == 1">Total Grades</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let s of studentList; let i=index;">
+                    <td>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" [(ngModel)]="s.assigned">
+                        <label></label>
+                      </div>
+                    </td>
+                    <td>
+                      {{s.student_disp_id}}
+                    </td>
+                    <td>
+                      {{s.student_name}}
+                    </td>
+                    <td>
+                      {{s.attendance}}
+                    </td>
+                    <td *ngFor="let subject of s.batchExamMarksLi; let i=index;">
+
+                      <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
+                        <input type="text" class="side-form-ctrl paddingLess" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')" [(ngModel)]="subject.marks_obtained"
+                          (focusout)="checkSubjectMarks(s,subject,$event)">
+                      </div>
+
+                      <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
+                        <select id="" class="side-form-ctrl" [(ngModel)]="subject.grade_id" name="grade_id" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')"
+                          style="padding: 0px 0px">
+                          <option value="-1"></option>
+                          <option [value]="time.grade_id" *ngFor="let time of gradesList">
+                            {{time.grade}}
+                          </option>
+                        </select>
+                      </div>
+
+                    </td>
+                    <td>
+                      <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
+                        <input type="text" class="side-form-ctrl paddingLess" [disabled]="(s.attendance != 'P') || (examMarksLevel != '2')" [(ngModel)]="s.course_exam_marks_obtained"
+                          (focusout)="checkTotalMarks(s , $event)">
+                      </div>
+                      <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
+                        <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P') || (examMarksLevel == '0')" [(ngModel)]="s.grade_id"
+                          name="grade_id" style="padding: 0px 0px">
+                          <option value="-1"></option>
+                          <option [value]="time.grade_id" *ngFor="let time of gradesList">
+                            {{time.grade}}
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="studentList.length == 0">
+                    <td colspan="6">
+                      No Students Record
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="" widget-footer>
+        <div class="clearfix" style="padding-top: 15px">
+          <aside class="pull-right popup-btn">
+            <input type="button" value="Cancel" class="btn" (click)="closePopUpCommon()">
+            <input type="button" value="Update Marks" (click)="updateMarksOnServerCourse('single')" class="fullBlue btn">
+            <input type="button" value="Update All And Send SMS" (click)="updateMarksOnServerCourse('all')" class="fullBlue btn">
+          </aside>
+        </div>
+      </div>
+    </proctur-widget>
+
+    <div class="plus-icon-container">
+      <button type="button" name="button" class="plus-button" (click)="showList()">
+        + </button>
     </div>
-  </div>
+
+    <div class="more-about-plus-icon" *ngIf="showExpenseToDo">
+      <div class="to-do" (click)="showExpensesList()" *ngIf="!userTypeForExpenses">
+        <span>Add Expenses</span>
+        <i class="fa fa-money toDo"></i>
+      </div>
+      <div class="to-do" (click)="showToDoList()">
+        <span>To Do List</span>
+        <i class="fa fa-list-alt toDo"></i>
+      </div>
+    </div>
 
 
-  <div class="toDoList-container" id="toDoList-container" *ngIf="showToDo">
-    <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
-  </div>
+    <div class="toDoList-container" id="toDoList-container" *ngIf="showToDo">
+      <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"></app-to-do-list>
+    </div>
 
-  <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
-    <button type="button" name="button" class="close_button" (click)="closeShowList()">X</button>
-    <app-expenses></app-expenses>
-  </div>
+    <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
+      <button type="button" name="button" class="close_button" (click)="closeShowList()">X</button>
+      <app-expenses></app-expenses>
+    </div>
 
 </section>
 

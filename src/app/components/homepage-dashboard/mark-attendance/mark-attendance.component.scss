@@ -1,0 +1,707 @@
+
+p {
+    font-weight: 300;
+}
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 2px solid #f2f2f2;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fdfdfd;
+     max-height: -moz-available;
+     max-height: stretch;
+    .middle-top {
+      margin-top: 10px;
+        h2 {
+            color: black;
+            font-weight: unset;
+            padding-top: 00px;
+            font-size: 14px;
+            margin: 0px 1%;
+        }
+    }
+}
+
+.header_container{
+  width: 73%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .header_item1{
+    // width: 80%;
+    // margin-top: 10px;
+    margin-left: 15px;
+  }
+  .header_item2{
+    // width: 20%;
+  }
+}
+
+
+.settingAttendance {
+    padding: 15px;
+}
+
+.attendanceHeadingHr {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    border-top: 2px solid #eee;
+}
+
+.attendanceWrapper {
+    overflow: hidden;
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    height: 410px;
+    justify-content: flex-start;
+    font-size: 12px;
+    .row {
+        display: flex;
+        justify-content: flex-start;
+        .tableSection {
+            display: inline-block;
+            width: 73%;
+            box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
+            border-radius: 4px;
+            margin-left: 2%;
+            margin-bottom: 10px;
+            // padding: 10px;
+            // background: #fff;
+            .button-row {
+                position: relative;
+                height: 45px;
+                padding: 0px 10px;
+                button {
+                    position: absolute;
+                    right: 10px;
+                    border: 2px solid #0084f6;
+                }
+            }
+            .filterSection {
+                // padding: 10px 0px 10px 0px !important;
+                margin: 0px !important;
+                background-color: white;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                .legendSection {
+                    display: flex;
+                    justify-content: center;
+                    padding-left: 0px;
+                    .divSection {
+                        display: inline-block;
+                        margin: 0px 5px;
+                        width: 40px;
+                        height: auto;
+                        span {
+                            padding: 4px 10px;
+                            padding: 3px 10px;
+                            max-width: 40px;
+                            height: 20px;
+                            display: block;
+                            text-align: center;
+                        }
+                        h5 {
+                            display: inline;
+                            margin-left: -2px;
+                            margin-right: 2px;
+                            font-size: 10px;
+                        }
+                        .absent {
+                            color: white !important;
+                            background: #ff5e5e;
+                            border-radius: 2px;
+                            font-size: 14px;
+                            color: white;
+                            height: 25px;
+                            padding-top: 11px;
+                            padding: 4px;
+                        }
+                        .present {
+                            color: white !important;
+                            background: #77f080;
+                            border-radius: 2px;
+                            font-size: 14px;
+                            color: white;
+                            height: 25px;
+                            padding-top: 11px;
+                            padding: 4px;
+                        }
+                        .leave {
+                            color: white !important;
+                            background: #ffb951;
+                            border-radius: 2px;
+                            font-size: 14px;
+                            color: white;
+                            height: 25px;
+                            padding-top: 11px;
+                            padding: 4px;
+                        }
+                        .legendSpan {
+                            padding-left: 0px;
+                            padding-right: 1px;
+                            padding-left: 1px;
+                            font-size: 12px;
+                            width: 100%;
+                            display: block;
+                            color: #3e3d4a;
+                        }
+                    }
+                }
+            }
+            .studentTableWrapper {
+                //border: 2px solid #eee;
+                width: 100%;
+                background: white;
+                // box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
+                // border-radius: 4px;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                .schedule-bottom {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    .sche-head{
+                      display: flex;
+                      flex-direction: row;
+                      text-align: left;
+                      font-weight: 600;
+                      padding: 10px;
+                      border-top: 1px solid #fdfdfd;
+                      border-bottom: 1px solid #fdfdfd;
+                      background: #F6f6f6;
+                      .field-checkbox-wrapper {
+                          position: relative;
+                          padding-left: 33px;
+                          .form-checkbox:checked+label:before {
+                              border-color: #fff;
+                              z-index: 1;
+                          }
+                      }
+                      .sche-head-item-1{
+                        width: 15%;
+                      }
+                      .sche-head-item-2{
+                        width: 30%;
+                      }
+                      .sche-head-item-3{
+                        width: 35%;
+                      }
+                      .sche-head-item-4{
+                        width: 15%;
+                      }
+                    }
+                    .subject{
+                      display: flex;
+                      flex-direction: row;
+                      width: 100%;
+                      padding: 5px;
+                      .field-checkbox-wrapper {
+                          position: relative;
+                          padding-left: 33px;
+                          .form-checkbox:checked+label:before {
+                              border-color: #fff;
+                              z-index: 1;
+                          }
+                      }
+                      .subject_item{
+                        font-weight: normal;
+                        .btns{
+                          .btn{
+                            width: 34px;
+                            margin-left: 0px;
+                            margin-right: 15px;
+                            height: 22px;
+                            padding: 0px 12px;
+                            color: #bdbdbd;
+                          }
+                          .classLeaveBtn{
+                            color: white;
+                            text-align: center;
+                            background: #ffb951;
+                            border: none;
+                          }
+                          .classAbsentBtn{
+                            color: white;
+                            text-align: center;
+                            background: #ff5e5e;
+                            border: none;
+                          }
+                          .classPresentBtn{
+                            color: white;
+                            text-align: center;
+                            background: #77f080;
+                            border: none;
+                          }
+                        }
+                      }
+                    }
+
+                }
+            }
+            .row {
+                margin-left: 10px;
+            }
+        }
+        .img_container{
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          height: 330px;
+          .no_student_img{
+              margin-top: 30px;
+          }
+        }
+
+        .detailsSection {
+          display: inline-block;
+          width: 23%;
+          padding: 0px 5px 0px 5px;
+          overflow: auto;
+          background-color: white;
+          box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
+          border-radius: 4px;
+          margin-left: 2%;
+          margin-bottom: 10px;
+            h3 {
+                color: #979797;
+                font-weight: 400;
+            }
+            .field-wrapper {
+                .form-ctrl {
+                    background: white;
+                    border: solid 2px #e2ebee;
+                    &.textBox {
+                        height: 60px;
+                        padding: 5px;
+                    }
+                }
+            }
+            div {
+                padding: 5px 0px;
+                &.questionInfo {
+                    padding: 0px !important;
+                    &.qInfoIcon {
+                        border: none;
+                    }
+                }
+                &.checkboxGroup {
+                    padding: 8px;
+                    margin-top: 5px;
+                    .field-checkbox-wrapper {
+                        position: relative;
+                        padding: 0px 0px 0px 25px !important;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+            .aside_header{
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              padding: 10px;
+              .button_type{
+                padding: 0px 10px;
+                border: 1px solid #d4d4d4;
+                border-radius: 11px;
+              }
+            }
+        }
+    }
+}
+
+.field-checkbox-wrapper {
+  display: inline-block;
+  margin-bottom: 0px;
+  .form-checkbox:checked+label:before {
+      border-color: #fff;
+      z-index: 1;
+  }
+  .form-checkbox:checked+label:after {
+      border-color: #0084f6;
+      background: #0084f6;
+  }
+  .form-checkbox:checked+label {
+      // color: rgba(0, 0, 0, 0.4);
+      // text-decoration: line-through;
+      margin-left: 10px;
+      margin-top: 5px;
+  }
+}
+
+.field-checkbox-wrapper .form-checkbox {
+    opacity: 0;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+}
+
+.field-checkbox-wrapper .form-checkbox:checked + label:before {
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    width: 12px;
+    height: 5px;
+    left: 12px;
+    top: 10px;
+}
+
+.field-checkbox-wrapper .form-checkbox + label:after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+}
+
+.field-checkbox-wrapper .heading_checkbox {
+    opacity: 0;
+    position: absolute;
+    left: 3px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+}
+
+.field-checkbox-wrapper .heading_checkbox:checked + label:before {
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    width: 12px;
+    height: 5px;
+    left: 8px;
+    top: 7px;
+}
+
+.field-checkbox-wrapper .heading_checkbox + label:after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    position: absolute;
+    left: 6px;
+    top: 2px;
+}
+
+
+.sms-notify:checked+label {
+    margin-left: 00px;
+    margin-top: 30px;
+}
+
+@media only screen and (max-width: 767px) {
+    .attendanceWrapper {
+        border-top: 2px solid #eee;
+        margin-top: 15px;
+        max-height: 420px;
+        overflow: hidden;
+        .row {
+            display: flex;
+            .tableSection {
+                display: inline-block;
+                width: 100%;
+                padding: 10px;
+                background: #fff;
+                .button-row {
+                    position: relative;
+                    height: 45px;
+                    padding: 0px 10px;
+                    button {
+                        position: absolute;
+                        right: 10px;
+                        border: 2px solid #0084f6;
+                    }
+                }
+                .filterSection {
+                    padding: 20px 0px 10px 0px !important;
+                    margin: 0px !important;
+                    background-color: #efefef;
+                    span {
+                        padding: 4px 12px;
+                    }
+                    .absent {
+                        color: white;
+                        background: #fe552a;
+                        border-radius: 5px;
+                    }
+                    .present {
+                        color: white;
+                        background: #4191da;
+                        border-radius: 5px;
+                    }
+                    .leave {
+                        color: white;
+                        background: #7a7a7a;
+                        border-radius: 5px;
+                    }
+                }
+                .studentTableWrapper {
+                    //border: 2px solid #eee;
+                    width: 100%;
+                    .schedule-bottom {
+                        width: 100%;
+                        ul {
+                            border-left: 2px solid hsla(210, 2%, 83%, .5);
+                            border-right: 2px solid hsla(210, 2%, 83%, .5);
+                        }
+                    }
+                }
+                .row {
+                    margin-left: 10px;
+                }
+            }
+            .detailsSection {
+                display: inline-block;
+                width: 100%;
+                padding: 5px 5px 10px 10px;
+                background-color: #f7f7f7;
+                h3 {
+                    color: #979797;
+                    font-weight: 400;
+                }
+                .field-wrapper {
+                    .form-ctrl {
+                        background: white;
+                        border: solid 2px #e2ebee;
+                        &.textBox {
+                            height: 60px;
+                            padding: 5px;
+                        }
+                    }
+                }
+                div {
+                    border: none; //padding: 5px 0px;
+                    .questionInfo {
+                        //padding: 0px 5px !important;
+                        border: none;
+                        .qInfoIcon {
+                            border: none;
+                        }
+                    }
+                    &.checkboxGroup {
+                        padding: 0px;
+                        margin-top: 5px;
+                        .field-checkbox-wrapper {
+                            position: relative;
+                            padding: 0px 0px 0px 25px !important;
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.attendanceWrapperCourse {
+    border-top: 2px solid #eee;
+    margin-top: 15px;
+    max-height: 480px;
+    overflow: hidden;
+    .filterSection {
+        padding: 20px 0px 10px 0px !important;
+        margin: 0px !important;
+        background-color: #efefef;
+        span {
+            padding: 4px 12px;
+            margin-left: 4px;
+        }
+        h5 {
+            margin-left: 4px;
+            display: inline-block;
+            font-weight: 200;
+            font-size: 13px;
+        }
+        .absent {
+            color: white;
+            background: #fe552a;
+            border-radius: 5px;
+        }
+        .present {
+            color: white;
+            background: #4191da;
+            border-radius: 5px;
+        }
+        .leave {
+            color: white;
+            background: #7a7a7a;
+            border-radius: 5px;
+        }
+    }
+    .attendanceMain {
+        .table-scroll-wrapper {
+            max-height: 300px;
+            overflow: auto;
+        }
+        ::-webkit-scrollbar {
+            display: block;
+        }
+    }
+    tr {
+        td {
+            padding: 0px 20px !important;
+        }
+    }
+    .form-wrapper {
+        .form-ctrl {
+            border: 2px solid #efefef;
+        }
+    }
+}
+
+// Absent student pop up
+.absent_popup{
+  position: fixed;
+  top: 20%;
+  left: 25%;
+  right: 25%;
+  width: 50%;
+  z-index: 100;
+  background: white;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  border-radius: 6px;
+  .absent_student{
+    display: flex;
+    flex-direction: column;
+    .header{
+      display: flex;
+      flex-direction: row;
+      padding: 15px;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(10,10,10,0.3);
+      .close-btn{
+        color: #b1b1b1;
+      }
+    }
+    .main_container{
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      .for_absent{
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+
+
+// Tree View Style
+.k-treeview .k-in.k-state-selected{
+  background-color: transparent;
+  color: #656565;
+}
+.k-checkbox:indeterminate+.k-checkbox-label::after {
+    background-color: #0084f6;
+}
+.k-checkbox:checked+.k-checkbox-label::before {
+    border-color: #0084f6;
+    background-color: #0084f6;
+}
+.k-treeview .k-content, .k-treeview>.k-group, .k-treeview .k-item>.k-group{
+  padding: 10px;
+}
+.k-checkbox:indeterminate+.k-checkbox-label::after {
+    background-color: #0084f6;
+}
+.k-checkbox:indeterminate+.k-checkbox-label::after {
+    content: "";
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    width: 8px;
+    height: 8px;
+    top: 4px;
+    left: 4px;
+}
+
+.black-bg{
+  background: rgba(10,10,10,0.3);
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  left: 0px;
+  z-index: 1;
+  width: 100%;
+}
+.topicBox{
+  position: fixed;
+  top: 20%;
+  left: 25%;
+  right: 25%;
+  width: 50%;
+  z-index: 100;
+  background: #f7f5f5;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+}
+.close-btn{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  span{
+    cursor: pointer;
+  }
+}
+
+.header-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px;
+  margin-top: 0px;
+  border-bottom: 1px solid rgba(10,10,10,0.7);
+}
+.sub-header{
+  width: 30%;
+}
+.total-topic{
+  width: 20%;
+  margin-left: 10%;
+}
+.topic-listing-container{
+  overflow-y: scroll;
+  max-height: 270px;
+  padding: 10px
+}
+
+
+.field-checkbox-wrapper .form-checkbox + label {
+    vertical-align: middle;
+    font-size: 14px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.field-checkbox-wrapper .form-checkbox {
+    opacity: 0;
+    position: absolute;
+    left: 6px;
+    top: 1px;
+    width: 16px;
+    height: 17px;
+    z-index: 1;
+}
+
+input[type=checkbox], input[type=radio]{
+  margin: 0px;
+}

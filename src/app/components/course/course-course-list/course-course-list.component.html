@@ -27,34 +27,34 @@
                 Add Course
               </p>
             </li>
-
           </ul>
         </aside>
       </section>
-
-
 
       <section class="clearFix tableCourseExp calender-view1">
         <div class="tableCourseInn table-responsive ">
           <table>
             <thead>
               <tr>
-                <th style="width:30%; text-align: left">
+                <th style="width:25%; text-align: left">
                   <label style="cursor:pointer;" (click)="sortTable('master_course')">Master Course Name</label>
                 </th>
-                <th style="width:25%">
+                <th style="width:20%">
                   <label style="cursor:pointer;" (click)="sortTable('coursee_names')">Course(s)</label>
                 </th>
-                <th style="width:25%">
+                <th style="width:20%">
+                  <label style="cursor:pointer;" >Academic Year </label>
+                </th>
+                <th style="width:20%">
                   <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
                 </th>
-                <th style="width:20%">Action</th>
+                <th style="width:15%">Action</th>
 
               </tr>
             </thead>
             <tbody id="tbodyItem{{i}}" class="table-accor-head" *ngFor="let row of courseList; let i=index;">
               <tr>
-                <td colspan="4">
+                <td colspan="5">
                   <div class="accordian-heading">
                     <h4 class="clearFix ">
                       <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
@@ -68,14 +68,22 @@
                 </td>
               </tr>
               <tr id="tbodyView{{i}}" class="hide">
-                <td colspan="4">
+                <td colspan="5">
                   <table>
                     <tbody class="table-accor-view accorInnerTable">
                       <tr *ngFor="let sc of row.coursesList; let y= index;">
-                        <td style="width:30%"></td>
-                        <td style="width:25%">{{sc.course_name}}</td>
-                        <td style="width:25%">{{row.standard_name}}</td>
+                        <td style="width:25%"></td>
+                        <td style="width:20%">{{sc.course_name}}</td>
                         <td style="width:20%">
+                          <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':sc.academic_year_id? 'lightgrey':''}" [(ngModel)]="sc.academic_year_id" >
+                            <option value="-1">Select</option>
+                            <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                              {{opt.inst_acad_year}}
+                            </option>
+                          </select>
+                        </td>
+                        <td style="width:20%">{{row.standard_name}}</td>
+                        <td style="width:15%">
                           <div class="action-box ">
                             <a style="cursor:pointer" (click)="addStudentToBatch(sc)">Add Student
                               <!-- <i class="far fa fa-plus-square" style="font-size: 25px" alt="Add Student" title="Add Student"></i> -->
@@ -98,7 +106,7 @@
             </tbody>
             <tbody *ngIf="(courseList.length ==0 && dataStatus === 2)">
               <tr>
-                <td colspan="5" style="text-align:center">
+                <td colspan="6" style="text-align:center">
                   No Course Found
                 </td>
               </tr>
@@ -244,7 +252,7 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.academic_year" style="background: transparent">
+                      <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':academic_year_id? 'lightgrey':''}" [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                           {{opt.inst_acad_year}}

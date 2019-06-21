@@ -403,8 +403,14 @@ export class MastersComponent implements OnInit {
 
   }
 
-  deleteCat(){
-
+  deleteCat(category){
+    console.log(category)
+    if(category.sub_category_id != null){
+      this.delete(category.sub_category_id, 'category')
+    }
+    else{
+      this.delete(category.category_id, 'category')
+    }
   }
 
 
@@ -905,6 +911,10 @@ export class MastersComponent implements OnInit {
             this.languageName = "";
             this.getAllLanguages();
           }
+        }
+        else if(res.errorResponse[0].errorCode == 3000){
+          this.messageHandler('error', name +' is linked with data and cannot be deleted', '');
+          this.isRippleLoad = false;
         }
         else{
           this.isRippleLoad = false;

@@ -54,6 +54,18 @@ export class IssueBookService {
      )
    }
 
+   getInstituteSettingFromServer() {
+    let url = this.baseUrl + "/api/v1/institute/settings/" + this.institute_id;
+    return this.http.get(url, { headers: this.headers }).map(
+      response => {
+        return response;
+      },
+      errorResponse => {
+        return errorResponse;
+      }
+    )
+}
+
    getBorrowerData(searchInput){
      let matches = searchInput.match(/\d+/g);
      let searchBy = "name";

@@ -12,7 +12,6 @@ import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { BiometricStatusServiceService } from '../../../services/biometric-status/biometric-status-service.service';
-import { NumberFormatStyle } from '../../../../../node_modules/@angular/common';
 // import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -150,6 +149,8 @@ export class AdminHomeComponent implements OnInit {
     notify: true
   };
 
+  reminderRemarks: string = '';
+  remarksLimit: number = 50;
 
 
 
@@ -198,18 +199,15 @@ export class AdminHomeComponent implements OnInit {
     let permissions: any = [];
     permissions = sessionStorage.getItem('permissions');
 
-    if (userType == 0 && username == "admin") {
+    if(userType == 0 && username == "admin"){
       this.userTypeForExpenses = false;
     }
-    else if (permissions.includes("715") || permissions.includes("716")) {
+    else if(permissions.includes("715") || permissions.includes("716")){
       this.userTypeForExpenses = false;
     }
-    else {
+    else{
       this.userTypeForExpenses = true;
     }
-
-
-
 
     this.fetchWidgetPrefill();
 
@@ -258,6 +256,8 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
+    this.fetchScheduleWidgetData();
+
   }
 
   recieveData(event) {
@@ -281,16 +281,16 @@ export class AdminHomeComponent implements OnInit {
   fetchScheduleWidgetData() {
     let obj = {
       from_date: moment(this.schedDate[0]).format('YYYY-MM-DD'),
-      to_date: moment(this.schedDate[1]).format('YYYY-MM-DD')
+      to_date: moment(this.schedDate[0]).format('YYYY-MM-DD')
     }
     this.getAllExamsAndClass(obj);
-    // this.widgetService.fetchSchedWidgetData(obj).subscribe(
-    //   res => {
-    //     this.grid.refreshItems().layout();
-    //     this.schedStat = res;
-    //   },
-    //   err => { }
-    // );
+    this.widgetService.fetchSchedWidgetData(obj).subscribe(
+      res => {
+        this.grid.refreshItems().layout();
+        this.schedStat = res;
+      },
+      err => { }
+    );
   }
 
   getOrder() {
@@ -299,18 +299,19 @@ export class AdminHomeComponent implements OnInit {
 
   updateschedByDate(e) {
     let obj = {
-      from_date: moment(e[0]).format('YYYY-MM-DD'),
-      to_date: moment(e[1]).format('YYYY-MM-DD')
+      from_date: moment(e).format('YYYY-MM-DD'),
+      to_date: moment(e).format('YYYY-MM-DD')
     }
+    this.schedDate[0] = moment(e).format('DD MMM YYYY');
     this.isOptionVisible = false;
     this.getAllExamsAndClass(obj);
-    // this.widgetService.fetchSchedWidgetData(obj).subscribe(
-    //   res => {
-    //     this.grid.refreshItems().layout();
-    //     this.schedStat = res;
-    //   },
-    //   err => { }
-    // )
+    this.widgetService.fetchSchedWidgetData(obj).subscribe(
+      res => {
+        this.grid.refreshItems().layout();
+        this.schedStat = res;
+      },
+      err => { }
+    )
   }
 
   getCheckedStatus(id: string) {
@@ -391,98 +392,24 @@ export class AdminHomeComponent implements OnInit {
   /* =================================Attendance PopUP===================================== */
   /* ======================================================================================================= */
 
-  initiateMarkAttendance(i, selected) {
-    this.selectedRow = i;
-    this.classMarkedForAction = selected;
-    this.isRippleLoad = true;
-    if (!this.isProfessional) {
-      let obj = {
-        batch_id: this.classMarkedForAction.batch_id,
-        type: 2,
-        attendanceSchdId: this.classMarkedForAction.schd_id
+  initiateMarkAttendance(i, selected, subject_id, topics_covered) {
+    let obj = {
+        batch_id: selected.batch_id,
+        schd_id: selected.schd_id,
+        batch_name: selected.batch_name,
+        subject_id: subject_id,
+        topics_covered: topics_covered,
+        course_name: selected.course_name,
+        master_course_name: selected.master_course_name,
+        forCourseWise: false,
+        forSubjectWise: true,
+        isExam: false,
+        is_attendance_marked: selected.is_attendance_marked
       }
-      this.widgetService.getAttendance(obj).subscribe(
-        res => {
-          res.forEach(e => {
-            e.attendance_note = "";
-            e.date = "";
-            e.home_work_status = "Y";
-            e.homework_assigned = "";
-            e.isStatusModified = "N";
-            e.is_home_work_status_changed = "N";
-            e.isStatusModified = "N";
-            if (e.dateLi[0].status == "L") {
-              e.dateLi[0].serverStatus = "L";
-            } else {
-              e.dateLi[0].serverStatus = "";
-            }
-          })
-          this.studentAttList = res;
-          this.home_work_notifn = res[0].home_work_notifn;
-          this.topics_covered_notifn = res[0].topics_covered_notifn;
-          this.teacher_id = res[0].dateLi[0].teacher_id;
-          this.isRippleLoad = false;
-          this.isPopupOpened = true;
-          this.isAttendancePop = true;
-          this.attendanceNote = res[0].dateLi[0].attendance_note;
-          this.homework = res[0].homework_assigned;
-          this.getCountOfAbsentPresentLeave(res);
-        },
-        err => {
-          this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: 'No Student In Batch',
-            body: err.error.message
-          }
-          this.appC.popToast(obj);
-        }
-      )
-    }
-    else {
-      let obj = {
-        batch_id: this.classMarkedForAction.batch_id,
-        type: 2,
-        attendanceSchdId: this.classMarkedForAction.schd_id
-      }
-      this.widgetService.getAttendance(obj).subscribe(
-        res => {
-          res.forEach(e => {
-            e.attendance_note = "";
-            e.date = "";
-            e.home_work_status = "Y";
-            e.homework_assigned = "";
-            e.isStatusModified = "N";
-            e.is_home_work_status_changed = "N";
-            e.isStatusModified = "N";
-            if (e.dateLi[0].status == "L") {
-              e.dateLi[0].serverStatus = "L";
-            } else {
-              e.dateLi[0].serverStatus = "";
-            }
-          })
-          this.studentAttList = res;
-          this.home_work_notifn = res[0].home_work_notifn;
-          this.topics_covered_notifn = res[0].topics_covered_notifn;
-          this.teacher_id = res[0].dateLi[0].teacher_id;;
-          this.isRippleLoad = false;
-          this.isPopupOpened = true;
-          this.isAttendancePop = true;
-          this.attendanceNote = res[0].dateLi[0].attendance_note;
-          this.homework = res[0].homework_assigned;
-          this.getCountOfAbsentPresentLeave(res);
-        },
-        err => {
-          this.isRippleLoad = false;
-          let msg = {
-            type: 'error',
-            title: 'Error',
-            body: err.error.message
-          }
-          this.appC.popToast(msg);
-        }
-      )
-    }
+    let batch_info = JSON.stringify(obj)
+    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+
+    
   }
 
 
@@ -544,15 +471,6 @@ export class AdminHomeComponent implements OnInit {
         e.topics_covered_notifn = this.topics_covered_notifn;
       });
     }
-  }
-
-  // send sms all present student as well 
-  sendSMSToAllPresentStudent(e, arrayName) {
-    let array = this[arrayName];
-    let flag = e.target.checked;
-    array.forEach(student => {
-      student.isSMSNotificationToPresentStudents = flag;
-    });
   }
 
   markAllPresent(e) {
@@ -625,51 +543,46 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttendanceServerCall(sendSms) {
-    if (this.studentAttList.length > 0) {
-      let sendPresentStudntSMS = this.studentAttList[0].isSMSNotificationToPresentStudents == true || this.studentAttList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
-      let arr = [];
-      if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
-        this.studentAttList.forEach(e => {
-          let arrDateLi = []; // as per v1 only single dateli array object will send --laxmi
-          e.dateLi[0] = Object.assign({}, this.getCustomAttendanceObject(e.dateLi[0], e));
-          arrDateLi.push(e.dateLi[0]);
-          let temp = {
-            batch_id: this.classMarkedForAction.batch_id,
-            isSMSNotificationToPresentStudents: sendPresentStudntSMS,
-            dateLi: arrDateLi,
-            home_work_notifn: e.home_work_notifn,
-            isNotify: sendSms,
-            is_home_work_enabled: e.is_home_work_enabled,
-            student_id: e.student_id.toString(),
-            topics_covered_notifn: e.topics_covered_notifn
-          };
-          arr.push(temp);
-        });
-        this.widgetService.updateAttendance(arr).subscribe(
-          res => {
-            this.isRippleLoad = false;
-            let msg = {
-              type: 'success',
-              title: 'Attendance Updated',
-              body: res.message
-            }
-            this.appC.popToast(msg);
-            this.closeAttendance();
-            this.fetchScheduleWidgetData();
-          },
-          err => {
-            this.isRippleLoad = false;
-            let msg = {
-              type: 'error',
-              title: 'Failed To Update Attendance',
-              body: err.error.message
-            }
-            this.appC.popToast(msg);
-          }
-        )
+
+    this.isRippleLoad = true;
+    let arr = [];
+    this.studentAttList.forEach(e => {
+      let arrDateLi = []; // as per v1 only single dateli array object will send --laxmi
+      e.dateLi[0] = Object.assign({}, this.getCustomAttendanceObject(e.dateLi[0], e));
+      arrDateLi.push(e.dateLi[0]);
+      let temp = {
+        batch_id: this.classMarkedForAction.batch_id,
+        dateLi: arrDateLi,
+        home_work_notifn: e.home_work_notifn,
+        isNotify: sendSms,
+        is_home_work_enabled: e.is_home_work_enabled,
+        student_id: e.student_id.toString(),
+        topics_covered_notifn: e.topics_covered_notifn
+      };
+      arr.push(temp);
+    });
+    this.widgetService.updateAttendance(arr).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'success',
+          title: 'Attendance Updated',
+          body: res.message
+        }
+        this.appC.popToast(msg);
+        this.closeAttendance();
+        this.fetchScheduleWidgetData();
+      },
+      err => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Attendance',
+          body: err.error.message
+        }
+        this.appC.popToast(msg);
       }
-    }
+    )
   }
 
   getCustomAttendanceObject(d, detail): any {
@@ -743,8 +656,10 @@ export class AdminHomeComponent implements OnInit {
       is_notified: this.is_notified
     }
     obj.cancelSchd.push(schd);
+    this.isRippleLoad = true;
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Schedule Cancelled',
@@ -755,6 +670,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -787,11 +703,13 @@ export class AdminHomeComponent implements OnInit {
       let obj = {
         batch_id: this.classMarkedForAction.batch_id,
         class_schedule_id: this.classMarkedForAction.schd_id,
-        is_exam_schedule: "N"
+        is_exam_schedule: "N",
+        remarks: this.reminderRemarks
       };
-
+      this.isRippleLoad = true;
       this.widgetService.notifyStudentSchedule(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           let msg = {
             type: 'success',
             title: 'Reminder Sent',
@@ -801,6 +719,7 @@ export class AdminHomeComponent implements OnInit {
           this.closeRemiderClass();
         },
         err => {
+          this.isRippleLoad = false;
           let msg = {
             type: 'error',
             title: 'Failed To Notify',
@@ -825,6 +744,7 @@ export class AdminHomeComponent implements OnInit {
     this.classMarkedForAction = selected;
     this.isReschedulePop = true;
   }
+
 
   checkIfTimeProvided(data) {
     if (data == "" || data == null) {
@@ -898,8 +818,10 @@ export class AdminHomeComponent implements OnInit {
       obj.cancelSchd.push(temp1);
       obj.extraSchd.push(temp2);
 
+      this.isRippleLoad = true;
       this.widgetService.reScheduleClass(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           let msg = {
             type: 'success',
             title: 'Class Rescheduled',
@@ -910,6 +832,7 @@ export class AdminHomeComponent implements OnInit {
           this.fetchScheduleWidgetData();
         },
         err => {
+          this.isRippleLoad = false;
           let msg = {
             type: 'error',
             title: 'Failed To Reschedule',
@@ -1052,6 +975,7 @@ export class AdminHomeComponent implements OnInit {
       inst_id: sessionStorage.getItem('institute_id'),
       requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
+    this.isRippleLoad = true;
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
         this.isRippleLoad = false;
@@ -1078,6 +1002,7 @@ export class AdminHomeComponent implements OnInit {
                 inst_id: res[o].inst_id,
                 is_cancel_notify: res[o].is_cancel_notify,
                 master_course: res[o].master_course,
+                course_name: res[o].coursee_names,
                 requested_date: res[o].requested_date,
                 standard_id: res[o].standard_id,
                 standard_name: res[o].standard_name,
@@ -1115,40 +1040,23 @@ export class AdminHomeComponent implements OnInit {
   }
 
   initiateCourseMarkAttendance(i, selected) {
-    this.selectedRow = i;
-    this.classMarkedForAction = selected;
-    this.isCourseAttendance = true;
-    this.courseLevelStudentAtt = [];
+
     let obj = {
-      course_id: this.classMarkedForAction.course_ids,
-      startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
-    }
-    if (this.classMarkedForAction.course_ids != null && this.classMarkedForAction.course_ids != undefined) {
-      this.widgetService.fetchCourseAttendance(obj).subscribe(
-        (res: any) => {
-          res.forEach(e => {
-            if (e.dateLi[0].status == "L") {
-              e.dateLi[0].serverStatus = "L";
-            } else {
-              e.dateLi[0].serverStatus = "";
-            }
-          })
-          this.courseLevelStudentAtt = res;
-          this.getTotalCountForCourse(res);
-        },
-        err => {
-          let msg = {
-            type: 'error',
-            title: 'Error',
-            body: err.error.message
-          }
-          this.appC.popToast(msg);
-        }
-      );
-    } else {
-      //alert('This scenario is not being replicated please specify set of steps to replicate');
-      //console.log(this.classMarkedForAction);
-    }
+        course_id: selected.course_ids,
+        startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+        batch_name: selected.coursee_names,
+        forCourseWise: true,
+        forSubjectWise: false,
+        course_name: selected.coursee_names,
+        master_course_name: selected.master_course,
+        isExam: false,
+        is_attendance_marked: selected.is_attendance_marked
+      }
+    let batch_info = JSON.stringify(obj)
+    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+
+
+    
   }
 
   getTotalCountForCourse(data) {
@@ -1187,8 +1095,10 @@ export class AdminHomeComponent implements OnInit {
       master_course: this.classMarkedForAction.master_course,
       requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
+    this.isRippleLoad = true;
     this.widgetService.cancelCourseSchedule(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Course Schedule Cancelled',
@@ -1199,6 +1109,7 @@ export class AdminHomeComponent implements OnInit {
         this.generateCourseLevelWidget();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -1223,8 +1134,10 @@ export class AdminHomeComponent implements OnInit {
       batch_id: this.classMarkedForAction.batch_id,
       cancelSchd: this.getCancelReason()
     }
+    this.isRippleLoad = true;
     this.widgetService.cancelBatchSchedule(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Batch Schedule Cancelled',
@@ -1235,6 +1148,7 @@ export class AdminHomeComponent implements OnInit {
         this.fetchScheduleWidgetData();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Cancel Schedule',
@@ -1261,20 +1175,24 @@ export class AdminHomeComponent implements OnInit {
       course_ids: this.classMarkedForAction.course_ids,
       inst_id: sessionStorage.getItem('institute_id'),
       master_course: this.classMarkedForAction.master_course,
-      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+      remarks: this.reminderRemarks
     }
-    // console.log(obj)
+    this.isRippleLoad = true;
     this.widgetService.remindCourseLevel(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Reminder Sent',
           body: 'The student have been notified'
         }
         this.appC.popToast(msg);
+        this.reminderRemarks = "";
         this.closeRemiderClass();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Unable to Send Reminder',
@@ -1308,46 +1226,45 @@ export class AdminHomeComponent implements OnInit {
 
   makeServerCallForUpdateMarks(isNotify) {
     let arr = [];
-    if (this.courseLevelStudentAtt.length > 0) {
-      let sendPresentStudntSMS = this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents == true || this.courseLevelStudentAtt[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
-      this.courseLevelStudentAtt.forEach(element => {
-        let temp = {
-          "student_id": element.student_id,
-          "course_id": this.classMarkedForAction.course_ids,
-          "isSMSNotificationToPresentStudents": sendPresentStudntSMS,
-          "dateLi": [{
-            "date": moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
-            "status": element.dateLi[0].status,
-            "isStatusModified": element.dateLi[0].isStatusModified,
-            "home_work_status": element.dateLi[0].home_work_status,
-            "is_home_work_status_changed": element.dateLi[0].is_home_work_status_changed
-          }],
-          "isNotify": isNotify,
-          "is_home_work_enabled": element.is_home_work_enabled,
+    this.courseLevelStudentAtt.forEach(element => {
+      let temp = {
+        "student_id": element.student_id,
+        "course_id": this.classMarkedForAction.course_ids,
+        "dateLi": [{
+          "date": moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+          "status": element.dateLi[0].status,
+          "isStatusModified": element.dateLi[0].isStatusModified,
+          "home_work_status": element.dateLi[0].home_work_status,
+          "is_home_work_status_changed": element.dateLi[0].is_home_work_status_changed
+        }],
+        "isNotify": isNotify,
+        "is_home_work_enabled": element.is_home_work_enabled,
+      }
+      arr.push(temp);
+    });
+    this.isRippleLoad = true;
+    this.widgetService.updateCourseAttendance(arr).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'success',
+          title: 'Attendance Updated',
+          body: res.message
         }
-        arr.push(temp);
-      });
-      this.widgetService.updateCourseAttendance(arr).subscribe(
-        res => {
-          let msg = {
-            type: 'success',
-            title: 'Attendance Updated',
-            body: res.message
-          }
-          this.appC.popToast(msg);
-          this.closeCourseLevelAttendance();
-          this.generateCourseLevelWidget();
-        },
-        err => {
-          let msg = {
-            type: 'error',
-            title: 'Failed To Update Attendance',
-            body: err.message
-          }
-          this.appC.popToast(msg);
+        this.appC.popToast(msg);
+        this.closeCourseLevelAttendance();
+        this.generateCourseLevelWidget();
+      },
+      err => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Attendance',
+          body: err.message
         }
-      )
-    }
+        this.appC.popToast(msg);
+      }
+    )
   }
 
   getTopicsUpdate() {
@@ -1606,26 +1523,25 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = true;
   }
 
-
-  hasUnicode(str) {
+  hasUnicode (str) {
     for (var i = 0; i < str.length; i++) {
-      if (str.charCodeAt(i) > 127) return true;
+        if (str.charCodeAt(i) > 127) return true;
     }
     return false;
   }
-  countNumberOfMessage() {
+  countNumberOfMessage(){
     let uniCodeFlag = this.hasUnicode(this.newMessageText);
     let charLimit = 160;
-    if (uniCodeFlag) {
+    if(uniCodeFlag){
       charLimit = 70
     }
-    if (this.newMessageText.length == 0) {
+    if(this.newMessageText.length == 0){
       this.messageCount = 0;
     }
-    else if (this.newMessageText.length > 0 && this.newMessageText.length <= charLimit) {
+    else if(this.newMessageText.length > 0 && this.newMessageText.length <= charLimit){
       this.messageCount = 1;
     }
-    else {
+    else{
       let count = Math.ceil(this.newMessageText.length / charLimit);
       console.log(count);
       this.messageCount = count;
@@ -2437,10 +2353,12 @@ export class AdminHomeComponent implements OnInit {
 
   getAllExamsAndClass(obj) {
     this.schedStat = [];
+    this.isRippleLoad = true;
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
       if (this.grid) {
         this.grid.refreshItems().layout();
       }
+      this.isRippleLoad = false;
       this.schedStat = data;
       if (this.isProfessional) {
         this.getExamSchedule(obj);
@@ -2448,6 +2366,7 @@ export class AdminHomeComponent implements OnInit {
       }
       this.classScheduleCount = this.schedStat.otherSchd.length;
     }, err => {
+      this.isRippleLoad = false;
       this.classScheduleCount = 0;
       console.log(err);
       if (this.isProfessional) {
@@ -2475,7 +2394,7 @@ export class AdminHomeComponent implements OnInit {
         this.classScheduleCount = this.schedStat.otherSchd.length;
       },
       err => {
-        //console.log(err);
+        // console.log(err);
       }
     )
   }
@@ -2534,11 +2453,22 @@ export class AdminHomeComponent implements OnInit {
 
   //Attendance Section
 
-  markExamAttendance(data) {
-    this.studentList = [];
-    this.tempData = data;
-    this.markExamAttendancePopUp = true;
-    this.getStudentList();
+  markExamAttendance(i, selected, subject_id, topics_covered) {
+    let obj = {
+      batch_id: selected.batch_id,
+      schd_id: selected.schd_id,
+      batch_name: selected.batch_name,
+      topics_covered: topics_covered,
+      course_name: selected.standard_name,
+      master_course_name: selected.batch_name,
+      subject_id: subject_id,
+      forCourseWise: true,
+      forSubjectWise: false,
+      isExam: true,
+      is_attendance_marked: selected.is_attendance_marked
+    }
+    let batch_info = JSON.stringify(obj)
+    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
   }
 
   closeExamAttendance() {
@@ -2674,28 +2604,20 @@ export class AdminHomeComponent implements OnInit {
 
   makeJsonForAttendceMark(notify) {
     let obj: any = [];
-
-    if (this.studentList.length > 0) {
-      let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents == true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
-      for (let i = 0; i < this.studentList.length; i++) {
-        let test: any = {};
-        test.batch_id = this.tempData.batch_id;
-        test.isNotify = notify;
-        test.student_id = this.studentList[i].student_id;
-        test.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
-        test.dateLi = [{
-          date: this.studentList[i].dateLi[0].date,
-          status: this.studentList[i].dateLi[0].status,
-          isStatusModified: this.studentList[i].dateLi[0].isStatusModified,
-          attendance_note: this.attendanceNote,
-          schId: this.studentList[i].dateLi[0].schId.toString()
-        }]
-        obj.push(test);
-      }
+    for (let i = 0; i < this.studentList.length; i++) {
+      let test: any = {};
+      test.batch_id = this.tempData.batch_id;
+      test.isNotify = notify;
+      test.student_id = this.studentList[i].student_id;
+      test.dateLi = [{
+        date: this.studentList[i].dateLi[0].date,
+        status: this.studentList[i].dateLi[0].status,
+        isStatusModified: this.studentList[i].dateLi[0].isStatusModified,
+        attendance_note: this.attendanceNote,
+        schId: this.studentList[i].dateLi[0].schId.toString()
+      }]
+      obj.push(test);
     }
-
-
-
     return obj;
   }
 
@@ -2737,13 +2659,16 @@ export class AdminHomeComponent implements OnInit {
         is_notified: notify
       }]
     }
+    this.isRippleLoad = true;
     this.widgetService.cancelExamSchedule(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Successfully Cancelled', 'Exam Schedule Cancelled Successfully');
         this.fetchScheduleWidgetData();
         this.closeExamPopup();
       },
       err => {
+        this.isRippleLoad = false;
         //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
@@ -2752,17 +2677,21 @@ export class AdminHomeComponent implements OnInit {
 
   // Notify Function ////
 
-  notifyExamSchedule(data) {
+  notifyExamSchedule(i, data) {
     if (confirm('Are you sure u want to send Exam Schedule SMS to the batch?')) {
+      this.isRippleLoad = true;
       this.widgetService.notifyStudentExam(data.schd_id).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
         },
         err => {
+          this.isRippleLoad = false;
           //console.log(err);
         }
       )
     }
+
   }
 
   // Send Reminder ///
@@ -2774,11 +2703,14 @@ export class AdminHomeComponent implements OnInit {
         course_id: data.course_id,
         requested_date: moment(data.course_exam_date).format('YYYY-MM-DD')
       }
+      this.isRippleLoad = true;
       this.widgetService.sendReminder(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
         },
         err => {
+          this.isRippleLoad = false;
           console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
@@ -2789,12 +2721,11 @@ export class AdminHomeComponent implements OnInit {
   // Exam Marks Update
 
   examMarksUpdate(data) {
-    this.tempData = data;
-    this.examMarksPopup = true;
-    this.fetchStudentDetails(data);
-    if (this.examGradeFeature == 1) {
-      this.getAllExamGrades();
-    }
+    let obj = {
+        data: data
+      }
+    let exam_info = JSON.stringify(obj)
+    this.router.navigate(['/view/home/exam-marks-batch'], { queryParams: { exam_info: exam_info } });
   }
 
   closeExamMarks() {
@@ -2919,13 +2850,6 @@ export class AdminHomeComponent implements OnInit {
             }
           }
         }
-        else {
-          if (this.studentList[i].assigned && this.studentList[i].attendance != "L"
-            && this.studentList[i].attendance != "A" && this.studentList[i].grade_id == '-1') {
-            this.messageNotifier('error', 'Error', 'Please provide total grades');
-            return false;
-          }
-        }
         arr.studLi.push(student);
       }
     }
@@ -2980,10 +2904,20 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttendanceExamCourse(exam) {
-    this.tempData = exam;
-    this.courseExamAttPopup = true;
-    this.studentList = [];
-    this.getExamStudentList(exam.course_exam_schedule_id);
+    let obj = {
+        course_exam_schedule_id: exam.course_exam_schedule_id,
+        course_name: exam.course_name,
+        master_course_name: exam.master_course,
+        batch_name: exam.course_name,
+        forCourseWise: true,
+        forSubjectWise: false,
+        isExam: true,
+        schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
+        is_attendance_marked: exam.is_attendance_marked
+      }
+    let batch_info = JSON.stringify(obj)
+    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+
   }
 
   getExamStudentList(id) {
@@ -3072,31 +3006,26 @@ export class AdminHomeComponent implements OnInit {
 
   constructJsonForAttendance(absentKey) {
     let arr = [];
-    if (this.studentList.length > 0) {
-      let sendPresentStudntSMS = this.studentList[0].isSMSNotificationToPresentStudents == true || this.studentList[0].isSMSNotificationToPresentStudents == 'Y' ? 'Y' : 'N';
-      for (let i = 0; i < this.studentList.length; i++) {
-        let obj: any = {};
-        obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
-        if (this.tempData.course_marks_update_level == '0') {
-          obj.course_marks_update_level = '3';
-        } else {
-          obj.course_marks_update_level = this.tempData.course_marks_update_level;
-        }
-        obj.isSMSNotificationToPresentStudents = sendPresentStudntSMS;
-        obj.isStudentExamSMS = absentKey;
-        obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
-        obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
-        obj.student_id = this.studentList[i].student_id;
-        obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
-        obj.attendance = this.studentList[i].attendance;
-        obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
-        obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
-        if (this.studentList[i].assigned) {
-          obj.isUpdated = 'Y';
-        } else {
-          obj.isUpdated = 'N';
-        }
-        arr.push(obj);
+    for (let i = 0; i < this.studentList.length; i++) {
+      let obj: any = {};
+      obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
+      if (this.tempData.course_marks_update_level == '0') {
+        obj.course_marks_update_level = '3';
+      } else {
+        obj.course_marks_update_level = this.tempData.course_marks_update_level;
+      }
+      obj.isStudentExamSMS = absentKey;
+      obj.batchExamMarksLi = this.makeDataJSON(this.studentList[i].batchExamMarksLi);
+      obj.student_course_exam_id = this.studentList[i].student_course_exam_id;
+      obj.student_id = this.studentList[i].student_id;
+      obj.isOnlineTestUpdate = this.studentList[i].isOnlineTestUpdate;
+      obj.attendance = this.studentList[i].attendance;
+      obj.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+      obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
+      if (this.studentList[i].assigned) {
+        obj.isUpdated = 'Y';
+      } else {
+        obj.isUpdated = 'N';
       }
     }
     return arr;
@@ -3130,16 +3059,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   examMarksUpdateCourse(data) {
-    this.examMarksLevel = data.course_marks_update_level == 3 ? '2' : data.course_marks_update_level.toString();
-    this.subjectList = [];
-    this.totalExamMarks = 0;
-    this.tempData = data;
-    // this.examGradeFeature = data.is_exam_grad_feature;
-    this.courseExamMarkPopup = true;
-    this.getExamStudentList(data.course_exam_schedule_id);
-    if (data.is_exam_grad_feature == 1) {
-      this.getAllExamGrades();
-    }
+    let obj = {
+        data: data
+      }
+    let exam_info = JSON.stringify(obj)
+    this.router.navigate(['/view/home/exam-marks'], { queryParams: { exam_info: exam_info } });
+    
   }
 
   subjectList: any = [];
@@ -3157,9 +3082,8 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateMarksOnServerCourse(type) {
-    NumberFormatStyle
-    if (this.examMarksLevel == 0 || Number(this.examMarksLevel) == 3) {
-      this.messageNotifier('error', 'Error', 'Please select marks updation option course wise or subject wise');
+    if (this.examMarksLevel == 0 ) {
+      this.messageNotifier('error', 'Error', 'Please provide marks updation level');
       return;
     }
     let data: any;
@@ -3215,8 +3139,7 @@ export class AdminHomeComponent implements OnInit {
       if (this.tempData.is_exam_grad_feature == 0) {
         obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
       } else {
-        if (this.studentList[i].assigned && this.studentList[i].attendance != "L"
-          && this.studentList[i].attendance != "A" && this.studentList[i].grade_id == '-1') {
+        if (this.studentList[i].grade_id == '-1') {
           this.messageNotifier('error', 'Error', 'Please provide total grades');
           return false;
         }
@@ -3224,7 +3147,6 @@ export class AdminHomeComponent implements OnInit {
       }
       arr.push(obj);
     }
-
     if (notassignCount == this.studentList.length) {
       arr = [];
     }
@@ -3233,8 +3155,6 @@ export class AdminHomeComponent implements OnInit {
 
   fetchAllStudentJson() {
     let arr = [];
-    let notassignCount = 0;
-
     for (let i = 0; i < this.studentList.length; i++) {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
@@ -3254,27 +3174,18 @@ export class AdminHomeComponent implements OnInit {
       if (this.tempData.is_exam_grad_feature == 0) {
         obj.course_exam_marks_obtained = this.studentList[i].course_exam_marks_obtained;
       } else {
-        if (this.studentList[i].assigned && this.studentList[i].attendance != "L"
-          && this.studentList[i].attendance != "A" && this.studentList[i].grade_id == '-1') {
+        if (this.studentList[i].grade_id == '-1') {
           this.messageNotifier('error', 'Error', 'Please provide total grades');
           return false;
         }
         obj.grade_id = this.studentList[i].grade_id;
       }
-      if (!this.studentList[i].assigned) {
-        notassignCount++;
-      }
       arr.push(obj);
-    }
-
-    if (notassignCount == this.studentList.length) {
-      arr = [];
     }
     return arr;
   }
 
   makeMarksDataJSON(attendance, data) {
-
     let arr = [];
     for (let i = 0; i < data.length; i++) {
       let obj: any = {};
@@ -3374,13 +3285,16 @@ export class AdminHomeComponent implements OnInit {
         is_cancel_notify: notify,
         requested_date: moment(this.tempData.course_exam_date).format('YYYY-MM-DD')
       }
+      this.isRippleLoad = true;
       this.widgetService.cancelExamScheduleCourse(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
           this.generateCourseLevelWidget();
           this.closePopUpCommon();
         },
         err => {
+          this.isRippleLoad = false;
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -3394,13 +3308,16 @@ export class AdminHomeComponent implements OnInit {
           is_notified: notify
         }]
       }
+      this.isRippleLoad = true;
       this.widgetService.cancelExamSchedule(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
           this.generateCourseLevelWidget();
           this.closePopUpCommon();
         },
         err => {
+          this.isRippleLoad = false;
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -3565,7 +3482,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  showExpensesList() {
+  showExpensesList(){
     if (this.showExpenses) {
       this.showExpenses = false;
     }
@@ -3574,7 +3491,11 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  closeShowList() {
+  countRemarksLimit(){
+    this.remarksLimit = 50 - this.reminderRemarks.length;
+  }
+  
+  closeShowList(){
     this.showList();
   }
 

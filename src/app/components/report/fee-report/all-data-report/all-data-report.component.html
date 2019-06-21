@@ -1,4 +1,4 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="showPopupKeys.isRippleLoad">
 </loaders-css>
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
@@ -25,14 +25,13 @@
                         </rob-tooltip>
                     </aside>
                     <div class="pull-right" style="margin-top: 10px;margin-left: 0px;margin-right: 25px;cursor: pointer;">
-                      <a (click)="searchByValue('date')" class="showFilter" *ngIf="searchBy=='check'">Show Date Filter</a>
-                      <a (click)="searchByValue('check')" class="showFilter" *ngIf="searchBy=='date'">Hide Date Filter</a>
+                        <a (click)="searchByValue('date')" class="showFilter" *ngIf="searchBy=='check'">Show Date Filter</a>
+                        <a (click)="searchByValue('check')" class="showFilter" *ngIf="searchBy=='date'">Hide Date Filter</a>
                     </div>
                 </div>
 
                 <div class="row fee-filter" [ngClass]="{'long': showPopupKeys.isFilterReversed}" style="margin-left: 0px;     margin-top: 2em;">
                     <!-- <div id="secondary">
-
                         <div class="c-lg-3">
                             <div class="field-wrapper">
                                 <label for="sd">Select Dues</label>
@@ -103,44 +102,71 @@
                     </div> -->
                     <div id="secondary" *ngIf="searchBy=='check'">
                         <div class="c-lg-3 ">
+                            <div class="c-lg-12 field-wrapper" style=" position: absolute;bottom: -24px; ">
+                                <label> Academic Year</label>
+                                <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
+                                    class="form-ctrl sky-inner">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
+                                        {{i.inst_acad_year}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-3 ">
                             <div class="c-lg-12 field-checkbox-wrapper">
-                                <input class="form-checkbox" type="checkbox" name="assign_course"  id='assign_course' [(ngModel)]="courseFetchForm.is_AssignedCourseBatchFees" checked>
-                                <label for="assign_course">&nbsp;&nbsp; Active Assigned Course Fee</label>
+                                <input class="form-checkbox" type="checkbox" name="assign_course" id='assign_course' [(ngModel)]="courseFetchForm.is_AssignedCourseBatchFees"
+                                    checked>
+                                <label for="assign_course">&nbsp; Active Assigned Course Fee</label>
+                            </div>
+                        </div>
+                        <div class="c-lg-3">
+                            <div class="c-lg-12 field-checkbox-wrapper">
+                                <input class="form-checkbox" type="checkbox" name="unassign_course" id='unassign_course' [(ngModel)]="courseFetchForm.is_unAssignedCourseBatchFees">
+                                <label for="unassign_course">&nbsp; Active Unassigned Course Fee</label>
                             </div>
                         </div>
                         <div class="c-lg-3 ">
-                            <div class="c-lg-12 field-checkbox-wrapper">
-                                <input class="form-checkbox" type="checkbox" name="unassign_course" id='unassign_course' [(ngModel)]="courseFetchForm.is_unAssignedCourseBatchFees" >
-                                <label for="unassign_course">&nbsp;&nbsp; Active Unassigned Course Fee</label>
+                            <div class="c-lg-9 field-checkbox-wrapper">
+                                <input class="form-checkbox" type="checkbox" name="archived_course" id='archived_course' [(ngModel)]="courseFetchForm.is_archivedCourseBatchFees">
+                                <label for="archived_course">&nbsp; Active Archived Course Fee</label>
+                            </div>
+                            <div class="c-lg-3">
+                                <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
                             </div>
                         </div>
-                        <div class="c-lg-3 ">
-                            <div class="c-lg-12 field-checkbox-wrapper">
-                                <input class="form-checkbox" type="checkbox" name="archived_course"  id='archived_course' [(ngModel)]="courseFetchForm.is_archivedCourseBatchFees" >
-                                <label for="archived_course">&nbsp;&nbsp; Active Archived Course Fee</label>
-                            </div>
-                        </div>
-                        <div class="c-lg-2">
-                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                        </div>
+
                     </div>
 
                     <div class="" *ngIf="searchBy=='date'">
-                      <div class="c-lg-3 ">
-                        <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;">
-                          <label for="from">From Date</label>
-                          <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="courseFetchForm.from_date">
+                        <div class="c-lg-3 ">
+                            <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;">
+                                <label for="from">From Date</label>
+                                <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="courseFetchForm.from_date">
+                            </div>
                         </div>
-                      </div>
-                      <div class="c-lg-3 ">
-                        <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;">
-                          <label for="to">To Date</label>
-                          <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="courseFetchForm.to_date">
+                        <div class="c-lg-3 ">
+                            <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;">
+                                <label for="to">To Date</label>
+                                <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="courseFetchForm.to_date">
+                            </div>
                         </div>
-                      </div>
-                      <div class="c-lg-2" [ngStyle]="{'padding-top':searchBy == 'date' ? '15px' : '0px' }">
-                          <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
-                      </div>
+                        <div class="c-lg-3 ">
+                            <div class="c-lg-12 field-wrapper" style="padding-top:0px ">
+                                <label for="academic_year_array"> Academic Year</label>
+                                <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
+                                    class="form-ctrl sky-inner">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
+                                        {{i.inst_acad_year}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="c-lg-2" [ngStyle]="{'padding-top':searchBy == 'date' ? '15px' : '0px' }">
+                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                        </div>
                     </div>
                 </div>
             </div>

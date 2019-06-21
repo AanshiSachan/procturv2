@@ -123,7 +123,7 @@
 
                         <td>
                             <div class="field-wrapper">
-                                <select name="acadyr" id="acadyr" [(ngModel)]="batch.data.academic_year_id" class="form-ctrl">
+                                <select name="acadyr" id="acadyr" [(ngModel)]="batch.data.academic_year_id" [disabled]="true" [ngStyle]="{'background':'lightgrey'}" class="form-ctrl">
                                     <option [value]="year.inst_acad_year_id" [selected]="batch.data.academic_year_id == year.inst_acad_year_id" *ngFor="let year of academicYear">{{year.inst_acad_year}}</option>
                                 </select>
                             </div>

@@ -92,7 +92,7 @@
           </div>
           <div class="action_container">
             <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editCat(category, i)"></i>
-            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" *ngIf="category.sub_category_id != null" (click)="delete(category.sub_category_id, 'category')"></i>
+            <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true"  (click)="deleteCat(category)"></i>
           </div>
         </div>
         <div class="edit_com" id="cat_row_edit{{i}}">

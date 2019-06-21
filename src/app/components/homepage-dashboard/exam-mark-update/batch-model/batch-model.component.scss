@@ -1,0 +1,264 @@
+body {
+    background: #f7f5f5;
+    color: #999;
+}
+
+h1 {
+    font-weight: 100;
+    font-size: 27pt;
+    color: #E43;
+}
+
+p {
+    font-weight: 300;
+}
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 2px solid #f2f2f2;
+}
+
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #f7f5f5;
+     max-height: -moz-available;
+     max-height: stretch;
+    .middle-top {
+      margin-top: 10px;
+        h2 {
+            color: black;
+            font-weight: unset;
+            padding-top: 00px;
+            font-size: 14px;
+        }
+    }
+}
+
+.header_container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  .header_item1{
+    // margin-top: 10px;
+    font-size: 13px;
+  }
+}
+
+// Marks update grid-container
+
+.marks-section{
+  height: 430px;
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
+  overflow-y: scroll;
+  .update_exam_marks_container{
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    .course_subject_container{
+      padding: 20px;
+    }
+    .course_subject_container div {
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 0px;
+    }
+    .field-radio-wrapper .form-radio:checked+label {
+        &.present {
+            color: #4191da;
+            &:before {
+                content: '';
+                width: 10px;
+                height: 10px;
+                background: #4191da;
+                border-radius: 50%;
+                left: 3px;
+                top: 3px;
+            }
+            &:after {
+                border: 2px solid #4191da;
+            }
+        }
+        &.leave {
+            color: #7a7a7a;
+            &:before {
+                content: '';
+                width: 10px;
+                height: 10px;
+                background: #7a7a7a;
+                border-radius: 50%;
+                left: 3px;
+                top: 3px;
+            }
+            &:after {
+                border: 2px solid #7a7a7a;
+            }
+        }
+        &.absent {
+            color: #fe552a;
+            &:before {
+                content: '';
+                width: 10px;
+                height: 10px;
+                background: #fe552a;
+                border-radius: 50%;
+                left: 3px;
+                top: 3px;
+            }
+            &:after {
+                border: 2px solid #fe552a;
+            }
+        }
+    }
+
+    .marks_table_container{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .heading_container{
+        display: flex;
+        flex-direction: row;
+        padding: 10px 20px;
+        background: #f7f5f5;
+        border-top: 1px solid #cbcbcb;
+        border-bottom: 1px solid #cbcbcb;
+        margin-bottom: 10px;
+        .heading_item{
+          width: 19%;
+          text-align: left;
+          font-weight: 600;
+          color: #3e3d4a;
+        }
+        .grayColor{
+          color: #bdbdbd;
+        }
+        .blackColor{
+          color: #3e3d4a;
+        }
+      }
+      .value_container{
+        display: flex;
+        flex-direction: row;
+        padding: 6px 20px;
+        background: white;
+        .value_item{
+          width: 19%;
+          text-align: left;
+          color: #3e3d4a;
+          .side-form-ctrl {
+              background: transparent;
+              border: 1px solid #969696;
+              width: 100%;
+              padding: 5px 5px;
+              font-weight: 600;
+              font-size: 12px;
+              color: black;
+              border-radius: 4px;
+            }
+            .disabledInput{
+              cursor: not-allowed;
+              border: 1px solid #bdbdbd;
+              color: #bdbdbd;
+            }
+            .enabledInput{
+              cursor: default;
+              border: 1px solid #3e3d4a;
+              color: #3e3d4a;
+            }
+          .btns{
+            .btn{
+              width: 40px;
+              margin-left: 0px;
+              margin-right: 5px;
+              height: 23px;
+              padding: 1px 12px;
+
+            }
+            .classLeaveBtn{
+              color: white;
+              text-align: center;
+              background: #ffb951;
+              border: none;
+            }
+            .classAbsentBtn{
+              color: white;
+              text-align: center;
+              background: #ff5e5e;
+              border: none;
+            }
+            .classPresentBtn{
+              color: white;
+              text-align: center;
+              background: #77f080;
+              border: none;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.field-checkbox-wrapper {
+  display: inline-block;
+  margin-bottom: 0px;
+  .form-checkbox:checked+label:before {
+      border-color: #fff;
+      z-index: 1;
+  }
+  .form-checkbox:checked+label:after {
+      border-color: #0084f6;
+      background: #0084f6;
+  }
+  .form-checkbox:checked+label {
+      color: rgba(0, 0, 0, 0.4);
+      text-decoration: line-through;
+  }
+}
+
+.field-checkbox-wrapper .form-checkbox {
+    opacity: 0;
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    width: 16px;
+    height: 12px;
+    z-index: 1;
+}
+
+.field-checkbox-wrapper .form-checkbox:checked + label:before {
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    width: 12px;
+    height: 5px;
+    left: 12px;
+    top: 5px;
+}
+
+.field-checkbox-wrapper .form-checkbox + label:after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    position: absolute;
+    left: 10px;
+    top: 0px;
+}
+
+input[type=checkbox], input[type=radio]{
+  margin: 0px;
+}

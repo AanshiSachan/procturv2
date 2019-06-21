@@ -116,7 +116,7 @@ export class EnquiryAddComponent implements OnInit {
   sourceList: any;
   isNewRefer: boolean = true;
   referList: any;
-  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  minArr: any[] = ['', '00', '15', '30', '45'];
   hour: string = '';
   minute: string = '';
   meridian: string = ''
@@ -309,14 +309,14 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
       err => {
-        //  console.log(err); 
+        //  console.log(err);
       }
     );
 
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
       err => {
-        //  console.log(err); 
+        //  console.log(err);
       }
     );
 
@@ -328,7 +328,7 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
       err => {
-        //   console.log(err); 
+        //   console.log(err);
       }
     );
 
@@ -382,7 +382,7 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.getOccupation().subscribe(
       data => { this.occupation = data; },
       err => {
-        //   console.log(err); 
+        //   console.log(err);
       }
     );
 
@@ -802,7 +802,7 @@ export class EnquiryAddComponent implements OnInit {
   submitForm(form: NgForm) {
 
     //Validates if the custom component required fields are selected or not
-    
+
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
 
     /* Validate the predefine required fields of the form */
@@ -925,7 +925,7 @@ export class EnquiryAddComponent implements OnInit {
           this.isRippleLoad = true;
           this.poster.postNewEnquiry(obj).subscribe(
             (data: any) => {
-              this.isRippleLoad = false;       
+              this.isRippleLoad = false;
               this.enquiryConfirm = data;
               let instituteEnqId = data.generated_id;
               this.prefill.fetchLastDetail().subscribe(data => {
@@ -935,7 +935,7 @@ export class EnquiryAddComponent implements OnInit {
                 }
                 else {
                   if (this.addNextCheck) {
-                    //form.reset();               
+                    //form.reset();
                     this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
                     this.clearFormData();
                   }
@@ -973,7 +973,7 @@ export class EnquiryAddComponent implements OnInit {
                   }
                   else {
                     if (this.addNextCheck) {
-                      //form.reset();                    
+                      //form.reset();
                       this.showErrorMessage('success', "New Enquiry Added", "Your enquiry has been submitted");
                       this.clearFormData();
                     }
@@ -1779,7 +1779,7 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-  // MultiBranch 
+  // MultiBranch
   multiBranchInstituteFound(id) {
     this.prefill.getAllSubBranches(id).subscribe(
       (res: any) => {
