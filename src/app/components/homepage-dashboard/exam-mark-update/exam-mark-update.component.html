@@ -52,11 +52,11 @@
           </div>
           <div class="heading_item" *ngFor="let s of subjectList;" [ngClass]="examMarksLevel == 2 ? 'grayColor' : 'blackColor'">
             <span>{{s.subject_name}}</span>
-            <span *ngIf="tempData.is_exam_grad_feature == 0">({{s.total_marks}})</span>
+            <span >({{s.total_marks}})</span>
           </div>
           <div class="heading_item" [ngClass]="examMarksLevel == 1 ? 'grayColor' : 'blackColor'">
             <span *ngIf="tempData.is_exam_grad_feature == 0">Total Marks ({{totalExamMarks}})</span>
-            <span *ngIf="tempData.is_exam_grad_feature == 1" style="color: black;">Total Grades</span>
+            <span *ngIf="tempData.is_exam_grad_feature == 1" style="color: black;">Total Grades ({{totalExamMarks}})</span>
           </div>
         </div>
         <!-- Body Container -->

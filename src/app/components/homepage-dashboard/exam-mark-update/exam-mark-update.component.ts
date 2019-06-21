@@ -253,9 +253,9 @@ export class ExamMarkUpdateComponent implements OnInit {
         // }
         obj.grade_id = this.studentAttList[i].grade_id;
       }
-      if (!this.studentAttList[i].assigned) {
-        notassignCount++;
-      }
+      // if (!this.studentAttList[i].assigned) {
+      //   notassignCount++;
+      // }
       arr.push(obj);
     }
     if (notassignCount == this.studentAttList.length) {

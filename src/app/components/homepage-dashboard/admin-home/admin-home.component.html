@@ -143,7 +143,7 @@
                             <li class="course-name">
                               <div title="{{class.course_name}}">
                                 <span title="{{class.course_name}}">
-                                  {{(class.course_name.length > 10)? (class.course_name | slice:0:10)+'..':(class.course_name) }}
+                                  {{(class.course_name?.length > 10)? (class.course_name | slice:0:10)+'..':(class.course_name) }}
                                 </span>
                               </div>
                             </li>
@@ -151,10 +151,14 @@
                               <div title="{{class.course_name}}">{{class.course_name}}</div>
                             </li> -->
                             <li class="subject">
-                              <div title="{{class.subject_name}}">{{class.subject_name}}</div>
+                              <div title="{{class.subject_name}}">
+                                {{(class.subject_name?.length > 10)? (class.subject_name | slice:0:10)+'..':(class.subject_name) }}
+                              </div>
                             </li>
                             <li class="faculty-name">
-                              <div title="{{class.teacher_name}}">{{class.teacher_name}}</div>
+                              <div title="{{class.teacher_name}}">
+                                {{(class.teacher_name?.length > 10)? (class.teacher_name | slice:0:10)+'..':(class.teacher_name) }}
+                              </div>
                             </li>
                             <li class="topic-link">
                               <div title="{{class.topicName}}" *ngIf="class.topicName"> {{(class.topicName.length > 15) ? (class.topicName | slice:0:15)+'..':(class.topicName) }} </div>
@@ -178,12 +182,12 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of courseLevelSchedule;let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li class="batch" title="{{class.master_course}}">
-                              <div title="{{class.master_course}}">{{ (class.master_course.length > 15) ? (class.master_course | slice:0:15)+'..':(class.master_course) }}
+                              <div title="{{class.master_course}}">{{ (class.master_course?.length > 15) ? (class.master_course | slice:0:15)+'..':(class.master_course) }}
                               </div>
                             </li>
                             <li class="batch cls-type" *ngIf="!class.isExam" title="{{class.coursee_names}}">
                               <div>
-                                <span title="{{class.coursee_names}}">{{ (class.coursee_names.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
+                                <span title="{{class.coursee_names}}">{{ (class.coursee_names?.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
                               </div>
                               <!-- <div *ngIf="class.isExam">
                                 <span title="{{class.course_name}}">{{ (class.course_name.length > 15) ? (class.course_name | slice:0:15)+'..':(class.course_name) }} </span>
@@ -194,7 +198,7 @@
                                 <span title="{{class.coursee_names}}">{{ (class.coursee_names.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
                               </div> -->
                               <div *ngIf="class.isExam">
-                                <span title="{{class.course_name}}">{{ (class.course_name.length > 15) ? (class.course_name | slice:0:15)+'..':(class.course_name) }} </span>
+                                <span title="{{class.course_name}}">{{ (class.course_name?.length > 15) ? (class.course_name | slice:0:15)+'..':(class.course_name) }} </span>
                               </div>
                             </li>
                             <li class="batch cls-type">
