@@ -8,10 +8,13 @@ import { AuthenticatorService } from '../../../../services/authenticator.service
 })
 export class FeeReportHomeComponent implements OnInit {
 
-  isProfessional: boolean;
   enable_online_payment: string = "";
   enable_online_payment_feature: number;
   showChart: boolean = false;
+  jsonFlags = {
+    moduleState:''
+  }
+
   constructor(private auth: AuthenticatorService) { }
 
   ngOnInit() {
@@ -32,10 +35,10 @@ export class FeeReportHomeComponent implements OnInit {
 
     this.auth.institute_type.subscribe(
       res => {
-        if (res == 'LANG') {
-          this.isProfessional = true;
-        } else {
-          this.isProfessional = false;
+        if (res == 'LANG') { ///batch 
+          this.jsonFlags.moduleState ='Batch';
+        } else { ///course
+          this.jsonFlags.moduleState ='Course';
         }
       }
     )

@@ -30,10 +30,6 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
 import { EnquiryUpdatePopupComponent } from '../enquiry-update-popup/enquiry-update-popup.component';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome/datepicker';
 
-
-
-
-
 @NgModule({
     imports: [
         CommonModule,

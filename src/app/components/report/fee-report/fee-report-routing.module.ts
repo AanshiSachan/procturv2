@@ -28,11 +28,11 @@ import {PaymentHistoryMainComponent} from './payment-history-main/payment-histor
                         component: FeeReportHomeComponent
                     },
                     {
-                        path: 'courseReport',
+                        path: 'moduleReport',
                         component: FeeCourseReportComponent
                     },
                     {
-                        path: 'allData',
+                        path: 'allDueReport',
                         component: AllDataReportComponent
                     },
                     {

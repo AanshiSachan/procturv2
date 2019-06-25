@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { AppComponent } from '../../../app.component';
 import { StudentFeeService } from '../student_fee.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 
 @Component({
@@ -18,9 +19,16 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   @Input() studentName: string = "";
   @Input() student_id: any;
   @Input() resultForUnAssigned: boolean;
-
+  @Input() academicListData: any = [];
   @Output() closePopup = new EventEmitter<boolean>();
-
+  otherFeeType: any[] = [];
+  installmentData: any = [];
+  additionalData: any = [];
+  isRippleLoad:boolean = false;  
+  isProfessional:boolean =false;
+  service_tax: number = 0;
+  taxEnableCheck: any = '1';
+  
   addFeeInstallment: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -78,8 +86,10 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     tax: 0,
     update_date: null,
     updated_by: null,
-    initial_fee_amount_before_disocunt_before_tax: 0
+    initial_fee_amount_before_disocunt_before_tax: 0,
+    academic_year_id:'-1'
   }
+
   addFeeOther: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -135,35 +145,54 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     tax: 0,
     update_date: null,
     updated_by: null,
-    initial_fee_amount_before_disocunt_before_tax: 0
+    initial_fee_amount_before_disocunt_before_tax: 0,
+    academic_year_id:'-1'
   }
-  otherFeeType: any[] = [];
-  taxEnableCheck: any = '1';
-  service_tax: number = 0;
-  installmentData: any = [];
-  additionalData: any = [];
-
+  
   constructor(
     private cd: ChangeDetectorRef,
     private eRef: ElementRef,
     private appC: AppComponent,
     private feeService: StudentFeeService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private auth: AuthenticatorService,
   ) { }
 
   ngOnInit() {
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    console.log(this.resultForUnAssigned)
+    this.getInstType();
+    console.log(this.resultForUnAssigned);
   }
-
+  getInstType() {
+    this.auth.institute_type.subscribe(
+      res => {
+        if (res == 'LANG') { // batch
+          this.isProfessional = true;
+        } else {
+          this.isProfessional = false;
+        }
+      }
+    )
+  }
   ngOnChanges() {
     this.student_id;
     this.cd.markForCheck()
     this.feeTemplateData;
     this.courseDropdown;
+    this.academicListData;
     this.service_tax = this.feeTemplateData.registeredServiceTax;
     this.splitCustomizedFee();
   }
+
+  changeAcademicyear($event){
+    this.addFeeInstallment.academic_year_id ='-1';
+    this.courseDropdown.forEach(object => {
+      if(object.template_mapping_idWithCourseOrSubjectName==$event){
+        this.addFeeInstallment.academic_year_id = object.academic_year_id;
+      }
+    });
+  }
+
 
   splitCustomizedFee() {
     this.feeTemplateData.customFeeSchedules.forEach(el => {
@@ -197,11 +226,11 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
     this.installmentData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
     });
-    for (var i = 0; i < this.installmentData.length; i++) {
-      this.installmentData[i].installment_no = i + 1;
+    for (var i = 1; i < this.installmentData.length; i++) {
+      this.installmentData[i].installment_no = i;
     }
-    for (var i = 0; i < this.additionalData.length; i++) {
-      this.additionalData[i].installment_no = this.installmentData.length + i + 1;
+    for (var i =  Number(this.installmentData.length)+1; i < this.additionalData.length; i++) {
+      this.additionalData[i].installment_no = i ;
     }
 
     let customFees = this.installmentData.concat(this.additionalData);
@@ -322,6 +351,7 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       if (el.due_date == null) {
         el.due_date = moment().format("YYYY-MM-DD");
       }
+      el.student_fee_template_mapping_id = el.student_id==0 && el.course_subject_name==null ?-1:el.student_fee_template_mapping_id;
       let obj = {
         fee_date: moment(el.due_date).format("YYYY-MM-DD"),
         fee_type: el.fee_type_name === "INSTALLMENT" ? 0 : el.fee_type,
@@ -333,7 +363,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
         student_fee_template_mapping_id: el.student_fee_template_mapping_id,
-        initial_fee_amount_before_disocunt_before_tax: el.initial_fee_amount
+        initial_fee_amount_before_disocunt_before_tax: el.initial_fee_amount,
+        academic_year_id:el.academic_year_id
       }
       temp.push(obj);
     });
@@ -610,7 +641,8 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
       tax: 0,
       update_date: null,
       updated_by: null,
-      initial_fee_amount_before_disocunt_before_tax: 0
+      initial_fee_amount_before_disocunt_before_tax: 0,
+      academic_year_id:'-1'
     }
   }
 

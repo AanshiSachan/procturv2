@@ -104,7 +104,7 @@
               <div class="c-lg-3">
                 <div id="basic-search" style="float:right;" class="c-lg-11">
                   <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="varJson.searchText" name="searchData"
-                    (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; margin-top: 10px; margin-bottom: 10px;">
+                    (keyup)="searchDatabase()" style="padding:7px 10px; width:200px; height:35px; margin-top: 10px; margin-right: 10px;">
                 </div>
                 <div>
                   <section class="login-tube pull-right" style="margin-top: 14px; position: absolute;right: 8px;">
@@ -150,10 +150,7 @@
 
         </div>
 
-        <div class="table table-responsive">
-          <!-- <rob-table [isMulti]='false' [hasMenu]="true" [dropType]="1" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)"
-            [records]="allPaymentRecords" [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
-          </rob-table> -->
+        <div class="table table-responsive" style="margin-top: 10px">
           <data-display-table #child [displayKeys]="tableSetting" [displayData]="allPaymentRecords" (editView)='optionSelected($event)'>
           </data-display-table>
         </div>

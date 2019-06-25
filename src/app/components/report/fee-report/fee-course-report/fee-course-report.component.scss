@@ -5,6 +5,26 @@
 @import "../../../../../assets/css/common/variables.scss";
 @import "./src/assets/css/common/common-web.scss";
 
+.multiselect-wrapper {
+  padding: 5px;
+  border: 1px solid $border-color;
+  z-index: 100;
+  min-width: 345px;
+  max-height: 350px;
+  overflow: scroll;
+
+  ::-webkit-scrollbar {
+    display: block;
+  }
+}
+.dropdown::before {
+  position: absolute;
+  content: "▼";
+  top: 37px;
+  right: 5px;
+  font-size: 10px;
+}
+
 .form-wrapper {
   background: transparent;
   margin: 10px 0;
@@ -35,9 +55,8 @@
   }
 }
 
-
 .dropdown {
-  & > ul { 
+  & > ul {
     padding: 10px 20px; // width: 200px;
   }
 }

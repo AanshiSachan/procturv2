@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { LoginService } from '../../../../services/login-services/login.service';
-import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
 import { getCheque } from '../../../../services/cheque-manage/get-cheque.service';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { copyConfig } from '@angular/router/src/config';
 import { ExcelService } from '../../../../services/excel.service';
+import { ColumnData2 } from '../../../shared/data-display-table/data-display-table.model';
+import { TablePreferencesService } from '../../../../services/table-preference/table-preferences.service';
+import { DataDisplayTableComponent } from '../../../shared/data-display-table/data-display-table.component';
+import { ExportToPdfService } from '../../../../services/export-to-pdf.service';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
   selector: 'app-cheque-manage',
@@ -15,56 +19,47 @@ import { ExcelService } from '../../../../services/excel.service';
 })
 export class ChequeManageComponent implements OnInit {
 
-  pdcDetails: any;
-  studentFeeDues: any = {
-  };
-
-  studentFeelist: any[] = []
-
+  @ViewChild('child') private child: DataDisplayTableComponent;
+  dataStatus: number = 1;
+  searchValue: any = ''
   isPendingUpdate: boolean;
-  isUpdatePopup: boolean;
-  actionSelected: any;
+  chequeUpdateStatus: any;
   selectedRecord: any;
   dateRange: any[] = [];
-
+  studentUnpaid: any[] = [];
+  chequeDataSource: any[] = [];
+  tempRecords: any[] = [];
+  displayKeys: any = [];
   chequeFetchForm: any = {
     from_date: moment().date(1).format("YYYY-MM-DD"),
     to_date: moment().format("YYYY-MM-DD"),
-    cheque_status_id: -1,
+    cheque_status_id: 3,
     student_name: '',
     contact_no: '',
   }
 
-  studentUnpaid: any[] = [];
+  studentFeeDues: any = {};
+  flagJson: any = {
+    showPreference: false,
+    isRippleLoad: false,
+    isUpdatePopup: false,
+    searchText: ''
+  };
 
-  dropType: number = 1;
-
-  searchValue: any = ''
-
-  chequeDataSource: any[] = [];
-  dataStatus: number = 1;
-  chequeSetting: ColumnData[] = [
-    { primaryKey: 'student_display_id', header: 'Id' },
-    { primaryKey: 'student_name', header: 'Student Name' },
-    { primaryKey: 'parent_name', header: 'Parent Name' },
-    { primaryKey: 'display_invoice_no', header: 'Receipt No' },
-    { primaryKey: 'cheque_no', header: 'Cheque No' },
-    { primaryKey: 'bank_name', header: 'Bank Name' },
-    { primaryKey: 'contact_no', header: 'Contact No' },
-    { primaryKey: 'cheque_date', header: 'Cheque Date' },
-    { primaryKey: 'cheque_amount', header: 'Amount' },
-    { primaryKey: 'cheque_status', header: 'Status' },
-    { primaryKey: 'remarks', header: 'Remarks' },
-    { primaryKey: 'reference_no', header: 'Reference No' }
+  activitySettings: ColumnData2[] = [ //feeSettings1
+    { primaryKey: 'student_display_id', header: 'ID', priority: 1, allowSortingFlag: true },
+    { primaryKey: 'student_name', header: 'Student Name', priority: 2, allowSortingFlag: true },
+    { primaryKey: 'parent_name', header: 'Parent Name', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'display_invoice_no', header: 'Receipt No', priority: 4, allowSortingFlag: true },
+    { primaryKey: 'cheque_no', header: 'Cheque No', priority: 5, allowSortingFlag: true },
+    { primaryKey: 'bank_name', header: 'Bank Name', priority: 6, allowSortingFlag: true },
+    { primaryKey: 'contact_no', header: 'Contact No', priority: 7, allowSortingFlag: true },
+    { primaryKey: 'cheque_date', header: 'Cheque Date', priority: 8, allowSortingFlag: true },
+    { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, allowSortingFlag: true },
+    { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true },
+    { primaryKey: 'remarks', header: 'Remarks', priority: 11, allowSortingFlag: true },
+    { primaryKey: 'reference_no', header: 'Reference No', priority: 12, allowSortingFlag: true }
   ];
-
-  menuList: DropData[] = [
-    { key: 'update', header: 'Update' }
-    /* { key: 'pending', header: 'Update Payment' } */
-  ];
-
-  chequeUpdateStatus: any;
-
   chequePaymentModel: any = {
     paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
     paymentMode: 'Cheque/PDC/DD No.',
@@ -78,20 +73,149 @@ export class ChequeManageComponent implements OnInit {
     isSendEmail: false
   }
 
-  constructor(private login: LoginService, private appC: AppComponent, private getter: getCheque, private excelService: ExcelService) {
+  //payment history table settings
+  tableSetting: any = {
+    tableDetails: { title: 'Manage Cheques', key: 'activity.manageCheques', showTitle: false },
+    search: { title: 'Search', showSearch: false },
+    keys: this.activitySettings,
+    selectAll: { showSelectAll: false, title: '', checked: true, key: '' },
+    actionSetting: {
+      showActionButton: true,
+      editOption: 'link',//or popup
+      condition: [{ key: 'cheque_status', condition: "==", checkValue: "cleared", nextOperation: undefined }],
+      options: [{ title: "update cheque status ", type: "update cheque", class: 'fa fa-check updateCss' }]
+    },
+    displayMessage: "Enter Detail to Search"
+  };
+
+  constructor(private login: LoginService,
+    private getter: getCheque,
+    private excelService: ExcelService,
+    private ref: ChangeDetectorRef,
+    private pdf: ExportToPdfService,
+    private _tablePreferencesService: TablePreferencesService,
+    private _msgService: MessageShowService ) {
     this.dateRange[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
     this.dateRange[1] = new Date();
   }
 
   ngOnInit() {
-    this.fetchChequeType(this.chequeFetchForm);
+    this.fetchChequeType(this.chequeFetchForm, false);
+    this.tableSetting.keys = this.activitySettings;
+    if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
+      this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
+      this.tableSetting.keys = this.displayKeys;
+      if (this.displayKeys.length == 0) {
+        this.setDefaultValues();
+      }
+    }
+    else {
+      this.setDefaultValues();
+    }
   }
 
-  fetchChequeType(obj) {
+  searchDatabase() {
+    console.log(this.flagJson.searchText);
+    if (this.flagJson.searchText != "" && this.flagJson.searchText != null) {
+      this.chequeDataSource = this.tempRecords.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.flagJson.searchText.toLowerCase()))
+      );
+      this.flagJson.searchflag = true;
+    }
+    else {
+      this.chequeDataSource = this.tempRecords;
+      this.flagJson.searchflag = false;
+    }
+    if (this.chequeDataSource.length == 0) {
+      this.tableSetting.displayMessage = "Data not found";
+    }
+    // console.log(this.chequeDataSource);
+  }
+
+  exportToPdf() {
+    let arr = [];
+
+    this.chequeDataSource.map(
+      (ele: any) => {
+        let json = [
+          ele.student_display_id,
+          ele.student_name,
+          ele.parent_name,
+          ele.display_invoice_no,
+          ele.cheque_no,
+          ele.bank_name,
+          ele.contact_no,
+          ele.cheque_date,
+          ele.cheque_amount,
+          ele.cheque_status,
+          ele.remarks,
+          ele.reference_no
+        ]
+        arr.push(json);
+      })
+
+    let rows = [];
+    rows = [['ID', 'Student Name', "Parent Name", "Receipt No", 'Cheque No', 'Bank Name', 'Contact No', 'Cheque Date', 'Amount', 'Status', 'Remarks', 'Reference No']]
+
+
+    let columns = arr;
+    this.pdf.exportToPdf(rows, columns, 'manage_cheque_report');
+  }
+
+  // set default preferences to payment history table
+  setDefaultValues() {
+    this.tableSetting.keys = [
+      { primaryKey: 'student_display_id', header: 'ID', priority: 1, allowSortingFlag: true },
+      { primaryKey: 'student_name', header: 'Student Name', priority: 2, allowSortingFlag: true },
+      { primaryKey: 'parent_name', header: 'Parent Name', priority: 3, allowSortingFlag: true },
+      { primaryKey: 'display_invoice_no', header: 'Receipt No', priority: 4, allowSortingFlag: true },
+      { primaryKey: 'cheque_no', header: 'Cheque No', priority: 5, allowSortingFlag: true },
+      { primaryKey: 'bank_name', header: 'Bank Name', priority: 6, allowSortingFlag: true },
+      { primaryKey: 'contact_no', header: 'Contact No', priority: 7, allowSortingFlag: true },
+      { primaryKey: 'cheque_date', header: 'Cheque Date', priority: 8, allowSortingFlag: true },
+      { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, allowSortingFlag: true },
+      { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true }
+    ];
+    this.displayKeys = this.tableSetting.keys;
+    this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
+  }
+  //open preference popup
+  openPreferences() {
+    this.flagJson.showPreference = true;
+  }
+
+  //close preference popup
+  closePopup(e) {
+    let array = ['showPreference'];
+    for (let key in array) {
+      this.flagJson[array[key]] = false;
+    }
+    if (e) {
+      if (this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key) != null) {
+        this.displayKeys = this._tablePreferencesService.getTablePreferences(this.tableSetting.tableDetails.key);
+        this.tableSetting.keys = this.displayKeys;
+        if (e.callNotify) {
+          this.child.notifyMe(this.tableSetting);
+        }
+        this.ref.markForCheck();
+        this.ref.detectChanges();
+      }
+    }
+    console.log(this.displayKeys);
+  }
+
+  fetchChequeType(obj, flag) {
+    this.flagJson.isRippleLoad = true;
     this.chequeDataSource = [];
+    this.tempRecords = [];
     this.getter.getChequeTypes(obj).subscribe(
       res => {
+        this.flagJson.isRippleLoad = false;
         this.chequeDataSource = res;
+        this.tempRecords = res;
+
+        this.tableSetting.displayMessage = flag ? "Data not found" : 'Enter Detail to Search';
         if (res == null || res.length == 0) {
           this.dataStatus = 2;
         }
@@ -100,6 +224,7 @@ export class ChequeManageComponent implements OnInit {
         }
       },
       err => {
+        this.flagJson.isRippleLoad = false;
       }
     );
   }
@@ -124,18 +249,35 @@ export class ChequeManageComponent implements OnInit {
       obj.contact_no = this.searchValue;
     }
 
-    this.fetchChequeType(obj);
+    switch (this.chequeFetchForm.cheque_status_id) {
+      case '1': {
+        this.tableSetting.actionSetting.condition = [{ key: 'cheque_status', condition: "==", checkValue: "Pending", nextOperation: undefined }];
+        this.tableSetting.actionSetting.options = [{ title: "Update Payment ", type: "update payemnt", class: 'fa fa-check updateCss' }];
+        break;
+      }
 
+      case '2': {
+        this.tableSetting.actionSetting.condition = [{ key: 'cheque_status', condition: "==", checkValue: "cleared", nextOperation: undefined }];
+        this.tableSetting.actionSetting.options = [{ title: "Update Payment ", type: "update payemnt", class: 'fa fa-check updateCss' }]
+        break;
+      }
+      case '3': {
+        this.tableSetting.actionSetting.condition = [{ key: 'cheque_status', condition: "==", checkValue: "cleared", nextOperation: undefined }];
+        this.tableSetting.actionSetting.options = [{ title: "Update Payment ", type: "update cheque status", class: 'fa fa-check updateCss' }]
+        break;
+      }
+    }
+
+    this.fetchChequeType(obj, true);
   }
 
   optionSelected(e) {
     this.selectedRecord = e.data;
-    this.actionSelected = e.action._value;
     this.decidePopup(e.data);
   }
 
   cancelUpdate() {
-    this.isUpdatePopup = false;
+    this.flagJson.isUpdatePopup = false;
     this.isPendingUpdate = false;
     this.selectedRecord = null;
     this.studentFeeDues = {};
@@ -157,14 +299,12 @@ export class ChequeManageComponent implements OnInit {
   decidePopup(d) {
     if (d.cheque_status_id == 3) {
       this.chequeUpdateStatus = "3"
-      this.isUpdatePopup = true;
+      this.flagJson.isUpdatePopup = true;
     }
     else if (d.cheque_status_id == 1) {
       this.fetchChequePaymentData();
-
     }
   }
-
 
   fetchChequePaymentData() {
     this.getStudentFeeDetails();
@@ -187,21 +327,11 @@ export class ChequeManageComponent implements OnInit {
             this.isPendingUpdate = true;
           }
           else {
-            let msg = {
-              type: 'error',
-              title: "No Installment Toward Which Payment Can Be Made",
-              body: ""
-            }
-            this.appC.popToast(msg);
+            this._msgService.showErrorMessage('error', '',"No Installment Toward Which Payment Can Be Made");
           }
         }
         else {
-          let obj = {
-            type: 'info',
-            title: "No Installment To Make Payment Towards",
-            body: ""
-          }
-          this.appC.popToast(obj);
+          this._msgService.showErrorMessage('info', '',"No Installment To Make Payment Towards");
         }
       },
       err => { }
@@ -211,7 +341,7 @@ export class ChequeManageComponent implements OnInit {
   getPdcDetails() {
     this.getter.fetchPdcChequeDetails(this.selectedRecord.pdc_cheque_id).subscribe(
       res => {
-        this.pdcDetails = res;
+        // this.pdcDetails = res;
         this.chequePaymentModel.bankName = res.bank_name;
         this.chequePaymentModel.chequeNum = res.cheque_no;
         this.chequePaymentModel.chequeDate = res.cheque_date;
@@ -240,33 +370,27 @@ export class ChequeManageComponent implements OnInit {
       financial_year: this.selectedRecord.financial_year
     }
 
+    this.flagJson.isRippleLoad = true;
     this.getter.updateChequeStatus(obj).subscribe(
       res => {
         this.updateRecordOnClient();
-        let msg = {
-          type: "success",
-          title: "Cheque Status Updated",
-          body: ""
-        }
-        this.appC.popToast(msg);
-        this.isUpdatePopup = false;
+        this._msgService.showErrorMessage('success', '',"Cheque Status Updated");
+        this.flagJson.isUpdatePopup = false;
+        this.flagJson.isRippleLoad = false;
       },
       err => {
-        let msg = {
-          type: "error",
-          title: "An Error Occured",
-          body: "Please contact support@proctur.com"
-        }
-        this.appC.popToast(msg);
+        this._msgService.showErrorMessage('error', '',"Please contact support@proctur.com");
+        this.flagJson.isRippleLoad = false;
       }
     )
 
   }
 
   updateRecordOnClient() {
-    let temp: any[] = this.chequeDataSource.map(e => {
+    let temp: any[] = this.chequeDataSource.map((e,index) => {
       if (e.cheque_id == this.selectedRecord.cheque_id) {
         e.cheque_status_id = this.chequeUpdateStatus;
+        this.chequeDataSource.splice(index, 1);
         if (e.cheque_status_id == 2) {
           e.cheque_status = "dishonoured"
         }
@@ -291,6 +415,10 @@ export class ChequeManageComponent implements OnInit {
 
     let toPay: number = 0;
     let temp: any[] = [];
+    if(this.chequePaymentModel.remarks.length>20){
+      this._msgService.showErrorMessage('error', '',"remarks should not be greater than 20 characters");
+      return ;
+    }
     for (let k in this.studentUnpaid) {
       if (this.studentUnpaid[k].selected && this.studentUnpaid[k].toPay != '') {
         if (!isNaN(this.studentUnpaid[k].toPay)) {
@@ -298,23 +426,14 @@ export class ChequeManageComponent implements OnInit {
           toPay += parseInt(this.studentUnpaid[k].toPay);
         }
         else {
-          let msg = {
-            type: 'error',
-            title: "Invalid Amount Entered",
-            body: "Please enter a valid amount for payment"
-          }
-          this.appC.popToast(msg);
+          this._msgService.showErrorMessage('error', '',"Please enter a valid amount for payment");
         }
       }
     }
 
     if (toPay > parseInt(this.chequePaymentModel.chequeAmount)) {
-      let msg = {
-        type: 'error',
-        title: "PDC cheque amount is not matching with the selected installments.",
-        body: "Please change to be paid amount in selected installments to make partial payment"
-      }
-      this.appC.popToast(msg);
+      this._msgService.showErrorMessage('error', "PDC cheque amount is not matching with the selected installments",
+      "Please change to be paid amount in selected installments to make partial payment");
     }
     else if (toPay <= parseInt(this.chequePaymentModel.chequeAmount) && toPay != 0) {
       let obj = {
@@ -335,12 +454,7 @@ export class ChequeManageComponent implements OnInit {
 
       this.getter.updatePDCPayment(obj).subscribe(
         res => {
-          let obj = {
-            type: 'success',
-            title: "Payment Updated",
-            body: "paymnet via cheque has been updated"
-          }
-          this.appC.popToast(obj);
+          this._msgService.showErrorMessage('success', "Payment Updated","paymnet via cheque has been updated");
 
           if (this.chequePaymentModel.isGenAck || this.chequePaymentModel.isSendEmail) {
 
@@ -359,12 +473,7 @@ export class ChequeManageComponent implements OnInit {
                 err => {
                   let msg = JSON.parse(err._body).message;
                   //this.isRippleLoad = false;
-                  let obj = {
-                    type: 'error',
-                    title: msg,
-                    body: ""
-                  }
-                  this.appC.popToast(obj);
+                  this._msgService.showErrorMessage('error', msg,"");
                 }
               )
             }
@@ -372,22 +481,12 @@ export class ChequeManageComponent implements OnInit {
             else if (this.chequePaymentModel.isSendEmail) {
               this.getter.downloadResource(obj).subscribe(
                 res => {
-                  let ob = {
-                    type: 'success',
-                    title: "Receipt Shared Over Email",
-                    body: ""
-                  }
-                  this.appC.popToast(ob);
+                  this._msgService.showErrorMessage('success', "Receipt Shared Over Email","");
                 },
                 err => {
                   let msg = JSON.parse(err._body).message;
                   //this.isRippleLoad = false;
-                  let obj = {
-                    type: 'error',
-                    title: msg,
-                    body: ""
-                  }
-                  this.appC.popToast(obj);
+                  this._msgService.showErrorMessage('error', msg,"");
                 }
               )
             }
@@ -400,12 +499,7 @@ export class ChequeManageComponent implements OnInit {
                 err => {
                   let msg = JSON.parse(err._body).message;
                   //this.isRippleLoad = false;
-                  let obj = {
-                    type: 'error',
-                    title: msg,
-                    body: ""
-                  }
-                  this.appC.popToast(obj);
+                  this._msgService.showErrorMessage('error', msg,"");
                 }
               )
             }
@@ -416,12 +510,7 @@ export class ChequeManageComponent implements OnInit {
 
         },
         err => {
-          let obj = {
-            type: 'error',
-            title: "An Error Occured",
-            body: err.error.message
-          }
-          this.appC.popToast(obj);
+          this._msgService.showErrorMessage('error', "An Error Occured",err.error.message);
         }
       )
 
@@ -469,12 +558,7 @@ export class ChequeManageComponent implements OnInit {
 
   validatePaymentAmount(i) {
     if (parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)) {
-      let info = {
-        type: 'info',
-        title: "Invalid Payment Amount",
-        body: "Amount cannot be greater than the total balance amount"
-      }
-      this.appC.popToast(info);
+      this._msgService.showErrorMessage('info', "Invalid Payment Amount","Amount cannot be greater than the total balance amount");
       this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
     }
     else if (parseInt(this.studentUnpaid[i].toPay) == parseInt(this.studentUnpaid[i].total_balance_amt)) {

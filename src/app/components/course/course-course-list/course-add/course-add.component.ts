@@ -22,6 +22,7 @@ export class CourseAddComponent implements OnInit {
     course_name: '',
     start_Date: '',
     end_Date: '',
+    academic_year_id: '-1',
     allow_exam_grades: ''
   };
 
@@ -36,7 +37,7 @@ export class CourseAddComponent implements OnInit {
     end_Date: '',
     allow_exam_grades: ''
   };
-
+  academicList: any = [];
   subjectList: any[] = [];
   dummyArrayOfSubjectList: any[] = [];
   mainArrayForTable: any[] = new Array;
@@ -58,6 +59,7 @@ export class CourseAddComponent implements OnInit {
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.getAllStandardNameList();
     this.toggleCreateNewSlot();
+    this.getAcademicYearDetails();
   }
 
   btnGoClickCreateCourse() {
@@ -101,6 +103,17 @@ export class CourseAddComponent implements OnInit {
     }
   }
 
+  getAcademicYearDetails() {
+    this.academicList = [];
+    this.apiService.getAcadYear().subscribe(
+      res => {
+        this.academicList = res;
+      },
+      err => {
+      }
+    )
+  }
+
   getAllStandardNameList() {
     this.apiService.getStandardListFromServer().subscribe(
       (data: any) => {
@@ -135,7 +148,9 @@ export class CourseAddComponent implements OnInit {
   }
 
   addDataToTable() {
-    if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != "" && this.courseDetails.start_Date != null && this.courseDetails.end_Date != '' && this.courseDetails.end_Date != null) {
+    if (this.courseDetails.course_name != "" && this.courseDetails.start_Date != ""
+      && this.courseDetails.start_Date != null && this.courseDetails.end_Date != ''
+      && this.courseDetails.end_Date != null) {
       if (this.courseDetails.start_Date > this.courseDetails.end_Date) {
         let err = {
           type: "error",
@@ -153,6 +168,7 @@ export class CourseAddComponent implements OnInit {
         obj.course_name = this.courseDetails.course_name;
         obj.start_Date = moment(this.courseDetails.start_Date).format("YYYY-MM-DD");
         obj.end_Date = moment(this.courseDetails.end_Date).format("YYYY-MM-DD");
+        obj.academic_year_id = this.courseDetails.academic_year_id;
         obj.allow_exam_grades = this.courseDetails.allow_exam_grades;
         obj.subjectListArray = this.keepCloning(this.subjectList);
         this.mainArrayForTable.push(obj);
@@ -197,10 +213,13 @@ export class CourseAddComponent implements OnInit {
   }
 
   clearAllFormsData() {
-    this.courseDetails.course_name = '';
-    this.courseDetails.start_Date = '';
-    this.courseDetails.end_Date = '';
-    this.courseDetails.allow_exam_grades = '';
+    this.courseDetails = {
+      course_name: '',
+      start_Date: '',
+      end_Date: '',
+      academic_year_id: '-1',
+      allow_exam_grades: ''
+    };
     let bindData = this.addKeyInData(this.subjectListDataSource);
     this.subjectList = bindData;
   }
@@ -249,10 +268,11 @@ export class CourseAddComponent implements OnInit {
   constructJsonToSend() {
     let obj: any = {};
     obj.master_course = this.newCourseAdd.master_course_name;
-    obj.standard_id = this.newCourseAdd.standard_id;
+    obj.standard_id = this.newCourseAdd.standard_id; 
     obj.coursesList = [];
     for (let i = 0; i < this.mainArrayForTable.length; i++) {
       let test: any = {};
+      test.academic_year_id =this.mainArrayForTable[i].academic_year_id;  
       test.course_name = this.mainArrayForTable[i].course_name;
 
       if (this.mainArrayForTable[i].start_Date != "" && this.mainArrayForTable[i].start_Date != null && this.mainArrayForTable[i].start_Date != "Invalid date") {

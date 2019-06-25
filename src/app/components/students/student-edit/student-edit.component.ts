@@ -14,6 +14,7 @@ import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { StudentFeeService, FeeModel } from '../student_fee.service';
+import { CourseListService } from '../../../services/course-services/course-list.service';
 
 
 @Component({
@@ -93,7 +94,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   savedAssignedBatch: any[] = [];
   allocatedItem: any = [];
   subjectWiseInstallmentArray: any = [];
-
+  academicList : any= [];
   taxEnableCheck: any = '1';
   feeTempSelected: any = "";
   defaultAcadYear: any = '-1';
@@ -283,7 +284,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     private fetchService: FetchStudentService,
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
-    private feeService: StudentFeeService
+    private feeService: StudentFeeService,
+    private apiService: CourseListService,
   ) {
     this.isRippleLoad = true;
     this.getInstType();
@@ -312,6 +314,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (permissions.includes('710')) {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
+        this.getAcademicYearDetails();
       }
       if (permissions.includes('713')) {  //fee discount
         this.checkBoxGroup.feeDiscouting = true;
@@ -323,11 +326,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
         this.checkBoxGroup.manageCheque = true;
+        this.getAcademicYearDetails();
       }
     }
+  }
 
-
-
+  getAcademicYearDetails() {
+    this.academicList = [];
+    this.isRippleLoad= true;
+    this.apiService.getAcadYear().subscribe(
+      res => {
+        this.isRippleLoad= false;
+        this.academicList = res;
+        console.log("academicList",this.academicList);
+      },
+      err => {
+        this.isRippleLoad= false;
+      }
+    )
   }
 
   // remove the object value from session
@@ -1687,6 +1703,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.showFeeSection = true;
           this.checkBoxGroup.feeDiscouting = true;
           this.checkBoxGroup.hideReconfigure = true;
+          this.getAcademicYearDetails();
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
             if (permissions.includes('714')) {
@@ -1697,6 +1714,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             if ((permissions.includes('710'))) {
               this.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
+              this.getAcademicYearDetails();
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
@@ -1709,9 +1727,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               || sessionStorage.getItem('username') == 'admin') {
               this.checkBoxGroup.feeDiscouting = true;
               this.showFeeSection = true;
-              this.checkBoxGroup.hideReconfigure = true;
+              this.checkBoxGroup.hideReconfigure = true;              
               this.checkBoxGroup.manageCheque = true;
+              this.getAcademicYearDetails();
             }
+
+
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);
           this.cardAmountObject.discountAmount = this.cardAmountObject.discountAmount + res.studentwise_total_fees_discount;

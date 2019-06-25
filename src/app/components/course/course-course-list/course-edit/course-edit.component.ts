@@ -14,11 +14,12 @@ export class CourseEditComponent implements OnInit {
   courseName: any;
   activeTeachers: any;
   selectedCourseDetails: any = [];
-  standardNameList: any;
   mainTableDataSource: any = [];
-  nestedTableDataSource: any;
-  subjectList: any;
+  academicList:any=[];
   dummyArray: any = [];
+  standardNameList: any;  
+  nestedTableDataSource: any;
+  subjectList: any;  
   examGradeFeature: any;
   jsonVar: any = {
     callApi: true,
@@ -26,6 +27,7 @@ export class CourseEditComponent implements OnInit {
     message: '',
     tempObject:{}
   }
+
   constructor(
     private apiService: CourseListService,
     private toastCtrl: AppComponent,
@@ -48,6 +50,18 @@ export class CourseEditComponent implements OnInit {
     this.getSelectedCourse(this.courseName);
     this.getAllStandardNameList();
     this.getActiveTeacherList();
+    this.getAcademicYearDetails();
+  }
+
+  getAcademicYearDetails() {
+    this.academicList = [];
+    this.apiService.getAcadYear().subscribe(
+      res => {
+        this.academicList = res;
+      },
+      err => {
+      }
+    )
   }
 
   openSubjectTable(i) {
@@ -213,6 +227,7 @@ export class CourseEditComponent implements OnInit {
     obj.course_name = '';
     obj.is_exam_grad_feature = 0;
     obj.course_id = "0";
+    obj.academic_year_id='-1';
     obj.batchesList = this.keepCloning(this.subjectList);
     this.mainTableDataSource.push(obj);
   }
@@ -229,6 +244,7 @@ export class CourseEditComponent implements OnInit {
         return false;
       }
       test.course_name = this.mainTableDataSource[i].course_name;
+      test.academic_year_id =this.mainTableDataSource[i].academic_year_id;  
 
       if (this.mainTableDataSource[i].start_date != "" && this.mainTableDataSource[i].start_date != null && this.mainTableDataSource[i].start_date != "Invalid date") {
         test.start_date = moment(this.mainTableDataSource[i].start_date).format("YYYY-MM-DD");

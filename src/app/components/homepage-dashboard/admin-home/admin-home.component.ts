@@ -112,6 +112,8 @@ export class AdminHomeComponent implements OnInit {
     smsTabType: 'approved',
     showAllMessage: false,
     openMessageFlag: false,
+    editMessage: false,
+    messageObject: {}
   };
   timepicker: any = {
     reschedStartTime: {
@@ -1575,6 +1577,7 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = false;
     this.newMessageText = "";
     this.messageCount = 0;
+    this.jsonFlag.editMessage = false;
   }
 
   selectTabMenu(id, div) {
@@ -3024,7 +3027,6 @@ export class AdminHomeComponent implements OnInit {
       } else {
         obj.isUpdated = 'N';
       }
-      arr.push(obj);
     }
     return arr;
   }
@@ -3340,13 +3342,16 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getOpenStatusSMS() {
+    this.isRippleLoad = true;
     this.jsonFlag.openMessageFlag = true;
     this.openMessageList = [];
     this.widgetService.getMessageList({}).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.openMessageList = res;
       },
       err => {
+        this.isRippleLoad = false;
         //console.log(err);
       }
     )
@@ -3364,6 +3369,43 @@ export class AdminHomeComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  editSMS(row) {
+    this.addNotification = true;
+    this.jsonFlag.editMessage = true;
+    this.jsonFlag.messageObject = row;
+    this.newMessageText = row.message;
+    this.messageCount = 1;
+  }
+
+
+  updateMessage() {
+    let obj = { message: this.newMessageText };
+    this.isRippleLoad=true;
+    this.widgetService.changesSMSStatus(obj,this.jsonFlag.messageObject.message_id ).subscribe(
+      res => {
+        this.isRippleLoad=false;
+        let msg = {
+          type: 'success',
+          title: 'Message updated Successfully',
+        };
+        this.appC.popToast(msg);
+        this.closeNewMessageDiv();
+        this.onTabChange(this.jsonFlag.smsTabType);// as per view it get the sms data --laxmi
+      },
+      err => {
+        this.isRippleLoad=false;
+        //console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Message',
+          body: err.message
+        };
+        this.appC.popToast(msg);
+      }
+    )
+
   }
 
   approveRejectSms(data, statusCode) {
