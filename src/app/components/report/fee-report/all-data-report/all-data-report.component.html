@@ -145,7 +145,7 @@
 
                     <div class="" *ngIf="searchBy=='date'">
                         <div class="c-lg-3 ">
-                            <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;">
+                            <div class="c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
                                 <label for="from">From Date</label>
                                 <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="courseFetchForm.from_date">
                             </div>
@@ -156,7 +156,7 @@
                                 <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="courseFetchForm.to_date">
                             </div>
                         </div>
-                        <div class="c-lg-3 c-md-3 c-sm-3" style="top: -10px;">
+                        <!-- <div class="c-lg-3 c-md-3 c-sm-3" style="top: -10px;">
                                 <div id="slotwrapper" class="field-wrapper dropdown1" (click)="multiselectVisible($event.target.id)">
                                     <label for="assignCourses">Academic Year</label>
                                     <input id="slot" type="text" [ngModel]="selectedSlotsString"   name="slots" class="form-ctrl" readonly="true" />
@@ -176,7 +176,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         <div class="c-lg-2" [ngStyle]="{'padding-top':searchBy == 'date' ? '15px' : '0px' }">
                             <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
                         </div>

@@ -63,7 +63,7 @@ export class AllDataReportComponent implements OnInit {
   feeSettings1: ColumnData2[] = [
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
     { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3 ,allowSortingFlag: true },
+    { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
     { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, amountValue: true, allowSortingFlag: true },
     { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, amountValue: true, allowSortingFlag: true },
     { primaryKey: 'student_latest_fee_due_amount', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
@@ -189,6 +189,12 @@ export class AllDataReportComponent implements OnInit {
 
   searchByValue(value) {
     this.searchBy = value;
+    this.slotIdArr = [];
+    // this.selectedSlotsString ='';
+    // this.selectedSlotsID='';
+    // this.getAllAcademic.forEach(element => {
+    //   element.status =false;
+    // });
     // this.sendPayload.payment_history_student_category_option = this.varJson.searchBy == 'name' ? 0 : 2;
   }
 
@@ -196,7 +202,7 @@ export class AllDataReportComponent implements OnInit {
     this._getter.getAcademicYear().subscribe(
       (res: any) => {
         this.getAllAcademic = res;
-        this.getAllAcademic.forEach((obj)=>{
+        this.getAllAcademic.forEach((obj) => {
           obj.status = false;
         })
 
@@ -247,7 +253,7 @@ export class AllDataReportComponent implements OnInit {
     }
   }
 
-/* =================================================================================================== */
+  /* =================================================================================================== */
   /* =================================================================================================== */
   updateSlotSelected(data) {
     /* slot checked */
@@ -306,7 +312,11 @@ export class AllDataReportComponent implements OnInit {
   }
 
   fetchFeeDetails() {
-    let arr = this.slotIdArr;  
+
+    let arr = [];
+    if (this.searchBy == 'check') {
+      arr = this.slotIdArr;
+    }
     // arr.push(this.courseFetchForm.academic_year_id);
     let date1 = moment(this.courseFetchForm.from_date).format('YYYY-MM-DD');
     let date2 = moment(this.courseFetchForm.to_date).format('YYYY-MM-DD');
