@@ -223,12 +223,32 @@ export class FeeCourseReportComponent implements OnInit {
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-  batchSelected($event) {
-
+  batchSelected(batch_id) {
     this.isCustomDate = false;
     this.courseFetchForm.from_date = '';
     this.courseFetchForm.to_date = '';
-    this.applyAcademicYear($event);
+    this.isCourseSelected = false;
+    this.selectedSlotsString = "";
+    this.selectedSlots = [];
+    if (batch_id != '-1') {
+      this.isCourseSelected = true;
+      this.batchList.forEach(element => {
+        if (element.batch_id == Number(batch_id)) {
+          if (element.academic_year_id != '-1') {
+            this.getAllAcademic.forEach((object) => {// get selected academic year of course
+              if (Number(element.academic_year_id) == object.inst_acad_year_id) {
+                object.status = true;
+                this.updateSlotSelected(object);
+              }
+            })
+          }
+        }
+      });
+    } else {
+      this.getAllAcademic.forEach((object) => {// get selected academic year of course
+        object.status = false;
+      });
+    }
   }
 
 
