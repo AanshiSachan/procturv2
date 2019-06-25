@@ -24,7 +24,7 @@
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-wrapper">
             <label>Master Course
-              <span style="color:red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <select id="" class="form-ctrl halfwidth" name="row.standard_id" [(ngModel)]="addNewBatch.standard_id" (change)="onMasterCourseSelection(addNewBatch.standard_id)">
               <option value="-1"></option>
@@ -37,7 +37,7 @@
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-wrapper">
             <label>Course
-              <span style="color:red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <select id="" class="form-ctrl halfwidth" name="row.subject_id" [(ngModel)]="addNewBatch.subject_id">
               <option value="-1"></option>
@@ -51,7 +51,7 @@
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-wrapper">
             <label>Faculty Name
-              <span style="color:red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <select id="" class="form-ctrl halfwidth" name="row.teacher_id" [(ngModel)]="addNewBatch.teacher_id">
               <option value="-1"></option>
@@ -103,7 +103,7 @@
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-wrapper datePickerBox">
             <label for="endDate">Start Date
-              <span style="color:red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.start_date"
               name="endDate" bsDatepicker>
@@ -113,7 +113,7 @@
         <div class="c-lg-4 c-sm-4 c-md-4">
           <div class="field-wrapper datePickerBox">
             <label for="endDate">End Date
-              <span style="color:red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker halfwidth" [(ngModel)]="addNewBatch.end_date" name="endDate"
               bsDatepicker>

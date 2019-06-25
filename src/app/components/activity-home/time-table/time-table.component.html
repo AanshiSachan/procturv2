@@ -54,7 +54,7 @@
                 </div>
                 <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 batchcols">
                   <label>Batch
-                    <span style="color:red">*</span>
+                    <span class="text-danger">*</span>
                   </label>
                   <select class="form-ctrl" id="three" [(ngModel)]="fetchFieldDataPro.batch_id">
                     <option value="-1"></option>
@@ -70,7 +70,7 @@
           <div class="row nonProFilterForm" *ngIf="!isProfessional">
             <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
               <label>Master Course
-                <span style="color:red">*</span>
+                <span class="text-danger">*</span>
               </label>
               <select class="form-ctrl" id="one" [(ngModel)]="fetchFieldData.master_course" (ngModelChange)="getCourses($event)" name="masterCourse">
                 <option value="-1"></option>
@@ -94,7 +94,7 @@
             </div>
             <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 field-wrapper">
               <label>Faculty
-                <span style="color:red">*</span>
+                <span class="text-danger">*</span>
               </label>
               <select class="form-ctrl" id="four" [(ngModel)]=" fetchFieldData.teacher_id">
                 <option value="-1"></option>

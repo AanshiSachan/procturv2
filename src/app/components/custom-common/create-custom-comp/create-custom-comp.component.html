@@ -29,7 +29,7 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.label != ''}">
-            <label for="label">Label*</label>
+            <label for="label">Label<span class="text-danger">*</span></label>
           <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.label" name="label" id="label">
         
         </div>
@@ -37,7 +37,7 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.type != '' }">
-            <label for="type">Type*</label>
+            <label for="type">Type<span class="text-danger">*</span></label>
           <select id="type" class="form-ctrl" [(ngModel)]="createCustomComponentForm.type" name="opt.data_value">
             <option value=""></option>
             <option *ngFor="let opt of componentShell" [value]="opt.data_key">
@@ -240,7 +240,7 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.label != ''}">
-            <label for="label">Label*</label>
+            <label for="label">Label<span class="text-danger">*</span></label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.label" name="label">
          
         </div>
@@ -248,7 +248,7 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.type != '' }">
-            <label for="opt.data_value">Type*</label>
+            <label for="opt.data_value">Type<span class="text-danger">*</span></label>
           <select id="opt.data_value" class="form-ctrl" [(ngModel)]="editCustomComponentForm.type" name="opt.data_value">
             <option value=""></option>
             <option *ngFor="let opt of componentShell" [value]="opt.data_key">

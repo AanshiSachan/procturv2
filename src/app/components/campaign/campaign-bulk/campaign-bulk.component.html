@@ -30,7 +30,7 @@
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper" [ngClass]="{'has-value': campaignAddFormData.name != ''}">
             <label for="Name">Name
-              <span style="color:red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name" maxlength="50"
               #name="ngModel" required style="width: 75%">

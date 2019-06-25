@@ -5,12 +5,12 @@
   <div class="add_book_container">
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Title<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Title<span class="text-danger">*</span></span>
       <input type="text" name="" value="" placeholder="Enter Book Name" class="add_input" [(ngModel)]="title">
     </div>
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Category<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Category<span class="text-danger">*</span></span>
       <div class="select_with_add">
         <select class="add_input1" name="" (ngModelChange)="getSubCategory($event)" [(ngModel)]="categoryName">
           <option value="-1">Select Category Name</option>
@@ -41,7 +41,7 @@
     </div>
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Subject<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Subject<span class="text-danger">*</span></span>
       <select class="add_input1" name="" [(ngModel)]="subjectName">
         <option value="-1">Select Subject Name</option>
         <option [value]="subject.subject_id" *ngFor="let subject of subjectList let i = index">{{subject.subject_name}}</option>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Publication<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Publication<span class="text-danger">*</span></span>
       <select class="add_input1" name="" [(ngModel)]="publicationName">
         <option value="-1">Select Publication Name</option>
         <option [value]="publication.publication_id" *ngFor="let publication of publicationList let i = index">{{publication.publication_name}}</option>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Author<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Author<span class="text-danger">*</span></span>
       <!-- <select class="add_input1" name="" [(ngModel)]="authorName">
         <option value="-1">Select Author Name</option>
         <option [value]="author.author_id" *ngFor="let author of authorList let i = index">{{author.author_name}}</option>
@@ -71,12 +71,12 @@
     </div>
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Quantity<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Quantity<span class="text-danger">*</span></span>
       <input type="number" name="" value="" placeholder="No of Books" class="add_input2" [(ngModel)]="bookQty">
     </div>
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Amount in Rs.<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Amount in Rs.<span class="text-danger">*</span></span>
       <input type="number" name="" value="" placeholder="Price per book" class="add_input2" [(ngModel)]="bookAmt">
     </div>
 
@@ -90,7 +90,7 @@
     </div> -->
 
     <div class="add_book_item">
-      <span style="margin-bottom:3px;">Language<span style="color:red">*</span></span>
+      <span style="margin-bottom:3px;">Language<span class="text-danger">*</span></span>
       <select class="add_input1" name="" [(ngModel)]="bookLang">
         <option value="-1">Select Language</option>
         <option [value]="language.language_id" *ngFor="let language of languageList let i = index">{{language.language_name}}</option>

@@ -335,7 +335,7 @@
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
                 <div class="field-wrapper">
                   <label for="In">Item Name
-                    <span style="color:red">*</span>
+                    <span class="text-danger">*</span>
                   </label>
                   <input type="text" class="form-ctrl" formControlName="item_name" id="In" name="item">
 
@@ -361,7 +361,7 @@
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <label for="cat">Category
-                    <span style="color:red">*</span>
+                    <span class="text-danger">*</span>
                   </label>
                   <select id="cat" class="form-ctrl" formControlName="categoryDet">
                     <option value="-1"></option>
@@ -381,7 +381,7 @@
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <label for="Unit">Available Unit
-                    <span style="color:red">*</span>
+                    <span class="text-danger">*</span>
                   </label>
                   <input type="number" class="form-ctrl" formControlName="alloted_units" id="Unit" name="Unit">
 
@@ -504,7 +504,7 @@
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper has-value">
                 <label for="item">Sub Branch
-                  <span style="color:red">*</span>
+                  <span class="text-danger">*</span>
                 </label>
                 <select id="" class="form-ctrl" formControlName="sub_branch_id" (change)="onSubBranchSelection()">
                   <option value="-1"></option>
@@ -524,7 +524,7 @@
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
                 <label for="label">Sub Branch Item
-                  <span style="color:red">*</span>
+                  <span class="text-danger">*</span>
                 </label>
                 <select id="" class="form-ctrl" formControlName="sub_branch_item_id" (click)="onSelectSubBranchItem()">
                   <option *ngFor="let opt of subBranchItemList" [value]="opt.item_id">
@@ -548,7 +548,7 @@
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper">
                 <label for="item">Allocate Unit
-                  <span style="color:red">*</span>
+                  <span class="text-danger">*</span>
                 </label>
                 <input type="number" class="form-ctrl" formControlName="alloted_units" name="item">
 

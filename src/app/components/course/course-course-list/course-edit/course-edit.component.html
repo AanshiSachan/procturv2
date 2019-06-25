@@ -12,7 +12,7 @@
       <div class="c-lg-3 c-md-3 c-sm-3">
         <div class="field-wrapper has-value">
           <label for="idMasterCourse">Master Course
-            <span style="color:red">*</span>
+           <span class="text-danger">*</span>
           </label>
           <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
           " name="masterCourse" class="form-ctrl" style="background: white" />
@@ -79,7 +79,7 @@
                               <input type="text" name="masterCourse" style="background: transparent" [(ngModel)]="mainTableDataSource[i].course_name" class="form-ctrl"
                               />
                               <!-- <label for="masterCourse">Course Name
-                                <span style="color:red">*</span>
+                               <span class="text-danger">*</span>
                                 [ngClass]="{disableDatePicker : mainTableDataSource[i].course_id == '0' }"
                               </label> -->
                             </div>

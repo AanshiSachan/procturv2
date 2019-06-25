@@ -12,7 +12,7 @@
         <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2"></div>
         <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
           <div class="form-wrapper">
-            <label>Standard Name*</label>
+            <label>Standard Name<span class="text-danger">*</span></label>
             <select class="side-form-ctrl" [(ngModel)]="TopicPayload.standard_id" (ngModelChange)="getSubjectData($event)" name="StandardCourses">
               <option value="-1" selected>--Select Standard--</option>
               <option *ngFor="let i of StandardCourses" [value]="i.standard_id">{{i.standard_name}}</option>
@@ -22,7 +22,7 @@
 
         <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
           <div class="form-wrapper">
-            <label style="padding-left:0px;">Subject Name*</label>
+            <label style="padding-left:0px;">Subject Name<span class="text-danger">*</span></label>
             <select class="side-form-ctrl" style="margin-left:0px;" [(ngModel)]="TopicPayload.subject_id" name="SubjectCourses">
               <option value="-1" selected>--Select Subject--</option>
               <option *ngFor="let i of SubjectCourses" [value]="i.subject_id">{{i.subject_name}}</option>
@@ -46,7 +46,7 @@
           <div class="row">
             <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4">
               <div class="form-wrapper label-set">
-                <label style="padding-left:0px"> Topic/SubTopic Name*</label>
+                <label style="padding-left:0px"> Topic/SubTopic Name<span class="text-danger">*</span></label>
                 <select class="side-form-ctrl left-shift" [(ngModel)]="addingTopicPayload.parent_topic_id">
                   <option value="-1" selected>--Select Topic/SubTopic Name--</option>
                   <option *ngFor="let topic of topicsArr" [value]="topic.institute_topic_id">{{topic.name}}</option>
@@ -56,13 +56,13 @@
             <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3">
               <div class="field-wrapper" [ngClass]="{'has-value': TopicData!= ''}">
                 <input type="text" class="form-ctrl" [(ngModel)]="addingTopicPayload.name" name="Topic/SubTopic Name">
-                <label for="Topic/SubTopic Name"> Topic/SubTopic Name*</label>
+                <label for="Topic/SubTopic Name"> Topic/SubTopic Name<span class="text-danger">*</span></label>
               </div>
             </div>
             <div class="c-lg-4 c-md-4 c-sm-4 c-sx-4">
               <div class="field-wrapper" [ngClass]="{'has-value': TopicDesc!= ''}">
                 <input type="text" class="form-ctrl" [(ngModel)]="addingTopicPayload.description" name="Topic/SubTopic Desc">
-                <label for="Topic/SubTopic Desc">Topic/SubTopic Description*</label>
+                <label for="Topic/SubTopic Desc">Topic/SubTopic Description<span class="text-danger">*</span></label>
               </div>
             </div>
             <div class="c-lg-1 c-md-1 c-sm-1 c-sx-1">

@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="field-wrapper">
-                    <label for="dtype">Discount Type*</label>
+                    <label for="dtype">Discount Type<span class="text-danger">*</span></label>
                     <select id="dtype" name="dtype" [(ngModel)]="discountPopUpForm.type" class="form-ctrl"
                         (ngModelChange)="onDiscountTypeChange(event)">
                         <option value="amount">Amount</option>
@@ -68,13 +68,13 @@
                 </div>
 
                 <div class="field-wrapper">
-                    <label for="ref">Discount Value*</label>
+                    <label for="ref">Discount Value<span class="text-danger">*</span></label>
                     <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="ref"
                         class="form-ctrl" name="ref" [(ngModel)]="discountPopUpForm.value" (ngModelChange)="onDiscountAmountChange($event)" />
                 </div>
 
                 <div class="field-wrapper">
-                    <label for="discReason">Discount Reason*</label>
+                    <label for="discReason">Discount Reason<span class="text-danger">*</span></label>
                     <select id="discReason" name="discReason" [(ngModel)]="discountPopUpForm.reason" class="form-ctrl"
                         placeholder="Discount Reason">
                         <option value="-1">Discount Reason</option>

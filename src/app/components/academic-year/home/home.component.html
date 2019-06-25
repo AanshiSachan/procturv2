@@ -20,7 +20,7 @@
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value': addAcademicYearTemplate.inst_acad_year!=''}">
             <label for="academicYear">Academic Year
-              <span>*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" class="form-ctrl" name="academicYear" id="academicYear" [(ngModel)]="addAcademicYearTemplate.inst_acad_year">
 
@@ -30,7 +30,7 @@
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value':addAcademicYearTemplate.desc!=''}">
             <label for="academicYearDescription">Academic Year Description
-              <span>*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" class="form-ctrl" name="academicYearDescription" id="academicYearDescription" [(ngModel)]="addAcademicYearTemplate.desc">
 
@@ -39,7 +39,7 @@
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper  datePickerBox" [ngClass]="{'has-value':addAcademicYearTemplate.start_date!=''}">
             <label for="startDate">Start Date
-              <span>*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" class="form-ctrl" readonly="true" name="startDate" id="startDate" [(ngModel)]="addAcademicYearTemplate.start_date"
               bsDatepicker/>
@@ -49,7 +49,7 @@
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':addAcademicYearTemplate.end_date!=''}">
             <label for="academicYear">End Date
-              <span>*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" class="form-ctrl" readonly="true" name="academicYear" id="academicYear" [(ngModel)]="addAcademicYearTemplate.end_date"
               bsDatepicker/>

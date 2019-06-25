@@ -54,7 +54,7 @@
 
                             <!-- Closing Reason -->
                             <div class="form-wrapper" *ngIf="updateFormData.statusValue == 'Closed'">
-                                <label for="closingReason">Closing Reason*</label>
+                                <label for="closingReason">Closing Reason<span class="text-danger">*</span></label>
                                 <select id="closingReason" class="side-form-ctrl" [(ngModel)]="updateFormData.closing_reason_id" name="closingReason">
                                     <option value="0"></option>
                                     <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>

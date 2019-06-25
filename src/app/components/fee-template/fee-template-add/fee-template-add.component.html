@@ -24,7 +24,7 @@
 
           <div class="form-wrapper has-value" *ngIf="isLangInstitute">
             <label for="masterCourse">Master Course
-              <span style="color: red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
               (ngModelChange)="onMasterCourseSelection()">
@@ -37,7 +37,7 @@
 
           <div class="form-wrapper has-value" *ngIf="isLangInstitute">
             <label for="CourseDdn">Course
-              <span style="color: red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">
               <option value="-1"></option>
@@ -49,7 +49,7 @@
 
           <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
             <label for="masterCourse">Master Course
-              <span style="color: red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse"
               (ngModelChange)="onMasterCourseSelection()">
@@ -62,7 +62,7 @@
 
           <div class="form-wrapper has-value" *ngIf="!isLangInstitute">
             <label for="CourseDdn">Course
-              <span style="color: red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">
               <option value="-1"></option>
@@ -88,14 +88,14 @@
 
           <div class="form-wrapper  has-value">
             <label for="templateName">Template Name
-              <span style="color: red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="text" class="side-form-ctrl" [(ngModel)]="addNewTemplate.template_name" name="templateName">
           </div>
 
           <div class="form-wrapper has-value">
             <label for="feeAmount">Fee Amount
-              <span style="color: red">*</span>
+              <span class="text-danger">*</span>
               <div class="questionInfo inline-relative">
                 <span class="qInfoIcon i-class">i</span>
                 <div class="tooltip-box-field md">
@@ -152,7 +152,7 @@
 
           <div class="form-wrapper has-value">
             <label for="installment">Total Number of Installment
-              <span style="color: red">*</span>
+              <span class="text-danger">*</span>
             </label>
             <input type="number" min="0" class="side-form-ctrl" name="installment" [(ngModel)]="addNewTemplate.installmentCount">
           </div>

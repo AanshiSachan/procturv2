@@ -21,7 +21,7 @@
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper">
             <label for="idMasterCourse">Master Course
-              <span style="color:red">*</span>
+             <span class="text-danger">*</span>
             </label>
             <input type="text" id="idMasterCourse" #masterCourseInput name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name"
               class="form-ctrl" />
@@ -30,7 +30,7 @@
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper">
             <label for="idStandardName">Standard Name
-              <span style="color:red">*</span>
+             <span class="text-danger">*</span>
             </label>
             <select id="idStandardName" #standardNameDDn class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id">
               <option value="-1"></option>
@@ -54,7 +54,7 @@
       <div class="c-sm-3 c-md-3 c-lg-3">
         <div class="field-wrapper">
           <label for="masterCourse">Course Name
-            <span style="color:red">*</span>
+           <span class="text-danger">*</span>
           </label>
           <input type="text" name="masterCourse" id="masterCourse" [(ngModel)]="courseDetails.course_name" class="form-ctrl" />
         </div>
@@ -63,7 +63,7 @@
       <div class="c-sm-2 c-md-2 c-lg-2">
         <div class="field-wrapper datePickerBox">
           <label for="startDate">Start Date
-            <span style="color:red">*</span>
+           <span class="text-danger">*</span>
           </label>
           <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.start_Date" name="startDate"
             id="startDate" bsDatepicker>
@@ -74,7 +74,7 @@
       <div class="c-sm-2 c-md-2 c-lg-2">
         <div class="field-wrapper datePickerBox">
           <label for="endDate">End Date
-            <span style="color:red">*</span>
+           <span class="text-danger">*</span>
           </label>
           <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.end_Date" name="endDate"
             bsDatepicker id="endDate">
@@ -223,7 +223,7 @@
               <div class="row name-section">
                 <div class="field-wrapper c-sm-3 c-md-3 c-lg-3">
                   <label for="masterCourse">Course Name
-                    <span style="color:red">*</span>
+                   <span class="text-danger">*</span>
                   </label>
                   <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="row.course_name" id="masterCourse" class="form-ctrl"
                   />
@@ -231,7 +231,7 @@
 
                 <div class="field-wrapper c-sm-2 c-md-2 c-lg-2">
                   <label for="startDate">Start Date
-                    <span style="color:red">*</span>
+                   <span class="text-danger">*</span>
                   </label>
                   <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.start_Date"
                     name="startDate" bsDatepicker id="startDate">
@@ -239,7 +239,7 @@
 
                 <div class="field-wrapper c-sm-2 c-md-2 c-lg-2">
                   <label for="endDate">End Date
-                    <span style="color:red">*</span>
+                   <span class="text-danger">*</span>
                   </label>
                   <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_Date"
                     name="endDate" bsDatepicker id="endDate">

@@ -201,7 +201,7 @@
                   <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isLangInstitute">
                     <div class="field-wrapper">
                       <label for="sc">Select Course
-                        <span style="color:red">*</span>
+                       <span class="text-danger">*</span>
                       </label>
                       <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
                         <option value="-1"></option>
@@ -216,7 +216,7 @@
                     <div class="c-lg-4 c-md-4 c-sm-4">
                       <div class="field-wrapper">
                         <label for="smc" style="white-space: nowrap;">Select Master Course
-                          <span style="color:red">*</span>
+                         <span class="text-danger">*</span>
                         </label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
                           <option value="-1"></option>
@@ -230,7 +230,7 @@
                     <div class="c-lg-4 c-md-4 c-sm-4">
                       <div class="field-wrapper">
                         <label for="sc">Select Course
-                          <span style="color:red">*</span>
+                         <span class="text-danger">*</span>
                         </label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onSubjectSelection($event)">
                           <option value="-1"></option>
@@ -244,7 +244,7 @@
                     <div class="c-lg-4 c-md-4 c-sm-4">
                       <div class="field-wrapper">
                         <label for="sc">Batch
-                          <span style="color:red">*</span>
+                         <span class="text-danger">*</span>
                         </label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
                           <option value="-1"></option>
@@ -259,7 +259,7 @@
                   <div class="c-sm-3 c-md-3 c-lg-3">
                     <div class="field-wrapper datePickerBox">
                       <label for="strtDate">Start Date
-                        <span style="color:red">*</span>
+                       <span class="text-danger">*</span>
                       </label>
                       <input type="text" value="" id="strtDate" class="form-ctrl bsDatepicker" [(ngModel)]="advanceFilter.startdate"
                         readonly="true" name="strtDate" bsDatepicker>
@@ -269,7 +269,7 @@
                   <div class="c-sm-3 c-md-3 c-lg-3">
                     <div class="field-wrapper datePickerBox">
                       <label for="endDate">End Date
-                        <span style="color:red">*</span>
+                       <span class="text-danger">*</span>
                       </label>
                       <input type="text" value="" id="endDate" class="form-ctrl bsDatepicker" [(ngModel)]="advanceFilter.enddate"
                         readonly="true" name="endDate" bsDatepicker>

@@ -36,9 +36,11 @@
 
                   <!-- Name -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.name != ''}">
-                    <label for="name">Name*</label>
+                    <label for="name">Name
+                      <span class="text-danger">*</span>
+                    </label>
                     <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.name" name="name" maxlength="50"
-                    required />
+                      required />
 
                     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
                       <div *ngIf="name.errors.required">
@@ -91,7 +93,7 @@
                   <!-- city -->
                   <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != ''}">
                     <label for="cityDdn">City
-                      <span *ngIf="isCityMandatory == 1">*</span>
+                      <span class="text-danger" *ngIf="isCityMandatory == 1">*</span>
                     </label>
                     <select id="cityDdn" class="form-ctrl" [(ngModel)]="editEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
                       <option value="-1"></option>
@@ -112,7 +114,7 @@
 
                   <!-- Source -->
                   <div class="field-wrapper">
-                    <label for="source">Source*</label>
+                    <label for="source">Source<span class="text-danger">*</span></label>
                     <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source">
                       <option value="-1"></option>
                       <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
@@ -163,7 +165,7 @@
                   <div class="field-wrapper">
                     <label for="guardianName">Parent Name</label>
                     <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="editEnqData.parent_name" name="guardianName"
-                       maxlength="50" #guardianName="ngModel" />
+                      maxlength="50" #guardianName="ngModel" />
 
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <!-- <div *ngIf="guardianName.errors.pattern">
@@ -322,7 +324,7 @@
                   <custom-enquiry *ngFor="let component of customComponents">
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"
                         />
@@ -335,7 +337,7 @@
 
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="fillCustomComponent($event, component)"
                           name="a{{component.label}}" value="">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                       </div>
@@ -343,7 +345,7 @@
 
                     <div class="" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="a{{component.label}}">
                           <option value=""></option>
@@ -430,7 +432,7 @@
           </div>
 
           <div class="field-wrapper" *ngIf="editEnqData.status == '1'">
-            <label for="closingReason">Closing Reason*</label>
+            <label for="closingReason">Closing Reason<span class="text-danger">*</span></label>
             <select id="closingReason" class="form-ctrl" [(ngModel)]="editEnqData.closing_reason_id" name="closingReason">
               <option value="0"></option>
               <option *ngFor="let status of closingReasonDataSource" [value]="status.closing_reason_id">{{status.closing_desc}}</option>
@@ -498,7 +500,7 @@
           </div>
 
           <div class="field-wrapper datePickerBox" *ngIf="editEnqData.follow_type == 'Walkin'">
-            <label for="walkinDate">Walkin Date*</label>
+            <label for="walkinDate">Walkin Date<span class="text-danger">*</span></label>
             <input type="text" value="" id="walkinDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.walkin_followUpDate"
               name="walkinDate" readonly='true' bsDatepicker>
             <span class="date-clear" name="walkin_followUpDate" (click)="editEnqData.walkin_followUpDate = ''">clear</span>
@@ -507,7 +509,7 @@
           <div class="time-picker" *ngIf="editEnqData.follow_type == 'Walkin'">
 
             <div class="field-wrapper" style="padding-right: 10px;">
-              <label for="walkinHour">Hour*</label>
+              <label for="walkinHour">Hour<span class="text-danger">*</span></label>
               <select id="walkinHour" class="form-ctrl" [(ngModel)]="walkintime.hour" name="walkinHour" style="width: 75px;">
                 <option *ngFor="let time of times" [value]="time">
                   {{time}}
@@ -516,7 +518,7 @@
             </div>
 
             <div class="field-wrapper" style="padding-right: 10px;">
-              <label for="walkinMin">Minute*</label>
+              <label for="walkinMin">Minute<span class="text-danger">*</span></label>
               <select id="walkinMin" class="form-ctrl" [(ngModel)]="walkintime.minute" name="walkinMin" style="width: 70px;">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
@@ -671,7 +673,7 @@
 
     <div class="row class-edit" *ngIf="isNewRefer">
       <div class="c-lg-4 field-wrapper">
-        <label>Closing Reason Description*</label>
+        <label>Closing Reason Description<span class="text-danger">*</span></label>
         <textarea class="form-ctrl" style="height: 69px;" maxlength="50" [(ngModel)]="createNewReasonObj.closing_desc"></textarea>
       </div>
       <div class="c-lg-2" style="margin-top: 3%;">

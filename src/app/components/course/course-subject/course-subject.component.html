@@ -31,10 +31,10 @@
 
         <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
           <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
-            <span style="color:red">*</span>
+            <span class="text-danger">*</span>
           </label>
           <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
-            <span style="color:red">*</span>
+            <span class="text-danger">*</span>
           </label>
           <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
             <option value="-1"> </option>
@@ -52,7 +52,7 @@
           </label>
           <label *ngIf="(isLangInstitue == true )" for="subname">
             Course Name
-            <span style="color:red">*</span>
+            <span class="text-danger">*</span>
           </label>
           <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
 

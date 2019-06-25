@@ -284,7 +284,7 @@
            [(ngModel)]="returnDate" (ngModelChange)="selectReturnDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
         </div>
         <div class="return_info_item">
-          <span>Number of late days*</span>
+          <span>Number of late days<span class="text-danger">*</span></span>
           <div class="input_container_for_days">
             <input type="number" name="" value="" placeholder="" style="width: 30%;" [(ngModel)]="noOfLateDays" (ngModelChange)="calculateLateFine()" [disabled]="disableReturnAmt">
             <span>X</span>

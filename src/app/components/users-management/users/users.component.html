@@ -172,7 +172,7 @@
         <div class="row filler-section">
           <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="field-wrapper">
-              <label for="">Item*</label>
+              <label for="">Item<span class="text-danger">*</span></label>
               <select id="" class="form-ctrl" [(ngModel)]="allocateInventory.item_id" (ngModelChange)="onitemSelction()">
                 <option value="-1"></option>
                 <option *ngFor="let opt of inventoryList" [value]="opt.item_id">
@@ -184,7 +184,7 @@
           </div>
           <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="field-wrapper">
-              <label for="unitInv">Unit*</label>
+              <label for="unitInv">Unit<span class="text-danger">*</span></label>
               <input type="text" class="form-ctrl" [(ngModel)]="allocateInventory.alloted_units" id="unitInv" name="unitInv">
             </div>
           </div>

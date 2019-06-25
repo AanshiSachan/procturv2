@@ -259,12 +259,12 @@
       <div class="row">
         <div class="c-lg-6 field-wrapper">
           <label>Receipt No.</label>
-          <span class="field-red">*</span>
+          <span class="text-danger">*</span>
           <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="personData.invoice_no">
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reason for Update</label>
-          <span class="field-red">*</span>
+          <span class="text-danger">*</span>
           <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.fee_receipt_update_reason">
         </div>
         <div class="pull-right">
@@ -281,24 +281,24 @@
           <div class="row">
             <div class="c-lg-6 field-wrapper">
               <label>Bank Name</label>
-              <span class="field-red">*</span>
+              <span class="text-danger">*</span>
               <input type="text" [(ngModel)]="chequeDetailsJson.bank_name" name="bank" class="form-ctrl" [ngClass]="{'has-value': chequeDetailsJson.bank_name != ''}">
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque No.</label>
-              <span class="field-red">*</span>
+              <span class="text-danger">*</span>
               <input type="text" class="form-ctrl" name="cheque_no" [(ngModel)]="chequeDetailsJson.cheque_no" [ngClass]="{'has-value': chequeDetailsJson.cheque_no != ''}">
             </div>
           </div>
           <div class="row">
             <div class="c-lg-6 field-wrapper datePickerBox">
               <label>Cheque Date</label>
-              <span class="field-red">*</span>
+              <span class="text-danger">*</span>
               <input type="text" class="form-ctrl" name="cheque_date" bsDatepicker [(ngModel)]="chequeDetailsJson.cheque_date" [ngClass]="{'has-value': chequeDetailsJson.cheque_date != ''}">
             </div>
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Amount</label>
-              <span class="field-red">*</span>
+              <span class="text-danger">*</span>
               <input type="text" class="form-ctrl" [value]="varJson.total_amt_paid | currency:'₹' :0" disabled>
             </div>
           </div>
@@ -306,7 +306,7 @@
           <div class="row">
             <div class="c-lg-6 field-wrapper">
               <label>Cheque Status</label>
-              <span class="field-red">*</span>
+              <span class="text-danger">*</span>
               <select class="form-ctrl" [(ngModel)]="chequeDetailsJson.cheque_status_id">
                 <option *ngFor="let status of chequeStatus" value={{status.value}}>
                   {{status.title}}

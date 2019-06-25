@@ -55,7 +55,7 @@
     <div class="add_container">
       <div class="main_name_container">
         <div class="name_container">
-          <span style="margin-bottom:5px;font-size: 12px;">Category*</span>
+          <span style="margin-bottom:5px;font-size: 12px;">Category<span class="text-danger">*</span></span>
           <input type="text" name="" value="" placeholder="Enter Category Name" class="add_input" style="width: 100%;" [(ngModel)]="categoryName" > <!--  (keyup)="showCategorySuggestions($event)" -->
           <i class="fa fa-sort-desc" aria-hidden="true" (click)="showSuggestions()"></i>
         </div>
@@ -134,7 +134,7 @@
   <section id="for_subject" class="middle_section">
     <div class="add_container">
       <div class="name_container">
-        <span style="margin-bottom:5px;font-size: 12px;">Subject*</span>
+        <span style="margin-bottom:5px;font-size: 12px;">Subject<span class="text-danger">*</span></span>
         <input type="text" name="" value="" placeholder="Enter Subject Name" class="add_input" [(ngModel)]="subjectName">
       </div>
       <div class="add_btn">
@@ -175,7 +175,7 @@
   <section id="for_publication" class="middle_section">
     <div class="add_container">
       <div class="name_container">
-        <span style="margin-bottom:5px;font-size: 12px;">Publication*</span>
+        <span style="margin-bottom:5px;font-size: 12px;">Publication<span class="text-danger">*</span></span>
         <input type="text" name="" value="" placeholder="Enter Publication Name" class="add_input" [(ngModel)]="publicationName">
       </div>
       <div class="add_btn">
@@ -217,7 +217,7 @@
   <section id="for_author" class="middle_section">
     <div class="add_container">
       <div class="name_container">
-        <span style="margin-bottom:5px;font-size: 12px;">Author*</span>
+        <span style="margin-bottom:5px;font-size: 12px;">Author<span class="text-danger">*</span></span>
         <input type="text" name="" value="" placeholder="Enter Author Name" class="add_input" [(ngModel)]="authorName">
       </div>
       <div class="add_btn">
@@ -258,7 +258,7 @@
   <section id="for_reference" class="middle_section">
     <div class="add_container">
       <div class="name_container">
-        <span style="margin-bottom:5px;font-size: 12px;">References*</span>
+        <span style="margin-bottom:5px;font-size: 12px;">References<span class="text-danger">*</span></span>
         <input type="text" name="" value="" placeholder="Enter References Name" class="add_input" [(ngModel)]="referenceName">
       </div>
       <div class="add_btn">
@@ -300,7 +300,7 @@
   <section id="for_languages" class="middle_section">
     <div class="add_container">
       <div class="name_container">
-        <span style="margin-bottom:5px;font-size: 12px;">Language*</span>
+        <span style="margin-bottom:5px;font-size: 12px;">Language<span class="text-danger">*</span></span>
         <input type="text" name="" value="" placeholder="Enter Language Name" class="add_input" [(ngModel)]="languageName">
       </div>
       <div class="add_btn">

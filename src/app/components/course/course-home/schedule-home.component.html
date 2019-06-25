@@ -27,10 +27,10 @@
                         <div class="c-lg-8 c-md-6 c-ms-6">
                             <div class="field-wrapper">
                                 <label (click)="clickSN()" *ngIf="(isLangInstitue != true)" for="StdName">Standard Name
-                                    <span style="color: red">*</span>
+                                   <span class="text-danger">*</span>
                                 </label>
                                 <label (click)="clickSN()" *ngIf="(isLangInstitue == true)" for="StdName">Master Course Name
-                                    <span style="color: red">*</span>
+                                   <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name" name="standard_name" id="StdName" #standard_name="ngModel"
                                     required courseInput>

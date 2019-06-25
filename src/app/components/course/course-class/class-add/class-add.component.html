@@ -22,7 +22,7 @@
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
                         <label for="smc">Select Master Course
-                          <span style="color:red">*</span>
+                         <span class="text-danger">*</span>
                         </label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id"
                           (ngModelChange)="updateSubjectList($event)">
@@ -37,7 +37,7 @@
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
                         <label for="sc">Select Course
-                          <span style="color:red">*</span>
+                         <span class="text-danger">*</span>
                         </label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id"
                           (ngModelChange)="filterSubjectBatches($event)">
@@ -52,7 +52,7 @@
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.batch_id != '-1'}">
                         <label for="bn">Select Batch Name
-                          <span style="color:red">*</span>
+                         <span class="text-danger">*</span>
                         </label>
                         <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
                           <option value="-1"></option>
@@ -72,7 +72,7 @@
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
                           <label for="smc">Select Master Course
-                            <span style="color:red">*</span>
+                           <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course"
                             (ngModelChange)="updateCourseList($event)">
@@ -87,7 +87,7 @@
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
                           <label for="sc">Select Course
-                            <span style="color:red">*</span>
+                           <span class="text-danger">*</span>
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id"
                             (ngModelChange)="onCourseListSelection($event)">
@@ -102,7 +102,7 @@
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
                           <label for="csd">Class Schedule Date
-                            <!-- <span style="color:red">*</span> -->
+                            <!--<span class="text-danger">*</span> -->
                           </label>
                           <input type="text" value="" id="csd" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.requested_date"
                             readonly="true" name="csd" bsDatepicker>
@@ -159,23 +159,23 @@
                     <tr>
                       <th class="subj">
                         Subject
-                        <span style="color:red">*</span>
+                       <span class="text-danger">*</span>
                       </th>
                       <th>
                         Topic
-                        <!-- <span style="color:red">*</span> -->
+                        <!--<span class="text-danger">*</span> -->
                       </th>
                       <th>
                         Start Time
-                        <span style="color:red">*</span>
+                       <span class="text-danger">*</span>
                       </th>
                       <th>
                         End Time
-                        <span style="color:red">*</span>
+                       <span class="text-danger">*</span>
                       </th>
                       <th>
                         Select Faculty
-                        <span style="color:red">*</span>
+                       <span class="text-danger">*</span>
                       </th>
                       <th class="desc">
                         Description
@@ -604,7 +604,7 @@
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': custom.date!=''}">
                   <label for="csd">Date
-                    <span style="color:red">*</span>
+                   <span class="text-danger">*</span>
                   </label>
                   <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date"
                     readonly="true" name="csd" bsDatepicker>
@@ -759,7 +759,7 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                 <div class="c-lg-3 c-md-3 c-sm-3">
                   <div class="field-wrapper datePickerBox has-value">
                     <label for="csd">Date
-                      <span style="color:red">*</span>
+                     <span class="text-danger">*</span>
                     </label>
                     <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date"
                       readonly="true" name="csd" bsDatepicker>
@@ -1455,7 +1455,7 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-wrapper datePickerBox has-value">
               <label for="dateWee">Date
-                <span style="color:red">*</span>
+               <span class="text-danger">*</span>
               </label>
               <input type="text" value="" id="dateWee" class="form-ctrl bsDatepicker" [(ngModel)]="weeklyScheduleCan.date"
                 readonly="true" name="csd" bsDatepicker>

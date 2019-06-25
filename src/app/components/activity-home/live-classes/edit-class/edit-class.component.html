@@ -49,20 +49,20 @@
       <section id="classDetails" *ngIf="isBasicActive">
         <div class="class_details_container">
           <div class="field-wrapper">
-            <label for="topicName">Topic Name* </label>
+            <label for="topicName">Topic Name<span class="text-danger">*</span> </label>
             <input type="text" value="" id="topicName" class="form-ctrl" name="topicName" required [(ngModel)]="topicName" placeholder="Enter Topic Name"/>
           </div>
 
           <div class="field-wrapper-container">
 
             <div class="field-wrapper datePickerBox" style="width: 25%;">
-              <label for="date">Date*</label>
+              <label for="date">Date<span class="text-danger">*</span></label>
               <input type="text" class="form-ctrl" bsDatepicker readonly="true" [(ngModel)]="scheduledateFrom" (ngModelChange)="getEvent($event)" id="date">
               <!-- <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('date')"></i> -->
             </div>
 
             <div class="field-wrapper" style="width: 25%;">
-              <label for="date">From*</label>
+              <label for="date">From<span class="text-danger">*</span></label>
               <div class="from">
                 <select class="made-out" id="from1" [(ngModel)]="hoursFrom" (ngModelChange)="getEventHourFrom($event)">
                     <option value="" disabled  selected="selected" hidden>HH</option>
@@ -80,7 +80,7 @@
             </div>
 
             <div class="field-wrapper" style="width: 25%;">
-              <label for="date">To*</label>
+              <label for="date">To<span class="text-danger">*</span></label>
               <div class="from">
                 <select class="made-out" id="to1" [(ngModel)]="hoursTo" (ngModelChange)="getEventHourFrom()">
                     <option value="" disabled  selected="selected" hidden>HH</option>

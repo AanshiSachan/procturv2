@@ -1410,7 +1410,7 @@
                 <div class="row" *ngIf="studentSelected && selectedOption == 'showTextBox'">
                   <div class="form-wrapper datepicker c-sm-6 c-xs-6">
                     <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Message
-                      <span style="color:red">*</span>
+                      <span class="text-danger">*</span>
                     </label>
                     <input type="text" [(ngModel)]="messageArea" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
                       id="divMessageTextbox" />
@@ -2182,7 +2182,7 @@
           <div class="row attendance-Note">
             <div class="c-sm-6 c-md-6 c-lg-6">
               <div class="form-wrapper">
-                <label for="cancelTxtBx">Cancellation Reason*</label>
+                <label for="cancelTxtBx">Cancellation Reason<span class="text-danger">*</span></label>
                 <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
               </div>
             </div>

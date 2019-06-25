@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '-1'}">
-                          <label for="ddnMAsterCourse">Master Course*</label>
+                          <label for="ddnMAsterCourse">Master Course<span class="text-danger">*</span></label>
                           <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
                             <option value="-1">Select Master Course</option>
                             <option [value]="master.standard_id" *ngFor="let  master of masterCourseList">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '-1'}">
-                            <label for="ddnMAsterCourse">Course*</label>
+                            <label for="ddnMAsterCourse">Course<span class="text-danger">*</span></label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onBatchCourseSelection($event)">
                                 <option value="-1">Select Course</option>
                                 <option [value]="master.subject_id" *ngFor="let  master of courseList">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '-1'}">
-                            <label for="sc">Batch*</label>
+                            <label for="sc">Batch<span class="text-danger">*</span></label>
                             <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
                                 <option value="-1">Select Batch</option>
                                 <option [value]="subject.batch_id" *ngFor="let subject of batchesList">
@@ -70,7 +70,7 @@
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
                             <label for="ddnMAsterCourse">Master Course
-                                <span style="color:red">*</span>
+                               <span class="text-danger">*</span>
                             </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
                                 <option value="-1">Select Master Course</option>
@@ -85,7 +85,7 @@
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.course_id != -1}">
                             <label for="ddnMAsterCourse">Course
-                                <span style="color:red">*</span>
+                               <span class="text-danger">*</span>
                             </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.course_id" (ngModelChange)="displayCourseDate()">
                                 <option value="-1">Select Course</option>
@@ -101,7 +101,7 @@
 
                         <div class="field-wrapper datePickerBox has-value">
                             <label for="reqDate">Exam Schedule Date
-                                <span style="color:red">*</span>
+                               <span class="text-danger">*</span>
                             </label>
                             <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
                                 name="reqDate" bsDatepicker>
@@ -145,7 +145,7 @@
                     <div class="c-lg-2 c-md-2 c-sm-2">
                         <div class="form-wrapper datePickerBox">
                             <label for="csd">Date
-                                <span style="color:red">*</span>
+                               <span class="text-danger">*</span>
                             </label>
                             <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="batchAdderData.exam_date"
                                 readonly="true" name="csd" bsDatepicker>
@@ -446,7 +446,7 @@
                       <div class="c-sm-2 c-lg-2 c-md-2">
                         <div class="form-wrapper">
                             <label for="subject">Subject
-                              <span style="color:red">*</span>
+                             <span class="text-danger">*</span>
                             </label>
                             <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="subject_id" (ngModelChange)="subjectChanged()">
                                 <option value="-1" selected="selected">Select Subject</option>
@@ -460,7 +460,7 @@
                         <div class="c-sm-1 c-lg-1 c-md-1">
                             <div class="form-wrapper" style="width: 75px">
                                 <label for="marks">Marks
-                                  <span style="color:red">*</span>
+                                 <span class="text-danger">*</span>
                                 </label>
                                 <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="exam_marks" id="marks">
                             </div>
@@ -636,7 +636,7 @@
                         <div class="c-sm-2 c-lg-2 c-md-2">
                           <div class="form-wrapper">
                               <label for="subject">Subject
-                                <span style="color:red">*</span>
+                               <span class="text-danger">*</span>
                               </label>
                               <select id="subject" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="data.coursetableAdder.batch_id" name="startTime" (ngModelChange)="subjectChanged()">
                                   <option value="-1">Select Subject</option>
@@ -650,7 +650,7 @@
                           <div class="c-sm-1 c-lg-1 c-md-1" *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
                               <div class="form-wrapper" style="width: 75px">
                                   <label for="marks">Marks
-                                    <span style="color:red">*</span>
+                                   <span class="text-danger">*</span>
                                   </label>
                                   <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="data.coursetableAdder.total_marks" id="marks">
                               </div>
@@ -1003,7 +1003,7 @@
                         <div class="c-sm-12 c-md-12 c-lg-12" style="padding: 0px 0px;">
                             <div class="form-wrapper">
                                 <label for="cancelTxtBx">Cancellation Reason
-                                  <span style="color:red">*</span>
+                                 <span class="text-danger">*</span>
                                 </label>
                                 <textarea class="side-form-ctrl" style="height: 90px;" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
                             </div>

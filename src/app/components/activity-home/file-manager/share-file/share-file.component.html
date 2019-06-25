@@ -382,7 +382,7 @@
             </select>
           </div>
           <div class="c-lg-4 field-wrapper">
-            <label class="forms">Course Types *</label>
+            <label class="forms">Course Types<span class="text-danger">*</span></label>
             <select id="courses" class="form-ctrl" multiple [(ngModel)]="courseType" style="height: auto;" (ngModelChange)="courseTypeSelection($event)">
               <option *ngFor="let i of courseMappingArray" [value]="i.course_type_id" [selected]="prefillSelected(i.course_type_id)">{{i.course_type}}</option>
             </select>
