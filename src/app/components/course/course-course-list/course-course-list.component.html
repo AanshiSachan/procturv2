@@ -73,9 +73,9 @@
                     <tbody class="table-accor-view accorInnerTable">
                       <tr *ngFor="let sc of row.coursesList; let y= index;">
                         <td style="width:25%"></td>
-                        <td style="width:20%">{{sc.course_name}}</td>
+                        <td style="width:20%">{{sc.course_name}}{{sc.academic_year_id}}</td>
                         <td style="width:20%">
-                          <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':sc.academic_year_id? 'lightgrey':''}" [(ngModel)]="sc.academic_year_id" >
+                          <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':sc.academic_year_id? 'lightgrey':'','cursor':sc.academic_year_id ? 'not-allowed':''}" [(ngModel)]="sc.academic_year_id" >
                             <option value="-1">Select</option>
                             <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                               {{opt.inst_acad_year}}
@@ -224,7 +224,7 @@
                   Standard Class
                 </th>
                 <th>
-                  Academic Year
+                  Academic Year 
                 </th>
                 <th>
                   Fee Template
@@ -252,7 +252,7 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':academic_year_id? 'lightgrey':''}" [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
+                      <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':courseDetails.academic_year_id? 'lightgrey':'','cursor':courseDetails.academic_year_id ? 'not-allowed':''}" [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                           {{opt.inst_acad_year}}

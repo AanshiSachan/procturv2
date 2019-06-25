@@ -37,7 +37,9 @@
 
                   <!-- Name -->
                   <div class="field-wrapper">
-                    <label for="name">Name*</label>
+                    <label for="name">Name
+                      <span class="text-danger">*</span>
+                    </label>
                     <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.name"
                       name="name" maxlength="50"  required />
 
@@ -53,7 +55,7 @@
 
                   <!-- phone -->
                   <div class="field-wrapper">
-                    <label for="phone">Phone No*</label>
+                    <label for="phone">Phone No<span class="text-danger">*</span></label>
                     <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" name="phone"
                       maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
                   </div>
@@ -100,7 +102,7 @@
                   <!-- city -->
                   <div class="field-wrapper">
                     <label for="cityDdn">City
-                      <span *ngIf="isCityMandatory == 1">*</span>
+                      <span *ngIf="isCityMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
                     <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)"
                       name="city">
@@ -123,7 +125,7 @@
 
                   <!-- Source -->
                   <div class="field-wrapper">
-                    <label for="source">Source*</label>
+                    <label for="source">Source<span class="text-danger">*</span></label>
                     <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source">
                       <option value="-1"></option>
                       <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
@@ -338,7 +340,7 @@
 
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl"
                           name="{{component.label +i}}" />
@@ -352,14 +354,14 @@
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
                           (ngModelChange)="updateCustomComponent($event, component)" name="{{component.label +i}}"
                           value="">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       </div>
                     </div>
 
                     <div class="" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <select id="{{component.id}}" class="form-ctrl" name="{{component.label +i}}" [(ngModel)]="component.value">
                           <option value=""></option>
@@ -372,7 +374,7 @@
                     <div class="" *ngIf="component.type == 4" input-def>
                       <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)"
                         [ngClass]="{'has-value': component.selectedString != ''}">
-                        <label *ngIf="component.is_required == 'Y'" for="component.id">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'Y'" for="component.id">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="component.id">{{component.label}} </label>
                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label +i}}"
                           class="form-ctrl" readonly="true" />
@@ -545,7 +547,7 @@
           </div>
 
           <div class="field-wrapper datePickerBox" *ngIf="newEnqData.follow_type == 'Walkin'">
-            <label for="WalkinDate">Walkin Date*</label>
+            <label for="WalkinDate">Walkin Date<span class="text-danger">*</span></label>
             <input type="text" value="" id="WalkinDate" class="form-ctrl bsDatepicker" name="WalkinDate" [(ngModel)]="newEnqData.walkin_followUpDate"
               readonly="true" bsDatepicker>
             <span class="date-clear" name="walkin_followUpDate" (click)="newEnqData.walkin_followUpDate = ''">clear</span>
@@ -553,7 +555,7 @@
 
           <div class="time-picker" *ngIf="newEnqData.follow_type == 'Walkin'">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;">
-              <label for="hour">Hour*</label>
+              <label for="hour">Hour<span class="text-danger">*</span></label>
               <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="walkinTime.hour" name="hour"
                 style="width: 75px;">
                 <option *ngFor="let time of times" [value]="time">
@@ -563,7 +565,7 @@
             </div>
 
             <div class="field-wrapper" id="minutepar" style="padding-right: 10px;">
-              <label for="minute">Minute*</label>
+              <label for="minute">Minute<span class="text-danger">*</span></label>
               <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="walkinTime.minute" name="minute"
                 style="width: 70px;">
                 <option *ngFor="let minute of minArr" [value]="minute">
@@ -1017,7 +1019,7 @@
     <section class="row clearFix input-section" *ngIf="addCityAreaPopUp.addNew">
       <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
         <div class="field-wrapper">
-          <label for="CityName">City*</label>
+          <label for="CityName">City<span class="text-danger">*</span></label>
           <input type="text" value="" id="CityName" class="form-ctrl" [(ngModel)]="addCityAreaPopUp.newCity.city" name="CityName" />
         </div>
       </div>

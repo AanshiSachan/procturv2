@@ -77,38 +77,49 @@
                                         </div>
                                         <div class="c-lg-4">
                                             <div class="field-wrapper">
-                                                <label for="cc">Course</label>
-                                                <select *ngIf="isProfessional" [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl"
+                                                <label for="cc">Course </label>
+                                                <select *ngIf="isProfessional"  [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList($event)" class="form-ctrl"
                                                     name="cc" id="cc">
                                                     <option value="-1"></option>
                                                     <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
                                                 </select>
-                                                <select *ngIf="!isProfessional" [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" name="cc" id="cc">
+                                                <select *ngIf="!isProfessional" (ngModelChange)="applyAcademicYear($event)"  [(ngModel)]="courseFetchForm.subject_id" class="form-ctrl" 
+                                                name="cc" id="cc" >
                                                     <option value="-1"></option>
-                                                    <option *ngFor="let course of subjectList" [value]="course.course_id">{{course.course_name}}</option>
+                                                    <option *ngFor="let course of subjectList"  [value]="course.course_id">{{course.course_name}}</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="c-lg-4" *ngIf="isProfessional">
                                             <div class="field-wrapper">
                                                 <label for="ba">Batch</label>
-                                                <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected()" name="" id="ba">
+                                                <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected($event)" name="" id="ba">
                                                     <option value="-1"></option>
                                                     <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="sky-form field-wrapper" [ngClass]="{'c-lg-3': !isProfessional,'c-lg-4': isProfessional}">
-                                            <label>Academic Year</label>
-                                            <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
-                                                class="form-ctrl sky-inner">
-                                                <option value="-1">
-                                                </option>
-                                                <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
-                                                    {{i.inst_acad_year}}
-                                                </option>
-                                            </select>
+                                        <div  [ngClass]="{'c-lg-3': !isProfessional,'c-lg-4': isProfessional}" >
+                                            <div id="slotwrapper" class="field-wrapper dropdown" >
+                                                <label for="assignCourses">Academic Year</label>
+                                                <input id="slot" type="text" [disabled]="isCourseSelected" (click)="multiselectVisible($event.target.id)" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                                            </div>
+                                            <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')" >
+                                                <div class="multiselect-wrapper-inner">
+                                                    <ul class="">
+                                                        <li *ngFor="let i of getAllAcademic">
+                                                            <div class="field-checkbox-wrapper">
+                                                                <input type="checkbox" id="{{i.inst_acad_year_id}}"  [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                                 [(ngModel)]="i.status" 
+                                                                 (ngModelChange)="updateSlotSelected(i)"
+                                                                    class="form-checkbox">
+                                                                <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="c-lg-1 filter-btn" style="margin-top: 25px;">
                                             <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
@@ -176,34 +187,41 @@
 
 
             <section>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="c-lg-1"></div>
-                    <div class="c-lg-8">
+                <div class="row" style="margin-top: 10px;">                    
+                    <div class="c-lg-9">
                         <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left; width:64vw;">
-                            <div class="c-lg-3">
-                                <li style=" margin-left: 11px; display: inline-block;">
-                                    <span class="made-out"> Total fees Collection</span>
-                                    <div class="made-in">₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
-                                </li>
-                            </div>
-                            <div class="c-lg-3">
-                                <li style="display: inline-block; margin-left: 10%;">
-                                    <span class="made-out">Total dues</span>
-                                    <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
-                                </li>
-                            </div>
-                            <div class="c-lg-3">
-                                <li style=" margin-left: 11px; display: inline-block;">
-                                    <span class="made-out"> Total Future Dues</span>
-                                    <div class="made-in"> ₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
-                                </li>
-                            </div>
-                            <div class="c-lg-3">
+                            <div class="c-lg-2"></div>
+                            <div class="c-lg-2">
                                 <li style="display: inline-block; margin-left: 10%;">
                                     <span class="made-out">Total Fees</span>
                                     <div class="made-in">₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</div>
                                 </li>
                             </div>
+                            <div class="c-lg-2">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Collected</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-2">
+                                <li style="display: inline-block; margin-left: 10%;">
+                                    <span class="made-out">Past dues</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-2">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Future Dues</span>
+                                    <div class="made-in"> ₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-2">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Total Dues</span>
+                                    <div class="made-in"> ₹{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                        
                         </ul>
                     </div>
                     <div class="c-lg-3">

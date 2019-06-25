@@ -3,19 +3,15 @@
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
         <section class="middle-main clearFix">
-            <div class="middle-top mb0 clearFix header" style="width: 99%;
-            margin-left: 10px;
-            padding-bottom: 20px;">
+            <div class="middle-top mb0 clearFix header headerLink" >
                 <div class="row">
-                    <h2 style="padding: 16px 0px 3px 32px;" class="pull-left">
+                    <h2 style="padding: 16px 0px 3px 32px; font-size: 14px" class="pull-left">
                         <a routerLink="/view/reports">
                             Report
-
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
                         <a routerLink="/view/reports/fee">
                             Fee Report
-
                         </a>
                         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> All dues Report
                     </h2>
@@ -24,13 +20,13 @@
                         <rob-tooltip [textMessage]="'?'" [message]="helpMsg" [placement]="'left'" [customClass]="'left'">
                         </rob-tooltip>
                     </aside>
-                    <div class="pull-right" style="margin-top: 10px;margin-left: 0px;margin-right: 25px;cursor: pointer;">
-                        <a (click)="searchByValue('date')" class="showFilter" *ngIf="searchBy=='check'">Show Date Filter</a>
-                        <a (click)="searchByValue('check')" class="showFilter" *ngIf="searchBy=='date'">Hide Date Filter</a>
+                    <div class="pull-right" style="margin-top: 10px;margin-left: 0px;margin-right: 25px;cursor: pointer; font-size: 13px;">
+                        <a (click)="searchByValue('date')" class="showFilter " *ngIf="searchBy=='check'">Show Date Filter</a>
+                        <a (click)="searchByValue('check')" class="showFilter " *ngIf="searchBy=='date'">Hide Date Filter</a>
                     </div>
                 </div>
 
-                <div class="row fee-filter" [ngClass]="{'long': showPopupKeys.isFilterReversed}" style="margin-left: 0px;     margin-top: 2em;">
+                <div class="row fee-filter" [ngClass]="{'long': showPopupKeys.isFilterReversed}" style="margin-left: 0px; margin-top: 2em;">
                     <!-- <div id="secondary">
                         <div class="c-lg-3">
                             <div class="field-wrapper">
@@ -101,36 +97,44 @@
 
                     </div> -->
                     <div id="secondary" *ngIf="searchBy=='check'">
-                        <div class="c-lg-3 ">
-                            <div class="c-lg-12 field-wrapper" style=" position: absolute;bottom: -24px; ">
-                                <label> Academic Year</label>
-                                <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
-                                    class="form-ctrl sky-inner">
-                                    <option value="-1"></option>
-                                    <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
-                                        {{i.inst_acad_year}}
-                                    </option>
-                                </select>
+                        <div class="c-lg-3 c-md-3 c-sm-3 " style="top: -32px;">
+                                <div id="slotwrapper" class="field-wrapper dropdown1" (click)="multiselectVisible($event.target.id)">
+                                    <label for="assignCourses">Academic Year</label>
+                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
+                                </div>
+                                <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let i of getAllAcademic">
+                                                <div class="field-checkbox-wrapper">
+                                                    <input type="checkbox" [id]="i.inst_acad_year_id" [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                     [(ngModel)]="i.status" 
+                                                     (ngModelChange)="updateSlotSelected(i)"
+                                                        class="form-checkbox">
+                                                    <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
                         <div class="c-lg-3 ">
                             <div class="c-lg-12 field-checkbox-wrapper">
                                 <input class="form-checkbox" type="checkbox" name="assign_course" id='assign_course' [(ngModel)]="courseFetchForm.is_AssignedCourseBatchFees"
                                     checked>
-                                <label for="assign_course">&nbsp; Active Assigned Course Fee</label>
+                                <label class="text-label" for="assign_course">&nbsp; Active Assigned Course Fee</label>
                             </div>
                         </div>
                         <div class="c-lg-3">
                             <div class="c-lg-12 field-checkbox-wrapper">
                                 <input class="form-checkbox" type="checkbox" name="unassign_course" id='unassign_course' [(ngModel)]="courseFetchForm.is_unAssignedCourseBatchFees">
-                                <label for="unassign_course">&nbsp; Active Unassigned Course Fee</label>
+                                <label  class="text-label" for="unassign_course">&nbsp; Active Unassigned Course Fee</label>
                             </div>
                         </div>
                         <div class="c-lg-3 ">
                             <div class="c-lg-9 field-checkbox-wrapper">
                                 <input class="form-checkbox" type="checkbox" name="archived_course" id='archived_course' [(ngModel)]="courseFetchForm.is_archivedCourseBatchFees">
-                                <label for="archived_course">&nbsp; Active Archived Course Fee</label>
+                                <label   class="text-label" for="archived_course">&nbsp; Active Archived Course Fee</label>
                             </div>
                             <div class="c-lg-3">
                                 <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
@@ -152,38 +156,69 @@
                                 <input type="text" class="form-ctrl" id="to" bsDatepicker [(ngModel)]="courseFetchForm.to_date">
                             </div>
                         </div>
-                        <div class="c-lg-3 ">
-                            <div class="c-lg-12 field-wrapper" style="padding-top:0px ">
-                                <label for="academic_year_array"> Academic Year</label>
-                                <select name="academic_year_array" id="academic_year_array" style="height:auto" [(ngModel)]="courseFetchForm.academic_year_id"
-                                    class="form-ctrl sky-inner">
-                                    <option value="-1"></option>
-                                    <option *ngFor="let i of getAllAcademic" [value]="i.inst_acad_year_id">
-                                        {{i.inst_acad_year}}
-                                    </option>
-                                </select>
+                        <div class="c-lg-3 c-md-3 c-sm-3" style="top: -10px;">
+                                <div id="slotwrapper" class="field-wrapper dropdown1" (click)="multiselectVisible($event.target.id)">
+                                    <label for="assignCourses">Academic Year</label>
+                                    <input id="slot" type="text" [ngModel]="selectedSlotsString"   name="slots" class="form-ctrl" readonly="true" />
+                                </div>
+                                <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let i of getAllAcademic">
+                                                <div class="field-checkbox-wrapper">
+                                                    <input type="checkbox" id="{{i.inst_acad_year_id}}"  [value]="i.inst_acad_year_id" name="{{i.inst_acad_year_id}}"
+                                                     [(ngModel)]="i.status" 
+                                                     (ngModelChange)="updateSlotSelected(i)"
+                                                        class="form-checkbox">
+                                                    <label for="{{i.inst_acad_year_id}}"> {{i.inst_acad_year}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                         <div class="c-lg-2" [ngStyle]="{'padding-top':searchBy == 'date' ? '15px' : '0px' }">
                             <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <section style="margin-top: 10px;">
                 <div class="row">
-                    <div class="c-lg-2"></div>
-                    <div class="c-lg-7">
-                        <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block; width:50%; text-align: right;">
-                            <li style="display: inline-block; margin-left: 11px;">
-                                <span class="made-out"> Total fees Collection</span>
-                                <div class="made-in"> ₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
-                            </li>
-                            <li style="display: inline-block; margin-left: 5vw; ">
-                                <span class="made-out">Total dues</span>
-                                <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
-                            </li>
+                    <div class="c-lg-9">
+                        <ul *ngIf="feeDataSource1[0] != null || feeDataSource1[0] != undefined" style="display: inline-block;  text-align: left; width:64vw;">
+                            <div class="c-lg-2"></div>
+                            <div class="c-lg-2">
+                                <li style="display: inline-block; margin-left: 10%;">
+                                    <span class="made-out">Total Fees</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_fees.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-2">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Collected</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_fees_collected.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-2">
+                                <li style="display: inline-block; margin-left: 10%;">
+                                    <span class="made-out">Past dues</span>
+                                    <div class="made-in">₹{{feeDataSource1[0].total_dues_pending.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-2">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Future Dues</span>
+                                    <div class="made-in"> ₹{{feeDataSource1[0].total_future_dues.toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                            <div class="c-lg-2">
+                                <li style=" margin-left: 11px; display: inline-block;">
+                                    <span class="made-out"> Total Dues</span>
+                                    <div class="made-in"> ₹{{ (feeDataSource1[0].total_dues_pending+feeDataSource1[0].total_future_dues).toLocaleString('en-IN')}}</div>
+                                </li>
+                            </div>
+                        
                         </ul>
                     </div>
 
@@ -231,14 +266,6 @@
                             </section>
                         </div>
                     </div>
-
-                    <!-- <div class="c-lg-1" style="margin-top: 1%;">
-
-                        <a (click)="openPreferences()" title="We can customize table preferences and on the basis of selected preferences, the table data will be displayed. We can also even customize selected preferences later on">
-                                select preference &nbsp;
-                                <i class="fa fa-question-circle" aria-hidden="true" style="color:#0060A3"></i>
-                            </a>
-                    </div> -->
                 </div>
 
             </section>

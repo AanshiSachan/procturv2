@@ -220,45 +220,45 @@
                             text-transform: uppercase;
                             color: #777;
                             &.id {
-                                width: 5% !important;
+                                width: 5% ;
                                 &.bigger {
                                     // width: 20% !important;
                                 }
                             }
                             &.date {
-                                width: 15% !important;
+                                width: 15%;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20% ;
                                 }
                             }
                             &.course {
-                                width: 15% !important;
+                                width: 15% ;
                                 &.bigger {
-                                    width: 15% !important;
+                                    width: 15% ;
                                 }
                             }
                             &.amount {
-                                width: 12% !important;
+                                width: 12% ;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20% ;
                                 }
                             }
                             &.tax {
-                                width: 9% !important;
+                                width: 9% ;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20% ;
                                 }
                             }
                             &.feeTax {
-                                width: 11% !important;
+                                width: 11% ;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20% ;
                                 }
                             }
                             &.action {
-                                width: 15% !important;
+                                width: 15% ;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20% ;
                                 }
                             }
                         }
@@ -274,7 +274,7 @@
                             margin-left: 10px;
                             text-align: center;
                             &.id {
-                                width: 5% !important;
+                                width: 5% ;
                                 &.bigger {
                                     // width: 20% !important;
                                     a {
@@ -310,27 +310,27 @@
                                 }
                             }
                             &.tax {
-                                width: 9% !important;
+                                width: 9% ;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20% ;
                                     a {
                                         margin-left: 40px;
                                     }
                                 }
                             }
                             &.feeTax {
-                                width: 12% !important;
+                                width: 12% ;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20%;
                                     a {
                                         margin-left: 40px;
                                     }
                                 }
                             }
                             &.action {
-                                width: 15% !important;
+                                width: 15% ;
                                 &.bigger {
-                                    width: 20% !important;
+                                    width: 20% ;
                                     a {
                                         margin-left: 40px;
                                     }

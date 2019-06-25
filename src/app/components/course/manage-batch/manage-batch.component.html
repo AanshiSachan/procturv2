@@ -287,7 +287,7 @@
                   </div>
                 </td>
                 <td class="view-comp">
-                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':''}" [(ngModel)]="row.academic_year_id"
+                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="row.academic_year_id"
                     style="background: transparent">
                     <option value="-1">Select</option>
                     <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
@@ -493,7 +493,7 @@
                 </td>
                 <td>
                   <div class="field-wrapper">
-                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':''}" [(ngModel)]="batchDetails.academic_year_id"
+                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="batchDetails.academic_year_id"
                       style="background: transparent">
                       <option value="-1">Select</option>
                       <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">

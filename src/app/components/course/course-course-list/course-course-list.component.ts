@@ -39,7 +39,6 @@ export class CourseCourseListComponent implements OnInit {
   alertBox: boolean = true;
   delete_unpaid_fee: boolean = false;
   unselected_checkbox_id: number;
-  academic_year_id:any='-1'
 
   constructor(
     private apiService: CourseListService,
@@ -50,6 +49,7 @@ export class CourseCourseListComponent implements OnInit {
     this.checkTabSelection();
     this.getCourseListForTable();
     this.getStandardList();
+    this.getAcademicYearDetails();
   }
 
   getCourseListForTable() {
@@ -137,9 +137,7 @@ export class CourseCourseListComponent implements OnInit {
   addStudentToBatch(rowDetails) {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
-    this.academic_year_id =rowDetails.coursesList[0].academic_year_id;
-    // this.getAllStudentList();
-    this.getAcademicYearDetails();
+    // this.getAllStudentList();    
     this.getAllFeeTemplate();
   }
 
