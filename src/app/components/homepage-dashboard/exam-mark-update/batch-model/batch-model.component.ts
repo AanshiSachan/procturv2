@@ -48,8 +48,10 @@ export class BatchModelComponent implements OnInit {
   }
 
   fetchData(){
-    let data = this.route.snapshot.queryParamMap.get('exam_info');
+    let encryptedData = sessionStorage.getItem('exam_info');
+    let data = atob(encryptedData)
     this.exam_info = JSON.parse(data);
+
     this.fetchStudentDetails(this.exam_info.data);
     if (this.examGradeFeature == 1) {
       this.getAllExamGrades();
@@ -126,6 +128,7 @@ export class BatchModelComponent implements OnInit {
     this.widgetService.updateAttendanceDetails(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', "Marks Updated", 'Marks Updated Successfully');
+        sessionStorage.setItem('exam_info', '');
         this.closeAttendance();
       },
       err => {
@@ -188,6 +191,7 @@ export class BatchModelComponent implements OnInit {
   }
 
   backToHome(){
+    sessionStorage.setItem('exam_info', '');
     this.router.navigate(['/view/home/admin']);
   }
 

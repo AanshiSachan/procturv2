@@ -62,8 +62,8 @@
         <!-- Body Container -->
         <div class="value_container"  *ngFor="let s of studentAttList; let i=index;">
           <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [(ngModel)]="s.assigned">
-            <label></label>
+            <input type="checkbox" value="" class="form-checkbox"  [(ngModel)]="s.assigned">
+            <label ></label>
           </div>
           <div class="value_item">
             <span>{{s.student_disp_id}}</span>

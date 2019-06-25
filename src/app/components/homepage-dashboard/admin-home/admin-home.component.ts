@@ -407,9 +407,10 @@ export class AdminHomeComponent implements OnInit {
         is_attendance_marked: selected.is_attendance_marked
       }
     let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
 
-    
+
   }
 
 
@@ -1052,11 +1053,12 @@ export class AdminHomeComponent implements OnInit {
         isExam: false,
         is_attendance_marked: selected.is_attendance_marked
       }
-    let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    let batch_info = JSON.stringify(obj);
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
 
 
-    
+
   }
 
   getTotalCountForCourse(data) {
@@ -2467,8 +2469,9 @@ export class AdminHomeComponent implements OnInit {
       isExam: true,
       is_attendance_marked: selected.is_attendance_marked
     }
-    let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    let batch_info = JSON.stringify(obj);
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
   }
 
   closeExamAttendance() {
@@ -2725,7 +2728,8 @@ export class AdminHomeComponent implements OnInit {
         data: data
       }
     let exam_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/exam-marks-batch'], { queryParams: { exam_info: exam_info } });
+    sessionStorage.setItem('exam_info', btoa(exam_info));
+    this.router.navigate(['/view/home/exam-marks-batch']);
   }
 
   closeExamMarks() {
@@ -2915,8 +2919,9 @@ export class AdminHomeComponent implements OnInit {
         schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
         is_attendance_marked: exam.is_attendance_marked
       }
-    let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    let batch_info = JSON.stringify(obj);
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
 
   }
 
@@ -3062,9 +3067,10 @@ export class AdminHomeComponent implements OnInit {
     let obj = {
         data: data
       }
-    let exam_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/exam-marks'], { queryParams: { exam_info: exam_info } });
-    
+    let exam_info = JSON.stringify(obj);
+    sessionStorage.setItem('exam_info', btoa(exam_info));
+    this.router.navigate(['/view/home/exam-marks']);
+
   }
 
   subjectList: any = [];
@@ -3494,7 +3500,7 @@ export class AdminHomeComponent implements OnInit {
   countRemarksLimit(){
     this.remarksLimit = 50 - this.reminderRemarks.length;
   }
-  
+
   closeShowList(){
     this.showList();
   }

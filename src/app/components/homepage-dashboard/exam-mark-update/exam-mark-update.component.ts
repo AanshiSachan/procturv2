@@ -48,20 +48,12 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   fetchWidgetPrefill() {
-    let data = this.route.snapshot.queryParamMap.get('exam_info');
+    let encryptedData = sessionStorage.getItem('exam_info');
+    let data = atob(encryptedData)
     this.exam_info = JSON.parse(data);
     let data1 = this.exam_info.data;
     this.examMarksUpdateCourse(data1);
   }
-
-  // fetchData(){
-  //   let data = this.route.snapshot.queryParamMap.get('exam_info');
-  //   this.exam_info = JSON.parse(data);
-  //   this.fetchStudentDetails(this.exam_info.data);
-  //   if (this.examGradeFeature == 1) {
-  //     this.getAllExamGrades();
-  //   }
-  // }
 
   fetchStudentDetails(data) {
     this.widgetService.fetchStudentExamDetails(data.batch_id, data.schd_id).subscribe(
@@ -169,6 +161,7 @@ export class ExamMarkUpdateComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.messageNotifier('success', 'Successfully Saved', 'Marks Saved Successfully');
+        sessionStorage.setItem('exam_info', '');
         this.backToHome();
       },
       err => {
@@ -214,9 +207,9 @@ export class ExamMarkUpdateComponent implements OnInit {
       }
       arr.push(obj);
     }
-    if (notassignCount == this.studentAttList.length) {
-      arr = [];
-    }
+    // if (notassignCount == this.studentAttList.length) {
+    //   arr = [];
+    // }
     return arr;
   }
 
@@ -227,7 +220,6 @@ export class ExamMarkUpdateComponent implements OnInit {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
-      obj.isStudentExamSMS = 'Y';
       obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentAttList[i].attendance, this.studentAttList[i].batchExamMarksLi);
       if (obj.batchExamMarksLi == false) {
         return false;
@@ -237,8 +229,10 @@ export class ExamMarkUpdateComponent implements OnInit {
       obj.cours_exam_total_marks = this.studentAttList[i].cours_exam_total_marks;
       if (this.studentAttList[i].assigned) {
         obj.isUpdated = 'Y';
+        obj.isStudentExamSMS = 'Y';
       } else {
         obj.isUpdated = 'N';
+        obj.isStudentExamSMS = 'N';
         notassignCount++;
       }
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
@@ -258,9 +252,9 @@ export class ExamMarkUpdateComponent implements OnInit {
       // }
       arr.push(obj);
     }
-    if (notassignCount == this.studentAttList.length) {
-      arr = [];
-    }
+    // if (notassignCount == this.studentAttList.length) {
+    //   arr = [];
+    // }
     return arr;
   }
 
@@ -275,10 +269,10 @@ export class ExamMarkUpdateComponent implements OnInit {
         obj.previous_marks_obtained = data[i].previous_marks_obtained;
       } else {
         obj.grade_id = data[i].grade_id;
-        if (obj.grade_id == "-1" && this.examMarksLevel == "1" && attendance == 'P') {
-          this.messageNotifier('error', 'Error', 'Please provide grades of subject');
-          return false;
-        }
+        // if (obj.grade_id == "-1" && this.examMarksLevel == "1" && attendance == 'P') {
+        //   this.messageNotifier('error', 'Error', 'Please provide grades of subject');
+        //   return false;
+        // }
       }
       arr.push(obj);
     }
