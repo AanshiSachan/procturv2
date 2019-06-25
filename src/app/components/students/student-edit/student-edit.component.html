@@ -1308,7 +1308,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== assign fees =============================== -->
-  <student-fee-table *ngIf="isDefineFees" [courseDropdown]="courseDropdown" (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById"
+  <student-fee-table *ngIf="isDefineFees" [academicListData]="academicList" [courseDropdown]="courseDropdown" (closePopup)="closeAllFeePops($event)" [feeTemplateData]="feeTemplateById"
     [studentName]="studentName" [student_id]="student_id" [resultForUnAssigned]="resultForUnAssigned"></student-fee-table>
 
 

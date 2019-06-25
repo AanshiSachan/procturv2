@@ -10,17 +10,37 @@ import * as moment from 'moment';
 })
 export class ManageBatchComponent implements OnInit {
 
-  createNewBatch: boolean = false;
+
   batchesListDataSource: any = [];
   tableData: any = [];
-  classRoomList: any;
-  teacherList: any;
   courseList: any = [];
-  subjectList: any;
-  addStudentPopUp: boolean = false;
   studentListDataSource: any = [];
   studentList: any = [];
+  searchedData: any = [];
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5,0];
+  academicList: any = [];
+  feeTemplateDataSource: any = [];
+  dataTable: any = [];
+  classRoomList: any;
+  teacherList: any;
+  subjectList: any;
   batchDetails: any;
+  PageIndex: number = 1;
+  displayBatchSize: number = 10;
+  totalRow: number;
+  dataStatus: number = 1;
+  selectedRow: number;
+  unselected_checkbox_id: number;
+  deafultTemplate: any;
+  examGradeFeature: any = "";
+  searchData: any = "";
+  radioOption: string = '0';
+  searchDataFlag: boolean = false;
+  alertBox: boolean = true;
+  delete_unpaid_fee: boolean = false;
+  addStudentPopUp: boolean = false;
+  createNewBatch: boolean = false;
   allChecked: boolean = false;
   isRippleLoad: boolean = false;
   editRowDetails: any = {
@@ -39,28 +59,11 @@ export class ManageBatchComponent implements OnInit {
     start_date: '',
     end_date: '',
     is_active: true,
+    academic_year_id:'-1',
     is_exam_grad_feature: false
   }
-  PageIndex: number = 1;
-  displayBatchSize: number = 10;
-  totalRow: number;
-  searchedData: any = [];
-  searchDataFlag: boolean = false;
-  dataStatus: number = 1;
-  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5];
-  selectedRow: number;
-  academicList: any = [];
-  feeTemplateDataSource: any = [];
-  deafultTemplate: any;
-  examGradeFeature: any = "";
-  searchData: any = "";
-  radioOption: string = '0';
-  dataTable: any = [];
 
-  alertBox: boolean = true;
-  delete_unpaid_fee: boolean = false;
-  unselected_checkbox_id: number;
+
 
   constructor(
     private apiService: ManageBatchService,
@@ -193,7 +196,7 @@ export class ManageBatchComponent implements OnInit {
 
   onMasterCourseSelection(data) {
     this.isRippleLoad = true;
-    this.addNewBatch.subject_id ='-1';
+    this.addNewBatch.subject_id = '-1';
     if (data != '-1') {
 
       this.apiService.getPerticularCourseList(data).subscribe(
@@ -250,7 +253,7 @@ export class ManageBatchComponent implements OnInit {
                         this.messageToast('success', 'Added Batch', "Successfully created batch");
                         this.clearFormData();
                         this.getAllBatchesList();
-                        this.togglecreateNewBatch() ;
+                        this.togglecreateNewBatch();
                       },
                       error => {
                         //console.log(error);
@@ -308,6 +311,7 @@ export class ManageBatchComponent implements OnInit {
       is_active: rowDetails.is_active,
       isStudentToBeInactivated: this.editRowDetails.isStudentToBeInactivated,
       class_room_id: this.editRowDetails.class_room_id,
+      academic_year_id:this.editRowDetails.academic_year_id
     };
     if (dataToSend.start_date > dataToSend.end_date) {
       this.messageToast('error', 'Error', 'Provide valid dates.');
@@ -349,7 +353,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   clearFormData() {
-    this.addNewBatch =  {
+    this.addNewBatch = {
       standard_id: '-1',
       subject_id: '-1',
       class_room_id: '-1',
@@ -359,6 +363,7 @@ export class ManageBatchComponent implements OnInit {
       start_date: '',
       end_date: '',
       is_active: true,
+      academic_year_id:'-1',
       is_exam_grad_feature: false
     }
 
@@ -476,16 +481,16 @@ export class ManageBatchComponent implements OnInit {
     }
   }
 
-  closeAlert(){
+  closeAlert() {
     this.alertBox = true;
     this.delete_unpaid_fee = false;
     let data = this.getCheckedRows();
-      for (let i = 0; i < Object.keys(data).length; i++) {
-        (document.getElementById("studentcheck"+Object.keys(data)[i]) as HTMLInputElement).checked = true;
-      }
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      (document.getElementById("studentcheck" + Object.keys(data)[i]) as HTMLInputElement).checked = true;
+    }
   }
 
-  unassign_course(){
+  unassign_course() {
     this.alertBox = true;
     this.saveStudentListToServer();
   }

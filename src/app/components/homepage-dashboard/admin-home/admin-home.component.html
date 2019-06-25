@@ -1,5 +1,5 @@
-<!-- <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-</loaders-css> -->
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <section class="mainHomePage">
 
   <section class="activity-page">
@@ -109,8 +109,8 @@
                     </div>
                     <div class="schedule-bottom">
                       <ul class="subjectViewHead" *ngIf="!isProfessional && isSubjectView">
-                        <li class="timings">Timings</li>
-                        <li class="course-name">Course</li>
+                        <li class="timings" style="width: 16%;">Timings</li>
+                        <li class="course-name" style="width: 21%;">Course</li>
                         <li class="subject">Subject</li>
                         <li class="faculty-name">Faculty</li>
                         <li class="topic-link">Linked Topic</li>
@@ -134,16 +134,16 @@
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="subjectViewContent" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
-                            <li class="timings">
+                            <li class="timings" style="width: 16%;">
                               <div *ngIf="!class.isExam">
                                 {{class.start_time}} - {{class.end_time}}
                               </div>
                               <p>{{class.class_room_name}}</p>
                             </li>
-                            <li class="course-name">
+                            <li class="course-name" style="width: 21%;">
                               <div title="{{class.course_name}}">
                                 <span title="{{class.course_name}}">
-                                  {{(class.course_name.length > 10)? (class.course_name | slice:0:10)+'..':(class.course_name) }}
+                                  {{(class.course_name?.length > 25)? (class.course_name | slice:0:25)+'..':(class.course_name) }}
                                 </span>
                               </div>
                             </li>
@@ -151,10 +151,14 @@
                               <div title="{{class.course_name}}">{{class.course_name}}</div>
                             </li> -->
                             <li class="subject">
-                              <div title="{{class.subject_name}}">{{class.subject_name}}</div>
+                              <div title="{{class.subject_name}}">
+                                {{(class.subject_name?.length > 10)? (class.subject_name | slice:0:10)+'..':(class.subject_name) }}
+                              </div>
                             </li>
                             <li class="faculty-name">
-                              <div title="{{class.teacher_name}}">{{class.teacher_name}}</div>
+                              <div title="{{class.teacher_name}}">
+                                {{(class.teacher_name?.length > 10)? (class.teacher_name | slice:0:10)+'..':(class.teacher_name) }}
+                              </div>
                             </li>
                             <li class="topic-link">
                               <div title="{{class.topicName}}" *ngIf="class.topicName"> {{(class.topicName.length > 15) ? (class.topicName | slice:0:15)+'..':(class.topicName) }} </div>
@@ -162,8 +166,8 @@
                             </li>
                             <li class="action">
                               <div title="" class="pull-right">
-                                <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="getVisibility(class) && class.is_attendance_marked =='Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
-                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="getVisibility(class) && class.is_attendance_marked !='Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="class.is_attendance_marked =='Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="class.is_attendance_marked !='Y'" (click)="initiateMarkAttendance(i, class, class.subject_id, class.topics_covered)">
                                 <img src="./assets/images/reschedule.svg" alt="reschedule" title="Reschedule" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" (click)="initiateRescheduleClass(i, class)">
                                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' (click)="initiateRemiderClass(i, class)"></i>
                                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" *ngIf='class.is_attendance_marked!="Y"' (click)="initiateCancelClass(i, class)"></i>
@@ -178,12 +182,12 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of courseLevelSchedule;let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li class="batch" title="{{class.master_course}}">
-                              <div title="{{class.master_course}}">{{ (class.master_course.length > 15) ? (class.master_course | slice:0:15)+'..':(class.master_course) }}
+                              <div title="{{class.master_course}}">{{ (class.master_course?.length > 20) ? (class.master_course | slice:0:20)+'..':(class.master_course) }}
                               </div>
                             </li>
                             <li class="batch cls-type" *ngIf="!class.isExam" title="{{class.coursee_names}}">
                               <div>
-                                <span title="{{class.coursee_names}}">{{ (class.coursee_names.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
+                                <span title="{{class.coursee_names}}">{{ (class.coursee_names?.length > 20) ? (class.coursee_names | slice:0:20)+'..':(class.coursee_names) }} </span>
                               </div>
                               <!-- <div *ngIf="class.isExam">
                                 <span title="{{class.course_name}}">{{ (class.course_name.length > 15) ? (class.course_name | slice:0:15)+'..':(class.course_name) }} </span>
@@ -194,7 +198,7 @@
                                 <span title="{{class.coursee_names}}">{{ (class.coursee_names.length > 15) ? (class.coursee_names | slice:0:15)+'..':(class.coursee_names) }} </span>
                               </div> -->
                               <div *ngIf="class.isExam">
-                                <span title="{{class.course_name}}">{{ (class.course_name.length > 15) ? (class.course_name | slice:0:15)+'..':(class.course_name) }} </span>
+                                <span title="{{class.course_name}}">{{ (class.course_name?.length > 20) ? (class.course_name | slice:0:20)+'..':(class.course_name) }} </span>
                               </div>
                             </li>
                             <li class="batch cls-type">
@@ -262,15 +266,15 @@
                               </div>
                             </li>
                             <li class="batch">
-                              <div>{{class.batch_name}}</div>
+                              <div><span title="{{class.batch_name}}">{{ (class.batch_name.length > 15) ? (class.batch_name | slice:0:15)+'..':(class.batch_name) }} </span></div>
                             </li>
                             <li class="faculty">
                               <div>{{class.teacher_name}}</div>
                             </li>
                             <li class="action">
                               <div *ngIf="class.isExam" class="che-action pull-right"  [ngClass]="{hide : checkIfUserHadAccess('112')}">
-                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="hideFutureExamSchedule(class)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
-                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.is_attendance_marked == 'Y'" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.isReferenced == 'N'" [ngClass]="hideFutureExamSchedule(class)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
+                                <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.isReferenced == 'Y'" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
                                 <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)">
                                 <!-- <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Update Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)"> -->
                                 <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="notifyExamSchedule(i, class)" *ngIf='class.isReferenced != "Y"'></i>
@@ -970,7 +974,8 @@
             </div>
             <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
               <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
-              <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
+              <button class="btn fullBlue" *ngIf="!jsonFlag.editMessage" (click)="saveNewMessage()">Save</button>
+              <button class="btn fullBlue" *ngIf="jsonFlag.editMessage" (click)="updateMessage()">Update</button>
             </div>
           </div>
         </div>
@@ -1264,25 +1269,25 @@
                   <div id="divSendOption" class="c-sm-4 c-md-4 c-lg-4">
                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                       <input type="checkbox" checked="true" value="" name="sms" class="form-checkbox" id="chkbxSmsSend">
-                      <label for="sms" style=" margin-left: 10px;">SMS</label>
+                      <label for="chkbxSmsSend" style=" margin-left: 10px;">SMS</label>
                     </div>
                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                       <input type="checkbox" value="" (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox" id="chkbxEmailSend">
-                      <label for="mail" style=" margin-left: 10px;">Mail</label>
+                      <label for="chkbxEmailSend" style=" margin-left: 10px;">Mail</label>
                     </div>
                   </div>
                   <div id="divParentOrGaurdian" class="c-sm-6 c-md-6 c-lg-6">
                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                       <input type="checkbox" checked="true" value="" name="student" class="form-checkbox" id="chkBoxStudent">
-                      <label for="student" style=" margin-left: 10px;">Student</label>
+                      <label for="chkBoxStudent" style=" margin-left: 10px;">Student</label>
                     </div>
                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                       <input type="checkbox" value="" name="parent" class="form-checkbox" id="chkBoxParent">
-                      <label for="parent" style=" margin-left: 10px;">Parent</label>
+                      <label for="chkBoxParent" style=" margin-left: 10px;">Parent</label>
                     </div>
                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                       <input type="checkbox" value="" name="guardian" class="form-checkbox" id="chkBoxGaurdian">
-                      <label for="guardian" style=" margin-left: 10px;">Guardian</label>
+                      <label for="chkBoxGaurdian" style=" margin-left: 10px;">Guardian</label>
                     </div>
                   </div>
                 </div>
@@ -1329,6 +1334,9 @@
                           <th style="text-align: left">
                             Message
                           </th>
+                          <th>
+                            Action
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1342,12 +1350,15 @@
                           <td class="dateSection">
                             {{row.date}}
                           </td>
-                          <td style="text-align: left">
+                          <td style="text-align: left;    word-wrap: break-word;">
                             {{row.message}}
+                          </td>
+                          <td>
+                            <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )" ></i> &nbsp;
                           </td>
                         </tr>
                         <tr *ngIf="messageList.length == 0">
-                          <td colspan="3">
+                          <td colspan="4">
                             No Notification Available
                           </td>
                         </tr>
@@ -1356,13 +1367,14 @@
                   </div>
 
                   <div class="row message-table-wrapper" *ngIf="jsonFlag.openMessageFlag">
-                    <table class="message-table">
+                    <table class="message-table " style="table-layout: fixed;
+                    width: 100%">
                       <thead>
                         <tr>
                           <th class="dateSection">
                             Date
                           </th>
-                          <th style="text-align: left">
+                          <th style="text-align: left ;     width: 46rem;">
                             Message
                           </th>
                           <th>
@@ -1375,11 +1387,12 @@
                           <td class="dateSection">
                             {{row.date}}
                           </td>
-                          <td style="text-align: left">
+                          <td style="text-align: left; width: 46rem; word-wrap: break-word;">
                             {{row.message}}
                           </td>
                           <td>
-                            <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                            <i class="fa fa-pencil edit-icon-pencil" (click)="editSMS(row )"></i> &nbsp;
+                            <i class="fas fa-check" *ngIf="showApproveButtons(row)" (click)="approveRejectSms(row , '1')" style="font-family: FontAwesome;font-size: 25px;color: green;"></i> &nbsp;
                             <i class="fa fa-times" (click)="approveRejectSms(row,'400')" style="font-family: FontAwesome;font-size: 25px;margin-left: 5px;"></i>
                           </td>
                         </tr>

@@ -13,7 +13,9 @@
         </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Define Fee Schedule : <span style="font-weight: 100">{{studentName}}</span></h2>
+    <h2 popup-header style="padding: 10px 5px;">Define Fee Schedule :
+        <span style="font-weight: 100">{{studentName}}</span>
+    </h2>
 
     <div class="fee-definations" popup-content>
         <div class="fee-container">
@@ -44,23 +46,36 @@
                         <li>
                             <div class="form-wrapper">
                                 <label for="courseType">Course</label>
-                                <select class="form-ctrl" name="courseType" [(ngModel)]="addFeeInstallment.student_fee_template_mapping_id" id="courseType">
+                                <select class="form-ctrl" style=" width: 150%;" name="courseType" [(ngModel)]="addFeeInstallment.student_fee_template_mapping_id"
+                                    id="courseType" (ngModelChange)="changeAcademicyear($event)">
                                     <option value="-1"></option>
                                     <option [value]="course.template_mapping_idWithCourseOrSubjectName" *ngFor="let course of courseDropdown">
                                         {{course.courseOrSubject_name}}
                                     </option>
                                 </select>
                             </div>
-                        </li>                        
-
+                        </li>
+                        <li>
+                            <div class="form-wrapper">
+                                <label for="courseType">Academic Year </label>
+                                <select class="form-ctrl" [ngStyle]="{'width':isProfessional? '140%':'150%'}" name="AcademicYearType" [(ngModel)]="addFeeInstallment.academic_year_id"
+                                    [disabled]="addFeeInstallment.student_fee_template_mapping_id !='-1'"                                    
+                                    id="AcademicYearType">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let opt of academicListData" [value]="opt.inst_acad_year_id">
+                                        {{opt.inst_acad_year}}
+                                    </option>
+                                </select>
+                            </div>
+                        </li>
                         <li>
                             <div class="form-wrapper">
                                 <label for="amountinst">Amount</label>
-                                <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" id="amountinst"
-                                    name="amountinst">
+                                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount"
+                                    id="amountinst" name="amountinst">
                             </div>
                         </li>
- 
+
                         <li>
                             <button type="submit" class="btn fee-adder" (click)="addNewInstallmentFee()">
                                 <i></i>
@@ -72,18 +87,19 @@
 
                 <div class="installment-table">
                     <ul class="table-header">
-                        <li class="id">#</li>
-                        <li class="date">Due Date</li>
-                        <li class="course" [ngClass]="{'bigger': taxEnableCheck == '0'}" >Course</li>
-                        <li class="amount" [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
-                        <li class="tax" [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
-                        <li class="feeTax" [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
-                        <li class="action" [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
+                        <li class="id" [ngStyle]="{'width':isProfessional? '2% ':'1%'}">#</li>
+                        <li class="date" [ngStyle]="{'width':isProfessional? '15% ':'15%'}">Due Date</li>
+                        <li class="course" [ngStyle]="{'width':isProfessional? '15% ':'15%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">Course</li>
+                        <li class="course" [ngStyle]="{'width':isProfessional? '15% ':'14%'}">Academic Year</li>
+                        <li class="amount" [ngStyle]="{'width':isProfessional? '12% ':'10%'}" [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
+                        <li class="tax" [ngStyle]="{'width':isProfessional? '9% ':'7%'}" [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
+                        <li class="feeTax" [ngStyle]="{'width':isProfessional? '11% ':'13%'}" style="width: 11% !important" [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
+                        <li class="action" [ngStyle]="{'width':isProfessional? '8% ':'10%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
                     </ul>
                     <div class="table-data">
                         <ul class="table-row" *ngFor="let fee of installmentData; let i = index;">
-                            <li class="id">{{i+1}}</li>
-                            <li class="date">
+                            <li class="id" [ngStyle]="{'width':isProfessional? '2%':'1%'}">{{i+1}}</li>
+                            <li class="date" [ngStyle]="{'width':isProfessional? '15% ':'15%'}">
                                 <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
                                     <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="updateTableInstallment()"
                                         [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
@@ -92,31 +108,47 @@
                                     <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                                 </div>
                             </li>
-                            <li class="course" [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                            <li class="course" [ngStyle]="{'width':isProfessional? '15% ':'15%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
                                     <input type="text" class="form-ctrl" readonly="true" name="course" [ngModel]="fee.course_subject_name">
                                 </div>
                             </li>
-                            <li class="amount" [ngClass]="{'hide': taxEnableCheck == '0'}">
+                            <li [ngStyle]="{'width':isProfessional? '15% ':'14%'}" >
+                                <select class="form-ctrl id" style=" width:120%; border: 1px solid rgba(119, 119, 119, 0.419608);
+                                border-radius: 5px;" name="AcademicYearType" [disabled]="true" [ngStyle]="{'background':true? 'lightgrey':'','cursor':'not-allowed'}"
+                                    [(ngModel)]="fee.academic_year_id" id="AcademicYearType">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let opt of academicListData" [value]="opt.inst_acad_year_id">
+                                        {{opt.inst_acad_year}}
+                                    </option>
+                                </select>
+                            </li>
+
+                            <li class="amount" [ngStyle]="{'width':isProfessional? '12% ':'10%'}" [ngClass]="{'hide': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
-                                    <input *ngIf="fee.discount == 0" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
-                                    <input *ngIf="fee.discount != 0" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="amt" [ngModel]="fee.initial_fee_amount_before_disocunt_before_tax">
+                                    <input *ngIf="fee.discount == 0" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+                                        readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
+                                    <input *ngIf="fee.discount != 0" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+                                        readonly="true" name="amt" [ngModel]="fee.initial_fee_amount_before_disocunt_before_tax">
                                 </div>
                             </li>
-                            <li class="tax" [ngClass]="{'hide': taxEnableCheck == '0'}">
+                            <li class="tax" [ngStyle]="{'width':isProfessional? '9% ':'7%'}" [ngClass]="{'hide': taxEnableCheck == '0'}">
                                 <div class="form-wrapper disable">
-                                    <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                                    <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="tax"
+                                        [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                                 </div>
                             </li>
-                            <li class="feeTax" [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                            <li class="feeTax" [ngStyle]="{'width':isProfessional? '11% ':'13%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
-                                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
-                                    <input *ngIf="fee.is_referenced == 'N' && fee.discount == 0 " type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount"
-                                        (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
-                                    <input *ngIf="fee.is_referenced == 'N' && fee.discount != 0" readonly="true" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [ngModel]="fee.fees_amount">
+                                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                        class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                                    <input *ngIf="fee.is_referenced == 'N' && fee.discount == 0 " type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                        class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                                    <input *ngIf="fee.is_referenced == 'N' && fee.discount != 0" readonly="true" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                        class="form-ctrl" name="amttax" [ngModel]="fee.fees_amount">
                                 </div>
                             </li>
-                            <li class="action" [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                            <li class="action" [ngStyle]="{'width':isProfessional? '8% ':'10%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <a *ngIf="fee.is_referenced == 'N' && fee.discount == 0" (click)="deleteInstallment(i)">
                                     <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                                 </a>
@@ -126,7 +158,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="additional-container">
@@ -159,14 +191,28 @@
                         <li>
                             <div class="form-wrapper">
                                 <label for="amt">Amount</label>
-                                <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" id="amt" name="amt">
+                                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount"
+                                    id="amt" name="amt">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-wrapper">
+                                <label for="courseType">Academic Year </label>
+                                <select class="form-ctrl" style=" width:120%; border: 1px solid rgba(119, 119, 119, 0.419608);
+                                border-radius: 5px;" name="AcademicYearType" [(ngModel)]="addFeeOther.academic_year_id"
+                                    id="AcademicYearType">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let opt of academicListData" [value]="opt.inst_acad_year_id">
+                                        {{opt.inst_acad_year}}
+                                    </option>
+                                </select>
                             </div>
                         </li>
                         <li>
                             <div class="form-wrapper">
                                 <label for="taxamt">Tax(%)</label>
-                                <input style="background: #dddddd;" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax"
-                                    id="taxamt" name="taxamt">
+                                <input style="background: #dddddd;" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" readonly="true"
+                                    class="form-ctrl" [ngModel]="addFeeOther.service_tax" id="taxamt" name="taxamt">
                             </div>
                         </li>
                         <li>
@@ -182,43 +228,57 @@
                 <div class="additional-table">
                     <ul class="table-header">
                         <li>Fee Type</li>
-                        <li class="date">Due Date</li>
-                        <li>Amount</li>
-                        <li class="tax">Tax</li>
-                        <li>Fee Incl Tax</li>
-                        <li>Action</li>
+                        <li class="date" style="width: 18% !important;">Due Date</li>
+                        <li style="width: 15%;"> Academic Year</li>
+                        <li style="width: 10%;">Amount</li>
+                        <li class="tax" style="width: 10%;">Tax</li>
+                        <li style="width: 10%;">Fee Incl Tax</li>
+                        <li style="width: 10%;">Action</li>
                     </ul>
 
                     <div class="table-data" *ngIf="additionalData.length !=0">
                         <ul class="table-row" *ngFor="let fee of additionalData; let i = index">
                             <li>{{fee.fee_type_name}}</li>
-                            <li class="date">
+                            <li class="date" style="width: 18% !important;">
                                 <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
-                                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd"
-                                        [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
+                                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date"
+                                        readonly="true" bsDatepicker>
                                 </div>
                                 <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
                                     <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                                 </div>
                             </li>
-                            <li>
+                            <li style="width: 15%;">
+                                <select class="form-ctrl" style=" width:120%; border: 1px solid rgba(119, 119, 119, 0.419608);
+                                border-radius: 5px;" name="AcademicYearType" [disabled]="true" [ngStyle]="{'background':true? 'lightgrey':'','cursor':'not-allowed'}"
+                                    [(ngModel)]="fee.academic_year_id" id="AcademicYearType">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let opt of academicListData" [value]="opt.inst_acad_year_id">
+                                        {{opt.inst_acad_year}}
+                                    </option>
+                                </select>
+                            </li>
+                            <li style="width: 10%;">
                                 <div class="form-wrapper disable">
-                                    <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" readonly="true" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                                    <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" readonly="true" class="form-ctrl" name="amt"
+                                        [(ngModel)]="fee.initial_fee_amount">
                                 </div>
                             </li>
-                            <li class="tax">
+                            <li class="tax" style="width: 10%;">
                                 <div class="form-wrapper disable">
-                                    <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax, i)">
+                                    <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" readonly="true" name="tax"
+                                        [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax, i)">
                                 </div>
                             </li>
-                            <li>
+                            <li style="width: 10%;">
                                 <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
-                                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
-                                    <input *ngIf="fee.is_referenced == 'N'" type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount"
-                                        (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, fee.service_tax,i)">
+                                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+                                        class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                                    <input *ngIf="fee.is_referenced == 'N'" type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+                                        name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, fee.service_tax,i)">
                                 </div>
                             </li>
-                            <li>
+                            <li style="width: 10%;">
                                 <a (click)="deleteOtherFee(i)" *ngIf="fee.is_referenced == 'N'">
                                     <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                                 </a>

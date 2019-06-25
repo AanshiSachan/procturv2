@@ -138,7 +138,7 @@ export class TimeTableComponent implements OnInit {
         res => {
           this.isRippleLoad = false;
           this.masterCoursesData = res;
-          console.log(this.masterCoursesData);
+          // console.log(this.masterCoursesData);
           this.isRippleLoad = false;
         },
         err => {
@@ -150,81 +150,91 @@ export class TimeTableComponent implements OnInit {
   }
 
   getCourses(i) {
-    this.isRippleLoad = true;
-    if (this.isProfessional) {
-      this.coursePro = [];
-      this.fetchFieldDataPro.batch_id = "-1";
-      this.fetchFieldDataPro.subject_id = "-1";
-      this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
-        (
-        res => {
-          this.isRippleLoad = false;
-          this.coursePro = res.subjectLi;
-          this.batchPro = res.batchLi;
-        },
-        err => {
-          this.isRippleLoad = false;
-          console.log(err);
-        }
-        )
-    }
-    else {
+    if (i != '-1') {
       this.isRippleLoad = true;
-      this.fetchFieldData.batch_id = "-1";
-      this.subjectData = [];
-      this.fetchFieldData.course_id = "-1";
-      this.courseData = [];
+      if (this.isProfessional) {
+        this.coursePro = [];
+        this.fetchFieldDataPro.batch_id = "-1";
+        this.fetchFieldDataPro.subject_id = "-1";
+        this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
+          (
+          res => {
+            this.isRippleLoad = false;
+            this.coursePro = res.subjectLi;
+            this.batchPro = res.batchLi;
+          },
+          err => {
+            this.isRippleLoad = false;
+            console.log(err);
+          }
+          )
+      }
+      else {
+        this.isRippleLoad = true;
+        this.fetchFieldData.batch_id = "-1";
+        this.subjectData = [];
+        this.fetchFieldData.course_id = "-1";
+        this.courseData = [];
+        this.notProTimeTable = [];
+        this.namesArr = [];
+        this.onlyMasterData = true;
+        this.timeTableServ.getCoursesData(i).subscribe
+          (
+          res => {
+            this.isRippleLoad = false;
+            this.courseData = res.coursesList;
 
-      this.onlyMasterData = true;
-      this.timeTableServ.getCoursesData(i).subscribe
-        (
-        res => {
-          this.isRippleLoad = false;
-          this.courseData = res.coursesList;
-
-        },
-        err => {
-          this.isRippleLoad = false;
-          console.log(err);
-        }
-        )
+          },
+          err => {
+            this.isRippleLoad = false;
+            console.log(err);
+          }
+          )
+      }
+    } else {
+      this.notProTimeTable = [];
+      this.namesArr = [];
     }
   }
 
   getSubjects(i) {
-    this.isRippleLoad = true;
-    if (this.isProfessional) {
-      this.fetchFieldDataPro.batch_id = "-1";
-      this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
-        (
-        res => {
-          this.isRippleLoad = false;
-          this.batchPro = res.batchLi;
-        },
-        err => {
-          this.isRippleLoad = false;
-          console.log(err);
-        }
-        )
-    }
-    else {
+    if (i != '-1') {
       this.isRippleLoad = true;
-      this.onlyMasterData = false;
-      this.fetchFieldData.subject_id = "-1";
+      if (this.isProfessional) {
+        this.fetchFieldDataPro.batch_id = "-1";
+        this.timeTableServ.getProData(this.fetchFieldDataPro.standard_id, this.fetchFieldDataPro.subject_id).subscribe
+          (
+          res => {
+            this.isRippleLoad = false;
+            this.batchPro = res.batchLi;
+          },
+          err => {
+            this.isRippleLoad = false;
+            console.log(err);
+          }
+          )
+      }
+      else {
+        this.isRippleLoad = true;
+        this.onlyMasterData = false;
+        this.fetchFieldData.subject_id = "-1";
+        this.subjectData = [];
+        this.fetchFieldData.batch_id = "-1";
+        this.timeTableServ.getSubjectData(i).subscribe
+          (
+          res => {
+            this.isRippleLoad = false;
+            this.subjectData = res.batchesList;
+            console.log(this.subjectData);
+          },
+          err => {
+            this.isRippleLoad = false;
+            console.log(err);
+          }
+          )
+      }
+    } else {
       this.subjectData = [];
-      this.fetchFieldData.batch_id = "-1";
-      this.timeTableServ.getSubjectData(i).subscribe
-        (
-        res => {
-          this.isRippleLoad = false;
-          this.subjectData = res.batchesList;
-          console.log(this.subjectData);
-        },
-        err => {
-          this.isRippleLoad = false;
-          console.log(err);
-        }
-        )
     }
   }
 
@@ -274,8 +284,8 @@ export class TimeTableComponent implements OnInit {
     this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-    if (this.fetchFieldData.master_course == "-1") {
-      this.onlyMasterData = false;
+    if (this.fetchFieldData.course_id == "-1") {
+      this.onlyMasterData = true;
     }
     this.forDownloadPDF = this.fetchFieldData;
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
@@ -319,7 +329,7 @@ export class TimeTableComponent implements OnInit {
     this.fetchFieldDataPro.batch_id = "-1";
     this.fetchFieldDataPro.standard_id = "-1";
     this.fetchFieldDataPro.subject_id = "-1";
-    this.timeTableArr=[];
+    this.timeTableArr = [];
     if (para == 'all') {
       this.batchBox = false;
       this.teacherBox = false;
@@ -420,9 +430,9 @@ export class TimeTableComponent implements OnInit {
       // })
     }
     // if (!this.isProfessional) {
-      this.notProTimeTable.push(this.timeTableArr);
+    this.notProTimeTable.push(this.timeTableArr);
     // }
-      console.log(this.timeTableArr)
+    console.log(this.timeTableArr)
   }
   /* counting max length in a Coloumn */
   maxDataLengthCount() {
@@ -444,10 +454,10 @@ export class TimeTableComponent implements OnInit {
     }
   }
 
-  callAaPerModule(data){
-    if(this.isProfessional){
+  callAaPerModule(data) {
+    if (this.isProfessional) {
       this.fetchTimeTableReportPro(data);
-    }else{
+    } else {
       this.fetchTimeTableReport(data);
     }
 

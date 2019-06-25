@@ -9,7 +9,7 @@
       <section>
 
         <div class="c-lg-4">
-          <ul class="card" routerLink="./allData">
+          <ul class="card" routerLink="./allDueReport">
             <li>
               All Due fee report
             </li>
@@ -20,18 +20,12 @@
         </div>
 
         <div class="c-lg-4">
-          <ul class="card" routerLink="./courseReport">
-            <li *ngIf="isProfessional">
-              Batch Wise
+          <ul class="card" routerLink="./moduleReport">
+            <li>
+              {{jsonFlags.moduleState}} Wise
             </li>
-            <li *ngIf="!isProfessional">
-              Course Wise
-            </li>
-            <li *ngIf="isProfessional">
-              This Report depicts records of fees paid or dues of a particular batch.
-            </li>
-            <li *ngIf="!isProfessional">
-              This Report depicts records of fees paid or dues of a particular course.
+            <li>
+              This Report depicts records of fees paid or dues of a particular {{jsonFlags.moduleState}}.
             </li>
           </ul>
         </div>

@@ -60,7 +60,7 @@
         </div>
       </div>
 
-      <div class="c-sm-3 c-md-3 c-lg-3">
+      <div class="c-sm-2 c-md-2 c-lg-2">
         <div class="field-wrapper datePickerBox">
           <label for="startDate">Start Date
             <span style="color:red">*</span>
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <div class="c-sm-3 c-md-3 c-lg-3">
+      <div class="c-sm-2 c-md-2 c-lg-2">
         <div class="field-wrapper datePickerBox">
           <label for="endDate">End Date
             <span style="color:red">*</span>
@@ -82,6 +82,17 @@
         </div>
       </div>
 
+      <div class="c-sm-2 c-md-2 c-lg-2">
+        <div class="field-wrapper">
+          <label for="endDate">Academic Year </label>
+          <select class="form-ctrl" [(ngModel)]="courseDetails.academic_year_id" style="background: transparent">
+            <option value="-1">Select</option>
+            <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+              {{opt.inst_acad_year}}
+            </option>
+          </select>
+        </div>
+      </div>
       <div class="c-sm-3 c-md-3 c-lg-3" style="padding-top: 20px">
         <div [ngClass]="{'hideVisibility' : examGradeFeature == 0}" class="field-checkbox-wrapper" style="margin-top: 10px;">
           <input type="checkbox" id="allow" value="" [(ngModel)]="courseDetails.allow_exam_grades" name="allow" class="form-checkbox">
@@ -142,11 +153,14 @@
           <th style="width:20%">
             Course Name
           </th>
-          <th style="width:20%">
+          <th style="width:10%">
             Start Date
           </th>
-          <th style="width:20%">
+          <th style="width:10%">
             End Date
+          </th>
+          <th style="width:20%">
+            Academic Year
           </th>
           <th *ngIf="examGradeFeature == '1'" style="width:20%">
             Grade
@@ -158,7 +172,7 @@
       </thead>
       <tbody>
         <tr id="row{{i}}" *ngFor="let row of mainArrayForTable; let i= index ; trackBy:index">
-          <td colspan="5">
+          <td colspan="6">
             <div>
               <table>
                 <tbody>
@@ -168,15 +182,23 @@
                         {{row.course_name}}
                       </span>
                     </td>
-                    <td style="width:20%">
+                    <td style="width:10%">
                       <span>
                         {{row.start_Date | datePipe}}
                       </span>
                     </td>
-                    <td style="width:20%">
+                    <td style="width:10%">
                       <span>
                         {{row.end_Date | datePipe}}
                       </span>
+                    </td>
+                    <td style="width:20%">
+                      <select class="form-ctrl" [(ngModel)]="row.academic_year_id">
+                        <option value="-1">Select</option>
+                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                          {{opt.inst_acad_year}}
+                        </option>
+                      </select>
                     </td>
                     <td *ngIf="examGradeFeature == '1'" style="width:20%">
                       <span *ngIf='(row.allow_exam_grades == true)'>Yes</span>
@@ -187,10 +209,10 @@
                     </td>
                     <td id="viewComp{{i}}" class="viewComp" style="width:20%">
                       <a style="cursor:pointer" (click)="editRowFromTable(row , i)">Edit</a>
-                      <a style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
+                      <a style="cursor:pointer" (click)="removeRowFromTable(row , i)">&nbsp;Delete</a>
                     </td>
                     <td id="editComp{{i}}" class="editComp" style="display:none ; width:20%">
-                      <a style="cursor:pointer" (click)="updateDataOfNestedTable(row, i)">Update</a>
+                      <a style="cursor:pointer" (click)="updateDataOfNestedTable(row, i)"> &nbsp;Update</a>
                     </td>
                   </tr>
                 </tbody>
@@ -207,7 +229,7 @@
                   />
                 </div>
 
-                <div class="field-wrapper c-sm-3 c-md-3 c-lg-3">
+                <div class="field-wrapper c-sm-2 c-md-2 c-lg-2">
                   <label for="startDate">Start Date
                     <span style="color:red">*</span>
                   </label>
@@ -215,13 +237,24 @@
                     name="startDate" bsDatepicker id="startDate">
                 </div>
 
-                <div class="field-wrapper c-sm-3 c-md-3 c-lg-3">
+                <div class="field-wrapper c-sm-2 c-md-2 c-lg-2">
                   <label for="endDate">End Date
                     <span style="color:red">*</span>
                   </label>
                   <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_Date"
                     name="endDate" bsDatepicker id="endDate">
                 </div>
+                <div class="c-sm-2 c-md-2 c-lg-2">
+                    <div class="field-wrapper">
+                      <label for="endDate">Academic Year </label>
+                      <select class="form-ctrl" [(ngModel)]="row.academic_year_id" >
+                        <option value="-1">Select</option>
+                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                          {{opt.inst_acad_year}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
 
                 <div *ngIf="examGradeFeature == 0" class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                   <input type="checkbox" value="" [(ngModel)]="row.allow_exam_grades" name="allow" class="form-checkbox" id="allow">
@@ -280,7 +313,7 @@
   </section>
 
   <div class="pull-right" style="margin-top: 10px;">
-    <button class="btn" routerLink="/view/course/courselist">Cancel</button>
+    <button class="btn" routerLink="/view/course/courselist">Back</button>
     <button id="btnSave" *ngIf="(mainArrayForTable.length>0)" class="btn fullBlue" [disabled]="isRippleLoad" (click)="submitCourseDetails()">Save</button>
   </div>
 

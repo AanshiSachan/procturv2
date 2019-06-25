@@ -11,6 +11,7 @@ import { FeeManageComponent } from './fee-manage/fee-manage.component';
 import { FeeActivityRoutingModule } from './fee-activity-routing.module';
 import { getCheque } from '../../../services/cheque-manage/get-cheque.service';
 import { ExcelService } from '../../../services/excel.service';
+import { ExportToPdfService } from '../../../services/export-to-pdf.service';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { ExcelService } from '../../../services/excel.service';
     ],
     providers: [
         getCheque,
-        ExcelService
+        ExcelService,
+        ExportToPdfService
     ]
 })
 export class FeeActivityModule {

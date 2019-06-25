@@ -13,6 +13,7 @@ import { GlobalSearchPopupComponent } from './global-search-popup/global-search-
 import { SearchBoxComponent } from './core/search-box/search-box.component';
 import { EnquiryModule } from './enquiry/enquiry.module';
 import { StudentFeeService } from './students/student_fee.service';
+import { CourseListService } from '../services/course-services/course-list.service';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { StudentFeeService } from './students/student_fee.service';
     entryComponents: [
     ],
     providers: [
-        StudentFeeService
+        StudentFeeService,
+        CourseListService
     ],
     exports: [
     ]

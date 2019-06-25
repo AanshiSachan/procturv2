@@ -233,8 +233,10 @@ export class MarkAttendanceComponent implements OnInit {
 
   getAttendanceDetails(){
 
-    let data = this.route.snapshot.queryParamMap.get('batch_info');
+    let encryptedData = sessionStorage.getItem('batch_info');
+    let data = atob(encryptedData)
     this.batch_info = JSON.parse(data);
+
     this.subject_id = this.batch_info.subject_id;
     // this.checkedKeys = this.batch_info.topics_covered;
 
@@ -499,6 +501,7 @@ export class MarkAttendanceComponent implements OnInit {
     }
 
     backToHome(){
+      sessionStorage.setItem('batch_info', '');
       this.router.navigate(['/view/home/admin']);
     }
 
@@ -654,11 +657,6 @@ export class MarkAttendanceComponent implements OnInit {
             this.homeWorkNotDoneStudentNames = homework;
             this.absentStudentNames = names;
           }
-          // else if(homework.length > 0){
-          //   this.absentPopUp = true;
-          //   this.absentStudentNames = names;
-          //   this.homeWorkNotDoneStudentNames = homework;
-          // }
           else{
             this.markAttendanceServerCall("N");
           }
@@ -1165,6 +1163,12 @@ export class MarkAttendanceComponent implements OnInit {
         test.batch_id = this.batch_info.batch_id;
         test.isNotify = notify;
         test.student_id = this.studentAttList[i].student_id;
+        if(this.presentSMSNotify){
+          test.isSMSNotificationToPresentStudents = 'Y';
+        }
+        else{
+          test.isSMSNotificationToPresentStudents = 'N';
+        }
         test.dateLi = [{
           date: this.studentAttList[i].dateLi[0].date,
           status: this.studentAttList[i].dateLi[0].status,

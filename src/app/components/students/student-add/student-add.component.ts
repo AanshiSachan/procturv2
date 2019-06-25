@@ -14,6 +14,7 @@ import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
+import { CourseListService } from '../../../services/course-services/course-list.service';
 
 @Component({
   selector: 'app-student-add',
@@ -32,6 +33,7 @@ export class StudentAddComponent implements OnInit {
   isPdcApply: boolean = false;
   newPdcArr: any[] = [];
   pdcStatus: any[] = [];
+  academicList : any= [];
   pdcSearchObj = {
     cheque_status: '-1',
     student_id: '',
@@ -265,7 +267,8 @@ export class StudentAddComponent implements OnInit {
     private appC: AppComponent,
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
-    private feeService: StudentFeeService
+    private feeService: StudentFeeService,
+    private apiService: CourseListService,
   ) {
     this.isRippleLoad = true
     this.getInstType();
@@ -300,6 +303,7 @@ export class StudentAddComponent implements OnInit {
       if (permissions.includes('710')) { //fee reconfiguration
         this.checkBoxGroup.showFeeSection = true;
         this.checkBoxGroup.hideReconfigure = true;
+        this.getAcademicYearDetails();
       }
       if (!permissions.includes('707')) {//1.	Fee Payment for Past Dates
         this.checkBoxGroup.showFeeSection = false;
@@ -319,6 +323,7 @@ export class StudentAddComponent implements OnInit {
       this.checkBoxGroup.showFeeSection = true;
       this.checkBoxGroup.manageCheque = true;
       this.checkBoxGroup.hideReconfigure = true;
+      this.getAcademicYearDetails();
     }
 
   }
@@ -346,7 +351,7 @@ export class StudentAddComponent implements OnInit {
         }
         let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
         this.batchList.push(obj);
-        console.log('updateBatchList @' + this.batchList.length);
+        // console.log('updateBatchList @' + this.batchList.length);
       });
     });
   }
@@ -1058,6 +1063,21 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
+    getAcademicYearDetails() {
+    this.academicList = [];
+    this.isRippleLoad= true;
+    this.apiService.getAcadYear().subscribe(
+      res => {
+        this.isRippleLoad= false;
+        this.academicList = res;
+        // console.log("academicList",this.academicList);
+      },
+      err => {
+        this.isRippleLoad= false;
+      }
+    )
+  }
+
 
   setImage(e) {
     //console.log(e);
@@ -1595,6 +1615,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.parent_name = this.enquiryData.parent_name;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_phone;
     this.studentAddFormData.parent_email = this.enquiryData.parent_email;
+    this.studentAddFormData.student_curr_addr = this.enquiryData.curr_address;
 
     this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
@@ -1734,6 +1755,7 @@ export class StudentAddComponent implements OnInit {
         if (res.customFeeSchedules != null && res.customFeeSchedules.length > 0) {
           this.checkBoxGroup.showFeeSection = true;
           this.checkBoxGroup.hideReconfigure = true;
+          this.getAcademicYearDetails();
           if (sessionStorage.getItem('permissions')) {
             let permissions = JSON.parse(sessionStorage.getItem('permissions'));
             if (!permissions.includes('707')) {
@@ -1750,6 +1772,7 @@ export class StudentAddComponent implements OnInit {
             if ((permissions.includes('710'))) {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
+              this.getAcademicYearDetails();
             }
             else {
               this.checkBoxGroup.hideReconfigure = false;
@@ -1766,6 +1789,7 @@ export class StudentAddComponent implements OnInit {
               this.checkBoxGroup.showFeeSection = true;
               this.checkBoxGroup.hideReconfigure = true;
               this.checkBoxGroup.manageCheque = true;
+              this.getAcademicYearDetails();
             }
           }
           this.cardAmountObject = this.feeService.makeCardLayoutJson(res.customFeeSchedules, this.feeObject.registeredServiceTax);

@@ -6,8 +6,8 @@
     <div class="row">
       <div class="clearFix add-edit pull-left" [ngClass]="{'hide' : checkIfUserHadAccess()}">
         <a (click)="togglecreateNewBatch()">
-          <i id="showAddBtn" class="addBtnClass" >+</i>
-          <i id="showCloseBtn" style="display:none"  class="closeBtnClass">-</i>
+          <i id="showAddBtn" class="addBtnClass">+</i>
+          <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
           <span>Create Batch</span>
         </a>
       </div>
@@ -121,6 +121,15 @@
         </div>
 
         <div class="c-lg-4 c-sm-4 c-md-4">
+          <div class="field-wrapper">
+            <label>Academic Year </label>
+            <select id="" class="form-ctrl halfwidth" name="row.class_room_id" [(ngModel)]="addNewBatch.academic_year_id">
+                <option value="-1">Select</option>
+              <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                {{opt.inst_acad_year}}
+              </option>
+              </select>
+          </div>
         </div>
 
       </div>
@@ -178,6 +187,9 @@
                 </th>
                 <th>
                   <label style="cursor:pointer;" (click)="sortTable('end_date')">End Date</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;">Academic Year</label>
                 </th>
                 <th>
                   <label style="cursor:pointer;" (click)="sortTable('class_room_name')">Class Room No.</label>
@@ -274,11 +286,29 @@
 
                   </div>
                 </td>
-
+                <td class="view-comp">
+                  <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="row.academic_year_id"
+                    style="background: transparent">
+                    <option value="-1">Select</option>
+                    <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                      {{opt.inst_acad_year}}
+                    </option>
+                  </select>
+                </td>
 
                 <td class="view-comp">
                   {{row.class_room_name}}
                 </td>
+                <td class="edit-comp">
+                    <div class="field-wrapper">
+                      <select id="" class="form-ctrl " name="row.academic_year_id" [(ngModel)]="editRowDetails.academic_year_id">
+                          <option value="-1">Select</option>
+                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                          {{opt.inst_acad_year}}
+                        </option>
+                      </select>
+                    </div>
+                  </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
                     <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="editRowDetails.class_room_id">
@@ -334,7 +364,7 @@
             </tbody>
             <tbody *ngIf="(tableData.length == 0 && dataStatus === 2)">
               <tr>
-                <td colspan="12">
+                <td colspan="13">
                   No Batch List Found
                 </td>
               </tr>
@@ -441,7 +471,8 @@
               <tr id="row{{i}}" *ngFor="let row of (dataTable | searchPipe:searchData); let i = index; trackBy: i;">
                 <td>
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox"  id="studentcheck{{row.student_id}}" class="form-checkbox" [(ngModel)]="row.assigned">   <!--  [disabled]="row.immutableKey"  -->
+                    <input type="checkbox" id="studentcheck{{row.student_id}}" class="form-checkbox" [(ngModel)]="row.assigned">
+                    <!--  [disabled]="row.immutableKey"  -->
                     <label></label>
                   </div>
                 </td>
@@ -462,7 +493,8 @@
                 </td>
                 <td>
                   <div class="field-wrapper">
-                    <select class="form-ctrl" [disabled]="row.immutableKey" [(ngModel)]="row.academic_year" style="background: transparent">
+                    <select class="form-ctrl" [disabled]="true" [ngStyle]="{'background':row.academic_year_id? 'lightgrey':'','cursor':row.academic_year_id ? 'not-allowed':''}" [(ngModel)]="batchDetails.academic_year_id"
+                      style="background: transparent">
                       <option value="-1">Select</option>
                       <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                         {{opt.inst_acad_year}}
@@ -509,8 +541,7 @@
     </div>
     <br>
     <div class="field-checkbox-wrapper">
-      <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee"
-          class="form-checkbox">
+      <input type="checkbox" id="delete_unpaid_fee" name="batch" [(ngModel)]="delete_unpaid_fee" class="form-checkbox">
       <label> Delete unpaid fees installments</label>
     </div>
     <div class="confirmation_button_container">

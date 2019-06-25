@@ -36,7 +36,10 @@ export class AllDataReportComponent implements OnInit {
   batchList: any[] = [];
   feeDataSource: any[] = []
   displayKeys: any = [];//need for selected keys
-
+  private slotIdArr: any[] = [];
+  private selectedSlots: any[] = [];
+  private selectedSlotsString: string = '';
+  private selectedSlotsID: string = '';
   selectedFeeRecord: any;
   installmentList: any;
   due_type: any = '-1';
@@ -51,38 +54,25 @@ export class AllDataReportComponent implements OnInit {
     isFeepaymentHistory: false,
     isCustomDate: false,
     isFilterReversed: true,
-    isProfessional: false
+    isProfessional: false,
+    isRippleLoad: false
   };
-  isRippleLoad: boolean = false;
+
   searchBy: string = 'check';
   dataStatus: number = 3;
   feeSettings1: ColumnData2[] = [
     { primaryKey: 'student_disp_id', header: 'ID', priority: 1, allowSortingFlag: true },
     { primaryKey: 'student_name', header: 'Name', priority: 2, allowSortingFlag: true },
-    { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3, allowSortingFlag: true },
+    { primaryKey: 'student_total_fees', header: 'Total Fee', priority: 3 ,allowSortingFlag: true },
     { primaryKey: 'student_toal_fees_paid', header: 'Amount Paid', priority: 4, amountValue: true, allowSortingFlag: true },
     { primaryKey: 'total_balance_amt', header: 'Past Dues', priority: 5, amountValue: true, allowSortingFlag: true },
-    { primaryKey: 'student_latest_fee_due_date', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
+    { primaryKey: 'student_latest_fee_due_amount', header: 'Next Due Date', priority: 6, allowSortingFlag: true },
     { primaryKey: 'student_latest_fee_due_aselectAllmount', header: 'Next Due Amount', priority: 7, allowSortingFlag: true, amountValue: true },
     { primaryKey: 'student_latest_pdc', header: 'PDC Date', priority: 8, allowSortingFlag: true },
     { primaryKey: 'amount_still_payable', header: 'Balance Amount', priority: 9, amountValue: true, allowSortingFlag: true }
   ];
-  feeSettings2: ColumnData[] = [
-    { primaryKey: 'student_disp_id', header: 'ID' },
-    { primaryKey: 'student_name', header: 'Name' },
-    { primaryKey: 'student_phone', header: 'Contact No.' },
-    { primaryKey: 'student_class', header: 'Standard/Class' },
-    { primaryKey: 'total_initial_amount', header: 'Fees Amount' },
-    { primaryKey: 'total_tax_applied', header: 'Tax' },
-    { primaryKey: 'total_amount_after_discount_after_tax', header: 'Fees Dues Incl Tax' },
-    { primaryKey: 'total_amt_paid', header: 'Amount Paid' },
-    { primaryKey: 'total_balance_amt', header: 'Amount Balance' }
-  ];
+
   menuOptions: DropData[] = [
-    /* {
-      key: 'detailed',
-      header: 'View Detailed Report'
-    }, */
     {
       key: 'history',
       header: 'Dues Info',
@@ -105,16 +95,14 @@ export class AllDataReportComponent implements OnInit {
     type: '0',
     installment_id: -1,
     is_fee_report_view: 1,
-    academic_year_id: "",
+    academic_year_id: "-1",
     is_AssignedCourseBatchFees: true,
     is_unAssignedCourseBatchFees: false,
     is_archivedCourseBatchFees: false
   }
 
-
   helpMsg: string = "Active Student Due Report ";//fee details are shown based on dues and academic year filter applied.
   //table setting
-
   tableSetting: any = {//inventory.item
     tableDetails: { title: 'All Dues Report', key: 'reports.fee.allDuesReport', showTitle: false },
     search: { title: 'Search', showSearch: false },
@@ -208,6 +196,10 @@ export class AllDataReportComponent implements OnInit {
     this._getter.getAcademicYear().subscribe(
       (res: any) => {
         this.getAllAcademic = res;
+        this.getAllAcademic.forEach((obj)=>{
+          obj.status = false;
+        })
+
       },
       (error: any) => {
 
@@ -243,6 +235,60 @@ export class AllDataReportComponent implements OnInit {
     return arr;
   }
 
+  multiselectVisible(elid) {
+    let targetid = elid + "multi";
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
+    }
+  }
+
+/* =================================================================================================== */
+  /* =================================================================================================== */
+  updateSlotSelected(data) {
+    /* slot checked */
+    if (data.status) {
+      this.slotIdArr.push(data.inst_acad_year_id);
+      this.selectedSlots.push(data.inst_acad_year);
+      if (this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',')
+      this.selectedSlotsString = this.selectedSlots.join(',');
+    }
+    /* slot unchecked */
+    else {
+      if (this.selectedSlots.length < 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else if (this.selectedSlots.length == 0) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      else if (this.selectedSlots.length == 1) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      var index = this.selectedSlots.indexOf(data.inst_acad_year);
+      if (index > -1) {
+        this.selectedSlots.splice(index, 1);
+      }
+      this.selectedSlotsString = this.selectedSlots.join(',');
+      var index2 = this.slotIdArr.indexOf(data.inst_acad_year_id);
+      if (index2 > -1) {
+        this.slotIdArr.splice(index, 1);
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',');
+    }
+
+  }
+
+
   getColumns() {
     let arr2 = [];
     let arr3 = [];
@@ -259,69 +305,12 @@ export class AllDataReportComponent implements OnInit {
     this.pdf.exportToPdf(rows, columns, 'All_dues_Report');
   }
 
-  // batchSelected() {
-
-  //   this.showPopupKeys.isCustomDate = false;
-  //   this.courseFetchForm.from_date = '';
-  //   this.courseFetchForm.to_date = '';
-  //   this.courseFetchForm.type = "0";
-  // }
-
-
-
-
-  // getBatchCourseDetails() {
-  //   if (this.showPopupKeys.isProfessional) {
-  //     this.updateMasterCourseBatch();
-  //   }
-  //   else {
-  //     this.updateMasterCourse();
-  //   }
-  // }
-
-
-  // /* ===================================================================================================== */
-  // /* ===================================================================================================== */
-  // updateMasterCourseBatch() {
-  //   this.isRippleLoad = true;
-  //   this.getter.getBatchDetails(this.courseFetchForm).subscribe(
-  //     res => {
-  //       this.isRippleLoad = false;
-  //       this.batchList = res.batchLi;
-  //       this.standardList = res.standardLi;
-  //       this.subjectList = [];
-  //     },
-  //     err => {
-  //       this.isRippleLoad = false;
-  //       //console.log(err);
-  //     }
-  //   )
-  // }
-
-
-  // /* ===================================================================================================== */
-  // /* ===================================================================================================== */
-  // updateMasterCourse() {
-  //   this.isRippleLoad = true;
-  //   this.getter.getMasterCourses().subscribe(
-  //     res => {
-  //       this.isRippleLoad = false;
-  //       this.standardList = res;
-  //     },
-  //     err => {
-  //       this.isRippleLoad = false;
-  //       //console.log(err);
-  //     }
-  //   )
-  // }
-
   fetchFeeDetails() {
-
-    let arr = [];
-    arr.push(this.courseFetchForm.academic_year_id);
+    let arr = this.slotIdArr;  
+    // arr.push(this.courseFetchForm.academic_year_id);
     let date1 = moment(this.courseFetchForm.from_date).format('YYYY-MM-DD');
     let date2 = moment(this.courseFetchForm.to_date).format('YYYY-MM-DD');
-    if(this.searchBy == 'check'){
+    if (this.searchBy == 'check') {
       date1 = "";
       date2 = "";
     }
@@ -357,10 +346,6 @@ export class AllDataReportComponent implements OnInit {
     }
 
     /* Fetch By Master Course and Other Details */
-    // if (this.showPopupKeys.isFilterReversed) {
-    //   /* Checks if user has filled the form correctly and selected a batch or master course course */
-    //   if (this.courseFormValidator()) {
-    //     if (this.dateRangeValid()) {
     if (this.showPopupKeys.isProfessional) {
       obj["standard_id"] = this.courseFetchForm.standard_id;
       obj["subject_id"] = this.courseFetchForm.subject_id;
@@ -373,36 +358,17 @@ export class AllDataReportComponent implements OnInit {
       obj["master_course_name"] = this.courseFetchForm.standard_id;
       obj["course_id"] = this.courseFetchForm.subject_id;
     }
-
-    //   }
-    // }}
-    // console.log(obj);
-    // /* Fetch by name or Dues Type */
     if (this.due_type == '-1') {
       this._msgService.showErrorMessage(this._msgService.toastTypes.error, '', "Please select dues");
       this.tableSetting.displayMessage = "Data not found";
       this.feeDataSource1 = [];
       return false;
     }
-    // else if (this.due_type != 'custom') {
-    //   /* Name Detected */
-    //   if (isNaN(this.search_value)) {
-    //     obj.student_name = this.search_value;
-    //     obj.contact_no = '';
-    //   }
-    //   /* Contact Number Detected */
-    //   else {
-    //     obj.contact_no = this.search_value;
-    //     obj.student_name = '';
-    //   }
-    //   // this.generateReport(obj);
-    // }
     this.generateReport(obj);
   }
 
 
   dateRangeValid(): boolean {
-
     if (this.courseFetchForm.from_date == '' && this.courseFetchForm.to_date == '') {
       return true;
     }
@@ -419,7 +385,6 @@ export class AllDataReportComponent implements OnInit {
         return false;
       }
     }
-
   }
 
   generateReport(obj) {
@@ -439,7 +404,7 @@ export class AllDataReportComponent implements OnInit {
       moment(obj.to_date).format('YYYY-MM-DD');
     }
     //console.log(obj);
-    this.isRippleLoad = true;
+    this.showPopupKeys.isRippleLoad = true;
     this.dataStatus = 1;
     this._getter.getFeeReportData(obj).subscribe(
       res => {
@@ -448,7 +413,7 @@ export class AllDataReportComponent implements OnInit {
           this.tableSetting.displayMessage = "Data not found";
         }
         this.reportSource = res;
-        this.isRippleLoad = false;
+        this.showPopupKeys.isRippleLoad = false;
         if (this.showPopupKeys.isFilterReversed) {
           this.feeDataSource1 = res;
         }
@@ -457,7 +422,7 @@ export class AllDataReportComponent implements OnInit {
         }
       },
       err => {
-        this.isRippleLoad = false;
+        this.showPopupKeys.isRippleLoad = false;
         //console.log(err);
       }
     )
@@ -465,9 +430,9 @@ export class AllDataReportComponent implements OnInit {
 
 
   openAdFilter() {
-    this.isRippleLoad = true;
+    this.showPopupKeys.isRippleLoad = true;
     this.showPopupKeys.isFilterReversed = !this.showPopupKeys.isFilterReversed;
-    this.isRippleLoad = false;
+    this.showPopupKeys.isRippleLoad = false;
   }
 
   switchActiveView(id) {
@@ -479,147 +444,16 @@ export class AllDataReportComponent implements OnInit {
     document.getElementById(id).classList.add('active');
   }
 
-  // fetchSubjectList() {
-  //   this.courseFetchForm.subject_id = -1;
-  //   this.courseFetchForm.batch_id = -1;
-  //   this.showPopupKeys.isCustomDate = false;
-  //   this.courseFetchForm.from_date = '';
-  //   this.courseFetchForm.to_date = '';
-  //   this.courseFetchForm.type = "0";
-
-  //   this.isRippleLoad = true;
-  //   if (this.showPopupKeys.isProfessional) {
-  //     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
-  //       res => {
-  //         this.isRippleLoad = false;
-  //         this.batchList = res.batchLi;
-  //         this.subjectList = res.subjectLi;
-  //       },
-  //       err => {
-  //         this.isRippleLoad = false;
-  //         //console.log(err);
-  //       }
-  //     )
-  //   }
-  //   else {
-  //     let id = this.courseFetchForm.standard_id.replace(/ /g,"%20");
-  //     this.getter.getCourseData(id).subscribe(
-  //       res => {
-  //         this.isRippleLoad = false;
-  //         this.batchList = [];
-  //         this.subjectList = res.coursesList;
-  //       },
-  //       err => {
-  //         this.isRippleLoad = false;
-  //         //console.log(err);
-  //       }
-  //     )
-  //   }
-  // }
-
-
-
-  // fetchBatchList() {
-  //   this.courseFetchForm.batch_id = -1;
-
-  //   this.showPopupKeys.isCustomDate = false;
-  //   this.courseFetchForm.from_date = '';
-  //   this.courseFetchForm.to_date = '';
-  //   this.courseFetchForm.type = "0";
-  //   this.isRippleLoad = true;
-  //   if (this.showPopupKeys.isProfessional) {
-  //     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
-  //       res => {
-  //         this.isRippleLoad = false;
-  //         this.batchList = res.batchLi;
-  //       },
-  //       err => {
-  //         this.isRippleLoad = false;
-  //         //console.log(err);
-  //       }
-  //     )
-  //   }
-  //   else {
-  //     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
-  //       res => {
-  //         this.isRippleLoad = false;
-  //         this.batchList = res.batchLi;
-  //       },
-  //       err => {
-  //         this.isRippleLoad = false;
-  //         //console.log(err);
-  //       }
-  //     )
-  //   }
-  // }
-
-
-  // courseFormValidator(): boolean {
-  //   /* If user has selected master course then he has to select the course and batch id as well */
-  //   if (this.courseFetchForm.standard_id != '-1') {
-  //     /* For professional model */
-  //     if (this.showPopupKeys.isProfessional) {
-  //       /* if user has selected a course then check for batch Id else throw error */
-  //       if (this.courseFetchForm.subject_id != '-1') {
-  //         /* all set batch selected correctly */
-  //         if (this.courseFetchForm.batch_id != '-1') {
-  //           return true;
-  //         }
-  //         else {
-  //           let obj = {
-  //             type: 'error',
-  //             title: 'Batch not Selected',
-  //             body: 'Please select a valid batch for the selected course'
-  //           }
-  //           this.appC.popToast(obj);
-  //           return false;
-  //         }
-  //       }
-  //       /* master course selected course not selected then throw error */
-  //       else {
-  //         let obj = {
-  //           type: 'error',
-  //           title: 'Course not Selected',
-  //           body: 'Please select a valid course for the selected master course'
-  //         }
-  //         this.appC.popToast(obj);
-  //         return false;
-  //       }
-  //     }
-  //     /* for acad model */
-  //     else {
-  //       if (this.courseFetchForm.standard_id != '-1' && this.courseFetchForm.subject_id != '-1') {
-  //         return true;
-  //       }
-  //       else{
-  //         return false;
-  //       }
-  //     }
-  //   }
-  //   else if (this.courseFetchForm.standard_id == '-1' && this.courseFetchForm.subject_id == '-1' && this.courseFetchForm.batch_id == '-1') {
-  //     return true;
-  //   }
-  //   else if (this.courseFetchForm.standard_id == '-1' && this.courseFetchForm.subject_id == '-1' && this.courseFetchForm.batch_id != '-1') {
-  //     return true;
-  //   }
-  // }
-
-
-
   validateFutureDate(id: string) {
-
     let today = moment(new Date());
-
     if (id == 'from') {
       let selected = moment(this.courseFetchForm.from_date);
       let v = today.diff(selected, 'days');
       if (v < 0) {
         this._msgService.showErrorMessage(this._msgService.toastTypes.info, 'Future date cannot be selected', "")
-
         this.courseFetchForm.from_date = moment(new Date()).format('DD-MMM-YYYY');
       }
     }
-
     else if (id == 'to') {
       let selected = moment(this.courseFetchForm.to_date);
       let v = today.diff(selected, 'days');
@@ -638,7 +472,6 @@ export class AllDataReportComponent implements OnInit {
 
 
   performAction(action) {
-
     if (action == 'View Detailed Report') {
       this.showPopupKeys.isViewDetailReport = true;
     }

@@ -229,12 +229,19 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
           strExp = strExp + conditionArray[i].nextOperation;
       }
       else {
-        if (conditionArray[i].insideOperation != undefined && conditionArray[i].checkValue.length > 0)
+        if (conditionArray[i].insideOperation != undefined && conditionArray[i].checkValue.length > 0) {
           strExp = strExp + conditionArray[i].outerOperation + '('
-        for (let j in conditionArray[i].checkValue) {
-          strExp = strExp + data[conditionArray[i].key] + conditionArray[i].condition + conditionArray[i].checkValue[j];
-          if (Number(j) < conditionArray[i].checkValue.length - 1) {
-            strExp = strExp + conditionArray[i].insideOperation;
+          for (let j in conditionArray[i].checkValue) {
+            strExp = strExp + data[conditionArray[i].key] + conditionArray[i].condition + conditionArray[i].checkValue[j];
+            if (Number(j) < conditionArray[i].checkValue.length - 1) {
+              strExp = strExp + conditionArray[i].insideOperation;
+            }
+          }
+        }
+        else {
+          strExp ='('
+          if (conditionArray[i].nextOperation == undefined) {
+            strExp = strExp + "'" + data[conditionArray[i].key] + "'" + conditionArray[i].condition + "'" + conditionArray[i].checkValue + "'";
           }
         }
         strExp = strExp + ')';

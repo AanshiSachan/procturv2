@@ -1023,7 +1023,8 @@ export class EnquiryAddComponent implements OnInit {
       parent_phone: this.newEnqData.parent_phone,
       enquiry_id: instituteEnqId,
       institute_enquiry_id: instituteEnqId,
-      school_id: this.newEnqData.school_id
+      school_id: this.newEnqData.school_id,
+      curr_address:this.newEnqData.curr_address
     }
     if (!this.isProfessional) {
       obj.standard_id = this.course_standard_id;

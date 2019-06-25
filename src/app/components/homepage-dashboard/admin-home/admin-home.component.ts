@@ -112,6 +112,8 @@ export class AdminHomeComponent implements OnInit {
     smsTabType: 'approved',
     showAllMessage: false,
     openMessageFlag: false,
+    editMessage: false,
+    messageObject: {}
   };
   timepicker: any = {
     reschedStartTime: {
@@ -405,9 +407,10 @@ export class AdminHomeComponent implements OnInit {
         is_attendance_marked: selected.is_attendance_marked
       }
     let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
 
-    
+
   }
 
 
@@ -1050,11 +1053,12 @@ export class AdminHomeComponent implements OnInit {
         isExam: false,
         is_attendance_marked: selected.is_attendance_marked
       }
-    let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    let batch_info = JSON.stringify(obj);
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
 
 
-    
+
   }
 
   getTotalCountForCourse(data) {
@@ -1575,6 +1579,7 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = false;
     this.newMessageText = "";
     this.messageCount = 0;
+    this.jsonFlag.editMessage = false;
   }
 
   selectTabMenu(id, div) {
@@ -2464,8 +2469,9 @@ export class AdminHomeComponent implements OnInit {
       isExam: true,
       is_attendance_marked: selected.is_attendance_marked
     }
-    let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    let batch_info = JSON.stringify(obj);
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
   }
 
   closeExamAttendance() {
@@ -2722,7 +2728,8 @@ export class AdminHomeComponent implements OnInit {
         data: data
       }
     let exam_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/exam-marks-batch'], { queryParams: { exam_info: exam_info } });
+    sessionStorage.setItem('exam_info', btoa(exam_info));
+    this.router.navigate(['/view/home/exam-marks-batch']);
   }
 
   closeExamMarks() {
@@ -2912,8 +2919,9 @@ export class AdminHomeComponent implements OnInit {
         schedDate: moment(this.courseLevelSchedDate).format('YYYY-MM-DD'),
         is_attendance_marked: exam.is_attendance_marked
       }
-    let batch_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/mark-attendance'], { queryParams: { batch_info: batch_info } });
+    let batch_info = JSON.stringify(obj);
+    sessionStorage.setItem('batch_info', btoa(batch_info));
+    this.router.navigate(['/view/home/mark-attendance']);
 
   }
 
@@ -3024,7 +3032,6 @@ export class AdminHomeComponent implements OnInit {
       } else {
         obj.isUpdated = 'N';
       }
-      arr.push(obj);
     }
     return arr;
   }
@@ -3060,9 +3067,10 @@ export class AdminHomeComponent implements OnInit {
     let obj = {
         data: data
       }
-    let exam_info = JSON.stringify(obj)
-    this.router.navigate(['/view/home/exam-marks'], { queryParams: { exam_info: exam_info } });
-    
+    let exam_info = JSON.stringify(obj);
+    sessionStorage.setItem('exam_info', btoa(exam_info));
+    this.router.navigate(['/view/home/exam-marks']);
+
   }
 
   subjectList: any = [];
@@ -3340,13 +3348,16 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getOpenStatusSMS() {
+    this.isRippleLoad = true;
     this.jsonFlag.openMessageFlag = true;
     this.openMessageList = [];
     this.widgetService.getMessageList({}).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.openMessageList = res;
       },
       err => {
+        this.isRippleLoad = false;
         //console.log(err);
       }
     )
@@ -3364,6 +3375,43 @@ export class AdminHomeComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  editSMS(row) {
+    this.addNotification = true;
+    this.jsonFlag.editMessage = true;
+    this.jsonFlag.messageObject = row;
+    this.newMessageText = row.message;
+    this.messageCount = 1;
+  }
+
+
+  updateMessage() {
+    let obj = { message: this.newMessageText };
+    this.isRippleLoad=true;
+    this.widgetService.changesSMSStatus(obj,this.jsonFlag.messageObject.message_id ).subscribe(
+      res => {
+        this.isRippleLoad=false;
+        let msg = {
+          type: 'success',
+          title: 'Message updated Successfully',
+        };
+        this.appC.popToast(msg);
+        this.closeNewMessageDiv();
+        this.onTabChange(this.jsonFlag.smsTabType);// as per view it get the sms data --laxmi
+      },
+      err => {
+        this.isRippleLoad=false;
+        //console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Message',
+          body: err.message
+        };
+        this.appC.popToast(msg);
+      }
+    )
+
   }
 
   approveRejectSms(data, statusCode) {
@@ -3452,7 +3500,7 @@ export class AdminHomeComponent implements OnInit {
   countRemarksLimit(){
     this.remarksLimit = 50 - this.reminderRemarks.length;
   }
-  
+
   closeShowList(){
     this.showList();
   }

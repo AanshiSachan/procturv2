@@ -1,3 +1,4 @@
+@import "./src/assets/css/common/variables.scss";
 /** these css for gear icon download options
 * created by laxmi
 */
@@ -205,4 +206,50 @@ login-nav {
             }
         }
     }
+}
+
+/**
+  this css is for report section css for cards 
+  added by laxmi
+*/
+.report-box {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  ul {
+      &.card-box {
+          li {
+              &.card-row {
+                  margin: 10px 0px;
+              }
+          }
+      }
+      &.card {
+          padding: 15px 10px;
+          border: 1px solid #efefef;
+          background: #fff;
+          height: 120px;
+          border-radius: 10px;
+          cursor: pointer;
+          text-align: left;
+          margin: 10px 0px;
+          box-shadow: 0px 0px 2px 0px;
+          li {
+              &:first-child {
+                  font-size: 14px;
+                  font-weight: 600;
+                  padding: 10px 5px;
+              }
+              &:nth-child(2n){
+                  font-size: 12px;
+              }
+              padding: 5px;
+          }
+      }
+  }
+}
+
+.disabled{
+  cursor: not-allowed;
+  background: lightgrey;
 }
