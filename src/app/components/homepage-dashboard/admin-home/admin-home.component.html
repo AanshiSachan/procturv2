@@ -46,8 +46,8 @@
                       </span>
                       <div class="schedSwitcher" *ngIf="!isProfessional">
                         <ul>
-                          <li (click)="onChanged('course')" id="courseSelectButton" class="active">Course</li>
-                          <li (click)="onChanged('subject')" id="subjectSelectButton" class="">Subject</li>
+                          <li (click)="onChanged('course')" id="courseSelectButton" [ngClass]="{active : !isSubjectView}">Course</li>
+                          <li (click)="onChanged('subject')" id="subjectSelectButton" [ngClass]="{active : isSubjectView}">Subject</li>
                         </ul>
                         <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
                       </div>
