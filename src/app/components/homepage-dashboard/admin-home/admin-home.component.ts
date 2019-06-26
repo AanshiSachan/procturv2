@@ -189,6 +189,8 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
+    this.checkForSubjectWiseView();
+
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
 
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
@@ -209,8 +211,6 @@ export class AdminHomeComponent implements OnInit {
       this.userTypeForExpenses = true;
     }
 
-    this.fetchWidgetPrefill();
-
     this.grid = new Muuri('.grid', {
       dragEnabled: false,
       layout: {
@@ -230,6 +230,30 @@ export class AdminHomeComponent implements OnInit {
     this.grid.on('dragEnd', (item, event) => {
       this.getOrder();
     });
+
+    this.fetchWidgetPrefill();
+  }
+
+  checkForSubjectWiseView(){
+    let subjectView = sessionStorage.getItem('isSubjectView');
+    let scheduleDate = sessionStorage.getItem('scheduleDate');   // For schedule date from session storage
+    if(subjectView == 'true'){
+      this.onChanged('subject');
+      this.schedDate[0] = new Date(scheduleDate);
+      this.schedDate[1] = new Date(scheduleDate);
+    }
+    else if(subjectView == 'false'){
+      if(this.isProfessional){
+        this.schedDate[0] = new Date(scheduleDate);
+        this.schedDate[1] = new Date(scheduleDate);
+      }
+      else{
+        this.courseLevelSchedDate = new Date(scheduleDate);
+      }
+    }
+
+    sessionStorage.setItem('isSubjectView', '');
+    sessionStorage.setItem('scheduleDate', '');
 
   }
 
@@ -286,11 +310,12 @@ export class AdminHomeComponent implements OnInit {
     this.getAllExamsAndClass(obj);
     this.widgetService.fetchSchedWidgetData(obj).subscribe(
       res => {
-        this.grid.refreshItems().layout();
         this.schedStat = res;
+        // this.grid.refreshItems().layout();
       },
-      err => { }
-    );
+      err => {
+        // this.grid.refreshItems().layout();
+      });
   }
 
   getOrder() {
@@ -303,15 +328,17 @@ export class AdminHomeComponent implements OnInit {
       to_date: moment(e).format('YYYY-MM-DD')
     }
     this.schedDate[0] = moment(e).format('DD MMM YYYY');
+    this.schedDate[1] = moment(e).format('DD MMM YYYY');
     this.isOptionVisible = false;
     this.getAllExamsAndClass(obj);
     this.widgetService.fetchSchedWidgetData(obj).subscribe(
       res => {
-        this.grid.refreshItems().layout();
         this.schedStat = res;
+        // this.grid.refreshItems().layout();
       },
-      err => { }
-    )
+      err => {
+        // this.grid.refreshItems().layout();
+      });
   }
 
   getCheckedStatus(id: string) {
@@ -408,6 +435,13 @@ export class AdminHomeComponent implements OnInit {
       }
     let batch_info = JSON.stringify(obj)
     sessionStorage.setItem('batch_info', btoa(batch_info));
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if(this.isSubjectView || this.isProfessional){
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else{
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
     this.router.navigate(['/view/home/mark-attendance']);
 
 
@@ -959,13 +993,9 @@ export class AdminHomeComponent implements OnInit {
     this.selectedRow = null;
     if (e == 'subject') {
       this.isSubjectView = true;
-      document.getElementById('courseSelectButton').classList.remove('active');
-      document.getElementById('subjectSelectButton').classList.add('active');
     }
     else if (e == 'course') {
       this.isSubjectView = false;
-      document.getElementById('courseSelectButton').classList.add('active');
-      document.getElementById('subjectSelectButton').classList.remove('active');
       // this.generateCourseLevelWidget();
     }
   }
@@ -981,7 +1011,7 @@ export class AdminHomeComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         if (this.grid) {
-          this.grid.refreshItems().layout();
+          // this.grid.refreshItems().layout();
         }
         let tempArr: any[] = [];
         for (let o in res) {
@@ -1030,7 +1060,7 @@ export class AdminHomeComponent implements OnInit {
         this.isRippleLoad = false;
         console.log(err);
         if (this.grid) {
-          this.grid.refreshItems().layout();
+          // this.grid.refreshItems().layout();
         }
       }
     );
@@ -1055,6 +1085,13 @@ export class AdminHomeComponent implements OnInit {
       }
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if(this.isSubjectView || this.isProfessional){
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else{
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
     this.router.navigate(['/view/home/mark-attendance']);
 
 
@@ -2357,9 +2394,6 @@ export class AdminHomeComponent implements OnInit {
     this.schedStat = [];
     this.isRippleLoad = true;
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
-      if (this.grid) {
-        this.grid.refreshItems().layout();
-      }
       this.isRippleLoad = false;
       this.schedStat = data;
       if (this.isProfessional) {
@@ -2375,6 +2409,9 @@ export class AdminHomeComponent implements OnInit {
         this.getExamSchedule(obj);
       }
     })
+    // if (this.grid) {
+    //   this.grid.refreshItems().layout();
+    // }
   }
 
   mouseEnter(div: string) {
@@ -2471,6 +2508,13 @@ export class AdminHomeComponent implements OnInit {
     }
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if(this.isSubjectView || this.isProfessional){
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else{
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
     this.router.navigate(['/view/home/mark-attendance']);
   }
 
@@ -2729,6 +2773,13 @@ export class AdminHomeComponent implements OnInit {
       }
     let exam_info = JSON.stringify(obj)
     sessionStorage.setItem('exam_info', btoa(exam_info));
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if(this.isSubjectView || this.isProfessional){
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else{
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
     this.router.navigate(['/view/home/exam-marks-batch']);
   }
 
@@ -2921,6 +2972,13 @@ export class AdminHomeComponent implements OnInit {
       }
     let batch_info = JSON.stringify(obj);
     sessionStorage.setItem('batch_info', btoa(batch_info));
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if(this.isSubjectView || this.isProfessional){
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else{
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
     this.router.navigate(['/view/home/mark-attendance']);
 
   }
@@ -3069,6 +3127,13 @@ export class AdminHomeComponent implements OnInit {
       }
     let exam_info = JSON.stringify(obj);
     sessionStorage.setItem('exam_info', btoa(exam_info));
+    sessionStorage.setItem('isSubjectView', String(this.isSubjectView));
+    if(this.isSubjectView || this.isProfessional){
+      sessionStorage.setItem('scheduleDate', String(this.schedDate[0]));
+    }
+    else{
+      sessionStorage.setItem('scheduleDate', String(this.courseLevelSchedDate));
+    }
     this.router.navigate(['/view/home/exam-marks']);
 
   }
