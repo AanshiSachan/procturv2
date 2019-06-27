@@ -311,7 +311,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchSchedWidgetData(obj).subscribe(
       res => {
         this.schedStat = res;
-        // this.grid.refreshItems().layout();
+        this.grid.refreshItems().layout();
       },
       err => {
         // this.grid.refreshItems().layout();
@@ -334,7 +334,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchSchedWidgetData(obj).subscribe(
       res => {
         this.schedStat = res;
-        // this.grid.refreshItems().layout();
+        this.grid.refreshItems().layout();
       },
       err => {
         // this.grid.refreshItems().layout();
@@ -1011,7 +1011,7 @@ export class AdminHomeComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         if (this.grid) {
-          // this.grid.refreshItems().layout();
+          this.grid.refreshItems().layout();
         }
         let tempArr: any[] = [];
         for (let o in res) {
@@ -1060,7 +1060,7 @@ export class AdminHomeComponent implements OnInit {
         this.isRippleLoad = false;
         console.log(err);
         if (this.grid) {
-          // this.grid.refreshItems().layout();
+          this.grid.refreshItems().layout();
         }
       }
     );
@@ -2409,9 +2409,9 @@ export class AdminHomeComponent implements OnInit {
         this.getExamSchedule(obj);
       }
     })
-    // if (this.grid) {
-    //   this.grid.refreshItems().layout();
-    // }
+    if (this.grid) {
+      this.grid.refreshItems().layout();
+    }
   }
 
   mouseEnter(div: string) {
