@@ -284,9 +284,9 @@ export class TimeTableComponent implements OnInit {
     this.showFilters = false;
     this.fetchFieldData.enddate = moment(this.enddateweek).format('YYYY-MM-DD');
     this.fetchFieldData.startdate = moment(this.startdateweek).format('YYYY-MM-DD');
-    if (this.fetchFieldData.course_id == "-1") {
+    if (this.fetchFieldData.course_id == "-1" && this.fetchFieldData.teacher_id =='-1') {
       this.onlyMasterData = true;
-    }
+    }else{this.onlyMasterData =false;}
     this.forDownloadPDF = this.fetchFieldData;
     this.timeTableServ.getTimeTable(this.fetchFieldData).subscribe
       (
@@ -294,7 +294,7 @@ export class TimeTableComponent implements OnInit {
         this.isRippleLoad = false;
         this.notProTimeTable = [];
         this.namesArr = [];
-        if (res.length != 0 && this.onlyMasterData) {
+        if (res && res.length != 0 && this.onlyMasterData) {
 
           res.map((element) => {
 
