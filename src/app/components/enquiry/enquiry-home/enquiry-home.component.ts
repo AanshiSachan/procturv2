@@ -94,7 +94,7 @@ export class EnquiryHomeComponent implements OnInit {
         enquiryInfo: '',
         smsShowType: 'approvedSms',
         showDownloadSummary: false,
-        isFilterApplied:false,
+        isFilterApplied: false,
     };
     timeJson = { hour: '', minute: '', meridian: '' };
     isMainBranch: any = 'N';
@@ -227,7 +227,7 @@ export class EnquiryHomeComponent implements OnInit {
         master_course_name: '',
         courseIdArray: null,
         subject_id: -1,
-        is_recent: "Y",
+        is_recent: "N",
         slot_id: -1,
         filtered_slots: "",
         isDashbord: "N",
@@ -264,7 +264,7 @@ export class EnquiryHomeComponent implements OnInit {
         master_course_name: '-1',
         courseIdArray: null,
         subject_id: -1,
-        is_recent: "N",
+        is_recent: "Y",
         slot_id: -1,
         filtered_slots: "",
         isDashbord: "N",
@@ -1040,30 +1040,30 @@ export class EnquiryHomeComponent implements OnInit {
         }
     }
 
-    hasUnicode (str) {
-      for (var i = 0; i < str.length; i++) {
-          if (str.charCodeAt(i) > 127) return true;
-      }
-      return false;
+    hasUnicode(str) {
+        for (var i = 0; i < str.length; i++) {
+            if (str.charCodeAt(i) > 127) return true;
+        }
+        return false;
     }
 
-    countNumberOfMessage(){
-      let uniCodeFlag = this.hasUnicode(this.newSmsString.data);
-      let charLimit = 160;
-      if(uniCodeFlag){
-        charLimit = 70
-      }
-      if(this.newSmsString.data.length == 0){
-        this.messageCount = 0;
-      }
-      else if(this.newSmsString.data.length > 0 && this.newSmsString.data.length <= charLimit){
-        this.messageCount = 1;
-      }
-      else{
-        let count = Math.ceil(this.newSmsString.data.length / charLimit);
-        console.log(count);
-        this.messageCount = count;
-      }
+    countNumberOfMessage() {
+        let uniCodeFlag = this.hasUnicode(this.newSmsString.data);
+        let charLimit = 160;
+        if (uniCodeFlag) {
+            charLimit = 70
+        }
+        if (this.newSmsString.data.length == 0) {
+            this.messageCount = 0;
+        }
+        else if (this.newSmsString.data.length > 0 && this.newSmsString.data.length <= charLimit) {
+            this.messageCount = 1;
+        }
+        else {
+            let count = Math.ceil(this.newSmsString.data.length / charLimit);
+            console.log(count);
+            this.messageCount = count;
+        }
     }
     /* push new sms template to server and update the table */
     addNewSmsTemplate() {
@@ -1158,23 +1158,23 @@ export class EnquiryHomeComponent implements OnInit {
         this.smsServicesInvoked();
     }
 
-    countNumberOfMessageForEdit(){
-      let uniCodeFlag = this.hasUnicode(this.selectedSMS.message);
-      let charLimit = 160;
-      if(uniCodeFlag){
-        charLimit = 70
-      }
-      if(this.selectedSMS.message.length == 0){
-        this.messageCountForEdit = 0;
-      }
-      else if(this.selectedSMS.message.length > 0 && this.selectedSMS.message.length <= charLimit){
-        this.messageCountForEdit = 1;
-      }
-      else{
-        let count = Math.ceil(this.selectedSMS.message.length / charLimit);
-        console.log(count);
-        this.messageCountForEdit = count;
-      }
+    countNumberOfMessageForEdit() {
+        let uniCodeFlag = this.hasUnicode(this.selectedSMS.message);
+        let charLimit = 160;
+        if (uniCodeFlag) {
+            charLimit = 70
+        }
+        if (this.selectedSMS.message.length == 0) {
+            this.messageCountForEdit = 0;
+        }
+        else if (this.selectedSMS.message.length > 0 && this.selectedSMS.message.length <= charLimit) {
+            this.messageCountForEdit = 1;
+        }
+        else {
+            let count = Math.ceil(this.selectedSMS.message.length / charLimit);
+            console.log(count);
+            this.messageCountForEdit = count;
+        }
     }
 
     /* Update the sms template */
@@ -1520,14 +1520,13 @@ export class EnquiryHomeComponent implements OnInit {
             this.advancedFilterForm.updateDateFrom = "";
             this.advancedFilterForm.updateDateTo = "";
         }
+
         if (this.advancedFilterForm.followUpDate != null &&
-             this.advancedFilterForm.followUpDate != ''
-         && this.advancedFilterForm.followUpDate != 'Invalid date') {
+            this.advancedFilterForm.followUpDate != ''
+            && this.advancedFilterForm.followUpDate != 'Invalid date') {
             this.advancedFilterForm.is_recent = "Y";
         }
-        else if (this.advancedFilterForm.followUpDate == null &&
-            this.advancedFilterForm.followUpDate == '' &&
-            this.advancedFilterForm.followUpDate == 'Invalid date') {
+        else {
             this.advancedFilterForm.is_recent = "N";
         }
 
@@ -1560,7 +1559,19 @@ export class EnquiryHomeComponent implements OnInit {
     /* Function to clear the advance filter Manually */
     clearFilterAdvanced() {
         this.varJson.isFilterApplied = false;
-        this.advancedFilterForm = { name: "", phone: "", email: "", enquiry_no: "", priority: "", status: -1, filtered_statuses: "", follow_type: "", followUpDate: "", enquiry_date: "", assigned_to: -1, standard_id: -1, subjectIdArray: null, master_course_name: '', courseIdArray: null, subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "", isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "", updateDateFrom: "", updateDateTo: "", start_index: 0, batch_size: this.varJson.displayBatchSize, closedReason: "", enqCustomLi: null, commentShow: 'false' };
+        this.advancedFilterForm = {
+            name: "", phone: "", email: "",
+            enquiry_no: "", priority: "", status: -1, filtered_statuses: "",
+            follow_type: "", followUpDate: this.getDateFormated(null, 'YYYY-MM-DD'),
+            enquiry_date: "",
+            assigned_to: -1, standard_id: -1, subjectIdArray: null,
+            master_course_name: '', courseIdArray: null,
+            subject_id: -1, is_recent: "Y", slot_id: -1, filtered_slots: "",
+            isDashbord: "N", enquireDateFrom: "", enquireDateTo: "", updateDate: "",
+            updateDateFrom: "", updateDateTo: "", start_index: 0,
+            batch_size: this.varJson.displayBatchSize, closedReason: "",
+            enqCustomLi: null, commentShow: 'false'
+        };
         this.customComponents.forEach(el => { el.selectedString = ''; el.selected = []; el.value = ''; });
         this.varJson.PageIndex = 1;
         this.enqSubject = [];
@@ -1648,13 +1659,13 @@ export class EnquiryHomeComponent implements OnInit {
     fectchTableDataByPage(index) {
         this.varJson.PageIndex = index;
         let startindex = this.varJson.displayBatchSize * (index - 1);
-        if(this.varJson.isFilterApplied){
+        if (this.varJson.isFilterApplied) {
             this.advancedFilterForm.start_index = startindex;
             this.advancedFilterForm.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
             this.advancedFilterForm.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
             this.loadTableDatatoSource(this.advancedFilterForm);
         }
-        else{
+        else {
             this.instituteData.start_index = startindex;
             this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
             this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
@@ -1686,18 +1697,18 @@ export class EnquiryHomeComponent implements OnInit {
         this.cd.markForCheck();
         this.flagJSON.isRippleLoad = true;
         let courseArray = [];
-        if(this.advancedFilterForm.courseIdArray == null){
-          courseArray = [""];
+        if (this.advancedFilterForm.courseIdArray == null) {
+            courseArray = [""];
         }
-        else{
-          courseArray = this.advancedFilterForm.courseIdArray;
+        else {
+            courseArray = this.advancedFilterForm.courseIdArray;
         }
         let subjectArray = [];
-        if(this.advancedFilterForm.subjectIdArray == null){
-          subjectArray = [""];
+        if (this.advancedFilterForm.subjectIdArray == null) {
+            subjectArray = [""];
         }
-        else{
-          subjectArray = this.advancedFilterForm.subjectIdArray;
+        else {
+            subjectArray = this.advancedFilterForm.subjectIdArray;
         }
 
         let obj = {
@@ -1748,7 +1759,7 @@ export class EnquiryHomeComponent implements OnInit {
                 this.flagJSON.isRippleLoad = false;
                 let byteArr = this.convertBase64ToArray(res.document);
                 let fileName = res.docTitle;
-                let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+                let file = new Blob([byteArr], { type: 'application/vnd.ms-excel' });
                 let url = URL.createObjectURL(file);
                 let dwldLink = document.getElementById('enq_download');
                 this.cd.markForCheck();

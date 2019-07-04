@@ -28,6 +28,8 @@ import { MarkAttendanceComponent } from './mark-attendance/mark-attendance.compo
 import { TopicListingService } from '../../services/course-services/topic-listing.service';
 import { ExamMarkUpdateComponent } from './exam-mark-update/exam-mark-update.component';
 import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { HttpService } from '../../services/http.service';
 
 @NgModule({
     imports: [
@@ -39,6 +41,7 @@ import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.
         BsDatepickerModule,
         SharedModule,
         ChartModule,
+        FileUploadModule,
         // MdFormFieldModule,
         // MdInputModule
     ],
@@ -67,7 +70,8 @@ import { BatchModelComponent } from './exam-mark-update/batch-model/batch-model.
         WidgetService,
         ExcelService,
         TopicListingService,
-        BiometricStatusServiceService
+        BiometricStatusServiceService,
+        HttpService
     ]
 })
 export class HomepageDashboardModule {

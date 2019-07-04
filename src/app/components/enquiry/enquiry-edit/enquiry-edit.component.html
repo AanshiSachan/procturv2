@@ -327,7 +327,7 @@
                         <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"
-                        />
+                        [maxlength]="component.comp_length"/>
                       </div>
                     </div>
 
@@ -336,7 +336,7 @@
                       <div class="field-checkbox-wrapper" [class.has-value]="component.value != ''">
 
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="fillCustomComponent($event, component)"
-                          name="a{{component.label}}" value="">
+                          name="a{{component.label}}" value="" >
                         <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
@@ -360,7 +360,6 @@
                         <label *ngIf="component.is_required == 'N'" for="component.id">{{component.label}} </label>
                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" autocomplete="off" name="a{{component.label}}"
                           readonly="true" class="form-ctrl" />
-
                       </div>
                       <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                         <div class="multiselect-wrapper-inner">

@@ -1,158 +1,30 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="middle-section clearFix" id="enquiryList">
-
   <section class="middle-top clearFix custom-comp-header">
-
     <div class="row">
-
-      <h1 class="pull-left">
+      <h1 class="pull-left" style="font-size: 14px;padding-top:10px ">
         Manage Form Field (On Both)
       </h1>
-
-      <aside class="pull-right">
-      </aside>
     </div>
-
   </section>
 
   <section class="middle-main clearFix">
-
     <div class="row">
       <div class="clearFix add-edit">
-        <a (click)="toggleNewComponentVisisbility()">
+        <a  (click)="toggleNewComponentVisisbility('Add')">
           <i id="addComponent-icon" style="border:none;">+</i>
-          <span>Add New Form Field</span>
+          <span class="txt_font">Add New Form Field</span>
         </a>
       </div>
     </div>
-    <!-- Add New Custom Component Form Here -->
-    <div class="row createcomponent-wrapper" *ngIf="isNewComponent">
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.label != ''}">
-            <label for="label">Label<span class="text-danger">*</span></label>
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.label" name="label" id="label">
-        
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.type != '' }">
-            <label for="type">Type<span class="text-danger">*</span></label>
-          <select id="type" class="form-ctrl" [(ngModel)]="createCustomComponentForm.type" name="opt.data_value">
-            <option value=""></option>
-            <option *ngFor="let opt of componentShell" [value]="opt.data_key">
-              {{opt.data_value}}
-            </option>
-          </select>
-         
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.prefilled_data != ''}">
-            <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.prefilled_data" name="prefilledData" id="prefilledData">
-         
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.description != ''}">
-            <label for="description">Description</label>
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.description" name="description" id="description">
-         
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.on_both != ''}">
-            <label for="onboth">Show On Student</label>
-          <select id="onboth" class="form-ctrl" name="onboth" [(ngModel)]="createCustomComponentForm.on_both">
-            <option value="Y">Yes</option>
-            <option value="N">No</option>
-          </select>
-         
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.is_required != ''}">
-            <label for="isrequired">Is Required</label>
-          <select id="isrequired" class="form-ctrl" name="isrequired" [(ngModel)]="createCustomComponentForm.is_required">
-            <option value="Y">Yes</option>
-            <option value="N" selected>No</option>
-          </select>
-        
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.is_searchable != ''}">
-            <label for="issearchable">Is Searchable</label>
-          <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="createCustomComponentForm.is_searchable">
-            <option value="Y">Yes</option>
-            <option value="N" selected>No</option>
-          </select>
-          
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.sequence_number != ''}">
-            <label for="sequencenumber">Sequence (Numerals Only)</label>
-          <input type="text" id="sequencenumber"class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
-            name="sequencenumber">
-          
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.comp_length != ''}">
-            <label for="complength">Max- Length (Numerals Only)</label>
-          <input type="text" class="form-ctrl" id="complength"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="createCustomComponentForm.comp_length" name="complength">
-          
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.defaultValue != ''}">
-            <label for="defVal">Default Value</label>
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal"id="defVal">
-         
-        </div>
-      </div>
-
-      <div class="c-lg-4">
-        <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.is_external != ''}">
-            <label for="isexternal">Is External</label>
-          <select id="isexternal" class="form-ctrl" name="isexternal" [(ngModel)]="createCustomComponentForm.is_external">
-            <option value="Y">Yes</option>
-            <option value="N" selected>No</option>
-          </select>
-        
-        </div>
-      </div>
-
-
-
-
-      <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
-        <aside class="pull-right create-cancel-small">
-          <input type="button" value="Cancel" (click)="toggleNewComponentVisisbility()" class="btn cancle">
-          <input type="button" value="Add" (click)="addNewCustomComponent()" class="btn fullBlue">
-        </aside>
-      </div>
-
-    </div>
-
-
     <div class="row" style="margin-top:12px">
       <div class="c-lg-4">
-          <h4>Total Count:{{userCreatedComponent.length}}</h4>
+        <h4> <span class="txt_font" style="font-weight: 600">Total Count</span> &nbsp;:&nbsp;{{userCreatedComponent.length}}</h4>
       </div>
       <div class="c-lg-4"></div>
-      <div class="c-lg-4">
-        <button class="btn pull-right" [routerLink]="['../customizedOnly']">Student Form Fields</button>
+      <div class="c-lg-4" class="txt_font">
+        <button class="btn pull-right" style="font-size: 12px" [routerLink]="['../customizedOnly']">Student Form Fields</button>
       </div>
     </div>
 
@@ -201,27 +73,24 @@
               <td class="custom-table-action">
                 <ul>
                   <li>
-                    <a (click)="editRow(comp)"> Edit </a>
+                    <i class="fa fa-pencil" style="color:#1283f4;" aria-hidden="true" (click)="editRow(comp)"></i>
                   </li>
                   <li>
-                    <a (click)="deleteRow(comp)"> Delete </a>
+                    <i class="fa fa-trash" style="color:#fa3145;" aria-hidden="true" (click)="deleteRow(comp)"></i>
                   </li>
                 </ul>
               </td>
-
             </tr>
-
           </tbody>
-
         </table>
       </div>
     </div>
 
   </section>
 
-  <proctur-popup [sizeWidth]="'large'" *ngIf="isEdit">
+  <proctur-popup [sizeWidth]="'large'" *ngIf="isEdit=='Add'||isEdit=='Edit'">
 
-    <span class="closePopup pos-abs fbold show" (click)="cancelEditRow()" close-button>
+    <span class="closePopup pos-abs fbold show" (click)="cancelRow()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -232,115 +101,118 @@
           />
         </g>
       </svg>
-    </span> 
+    </span>
 
-    <h2 popup-header>Edit Field</h2>
+    <h2 popup-header>{{isEdit}} Field</h2>
 
     <div class="row updatecomponent-wrapper" popup-content>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.label != ''}">
-            <label for="label">Label<span class="text-danger">*</span></label>
+          <label for="label">Label
+            <span class="text-danger">*</span>
+          </label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.label" name="label">
-         
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.type != '' }">
-            <label for="opt.data_value">Type<span class="text-danger">*</span></label>
+          <label for="opt.data_value">Type
+            <span class="text-danger">*</span>
+          </label>
           <select id="opt.data_value" class="form-ctrl" [(ngModel)]="editCustomComponentForm.type" name="opt.data_value">
             <option value=""></option>
             <option *ngFor="let opt of componentShell" [value]="opt.data_key">
               {{opt.data_value}}
             </option>
           </select>
-         
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.prefilled_data != ''}">
-            <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
+          <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.prefilled_data" id="prefilledData" name="prefilledData">
-          
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.description != ''}">
-            <label for="description">Description</label>
+          <label for="description">Description</label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.description" name="description" id="description">
-         
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.on_both != ''}">
-            <label for="onboth">Show On Student</label>
+          <label for="onboth">Show On Student</label>
           <select id="onboth" class="form-ctrl" name="onboth" [(ngModel)]="editCustomComponentForm.on_both">
             <option value="Y">Yes</option>
             <option value="N">No</option>
           </select>
-         
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.is_required != ''}">
-            <label for="isrequired">Is Required</label>
+          <label for="isrequired">Is Required</label>
           <select id="isrequired" class="form-ctrl" name="isrequired" [(ngModel)]="editCustomComponentForm.is_required">
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
-         
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.is_searchable != ''}">
-            <label for="issearchable">Is Searchable</label>
+          <label for="issearchable">Is Searchable</label>
           <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="editCustomComponentForm.is_searchable">
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
-       
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.sequence_number != ''}">
-            <label for="sequencenumber">Sequence (Numerals Only)</label>
-          <input type="text" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3" [(ngModel)]="editCustomComponentForm.sequence_number"
+          <label for="sequencenumber">Sequence (Numerals Only)</label>
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="3" [(ngModel)]="editCustomComponentForm.sequence_number"
             name="sequencenumber" id="sequencenumber">
-         
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.comp_length != null}">
-            <label for="complength">Max- Length (Numerals Only)</label>
-          <input type="text" class="form-ctrl"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="editCustomComponentForm.comp_length" name="complength" id="complength">
-       
+          <label for="complength">Max- Length (Numerals Only)</label>
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="editCustomComponentForm.comp_length"
+            name="complength" id="complength">
+
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.defaultValue != ''}">
-            <label for="defVal">Default Value</label>
+          <label for="defVal">Default Value</label>
           <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.defaultValue" name="defVal" id="defVal">
-         
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.is_external != ''}">
-            <label for="isexternal">Is External</label>
+          <label for="isexternal">Is External</label>
           <select id="isexternal" class="form-ctrl" name="isexternal" [(ngModel)]="editCustomComponentForm.is_external">
             <option value="Y">Yes</option>
             <option value="N" selected>No</option>
           </select>
-        
         </div>
       </div>
     </div>
@@ -348,8 +220,9 @@
     <div class="" popup-footer>
       <div class="clearfix">
         <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="cancelEditRow()">
-          <input type="button" value="Update Field" class="fullBlue btn" (click)="updateRow()">
+          <input type="button" value="Cancel" class="btn txt_font" (click)="cancelRow()">
+          <input type="button" value="Update " *ngIf="isEdit=='Edit'" class="fullBlue btn txt_font" (click)="updateRow()">
+          <input type="button" value="Add " *ngIf="isEdit=='Add'" class="fullBlue btn txt_font" (click)="addNewCustomComponent()">
         </aside>
       </div>
     </div>
@@ -358,7 +231,7 @@
 
   <proctur-popup [sizeWidth]="'small'" *ngIf="isDelete">
 
-    <span class="closePopup pos-abs fbold show" (click)="cancelDeleteRow()" close-button>
+    <span class="closePopup pos-abs fbold show" (click)="cancelRow()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -380,8 +253,8 @@
     <div class="" popup-footer>
       <div class="clearfix">
         <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="cancelDeleteRow()">
-          <input type="button" value="Confirm" class="fullBlue btn" (click)="DeleteRowConfirmed()">
+          <input type="button" value="Cancel" class="btn txt_font" (click)="cancelRow()">
+          <input type="button" value="Confirm" class="fullBlue btn txt_font" (click)="DeleteRowConfirmed()">
         </aside>
       </div>
     </div>

@@ -72,7 +72,7 @@ export class AdminHomeComponent implements OnInit {
   messageCount: number = 0;
 
   courseCommonExamCancelPopUP = false;
-  examMerkMassUpload = false;
+
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
@@ -658,9 +658,7 @@ export class AdminHomeComponent implements OnInit {
     this.studentAttList[i].dateLi[0].is_home_work_status_changed = "Y";
   }
 
-  showUploadCourseMarksSection() {
-    this.examMerkMassUpload = true;
-  }
+
   /* ======================================================================================================= */
   /* ===================================Cancel Class=================================== */
   /* ======================================================================================================= */
@@ -3073,7 +3071,7 @@ export class AdminHomeComponent implements OnInit {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
       if (this.tempData.course_marks_update_level == '0') {
-        obj.course_marks_update_level = '3';
+        obj.course_marks_update_level = '3';// 3 mark attendence  2- coursewisw 1 subject 
       } else {
         obj.course_marks_update_level = this.tempData.course_marks_update_level;
       }
@@ -3109,7 +3107,6 @@ export class AdminHomeComponent implements OnInit {
 
   closePopUpCommon() {
     this.courseExamAttPopup = false;
-    this.examMerkMassUpload = false;
     this.tempData = "";
     this.studentList = [];
     this.courseExamMarkPopup = false;

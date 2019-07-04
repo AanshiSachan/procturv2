@@ -649,6 +649,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isRippleLoad = false;
         if (data != null) {
           data.forEach(el => {
+            let max_length =  el.comp_length==0?50:el.comp_length;
             let obj = {
               data: el,
               id: el.component_id,
@@ -659,7 +660,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               selected: [],
               selectedString: '',
               type: el.type,
-              value: el.enq_custom_value
+              value: el.enq_custom_value,
+              comp_length:max_length
             }
             if (el.type == 4) {
               obj = {
@@ -672,7 +674,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
                 selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                 type: el.type,
-                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+                comp_length:max_length
               }
             }
             if (el.type == 3) {
@@ -686,7 +689,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selected: [],
                 selectedString: "",
                 type: el.type,
-                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value ,
+                comp_length:max_length
               }
             }
             if (el.type == 2) {
@@ -701,6 +705,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selectedString: '',
                 type: el.type,
                 value: this.getCustomComponentCheckboxValue(el.enq_custom_value),
+                comp_length:max_length
               }
             }
             else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -714,7 +719,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 selected: [],
                 selectedString: '',
                 type: el.type,
-                value: el.enq_custom_value
+                value: el.enq_custom_value,
+                comp_length:max_length
               }
             }
             this.customComponents.push(obj);

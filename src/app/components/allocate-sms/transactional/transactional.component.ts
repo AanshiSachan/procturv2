@@ -80,13 +80,15 @@ export class TransactionalComponent implements OnInit {
 
     this.apiService.putData('/api/v1/institute/SMS/transaction/buyOnline/' + this.institute_id, data).subscribe(
       (resp: any) => {
+        console.log(resp)
         this.zone.run(() => { // <== added
           this._msgService.showErrorMessage('success', '', "SMS successfully added in your account");
         });
       },
       (err) => {
+        console.log(err)
         this.zone.run(() => { // <== added
-          this._msgService.showErrorMessage('success', '', "SMS successfully added in your account");
+          this._msgService.showErrorMessage('error', '', "Something went wrong please try again and if your payment deducted from your account it will be added in your account within 5 to 6 days ");
         });
       }
     );

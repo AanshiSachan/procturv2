@@ -11,8 +11,8 @@ import { Observable } from 'rxjs/Observable';
 export class WidgetService {
     baseUrl: string = '';
     Authorization: any;
-    headers;
-    institute_id;
+    headers:any;
+    institute_id:any;
     
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
         this.auth.currentAuthKey.subscribe(key => {

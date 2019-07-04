@@ -31,7 +31,7 @@ export class CompaignSmsComponent implements OnInit {
   smsSource: any[] = [];
   searchData = [];
   searchText = "";
-  totalRecords: number = 0;
+  totalRecords: number = 0;  
   searchflag: boolean = false;
   dataStatus: boolean = true;
   isRippleLoad: boolean = false;
@@ -41,7 +41,7 @@ export class CompaignSmsComponent implements OnInit {
       title: 'Campaign SMS Report', key: 'reports.fee.campaignReport', showTitle: false,
     },
     search: { title: 'Search', showSearch: false },
-    defaultSort: { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true },
+    defaultSort: { primaryKey: 'date', header: 'Schedule Date Time', priority: 3, allowSortingFlag: true ,sortingType:'desc'},
     keys: this.projectSettings,
     selectAll: { showSelectAll: false, title: 'Send Due SMS', checked: true, key: 'name' },
     actionSetting:

@@ -1,32 +1,41 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
-
-
 <section class="middle-section clear-fix" id="middle-sectionId">
-
-
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
-      <span> Update Exam Marks</span>
+      <span> Update Exam Marks </span>
     </h2>
   </section>
-
   <hr>
-
   <div class="header_container">
     <div class="header_item1">
-      <h4>{{examData.exam_desc}}</h4>
+      <h4>{{exam_info?.data.batch_name}}</h4>
     </div>
-    <div class="header_item1 pull-right" *ngIf="examData.is_exam_grad_feature == 0" >
-      <h4>Total Marks : {{examData.total_marks}}</h4>
+    <div class="header_item1 pull-right" style="position: absolute; right: 160px; top: 7rem;">
+      <h4>
+        <label class="upload_details">Total Students :
+          <span class="txt_type " [ngClass]="{'txt_total_marks': examData.is_exam_grad_feature == 0}"> &nbsp;{{studentList?.length}} </span>
+        </label> &nbsp;
+        <span *ngIf="examData.is_exam_grad_feature == 0">Total Marks : {{examData.total_marks}}</span>
+      </h4>
+    </div>
+    <div class="header_item1 pull-right">
+
+      <span *ngIf="examData.is_exam_grad_feature == 0">
+        <input type="button" value="Upload Marks" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 6.1rem;"
+          (click)="updateGradesOption()">
+      </span>
+      <span *ngIf="examData.is_exam_grad_feature == 1"> 
+          <input type="button" value="Upload Grade" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 6.1rem;"
+          (click)="updateGradesOption()">
+      </span>
     </div>
   </div>
 
 
   <section class="marks-section">
     <div class="update_exam_marks_container">
-
       <div class="marks_table_container">
         <!-- Header -->
         <div class="heading_container">
@@ -53,7 +62,7 @@
           </div>
         </div>
         <!-- Body Container -->
-        <div class="value_container"  *ngFor="let s of studentList; let i=index;">
+        <div class="value_container" *ngFor="let s of studentList; let i=index;">
           <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [(ngModel)]="s.assigned" [disabled]="(s.attendance != 'P')">
             <label></label>
@@ -78,11 +87,13 @@
 
           <div class="value_item">
             <div *ngIf="examData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
-              <input type="number" class="side-form-ctrl paddingLess" [disabled]="(s.attendance != 'P')" [(ngModel)]="s.marks_obtained">
+              <input type="number" class="side-form-ctrl paddingLess" [disabled]="(s.attendance != 'P')" [ngStyle]="{'background':(s.attendance != 'P')? '#969696':''}"
+                [(ngModel)]="s.marks_obtained">
             </div>
 
             <div *ngIf="examData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
-              <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P')" [(ngModel)]="s.grade_id" name="grade_id" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N') || (s.attendance == 'L') || (s.attendance == 'A')"
+              <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P')" [ngStyle]="{'background':(s.attendance == 'L' && s.isAttendanceUpdated == 'N') || (s.attendance == 'L') || (s.attendance == 'A')? '#969696':''}"
+                [(ngModel)]="s.grade_id" name="grade_id" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N') || (s.attendance == 'L') || (s.attendance == 'A')"
                 style="padding: 0px 0px">
                 <option value="-1"></option>
                 <option [value]="time.grade_id" *ngFor="let time of gradesList">
@@ -104,14 +115,46 @@
 
 
   <div style="padding-top: 10px;" class="clearfix">
-    <aside class="pull-left popup-btn"  style=" display: inline-flex; ">
+    <aside class="pull-left popup-btn" style=" display: inline-flex; ">
       <input type="button" value="Back" class="btn" (click)="closeAttendance()" style="margin-left: 0px;border-radius: 4px;">
     </aside>
     <aside class="pull-right popup-btn" style=" display: inline-flex;border-radius: 4px; ">
       <input type="button" value="Cancel" class="btn" (click)="closeAttendance()" style="border-radius: 4px;">
-      <input type="button" value="Update Marks" (click)="updateMarksOnServer('N')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
-      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServer('Y')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks" (click)="updateMarksOnServer('N')" class="fullBlue btn" style="border-radius: 4px;"
+        [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServer('Y')" class="fullBlue btn" style="border-radius: 4px;"
+        [disabled]="isRippleLoad">
     </aside>
   </div>
 
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog" style="width: 25%">
+    <a id="downloadFileClick" class="hide"></a>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header top_corner">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <span class="modal-title">Upload Student Marks</span>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <input class="fullBlue btn txt-download" id="btnDownload" type="button" value="Download" (click)="downloadMarksDetails()">
+        </div>
+        <br>
+        <div class="text_line">
+          <span>OR</span>
+        </div>
+        <div class="txt_upload text-center">Upload Marks</div>
+        <br>
+        <div>
+          <p-fileUpload #fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler($event,fileUpload)" [showCancelButton]="false">
+          </p-fileUpload>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

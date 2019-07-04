@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { LoginService } from '../../../services/login-services/login.service';
-import { AppComponent } from '../../../app.component';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import 'rxjs/Rx';
+import { MessageShowService } from '../../../services/message-show.service';
+/**  custome fields changes 
+ * updated by laxmi wapte
+ */
 
 
 @Component({
@@ -17,25 +16,11 @@ import 'rxjs/Rx';
 
 export class StudentCustomComponent implements OnInit {
 
-
-  isDelete: boolean;
-  isEdit: boolean;
   componentShell: any[] = [];
   userCreatedComponent: any[] = [];
-  isNewComponent: boolean = false;
-  createCustomComponentForm: any = {
-    comp_length: "",
-    description: "",
-    institution_id: sessionStorage.getItem('institute_id'),
-    is_required: "N",
-    is_searchable: "N",
-    label: "",
-    page: 2,
-    prefilled_data: "",
-    sequence_number: "",
-    type: "",
-    defaultValue: ""
-  }
+  isDelete: boolean = false;
+  isRippleLoad: boolean = false;
+  isEdit: string = '';
   editCustomComponentForm: any = {
     comp_length: "",
     description: "",
@@ -49,9 +34,13 @@ export class StudentCustomComponent implements OnInit {
     type: "",
     defaultValue: ""
   }
-  busy: Subscription;
 
-  constructor(private prefill: FetchprefilldataService, private postdata: PostEnquiryDataService, private appC: AppComponent, private login: LoginService) {
+  constructor(
+    private prefill: FetchprefilldataService,
+    private postdata: PostEnquiryDataService,
+    private login: LoginService,
+    private msgService: MessageShowService
+  ) {
   }
 
   ngOnInit() {
@@ -60,180 +49,106 @@ export class StudentCustomComponent implements OnInit {
 
   /* fetches list of user created component and the default type */
   fetchPrefillData() {
-
+    this.isRippleLoad = true;
     this.prefill.fetchComponentGenerator().subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         this.componentShell = res;
+      },(err)=>{
+        this.isRippleLoad = false;
       }
     );
 
-
+    this.isRippleLoad = true;
     return this.prefill.fetchUserCreatedComponentStudent().subscribe(
       (res: any) => {
+        this.isRippleLoad = false;
         this.userCreatedComponent = res;
+      },(err)=>{
+        this.isRippleLoad = false;
       }
     );
   }
 
   /* toggle the visibility of the the new component created */
-  toggleNewComponentVisisbility() {
-
-    if (document.getElementById('addComponent-icon').innerHTML == "+") {
-      this.isNewComponent = true;
-      document.getElementById('addComponent-icon').innerHTML = "-";
-    }
-    else if (document.getElementById('addComponent-icon').innerHTML == "-") {
-      this.isNewComponent = false;
-      this.createCustomComponentForm = {
-        comp_length: "",
-        description: "",
-        institution_id: sessionStorage.getItem('institute_id'),
-        is_required: "N",
-        is_searchable: "N",
-        label: "",
-        page: 2,
-        prefilled_data: "",
-        sequence_number: "",
-        type: "",
-        defaultValue: ""
-      }
-      document.getElementById('addComponent-icon').innerHTML = "+"
-    }
+  toggleNewComponentVisisbility(type) {
+    this.isEdit = type;
+    this.emptyObject();
   }
 
   addNewCustomComponent() {
     //Case 1 Label/Type is not empty and MaxLength and Sequence
-    if (this.createCustomComponentForm.label != "" && this.createCustomComponentForm.label != " "
-      && this.createCustomComponentForm.type != "") {
+    if (this.editCustomComponentForm.label != "" && this.editCustomComponentForm.label != " "
+      && this.editCustomComponentForm.type != "") {
 
       //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
-      if (this.createCustomComponentForm.type == "3" || this.createCustomComponentForm.type == "4") {
+      if (this.editCustomComponentForm.type == "3" || this.editCustomComponentForm.type == "4") {
         /* Validate Prefilled Data */
-        if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
-          if (this.validateDropdownDefvalue(this.createCustomComponentForm.prefilled_data, this.createCustomComponentForm.defaultValue)) {
-            this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+        if (this.validateDropDown(this.editCustomComponentForm.prefilled_data)) {
+          if (this.validateDropdownDefvalue(this.editCustomComponentForm.prefilled_data, this.editCustomComponentForm.defaultValue)) {
+            this.isRippleLoad = true;
+            this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
               res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Form-Field Updated',
-                }
-                this.isNewComponent = false;
-                document.getElementById('addComponent-icon').innerHTML = "+"
-                this.clearComponentForm();
-                this.appC.popToast(alert);
-                this.fetchPrefillData();
+                this.isRippleLoad = false;
+                this.msgService.showErrorMessage('success', '', 'Form-Field  Updated Successfully');
+                this.cancelEditRow();
               },
               err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Add Form-Field',
-                  body: 'Label name is already created with the same name'
-                }
-                this.appC.popToast(alert);
+                this.isRippleLoad = false;
+                this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'Label name is already created with the same name');
               }
             );
-            this.fetchPrefillData();
           }
           else {
-            let alert = {
-              type: 'error',
-              title: 'dropdown default value should be present in prefilled data',
-              body: ''
-            }
-            this.appC.popToast(alert);
+            this.msgService.showErrorMessage('error', '', 'dropdown default value should be present in prefilled data');
           }
         }
         else {
-          let alert = {
-            type: 'error',
-            title: 'Prefill data has to be unique and non-empty',
-            body: ''
-          }
-          this.appC.popToast(alert);
+          this.msgService.showErrorMessage('error', '', 'Prefill data has to be unique and non-empty');
         }
       }
 
       /* Date Custom Component */
-      else if (this.createCustomComponentForm.type == "5") {
+      else if (this.editCustomComponentForm.type == "5") {
         /* Date cannot be searchable and does not a default value */
-        if (this.createCustomComponentForm.is_searchable == "N" && this.createCustomComponentForm.defaultValue.trim() == "") {
-          this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+        if (this.editCustomComponentForm.is_searchable == "N" && this.editCustomComponentForm.defaultValue.trim() == "") {
+          this.isRippleLoad = true;
+          this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
             res => {
-              let alert = {
-                type: 'success',
-                title: 'Form-Field Updated',
-              }
-              this.isNewComponent = false;
-              document.getElementById('addComponent-icon').innerHTML = "+"
-              this.clearComponentForm();
-              this.appC.popToast(alert);
+              this.isRippleLoad = false;
+              this.msgService.showErrorMessage('success', '', 'Form-Field Updated Successfully');
               this.fetchPrefillData();
             },
             err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Add Form-Field',
-                body: 'There was an error processing your request' + JSON.parse(err._body).message
-              }
-              this.appC.popToast(alert);
+              this.isRippleLoad = false;
+              this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'There was an error processing your request' + JSON.parse(err._body).message);
             }
           );
-          this.fetchPrefillData();
         }
         else {
-          let obj = {
-            type: 'error',
-            title: 'Date Field Cannot Be Searchable Or have any default value',
-            body: ''
-          }
-          this.appC.popToast(obj);
+          this.msgService.showErrorMessage('error', 'Date Field Cannot Be Searchable Or have any default value', '');
         }
       }
 
       /* Textbox and Checkbox */
-      else if (this.createCustomComponentForm.type != "3" && this.createCustomComponentForm.type != "4" && this.createCustomComponentForm.type != "5") {
-        this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+      else if (this.editCustomComponentForm.type != "3" && this.editCustomComponentForm.type != "4" && this.editCustomComponentForm.type != "5") {
+        this.isRippleLoad = true;
+        this.postdata.addNewCustomComponent(this.editCustomComponentForm).subscribe(
           res => {
-            let alert = {
-              type: 'success',
-              title: 'Form-Field Updated',
-            }
-            this.isNewComponent = false;
-            document.getElementById('addComponent-icon').innerHTML = "+"
-            this.clearComponentForm();
-            this.appC.popToast(alert);
-            this.fetchPrefillData();
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage('success', 'Form-Field Updated Successfully', '');
+            this.cancelEditRow();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Add Form-Field',
-              body: 'Label name is already created with the same name'
-            }
-            this.appC.popToast(alert);
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'Label name is already created with the same name');
           }
         );
-        this.fetchPrefillData();
-        /* if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
-        }
-        else {
-          let obj = {
-            type: 'error',
-            title: 'Date Field Cannot Be Searchable Or have any default value',
-            body: ''
-          }
-          this.appC.popToast(obj);
-        } */
       }
 
     }
     else {
-      let alert = {
-        type: 'error',
-        title: 'Invalid Input',
-        body: 'Please mention a Label/Type'
-      }
-      this.appC.popToast(alert);
+      this.msgService.showErrorMessage('error', 'Invalid Input', 'Please mention a Label/Type');
     }
   }
 
@@ -250,7 +165,7 @@ export class StudentCustomComponent implements OnInit {
       return (el != "" && el != " ");
     });
     /* convert array to set unique value */
-    this.createCustomComponentForm.prefilled_data = Array.from(new Set(arr)).join(',');
+    this.editCustomComponentForm.prefilled_data = Array.from(new Set(arr)).join(',');
     return test1
   }
 
@@ -276,30 +191,15 @@ export class StudentCustomComponent implements OnInit {
 
   editRow(data) {
     this.editCustomComponentForm = data;
-    this.isEdit = true;
-    /* document.getElementById((data.label + data.component_id).toString()).classList.remove('displayComp');
-    document.getElementById((data.label + data.component_id).toString()).classList.add('editComp'); */
+    this.isEdit = 'Edit';
   }
 
   cancelEditRow() {
-    /* document.getElementById((data.label + data.component_id).toString()).classList.add('displayComp');
-    document.getElementById((data.label + data.component_id).toString()).classList.remove('editComp'); */
-    this.editCustomComponentForm = {
-      comp_length: "",
-      description: "",
-      institution_id: sessionStorage.getItem('institute_id'),
-      is_required: "N",
-      is_searchable: "N",
-      label: "",
-      page: 2,
-      prefilled_data: "",
-      sequence_number: "",
-      type: "",
-      defaultValue: ""
-    }
+    this.emptyObject();
     this.fetchPrefillData();
-    this.isEdit = false;
+    this.isEdit = '';
   }
+
 
   updateRow() {
     let data = this.editCustomComponentForm;
@@ -313,39 +213,20 @@ export class StudentCustomComponent implements OnInit {
           if (this.validateDropdownDefvalue(data.prefilled_data, data.defaultValue)) {
             this.postdata.updateCustomComponent(data).subscribe(
               res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Form-Field Updated',
-                }
-                this.appC.popToast(alert);
+                this.msgService.showErrorMessage('success', 'Form-Field Updated', '');
                 this.cancelEditRow();
               },
               err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Update Form-Field',
-                  body: JSON.parse(err._body).message
-                }
-                this.appC.popToast(alert);
+                this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', JSON.parse(err._body).message);
               }
             );
           }
           else {
-            let alert = {
-              type: 'error',
-              title: 'dropdown default value should be present in prefilled data',
-              body: ''
-            }
-            this.appC.popToast(alert);
+            this.msgService.showErrorMessage('error', 'dropdown default value should be present in prefilled data', '');
           }
         }
         else {
-          let alert = {
-            type: 'error',
-            title: 'Prefill data has to be unique and non-empty',
-            body: ''
-          }
-          this.appC.popToast(alert);
+          this.msgService.showErrorMessage('error', 'Prefill data has to be unique and non-empty', '');
         }
       }
 
@@ -355,78 +236,43 @@ export class StudentCustomComponent implements OnInit {
         if (data.is_searchable == "N" && data.defaultValue.trim() == "") {
           this.postdata.updateCustomComponent(data).subscribe(
             res => {
-              let alert = {
-                type: 'success',
-                title: 'Form-Field Updated',
-              }
-              this.appC.popToast(alert);
+              this.msgService.showErrorMessage('success', 'Form-Field Updated Successfully', '');
               this.cancelEditRow();
             },
             err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Update Component',
-                body: JSON.parse(err._body).message
-              }
-              this.appC.popToast(alert);
+              this.msgService.showErrorMessage('error', 'Failed To Update Component', JSON.parse(err._body).message);
             }
           );
         }
         else {
-          let obj = {
-            type: 'error',
-            title: 'Date Field Cannot Be Searchable Or have any default value',
-            body: ''
-          }
-          this.appC.popToast(obj);
+          this.msgService.showErrorMessage('error', 'Date Field Cannot Be Searchable Or have any default value','');
         }
       }
 
       /* Textbox and Checkbox */
       else if (data.type != "3" && data.type != "4" && data.type != "5") {
+        this.isRippleLoad = true;
         this.postdata.updateCustomComponent(data).subscribe(
           res => {
-            let alert = {
-              type: 'success',
-              title: 'Form-Field Updated',
-            }
-            this.appC.popToast(alert);
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage('success', 'Form-Field Updated','');
             this.cancelEditRow();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Form-Field',
-              body: JSON.parse(err._body).message
-            }
-            this.appC.popToast(alert);
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', JSON.parse(err._body).message);
           }
         );
-        /* if (this.validateDropDown(data.prefilled_data)) {
-        }
-        else {
-          let obj = {
-            type: 'error',
-            title: 'Prefill data has to be unique and non-empty',
-            body: ''
-          }
-          this.appC.popToast(obj);
-        } */
       }
 
     }
     else {
-      let alert = {
-        type: 'error',
-        title: 'Invalid Input',
-        body: 'Please mention a Label/Type'
-      }
-      this.appC.popToast(alert);
+      this.msgService.showErrorMessage('error', 'Invalid Input', 'Please mention a Label/Type');
     }
   }
 
-  clearComponentForm() {
-    this.createCustomComponentForm = {
+  emptyObject() {
+    this.editCustomComponentForm = {
       comp_length: "",
       description: "",
       institution_id: sessionStorage.getItem('institute_id'),
@@ -446,74 +292,29 @@ export class StudentCustomComponent implements OnInit {
     this.isDelete = true;
   }
 
-  cancelDeleteRow() {
+  cancelRow() {
     this.isDelete = false;
-    this.editCustomComponentForm = {
-      comp_length: "",
-      description: "",
-      institution_id: sessionStorage.getItem('institute_id'),
-      is_required: "N",
-      is_searchable: "N",
-      label: "",
-      page: 2,
-      prefilled_data: "",
-      sequence_number: "",
-      type: "",
-      defaultValue: ""
-    }
+    this.isEdit ='';
+    this.emptyObject();
   }
 
   DeleteRowConfirmed() {
     let data = this.editCustomComponentForm;
+    this.isRippleLoad = true;
     this.postdata.deleteCustomComponent(data.component_id).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.isDelete = false;
-        let alert = {
-          type: 'success',
-          title: 'Form-field Deleted',
-          body: 'requested form-field deleted'
-        }
-        this.appC.popToast(alert);
-        this.fetchPrefillData();
-        this.editCustomComponentForm = {
-          comp_length: "",
-          description: "",
-          institution_id: sessionStorage.getItem('institute_id'),
-          is_required: "N",
-          is_searchable: "N",
-          label: "",
-          page: 2,
-          prefilled_data: "",
-          sequence_number: "",
-          type: "",
-          defaultValue: ""
-        }
+        this.msgService.showErrorMessage('success', 'Form-field Deleted', 'requested form-field deleted successfully');
+        this.cancelEditRow();
       },
       err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Delete Form-Field',
-          body: err.error.message
-        }
-        this.appC.popToast(alert);
-        this.isDelete = false;
-        this.editCustomComponentForm = {
-          comp_length: "",
-          description: "",
-          institution_id: sessionStorage.getItem('institute_id'),
-          is_required: "N",
-          is_searchable: "N",
-          label: "",
-          page: 2,
-          prefilled_data: "",
-          sequence_number: "",
-          type: "",
-          defaultValue: ""
-        }
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', 'Failed To Delete Form-Field', err.error.message);
+        this.cancelRow();
       }
     );
   }
-
 }
 
 /* Used to cconvert the input type id to text for user view purpose */

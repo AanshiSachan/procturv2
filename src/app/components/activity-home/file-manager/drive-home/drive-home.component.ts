@@ -26,6 +26,7 @@ export class DriveHomeComponent implements OnInit {
       type: "folder",
       children: []
     }];
+    
   createFetchFolder = {
     folderName: "",
     institute_id: this.fileService.institute_id,
@@ -113,18 +114,11 @@ export class DriveHomeComponent implements OnInit {
     if (event >= 200 && event < 300) {
       this.fetchPrefillFolderAndFiles(this.filePathPopup, true);
     }
-    else {
-
-    }
   }
 
   closeSharePopup(event) {
-    if (event == false) {
-      this.getPopupOpen = false;
-    }
-    else {
-      this.getPopupOpen = true;
-    }
+    console.log(event);
+   this.getPopupOpen = event;
   }
 
   collapseString(index) {
@@ -597,7 +591,7 @@ export class DriveHomeComponent implements OnInit {
   treeUpdater(event) {
     let institute_id = this.fileService.institute_id;
     if (event == true) {
-      this.fetchPrefillFolderAndFiles(institute_id + "/", true);
+      this.fetchPrefillFolderAndFiles(this.getPath, true);// it maintain the state of file  user stay in that state -- laxmi 
     }
   }
 

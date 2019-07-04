@@ -199,8 +199,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
         }
         if (key.sortingType == 'desc') {
           this.keysArray[indexValue].type = key.type = 'desc';
-          key.sortingType = null;
-          this.recordsTrimmed = this.recordsTrimmed.reverse()
+          this.recordsTrimmed = this.recordsTrimmed.reverse();
         }
         // console.log(key);
       }

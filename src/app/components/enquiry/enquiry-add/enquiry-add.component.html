@@ -343,7 +343,7 @@
                         <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl"
-                          name="{{component.label +i}}" />
+                          name="{{component.label +i}}" [maxlength]="component.comp_length" />
 
                       </div>
                     </div>
@@ -353,7 +353,7 @@
                       <div class="field-checkbox-wrapper">
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"
                           (ngModelChange)="updateCustomComponent($event, component)" name="{{component.label +i}}"
-                          value="">
+                          value="" >
                         <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       </div>

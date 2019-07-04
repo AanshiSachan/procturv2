@@ -23,14 +23,6 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
 })
 export class CourseExamComponent implements OnInit {
 
-  isLangInstitute: boolean = false;
-  showContentSection: boolean = false;
-  showCourseStartEndDate: boolean = false;
-  batchData = {
-    standard_id: -1,
-    subject_id: -1,
-    batch_id: -1,
-  }
   masterCourseList: any = [];
   courseList: any = [];
   batchesList: any = [];
@@ -38,7 +30,26 @@ export class CourseExamComponent implements OnInit {
   cancelledSchedule: any = [];
   studentList: any = [];
   examSchedule: any = [];
+  viewList: any = [];
+  subjectListData: any[] = [];
+  newExamSubjectData: any = [];
+  subjectListDataSource: any = [];
+  edit_subject_topicId: any[];
+  subject_topics: any[] = [];
+  row_edit_subject_topicId: any[] = [];
+  public checkedKeys: any[] = [];
+  topicsName: any[] = [];
   examAdderContainer: boolean = false;
+  isLangInstitute: boolean = false;
+  showContentSection: boolean = false;
+  showCourseStartEndDate: boolean = false;
+  markAttendancePopUp: boolean = false;
+  cancelExamPopUp: boolean = false;
+  smsAbsenteesChkbx: boolean = false;
+  absentCount: number = 0;
+  presentCount: number = 0;
+  leaveCount: number = 0;
+  attendanceNote: string = "";  
   batchAdderData = {
     exam_date: moment().format("YYYY-MM-DD"),
     exam_desc: "",
@@ -52,27 +63,18 @@ export class CourseExamComponent implements OnInit {
     },
     total_marks: 0
   }
-  batchStartDate: any = "";
-  batchEndDate: any = "";
+  
+  batchData = {
+    standard_id: -1,
+    subject_id: -1,
+    batch_id: -1,
+  }
 
-
-  times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
-  minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
-  markAttendancePopUp: boolean = false;
-  markAttendanceData: any = "";
-
-  cancelExamPopUp: boolean = false;
-  absentCount: number = 0;
-  presentCount: number = 0;
-  leaveCount: number = 0;
-  attendanceNote: string = "";
-  smsAbsenteesChkbx: boolean = false;
-  cancelExamData: any = "";
   cancelPopUpData = {
     reason: "",
     notify: true
   }
-  currentDate: any = moment().format("YYYY-MM-DD");
+
   courseData = {
     master_course: '-1',
     course_id: -1,
@@ -82,18 +84,18 @@ export class CourseExamComponent implements OnInit {
     { label: 'Course', value: 'course' },
     { label: 'Subject', value: 'subject' }
   ];
+  batchStartDate: any = "";
+  batchEndDate: any = "";
+  markAttendanceData: any = "";
+  cancelExamData: any = "";
+  times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
+  minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   selectedType: string = "course";
-  viewList: any = [];
-  isRippleLoad: boolean = false;
+  currentDate: any = moment().format("YYYY-MM-DD");
   jsonVar = {
     isSheduleBatch: true,
     cancelCourseLevel: false
   }
-
-  multiClickDisabled: boolean = false;
-  subjectListData: any[] = [];
-  selectedRow = "";
-  total_marks_to_show = 0;
   newExamData = {
     startTimeHrs: '12 PM',
     startTimeMins: '00',
@@ -101,47 +103,49 @@ export class CourseExamComponent implements OnInit {
     endTimeMins: '00',
     total_marks: ''
   };
-
-  newExamSubjectData: any = [];
-  subjectListDataSource: any = [];
+  exam_desc: '';
+  exam_room_no: '';
   subject_id: '';
   subject_name: '';
   exam_marks: '';
-  subject_topics: any[] = [];
-  exam_desc: '';
-  exam_room_no: '';
-
   edit_subject_id: '';
   edit_subject_name: '';
   edit_exam_marks: '';
-  edit_subject_topics: '';
-  edit_subject_topicId: any[];
+  edit_subject_topics: ''; 
   edit_exam_desc: '';
   edit_exam_room_no: '';
-
   row_edit_subject_id: '';
   row_edit_subject_name: '';
   row_edit_exam_marks: '';
-  row_edit_subject_topics: '';
-  row_edit_subject_topicId: any[] = [];
+  row_edit_subject_topics: '';  
   row_edit_exam_desc: '';
   row_edit_exam_room_no: '';
-
-  // Topic listing variables
-  topicBox: boolean = true;
-  topicsName: any[] = [];
-  selectAllTopics: boolean = false;
   selectedSubId: any;
-  public checkedKeys: any[] = [];
-
+  total_marks_to_show = 0;
+  // Topic listing variables
+  topicBox: boolean = true;  
+  selectAllTopics: boolean = false;
   public enableCheck = true;
   public checkChildren = true;
   public checkParents = true;
   public checkOnClick = true;
   public checkMode: any = 'multiple';
-
   topicLinkColor: boolean = false;
   changeColor: boolean = false;
+  multiClickDisabled: boolean = false;
+  isRippleLoad: boolean = false;
+  selectedRow = "";  
+  public topicsData: any;
+  public children;
+  public hasChildren;
+  public isExpanded;
+
+   constructor(
+    private apiService: ExamCourseService,
+    private toastCtrl: AppComponent,
+    private auth: AuthenticatorService,
+    private topicService: TopicListingService
+  ) { }
 
   public get checkableSettings(): CheckableSettings {
     return {
@@ -152,19 +156,7 @@ export class CourseExamComponent implements OnInit {
       checkOnClick: this.checkOnClick
     };
   }
-
-  public topicsData: any;
-  public children;
-  public hasChildren;
-  public isExpanded;
-
-  constructor(
-    private apiService: ExamCourseService,
-    private toastCtrl: AppComponent,
-    private auth: AuthenticatorService,
-    private topicService: TopicListingService
-  ) { }
-
+  
   ngOnInit() {
     this.checkInstituteType();
     this.fetchPrefillData();
@@ -850,8 +842,9 @@ export class CourseExamComponent implements OnInit {
           this.calculateDataAsPerSelection(res);
           console.log(this.subjectListData);
           for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
-            if (this.examScheduleData.coursesList[i].courseClassSchdList) {
+            if (this.examScheduleData.coursesList[i].courseClassSchdList && this.examScheduleData.coursesList[i].course_id ==this.courseData.course_id) {
               this.examAdderContainer = true;
+              break;
             }
           }
           this.showContentSection = true;
