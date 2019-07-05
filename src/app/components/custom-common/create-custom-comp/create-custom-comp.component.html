@@ -122,7 +122,7 @@
           <label for="opt.data_value">Type
             <span class="text-danger">*</span>
           </label>
-          <select id="opt.data_value" class="form-ctrl" [(ngModel)]="editCustomComponentForm.type" name="opt.data_value">
+          <select id="opt.data_value" class="form-ctrl" (ngModelChange)="checkValuetype($event)" [(ngModel)]="editCustomComponentForm.type" name="opt.data_value">
             <option value=""></option>
             <option *ngFor="let opt of componentShell" [value]="opt.data_key">
               {{opt.data_value}}

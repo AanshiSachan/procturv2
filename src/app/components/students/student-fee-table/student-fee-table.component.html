@@ -150,7 +150,7 @@
                             </li>
                             <li class="action" [ngStyle]="{'width':isProfessional? '8% ':'10%'}" [ngClass]="{'bigger': taxEnableCheck == '0'}">
                                 <a *ngIf="fee.is_referenced == 'N' && fee.discount == 0" (click)="deleteInstallment(i)">
-                                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                                    <i style="font-family: FontAwesome;" class="fa fa-trash text-danger" title="Delete Fee" aria-hidden="true"></i>
                                 </a>
                                 <a *ngIf="fee.is_referenced == 'N' && fee.discount != 0" class="paid-fee">Discount Applied</a>
                                 <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
@@ -280,7 +280,7 @@
                             </li>
                             <li style="width: 10%;">
                                 <a (click)="deleteOtherFee(i)" *ngIf="fee.is_referenced == 'N'">
-                                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                                    <i style="font-family: FontAwesome;" class="fa fa-trash text-danger" title="Delete Fee" aria-hidden="true"></i> 
                                 </a>
                                 <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
                             </li>
@@ -290,11 +290,8 @@
                     <div class="table-data" *ngIf="additionalData.length ==0">
                         <h3>No Additional Fees Applied</h3>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
 

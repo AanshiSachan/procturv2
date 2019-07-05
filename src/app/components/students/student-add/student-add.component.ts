@@ -8,13 +8,13 @@ import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { Router } from '@angular/router';
-import { AppComponent } from '../../../app.component';
 import { document } from 'ngx-bootstrap-custome/utils/facade/browser';
 import 'rxjs/Rx';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { CommonServiceFactory } from '../../../services/common-service';
 import { FeeModel, StudentFeeService } from '../student_fee.service';
 import { CourseListService } from '../../../services/course-services/course-list.service';
+import { MessageShowService } from '../../../services/message-show.service';
 
 @Component({
   selector: 'app-student-add',
@@ -26,26 +26,153 @@ export class StudentAddComponent implements OnInit {
 
   /* Local Variable and scope declaration */
   /* ========================================================================================================== */
+  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
+  @ViewChild('btnPayment') btnPayment: ElementRef;
+  allocatedItem: any = [];
+  newPdcArr: any[] = [];
+  pdcStatus: any[] = [];
+  academicList: any = [];
+  chequePdcList: any[] = [];
+  savedAssignedBatch: any[] = [];
+  instituteList: any[] = [];
+  standardList: any[] = [];
+  courseList: any[] = [];
+  batchList: any[] = [];
+  slots: any[] = [];
+  langStatus: any[] = [];
+  selectedSlots: any[] = [];
+  customComponents: any[] = [];
+  slotIdArr: any[] = [];
+  uploadedFiles: any[] = [];
+  school: any[] = [];
+  userCustommizedFee: any[] = [];
+  otherFeeType: any[] = [];
+  feeTemplateStore: any[] = [];
+  inventoryItemsArr: any[] = [];
+  academicYear: any[] = [];
+  enquiryCustomComp: any[] = [];
+  subjectWiseInstallmentArray: any = [];
+  pdcSelectedForPayment: any;
   institute_enquiry_id: any;
   defaultAcadYear: any = -1;
+  isPdcFeePaymentSelected: boolean = false;
   closeFee: boolean;
   studentAddnMove: boolean;
   isPdcApply: boolean = false;
-  newPdcArr: any[] = [];
-  pdcStatus: any[] = [];
-  academicList : any= [];
+  formIsActive: boolean = true;
+  isRippleLoad: boolean = false;
+  quickAddStudent: boolean = false;
+  additionalBasicDetails: boolean = false;
+  isAssignBatch: boolean = false;
+  isAcad: boolean = false;
+  isProfessional: boolean = false;
+  multiOpt: boolean = false;
+  isDuplicateStudent: boolean = false;
+  genPdcAck: boolean = false;
+  sendPdcAck: boolean = false;
+  isConvertEnquiry: boolean = false;
+  isNewInstitute: boolean = true;
+  isNewInstituteEditor: boolean = false;
+  assignedBatch: string = "";
+  selectedSlotsString: string = '';
+  selectedSlotsID: string = '';
+  assignedBatchString: string = '';
+  userImageEncoded: string = '';
+  feeTempSelected: any = "";
+  removeImage: boolean = false;
+  isBasicActive: boolean = true;
+  isOtherActive: boolean = false;
+  isFeeActive: boolean = false;
+  isInventoryActive: boolean = false;
+  isConfigureFees: boolean = false;
+  isDiscountApplied: boolean = false;
+  reverse: boolean = false;
+  isPaymentPdc: boolean = false;
+  isDefineFees: boolean = false;
+  isNewInstallment: boolean = false;
+  isDiscountApply: boolean = false;
+  isUpdateFeeAndExit: boolean = false;
+  isPartialPayHistory: boolean = false;
+  isManualDisplayId: boolean = false;
+  isShareDetails: boolean = false;
+  alertBox: boolean = true;
+  createDuplicateStudent: boolean = false;
+  retrieveOldStudent: boolean = true;
+  taxEnableCheck: any = '1';
+  discountReason: string = '';
+  key: string = 'name';
+  containerWidth: any = "200px";
+  studentImage: string = '';
+  student_id: any = 0;
+  paymentMode: number = 0;
+  service_tax: number = 0;
+  is_undo: string = "N";
+  enquiryData: any = [];
+  feeStructureForm: any = {
+    studentArray: ["-1"],
+    template_effective_date: moment().format('YYYY-MM-DD')
+  };
+  createInstitute = {
+    instituteName: "",
+    isActive: "Y"
+  };
+  allocationForm: any = {
+    alloted_units: "",
+    item_id: "",
+    student_id: 0,
+    institution_id: sessionStorage.getItem('institute_id')
+  };
+
+  feeTemplateById: StudentFeeStructure = {
+    feeTypeMap: "",
+    customFeeSchedules: [],
+    registeredServiceTax: "",
+    toCreate: "",
+    studentArray: "",
+    studentwise_total_fees_amount: "",
+    studentwise_total_fees_balance_amount: "",
+    studentwise_total_fees_amount_paid: "",
+    studentwise_total_fees_discount: "",
+    studentwise_fees_tax_applicable: "",
+    no_of_installments: "",
+    discount_fee_reason: "",
+    template_name: "",
+    template_id: "",
+    template_effective_date: "",
+    is_fee_schedule_created: "",
+    is_fee_tx_done: "",
+    is_undo: "",
+    is_fee_other_inst_created: "",
+    is_delete_other_fee_types: "",
+    chequeDetailsJson: "",
+    payment_mode: "",
+    remarks: "",
+    paid_date: "",
+    is_cheque_details_required: "",
+    reference_no: "",
+    invoice_no: "",
+    uiSelected: false
+  };
+  studentFeeReportObj: any = {
+    due_date: null,
+    fee_schedule_id: 0,
+    paid_full: "Y",
+    previous_balance_amt: "",
+    total_amt_paid: ""
+  };
+  enableBiometric: any;
+  courseDropdown: any = null;
+  addInventory: any = {
+    alloted_units: 0,
+    item_id: -1,
+    available_units: ''
+  };
   pdcSearchObj = {
     cheque_status: '-1',
     student_id: '',
     cheque_date_from: '',
     cheque_date_to: ''
   };
-  pdcSelectedForPayment: any;
-  isPdcFeePaymentSelected: boolean = false;
-  chequePdcList: any[] = [];
-  savedAssignedBatch: any[] = [];
-  formIsActive: boolean = true;
-  isRippleLoad: boolean = false;
   studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
@@ -85,132 +212,6 @@ export class StudentAddComponent implements OnInit {
     deleteCourse_SubjectUnPaidFeeSchedules: false,
     archivedStudent: false
   };
-  quickAddStudent: boolean = false;
-  additionalBasicDetails: boolean = false;
-  isAssignBatch: boolean = false;
-  isAcad: boolean = false;
-  isProfessional: boolean = false;
-  multiOpt: boolean = false;
-  isDuplicateStudent: boolean = false;
-  genPdcAck: boolean = false;
-  sendPdcAck: boolean = false;
-  instituteList: any[] = [];
-  standardList: any[] = [];
-  courseList: any[] = [];
-  batchList: any[] = [];
-  slots: any[] = [];
-  langStatus: any[] = [];
-  selectedSlots: any[] = [];
-  customComponents: any[] = [];
-  slotIdArr: any[] = [];
-  uploadedFiles: any[] = [];
-  assignedBatch: string = "";
-  selectedSlotsString: string = '';
-  selectedSlotsID: string = '';
-  assignedBatchString: string = '';
-  userImageEncoded: string = '';
-  isConvertEnquiry: boolean = false;
-  isNewInstitute: boolean = true;
-  isNewInstituteEditor: boolean = false;
-  school: any[] = [];
-  removeImage: boolean = false;
-  userCustommizedFee: any[] = [];
-  isBasicActive: boolean = true;
-  isOtherActive: boolean = false;
-  isFeeActive: boolean = false;
-  isInventoryActive: boolean = false;
-  isConfigureFees: boolean = false;
-  feeTempSelected: any = "";
-  isDiscountApplied: boolean = false;
-  discountReason: string = '';
-  key: string = 'name';
-  reverse: boolean = false;
-  taxEnableCheck: any = '1';
-  isPaymentPdc: boolean = false;
-  otherFeeType: any[] = [];
-  feeTemplateStore: any[] = [];
-  inventoryItemsArr: any[] = [];
-  containerWidth: any = "200px"
-  studentImage: string = '';
-  student_id: any = 0;
-  paymentMode: number = 0;
-  service_tax: number = 0;
-  isDefineFees: boolean = false;
-  isNewInstallment: boolean = false;
-  isDiscountApply: boolean = false;
-  is_undo: string = "N";
-  isUpdateFeeAndExit: boolean = false;
-  enquiryData: any = [];
-  feeStructureForm: any = {
-    studentArray: ["-1"],
-    template_effective_date: moment().format('YYYY-MM-DD')
-  };
-  createInstitute = {
-    instituteName: "",
-    isActive: "Y"
-  };
-  allocationForm: any = {
-    alloted_units: "",
-    item_id: "",
-    student_id: 0,
-    institution_id: sessionStorage.getItem('institute_id')
-  };
-  isPartialPayHistory: boolean = false;
-  isManualDisplayId: boolean = false;
-  isShareDetails: boolean = false;
-  feeTemplateById: StudentFeeStructure = {
-    feeTypeMap: "",
-    customFeeSchedules: [],
-    registeredServiceTax: "",
-    toCreate: "",
-    studentArray: "",
-    studentwise_total_fees_amount: "",
-    studentwise_total_fees_balance_amount: "",
-    studentwise_total_fees_amount_paid: "",
-    studentwise_total_fees_discount: "",
-    studentwise_fees_tax_applicable: "",
-    no_of_installments: "",
-    discount_fee_reason: "",
-    template_name: "",
-    template_id: "",
-    template_effective_date: "",
-    is_fee_schedule_created: "",
-    is_fee_tx_done: "",
-    is_undo: "",
-    is_fee_other_inst_created: "",
-    is_delete_other_fee_types: "",
-    chequeDetailsJson: "",
-    payment_mode: "",
-    remarks: "",
-    paid_date: "",
-    is_cheque_details_required: "",
-    reference_no: "",
-    invoice_no: "",
-    uiSelected: false
-  };
-  studentFeeReportObj: any = {
-    due_date: null,
-    fee_schedule_id: 0,
-    paid_full: "Y",
-    previous_balance_amt: "",
-    total_amt_paid: ""
-  };
-  enableBiometric: any;
-  academicYear: any[] = [];
-  enquiryCustomComp: any[] = [];
-  courseDropdown: any = null;
-  addInventory: any = {
-    alloted_units: 0,
-    item_id: -1,
-    available_units: ''
-  };
-  allocatedItem: any = [];
-  alertBox: boolean = true;
-  createDuplicateStudent: boolean = false;
-  retrieveOldStudent: boolean = true;
-
-  @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-  @ViewChild('btnPayment') btnPayment: ElementRef;
 
   checkBoxGroup: any = {
     unpaidInstallment: true,
@@ -222,8 +223,6 @@ export class StudentAddComponent implements OnInit {
   };
 
   // New Function For Discounting
-
-  subjectWiseInstallmentArray: any = [];
   cardAmountObject: any = {
     feeAmountInclTax: 0,
     feeAmountExclTax: 0,
@@ -233,7 +232,7 @@ export class StudentAddComponent implements OnInit {
     amountDue: 0,
     additionalFees: 0
   };
-  totalAmountToPay: number = 0;
+
   paymentPopUpJson: any = {
     immutableAmount: 0,
     payingAmount: 0,
@@ -252,11 +251,26 @@ export class StudentAddComponent implements OnInit {
     genPdcAck: false,
     sendPdcAck: false
   };
+
+  pdcAddForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_id: 0,
+    cheque_no: '',
+    cheque_status: '',
+    cheque_status_key: 0,
+    clearing_date: '',
+    institution_id: sessionStorage.getItem('institute_id'),
+    student_id: 0
+  };
+
   feeObject: FeeModel;
   tableHeaderCheckbox: boolean = false;
   isFeePaymentUpdate: boolean = false;
   clonedFeeObject: FeeModel;
   convertInstituteEnquiryId: any = '';
+  totalAmountToPay: number = 0;
 
   constructor(
     private studentPrefillService: AddStudentPrefillService,
@@ -264,11 +278,11 @@ export class StudentAddComponent implements OnInit {
     private postService: PostStudentDataService,
     private fetchService: FetchStudentService,
     private router: Router,
-    private appC: AppComponent,
     private auth: AuthenticatorService,
     private commonServiceFactory: CommonServiceFactory,
     private feeService: StudentFeeService,
     private apiService: CourseListService,
+    private msgToast: MessageShowService
   ) {
     this.isRippleLoad = true
     this.getInstType();
@@ -393,8 +407,7 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
-        let msg = { type: 'info', title: 'No Course Assigned For Standard', body: '' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('info', '', 'No Course Assigned For Standard');
       });
   }
 
@@ -404,9 +417,9 @@ export class StudentAddComponent implements OnInit {
     let object = {
       student_ids: this.student_id,// string by ids common seperated
       institution_id: '',
-      sendEmail: userType,
-
+      sendEmail: userType
     }
+
     if (userType == 1) {
       object['user_role'] = this.paymentMode;
     }
@@ -425,23 +438,12 @@ export class StudentAddComponent implements OnInit {
         dwldLink.click();
       } else {
         this.isShareDetails = false;
-        let obj = {
-          type: 'success',
-          title: "Email sent successfully",
-          body: ""
-        }
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('success', '', 'Email sent successfully');
       }
     },
       (err: any) => {
         this.isRippleLoad = false;
-        // this.commonService.showErrorMessage('error', 'Error', err.error.message);
-        let obj = {
-          type: 'error',
-          title: err.error.message,
-          body: ""
-        }
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       })
   }
 
@@ -459,8 +461,7 @@ export class StudentAddComponent implements OnInit {
         this.isInventoryActive = false;
       }
       else {
-        let msg = { type: 'info', title: 'Student Details Already Saved', body: '' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
       }
     }
     else if (text === "kyc") {
@@ -475,8 +476,7 @@ export class StudentAddComponent implements OnInit {
         this.isInventoryActive = false;
       }
       else {
-        let msg = { type: 'info', title: 'Student Details Already Saved', body: '' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('info', '', 'Student Details Already Saved');
       }
     }
     else if (text === "feeDetails") {
@@ -491,8 +491,7 @@ export class StudentAddComponent implements OnInit {
         this.isInventoryActive = false;
       }
       else {
-        let msg = { type: 'info', title: 'Student Details Not Saved', body: 'Please save the student details to allocate fee and inventory' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
       }
     }
     else if (text === "inventory") {
@@ -507,8 +506,7 @@ export class StudentAddComponent implements OnInit {
         this.isInventoryActive = true;
       }
       else {
-        let msg = { type: 'info', title: 'Student Details Not Saved', body: 'Please save the student details to allocate fee and inventory' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('info', 'Student Details Not Saved', 'Please save the student details to allocate fee and inventory');
       }
     }
   }
@@ -554,10 +552,8 @@ export class StudentAddComponent implements OnInit {
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
 
@@ -574,19 +570,15 @@ export class StudentAddComponent implements OnInit {
     this.prefill.getEnqStardards().subscribe(
       data => { this.standardList = data; },
       err => {
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       });
 
     this.studentPrefillService.getChequeStatus().subscribe(
       data => { this.pdcStatus = data; },
       err => {
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
 
@@ -600,10 +592,8 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
 
@@ -616,19 +606,19 @@ export class StudentAddComponent implements OnInit {
         data => {
           if (data != null) {
             data.forEach(el => {
-              let max_length =  el.comp_length==0?50:el.comp_length;
-              let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value ,comp_length:max_length};
+              let max_length = el.comp_length == 0 ? 50 : el.comp_length;
+              let obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value, comp_length: max_length };
               if (el.type == 4) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value ,comp_length:max_length};
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue.split(',')), selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','), selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, comp_length: max_length };
               }
               if (el.type == 3) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,comp_length:max_length };
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: "", type: el.type, value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value, comp_length: max_length };
               }
               if (el.type == 2) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true,comp_length:max_length };
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value == "" ? false : true, comp_length: max_length };
               }
               else if (el.type != 2 && el.type != 4 && el.type != 3) {
-                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value,comp_length:max_length };
+                obj = { data: el, id: el.component_id, is_required: el.is_required, is_searchable: el.is_searchable, label: el.label, prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')), selected: [], selectedString: '', type: el.type, value: el.enq_custom_value, comp_length: max_length };
               }
               this.customComponents.push(obj);
             });
@@ -636,10 +626,8 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = false;
         },
         err => {
-          let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = { type: 'error', title: msg, body: "" };
-          this.appC.popToast(obj);
+          this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       );
     }
@@ -667,16 +655,13 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = false;
         },
         err => {
-          let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = { type: 'error', title: msg, body: "" };
-          this.appC.popToast(obj);
+          this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       );
     }
-
-
   }
+
 
   getDefaultArr(d): any[] {
     let a: any[] = [];
@@ -789,10 +774,8 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -803,10 +786,8 @@ export class StudentAddComponent implements OnInit {
         this.langStatus = res;
       },
       err => {
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -901,19 +882,13 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-
-
   openInstituteAdder() {
     this.isNewInstituteEditor = true;
   }
 
-
-
   closeInstituteAdder() {
     this.isNewInstituteEditor = false;
   }
-
-
 
   /* close add new institute */
   closeAddInstitute() {
@@ -921,8 +896,6 @@ export class StudentAddComponent implements OnInit {
     document.getElementById('add-institute-icon').innerHTML = '+';
     this.createInstitute.instituteName = '';
   }
-
-
 
   /* function to add institute data to server */
   addInstituteData() {
@@ -936,41 +909,23 @@ export class StudentAddComponent implements OnInit {
               this.instituteList.forEach(el => {
                 el.edit = false;
               });
-
               this.closeAddInstitute();
             },
             err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Add Institute',
-                body: 'There was an error processing your request'
-              }
-              this.appC.popToast(alert);
+              this.msgToast.showErrorMessage('error', 'Failed To Add Institute', 'There was an error processing your request');
             }
           );
         }
         else {
           err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Add Institute',
-              body: 'There was an error processing your request'
-            }
-            this.appC.popToast(alert);
+            this.msgToast.showErrorMessage('error', 'Failed To Add Institute', 'There was an error processing your request');
           }
         }
       },
       err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Add Institute',
-          body: 'There was an error processing your request'
-        }
-        this.appC.popToast(alert);
+        this.msgToast.showErrorMessage('error', 'Failed To Add Institute', 'There was an error processing your request');
       });
   }
-
-
 
   fetchInstituteInfo() {
     this.prefill.getSchoolDetails().subscribe(
@@ -983,8 +938,6 @@ export class StudentAddComponent implements OnInit {
       },
     )
   }
-
-
 
 
   editInstitute(id) {
@@ -1004,20 +957,11 @@ export class StudentAddComponent implements OnInit {
       if (el.school_id == id) {
         this.postService.updateInstituteDetails(id, el).subscribe(
           res => {
-            let alert = {
-              type: 'success',
-              title: 'institute Name Update',
-            }
-            this.appC.popToast(alert);
+            this.msgToast.showErrorMessage('success', '', 'institute Name Update');
             this.fetchInstituteInfo();
           },
           err => {
-            let alert = {
-              type: 'error',
-              title: 'We coudn\'t process your request',
-              body: err.message
-            }
-            this.appC.popToast(alert);
+            this.msgToast.showErrorMessage('error', 'We coudn\'t process your request', err.message);
             this.fetchInstituteInfo();
           }
         )
@@ -1028,21 +972,11 @@ export class StudentAddComponent implements OnInit {
   deleteInstitute(id) {
     this.postService.deleteInstitute(id).subscribe(
       res => {
-        let alert = {
-          type: 'success',
-          title: 'Institute Record Deleted',
-          body: " The institute data has been removed from your account"
-        }
-        this.appC.popToast(alert);
+        this.msgToast.showErrorMessage('success', 'Institute Record Deleted', "The institute data has been removed from your account");
         this.fetchInstituteInfo();
       },
       err => {
-        let alert = {
-          type: 'error',
-          title: 'Your Delete Request Has Been Denied',
-          body: "The requested institute is currently in use and cannot be deleted"
-        }
-        this.appC.popToast(alert);
+        this.msgToast.showErrorMessage('error', 'Your Delete Request Has Been Denied', "The requested institute is currently in use and cannot be deleted");
         this.fetchInstituteInfo();
       }
     )
@@ -1051,7 +985,6 @@ export class StudentAddComponent implements OnInit {
 
   /* toggle visibility of new institute form */
   toggleInstituteAdd() {
-
     let icon = document.getElementById('add-institute-icon').innerHTML;
     if (icon == '+') {
       this.isNewInstitute = true;
@@ -1064,17 +997,17 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-    getAcademicYearDetails() {
+  getAcademicYearDetails() {
     this.academicList = [];
-    this.isRippleLoad= true;
+    this.isRippleLoad = true;
     this.apiService.getAcadYear().subscribe(
       res => {
-        this.isRippleLoad= false;
+        this.isRippleLoad = false;
         this.academicList = res;
         // console.log("academicList",this.academicList);
       },
       err => {
-        this.isRippleLoad= false;
+        this.isRippleLoad = false;
       }
     )
   }
@@ -1091,7 +1024,6 @@ export class StudentAddComponent implements OnInit {
         this.courseDropdown = res;
       },
       err => {
-
       }
     )
   }
@@ -1107,18 +1039,12 @@ export class StudentAddComponent implements OnInit {
         this.studentQuickAdder(values);
       }
       else {
-        let obj = {
-          type: 'error',
-          title: 'Student Roll Number Missing',
-          body: "Please provide a valid roll number"
-        };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', 'Student Roll Number Missing', "Please provide a valid roll number");
       }
     }
     else {
       this.studentQuickAdder(values);
     }
-
   }
 
   studentQuickAdder(form: NgForm) {
@@ -1126,30 +1052,29 @@ export class StudentAddComponent implements OnInit {
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
     let formValid: boolean = this.formfullValidator();
 
-
     if (isCustomComponentValid && formValid) {
       //console.log("valid student generating Id Now");
       let customArr = [];
       this.customComponents.forEach(el => {
         /* Not Checkbox and value not empty */
         if (el.value != '' && el.type != 2 && el.type != 5) {
-          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: el.value };
+          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: el.value, comp_length: el.data.comp_length, type: el.type, label: el.label };
           customArr.push(obj);
         }
         /* Checkbox Custom Component */
         else if (el.type == 2) {
           if (el.value == "Y" || el.value == true) {
-            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "Y" };
+            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "Y", comp_length: el.data.comp_length, type: el.type, label: el.label };
             customArr.push(obj);
           }
           else if (el.value == "N" || el.value == false) {
-            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "N" };
+            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "N", comp_length: el.data.comp_length, type: el.type, label: el.label };
             customArr.push(obj);
           }
         }
         /* Date Type Custom Component */
         else if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
-          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: moment(el.value).format("YYYY-MM-DD") };
+          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: moment(el.value).format("YYYY-MM-DD"), comp_length: el.data.comp_length, type: el.type, label: el.label };
           customArr.push(obj);
         }
       });
@@ -1170,43 +1095,27 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray;
       }
 
-
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
       let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
       if (this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
-          let alert = {
-            type: 'error',
-            title: 'Invalid Input',
-            body: 'Please enter valid email id'
-          }
-          this.appC.popToast(alert);
+          this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid email id");
           return;
         }
       }
 
       if (this.studentAddFormData.parent_email != "") {
         if (!email.test(this.studentAddFormData.parent_email)) {
-          let alert = {
-            type: 'error',
-            title: 'Invalid Input',
-            body: 'Please enter valid parent email id'
-          }
-          this.appC.popToast(alert);
+          this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid email id");
           return;
         }
 
       }
       if (this.studentAddFormData.guardian_email != "") {
         if (!email.test(this.studentAddFormData.guardian_email)) {
-          let alert = {
-            type: 'error',
-            title: 'Invalid Input',
-            body: 'Please enter valid guardian email id'
-          }
-          this.appC.popToast(alert);
+          this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid guardian email id");
           return;
         }
       }
@@ -1215,12 +1124,7 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.parent_phone != "")
         || (this.studentAddFormData.guardian_phone.length < 10 &&
           this.studentAddFormData.guardian_phone != "")) {
-        let alert = {
-          type: 'error',
-          title: 'Invalid Input',
-          body: 'Please enter valid Parent / Guardian mobile number'
-        }
-        this.appC.popToast(alert);
+        this.msgToast.showErrorMessage('error', 'Invalid Input', "Please enter valid Parent / Guardian mobile number");
         return;
       }
 
@@ -1240,8 +1144,7 @@ export class StudentAddComponent implements OnInit {
             if (statusCode == 200) {
               this.removeImage = true;
               this.student_id = res.generated_id;
-              let msg = { type: 'success', title: 'Student Added', body: 'Student details Updated Successfully' };
-              this.appC.popToast(msg);
+              this.msgToast.showErrorMessage('success', 'Student Added', "Student details Updated Successfully");
               this.getCourseDropdown(res.generated_id);
               if (this.studentAddnMove) {
                 this.updateStudentFeeDetails();
@@ -1249,13 +1152,8 @@ export class StudentAddComponent implements OnInit {
               }
             }
             else if (statusCode == 2) {
-              let alert = {
-                type: 'error',
-                title: 'Contact Number In Use',
-                body: 'An enquiry with the same contact number seems to exist'
-              }
               this.removeImage = true;
-              this.appC.popToast(alert);
+              this.msgToast.showErrorMessage('error', 'Contact Number In Use', "An enquiry with the same contact number seems to exist");
               this.isDuplicateContactOpen();
             }
             else if (status_code == 202) {
@@ -1266,10 +1164,8 @@ export class StudentAddComponent implements OnInit {
           },
           err => {
             this.btnSaveAndContinue.nativeElement.disabled = false;
-            let msg = err.error.message;
             this.isRippleLoad = false;
-            let obj = { type: 'error', title: msg, body: "" };
-            this.appC.popToast(obj);
+            this.msgToast.showErrorMessage('error', '', err.error.message);
           });
       }
     }
@@ -1277,12 +1173,10 @@ export class StudentAddComponent implements OnInit {
 
     else {
       if (!isCustomComponentValid) {
-        let al = { type: 'error', title: 'Required Fields not filled', body: 'Please fill all the required fields on other details tab' };
-        this.appC.popToast(al);
+        this.msgToast.showErrorMessage('error', 'Required Fields not filled', "Please fill all the required fields on other details tab");
       }
       else if (!formValid) {
-        let alert = { type: 'error', title: 'Personal Details Invalid/Incorrect', body: 'Please provide valid name and contact number on personal details tab' };
-        this.appC.popToast(alert);
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please provide valid name and contact number on personal details tab");
       }
     }
 
@@ -1306,45 +1200,26 @@ export class StudentAddComponent implements OnInit {
 
   archivedStudent() {
     if (this.retrieveOldStudent) {
-
-      this.studentAddFormData.is_active = "Y"
-
+      this.studentAddFormData.is_active = "Y";
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         (res: any) => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-            let alert = {
-              type: 'success',
-              title: 'Student details updated successfully',
-              body: ''
-            }
-            this.appC.popToast(alert);
-
+            this.msgToast.showErrorMessage('success', '', "Student details updated successfully");
             if (this.studentAddnMove) {
               this.updateStudentFeeDetails();
               this.navigateTo('feeDetails');
             }
           }
           else {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Add Student',
-              body: ''
-            }
-            this.appC.popToast(alert);
+            this.msgToast.showErrorMessage('error', '', "Failed To Add Student");
             this.isDuplicateContactOpen();
           }
           this.closeAlert();
         },
         err => {
-          let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: msg,
-            body: ""
-          }
-          this.appC.popToast(obj);
+          this.msgToast.showErrorMessage('error', '', err.error.message);
           this.closeAlert();
         }
       );
@@ -1366,8 +1241,7 @@ export class StudentAddComponent implements OnInit {
         if (statusCode == 200) {
           this.removeImage = true;
           this.student_id = res.generated_id;
-          let msg = { type: 'success', title: 'Student Added', body: 'Student details Updated Successfully' };
-          this.appC.popToast(msg);
+          this.msgToast.showErrorMessage('success', 'Student Added', "Student details Updated Successfully");
           this.getCourseDropdown(res.generated_id);
           if (this.studentAddnMove) {
             this.updateStudentFeeDetails();
@@ -1375,23 +1249,16 @@ export class StudentAddComponent implements OnInit {
           }
         }
         else if (statusCode == 2) {
-          let alert = {
-            type: 'error',
-            title: 'Contact Number In Use',
-            body: 'An enquiry with the same contact number seems to exist'
-          }
           this.removeImage = true;
-          this.appC.popToast(alert);
+          this.msgToast.showErrorMessage('error', 'Contact Number In Use', "An enquiry with the same contact number seems to exist");
           this.isDuplicateContactOpen();
         }
         this.closeAlert();
       },
       err => {
         this.btnSaveAndContinue.nativeElement.disabled = false;
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
         this.closeAlert();
       }
     )
@@ -1474,17 +1341,17 @@ export class StudentAddComponent implements OnInit {
       this.customComponents.forEach(el => {
         /* Not Checkbox and value not empty */
         if (el.value != '' && el.type != 2 && el.type != 5) {
-          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: el.value };
+          let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: el.value, comp_length: el.data.comp_length, type: el.type };
           customArr.push(obj);
         }
         /* Checkbox Custom Component */
         else if (el.type == 2) {
           if (el.value == "Y" || el.value == true) {
-            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "Y" };
+            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "Y", comp_length: el.data.comp_length, type: el.type };
             customArr.push(obj);
           }
           else if (el.value == "N" || el.value == false) {
-            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "N" };
+            let obj = { component_id: el.id, enq_custom_id: "0", enq_custom_value: "N", comp_length: el.data.comp_length, type: el.type };
             customArr.push(obj);
           }
         }
@@ -1493,7 +1360,9 @@ export class StudentAddComponent implements OnInit {
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
-            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+            enq_custom_value: moment(el.value).format("YYYY-MM-DD"),
+            comp_length: el.data.comp_length,
+            type: el.type
           }
           customArr.push(obj);
         }
@@ -1525,37 +1394,23 @@ export class StudentAddComponent implements OnInit {
 
           }
           else if (statusCode == 2) {
-            let alert = {
-              type: 'error',
-              title: 'Contact Number In Use',
-              body: 'A student with the same contact number seems to exist'
-            }
             this.removeImage = true;
-            this.appC.popToast(alert);
+            this.msgToast.showErrorMessage('error', 'Contact Number In Use', "A student with the same contact number seems to exist");
             this.isDuplicateContactClose();
           }
         },
         err => {
-          let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: msg,
-            body: ""
-          }
-          this.appC.popToast(obj);
-
+          this.msgToast.showErrorMessage('error', '', err.error.message);
         });
     }
     else {
       if (!isCustomComponentValid) {
         //console.log("invalid custom component");
-        let alert = { type: 'error', title: 'Required Fields not filled', body: 'Please fill all the required fields on other details tab' };
-        this.appC.popToast(alert);
+        this.msgToast.showErrorMessage('error', 'Required Fields not filled', "Please fill all the required fields on other details tab");
       }
       else if (!formValid) {
-        let alert = { type: 'error', title: 'Personal Details Invalid/Incorrect', body: 'Please provide valid name and contact number on personal details tab' };
-        this.appC.popToast(alert);
+        this.msgToast.showErrorMessage('error', 'Personal Details Invalid/Incorrect', "Please provide valid name and contact number on personal details tab");
       }
     }
   }
@@ -1633,15 +1488,8 @@ export class StudentAddComponent implements OnInit {
         this.filterStudentCustomComp();
       },
       err => {
-        let msg = err.error.message;
         this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     )
   }
@@ -2170,34 +2018,18 @@ export class StudentAddComponent implements OnInit {
           this.closeConfigureFees();
         },
         err => {
-          let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: msg,
-            body: ""
-          }
-          this.appC.popToast(obj);
+          this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       );
     }
     /* fee id not found */
     else if ((this.feeTempSelected == "" || this.feeTempSelected == null)) {
-      let msg = {
-        type: 'error',
-        title: 'No Template Selected',
-        body: 'Please select a template from dropdown list'
-      }
-      this.appC.popToast(msg);
+      this.msgToast.showErrorMessage('error', 'No Template Selected', "Please select a template from dropdown list");
     }
     /* date invalid not selected */
     else if (dd == "" || dd == null || dd == "Invalid date") {
-      let msg = {
-        type: 'error',
-        title: 'Invalid Date',
-        body: 'Please provide a valid date'
-      }
-      this.appC.popToast(msg);
+      this.msgToast.showErrorMessage('error', 'Invalid Date', "Please provide a valid date");
     }
   }
 
@@ -2214,9 +2046,6 @@ export class StudentAddComponent implements OnInit {
       if (confirm("All Changes made to fee template will be discarded!")) {
         this.isDefineFees = false;
         this.updateStudentFeeDetails();
-      }
-      else {
-
       }
     }
   }
@@ -2239,19 +2068,6 @@ export class StudentAddComponent implements OnInit {
   }
 
   // PDC Cheque PopUp
-
-  pdcAddForm: any = {
-    bank_name: '',
-    cheque_amount: '',
-    cheque_date: '',
-    cheque_id: 0,
-    cheque_no: '',
-    cheque_status: '',
-    cheque_status_key: 0,
-    clearing_date: '',
-    institution_id: sessionStorage.getItem('institute_id'),
-    student_id: 0
-  };
 
   getPdcChequeList() {
     let obj = {
@@ -2329,14 +2145,8 @@ export class StudentAddComponent implements OnInit {
           this.chequePdcList.splice(i, 1);
         },
         err => {
-          let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: msg,
-            body: ""
-          }
-          this.appC.popToast(obj);
+          this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       )
     }
@@ -2352,14 +2162,8 @@ export class StudentAddComponent implements OnInit {
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },
         err => {
-          let msg = err.error.message;
           this.isRippleLoad = false;
-          let obj = {
-            type: 'error',
-            title: msg,
-            body: ""
-          }
-          this.appC.popToast(obj);
+          this.msgToast.showErrorMessage('error', '', err.error.message);
         }
       )
     }
@@ -2374,16 +2178,13 @@ export class StudentAddComponent implements OnInit {
   validPdc(obj): boolean {
     if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
       if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
-        let msg = { type: 'error', title: 'Invalid Cheque Details', body: 'Please enter a valid cheque date' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('error', 'Invalid Cheque Details', "Please enter a valid cheque date");
       }
       if (obj.cheque_no.toString().length != 6) {
-        let msg = { type: 'error', title: 'Invalid Cheque Details', body: 'Please enter a valid cheque number' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('error', 'Invalid Cheque Details', "Please enter a valid cheque number");
       }
       if (obj.cheque_amount <= 0) {
-        let msg = { type: 'error', title: 'Invalid Cheque Details', body: 'Please enter a valid amount' };
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('error', 'Invalid Cheque Details', "Please enter a valid amount");
       }
       return false;
     }
@@ -2467,8 +2268,7 @@ export class StudentAddComponent implements OnInit {
 
 
   studentAddedNotifier() {
-    let msg = { type: 'success', title: 'Student Details Updated', body: '' };
-    this.appC.popToast(msg);
+    this.msgToast.showErrorMessage('success', '', "Student Details Updated");
     this.router.navigate(['/view/student']);
   }
 
@@ -2495,9 +2295,7 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        let msg = err.error.message;
-        let obj = { type: 'error', title: msg, body: "" };
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('error', '', err.error.message);
       }
     );
   }
@@ -2513,7 +2311,7 @@ export class StudentAddComponent implements OnInit {
     if (this.addInventory.item_id != '-1') {
       if (this.addInventory.alloted_units > 0) {
         if (this.addInventory.alloted_units > this.addInventory.available_units) {
-          this.appC.popToast({ type: "error", title: "Error", body: "Please provide allocated unit less than available units" });
+          this.msgToast.showErrorMessage('error', '', 'Please provide allocated unit less than available units');
           return;
         } else {
           let obj: any = {
@@ -2526,7 +2324,7 @@ export class StudentAddComponent implements OnInit {
           this.postService.allocateInventory(obj).subscribe(
             res => {
               this.isRippleLoad = false;
-              this.appC.popToast({ type: "success", title: "Allocated Inventory", body: "Inventory Item Allocated Successfully" });
+              this.msgToast.showErrorMessage('success', 'Allocated Inventory', "Inventory Item Allocated Successfully");
               this.addInventory = {
                 alloted_units: 0,
                 item_id: -1,
@@ -2537,17 +2335,17 @@ export class StudentAddComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
-              this.appC.popToast({ type: "error", title: "Error", body: err.error.message });
+              this.msgToast.showErrorMessage('error', '', err.error.message);
             }
           )
 
         }
       } else {
-        this.appC.popToast({ type: "error", title: "Error", body: "Please provide valid unit to allocate" });
+        this.msgToast.showErrorMessage('error', 'Error', "Please provide valid unit to allocate");
         return;
       }
     } else {
-      this.appC.popToast({ type: "error", title: "Error", body: "Please provide inventory item to allocate" });
+      this.msgToast.showErrorMessage('error', 'Error', "Please provide inventory item to allocate");
       return;
     }
 
@@ -2566,11 +2364,10 @@ export class StudentAddComponent implements OnInit {
   }
 
   deleteInventory(data) {
-    data.allocation_id
     if (confirm('Are you sure, you want to delete inventory?')) {
       this.postService.deleteInventory(data.allocation_id).subscribe(
         res => {
-          this.appC.popToast({ type: "success", title: "Deleted Successfully", body: "Deleted Successfully Inventory" });
+          this.msgToast.showErrorMessage('success', '', "Deleted Successfully Inventory");
           this.getAllocatedHistory();
           this.fetchInventoryList();
         }
@@ -2579,7 +2376,6 @@ export class StudentAddComponent implements OnInit {
   }
 
   /* Converts base64 string into a byte[] */
-
   convertBase64ToArray(val) {
     var binary_string = window.atob(val);
     var len = binary_string.length;
@@ -2589,8 +2385,6 @@ export class StudentAddComponent implements OnInit {
     }
     return bytes.buffer;
   }
-
-
 
 }
 

@@ -125,7 +125,7 @@ export class CreateCustomCompComponent implements OnInit {
               },
               err => {
                 this.isRippleLoad = false;
-                this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'There was an error processing your request' + JSON.parse(err._body).message, );
+                this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'There was an error processing your request' + err.error.message );
               });
           }
           else {
@@ -240,7 +240,7 @@ export class CreateCustomCompComponent implements OnInit {
               },
               err => {
                 this.isRippleLoad = false;
-                this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', JSON.parse(err._body).message);
+                this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', err.error.message);
               }
             );
           }
@@ -266,7 +266,7 @@ export class CreateCustomCompComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
-              this.msgService.showErrorMessage('error', 'Failed To Update Component', JSON.parse(err._body).message);
+              this.msgService.showErrorMessage('error', 'Failed To Update Component', err.error.message);
             }
           );
         }
@@ -285,7 +285,7 @@ export class CreateCustomCompComponent implements OnInit {
           },
           err => {
             this.isRippleLoad = false;
-            this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', JSON.parse(err._body).message);
+            this.msgService.showErrorMessage('error', 'Failed To Update Form-Field', err.error.message);
           }
         );
       }
@@ -304,6 +304,11 @@ export class CreateCustomCompComponent implements OnInit {
     this.isDelete = false;
     this.isEdit = '';
     this.emptyObject();
+  }
+
+  //this function set default max length  50 when type is textbox
+  checkValuetype(value){
+    this.editCustomComponentForm.comp_length = value==1 ? 50:0
   }
 
   //delete manage filed

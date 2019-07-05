@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TopicServiceService } from '../../services/topic-service.service';
-import { AppComponent } from '../../app.component';
-
+import { MessageShowService } from '../../services/message-show.service';
 
 @Component({
   selector: 'app-topics',
@@ -13,12 +12,15 @@ export class TopicsComponent implements OnInit {
   SubjectCourses: any = [];
   TableData: any[] = [];
   topicsArr: any[] = [];
-  createNewTopic: boolean = false;
-  pageIndex: number = 1;
-  displayBatchSize: number = 10;
-  totalRow = 0;
   pagedTopicsArr: any[] = [];
   selectedRows: any[] = [];
+  searchData: any = [];
+  createNewTopic: boolean = false;
+  searchflag: boolean = false;
+  pageIndex: number = 1;
+  displayBatchSize: number = 10;
+  totalRow: number = 0;
+  searchText: string = "";
 
   TopicPayload = {
     standard_id: "-1",
@@ -33,16 +35,9 @@ export class TopicsComponent implements OnInit {
     subject_id: "-1"
   }
 
-
-  searchText: string = "";
-  searchflag: boolean = false;
-  searchData: any = [];
-
-
-
   constructor(
     private topicService: TopicServiceService,
-    private appC: AppComponent
+    private msgToast: MessageShowService
   ) { }
 
   ngOnInit() {
@@ -57,12 +52,7 @@ export class TopicsComponent implements OnInit {
         console.log(data);
       },
       error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('error', '', 'An Error Occured');
       }
     )
   }
@@ -75,12 +65,7 @@ export class TopicsComponent implements OnInit {
         this.SubjectCourses = data;
       },
       error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
+        this.msgToast.showErrorMessage('error', '', 'An Error Occured');
       }
     )
   }
@@ -99,12 +84,7 @@ export class TopicsComponent implements OnInit {
   addTopic() {
     this.topicService.postTopic(this.addingTopicPayload).subscribe(
       data => {
-        let obj = {
-          type: "success",
-          title: "Saved",
-          body: "Topic Created Successfully."
-        }
-        this.appC.popToast(obj);
+        this.msgToast.showErrorMessage('success', 'Saved', 'Topic Created Successfully');
         this.createNewTopic = false;
         this.TopicPayload = {
           standard_id: "-1",
@@ -140,21 +120,11 @@ export class TopicsComponent implements OnInit {
   }
   toggleCreateNewTopic() {
     if (this.TopicPayload.standard_id == "-1") {
-      let msg = {
-        type: "error",
-        title: "",
-        body: "Select A Standard"
-      }
-      this.appC.popToast(msg);
+      this.msgToast.showErrorMessage('error', '', 'Select A Standard');
       return;
     }
     else if (this.TopicPayload.subject_id == "-1") {
-      let msg = {
-        type: "error",
-        title: "",
-        body: "Select a Subject"
-      }
-      this.appC.popToast(msg);
+      this.msgToast.showErrorMessage('error', '', 'Select a Subject');
       return;
     }
     else {
@@ -167,12 +137,7 @@ export class TopicsComponent implements OnInit {
 
   createTopic() {
     if (this.addingTopicPayload.name == "") {
-      let msg = {
-        type: "error",
-        title: "",
-        body: "Fill a Topic Name"
-      }
-      this.appC.popToast(msg);
+      this.msgToast.showErrorMessage('error', '', 'Fill a Topic Name');
       return;
     }
     else {

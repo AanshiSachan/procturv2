@@ -649,7 +649,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isRippleLoad = false;
         if (data != null) {
           data.forEach(el => {
-            let max_length =  el.comp_length==0?50:el.comp_length;
+            let max_length =el.comp_length == 0 ? 50 : el.comp_length;
             let obj = {
               data: el,
               id: el.component_id,
@@ -1353,7 +1353,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           let obj = {
             component_id: el.id,
             enq_custom_id: el.data.enq_custom_id,
-            enq_custom_value: el.value
+            enq_custom_value: el.value,
+            comp_length: el.comp_length,
+            type:el.type,
+            label: el.label
           }
           customArr.push(obj);
         }
@@ -1363,7 +1366,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             let obj = {
               component_id: el.id,
               enq_custom_id: el.data.enq_custom_id,
-              enq_custom_value: "Y"
+              enq_custom_value: "Y",
+              comp_length: el.comp_length,
+              type:el.type,
+              label: el.label
             }
             customArr.push(obj);
           }
@@ -1371,7 +1377,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             let obj = {
               component_id: el.id,
               enq_custom_id: el.data.enq_custom_id,
-              enq_custom_value: "N"
+              enq_custom_value: "N",
+              comp_length: el.comp_length,
+              type:el.type,
+              label: el.label
             }
             customArr.push(obj);
           }
@@ -1381,7 +1390,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           let obj = {
             component_id: el.id,
             enq_custom_id: el.data.enq_custom_id,
-            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+            enq_custom_value: moment(el.value).format("YYYY-MM-DD"),
+            comp_length: el.comp_length,
+            type:el.type,
+            label: el.label
           }
           customArr.push(obj);
         }
@@ -1733,7 +1745,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               || sessionStorage.getItem('username') == 'admin') {
               this.checkBoxGroup.feeDiscouting = true;
               this.showFeeSection = true;
-              this.checkBoxGroup.hideReconfigure = true;              
+              this.checkBoxGroup.hideReconfigure = true;
               this.checkBoxGroup.manageCheque = true;
               this.getAcademicYearDetails();
             }
@@ -2238,7 +2250,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           temp.push(obj);
         });
         this.chequePdcList = temp;
-      },error=>{
+      }, error => {
         this.isRippleLoad = false;
       }
     )

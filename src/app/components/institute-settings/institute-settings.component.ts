@@ -338,7 +338,8 @@ export class InstituteSettingsComponent implements OnInit {
   hideAndRemoveClass() {
     this.menuList.map(
       ele => {
-        document.getElementById(ele).classList.remove('active');
+        if(document.getElementById(ele))
+        {document.getElementById(ele).classList.remove('active');}
       }
     );
   }

@@ -281,7 +281,7 @@
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.comp_length != null}">
           <label for="complength">Max- Length (Numerals Only)</label>
-          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="editCustomComponentForm.comp_length"
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"  (ngModelChange)="checkValuetype($event)" [(ngModel)]="editCustomComponentForm.comp_length"
             name="complength" id="complength">
 
         </div>

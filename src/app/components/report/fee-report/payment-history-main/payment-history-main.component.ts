@@ -37,7 +37,10 @@ export class PaymentHistoryMainComponent implements OnInit {
     { primaryKey: 'reference_no', header: 'Ref No', priority: 13, allowSortingFlag: true },
     { primaryKey: 'amount_paid', header: 'Amount Paid', priority: 14, amountValue: true, allowSortingFlag: true },
     { primaryKey: 'enquiry_counsellor_name', header: 'Counsellor', priority: 15, allowSortingFlag: true },
-    { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 16, allowSortingFlag: true }
+    { primaryKey: 'cheque_no', header: 'Cheque Number', priority: 16, allowSortingFlag: true },
+    { primaryKey: 'student_category', header: 'Status', priority: 17, allowSortingFlag: true },
+    
+    
   ];
   userList: any = [];
   paymentMode = ["Cash", "Cheque/PDC/DD No.", "Credit/Debit Card", "Caution Deposit(Refundable)", "NEFT/RTGS", "Other"];

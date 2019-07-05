@@ -425,7 +425,7 @@
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                     <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
-                    [maxlength]="component.comp_length"  />
+                    [maxlength]="component.data.comp_length"  />
                   </div>
                 </div>
 
