@@ -899,8 +899,12 @@ export class CourseExamComponent implements OnInit {
                 result.coursesList[i].courseClassSchdList.forEach(element => {
                   obj.courseModelAdder.total_marks  += Number(element.total_marks);
                 })
-                this.viewList.push(obj);              
+                    
             } //end if
+            else{
+              obj.courseTableList =[];
+            }
+            this.viewList.push(obj); 
           }
         }
       }
@@ -1538,9 +1542,10 @@ export class CourseExamComponent implements OnInit {
     // FOR NEWLY ADDED EXAM
     if (this.newExamSubjectData.length > 0) {
       // for (let i = 0; i < this.newExamSubjectData.length; i++) {
-      let test: any = {};
-      test.course_id = this.viewList[0].selectedCourseList.course_id;
-      test.course_exam_schedule_id = "-1";
+      let test: any = {course_id:'',course_exam_schedule_id:'-1'};
+         if(this.viewList.length>0){
+          test.course_id = this.viewList[0].selectedCourseList.course_id;
+         }
       let check = this.validateTime2();
       if (check == false) {
         return;
