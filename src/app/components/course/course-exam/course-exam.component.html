@@ -569,7 +569,7 @@
                   <div class="" *ngIf="viewList?.length">
                     <div class="loopingDiv" *ngFor="let data of viewList;let j= index ; trackBy : index">
 
-                        <div class="row dateInfo">   <!-- *ngIf="data.courseTableList.length > 0"-->
+                        <div class="row dateInfo"  *ngIf="data.courseTableList.length > 0">  
 
                           <div class="c-sm-3 c-lg-3 c-md-3">
 
@@ -628,7 +628,7 @@
                         </div>
 
 
-                       <div class="row basic-detail">   <!-- *ngIf="data.courseTableList.length > 0"-->
+                       <div class="row basic-detail" *ngIf="data.courseTableList.length > 0">   
 
                         <div class="c-sm-2 c-lg-2 c-md-2">
                           <div class="form-wrapper">
@@ -750,8 +750,7 @@
 
                         </div>
 
-                        <div class="row" style="padding: 6px; border-top: 1px solid rgba(119, 119, 119, 0.419608);">     <!-- *ngIf="data.courseTableList.length > 0"-->
-                          <div class="c-sm-2 c-lg-2 c-md-2">
+                        <div class="row" style="padding: 6px; border-top: 1px solid rgba(119, 119, 119, 0.419608);" *ngIf="data.courseTableList.length > 0" >                             <div class="c-sm-2 c-lg-2 c-md-2">
                             <span style="font-weight: 600;">Total Marks</span>
                           </div>
 
