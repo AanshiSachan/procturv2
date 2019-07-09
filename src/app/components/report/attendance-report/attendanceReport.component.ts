@@ -718,9 +718,31 @@ export class AttendanceReportComponent implements OnInit {
     let link = this.xlsDownloader.nativeElement;
     let outer = this.attendanceTable.nativeElement.outerHTML.replace(/ /g, '%20');
     let data_type = 'data:application/vnd.ms-excel';
+    let file_name = '';
+    if (this.isProfessional) {
+      for (let i = 0; i <= this.batchPro.length; i++) {
+        if (this.queryParams.batch_id == this.batchPro[i].batch_id) {
+          file_name = this.batchPro[i].batch_name;
+          break;
+        }
+      }
+      
+      file_name = file_name + '(' + moment(this.queryParams.from_date).format('DD-MMM-YYYY') + " to " 
+      +  moment(this.queryParams.to_date).format('DD-MMM-YYYY')  + ')';
+   
+    } else {
 
+      for (let i = 0; i <= this.batchCourses.length; i++) {
+        if (this.attendanceFetchForm.batch_id == this.batchCourses[i].batch_id) {
+          file_name = this.batchCourses[i].batch_name;
+          break;
+        }
+      }
+      file_name = file_name + '(' + moment(this.attendanceFetchForm.from_date).format('DD-MMM-YYYY') + " to " 
+      +  moment(this.attendanceFetchForm.to_date).format('DD-MMM-YYYY')  + ')';
+    }
     link.setAttribute('href', data_type + ',' + outer);
-    link.setAttribute('download', 'Student Report .xls');
+    link.setAttribute('download', file_name + '.xls');
     link.click();
   }
 
