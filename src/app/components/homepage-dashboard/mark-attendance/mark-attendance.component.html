@@ -19,9 +19,14 @@
   <div class="header_container">
     <div class="header_item1">
       <h4 *ngIf="!isProfessional">
-        <span>{{batch_info.master_course_name}}</span>
-        <span *ngIf="batch_info.course_name != undefined">-</span>
-        <span>{{batch_info.course_name}}</span>
+        <div *ngIf="batch_info.forCourseWise">
+          <span>{{batch_info.master_course_name}}</span>
+          <span *ngIf="batch_info.course_name != undefined">-</span>
+          <span>{{batch_info.course_name}}</span>
+        </div>
+        <div *ngIf="batch_info.forSubjectWise && !batch_info.isExam">
+          <span>{{batch_info.batch_name}}</span>
+        </div>
       </h4>
       <h4 *ngIf="isProfessional">
         <span>{{batch_info.master_course_name}}</span>
