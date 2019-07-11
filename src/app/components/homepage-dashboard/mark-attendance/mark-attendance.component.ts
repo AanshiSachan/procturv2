@@ -1120,12 +1120,12 @@ export class MarkAttendanceComponent implements OnInit {
       for (let i = 0; i < this.studentAttList.length; i++) {
         let obj: any = {};
         obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
-        // if (this.tempData.course_marks_update_level == '0') {
-        //   obj.course_marks_update_level = '3';
-        // } else {
-        //   obj.course_marks_update_level = this.tempData.course_marks_update_level;
-        // }
-        obj.course_marks_update_level = '3';
+        if (this.studentAttList[0].course_marks_update_level == '0') {
+          obj.course_marks_update_level = '3';
+        } else {
+          obj.course_marks_update_level = this.studentAttList[0].course_marks_update_level;
+        }
+        // obj.course_marks_update_level = '3';
         obj.isStudentExamSMS = absentKey;
         if(this.isProfessional){
           obj.batchExamMarksLi = this.makeDataJSON(this.studentAttList[i].dateLi);
