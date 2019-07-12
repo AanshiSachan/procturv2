@@ -21,7 +21,6 @@ export class CreateCustomCompComponent implements OnInit {
   isRippleLoad: boolean = false;
   isDelete: boolean = false;
   isEdit: string = '';
-
   editCustomComponentForm: any = {
     comp_length: "",
     description: "",
@@ -125,7 +124,7 @@ export class CreateCustomCompComponent implements OnInit {
               },
               err => {
                 this.isRippleLoad = false;
-                this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'There was an error processing your request' + err.error.message );
+                this.msgService.showErrorMessage('error', 'Failed To Add Form-Field', 'There was an error processing your request' + err.error.message);
               });
           }
           else {
@@ -193,12 +192,15 @@ export class CreateCustomCompComponent implements OnInit {
     return test1
   }
 
-  editRow(data) {
-    this.editCustomComponentForm = data;
+  //edit manage field and set editable object
+  editRow(data) {    
+    this.editCustomComponentForm = Object.assign({}, data);
+    this.checkValuetype(this.editCustomComponentForm.type);
     this.isEdit = 'Edit';
   }
 
   emptyObject() {
+
     this.editCustomComponentForm = {
       comp_length: "",
       description: "",
@@ -262,7 +264,7 @@ export class CreateCustomCompComponent implements OnInit {
             res => {
               this.isRippleLoad = false;
               this.cancelEditRow();
-              this.msgService.showErrorMessage('success', 'Form-Field Updated Successfully', '');              
+              this.msgService.showErrorMessage('success', 'Form-Field Updated Successfully', '');
             },
             err => {
               this.isRippleLoad = false;
@@ -307,8 +309,8 @@ export class CreateCustomCompComponent implements OnInit {
   }
 
   //this function set default max length  50 when type is textbox
-  checkValuetype(value){
-    this.editCustomComponentForm.comp_length = value==1 ? 50:0
+  checkValuetype(value) {
+    this.editCustomComponentForm.comp_length = value == 1 ? 50 : 0
   }
 
   //delete manage filed

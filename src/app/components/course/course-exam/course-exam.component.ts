@@ -404,17 +404,18 @@ export class CourseExamComponent implements OnInit {
       return;
     }
 
-    let subjectName = ""
-    this.subjectListData[0].forEach(
-      ele => {
-        if (this.edit_subject_id == ele.subject_id) {
-          subjectName = ele.subject_name;
+    let subjectName = "";
+    if(this.subjectListData.length>0){
+      this.subjectListData[0].forEach(
+        ele => {
+          if (this.edit_subject_id == ele.subject_id) {
+            subjectName = ele.subject_name;
+          }
         }
-      }
-    )
+      );
+    }  
 
     let topic_names = this.topicsName.join(", ");
-
     this.newExamSubjectData[row_no].subject_id = this.edit_subject_id
     this.newExamSubjectData[row_no].subject_name = subjectName;
     this.newExamSubjectData[row_no].exam_marks = this.edit_exam_marks;
@@ -426,15 +427,13 @@ export class CourseExamComponent implements OnInit {
     this.edit_subject_id = '';
     this.edit_subject_name = '';
     this.edit_exam_marks = '';
-    this.edit_subject_topics = '';
-    this.edit_subject_topicId = [];
+    this.edit_subject_topics = '';    
     this.edit_exam_desc = '';
     this.edit_exam_room_no = '';
-
+    this.edit_subject_topicId = [];
     this.calculateTotalMarks();
     document.getElementById(("row" + row_no).toString()).classList.add('displayComp');
     document.getElementById(("row" + row_no).toString()).classList.remove('editComp');
-
     this.selectedRow = "";
   }
 
@@ -910,6 +909,19 @@ export class CourseExamComponent implements OnInit {
       }
     }
   }
+
+  /**
+   * check negative value 
+   */
+  checkNgetiveValue($event){
+    console.log($event);
+    if($event<0){
+      this.messageNotifier('error', 'Error', 'Negative mark not allowed');
+    }    
+  }
+
+
+
   topicLinking(subjectData, index) {
     let subject_id;
     for (let i = 0; i < subjectData.length; i++) {
@@ -1250,7 +1262,6 @@ export class CourseExamComponent implements OnInit {
     }
 
     let topic_names = this.topicsName.join(", ");
-
     let obj: any = {};
     obj.total_marks = this.viewList[index].coursetableAdder.total_marks;
     obj.class_schedule_id = '0';
@@ -1298,7 +1309,7 @@ export class CourseExamComponent implements OnInit {
   deleteFromCourse(data, index, j) {
 
     if (this.viewList[j].courseTableList.length == 1) {
-      this.messageNotifier('error', 'Error', "Subject can't be deleted from the scheduled exam since only one subjcet is left!");
+      this.messageNotifier('error', 'Error', "Subject can't be deleted from the scheduled exam since only one subject is left!");
       return;
     }
     else {

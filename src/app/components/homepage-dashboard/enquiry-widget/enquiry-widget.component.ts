@@ -1,7 +1,8 @@
 import {
     Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
-    AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-    SimpleChanges, OnChanges
+    AfterViewInit, ChangeDetectionStrategy,
+    OnChanges,
+    ChangeDetectorRef
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
@@ -85,7 +86,13 @@ export class EnquiryWidgetComponent implements OnInit {
 
     enquiryZero: boolean = true;
 
-    constructor(private router: Router, private cd: ChangeDetectorRef, private appC: AppComponent, private rd: Renderer2, private enquiryService: FetchenquiryService, private widgetService: WidgetService) {
+    constructor(
+        private router: Router,
+        private cd: ChangeDetectorRef,
+        private appC: AppComponent,
+        private enquiryService: FetchenquiryService,
+        private widgetService: WidgetService
+    ) {
         this.enquiryDate[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
         this.enquiryDate[1] = new Date();
     }
@@ -120,10 +127,10 @@ export class EnquiryWidgetComponent implements OnInit {
 
     updateEnqChart() {
         this.cd.markForCheck();
-        if (this.chart.ref.series.length > 0) {
+        if (this.chart.ref && this.chart.ref.series.length > 0) {
             this.chart.ref.series[0].setData(this.generateEnqChartData());
-        }
-        this.chart.ref.redraw();
+            this.chart.ref.redraw();
+        }        
     }
 
     /* Date CHange events handled here */
