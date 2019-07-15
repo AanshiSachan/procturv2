@@ -13,8 +13,14 @@
   <hr>
 
   <div class="header_container">
-    <div class="header_item1">
+    <div class="header_item1" style="margin-top: 10px;">
       <h4>{{exam_info?.data.batchExamSchdList[0].batch_name}}</h4>
+    </div>
+    <div class="header_item1">
+      <label class="upload_details">Total Students :
+        <span class="txt_type txt_total_marks"> &nbsp;{{studentAttList?.length}}</span>
+      </label>
+      <input type="button" [value]="upload_text" class="btn upload_details btn_upload_grades" style="border-radius: 4px;" (click)="updateGradesOption()">
     </div>
   </div>
 
@@ -33,12 +39,7 @@
           <label for="course_wise" class="txt_type">Course </label>
 
         </div>
-        <div class="field-radio-wrapper pull-right">
-          <label class="upload_details">Total Students :
-            <span class="txt_type txt_total_marks"> &nbsp;{{studentAttList?.length}}</span>
-          </label>
-          <input type="button" [value]="upload_text" class="btn upload_details btn_upload_grades" style="border-radius: 4px;" (click)="updateGradesOption()">
-        </div>
+
       </div>
 
       <div class="marks_table_container">
@@ -67,10 +68,10 @@
           </div>
         </div>
         <!-- Body Container -->
-        <div class="value_container" *ngFor="let s of studentAttList; let i=index;">
+        <div class="value_container"  *ngFor="let s of studentAttList; let i=index;">
           <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="s.assigned">
-            <label></label>
+            <input type="checkbox" value="" class="form-checkbox"  [(ngModel)]="s.assigned">
+            <label ></label>
           </div>
           <div class="value_item">
             <span>{{s.student_disp_id}}</span>
@@ -88,9 +89,8 @@
           <div class="value_item" *ngFor="let subject of s.batchExamMarksLi; let i=index;">
 
             <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
-              <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '1')"
-                [(ngModel)]="subject.marks_obtained" (keyup)="checkSubjectMarks(s,subject,$event)"
-                 [ngClass]="examMarksLevel == 2 ? 'disabledInput' : 'enabledInput'">
+              <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '1')" [(ngModel)]="subject.marks_obtained"
+                (keyup)="checkSubjectMarks(s,subject,$event)" [ngClass]="examMarksLevel == 2 ? 'disabledInput' : 'enabledInput'">
               <span *ngIf="s.attendance != 'P'" style="color:#969696;font-weight: 600;">NA</span>
             </div>
 
@@ -107,14 +107,13 @@
           </div>
           <div class="value_item">
             <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
-              <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '2')"
-                [(ngModel)]="s.course_exam_marks_obtained" (focusout)="checkTotalMarks(s , $event)" [ngClass]="examMarksLevel == 1 ? 'disabledInput' : 'enabledInput'">
- 
-              <span *ngIf="s.attendance != 'P'" style="color:#969696;font-weight: 600;">NA</span>
+              <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '2')" [(ngModel)]="s.course_exam_marks_obtained"
+                (focusout)="checkTotalMarks(s , $event)" [ngClass]="examMarksLevel == 1 ? 'disabledInput' : 'enabledInput'">
+
+                <span *ngIf="s.attendance != 'P'" style="color:#969696;font-weight: 600;">NA</span>
             </div>
             <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
-              <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P') || (examMarksLevel == '0')" 
-              [(ngModel)]="s.grade_id"
+              <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P') || (examMarksLevel == '0')" [(ngModel)]="s.grade_id"
                 name="grade_id" style="padding: 0px 0px">
                 <option value="-1"></option>
                 <option [value]="time.grade_id" *ngFor="let time of gradesList">
@@ -135,15 +134,13 @@
 
 
   <div style="padding-top: 10px;" class="clearfix">
-    <aside class="pull-left popup-btn" style=" display: inline-flex; ">
+    <aside class="pull-left popup-btn"  style=" display: inline-flex; ">
       <input type="button" value="Back" class="btn" (click)="closeAttendance()" style="margin-left: 0px;border-radius: 4px;">
     </aside>
     <aside class="pull-right popup-btn" style=" display: inline-flex;border-radius: 4px; ">
       <input type="button" value="Cancel" class="btn" (click)="closeAttendance()" style="border-radius: 4px;">
-      <input type="button" value="Update Marks" (click)="updateMarksOnServerCourse('single')" class="fullBlue btn" style="border-radius: 4px;"
-        [disabled]="isRippleLoad">
-      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServerCourse('all')" class="fullBlue btn" style="border-radius: 4px;"
-        [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks" (click)="updateMarksOnServerCourse('single')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServerCourse('all')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
     </aside>
   </div>
 

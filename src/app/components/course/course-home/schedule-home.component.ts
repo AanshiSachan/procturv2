@@ -18,7 +18,7 @@ export class ScheduleHomeComponent implements OnInit {
   isRippleLoad: boolean = false;
   no_standard_name: boolean = false;
   standardListDataSource: any = [];
-  displayBatchSize = 10;
+  displayBatchSize = 15;
   standardList: any = [];
   PageIndex: number = 1;
   createNewStandard: boolean = false;
@@ -241,7 +241,7 @@ export class ScheduleHomeComponent implements OnInit {
     }
   }
 
-  // pagination functions 
+  // pagination functions
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;
@@ -391,4 +391,4 @@ export class ScheduleHomeComponent implements OnInit {
     document.getElementById('liClass').classList.remove('active');
   }
 
-} 
+}

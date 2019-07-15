@@ -47,7 +47,7 @@
     color: white;
     padding: 18px 20px;
     line-height: 26px;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 7px;
     margin-bottom: 30px;
     width: 30%;
@@ -796,10 +796,10 @@ fieldset {
 }
 
 .grid-container {
-    width: 90vw;
+    width: 93vw;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 div#enqChart {
@@ -818,7 +818,7 @@ div#enqChart {
 
 .grid {
     position: relative;
-    width: 90vw !important;
+    width: 93vw !important;
 }
 
 .item {
@@ -865,8 +865,8 @@ div#enqChart {
 
 // css for activity page
 .activity-page {
-    background: #f2f2f2;
-    max-height: 85vh;
+    // background: #f2f2f2;
+    // max-height: 85vh;
     overflow-y: auto;
     overflow-x: hidden;
     ::-webkit-scrollbar {
@@ -875,7 +875,7 @@ div#enqChart {
 }
 
 .activity-left {
-    max-width: 72%;
+    // max-width: 72%;
     width: 100%;
     padding: 15px 15px 24px 42px;
 }
@@ -889,7 +889,7 @@ div#enqChart {
 }
 
 .act-top {
-    width: 88vw;
+    width: 90.5vw;
     padding-bottom: 10px;
     border-bottom: 1px solid #d3d4d5;
     margin-bottom: 10px;
@@ -982,6 +982,7 @@ div#enqChart {
         width: 97%;
         border-radius: 6px;
         overflow: hidden;
+        margin: 5px;
         &.enquiry-state,
         &.fees-state {
             width: 48%;
@@ -993,7 +994,7 @@ div#enqChart {
             border-bottom: 1px solid #dedddd;
             span.heading {
                 font-weight: 400;
-                font-size: 16px;
+                font-size: 14px;
                 color: #414141;
                 // text-transform: uppercase;
                 padding-top: 4px;
@@ -1113,7 +1114,7 @@ div#enqChart {
                 margin-bottom: 9px;
             }
             div {
-                font-size: 18px;
+                font-size: 14px;
                 font-weight: 600;
                 color: #1e2328;
                 display: block;
@@ -1138,14 +1139,14 @@ div#enqChart {
                     align-items: center;
                 }
                 label {
-                    font-size: 16px;
+                    font-size: 14px;
                     color: #414141;
                     font-weight: 600;
                     margin-right: 8px;
                 }
                 span {
                     font-weight: 600;
-                    font-size: 18px;
+                    font-size: 14px;
                     color: #0c8af6;
                 }
             }
@@ -1169,8 +1170,8 @@ div#enqChart {
 
 .schedule-bottom {
     .schedule-scroller {
-        min-height: 300px;
-        max-height: 300px;
+        min-height: 380px;
+        max-height: 380px;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -1243,7 +1244,7 @@ div#enqChart {
             }
             div {
                 color: rgba(30, 35, 40, 0.7);
-                font-size: 14px;
+                font-size: 12px;
                 margin-bottom: 8px;
                 &.no-margin {
                     margin-bottom: 0px;
@@ -1394,12 +1395,12 @@ div#enqChart {
                 text-transform: uppercase;
             }
             a {
-                font-size: 18px;
+                font-size: 14px;
                 font-weight: 600;
                 color: #0c8af6;
             }
             div {
-                font-size: 18px;
+                font-size: 14px;
                 font-weight: 600;
                 color: #1e2328;
             }
@@ -2185,7 +2186,7 @@ div#enqChart {
             top: 35px;
             right: 20px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
             color: red;
             cursor: pointer;
             width: 20px;
@@ -2243,9 +2244,11 @@ div#enqChart {
                 color: black;
                 &.mins {
                     width: 70px;
+                    font-size: 12px;
                 }
                 &.mers {
                     width: 50px;
+                    font-size: 12px;
                 }
             }
         }
@@ -2331,7 +2334,7 @@ div#enqChart {
         width: 30%;
         float: left !important;
         .form-ctrl {
-            font: 400 13.3333px Arial;
+            font: 400 12px 'Open sans',sans-serif;
             border-top: none !important;
             border-right: none !important;
             border-left: none !important;
@@ -2376,7 +2379,7 @@ div#enqChart {
 }
 
 .send-notificaton-tooltip {
-    left: 200px !important;
+    left: 120px !important;
     .tooltip-box-field {
         left: 35px !important;
         top: -30px !important;
@@ -2472,7 +2475,7 @@ div#enqChart {
                 padding: 5px 24px 0px;
                 div {
                     color: rgba(30, 35, 40, 0.7);
-                    font-size: 14px;
+                    font-size: 12px;
                     margin-bottom: 8px;
                 }
             }
@@ -2506,59 +2509,7 @@ div#enqChart {
               }
             }
 
-
-
         }
-        // .che-action {
-        //     width: 100%;
-        //     position: absolute;
-        //     display: none; //height: 0%;
-        //     bottom: 2px;
-        //     right: 0px;
-        //     text-align: right;
-        //     margin-right: 30px;
-        //     &.display {
-        //         //height: 100%;
-        //         display: block !important;
-        //     }
-        //     span {
-        //         margin-left: 5%;
-        //         font-size: 14px;
-        //         font-weight: 600;
-        //         color: black;
-        //     }
-        // }
-        // &:hover {
-        //     ul {
-        //         &.ct-ongoing {
-        //             background: rgba(27, 96, 163, 0.16);
-        //             li {
-        //                 padding: 10px 10px 10px;
-        //             }
-        //             &.subject {
-        //                 background: rgba(27, 96, 163, 0.16);
-        //                 li {
-        //                     padding: 5px 24px 0px !important;
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     .che-action {
-        //         width: 100%;
-        //         position: relative;
-        //         display: block;
-        //         bottom: 18px;
-        //         right: 8px;
-        //         text-align: right;
-        //         margin-right: 30;
-        //         span {
-        //             margin-left: 5%;
-        //             font-size: 14px;
-        //             font-weight: 600;
-        //             color: black;
-        //         }
-        //     }
-        // }
     }
 }
 
@@ -2599,8 +2550,8 @@ div#enqChart {
   text-align: center;
   background: #1283f4;
   color: #ffffff;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   font-size: 30px;
   cursor: pointer;
   border-radius: 50%;

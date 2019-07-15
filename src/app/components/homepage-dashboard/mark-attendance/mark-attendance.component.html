@@ -143,7 +143,7 @@
                 </div>
               </div>
             </div>
-            <div class="schedule-scroller" style="overflow-y: scroll; height: 295px;">
+            <div class="schedule-scroller" style="overflow-y: auto; height: 57vh;">
               <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: settingInfo.home_work_feature_enable !=1 }">
                 <div class="ct-ongoing subject">
                   <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper"  *ngIf="batch_info.isExam">

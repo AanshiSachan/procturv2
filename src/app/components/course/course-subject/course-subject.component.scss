@@ -1,8 +1,12 @@
 @import "./src/assets/css/common/variables.scss";
 
 .courses-list-table{
-    max-height: 400px;
+    max-height: 72vh;
+    min-height: 72vh;
     overflow: auto;
+    ::-webkit-scrollbar {
+        display: block;
+    }
 }
 
 table {
@@ -10,6 +14,7 @@ table {
         tr{
             th{
                 padding:15px;
+                background: #f7f7f7;
             }
         }
     }
@@ -19,7 +24,7 @@ table {
                 padding: 10px;
                 .editOptions li {
                     display: inline-block;
-                    
+
                 }
                 th{
                     padding:15px;
@@ -79,6 +84,7 @@ table {
             tr {
                 td {
                     padding: 5px 5px;
+                    font-size: 12px;
                 }
             }
         }
@@ -86,15 +92,14 @@ table {
 }
 
 .pagination{
-    margin-top: 15px;
+    // margin-top: 15px;
     padding: 0px;
 }
 
 .create-standard-form {
     margin: 10px 0;
-    padding: 10px 20px 10px;
-    background: #efefef;
-    border-top: 1px solid #d8d8d8;
+    padding: 5px;
+    border-bottom: 1px solid #d8d8d8;
     .field-checkbox-wrapper {
         margin-top: 15px;
         .form-checkbox {
@@ -145,7 +150,7 @@ table {
     }
     .form-ctrl {
         background: white;
-        border-bottom: solid 1px #cccccc;
+        // border-bottom: solid 1px #cccccc;
     }
     p {
         margin-top: 5px;
@@ -190,13 +195,13 @@ table {
 
 .search-filter-wrapper {
     .normal-field {
-        padding: 7px 10px;
+        padding: 4px 10px;
         border: 1px solid #ccc;
         box-sizing: border-box;
         margin: 0;
         float: left;
-        height: 35px;
         font-size: 14px;
+        border-radius: 4px;
     }
     .field-wrapper {
         position: relative;
@@ -204,7 +209,7 @@ table {
         width: 30%;
         float: left !important;
         .form-ctrl {
-            font: 400 13.3333px Arial;
+            font: 400 12px 'Open sans',sans-serif;
             border-top: none !important;
             border-right: none !important;
             border-left: none !important;

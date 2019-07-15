@@ -30,7 +30,7 @@ $color-highlight: lighten($color-base, 7%);
 
 // css for activity page
 .activity-page {
-    background: #f2f2f2;
+    // background: #f2f2f2;
 }
 
 .activity-left {
@@ -144,7 +144,7 @@ $color-highlight: lighten($color-base, 7%);
     }
     .schedule-scroller {
         min-height: 300px;
-        max-height: 50vh;
+        max-height: 58vh;
         overflow-x: auto;
         overflow-y: auto;
     }
@@ -204,7 +204,7 @@ $color-highlight: lighten($color-base, 7%);
             }
         }
         &.sche-head {
-            background: #fff;
+            background: #fafafa;
             li {
                 width: 12%;
                 padding: 20px 10px 10px 4px;
@@ -213,7 +213,7 @@ $color-highlight: lighten($color-base, 7%);
                 background: transparent;
                 font-size: 12px;
                 font-weight: 600;
-                text-align: left;
+                text-align: center;
                 &:first-child {
                     width: 10%;
                 }

@@ -16,7 +16,7 @@ export class CourseSubjectComponent implements OnInit {
   no_subject_name: boolean = false;
   subjectListDataSource;
   PageIndex: number = 1;
-  displayBatchSize = 10;
+  displayBatchSize = 15;
   totalRow: number;
   subjectList: any = [];
   standardList: any = [];
@@ -240,7 +240,7 @@ export class CourseSubjectComponent implements OnInit {
 
 
 
-  // pagination functions 
+  // pagination functions
 
   fetchTableDataByPage(index) {
     this.PageIndex = index;

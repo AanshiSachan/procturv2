@@ -86,7 +86,7 @@ screen and (max-height: 768px) {
 .add-edit {
     margin-bottom: 15px;
     margin-top: 25px;
-    i { 
+    i {
         border: 1px solid $common-blue;
         display: inline-block;
         width: 17px;
@@ -105,7 +105,7 @@ screen and (max-height: 768px) {
     .expend-box {
         i {
             line-height: 12px;
-            font-size: 22px;
+            font-size: 14px;
         }
     }
     a {
@@ -135,7 +135,7 @@ screen and (max-height: 768px) {
 }
 
 .pull-right {
-    margin-top: 26px;
+    // margin-top: 26px;
     margin-left: 122px;
 }
 
@@ -185,7 +185,7 @@ form{
 .filter-box {
     padding: 0px 0px;
     margin-bottom: 5px;
-    
+
 }
 
 .btn-sms-search {
@@ -228,4 +228,3 @@ form{
 //         font-size: 14px;
 //         margin-left: 229px;
 //     }
-

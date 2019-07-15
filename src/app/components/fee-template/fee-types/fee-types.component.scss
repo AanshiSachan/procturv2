@@ -19,6 +19,10 @@
     }
 }
 
+.table-responsive{
+  overflow-x: hidden;
+}
+
 .add-edit {
     margin-bottom: 15px;
     margin-top: 15px;
@@ -40,7 +44,7 @@
     .expend-box {
         i {
             line-height: 12px;
-            font-size: 22px;
+            font-size: 14px;
         }
     }
     a {
@@ -97,7 +101,7 @@ table {
                     background: transparent;
                     width: 50%;
                     text-align: center;
-                    border-bottom: 1px solid #ccc;
+                    border: 1px solid #ccc;
                 }
             }
         }

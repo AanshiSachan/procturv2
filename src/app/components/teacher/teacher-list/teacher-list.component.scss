@@ -28,11 +28,11 @@
         height: 20px;
     }
     .btn {
-        padding: 2px 0px 0px 7px;
-        border: none;
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
+        // padding: 2px 0px 0px 7px;
+        // border: none;
+        // height: 35px;
+        // width: 35px;
+        // border-radius: 50%;
         .tooltip {
             position: relative;
             top: -20px;
@@ -101,11 +101,11 @@
 
 .btnWrapper {
     .btn {
-        padding: 2px 0px 0px 0px;
-        border: none;
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
+        // padding: 2px 0px 0px 0px;
+        // border: none;
+        // height: 35px;
+        // width: 35px;
+        // border-radius: 50%;
         .tooltip {
             position: relative;
             top: -30px;
@@ -121,7 +121,7 @@
             opacity: 0;
         }
         &:hover {
-            background: rgb(216, 214, 214);
+            // background: rgb(216, 214, 214);
             .tooltip {
                 position: relative;
                 top: -30px;
@@ -160,7 +160,7 @@
 
 .search-filter-wrapper {
     .normal-field {
-        padding: 7px 10px;
+        padding: 4px 10px;
         border: 1px solid #ccc;
         width: 50%;
         box-sizing: border-box;
@@ -175,7 +175,7 @@
         width: 30%;
         float: left !important;
         .form-ctrl {
-            font: 400 13.3333px Arial;
+            font: 400 12px 'Open sans',sans-serif;
             border-top: none !important;
             border-right: none !important;
             border-left: none !important;

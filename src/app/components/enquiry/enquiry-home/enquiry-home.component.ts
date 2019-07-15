@@ -2050,7 +2050,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.mySidenav.nativeElement.style.display = 'block';
         this.enqPage.nativeElement.style.width = "70%";
         this.enqPage.nativeElement.style.marginRight = mySidenavWidth;
-        this.optMenu.nativeElement.classList.add('shorted');
+        // this.optMenu.nativeElement.classList.add('shorted');
         this.flagJSON.isRippleLoad = true;
         this.cd.markForCheck();
         this.customCompid = [];
@@ -2076,7 +2076,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.mySidenav.nativeElement.style.display = 'none';
         this.enqPage.nativeElement.style.width = "100%";
         this.enqPage.nativeElement.style.marginRight = "0";
-        this.optMenu.nativeElement.classList.remove('shorted');
+        // this.optMenu.nativeElement.classList.remove('shorted');
         this.flagJSON.isRippleLoad = false;
     }
     /*  Handler for row click event */

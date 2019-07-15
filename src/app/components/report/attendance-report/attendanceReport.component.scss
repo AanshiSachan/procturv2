@@ -38,10 +38,10 @@ $color-highlight: lighten($color-base, 7%);
     cursor: pointer;
 }
 .attendance-container{
-    height: 85vh;
+    // height: 85vh;
     background: #efefef;
     padding: 5px;
-    overflow: auto; 
+    overflow: auto;
 }
 
 .filter-form {
@@ -261,11 +261,11 @@ $color-highlight: lighten($color-base, 7%);
         width: 100%;
         height: 100%;
         bottom: 0;
-        top: 60px;
+        top: 0px;
         right: 0;
         left: 0px;
         background: rgba(230, 230, 230, 0.5);
-        z-index: 100; // display: none;  
+        z-index: 100; // display: none;
         visibility: hidden;
         opacity: 0;
         -webkit-transition: all 0.5s ease-in;
@@ -296,7 +296,7 @@ $color-highlight: lighten($color-base, 7%);
         }
         h2 {
             margin-bottom: 15px;
-            font-size: 22px;
+            font-size: 14px;
         }
         h4 {
             margin: 25px 0 15px;

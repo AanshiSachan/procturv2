@@ -12,6 +12,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            background: #fafafa;
             &:first-child {
                 width: 5%;
             }
@@ -55,7 +56,7 @@
                         background: url("../../../../assets/images/calendar.svg") no-repeat;
                         position: absolute;
                         left: 97px;
-                        top: 10px;
+                        top: 3px;
                         width: 21px;
                         height: 21px;
                         z-index: 0;
@@ -74,9 +75,9 @@
             }
         }
     }
-    .row {
-        margin: 0px;
-    }
+    // .row {
+    //     margin: 0px;
+    // }
 }
 
 .radio-filter {
@@ -92,12 +93,11 @@
 }
 
 .filter-row {
-    margin: 5px 5px 10px 5px !important;
-    background: #efefef;
+    margin-bottom: 10px;
     padding: 0px 0px 6px 0px;
     box-sizing: border-box;
-    width: 99%;
-    box-shadow: 0px 0px 5px 1px #777;
+    width: 100%;
+    border: 1px solid rgba(10,10,10,0.3);
 }
 
 .batch-table {

@@ -117,8 +117,8 @@ svg:hover #gearIcon {
 }
 
 .pull-right {
-  margin-top: 26px;
-  margin-left: 122px;
+  // margin-top: 26px;
+  // margin-left: 122px;
 }
 
 .span-button {
@@ -170,7 +170,7 @@ login-nav {
             svg {
                 width: 25px;
                 color:#034979;
-               
+
                 .cls-1 {
                     stroke: #034979;
                     stroke-linejoin: unset;
@@ -209,7 +209,7 @@ login-nav {
 }
 
 /**
-  this css is for report section css for cards 
+  this css is for report section css for cards
   added by laxmi
 */
 .report-box {
@@ -229,7 +229,7 @@ login-nav {
           border: 1px solid #efefef;
           background: #fff;
           height: 120px;
-          border-radius: 10px;
+          border-radius: 4px;
           cursor: pointer;
           text-align: left;
           margin: 10px 0px;

@@ -28,7 +28,7 @@ TOP BAR
     display: table;
     width: 100%;
     h1{
-        font-size: 20px;
+        font-size: 14px;
     }
 }
 
@@ -319,20 +319,20 @@ FILE
     ::ng-deep .ui-tree .ui-treenode {
         padding: 10px 5px;
     }
-    
+
     ::ng-deep .ui-button {
         display: none;
     }
-    
+
     ::ng-deep .ui-fileupload {
         width: 100%;
         cursor: pointer;
     }
-    
+
     ::ng-deep .ui-fileupload-buttonbar {
         display: none;
     }
-    
+
     ::ng-deep .ui-fileupload-content {
         height: 71vh;
         padding: 5px;
@@ -399,13 +399,13 @@ FILE
         }
     }
   }
-/* 
+/*
 ============================================================================================
 ================================== REjected Grid View ==================================
 ============================================================================================
 */
 
-/* 
+/*
 .row__title {
     font-size: 16px;
     font-weight: 600;

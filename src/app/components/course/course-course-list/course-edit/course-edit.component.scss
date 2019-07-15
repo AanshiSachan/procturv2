@@ -1,7 +1,5 @@
 @import "./src/assets/css/common/variables.scss";
 .search-wrapper {
-    margin: 10px 15px;
-    background: #efefef;
     .field-wrapper {
         margin-bottom: 5px;
         .form-ctrl {
@@ -76,16 +74,16 @@
     .table-courseEdit {
         tr {
             th {
-                background: #e0eaec;
+                background: #f7f7f7;
                 font-size: 14px !important;
                 color: #000000;
                 font-weight: normal;
                 height: 20px;
-                padding-top: 13px;
-                padding-bottom: 15px;
+                padding: 10px 0px;
                 border-top: 2px solid rgba(119, 119, 119, 0.11);
                 text-align: left;
-                width: 22%;
+                width: 20%;
+                font-weight: 600;
                 &:first-child {
                     width: 4%;
                 }
@@ -185,17 +183,19 @@
 
 .field-wrapper {
     &.datePickerBox:after {
-        top: 10px;
+        top: 2px;
     }
 }
 
 .editCourseWrapper {
-    max-height: 500px;
+    max-height: 90vh;
     overflow: hidden;
+    min-height: 90vh;
     .middle-main {
-        max-height: 400px;
-        overflow-x: hidden;
-        overflow-y: auto;
+      max-height: 75vh;
+      min-height: 75vh;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
     ::-webkit-scrollbar {
         display: block;

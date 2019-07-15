@@ -7,18 +7,19 @@
       <!-- ==================================================================================== -->
       <!-- ========================== Header Section ========================================== -->
       <section class="middle-top clearFix">
-        <div class="row" style="margin-left: 0px;">
-          <h1 class="pull-left">
+        <div class="header-container">
+          <!-- <h1 class="pull-left" style="padding-top: 5px;">
             Class Schedule
-          </h1>
+          </h1> -->
+          <h4 style="padding-top: 10px;">Choose filter to view class schedule</h4>
 
-          <aside class="pull-right" style="margin-right: 15px">
+          <div  style="margin-right: 15px">
             <p-button label="Multiple Delete" (click)="deleteMultipleSchedule()" *ngIf="showDeleteBTN()" icon="fa fa-times"
               iconPos="left"></p-button>
             <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Add/Edit Class" class="btn">
-          </aside>
+          </div>
         </div>
-        <h4>Choose filter to view class schedule</h4>
+
       </section>
       <!-- ==================================================================================== -->
       <!-- ==================================================================================== -->
@@ -44,12 +45,12 @@
                             <label for="idAll">All</label>
                           </div>
                           <div class="field-radio-wrapper">
-                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter" 
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter"
                             value="Teacher" class="form-radio"    id="idTeacher">
                             <label for="idTeacher">Faculty</label>
                           </div>
                           <div class="field-radio-wrapper">
-                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter" 
+                            <input type="radio" [(ngModel)]="selectedRadioButton" (click)="checkInputType($event)" name="sFilter"
                             value="Batch" class="form-radio"   id="idBatch">
                             <label for="idBatch">Batch</label>
                           </div>
@@ -116,8 +117,8 @@
               </div>
 
               <!-- Course Module -->
-              <div class="search-filter-wrapper row" *ngIf="!isLangInstitute">
-                <div class="c-lg-10 c-md-10 c-sm-10">
+              <div class="search-filter-wrapper row" *ngIf="!isLangInstitute" style="margin-bottom: 5px;">
+                <div class="c-lg-9 c-md-9 c-sm-9">
                   <div class="row">
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper">
@@ -167,22 +168,25 @@
                     </div>
                   </div>
                 </div>
-                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top:15px;">
+                <div class="c-sm-1 c-md-1 c-lg-1" style="margin-top:15px;">
                   <input type="button" class="fullBlue btn" value="View" (click)="submitMasterCourse()">
+                </div>
+                <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top:15px;">
+                  <a class="pull-right" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Filter</a>
                 </div>
               </div>
 
-              <div class="row" style="margin-top: 10px">
+              <!-- <div class="row" style="margin-top: 10px">
                 <a class="pull-right advancefilter" style="cursor: pointer;" (click)="showhideAdvanceFilter('1');">Advance Filter</a>
-              </div>
+              </div> -->
 
             </div>
 
             <div class="" *ngIf="showAdvanceFilter">
-              <p class="row">Maximum 30 days date range filter can be applied.</p>
-              <div class="row advanceDateFilter">
+              <p>Maximum 30 days date range filter can be applied.</p>
+              <div class="row advanceDateFilter" style="margin-bottom: 5px;">
 
-                <div class="c-sm-10 c-md-10 c-lg-10">
+                <div class="c-sm-9 c-md-9 c-lg-9">
                   <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="!isLangInstitute">
                     <div class="field-wrapper">
                       <label for="smc">Select Master Course
@@ -277,15 +281,18 @@
                   </div>
                 </div>
 
-                <div class="c-sm-2 c-md-2 c-lg-2 btn-wrapper">
+                <div class="c-sm-1 c-md-1 c-lg-1 btn-wrapper">
                   <button class="btn fullBlue" (click)="advanceFilterView()">View</button>
+                </div>
+                <div class="c-sm-1 c-md-1 c-lg-1">
+                  <a class="pull-right" style="margin-top: 30px;cursor: pointer;" (click)="showhideAdvanceFilter('0');">Back</a>
                 </div>
               </div>
 
-              <div class="row" style="margin-top: 10px;">
-                <a class="pull-right advancefilter" style="cursor: pointer; right: 85px;
-                top: 210px;" (click)="showhideAdvanceFilter('0');">Back</a>
-              </div>
+              <!-- <div class="row" style="margin-top: 10px;">
+                <a class="pull-right" style="cursor: pointer; right: 85px;
+                top: 150px;" (click)="showhideAdvanceFilter('0');">Back</a>
+              </div> -->
             </div>
 
           </div>

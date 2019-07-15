@@ -3,7 +3,6 @@
 /* ============================================================================================================= */
 
 .homewrap {
-    max-height: 90vh;
     overflow-x: hidden;
     overflow-y: auto;
     ::-webkit-scrollbar {
@@ -12,7 +11,6 @@
         height: 7px;
     }
     .scroll-content {
-        max-height: 90vh;
         overflow-x: hidden;
         overflow-y: auto;
         padding-bottom: 15px;
@@ -806,8 +804,8 @@
             .pdc-header {
                 // background: #efefef;
                 padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
+                font-size: 14px;
+                font-weight: 600;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
@@ -923,8 +921,8 @@
             .pdc-header {
                 background: #efefef;
                 padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
+                font-size: 14px;
+                font-weight: 600;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
@@ -1107,6 +1105,7 @@
 
 .allocation-table {
     width: 100%;
+    padding: 10px;
     .table-responsive {
         overflow: auto;
         overflow-y: auto;
@@ -1433,7 +1432,7 @@ input[type=number]::-webkit-outer-spin-button {
         width: 100%;
         height: 100%;
         bottom: 0;
-        top: 60px;
+        top: 00px;
         right: 0;
         left: 0px;
         background: rgba(230, 230, 230, 0.5);
@@ -1547,7 +1546,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .student-flow-wrapper {
-    padding: 0 15px;
+    height: 82vh;
+    padding: 1%;
 }
 
 .toggle {
@@ -1882,6 +1882,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .middle-left {
     width: 70%;
+    height: 62vh;
+    overflow-y: auto;
     @extend .boxPadding15;
 }
 
@@ -1930,16 +1932,15 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 6px;
 }
 .middle-top {
-    // padding-bottom: 10px;
-    border-bottom: 1px solid $borderccc;
-    margin-bottom: 10px;
+  padding-bottom: 10px;
+  margin: 10px;
     h1 {
         margin-top: 8px;
     }
 }
 
 .btn {
-    padding: 7px 12px;
+    padding: 4px 10px;
     background: $bg-white;
     border: 1px solid $borderccc;
     margin-left: 10px;
@@ -1947,7 +1948,7 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 14px;
     font-weight: 600;
     box-sizing: border-box;
-    height: 35px;
+    height: 30px;
     cursor: pointer;
     color: $common-blue;
 }
@@ -1962,7 +1963,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: $bg-white;
     border: 1px solid $borderccc;
     color: $common-blue;
-    font-size: 16px;
+    font-size: 14px;
     height: 35px;
 }
 
@@ -2211,9 +2212,6 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-.fee-section-page {
-    padding: 10px 0px;
-}
 
 .fee-summary {
     margin-top: 5px;
@@ -2239,10 +2237,10 @@ input[type=number]::-webkit-outer-spin-button {
                 align-items: center;
                 padding: 0 15px;
                 span {
-                    font-size: 22px;
+                    font-size: 14px;
                     font-weight: 600;
                     &.feename {
-                        font-size: 22px;
+                        font-size: 14px;
                         font-weight: 600;
                         max-width: 100px;
                         height: 50px;
@@ -2550,6 +2548,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .invertory-add {
     margin-bottom: 10px;
+    padding: 10px;
     .field-wrapper {
         padding-top: 0;
     }
@@ -2702,9 +2701,9 @@ input[type=number]::-webkit-outer-spin-button {
 .dd-list-container {
     position: absolute; //top: 40px;
     border: 1px solid rgba(119, 119, 119, 0.29);
-    right: 35px;
+    right: 15px;
     z-index: 100;
-    top: 190px;
+    top: 115px;
     width: 200px; //max-width: 250px;
     height: auto;
     background: white;
@@ -2770,7 +2769,7 @@ input[type=number]::-webkit-outer-spin-button {
                 padding: 0;
             }
             &.amount-Value {
-                font-size: 22px;
+                font-size: 14px;
             }
             cursor: default;
         }
@@ -2868,4 +2867,23 @@ input[type=number]::-webkit-outer-spin-button {
     width: 65%;
     display: inline-block;
     white-space: nowrap;
+}
+
+.popup-btn .btn {
+    font-size: 14px;
+    height: 30px;
+    padding: 4px 10px;
+}
+
+
+// Footer Bottom Section
+.middle-bottom{
+  position: absolute;
+  bottom: 0px;
+  width: 94%;
+  left: 5%;
+  background: white;
+  padding: 10px;
+  border-top: 1px solid rgba(10, 10, 10, 0.3);
+  /* margin-top: 10px; */
 }

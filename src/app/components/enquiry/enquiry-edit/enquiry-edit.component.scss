@@ -1,6 +1,6 @@
 @import "./src/assets/css/common/variables.scss";
 .homewrap {
-    max-height: 90vh;
+    max-height: 100vh;
     overflow-x: auto;
     overflow-y: scroll;
     ::-webkit-scrollbar {
@@ -9,9 +9,9 @@
         height: 7px;
     }
     .scroll-content {
-        max-height: 90vh;
+        // max-height: 90vh;
         overflow-x: hidden;
-        overflow-y: scroll;
+        // overflow-y: scroll;
         margin-bottom: 10px;
     }
 }
@@ -183,7 +183,7 @@ table {
                     display: block;
                     width: 100%;
                     background: transparent;
-                    font: 400 13.3333px Arial;
+                    font: 400 12px 'Open sans',sans-serif;
                     box-sizing: border-box;
                     padding: 0px 0px 0px 6px;
                     outline: none;
@@ -210,14 +210,14 @@ table {
                 }
                 .field-wrapper.has-value .form-ctrl+label,
                 .field-wrapper .form-ctrl:focus+label {
-                    font: 400 13.3333px Arial;
+                    font: 400 12px 'Open sans',sans-serif;
                     top: 6px;
                     left: 0px;
                 }
                 .field-wrapper.has-value .form-ctrl+label,
                 .field-wrapper .form-ctrl:focus+label {
                     color: $common-blue;
-                    font: 400 13.3333px Arial;
+                    font: 400 12px 'Open sans',sans-serif;
                 }
                 &:first-child {
                     padding-left: 50px;
@@ -480,7 +480,7 @@ table {
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 5%;
-                top: 33px;
+                top: 28px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -786,11 +786,11 @@ table {
     width: 100%;
     height: 100%;
     bottom: 0;
-    top: 60px;
+    top: 0px;
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
-    z-index: 100; // display: none;  
+    z-index: 100; // display: none;
     visibility: hidden;
     opacity: 0;
     -webkit-transition: all 0.5s ease-in;
@@ -818,7 +818,7 @@ table {
     background: #fff;
     h2 {
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 14px;
     }
     h4 {
         margin: 25px 0 15px;
@@ -1096,4 +1096,16 @@ table {
     .accordian-section .accordian-content {
         padding-left: 40px;
     }
+}
+
+// Footer for Accordian Menu
+.middle-bottom{
+  position: absolute;
+  bottom: 0px;
+  padding: 10px;
+  background: white;
+  width: 94%;
+  left: 5%;
+  z-index: 100;
+  border-top: 1px solid rgba(10,10,10,0.3);
 }
