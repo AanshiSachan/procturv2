@@ -9,20 +9,19 @@
       </h1>
 
       <aside class="pull-right">
-        <button class="btn" routerLink='/view/fee/add'>
-          New Structure
-        </button>
-        <button class="btn" routerLink='/view/fee/feetype'>
-          Manage Fee Types
-        </button>
+        <div class="btn-container">
+          <div class="search-filter-wrapper">
+            <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
+          </div>
+          <button class="btn" routerLink='/view/fee/add'>
+            New Structure
+          </button>
+          <button class="btn" routerLink='/view/fee/feetype'>
+            Manage Fee Types
+          </button>
+        </div>
       </aside>
     </section>
-
-    <div class="row" style="margin:10px 0px">
-      <div class="search-filter-wrapper">
-        <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" [(ngModel)]="searchText" (keyup)="searchInList()">
-      </div>
-    </div>
 
 
     <!-- Fee Table Container -->

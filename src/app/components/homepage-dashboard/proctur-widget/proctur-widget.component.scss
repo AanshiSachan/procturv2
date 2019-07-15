@@ -4,9 +4,10 @@
     box-shadow: 1px 8px 20px 5px #9c9c9c;
     transition: unset;
     background: #fff;
+    border-radius: 4px;
     h2 {
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 14px;
     }
     h4 {
         margin: 25px 0 15px;
@@ -18,7 +19,7 @@
     width: 100%;
     height: 100%;
     bottom: 0;
-    top: 60px;
+    top: 0px;
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
@@ -57,55 +58,55 @@
         max-width: 100%;
         overflow: auto;
     }
-    
+
     table {
         width: 100%;
         box-sizing: border-box;
         border-collapse: collapse;
     }
-    
+
     th,
     td {
         font-size: 12px;
         padding: 6px 2px;
         vertical-align: middle;
     }
-    
+
     th {
         background: #004a7e;
         font-size: 11px;
         color: #fff;
         font-weight: normal;
     }
-    
+
     td {
         border-bottom: 1px solid #fff;
     }
-    
+
     table tr {
         transition: all 0.1s;
     }
-    
+
     table tr:nth-child(even) {
         background: #efefef;
     }
-    
+
     table tr:nth-child(odd) {
         background: #f7f7f7;
     }
-    
+
     table tr:nth-child(even):hover {
         background: #ececec;
     }
-    
+
     table tr:nth-child(odd):hover {
         background: #eaeaea;
     }
-    
+
     table tr.selected {
         background: #dceff7 !important;
     }
-    
+
     .table-responsive tr td:first-child .field-checkbox-wrapper,
     .table-responsive tr th:first-child .field-checkbox-wrapper {
         width: 20px;
@@ -271,4 +272,3 @@
         }
     }
 }
-

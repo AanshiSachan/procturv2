@@ -107,7 +107,7 @@
                 border: 0;
                 border-bottom: solid 1px #e2ebee;
                 height: 36px;
-                font: 400 13.3333px Arial;
+                font: 400 12px 'Open sans',sans-serif;
                 box-shadow: none;
                 border-radius: 0;
                 line-height: 24px;
@@ -151,7 +151,7 @@
                 border: 0;
                 border-bottom: solid 1px #e2ebee;
                 height: 36px;
-                font: 400 13.3333px Arial;
+                font: 400 12px 'Open sans',sans-serif;
                 box-shadow: none;
                 border-radius: 0;
                 line-height: 24px;
@@ -305,7 +305,7 @@
             }
             label {
                 font-size: 12px;
-                font-weight: 400; 
+                font-weight: 400;
                 width: 100%;
                 color: rgba(0, 0, 0, 0.77);
                 padding-bottom: 2px;
@@ -314,10 +314,10 @@
                 -webkit-font-smoothing: antialiased;
             }
             .side-form-ctrl {
-                background: #efefef;
+                background: #ffffff;
                 border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                 width: 100%;
-                padding: 2px 5px;
+                padding: 0px 5px;
                 border-radius: 5px;
                 font-weight: 600;
                 font-size: 14px;

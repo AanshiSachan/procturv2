@@ -1,15 +1,19 @@
 <div class="middle-section clearFix" id="enquiryList">
-  
+
   <section class="middle-top clearFix bulk-header">
 
     <div class="row">
       <h1 class="pull-left">
+        <a routerLink="/view/enquiry" style="padding:0px; ">
+          Enquiry
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
         Upload Enquiry
       </h1>
       <aside class="pull-right">
         <input type="button" value="Upload Status Report" (click)="bulkStatusReporter()" class="btn" />
         <a id="template_link">
-          <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" id="btnDownloadTemplate" /> 
+          <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" id="btnDownloadTemplate" />
         </a>
         <input type="button" value="Add Enquiry" routerLink='/view/enquiry/add' class="btn" id="btnAddEnquiry" />
       </aside>
@@ -28,7 +32,7 @@
           <ul>
             <li>
               <!-- accept="application/vnd.ms-excel" -->
-              <p-fileUpload 
+              <p-fileUpload
                 customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
               </p-fileUpload>
 

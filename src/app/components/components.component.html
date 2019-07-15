@@ -1,10 +1,11 @@
 <overlay-menu *ngIf="isMenuVisible"></overlay-menu>
 
-<core-header (changePassword)="changePasswordPopUp($event)" (enquiryUpdateAction)="updateEnquiryPopUp($event)" (hideSearchPopup)="searchViewMore($event)"
-    (searchViewMore)="searchViewMore($event)"></core-header>
+<!-- <core-header (changePassword)="changePasswordPopUp($event)" (enquiryUpdateAction)="updateEnquiryPopUp($event)" (hideSearchPopup)="searchViewMore($event)"
+    (searchViewMore)="searchViewMore($event)"></core-header> -->
 
 
-<core-sidednav></core-sidednav>
+<core-sidednav (changePassword)="changePasswordPopUp($event)" (enquiryUpdateAction)="updateEnquiryPopUp($event)" (hideSearchPopup)="searchViewMore($event)"
+    (searchViewMore)="searchViewMore($event)"></core-sidednav>
 
 <router-outlet></router-outlet>
 

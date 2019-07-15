@@ -93,7 +93,7 @@
 }
 
 .test_popup {
-    
+
     display: inline-block;
     background: #fff;
     opacity: 1;
@@ -157,12 +157,12 @@ div {
                 text-transform: uppercase;
             }
             a {
-                font-size: 18px;
+                font-size: 14px;
                 font-weight: 600;
                 color: #0c8af6;
             }
             div {
-                font-size: 18px;
+                font-size: 14px;
                 font-weight: 600;
                 color: #1e2328;
             }
@@ -188,21 +188,21 @@ div {
 
 .newState1{
     height: 59px;
-    border: 1px solid #a79d9d8c;
+    // border: 1px solid #a79d9d8c;
     display: inline-block;
     margin: 4%;
     border-radius: 3%;
-    -webkit-box-shadow: 4px 5px 5px #a79d9d8c;
-    box-shadow: 4px 5px 5px #a79d9d8c;
+    // -webkit-box-shadow: 4px 5px 5px #a79d9d8c;
+    // box-shadow: 4px 5px 5px #a79d9d8c;
     width: 91%;
     position: relative;
     top: 2%;
-    
+
     ul{
     position: relative;
     top: 21%;
     text-align: center;
-    font-size: 19px;
+    font-size: 14px;
     color: gray;
     }
 }
@@ -252,7 +252,7 @@ ul li {
             border-bottom: 1px solid #dedddd;
             span.heading {
                 font-weight: 400;
-                font-size: 16px;
+                font-size: 14px;
                 color: #414141;
                 text-transform: uppercase;
                 padding-top: 4px;
@@ -289,7 +289,7 @@ ul li {
     border-bottom: 1px solid #dedddd;
     span.heading {
         font-weight: 400;
-        font-size: 16px;
+        font-size: 14px;
         color: #414141;
         text-transform: uppercase;
         padding-top: 4px;

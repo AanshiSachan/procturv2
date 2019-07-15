@@ -5,11 +5,11 @@
     <div class="boxPadding15">
 
       <!-- Expanding Table -->
-      <section class="middle-top mb0 clearFix">
-        <h1 class="pull-left" style="padding-left:20px; padding-top:10px;">
+      <section class="middle-top mb0 clearFix section-header">
+        <h1 class="pull-left" style="padding-top:15px;">
           Course List
         </h1>
-        <aside class="headEnq pull-right" style="margin-top:5px;">
+        <aside class="headEnq pull-right">
           <div style="display: inline-flex;
           position: absolute;
           top: -12px;">
@@ -17,15 +17,9 @@
           </div>
           <ul style="display: inline-flex;">
             <li class="headerBtn" routerLink='add'>
-              <i>
-                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
-                  class="artdeco-icon" focusable="false">
-                  <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
-                </svg>
-              </i>
-              <p>
+              <i class="fa fa-plus" aria-hidden="true"></i>
+                &nbsp;
                 Add Course
-              </p>
             </li>
           </ul>
         </aside>
@@ -137,15 +131,8 @@
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeStudentPopup()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-            </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-              transform="translate(1012 297)" />
-          </g>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content student-assign-popup">
@@ -224,7 +211,7 @@
                   Standard Class
                 </th>
                 <th>
-                  Academic Year 
+                  Academic Year
                 </th>
                 <th>
                   Fee Template

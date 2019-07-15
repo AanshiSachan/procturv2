@@ -48,14 +48,14 @@
 
               <tbody *ngIf="getAllClosingReasons.length!=0">
                 <tr *ngFor="let i of getAllClosingReasons  ; let j = index; trackBy: j;" class="displayComp" id="i{{j}}">
-                
+
                   <td class="view-comp">
                     {{i.closing_desc}}
                   </td>
 
                   <td class="edit-comp">
                     <div class="field-wrapper">
-                      <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="i.closing_desc" [value]="i.closing_desc" style="text-align: center;">
+                      <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="i.closing_desc" [value]="i.closing_desc" style="text-align: left;">
                     </div>
                   </td>
 

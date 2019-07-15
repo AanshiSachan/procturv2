@@ -6,12 +6,10 @@
 @import "./src/assets/css/common/common-web.scss";
 
 .activity-wrapper {
-  height: 85vh;
+  height: 100vh;
   overflow-x: hidden;
-  padding: 15px;
+  padding: 1%;
   overflow-y: auto;
-  background: #efefef;
-
   .row {
     margin: 0;
   }
@@ -21,12 +19,10 @@
   }
 
   .header {
-    margin: 0 -10px;
     padding: 10px;
     background: #fff;
     box-sizing: border-box;
-    border-radius: 2px;
-    box-shadow: 0 1px 4px 2px #ababab;
+    border-radius: 4px;
   }
 
 }
@@ -39,11 +35,6 @@
   color: rgb(245, 79, 79);
   cursor: pointer;
   margin-top: 3px;
-}
-
-.body-content {
-  // margin: 10px -10px; 
-  margin-top: 2rem;
 }
 
 .update-cheque-wrapper {
@@ -91,6 +82,6 @@
 
 .dropdown {
   & > ul {
-    padding: 10px 19px; // width: 200px;             
+    padding: 10px 19px; // width: 200px;
   }
 }

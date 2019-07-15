@@ -58,7 +58,7 @@ export class StudentHomeComponent implements OnInit {
   studentbatchList: any[] = [];
   studentByIdcustomComponents: any[] = [];
 
-  private studentdisplaysize: number = 50;
+  private studentdisplaysize: number = 100;
   perPage: number = 10;
   PageIndex: number = 1;
   maxPageSize: number = 0;
@@ -540,6 +540,7 @@ export class StudentHomeComponent implements OnInit {
     document.getElementById('adFilterOpen').classList.add('hide');
     document.getElementById('basic-search').classList.add('hide');
     document.getElementById('adFilterExit').classList.remove('hide');
+    document.getElementById('black-bg').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
   }
 
@@ -551,6 +552,7 @@ export class StudentHomeComponent implements OnInit {
     document.getElementById('adFilterExit').classList.add('hide');
     document.getElementById('basic-search').classList.remove('hide');
     document.getElementById('adFilterOpen').classList.remove('hide');
+    document.getElementById('black-bg').classList.add('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
   }
 
@@ -1186,7 +1188,7 @@ export class StudentHomeComponent implements OnInit {
     this.studentPage.nativeElement.style.marginRight = mySidenavWidth;
     this.mySidenav.nativeElement.style.width = mySidenavWidth;
     this.mySidenav.nativeElement.style.display = 'block';
-    this.optMenu.nativeElement.classList.add('shorted');
+    // this.optMenu.nativeElement.classList.add('shorted');
     let id = ev.student_id;
     this.isSideBar = false;
     this.isRippleLoad = true;
@@ -1464,7 +1466,7 @@ export class StudentHomeComponent implements OnInit {
     this.studentPage.nativeElement.style.marginRight = "0";
     this.mySidenav.nativeElement.style.width = "0";
     this.mySidenav.nativeElement.style.display = 'none';
-    this.optMenu.nativeElement.classList.remove('shorted');
+    // this.optMenu.nativeElement.classList.remove('shorted');
   }
 
   /* =================================================================================================== */
@@ -2030,7 +2032,7 @@ export class StudentHomeComponent implements OnInit {
         this.studentPage.nativeElement.style.marginRight = "0";
         this.mySidenav.nativeElement.style.width = "0";
         this.mySidenav.nativeElement.style.display = 'none';
-        this.optMenu.nativeElement.classList.remove('shorted');
+        // this.optMenu.nativeElement.classList.remove('shorted');
         this.searchDatabase();
       },
       err => {

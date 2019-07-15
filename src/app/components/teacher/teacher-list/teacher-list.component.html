@@ -10,18 +10,14 @@
     <div class="">
       <div class="field-wrapper">
         <div class="btnWrapper">
-          <button class="btn pull-right" routerLink='/view/teacher/add'>
-            <div class="option-wrap">
-              <img src="assets/images/plus.png" alt="Add Teacher" style="vertical-align: -webkit-baseline-middle;">
-              <span class="tooltip tooltipWrapper">
-                Add Faculty
-              </span>
-            </div>
+          <button type="button" class="btn pull-right" name="button" routerLink='/view/teacher/add'>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp; Add Faculty
           </button>
         </div>
       </div>
       <div class="search-filter-wrapper">
-        <input type="text" style="width:25%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
+        <input type="text" style="width:18%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
          [(ngModel)]="searchValue" (keyup)="searchTeacher()">
       </div>
     </div>
@@ -55,7 +51,7 @@
           </thead>
           <tbody *ngIf="teacherList.length != 0 ">
             <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of teacherList; let i = index; trackBy: i;">
-              <td>
+              <td style="text-align: left;">
                 {{row.teacher_name}}
               </td>
               <td>

@@ -69,7 +69,7 @@
         width: 30%;
         float: left !important;
         .form-ctrl {
-            font: 400 13.3333px Arial;
+            font: 400 12px 'Open sans',sans-serif;
             border-top: none !important;
             border-right: none !important;
             border-left: none !important;
@@ -178,7 +178,7 @@ table {
     width: 100%;
     height: 100%;
     bottom: 0;
-    top: 60px;
+    top: 0px;
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
@@ -210,7 +210,7 @@ table {
     background: #fff;
     h2 {
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 14px;
     }
     h4 {
         margin: 25px 0 15px;

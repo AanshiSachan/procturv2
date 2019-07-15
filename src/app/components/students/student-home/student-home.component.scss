@@ -12,6 +12,9 @@
 }
 
 /* ======================================================================================================== */
+.middle-top{
+  margin: 0px;
+}
 
 .headEnq {
     .headerBtn {
@@ -127,14 +130,56 @@
     }
 }
 
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  .btn-item{
+    position: relative;
+    .btn{
+      height: auto;
+    }
+  }
+  .more-info-container{
+    z-index: 100;
+    background: white;
+    position: absolute;
+    top: 36px;
+    border-radius: 4px;
+    border: 1px solid #0084f6;
+    .more-info-item{
+      padding: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      border-bottom: 1px solid #0084f6;
+    }
+  }
+}
+
+
 /* =========================================================================================================== */
 
 .adfilter-submitter {
     .submit {
-        width: 10%;
+        .search-btn{
+          padding: 4px 10px;
+          font-size: 14px;
+          border-radius: 4px;
+          background: #0084f6;
+          border: 1px solid #0084f6;
+          color: #fff;
+        }
     }
     .cancel {
-        width: 15%;
+      width: 9%;
+      margin-left: 1%;
+        .cancel-btn{
+          padding: 4px 10px;
+          font-size: 14px;
+          border: 1px solid rgba(10,10,10,0.3);
+          border-radius: 4px;
+          background: white;
+        }
+
     }
 }
 
@@ -381,15 +426,15 @@
         box-sizing: border-box;
         margin: 0;
         float: left;
-        height: 35px;
         font-size: 14px;
     }
     .normal-btn {
-        padding: 8px 10px;
-        width: 20%;
+        padding: 4px 10px;
+        width: 10%;
         box-sizing: border-box;
         float: left;
         cursor: pointer;
+        height: 30px;
     }
     .field-wrapper {
         position: relative;
@@ -397,7 +442,7 @@
         width: 30%;
         float: left !important;
         .form-ctrl {
-            font: 400 13.3333px Arial;
+            font: 400 12px 'Open sans',sans-serif;
             border-top: none !important;
             border-right: none !important;
             border-left: none !important;
@@ -427,7 +472,7 @@
                 float: left;
                 border-right: 0;
                 height: 35px;
-                font: 400 13.3333px Arial;
+                font: 400 12px 'Open sans',sans-serif;
                 width: 85% !important;
             }
             label {
@@ -496,7 +541,7 @@
 }
 
 .filter-res {
-    margin-top: 20px;
+    // margin-top: 20px;
 }
 
 /* Data table Settings */
@@ -650,13 +695,12 @@ screen and (max-height: 768px) {
     margin: 0;
     float: left;
     border-right: 0;
-    height: 35px;
     font-size: 14px;
 }
 
 .normal-btn {
-    padding: 8px 10px;
-    width: 25%;
+    padding: 4px 10px;
+    // width: 25%;
     box-sizing: border-box;
     float: left;
     background: #9c9b9b;
@@ -666,7 +710,7 @@ screen and (max-height: 768px) {
 
 .filter-box {
     padding: 10px 0px;
-    background: #efefef;
+    // background: #efefef;
 }
 
 .filter-right .btn {
@@ -674,7 +718,9 @@ screen and (max-height: 768px) {
 }
 
 .filter-search {
-    position: relative;
+  position: relative;
+  margin: 0px;
+  margin-bottom: 10px;
 }
 
 .filter-fields {
@@ -691,14 +737,14 @@ screen and (max-height: 768px) {
     opacity: 1;
     box-shadow: 0px 2px 1px #e2e0e0;
     .field-wrapper {
-        margin: 15px 0;
+        // margin: 15px 0;
     }
 }
 
 .filter-fields .form-ctrl {
     background: transparent;
-    font: 400 13.3333px Arial;
-    border-bottom: solid 1px #d2d2d2;
+    font: 400 12px 'Open sans',sans-serif;
+    // border-bottom: solid 1px #d2d2d2;
 }
 
 .filter-fields .btn {
@@ -854,7 +900,7 @@ screen and (max-height: 768px) {
 }
 
 .filter-res {
-    margin-top: 20px;
+    // margin-top: 20px;
 }
 
 /*===========================================action tooltip of table===================*/
@@ -990,7 +1036,7 @@ screen and (max-height: 768px) {
 .search-data {
     margin: 0px 0px;
     padding: 0px 5px;
-    background: #efefef;
+    // background: #efefef;
     th {
         padding: 15px 5px;
     }
@@ -1233,7 +1279,7 @@ ul.customDropdown li:hover {
             display: inline-block;
             margin-left: 10px;
         }
-       
+
     }
     .content-delivery {
         .message-table-wrapper {
@@ -1324,4 +1370,14 @@ ul.customDropdown li:hover {
             }
         }
     }
+}
+
+.black-bg{
+  background: rgba(10,10,10,0.3);
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  left: 0px;
+  z-index: 1;
+  width: 100%;
 }

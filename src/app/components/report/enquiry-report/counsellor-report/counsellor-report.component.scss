@@ -3,10 +3,10 @@ $color-base: #efefef;
 $color-base: #efefef;
 $color-highlight: lighten($color-base, 7%);
 .attendance-container{
-    height: 85vh;
+    // height: 85vh;
     background: #efefef;
     padding: 5px;
-    overflow: auto; 
+    overflow: auto;
 }
 
 .skeleton {

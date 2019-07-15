@@ -45,7 +45,6 @@
 /* ============================================================================================================= */
 
 .homewrap {
-    max-height: 90vh;
     overflow-x: hidden;
     overflow-y: auto;
     ::-webkit-scrollbar {
@@ -54,7 +53,6 @@
         height: 7px;
     }
     .scroll-content {
-        max-height: 90vh;
         overflow-x: hidden;
         overflow-y: auto;
         padding-bottom: 10px;
@@ -179,6 +177,7 @@
 
 .allocation-table {
     width: 100%;
+    padding: 10px;
     .table-responsive {
         overflow: auto;
         overflow-y: auto;
@@ -247,8 +246,8 @@
             .installment-header {
                 background: #efefef;
                 padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
+                font-size: 14px;
+                font-weight: 600;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
@@ -481,8 +480,8 @@
             .additional-header {
                 background: #efefef;
                 padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
+                font-size: 14px;
+                font-weight: 600;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
@@ -794,8 +793,8 @@
             .pdc-header {
                 background: #efefef;
                 padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
+                font-size: 14px;
+                font-weight: 600;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
@@ -911,8 +910,8 @@
             .pdc-header {
                 background: #efefef;
                 padding: 10px;
-                font-size: 18px;
-                font-weight: 700;
+                font-size: 14px;
+                font-weight: 600;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
@@ -1436,7 +1435,7 @@ input[type=number]::-webkit-outer-spin-button {
         width: 100%;
         height: 100%;
         bottom: 0;
-        top: 60px;
+        top: 0px;
         right: 0;
         left: 0px;
         background: rgba(230, 230, 230, 0.5);
@@ -1477,7 +1476,7 @@ input[type=number]::-webkit-outer-spin-button {
                 background: url("../../../../assets/images/calendar.svg") no-repeat;
                 position: absolute;
                 right: 50px;
-                top: 35px;
+                top: 29px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -1497,7 +1496,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .student-flow-wrapper {
-    padding: 0 15px;
+    height: 82vh;
 }
 
 .map-courses {
@@ -1766,7 +1765,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .middle-section {
-    padding: 0px;
+    padding: 1%;
+    padding-bottom: 0px;
 }
 
 .boxPadding15 {
@@ -1776,6 +1776,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .middle-left {
     width: 70%;
+    height: 62vh;
+    overflow-y: auto;
     @extend .boxPadding15;
 }
 
@@ -1808,7 +1810,7 @@ input[type=number]::-webkit-outer-spin-button {
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 40px;
-                top: 35px;
+                top: 29px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -1820,16 +1822,16 @@ input[type=number]::-webkit-outer-spin-button {
 /*=====================================middle top section css===================*/
 
 .middle-top {
-    // padding-bottom: 10px;
-    border-bottom: 1px solid $borderccc;
-    margin-bottom: 10px;
+  padding-bottom: 10px;
+    border-bottom: 1px solid rgba(10,10,10,0.3);
+    margin: 10px;
     h1 {
         margin-top: 8px;
     }
 }
 
 .btn {
-    padding: 7px 12px;
+    padding: 4px 10px;
     background: $bg-white;
     border: 1px solid $borderccc;
     margin-left: 10px;
@@ -1837,7 +1839,7 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 14px;
     font-weight: 600;
     box-sizing: border-box;
-    height: 35px;
+    height: 30px;
     cursor: pointer;
     color: $common-blue;
 }
@@ -1860,7 +1862,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: $redBtn;
     border: 1px solid $redBtn;
     color: $bg-white;
-    font-size: 16px;
+    font-size: 14px;
     height: 40px;
 }
 
@@ -2007,7 +2009,7 @@ input[type=number]::-webkit-outer-spin-button {
         padding-right: 40px;
         .open-accor {
             width: 17px;
-            font-size: 17px;
+            font-size: 14px;
             height: 17px;
             line-height: 18px;
             position: absolute;
@@ -2026,7 +2028,7 @@ input[type=number]::-webkit-outer-spin-button {
     h4 {
         margin-bottom: 7px;
         color: #28383A;
-        font-size: 16px;
+        font-size: 14px;
         strong {
             font-weight: 600;
         }
@@ -2101,9 +2103,6 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-.fee-section-page {
-    padding: 10px 20px;
-}
 
 .fee-summary {
     margin-top: 5px;
@@ -2129,10 +2128,10 @@ input[type=number]::-webkit-outer-spin-button {
                 align-items: center;
                 padding: 0 15px;
                 span {
-                    font-size: 22px;
+                    font-size: 14px;
                     font-weight: 600;
                     &.feename {
-                        font-size: 22px;
+                        font-size: 14px;
                         font-weight: 600;
                         height: 50px;
                         max-width: 100px;
@@ -2230,7 +2229,7 @@ input[type=number]::-webkit-outer-spin-button {
             }
             &:first-child {
                 span {
-                    font-size: 18px;
+                    font-size: 14px;
                     color: rgba(0, 0, 0, 0.7);
                     font-weight: 600;
                 }
@@ -2327,7 +2326,7 @@ input[type=number]::-webkit-outer-spin-button {
         height: 58px;
         width: 134px;
         span {
-            font-size: 18px;
+            font-size: 14px;
         }
     }
 }
@@ -2372,6 +2371,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .invertory-add {
     margin-bottom: 10px;
+    padding: 10px;
     .field-wrapper {
         padding-top: 0;
     }
@@ -2535,7 +2535,7 @@ input[type=number]::-webkit-outer-spin-button {
                 padding: 0;
             }
             &.amount-Value {
-                font-size: 22px;
+                font-size: 14px;
             }
         }
     }
@@ -2621,7 +2621,7 @@ input[type=number]::-webkit-outer-spin-button {
   box-shadow: 1px 8px 20px 5px #9c9c9c;
 }
 .confirm_title{
-  font-size: 20px;
+  font-size: 14px;
 }
 .confirmation_msg_box{
   margin-top: 15px;
@@ -2687,4 +2687,22 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+}
+
+.popup-btn .btn {
+    font-size: 14px;
+    height: 30px;
+    padding: 4px 10px;
+}
+
+// Footer Bottom Section
+.middle-bottom{
+  position: absolute;
+  bottom: 0px;
+  width: 94%;
+  left: 5%;
+  background: white;
+  padding: 10px;
+  border-top: 1px solid rgba(10, 10, 10, 0.3);
+  /* margin-top: 10px; */
 }

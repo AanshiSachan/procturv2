@@ -1,146 +1,153 @@
 .button {
-  padding: 3px 5px;
-  background: #fff;
-  border: 1px solid #ccc;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 600;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  cursor: pointer;
-  color: #0084f6;
+    padding: 3px 5px;
+    background: #fff;
+    border: 1px solid #ccc;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: #0084f6;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
-  min-height: 250px;
-  background-color: #f3f3f3;
-  td, th {
+    border-collapse: collapse;
+    width: 100%;
+    min-height: 250px;
+}
+
+th,
+td {
     text-align: left;
     padding: 5px;
     word-break: break-word;
-  }
+}
 
-  td {
-    font-size: 12px;
-  }
-  tr {
-    border-radius: 12px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
 
-  th {
+th {
     background-color: #0060A3;
     color: white;
-  }
+}
 
-  i, th {
+i, th {
     cursor: pointer;
-  }
 }
 
 .backC {
-  color: red;
+    color: red;
 }
 
 .dropup-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 100px;
-  bottom: 5px;
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    bottom: 5px;
+    z-index: 1;
 }
 
 .dropup-content a {
-  color: black;
-  padding: 5px 10px;
-  text-decoration: none;
-  display: block;
+    color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
 }
 
 .dropup-content a:hover {
-  background-color: #ccc;
+    background-color: #ccc;
 }
 
 .dropup:hover .dropup-content {
-  display: block;
+    display: block;
 }
 
 .updateCss {
-  color: green;
+    color: green;
 }
 
 .deleteCss {
-  color: red;
+    color: red;
 }
 
 input[type=checkbox] {
-  -webkit-appearance: checkbox;
+    -webkit-appearance: checkbox;
 }
 
 .container-1 {
-  width: 400px;
-  height: 40px;
-  vertical-align: middle;
-  white-space: nowrap;
-  position: relative;
+    width: 400px;
+    height: 40px;
+    vertical-align: middle;
+    white-space: nowrap;
+    position: relative;
 }
 
 .btnCss {
-  background: #0084f6;
-  border: 1px solid #0084f6;
-  color: #fff;
+    background: #0084f6;
+    border: 1px solid #0084f6;
+    color: #fff;
+}
+
+tr {
+    border-radius: 12px;
+}
+
+table {
+  border: 1px solid rgba(10,10,10,0.3);
 }
 
 .tableBodyScroll tbody {
-  display: block;
-  max-height: 350px;
-  overflow-y: scroll;
+    display: block;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 4px;
+    border-radius: 1px solid rgba(211, 212, 213, 0.5);
 }
 
 .tableBodyScroll thead,
 tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .checkBoxCss {
-  width: 50px !important;
-  padding: 8px 0 8px 8px !important;
+    width: 50px !important;
+    padding: 8px 0px 8px 8px !important;
 }
 
 .schedule-scroller {
-  min-height: 300px;
-  max-height: 50vh;
-  overflow-x: auto;
-  overflow-y: auto;
+    min-height: 300px;
+    max-height: 58vh;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .ulCss {
-  border-bottom: 2px solid rgba(211, 212, 213, 0.5);
-  background: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  cursor: pointer;
-  height: 100px;
-  padding-top: 25px;
-  padding-left: 10px;
+    // border-bottom: 1px solid rgba(211, 212, 213, 0.5);
+    background: #fff;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    cursor: pointer;
+    // height: 100px;
+    // padding-top: 25px;
+    // padding-left: 10px;
+    padding: 10px;
 }
 
 .sortIcon {
-  font-size: 14px;
-  color: white;
+    font-size: 14px;
+    color: white;
 }
 
 .inputCss {
-  background: rgba(211, 212, 213, 0.5);
-  border: 1px black solid;
-  height: 30px;
+    background: rgba(211, 212, 213, 0.5);
+    border: 1px black solid;
+    height: 30px;
 }

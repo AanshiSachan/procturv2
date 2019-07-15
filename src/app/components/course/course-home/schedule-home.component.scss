@@ -5,7 +5,8 @@
 } */
 
 .courses-list-table {
-    max-height: 460px;
+    max-height: 72vh;
+    min-height: 72vh;
     overflow: auto;
     ::-webkit-scrollbar {
         display: block;
@@ -16,6 +17,7 @@
                 padding-top: 20px;
                 padding-bottom: 15px;
                 height: 25px;
+                background: #f7f7f7;
             }
             td {
                 padding-top: 15px;
@@ -52,13 +54,13 @@
 
 .filter-res.pagination {
     width: 100%;
-    margin-top: 15px;
+    // margin-top: 15px;
 }
 
 
 
 .pagination {
-    margin-top: 15px;
+    // margin-top: 15px;
     .first {
         &:before {
             content: "« ";
@@ -151,7 +153,7 @@
     padding-top: 5px;
     ul {
         font-size: 0;
-        border-bottom: 1px solid #f1f1f1;
+        // border-bottom: 1px solid #f1f1f1;
         li {
             margin-right: 1px;
             display: inline-block;
@@ -294,10 +296,8 @@
 }
 
 .create-standard-form {
-    margin: 10px 0;
-    padding: 5px 20px 0px;
-    background: #efefef;
-    border-top: 1px solid #d8d8d8;
+    padding: 5px;
+    border-bottom: 1px solid #d8d8d8;
     .field-checkbox-wrapper {
         margin-top: 15px;
         background: transparent;
@@ -328,8 +328,9 @@
         margin-top: -10px;
         .form-ctrl {
             background: white;
-            border-bottom: solid 1px #cccccc;
             z-index: 10;
+            margin-top: 10px;
+            border-radius: 4px;
         }
         label {
             z-index: 1;
@@ -351,7 +352,7 @@
     }
 }
 
-// css for edit .course 
+// css for edit .course
 .edit-view-of-couse {
     &>tr>td {
         padding: 0px !important;
@@ -892,7 +893,7 @@
     }
     td {
         font-weight: 600;
-        font-size: 14px;
+        font-size: 12px;
         padding: 0;
         &:first-child {
             text-align: left;
@@ -1199,7 +1200,7 @@ table {
         tr {
             td {
                 padding: 10px;
-                font-size: 14px;
+                font-size: 12px;
                 .editOptions li {
                     display: inline-block;
                 }
@@ -1249,13 +1250,13 @@ table {
 
 .search-filter-wrapper {
     .normal-field {
-        padding: 7px 10px;
+        padding: 4px 10px;
         border: 1px solid #ccc;
         box-sizing: border-box;
         margin: 0;
         float: left;
-        height: 35px;
         font-size: 14px;
+        border-radius: 4px;
     }
     .field-wrapper {
         position: relative;
@@ -1263,7 +1264,7 @@ table {
         width: 30%;
         float: left !important;
         .form-ctrl {
-            font: 400 13.3333px Arial;
+            font: 400 12px 'Open sans',sans-serif;
             border-top: none !important;
             border-right: none !important;
             border-left: none !important;
