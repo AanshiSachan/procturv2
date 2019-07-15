@@ -1,13 +1,19 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
+
+
 <section class="middle-section clear-fix" id="middle-sectionId">
+
+
   <section class="middle-top mb0 clearFix sms-header">
     <h2 class="pull-left" style="font-weight: bold;">
-      <span> Update Exam Marks </span>
+      <span> Update Exam Marks</span>
     </h2>
   </section>
+
   <hr>
+
   <div class="header_container">
     <div class="header_item1">
       <h4>{{exam_info?.data.batch_name}}</h4>
@@ -36,6 +42,7 @@
 
   <section class="marks-section">
     <div class="update_exam_marks_container">
+
       <div class="marks_table_container">
         <!-- Header -->
         <div class="heading_container">
@@ -62,7 +69,7 @@
           </div>
         </div>
         <!-- Body Container -->
-        <div class="value_container" *ngFor="let s of studentList; let i=index;">
+        <div class="value_container"  *ngFor="let s of studentList; let i=index;">
           <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [(ngModel)]="s.assigned" [disabled]="(s.attendance != 'P')">
             <label></label>
@@ -115,15 +122,13 @@
 
 
   <div style="padding-top: 10px;" class="clearfix">
-    <aside class="pull-left popup-btn" style=" display: inline-flex; ">
+    <aside class="pull-left popup-btn"  style=" display: inline-flex; ">
       <input type="button" value="Back" class="btn" (click)="closeAttendance()" style="margin-left: 0px;border-radius: 4px;">
     </aside>
     <aside class="pull-right popup-btn" style=" display: inline-flex;border-radius: 4px; ">
       <input type="button" value="Cancel" class="btn" (click)="closeAttendance()" style="border-radius: 4px;">
-      <input type="button" value="Update Marks" (click)="updateMarksOnServer('N')" class="fullBlue btn" style="border-radius: 4px;"
-        [disabled]="isRippleLoad">
-      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServer('Y')" class="fullBlue btn" style="border-radius: 4px;"
-        [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks" (click)="updateMarksOnServer('N')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServer('Y')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
     </aside>
   </div>
 
