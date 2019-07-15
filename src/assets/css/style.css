@@ -220,13 +220,13 @@ p,
 }
 
 h1 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.2;
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -1146,7 +1146,7 @@ h3 {
 /* ========================================== Common Fields CSS============================*/
 .table-responsive {
   max-width: 100%;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .field-wrapper {
@@ -1444,7 +1444,7 @@ table tr.selected {
 }
 
 .btn {
-  padding: 7px 12px;
+  padding: 6px 10px;
   background: #fff;
   border: 1px solid #ccc;
   margin-left: 10px;
@@ -1452,7 +1452,7 @@ table tr.selected {
   font-size: 14px;
   font-weight: 600;
   box-sizing: border-box;
-  height: 35px;
+  /* height: 35px; */
   cursor: pointer;
   color: #0084f6;
 }
@@ -1562,8 +1562,8 @@ p.error-msg {
 /* ===============================header colors=======================*/
 /*====================main section css===============*/
 main {
-  padding-top: 60px;
-  padding-left: 70px;
+  /* padding-top: 60px; */
+  padding-left: 60px;
   box-sizing: border-box;
   position: relative;
 }
@@ -1572,12 +1572,12 @@ main {
   position: fixed;
   left: 0;
   top: 0;
-  padding-top: 61px;
+  /* padding-top: 61px; */
   height: 100%;
   width: 70px;
   box-sizing: border-box;
-  border-right: 1px solid #eaeaeb;
-  border-left: 1px solid #eaeaeb;
+  /* border-right: 1px solid #eaeaeb;
+  border-left: 1px solid #eaeaeb; */
   z-index: 102;
 }
 
@@ -1868,7 +1868,7 @@ header {
   margin: 0;
   float: left;
   border-right: 0;
-  height: 35px;
+  /* height: 35px; */
   font-size: 14px;
 }
 
@@ -1987,7 +1987,11 @@ header {
 }
 
 .filter-res.pagination {
-  margin-top: 15px;
+  /* margin-top: 15px; */
+}
+
+.pagination {
+  margin: 0px 0px;
 }
 
 .pagination li {
@@ -2026,7 +2030,7 @@ header {
 }
 
 .filter-res {
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 /*===========================================action tooltip of table===================*/
@@ -2319,7 +2323,7 @@ ul.customDropdown li:hover {
 /* import middle css*/
 /* ===============================header colors=======================*/
 .middle-section {
-  padding: 15px;
+  padding: 1%;
 }
 
 .boxPadding15, .middle-left, .middle-right, .middle-full {
@@ -2450,7 +2454,7 @@ ul.customDropdown li:hover {
 }
 
 .btn {
-  padding: 7px 12px;
+  padding: 6px 10px;
   background: #fff;
   border: 1px solid #ccc;
   margin-left: 10px;
@@ -2458,7 +2462,7 @@ ul.customDropdown li:hover {
   font-size: 14px;
   font-weight: 600;
   box-sizing: border-box;
-  height: 35px;
+  /* height: 35px; */
   cursor: pointer;
   color: #0084f6;
 }
@@ -2705,7 +2709,7 @@ ul.customDropdown li:hover {
   width: 100%;
   height: 100%;
   bottom: 0;
-  top: 60px;
+  top: 0px;
   right: 0;
   left: 0px;
   background: rgba(230, 230, 230, 0.5);
@@ -2740,7 +2744,7 @@ ul.customDropdown li:hover {
 
 .popup-wrapper h2 {
   margin-bottom: 15px;
-  font-size: 22px;
+  font-size: 14px;
 }
 
 .popup-wrapper h4 {
@@ -2751,7 +2755,7 @@ ul.customDropdown li:hover {
 .closePopup {
   right: 10px;
   top: 10px;
-  font-size: 18px;
+  font-size: 14px;
   cursor: pointer;
   line-height: 20px;
   width: 26px;
@@ -3008,43 +3012,7 @@ ul.customDropdown li:hover {
 
 /*============================left sidebar fix menu=======================*/
 /* ===============================header colors=======================*/
-.nav-list > li {
-  text-align: center;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #eaeaeb;
-  background: #fafafa;
-  transition: all 0.6s linear;
-  cursor: pointer;
-}
-
-.nav-list > li svg {
-  width: 29px;
-}
-
-.nav-list > li span {
-  display: block;
-  font-size: 10px;
-}
-
-.nav-list > li:hover, .nav-list > li.active {
-  background: #0084f6;
-  box-shadow: 0px 0px 0px 1px #0084f6;
-  border-bottom: 1px solid #0084f6;
-  color: #fff;
-}
-
-.nav-list > li:hover span, .nav-list > li.active span {
-  color: #fff;
-}
-
-.nav-list > li:hover .cls-1, .nav-list > li.active .cls-1 {
-  stroke: #fff;
-}
-
-.nav-list > li .icon img {
-  width: 30px;
-}
+/* Moved to the sidebar Component */
 
 .header-search .cls-1,
 .header-search .cls-2,
@@ -3197,7 +3165,7 @@ ul.customDropdown li:hover {
 /*==========================================Responsive css==============================*/
 @media only screen and (min-width: 768px) and (max-width: 960px) {
   .middle-section {
-    padding: 15px 0;
+    padding: 1%;
   }
   .middle-left {
     width: 65%;
@@ -3302,7 +3270,7 @@ ul.customDropdown li:hover {
     display: none;
   }
   .middle-section {
-    padding: 5px 15px;
+    padding: 1%;
     width: 100%;
     box-sizing: border-box;
   }
@@ -3532,6 +3500,6 @@ ul.customDropdown li:hover {
 .green-theme .field-wrapper.datePickerBox:after {
   background-image: url(../images/calendargreen.svg);
 }
- 
+
 
  /*# sourceMappingURL= style.css.map */

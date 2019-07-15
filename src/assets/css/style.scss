@@ -1,4 +1,4 @@
-//  import VARIABLES 
+//  import VARIABLES
 @import "../css/common/variables";
 
 /* Import Font CSS*/
@@ -20,7 +20,7 @@
 /* import header css*/
 
 @import "../css/wrapper";
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
 /* @font-face {
     font-family: 'Open Sans';
     font-style: normal;
@@ -50,7 +50,7 @@
 } */
 
 html, body{
-    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 table {
@@ -72,7 +72,7 @@ table {
 
 @media only screen and (min-width: 768px) and (max-width:960px) {
     .middle-section {
-        padding: 15px 0;
+        padding: 1%;
     }
     .middle-left {
         width: 65%;
@@ -176,7 +176,7 @@ table {
         width: 100%;
     }
     main {
-        padding-top: 92px;
+        // padding-top: 92px;
         padding-left: 0;
         width: 100%;
     }
@@ -187,7 +187,7 @@ table {
         float: right;
     }
     .middle-section {
-        padding: 5px 15px;
+        padding: 1%;
         width: 100%;
         box-sizing: border-box;
     }
@@ -208,10 +208,10 @@ table {
     .btn {
         padding: 4px 7px;
         font-size: 12px;
-        height: 31px;
         margin-left: 0;
         margin-right: 10px;
         margin-bottom: 10px;
+        border-radius: 4px;
     }
     .accordian-section {
         padding: 15px 0px 0;
