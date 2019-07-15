@@ -18,7 +18,7 @@
     <div class="header_item1">
       <h4>{{exam_info?.data.batch_name}}</h4>
     </div>
-    <div class="header_item1 pull-right" style="position: absolute; right: 160px; top: 7rem;">
+    <div class="header_item1 pull-right" style="position: absolute; right: 160px; top: 3.5rem;">
       <h4>
         <label class="upload_details">Total Students :
           <span class="txt_type " [ngClass]="{'txt_total_marks': examData.is_exam_grad_feature == 0}"> &nbsp;{{studentList?.length}} </span>
@@ -29,11 +29,11 @@
     <div class="header_item1 pull-right">
 
       <span *ngIf="examData.is_exam_grad_feature == 0">
-        <input type="button" value="Upload Marks" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 6.1rem;"
+        <input type="button" value="Upload Marks" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 2.7rem;"
           (click)="updateGradesOption()">
       </span>
-      <span *ngIf="examData.is_exam_grad_feature == 1"> 
-          <input type="button" value="Upload Grade" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 6.1rem;"
+      <span *ngIf="examData.is_exam_grad_feature == 1">
+          <input type="button" value="Upload Grade" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 2.7rem;"
           (click)="updateGradesOption()">
       </span>
     </div>

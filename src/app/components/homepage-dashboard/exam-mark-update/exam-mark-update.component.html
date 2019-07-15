@@ -13,8 +13,14 @@
   <hr>
 
   <div class="header_container">
-    <div class="header_item1">
+    <div class="header_item1" style="margin-top: 10px;">
       <h4>{{exam_info?.data.batchExamSchdList[0].batch_name}}</h4>
+    </div>
+    <div class="header_item1">
+      <label class="upload_details">Total Students :
+        <span class="txt_type txt_total_marks"> &nbsp;{{studentAttList?.length}}</span>
+      </label>
+      <input type="button" [value]="upload_text" class="btn upload_details btn_upload_grades" style="border-radius: 4px;" (click)="updateGradesOption()">
     </div>
   </div>
 
@@ -33,12 +39,7 @@
           <label for="course_wise" class="txt_type">Course </label>
 
         </div>
-        <div class="field-radio-wrapper pull-right">
-          <label class="upload_details">Total Students :
-            <span class="txt_type txt_total_marks"> &nbsp;{{studentAttList?.length}}</span>
-          </label>
-          <input type="button" [value]="upload_text" class="btn upload_details btn_upload_grades" style="border-radius: 4px;" (click)="updateGradesOption()">
-        </div>
+
       </div>
 
       <div class="marks_table_container">

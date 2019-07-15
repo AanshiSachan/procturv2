@@ -1831,7 +1831,7 @@ header {
   position: relative;
 }
 
-.middle-main:before {
+/* .middle-main:before {
   content: '';
   position: absolute;
   width: 100%;
@@ -1843,7 +1843,7 @@ header {
   transition: all 0.1s;
   opacity: 0;
   visibility: hidden;
-}
+} */
 
 .middle-main.hasFilter:before {
   opacity: 1;

@@ -56,7 +56,7 @@
                           <div>
                             <label>Total Classes :</label>
                             <span>{{classScheduleCount}}</span>
-                            <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                            <input style="margin-left:10%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                               [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDatepicker
                             />
                           </div>
@@ -65,7 +65,7 @@
                           <div>
                             <label>Total Course :</label>
                             <span> {{courseLevelSchedule.length}}</span>
-                            <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                            <input style="margin-left:10%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                               [(ngModel)]="courseLevelSchedDate" (ngModelChange)="updateCourseLevelSched($event)" readonly="true"
                               bsDatepicker />
                           </div>
@@ -74,7 +74,7 @@
                           <div>
                             <label>Total Classes :</label>
                             <span>{{classScheduleCount}}</span>
-                            <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                            <input style="margin-left:10%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                               [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDatepicker
                             />
                           </div>
@@ -553,17 +553,8 @@
   <proctur-widget *ngIf="isCancelExamPop" [size]="'40%'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCancelClass()" close-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
-                  305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
-                  305.77) rotate(45)" />
-          </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
-        </g>
+      <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+        <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
       </svg>
     </span>
 
@@ -859,7 +850,7 @@
       </svg>
     </span>
 
-    <h2 widget-header>Cancel Schedule: 
+    <h2 widget-header>Cancel Schedule:
       <span *ngIf="!isProfessional" style="font-weight: 600; color: #9b9b9b;">{{classMarkedForAction.master_course}} &#8594; {{classMarkedForAction.coursee_names}} </span>
       <span *ngIf="isProfessional" style="font-weight: 600; color: #9b9b9b;">{{classMarkedForAction.batch_name}}</span>
     </h2>
@@ -1448,21 +1439,16 @@
 
   <proctur-widget *ngIf="viewDetailsPopUp">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewDetailsPopUp()" close-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
-                    305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
-                    305.77) rotate(45)" />
-          </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
-        </g>
+      <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+        <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
       </svg>
     </span>
 
-    <h2 widget-header>Course Details--{{selectedViewDet.master_course}}-{{selectedViewDet.coursee_names}}</h2>
+    <h2 widget-header>Course Details
+      <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.master_course}}</span>
+      <span style="font-weight: 600;color: #9b9b9b;">→</span>
+      <span style="font-weight: 600;color: #9b9b9b;">{{selectedViewDet.coursee_names}}</span>
+     </h2>
 
     <div class="viewDeatail-wrapper" widget-content>
       <div class="table-details-wrapper">
