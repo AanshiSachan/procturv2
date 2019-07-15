@@ -259,7 +259,7 @@
             </div>
             <div class="c-sm-3 c-md-3 c-lg-3">
               <button *ngIf="examType == '1'" class="btn pull-right expand-collapse-btn" (click)="expandCollapseAll()">Expand/Collapse All</button>
-            
+
             </div>
             <!-- <div style="top: 150px;position: absolute; right: 40px;" (click)="takePrint('examPrint')">
               <label>
@@ -457,7 +457,6 @@
                   <th>Installment No</th>
                   <th>Fee Type</th>
                   <th>Amount</th>
-                  <th>Tax</th>
                   <th>Total Amount</th>
                   <th>Amount Paid</th>
                   <th>Amount Due</th>
@@ -472,7 +471,6 @@
                   <td>{{data.installment_no}}</td>
                   <td>{{data.fee_type_name}}</td>
                   <td>{{data.total_initial_amount}}</td>
-                  <td>{{data.total_tax_applied}}</td>
                   <td>{{data.total_amount_after_discount_after_tax}}</td>
                   <td>{{data.total_amt_paid}}</td>
                   <td>{{data.total_balance_amt}}</td>
@@ -500,7 +498,6 @@
                   <th>Fee Type</th>
                   <th>Due Date</th>
                   <th>Amount</th>
-                  <th>Tax</th>
                   <th>Total Amount</th>
                   <th>Amount Paid</th>
                   <th>Amount Due</th>
@@ -512,7 +509,6 @@
                   <td>{{data.fee_type_name}}</td>
                   <td>{{data.due_date}}</td>
                   <td>{{data.total_initial_amount}}</td>
-                  <td>{{data.total_tax_applied}}</td>
                   <td>{{data.total_amount_after_discount_after_tax}}</td>
                   <td>{{data.total_amt_paid}}</td>
                   <td>{{data.total_balance_amt}}</td>
@@ -537,7 +533,6 @@
                   <th>Fee Type</th>
                   <th>Due Date</th>
                   <th>Amount</th>
-                  <th>Tax</th>
                   <th>Total Amount</th>
                   <th>Amount Paid</th>
                   <th>Amount Due</th>
@@ -549,7 +544,6 @@
                   <td>{{data.fee_type_name}}</td>
                   <td>{{data.due_date}}</td>
                   <td>{{data.total_initial_amount}}</td>
-                  <td>{{data.total_tax_applied}}</td>
                   <td>{{data.total_amount_after_discount_after_tax}}</td>
                   <td>{{data.total_amt_paid}}</td>
                   <td>{{data.total_balance_amt}}</td>
@@ -610,7 +604,7 @@
                 </div>
 
                 <div class="c-sm-4 c-md-4 c-lg-4">
-                  <button class="btn fullBlue" style="margin-top:20px" (click)="getTimeTableDetails()">GO</button>                 
+                  <button class="btn fullBlue" style="margin-top:20px" (click)="getTimeTableDetails()">GO</button>
                 </div>
 
               </div>
