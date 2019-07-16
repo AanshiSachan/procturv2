@@ -404,8 +404,9 @@
       margin-top: 10px;
       .profile-photo-container{
         img{
-          width: 45px;
+          width: 35px;
           height: 35px;
+          border-radius: 4px;
         }
       }
       .account-name-container{
@@ -429,10 +430,11 @@
           position: absolute;
           background: white;
           width: 100%;
-          left: 225px;
+          left: 105%;
           padding: 10px;
           border-radius: 4px;
           box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.35);
+          z-index: 1;
           // animation-name: slideInLeft;
           // animation-duration: 0.5s;
           .external-menu-item{
