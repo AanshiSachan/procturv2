@@ -1,6 +1,6 @@
 <div class="actb-top-header clearfix">
     <span class="heading">
-        Fees stats
+        Fee stats
     </span>
     <button class="pull-right drag-button hide">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -14,7 +14,7 @@
 <div class="fees-state-bottom">
     <ul>
         <li>
-            <label for="idEnableSMS" style="font-size:14px ">Fees Collection
+            <label for="idEnableSMS" style="font-size:14px ">Fee Collection
                 <br>
 
                 <span class="enquiry-state-date" style="font-size:12px ">
@@ -33,7 +33,7 @@
                 </span>
                 <div class="questionInfo inline-relative" style="left: 45%;top: -42px;">
                     <span class="qInfoIcon i-class">i</span>
-                    <div class="tooltip-box-field" style="font-size: 10px;">
+                    <div class="tooltip-box-field" style="font-size: 12px;">
                         Total fee collection
                         <br> will be based
                         <br>on selected date filter
@@ -50,7 +50,7 @@
 
                 <div class="questionInfo inline-relative" style="left: 38%; top: -15px;">
                     <span class="qInfoIcon i-class">i</span>
-                    <div class="tooltip-box-field" style="font-size: 10px;">
+                    <div class="tooltip-box-field" style="font-size: 12px;">
                         It will show all
                         <br> future dues
                         <br> including current date.
@@ -59,18 +59,18 @@
 
             </label>
             <div style="margin-top: -20px; padding-left: 25px;">Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
-            <div style="  text-transform: lowercase;     font-size: 10px; padding-left: 25px;
+            <div style="  text-transform: lowercase;     font-size: 12px; padding-left: 25px;
             margin-top: 1px ">{{getDate(0)}} - onwards </div>
         </li>
         <li></li>
         <li>
 
-            <label style="padding-left: 25px;">Past Dues
+            <label style="padding-left: 25px;font-size: 14px;">Past Dues
                 <br>
 
-                <div class="questionInfo inline-relative" style="left: 25%; top: -15px;">
+                <div class="questionInfo inline-relative" style="left: 30%; top: -15px;">
                     <span class="qInfoIcon i-class">i</span>
-                    <div class="tooltip-box-field" style="font-size: 10px;">
+                    <div class="tooltip-box-field" style="font-size: 12px;">
                         It will show all
                         <br> past dues
                         <br>before current date.
@@ -78,7 +78,7 @@
                 </div>
             </label>
             <div style="margin-top: -20px;padding-left: 25px;">Rs. {{getFeeAmount('past') | commaSeprator}}</div>
-            <div style="  text-transform: lowercase; font-size: 10px; margin-top: 1px ;padding-left: 25px;"> upto - {{getDate(1)}}</div>
+            <div style="  text-transform: lowercase; font-size: 12px; margin-top: 1px ;padding-left: 25px;"> upto - {{getDate(1)}}</div>
         </li>
     </ul>
 </div>

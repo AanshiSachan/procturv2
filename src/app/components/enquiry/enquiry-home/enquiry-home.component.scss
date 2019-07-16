@@ -913,9 +913,10 @@
     .date-clear {
       position: absolute;
       right: 0px;
-      top: 63px;
+      top: 58px;
       cursor: pointer;
       color: #0084f6;
+      z-index: 1;
     }
 
     &.datePickerBox {

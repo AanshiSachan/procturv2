@@ -721,6 +721,8 @@ screen and (max-height: 768px) {
   position: relative;
   margin: 0px;
   margin-bottom: 10px;
+  background: #ffffff;
+  z-index: 10;
 }
 
 .filter-fields {
@@ -1373,7 +1375,7 @@ ul.customDropdown li:hover {
 }
 
 .black-bg{
-  background: rgba(10,10,10,0.3);
+  background: rgba(10,10,10,0.1);
   position: fixed;
   top: 0px;
   height: 100%;

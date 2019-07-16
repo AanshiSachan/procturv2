@@ -85,7 +85,7 @@
                         </div>
                     </div>
 
-                    <div class="filter-fields hide" style="visibility: visible; opacity: 1;z-index: 5;" id="advanced-filter-section">
+                    <div class="filter-fields hide" style="visibility: visible; opacity: 1;z-index: 5;border-radius: 4px;" id="advanced-filter-section">
 
                         <div class="filter-wrapper">
 
@@ -226,7 +226,7 @@
                                 <div class="field-wrapper datePickerBox">
                                     <label>From Date</label>
                                     <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_from_date">
-                                    <a (click)="advancedFilterForm.doa_from_date = ''" style="float:right;">Clear</a>
+                                    <a (click)="advancedFilterForm.doa_from_date = ''" style="float:right;cursor: pointer;">Clear</a>
                                 </div>
 
                             </div>
@@ -234,7 +234,7 @@
                                 <div class="field-wrapper datePickerBox">
                                     <label>To Date</label>
                                     <input type="text" class="form-ctrl" readonly="true" bsDatepicker [(ngModel)]="advancedFilterForm.doa_to_date">
-                                    <a (click)="advancedFilterForm.doa_to_date = ''" style="float:right;">Clear</a>
+                                    <a (click)="advancedFilterForm.doa_to_date = ''" style="float:right;cursor: pointer;">Clear</a>
                                 </div>
 
                             </div>

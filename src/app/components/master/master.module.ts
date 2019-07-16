@@ -11,7 +11,6 @@ import { SlotComponent } from '../../components/slot/slot.component';
 import { CityAreaMapComponent } from '../../components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from '../../components/class-room/class-room.component';
 import { EventManagmentComponent } from '../../components/event-managment/event-managment.component';
-import { TopicsComponent } from '../../components/topics/topics.component';
 import { TreeTableModule } from 'primeng/treetable';
 
 import { SlotApiService } from '../../services/slot-service/slot.service';
@@ -50,7 +49,6 @@ import { DiscountReasonComponent } from '../discount-reason/discount-reason.comp
         FilterPipe,
         EventManagmentComponent,
         CityAreaMapComponent,
-        TopicsComponent,
         ClosingReasonComponent,
         DiscountReasonComponent
     ],
