@@ -691,7 +691,7 @@
           </div>
 
           <div class="table-section" *ngIf="subjectWiseInstallmentArray.length > 0">
-            <ul style="margin-bottom: 5%;">
+            <ul>
               <li class="table-rows title-section">
 
                 <aside class="checkbox-div">
@@ -730,7 +730,7 @@
 
               </li>
             </ul>
-            <ul>
+            <ul style="margin-bottom: 5%;">
               <li *ngFor="let data of subjectWiseInstallmentArray; let i= index" class="table-rows">
 
                 <div class="course-installment" (click)="openInstallmentListOfCourse(i ,  'open' , $event)">
