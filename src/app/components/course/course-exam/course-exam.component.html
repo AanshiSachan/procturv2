@@ -458,7 +458,7 @@
                                 <label for="marks">Marks
                                  <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="exam_marks" id="marks">
+                                <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" (ngModelChange)="checkNgetiveValue($event)"  [(ngModel)]="exam_marks" id="marks">
                             </div>
                         </div>
 
@@ -648,7 +648,7 @@
                                   <label for="marks">Marks
                                    <span class="text-danger">*</span>
                                   </label>
-                                  <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="data.coursetableAdder.total_marks" id="marks">
+                                  <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" (ngModelChange)="checkNgetiveValue($event)" [(ngModel)]="data.coursetableAdder.total_marks" id="marks">
                               </div>
                           </div>
 

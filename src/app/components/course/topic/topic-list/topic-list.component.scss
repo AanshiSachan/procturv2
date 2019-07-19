@@ -1,0 +1,69 @@
+.subject-wrapper{
+    .subject-item{
+        padding: 0.6em;
+        .subject-label{
+            margin: 0px;
+            cursor: pointer;
+            padding: 0.6em 1em;
+            font-weight: bold;
+            border-radius: 6px;
+            font-size: 0.95em;
+            border: 1pt solid #eee;
+            background-color: #fff;
+            border-left: 3pt solid #0084f6;
+            box-shadow: 0 1pt 2pt 0 rgba(0, 0, 0, 0.16);
+        }
+        
+        .border-radius-0{
+            border-left: 3pt solid #0084f6;
+        }
+        
+        .border-radius-1{
+            border-left: 3pt solid #ff9100;
+        }
+        
+        .border-radius-2{
+            border-left: 3pt solid  #e75480}
+        
+        .border-radius-3{
+            border-left: 3pt solid #fa3145;
+        }
+    }
+}
+
+.subject-title{
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 1.4em;
+    margin-bottom: 0.4em;
+}
+
+.pad_icon{
+    padding: 0 10px
+}
+
+.btn_action{
+    color: #1283f4;
+    font-size: 1.2em;
+}
+
+.btn_delete{
+    color: #fa3145;
+    font-size: 1.2em;
+}
+
+.col-md-12{
+    padding-right: 0px; 
+     padding-left: 0px; 
+}
+.row{
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+
+  .dropdown{
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }

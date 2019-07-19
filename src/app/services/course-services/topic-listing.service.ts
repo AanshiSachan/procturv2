@@ -78,7 +78,7 @@ export class TopicListingService {
   }
 
   getAllTopicsSubTopics(subject_id){
-    let url = this.baseUrl + "/api/v1/topic_manager/institutes/" + this.institute_id +"/subjects/"+subject_id+"/topics";
+    let url = this.baseUrl + "/api/v1/topic_manager/standards/-1/subjects/"+subject_id+"/topics";
     return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data;

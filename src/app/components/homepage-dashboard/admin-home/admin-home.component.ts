@@ -152,8 +152,6 @@ export class AdminHomeComponent implements OnInit {
   reminderRemarks: string = '';
   remarksLimit: number = 50;
 
-
-
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -192,19 +190,15 @@ export class AdminHomeComponent implements OnInit {
     this.checkForSubjectWiseView();
 
     this.biometricEnable = sessionStorage.getItem('biometric_attendance_feature');
-
     this.examGradeFeature = sessionStorage.getItem('is_exam_grad_feature');
     this.permissionArray = sessionStorage.getItem('permissions');
-
     let userType: any = Number(sessionStorage.getItem('userType'));
     let username = sessionStorage.getItem('username');
-    let permissions: any = [];
-    permissions = sessionStorage.getItem('permissions');
-
+    let permissionArraypermissions: any = [];
     if(userType == 0 && username == "admin"){
       this.userTypeForExpenses = false;
     }
-    else if(permissions.includes("715") || permissions.includes("716")){
+    else if(this.permissionArray.includes("715") || this.permissionArray.includes("716")){
       this.userTypeForExpenses = false;
     }
     else{
@@ -251,10 +245,8 @@ export class AdminHomeComponent implements OnInit {
         this.courseLevelSchedDate = new Date(scheduleDate);
       }
     }
-
     sessionStorage.setItem('isSubjectView', '');
     sessionStorage.setItem('scheduleDate', '');
-
   }
 
 
@@ -267,7 +259,6 @@ export class AdminHomeComponent implements OnInit {
         this.settingInfo = res;
       },
       err => {
-
       }
     )
 

@@ -11,34 +11,34 @@ import { Router } from '@angular/router';
 })
 export class CourseCourseListComponent implements OnInit {
 
-  courseList: any = [];
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   courseListDataSource: any = [];
+  studentListDataSource: any = [];
+  feeTemplateDataSource: any = [];
+  studentList: any = [];
+  academicList: any = [];
+  standardList: any = [];
+  courseList: any = [];
   isRippleLoad: boolean = false;
+  addStudentPopUp: boolean = false;
+  allChecked: boolean = false;
+  showTable: boolean = false;
+  alertBox: boolean = true;
+  delete_unpaid_fee: boolean = false;
+  deafultTemplate: any;
+  searchData: any = "";
+  courseDetails: any;
+  selectedRow: number;
+  unselected_checkbox_id: number;
   PageIndex: number = 1;
   displayBatchSize: number = 10;
   totalRow: number;
   dataStatus: number = 1;
-  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
-  columnMaps: any[] = [0, 1, 2, 3, 4,5];
-  selectedRow: number;
-  addStudentPopUp: boolean = false;
-  courseDetails: any;
-  studentListDataSource: any = [];
-  studentList: any = [];
-  allChecked: boolean = false;
-  academicList: any = [];
-  standardList: any = [];
   searchFilter = {
     unassignFlag: '0',
     standard_id: -1,
   }
-  showTable: boolean = false;
-  feeTemplateDataSource: any = [];
-  deafultTemplate: any;
-  searchData: any = "";
-  alertBox: boolean = true;
-  delete_unpaid_fee: boolean = false;
-  unselected_checkbox_id: number;
 
   constructor(
     private apiService: CourseListService,
@@ -250,7 +250,7 @@ export class CourseCourseListComponent implements OnInit {
   saveChanges() {
     let checkAssignedCourseList = this.checkAssignedCourse();
 
-    if(checkAssignedCourseList.length > 0){
+    if (checkAssignedCourseList.length > 0) {
       let checkFlag = true;
 
       for (let i = 0; i < checkAssignedCourseList.length; i++) {
@@ -259,7 +259,7 @@ export class CourseCourseListComponent implements OnInit {
           break;
         }
       }
-      if(!checkFlag){
+      if (!checkFlag) {
         this.alertBox = false;
         // if (confirm('If you unassign a course from student then corresponding unpaid fee instalments will be deleted. Do you wish to continue?')) {
         //   this.apiToAllocateAndDeallocate();
@@ -271,31 +271,31 @@ export class CourseCourseListComponent implements OnInit {
         //   }
         // }
       }
-      else{
+      else {
         this.addStudentPopUp = false;
         this.apiToAllocateAndDeallocate();
       }
 
     }
-    else{
+    else {
       this.addStudentPopUp = false;
       this.showTable = false;
     }
 
   }
 
-  unassign_course(){
+  unassign_course() {
     this.alertBox = true;
     this.apiToAllocateAndDeallocate();
   }
 
-  closeAlert(){
+  closeAlert() {
     this.alertBox = true;
     this.delete_unpaid_fee = false;
     let data = this.getCheckedRows();
-      for (let i = 0; i < Object.keys(data).length; i++) {
-        (document.getElementById("studentcheck"+Object.keys(data)[i]) as HTMLInputElement).checked = true;
-      }
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      (document.getElementById("studentcheck" + Object.keys(data)[i]) as HTMLInputElement).checked = true;
+    }
   }
 
   getUISelectedRows(data) {
@@ -346,7 +346,7 @@ export class CourseCourseListComponent implements OnInit {
     return test;
   }
 
-  checkAssignedCourse(){
+  checkAssignedCourse() {
     let test = [];
     for (let i = 0; i < this.studentListDataSource.length; i++) {
       for (let t = 0; t < this.studentList.length; t++) {
@@ -424,8 +424,8 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   toggleTbodyClass(i) {
-    document.getElementById('tbodyItem' + i).classList.toggle("active");
-    document.getElementById('tbodyView' + i).classList.toggle("hide");
+    document.getElementById('tbodyItem' + i) ? document.getElementById('tbodyItem' + i).classList.toggle("active") : '';
+    document.getElementById('tbodyView' + i) ? document.getElementById('tbodyView' + i).classList.toggle("hide") : '';
   }
 
   messageToast(Errortype, Errortitle, message) {

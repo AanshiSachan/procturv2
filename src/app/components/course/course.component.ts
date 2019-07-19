@@ -15,6 +15,7 @@ export class CourseComponent implements OnInit {
   @ViewChild('liManageBatch') liManageBatch: ElementRef;
   @ViewChild('liClass') liClass: ElementRef;
   @ViewChild('liExam') liExam: ElementRef;
+  @ViewChild('liTopic') liTopic: ElementRef;
 
   constructor(
     private router: Router,
@@ -56,15 +57,19 @@ export class CourseComponent implements OnInit {
       this.switchActiveView('liClass');
     } else if (this.router.url.includes('managebatch')) {
       this.switchActiveView('liManageBatch');
+    }else if (this.router.url.includes('topic')) {
+      this.switchActiveView('liTopic');
     }
   }
 
   switchActiveView(showId) {
-    this.liStandard.nativeElement.classList.remove('active');
-    this.liSubject.nativeElement.classList.remove('active');
-    this.liManageBatch.nativeElement.classList.remove('active');
-    this.liExam.nativeElement.classList.remove('active');
-    this.liClass.nativeElement.classList.remove('active');
+    let lists =['liStandard','liSubject','liManageBatch','liExam','liClass'];
+    lists.forEach((object)=>{
+      this[object].nativeElement.classList.remove('active');
+    })
+    if(!this.isLangInstitue &&this.liTopic){
+      this.liTopic.nativeElement.classList.remove('active');
+    }
     setTimeout(() => {
       document.getElementById(showId).classList.add('active');
     }, 500)

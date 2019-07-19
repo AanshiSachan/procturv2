@@ -1213,7 +1213,8 @@ export class StudentHomeComponent implements OnInit {
                   selected: [],
                   selectedString: '',
                   type: el.type,
-                  value: el.enq_custom_value
+                  value: el.enq_custom_value,
+                  comp_length:el.comp_length
                 }
                 if (el.type == 4) {
                   obj = {
@@ -1226,7 +1227,8 @@ export class StudentHomeComponent implements OnInit {
                     selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
                     selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                     type: el.type,
-                    value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                    value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+                    comp_length:el.comp_length
                   }
                 }
                 if (el.type == 3) {
@@ -1240,7 +1242,8 @@ export class StudentHomeComponent implements OnInit {
                     selected: [],
                     selectedString: "",
                     type: el.type,
-                    value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+                    value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+                    comp_length:el.comp_length
                   }
                 }
                 if (el.type == 2) {
@@ -1255,6 +1258,7 @@ export class StudentHomeComponent implements OnInit {
                     selectedString: '',
                     type: el.type,
                     value: this.getCustomComponentCheckboxValue(el.enq_custom_value),
+                    comp_length:el.comp_length
                   }
                 }
                 else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -1268,7 +1272,8 @@ export class StudentHomeComponent implements OnInit {
                     selected: [],
                     selectedString: '',
                     type: el.type,
-                    value: el.enq_custom_value
+                    value: el.enq_custom_value,
+                    comp_length:el.comp_length
                   }
                 }
                 this.studentByIdcustomComponents.push(obj);
@@ -1968,12 +1973,18 @@ export class StudentHomeComponent implements OnInit {
     let customArr = [];
 
     this.studentByIdcustomComponents.forEach(el => {
+      let max_length =  el.comp_length==0?50:el.comp_length;
       /* Not Checkbox and value not empty */
       if (el.value != '' && el.type != 2 && el.type != 5) {
+        
         let obj = {
           component_id: el.id,
           enq_custom_id: el.data.enq_custom_id,
-          enq_custom_value: el.value
+          enq_custom_value: el.value,
+          type: el.type,
+          value: el.enq_custom_value,
+          label: el.label,
+          comp_length:max_length
         }
         customArr.push(obj);
       }
@@ -1983,7 +1994,11 @@ export class StudentHomeComponent implements OnInit {
           let obj = {
             component_id: el.id,
             enq_custom_id: el.data.enq_custom_id,
-            enq_custom_value: "Y"
+            enq_custom_value: "Y",
+            type: el.type,
+            value: el.enq_custom_value,
+            label: el.label,
+            comp_length:max_length
           }
           customArr.push(obj);
         }
@@ -1991,7 +2006,11 @@ export class StudentHomeComponent implements OnInit {
           let obj = {
             component_id: el.id,
             enq_custom_id: el.data.enq_custom_id,
-            enq_custom_value: "N"
+            enq_custom_value: "N",
+            type: el.type,
+            value: el.enq_custom_value,
+            label: el.label,
+            comp_length:max_length
           }
           customArr.push(obj);
         }
@@ -2001,7 +2020,11 @@ export class StudentHomeComponent implements OnInit {
         let obj = {
           component_id: el.id,
           enq_custom_id: el.data.enq_custom_id,
-          enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+          enq_custom_value: moment(el.value).format("YYYY-MM-DD"),
+          type: el.type,
+          value: el.enq_custom_value,
+          label: el.label,
+          comp_length:max_length
         }
         customArr.push(obj);
       }

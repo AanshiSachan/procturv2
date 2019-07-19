@@ -1,0 +1,106 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="topic_details">
+  <div class="topic_filter_div">
+    <div class="topic_title">Topic</div>
+  </div>
+  <div class="filter_div">
+    <div class="field-wrapper">
+      <label>Standard<span class="text-danger">*</span></label>
+      <div class="dropdown-div">
+        <select class="dropdown" [(ngModel)]="filterData.standard_id" (change)="getAllSubjectListFromServer($event.target.value)"> 
+          <option value="-1"></option>
+            <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">{{standard.standard_name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-wrapper">
+      <label>Subject<span class="text-danger">*</span></label>
+      <div class="dropdown-div">
+        <select class="dropdown" [(ngModel)]="filterData.subject_id">
+            <option value="-1"></option>
+          <option *ngFor="let subject of subjectData;let i=index; " [value]="subject.subject_id">{{subject.subject_name}}</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn fullBlue" style="margin-bottom: 5px;" [disabled]="(filterData.standard_id==-1) || (filterData.subject_id==-1)" (click)="getTopicDetails()" >View</button>  
+    <button class="btn fullBlue pull-right" style="margin-top: 18px;" data-backdrop="static" data-toggle="modal" data-target="#addTopic">
+      <i class="fa fa-plus" aria-hidden="true" (click)="clearObject()"></i>&nbsp; Add Topic</button>
+  </div>
+</div>
+
+<div class="topic_details_view">
+    <app-topic-list [dataList]="subjectList" (editView)="eventAction($event)"></app-topic-list>
+</div>
+
+
+<!-- Modal -->
+<div class="modal topic-add-model" id="addTopic" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="addTopic" *ngIf="option_type=='Add'">Create New Topic</h2>
+        <h2 class="modal-title" id="addTopic" *ngIf="option_type=='Edit'">Update Topic</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cancel" (click)="clearObject()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="model_body_div">
+          <div class="field-wrapper">
+            <label>Standard Name<span class="text-danger">*</span></label>
+            <div class="dropdown-div">
+              <select class="dropdown" [(ngModel)]="addTopic.standard_id" (change)="getAllSubjectList($event.target.value)">
+                <option value="-1">   Select Standard </option>
+                <option *ngFor="let standard of standardData;let i=index; " [value]="standard.standard_id">{{standard.standard_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label>Subject Name<span class="text-danger">*</span></label>
+            <div class="dropdown-div">
+              <select class="dropdown"  [(ngModel)]="addTopic.subject_id">
+                <option value="-1"> Select Subject </option>
+                <option *ngFor="let subject of subjectTempData;let i=index; " [value]="subject.subject_id">{{subject.subject_name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label>Topic Name <span class="text-danger">*</span></label>
+            <div class="dropdown-div">
+                <input class="dropdown" [(ngModel)]="addTopic.name" type="text" placeholder="  Enter Topic Name" />
+            </div>
+          </div>
+          <div class="field-wrapper">
+            <label>Duration (only minutes)</label>
+            <div class="dropdown-div">
+              <input class="dropdown" maxlength="3" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="addTopic.estimated_time" type="text" placeholder="  Enter Estimated Time" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearObject()">Cancel</button>
+        <button type="button" class="btn btn-primary fullBlue" *ngIf="option_type=='Add'" [disabled]="(addTopic.name=='') ||(addTopic.standard_id==-1) || (addTopic.subject_id==-1)" (click)="Add_New_Topic_Details()">Save </button>
+        <button type="button" class="btn btn-primary fullBlue" *ngIf="option_type=='Edit'" [disabled]="(addTopic.name=='') ||(addTopic.standard_id==-1) || (addTopic.subject_id==-1)" (click)="Update_Topic_Details('edit',null)">Update </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal topic-add-model" style="position: fixed; top: 16em;" id="DeleteTopic" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="padding: 1em;">
+      <div class="modal-body">
+        <div class="model_body_div">
+            Are you sure, you want to delete this topic?
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn " style="color: indianred;" (click)="deleteTopicObject()">Delete </button>
+        <button type="button" class="btn" data-dismiss="modal" (click)="clearObject()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

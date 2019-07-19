@@ -368,11 +368,11 @@
     <div class="header-container">
       <div class="sub-header">
         <span style="font-weight: 600;">Subject : </span>
-        <span id="topicSubName"></span>
+        <span id="topicSubName">{{batch_info.subjectName}}</span>
       </div>
       <div class="total-topic">
         <span style="font-weight: 600;">Total Topic : </span>
-        <span id="topicCount"></span>
+        <span id="topicCount">{{topicsData?.length}}</span>
       </div>
     </div>
     <!-- <div class="field-checkbox-wrapper" style="margin:10px;">
@@ -394,6 +394,7 @@
           [kendoTreeViewCheckable]="checkableSettings"
           [(checkedKeys)]="checkedKeys"
           checkBy="topicId"
+          (checkedChange)="handleChecking($event)"
       >
        </kendo-treeview>
     </div>
