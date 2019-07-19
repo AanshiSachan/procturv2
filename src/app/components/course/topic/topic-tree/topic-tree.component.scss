@@ -1,0 +1,86 @@
+.btn {
+  font-size: 12px;
+  height: 30px;
+  padding: 1px 12px;
+}
+
+.topic_details {
+  padding: .6em;
+
+  .topic_filter_div {
+    padding-bottom: 1rem;
+
+    .topic_title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .filter_div {
+    background: #ddd;
+    padding: 1rem;
+
+    .field-wrapper {
+      margin-left: 20px;
+      padding-top: 0;
+      display: inline-block;
+    }
+
+    .dropdown-div {
+      width: 160px;
+
+      .dropdown {
+        width: 100%;
+        height: 30px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.topic_details_view{
+  padding:.6em;
+}
+
+.topic-add-model {
+  .modal-dialog {
+    width: 350px;
+
+    .modal-header {
+      padding: 15px 15px 1px;
+      font-size: 14px;
+      .close{
+        margin-bottom: -20px;
+        position: relative;
+        top: -1.0em;
+        font-size: 30px;
+      }
+    }
+
+    .modal-body {
+      padding-top: 0px;
+      .model_body_div {
+        .field-wrapper{
+          label{
+            color: #3e3d4a;
+            font-weight: 600;
+          }
+          .dropdown-div {
+            .dropdown {
+              width: 100%;
+              height: 30px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+            }
+          }
+        }        
+      }
+    }
+  }
+}
+
+::placeholder {
+  color:  #ddd;
+  opacity: 1; /* Firefox */
+}

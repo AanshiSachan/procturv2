@@ -1669,6 +1669,12 @@
     }
 }
 
+.field-wrapper {
+    &.datePickerBox:after {
+        top: 24px;
+    }
+}
+
 .batch-schedule {
     tr {
         th {
