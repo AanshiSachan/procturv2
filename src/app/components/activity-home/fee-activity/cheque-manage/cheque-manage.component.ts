@@ -377,6 +377,7 @@ export class ChequeManageComponent implements OnInit {
         this._msgService.showErrorMessage('success', '',"Cheque Status Updated");
         this.flagJson.isUpdatePopup = false;
         this.flagJson.isRippleLoad = false;
+        this.filterCheques();
       },
       err => {
         this._msgService.showErrorMessage('error', '',"Please contact support@proctur.com");
@@ -417,7 +418,7 @@ export class ChequeManageComponent implements OnInit {
     let temp: any[] = [];
     if(this.chequePaymentModel.remarks.length>20){
       this._msgService.showErrorMessage('error', '',"remarks should not be greater than 20 characters");
-      return ;
+      return;
     }
     for (let k in this.studentUnpaid) {
       if (this.studentUnpaid[k].selected && this.studentUnpaid[k].toPay != '') {
@@ -433,7 +434,7 @@ export class ChequeManageComponent implements OnInit {
 
     if (toPay > parseInt(this.chequePaymentModel.chequeAmount)) {
       this._msgService.showErrorMessage('error', "PDC cheque amount is not matching with the selected installments",
-      "Please change to be paid amount in selected installments to make partial payment");
+        "Please change to be paid amount in selected installments to make partial payment");
     }
     else if (toPay <= parseInt(this.chequePaymentModel.chequeAmount) && toPay != 0) {
       let obj = {
@@ -444,7 +445,7 @@ export class ChequeManageComponent implements OnInit {
           cheque_no: this.chequePaymentModel.chequeNum,
           pdc_cheque_id: this.selectedRecord.pdc_cheque_id,
         },
-        paid_date: this.chequePaymentModel.paymentDate,
+        paid_date: moment(this.chequePaymentModel.paymentDate).format("YYYY-MM-DD"),
         paymentMode: this.chequePaymentModel.paymentMode,
         reference_no: this.chequePaymentModel.refNum,
         remarks: this.chequePaymentModel.remarks,
@@ -454,7 +455,7 @@ export class ChequeManageComponent implements OnInit {
 
       this.getter.updatePDCPayment(obj).subscribe(
         res => {
-          this._msgService.showErrorMessage('success', "Payment Updated","paymnet via cheque has been updated");
+          this._msgService.showErrorMessage('success', "Payment Updated", "paymnet via cheque has been updated");
 
           if (this.chequePaymentModel.isGenAck || this.chequePaymentModel.isSendEmail) {
 
@@ -473,7 +474,7 @@ export class ChequeManageComponent implements OnInit {
                 err => {
                   let msg = JSON.parse(err._body).message;
                   //this.isRippleLoad = false;
-                  this._msgService.showErrorMessage('error', msg,"");
+                  this._msgService.showErrorMessage('error', msg, "");
                 }
               )
             }
@@ -481,12 +482,12 @@ export class ChequeManageComponent implements OnInit {
             else if (this.chequePaymentModel.isSendEmail) {
               this.getter.downloadResource(obj).subscribe(
                 res => {
-                  this._msgService.showErrorMessage('success', "Receipt Shared Over Email","");
+                  this._msgService.showErrorMessage('success', "Receipt Shared Over Email", "");
                 },
                 err => {
                   let msg = JSON.parse(err._body).message;
                   //this.isRippleLoad = false;
-                  this._msgService.showErrorMessage('error', msg,"");
+                  this._msgService.showErrorMessage('error', msg, "");
                 }
               )
             }
@@ -499,18 +500,16 @@ export class ChequeManageComponent implements OnInit {
                 err => {
                   let msg = JSON.parse(err._body).message;
                   //this.isRippleLoad = false;
-                  this._msgService.showErrorMessage('error', msg,"");
+                  this._msgService.showErrorMessage('error', msg, "");
                 }
               )
             }
           }
-
-          this.cancelUpdate();
+          this.cancelUpdate();       
           this.filterCheques();
-
         },
         err => {
-          this._msgService.showErrorMessage('error', "An Error Occured",err.error.message);
+          this._msgService.showErrorMessage('error', "An Error Occured", err.error.message);
         }
       )
 
@@ -544,7 +543,7 @@ export class ChequeManageComponent implements OnInit {
     let temp: any[] = [];
     el.forEach(e => {
       let obj = {
-        due_date: e.due_date,
+        due_date:  moment(e.due_date).format("YYYY-MM-DD"),
         fee_schedule_id: e.fee_schedule_id,
         paid_full: this.getPaidStatus(e.total_balance_amt, e.toPay),
         previous_balance_amt: e.total_balance_amt,
@@ -558,7 +557,7 @@ export class ChequeManageComponent implements OnInit {
 
   validatePaymentAmount(i) {
     if (parseInt(this.studentUnpaid[i].toPay) > parseInt(this.studentUnpaid[i].total_balance_amt)) {
-      this._msgService.showErrorMessage('info', "Invalid Payment Amount","Amount cannot be greater than the total balance amount");
+      this._msgService.showErrorMessage('info', "Invalid Payment Amount", "Amount cannot be greater than the total balance amount");
       this.studentUnpaid[i].toPay = this.studentUnpaid[i].total_balance_amt;
     }
     else if (parseInt(this.studentUnpaid[i].toPay) == parseInt(this.studentUnpaid[i].total_balance_amt)) {

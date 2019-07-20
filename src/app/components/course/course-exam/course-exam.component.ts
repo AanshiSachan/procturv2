@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ExamCourseService } from '../../../services/course-services/exam-schedule.service';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
@@ -48,7 +48,7 @@ export class CourseExamComponent implements OnInit {
   absentCount: number = 0;
   presentCount: number = 0;
   leaveCount: number = 0;
-  attendanceNote: string = "";  
+  attendanceNote: string = "";
   batchAdderData = {
     exam_date: moment().format("YYYY-MM-DD"),
     exam_desc: "",
@@ -62,7 +62,7 @@ export class CourseExamComponent implements OnInit {
     },
     total_marks: 0
   }
-  
+
   batchData = {
     standard_id: -1,
     subject_id: -1,
@@ -102,48 +102,49 @@ export class CourseExamComponent implements OnInit {
     endTimeMins: '00',
     total_marks: ''
   };
-  exam_desc: '';
-  exam_room_no: '';
-  subject_id: '';
-  subject_name: '';
-  exam_marks: '';
-  edit_subject_id: '';
-  edit_subject_name: '';
-  edit_exam_marks: '';
-  edit_subject_topics: ''; 
-  edit_exam_desc: '';
-  edit_exam_room_no: '';
-  row_edit_subject_id: '';
-  row_edit_subject_name: '';
-  row_edit_exam_marks: '';
-  row_edit_subject_topics: '';  
-  row_edit_exam_desc: '';
-  row_edit_exam_room_no: '';
+  exam_desc:any ='';
+  exam_room_no:any ='';
+  subject_id:any ='';
+  subject_name:any ='';
+  exam_marks:any ='';
+  edit_subject_id:any ='';
+  edit_subject_name:any ='';
+  edit_exam_marks:any ='';
+  edit_subject_topics:any ='';
+  edit_exam_desc:any ='';
+  edit_exam_room_no:any ='';
+  row_edit_subject_id:any ='';
+  row_edit_subject_name:any ='';
+  row_edit_exam_marks:any ='';
+  row_edit_subject_topics:any ='';
+  row_edit_exam_desc:any ='';
+  row_edit_exam_room_no:any ='';
   selectedSubId: any;
   total_marks_to_show = 0;
   // Topic listing variables
-  topicBox: boolean = true;  
+  topicBox: boolean = true;
   selectAllTopics: boolean = false;
-  public enableCheck : boolean = true;
-  public checkChildren : boolean = true;
-  public checkParents: boolean  = true;
-  public checkOnClick : boolean = true;
+  public enableCheck: boolean = true;
+  public checkChildren: boolean = true;
+  public checkParents: boolean = true;
+  public checkOnClick: boolean = true;
   public checkMode: any = 'multiple';
   topicLinkColor: boolean = false;
   changeColor: boolean = false;
   multiClickDisabled: boolean = false;
   isRippleLoad: boolean = false;
-  selectedRow = "";  
+  selectedRow = "";
   public topicsData: any;
   public children;
   public hasChildren;
   public isExpanded;
 
-   constructor(
+  constructor(
     private apiService: ExamCourseService,
     private toastCtrl: AppComponent,
     private auth: AuthenticatorService,
-    private topicService: TopicListingService
+    private topicService: TopicListingService,
+    private cd: ChangeDetectorRef
   ) { }
 
   public get checkableSettings(): CheckableSettings {
@@ -155,7 +156,7 @@ export class CourseExamComponent implements OnInit {
       checkOnClick: this.checkOnClick
     };
   }
-  
+
   ngOnInit() {
     this.checkInstituteType();
     this.fetchPrefillData();
@@ -218,7 +219,7 @@ export class CourseExamComponent implements OnInit {
           this.showContentSection = true;
           this.jsonVar.isSheduleBatch = true;
           this.examScheduleData = res;
-          this.batchStartDate =this.examScheduleData.batch_start_date;
+          this.batchStartDate = this.examScheduleData.batch_start_date;
           this.batchEndDate = this.examScheduleData.batch_end_date;
           if (moment(this.batchEndDate).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
             this.jsonVar.isSheduleBatch = false;
@@ -405,7 +406,7 @@ export class CourseExamComponent implements OnInit {
     }
 
     let subjectName = "";
-    if(this.subjectListData.length>0){
+    if (this.subjectListData.length > 0) {
       this.subjectListData[0].forEach(
         ele => {
           if (this.edit_subject_id == ele.subject_id) {
@@ -413,7 +414,7 @@ export class CourseExamComponent implements OnInit {
           }
         }
       );
-    }  
+    }
 
     let topic_names = this.topicsName.join(", ");
     this.newExamSubjectData[row_no].subject_id = this.edit_subject_id
@@ -427,7 +428,7 @@ export class CourseExamComponent implements OnInit {
     this.edit_subject_id = '';
     this.edit_subject_name = '';
     this.edit_exam_marks = '';
-    this.edit_subject_topics = '';    
+    this.edit_subject_topics = '';
     this.edit_exam_desc = '';
     this.edit_exam_room_no = '';
     this.edit_subject_topicId = [];
@@ -889,21 +890,21 @@ export class CourseExamComponent implements OnInit {
             };
 
             if (result.coursesList[i].courseClassSchdList != null && result.coursesList[i].courseClassSchdList.length > 0) {
-              obj.courseTableList = result.coursesList[i].courseClassSchdList;              
-                obj.courseModelAdder.start_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].start_time);
-                obj.courseModelAdder.end_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].end_time);
-                obj.courseModelAdder.exam_desc = result.coursesList[i].courseClassSchdList[0].class_desc;
-                obj.courseModelAdder.room_no = result.coursesList[i].courseClassSchdList[0].room_no;
-                obj.courseModelAdder.total_marks = 0;
-                result.coursesList[i].courseClassSchdList.forEach(element => {
-                  obj.courseModelAdder.total_marks  += Number(element.total_marks);
-                })
-                    
+              obj.courseTableList = result.coursesList[i].courseClassSchdList;
+              obj.courseModelAdder.start_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].start_time);
+              obj.courseModelAdder.end_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].end_time);
+              obj.courseModelAdder.exam_desc = result.coursesList[i].courseClassSchdList[0].class_desc;
+              obj.courseModelAdder.room_no = result.coursesList[i].courseClassSchdList[0].room_no;
+              obj.courseModelAdder.total_marks = 0;
+              result.coursesList[i].courseClassSchdList.forEach(element => {
+                obj.courseModelAdder.total_marks += Number(element.total_marks);
+              })
+
             } //end if
-            else{
-              obj.courseTableList =[];
+            else {
+              obj.courseTableList = [];
             }
-            this.viewList.push(obj); 
+            this.viewList.push(obj);
           }
         }
       }
@@ -913,11 +914,11 @@ export class CourseExamComponent implements OnInit {
   /**
    * check negative value 
    */
-  checkNgetiveValue($event){
+  checkNgetiveValue($event) {
     console.log($event);
-    if($event<0){
+    if ($event < 0) {
       this.messageNotifier('error', 'Error', 'Negative mark not allowed');
-    }    
+    }
   }
 
 
@@ -990,24 +991,24 @@ export class CourseExamComponent implements OnInit {
             this.topicBox = false;
             this.isRippleLoad = false;
             this.topicsData = res;
-
+            let subjectName = "";
             let tempCheckedKeys;
-            if (this.row_edit_subject_topicId != undefined) {
-              if (this.row_edit_subject_topicId.includes("|")) {
-                let x = this.row_edit_subject_topicId.toString();
-                tempCheckedKeys = x.replace("|", ",");
-              }
-              else {
-                tempCheckedKeys = this.row_edit_subject_topicId;
-              }
-              if (tempCheckedKeys.length > 0) {
-                let arr = tempCheckedKeys.split(",");
-                let arrayOfNumbers = arr.map(Number);
-                this.checkedKeys = arrayOfNumbers;
-              }
+            let data = this.row_edit_subject_topicId.toString();
+
+            if (data != undefined && data.includes("|")) {
+              tempCheckedKeys = data.split("|");
+            }
+            else {
+              tempCheckedKeys = this.row_edit_subject_topicId;
             }
 
-            let subjectName = "";
+            tempCheckedKeys.forEach((value) => {
+              if (value != " " || value != "0") {
+                this.checkedKeys.push(Number(value));
+              }
+            })
+
+
             subjectData.forEach(
               ele => {
                 if (ele.subject_id == this.row_edit_subject_id) {
@@ -1015,8 +1016,8 @@ export class CourseExamComponent implements OnInit {
                 }
               }
             )
-            document.getElementById("topicSubName").innerHTML = subjectName;
-            document.getElementById("topicCount").innerHTML = this.topicsData.length;
+            this.subject_name = subjectName;
+            this.subject_name ;
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
@@ -1051,15 +1052,13 @@ export class CourseExamComponent implements OnInit {
             this.topicsData = res;
 
             let subjectName = "";
-            this.subjectListDataSource.forEach(
+            this.subjectListData[0].forEach(
               ele => {
-                if (ele.subject_id == this.subject_id) {
-                  subjectName = ele.subject_name;
+                if (this.subject_id == ele.subject_id) {
+                  this.subject_name = ele.subject_name;
                 }
               }
-            )
-            document.getElementById("topicSubName").innerHTML = subjectName;
-            document.getElementById("topicCount").innerHTML = this.topicsData.length;
+            );
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
@@ -1074,6 +1073,60 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
+    }
+  }
+
+
+  public handleChecking(itemLookup: TreeItemLookup): void {
+    let subTopic = itemLookup.item.dataItem.subTopic;
+    let arrayIndex = this.checkedKeys.indexOf(itemLookup.item.dataItem.topicId);
+    if (arrayIndex > -1) {
+      // this.checkedKeys.splice(arrayIndex, 1);
+      let subTopic = itemLookup.item.dataItem.subTopic;
+      subTopic.length ? this.removeNLevelTopic(subTopic) : '';
+    } else {
+      // this.checkedKeys.push(itemLookup.item.dataItem.topicId);
+      if (subTopic.length)
+        this.AddNLevelTopic(subTopic);
+    }
+    this.cd.markForCheck();
+  }
+
+  removeNLevelTopic(subTopics) {
+    if (subTopics.length == 0) {
+      let arrayIndex = this.checkedKeys.indexOf(subTopics.topicId);
+      this.checkedKeys.splice(arrayIndex, 1);
+      return;
+    }
+    else {
+      subTopics.forEach((object) => {
+        let arrayIndex = this.checkedKeys.indexOf(object.topicId);
+        if (arrayIndex > -1) {
+          this.checkedKeys.splice(arrayIndex, 1);
+        }
+        if (object.subTopic.length) {
+          this.removeNLevelTopic(object.subTopic);
+        }
+      });
+    }
+    this.cd.markForCheck();
+  }
+
+  AddNLevelTopic(subTopics) {
+    if (subTopics.length == 0) {
+      this.checkedKeys.push(subTopics.topicId);
+      return;
+    }
+    else {
+      subTopics.forEach((object) => {
+        let arrayIndex = this.checkedKeys.indexOf(object.topicId);
+        if (arrayIndex == -1) {
+          this.checkedKeys.push(object.topicId);
+        }
+        if (object.subTopic.length) {
+          this.AddNLevelTopic(object.subTopic);
+        }
+      });
     }
   }
 
@@ -1094,17 +1147,13 @@ export class CourseExamComponent implements OnInit {
             this.isRippleLoad = false;
             this.topicsData = res;
             this.checkedKeys = this.edit_subject_topicId;
-
-            let subjectName = "";
             this.subjectListDataSource.forEach(
               ele => {
                 if (ele.subject_id == this.subject_id) {
-                  subjectName = ele.subject_name;
+                  this.subject_name = ele.subject_name;
                 }
               }
-            )
-            document.getElementById("topicSubName").innerHTML = subjectName;
-            document.getElementById("topicCount").innerHTML = this.topicsData.length;
+            ); 
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
@@ -1364,9 +1413,6 @@ export class CourseExamComponent implements OnInit {
       }
       this.checkedKeys = temp;
     }
-
-
-
   }
 
   updateEditedSubject(row, index, j) {
@@ -1525,10 +1571,10 @@ export class CourseExamComponent implements OnInit {
             classLi.topics_covered = topics.replace(/,/g, "|");
           }
           else {
-            if(typeof topics !='string'){
+            if (typeof topics != 'string') {
               classLi.topics_covered = topics ? (topics.length == 0 ? "" : topics.join("|")) : "";
             }
-            else{
+            else {
               classLi.topics_covered = topics;
             }
           }
@@ -1553,10 +1599,10 @@ export class CourseExamComponent implements OnInit {
     // FOR NEWLY ADDED EXAM
     if (this.newExamSubjectData.length > 0) {
       // for (let i = 0; i < this.newExamSubjectData.length; i++) {
-      let test: any = {course_id:'',course_exam_schedule_id:'-1'};
-         if(this.viewList.length>0){
-          test.course_id = this.viewList[0].selectedCourseList.course_id;
-         }
+      let test: any = { course_id: '', course_exam_schedule_id: '-1' };
+      if (this.viewList.length > 0) {
+        test.course_id = this.viewList[0].selectedCourseList.course_id;
+      }
       let check = this.validateTime2();
       if (check == false) {
         return;
