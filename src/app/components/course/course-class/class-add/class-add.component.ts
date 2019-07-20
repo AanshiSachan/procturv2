@@ -160,6 +160,7 @@ export class ClassAddComponent implements OnInit {
   showWarningPopup: boolean = false;
   cancelWeeklySchedulePop: boolean = false;
   IsTopicSelectedMode: string = 'add';
+  subject_name='';
 
   weeklyScheduleCan = {
     date: moment().format("YYYY-MM-DD"),
@@ -809,7 +810,6 @@ export class ClassAddComponent implements OnInit {
                 }
               )
               document.getElementById("topicSubName").innerHTML = subjectName;
-              document.getElementById("topicCount").innerHTML = this.topicsData.length;
               this.children = (dataItem: any) => of(dataItem.subTopic);
               this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
             }
@@ -851,9 +851,8 @@ export class ClassAddComponent implements OnInit {
                 this.checkedKeys.push(Number(value));
               }
             })
-            let subjectName = this.selectedRow.subject_name;
-            document.getElementById("topicSubName").innerHTML = subjectName;
-            document.getElementById("topicCount").innerHTML = this.topicsData.length;
+
+            this.subject_name = this.selectedRow.subject_name
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
