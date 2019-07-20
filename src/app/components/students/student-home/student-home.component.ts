@@ -1973,7 +1973,7 @@ export class StudentHomeComponent implements OnInit {
     let customArr = [];
 
     this.studentByIdcustomComponents.forEach(el => {
-      let max_length =  el.comp_length==0?50:el.comp_length;
+      let max_length =  el.comp_length==0?100:el.comp_length;
       /* Not Checkbox and value not empty */
       if (el.value != '' && el.type != 2 && el.type != 5) {
         
