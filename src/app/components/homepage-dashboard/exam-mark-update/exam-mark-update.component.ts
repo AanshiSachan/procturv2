@@ -174,8 +174,8 @@ export class ExamMarkUpdateComponent implements OnInit {
       return;
     }
     $("#myModal").modal("show");
-    let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
-    if (object.length >0) {
+    let object: any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
+    if (object.length > 0) {
       object[0].click();
     }
   }
@@ -215,7 +215,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     if (data.is_exam_grad_feature == 1) {
       this.getAllExamGrades();
       this.upload_text = 'Upload Grades';
-    }else{
+    } else {
       this.upload_text = 'Upload Marks';
     }
   }
@@ -314,6 +314,7 @@ export class ExamMarkUpdateComponent implements OnInit {
         notassignCount++;
       }
       // obj.isUpdated = this.studentAttList[i].isUpdated;
+      obj.isSendExamRemarkInSMS = 'N';
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
@@ -352,11 +353,15 @@ export class ExamMarkUpdateComponent implements OnInit {
       if (this.studentAttList[i].assigned) {
         obj.isUpdated = 'Y';
         obj.isStudentExamSMS = 'Y';
+        obj.isSendExamRemarkInSMS ='Y';
       } else {
         obj.isUpdated = 'N';
         obj.isStudentExamSMS = 'N';
+        obj.isSendExamRemarkInSMS ='N';
         notassignCount++;
       }
+      // obj.isSendExamRemarkInSMS = this.studentAttList[i].remarks ? 'Y' : 'N';
+      obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
