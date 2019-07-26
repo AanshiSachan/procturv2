@@ -28,6 +28,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { timeTableService } from '../../services/TimeTable/timeTable.service';
 import { tableComponent } from './time-table/table/table.component';
+import { CoursePlannerModule } from './course-planner/course-planner.module';
+import { WidgetService } from '../../services/widget.service';
 
 @NgModule({
     imports: [
@@ -39,6 +41,7 @@ import { tableComponent } from './time-table/table/table.component';
         SharedModule,
         ArchivingModule,
         StepsModule,
+        CoursePlannerModule,
         TooltipModule.forRoot(),
         NgMultiSelectDropDownModule.forRoot()
     ],
@@ -62,7 +65,8 @@ import { tableComponent } from './time-table/table/table.component';
         ExamDeskCourseAssignmentService,
         MessageService,
         timeTableService,
-        LiveClasses
+        LiveClasses,
+        WidgetService
     ]
 })
 export class ActivityHomeModule {
