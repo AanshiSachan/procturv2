@@ -101,7 +101,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       jpeg: "9",
       png: "10",
       pptx: "11",
-      ppt: "12"
+      ppt: "12",
+      zip:'13'
     },
     66: {
       pdf: "1",
@@ -115,7 +116,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       jpeg: "9",
       png: "10",
       pptx: "11",
-      ppt: "12"
+      ppt: "12",
+      zip:'13'
     },
     67: {
       pdf: "1",
@@ -124,7 +126,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       xls: "4",
       xlsx: "5",
       txt: "6",
-      rtf: "7"
+      rtf: "7",
+      zip:'8'
     },
     182: {
       pdf: "1",
@@ -133,7 +136,8 @@ export class UploadPopupComponent implements OnInit, OnChanges {
       xls: "4",
       xlsx: "5",
       txt: "6",
-      rtf: "7"
+      rtf: "7",
+      zip:'8'
     }
   }
 

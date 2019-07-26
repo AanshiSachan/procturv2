@@ -96,7 +96,7 @@ export class TopicTreeComponent implements OnInit {
           this.option_type = 'Add';
           $('#addTopic').modal('hide');
           this._toastPopup.showErrorMessage('success', '', "Topic Updated Successfully");
-          this.getTopicDetails();
+          this.getTopicDetails(null);
         } else {
           this._toastPopup.showErrorMessage('error', '', "something went wrong please try again");
         }
@@ -156,7 +156,7 @@ export class TopicTreeComponent implements OnInit {
         let object = {
           "name": $event.data.name,
           "parent_topic_id": $event.data.parentTopicId,
-          "institute_topic_id": $event.data.topicId, 
+          "institute_topic_id": $event.data.topicId,
           "description":$event.data.description
         }
         this.Update_Topic_Details('EditSubtopic', object);
@@ -178,7 +178,7 @@ export class TopicTreeComponent implements OnInit {
             this.isRippleLoad = false;
             this._toastPopup.showErrorMessage('success', '', "Topic Subtopic Successfully");
             if ((this.filterData.standard_id != -1) && (this.filterData.subject_id != -1)) {
-              this.getTopicDetails();
+              this.getTopicDetails(null);
             }
           },
           (error: any) => {
@@ -193,19 +193,13 @@ export class TopicTreeComponent implements OnInit {
 
   //delete object
   deleteTopicObject() {
-    let url = "/api/v1/topic_manager/" +this.institute_id+"/"+ this.temp_object.topicId;
+    let url = "/api/v1/topic_manager/" + this.institute_id + "/" + this.temp_object.topicId;
     this._http.deleteData(url, null).subscribe(
       (res: any) => {
         this.isRippleLoad = false;
         $('#DeleteTopic').modal('hide');
         this._toastPopup.showErrorMessage('success', '', "Topic Deleted Successfully");
-        this.getTopicDetails();
-        // for(let i=0;i<this.subjectList.length;i++){
-        //   if(this.subjectList[i].topicId==this.temp_object.topicId){
-        //     this.subjectList.splice(i,1); 
-        //     break;
-        //   }
-        // }
+        this.getTopicDetails(null);
       },
       (err: any) => {
         this.isRippleLoad = false;
@@ -252,7 +246,7 @@ export class TopicTreeComponent implements OnInit {
         this._toastPopup.showErrorMessage('success', '', "Topic Added Successfully");
         $('#addTopic').modal('hide');
         if ((this.filterData.standard_id != -1) && (this.filterData.subject_id != -1)) {
-          this.getTopicDetails();
+          this.getTopicDetails('view');
         }
         console.log(data);
       },
@@ -264,7 +258,7 @@ export class TopicTreeComponent implements OnInit {
     );
   }
 
-  getTopicDetails() {
+  getTopicDetails(type) {
     if (this.filterData.standard_id == -1) {
       this._toastPopup.showErrorMessage('error', '', "Select the standard");
       return;
@@ -279,10 +273,26 @@ export class TopicTreeComponent implements OnInit {
       (data: any) => {
         this.isRippleLoad = false;
         if (data) {
-          this.subjectList = data;
-          this.subjectList.forEach((object) => {
-            object.addSubtopic = [];
-          });
+          if (type == 'view') {
+            this.subjectList = data;
+            this.subjectList.forEach((object) => {
+              object.addSubtopic = [];
+            })
+          } else {
+            for (let i = 0; i < data.length; i++) {
+              data[i].isExpand = this.subjectList[i].isExpand;
+              if (this.subjectList[i].addSubtopic[0]) {
+                let object = this.subjectList[i].addSubtopic[0];
+                object.name = object && object.name ? '' : '';
+                data[i].addSubtopic = this.subjectList[i].addSubtopic;
+              }
+              else {
+                data[i].addSubtopic = [];
+              }
+              this.expandAllTopic(data[i], this.subjectList[i]);
+            }
+            this.subjectList = data;
+          }
         }
         console.log(data);
       },
@@ -291,6 +301,31 @@ export class TopicTreeComponent implements OnInit {
         console.log(error);
       }
     )
+  }
+
+  expandAllTopic(topic, subjectList) {
+    if (topic.subTopic.length == 0) {
+      return;
+    }
+    else {
+      for (let i = 0; i < topic.subTopic.length; i++) {
+        let object = topic.subTopic[i];
+        let subject = subjectList.subTopic[i];
+        object.addSubtopic = subject && subject.addSubtopic ? subject.addSubtopic : [];
+        if (subject && subject.addSubtopic && subject.addSubtopic[0]) {
+          let add_sub_object = subject.addSubtopic[0];
+          add_sub_object.name = add_sub_object && add_sub_object.name ? '' : '';
+          object.addSubtopic = subject.addSubtopic;
+        }
+        else {
+          object.addSubtopic = [];
+        }
+        object.isExpand = subject && subject.isExpand;
+        if (object.subTopic.length > 0) {
+          this.expandAllTopic(object, subject);
+        }
+      }
+    }
   }
 
 }
