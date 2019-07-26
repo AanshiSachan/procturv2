@@ -8,7 +8,7 @@
           &nbsp; {{topic.topicName}}
         </div>
         <div class="col-md-4">
-          <span style="font-weight: 600;">Est. Time :</span>   &nbsp; {{topic.estimated_time}}
+          <span style="font-weight: 600;">Est. Time :</span> &nbsp; {{topic.estimated_time}}
         </div>
         <div class="pull-right">
           <i class="fa fa-plus-circle btn_action pad_icon" (click)="addSubtopic(topic)" title="Add subTopic " aria-hidden="true"></i>
@@ -18,7 +18,7 @@
 
         <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
           <div class="col-md-12 topic-material-data">
-            <ng-container *ngTemplateOutlet="recursiveAddNodes; context:{$implicit: topic.addSubtopic, level: 1}"></ng-container>
+            <ng-container *ngTemplateOutlet="recursiveAddNodes; context:{$implicit: topic.addSubtopic,topic:topic, level: 1}"></ng-container>
             <ng-container *ngTemplateOutlet="recursiveNodes; context:{$implicit: topic.subTopic, level: 1}"></ng-container>
           </div>
         </div>
@@ -26,9 +26,9 @@
     </div>
   </div>
 
-  <ng-template #recursiveAddNodes let-addSubtopic let-level="level">
+  <ng-template #recursiveAddNodes let-addSubtopic  let-topicData="topic" let-level="level">
     <div class="row topic-row" style="padding: 1em 0em 0em .6em;" *ngFor="let topic of addSubtopic">
-      <div [class]="'subject-label row'" style="border: 1px solid #0080f6;    padding: 0.3em 0em;">
+      <div [class]="'subject-label row'" style="border: 1px solid #0080f6; padding: 0.3em 0em;">
         <div class="col-md-4">
           <div class="dropdown-div">
             <input class="dropdown" [(ngModel)]="topic.name" placeholder="enter subtopic name" type="text">
@@ -36,9 +36,11 @@
         </div>
         <div class="col-md-4"></div>
         <div class="pull-right" style=" padding-right: 1em;">
-          <button class="btn"  (click)="addEditSubtopicDetails(topic,'Subtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
+          <button class="btn" (click)="addEditSubtopicDetails(topic,'Subtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
             <i class="fa fa-plus" style="padding: 0px 5px" aria-hidden="true"></i>Add</button>
-            <!-- <i  aria-hidden="true" class="fa fa-times-circle" style="color: red;" title="Cancel"></i> -->
+          <button class="btn_delete">
+            <i aria-hidden="true" (click)="cancelAdd(topicData)" class="fa fa-times-circle delete_icon"  title="Cancel"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -56,11 +58,11 @@
         <div class="pull-right">
           <i class="fa fa-plus-circle btn_action pad_icon" (click)="addSubtopic(topic)" title="Add subTopic " aria-hidden="true"></i>
           <i class="fa fa-pencil btn_action pad_icon" (click)="EditSubtopic(topic)" title="Update Topic"></i>
-          <i class="fa fa-trash-o btn_delete pad_icon"  (click)="eventAction('Delete',topic)" title="Delete Topic"></i>
+          <i class="fa fa-trash-o btn_delete pad_icon" (click)="eventAction('Delete',topic)" title="Delete Topic"></i>
         </div>
         <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
           <div class="col-md-12 topic-material-data">
-            <ng-container *ngTemplateOutlet="recursiveAddNodes; context:{$implicit: topic.addSubtopic, level: level+1}"></ng-container>
+            <ng-container *ngTemplateOutlet="recursiveAddNodes; context:{$implicit: topic.addSubtopic, topic:topic,level: level+1}"></ng-container>
             <ng-container *ngTemplateOutlet="recursiveNodes; context:{$implicit: topic.subTopic, level: level+1 }"></ng-container>
           </div>
         </div>
@@ -74,10 +76,10 @@
           </div>
           <div class="col-md-4"></div>
           <div class="pull-right" style=" padding-right: 1em;">
-            <button class="btn"  (click)="addEditSubtopicDetails(topic,'EditSubtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
+            <button class="btn" (click)="addEditSubtopicDetails(topic,'EditSubtopic')" style="padding: 0px 7px; font-size: 12px; height: 25px;">
               Update</button>
-              <button class="btn"  (click)="clearObject(topic)" style="padding: 0px 7px; font-size: 12px; height: 25px;">
-                Cancel</button>
+            <button class="btn" (click)="clearObject(topic)" style="padding: 0px 7px; font-size: 12px; height: 25px;">
+              Cancel</button>
           </div>
         </div>
       </div>

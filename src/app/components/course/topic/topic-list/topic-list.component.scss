@@ -67,3 +67,14 @@
     border: 1px solid #ddd;
     border-radius: 4px;
   }
+
+  .btn_delete{
+    padding: 1px 7px; 
+    background: white;
+    .delete_icon{
+        color: red;
+        font-size: 1.1rem;
+      }
+  }
+  
+
