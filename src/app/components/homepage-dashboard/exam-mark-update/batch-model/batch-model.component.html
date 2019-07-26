@@ -33,7 +33,7 @@
           (click)="updateGradesOption()">
       </span>
       <span *ngIf="examData.is_exam_grad_feature == 1">
-          <input type="button" value="Upload Grade" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 2.7rem;"
+        <input type="button" value="Upload Grade" class="btn upload_details btn_upload_grades" style="border-radius: 4px;position: absolute; right: 20px; top: 2.7rem;"
           (click)="updateGradesOption()">
       </span>
     </div>
@@ -67,9 +67,12 @@
             <span *ngIf="examData.is_exam_grad_feature == 0">Marks Obtained</span>
             <span *ngIf="examData.is_exam_grad_feature == 1">Grade Obtained</span>
           </div>
+          <div class="heading_item">
+            <span>Remarks</span>
+          </div>
         </div>
         <!-- Body Container -->
-        <div class="value_container"  *ngFor="let s of studentList; let i=index;">
+        <div class="value_container" *ngFor="let s of studentList; let i=index;">
           <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [(ngModel)]="s.assigned" [disabled]="(s.attendance != 'P')">
             <label></label>
@@ -110,6 +113,9 @@
             </div>
           </div>
 
+          <div class="value_item">
+            <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks" [disabled]="(s.attendance == 'A')" >
+          </div>
         </div>
         <div class="value_container" *ngIf="studentList.length == 0">
           <div class="value_item" style="width: 100%;">
@@ -122,13 +128,15 @@
 
 
   <div style="padding-top: 10px;" class="clearfix">
-    <aside class="pull-left popup-btn"  style=" display: inline-flex; ">
+    <aside class="pull-left popup-btn" style=" display: inline-flex; ">
       <input type="button" value="Back" class="btn" (click)="closeAttendance()" style="margin-left: 0px;border-radius: 4px;">
     </aside>
     <aside class="pull-right popup-btn" style=" display: inline-flex;border-radius: 4px; ">
       <input type="button" value="Cancel" class="btn" (click)="closeAttendance()" style="border-radius: 4px;">
-      <input type="button" value="Update Marks" (click)="updateMarksOnServer('N')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
-      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServer('Y')" class="fullBlue btn" style="border-radius: 4px;" [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks" (click)="updateMarksOnServer('N')" class="fullBlue btn" style="border-radius: 4px;"
+        [disabled]="isRippleLoad">
+      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServer('Y')" class="fullBlue btn" style="border-radius: 4px;"
+        [disabled]="isRippleLoad">
     </aside>
   </div>
 

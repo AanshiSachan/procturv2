@@ -12,17 +12,12 @@ export class StudentsComponent implements OnInit {
    }
 
   ngOnInit() {
-    document.getElementById('lione').classList.remove('active');
+    let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine'];
+    classArray.forEach(function (className) {
+      console.log(className);
+      document.getElementById(className).classList.remove('active');
+    });
     document.getElementById('litwo').classList.add('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    //document.getElementById('liten').classList.remove('active');
-    //document.getElementById('lieleven').classList.remove('active');
   }
 
 }

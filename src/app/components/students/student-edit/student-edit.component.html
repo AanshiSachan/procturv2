@@ -353,14 +353,14 @@
           <div class="pull-left">
             <div class="field-checkbox-wrapper">
 
-              <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
+              <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="JsonFlags.formIsActive" (ngModelChange)="updateFormIsActive($event)"
                 class="form-checkbox" id="isStudentActive">
               <label for="isStudentActive">Is Active Student</label>
             </div>
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" #btnContinueDetailPage id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue"
+            <input type="button" id="form-continue" [disabled]="JsonFlags.isDisabled" value="Continue" class="btn fullBlue"
               (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)" value="Submit"
               class="btn hide fullBlue">

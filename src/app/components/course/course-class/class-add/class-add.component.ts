@@ -9,7 +9,6 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
-import { Observable } from 'rxjs/Observable';
 import { TreeItemLookup } from '@progress/kendo-angular-treeview';
 
 
@@ -1545,12 +1544,11 @@ export class ClassAddComponent implements OnInit {
 
   scheduleSelection(event) {
     this.batchFrequency = event;
-    // this.custom.date = event == '2' ? moment().format("YYYY-MM-DD") : '';
+    // this.custom.date = moment().format("YYYY-MM-DD") ;
   }
 
 
   /// Week Section////
-
   makeJsonForWeekTable(data) {
     this.showCancelWeeklyBtn = false;
     this.weekDaysTable = this.weekDays;
