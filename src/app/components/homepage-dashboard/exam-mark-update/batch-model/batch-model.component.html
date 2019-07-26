@@ -67,9 +67,9 @@
             <span *ngIf="examData.is_exam_grad_feature == 0">Marks Obtained</span>
             <span *ngIf="examData.is_exam_grad_feature == 1">Grade Obtained</span>
           </div>
-          <div class="heading_item">
+          <!-- <div class="heading_item">
             <span>Remarks</span>
-          </div>
+          </div> -->
         </div>
         <!-- Body Container -->
         <div class="value_container" *ngFor="let s of studentList; let i=index;">
@@ -113,9 +113,9 @@
             </div>
           </div>
 
-          <div class="value_item">
+          <!-- <div class="value_item">
             <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks" [disabled]="(s.attendance == 'A')" >
-          </div>
+          </div> -->
         </div>
         <div class="value_container" *ngIf="studentList.length == 0">
           <div class="value_item" style="width: 100%;">

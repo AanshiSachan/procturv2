@@ -266,13 +266,13 @@ export class BatchModelComponent implements OnInit {
         student.marks_obtained = this.studentList[i].marks_obtained;
         student.student_exam_det_id = this.studentList[i].student_exam_det_id;
         student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
-        student.remarks = this.studentList[i].remarks;
+        // student.remarks = this.studentList[i].remarks;
         if (sendSms == "Y") {
           student.isUpdated = "Y";
-          student.isSendExamRemarkInSMS = "Y";
+          // student.isSendExamRemarkInSMS = "Y";
         } else {
           student.isUpdated = this.studentList[i].isUpdated;
-          student.isSendExamRemarkInSMS = "N";
+          // student.isSendExamRemarkInSMS = "N";
         }
         student.attendance = this.studentList[i].attendance;
         student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;

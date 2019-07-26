@@ -314,7 +314,7 @@ export class ExamMarkUpdateComponent implements OnInit {
         notassignCount++;
       }
       // obj.isUpdated = this.studentAttList[i].isUpdated;
-      obj.isSendExamRemarkInSMS = 'N';
+      // obj.isSendExamRemarkInSMS = 'N';
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
@@ -353,15 +353,15 @@ export class ExamMarkUpdateComponent implements OnInit {
       if (this.studentAttList[i].assigned) {
         obj.isUpdated = 'Y';
         obj.isStudentExamSMS = 'Y';
-        obj.isSendExamRemarkInSMS ='Y';
+        // obj.isSendExamRemarkInSMS ='Y';
       } else {
         obj.isUpdated = 'N';
         obj.isStudentExamSMS = 'N';
-        obj.isSendExamRemarkInSMS ='N';
+        // obj.isSendExamRemarkInSMS ='N';
         notassignCount++;
       }
       // obj.isSendExamRemarkInSMS = this.studentAttList[i].remarks ? 'Y' : 'N';
-      obj.remarks = this.studentAttList[i].remarks;
+      // obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
