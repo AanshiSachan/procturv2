@@ -3,7 +3,6 @@
 <section class="middle-section">
     <section class="exam-schedule">
         <div class="heading-section">
-          <br>
             <h1>
                 Exam Schedule Details
             </h1>
@@ -459,7 +458,7 @@
                                 <label for="marks">Marks
                                  <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="exam_marks" id="marks">
+                                <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" (ngModelChange)="checkNgetiveValue($event)"  [(ngModel)]="exam_marks" id="marks">
                             </div>
                         </div>
 
@@ -649,7 +648,7 @@
                                   <label for="marks">Marks
                                    <span class="text-danger">*</span>
                                   </label>
-                                  <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" [(ngModel)]="data.coursetableAdder.total_marks" id="marks">
+                                  <input type="number" class="side-form-ctrl constantHeight" style="width:90px;" (ngModelChange)="checkNgetiveValue($event)" [(ngModel)]="data.coursetableAdder.total_marks" id="marks">
                               </div>
                           </div>
 
@@ -784,11 +783,11 @@
     <div class="header-container">
       <div class="sub-header">
         <span style="font-weight: 600;">Subject : </span>
-        <span id="topicSubName"></span>
+        <span id="topicSubName">{{subject_name}}</span>
       </div>
       <div class="total-topic">
         <span style="font-weight: 600;">Total Topic : </span>
-        <span id="topicCount"></span>
+        <span id="topicCount">{{topicsData?.length}}</span>
       </div>
     </div>
     <!-- <div class="field-checkbox-wrapper" style="margin:10px;">
@@ -810,6 +809,7 @@
           [kendoTreeViewCheckable]="checkableSettings"
           [(checkedKeys)]="checkedKeys"
           checkBy="topicId"
+          (checkedChange)="handleChecking($event)"
       >
        </kendo-treeview>
     </div>
@@ -961,18 +961,9 @@
     <div class="popup pos-abs popup-body-container ">
         <div class="popup-wrapper pos-rel ">
             <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCancelExamPopUp()">
-                <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-                    <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-                        <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-                            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
-                          rotate(45) " />
-                            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
-                          rotate(45) " />
-                        </g>
-                        <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                          " height="16 " transform="translate(1012 297) " />
-                    </g>
-                </svg>
+              <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+                <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+              </svg>
             </span>
             <div class="popup-content">
                 <h2 *ngIf="isLangInstitute">Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}} - {{cancelExamData.end_time}}))

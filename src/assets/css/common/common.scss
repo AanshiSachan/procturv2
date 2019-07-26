@@ -1,9 +1,52 @@
 @import "variables";
 /* Scrollbar thickness changed here for vertical display */
-::-webkit-scrollbar {
-  display: none;
-  width: 7px;
-  height: 7px;
+
+// ::-webkit-scrollbar {
+//   // display: none;
+//   width: 7px;
+//   height: 7px;
+// }
+// ::-webkit-scrollbar-track {
+//   -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+//   -webkit-border-radius: 5px;
+//   border-radius: 5px;
+// }
+//
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   -webkit-border-radius: 5px;
+//   border-radius: 5px;
+//   background: rgba(3, 14, 65, 0.4);
+//   -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+// }
+//
+// ::-webkit-scrollbar-thumb:window-inactive {
+//   background: rgba(7, 27, 119, 0.4);
+// }
+
+// New Scroll Bar
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-image: -webkit-gradient(linear,
+									   left bottom,
+									   left top,
+									   color-stop(0.44, rgb(122,153,217)),
+									   color-stop(0.72, rgb(73,125,189)),
+									   color-stop(0.86, rgb(28,58,148)));
 }
 
 .footer-section {
@@ -40,22 +83,15 @@
   color: $error-color !important;
 }
 
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  background: rgba(3, 14, 65, 0.4);
-  -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+.btn.active, .btn:active {
+  background-image: none;
+  outline: 0;
+  box-shadow: none;
+  border-radius: 4px;
 }
-
-::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(7, 27, 119, 0.4);
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+  border-radius: 4px;
 }
 
 :host /deep/ .tooltip-arrow {
@@ -175,7 +211,7 @@
 
 .table-responsive {
   max-width: 100%;
-  overflow: auto;
+  // overflow: auto;
 
   ::-webkit-scrollbar {
     display: block;
@@ -185,8 +221,8 @@
 .courses-list-table {
   max-height: 400px;
   overflow: auto;
-  padding: 5px;
-  background: #efefef;
+  padding: 10px;
+  margin-top: 10px;
   box-shadow: 0 2px 5px 0 rgba(38, 0, 0, 0.2);
 
   ::-webkit-scrollbar {
@@ -388,19 +424,19 @@ p {
 }
 
 h1 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1.2;
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.2;
 }
 
 h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -486,7 +522,7 @@ h3 {
 
 .table-responsive {
   max-width: 100%;
-  overflow: auto;
+  // overflow: auto;
 }
 
 .filter-fields {
@@ -521,7 +557,7 @@ h3 {
       background: url("/./assets/images/calendar.svg") no-repeat;
       position: absolute;
       right: 5px;
-      top: 35px;
+      top: 28px;
       width: 21px;
       height: 21px;
       z-index: 0;
@@ -548,20 +584,22 @@ h3 {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 5px 5px;
+  // padding: 10px 5px 5px;
+	padding: 5px;
   outline: none; //border: 0;
   border: solid 1px #e2ebee;
   background: #fff;
-  height: 36px;
+  // height: 36px;
   z-index: 10;
-  font: 400 13.3333px Arial;
+  font: 400 12px 'Open sans',sans-serif;
   box-shadow: none;
   border-radius: 0;
-  line-height: 24px;
+  // line-height: 24px;
   color: #000;
 
   &.form-ctrl-multiple {
     height: 100px;
+		overflow-y: auto;
   }
 }
 
@@ -569,7 +607,7 @@ h3 {
   //padding: 12px 0 6px;
   border: solid 2px $common-blue;
   box-shadow: none;
-  line-height: 26px;
+  // line-height: 26px;
 }
 
 .field-wrapper .form-ctrl:focus+label,
@@ -734,6 +772,7 @@ table {
   width: 100%;
   box-sizing: border-box;
   border-collapse: collapse;
+	overflow-y: hidden;
 }
 
 td,
@@ -866,7 +905,7 @@ table tr.selected {
 }
 
 .btn {
-  padding: 7px 12px;
+  padding: 6px 10px;
   background: #fff;
   border: 1px solid #ccc;
   margin-left: 10px;
@@ -874,15 +913,18 @@ table tr.selected {
   font-size: 14px;
   font-weight: 600;
   box-sizing: border-box;
-  height: 35px;
+  /* height: 35px; */
   cursor: pointer;
   color: #0084f6;
+	border-radius: 4px;
 }
 
 .btn.fullBlue {
   background: #0084f6;
   border: 1px solid #0084f6;
   color: #fff;
+	padding: 4px 10px;
+	border-radius: 4px;
 }
 
 .btn.cancle {
@@ -890,7 +932,8 @@ table tr.selected {
   border: 1px solid #ccc;
   color: #0084f6;
   font-size: 14px;
-  height: 35px;
+	padding: 6px 10px;
+	border-radius: 4px;
 }
 
 .btn.redBtn {
@@ -898,7 +941,6 @@ table tr.selected {
   border: 1px solid #f44336;
   color: #fff;
   font-size: 14px;
-  height: 35px;
 }
 
 .btn.normal-btn {
@@ -1447,7 +1489,7 @@ input:-webkit-autofill {
   width: 100%;
   height: 100%;
   bottom: 0;
-  top: 60px;
+  top: 0px;
   right: 0;
   left: 0;
   background: rgba(230, 230, 230, 0.5);
@@ -1509,7 +1551,7 @@ input:-webkit-autofill {
 
   h2 {
     margin-bottom: 15px;
-    font-size: 22px;
+    font-size: 14px;
   }
 
   h4 {
@@ -1521,7 +1563,7 @@ input:-webkit-autofill {
 .closePopup {
   right: 10px;
   top: 10px;
-  font-size: 18px;
+  font-size: 14px;
   cursor: pointer;
   line-height: 20px;
   width: 26px;

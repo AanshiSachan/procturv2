@@ -68,7 +68,7 @@
                     </div>
                   </div>
                   <div class="search-filter-wrapper" *ngIf="!isProfessional">
-                    <div class="row" style="margin-left:15px">
+                    <div class="row">
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
                           <label for="smc">Select Master Course
@@ -100,7 +100,7 @@
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
-                        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
+                        <div class="field-wrapper  datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
                           <label for="csd">Class Schedule Date
                             <!--<span class="text-danger">*</span> -->
                           </label>
@@ -115,10 +115,10 @@
                           id="goInp8">
                       </div>
                     </div>
-                    <div class="row" *ngIf="courseStartDate" style="margin-top:10px;margin-left:15px">
+                    <div class="row" *ngIf="courseStartDate" style="margin-top:5px;margin-left:0px;font-size: 12px;">
                       <span>Course Duration: </span>
-                      <span style="font-size: 12px;">{{courseStartDate}} - </span>
-                      <span style="font-size: 12px;">{{courseEndDate}}</span>
+                      <span style="font-weight: 600;">{{courseStartDate}} - </span>
+                      <span style="font-weight: 600;">{{courseEndDate}}</span>
                     </div>
                   </div>
                 </div>
@@ -342,7 +342,7 @@
                           <div class="form-wrapper">
                             <input type="textbox" class="side-form-ctrl topic-linked" name="label" style="height: 31px;" id="classDetailsTxt9" placeholder="Linked"
                               readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
-                              title="{{row.topics_covered}}">
+                              >
                             <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
                               style="cursor: pointer;color: #1283f4;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
                           </div>
@@ -351,7 +351,7 @@
                             <div class="form-wrapper">
                               <input type="textbox" class="side-form-ctrl topic-link" name="label" style="height: 31px;" id="classDetailsTxt9" placeholder="Link"
                                 readonly (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
-                                title="{{row.topics_covered}}">
+                                >
                               <i class="fa fa-link" aria-hidden="true" (click)="topicListingForAlreadyLinkedTopics(row, row.subject_id, row.topics_covered)"
                                 style="cursor: pointer;color: #bdbdbd;font-size: 15px;position: absolute; top: 10px; right: 15px;"></i>
                             </div>
@@ -467,6 +467,16 @@
             <div class="weeklyDiv">
 
               <div class="row weeklyAdd">
+                  <!-- <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper datePickerBox" style="padding: 0px;" [ngClass]="{'has-value': custom.date!=''}">
+                        <label for="csd">Date
+                         <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date"
+                          readonly="true" name="csd" bsDatepicker>
+      
+                      </div>
+                    </div> -->
                 <div class="c-sm-2 c-md-2 c-lg-2">
                   <div class="form-wrapper timepick">
                     <label for="startTime">Start Time</label>
@@ -973,15 +983,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-            </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
-              transform="translate(1012 297)" />
-          </g>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content">
@@ -1032,11 +1035,11 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
           </div>
         </div>
 
-        <div class="row extraMargin">
-          <h3>Repeat On</h3>
+        <div class="row extraMargin" style="margin:10px 15px;">
+          <h6>Repeat On</h6>
         </div>
 
-        <div id="divWeekDays" class="row extraMargin side-circles">
+        <div id="divWeekDays" class="row extraMargin side-circles" style="margin:10px 15px;">
           <span id="idDay-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday ">S</span>
           <span id="idDay-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday ">M</span>
           <span id="idDay-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday ">T</span>
@@ -1092,9 +1095,9 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
           </div>
         </div> -->
 
-        <div class="row extraMargin">
+        <div class="row extraMargin" style="margin:10px 15px;">
           <aside class="pull-left">
-            <span style="font-weight: 600">This selection will add future classes till course end date.</span>
+            <span>This selection will add future classes till course end date.</span>
           </aside>
           <aside class="pull-right" style="margin-right: 15px">
             <button class="btn" (click)="closePopup()">Cancel</button>
@@ -1119,18 +1122,8 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
     <div class="popup-wrapper pos-rel ">
 
       <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup()">
-        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
-                    rotate(45) " />
-              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
-                    rotate(45) " />
-            </g>
-            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                    "
-              height="16 " transform="translate(1012 297) " />
-          </g>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
         </svg>
       </span>
 
@@ -1307,23 +1300,13 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
   <div class="popup pos-abs popup-body-container ">
     <div class="popup-wrapper pos-rel ">
       <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup()">
-        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
-                    rotate(45) " />
-              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
-                    rotate(45) " />
-            </g>
-            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                    "
-              height="16 " transform="translate(1012 297) " />
-          </g>
+        <svg _ngcontent-c11="" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+          <path _ngcontent-c11="" class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
         </svg>
       </span>
       <div class="popup-content cancelWraper">
-        <h2 *ngIf="isProfessional">Cancel Schedule {{cancelRowSelected.batch_name}}</h2>
-        <h2 *ngIf="!isProfessional">Cancel Schedule {{cancelRowSelected.subject_name}}</h2>
+        <h2 *ngIf="isProfessional">Cancel Schedule <span style="color: #9b9b9b"> of {{cancelRowSelected.batch_name}}</span></h2>
+        <h2 *ngIf="!isProfessional">Cancel Schedule <span style="color: #9b9b9b">of {{cancelRowSelected.subject_name}}</span></h2>
         <div class="row" style="margin:20px 10px">
           <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
             <textarea class="textBox" id="idTexboxReason" placeholder="Cancellation Reason"></textarea>
@@ -1499,11 +1482,11 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
     <div class="header-container">
       <div class="sub-header">
         <span style="font-weight: 600;">Subject : </span>
-        <span id="topicSubName"></span>
+        <span id="topicSubName">{{subject_name}}</span>
       </div>
       <div class="total-topic">
         <span style="font-weight: 600;">Total Topic : </span>
-        <span id="topicCount"></span>
+        <span id="topicCount">{{topicsData?.length}}</span>
       </div>
     </div>
     <!-- <div class="field-checkbox-wrapper" style="margin:10px;">
@@ -1525,11 +1508,12 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
           [kendoTreeViewCheckable]="checkableSettings"
           [(checkedKeys)]="checkedKeys"
           checkBy="topicId"
+          (checkedChange)="handleChecking($event)"
       >
        </kendo-treeview>
     </div>
     <!-- <div class="example-config">
-           Checked keys: {{checkedKeys.join("|")}}
+           Checked keys: {{checkedKeys.length}} {{checkedKeys.join("|")}}
        </div> -->
     <div class="extraMargin row  pull-right" style="margin: 15px">
       <button class="btn" (click)="closeAlert()">Cancel</button>

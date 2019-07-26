@@ -8,26 +8,22 @@
     .headerBtn {
         display: inline-flex;
         border: 1px solid $common-blue;
-        height: 35px; //width: 150px;
-        padding: 8px 12px;
+        padding: 4px 10px;
         cursor: pointer;
         color: $common-blue;
-        box-shadow: 0px 0px 1px #0084f6;
         text-align: center;
+        border-radius: 4px;
         i {
             display: inline-block;
-            margin-right: 10px;
             cursor: pointer;
-        }
-        p {
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: capitalize;
-            text-align: center;
-            cursor: pointer;
+            color:#0084f6;
         }
     }
+}
+
+.section-header{
+  border-bottom: 1px solid #d3d4d5;
+  padding-bottom: 10px;
 }
 
 .optMenu {
@@ -210,7 +206,7 @@
     width: 100%;
     height: 100%;
     bottom: 0;
-    top: 60px;
+    top: 0px;
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
@@ -246,7 +242,7 @@
     }
     h2 {
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 14px;
     }
     h4 {
         margin: 25px 0 15px;
@@ -426,13 +422,14 @@ $color-highlight: lighten($color-base,
 }
 
 .tableCourseExp {
-    max-height: 415px;
+    // max-height: 415px;
     overflow: hidden;
+    overflow-y: auto;
     ::-webkit-scrollbar {
         display: block;
     }
     .tableCourseInn {
-        max-height: 400px;
+        max-height: 68vh;
         overflow-x: hidden;
         overflow-y: auto;
     }

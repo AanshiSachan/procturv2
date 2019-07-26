@@ -410,7 +410,7 @@
                   <br>
                   <div class="field-checkbox-wrapper">
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
-                      value="{{component.value}}" >
+                      value="{{component.value}}">
                     <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}<span class="text-danger">*</span></label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
@@ -457,8 +457,10 @@
                       name="{{component.label}}" bsDatepicker />
                   </div>
                 </div>
+
               </custom-student>
             </div>
+
           </aside>
         </section>
         <section class="middle-bottom clearFix ">
@@ -534,7 +536,7 @@
     <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails" [class.hide]="quickAddStudent">
       <section class="fee-section-page">
         <!--====================================middle Top section==========================-->
-        <section class="middle-top clearFix">
+        <section class="middle-top clearFix" style="border-bottom: 1px solid rgba(10,10,10,0.3);">
           <h1 class="pull-left">
             <span style="font-weight: 600; ">{{studentAddFormData.student_name}}</span>
           </h1>
@@ -596,7 +598,7 @@
 
         <!--====================================middle <Main> section==========================-->
 
-        <section *ngIf="showFeeSection">
+        <section *ngIf="showFeeSection" style="padding: 0px 10px;">
 
           <div class="card-layout">
 
@@ -728,7 +730,7 @@
 
               </li>
             </ul>
-            <ul>
+            <ul style="margin-bottom: 5%;">
               <li *ngFor="let data of subjectWiseInstallmentArray; let i= index" class="table-rows">
 
                 <div class="course-installment" (click)="openInstallmentListOfCourse(i ,  'open' , $event)">

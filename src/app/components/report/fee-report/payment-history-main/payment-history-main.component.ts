@@ -138,7 +138,7 @@ export class PaymentHistoryMainComponent implements OnInit {
           {
             showActionButton: true,
             editOption: 'button',//or popup
-            condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
+            condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
             { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
             { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
             options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
@@ -161,7 +161,7 @@ export class PaymentHistoryMainComponent implements OnInit {
         {
           showActionButton: true,
           editOption: 'button',//or popup
-          condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
+          condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
           { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
           { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
           options: [{ title: "Edit", class: 'fa fa-check updateCss' }]
@@ -281,7 +281,7 @@ export class PaymentHistoryMainComponent implements OnInit {
               {
                 showActionButton: true,
                 editOption: 'button',//or popup
-                condition: [{ key: 'student_category', condition: "==", checkValue: "active", nextOperation: "&&" },
+                condition: [{ key: 'student_category', condition: "==", checkValue: "Active", nextOperation: "&&" },
                 { key: 'paymentMode', condition: "!=", checkValue: "Online Payment", nextOperation: "&&" },
                 { key: 'pdc_cheque_id', condition: "==", checkValue: [null, -1], insideOperation: "||", outerOperation: "&&", nextOperation: undefined }],
                 options: [{ title: "Edit", class: 'fa fa-check updateCss' }]

@@ -1,11 +1,11 @@
-//  import VARIABLES 
+//  import VARIABLES
 @import "../css/common/variables";
 
 /*====================main section css===============*/
 
 main {
-    padding-top: 60px;
-    padding-left: 70px;
+    // padding-top: 60px;
+    padding-left: 60px;
     box-sizing: $border-box;
     position: relative;
 }
@@ -14,12 +14,12 @@ main {
     position: fixed;
     left: 0;
     top: 0;
-    padding-top: 61px;
+    // padding-top: 61px;
     height: 100%;
     width: 70px;
     box-sizing: $border-box;
     // background: $header-bg;
-    border-right: 1px solid $border-common;
-    border-left: 1px solid $border-common;
+    // border-right: 1px solid $border-common;
+    // border-left: 1px solid $border-common;
     z-index: 102;
 }

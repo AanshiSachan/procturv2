@@ -1,11 +1,17 @@
 @import "./src/assets/css/common/variables.scss";
 .setting-footer {
-    margin-right: 1%;
-    margin-top: 5px;
-    position: fixed;
-    float: right;
-    bottom: 0%;
-    right: 11%;
+  margin-top: 5px;
+  position: fixed;
+  float: right;
+  bottom: 0%;
+  width: 100%;
+  background: white;
+  left: 0px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  margin: 0px;
 }
 
 .general-setting {
@@ -25,17 +31,9 @@
     padding-left: 2%;
 }
 
-.setting-visible{
-    margin: 0 10% 0 10%;
-}
-
 .heading-setting {
     padding-top: 2%;
     padding-left: 2%;
-}
-
-.middle-one{
-    background: #efefef;
 }
 
 .switch {
@@ -118,7 +116,7 @@
 }
 
 .middle-section {
-    padding: 5px 15px;
+    padding: 1%;
     width: 100%;
     box-sizing: border-box;
 }
@@ -154,11 +152,11 @@ input[type=number]::-webkit-outer-spin-button {
     width: 100%;
     height: 100%;
     bottom: 0;
-    top: 60px;
+    top: 0px;
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
-    z-index: 100; // display: none;  
+    z-index: 100; // display: none;
     visibility: hidden;
     opacity: 0;
     -webkit-transition: all 0.5s ease-in;
@@ -186,7 +184,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: #fff;
     h2 {
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 14px;
     }
     h4 {
         margin: 25px 0 15px;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild, ElementRef, Renderer2, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild, ElementRef,  HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 
@@ -52,7 +52,11 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(private rend: Renderer2, private eRef: ElementRef, private auth: AuthenticatorService, private cd: ChangeDetectorRef) {
+  constructor(
+    private eRef: ElementRef, 
+    private auth: AuthenticatorService,
+     private cd: ChangeDetectorRef
+    ) {
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
@@ -172,7 +176,8 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   getBatchListArr(): any[] {
     this.cd.detach();
-    return this.rowData.batchesAssigned.split(',')
+    return this.rowData.batchesAssigned ? this.rowData.batchesAssigned.split(',') : this.rowData.batchesAssigned;
+
   }
 
 

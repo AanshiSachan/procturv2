@@ -303,7 +303,7 @@
                 border: 0;
                 border-bottom: solid 1px #e2ebee;
                 height: 30px;
-                font: 400 13.3333px Arial;
+                font: 400 12px 'Open sans',sans-serif;
                 box-shadow: none;
                 border-radius: 0;
                 line-height: 24px;
@@ -796,7 +796,7 @@ screen and (max-height: 768px) {
 .normal-field {
     padding: 7px 10px;
     border: 1px solid #ccc;
-    width: 74%;
+    width: 100%;
     box-sizing: border-box;
     margin: 0;
     float: left;
@@ -849,7 +849,7 @@ screen and (max-height: 768px) {
 
 .filter-fields .form-ctrl {
     background: transparent;
-    font: 400 13.3333px Arial;
+    font: 400 12px 'Open sans',sans-serif;
     border-bottom: solid 1px #d2d2d2;
 }
 
@@ -866,7 +866,7 @@ screen and (max-height: 768px) {
 }
 
 .middle-section {
-    padding: 5px 15px;
+    padding: 1%;
     width: 100%;
     box-sizing: border-box;
 }
@@ -943,7 +943,7 @@ screen and (max-height: 768px) {
 }
 
 .filter-res.pagination {
-    margin-top: 15px;
+    // margin-top: 15px;
 }
 
 .pagination {
@@ -1043,7 +1043,7 @@ screen and (max-height: 768px) {
 }
 
 .filter-res {
-    margin-top: 20px;
+    // margin-top: 20px;
 }
 
 /*===========================================action tooltip of table===================*/
@@ -1261,11 +1261,11 @@ ul.customDropdown li:hover {
     width: 100%;
     height: 100%;
     bottom: 0;
-    top: 60px;
+    top: 0px;
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
-    z-index: 100; // display: none;  
+    z-index: 100; // display: none;
     visibility: hidden;
     opacity: 0;
     -webkit-transition: all 0.5s ease-in;
@@ -1293,7 +1293,7 @@ ul.customDropdown li:hover {
     background: #fff;
     h2 {
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 14px;
     }
     h4 {
         margin: 25px 0 15px;
@@ -1953,18 +1953,28 @@ ul.customDropdown li:hover {
     text-align: center;
 }
 
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  width: auto;
+}
+
 .search-filter-wrapper {
     .normal-field {
         margin-right: 10px;
-        padding: 7px 10px;
+        padding: 4px 10px;
         border: 1px solid #ccc;
         box-sizing: border-box;
         margin: 0;
         float: left;
         height: 35px;
         font-size: 14px;
-        width: 15%;
+        // width: 15%;
     }
+}
+
+.table-content{
+  margin-top: 20px;
 }
 
 .structure-table {

@@ -23,10 +23,10 @@ p {
     margin: 0;
 }
 .attendance-container{
-    height: 85vh;
+    // height: 85vh;
     background: #efefef;
     padding: 5px;
-    overflow: auto; 
+    overflow: auto;
 }
 .filter-form{
     background: #fff;
@@ -64,7 +64,7 @@ p {
             }
         }
     }
-    
+
 }
 .table-format{
     width: 32.99%;

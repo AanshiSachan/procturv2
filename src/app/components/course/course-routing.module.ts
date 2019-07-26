@@ -32,6 +32,11 @@ import { CourseComponent } from './course.component';
                         pathMatch: 'prefix',
                     },
                     {
+                        path: 'topic',
+                        loadChildren: "app/components/course/topic/topic.module#TopicModule",
+                        pathMatch: 'prefix',
+                    },
+                    {
                         path: 'courselist',
                         loadChildren: "app/components/course/course-course-list/course-list.module#CourseListModule",
                         pathMatch: 'prefix',

@@ -430,7 +430,7 @@ export class EnquiryAddComponent implements OnInit {
         data => {
           if (data != null) {
             data.forEach(el => {
-              let max_length =  el.comp_length==0?50:el.comp_length;
+              let max_length =  el.comp_length==0?100:el.comp_length;
               let obj = {
                 data: el,
                 id: el.component_id,

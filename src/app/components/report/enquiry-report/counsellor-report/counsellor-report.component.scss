@@ -3,10 +3,10 @@ $color-base: #efefef;
 $color-base: #efefef;
 $color-highlight: lighten($color-base, 7%);
 .attendance-container{
-    height: 85vh;
+    // height: 85vh;
     background: #efefef;
     padding: 5px;
-    overflow: auto; 
+    overflow: auto;
 }
 
 .skeleton {
@@ -32,7 +32,7 @@ $color-highlight: lighten($color-base, 7%);
     background: #fff;
     box-shadow: 0px 0px 2px 2px #dadada;
     border-radius: 10px;
-    height:100px;
+    overflow-x: hidden;
     .row {
         margin: 5px 15px;
     }

@@ -57,7 +57,7 @@ export class TemplateHomeComponent implements OnInit {
   templateName: any = "";
 
   PageIndex: number = 0;
-  displayBatchSize: number = 10;
+  displayBatchSize: number = 20;
   tabkeList: any = [];
   searchDataFlag: boolean = false;
   searchedData: any = [];

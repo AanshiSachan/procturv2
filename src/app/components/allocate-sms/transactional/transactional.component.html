@@ -1,8 +1,13 @@
 <div class=" container-fluid">
   <div class="container-sms">
-    <div class="title">Allocate SMS</div>
+    <h1 class="pull-left">
+      <a routerLink="/view/home/admin">
+        Home
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Allocate SMS
+    </h1>
     <div class="allocate-sms">
-      <input type="button" [ngClass]="{'fullBlue': type=='Transactional'}" class="btn" value="Transactional" (click)="changeType('Transactional')">
+      <input type="button" [ngClass]="{'fullBlue': type=='Transactional'}" style="margin-left: 0px;" class="btn" value="Transactional" (click)="changeType('Transactional')">
       <input type="button" class="btn" [ngClass]="{'fullBlue': type=='Promotional'}" (click)="changeType('Promotional')" value="Promotional">
     </div>
   </div>

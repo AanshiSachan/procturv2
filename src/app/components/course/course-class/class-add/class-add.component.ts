@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { LoginService } from '../../../../services/login-services/login.service';
@@ -160,6 +160,7 @@ export class ClassAddComponent implements OnInit {
   showWarningPopup: boolean = false;
   cancelWeeklySchedulePop: boolean = false;
   IsTopicSelectedMode: string = 'add';
+  subject_name='';
 
   weeklyScheduleCan = {
     date: moment().format("YYYY-MM-DD"),
@@ -168,26 +169,19 @@ export class ClassAddComponent implements OnInit {
   }
 
   // Topic listing variables
-  topicBox: boolean = true;
-  selectAllTopics: boolean = false;
   selectedSubId: any;
   selectedRow: any;
-
-
-  public enableCheck = true;
-  public checkChildren = true;
-  public checkParents = true;
-  public checkOnClick = true;
-  public checkMode: any = 'multiple';
-  public addLinkStatus = '';
+  topicBox: boolean = true;
+  selectAllTopics: boolean = false;
+  addLinkStatus: string = '';
 
   public get checkableSettings(): CheckableSettings {
     return {
-      checkChildren: this.checkChildren,
-      checkParents: this.checkParents,
-      enabled: this.enableCheck,
-      mode: this.checkMode,
-      checkOnClick: this.checkOnClick
+      checkChildren: true,
+      checkParents: true,
+      enabled: true,
+      mode: 'multiple',
+      checkOnClick: false
     };
   }
 
@@ -205,15 +199,13 @@ export class ClassAddComponent implements OnInit {
     private classService: ClassScheduleService,
     private topicService: TopicListingService,
     private auth: AuthenticatorService,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private cd: ChangeDetectorRef
   ) {
     if (sessionStorage.getItem('userid') == null) {
       this.router.navigate(['/authPage']);
     }
   }
-
-
-
 
   ngOnInit() {
     this.messages = this.msgService.object;
@@ -239,6 +231,60 @@ export class ClassAddComponent implements OnInit {
   checkForCoursePlannerRoute(){
     this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
+  public handleChecking(itemLookup: TreeItemLookup): void {
+    let subTopic = itemLookup.item.dataItem.subTopic;
+    let arrayIndex = this.checkedKeys.indexOf(itemLookup.item.dataItem.topicId);
+    if (arrayIndex > -1) {
+      // this.checkedKeys.splice(arrayIndex, 1);
+      let subTopic = itemLookup.item.dataItem.subTopic;
+      subTopic.length ? this.removeNLevelTopic(subTopic) : '';
+    } else {
+      // this.checkedKeys.push(itemLookup.item.dataItem.topicId);
+      if (subTopic.length)
+        this.AddNLevelTopic(subTopic);
+    }
+    this.cd.markForCheck();
+  }
+
+  removeNLevelTopic(subTopics) {
+    if (subTopics.length == 0) {
+      let arrayIndex = this.checkedKeys.indexOf(subTopics.topicId);
+      this.checkedKeys.splice(arrayIndex, 1);
+      return;
+    }
+    else {
+      subTopics.forEach((object) => {
+        let arrayIndex = this.checkedKeys.indexOf(object.topicId);
+        if (arrayIndex>-1) {
+          this.checkedKeys.splice(arrayIndex, 1);
+        }
+        if (object.subTopic.length) {
+          this.removeNLevelTopic(object.subTopic);
+        }
+      });
+    }
+    this.cd.markForCheck();
+  }
+
+  AddNLevelTopic(subTopics) {
+    if (subTopics.length == 0) {
+      this.checkedKeys.push(subTopics.topicId);
+      return;
+    }
+    else {
+      subTopics.forEach((object) => {
+        let arrayIndex = this.checkedKeys.indexOf(object.topicId);
+        if (arrayIndex == -1) {
+          this.checkedKeys.push(object.topicId);
+        }
+        if (object.subTopic.length) {
+          this.AddNLevelTopic(object.subTopic);
+        }
+      });
+    }
+  }
+
+
 
   checkForEditMode() {
     let str = sessionStorage.getItem('editClass');
@@ -417,6 +463,7 @@ export class ClassAddComponent implements OnInit {
 
   submitMasterBatch() {
     /* standard selected */
+    // this.scheduleSelection('1');
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
       /* subject selected  */
@@ -768,7 +815,6 @@ export class ClassAddComponent implements OnInit {
                 }
               )
               document.getElementById("topicSubName").innerHTML = subjectName;
-              document.getElementById("topicCount").innerHTML = this.topicsData.length;
               this.children = (dataItem: any) => of(dataItem.subTopic);
               this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
             }
@@ -810,9 +856,8 @@ export class ClassAddComponent implements OnInit {
                 this.checkedKeys.push(Number(value));
               }
             })
-            let subjectName = this.selectedRow.subject_name;
-            document.getElementById("topicSubName").innerHTML = subjectName;
-            document.getElementById("topicCount").innerHTML = this.topicsData.length;
+
+            this.subject_name = this.selectedRow.subject_name
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
@@ -897,7 +942,7 @@ export class ClassAddComponent implements OnInit {
 
 
   addClassSchedule() {
-    this.addLinkStatus=''
+    this.addLinkStatus = ''
     let obj: any = {};
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please Select Subject');
@@ -1230,7 +1275,7 @@ export class ClassAddComponent implements OnInit {
   getWeeklyScheduleData() {
     this.classService.getWeeklySchedule(this.selctedScheduledClass.batch_id).subscribe(
       (res: any) => {
-        if (res.weekSchd.length > 0) {
+        if (res.weekSchd && (res.weekSchd.length > 0)) {
           this.selctedScheduledClass.startTime = this.getNewTimeFormatJson(res.weekSchd[0].start_time);
           this.selctedScheduledClass.endTime = this.getNewTimeFormatJson(res.weekSchd[0].end_time);
           res.weekSchd.forEach(element => {
@@ -1472,6 +1517,7 @@ export class ClassAddComponent implements OnInit {
     this.extraClassTable = [];
     this.canceLClassTable = [];
     this.batchFrequency = "1";
+    this.scheduleSelection(this.batchFrequency);
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
     }
@@ -1497,12 +1543,14 @@ export class ClassAddComponent implements OnInit {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
         this.batchFrequency = "2";
+        // this.scheduleSelection(this.batchFrequency);
       }
     }
   }
 
   scheduleSelection(event) {
     this.batchFrequency = event;
+    // this.custom.date = event == '2' ? moment().format("YYYY-MM-DD") : '';
   }
 
 
@@ -1541,6 +1589,19 @@ export class ClassAddComponent implements OnInit {
 
   createWeeklySchedule() {
     let data = this.prepareJSONDATA();
+
+    // if (this.custom.date == '') {
+    //   data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
+    // }
+    // else {
+    //   if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
+    //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
+    //     return;
+    //   } else {
+    //     data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
+    //   }
+    // }
+
     if (data == false) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');
       return;
@@ -1620,9 +1681,10 @@ export class ClassAddComponent implements OnInit {
     } else {
       notify = "N";
     }
-    let ob = {
+    let obj = {
       batch_id: this.batchDetails.batch_id,
       class_freq: 'WEEK',
+      requested_date: '',
       cancelSchd: [{
         cancel_note: this.weeklyScheduleCan.cancel_note,
         class_date: moment(this.weeklyScheduleCan.date).format('YYYY-MM-DD'),
@@ -1630,7 +1692,8 @@ export class ClassAddComponent implements OnInit {
         is_notified: notify,
       }]
     }
-    this.classService.cancelClassSchedule(ob).subscribe(
+
+    this.classService.cancelClassSchedule(obj).subscribe(
       res => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled', 'Class schedule cancelled successfully');
         this.cancelWeeklySchedulePop = false;

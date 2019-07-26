@@ -1,135 +1,50 @@
 <aside class="common-nav" id="commonLeftNav">
+  <div class="search_container">
+    <svg *ngIf="!searchBar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="search-icon" (click)="showSearchBar()">
+      <rect width="24" height="24" fill="none"/>
+      <path d="M920.5-1404h-.794l-.276-.274A6.469,6.469,0,0,0,921-1408.5a6.5,6.5,0,0,0-6.5-6.5,6.5,6.5,0,0,0-6.5,6.5,6.5,6.5,0,0,0,6.5,6.5,6.47,6.47,0,0,0,4.225-1.566l.276.274v.792l5,4.991L925.49-1399l-4.988-5Zm-6,0a4.5,4.5,0,0,1-4.5-4.5,4.5,4.5,0,0,1,4.5-4.5,4.5,4.5,0,0,1,4.5,4.5,4.5,4.5,0,0,1-4.5,4.5Z" transform="translate(-905 1418)" fill="#fff" fill-rule="evenodd"/>
+    </svg>
+    <svg class="search-icon" (click)="closeSearchBar()" *ngIf="searchBar" xmlns="http://www.w3.org/2000/svg" width="30.098" height="30.098" viewBox="0 0 30.098 30.098"><g transform="translate(-7 -7)"><g transform="translate(4.41 4.41)"><g transform="translate(32.607 2.67) rotate(90)"><path d="M21.167,12.1H12.1v9.072H9.072V12.1H0V9.072H9.072V0H12.1V9.072h9.072Z" transform="translate(14.967 0) rotate(45)" fill="#fff"/></g></g><rect width="30.098" height="30.098" transform="translate(7 7)" fill="none"/></g>
+    </svg>
+  </div>
     <nav>
         <ul class="nav-list">
             <li routerLink="/view/home" class="" id="lizero" (click)="toggler('lizero')">
                 <i class="icon" id="li0">
-                    <svg id="li0" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        x="0px" y="0px" width="28px" height="24px" viewBox="0 0 28 24" xml:space="preserve">
-                        <path fill="#0096E6" d="M14.958,0.475L1.553,11.118c0,0-0.313,0.438-0.196,0.913c0,0,0.219,0.746,1.103,0.637l2.475-1.935
-	l0.109,0.019l0.113,12.151l6.531-0.01c0,0,0.723,0.027,1.118,0c0.396-0.029,0.701-0.466,0.735-0.585
-	c0.034-0.118-0.023-5.382-0.023-5.382l1.824,0.049c0,0,0.051,5.085,0.057,5.259c0.007,0.174,0.106,0.535,0.791,0.677l8.199-0.018
-	l-0.088-11.836c0,0,1.469,1.35,1.953,1.548l0.629,0.012c0,0,0.586-0.194,0.523-1.061l-0.181-0.381L14.958,0.475z" />
-                        <polygon fill="#FFFFFF" points="14.91,2.922 6.881,9.26 6.974,21.066 11.743,21.05 11.667,15.123 17.145,15.109 17.207,21.062
-	22.495,21.067 22.458,9.487 " />
-                        <path fill="#0096E6" d="M14.4,6.524c0,0-2.516,0.329-3.037,2.869l-0.02,1.039c0,0,0.404,2.368,2.849,2.887l1.251,0.024
-	c0,0,2.367-0.333,2.79-2.721l0.024-1.286c0,0-0.452-2.275-2.791-2.792L14.4,6.524z" />
-                        <path fill="#FFFFFF" d="M14.593,8.416l0.566,0.011c0,0,1.037,0.066,1.296,1.382l-0.01,0.531c0,0-0.02,0.944-1.369,1.202l-0.542-0.01
-	c0,0-0.847-0.146-1.299-1.193l0.015-0.814C13.25,9.523,13.578,8.432,14.593,8.416z" />
+                    <svg id="li0" xmlns="http://www.w3.org/2000/svg" width="15.729" height="15.603" viewBox="0 0 15.729 15.603"><g transform="translate(0.319 0.308)"><g transform="translate(0.024 0)"><g transform="translate(0 0)"><path d="M14.626,14.163H13.3v-6.3a1.322,1.322,0,0,0,1.3-2.251L8.406.32a1.315,1.315,0,0,0-1.72,0L.486,5.608a1.322,1.322,0,0,0,1.3,2.25v6.3H.465a.441.441,0,1,0,0,.881H14.626a.441.441,0,1,0,0-.881ZM1.634,6.946a.441.441,0,0,1-.575-.668L7.258.989a.439.439,0,0,1,.575,0l6.2,5.288a.441.441,0,1,1-.575.668l-5.625-4.8C7.667,2.009,1.8,6.8,1.634,6.946Zm10.789,7.216H7.1c.011-.03-3.483,0-3.526,0H2.668V7.222L7.545,3.064l4.877,4.159v6.94Z" transform="translate(-0.024 0)" fill="#fff" stroke="#fff" stroke-width="0.5"/></g></g></g>
                     </svg>
                 </i>
                 <span id="li0">Home</span>
             </li>
             <li routerLink="/view/enquiry" class="hide" id="lione" (click)="toggler('lione')">
                 <i class="icon" id="li1">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="li1" viewBox="-29 58 28 24">
-                        <defs>
-                            <style>
-                                .cls-1,
-                                .cls-2 {
-                                    fill: none;
-                                }
-
-                                .cls-1 {
-                                    stroke: #0084f6;
-                                    stroke-miterlimit: 10;
-                                }
-                            </style>
-                        </defs>
-                        <g id="Group_1188" data-name="Group 1188" transform="translate(-46 -16)">
-                            <g id="Group_1177" data-name="Group 1177">
-                                <line id="Line_169" data-name="Line 169" class="cls-1" x1="2.104" y1="2.104" transform="translate(39.512 78.63)" />
-                                <line id="Line_170" data-name="Line 170" class="cls-1" x2="9.467" transform="translate(23.208 80.734)" />
-                                <path id="Path_287" data-name="Path 287" class="cls-1" d="M32.856,3.786l-9.467,9.52L22.6,16.2l2.893-.789L34.96,5.89A.63.63,0,0,0,34.8,5L33.75,3.944A.63.63,0,0,0,32.856,3.786Z"
-                                    transform="translate(7.761 73.739)" />
-                                <line id="Line_184" data-name="Line 184" class="cls-1" x1="2.104" y1="2.104" transform="translate(39.513 78.63)" />
-                                <path id="Path_288" data-name="Path 288" class="cls-1" d="M18.883,4.682V3.63A2.6,2.6,0,0,0,16.253,1H3.63A2.6,2.6,0,0,0,1,3.63V14.675A2.6,2.6,0,0,0,3.63,17.3H5.208v3.156a.52.52,0,0,0,.947.316L9.941,17.3h6.312a2.6,2.6,0,0,0,2.63-2.63v-2.1"
-                                    transform="translate(18 75)" />
-                                <line id="Line_185" data-name="Line 185" class="cls-1" x2="9.467" transform="translate(23.208 80.734)" />
-                                <line id="Line_186" data-name="Line 186" class="cls-1" x2="9.467" transform="translate(23.208 82.838)" />
-                                <line id="Line_187" data-name="Line 187" class="cls-1" x2="5.26" transform="translate(23.208 84.941)" />
-                            </g>
-                            <rect id="Rectangle_668" data-name="Rectangle 668" class="cls-2" width="28" height="24" transform="translate(17 74)" />
-                        </g>
+                    <svg id="li1" xmlns="http://www.w3.org/2000/svg" width="20.996" height="20.996" viewBox="0 0 20.996 20.996"><g transform="translate(-21.999 -115.997)"><path d="M18.707.18a.615.615,0,0,0-.87,0L13.1,4.921H2.346A1.847,1.847,0,0,0,.5,6.766v8.611a1.847,1.847,0,0,0,1.845,1.845H3v3.158a.615.615,0,0,0,1.055.43l3.51-3.588h7.164a1.847,1.847,0,0,0,1.845-1.845V8.4L21.317,3.66a.615.615,0,0,0,0-.87Zm-5.655,10-1.74-1.74,5.22-5.219,1.74,1.74Zm-2.4-.655,1.311,1.311-2.246.936Zm4.688,5.849a.616.616,0,0,1-.615.615H7.308a.615.615,0,0,0-.44.185L4.233,18.872V16.608a.615.615,0,0,0-.615-.615H2.346a.616.616,0,0,1-.615-.615V6.766a.616.616,0,0,1,.615-.615h9.52L10.008,8.009a.629.629,0,0,0-.136.206L8.17,12.3H4.848a.615.615,0,1,0,0,1.23H8.58a.622.622,0,0,0,.242-.049l4.461-1.858a.625.625,0,0,0,.206-.136l1.858-1.858Zm3.8-11.283L17.4,2.355l.87-.87,1.74,1.74Zm0,0" transform="translate(21.498 115.997)" fill="#fff"/><line x2="5.5" transform="translate(26 125.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/></g>
                     </svg>
                 </i>
                 <span id="li1">Enquiry</span>
             </li>
             <li routerLink="/view/student" class="hide" id="litwo" (click)="toggler('litwo')">
                 <i class="icon" id="li2">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="li2" viewBox="-29 119 28 24">
-                        <g id="Group_1187" data-name="Group 1187" transform="translate(-46 -16)">
-                            <g id="Group_1176" data-name="Group 1176" transform="translate(1)">
-                                <path id="Path_252" data-name="Path 252" class="cls-1" d="M14.084,14.529c-1.647,0-3.588-1.824-4.353-4.412-.647,0-1.176-.765-1.235-1.647a1.765,1.765,0,0,1,.882-1.824C9.555,3.118,10.555,1,14.084,1s4.529,2.118,4.706,5.647c.588.118.941.882.882,1.824s-.588,1.647-1.235,1.647C17.673,12.706,15.731,14.529,14.084,14.529Z"
-                                    transform="translate(15.916 136)" />
-                                <path id="Path_253" data-name="Path 253" class="cls-1" d="M14.529,20.5C18.294,21.382,21,23.324,21,27.265a25.487,25.487,0,0,1-10,1.765A25.487,25.487,0,0,1,1,27.265c0-3.941,2.706-5.882,6.471-6.765"
-                                    transform="translate(19 127.971)" />
-                            </g>
-                            <rect id="Rectangle_669" data-name="Rectangle 669" class="cls-2" width="28" height="24" transform="translate(17 135)" />
-                        </g>
-                    </svg>
+                    <svg id="li2" xmlns="http://www.w3.org/2000/svg" width="19.589" height="20.9" viewBox="0 0 19.589 20.9"><g transform="translate(0 0)"><path d="M187.512,287.317a.612.612,0,0,0-.837.223,1.356,1.356,0,0,1-2.348,0,.612.612,0,0,0-1.06.613,2.581,2.581,0,0,0,4.468,0,.612.612,0,0,0-.223-.837Zm0,0" transform="translate(-175.706 -275.509)" fill="#fff"/><path d="M177.78,235.975a.613.613,0,1,0-.433.179A.617.617,0,0,0,177.78,235.975Zm0,0" transform="translate(-169.52 -225.339)" fill="#fff"/><path d="M273.745,234.93a.613.613,0,1,0,.433.18A.616.616,0,0,0,273.745,234.93Zm0,0" transform="translate(-261.983 -225.34)" fill="#fff"/><path d="M19.084,1.649,9.9.009a.61.61,0,0,0-.215,0L.5,1.649a.612.612,0,0,0,0,1.206l2.775.5v7.1a6.522,6.522,0,0,0,3.578,5.814q-.268.1-.53.216l-.023.01a8.4,8.4,0,0,0-.812.42,8.53,8.53,0,0,0-3.046,3.071.612.612,0,0,0,.53.919H16.611a.612.612,0,0,0,.53-.919A8.53,8.53,0,0,0,14.1,16.911a8.423,8.423,0,0,0-.814-.422l-.02-.009q-.261-.117-.53-.216a6.522,6.522,0,0,0,3.578-5.814V3.35l2.055-.367V10.45a.612.612,0,0,0,1.225,0v-8.2a.612.612,0,0,0-.5-.6Zm-9.29-.415,5.7,1.018-5.7,1.018-5.7-1.018ZM9.182,18.81,7.661,17.289a7.226,7.226,0,0,1,1.521-.3Zm1.225-1.818a7.225,7.225,0,0,1,1.521.3L10.406,18.81Zm-3.972.8,1.882,1.881H4.138a7.294,7.294,0,0,1,2.3-1.881Zm9.016,1.881H11.272l1.881-1.882a7.3,7.3,0,0,1,2.3,1.882ZM9.794,15.741A5.3,5.3,0,0,1,4.5,10.45V7.783H15.084V10.45a5.3,5.3,0,0,1-5.291,5.29Zm5.291-9.182H4.5V3.569l5.183.926a.61.61,0,0,0,.215,0l5.183-.926Zm0,0" transform="translate(0.001 0)" fill="#fff"/></g></svg>
                 </i>
                 <span id="li2">Student</span>
             </li>
             <li routerLink="/view/course" class="hide" id="lithree" (click)="toggler('lithree')">
                 <i class="icon" id="li3">
-                    <svg xmlns="http://www.w3.org/2000/svg" id="li3" viewBox="-29 180 28 24">
-                        <g id="Group_1186" data-name="Group 1186" transform="translate(-46 -16)">
-                            <g id="Group_1175" data-name="Group 1175" transform="translate(0 0)">
-                                <path id="Path_256" data-name="Path 256" class="cls-1" d="M39.848,28.515a4.663,4.663,0,0,0,2.106-2.376C40.01,25,37.9,25.653,36.5,28.083"
-                                    transform="translate(1.672 185.687)" />
-                                <path id="Path_257" data-name="Path 257" class="cls-1" d="M31.4,34.314c1.35,1.3,3.4,2.214,5.941-.486C35.666,32.208,33.344,32.262,31.4,34.314Z"
-                                    transform="translate(4.018 182.426)" />
-                                <path id="Path_258" data-name="Path 258" class="cls-1" d="M41.846,19.909c.864-.594,1.458-1.674,1.62-3.618-2.322-.162-4.05,1.4-4.266,4.212"
-                                    transform="translate(0.43 189.973)" />
-                                <path id="Path_259" data-name="Path 259" class="cls-1" d="M40.934,11.142c.594-.864.756-2.106.162-3.942-2.214.7-3.24,2.808-2.43,5.455"
-                                    transform="translate(0.803 194.148)" />
-                                <path id="Path_260" data-name="Path 260" class="cls-1" d="M3.706,28.515A4.663,4.663,0,0,1,1.6,26.139C3.544,25,5.65,25.653,7.055,28.083"
-                                    transform="translate(17.724 185.687)" />
-                                <path id="Path_261" data-name="Path 261" class="cls-1" d="M11.641,34.314c-1.35,1.3-3.4,2.214-5.941-.486C7.374,32.208,9.75,32.262,11.641,34.314Z"
-                                    transform="translate(15.838 182.426)" />
-                                <path id="Path_262" data-name="Path 262" class="cls-1" d="M2.62,19.914C1.756,19.32,1.162,18.24,1,16.3c2.376-.108,4.1,1.458,4.32,4.212"
-                                    transform="translate(18 189.967)" />
-                                <path id="Path_263" data-name="Path 263" class="cls-1" d="M4.559,11.142A4.521,4.521,0,0,1,4.4,7.2c2.214.7,3.24,2.808,2.43,5.455"
-                                    transform="translate(16.602 194.148)" />
-                                <path id="Path_264" data-name="Path 264" class="cls-1" d="M22.1,25v4.32l1.08-.54,1.08.54V25" transform="translate(8.295 185.961)"
-                                />
-                                <path id="Path_265" data-name="Path 265" class="cls-1" d="M22.155,14.5h2.7V1H14V14.5h2.754" transform="translate(12.021 197)"
-                                />
-                                <ellipse id="Ellipse_23" data-name="Ellipse 23" class="cls-1" cx="1.62" cy="1.62" rx="1.62" ry="1.62" transform="translate(29.855 208.261)"
-                                />
-                                <line id="Line_175" data-name="Line 175" class="cls-1" x2="5.401" transform="translate(28.775 202.32)" />
-                                <line id="Line_176" data-name="Line 176" class="cls-1" x2="3.24" transform="translate(29.855 204.481)" />
-                            </g>
-                            <rect id="Rectangle_670" data-name="Rectangle 670" class="cls-2" width="28" height="24" transform="translate(17 196)" />
-                        </g>
-                    </svg>
+                    <svg id="li3" xmlns="http://www.w3.org/2000/svg" width="22.82" height="14.541" viewBox="0 0 22.82 14.541"><g transform="translate(0 0)"><g transform="translate(0 0)"><path d="M26.735,32.522V26.847a1.115,1.115,0,0,0,.152-.405.735.735,0,0,0-.431-.684l-9.449-4.23a2.837,2.837,0,0,0-2.229,0L5.3,25.758a.735.735,0,0,0-.405.684.659.659,0,0,0,.481.633L8.85,28.266V35.11a.684.684,0,0,0,.3.583.735.735,0,0,0,.659.076,17.328,17.328,0,0,1,12.159,0l.253.051a.836.836,0,0,0,.405-.127.735.735,0,0,0,.3-.583V28.266l2.381-.811v5.066a1.723,1.723,0,0,0,.709,3.318,1.748,1.748,0,0,0,.709-3.318Zm-5.218,1.6a18.544,18.544,0,0,0-11.248,0V28.215a17.125,17.125,0,0,1,11.247,0Zm.76-7.148a18.822,18.822,0,0,0-12.793,0l-1.951-.659,7.8-3.5a1.368,1.368,0,0,1,1.089,0l7.8,3.5Zm3.749,7.448a.317.317,0,1,1,0-.633.317.317,0,0,1,0,.633Z" transform="translate(-4.898 -21.3)" fill="#fff"/></g></g></svg>
                 </i>
                 <span *ngIf="isLangInstitute" id="li3">Batch</span>
                 <span *ngIf="!isLangInstitute" id="li3">Course</span>
             </li>
             <li routerLink="/view/activity" class="hide" id="lifour" (click)="toggler('lifour')">
                 <i class="icon" id="li4">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 241 28 24" id="li4">
-                        <g id="Group_1185" data-name="Group 1185" transform="translate(-46 -16)">
-                            <g id="Group_1174" data-name="Group 1174">
-                                <path id="Path_266" data-name="Path 266" class="cls-1" d="M7.25,9.125H2.875A1.842,1.842,0,0,1,1,7.25V2.875A1.842,1.842,0,0,1,2.875,1H7.25A1.842,1.842,0,0,1,9.125,2.875V7.25A1.842,1.842,0,0,1,7.25,9.125Z"
-                                    transform="translate(20 258)" />
-                                <path id="Path_267" data-name="Path 267" class="cls-1" d="M26.25,9.125H21.875A1.842,1.842,0,0,1,20,7.25V2.875A1.842,1.842,0,0,1,21.875,1H26.25a1.842,1.842,0,0,1,1.875,1.875V7.25A1.842,1.842,0,0,1,26.25,9.125Z"
-                                    transform="translate(12.875 258)" />
-                                <path id="Path_268" data-name="Path 268" class="cls-1" d="M7.25,28.125H2.875A1.842,1.842,0,0,1,1,26.25V21.875A1.842,1.842,0,0,1,2.875,20H7.25a1.842,1.842,0,0,1,1.875,1.875V26.25A1.842,1.842,0,0,1,7.25,28.125Z"
-                                    transform="translate(20 250.875)" />
-                                <path id="Path_269" data-name="Path 269" class="cls-1" d="M26.25,28.125H21.875A1.842,1.842,0,0,1,20,26.25V21.875A1.842,1.842,0,0,1,21.875,20H26.25a1.842,1.842,0,0,1,1.875,1.875V26.25A1.842,1.842,0,0,1,26.25,28.125Z"
-                                    transform="translate(12.875 250.875)" />
-                            </g>
-                            <rect id="Rectangle_671" data-name="Rectangle 671" class="cls-2" width="28" height="24" transform="translate(17 257)" />
-                        </g>
-                    </svg>
+                  <img src="./assets/images/sidebar/White/activity.svg" alt="activity" style="width:16px;">
                 </i>
                 <span id="li4">Activity</span>
             </li>
             <li routerLink="/view/employee" class="hide" id="lifive" (click)="toggler('lifive')" style="display: none;">
                 <i class="icon" id="li5">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 119 28 24" id="li5">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 119 28 24" id="li5">
 
                         <g id="Group_1187" data-name="Group 1187" transform="translate(-46 -16)">
                             <g id="Group_1176" data-name="Group 1176" transform="translate(1)">
@@ -140,51 +55,26 @@
                             </g>
                             <rect id="Rectangle_669" data-name="Rectangle 669" class="cls-2" width="28" height="24" transform="translate(17 135)" />
                         </g>
-                    </svg>
+                    </svg> -->
                 </i>
                 <span id="li5">Employee</span>
             </li>
             <li routerLink="/view/reports" class="hide" id="lisix" (click)="toggler('lisix')">
                 <i class="icon" id="li6">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 364 28 24" id="li6">
-                        <g id="Group_1183" data-name="Group 1183" transform="translate(-46 -16)">
-                            <g id="Group_1172" data-name="Group 1172" transform="translate(0 1)">
-                                <path id="Path_270" data-name="Path 270" class="cls-1" d="M12.765,23.882H3.353A2.36,2.36,0,0,1,1,21.529V10.353A2.36,2.36,0,0,1,3.353,8H9a.534.534,0,0,1,.412.176l5.529,5.529a.534.534,0,0,1,.176.412v7.412A2.36,2.36,0,0,1,12.765,23.882Z"
-                                    transform="translate(21 377.118)" />
-                                <path id="Path_271" data-name="Path 271" class="cls-1" d="M15,8.5v3.235a2.36,2.36,0,0,0,2.353,2.353h3.235" transform="translate(15.235 376.912)"
-                                />
-                                <path id="Path_272" data-name="Path 272" class="cls-1" d="M9,5.118V3.353A2.36,2.36,0,0,1,11.353,1H17a.534.534,0,0,1,.412.176l5.529,5.529a.534.534,0,0,1,.176.412v7.412a2.36,2.36,0,0,1-2.353,2.353H18.412"
-                                    transform="translate(17.706 380)" />
-                                <path id="Path_273" data-name="Path 273" class="cls-1" d="M23,1.5V4.735a2.36,2.36,0,0,0,2.353,2.353h3.235" transform="translate(11.941 379.794)"
-                                />
-                            </g>
-                            <rect id="Rectangle_673" data-name="Rectangle 673" class="cls-2" width="28" height="24" transform="translate(17 380)" />
-                        </g>
-                    </svg>
+                    <svg id="li6" xmlns="http://www.w3.org/2000/svg" width="16.325" height="19.012" viewBox="0 0 16.325 19.012"><g transform="translate(0 0)"><path d="M3.785,337.465H.557a.557.557,0,0,0-.557.557v5.367a.557.557,0,0,0,.557.557H3.785a.557.557,0,0,0,.557-.557v-5.367A.557.557,0,0,0,3.785,337.465Zm-.557,5.367H1.114v-4.253H3.228v4.253Zm0,0" transform="translate(0 -324.934)" fill="#fff"/><path d="M165.133,256.676H161.9a.557.557,0,0,0-.557.557V265.6a.557.557,0,0,0,.557.557h3.229a.557.557,0,0,0,.557-.557v-8.367A.557.557,0,0,0,165.133,256.676Zm-.557,8.367h-2.115V257.79h2.115Zm0,0" transform="translate(-155.356 -247.145)" fill="#fff"/><path d="M326.481,134.66h-3.229a.557.557,0,0,0-.557.557v12.9a.557.557,0,0,0,.557.557h3.229a.557.557,0,0,0,.557-.557v-12.9A.557.557,0,0,0,326.481,134.66Zm-.557,12.9H323.81V135.774h2.115Zm0,0" transform="translate(-310.713 -129.66)" fill="#fff"/><path d="M1.534,7a.555.555,0,0,0,.259-.064L7.61,3.88l2.316,1.2a.557.557,0,0,0,.528-.008l5.159-2.879-.2.524a.557.557,0,1,0,1.042.395l.737-1.946a.578.578,0,0,0,.034-.24.555.555,0,0,0-.516-.517l-2-.4A.557.557,0,0,0,14.5,1.1l.576.115-4.9,2.735-2.308-1.2a.557.557,0,0,0-.516,0L1.274,5.953A.557.557,0,0,0,1.534,7Zm0,0" transform="translate(-0.94 0)" fill="#fff"/></g></svg>
                 </i>
                 <span id="li6">Reports</span>
             </li>
             <li routerLink="/view/inventory" class="hide" id="liseven" (click)="toggler('liseven')">
                 <i class="icon" id="li7">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 421 28 24" id="li7">
-                        <g id="Group_1182" data-name="Group 1182" transform="translate(-46 -16)">
-                            <g id="Group_1171" data-name="Group 1171" transform="translate(0)">
-                                <ellipse id="Ellipse_24" data-name="Ellipse 24" class="cls-1" cx="3.333" cy="10" rx="3.333" ry="10" transform="translate(28 439)"
-                                />
-                                <ellipse id="Ellipse_25" data-name="Ellipse 25" class="cls-1" cx="3.333" cy="10" rx="3.333" ry="10" transform="matrix(0.5, -0.866, 0.866, 0.5, 21, 446.876)"
-                                />
-                                <ellipse id="Ellipse_26" data-name="Ellipse 26" class="cls-1" cx="3.333" cy="10" rx="3.333" ry="10" transform="matrix(0.5, 0.866, -0.866, 0.5, 38.32, 441.124)"
-                                />
-                            </g>
-                            <rect id="Rectangle_674" data-name="Rectangle 674" class="cls-2" width="28" height="24" transform="translate(17 437)" />
-                        </g>
-                    </svg>
+
+                    <svg  id="li7" xmlns="http://www.w3.org/2000/svg" width="20.214" height="14.199" viewBox="0 0 20.214 14.199"><g transform="translate(0 0)"><g transform="translate(0 0)"><path d="M16.8,76.168H3.415A3.419,3.419,0,0,0,0,79.583v9.928a.858.858,0,0,0,.857.857h18.5a.858.858,0,0,0,.857-.857V79.583A3.419,3.419,0,0,0,16.8,76.168ZM2.823,89.183H1.184V82.7H2.823v6.483Zm0-7.667H1.184V79.583a2.235,2.235,0,0,1,1.639-2.151v4.084Zm1.184-4.164h12.2v4.164H12.37a2.339,2.339,0,0,0-4.526,0H4.007V77.352Zm7.255,4.756a1.155,1.155,0,1,1-1.155-1.155A1.156,1.156,0,0,1,11.262,82.108Zm4.945,7.075H4.007V82.7H7.844a2.339,2.339,0,0,0,4.526,0h3.837Zm2.823,0H17.391V82.7H19.03Zm0-7.667H17.391V77.432a2.235,2.235,0,0,1,1.639,2.151Z" transform="translate(0 -76.168)" fill="#fff"/></g></g></svg>
                 </i>
                 <span id="li7">Inventory</span>
             </li>
             <li routerLink="/view/expense" class="hide" id="lieight" (click)="toggler('lieight')" style="display: none;">
                 <i class="icon" id="li8">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 484 28 24" id="li8">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 484 28 24" id="li8">
                         <g id="Group_1181" data-name="Group 1181" transform="translate(-46 -16)">
                             <line id="Line_203" data-name="Line 203" class="cls-1" x2="0.976" transform="translate(30.5 512.5)" />
                             <line id="Line_179" data-name="Line 179" class="cls-1" x2="0.976" transform="translate(30.5 512.5)" />
@@ -202,49 +92,280 @@
                             </g>
                             <rect id="Rectangle_675" data-name="Rectangle 675" class="cls-2" width="28" height="24" transform="translate(17 500)" />
                         </g>
-                    </svg>
+                    </svg> -->
                 </i>
                 <span id="li8">Expense</span>
             </li>
             <li routerLink="/view/campaign" class="hide" id="linine" (click)="toggler('linine')">
                 <i class="icon" id="li9">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-29 545 28 24" id="li9">
-                        <g id="Group_1180" data-name="Group 1180" transform="translate(-46 -16)">
-                            <g id="Group_1169" data-name="Group 1169" transform="translate(2)">
-                                <path id="Path_280" data-name="Path 280" class="cls-1" d="M21.774,6h2.609a.872.872,0,0,1,.87.87V22.956a.872.872,0,0,1-.87.87H10.47a.872.872,0,0,1-.87-.87V15.565"
-                                    transform="translate(13.139 559.174)" />
-                                <path id="Path_281" data-name="Path 281" class="cls-1" d="M9.6,8.609V6.87A.872.872,0,0,1,10.47,6h2.609" transform="translate(13.139 559.174)"
-                                />
-                                <path id="Path_282" data-name="Path 282" class="cls-1" d="M24.035,10h1.739V24.348H13.6V19.565" transform="translate(10.878 556.913)"
-                                />
-                                <path id="Path_283" data-name="Path 283" class="cls-1" d="M13.6,12.609V10h1.739" transform="translate(10.878 556.913)" />
-                                <path id="Path_284" data-name="Path 284" class="cls-1" d="M24.991,2.739h-1.3a1.739,1.739,0,1,0-3.478,0H18.9a1.281,1.281,0,0,0-1.3,1.3v1.3h8.7v-1.3A1.281,1.281,0,0,0,24.991,2.739Z"
-                                    transform="translate(8.618 562)" />
-                                <line id="Line_182" data-name="Line 182" class="cls-1" y2="0.87" transform="translate(30.565 564.304)" />
-                                <path id="Path_285" data-name="Path 285" class="cls-1" d="M4.339,13,12.6,21.261,13.9,24.3,10.861,23,2.6,14.739Z" transform="translate(17.096 555.217)"
-                                />
-                                <path id="Path_286" data-name="Path 286" class="cls-1" d="M3,12.1l-.435-.435a.946.946,0,0,0-1.3,0h0a.946.946,0,0,0,0,1.3L1.7,13.4"
-                                    transform="translate(18 556.122)" />
-                                <line id="Line_183" data-name="Line 183" class="cls-1" x1="1.304" y2="1.304" transform="translate(27.956 576.478)" />
-                            </g>
-                            <rect id="Rectangle_676" data-name="Rectangle 676" class="cls-2" width="28" height="24" transform="translate(17 561)" />
-                        </g>
-                    </svg>
+                    <!-- <svg id="li9" xmlns="http://www.w3.org/2000/svg" width="20.214" height="14.199" viewBox="0 0 20.214 14.199"><g transform="translate(0 0)"><g transform="translate(0 0)"><path d="M16.8,76.168H3.415A3.419,3.419,0,0,0,0,79.583v9.928a.858.858,0,0,0,.857.857h18.5a.858.858,0,0,0,.857-.857V79.583A3.419,3.419,0,0,0,16.8,76.168ZM2.823,89.183H1.184V82.7H2.823v6.483Zm0-7.667H1.184V79.583a2.235,2.235,0,0,1,1.639-2.151v4.084Zm1.184-4.164h12.2v4.164H12.37a2.339,2.339,0,0,0-4.526,0H4.007V77.352Zm7.255,4.756a1.155,1.155,0,1,1-1.155-1.155A1.156,1.156,0,0,1,11.262,82.108Zm4.945,7.075H4.007V82.7H7.844a2.339,2.339,0,0,0,4.526,0h3.837Zm2.823,0H17.391V82.7H19.03Zm0-7.667H17.391V77.432a2.235,2.235,0,0,1,1.639,2.151Z" transform="translate(0 -76.168)" fill="#fff"/></g></g></svg> -->
+                <svg id="li9" xmlns="http://www.w3.org/2000/svg" width="22.997" height="18.037" viewBox="0 0 22.997 18.037"><g transform="translate(0 0)"><path d="M.731,69.21A.731.731,0,0,0,0,69.94v5.7a.731.731,0,0,0,1.461,0v-5.7A.731.731,0,0,0,.731,69.21Z" transform="translate(0 -64.949)" fill="#fff"/><path d="M36,25.459H32.957a.731.731,0,0,0-.731.73v.66l-9.783,2.9a.731.731,0,0,0-.523.7v5.7a.73.73,0,0,0,.009.11l0,.02a.733.733,0,0,0,.022.09l2.071,6.613a.73.73,0,0,0,.915.479l3.016-.943a.731.731,0,0,0,.479-.915l-1.026-3.279,4.817,1.429v.66a.731.731,0,0,0,.731.73H36a.731.731,0,0,0,.731-.73V26.189A.73.73,0,0,0,36,25.459ZM26.823,41.344l-1.621.507-1.443-4.608,1.963.582Zm-.308-4.808-.006,0-3.126-.927V31l8.844-2.623V38.23Zm8.752,3.147H33.687V26.92h1.578Z" transform="translate(-19.786 -25.459)" fill="#fff"/><path d="M185.872,132.6l-3.161-1.581a.731.731,0,1,0-.653,1.307l3.161,1.581a.731.731,0,0,0,.653-1.307Z" transform="translate(-163.96 -120.672)" fill="#fff"/><path d="M182.385,52.823a.727.727,0,0,0,.326-.077l3.161-1.581a.73.73,0,1,0-.653-1.307l-3.161,1.581a.731.731,0,0,0,.327,1.384Z" transform="translate(-163.96 -47.412)" fill="#fff"/><path d="M197.38,98.48h-2.639a.73.73,0,0,0,0,1.461h2.639a.73.73,0,1,0,0-1.461Z" transform="translate(-175.113 -91.368)" fill="#fff"/></g></svg>
                 </i>
                 <span id="li9">Campaign</span>
             </li>
             <li routerLink="/view/library" class="hide" id="liten" (click)="toggler('liten')">
                 <i class="icon" id="li10">
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25.378" height="25.378" viewBox="0 0 25.378 25.378">
-                      <path d="M23.891,13.567V11.208a.744.744,0,0,0-.744-.744,22.429,22.429,0,0,0-4.321.394,6.713,6.713,0,0,0-2.791-1.616,5.2,5.2,0,1,0-6.693,0,6.714,6.714,0,0,0-2.791,1.616,22.433,22.433,0,0,0-4.321-.394.744.744,0,0,0-.744.744v2.358A2.234,2.234,0,0,0,0,15.669v1.487a2.234,2.234,0,0,0,1.487,2.1v2.358a.744.744,0,0,0,.744.744,17.3,17.3,0,0,1,10.046,2.9.746.746,0,0,0,.825,0,17.3,17.3,0,0,1,10.046-2.9.744.744,0,0,0,.744-.744V19.259a2.234,2.234,0,0,0,1.487-2.1V15.669A2.234,2.234,0,0,0,23.891,13.567ZM8.972,5.26a3.718,3.718,0,1,1,3.718,3.718A3.747,3.747,0,0,1,8.972,5.26ZM2.23,17.9a.744.744,0,0,1-.744-.744V15.669a.744.744,0,0,1,1.487,0v1.487A.744.744,0,0,1,2.23,17.9Zm9.715,5.407a18.6,18.6,0,0,0-8.972-2.422V19.259a2.234,2.234,0,0,0,1.487-2.1V15.669a2.234,2.234,0,0,0-1.487-2.1v-1.6a16.806,16.806,0,0,1,8.972,2.623Zm.744-10.01a17.67,17.67,0,0,0-4.326-1.988,5.215,5.215,0,0,1,2.839-.844h2.974a5.215,5.215,0,0,1,2.839.844A17.669,17.669,0,0,0,12.689,13.3ZM22.4,20.884a18.6,18.6,0,0,0-8.972,2.422V14.586A16.8,16.8,0,0,1,22.4,11.962v1.6a2.234,2.234,0,0,0-1.487,2.1v1.487a2.234,2.234,0,0,0,1.487,2.1Zm1.487-3.728a.744.744,0,1,1-1.487,0V15.669a.744.744,0,0,1,1.487,0Z" transform="translate(0 -0.006)" fill="#fff"/>
-                  </svg> -->
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25.378" height="25.378" viewBox="0 0 25.378 25.378">
-                    <path d="M23.891,13.567V11.208a.744.744,0,0,0-.744-.744,22.429,22.429,0,0,0-4.321.394,6.713,6.713,0,0,0-2.791-1.616,5.2,5.2,0,1,0-6.693,0,6.714,6.714,0,0,0-2.791,1.616,22.433,22.433,0,0,0-4.321-.394.744.744,0,0,0-.744.744v2.358A2.234,2.234,0,0,0,0,15.669v1.487a2.234,2.234,0,0,0,1.487,2.1v2.358a.744.744,0,0,0,.744.744,17.3,17.3,0,0,1,10.046,2.9.746.746,0,0,0,.825,0,17.3,17.3,0,0,1,10.046-2.9.744.744,0,0,0,.744-.744V19.259a2.234,2.234,0,0,0,1.487-2.1V15.669A2.234,2.234,0,0,0,23.891,13.567ZM8.972,5.26a3.718,3.718,0,1,1,3.718,3.718A3.747,3.747,0,0,1,8.972,5.26ZM2.23,17.9a.744.744,0,0,1-.744-.744V15.669a.744.744,0,0,1,1.487,0v1.487A.744.744,0,0,1,2.23,17.9Zm9.715,5.407a18.6,18.6,0,0,0-8.972-2.422V19.259a2.234,2.234,0,0,0,1.487-2.1V15.669a2.234,2.234,0,0,0-1.487-2.1v-1.6a16.806,16.806,0,0,1,8.972,2.623Zm.744-10.01a17.67,17.67,0,0,0-4.326-1.988,5.215,5.215,0,0,1,2.839-.844h2.974a5.215,5.215,0,0,1,2.839.844A17.669,17.669,0,0,0,12.689,13.3ZM22.4,20.884a18.6,18.6,0,0,0-8.972,2.422V14.586A16.8,16.8,0,0,1,22.4,11.962v1.6a2.234,2.234,0,0,0-1.487,2.1v1.487a2.234,2.234,0,0,0,1.487,2.1Zm1.487-3.728a.744.744,0,1,1-1.487,0V15.669a.744.744,0,0,1,1.487,0Z" transform="translate(0 -0.006)" fill="#1283f4"/>
-                  </svg> -->
-                  <svg xmlns="http://www.w3.org/2000/svg" width="25.378" height="25.378" viewBox="0 0 25.378 25.378"><g transform="translate(244.377 -3691.623)"><circle cx="4.5" cy="4.5" r="4.5" transform="translate(-236 3692)" fill="#fff"/><path d="M-232.458,3700.21l-3.221,1.563-1.563,1.063-.594.156s-.75-.031-.969,0-3.189,0-3.189,0v1.282l-.344,1.595-.907.375-.532,1.251.219,1.376.313,1.032.907.344v.938l.344,1.876.938.281,3.815.406,4.159,1.563,1.313.844,2.533-1.251,3.815-1.157,3-.406,1.282-.281v-2.126l.5-.688.844-.688v-1.595l-.188-1.72-1.345-.563V3703.4l-.594-.563h-2.189l-2.314.563-.5-1.032-1.751-.813-2.22-.969Z" fill="#fff"/><g transform="translate(-244.377 3691.623)"><path d="M23.891,13.567V11.208a.744.744,0,0,0-.744-.744,22.429,22.429,0,0,0-4.321.394,6.713,6.713,0,0,0-2.791-1.616,5.2,5.2,0,1,0-6.693,0,6.714,6.714,0,0,0-2.791,1.616,22.433,22.433,0,0,0-4.321-.394.744.744,0,0,0-.744.744v2.358A2.234,2.234,0,0,0,0,15.669v1.487a2.234,2.234,0,0,0,1.487,2.1v2.358a.744.744,0,0,0,.744.744,17.3,17.3,0,0,1,10.046,2.9.746.746,0,0,0,.825,0,17.3,17.3,0,0,1,10.046-2.9.744.744,0,0,0,.744-.744V19.259a2.234,2.234,0,0,0,1.487-2.1V15.669A2.234,2.234,0,0,0,23.891,13.567ZM8.972,5.26a3.718,3.718,0,1,1,3.718,3.718A3.747,3.747,0,0,1,8.972,5.26ZM2.23,17.9a.744.744,0,0,1-.744-.744V15.669a.744.744,0,0,1,1.487,0v1.487A.744.744,0,0,1,2.23,17.9Zm9.715,5.407a18.6,18.6,0,0,0-8.972-2.422V19.259a2.234,2.234,0,0,0,1.487-2.1V15.669a2.234,2.234,0,0,0-1.487-2.1v-1.6a16.806,16.806,0,0,1,8.972,2.623Zm.744-10.01a17.67,17.67,0,0,0-4.326-1.988,5.215,5.215,0,0,1,2.839-.844h2.974a5.215,5.215,0,0,1,2.839.844A17.669,17.669,0,0,0,12.689,13.3ZM22.4,20.884a18.6,18.6,0,0,0-8.972,2.422V14.586A16.8,16.8,0,0,1,22.4,11.962v1.6a2.234,2.234,0,0,0-1.487,2.1v1.487a2.234,2.234,0,0,0,1.487,2.1Zm1.487-3.728a.744.744,0,1,1-1.487,0V15.669a.744.744,0,0,1,1.487,0Z" transform="translate(0 -0.006)" fill="#1283f4"/></g></g></svg>
+                  <svg id="li10" xmlns="http://www.w3.org/2000/svg" width="18.95" height="18.949" viewBox="0 0 18.95 18.949"><g transform="translate(0 0)"><path d="M17.84,10.132V8.371a.555.555,0,0,0-.555-.555,16.748,16.748,0,0,0-3.226.294A5.013,5.013,0,0,0,11.974,6.9a3.886,3.886,0,1,0-5,0A5.013,5.013,0,0,0,4.892,8.11a16.751,16.751,0,0,0-3.226-.294.555.555,0,0,0-.555.555v1.761A1.668,1.668,0,0,0,0,11.7v1.11a1.668,1.668,0,0,0,1.11,1.57v1.761a.555.555,0,0,0,.555.555,12.92,12.92,0,0,1,7.5,2.164.557.557,0,0,0,.616,0,12.92,12.92,0,0,1,7.5-2.164.555.555,0,0,0,.555-.555V14.382a1.668,1.668,0,0,0,1.11-1.57V11.7A1.668,1.668,0,0,0,17.84,10.132ZM6.7,3.929A2.776,2.776,0,1,1,9.475,6.705,2.8,2.8,0,0,1,6.7,3.929ZM1.665,13.367a.556.556,0,0,1-.555-.555V11.7a.555.555,0,0,1,1.11,0v1.11A.556.556,0,0,1,1.665,13.367ZM8.92,17.4a13.891,13.891,0,0,0-6.7-1.809V14.382a1.668,1.668,0,0,0,1.11-1.57V11.7a1.668,1.668,0,0,0-1.11-1.57v-1.2a12.549,12.549,0,0,1,6.7,1.958ZM9.475,9.93a13.194,13.194,0,0,0-3.23-1.485,3.894,3.894,0,0,1,2.12-.63h2.221a3.894,3.894,0,0,1,2.12.63A13.194,13.194,0,0,0,9.475,9.93ZM16.729,15.6a13.892,13.892,0,0,0-6.7,1.809V10.893a12.548,12.548,0,0,1,6.7-1.959v1.2a1.668,1.668,0,0,0-1.11,1.57v1.11a1.668,1.668,0,0,0,1.11,1.57Zm1.11-2.784a.555.555,0,0,1-1.11,0V11.7a.555.555,0,0,1,1.11,0Z" transform="translate(0 -0.006)" fill="#fff"/></g></svg>
                 </i>
                 <span id="li10">Library</span>
             </li>
         </ul>
     </nav>
+
+    <nav class="down-side-bar">
+      <ul>
+        <li>
+          <svg (click)="showHelpMenu()" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g transform="translate(-0.001)"><path d="M8.881,0A9,9,0,1,0,18,8.879,9,9,0,0,0,8.881,0ZM8.854,14.478H8.8a1.31,1.31,0,0,1,.031-2.62H8.88a1.31,1.31,0,1,1-.026,2.62Zm3.219-6.39A5.95,5.95,0,0,1,11,9.05l-.549.379A1.493,1.493,0,0,0,9.9,10.1a1.391,1.391,0,0,0-.085.563v.088h-2.1l.006-.177a2.293,2.293,0,0,1,.346-1.513A8.906,8.906,0,0,1,9.632,7.8,1.651,1.651,0,0,0,10,7.425a1.333,1.333,0,0,0,.318-.777,1.514,1.514,0,0,0-.288-.9,1.2,1.2,0,0,0-1.038-.39,1.131,1.131,0,0,0-1.049.485,1.947,1.947,0,0,0-.318,1.047v.089H5.466l0-.093a3.286,3.286,0,0,1,1.4-2.834,3.7,3.7,0,0,1,2.034-.534,4.391,4.391,0,0,1,2.624.755,2.62,2.62,0,0,1,1.062,2.261A2.587,2.587,0,0,1,12.073,8.088Z" transform="translate(0 0)" fill="#eaf3ff"/></g></svg>
+        </li>
+        <li>
+          <svg (click)="showMenu()" xmlns="http://www.w3.org/2000/svg" width="25.41" height="25.543" viewBox="0 0 17.41 19.543"><path d="M-17990.3-3575.457a1.794,1.794,0,0,1-.9-.24l-6.9-3.984a1.817,1.817,0,0,1-.9-1.563v-7.968a1.817,1.817,0,0,1,.9-1.563l6.9-3.984a1.805,1.805,0,0,1,.9-.24,1.827,1.827,0,0,1,.9.24l6.9,3.984a1.817,1.817,0,0,1,.9,1.563v7.968a1.817,1.817,0,0,1-.9,1.563l-6.9,3.984A1.827,1.827,0,0,1-17990.3-3575.457Zm-.682-9.157v4.115h1.369v-4.115h4.115v-1.369h-4.115v-4.115h-1.369v4.115h-4.115v1.369Z" transform="translate(17999.002 3595)" fill="#fff"/></svg>
+        </li>
+      </ul>
+    </nav>
+
+</aside>
+
+<aside class="" *ngIf="helpMenu">
+  <div class="help-menu-container">
+    <!-- <div class="help-menu-item">
+      <div class="help-menu-icon-container">
+        <img src="./assets/images/sidebar/sideMenu/whtasnew.svg" alt="new">
+      </div>
+      <div class="help-menu-name">
+        <span>Whats New</span>
+      </div>
+    </div> -->
+    <div class="help-menu-item" (click)="openInNewTab('https://procturhelp.freshdesk.com/support/home')">
+      <div class="help-menu-icon-container">
+        <img src="./assets/images/sidebar/sideMenu/proctur.svg" alt="faqs">
+      </div>
+      <div class="help-menu-name">
+        <span>FAQs</span>
+      </div>
+    </div>
+    <div class="help-menu-item" (click)="openInNewTab('https://procturhelp.freshdesk.com/support/tickets/new')">
+      <div class="help-menu-icon-container">
+        <img src="./assets/images/sidebar/sideMenu/support.svg" alt="ticket">
+      </div>
+      <div class="help-menu-name">
+        <span>Create Support Ticket</span>
+      </div>
+    </div>
+    <div class="help-menu-item" (click)="openInNewTab('https://anydesk.com/en/downloads/')">
+      <div class="help-menu-icon-container">
+        <img src="./assets/images/sidebar/sideMenu/download.svg" alt="download">
+      </div>
+      <div class="help-menu-name">
+        <span>Download Anydesk</span>
+      </div>
+    </div>
+    <div class="help-menu-item">
+      <div class="help-menu-icon-container">
+        <img src="./assets/images/sidebar/sideMenu/call.svg" alt="phone">
+      </div>
+      <div class="help-menu-name">
+        <span>+91 9971831677  &nbsp; +91 9953366316</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- SEARCH BAR AND RESULT-->
+<aside class="search-bar-container" [hidden]="!searchBar">
+  <div class="search-bar-input-container">
+    <form autocomplete="off" #form="ngForm">
+      <input type="text" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput [ngClass]="{'has-focus': isResultDisplayed}"
+      autofocus (focus)="triggerSearchBox($event)" autocomplete="off" maxlength="20"
+      placeholder="Search Enquiry/Student by Name or Contact" class="search-input searchbox form-ctrl-head search-item">
+    </form>
+  </div>
+  <section class="search-dropdown search-item" #seachResult>
+    <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
+      [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)"
+      (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
+      (actionSelected)="actionSelected($event)">
+    </search-box>
+  </section>
+</aside>
+
+<aside class="side-menu" [hidden]="!sideBar">   <!--  (click)="closeSubMenu()" -->
+  <div class="side-menu-container">
+    <div class="back-btn-container">
+      <img src="./assets/images/sidebar/sideMenu/back.svg" alt="" (click)="closeMenu()">
+    </div>
+    <div class="account-name-and-icon">
+      <div class="profile-photo-container">
+        <img src="./assets/images/sidebar/default-picture.png" alt="profile photo">
+      </div>
+      <div class="account-name-container">
+        <span>{{instituteName}}</span>
+      </div>
+    </div>
+    <div class="menu-container">
+
+      <div class="menu-item">
+        <div class="external-menu" id="profile">
+          <div class="external-menu-item">
+            <span (click)="changePasswordClick()">Change Password</span>
+          </div>
+          <div class="external-menu-item">
+            <span (click)="logout()">Logout</span>
+          </div>
+        </div>
+        <div class="current-menu" (click)="showSubMenu('profile')" id="profile_current">
+          <div class="menu-icon">
+            <img src="./assets/images/sidebar/sideMenu/profile.svg" alt="icon" id="profile_icon">
+          </div>
+          <div class="menu-name">
+            <span>Profile</span>
+          </div>
+          <div class="side-menu-icon">
+            <i class="fa fa-chevron-right" style="font-family: FontAwesome;" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item" *ngIf="isMainBranch == 'Y' && checkAdmin">
+        <div class="external-menu" id="branches">
+          <div class="external-menu-item" *ngFor="let data of branchesList">
+            <span (click)="onSubBranchClick(data)">{{data.institute_name}}</span>
+          </div>
+        </div>
+        <div class="current-menu" (click)="showSubMenu('branches')" id="branches_current">
+          <div class="menu-icon">
+            <img src="./assets/images/sidebar/sideMenu/branches.svg" alt="icon" id="branches_icon">
+          </div>
+          <div class="menu-name">
+            <span>Branches</span>
+          </div>
+          <div class="side-menu-icon">
+            <i class="fa fa-chevron-right" style="font-family: FontAwesome;" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item" *ngIf="(showMainBranchBackBtn)">
+        <div class="current-menu" (click)="showSubMenu('branches')" >
+          <div class="menu-icon">
+            <img src="./assets/images/sidebar/sideMenu/branches.svg" alt="icon">
+          </div>
+          <div class="menu-name">
+            <span (click)="loginToMainBranch()">Back To Main Branch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item" #divMyAccountTag id="divMyAccountTag">
+        <div class="current-menu" (click)="routerLink('/view/account')">
+          <div class="menu-icon">
+            <img src="./assets/images/sidebar/sideMenu/account.svg" alt="icon">
+          </div>
+          <div class="menu-name">
+            <span>My Account</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item" #divManageUsers id="divManageUsers">
+        <div class="current-menu">
+          <div class="menu-icon">
+            <img src="./assets/images/sidebar/sideMenu/users.svg" alt="icon">
+          </div>
+          <div class="menu-name">
+            <span (click)="routerLink('/view/manage')">Manage Users</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item" #divMasterTag id="divMasterTag">
+        <div class="external-menu" id="master">
+          <div class="external-menu-item" #divAcademicTag id="divAcademicTag">
+            <span (click)="routerLink('/view/academic/list')">Academic Year</span>
+          </div>
+          <div class="external-menu-item" #divClassRoomTag id="divClassRoomTag">
+            <span (click)="routerLink('/view/master/classroom')">Class Room</span>
+          </div>
+          <div class="external-menu-item">
+            <span (click)="routerLink('view/master/closingReason')">Closing Reason</span>
+          </div>
+          <div class="external-menu-item">
+            <span (click)="routerLink('/view/master/discount-reason')">Discount Reason</span>
+          </div>
+          <div class="external-menu-item" #divManageTag id="divManageTag">
+            <span (click)="routerLink('/view/master/eventManagment')">Event</span>
+          </div>
+          <div class="external-menu-item" #divTeacherTag id="divTeacherTag">
+            <span (click)="routerLink('/view/teacher')">Faculty</span>
+          </div>
+          <div class="external-menu-item" #divFeeTag id="divFeeTag">
+            <span (click)="routerLink('/view/fee')">Fee</span>
+          </div>
+          <div class="external-menu-item" *ngIf="libraryRole" #divLibraryTag id="divLibraryTag">
+            <span (click)="routerLink('/view/library/master')">Library</span>
+          </div>
+          <div class="external-menu-item"  #divGradesTag id="divGradesTag">
+            <span (click)="routerLink('/view/master/manage-exam-grades')">Manage exam grades</span>
+          </div>
+          <div class="external-menu-item" #divProfileTag id="divProfileTag">
+            <span (click)="viewTeacherProfile()">Profile</span>
+          </div>
+          <div class="external-menu-item" #divSlotTag id="divSlotTag">
+            <span (click)="routerLink('/view/master/slot')">Slot</span>
+          </div>
+        </div>
+        <div class="current-menu" (click)="showSubMenu('master')" id="master_current">
+          <div class="menu-icon" >
+            <img src="./assets/images/sidebar/sideMenu/master.svg" alt="icon" id="master_icon">
+          </div>
+          <div class="menu-name">
+            <span>Master</span>
+          </div>
+          <div class="side-menu-icon">
+            <i class="fa fa-chevron-right" style="font-family: FontAwesome;" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item" #divSettingTag id="divSettingTag">
+        <div class="external-menu" id="settings">
+          <div class="external-menu-item" #divGeneralSettingTag id="divGeneralSettingTag">
+            <span (click)="routerLink('/view/setting')">General Settings</span>
+          </div>
+          <div class="external-menu-item" #divManageFormTag id="divManageFormTag">
+            <span (click)="routerLink('/view/formField/home')">Manage Form Field</span>
+          </div>
+          <div class="external-menu-item" #divAreaAndMap id="divAreaAndMap">
+            <span (click)="routerLink('/view/master/areaCity')">City Area Map</span>
+          </div>
+        </div>
+        <div class="current-menu" (click)="showSubMenu('settings')" id="settings_current">
+          <div class="menu-icon">
+            <img src="./assets/images/sidebar/sideMenu/settings.svg" alt="icon" id="settings_icon">
+          </div>
+          <div class="menu-name">
+            <span>Settings</span>
+          </div>
+          <div class="side-menu-icon">
+            <i class="fa fa-chevron-right" style="font-family: FontAwesome;" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div class="current-menu">
+          <div class="menu-icon">
+            <img src="./assets/images/sidebar/sideMenu/logout.svg" alt="icon">
+          </div>
+          <div class="menu-name">
+            <span (click)="logout()">Logout</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</aside>
+
+<aside class="blur-background" *ngIf="sideBar || searchBar || helpMenu" (click)="closeMenu()">
+
 </aside>

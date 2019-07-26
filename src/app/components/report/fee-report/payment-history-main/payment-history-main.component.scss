@@ -11,7 +11,7 @@
 
 .dropdown {
     &>ul {
-       padding: 10px 19px 10px; // width: 200px;             
+       padding: 10px 19px 10px; // width: 200px;
     }
 }
 
@@ -169,6 +169,6 @@ $color-highlight: lighten($color-base, 7%);
 }
 
 .pull-right {
-    margin-top: 26px;
+    // margin-top: 26px;
     margin-left: 122px;
 }

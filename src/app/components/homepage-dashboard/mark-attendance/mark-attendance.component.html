@@ -19,9 +19,14 @@
   <div class="header_container">
     <div class="header_item1">
       <h4 *ngIf="!isProfessional">
-        <span>{{batch_info.master_course_name}}</span>
-        <span *ngIf="batch_info.course_name != undefined">-</span>
-        <span>{{batch_info.course_name}}</span>
+        <div *ngIf="batch_info.forCourseWise">
+          <span>{{batch_info.master_course_name}}</span>
+          <span *ngIf="batch_info.course_name != undefined">-</span>
+          <span>{{batch_info.course_name}}</span>
+        </div>
+        <div *ngIf="batch_info.forSubjectWise && !batch_info.isExam">
+          <span>{{batch_info.batch_name}}</span>
+        </div>
       </h4>
       <h4 *ngIf="isProfessional">
         <span>{{batch_info.master_course_name}}</span>
@@ -138,7 +143,7 @@
                 </div>
               </div>
             </div>
-            <div class="schedule-scroller" style="overflow-y: scroll; height: 295px;">
+            <div class="schedule-scroller" style="overflow-y: auto; height: 57vh;">
               <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: settingInfo.home_work_feature_enable !=1 }">
                 <div class="ct-ongoing subject">
                   <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper"  *ngIf="batch_info.isExam">
@@ -217,7 +222,7 @@
 
         <div style="margin-top: 0px">
           <div class="aside_header">
-            <span style="font-weight: 600;">Attendance Note</span>
+            <span style="font-weight: 600;">Class Description</span>
             <div class="">
               <span>Limit</span>
               <span class="button_type">{{attendanceCount}}</span>
@@ -363,11 +368,11 @@
     <div class="header-container">
       <div class="sub-header">
         <span style="font-weight: 600;">Subject : </span>
-        <span id="topicSubName"></span>
+        <span id="topicSubName">{{batch_info.subjectName}}</span>
       </div>
       <div class="total-topic">
         <span style="font-weight: 600;">Total Topic : </span>
-        <span id="topicCount"></span>
+        <span id="topicCount">{{topicsData?.length}}</span>
       </div>
     </div>
     <!-- <div class="field-checkbox-wrapper" style="margin:10px;">
@@ -389,6 +394,7 @@
           [kendoTreeViewCheckable]="checkableSettings"
           [(checkedKeys)]="checkedKeys"
           checkBy="topicId"
+          (checkedChange)="handleChecking($event)"
       >
        </kendo-treeview>
     </div>
