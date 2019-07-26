@@ -435,9 +435,14 @@
             </div>
           </div>
 
-          <div class="extraMargin row  pull-right" style="margin-right: 15px; margin-bottom:10px;">
-            <button class="btn" routerLink="/view/course/class/home" id="BtnCancelBtn">Cancel</button>
-            <button class="btn fullBlue" (click)="saveCourseSchedule()" id="btnSaveBtn">Save</button>
+          <div class="extraMargin row" style="margin-right: 15px; margin-bottom:10px;">
+            <div class="pull-left">
+              <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+            </div>
+            <div class="pull-right">
+              <button class="btn" routerLink="/view/course/class/home" id="BtnCancelBtn">Cancel</button>
+              <button class="btn fullBlue" (click)="saveCourseSchedule()" id="btnSaveBtn">Save</button>
+            </div>
           </div>
         </section>
 

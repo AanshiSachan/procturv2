@@ -1,0 +1,50 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="middle-section clear-fix">
+  <section class="middle-top clearFix bulk-header">
+
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/activity/dashboard" style="padding:0px; ">
+          Activty
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+         <span>Course Planner</span>
+      </h1>
+    </div>
+
+  </section>
+
+  <section>
+    <div class="header-section">
+      <div class="header-item" id="class" (click)="showMenuOf('class')" [ngClass]="activeModule ? 'active' : 'non-active'">
+        <div class="img-container">
+          <img src="./assets/images/course_planner/class_white.svg" alt="class" *ngIf="activeModule">
+          <img src="./assets/images/course_planner/class.svg" alt="class" *ngIf="!activeModule">
+        </div>
+        <div class="model-name-container">
+          <span>Class</span>
+        </div>
+      </div>
+      <div class="header-item" id="exam" (click)="showMenuOf('exam')"  [ngClass]="!activeModule ? 'active' : 'non-active'">
+        <div class="img-container">
+          <img src="./assets/images/course_planner/exam.svg" alt="exam">
+        </div>
+        <div class="model-name-container">
+          <span>Exam</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="middle">
+
+    <app-class *ngIf="activeModule"></app-class>
+
+    <app-exam *ngIf="!activeModule"></app-exam>
+
+  </section>
+
+
+</div>

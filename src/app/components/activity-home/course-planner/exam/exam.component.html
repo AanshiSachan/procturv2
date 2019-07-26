@@ -1,0 +1,323 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
+</loaders-css>
+
+<section>
+  <section class="filter-head">
+    <div class="filter-header-container">
+      <div class="filter-item-1">
+        <!-- FOR COURSE MODEL -->
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <span>Master Course <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse" (ngModelChange)="updateCoursesList()">
+            <option value="-1">Select Master Course</option>
+            <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
+          </select>
+        </div>
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <span>Course</span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.course" (ngModelChange)="updateSubjectsList()">
+            <option value="-1">Select Course</option>
+            <option [value]="course.course_id" *ngFor="let course of courseList">{{course.course_name}}</option>
+          </select>
+          <span *ngIf="inputElements.course != '-1' && !jsonFlag.isProfessional" style="font-size: 10px;">Duration: {{courseStartDate}} {{courseEndDate}}</span>
+        </div>
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <span>Subject</span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.subject" (ngModelChange)="updateSubject()">
+            <option value="-1">Select Subject</option>
+            <option [value]="subject.batch_id" *ngFor="let subject of subjectList">{{subject.batch_name}}</option>
+          </select>
+        </div>
+
+        <!-- FOR BATCH MODEL -->
+        <div class="header-item" *ngIf="jsonFlag.isProfessional">
+          <span>Master Course <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.standard_id" (ngModelChange)="updateCoursesList()">
+            <option value="-1">Select Master Course</option>
+            <option [value]="standard.standard_id" *ngFor="let standard of masterCourseList">{{standard.standard_name}}</option>
+          </select>
+          <span *ngIf="inputElements.standard_id != '-1' && jsonFlag.isProfessional" style="font-size: 10px;">Duration: {{courseStartDate}} {{courseEndDate}}</span>
+        </div>
+        <div class="header-item" *ngIf="jsonFlag.isProfessional">
+          <span>Course</span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.subject_id" (ngModelChange)="updateSubjectsList()">
+            <option value="-1">Select Course</option>
+            <option [value]="subject.subject_id" *ngFor="let subject of courseList">{{subject.subject_name}}</option>
+          </select>
+        </div>
+        <div class="header-item" *ngIf="jsonFlag.isProfessional">
+          <span>Batch</span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.batch_id" (ngModelChange)="updateSubject()">
+            <option value="-1">Select Batch</option>
+            <option [value]="batch.batch_id" *ngFor="let batch of batchList">{{batch.batch_name}}</option>
+          </select>
+        </div>
+
+        <div class="header-item" style="width: 25%;">
+          <span>Filter</span>
+          <div class="input-container">
+            <i class="fa fa-filter" aria-hidden="true"></i>
+            <input type="text" name="" value="" class="filer-input" placeholder="Choose filter from dropdown">
+            <i class="fa fa-caret-down" aria-hidden="true" (click)="toggleFilter()" *ngIf="!filterShow"></i>
+            <i class="fa fa-caret-up" aria-hidden="true" (click)="toggleFilter()" *ngIf="filterShow"></i>
+          </div>
+          <span style="font-size: 10px;">From: {{coursePlannerFilters.from_date | date: 'dd-MMM-yyyy'}} &nbsp; To: {{coursePlannerFilters.to_date | date: 'dd-MMM-yyyy'}}</span>
+          <div class="filter-container" *ngIf="filterShow">
+
+            <div class="date-container">
+              <div class="date-title">
+                <span>Date</span>
+              </div>
+              <div class="date-values-container">
+                <div class="field-checkbox-wrapper date-value-item">
+                  <input type="checkbox" id="thisWeek" name="thisWeek" [(ngModel)]="filterDateInputs.thisWeek"
+                      class="form-checkbox" (change)="updateDateFilter('thisWeek')">
+                  <label for="thisWeek">This Week</label>
+                </div>
+                <div class="field-checkbox-wrapper date-value-item">
+                  <input type="checkbox" id="lastWeek" name="lastWeek" [(ngModel)]="filterDateInputs.lastWeek"
+                      class="form-checkbox" (change)="updateDateFilter('lastWeek')">
+                  <label for="lastWeek">Last Week</label>
+                </div>
+                <div class="field-checkbox-wrapper date-value-item">
+                  <input type="checkbox" id="thisMonth" name="thisMonth" [(ngModel)]="filterDateInputs.thisMonth"
+                      class="form-checkbox" (change)="updateDateFilter('thisMonth')">
+                  <label for="thisMonth">This Month</label>
+                </div>
+                <div class="field-checkbox-wrapper date-value-item">
+                  <input type="checkbox" id="custom" name="custom" [(ngModel)]="filterDateInputs.custom"
+                      class="form-checkbox" (change)="updateDateFilter('custom')">
+                  <label for="custom">Custom</label>
+                  <input style="margin-left:10%;visibility:hidden;" type="text" value="" id="customeDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                    [(ngModel)]="filterDateRange" (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker/>
+                </div>
+              </div>
+            </div>
+
+            <div class="status-container">
+              <div class="status-title">
+                <span>Status</span>
+              </div>
+              <div class="status-values-container">
+                <div class="field-checkbox-wrapper status-value-item">
+                  <input type="checkbox" id="upcoming" name="" [(ngModel)]="filterStatusInputs.upcoming"
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'upcoming')">
+                  <label for="upcoming" style="color: #ff6c24;">Upcoming</label>
+                </div>
+                <div class="field-checkbox-wrapper status-value-item">
+                  <input type="checkbox" id="attendancePending" name="" [(ngModel)]="filterStatusInputs.attendancePending"
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'pending')">
+                  <label for="attendancePending" style="color: #8d8d8d;">Attendance Pending</label>
+                </div>
+                <div class="field-checkbox-wrapper status-value-item">
+                  <input type="checkbox" id="completed" name="" [(ngModel)]="filterStatusInputs.completed"
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'completed')">
+                  <label for="completed" style="color: #00b55a;">Completed</label>
+                </div>
+                <div class="field-checkbox-wrapper status-value-item">
+                  <input type="checkbox" id="cancelled" name="" [(ngModel)]="filterStatusInputs.cancelled"
+                      class="form-checkbox" (change)="updateStatusFilter($event, 'cancelled')">
+                  <label for="cancelled" style="color: #df0d2f;">Cancelled</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="faculty-container">
+              <div class="faculty-title">
+                <span>Faculty</span>
+              </div>
+              <div class="faculty-dropdown-container">
+                <select class="faculty-select-box" name="" [(ngModel)]="inputElements.faculty" (ngModelChange)="updateFacultyInFilter()">
+                  <option value="-1">Select Faculty</option>
+                  <option [value]="faculty.teacher_id" *ngFor="let faculty of facultyList">{{faculty.teacher_name}}</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="go-btn-container">
+          <button type="button" name="button" class="fullBlue gobtn" (click)="getData()">GO</button>
+        </div>
+      </div>
+      <div class="filter-item-2">
+        <button type="button" name="button" class="add-class-btn" (click)="redirect()">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          &nbsp;
+          Add Exam
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="table-holder" *ngIf="coursePlannerData?.length > 0" (click)="closeAll()">
+    <div class="table-container">
+      <div class="table-header-container">
+        <div class="table-heading-item small" style="padding-left: 15px;">
+          <span>Date</span>
+        </div>
+        <div class="table-heading-item small">
+          <span>Time</span>
+        </div>
+        <div class="table-heading-item medium">
+          <span>Course</span>
+        </div>
+        <div class="table-heading-item medium" *ngIf="showHideColumns.subject">
+          <span>Subject(s)</span>
+        </div>
+        <div class="table-heading-item medium" *ngIf="showHideColumns.topic">
+          <span>Topic(s)</span>
+        </div>
+        <div class="table-heading-item medium" *ngIf="showHideColumns.description">
+          <span>Description</span>
+        </div>
+        <div class="table-heading-item small">
+          <span>Total Marks</span>
+        </div>
+        <div class="table-heading-item small">
+          <span>Passing Marks</span>
+        </div>
+        <div class="table-heading-item small" *ngIf="showHideColumns.roomNo">
+          <span>Room No.</span>
+        </div>
+        <div class="table-heading-item small align-center">
+          <span>Status</span>
+        </div>
+        <div class="table-heading-item medium align-center action">
+          <span>Action</span>
+          <i class="fa fa-cog" aria-hidden="true" (click)="showHideCol()"></i>
+          <div class="show-hide-container" *ngIf="jsonFlag.showHideColumn">
+            <div class="show-hide-header">
+              <span>Choose Show/Hide Column</span>
+              <i class="fa fa-times" aria-hidden="true" (click)="hideShowHideMenu()"></i>
+            </div>
+            <div class="show-hide-value-container">
+                <div class="field-checkbox-wrapper show-hide-item">
+                <input type="checkbox" id="subject" name="" [(ngModel)]="showHideColumns.subject"
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == 2">
+                <label for="subject">Subject</label>
+              </div>
+              <div class="field-checkbox-wrapper show-hide-item">
+                <input type="checkbox" id="topic" name="" [(ngModel)]="showHideColumns.topic"
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 2">
+                <label for="topic">Topic</label>
+              </div>
+            </div>
+
+            <div class="show-hide-value-container">
+              <div class="show-hide-item" style="margin-bottom: 10px;">
+                <span style="font-weight: 600;color:#585574;">NOTE : </span>
+                <span style="font-weight: 400;color:#585574;">To selct the below option(s) please unselect above option(s)</span>
+              </div>
+              <div class="field-checkbox-wrapper show-hide-item">
+                <input type="checkbox" id="description" name="" [(ngModel)]="showHideColumns.description"
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == 2">
+                <label for="description">Description</label>
+              </div>
+              <div class="field-checkbox-wrapper show-hide-item">
+                <input type="checkbox" id="homework" name="" [(ngModel)]="showHideColumns.roomNo"
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.roomNo && checkedColCounter == 2">
+                <label for="homework">Room No.</label>
+              </div>
+            </div>
+
+            <div class="bg-container">
+              <img src="./assets/images/course_planner/setting-illustration.svg" alt="">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="table-value-outer-container">
+        <div class="table-value-container"
+          [ngClass]="{'border-cancelled-class': course.status == 'Cancelled' || course.status == 'Cancel(Class)',
+                      'border-completed-class': course.status == 'Completed',
+                      'border-pending-class': course.status == 'Att. Pending',
+                      'border-upcoming-class': course.status == 'Upcoming'}"
+          *ngFor="let course of coursePlannerData; let i = index;">
+          <div class="table-value-item small" style="padding-left: 15px;">
+            <span>{{course.date | date: 'dd-MMM-yyyy' }}</span>
+            <!-- <span>&nbsp;</span> -->
+            <span>({{course.date | date :'EEEE'}})</span>
+          </div>
+          <div class="table-value-item small">
+            <span>{{course.start_time}}</span>
+            <!-- <span>&nbsp;- &nbsp;</span>   -->
+            <span>{{course.end_time}}</span>
+          </div>
+          <div class="table-value-item medium">
+            <span title="{{course.course_name}}">{{ (course.course_name.length > 50) ? (course.course_name | slice:0:50) + '...' : course.course_name }}</span>
+          </div>
+          <div class="table-value-item medium"  *ngIf="showHideColumns.subject">
+            <span title="{{course.subject_name}}">{{ (course.subject_name.length > 50) ? (course.subject_name | slice:0:50) + '...' : course.subject_name }}</span>
+          </div>
+          <div class="table-value-item medium"  *ngIf="showHideColumns.topic">
+            <span title="{{course.topics_covered}}">{{ (course.topics_covered.length > 50) ? (course.topics_covered | slice:0:50) + '...' : course.topics_covered }}</span>
+          </div>
+          <div class="table-value-item medium" *ngIf="showHideColumns.description">
+            <span title="{{course.description}}">{{ (course.description.length > 50) ? (course.description | slice:0:50) + '...' : course.description }}</span>
+          </div>
+          <div class="table-value-item small">
+            <span>{{course.total_marks}}</span>
+          </div>
+          <div class="table-value-item small">
+            <span>-</span>
+          </div>
+          <div class="table-value-item small"  *ngIf="showHideColumns.roomNo">
+            <span>{{course.room_no}}</span>
+          </div>
+          <div class="table-value-item small align-center">
+            <button type="button" name="button" class="upcoming-btn" *ngIf="course.status == 'Upcoming'">Upcoming</button>
+            <button type="button" name="button" class="pending-btn" *ngIf="course.status == 'Att. Pending'">Att. Pending</button>
+            <button type="button" name="button" class="cancelled-btn" *ngIf="course.status == 'Cancelled' || course.status == 'Cancel(Class)'">Cancelled</button>
+            <button type="button" name="button" class="completed-btn" *ngIf="course.status == 'Completed'">Completed</button>
+          </div>
+          <div class="table-value-item medium align-center action ">
+            <div class="action-container" *ngIf="course.status == 'Upcoming'">  <!--  upcoming classes action -->
+              <!-- <img src="./assets/images/reschedule.svg" alt="Reschedule" title="Reschedule" data-toggle="modal" data-target="#rescheduleModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRescheduleClass(course)">
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
+              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCancelClass(course)"></i>
+              <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(course)"></i> -->
+            </div>
+            <div class="action-container" *ngIf="course.status == 'Att. Pending'">  <!--  pending classes action -->
+              <!-- <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="course.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(course)">
+              <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="course.is_attendance_marked == 'N'" (click)="initiateMarkAttendance(course)">
+              <img src="./assets/images/reschedule.svg" alt="Reschedule" title="Reschedule" data-toggle="modal" data-target="#rescheduleModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRescheduleClass(course)">
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
+              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCancelClass(course)"></i>
+              <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(course)"></i> -->
+            </div>
+            <div class="action-container" *ngIf="course.status == 'Cancelled' || course.status == 'Cancel(Class)'">  <!--  cancelled classes action -->
+              <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i> -->
+            </div>
+            <div class="action-container" *ngIf="course.status == 'Completed'">  <!--  completed classes action -->
+              <!-- <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="course.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(course)">
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
+              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+  <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+    <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+      [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+      (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+    </pagination>
+  </div>
+</div>
+
+
+<!-- Illustration container -->
+<section *ngIf="coursePlannerData?.length == 0" (click)="closeAll()">
+  <div class="illustration-container">
+    <img src="./assets/images/course_planner/blank-illustration.svg" alt="illustration" class="illustration-img">
+  </div>
+</section>
