@@ -275,6 +275,30 @@ export class ExamMarkUpdateComponent implements OnInit {
       this.messageNotifier('error', '', 'Please select student from student list');
       return;
     }
+    else {
+      let flag = true;
+      for (let i = 0; i < data.length; i++) {
+        let obejct = data[i].batchExamMarksLi;
+        if (data[i].assigned) {
+          for (let j = 0; j < obejct.length; j++) {
+            if (obejct[j].grade_id == -1) {
+              flag = false;
+              this.messageNotifier('error', '', 'Please select grades');
+            }
+          }
+          if ( flag && data[i].grade_id == -1) {
+            flag = false;
+            this.messageNotifier('error', '', 'Please select grades');
+          }
+        }/// check grades are given or not 
+       
+        delete data[i].assigned;
+      }
+      if(!flag){
+        return;
+      }
+    }
+
     if (data == false) {
       return;
     }
@@ -298,6 +322,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     let notassignCount = 0;
     for (let i = 0; i < this.studentAttList.length; i++) {
       let obj: any = {};
+      obj.assigned = this.studentAttList[i].assigned;
       obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
       obj.isStudentExamSMS = 'N'
@@ -314,7 +339,8 @@ export class ExamMarkUpdateComponent implements OnInit {
         notassignCount++;
       }
       // obj.isUpdated = this.studentAttList[i].isUpdated;
-      // obj.isSendExamRemarkInSMS = 'N';
+      obj.isSendExamRemarkInSMS = 'N';
+      obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
@@ -341,6 +367,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     let notassignCount = 0;
     for (let i = 0; i < this.studentAttList.length; i++) {
       let obj: any = {};
+      obj.assigned = this.studentAttList[i].assigned;
       obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
       obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentAttList[i].attendance, this.studentAttList[i].batchExamMarksLi);
@@ -353,15 +380,14 @@ export class ExamMarkUpdateComponent implements OnInit {
       if (this.studentAttList[i].assigned) {
         obj.isUpdated = 'Y';
         obj.isStudentExamSMS = 'Y';
-        // obj.isSendExamRemarkInSMS ='Y';
+        obj.isSendExamRemarkInSMS = 'Y';
       } else {
         obj.isUpdated = 'N';
         obj.isStudentExamSMS = 'N';
-        // obj.isSendExamRemarkInSMS ='N';
+        obj.isSendExamRemarkInSMS = 'N';
         notassignCount++;
       }
-      // obj.isSendExamRemarkInSMS = this.studentAttList[i].remarks ? 'Y' : 'N';
-      // obj.remarks = this.studentAttList[i].remarks;
+      obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
