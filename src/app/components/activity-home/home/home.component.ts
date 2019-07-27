@@ -50,10 +50,6 @@ export class HomeComponent implements OnInit {
       this.jsonFlag.showExamDesk = this.checkInstSetupType(type, 4);
       this.jsonFlag.showLiveClasses = this.checkInstSetupType(type, 256);
     }
-    const userType = sessionStorage.getItem('userType');
-    if (userType == '3') {
-      this.jsonFlag.showLiveClasses = true;
-    }
   }
 
   checkUserAccess() {
