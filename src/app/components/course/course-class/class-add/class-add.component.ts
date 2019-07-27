@@ -457,7 +457,7 @@ export class ClassAddComponent implements OnInit {
 
   submitMasterBatch() {
     /* standard selected */
-    // this.scheduleSelection('1');
+    this.scheduleSelection('1');
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
       /* subject selected  */
@@ -1537,14 +1537,14 @@ export class ClassAddComponent implements OnInit {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
         this.batchFrequency = "2";
-        // this.scheduleSelection(this.batchFrequency);
+        this.scheduleSelection(this.batchFrequency);
       }
     }
   }
 
   scheduleSelection(event) {
     this.batchFrequency = event;
-    // this.custom.date = moment().format("YYYY-MM-DD") ;
+    this.custom.date = moment().format("YYYY-MM-DD") ;
   }
 
 
@@ -1583,17 +1583,17 @@ export class ClassAddComponent implements OnInit {
   createWeeklySchedule() {
     let data = this.prepareJSONDATA();
 
-    // if (this.custom.date == '') {
-    //   data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
-    // }
-    // else {
-    //   if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
-    //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
-    //     return;
-    //   } else {
-    //     data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
-    //   }
-    // }
+    if (this.custom.date == '') {
+      data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
+    }
+    else {
+      if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
+        return;
+      } else {
+        data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
+      }
+    }
 
     if (data == false) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');

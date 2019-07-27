@@ -4,7 +4,7 @@
             <section>
 
                 <!-- SMS -->
-                <div *ngIf="isSms" class="c-lg-4">
+                <div *ngIf="JsonFlags.isSms" class="c-lg-4">
                     <ul class="card" routerLink="/view/reports/sms">
                         <li>
                             SMS
@@ -16,7 +16,7 @@
                 </div>
 
                 <!-- Attendance -->
-                <div *ngIf="isAttendance" class="c-lg-4">
+                <div *ngIf="JsonFlags.isAttendance" class="c-lg-4">
                     <ul class="card" routerLink="/view/reports/attendance">
                         <li>
                             Attendance
@@ -28,7 +28,7 @@
                 </div>
 
                 <!-- Biometric -->
-                <div *ngIf="isBiometric && biometricAttendanceEnable" class="c-lg-4">
+                <div *ngIf="JsonFlags.isBiometric && JsonFlags.biometricAttendanceEnable" class="c-lg-4">
                     <ul class="card" routerLink="/view/reports/biometric">
                         <li>
                             Biometric Attendance
@@ -40,7 +40,7 @@
                 </div>
 
                 <!-- Fee -->
-                <div *ngIf="isFee" class="c-lg-4">
+                <div *ngIf="JsonFlags.isFee" class="c-lg-4">
                     <ul class="card" routerLink="/view/reports/fee">
                         <li>
                             Fee
@@ -52,7 +52,7 @@
                 </div>
 
                 <!-- Exam -->
-                <div *ngIf="isExam" class="c-lg-4">
+                <div *ngIf="JsonFlags.isExam" class="c-lg-4">
                     <ul class="card" routerLink="/view/reports/exam">
                         <li>
                             Exam
@@ -64,7 +64,7 @@
                 </div>
 
                 <!-- Report Card -->
-                <div *ngIf="isReportCard" class="c-lg-4">
+                <div *ngIf="JsonFlags.isReportCard" class="c-lg-4">
                     <ul class="card" routerLink="/view/reports/reportCard">
                         <li>
                             Report Card
@@ -76,7 +76,7 @@
                 </div>
 
                 <!-- Email -->
-                <div *ngIf="isEmail" class="c-lg-4">
+                <div *ngIf="JsonFlags.isEmail" class="c-lg-4">
                     <ul class="card" routerLink="/view/reports/email">
                         <li>
                             Email
@@ -88,7 +88,7 @@
                 </div>
 
                 <!-- profit n loss -->
-                <div *ngIf="isProfitnloss" class="c-lg-4 hide">
+                <div *ngIf="JsonFlags.isProfitnloss" class="c-lg-4 hide">
                     <ul class="card" routerLink="/view/reports/profitNloss">
                         <li>
                             Profit and Loss
@@ -100,7 +100,7 @@
                 </div>
 
                 <div class="c-lg-4">
-                    <ul class="card" routerLink="/view/reports/enquiryReport">
+                    <ul class="card" *ngIf="JsonFlags.isShowEnquiryReport" routerLink="/view/reports/enquiryReport">
                         <li>
                             Enquiry Report
                         </li>

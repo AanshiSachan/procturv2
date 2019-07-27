@@ -915,7 +915,7 @@ export class CourseExamComponent implements OnInit {
    * check negative value 
    */
   checkNgetiveValue($event) {
-    console.log($event);
+    // console.log($event);
     if ($event < 0) {
       this.messageNotifier('error', 'Error', 'Negative mark not allowed');
     }
@@ -1241,7 +1241,7 @@ export class CourseExamComponent implements OnInit {
       }
     }
 
-    let subjectName = ""
+    let subjectName = "";
     this.subjectListData[0].forEach(
       ele => {
         if (this.subject_id == ele.subject_id) {
