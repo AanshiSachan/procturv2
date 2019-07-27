@@ -279,22 +279,24 @@ export class ExamMarkUpdateComponent implements OnInit {
       let flag = true;
       for (let i = 0; i < data.length; i++) {
         let obejct = data[i].batchExamMarksLi;
-        if (data[i].assigned) {
-          for (let j = 0; j < obejct.length; j++) {
-            if (obejct[j].grade_id == -1) {
-              flag = false;
-              this.messageNotifier('error', '', 'Please select grades');
+        if (data[i].assigned && data[i].attendance == 'P') {
+          if (this.examMarksLevel == '1') {
+            for (let j = 0; j < obejct.length; j++) {
+              if (obejct[j].grade_id == -1) {
+                flag = false;
+                this.messageNotifier('error', '', 'Please select grades');
+              }
             }
           }
-          if ( flag && data[i].grade_id == -1) {
+          if (flag && data[i].grade_id == -1 && data[i].attendance == 'P') {
             flag = false;
             this.messageNotifier('error', '', 'Please select grades');
           }
-        }/// check grades are given or not 
-       
+        }// check grades are given or not 
+
         delete data[i].assigned;
       }
-      if(!flag){
+      if (!flag) {
         return;
       }
     }
