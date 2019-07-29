@@ -159,7 +159,7 @@ export class ClassAddComponent implements OnInit {
   showWarningPopup: boolean = false;
   cancelWeeklySchedulePop: boolean = false;
   IsTopicSelectedMode: string = 'add';
-  subject_name='';
+  subject_name = '';
 
   weeklyScheduleCan = {
     date: moment().format("YYYY-MM-DD"),
@@ -249,7 +249,7 @@ export class ClassAddComponent implements OnInit {
     else {
       subTopics.forEach((object) => {
         let arrayIndex = this.checkedKeys.indexOf(object.topicId);
-        if (arrayIndex>-1) {
+        if (arrayIndex > -1) {
           this.checkedKeys.splice(arrayIndex, 1);
         }
         if (object.subTopic.length) {
@@ -457,7 +457,7 @@ export class ClassAddComponent implements OnInit {
 
   submitMasterBatch() {
     /* standard selected */
-    this.scheduleSelection('1');
+    // this.scheduleSelection('1');
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
       /* subject selected  */
@@ -1511,7 +1511,7 @@ export class ClassAddComponent implements OnInit {
     this.extraClassTable = [];
     this.canceLClassTable = [];
     this.batchFrequency = "1";
-    this.scheduleSelection(this.batchFrequency);
+    // this.scheduleSelection(this.batchFrequency);
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
     }
@@ -1537,14 +1537,14 @@ export class ClassAddComponent implements OnInit {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
         this.batchFrequency = "2";
-        this.scheduleSelection(this.batchFrequency);
+        // this.scheduleSelection(this.batchFrequency);
       }
     }
   }
 
   scheduleSelection(event) {
     this.batchFrequency = event;
-    this.custom.date = moment().format("YYYY-MM-DD") ;
+    this.custom.date = moment().format("YYYY-MM-DD");
   }
 
 
@@ -1583,17 +1583,17 @@ export class ClassAddComponent implements OnInit {
   createWeeklySchedule() {
     let data = this.prepareJSONDATA();
 
-    if (this.custom.date == '') {
-      data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
-    }
-    else {
-      if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
-        return;
-      } else {
-        data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
-      }
-    }
+    // if (this.custom.date == '') {
+    //   data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
+    // }
+    // else {
+    //   if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
+    //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
+    //     return;
+    //   } else {
+    //     data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
+    //   }
+    // }
 
     if (data == false) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');
@@ -1761,6 +1761,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.customTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
@@ -1889,6 +1890,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.extraClassTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.extraClassTable[i].start_time;
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;
