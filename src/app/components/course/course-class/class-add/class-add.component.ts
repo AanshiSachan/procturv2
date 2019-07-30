@@ -1761,7 +1761,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.customTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
-        t.request_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
+        // t.request_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
@@ -1890,7 +1890,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.extraClassTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
-        t.request_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
+        // t.request_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.extraClassTable[i].start_time;
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;
