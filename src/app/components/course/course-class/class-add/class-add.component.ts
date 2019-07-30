@@ -9,7 +9,6 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { of } from 'rxjs/observable/of';
 import { TopicListingService } from '../../../../services/course-services/topic-listing.service';
-import { Observable } from 'rxjs/Observable';
 import { TreeItemLookup } from '@progress/kendo-angular-treeview';
 
 
@@ -160,7 +159,7 @@ export class ClassAddComponent implements OnInit {
   showWarningPopup: boolean = false;
   cancelWeeklySchedulePop: boolean = false;
   IsTopicSelectedMode: string = 'add';
-  subject_name='';
+  subject_name = '';
 
   weeklyScheduleCan = {
     date: moment().format("YYYY-MM-DD"),
@@ -255,7 +254,7 @@ export class ClassAddComponent implements OnInit {
     else {
       subTopics.forEach((object) => {
         let arrayIndex = this.checkedKeys.indexOf(object.topicId);
-        if (arrayIndex>-1) {
+        if (arrayIndex > -1) {
           this.checkedKeys.splice(arrayIndex, 1);
         }
         if (object.subTopic.length) {
@@ -463,7 +462,7 @@ export class ClassAddComponent implements OnInit {
 
   submitMasterBatch() {
     /* standard selected */
-    this.scheduleSelection('1');
+    // this.scheduleSelection('1');
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
       /* subject selected  */
@@ -1517,7 +1516,7 @@ export class ClassAddComponent implements OnInit {
     this.extraClassTable = [];
     this.canceLClassTable = [];
     this.batchFrequency = "1";
-    this.scheduleSelection(this.batchFrequency);
+    // this.scheduleSelection(this.batchFrequency);
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
     }
@@ -1543,19 +1542,18 @@ export class ClassAddComponent implements OnInit {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
         this.batchFrequency = "2";
-        this.scheduleSelection(this.batchFrequency);
+        // this.scheduleSelection(this.batchFrequency);
       }
     }
   }
 
   scheduleSelection(event) {
     this.batchFrequency = event;
-    this.custom.date = event == '2' ? moment().format("YYYY-MM-DD") : '';
+    this.custom.date = moment().format("YYYY-MM-DD");
   }
 
 
   /// Week Section////
-
   makeJsonForWeekTable(data) {
     this.showCancelWeeklyBtn = false;
     this.weekDaysTable = this.weekDays;
@@ -1731,7 +1729,7 @@ export class ClassAddComponent implements OnInit {
     obj.schd_id = 0;
     this.customTable.push(obj);
     this.custom = {
-      date: '',//moment().format("YYYY-MM-DD"),
+      date: moment().format("YYYY-MM-DD"),
       start_hour: '12 PM',
       start_minute: '00',
       end_hour: '1 PM',
@@ -1768,6 +1766,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.customTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
@@ -1896,6 +1895,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.extraClassTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.extraClassTable[i].start_time;
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;
