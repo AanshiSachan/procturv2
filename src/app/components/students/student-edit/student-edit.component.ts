@@ -1037,7 +1037,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       else {
         this.batchList = [];
         this.isRippleLoad = true;
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, student_id).subscribe(
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1').subscribe(
           res => {
             console.log(res);
             if (res.coursesList != null) {

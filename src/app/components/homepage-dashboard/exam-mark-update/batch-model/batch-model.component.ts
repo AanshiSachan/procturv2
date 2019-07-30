@@ -236,6 +236,16 @@ export class BatchModelComponent implements OnInit {
     if (dataToSend.studLi.length == 0) {
       this.messageNotifier('error', 'Error', 'Please Select Student');
       return;
+    }else{
+      for(let i=0;i<dataToSend.studLi.length;i++){
+        let object = dataToSend.studLi[i];
+        if(object.grade_id==-1){
+          this.messageNotifier('error', 'Error', 'Please Select grades');
+          dataToSend = false;
+          break;
+        }
+      }
+     
     }
     if (dataToSend == false) {
       return;

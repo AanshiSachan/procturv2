@@ -276,9 +276,9 @@
                               <div *ngIf="class.isExam" class="che-action pull-right"  [ngClass]="{hide : checkIfUserHadAccess('112')}">
                                 <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.isReferenced == 'N'" [ngClass]="hideFutureExamSchedule(class)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
                                 <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.isReferenced == 'Y'" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
-                                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)">
-                                <!-- <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Update Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)"> -->
-                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="notifyExamSchedule(i, class)" *ngIf='class.isReferenced != "Y"'></i>
+                                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y' && class.is_exam_marks=='N'" (click)="examMarksUpdate(class)">
+                                <img src="./assets/images/exam-update.svg" alt="Update Exam Marks " title="Update Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y' && class.is_exam_marks=='Y'" (click)="examMarksUpdate(class)">
+                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;cursor:pointer" title="Notify" (click)="notifyExamSchedule(i, class)" *ngIf='class.isReferenced != "Y"'></i>
                                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Exam" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)"></i>
                               </div>
                               <div *ngIf="!class.isExam" class="che-action pull-right" [ngClass]="{hide : checkIfUserHadAccess('101')}">

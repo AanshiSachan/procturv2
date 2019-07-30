@@ -351,7 +351,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('user_type_name', institute_data.user_type_name);
       sessionStorage.setItem('username', institute_data.username);
-      sessionStorage.setItem('username', institute_data.username);
       sessionStorage.setItem('userid', institute_data.userid);
       sessionStorage.setItem('message', institute_data.message);
       sessionStorage.setItem('name', institute_data.name);

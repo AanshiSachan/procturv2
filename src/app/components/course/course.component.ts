@@ -71,8 +71,10 @@ export class CourseComponent implements OnInit {
       this.liTopic.nativeElement.classList.remove('active');
     }
     setTimeout(() => {
-      document.getElementById(showId).classList.add('active');
-    }, 500)
+      if(document.getElementById(showId)){
+        document.getElementById(showId).classList.add('active');
+      }      
+    }, 500);
   }
 
   checkUserAcessForNotLang() {
