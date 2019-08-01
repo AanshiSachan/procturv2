@@ -18,53 +18,59 @@
             <div class="filter-box clearFix">
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12">
-                  <div class="search-filter-wrapper" *ngIf="isProfessional">
-                    <div class="c-lg-3 c-md-3 c-sm-3">
-                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
-                        <label for="smc">Select Master Course
-                         <span class="text-danger">*</span>
-                        </label>
-                        <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id"
-                          (ngModelChange)="updateSubjectList($event)">
-                          <option value="-1"></option>
-                          <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
-                            {{std.standard_name}}
-                          </option>
-                        </select>
-
+                  <div class="search-filter-wrapper" *ngIf="isProfessional">                   
+                    <div class="row">
+                      <div class="c-lg-3 c-md-3 c-sm-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
+                          <label for="smc">Select Master Course
+                           <span class="text-danger">*</span>
+                          </label>
+                          <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id"
+                            (ngModelChange)="updateSubjectList($event)">
+                            <option value="-1"></option>
+                            <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
+                              {{std.standard_name}}
+                            </option>
+                          </select>
+  
+                        </div>
+                      </div>
+                      <div class="c-lg-3 c-md-3 c-sm-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
+                          <label for="sc">Select Course
+                           <span class="text-danger">*</span>
+                          </label>
+                          <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id"
+                            (ngModelChange)="filterSubjectBatches($event)">
+                            <option value="-1"></option>
+                            <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
+                              {{subject.subject_name}}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="c-lg-3 c-md-3 c-sm-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.batch_id != '-1'}">
+                          <label for="bn">Select Batch Name
+                           <span class="text-danger">*</span>
+                          </label>
+                          <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
+                            <option value="-1"></option>
+                            <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
+                              {{batch.batch_name}}
+                            </option>
+                          </select>
+  
+                        </div>
+                      </div>
+                      <div class="c-lg-1 c-md-1 c-sm-1" style="margin-top: 15px">
+                        <button class="btn fullBlue" (click)="submitMasterBatch()">Go</button>
                       </div>
                     </div>
-                    <div class="c-lg-3 c-md-3 c-sm-3">
-                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.subject_id != '-1'}">
-                        <label for="sc">Select Course
-                         <span class="text-danger">*</span>
-                        </label>
-                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id"
-                          (ngModelChange)="filterSubjectBatches($event)">
-                          <option value="-1"></option>
-                          <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
-                            {{subject.subject_name}}
-                          </option>
-                        </select>
-
-                      </div>
-                    </div>
-                    <div class="c-lg-3 c-md-3 c-sm-3">
-                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.batch_id != '-1'}">
-                        <label for="bn">Select Batch Name
-                         <span class="text-danger">*</span>
-                        </label>
-                        <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
-                          <option value="-1"></option>
-                          <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
-                            {{batch.batch_name}}
-                          </option>
-                        </select>
-
-                      </div>
-                    </div>
-                    <div class="c-lg-1 c-md-1 c-sm-1" style="margin-top: 15px">
-                      <button class="btn fullBlue" (click)="submitMasterBatch()">Go</button>
+                    <div class="row" *ngIf="isClassFormFilled" style="margin-top:5px;margin-left:0px;font-size: 12px;">
+                      <span>Batch Duration: </span>
+                      <span style="font-weight: 600;">{{batchDetails?.batch_start_date}} - </span>
+                      <span style="font-weight: 600;">{{batchDetails?.batch_end_date}}</span>
                     </div>
                   </div>
                   <div class="search-filter-wrapper" *ngIf="!isProfessional">
@@ -464,7 +470,7 @@
               <div class="row weeklyAdd">
                 <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper datePickerBox" style="padding: 0px;" [ngClass]="{'has-value': custom.date!=''}">
-                        <label for="csd">Date
+                        <label for="csd">Schedule Start Date  
                          <span class="text-danger">*</span>
                         </label>
                         <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date"
@@ -734,10 +740,10 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                         {{row.note}}
                       </td>
                       <td>
-                        <a style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , index)" id="deleteAnch1">Delete</a>
-                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)"
+                        <a *ngIf="row.is_attendance_marked=='N'" style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , i)" id="deleteAnch1">Delete</a>
+                        <a  style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0' && row.is_attendance_marked=='N'" (click)="notifyOfCustomClass(row , index)"
                           id="notifyAnch2">Notify</a>
-                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)"
+                        <a  style="cursor:pointer;" *ngIf="row.schd_id !='0' && row.is_attendance_marked=='N'" (click)="cancelClassOfCustomClass(row , index)"
                           id="cancelAnch3">Cancel Class</a>
                       </td>
                     </tr>
@@ -872,11 +878,11 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
                             {{row.note}}
                           </td>
                           <td>
-                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)"
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0' && row.is_attendance_marked=='N'" (click)="cancelExtraClassSchedule(row)"
                               id="cancelAnch4">Cancel</a>
-                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)"
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0' && row.is_attendance_marked=='N'" (click)="notifyExtraClassSchedule(row)"
                               id="notifyAnch5">Notify</a>
-                            <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)" id="deleteAnch6">Delete</a>
+                            <a *ngIf="row.is_attendance_marked=='N'" style="cursor:pointer" (click)="deleteExtraClassSchedule(row , i)" id="deleteAnch6">Delete</a>
                           </td>
                         </tr>
                         <tr *ngIf="extraClassTable.length == 0">

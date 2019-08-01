@@ -1722,6 +1722,7 @@ export class ClassAddComponent implements OnInit {
     obj.note = this.custom.desc;
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
+    obj.is_attendance_marked='N';
     this.customTable.push(obj);
     this.custom = {
       date: moment().format("YYYY-MM-DD"),
@@ -1729,7 +1730,7 @@ export class ClassAddComponent implements OnInit {
       start_minute: '00',
       end_hour: '1 PM',
       end_minute: '00',
-      desc: '',
+      desc: ''
     }
   }
 
@@ -1855,6 +1856,7 @@ export class ClassAddComponent implements OnInit {
     obj.note = this.addExtraClass.desc;
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
+    obj.is_attendance_marked='N';
     this.extraClassTable.push(obj);
     this.addExtraClass = {
       date: moment().format("YYYY-MM-DD"),
