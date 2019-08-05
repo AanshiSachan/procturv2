@@ -346,8 +346,8 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
   }
 
   editRow(id, obj, type) {
-    console.log(id, obj);
-    this.recordsTrimmed = Object.assign([], this.displayData);
+    // console.log(id, obj);
+    // this.recordsTrimmed = Object.assign([], this.displayData); // because this linedata change when click edit action click
     if (type == 'editRow') {
       this.isEditRow = id;
       this.editObject = obj;

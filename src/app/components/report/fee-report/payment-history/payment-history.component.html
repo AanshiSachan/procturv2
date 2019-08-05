@@ -31,6 +31,7 @@
                             <th>Fee Type</th>
                             <th>Amount</th>
                             <th>Tax</th>
+                            <th>Discount Amount</th>
                             <th>Total Amount</th>
                             <th>Amount Paid</th>
                             <th>Amount Due</th>
@@ -49,6 +50,7 @@
                             <td>{{p.fee_type_name}}</td>
                             <td> ₹{{p.total_initial_amount.toLocaleString('en-IN')}}</td>
                             <td> {{p.total_tax_applied}}</td>
+                            <td> {{p.total_discount}}</td>
                             <td> ₹{{p.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
                             <td> ₹{{p.total_amt_paid.toLocaleString('en-IN')}}</td>
                             <td> ₹{{p.total_balance_amt.toLocaleString('en-IN')}}</td>
@@ -82,6 +84,7 @@
                             <th>Due Date</th>
                             <th>Amount</th>
                             <th>Tax</th>
+                            <th>Discount Amount</th>
                             <th>Total Amount</th>
                             <th>Amount Paid</th>
                             <th>Amount Due</th>
@@ -96,6 +99,7 @@
                             <td>{{d.due_date}}</td>
                             <td>₹{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
                             <td>{{d.total_tax_applied}}</td>
+                            <td> {{d.total_discount}}</td>
                             <td>₹{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
                             <td>₹{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
                             <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>
@@ -126,6 +130,7 @@
                             <th>Due Date</th>
                             <th>Amount</th>
                             <th>Tax</th>
+                            <th>Discount Amount</th>
                             <th>Total Amount</th>
                             <th>Amount Paid</th>
                             <th>Amount Due</th>
@@ -140,6 +145,7 @@
                             <td>{{d.due_date}}</td>
                             <td>₹{{d.total_initial_amount.toLocaleString('en-IN')}}</td>
                             <td>{{d.total_tax_applied}}</td>
+                            <td> {{d.total_discount}}</td>
                             <td>₹{{d.total_amount_after_discount_after_tax.toLocaleString('en-IN')}}</td>
                             <td>₹{{(d.total_amount_after_discount_after_tax - d.total_balance_amt).toLocaleString('en-IN')}}</td>
                             <td>₹{{d.total_balance_amt.toLocaleString('en-IN')}}</td>

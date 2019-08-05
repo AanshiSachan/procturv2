@@ -457,7 +457,7 @@ export class ClassAddComponent implements OnInit {
 
   submitMasterBatch() {
     /* standard selected */
-    // this.scheduleSelection('1');
+    this.scheduleSelection('2');
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
       /* subject selected  */
@@ -1510,8 +1510,6 @@ export class ClassAddComponent implements OnInit {
     this.weekDaysTable = [];
     this.extraClassTable = [];
     this.canceLClassTable = [];
-    this.batchFrequency = "1";
-    // this.scheduleSelection(this.batchFrequency);
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
     }
@@ -1519,27 +1517,27 @@ export class ClassAddComponent implements OnInit {
       this.extraClassTable = data.extraSchd;
     }
     if (data.weekSchd != null) {
+      this.removeWeekCheckedDetails();
       if (data.weekSchd.length > 0) {
         this.makeJsonForWeekTable(data.weekSchd);
-      } else {
-        this.weekDays.forEach(element => {
-          element.uiSelected = false;
-        });
-        this.weekDaysTable = this.weekDays;
       }
     } else {
-      this.weekDays.forEach(element => {
-        element.uiSelected = false;
-      });
-      this.weekDaysTable = this.weekDays;
+      this.removeWeekCheckedDetails();
     }
     if (data.otherSchd != null) {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
         this.batchFrequency = "2";
-        // this.scheduleSelection(this.batchFrequency);
+        this.scheduleSelection(this.batchFrequency);
       }
     }
+  }
+
+  removeWeekCheckedDetails() {
+    this.weekDays.forEach(element => {
+      element.uiSelected = false;
+    });
+    this.weekDaysTable = this.weekDays;
   }
 
   scheduleSelection(event) {
@@ -1705,7 +1703,7 @@ export class ClassAddComponent implements OnInit {
   addNewCustomClass() {
     let obj: any = {};
     obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
-    if (moment(this.custom.date).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
+    if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid date');
       return
     }
@@ -1722,7 +1720,7 @@ export class ClassAddComponent implements OnInit {
     obj.note = this.custom.desc;
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
-    obj.is_attendance_marked='N';
+    obj.is_attendance_marked = 'N';
     this.customTable.push(obj);
     this.custom = {
       date: moment().format("YYYY-MM-DD"),
@@ -1856,7 +1854,7 @@ export class ClassAddComponent implements OnInit {
     obj.note = this.addExtraClass.desc;
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
-    obj.is_attendance_marked='N';
+    obj.is_attendance_marked = 'N';
     this.extraClassTable.push(obj);
     this.addExtraClass = {
       date: moment().format("YYYY-MM-DD"),

@@ -63,6 +63,9 @@ export class HomeComponent implements OnInit {
     if (userType == '3') {
       this.jsonFlag.isAdmin = false;
       this.jsonFlag.isTimetable = true;
+      // if (sessionStorage.getItem('testprepEnabled') != "false") {
+      //   this.jsonFlag.showLiveClasses = true;
+      // }
     }
     else if (userType == '0') {
       if (permissionArray == "" || permissionArray == null) {
@@ -72,7 +75,7 @@ export class HomeComponent implements OnInit {
       }
       else {
         let perm: any[] = JSON.parse(permissionArray);
-
+        
         if (perm.indexOf('102') != -1) {
           this.jsonFlag.isFeeActivity = true;
         }
@@ -88,7 +91,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  checkInstSetupType(value, role): boolean {
+checkInstSetupType(value, role): boolean {
     if (value != 0) {
       var start = 2;
       var count = 1;
