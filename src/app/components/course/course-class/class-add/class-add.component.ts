@@ -225,6 +225,20 @@ export class ClassAddComponent implements OnInit {
     this.switchActiveView();
   }
 
+  checkCurrentDate(data, class_date) {
+    if (data.is_attendance_marked == 'N') {
+      if (moment(class_date).valueOf() <= moment(new Date()).valueOf()) {
+        return false;
+      } else
+        return true;
+    } else {
+      if (moment(class_date).valueOf() <= moment(new Date()).valueOf()) {
+        return false;
+      } else
+        return true;
+    }
+  }
+
   public handleChecking(itemLookup: TreeItemLookup): void {
     let subTopic = itemLookup.item.dataItem.subTopic;
     let arrayIndex = this.checkedKeys.indexOf(itemLookup.item.dataItem.topicId);
@@ -395,7 +409,6 @@ export class ClassAddComponent implements OnInit {
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
       || this.fetchMasterCourseModule.requested_date == null) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide all mandatory details');
-
       return;
     }
     else {
@@ -457,7 +470,6 @@ export class ClassAddComponent implements OnInit {
 
   submitMasterBatch() {
     /* standard selected */
-    this.scheduleSelection('2');
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
       /* subject selected  */
@@ -1510,6 +1522,7 @@ export class ClassAddComponent implements OnInit {
     this.weekDaysTable = [];
     this.extraClassTable = [];
     this.canceLClassTable = [];
+    this.batchFrequency = "1";
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
     }
@@ -1526,9 +1539,8 @@ export class ClassAddComponent implements OnInit {
     }
     if (data.otherSchd != null) {
       if (data.otherSchd.length > 0) {
-        this.customTable = data.otherSchd;
+        this.customTable = data.otherSchd;  
         this.batchFrequency = "2";
-        this.scheduleSelection(this.batchFrequency);
       }
     }
   }
