@@ -225,6 +225,27 @@ export class ClassAddComponent implements OnInit {
     this.switchActiveView();
   }
 
+  checkNotifyDate(data) {
+    if (moment(data.class_date).valueOf() <= moment().subtract(1, 'days').valueOf()) {
+      return false;
+    } else
+      return true;
+  }
+
+  checkCurrentDate(data, class_date) {
+    if (data.is_attendance_marked == 'N') {
+      if (moment(class_date).valueOf() <= moment(new Date()).valueOf()) {
+        return false;
+      } else
+        return true;
+    } else {
+      if (moment(class_date).valueOf() <= moment(new Date()).valueOf()) {
+        return false;
+      } else
+        return true;
+    }
+  }
+
   public handleChecking(itemLookup: TreeItemLookup): void {
     let subTopic = itemLookup.item.dataItem.subTopic;
     let arrayIndex = this.checkedKeys.indexOf(itemLookup.item.dataItem.topicId);
@@ -395,7 +416,6 @@ export class ClassAddComponent implements OnInit {
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
       || this.fetchMasterCourseModule.requested_date == null) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide all mandatory details');
-
       return;
     }
     else {
@@ -457,7 +477,6 @@ export class ClassAddComponent implements OnInit {
 
   submitMasterBatch() {
     /* standard selected */
-    // this.scheduleSelection('1');
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
       /* subject selected  */
@@ -1510,8 +1529,8 @@ export class ClassAddComponent implements OnInit {
     this.weekDaysTable = [];
     this.extraClassTable = [];
     this.canceLClassTable = [];
-    this.batchFrequency = "1";
-    // this.scheduleSelection(this.batchFrequency);
+    let temp_mode = this.batchFrequency;
+    this.batchFrequency = '1';
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
     }
@@ -1519,13 +1538,13 @@ export class ClassAddComponent implements OnInit {
       this.extraClassTable = data.extraSchd;
     }
     if (data.weekSchd != null) {
+
+      this.weekDays.forEach(element => {
+        element.uiSelected = false;
+      });
+      this.weekDaysTable = this.weekDays;
       if (data.weekSchd.length > 0) {
         this.makeJsonForWeekTable(data.weekSchd);
-      } else {
-        this.weekDays.forEach(element => {
-          element.uiSelected = false;
-        });
-        this.weekDaysTable = this.weekDays;
       }
     } else {
       this.weekDays.forEach(element => {
@@ -1533,14 +1552,21 @@ export class ClassAddComponent implements OnInit {
       });
       this.weekDaysTable = this.weekDays;
     }
+
     if (data.otherSchd != null) {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
-        this.batchFrequency = "2";
-        // this.scheduleSelection(this.batchFrequency);
+        if ((data.weekSchd && data.weekSchd.length == 0)) {
+          this.batchFrequency = '2';         
+        }
+        else{
+          this.batchFrequency = '1';  
+        }
+        this.scheduleSelection(this.batchFrequency);
       }
     }
   }
+
 
   scheduleSelection(event) {
     this.batchFrequency = event;
@@ -1583,27 +1609,34 @@ export class ClassAddComponent implements OnInit {
   createWeeklySchedule() {
     let data = this.prepareJSONDATA();
 
-    // if (this.custom.date == '') {
-    //   data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
-    // }
-    // else {
-    //   if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
-    //     this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
-    //     return;
-    //   } else {
-    //     data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
-    //   }
-    // }
-
     if (data == false) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');
       return;
     }
+
+    if (this.custom.date == '') {
+      data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
+    }
+    else {
+      if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'selected date should be greater than or equal to batch start date ' + moment(this.batchDetails.batch_start_date).format("DD-MMM-YYYY"));
+        return;
+      } else {
+        data.request_date = moment(this.custom.date).format("YYYY-MM-DD");
+      }
+    }
+
+
     if (this.batchDetails.weekSchd != null) {
       if (this.batchDetails.weekSchd.length > 0) {
         this.serverCallPUT(data);
       } else {
-        this.serverCallPOST(data);
+        if (this.batchDetails.otherSchd
+          && this.batchDetails.otherSchd.length > 0) {
+          this.serverCallPUT(data);
+        } else {
+          this.serverCallPOST(data);
+        }
       }
     } else {
       this.serverCallPOST(data);
@@ -1705,7 +1738,7 @@ export class ClassAddComponent implements OnInit {
   addNewCustomClass() {
     let obj: any = {};
     obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
-    if (moment(this.custom.date).format("YYYY-MM-DD") < moment().format("YYYY-MM-DD")) {
+    if (moment(this.custom.date).valueOf() < moment(this.batchDetails.batch_start_date).valueOf()) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please provide valid date');
       return
     }
@@ -1722,6 +1755,7 @@ export class ClassAddComponent implements OnInit {
     obj.note = this.custom.desc;
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
+    obj.is_attendance_marked = 'N';
     this.customTable.push(obj);
     this.custom = {
       date: moment().format("YYYY-MM-DD"),
@@ -1729,7 +1763,7 @@ export class ClassAddComponent implements OnInit {
       start_minute: '00',
       end_hour: '1 PM',
       end_minute: '00',
-      desc: '',
+      desc: ''
     }
   }
 
@@ -1761,7 +1795,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.customTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
-        // t.request_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.customTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.customTable[i].start_time;
         t.end_time = this.customTable[i].end_time;
         t.note = this.customTable[i].note;
@@ -1783,7 +1817,11 @@ export class ClassAddComponent implements OnInit {
       if (this.batchDetails.otherSchd.length > 0) {
         this.serverCallPUT(obj);
       } else {
-        this.serverCallPOST(obj);
+        if (this.batchDetails.weekSchd && this.batchDetails.weekSchd.length > 0) {
+          this.serverCallPUT(obj);
+        } else {
+          this.serverCallPOST(obj);
+        }
       }
     } else {
       this.serverCallPOST(obj);
@@ -1855,6 +1893,7 @@ export class ClassAddComponent implements OnInit {
     obj.note = this.addExtraClass.desc;
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
+    obj.is_attendance_marked = 'N';
     this.extraClassTable.push(obj);
     this.addExtraClass = {
       date: moment().format("YYYY-MM-DD"),
@@ -1890,7 +1929,7 @@ export class ClassAddComponent implements OnInit {
       for (let i = 0; i < this.extraClassTable.length; i++) {
         let t: any = {};
         t.class_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
-        // t.request_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
+        t.request_date = moment(this.extraClassTable[i].class_date).format('YYYY-MM-DD');
         t.start_time = this.extraClassTable[i].start_time;
         t.end_time = this.extraClassTable[i].end_time;
         t.note = this.extraClassTable[i].note;
