@@ -560,7 +560,7 @@
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
             </button>
-            <button class="btn-header" (click)="isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
+            <button class="btn-header" (click)="getPdcChequeList();isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
