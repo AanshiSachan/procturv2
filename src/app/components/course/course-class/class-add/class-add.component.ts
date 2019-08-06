@@ -225,6 +225,13 @@ export class ClassAddComponent implements OnInit {
     this.switchActiveView();
   }
 
+  checkNotifyDate(data) {
+    if (moment(data.class_date).valueOf() <= moment().subtract(1, 'days').valueOf()) {
+      return false;
+    } else
+      return true;
+  }
+
   checkCurrentDate(data, class_date) {
     if (data.is_attendance_marked == 'N') {
       if (moment(class_date).valueOf() <= moment(new Date()).valueOf()) {
@@ -1522,7 +1529,8 @@ export class ClassAddComponent implements OnInit {
     this.weekDaysTable = [];
     this.extraClassTable = [];
     this.canceLClassTable = [];
-    this.batchFrequency = "1";
+    let temp_mode = this.batchFrequency;
+    this.batchFrequency = '1';
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
     }
@@ -1530,27 +1538,35 @@ export class ClassAddComponent implements OnInit {
       this.extraClassTable = data.extraSchd;
     }
     if (data.weekSchd != null) {
-      this.removeWeekCheckedDetails();
+
+      this.weekDays.forEach(element => {
+        element.uiSelected = false;
+      });
+      this.weekDaysTable = this.weekDays;
       if (data.weekSchd.length > 0) {
         this.makeJsonForWeekTable(data.weekSchd);
       }
     } else {
-      this.removeWeekCheckedDetails();
+      this.weekDays.forEach(element => {
+        element.uiSelected = false;
+      });
+      this.weekDaysTable = this.weekDays;
     }
+
     if (data.otherSchd != null) {
       if (data.otherSchd.length > 0) {
-        this.customTable = data.otherSchd;  
-        this.batchFrequency = "2";
+        this.customTable = data.otherSchd;
+        if ((data.weekSchd && data.weekSchd.length == 0)) {
+          this.batchFrequency = '2';         
+        }
+        else{
+          this.batchFrequency = '1';  
+        }
+        this.scheduleSelection(this.batchFrequency);
       }
     }
   }
 
-  removeWeekCheckedDetails() {
-    this.weekDays.forEach(element => {
-      element.uiSelected = false;
-    });
-    this.weekDaysTable = this.weekDays;
-  }
 
   scheduleSelection(event) {
     this.batchFrequency = event;
@@ -1593,6 +1609,11 @@ export class ClassAddComponent implements OnInit {
   createWeeklySchedule() {
     let data = this.prepareJSONDATA();
 
+    if (data == false) {
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');
+      return;
+    }
+
     if (this.custom.date == '') {
       data.request_date = moment(this.batchDetails.batch_start_date).format("YYYY-MM-DD");
     }
@@ -1605,15 +1626,17 @@ export class ClassAddComponent implements OnInit {
       }
     }
 
-    if (data == false) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please specify at least one day to create a schedule');
-      return;
-    }
+
     if (this.batchDetails.weekSchd != null) {
       if (this.batchDetails.weekSchd.length > 0) {
         this.serverCallPUT(data);
       } else {
-        this.serverCallPOST(data);
+        if (this.batchDetails.otherSchd
+          && this.batchDetails.otherSchd.length > 0) {
+          this.serverCallPUT(data);
+        } else {
+          this.serverCallPOST(data);
+        }
       }
     } else {
       this.serverCallPOST(data);
@@ -1794,7 +1817,11 @@ export class ClassAddComponent implements OnInit {
       if (this.batchDetails.otherSchd.length > 0) {
         this.serverCallPUT(obj);
       } else {
-        this.serverCallPOST(obj);
+        if (this.batchDetails.weekSchd && this.batchDetails.weekSchd.length > 0) {
+          this.serverCallPUT(obj);
+        } else {
+          this.serverCallPOST(obj);
+        }
       }
     } else {
       this.serverCallPOST(obj);
