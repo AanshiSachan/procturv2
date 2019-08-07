@@ -174,8 +174,8 @@ export class ExamMarkUpdateComponent implements OnInit {
       return;
     }
     $("#myModal").modal("show");
-    let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
-    if (object.length >0) {
+    let object: any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
+    if (object.length > 0) {
       object[0].click();
     }
   }
@@ -215,7 +215,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     if (data.is_exam_grad_feature == 1) {
       this.getAllExamGrades();
       this.upload_text = 'Upload Grades';
-    }else{
+    } else {
       this.upload_text = 'Upload Marks';
     }
   }
@@ -275,6 +275,32 @@ export class ExamMarkUpdateComponent implements OnInit {
       this.messageNotifier('error', '', 'Please select student from student list');
       return;
     }
+    else {
+      let flag = true;
+      for (let i = 0; i < data.length; i++) {
+        let obejct = data[i].batchExamMarksLi;
+        if (data[i].assigned && data[i].attendance == 'P') {
+          if (this.examMarksLevel == '1') {
+            for (let j = 0; j < obejct.length; j++) {
+              if (obejct[j].grade_id == -1) {
+                flag = false;
+                this.messageNotifier('error', '', 'Please select grades');
+              }
+            }
+          }
+          if (flag && data[i].grade_id == -1 && data[i].attendance == 'P') {
+            flag = false;
+            this.messageNotifier('error', '', 'Please select grades');
+          }
+        }// check grades are given or not 
+
+        delete data[i].assigned;
+      }
+      if (!flag) {
+        return;
+      }
+    }
+
     if (data == false) {
       return;
     }
@@ -298,6 +324,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     let notassignCount = 0;
     for (let i = 0; i < this.studentAttList.length; i++) {
       let obj: any = {};
+      obj.assigned = this.studentAttList[i].assigned;
       obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
       obj.isStudentExamSMS = 'N'
@@ -314,6 +341,8 @@ export class ExamMarkUpdateComponent implements OnInit {
         notassignCount++;
       }
       // obj.isUpdated = this.studentAttList[i].isUpdated;
+      obj.isSendExamRemarkInSMS = 'N';
+      obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
@@ -340,6 +369,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     let notassignCount = 0;
     for (let i = 0; i < this.studentAttList.length; i++) {
       let obj: any = {};
+      obj.assigned = this.studentAttList[i].assigned;
       obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
       obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentAttList[i].attendance, this.studentAttList[i].batchExamMarksLi);
@@ -352,11 +382,14 @@ export class ExamMarkUpdateComponent implements OnInit {
       if (this.studentAttList[i].assigned) {
         obj.isUpdated = 'Y';
         obj.isStudentExamSMS = 'Y';
+        obj.isSendExamRemarkInSMS = 'Y';
       } else {
         obj.isUpdated = 'N';
         obj.isStudentExamSMS = 'N';
+        obj.isSendExamRemarkInSMS = 'N';
         notassignCount++;
       }
+      obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;

@@ -23,7 +23,7 @@
         </select>
       </div>
     </div>
-    <button class="btn fullBlue" style="margin-bottom: 5px;" [disabled]="(filterData.standard_id==-1) || (filterData.subject_id==-1)" (click)="getTopicDetails()" >View</button>  
+    <button class="btn fullBlue" style="margin-bottom: 5px;" [disabled]="(filterData.standard_id==-1) || (filterData.subject_id==-1)" (click)="getTopicDetails('view')" >View</button>  
     <button class="btn fullBlue pull-right" style="margin-top: 18px;" data-backdrop="static" data-toggle="modal" data-target="#addTopic">
       <i class="fa fa-plus" aria-hidden="true" (click)="clearObject()"></i>&nbsp; Add Topic</button>
   </div>
@@ -98,7 +98,7 @@
          </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn " style="color: indianred;" (click)="deleteTopicObject()">Delete </button>
+        <button type="button" class="btn" style="color: indianred;" (click)="deleteTopicObject()">Delete </button>
         <button type="button" class="btn" data-dismiss="modal" (click)="clearObject()">Cancel</button>
       </div>
     </div>

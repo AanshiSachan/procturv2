@@ -54,9 +54,9 @@ export class BatchModelComponent implements OnInit {
 
   updateGradesOption() {
     $("#myModal").modal("show");
-     let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
+    let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
     if(object.length>0){
-       object[0].click();// clear object on template
+      object[0].click();// clear object on template
     }
   }
 
@@ -236,6 +236,16 @@ export class BatchModelComponent implements OnInit {
     if (dataToSend.studLi.length == 0) {
       this.messageNotifier('error', 'Error', 'Please Select Student');
       return;
+    }else{
+      for(let i = 0; i < dataToSend.studLi.length; i++) {
+        let object = dataToSend.studLi[i];
+        if (this.examData.is_exam_grad_feature == 1 && object.grade_id == -1){
+          this.messageNotifier('error', 'Error', 'Please Select grades');
+          dataToSend = false;
+          break;
+        }
+      }
+
     }
     if (dataToSend == false) {
       return;
@@ -266,10 +276,13 @@ export class BatchModelComponent implements OnInit {
         student.marks_obtained = this.studentList[i].marks_obtained;
         student.student_exam_det_id = this.studentList[i].student_exam_det_id;
         student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
+        student.remarks = this.studentList[i].remarks;
         if (sendSms == "Y") {
           student.isUpdated = "Y";
+          student.isSendExamRemarkInSMS = "Y";
         } else {
           student.isUpdated = this.studentList[i].isUpdated;
+          student.isSendExamRemarkInSMS = "N";
         }
         student.attendance = this.studentList[i].attendance;
         student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;

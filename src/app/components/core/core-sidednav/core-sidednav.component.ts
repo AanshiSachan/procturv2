@@ -123,7 +123,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
     const permissionArray = sessionStorage.getItem('permissions');
     let username = sessionStorage.getItem('username');
-    if(((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 100952)) || permissionArray.indexOf('721') != -1){
+    if (((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 100952)) || (permissionArray && permissionArray.indexOf('721') != -1)) {
       this.libraryRole = true;
     }
 
@@ -285,7 +285,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
   }
 
-  checkManinBranch(){
+  checkManinBranch() {
 
     this.auth.isMainBranch.subscribe(
       (value: any) => {
@@ -420,7 +420,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     }
 
     let username = sessionStorage.getItem('username');
-    if((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077) || p.indexOf('721') != -1){
+    if ((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077) || p.indexOf('721') != -1) {
       document.getElementById('liten').classList.remove('hide');
     }
 
@@ -664,29 +664,29 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
 
   // From Headers section
-  showHelpMenu(){
-    if(this.helpMenu){
+  showHelpMenu() {
+    if (this.helpMenu) {
       this.helpMenu = false;
     }
-    else{
+    else {
       this.helpMenu = true;
     }
     this.sideBar = false;
     this.searchBar = false;
   }
 
-  showMenu(){
+  showMenu() {
     this.sideBar = true;
     this.helpMenu = false;
     this.searchBar = false;
     let totalExternalClasses = document.getElementsByClassName("external-menu").length;
     let externalMenu = document.getElementsByClassName("external-menu") as HTMLCollectionOf<HTMLElement>;
-    for(let i = 0; i < totalExternalClasses; i++){
+    for (let i = 0; i < totalExternalClasses; i++) {
       externalMenu[i].style.display = "none";
     }
   }
 
-  closeMenu(){
+  closeMenu() {
     this.sideBar = false;
     this.searchBar = false;
     this.helpMenu = false;
@@ -711,7 +711,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     this.sideBar = false;
     let totalExternalClasses = document.getElementsByClassName("external-menu").length;
     let externalMenu = document.getElementsByClassName("external-menu") as HTMLCollectionOf<HTMLElement>;
-    for(let i = 0; i < totalExternalClasses; i++){
+    for (let i = 0; i < totalExternalClasses; i++) {
       externalMenu[i].style.display = "none";
     }
   }
@@ -753,22 +753,22 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     this.router.navigateByUrl('/authPage');
   }
 
-  changeIcon(id){
-    document.getElementById(id+"_icon").setAttribute( 'src', "./assets/images/sidebar/sideMenu/"+id+"_color.svg");
+  changeIcon(id) {
+    document.getElementById(id + "_icon").setAttribute('src', "./assets/images/sidebar/sideMenu/" + id + "_color.svg");
   }
 
-  showSubMenu(id){
-    if(document.getElementById(id).style.display == 'block'){
+  showSubMenu(id) {
+    if (document.getElementById(id).style.display == 'block') {
       document.getElementById(id).style.display = "none";
       // document.getElementById(id+"_current").classList.remove('active-current-menu');
       // document.getElementById(id+"_icon").setAttribute( 'src', "./assets/images/sidebar/sideMenu/"+id+".svg");
       // document.getElementById(id+"icon").src = "./assets/images/sidebar/sideMenu/"+id+".svg";
       return;
     }
-    else{
+    else {
       let totalExternalClasses = document.getElementsByClassName("external-menu").length;
       let externalMenu = document.getElementsByClassName("external-menu") as HTMLCollectionOf<HTMLElement>;
-      for(let i = 0; i < totalExternalClasses; i++){
+      for (let i = 0; i < totalExternalClasses; i++) {
         externalMenu[i].style.display = "none";
       }
       // let totalCurrentClasses = document.getElementsByClassName("current-menu").length;
@@ -785,11 +785,11 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   };
 
 
-  routerLink(route){
+  routerLink(route) {
     this.sideBar = false;
     let totalCurrentClasses = document.getElementsByClassName("current-menu").length;
     let currentMenu = document.getElementsByClassName("current-menu") as HTMLCollectionOf<HTMLElement>;
-    for(let i = 0; i < totalCurrentClasses; i++){
+    for (let i = 0; i < totalCurrentClasses; i++) {
       currentMenu[i].classList.remove('active-current-menu');
     }
     this.router.navigate([route]);
@@ -799,7 +799,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/view/teacher/edit/', this.teacherId]);
   }
 
-  fillSessionStorageCommonFields(res){
+  fillSessionStorageCommonFields(res) {
     sessionStorage.clear();
     let Authorization = btoa(res.userid + "|" + res.userType + ":" + res.password + ":" + res.institution_id);
     sessionStorage.setItem('Authorization', Authorization);
@@ -860,15 +860,14 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
 
   // FOR Search
-  showSearchBar(){
+  showSearchBar() {
     this.searchBar = true;
-    window.setTimeout(function ()
-    {
+    window.setTimeout(function () {
       document.getElementById("search_bar").focus();
     }, 550);
   }
 
-  closeSearchBar(){
+  closeSearchBar() {
     this.searchBar = false;
   }
 
@@ -982,7 +981,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openInNewTab(url: string){
+  openInNewTab(url: string) {
     window.open(url, "_blank");
     this.helpMenu = false;
   }

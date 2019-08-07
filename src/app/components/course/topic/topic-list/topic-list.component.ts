@@ -10,10 +10,10 @@ import { MessageShowService } from '../../../../services/message-show.service';
 })
 export class TopicListComponent implements OnInit {
 
-  @Input()
-  dataList: Topic[];
+  @Input() dataList: Topic[];
   @Output() eventHandler = new EventEmitter<any>();
   @Output() editView = new EventEmitter();
+
   constructor(private _toastPopup: MessageShowService) { }
 
   ngOnInit() {
@@ -21,8 +21,24 @@ export class TopicListComponent implements OnInit {
 
   toggleObject(topic) {
     topic.isExpand = (!topic.isExpand);
+    if (topic.isExpand) {
+      this.expandAllTopic(topic);
+    }
   }
 
+  expandAllTopic(topic) {
+    if (topic.subTopic.length == 0) {
+      return;
+    }
+    else {
+      topic.subTopic.forEach(object => {
+        object.isExpand = true;
+        if (object.subTopic.length > 0) {
+          this.expandAllTopic(object);
+        }
+      });
+    }
+  }
 
   addSubtopic(topic) {
     topic.addSubtopic = topic.addSubtopic == undefined ? [] : topic.addSubtopic;
@@ -38,6 +54,11 @@ export class TopicListComponent implements OnInit {
     }
   }
 
+  cancelAdd(parentTopic) {
+    // console.log(parentTopic);
+    parentTopic.addSubtopic = [];
+  }
+
 
   addEditSubtopicDetails(topic, type) {
     if (topic.name == "") {
@@ -49,11 +70,11 @@ export class TopicListComponent implements OnInit {
 
   eventAction(type, topic) {
     this.editView.emit({ 'data': topic, option: type });
-    console.log(topic);
+    // console.log(topic);
   }
 
   clearObject(topic) {
-    console.log(topic);
+    // console.log(topic);
     topic.name = topic.topicName;
     topic.isEdit = (!topic.isEdit)
   }

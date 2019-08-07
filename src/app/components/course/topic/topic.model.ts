@@ -7,6 +7,7 @@ export class Topic {
   subTopic: Topic[];
   addSubtopic: any[];
   isEdit: boolean = false;
+  isExpand:boolean = false;
 }
 
 export class Create_Topic {

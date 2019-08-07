@@ -25,14 +25,14 @@ import { CourseListService } from '../../../services/course-services/course-list
 export class StudentEditComponent implements OnInit, OnDestroy {
 
   @ViewChild('saveAndContinue') btnSaveAndContinue: ElementRef;
-  @ViewChild('btnContinueDetailPage') btnContinueDetailPage: ElementRef;
   @ViewChild('btnPdcPopUpAdd') btnPdcPopUpAdd: ElementRef;
   @ViewChild('btnPayment') btnPayment: ElementRef;
 
-  studentAddnMove: boolean;
-  userHasFees: boolean;
-  closeFee: boolean;
-  formIsActive: boolean = false;
+  JsonFlags={
+    isDisabled:false,
+    formIsActive:false,
+  }
+
   isConvertEnquiry: boolean = false;
   isNewInstitute: boolean = true;
   isNewInstituteEditor: boolean = false;
@@ -520,6 +520,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.assignedBatches = temp;
     this.studentAddFormData.batchJoiningDates = tempDate;
     this.assignedBatchString = batchString.join(',');
+    this.JsonFlags.isDisabled = false;
     this.isRippleLoad = false;
   }
 
@@ -566,6 +567,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   fetchPrefillFormData() {
     this.fetchInventoryList();
     this.isRippleLoad = true;
+    this.JsonFlags.isDisabled = true;
     this.prefill.getSchoolDetails().subscribe(
       data => { this.instituteList = data; },
       err => {
@@ -1035,7 +1037,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       else {
         this.batchList = [];
         this.isRippleLoad = true;
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, student_id).subscribe(
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1').subscribe(
           res => {
             console.log(res);
             if (res.coursesList != null) {
@@ -1144,7 +1146,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* =========================================================================================================================================== */
 
   addStudentDataAndFetchFee(values: NgForm) {
-    this.studentAddnMove = true;
     if (this.isManualDisplayId) {
       if (this.studentAddFormData.student_disp_id.trim() != "") {
         this.studentQuickAdder(values);
@@ -1189,7 +1190,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.getCourseDropdown(id);
         let globalInactiveStudent = sessionStorage.getItem('global_search_edit_student');
         if (data.is_active == "Y") {
-          this.formIsActive = true;
+          this.JsonFlags.formIsActive = true;
         }
         else {
           if ((globalInactiveStudent == 'true' && data.is_active != 'Y')
@@ -1198,20 +1199,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.router.navigate(['/view/student']);
           }
         }
-        if (this.btnContinueDetailPage != undefined) {
-          this.btnContinueDetailPage.nativeElement.disabled = false;
-        }
-
         /* For Batch Model Fetch the Student Batches */
         if (this.isProfessional) {
           /* Fetching the student Slots */
           this.getSlots();
           this.isRippleLoad = true;
+          this.JsonFlags.isDisabled = true;
           this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
             data => {
-              if (this.btnContinueDetailPage != undefined) {
-                this.btnContinueDetailPage.nativeElement.disabled = false;
-              }
+              this.JsonFlags.isDisabled = false;
               this.batchList = [];
               data.forEach(el => {
                 if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
@@ -1235,9 +1231,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.isRippleLoad = false;
             },
             err => {
-              if (this.btnContinueDetailPage != undefined) {
-                this.btnContinueDetailPage.nativeElement.disabled = false;
-              }
+              this.JsonFlags.isDisabled = false;
               let msg = err.error.message;
               this.isRippleLoad = false;
               let obj = {
@@ -1249,15 +1243,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               //alert("Error Fetching Student Batch");
             }
           );
-
         }
         /* For Course Model fetch the Student Courses */
         // else {
         //   this.studentPrefillService.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
         //     res => {
-        //       if (this.btnContinueDetailPage != undefined) {
-        //         this.btnContinueDetailPage.nativeElement.disabled = false;
-        //       }
+        //  this.JsonFlags.isDisabled = false;
         //       this.batchList = [];
         //       if (res.coursesList != null) {
         //         res.coursesList.forEach(el => {
@@ -1283,9 +1274,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         //       this.updateAssignedBatches(this.batchList);
         //     },
         //     err => {
-        //       if (this.btnContinueDetailPage != undefined) {
-        //         this.btnContinueDetailPage.nativeElement.disabled = false;
-        //       }
+           // 
         //       let msg = err.error.message;
         //       this.isRippleLoad = false;
         //       let obj = {
