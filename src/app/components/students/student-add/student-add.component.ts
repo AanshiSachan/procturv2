@@ -30,7 +30,7 @@ export class StudentAddComponent implements OnInit {
   @ViewChild('btnPayment') btnPayment: ElementRef;
   allocatedItem: any = [];
   newPdcArr: any[] = [];
-  pdcStatus: any[] = [];
+  // pdcStatus: any[] = [];
   academicList: any = [];
   chequePdcList: any[] = [];
   savedAssignedBatch: any[] = [];
@@ -574,13 +574,13 @@ export class StudentAddComponent implements OnInit {
         this.msgToast.showErrorMessage('error', '', err.error.message);
       });
 
-    this.studentPrefillService.getChequeStatus().subscribe(
-      data => { this.pdcStatus = data; },
-      err => {
-        this.isRippleLoad = false;
-        this.msgToast.showErrorMessage('error', '', err.error.message);
-      }
-    );
+    // this.studentPrefillService.getChequeStatus().subscribe(
+    //   data => { this.pdcStatus = data; },
+    //   err => {
+    //     this.isRippleLoad = false;
+    //     this.msgToast.showErrorMessage('error', '', err.error.message);
+    //   }
+    // );
 
     this.prefill.getAllFinancialYear().subscribe(
       (data: any) => {
@@ -1781,7 +1781,7 @@ export class StudentAddComponent implements OnInit {
           obj.cheque_amount = el.cheque_amount;
           obj.cheque_date = moment(el.cheque_date).format("YYYY-MM-DD");
           obj.cheque_no = el.cheque_no;
-          obj.pdc_cheque_id = el.pdc_cheque_id;
+          obj.pdc_cheque_id = el.cheque_id;
           this.paymentPopUpJson.pdcSelectedForm = obj;
           this.paymentPopUpJson.selectedPdcId = id;
           this.paymentPopUpJson.payingAmount = el.cheque_amount;
@@ -2157,7 +2157,7 @@ export class StudentAddComponent implements OnInit {
       let obj = { bank_name: el.bank_name, cheque_amount: el.cheque_amount, cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"), cheque_id: el.cheque_id, cheque_no: el.cheque_no, cheque_status_key: el.cheque_status_key, clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"), institution_id: sessionStorage.getItem('institute_id'), student_id: el.student_id };
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
-          this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
+          // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },
