@@ -201,6 +201,7 @@
       color: #585574;
       font-weight: 600;
       font-size: 12px;
+      padding: 0px 5px;
       .fa-cog{
         position: absolute;
         right: 20px;
@@ -273,22 +274,22 @@
     margin-bottom: 10px;
     padding: 5px 0px;
     position: relative;
+
     .table-value-item{
       color: #585574;
       font-weight: 400;
       font-size: 12px;
       line-height: 1.5;
-      // display: -webkit-box;   // for single row
-      // -webkit-box-align: center;
-      display: flex;             // for Double row
-      flex-direction: column;
-      .upcoming-btn{
+      display: -webkit-box;   // for single row
+      -webkit-box-align: center;
+      padding: 0px 5px;
+        .upcoming-btn{
         color: #ffffff;
         border-radius: 4px;
         border: 1px solid #ffffff;
         background: #ff6c24;
         cursor: default;
-        padding: 2px 10px;
+        padding: 2px 5px;
         width: 95px;
         // margin-left: 40%;
         font-weight: 600;
@@ -299,7 +300,7 @@
         border: 1px solid #ffffff;
         background: #8d8d8d;
         cursor: default;
-        padding: 2px 10px;
+        padding: 2px 5px;
         width: 95px;
         // margin-left: 40%;
         font-weight: 600;
@@ -310,7 +311,7 @@
         border: 1px solid #ffffff;
         background: #df0d2f;
         cursor: default;
-        padding: 2px 10px;
+        padding: 2px 5px;
         width: 95px;
         // margin-left: 40%;
         font-weight: 600;
@@ -321,11 +322,26 @@
         border: 1px solid #ffffff;
         background: #00b55a;
         cursor: default;
-        padding: 2px 10px;
+        padding: 2px 5px;
         width: 95px;
         // margin-left: 40%;
         font-weight: 600;
       }
+      .marksPending-btn{
+        color: #ffffff;
+        border-radius: 4px;
+        border: 1px solid #ffffff;
+        background: #8771FF;
+        cursor: default;
+        padding: 2px 5px;
+        width: 95px;
+        // margin-left: 40%;
+        font-weight: 600;
+      }
+    }
+    .flex-item{
+      display: flex;             // for Double row
+      flex-direction: column;
     }
   }
   .border-cancelled-class{
@@ -339,6 +355,9 @@
   }
   .border-upcoming-class{
     border-left: 5px solid #ff6c24;
+  }
+  .border-marksPending-class{
+    border-left: 5px solid #8771FF;
   }
   .align-center{
     text-align: center;
@@ -361,8 +380,10 @@
   }
   .action-container{
     display: flex;
-    justify-content: center;
-    width: 100%;
+    justify-content: flex-end;
+    width: 85%;
+    margin-right: 15%;
+    margin-top: 15px;
     i, img{
       margin: 0px 5px;
       max-width: 14px;
@@ -535,4 +556,90 @@
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
+}
+
+
+
+// Cancel pop Style
+
+.cancel-reason-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  .cancel-input{
+    width: 50%;
+    height: 100px;
+    border: 1px solid #ccc;
+  }
+}
+.cancelExamWrapper {
+    .details {
+        margin: 10px -15px;
+    }
+    .content-wraper {
+        .button-Section {
+            margin: 10px 0px 10px -15px;
+        }
+        .cancel-table {
+            max-height: 150px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+    }
+}
+
+.table-responsive {
+    max-width: 100%;
+    overflow: auto;
+}
+table {
+    width: 100%;
+    box-sizing: border-box;
+    border-collapse: collapse;
+}
+th,
+td {
+    font-size: 12px;
+    padding: 6px 2px;
+    vertical-align: middle;
+}
+th {
+    background: #004a7e;
+    font-size: 11px;
+    color: #fff;
+    font-weight: normal;
+}
+td {
+    border-bottom: 1px solid #fff;
+}
+table tr {
+    transition: all 0.1s;
+}
+table tr:nth-child(even) {
+    background: #efefef;
+}
+table tr:nth-child(odd) {
+    background: #f7f7f7;
+}
+table tr:nth-child(even):hover {
+    background: #ececec;
+}
+table tr:nth-child(odd):hover {
+    background: #eaeaea;
+}
+table tr.selected {
+    background: #dceff7 !important;
+}
+.table-responsive tr td:first-child .field-checkbox-wrapper,
+.table-responsive tr th:first-child .field-checkbox-wrapper {
+    width: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    background: #fff;
+    border-radius: 2px;
 }

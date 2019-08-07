@@ -425,7 +425,7 @@
 
           <div class="extraMargin row" style="margin-right: 15px; margin-bottom:10px;">
             <div class="pull-left">
-              <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+              <button type="button" class="btn" style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
             </div>
             <div class="pull-right">
               <button class="btn" routerLink="/view/course/class/home" id="BtnCancelBtn">Cancel</button>
@@ -589,8 +589,13 @@
                 </div>
               </div>
 
-              <div class="row btn-table" style="margin-top: 5px;">
-                <button class="btn fullBlue pull-right" [disabled]="isRippleLoad" (click)="updateWeeklySchedule()">Update </button>
+              <div class="row btn-table" style="margin: 10px 0px;">
+                <div class="pull-left">
+                  <button type="button" class="btn" style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+                </div>
+                <div class="pull-right">
+                  <button class="btn fullBlue " [disabled]="isRippleLoad" (click)="updateWeeklySchedule()">Update </button>
+                </div>
               </div>
 
             </div>
@@ -741,9 +746,13 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
               </div>
             </div>
 
-            <div class="row">
-              <button class="btn fullBlue pull-right" style="margin-right: 15px" [disabled]="isRippleLoad" (click)="updateCustomClass()">
-              Update</button>
+            <div class="row" style="margin: 10px 0px;">
+              <div class="pull-left">
+                <button type="button" class="btn" style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+              </div>
+              <div class="pull-right">
+                <button class="btn fullBlue" style="margin-right: 15px" [disabled]="isRippleLoad" (click)="updateCustomClass()"> Update</button>
+              </div>
             </div>
 
           </div>

@@ -139,6 +139,8 @@ export class CourseExamComponent implements OnInit {
   public hasChildren;
   public isExpanded;
 
+  coursePlannerStatus: any;
+
   constructor(
     private apiService: ExamCourseService,
     private toastCtrl: AppComponent,
@@ -160,6 +162,11 @@ export class CourseExamComponent implements OnInit {
   ngOnInit() {
     this.checkInstituteType();
     this.fetchPrefillData();
+    this.checkForCoursePlannerRoute();
+  }
+
+  checkForCoursePlannerRoute(){
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
   fetchPrefillData() {
@@ -912,7 +919,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   /**
-   * check negative value 
+   * check negative value
    */
   checkNgetiveValue($event) {
     // console.log($event);
@@ -1153,7 +1160,7 @@ export class CourseExamComponent implements OnInit {
                   this.subject_name = ele.subject_name;
                 }
               }
-            ); 
+            );
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }

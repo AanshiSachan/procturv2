@@ -14,7 +14,8 @@
 
   <div class="header_container">
     <div class="header_item1" style="margin-top: 10px;">
-      <h4>{{exam_info?.data.batchExamSchdList[0].batch_name}}</h4>
+      <h4 *ngIf="!coursePlannerStatus">{{exam_info?.data.batchExamSchdList[0].batch_name}}</h4>
+      <h4 *ngIf="coursePlannerStatus">{{exam_info?.data.batch_name}}</h4>
     </div>
     <div class="header_item1">
       <label class="upload_details">Total Students :

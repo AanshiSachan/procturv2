@@ -8,13 +8,14 @@ import { ClassScheduleService } from '../../../../services/course-services/class
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { CoursePlanner } from '../course-planner.model';
+import { SessionFilter } from '../session-filter.model';
 import { WidgetService } from '../../../../services/widget.service';
 
 @Component({
   selector: 'app-class',
   templateUrl: './class.component.html',
   styleUrls: ['./class.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ClassComponent implements OnInit {
@@ -54,7 +55,6 @@ export class ClassComponent implements OnInit {
   };
   // Default col show hide status
   showHideColumns = {
-    masterCourse: false,
     course: true,
     subject: true,
     teacher: true,
@@ -63,7 +63,7 @@ export class ClassComponent implements OnInit {
     homework: false
   };
   // for show hide table columns
-  checkedColCounter: number = 3;
+  checkedColCounter: number = 2;
 
   // Array Elements
   facultyList: any[] = [];
@@ -76,44 +76,9 @@ export class ClassComponent implements OnInit {
   // batch model array
   batchList: any[] = [];
 
+ coursePlannerFilters: CoursePlanner = new CoursePlanner();
 
-
-  coursePlannerFilters: CoursePlanner = {
-   standard_id: "-1",
-   subject_id: "-1",
-   master_course_name: "-1",
-   course_id: "-1",
-   batch_id: "-1",
-   from_date: moment().isoWeekday("Monday").format("YYYY-MM-DD"),
-   to_date: moment().weekday(7).format("YYYY-MM-DD"),
-   isCompleted: "Y",
-   isPending: "Y",
-   isCancelled: "Y",
-   isUpcoming: "Y",
-   isMarksUpdate: "N",
-   teacher_id: "-1"
- };
-
- sessionFiltersArr = {
-    isCompleted: true,
-    isPending: true,
-    isCancelled: true,
-    isUpcoming: true,
-    from_date: "",
-    to_date: "",
-    masterCourse: "",
-    courseId: "",
-    batchId: "",
-    standardId: "",
-    subjectId: "",
-    facultyId: "",
-    thisWeek: true,
-    lastWeek: false,
-    thisMonth: false,
-    custom: false
- }
-
-
+ sessionFiltersArr: SessionFilter = new SessionFilter();
 
   filterShow: boolean = false;
   filterDateRange: any = "";
@@ -178,13 +143,15 @@ export class ClassComponent implements OnInit {
         }
       }
     )
+
+    this.coursePlannerFilters.isMarksUpdate =  "N";
+
+    this.fetchPreFillData();
     this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     let filters = sessionStorage.getItem('coursePlannerFilter');
     if(filters){
       this.sessionFilters(filters);
     }
-    this.clearFilters();
-    this.fetchPreFillData();
   }
 
   clearFilters(){
@@ -192,6 +159,7 @@ export class ClassComponent implements OnInit {
     sessionStorage.setItem('isSubjectView', '');
     sessionStorage.setItem('isFromCoursePlanner', '');
     sessionStorage.setItem('coursePlannerFilter', '');
+    this.sessionFiltersArr = new SessionFilter();
   }
 
   sessionFilters(filters){
@@ -216,7 +184,6 @@ export class ClassComponent implements OnInit {
     this.filterDateInputs.thisMonth = this.sessionFiltersArr.thisMonth;
     this.filterDateInputs.custom = this.sessionFiltersArr.custom;
 
-
     this.coursePlannerFilters.master_course_name = this.sessionFiltersArr.masterCourse;
     this.coursePlannerFilters.course_id = this.sessionFiltersArr.courseId;
     this.coursePlannerFilters.batch_id = this.sessionFiltersArr.batchId;
@@ -239,37 +206,43 @@ export class ClassComponent implements OnInit {
     this.coursePlannerFilters.from_date = moment(this.sessionFiltersArr.from_date).format("YYYY-MM-DD");
     this.coursePlannerFilters.to_date = moment(this.sessionFiltersArr.to_date).format("YYYY-MM-DD");
 
-    if(this.sessionFiltersArr.masterCourse != "-1"){
-      this.updateCoursesList()
-    }
-
     sessionStorage.setItem('isFromCoursePlanner', String(false));
     sessionStorage.setItem('coursePlannerFilter', '');
+    setTimeout (() => {
+       this.getData();
+    }, 2000);
   }
 
 
-  fetchPreFillData(){
-    this.jsonFlag.isRippleLoad = true;
+    fetchPreFillData(){
     // get master course - course - subject data  for course model
     if(!this.jsonFlag.isProfessional){
+      this.jsonFlag.isRippleLoad = true;
       this.classService.getAllMasterCourse().subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
           this.masterCourseList = res;
+          if(this.sessionFiltersArr.masterCourse != "-1"){
+            this.updateCoursesList();
+          }
+          this.jsonFlag.isRippleLoad = false;
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
-         }
+          this.jsonFlag.isRippleLoad = false;
+        }
       );
     }
     else{
       // get master course - course - subject data  for Batch model
+      this.jsonFlag.isRippleLoad = true;
       this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
           this.masterCourseList = res.standardLi;
           this.batchList = res.batchLi;
+          if(this.sessionFiltersArr.standardId != "-1"){
+            this.updateCoursesList();
+          }
+          this.jsonFlag.isRippleLoad = false;
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
@@ -278,16 +251,12 @@ export class ClassComponent implements OnInit {
       );
     }
 
-
-    this.jsonFlag.isRippleLoad = true;
     // get active faculty list
     this.classService.getAllTeachersList().subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
         this.facultyList = res;
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
       }
     );
@@ -296,6 +265,15 @@ export class ClassComponent implements OnInit {
   updateCoursesList() {
     if(!this.jsonFlag.isProfessional){
       this.coursePlannerFilters.master_course_name = this.inputElements.masterCourse;
+      if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){
+        this.inputElements.course = this.sessionFiltersArr.courseId;
+      }
+      else{
+        this.inputElements.course = "-1";
+        this.inputElements.subject = "-1";
+        this.coursePlannerFilters.course_id = "-1";
+        this.coursePlannerFilters.batch_id = "-1";
+      }
       if(this.inputElements.masterCourse == ""){
         this.courseList = [];
         this.subjectList = [];
@@ -304,7 +282,13 @@ export class ClassComponent implements OnInit {
         for (var i = 0; i < this.masterCourseList.length; i++) {
           if(this.masterCourseList[i].master_course == this.inputElements.masterCourse){
             this.courseList = this.masterCourseList[i].coursesList;
-            return;
+            if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){
+              this.updateSubjectsList();
+            }
+            else{
+              this.subjectList = [];
+              return;
+            }
           }
         }
       }
@@ -312,7 +296,7 @@ export class ClassComponent implements OnInit {
     else{
       this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
       this.inputElements.subject_id = "-1";
-      this.coursePlannerFilters.subject_id = this.inputElements.subject_id;
+      this.coursePlannerFilters.subject_id =  "-1";
       if(this.inputElements.standard_id == "-1"){
         this.courseList = [];
       }
@@ -328,6 +312,10 @@ export class ClassComponent implements OnInit {
               if(this.masterCourseList[i].standard_id == this.inputElements.standard_id){
                 this.courseStartDate = this.masterCourseList[i].start_date;
                 this.courseEndDate = this.masterCourseList[i].end_date;
+                if(this.sessionFiltersArr.subjectId != "-1" && this.sessionFiltersArr.subjectId != ""){   // check subject id null to fetch course according to it.
+                  this.inputElements.subject_id = this.sessionFiltersArr.subjectId;
+                  this.updateSubjectsList();
+                }
                 return;
               }
             }
@@ -353,6 +341,10 @@ export class ClassComponent implements OnInit {
             this.subjectList = this.courseList[i].batchesList;
             this.courseStartDate = this.courseList[i].start_date;
             this.courseEndDate = this.courseList[i].end_date;
+            if(this.sessionFiltersArr.standardId != "-1" && this.sessionFiltersArr.standardId != ""){
+              this.inputElements.subject = this.sessionFiltersArr.batchId;
+            }
+            this.clearFilters();
             return;
           }
         }
@@ -365,6 +357,7 @@ export class ClassComponent implements OnInit {
         res => {
           this.jsonFlag.isRippleLoad = false;
           this.batchList = res.batchLi;
+          this.clearFilters();
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
@@ -376,7 +369,12 @@ export class ClassComponent implements OnInit {
   }
 
   updateSubject(){
-    this.coursePlannerFilters.batch_id = this.inputElements.subject;
+    if(!this.jsonFlag.isProfessional){
+      this.coursePlannerFilters.batch_id = this.inputElements.subject;
+    }
+    else{
+      this.coursePlannerFilters.batch_id = this.inputElements.batch_id;
+    }
   }
 
   updateFacultyInFilter(){
@@ -392,7 +390,7 @@ export class ClassComponent implements OnInit {
     }
   }
 
-  updateDateFilter(inputDateFilter){
+  updateDateFilter(inputDateFilter, e){
 
     this.filterDateInputs.thisWeek = false;
     this.filterDateInputs.lastWeek = false;
@@ -402,21 +400,25 @@ export class ClassComponent implements OnInit {
     if(inputDateFilter == 'custom'){   //  Custom
       this.openCalendar('customeDate');
       this.filterDateInputs.custom = true;
+      e.currentTarget.checked = true;
     }
     else if(inputDateFilter == 'lastWeek'){     // Last week
-      this.coursePlannerFilters.from_date = moment().subtract('week', 1).format("YYYY-MM-DD");
-      this.coursePlannerFilters.to_date = moment().format("YYYY-MM-DD");
+      this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("YYYY-MM-DD");
+      this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
       this.filterDateInputs.lastWeek = true;
+      e.currentTarget.checked = true;
     }
     else if(inputDateFilter == 'thisMonth'){     // This month
       this.coursePlannerFilters.from_date = moment().format("YYYY-MM-01");
       this.coursePlannerFilters.to_date = moment().format("YYYY-MM-") + moment().daysInMonth();
       this.filterDateInputs.thisMonth = true;
+      e.currentTarget.checked = true;
     }
     else if(inputDateFilter == 'thisWeek'){   // This Week
       this.coursePlannerFilters.from_date = moment().isoWeekday("Monday").format("YYYY-MM-DD");
       this.coursePlannerFilters.to_date = moment().weekday(7).format("YYYY-MM-DD");
       this.filterDateInputs.thisWeek = true;
+      e.currentTarget.checked = true;
     }
 
   }
@@ -457,8 +459,10 @@ export class ClassComponent implements OnInit {
   }
 
   updateFilterDateRange(e) {
-    this.coursePlannerFilters.from_date = moment(e[0]).format("YYYY-MM-DD");
-    this.coursePlannerFilters.to_date = moment(e[1]).format("YYYY-MM-DD");
+    if(this.filterDateInputs.custom){
+      this.coursePlannerFilters.from_date = moment(e[0]).format("YYYY-MM-DD");
+      this.coursePlannerFilters.to_date = moment(e[1]).format("YYYY-MM-DD");
+    }
   }
 
   getData(){
@@ -475,7 +479,6 @@ export class ClassComponent implements OnInit {
     else{   // Get Course Planner Data
       this.classService.getCoursePlannerData(this.coursePlannerFilters, this.coursePlannerFor).subscribe(
         res => {
-          console.log(res)
           this.jsonFlag.isRippleLoad = false;
           this.allData = res;
           if(this.allData.length == 0){
@@ -489,7 +492,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         }
       );
     }
@@ -650,7 +653,7 @@ export class ClassComponent implements OnInit {
     if (this.reSheduleFormValid()) {
       let temp1: any = {
         cancel_note: this.reschedReason,
-        schd_id: this.classMarkedForAction.schd_id,
+        schd_id: this.classMarkedForAction.schedule_id,
         is_notified: this.resheduleNotified
       }
       let temp2 = {
@@ -764,9 +767,9 @@ export class ClassComponent implements OnInit {
   }
 
   sendReminder() {
-    if (!this.jsonFlag.isProfessional) {
-      this.initiateCourseRemiderClass();
-    } else {
+    // if (!this.jsonFlag.isProfessional) {
+    //   this.initiateCourseRemiderClass();
+    // } else {
       let obj = {
         batch_id: this.classMarkedForAction.batch_id,
         class_schedule_id: this.classMarkedForAction.schedule_id,
@@ -785,7 +788,7 @@ export class ClassComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
         }
       )
-    }
+    // }
   }
 
 
@@ -830,15 +833,15 @@ export class ClassComponent implements OnInit {
       is_notified: this.is_notified
     }
     obj.cancelSchd.push(schd);
-    this.jsonFlag.isRippleLoad = true;
+    // this.jsonFlag.isRippleLoad = true;
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Schedule Cancelled', 'The requested scheduled has been cancelled');
         this.closeCancelClass();
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Cancel Schedule', err.error.message);
       }
     )
@@ -861,15 +864,15 @@ export class ClassComponent implements OnInit {
       master_course: this.classMarkedForAction.master_course_name,
       requested_date: moment(this.classMarkedForAction.date).format("YYYY-MM-DD")
     }
-    this.jsonFlag.isRippleLoad = true;
+    // this.jsonFlag.isRippleLoad = true;
     this.widgetService.cancelCourseSchedule(obj).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Course Schedule Cancelled', 'The requested scheduled has been cancelled');
         this.closeCourseCancelClass();
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Cancel Schedule', err.error.message);
       }
     )
@@ -884,7 +887,7 @@ export class ClassComponent implements OnInit {
       batch_id: this.classMarkedForAction.batch_id,
       cancelSchd: this.getCancelReason()
     }
-    this.jsonFlag.isRippleLoad = true;
+    // this.jsonFlag.isRippleLoad = true;
     this.widgetService.cancelBatchSchedule(obj).subscribe(
       res => {
         this.jsonFlag.isRippleLoad = false;
@@ -909,6 +912,39 @@ export class ClassComponent implements OnInit {
     return temp;
   }
 
+
+//  Notify to Cancel Class
+  notifyCancelClass(selected){
+    let obj = {};
+    if(!this.jsonFlag.isProfessional){
+      obj = {
+        "institute_id": this.jsonFlag.institute_id,
+        "schedule_id": selected.schedule_id,
+        "to_date": selected.date,
+        "course_id": selected.course_id
+      }
+    }
+    else{
+      obj = {
+        "institute_id": this.jsonFlag.institute_id,
+        "schedule_id": selected.schedule_id,
+        "to_date": selected.date,
+        "batch_id": selected.batch_id
+      }
+    }
+
+    this.jsonFlag.isRippleLoad = true;
+    this.classService.notifyCancelClass(obj, 'class').subscribe(
+      res => {
+        this.jsonFlag.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Reminder Sent', 'Students have been notified');
+      },
+      err => {
+        this.jsonFlag.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
+      }
+    )
+  }
 
   // Mark Attendance Section
   initiateMarkAttendance(selected) {
@@ -965,6 +1001,7 @@ export class ClassComponent implements OnInit {
 
     let filter_info = JSON.stringify(this.sessionFiltersArr);
     sessionStorage.setItem('isFromCoursePlanner', String(true));
+    sessionStorage.setItem('isClass', String(true));
     sessionStorage.setItem('coursePlannerFilter', filter_info);
   }
 
