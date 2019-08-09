@@ -560,7 +560,7 @@
               <img src="../../../../assets/images/discount.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Discount</span>
             </button>
-            <button class="btn-header" (click)="isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
+            <button class="btn-header" (click)="getPdcChequeList();isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
               <img src="../../../../assets/images/cheque.svg" style="height: 18px;margin: 0 0.4em;">
               <span>Manage Cheques</span>
             </button>
@@ -1476,13 +1476,14 @@
                   {{ch.cheque_status}}
                 </li>
                 <li class="edit-comp">
-                  <div class="field-wrapper">
+                    {{ch.cheque_status}}
+                  <!-- <div class="field-wrapper">
                     <select id="" class="form-ctrl" name="" [(ngModel)]="ch.cheque_status_key">
                       <option *ngFor="let opt of pdcStatus" [value]="opt.data_key" [hidden]="opt.data_key == '3'">
                         {{opt.data_value}}
                       </option>
                     </select>
-                  </div>
+                  </div> -->
                 </li>
 
                 <!-- Action -->

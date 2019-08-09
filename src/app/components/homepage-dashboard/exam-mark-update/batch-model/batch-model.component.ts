@@ -54,9 +54,9 @@ export class BatchModelComponent implements OnInit {
 
   updateGradesOption() {
     $("#myModal").modal("show");
-     let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
+    let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
     if(object.length>0){
-       object[0].click();// clear object on template
+      object[0].click();// clear object on template
     }
   }
 
@@ -237,15 +237,15 @@ export class BatchModelComponent implements OnInit {
       this.messageNotifier('error', 'Error', 'Please Select Student');
       return;
     }else{
-      for(let i=0;i<dataToSend.studLi.length;i++){
+      for(let i = 0; i < dataToSend.studLi.length; i++) {
         let object = dataToSend.studLi[i];
-        if(object.grade_id==-1){
+        if (this.examData.is_exam_grad_feature == 1 && object.grade_id == -1){
           this.messageNotifier('error', 'Error', 'Please Select grades');
           dataToSend = false;
           break;
         }
       }
-     
+
     }
     if (dataToSend == false) {
       return;

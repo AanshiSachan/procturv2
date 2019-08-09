@@ -21,7 +21,8 @@ export class ChequeManageComponent implements OnInit {
 
   @ViewChild('child') private child: DataDisplayTableComponent;
   dataStatus: number = 1;
-  searchValue: any = ''
+  searchValue: any = '';
+  dishonouredReason:any='';
   isPendingUpdate: boolean;
   chequeUpdateStatus: any;
   selectedRecord: any;
@@ -58,7 +59,8 @@ export class ChequeManageComponent implements OnInit {
     { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, allowSortingFlag: true },
     { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true },
     { primaryKey: 'remarks', header: 'Remarks', priority: 11, allowSortingFlag: true },
-    { primaryKey: 'reference_no', header: 'Reference No', priority: 12, allowSortingFlag: true }
+    { primaryKey: 'reference_no', header: 'Reference No', priority: 12, allowSortingFlag: true },
+    { primaryKey: 'dishonoured_reason', header: 'Reason', priority: 13, allowSortingFlag: true }
   ];
   chequePaymentModel: any = {
     paymentDate: moment(new Date()).format("DD-MMM-YYYY"),
@@ -175,7 +177,9 @@ export class ChequeManageComponent implements OnInit {
       { primaryKey: 'contact_no', header: 'Contact No', priority: 7, allowSortingFlag: true },
       { primaryKey: 'cheque_date', header: 'Cheque Date', priority: 8, allowSortingFlag: true },
       { primaryKey: 'cheque_amount', header: 'Amount', priority: 9, allowSortingFlag: true },
-      { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true }
+      { primaryKey: 'cheque_status', header: 'Status', priority: 10, allowSortingFlag: true },
+      { primaryKey: 'dishonoured_reason', header: 'Reason', priority: 11, allowSortingFlag: true }
+      
     ];
     this.displayKeys = this.tableSetting.keys;
     this._tablePreferencesService.setTablePreferences(this.tableSetting.tableDetails.key, this.displayKeys);
@@ -298,7 +302,8 @@ export class ChequeManageComponent implements OnInit {
 
   decidePopup(d) {
     if (d.cheque_status_id == 3) {
-      this.chequeUpdateStatus = "3"
+      this.chequeUpdateStatus = "3";
+      this.dishonouredReason='';
       this.flagJson.isUpdatePopup = true;
     }
     else if (d.cheque_status_id == 1) {
@@ -367,7 +372,8 @@ export class ChequeManageComponent implements OnInit {
       payment_reference_id: this.selectedRecord.payment_reference_id,
       cheque_status_id: this.chequeUpdateStatus,
       cheque_id: this.selectedRecord.cheque_id,
-      financial_year: this.selectedRecord.financial_year
+      financial_year: this.selectedRecord.financial_year,
+      dishonoured_reason:this.dishonouredReason
     }
 
     this.flagJson.isRippleLoad = true;

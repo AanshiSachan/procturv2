@@ -216,7 +216,7 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [ngModel]="d.amount_paid"
+                <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [disabled]="updatedResult.paymentMode=='Cheque/PDC/DD No.'" class="form-ctrl" [ngModel]="d.amount_paid"
                   (ngModelChange)="updateAmount(i,$event)" name='paidVal' [id]="'inputAmount-'+i">
               </div>
             </td>
@@ -235,7 +235,7 @@
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Payment Mode</label>
-          <select class="form-ctrl" name="paymentMode" [(ngModel)]="updatedResult.paymentMode" (ngModelChange)="payModeUpdated($event)">
+          <select class="form-ctrl" name="paymentMode" [(ngModel)]="updatedResult.paymentMode" [disabled]="true"(ngModelChange)="payModeUpdated($event)">
             <option *ngFor="let mode of paymentMode" value={{mode}}>
               {{mode}}
             </option>
@@ -252,7 +252,7 @@
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reference No.</label>
-          <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.reference_no">
+          <input type="text" class="form-ctrl" [(ngModel)]="updatedResult.reference_no" [disabled]="updatedResult.paymentMode=='Cheque/PDC/DD No.'">
         </div>
       </div>
 
@@ -260,7 +260,7 @@
         <div class="c-lg-6 field-wrapper">
           <label>Receipt No.</label>
           <span class="text-danger">*</span>
-          <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [(ngModel)]="personData.invoice_no">
+          <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl" [disabled]="true" [(ngModel)]="personData.invoice_no">
         </div>
         <div class="c-lg-6 field-wrapper">
           <label>Reason for Update</label>
