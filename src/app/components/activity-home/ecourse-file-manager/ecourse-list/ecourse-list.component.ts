@@ -14,8 +14,8 @@ export class EcourseListComponent implements OnInit {
   categiesList: any = [];
   institute_id: any;
   isRippleLoad: boolean = false;
-  outputMessage:any ='';
-
+  outputMessage: any = '';
+  
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
@@ -34,9 +34,11 @@ export class EcourseListComponent implements OnInit {
     sessionStorage.setItem('routeListForEcourse', JSON.stringify(this._http.routeList));
 
     this._http.data.subscribe(data => {
-      console.log(data);
-      if (data == 'list') { this.getcategoriesList();
-        this._http.updatedDataSelection(null); }
+      // console.log(data);
+      if (data == 'list') {
+        this.getcategoriesList();
+        this._http.updatedDataSelection(null);
+      }
     });
   }
 
@@ -54,8 +56,8 @@ export class EcourseListComponent implements OnInit {
       console.log(res);
       this.isRippleLoad = false;
       this.categiesList = res;
-      if(this.categiesList.length==0){
-        this.outputMessage ='No Data Found';
+      if (this.categiesList.length == 0) {
+        this.outputMessage = 'No Data Found';
       }
 
     }, err => {

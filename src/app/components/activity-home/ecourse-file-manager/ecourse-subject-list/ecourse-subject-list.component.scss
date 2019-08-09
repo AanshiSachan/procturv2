@@ -1,22 +1,7 @@
-.subject-wrapper{
-    .subject-item{
-        padding: 0.6em;
-        height: 100%;
-        display: inline-block;
-        .subject-label{
-            cursor: pointer;
-            padding: 0.6em 1em;
-            font-weight: bold;
-            border-radius: 3px;
-            font-size: 0.95em;
-            border: 1pt solid #eee;
-            background-color: #fff;
-            box-shadow: 0 1pt 2pt 0 rgba(0, 0, 0, 0.16);
-            &:hover{
-                background-color: #cedff3;
-            }
-        }
-    }
+.scroll_table{
+    margin-top: 10px;
+    height: 80vh;
+    overflow-x: hidden;
 }
 
 .subject-title{
@@ -24,4 +9,18 @@
     font-weight: 900;
     font-size: 1.4em;
     margin-bottom: 0.4em;
+}
+
+.subject-label{
+    cursor: pointer;
+    padding: 0.6em 1em;
+    font-weight: bold;
+    border-radius: 3px;
+    font-size: 0.95em;
+    border: 1pt solid #eee;
+    background-color: #fff;
+    box-shadow: 0 1pt 2pt 0 rgba(0, 0, 0, 0.16);
+    &:hover{
+        background-color: #cedff3;
+    }
 }

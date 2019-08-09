@@ -67,7 +67,8 @@
                 </div>
 
                 <!-- E-course -->
-                <div class="activity-item-container" routerLink="../ecourse-file-manager" *ngIf="jsonFlag.isEcourseFileManager &&  (jsonFlag.institute_id =='100767'||jsonFlag.institute_id =='100127')">
+                <div class="activity-item-container" routerLink="../ecourse-file-manager" *ngIf="jsonFlag.isEcourseFileManager ">
+                  <!-- &&  (jsonFlag.institute_id =='100767'||jsonFlag.institute_id =='100127') -->
                   <div class="img_name_container">
                     <img src="./assets/images/activity/study_material.svg" alt="">
                     <span>Study Materials</span>
