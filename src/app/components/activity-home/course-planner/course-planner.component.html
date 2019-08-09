@@ -7,7 +7,7 @@
     <div>
       <h1 class="pull-left">
         <a routerLink="/view/activity/dashboard" style="padding:0px; ">
-          Activty
+          Activity
         </a>
         <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
          <span>Course Planner</span>
@@ -29,7 +29,8 @@
       </div>
       <div class="header-item" id="exam" (click)="showMenuOf('exam')"  [ngClass]="!activeModule ? 'active' : 'non-active'">
         <div class="img-container">
-          <img src="./assets/images/course_planner/exam.svg" alt="exam">
+          <img src="./assets/images/course_planner/exam_white.svg" alt="exam" *ngIf="!activeModule">
+          <img src="./assets/images/course_planner/exam.svg" alt="exam"  *ngIf="activeModule">
         </div>
         <div class="model-name-container">
           <span>Exam</span>

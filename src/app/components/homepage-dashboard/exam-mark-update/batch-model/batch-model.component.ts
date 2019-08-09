@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
@@ -11,7 +11,8 @@ declare var $;
 @Component({
   selector: 'app-batch-model',
   templateUrl: './batch-model.component.html',
-  styleUrls: ['./batch-model.component.scss']
+  styleUrls: ['./batch-model.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class BatchModelComponent implements OnInit {
 
@@ -26,6 +27,7 @@ export class BatchModelComponent implements OnInit {
   subjectList: any = [];
   studentList: any = [];
   gradesList: any = [];
+  coursePlannerStatus: any;
 
   constructor(
     private router: Router,
@@ -50,6 +52,11 @@ export class BatchModelComponent implements OnInit {
 
     this.examGradeFeature = Number(sessionStorage.getItem('is_exam_grad_feature'));
     this.fetchData();
+    this.checkForCoursePlannerRoute();
+  }
+
+  checkForCoursePlannerRoute(){
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
   updateGradesOption() {
@@ -137,7 +144,7 @@ export class BatchModelComponent implements OnInit {
   }
 
   /**
-   * convert binary data into excel 
+   * convert binary data into excel
    * created by : laxmi wapte
    */
 
@@ -165,19 +172,21 @@ export class BatchModelComponent implements OnInit {
     let encryptedData = sessionStorage.getItem('exam_info');
     let data = atob(encryptedData)
     this.exam_info = JSON.parse(data);
-
     this.fetchStudentDetails(this.exam_info.data);
-    this.is_exam_grad_feature = this.exam_info.data.is_exam_grad_feature;
-    if (this.examGradeFeature == 1) {
-      this.getAllExamGrades();
-    }
   }
 
   fetchStudentDetails(data) {
     this.widgetService.fetchStudentExamDetails(data.batch_id, data.schd_id).subscribe(
       (res: any) => {
         this.examData = res;
-        this.studentList = this.addKeys(res.studLi, false);
+        if(res.studLi.length > 0){
+          this.is_exam_grad_feature = res.is_exam_grad_feature;
+          if (this.examGradeFeature == 1) {
+            this.getAllExamGrades();
+          }
+          this.studentList = this.addKeys(res.studLi, false);
+        }
+
       },
       err => {
         //console.log(err);
@@ -315,12 +324,22 @@ export class BatchModelComponent implements OnInit {
   }
 
   closeAttendance() {
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
   backToHome() {
-    sessionStorage.setItem('exam_info', '');
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      sessionStorage.setItem('exam_info', '');
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
 }

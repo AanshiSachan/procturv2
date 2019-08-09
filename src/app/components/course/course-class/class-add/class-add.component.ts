@@ -16,7 +16,7 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
   selector: 'app-class-add',
   templateUrl: './class-add.component.html',
   styleUrls: ['./class-add.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 
 export class ClassAddComponent implements OnInit {
