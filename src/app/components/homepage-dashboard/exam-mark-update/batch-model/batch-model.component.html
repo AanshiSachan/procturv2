@@ -113,7 +113,7 @@
             </div>
           </div>
           <div class="value_item">
-            <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks" [disabled]="(s.attendance == 'A')" >
+            <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks" [disabled]="(s.attendance == 'A')||(s.attendance == 'L')" >
           </div>
         </div>
         <div class="value_container" *ngIf="studentList.length == 0">

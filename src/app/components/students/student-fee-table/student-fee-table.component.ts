@@ -24,8 +24,8 @@ export class StudentFeeTableComponent implements OnInit {
   otherFeeType: any[] = [];
   installmentData: any = [];
   additionalData: any = [];
-  isRippleLoad:boolean = false;
-  isProfessional:boolean =false;
+  isRippleLoad: boolean = false;
+  isProfessional: boolean = false;
   service_tax: number = 0;
   taxEnableCheck: any = '1';
 
@@ -87,7 +87,7 @@ export class StudentFeeTableComponent implements OnInit {
     update_date: null,
     updated_by: null,
     initial_fee_amount_before_disocunt_before_tax: 0,
-    academic_year_id:'-1'
+    academic_year_id: '-1'
   }
 
   addFeeOther: any = {
@@ -146,7 +146,7 @@ export class StudentFeeTableComponent implements OnInit {
     update_date: null,
     updated_by: null,
     initial_fee_amount_before_disocunt_before_tax: 0,
-    academic_year_id:'-1'
+    academic_year_id: '-1'
   }
 
   constructor(
@@ -237,13 +237,24 @@ export class StudentFeeTableComponent implements OnInit {
 
     let customFees = this.installmentData.concat(this.additionalData);
     customFees.forEach(object => {
-      if (object.student_id == 0 && sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        object.service_tax = this.service_tax;
-        object.service_tax_applicable = 'Y';
-      }
-      else if (object.student_id == 0 && sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-        object.service_tax = 0;
-        object.service_tax_applicable = 'N';
+      if (object.fee_type_name == "INSTALLMENT") {
+        if (object.student_id == 0 && sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+          object.service_tax = this.service_tax;
+          object.service_tax_applicable = 'Y';
+        }
+        else if (object.student_id == 0 && sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+          object.service_tax = 0;
+          object.service_tax_applicable = 'N';
+        }
+      } else {
+        if (object.student_id == 0 && object.service_tax > 0 && sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+          object.service_tax = object.service_tax;
+          object.service_tax_applicable = 'Y';
+        }
+        else if (object.student_id == 0 && object.service_tax == 0 && sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+          object.service_tax = 0;
+          object.service_tax_applicable = 'N';
+        }
       }
     });
 
@@ -338,7 +349,7 @@ export class StudentFeeTableComponent implements OnInit {
       if (el.due_date == null) {
         el.due_date = moment().format("YYYY-MM-DD");
       }
-      el.student_fee_template_mapping_id = el.student_id==0 && el.course_subject_name == null ? -1 : el.student_fee_template_mapping_id;
+      el.student_fee_template_mapping_id = el.student_id == 0 && el.course_subject_name == null ? -1 : el.student_fee_template_mapping_id;
       let obj = {
         fee_date: moment(el.due_date).format("YYYY-MM-DD"),
         fee_type: el.fee_type_name === "INSTALLMENT" ? 0 : el.fee_type,
@@ -528,16 +539,17 @@ export class StudentFeeTableComponent implements OnInit {
     }
     else {
       this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format("YYYY-MM-DD");
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      if (this.addFeeOther.service_tax>0 && this.addFeeOther.fee_type_name!="INSTALLMENT") {
         this.addFeeInstallment.service_tax_applicable = 'Y';
         this.addFeeInstallment.service_tax = this.feeTemplateData.registeredServiceTax;
         this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
       }
-      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      else {
         this.addFeeOther.service_tax = 0;
-        this.addFeeInstallment.service_tax_applicable = 'N';
+        this.addFeeOther.service_tax_applicable = 'N';
         this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
       }
+
       this.addFeeOther.initial_fee_amount_before_disocunt_before_tax = this.addFeeOther.initial_fee_amount;
       otherFeesArr.push(this.addFeeOther);
       this.clearOtherFees(otherFeesArr);

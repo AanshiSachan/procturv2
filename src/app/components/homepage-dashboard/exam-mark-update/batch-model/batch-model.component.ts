@@ -21,7 +21,7 @@ export class BatchModelComponent implements OnInit {
   isRippleLoad: boolean = false;
   exam_info: any;
   examGradeFeature: any;
-  is_exam_grad_feature:any=0;
+  is_exam_grad_feature: any = 0;
   examData: any = "";
   subjectList: any = [];
   studentList: any = [];
@@ -62,7 +62,7 @@ export class BatchModelComponent implements OnInit {
 
   /** upload student details  subject or course wise
  *     created by laxmi */
-  uploadHandler($event,fileUpload) {
+  uploadHandler($event, fileUpload) {
     let files = $event.files;
     let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx)$/i;
     console.log(pattern.test(files[0].name));
@@ -236,10 +236,10 @@ export class BatchModelComponent implements OnInit {
     if (dataToSend.studLi.length == 0) {
       this.messageNotifier('error', 'Error', 'Please Select Student');
       return;
-    }else{
-      for(let i=0;i<dataToSend.studLi.length;i++){
+    } else {
+      for (let i = 0; i < dataToSend.studLi.length; i++) {
         let object = dataToSend.studLi[i];
-        if(object.grade_id==-1){
+        if (this.examData.is_exam_grad_feature == 1 && object.grade_id == -1 && object.attendance=='P') {
           this.messageNotifier('error', 'Error', 'Please Select grades');
           dataToSend = false;
           break;
@@ -270,23 +270,22 @@ export class BatchModelComponent implements OnInit {
     arr.isStudentExamSMS = sendSms;
     arr.studLi = [];
     for (let i = 0; i < this.studentList.length; i++) {
+      let student: any = {};
+      student.student_id = this.studentList[i].student_id;
+      student.marks_obtained = this.studentList[i].marks_obtained;
+      student.student_exam_det_id = this.studentList[i].student_exam_det_id;
+      student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
+      student.remarks = this.studentList[i].remarks;
+      student.isUpdated = this.studentList[i].isUpdated;
+      student.isSendExamRemarkInSMS = "N";
+      student.attendance = this.studentList[i].attendance;
+      student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+      student.grade_id = this.studentList[i].grade_id;
       if (this.studentList[i].assigned) {
-        let student: any = {};
-        student.student_id = this.studentList[i].student_id;
-        student.marks_obtained = this.studentList[i].marks_obtained;
-        student.student_exam_det_id = this.studentList[i].student_exam_det_id;
-        student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
-        student.remarks = this.studentList[i].remarks;
         if (sendSms == "Y") {
           student.isUpdated = "Y";
           student.isSendExamRemarkInSMS = "Y";
-        } else {
-          student.isUpdated = this.studentList[i].isUpdated;
-          student.isSendExamRemarkInSMS = "N";
         }
-        student.attendance = this.studentList[i].attendance;
-        student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
-        student.grade_id = this.studentList[i].grade_id;
         if (this.examData.is_exam_grad_feature == 0) {
           if (student.marks_obtained > this.examData.total_marks) {
             this.messageNotifier('error', 'Error', 'Please check marks you have provided');
@@ -298,9 +297,20 @@ export class BatchModelComponent implements OnInit {
               student.marks_obtained = '0';
             }
           }
+        }else{
+          student.marks_obtained = null;
         }
-        arr.studLi.push(student);
+      } else {
+        if (this.examData.is_exam_grad_feature == 1) {
+          student.marks_obtained = null;
+        }
+        else {
+          if (this.studentList[i].attendance == 'A' || this.studentList[i].attendance == 'L') {
+            student.marks_obtained = '0';
+          }
+        }
       }
+      arr.studLi.push(student);
     }
     return arr;
   }
