@@ -14,7 +14,7 @@ export class StudentsComponent implements OnInit {
   ngOnInit() {
     let classArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine'];
     classArray.forEach(function (className) {
-      console.log(className);
+      // console.log(className);
       document.getElementById(className).classList.remove('active');
     });
     document.getElementById('litwo').classList.add('active');

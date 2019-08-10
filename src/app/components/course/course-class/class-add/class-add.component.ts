@@ -1562,10 +1562,10 @@ export class ClassAddComponent implements OnInit {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
         if ((data.weekSchd && data.weekSchd.length == 0)) {
-          this.batchFrequency = '2';         
+          this.batchFrequency = '2';
         }
         else{
-          this.batchFrequency = '1';  
+          this.batchFrequency = '1';
         }
         this.scheduleSelection(this.batchFrequency);
       }
@@ -1872,7 +1872,7 @@ export class ClassAddComponent implements OnInit {
   }
 
   notifyOfCustomClass(data, index) {
-    if (confirm('Are you sure u want to send Regular(Custom) Class Schedule SMS to the batch?')) {
+    if (confirm('Are you sure you want to send Regular Class Schedule SMS to the batch?')) {
       this.notifyExtraClassCancel(data, "OTHER");
     }
   }
