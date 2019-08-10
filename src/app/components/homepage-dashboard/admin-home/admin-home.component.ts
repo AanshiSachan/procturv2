@@ -18,7 +18,7 @@ import { BiometricStatusServiceService } from '../../../services/biometric-statu
   selector: 'admin-home',
   templateUrl: './admin-home.component.html',
   styleUrls: ['./admin-home.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class AdminHomeComponent implements OnInit {
 

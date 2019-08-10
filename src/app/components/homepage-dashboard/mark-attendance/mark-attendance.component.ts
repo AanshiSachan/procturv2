@@ -19,7 +19,7 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
   selector: 'app-mark-attendance',
   templateUrl: './mark-attendance.component.html',
   styleUrls: ['./mark-attendance.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class MarkAttendanceComponent implements OnInit {
 
