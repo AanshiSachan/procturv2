@@ -23,31 +23,7 @@ const routes: Routes = [];
                 path: 'home',
                 component: ClassComponent,
                 pathMatch: 'prefix'
-            },
-            // {
-            //     path:'batches',
-            //     component:BatchesComponent
-            // },
-            // {
-            //     path:'batchesArchivedReport',
-            //     component:BatchesArchivedReportComponent
-            // },
-            // {
-            //     path:'students',
-            //     component:StudentsComponent
-            // },
-            // {
-            //     path:'studentsArchivedReport',
-            //     component: StudentsArchivedReportComponent
-            // },
-            // {
-            //     path:'courses',
-            //     component:CoursesComponent
-            // },
-            // {
-            //     path:'coursesArchivedReport',
-            //     component: CoursesArchivedReportComponent
-            // }
+            }
         ]
       }
     ])

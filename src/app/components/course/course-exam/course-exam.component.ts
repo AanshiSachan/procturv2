@@ -19,7 +19,7 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
   selector: 'app-course-exam',
   templateUrl: './course-exam.component.html',
   styleUrls: ['./course-exam.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class CourseExamComponent implements OnInit {
 

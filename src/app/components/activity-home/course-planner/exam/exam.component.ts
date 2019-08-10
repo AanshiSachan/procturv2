@@ -123,6 +123,7 @@ export class ExamComponent implements OnInit {
       }
     )
 
+    // this.showHideColForModel();
     this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.fetchPreFillData();
     let filters = sessionStorage.getItem('coursePlannerFilter');
@@ -130,6 +131,13 @@ export class ExamComponent implements OnInit {
       this.sessionFilters(filters);
     }
   }
+
+  // showHideColForModel(){
+  //   if(this.jsonFlag.isProfessional){
+  //     this.showHideColumns.description = true;
+  //     this.showHideColumns.topic = false;
+  //   }
+  // }
 
   sessionFilters(filters){
     this.sessionFiltersArr = JSON.parse(filters);
@@ -322,8 +330,10 @@ export class ExamComponent implements OnInit {
   updateSubjectsList(){
     if(!this.jsonFlag.isProfessional){
       this.coursePlannerFilters.course_id = this.inputElements.course;
-      if(this.inputElements.course == ""){
+      if(this.inputElements.course == "" || this.inputElements.course == "-1"){
         this.subjectList = [];
+        this.inputElements.subject = "-1";
+        this.coursePlannerFilters.batch_id = this.inputElements.subject;
       }
       else{
         for (var i = 0; i < this.courseList.length; i++) {
@@ -662,6 +672,7 @@ export class ExamComponent implements OnInit {
           this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled', 'Exam Cancelled Successfully');
           this.closePopUpCommon();
+          this.getData();
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
@@ -723,6 +734,7 @@ export class ExamComponent implements OnInit {
         this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Successfully Cancelled', 'Exam Schedule Cancelled Successfully');
         this.closeExamPopup();
+        this.getData();
       },
       err => {
         this.jsonFlag.isRippleLoad = false;

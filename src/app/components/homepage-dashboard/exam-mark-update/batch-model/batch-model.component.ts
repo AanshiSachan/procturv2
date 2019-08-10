@@ -12,7 +12,7 @@ declare var $;
   selector: 'app-batch-model',
   templateUrl: './batch-model.component.html',
   styleUrls: ['./batch-model.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class BatchModelComponent implements OnInit {
 

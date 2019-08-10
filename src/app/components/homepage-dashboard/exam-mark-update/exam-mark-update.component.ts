@@ -12,7 +12,7 @@ declare var $;
   selector: 'app-exam-mark-update',
   templateUrl: './exam-mark-update.component.html',
   styleUrls: ['./exam-mark-update.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class ExamMarkUpdateComponent implements OnInit {
 
@@ -303,7 +303,7 @@ export class ExamMarkUpdateComponent implements OnInit {
             flag = false;
             this.messageNotifier('error', '', 'Please select grades');
           }
-        }// check grades are given or not 
+        }// check grades are given or not
 
         delete data[i].assigned;
       }

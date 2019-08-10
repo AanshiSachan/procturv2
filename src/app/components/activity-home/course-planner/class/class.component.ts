@@ -15,7 +15,7 @@ import { WidgetService } from '../../../../services/widget.service';
   selector: 'app-class',
   templateUrl: './class.component.html',
   styleUrls: ['./class.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.Emulated
 })
 
 export class ClassComponent implements OnInit {
@@ -332,8 +332,10 @@ export class ClassComponent implements OnInit {
   updateSubjectsList(){
     if(!this.jsonFlag.isProfessional){
       this.coursePlannerFilters.course_id = this.inputElements.course;
-      if(this.inputElements.course == ""){
+      if(this.inputElements.course == "" || this.inputElements.course == "-1"){
         this.subjectList = [];
+        this.inputElements.subject = "-1";
+        this.coursePlannerFilters.batch_id = this.inputElements.subject;
       }
       else{
         for (var i = 0; i < this.courseList.length; i++) {
@@ -760,6 +762,8 @@ export class ClassComponent implements OnInit {
 // FOR NOTIFY POP up
   closeRemiderClass() {
     this.isReminderPop = false;
+    this.reminderRemarks = "";
+    this.remarksLimit = 50;
   }
 
   countRemarksLimit(){
@@ -833,15 +837,16 @@ export class ClassComponent implements OnInit {
       is_notified: this.is_notified
     }
     obj.cancelSchd.push(schd);
-    // this.jsonFlag.isRippleLoad = true;
+    this.jsonFlag.isRippleLoad = true;
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
-        // this.jsonFlag.isRippleLoad = false;
+        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Schedule Cancelled', 'The requested scheduled has been cancelled');
         this.closeCancelClass();
+        this.getData();
       },
       err => {
-        // this.jsonFlag.isRippleLoad = false;
+        this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Cancel Schedule', err.error.message);
       }
     )
@@ -870,6 +875,7 @@ export class ClassComponent implements OnInit {
         // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Course Schedule Cancelled', 'The requested scheduled has been cancelled');
         this.closeCourseCancelClass();
+        this.getData();
       },
       err => {
         // this.jsonFlag.isRippleLoad = false;
@@ -893,6 +899,7 @@ export class ClassComponent implements OnInit {
         this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Batch Schedule Cancelled', 'The requested scheduled has been cancelled');
         this.closeCourseCancelClass();
+        this.getData();
       },
       err => {
         this.jsonFlag.isRippleLoad = false;
@@ -915,35 +922,37 @@ export class ClassComponent implements OnInit {
 
 //  Notify to Cancel Class
   notifyCancelClass(selected){
-    let obj = {};
-    if(!this.jsonFlag.isProfessional){
-      obj = {
-        "institute_id": this.jsonFlag.institute_id,
-        "schedule_id": selected.schedule_id,
-        "to_date": selected.date,
-        "course_id": selected.course_id
+    if (confirm('Are you sure you want to notify?')) {
+      let obj = {};
+      if(!this.jsonFlag.isProfessional){
+        obj = {
+          "institute_id": this.jsonFlag.institute_id,
+          "schedule_id": selected.schedule_id,
+          "to_date": selected.date,
+          "course_id": selected.course_id
+        }
       }
-    }
-    else{
-      obj = {
-        "institute_id": this.jsonFlag.institute_id,
-        "schedule_id": selected.schedule_id,
-        "to_date": selected.date,
-        "batch_id": selected.batch_id
+      else{
+        obj = {
+          "institute_id": this.jsonFlag.institute_id,
+          "schedule_id": selected.schedule_id,
+          "to_date": selected.date,
+          "batch_id": selected.batch_id
+        }
       }
-    }
 
-    this.jsonFlag.isRippleLoad = true;
-    this.classService.notifyCancelClass(obj, 'class').subscribe(
-      res => {
-        this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Reminder Sent', 'Students have been notified');
-      },
-      err => {
-        this.jsonFlag.isRippleLoad = false;
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
-      }
-    )
+      this.jsonFlag.isRippleLoad = true;
+      this.classService.notifyCancelClass(obj, 'class').subscribe(
+        res => {
+          this.jsonFlag.isRippleLoad = false;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Reminder Sent', 'Students have been notified');
+        },
+        err => {
+          this.jsonFlag.isRippleLoad = false;
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
+        }
+      )
+    }
   }
 
   // Mark Attendance Section

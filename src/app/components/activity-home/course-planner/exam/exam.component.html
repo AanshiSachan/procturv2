@@ -285,7 +285,7 @@
           <div class="table-value-item medium align-center action ">
             <div class="action-container" *ngIf="course.status == 'Upcoming'">  <!--  upcoming exam action -->
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify"(click)="sendReminderForCourse(course)"></i>
-              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional" (click)="onCancelExamClickCourse(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional" (click)="onCancelExamClick(course)"></i>
             </div>
@@ -293,7 +293,7 @@
               <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" (click)="markAttendanceExamCourse(course)">
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
-              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional" (click)="onCancelExamClickCourse(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional" (click)="onCancelExamClick(course)"></i>
             </div>
@@ -302,16 +302,19 @@
             </div>
             <div class="action-container" *ngIf="course.status == 'Mks. Updated'">  <!--  marks updated exam action -->
               <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance" (click)="markAttendanceExamCourse(course)">
-              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
-              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="!jsonFlag.isProfessional" (click)="examMarksUpdateCourse(course)">
+              <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
+              <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
+              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
             </div>
             <div class="action-container" *ngIf="course.status == 'Mks. pending'">  <!--  marks pending exam action -->
               <img src="./assets/images/checked-att.svg" alt="Update Attendance" title="Update Attendance" (click)="markAttendanceExamCourse(course)">
               <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="!jsonFlag.isProfessional" (click)="examMarksUpdateCourse(course)">
               <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer"  *ngIf="jsonFlag.isProfessional" (click)="examMarksUpdate(course)">
-              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
-              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
-              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <!-- <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i> -->
+              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
             </div>
           </div>
         </div>
