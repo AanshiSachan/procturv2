@@ -1,188 +1,188 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-</loaders-css>
-
-<section class="middle-section clear-fix" id="middle-sectionId">
-
-
-  <section class="middle-top mb0 clearFix sms-header">
-    <h2 class="pull-left" style="font-weight: bold;">
-      <span> Update Exam Marks</span>
-    </h2>
+  </loaders-css>
+  
+  <section class="middle-section clear-fix" id="middle-sectionId">
+  
+  
+    <section class="middle-top mb0 clearFix sms-header">
+      <h2 class="pull-left" style="font-weight: bold;">
+        <span> Update Exam Marks</span>
+      </h2>
+    </section>
+  
+    <hr>
+  
+    <div class="header_container">
+      <div class="header_item1" style="margin-top: 10px;">
+        <h4>{{exam_info?.data.batchExamSchdList[0].batch_name}}</h4>
+      </div>
+      <div class="header_item1">
+        <label class="upload_details">Total Students :
+          <span class="txt_type txt_total_marks"> &nbsp;{{studentAttList?.length}}</span>
+        </label>
+        <input type="button" [value]="upload_text" class="btn upload_details btn_upload_grades" style="border-radius: 4px;" (click)="updateGradesOption()">
+      </div>
+    </div>
+  
+  
+    <section class="marks-section">
+      <div class="update_exam_marks_container">
+        <div class="course_subject_container">
+          <div class="field-radio-wrapper">
+            <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
+              value="1" name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()" id="subject_wise">
+            <label for="subject_wise" class="txt_type">Subject </label>
+          </div>
+          <div class="field-radio-wrapper">
+            <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
+              name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()" id="course_wise">
+            <label for="course_wise" class="txt_type">Course </label>
+  
+          </div>
+  
+        </div>
+  
+        <div class="marks_table_container">
+          <!-- Header -->
+          <div class="heading_container">
+            <div style="width: 5%;" class="field-checkbox-wrapper">
+              <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkForMArks()" (change)="markAllCheckBoxClick($event)">
+              <label></label>
+            </div>
+            <div class="heading_item">
+              <span>Student Id</span>
+            </div>
+            <div class="heading_item">
+              <span>Student Name</span>
+            </div>
+            <div class="heading_item">
+              <span>Attendance</span>
+            </div>
+            <div class="heading_item" *ngFor="let s of subjectList;" [ngClass]="examMarksLevel == 2 ? 'grayColor' : 'blackColor'">
+              <span>{{s.subject_name}}</span>
+              <span *ngIf="tempData.is_exam_grad_feature == 0">({{s.total_marks}})</span>
+            </div>
+            <div class="heading_item" [ngClass]="examMarksLevel == 1 ? 'grayColor' : 'blackColor'">
+              <span *ngIf="tempData.is_exam_grad_feature == 0">Total Marks ({{totalExamMarks}})</span>
+              <span *ngIf="tempData.is_exam_grad_feature == 1" style="color: black;">Total Grades </span>
+            </div>
+            <div class="heading_item">
+              <span>Remarks</span>
+            </div>
+          </div>
+          <!-- Body Container -->
+          <div class="value_container" *ngFor="let s of studentAttList; let i=index;">
+            <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
+              <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="s.assigned">
+              <label></label>
+            </div>
+            <div class="value_item">
+              <span>{{s.student_disp_id}}</span>
+            </div>
+            <div class="value_item">
+              <span>{{s.student_name}}</span>
+            </div>
+            <div class="value_item">
+              <div class="btnGroup  btns">
+                <button class="btn classLeaveBtn" *ngIf="s.attendance == 'L'">L</button>
+                <button class="btn classAbsentBtn" *ngIf="s.attendance == 'A'">A</button>
+                <button class="btn classPresentBtn" *ngIf="s.attendance == 'P'">P</button>
+              </div>
+            </div>
+            <div class="value_item" *ngFor="let subject of s.batchExamMarksLi; let i=index;">
+  
+              <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
+                <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '1')"
+                  [(ngModel)]="subject.marks_obtained" (keyup)="checkSubjectMarks(s,subject,$event)" [ngClass]="examMarksLevel == 2 ? 'disabledInput' : 'enabledInput'">
+                <span *ngIf="s.attendance != 'P'" style="color:#969696;font-weight: 600;">NA</span>
+              </div>
+  
+              <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
+                <select id="" class="side-form-ctrl" [(ngModel)]="subject.grade_id" name="grade_id" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')"
+                  style="padding: 0px 0px" [ngClass]="examMarksLevel == 2 ? 'disabledInput' : 'enabledInput'">
+                  <option value="-1"></option>
+                  <option [value]="time.grade_id" *ngFor="let time of gradesList">
+                    {{time.grade}}
+                  </option>
+                </select>
+              </div>
+  
+            </div>
+            <div class="value_item">
+              <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
+                <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '2')"
+                  [(ngModel)]="s.course_exam_marks_obtained" (focusout)="checkTotalMarks(s , $event)" [ngClass]="examMarksLevel == 1 ? 'disabledInput' : 'enabledInput'">
+  
+                <span *ngIf="s.attendance != 'P'" style="color:#969696;font-weight: 600;">NA</span>
+              </div>
+              <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
+                <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P') || (examMarksLevel == '0')" [(ngModel)]="s.grade_id"
+                  name="grade_id" style="padding: 0px 0px">
+                  <option value="-1"></option>
+                  <option [value]="time.grade_id" *ngFor="let time of gradesList">
+                    {{time.grade}}
+                  </option>
+                </select>
+              </div>
+  
+            </div>
+            <div class="value_item">
+              <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks"
+               [disabled]="(s.attendance == 'A') ||(s.attendance == 'L')" [ngClass]="(s.attendance == 'A') ||(s.attendance == 'L') ? 'grayColor' : 'blackColor'">
+            </div>
+          </div>
+          <div class="value_container" *ngIf="studentAttList.length == 0">
+            <div class="value_item" style="width: 100%;">
+              <span>No Students Record</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+  
+    <div style="padding-top: 10px;" class="clearfix">
+      <aside class="pull-left popup-btn" style=" display: inline-flex; ">
+        <input type="button" value="Back" class="btn" (click)="closeAttendance()" style="margin-left: 0px;border-radius: 4px;">
+      </aside>
+      <aside class="pull-right popup-btn" style=" display: inline-flex;border-radius: 4px; ">
+        <input type="button" value="Cancel" class="btn" (click)="closeAttendance()" style="border-radius: 4px;">
+        <input type="button" value="Update Marks" (click)="updateMarksOnServerCourse('single')" class="fullBlue btn" style="border-radius: 4px;"
+          [disabled]="isRippleLoad">
+        <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServerCourse('all')" class="fullBlue btn" style="border-radius: 4px;"
+          [disabled]="isRippleLoad">
+      </aside>
+    </div>
+  
   </section>
-
-  <hr>
-
-  <div class="header_container">
-    <div class="header_item1" style="margin-top: 10px;">
-      <h4>{{exam_info?.data.batchExamSchdList[0].batch_name}}</h4>
-    </div>
-    <div class="header_item1">
-      <label class="upload_details">Total Students :
-        <span class="txt_type txt_total_marks"> &nbsp;{{studentAttList?.length}}</span>
-      </label>
-      <input type="button" [value]="upload_text" class="btn upload_details btn_upload_grades" style="border-radius: 4px;" (click)="updateGradesOption()">
+  
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="width: 25%">
+      <a id="downloadFileClick" class="hide"></a>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header top_corner">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <span class="modal-title">Upload Student Marks</span>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <input class="fullBlue btn txt-download" id="btnDownload" type="button" value="Download" (click)="downloadMarksDetails()">
+          </div>
+          <br>
+          <div class="text_line">
+            <span>OR</span>
+          </div>
+          <div class="txt_upload text-center">Upload Marks</div>
+          <br>
+          <div>
+            <p-fileUpload #forms customUpload="true" type="submit" (uploadHandler)="uploadHandler($event, forms)" [showCancelButton]="false">
+            </p-fileUpload>
+          </div>
+        </div>
+      </div>
+  
     </div>
   </div>
-
-
-  <section class="marks-section">
-    <div class="update_exam_marks_container">
-      <div class="course_subject_container">
-        <div class="field-radio-wrapper">
-          <input type="radio" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '1'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
-            value="1" name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()" id="subject_wise">
-          <label for="subject_wise" class="txt_type">Subject </label>
-        </div>
-        <div class="field-radio-wrapper">
-          <input type="radio" value="2" [(ngModel)]="examMarksLevel" [checked]="examMarksLevel == '2'" [disabled]="tempData.course_marks_update_level == '1' || tempData.course_marks_update_level == '2'"
-            name="sujectWise" class="form-radio" (ngModelChange)="onRadioButtonSelction()" id="course_wise">
-          <label for="course_wise" class="txt_type">Course </label>
-
-        </div>
-
-      </div>
-
-      <div class="marks_table_container">
-        <!-- Header -->
-        <div class="heading_container">
-          <div style="width: 5%;" class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkForMArks()" (change)="markAllCheckBoxClick($event)">
-            <label></label>
-          </div>
-          <div class="heading_item">
-            <span>Student Id</span>
-          </div>
-          <div class="heading_item">
-            <span>Student Name</span>
-          </div>
-          <div class="heading_item">
-            <span>Attendance</span>
-          </div>
-          <div class="heading_item" *ngFor="let s of subjectList;" [ngClass]="examMarksLevel == 2 ? 'grayColor' : 'blackColor'">
-            <span>{{s.subject_name}}</span>
-            <span *ngIf="tempData.is_exam_grad_feature == 0">({{s.total_marks}})</span>
-          </div>
-          <div class="heading_item" [ngClass]="examMarksLevel == 1 ? 'grayColor' : 'blackColor'">
-            <span *ngIf="tempData.is_exam_grad_feature == 0">Total Marks ({{totalExamMarks}})</span>
-            <span *ngIf="tempData.is_exam_grad_feature == 1" style="color: black;">Total Grades </span>
-          </div>
-          <div class="heading_item">
-            <span>Remarks</span>
-          </div>
-        </div>
-        <!-- Body Container -->
-        <div class="value_container" *ngFor="let s of studentAttList; let i=index;">
-          <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="s.assigned">
-            <label></label>
-          </div>
-          <div class="value_item">
-            <span>{{s.student_disp_id}}</span>
-          </div>
-          <div class="value_item">
-            <span>{{s.student_name}}</span>
-          </div>
-          <div class="value_item">
-            <div class="btnGroup  btns">
-              <button class="btn classLeaveBtn" *ngIf="s.attendance == 'L'">L</button>
-              <button class="btn classAbsentBtn" *ngIf="s.attendance == 'A'">A</button>
-              <button class="btn classPresentBtn" *ngIf="s.attendance == 'P'">P</button>
-            </div>
-          </div>
-          <div class="value_item" *ngFor="let subject of s.batchExamMarksLi; let i=index;">
-
-            <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
-              <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '1')"
-                [(ngModel)]="subject.marks_obtained" (keyup)="checkSubjectMarks(s,subject,$event)" [ngClass]="examMarksLevel == 2 ? 'disabledInput' : 'enabledInput'">
-              <span *ngIf="s.attendance != 'P'" style="color:#969696;font-weight: 600;">NA</span>
-            </div>
-
-            <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
-              <select id="" class="side-form-ctrl" [(ngModel)]="subject.grade_id" name="grade_id" [disabled]="(s.attendance != 'P') || (examMarksLevel != '1')"
-                style="padding: 0px 0px" [ngClass]="examMarksLevel == 2 ? 'disabledInput' : 'enabledInput'">
-                <option value="-1"></option>
-                <option [value]="time.grade_id" *ngFor="let time of gradesList">
-                  {{time.grade}}
-                </option>
-              </select>
-            </div>
-
-          </div>
-          <div class="value_item">
-            <div *ngIf="tempData.is_exam_grad_feature == 0" class="form-wrapper" style="width:50px;">
-              <input type="number" class="side-form-ctrl paddingLess" *ngIf="s.attendance == 'P'" [disabled]="(examMarksLevel != '2')"
-                [(ngModel)]="s.course_exam_marks_obtained" (focusout)="checkTotalMarks(s , $event)" [ngClass]="examMarksLevel == 1 ? 'disabledInput' : 'enabledInput'">
-
-              <span *ngIf="s.attendance != 'P'" style="color:#969696;font-weight: 600;">NA</span>
-            </div>
-            <div *ngIf="tempData.is_exam_grad_feature == 1" class="form-wrapper" style="width:70px;">
-              <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P') || (examMarksLevel == '0')" [(ngModel)]="s.grade_id"
-                name="grade_id" style="padding: 0px 0px">
-                <option value="-1"></option>
-                <option [value]="time.grade_id" *ngFor="let time of gradesList">
-                  {{time.grade}}
-                </option>
-              </select>
-            </div>
-
-          </div>
-          <div class="value_item">
-            <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks"
-             [disabled]="(s.attendance == 'A')" [ngClass]="s.attendance == 'A' ? 'grayColor' : 'blackColor'">
-          </div>
-        </div>
-        <div class="value_container" *ngIf="studentAttList.length == 0">
-          <div class="value_item" style="width: 100%;">
-            <span>No Students Record</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <div style="padding-top: 10px;" class="clearfix">
-    <aside class="pull-left popup-btn" style=" display: inline-flex; ">
-      <input type="button" value="Back" class="btn" (click)="closeAttendance()" style="margin-left: 0px;border-radius: 4px;">
-    </aside>
-    <aside class="pull-right popup-btn" style=" display: inline-flex;border-radius: 4px; ">
-      <input type="button" value="Cancel" class="btn" (click)="closeAttendance()" style="border-radius: 4px;">
-      <input type="button" value="Update Marks" (click)="updateMarksOnServerCourse('single')" class="fullBlue btn" style="border-radius: 4px;"
-        [disabled]="isRippleLoad">
-      <input type="button" value="Update Marks And Send SMS" (click)="updateMarksOnServerCourse('all')" class="fullBlue btn" style="border-radius: 4px;"
-        [disabled]="isRippleLoad">
-    </aside>
-  </div>
-
-</section>
-
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog" style="width: 25%">
-    <a id="downloadFileClick" class="hide"></a>
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header top_corner">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <span class="modal-title">Upload Student Marks</span>
-      </div>
-      <div class="modal-body">
-        <div class="text-center">
-          <input class="fullBlue btn txt-download" id="btnDownload" type="button" value="Download" (click)="downloadMarksDetails()">
-        </div>
-        <br>
-        <div class="text_line">
-          <span>OR</span>
-        </div>
-        <div class="txt_upload text-center">Upload Marks</div>
-        <br>
-        <div>
-          <p-fileUpload #forms customUpload="true" type="submit" (uploadHandler)="uploadHandler($event, forms)" [showCancelButton]="false">
-          </p-fileUpload>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
