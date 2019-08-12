@@ -13,13 +13,13 @@
 
             <div class="form-group">
               <select class="form-ctrl ga-form-input" [disabled]="material_dataShow" [(ngModel)]="varJson.course_types" (change)="getSubjectsList($event.target.value)">
-                <option value="">  Select course</option>
+                <option value=""> Select course</option>
                 <option *ngFor="let exam of categiesList; " [value]="exam.course_type_id">{{exam.course_type}}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow"  class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
+              <select [(ngModel)]="varJson.subject_id" [disabled]="material_dataShow" class="form-ctrl ga-form-input" (change)="getTopicsList($event.target.value)">
                 <option value="0">Select subject</option>
                 <option *ngFor="let subject of subjectList;" [value]="subject.subject_id">{{subject.subject_name}}</option>
               </select>
@@ -47,13 +47,22 @@
                 <option value="0">Select file type</option>
                 <option *ngFor="let category of categiesTypeList; " [value]="category.category_id">{{category.category_name}}</option>
               </select>
-              <input type="text" class="form-ctrl video-input" *ngIf="varJson.name=='Youtube URL'" placeholder="Video URL" [(ngModel)]="varJson.video_url">
-              <div class="btn-div" *ngIf="varJson.name=='Youtube URL'">
+              <input type="text" style="margin-bottom: 0.8em;" *ngIf="varJson.category_id==230||varJson.category_id==235" class="form-ctrl video-input"
+                placeholder="Video Title" [(ngModel)]="varJson.title">
+
+              <input type="text" style="margin-bottom: 0.8em;" class="form-ctrl video-input" *ngIf="varJson.category_id==230" placeholder="Video URL"
+                [(ngModel)]="varJson.video_url">
+
+              <div class="btn-div" *ngIf="varJson.category_id==230">
                 <input class="btn fullBlue" type="button" value="Upload" [disabled]="varJson.video_url==''" (click)="uploadYoutubeURL($event)">
                 <input class="btn " (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <p-fileUpload customUpload="true"  multiple="multiple" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
-                *ngIf="varJson.name!='Youtube URL'">
+              <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)" [showCancelButton]="false"
+                *ngIf="varJson.category_id==235 && varJson.category_id!=0">
+              </p-fileUpload>
+
+              <p-fileUpload customUpload="true" multiple="multiple" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false"
+                *ngIf="varJson.category_id!=230 && varJson.category_id!=235">
               </p-fileUpload>
             </div>
           </div>

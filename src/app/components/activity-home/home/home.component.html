@@ -35,9 +35,9 @@
                   </div>
                 </div>
 
-                <div class="activity-item-container hide" routerLink="../ptm">
+                <div class="activity-item-container" routerLink="../ptm">
                   <div class="img_name_container">
-                    <img src="./assets/images/activity/.svg" alt="">
+                    <img src="./assets/images/activity/file_manager.svg" alt="">
                     <span>PTM Management</span>
                   </div>
                   <div class="activity-description">
@@ -67,7 +67,8 @@
                 </div>
 
                 <!-- E-course -->
-                <div class="activity-item-container" routerLink="../ecourse-file-manager" *ngIf="jsonFlag.isEcourseFileManager &&  (jsonFlag.institute_id =='100767'||jsonFlag.institute_id =='100127')">
+                <div class="activity-item-container" routerLink="../ecourse-file-manager" *ngIf="jsonFlag.isEcourseFileManager ">
+                  <!-- &&  (jsonFlag.institute_id =='100767'||jsonFlag.institute_id =='100127') -->
                   <div class="img_name_container">
                     <img src="./assets/images/activity/study_material.svg" alt="">
                     <span>Study Materials</span>
