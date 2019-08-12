@@ -493,7 +493,9 @@ export class ExamMarkUpdateComponent implements OnInit {
 
   markAllCheckBoxClick(event) {
     this.studentAttList.forEach(element => {
-      element.assigned = event.target.checked;
+      if(element.attendance=='P'){
+        element.assigned = event.target.checked;
+      }      
     });
   }
 
