@@ -1,6 +1,232 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
 </loaders-css>
 
+<!-- All Pop Up  -->
+
+<!-- Reschedule pop -->
+<!-- Modal -->
+<div class="modal fade" id="rescheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isReschedulePop">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLongTitle">{{classMarkedForAction.batch_name}}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row dueDate" style="margin-left: -15px;">
+
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper datePickerBox" style="padding-top:0px">
+              <label for="reschDate">Reschedule Date</label>
+              <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
+                bsDatepicker style="height:30px">
+            </div>
+          </div>
+
+          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:-15px;">
+            <div class="form-wrapper timepick rescheduleTime" style="padding-left: 15px;">
+              <label for="startTime">Start Time</label>
+              <div class="tbox">
+                <div class="times ">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:-15px;">
+            <div class="form-wrapper timepick rescheduleTime">
+              <label for="endtime">End Time</label>
+              <div class="tbox">
+                <div class="times">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="field-wrapper" style="width: 50%; margin-left: 3%;">
+            <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"
+              class="form-ctrl textbox">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="clearfix">
+          <aside class="pull-left">
+            <div class="field-checkbox-wrapper" style="margin-top: 5px">
+              <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
+                (change)="notifyRescheduleUpdate($event)">
+              <label for="is_reshedule_notified">Notify Students</label>
+            </div>
+          </aside>
+          <aside class="pull-right popup-btn">
+            <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()" data-dismiss="modal">
+            <input type="button" value="Reschedule Class" data-dismiss="modal" (click)="rescheduleClass()" class="fullBlue btn" [disabled]="isRippleLoad">
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Notify pop -->
+<!-- Modal -->
+<div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="notifyModalCenterTitle" aria-hidden="true" *ngIf="isReminderPop">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="notifyModalCenterTitle">Send Reminder For
+          <span style="font-weight: 600;" *ngIf="jsonFlag.isProfessional">{{classMarkedForAction.batch_name}}</span>
+          <span style="font-weight: 600;" *ngIf="!jsonFlag.isProfessional">{{classMarkedForAction.batch_name}}</span>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="margin: 10px 0px;">
+          The reminder for the selected schedule will be sent!! click continue to proceed.
+        </div>
+        <div class="add_remarks">
+          <div class="" style="margin-left: 38%">
+            <span>Limit</span>
+            <span class="button_type">{{remarksLimit}}</span>
+          </div>
+          <div class="field-wrapper" style="width: 50%;">
+            <textarea type="text" style="height:50px; border: 1px solid #d3d4d5;" id="reminderRemarks" name="reminderRemarks" [(ngModel)]="reminderRemarks" value="" placeholder="Remarks"
+              class="form-ctrl textbox" maxlength="50" (ngModelChange)="countRemarksLimit()">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" data-dismiss="modal" class="btn" (click)="closeRemiderClass()">
+          <input type="button" value="Continue" data-dismiss="modal" (click)="sendReminder()" class="btn fullBlue" [disabled]="isRippleLoad">
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Cancel pop up for Course Model-->
+<!-- Modal  -->
+<div class="modal" id="cancelModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"> <!---*ngIf="isCancelPop"--->
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLongTitle">Cancel Class
+          <span style="font-weight: 600;">{{classMarkedForAction?.batch_name}}</span>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="CancelWrapper">
+          <div class="row cancelField">
+            <div class="c-lg-12 c-md-12 c-sm-12">
+              <div class="field-wrapper">
+                <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
+                </textarea>
+              </div>
+            </div>
+            <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
+                <label for="notifyCancel">Notify Students For Class Cancellation</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" data-dismiss="modal" class="btn" (click)="closeCancelClass()">
+          <input type="button" value="Cancel Class" data-dismiss="modal" (click)="cancelClass()" [disabled]="jsonFlag.isRippleLoad" class="btn fullBlue">
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cancel pop up for Batch Model-->
+<!-- Modal  -->
+<div class="modal" id="cancelBatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isCourseCancel">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="exampleModalLongTitle">Cancel Schedule
+          <span style="font-weight: 600;">{{classMarkedForAction.batch_name}}</span>
+          <span style="font-weight: 600;" *ngIf="!jsonFlag.isProfessional">{{classMarkedForAction.master_course}} &#8594; {{classMarkedForAction.coursee_names}} </span>
+          <span style="font-weight: 600;" *ngIf="jsonFlag.isProfessional">{{classMarkedForAction.batch_name}}</span>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="CancelWrapper">
+          <div class="row cancelField">
+            <div class="c-lg-12 c-md-12 c-sm-12">
+              <div class="field-wrapper">
+                <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
+                </textarea>
+              </div>
+            </div>
+            <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
+                <label for="notifyCancel">Notify Students For Class Cancellation</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" data-dismiss="modal" class="btn" (click)="closeCourseCancelClass()">
+          <input *ngIf="!jsonFlag.isProfessional" data-dismiss="modal" type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn" [disabled]="jsonFlag.isRippleLoad">
+          <input *ngIf="jsonFlag.isProfessional" data-dismiss="modal" type="button" value="Cancel Class" (click)="cancelBatchClass()" class="fullBlue btn" [disabled]="jsonFlag.isRippleLoad">
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- Main section started -->
 <section>
 
@@ -340,229 +566,3 @@
     <img src="./assets/images/course_planner/blank-illustration.svg" alt="illustration" class="illustration-img">
   </div>
 </section>
-
-
-<!-- All Pop Up  -->
-
-<!-- Reschedule pop -->
-<!-- Modal -->
-<div class="modal fade" id="rescheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isReschedulePop">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h5 class="modal-title" id="exampleModalLongTitle">{{classMarkedForAction.batch_name}}</h5>
-      </div>
-      <div class="modal-body">
-        <div class="row dueDate" style="margin-left: -15px;">
-
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper datePickerBox" style="padding-top:0px">
-              <label for="reschDate">Reschedule Date</label>
-              <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
-                bsDatepicker style="height:30px">
-            </div>
-          </div>
-
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:-15px;">
-            <div class="form-wrapper timepick rescheduleTime" style="padding-left: 15px;">
-              <label for="startTime">Start Time</label>
-              <div class="tbox">
-                <div class="times ">
-                  <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
-                    <option [value]="time" *ngFor="let time of times">
-                      {{time}}
-                    </option>
-                  </select>
-                </div>
-                <div class="times">
-                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
-                    <option *ngFor="let minute of minArr" [value]="minute">
-                      {{minute}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:-15px;">
-            <div class="form-wrapper timepick rescheduleTime">
-              <label for="endtime">End Time</label>
-              <div class="tbox">
-                <div class="times">
-                  <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
-                    <option [value]="time" *ngFor="let time of times">
-                      {{time}}
-                    </option>
-                  </select>
-                </div>
-                <div class="times">
-                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
-                    <option *ngFor="let minute of minArr" [value]="minute">
-                      {{minute}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="row">
-          <div class="field-wrapper" style="width: 50%; margin-left: 3%;">
-            <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"
-              class="form-ctrl textbox">
-            </textarea>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div class="clearfix">
-          <aside class="pull-left">
-            <div class="field-checkbox-wrapper" style="margin-top: 5px">
-              <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
-                (change)="notifyRescheduleUpdate($event)">
-              <label for="is_reshedule_notified">Notify Students</label>
-            </div>
-          </aside>
-          <aside class="pull-right popup-btn">
-            <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()" data-dismiss="modal">
-            <input type="button" value="Reschedule Class" data-dismiss="modal" (click)="rescheduleClass()" class="fullBlue btn" [disabled]="isRippleLoad">
-          </aside>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Notify pop -->
-<!-- Modal -->
-<div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="notifyModalCenterTitle" aria-hidden="true" *ngIf="isReminderPop">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h5 class="modal-title" id="notifyModalCenterTitle">Send Reminder For
-          <span style="font-weight: 600;" *ngIf="jsonFlag.isProfessional">{{classMarkedForAction.batch_name}}</span>
-          <span style="font-weight: 600;" *ngIf="!jsonFlag.isProfessional">{{classMarkedForAction.batch_name}}</span>
-        </h5>
-      </div>
-      <div class="modal-body">
-        <div class="row" style="margin: 10px 0px;">
-          The reminder for the selected schedule will be sent!! click continue to proceed.
-        </div>
-        <div class="add_remarks">
-          <div class="" style="margin-left: 38%">
-            <span>Limit</span>
-            <span class="button_type">{{remarksLimit}}</span>
-          </div>
-          <div class="field-wrapper" style="width: 50%;">
-            <textarea type="text" style="height:50px; border: 1px solid #d3d4d5;" id="reminderRemarks" name="reminderRemarks" [(ngModel)]="reminderRemarks" value="" placeholder="Remarks"
-              class="form-ctrl textbox" maxlength="50" (ngModelChange)="countRemarksLimit()">
-            </textarea>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" data-dismiss="modal" class="btn" (click)="closeRemiderClass()">
-          <input type="button" value="Continue" data-dismiss="modal" (click)="sendReminder()" class="btn fullBlue" [disabled]="isRippleLoad">
-        </aside>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Cancel pop up for Course Model-->
-<!-- Modal  -->
-<div class="modal" id="cancelModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isCancelPop">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h5 class="modal-title" id="exampleModalLongTitle">Cancel Class
-          <span style="font-weight: 600;">{{classMarkedForAction.batch_name}}</span>
-        </h5>
-      </div>
-      <div class="modal-body">
-        <div class="CancelWrapper">
-          <div class="row cancelField">
-            <div class="c-lg-12 c-md-12 c-sm-12">
-              <div class="field-wrapper">
-                <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
-                </textarea>
-              </div>
-            </div>
-            <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
-                <label for="notifyCancel">Notify Students For Class Cancellation</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" data-dismiss="modal" class="btn" (click)="closeCancelClass()">
-          <input type="button" value="Cancel Class" data-dismiss="modal" (click)="cancelClass()" [disabled]="jsonFlag.isRippleLoad" class="btn fullBlue">
-        </aside>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Cancel pop up for Batch Model-->
-<!-- Modal  -->
-<div class="modal" id="cancelBatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isCourseCancel">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h5 class="modal-title" id="exampleModalLongTitle">Cancel Schedule
-          <span style="font-weight: 600;">{{classMarkedForAction.batch_name}}</span>
-          <span style="font-weight: 600;" *ngIf="!jsonFlag.isProfessional">{{classMarkedForAction.master_course}} &#8594; {{classMarkedForAction.coursee_names}} </span>
-          <span style="font-weight: 600;" *ngIf="jsonFlag.isProfessional">{{classMarkedForAction.batch_name}}</span>
-        </h5>
-      </div>
-      <div class="modal-body">
-        <div class="CancelWrapper">
-          <div class="row cancelField">
-            <div class="c-lg-12 c-md-12 c-sm-12">
-              <div class="field-wrapper">
-                <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
-                </textarea>
-              </div>
-            </div>
-            <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
-                <label for="notifyCancel">Notify Students For Class Cancellation</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" data-dismiss="modal" class="btn" (click)="closeCourseCancelClass()">
-          <input *ngIf="!jsonFlag.isProfessional" data-dismiss="modal" type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn" [disabled]="jsonFlag.isRippleLoad">
-          <input *ngIf="jsonFlag.isProfessional" data-dismiss="modal" type="button" value="Cancel Class" (click)="cancelBatchClass()" class="fullBlue btn" [disabled]="jsonFlag.isRippleLoad">
-        </aside>
-      </div>
-    </div>
-  </div>
-</div>

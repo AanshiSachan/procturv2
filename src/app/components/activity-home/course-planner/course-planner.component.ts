@@ -36,18 +36,16 @@ export class CoursePlannerComponent implements OnInit {
     this.checkForSessionStorage();
   }
 
-  checkForSessionStorage(){
+  checkForSessionStorage(){  // while returning to course planner if it is from exam or class
     let isClass = sessionStorage.getItem('isClass');
-    if(isClass){
+    if(isClass != null && isClass != ""){
       isClass = JSON.parse(isClass);
-      if(isClass != null){
         if(isClass){
           this.showMenuOf('class');
         }
         else{
           this.showMenuOf('exam');
         }
-      }
     }
     sessionStorage.setItem('isClass', "");
   }

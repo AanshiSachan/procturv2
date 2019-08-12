@@ -127,7 +127,7 @@
               </div>
             </div>
 
-            <div class="faculty-container">
+            <!-- <div class="faculty-container">
               <div class="faculty-title">
                 <span>Faculty</span>
               </div>
@@ -137,7 +137,7 @@
                   <option [value]="faculty.teacher_id" *ngFor="let faculty of facultyList">{{faculty.teacher_name}}</option>
                 </select>
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -180,10 +180,10 @@
         <div class="table-heading-item small">
           <span>Total Marks</span>
         </div>
-        <div class="table-heading-item small">
+        <!-- <div class="table-heading-item small">
           <span>Passing Marks</span>
-        </div>
-        <div class="table-heading-item small" *ngIf="showHideColumns.roomNo">
+        </div> -->
+        <div class="table-heading-item small">
           <span>Room No.</span>
         </div>
         <div class="table-heading-item small align-center">
@@ -191,7 +191,7 @@
         </div>
         <div class="table-heading-item medium align-center action">
           <span>Action</span>
-          <i class="fa fa-cog" aria-hidden="true" (click)="showHideCol()"></i>
+          <i class="fa fa-cog" aria-hidden="true" (click)="showHideCol()" *ngIf="jsonFlag.setting"></i>
           <div class="show-hide-container" *ngIf="jsonFlag.showHideColumn">
             <div class="show-hide-header">
               <span>Choose Show/Hide Column</span>
@@ -200,13 +200,13 @@
             <div class="show-hide-value-container">
                 <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="subject" name="" [(ngModel)]="showHideColumns.subject"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == 1">
                 <label for="subject"  *ngIf="!jsonFlag.isProfessional">Subject</label>
                 <label for="subject"  *ngIf="jsonFlag.isProfessional">Batch</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="topic" name="" [(ngModel)]="showHideColumns.topic"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 1">
                 <label for="topic">Topic</label>
               </div>
             </div>
@@ -218,14 +218,14 @@
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="description" name="" [(ngModel)]="showHideColumns.description"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == 1">
                 <label for="description">Description</label>
               </div>
-              <div class="field-checkbox-wrapper show-hide-item">
+              <!-- <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="homework" name="" [(ngModel)]="showHideColumns.roomNo"
                     class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.roomNo && checkedColCounter == 2">
                 <label for="homework">Room No.</label>
-              </div>
+              </div> -->
             </div>
 
             <div class="bg-container">
@@ -269,10 +269,10 @@
           <div class="table-value-item small">
             <span>{{course.total_marks}}</span>
           </div>
-          <div class="table-value-item small">
+          <!-- <div class="table-value-item small">
             <span>-</span>
-          </div>
-          <div class="table-value-item small"  *ngIf="showHideColumns.roomNo">
+          </div> -->
+          <div class="table-value-item small">
             <span>{{course.room_no}}</span>
           </div>
           <div class="table-value-item small align-center">

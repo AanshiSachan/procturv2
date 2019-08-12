@@ -221,7 +221,7 @@ export class ClassComponent implements OnInit {
       this.classService.getAllMasterCourse().subscribe(
         res => {
           this.masterCourseList = res;
-          if(this.sessionFiltersArr.masterCourse != "-1"){
+          if(this.sessionFiltersArr.masterCourse != "-1"){  //update course list if it was set in session
             this.updateCoursesList();
           }
           this.jsonFlag.isRippleLoad = false;
@@ -239,7 +239,7 @@ export class ClassComponent implements OnInit {
         res => {
           this.masterCourseList = res.standardLi;
           this.batchList = res.batchLi;
-          if(this.sessionFiltersArr.standardId != "-1"){
+          if(this.sessionFiltersArr.standardId != "-1"){   //update course list if it was set in session
             this.updateCoursesList();
           }
           this.jsonFlag.isRippleLoad = false;
@@ -263,12 +263,13 @@ export class ClassComponent implements OnInit {
   }
 
   updateCoursesList() {
+    // For Course Model
     if(!this.jsonFlag.isProfessional){
       this.coursePlannerFilters.master_course_name = this.inputElements.masterCourse;
-      if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){
+      if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){  // if courseid is set in seesion then fetch data according to it
         this.inputElements.course = this.sessionFiltersArr.courseId;
       }
-      else{
+      else{   // else reset to default values
         this.inputElements.course = "-1";
         this.inputElements.subject = "-1";
         this.coursePlannerFilters.course_id = "-1";
@@ -282,7 +283,7 @@ export class ClassComponent implements OnInit {
         for (var i = 0; i < this.masterCourseList.length; i++) {
           if(this.masterCourseList[i].master_course == this.inputElements.masterCourse){
             this.courseList = this.masterCourseList[i].coursesList;
-            if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){
+            if(this.sessionFiltersArr.courseId != "-1" && this.sessionFiltersArr.courseId != ""){   //
               this.updateSubjectsList();
             }
             else{
@@ -293,6 +294,7 @@ export class ClassComponent implements OnInit {
         }
       }
     }
+    // For Batch Model
     else{
       this.coursePlannerFilters.standard_id = this.inputElements.standard_id;
       this.inputElements.subject_id = "-1";
@@ -301,6 +303,7 @@ export class ClassComponent implements OnInit {
         this.courseList = [];
       }
       else{
+        // Fetch batches according to standard and subject id for all active batches
         this.jsonFlag.isRippleLoad = true;
         this.classService.getStandardSubjectList(this.inputElements.standard_id, this.inputElements.subject_id, this.inputElements.isAssigned).subscribe(
           res => {
@@ -330,6 +333,7 @@ export class ClassComponent implements OnInit {
   }
 
   updateSubjectsList(){
+    // For Course Model
     if(!this.jsonFlag.isProfessional){
       this.coursePlannerFilters.course_id = this.inputElements.course;
       if(this.inputElements.course == "" || this.inputElements.course == "-1"){
@@ -346,12 +350,13 @@ export class ClassComponent implements OnInit {
             if(this.sessionFiltersArr.standardId != "-1" && this.sessionFiltersArr.standardId != ""){
               this.inputElements.subject = this.sessionFiltersArr.batchId;
             }
-            this.clearFilters();
+            this.clearFilters();  // after updating all the filter values clear session filter
             return;
           }
         }
       }
     }
+    // For Batch Model
     else{
       this.jsonFlag.isRippleLoad = true;
       this.coursePlannerFilters.subject_id = this.inputElements.subject_id;
@@ -370,20 +375,20 @@ export class ClassComponent implements OnInit {
 
   }
 
-  updateSubject(){
-    if(!this.jsonFlag.isProfessional){
+  updateSubject(){   // after selecting batch update course planner payload value
+    if(!this.jsonFlag.isProfessional){   // for Course Model
       this.coursePlannerFilters.batch_id = this.inputElements.subject;
     }
-    else{
+    else{  // For Batch Model
       this.coursePlannerFilters.batch_id = this.inputElements.batch_id;
     }
   }
 
-  updateFacultyInFilter(){
+  updateFacultyInFilter(){  //  set faculty id in course planner payload
     this.coursePlannerFilters.teacher_id = this.inputElements.faculty;
   }
 
-  toggleFilter(){
+  toggleFilter(){  // show hide filter
     if(this.filterShow){
       this.filterShow = false;
     }
@@ -426,7 +431,7 @@ export class ClassComponent implements OnInit {
   }
 
   updateStatusFilter(e, statusFilter){
-    if(!e.currentTarget.checked){
+    if(!e.currentTarget.checked){   // if checkbox is unchecked then set courseplanner payload
       if(statusFilter == 'upcoming'){
         this.coursePlannerFilters.isUpcoming = "N";
       }
@@ -440,7 +445,7 @@ export class ClassComponent implements OnInit {
         this.coursePlannerFilters.isCancelled = "N";
       }
     }
-    else if(e.currentTarget.checked){
+    else if(e.currentTarget.checked){   // if checkbox is getting checked
       if(statusFilter == 'upcoming'){
         this.coursePlannerFilters.isUpcoming = "Y";
       }
@@ -467,11 +472,11 @@ export class ClassComponent implements OnInit {
     }
   }
 
-  getData(){
+  getData(){   //  Fetch Course Planner data according to filters
     this.filterShow = false;
     this.jsonFlag.showHideColumn = false;
     this.jsonFlag.isRippleLoad = true;
-    // Course/bacth model and master course is selected check
+    // Course/bacth model and master course is selected
     if((!this.jsonFlag.isProfessional && this.coursePlannerFilters.master_course_name == "-1") ||
        (this.jsonFlag.isProfessional && this.coursePlannerFilters.standard_id == "-1")) {
       this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please select master course');
@@ -518,7 +523,7 @@ export class ClassComponent implements OnInit {
     }
   }
 
-  hideShowHideMenu(){
+  hideShowHideMenu(){   // HIDE --> show hide menu
     this.jsonFlag.showHideColumn = false;
   }
 
@@ -543,6 +548,7 @@ export class ClassComponent implements OnInit {
     this.coursePlannerData = this.getDataFromDataSource(startindex);
   }
 
+  // get  appropriate course planner data according to page
   getDataFromDataSource(startindex) {
     let t = this.allData.slice(startindex, startindex + this.displayBatchSize);
     return t;
@@ -578,7 +584,7 @@ export class ClassComponent implements OnInit {
     this.isCourseCancel = true;
   }
 
-  getVisibility(c): boolean {
+  getVisibility(c): boolean {  // hide upcoming activity
     let d = moment(c.class_date).format("YYYY-MM-DD");
     if (d >= moment(new Date()).format("YYYY-MM-DD")) {
       return true;
@@ -678,6 +684,7 @@ export class ClassComponent implements OnInit {
           this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Class Rescheduled', 'The request has been processed');
           this.closeRescheduleClass();
+          this.getData();
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
@@ -759,7 +766,7 @@ export class ClassComponent implements OnInit {
     }
   }
 
-// FOR NOTIFY POP up
+// FOR NOTIFY POP UP
   closeRemiderClass() {
     this.isReminderPop = false;
     this.reminderRemarks = "";
@@ -770,10 +777,8 @@ export class ClassComponent implements OnInit {
     this.remarksLimit = 50 - this.reminderRemarks.length;
   }
 
-  sendReminder() {
-    // if (!this.jsonFlag.isProfessional) {
-    //   this.initiateCourseRemiderClass();
-    // } else {
+  sendReminder() {  // Send Reminder course wise only
+
       let obj = {
         batch_id: this.classMarkedForAction.batch_id,
         class_schedule_id: this.classMarkedForAction.schedule_id,
@@ -792,11 +797,10 @@ export class ClassComponent implements OnInit {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
         }
       )
-    // }
   }
 
 
-  initiateCourseRemiderClass() {
+  initiateCourseRemiderClass() {  // course reminder for class for course-wise
     let obj = {
       course_ids: this.classMarkedForAction.course_id,
       inst_id: this.jsonFlag.institute_id,
@@ -822,7 +826,7 @@ export class ClassComponent implements OnInit {
 // Cancel class  For Course Model pop Section
 
   closeCancelClass() {
-    this.isCancelPop = false;
+    // this.isCancelPop = false;
     this.cancellationReason = '';
   }
 
@@ -837,19 +841,28 @@ export class ClassComponent implements OnInit {
       is_notified: this.is_notified
     }
     obj.cancelSchd.push(schd);
-    this.jsonFlag.isRippleLoad = true;
+    // this.jsonFlag.isRippleLoad = true;
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Schedule Cancelled', 'The requested scheduled has been cancelled');
         this.closeCancelClass();
         this.getData();
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Cancel Schedule', err.error.message);
       }
     )
+  }
+
+  notifyCancelUpdate(e) {
+    if (e.target.checked) {
+      this.is_notified = "Y";
+    }
+    else {
+      this.is_notified = "N";
+    }
   }
 
 
@@ -945,7 +958,7 @@ export class ClassComponent implements OnInit {
       this.classService.notifyCancelClass(obj, 'class').subscribe(
         res => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Reminder Sent', 'Students have been notified');
+          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled schedule notification', 'Notification has been sent successfully');
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
@@ -982,7 +995,7 @@ export class ClassComponent implements OnInit {
     this.router.navigate(['/view/course/class/add']);
   }
 
-  storeSession(){
+  storeSession(){  // Set all course planner filter values in session
     this.sessionFiltersArr.isCompleted = this.filterStatusInputs.completed;
     this.sessionFiltersArr.isPending = this.filterStatusInputs.attendancePending;
     this.sessionFiltersArr.isCancelled = this.filterStatusInputs.cancelled;
