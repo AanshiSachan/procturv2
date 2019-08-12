@@ -549,50 +549,51 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
     this.RemoveActiveTabs();
-    if (id === 'lione' || id === 'li1') {
-      id = 'lione';
-      document.getElementById('lione').classList.add('active');
-    }
-    else if (id === 'litwo' || id === 'li2') {
-      id = 'litwo';
-      document.getElementById('litwo').classList.add('active');
-    }
-    else if (id === 'lithree' || id === 'li3') {
-      id = 'lithree';
-      document.getElementById('lithree').classList.add('active');
-    }
-    else if (id === 'lifour' || id === 'li4') {
-      id = 'lifour';
-      document.getElementById('lifour').classList.add('active');
-    }
-    else if (id === 'lifive' || id === 'li5') {
-      id = 'lifive';
-      document.getElementById('lifive').classList.add('active');
-    }
-    else if (id === 'lisix' || id === 'li6') {
-      id = 'lisix';
-      document.getElementById('lisix').classList.add('active');
-    }
-    else if (id === 'liseven' || id === 'li7') {
-      id = 'liseven';
-      document.getElementById('liseven').classList.add('active');
-    }
-    else if (id === 'lieight' || id === 'li8') {
-      id = 'lieight';
-      document.getElementById('lieight').classList.add('active');
-    }
-    else if (id === 'linine' || id === 'li9') {
-      id = 'linine';
-      document.getElementById('linine').classList.add('active');
-    }
-    else if (id === 'liten' || id === 'liX') {
-      id = 'liten';
-      document.getElementById('liten').classList.add('active');
-    }
-    else if (id === 'lizero' || id === 'li0') {
-      id = 'lizero';
-      document.getElementById('lizero').classList.add('active');
-    }
+    document.getElementById(id).classList.add('active');
+    // if (id === 'lione' || id === 'li1') {
+    //   id = 'lione';
+    //   document.getElementById('lione').classList.add('active');
+    // }
+    // else if (id === 'litwo' || id === 'li2') {
+    //   id = 'litwo';
+    //   document.getElementById('litwo').classList.add('active');
+    // }
+    // else if (id === 'lithree' || id === 'li3') {
+    //   id = 'lithree';
+    //   document.getElementById('lithree').classList.add('active');
+    // }
+    // else if (id === 'lifour' || id === 'li4') {
+    //   id = 'lifour';
+    //   document.getElementById('lifour').classList.add('active');
+    // }
+    // else if (id === 'lifive' || id === 'li5') {
+    //   id = 'lifive';
+    //   document.getElementById('lifive').classList.add('active');
+    // }
+    // else if (id === 'lisix' || id === 'li6') {
+    //   id = 'lisix';
+    //   document.getElementById('lisix').classList.add('active');
+    // }
+    // else if (id === 'liseven' || id === 'li7') {
+    //   id = 'liseven';
+    //   document.getElementById('liseven').classList.add('active');
+    // }
+    // else if (id === 'lieight' || id === 'li8') {
+    //   id = 'lieight';
+    //   document.getElementById('lieight').classList.add('active');
+    // }
+    // else if (id === 'linine' || id === 'li9') {
+    //   id = 'linine';
+    //   document.getElementById('linine').classList.add('active');
+    // }
+    // else if (id === 'liten' || id === 'liX') {
+    //   id = 'liten';
+    //   document.getElementById('liten').classList.add('active');
+    // }
+    // else if (id === 'lizero' || id === 'li0') {
+    //   id = 'lizero';
+    //   document.getElementById('lizero').classList.add('active');
+    // }
   }
 
   checkInstituteType() {
@@ -610,32 +611,31 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
   /// Teacher Role Found
   teacherLoginFound() {
-    document.getElementById('lione').classList.add('hide');
-    document.getElementById('litwo').classList.add('hide');
-    document.getElementById('lifive').classList.add('hide');
-    document.getElementById('liseven').classList.add('hide');
-    document.getElementById('lieight').classList.add('hide');
-    document.getElementById('linine').classList.add('hide');
+    let hideArray = ['lione', 'litwo', 'lifive', 'liseven', 'lieight', 'linine'];
+    hideArray.forEach(object => {
+      if (document.getElementById(object)) {
+        document.getElementById(object).classList.add('hide');
+      }      
+    });
 
-    document.getElementById('lithree').classList.remove('hide');
-    document.getElementById('lifour').classList.remove('hide');
-    document.getElementById('lisix').classList.remove('hide');
+    let removeArray = ['lithree', 'lifour', 'lisix'];
+    removeArray.forEach(object => {
+      if (document.getElementById(object)) {
+        document.getElementById(object).classList.remove('hide');
+      }
+    });
+
   }
 
   RemoveActiveTabs() {
-    document.getElementById('lizero').classList.remove('active');
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('liten').classList.remove('active');
-    /* document.getElementById('liten').classList.add('active');
-      document.getElementById('lieleven').classList.remove('active'); */
+    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive',
+      'lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone'];
+    removeArray.forEach(object => {
+      if (document.getElementById(object)) {
+        document.getElementById(object).classList.remove('active');
+      }
+    });
+
   }
 
   setActiveClassOnSideNav() {
@@ -659,6 +659,8 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
       document.getElementById('linine').classList.add('active');
     } else if (url.includes('library')) {
       document.getElementById('liten').classList.add('active');
+    } else if (url.includes('products')) {
+      document.getElementById('lieleone').classList.add('active');
     }
   }
 

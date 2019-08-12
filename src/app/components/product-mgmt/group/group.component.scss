@@ -1,0 +1,33 @@
+.product-group-wrapper{
+    padding: 0.8em;
+}
+
+.btn-product{
+    border-radius: 1.2em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+}
+
+.action-bar{
+    .form-el-width{
+        max-width: 25%;
+        display: inline-block;
+        margin: 0.4em;
+        vertical-align: middle;
+    }
+
+    .add-icon{
+        font-size: 1.2em;
+        background: #0066b7;
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        vertical-align: -2px;
+        margin-left: 4px;
+        border-radius: 100%;
+        color: #fff;
+        &:before{
+            content: '+';
+        }
+    }
+}
