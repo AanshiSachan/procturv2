@@ -17,7 +17,6 @@ export class TopicListComponent implements OnInit {
   constructor(private _toastPopup: MessageShowService) { }
 
   ngOnInit() {
-
   }
 
   toggleObject(topic) {
@@ -56,7 +55,7 @@ export class TopicListComponent implements OnInit {
   }
 
   cancelAdd(parentTopic) {
-    console.log(parentTopic);
+    // console.log(parentTopic);
     parentTopic.addSubtopic = [];
   }
 
@@ -71,11 +70,11 @@ export class TopicListComponent implements OnInit {
 
   eventAction(type, topic) {
     this.editView.emit({ 'data': topic, option: type });
-    console.log(topic);
+    // console.log(topic);
   }
 
   clearObject(topic) {
-    console.log(topic);
+    // console.log(topic);
     topic.name = topic.topicName;
     topic.isEdit = (!topic.isEdit)
   }

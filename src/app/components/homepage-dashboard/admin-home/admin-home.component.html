@@ -276,9 +276,9 @@
                               <div *ngIf="class.isExam" class="che-action pull-right"  [ngClass]="{hide : checkIfUserHadAccess('112')}">
                                 <img src="./assets/images/att.svg" alt="Mark Exam Attendance" title="Mark Exam Attendance" style="cursor:pointer" *ngIf="class.isReferenced == 'N'" [ngClass]="hideFutureExamSchedule(class)" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
                                 <img src="./assets/images/checked-att.svg" style="cursor:pointer" alt="Update Exam Attendance" title="Update Exam Attendance" *ngIf="class.isReferenced == 'Y'" (click)="markExamAttendance(i, class, class.subject_id, class.topics_covered)">
-                                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)">
-                                <!-- <img src="./assets/images/exam-update.svg" alt="Update Exam Marks" title="Update Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y'" (click)="examMarksUpdate(class)"> -->
-                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;ursor:pointer" title="Notify" (click)="notifyExamSchedule(i, class)" *ngIf='class.isReferenced != "Y"'></i>
+                                <img src="./assets/images/exam-non.svg" alt="Exam Marks" title="Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y' && class.is_exam_marks=='N'" (click)="examMarksUpdate(class)">
+                                <img src="./assets/images/exam-update.svg" alt="Update Exam Marks " title="Update Exam Marks" style="cursor:pointer" *ngIf="class.isReferenced == 'Y' && class.is_exam_marks=='Y'" (click)="examMarksUpdate(class)">
+                                <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;cursor:pointer" title="Notify" (click)="notifyExamSchedule(i, class)" *ngIf='class.isReferenced != "Y"'></i>
                                 <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel Exam" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)"></i>
                               </div>
                               <div *ngIf="!class.isExam" class="che-action pull-right" [ngClass]="{hide : checkIfUserHadAccess('101')}">
@@ -2068,17 +2068,8 @@
 
   <proctur-widget *ngIf="courseCommonExamCancelPopUP">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUpCommon()" close-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="Attendance9310 2185 16 16">
-        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
-                    305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
-                    305.77) rotate(45)" />
-          </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
-        </g>
+      <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+        <path class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
       </svg>
     </span>
     <h2 widget-header>Cancel Exam Schedule</h2>
@@ -2086,11 +2077,11 @@
     <div class="cancelExamWrapper" widget-content>
 
       <div class="details row">
-        <div class="c-sm-4 c-md-4 c-lg-4">
-          <h4>Master Course : {{courseTempData.master_course}} </h4>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <h6>Master Course : {{courseTempData.master_course}} </h6>
         </div>
-        <div class="c-sm-4 c-md-4 c-lg-4">
-          <h4>Exam Schedule Date : {{courseTempData.course_exam_date}} </h4>
+        <div class="c-sm-6 c-md-6 c-lg-6" style="text-align:right;">
+          <h6>Exam Schedule Date : {{courseTempData.course_exam_date | date: 'dd MMM yyyy'}} </h6>
         </div>
       </div>
 
@@ -2098,15 +2089,15 @@
       <div class="content-wraper">
         <div class="row button-Section">
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <h4>Course : {{courseTempData.course_name}}</h4>
+            <h6>Course : {{courseTempData.course_name}}</h6>
           </div>
-          <div class="pull-right" *ngIf="showReasonSection == ''">
+          <!-- <div class="pull-right" *ngIf="showReasonSection == ''">
             <button class="btn fullBlue" (click)="cancelExamCourseWise()">Cancel</button>
-          </div>
+          </div> -->
         </div>
       </div>
 
-      <div class="table-responsive" *ngIf="showReasonSection == ''">
+      <!-- <div class="table-responsive" *ngIf="showReasonSection == ''">
         <table class="cancel-table">
           <thead>
             <tr>
@@ -2135,9 +2126,9 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
 
-      <div class="cancel-section" *ngIf="showReasonSection == 'Course' || showReasonSection == 'Subject'">
+      <div class="cancel-section">
         <div class="cancel-Class-Wrapper">
           <div class="row attendance-Note">
             <div class="c-sm-6 c-md-6 c-lg-6">

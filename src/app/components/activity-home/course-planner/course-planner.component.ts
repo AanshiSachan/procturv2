@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthenticatorService } from '../../../services/authenticator.service';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
@@ -8,7 +8,8 @@ import {Pipe, PipeTransform} from '@angular/core'
 @Component({
   selector: 'app-course-planner',
   templateUrl: './course-planner.component.html',
-  styleUrls: ['./course-planner.component.scss']
+  styleUrls: ['./course-planner.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class CoursePlannerComponent implements OnInit {
 
@@ -32,14 +33,29 @@ export class CoursePlannerComponent implements OnInit {
         }
       }
     )
+    this.checkForSessionStorage();
+  }
+
+  checkForSessionStorage(){  // while returning to course planner if it is from exam or class
+    let isClass = sessionStorage.getItem('isClass');
+    if(isClass != null && isClass != ""){
+      isClass = JSON.parse(isClass);
+        if(isClass){
+          this.showMenuOf('class');
+        }
+        else{
+          this.showMenuOf('exam');
+        }
+    }
+    sessionStorage.setItem('isClass', "");
   }
 
   showMenuOf(activeModuleName){
-    if(this.activeModule){
-      this.activeModule = false;
-    }
-    else{
+    if(activeModuleName == 'class'){
       this.activeModule = true;
+    }
+    else if(activeModuleName == 'exam'){
+      this.activeModule = false;
     }
   }
 

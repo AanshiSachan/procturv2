@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from '../../../services/authenticator.service';
+
 
 @Component({
   selector: 'app-report-home',
@@ -10,48 +9,49 @@ import { AuthenticatorService } from '../../../services/authenticator.service';
 })
 export class ReportHomeComponent implements OnInit {
 
-  isProfessional: boolean;
-  isProfitnloss: boolean;
-  isEmail: boolean;
-  isReportCard: boolean;
-  isExam: boolean;
-  isSms: boolean ;
-  isFee: boolean ;
-  isBiometric: boolean ;
-  isAttendance: boolean ;
-  biometricAttendanceEnable: boolean = true;
-  reportEnquiry: boolean;
+  JsonFlags = {
+    isShowEnquiryReport: false,
+    biometricAttendanceEnable: true,
+    reportEnquiry: false,
+    isFee: false,
+    isAttendance: false,
+    isSms: false,
+    isBiometric: false,
+    isExam: false,
+    isReportCard: false,
+    isEmail: false,
+    isProfitnloss: false,
+    isProfessional: false
+  }
 
-  constructor(
-    private router: Router,
-    private appC: AppComponent,
-    private auth: AuthenticatorService) {
+
+  constructor(private auth: AuthenticatorService) {
     this.switchActiveView('home');
   }
 
   ngOnInit() {
-    this.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
+    this.JsonFlags.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
     this.auth.institute_type.subscribe(
       res => {
         if (res == 'LANG') {
-          this.isProfessional = true;
+          this.JsonFlags.isProfessional = true;
         } else {
-          this.isProfessional = false;
+          this.JsonFlags.isProfessional = false;
         }
       }
     )
     this.fetchAndUpdatePermissions();
   }
 
-    // changed by laxmi
-    switchActiveView(id) {
-      let classArray = ['home','attendance','sms','fee','exam','report','time','email','profit'];
-  
-      classArray.forEach((classname)=>{
-        document.getElementById(classname).classList.remove('active');
-      });
-      document.getElementById(id).classList.add('active');   
-    }
+  // changed by laxmi
+  switchActiveView(id) {
+    let classArray = ['home', 'attendance', 'sms', 'fee', 'exam', 'report', 'time', 'email', 'profit'];
+
+    classArray.forEach((classname) => {
+      document.getElementById(classname).classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+  }
 
   fetchAndUpdatePermissions() {
     let permissions = sessionStorage.getItem('permissions');
@@ -59,26 +59,28 @@ export class ReportHomeComponent implements OnInit {
     /* Admin Account Detected */
     if (permissions == '' || permissions == null || permissions == undefined) {
       if (sessionStorage.getItem('userType') == '0') {
-        this.isProfitnloss = true;
-        this.isEmail = true;
-        this.isReportCard = true;
-        this.isExam = true;
-        this.isSms = true;
-        this.isFee = true;
-        this.isBiometric = true;
-        this.isAttendance = true;
-        this.reportEnquiry = true;
+        this.JsonFlags.isProfitnloss = true;
+        this.JsonFlags.isEmail = true;
+        this.JsonFlags.isReportCard = true;
+        this.JsonFlags.isExam = true;
+        this.JsonFlags.isSms = true;
+        this.JsonFlags.isFee = true;
+        this.JsonFlags.isBiometric = true;
+        this.JsonFlags.isAttendance = true;
+        this.JsonFlags.reportEnquiry = true;
+        this.JsonFlags.isShowEnquiryReport = true;
       }
       else if (sessionStorage.getItem('userType') == '3') {
-        this.isProfitnloss = false;
-        this.isEmail = false;
-        this.isReportCard = true;
-        this.isExam = true;
-        this.isFee = false;
-        this.isBiometric = true;
-        this.isAttendance = true;
-        this.isSms = false;
-        this.reportEnquiry = false;
+        this.JsonFlags.isProfitnloss = false;
+        this.JsonFlags.isEmail = false;
+        this.JsonFlags.isReportCard = true;
+        this.JsonFlags.isExam = true;
+        this.JsonFlags.isFee = false;
+        this.JsonFlags.isBiometric = true;
+        this.JsonFlags.isAttendance = true;
+        this.JsonFlags.isSms = false;
+        this.JsonFlags.reportEnquiry = false;
+        this.JsonFlags.isShowEnquiryReport = false;
       }
     }
     else {
@@ -86,38 +88,38 @@ export class ReportHomeComponent implements OnInit {
 
       /* attendance */
       if (perm.indexOf('201') != -1) {
-        this.isAttendance = true;
-        this.isBiometric = true;
+        this.JsonFlags.isAttendance = true;
+        this.JsonFlags.isBiometric = true;
       }
 
       /* fee */
       if (perm.indexOf('202') != -1) {
-        this.isFee = true;
+        this.JsonFlags.isFee = true;
       }
 
       /* exam */
       if (perm.indexOf('203') != -1) {
-        this.isExam = true;
+        this.JsonFlags.isExam = true;
       }
 
       /* student report */
       if (perm.indexOf('204') != -1) {
-        this.isReportCard = true;
+        this.JsonFlags.isReportCard = true;
       }
 
       /* sms */
       if (perm.indexOf('206') != -1) {
-        this.isSms = true;
+        this.JsonFlags.isSms = true;
       }
 
       /* email */
       if (perm.indexOf('207') != -1) {
-        this.isEmail = true;
+        this.JsonFlags.isEmail = true;
       }
 
       /* profit and lodd */
       if (perm.indexOf('208') != -1) {
-        this.isProfitnloss = true;
+        this.JsonFlags.isProfitnloss = true;
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
@@ -11,7 +11,8 @@ declare var $;
 @Component({
   selector: 'app-exam-mark-update',
   templateUrl: './exam-mark-update.component.html',
-  styleUrls: ['./exam-mark-update.component.scss']
+  styleUrls: ['./exam-mark-update.component.scss'],
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class ExamMarkUpdateComponent implements OnInit {
 
@@ -28,7 +29,8 @@ export class ExamMarkUpdateComponent implements OnInit {
   isRippleLoad: boolean = false;
   institute_id: any;
   upload_text: any = 'Upload Marks';
-
+  examGradeFeature: any;
+  coursePlannerStatus: any;
 
   constructor(
     private router: Router,
@@ -49,13 +51,22 @@ export class ExamMarkUpdateComponent implements OnInit {
         }
       }
     );
+    this.examGradeFeature = Number(sessionStorage.getItem('is_exam_grad_feature'));
+    this.checkForCoursePlannerRoute();
     this.fetchWidgetPrefill();
+  }
+
+  checkForCoursePlannerRoute(){
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
   fetchWidgetPrefill() {
     let encryptedData = sessionStorage.getItem('exam_info');
-    let data = atob(encryptedData)
+    let data = atob(encryptedData);
     this.exam_info = JSON.parse(data);
+    if(this.coursePlannerStatus){
+      this.exam_info.data.is_exam_grad_feature = this.examGradeFeature
+    }
     let data1 = this.exam_info.data;
     this.examMarksUpdateCourse(data1);
   }
@@ -139,7 +150,7 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   /**
-   * convert binary data into excel 
+   * convert binary data into excel
    * created by : laxmi wapte
    */
 
@@ -166,7 +177,7 @@ export class ExamMarkUpdateComponent implements OnInit {
 
 
   /**
-   * 
+   *
    */
   updateGradesOption() {
     if (this.examMarksLevel == "0" || Number(this.examMarksLevel) == 3) {
@@ -275,6 +286,32 @@ export class ExamMarkUpdateComponent implements OnInit {
       this.messageNotifier('error', '', 'Please select student from student list');
       return;
     }
+    else {
+      let flag = true;
+      for (let i = 0; i < data.length; i++) {
+        let obejct = data[i].batchExamMarksLi;
+        if (data[i].assigned && data[i].attendance == 'P') {
+          if (this.examMarksLevel == '1') {
+            for (let j = 0; j < obejct.length; j++) {
+              if (obejct[j].grade_id == -1) {
+                flag = false;
+                this.messageNotifier('error', '', 'Please select grades');
+              }
+            }
+          }
+          if (flag && data[i].grade_id == -1 && data[i].attendance == 'P') {
+            flag = false;
+            this.messageNotifier('error', '', 'Please select grades');
+          }
+        }// check grades are given or not
+
+        delete data[i].assigned;
+      }
+      if (!flag) {
+        return;
+      }
+    }
+
     if (data == false) {
       return;
     }
@@ -298,6 +335,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     let notassignCount = 0;
     for (let i = 0; i < this.studentAttList.length; i++) {
       let obj: any = {};
+      obj.assigned = this.studentAttList[i].assigned;
       obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
       obj.isStudentExamSMS = 'N'
@@ -315,6 +353,7 @@ export class ExamMarkUpdateComponent implements OnInit {
       }
       // obj.isUpdated = this.studentAttList[i].isUpdated;
       obj.isSendExamRemarkInSMS = 'N';
+      obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
       obj.isAttendanceUpdated = this.studentAttList[i].isAttendanceUpdated;
@@ -341,6 +380,7 @@ export class ExamMarkUpdateComponent implements OnInit {
     let notassignCount = 0;
     for (let i = 0; i < this.studentAttList.length; i++) {
       let obj: any = {};
+      obj.assigned = this.studentAttList[i].assigned;
       obj.course_exam_schedule_id = this.studentAttList[i].course_exam_schedule_id;
       obj.course_marks_update_level = this.examMarksLevel;
       obj.batchExamMarksLi = this.makeMarksDataJSON(this.studentAttList[i].attendance, this.studentAttList[i].batchExamMarksLi);
@@ -353,14 +393,13 @@ export class ExamMarkUpdateComponent implements OnInit {
       if (this.studentAttList[i].assigned) {
         obj.isUpdated = 'Y';
         obj.isStudentExamSMS = 'Y';
-        obj.isSendExamRemarkInSMS ='Y';
+        obj.isSendExamRemarkInSMS = 'Y';
       } else {
         obj.isUpdated = 'N';
         obj.isStudentExamSMS = 'N';
-        obj.isSendExamRemarkInSMS ='N';
+        obj.isSendExamRemarkInSMS = 'N';
         notassignCount++;
       }
-      // obj.isSendExamRemarkInSMS = this.studentAttList[i].remarks ? 'Y' : 'N';
       obj.remarks = this.studentAttList[i].remarks;
       obj.isOnlineTestUpdate = this.studentAttList[i].isOnlineTestUpdate;
       obj.attendance = this.studentAttList[i].attendance;
@@ -454,7 +493,9 @@ export class ExamMarkUpdateComponent implements OnInit {
 
   markAllCheckBoxClick(event) {
     this.studentAttList.forEach(element => {
-      element.assigned = event.target.checked;
+      if(element.attendance=='P'){
+        element.assigned = event.target.checked;
+      }      
     });
   }
 
@@ -463,11 +504,22 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   closeAttendance() {
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
   backToHome() {
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      sessionStorage.setItem('exam_info', '');
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
 }

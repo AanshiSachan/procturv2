@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
@@ -17,7 +17,8 @@ import { BiometricStatusServiceService } from '../../../services/biometric-statu
 @Component({
   selector: 'admin-home',
   templateUrl: './admin-home.component.html',
-  styleUrls: ['./admin-home.component.scss']
+  styleUrls: ['./admin-home.component.scss'],
+  // encapsulation: ViewEncapsulation.None
 })
 export class AdminHomeComponent implements OnInit {
 
@@ -198,7 +199,7 @@ export class AdminHomeComponent implements OnInit {
     if(userType == 0 && username == "admin"){
       this.userTypeForExpenses = false;
     }
-    else if(this.permissionArray.includes("715") || this.permissionArray.includes("716")){
+    else if( this.permissionArray && (this.permissionArray.includes("715") || this.permissionArray.includes("716"))){
       this.userTypeForExpenses = false;
     }
     else{
@@ -3062,7 +3063,7 @@ export class AdminHomeComponent implements OnInit {
       let obj: any = {};
       obj.course_exam_schedule_id = this.studentList[i].course_exam_schedule_id;
       if (this.tempData.course_marks_update_level == '0') {
-        obj.course_marks_update_level = '3';// 3 mark attendence  2- coursewisw 1 subject 
+        obj.course_marks_update_level = '3';// 3 mark attendence  2- coursewisw 1 subject
       } else {
         obj.course_marks_update_level = this.tempData.course_marks_update_level;
       }
@@ -3336,7 +3337,7 @@ export class AdminHomeComponent implements OnInit {
       this.messageNotifier('error', 'Error', 'Please provide reason');
       return false;
     }
-    if (this.showReasonSection == "Course") {
+    // if (this.showReasonSection == "Course") {
       let obj = {
         cancel_reason: this.cancelPopUpData.reason,
         course_exam_schedule_id: this.tempData.course_exam_schedule_id,
@@ -3357,30 +3358,30 @@ export class AdminHomeComponent implements OnInit {
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
-    } else {
-      let obj: any = {
-        batch_id: this.tempData.batch_id,
-        exam_freq: "OTHER",
-        cancelSchd: [{
-          schd_id: this.tempData.schd_id,
-          exam_desc: this.cancelPopUpData.reason,
-          is_notified: notify
-        }]
-      }
-      this.isRippleLoad = true;
-      this.widgetService.cancelExamSchedule(obj).subscribe(
-        res => {
-          this.isRippleLoad = false;
-          this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
-          this.generateCourseLevelWidget();
-          this.closePopUpCommon();
-        },
-        err => {
-          this.isRippleLoad = false;
-          this.messageNotifier('error', 'Error', err.error.message);
-        }
-      )
-    }
+    // } else {
+    //   let obj: any = {
+    //     batch_id: this.tempData.batch_id,
+    //     exam_freq: "OTHER",
+    //     cancelSchd: [{
+    //       schd_id: this.tempData.schd_id,
+    //       exam_desc: this.cancelPopUpData.reason,
+    //       is_notified: notify
+    //     }]
+    //   }
+    //   this.isRippleLoad = true;
+    //   this.widgetService.cancelExamSchedule(obj).subscribe(
+    //     res => {
+    //       this.isRippleLoad = false;
+    //       this.messageNotifier('success', 'Cancelled', 'Exam Cancelled Successfully');
+    //       this.generateCourseLevelWidget();
+    //       this.closePopUpCommon();
+    //     },
+    //     err => {
+    //       this.isRippleLoad = false;
+    //       this.messageNotifier('error', 'Error', err.error.message);
+    //     }
+    //   )
+    // }
   }
 
 

@@ -172,13 +172,17 @@
                             <option value="3">Cleared</option>
                         </select>
                     </div>
+                    <div class="field-wrapper">
+                        <label for="PMode">Reason For Update<span class="text-danger">*</span></label>
+                        <input [(ngModel)]="dishonouredReason" id="PMode"  type="text" class="form-ctrl">
+                    </div>
                 </div>
 
                 <div class="" popup-footer>
                     <div class="clearfix">
                         <aside class="pull-right popup-btn">
                             <input type="button" value="Cancel" class="btn" (click)="cancelUpdate()">
-                            <input type="button" value="Update" class="fullBlue btn" (click)="updateRecord()">
+                            <input type="button" value="Update" [disabled]="dishonouredReason==''" class="fullBlue btn" (click)="updateRecord()">
                         </aside>
                     </div>
                 </div>

@@ -143,7 +143,7 @@
 
 <!-- Cancel pop up for Course Model-->
 <!-- Modal  -->
-<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isCancelPop">
+<div class="modal" id="cancelModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"> <!---*ngIf="isCancelPop"--->
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -151,7 +151,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
         <h5 class="modal-title" id="exampleModalLongTitle">Cancel Class
-          <span style="font-weight: 600;">{{classMarkedForAction.batch_name}}</span>
+          <span style="font-weight: 600;">{{classMarkedForAction?.batch_name}}</span>
         </h5>
       </div>
       <div class="modal-body">
@@ -175,7 +175,7 @@
       <div class="modal-footer">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" data-dismiss="modal" class="btn" (click)="closeCancelClass()">
-          <input type="button" value="Cancel Class" data-dismiss="modal" aria-hidden="true" (click)="cancelClass()" [disabled]="jsonFlag.isRippleLoad" class="btn fullBlue">
+          <input type="button" value="Cancel Class" data-dismiss="modal" (click)="cancelClass()" [disabled]="jsonFlag.isRippleLoad" class="btn fullBlue">
         </aside>
       </div>
     </div>
@@ -184,7 +184,7 @@
 
 <!-- Cancel pop up for Batch Model-->
 <!-- Modal  -->
-<div class="modal fade" id="cancelBatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isCourseCancel">
+<div class="modal" id="cancelBatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" *ngIf="isCourseCancel">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -253,7 +253,7 @@
           <span>Subject</span>
           <select class="header-select-box" name="" [(ngModel)]="inputElements.subject" (ngModelChange)="updateSubject()">
             <option value="-1">Select Subject</option>
-            <option [value]="subject.batch_id" *ngFor="let subject of subjectList">{{subject.batch_name}}</option>
+            <option [value]="subject.batch_id" *ngFor="let subject of subjectList">{{subject.subject_name}}</option>
           </select>
         </div>
 
@@ -299,22 +299,22 @@
               <div class="date-values-container">
                 <div class="field-checkbox-wrapper date-value-item">
                   <input type="checkbox" id="thisWeek" name="thisWeek" [(ngModel)]="filterDateInputs.thisWeek"
-                      class="form-checkbox" (change)="updateDateFilter('thisWeek')">
+                      class="form-checkbox" (change)="updateDateFilter('thisWeek', $event)">
                   <label for="thisWeek">This Week</label>
                 </div>
                 <div class="field-checkbox-wrapper date-value-item">
                   <input type="checkbox" id="lastWeek" name="lastWeek" [(ngModel)]="filterDateInputs.lastWeek"
-                      class="form-checkbox" (change)="updateDateFilter('lastWeek')">
+                      class="form-checkbox" (change)="updateDateFilter('lastWeek', $event)">
                   <label for="lastWeek">Last Week</label>
                 </div>
                 <div class="field-checkbox-wrapper date-value-item">
                   <input type="checkbox" id="thisMonth" name="thisMonth" [(ngModel)]="filterDateInputs.thisMonth"
-                      class="form-checkbox" (change)="updateDateFilter('thisMonth')">
+                      class="form-checkbox" (change)="updateDateFilter('thisMonth', $event)">
                   <label for="thisMonth">This Month</label>
                 </div>
                 <div class="field-checkbox-wrapper date-value-item">
                   <input type="checkbox" id="custom" name="custom" [(ngModel)]="filterDateInputs.custom"
-                      class="form-checkbox" (change)="updateDateFilter('custom')">
+                      class="form-checkbox" (change)="updateDateFilter('custom', $event)">
                   <label for="custom">Custom</label>
                   <input style="margin-left:10%;visibility:hidden;" type="text" value="" id="customeDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
                     [(ngModel)]="filterDateRange" (ngModelChange)="updateFilterDateRange($event)" readonly="true" bsDaterangepicker/>
@@ -394,7 +394,8 @@
           <span>Course</span>
         </div>
         <div class="table-heading-item medium" *ngIf="showHideColumns.subject">
-          <span>Subject</span>
+          <span *ngIf="!jsonFlag.isProfessional">Subject</span>
+          <span *ngIf="jsonFlag.isProfessional">Batch</span>
         </div>
         <div class="table-heading-item medium" *ngIf="showHideColumns.description">
           <span>Description</span>
@@ -427,22 +428,23 @@
               </div> -->
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="course" name="" [(ngModel)]="showHideColumns.course"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.course && checkedColCounter == 3">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.course && checkedColCounter == 2">
                 <label for="course">Course</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="subject" name="" [(ngModel)]="showHideColumns.subject"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == 3">
-                <label for="subject">Subject</label>
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == 2">
+                <label for="subject" *ngIf="!jsonFlag.isProfessional">Subject</label>
+                <label for="subject" *ngIf="jsonFlag.isProfessional">Batch</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="topic" name="" [(ngModel)]="showHideColumns.topic"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 3">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 2">
                 <label for="topic">Topic</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="teacher" name="" [(ngModel)]="showHideColumns.teacher"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.teacher && checkedColCounter == 3">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.teacher && checkedColCounter == 2">
                 <label for="teacher">Teacher</label>
               </div>
             </div>
@@ -453,18 +455,13 @@
                 <span style="font-weight: 400;color:#585574;">To selct the below option(s) please unselect above option(s)</span>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
-                <input type="checkbox" id="teacher" name="" [(ngModel)]="showHideColumns.masterCourse"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.masterCourse && checkedColCounter == 3">
-                <label for="teacher">Master Course</label>
-              </div>
-              <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="description" name="" [(ngModel)]="showHideColumns.description"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == 3">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == 2">
                 <label for="description">Description</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="homework" name="" [(ngModel)]="showHideColumns.homework"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.homework && checkedColCounter == 3">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.homework && checkedColCounter == 2">
                 <label for="homework">Homework</label>
               </div>
             </div>
@@ -493,23 +490,23 @@
             <span>&nbsp;- &nbsp;</span>
             <span>{{course.end_time}}</span>
           </div>
-          <div class="table-value-item medium" *ngIf="showHideColumns.masterCourse">
-            <span title="{{course.master_course_name}}">{{ (course.master_course_name.length > 25) ? (course.master_course_name | slice:0:25) + '...' : course.master_course_name }}</span>
-          </div>
           <div class="table-value-item medium"  *ngIf="showHideColumns.course">
-            <span title="{{course.course_name}}">{{ (course.course_name.length > 25) ? (course.course_name | slice:0:25) + '...' : course.course_name }}</span>
+            <span title="{{course.course_name}}">{{ (course.course_name.length > 20) ? (course.course_name | slice:0:20) + '...' : course.course_name }}</span>
           </div>
-          <div class="table-value-item medium"  *ngIf="showHideColumns.subject">
-            <span title="{{course.subject_name}}">{{ (course.subject_name.length > 25) ? (course.subject_name | slice:0:25) + '...' : course.subject_name }}</span>
+          <div class="table-value-item medium"  *ngIf="showHideColumns.subject && !jsonFlag.isProfessional">
+            <span title="{{course.subject_name}}">{{ (course.subject_name.length > 20) ? (course.subject_name | slice:0:20) + '...' : course.subject_name }}</span>
+          </div>
+          <div class="table-value-item medium"  *ngIf="showHideColumns.subject && jsonFlag.isProfessional">
+            <span title="{{course.batch_name}}">{{ (course.batch_name.length > 20) ? (course.batch_name | slice:0:20) + '...' : course.batch_name }}</span>
           </div>
           <div class="table-value-item medium" *ngIf="showHideColumns.description">
-            <span title="{{course.description}}">{{ (course.description.length > 25) ? (course.description | slice:0:25) + '...' : course.description }}</span>
+            <span title="{{course.description}}">{{ (course.description.length > 20) ? (course.description | slice:0:20) + '...' : course.description }}</span>
           </div>
           <div class="table-value-item medium" *ngIf="showHideColumns.homework">
-            <span title="{{course.homework_assigned}}">{{ (course.homework_assigned.length > 25) ? (course.homework_assigned | slice:0:25) + '...' : course.homework_assigned }}</span>
+            <span title="{{course.homework_assigned}}">{{ (course.homework_assigned.length > 20) ? (course.homework_assigned | slice:0:20) + '...' : course.homework_assigned }}</span>
           </div>
           <div class="table-value-item medium" *ngIf="showHideColumns.teacher">
-            <span title="{{course.teacher_name}}">{{ (course.teacher_name.length > 25) ? (course.teacher_name | slice:0:25) + '...' : course.teacher_name }}</span>
+            <span title="{{course.teacher_name}}">{{ (course.teacher_name.length > 20) ? (course.teacher_name | slice:0:20) + '...' : course.teacher_name }}</span>
           </div>
           <div class="table-value-item large"  *ngIf="showHideColumns.topic">
             <span title="{{course.topics_covered}}">{{ (course.topics_covered.length > 25) ? (course.topics_covered | slice:0:25) + '...' : course.topics_covered }}</span>
@@ -524,7 +521,7 @@
             <div class="action-container" *ngIf="course.status == 'Upcoming'">  <!--  upcoming classes action -->
               <img src="./assets/images/reschedule.svg" alt="Reschedule" title="Reschedule" data-toggle="modal" data-target="#rescheduleModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRescheduleClass(course)">
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
-              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCancelClass(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(course)"></i>
             </div>
@@ -533,17 +530,17 @@
               <img src="./assets/images/att.svg" alt="Mark Attendance" title="Mark Attendance" *ngIf="course.is_attendance_marked == 'N'" (click)="initiateMarkAttendance(course)">
               <img src="./assets/images/reschedule.svg" alt="Reschedule" title="Reschedule" data-toggle="modal" data-target="#rescheduleModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRescheduleClass(course)">
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
-              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCancelClass(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional && course.is_attendance_marked != 'Y'" (click)="initiateCourseCancelClass(course)"></i>
             </div>
             <div class="action-container" *ngIf="course.status == 'Cancelled' || course.status == 'Cancel(Class)'">  <!--  cancelled classes action -->
-              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4;" title="Notify" (click)="notifyCancelClass(course)"></i>
             </div>
             <div class="action-container" *ngIf="course.status == 'Completed'">  <!--  completed classes action -->
               <img src="./assets/images/checked-att.svg" alt="Mark Attendance" title="Update Attendance" *ngIf="course.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(course)">
               <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" data-toggle="modal" data-target="#notifyModal" *ngIf="getVisibility(course) && course.is_attendance_marked != 'Y'" (click)="initiateRemiderClass(course)"></i>
-              <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i>
+              <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
             </div>
           </div>
         </div>

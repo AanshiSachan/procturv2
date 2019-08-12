@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CoursePlannerComponent } from './course-planner.component';
 import { ClassComponent } from './class/class.component';
 import { ExamComponent } from './exam/exam.component';
-
-
-const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forChild([
@@ -18,36 +15,7 @@ const routes: Routes = [];
                 path: '',
                 component: ClassComponent,
                 pathMatch: 'prefix'
-            },
-            {
-                path: 'home',
-                component: ClassComponent,
-                pathMatch: 'prefix'
-            },
-            // {
-            //     path:'batches',
-            //     component:BatchesComponent
-            // },
-            // {
-            //     path:'batchesArchivedReport',
-            //     component:BatchesArchivedReportComponent
-            // },
-            // {
-            //     path:'students',
-            //     component:StudentsComponent
-            // },
-            // {
-            //     path:'studentsArchivedReport',
-            //     component: StudentsArchivedReportComponent
-            // },
-            // {
-            //     path:'courses',
-            //     component:CoursesComponent
-            // },
-            // {
-            //     path:'coursesArchivedReport',
-            //     component: CoursesArchivedReportComponent
-            // }
+            }
         ]
       }
     ])

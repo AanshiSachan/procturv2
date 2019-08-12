@@ -84,7 +84,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   inventoryItemsArr: any[] = [];
   newPdcArr: any[] = [];
   chequePdcList: any[] = [];
-  pdcStatus: any[] = [];
+  // pdcStatus: any[] = [];
   studentPartialPaymentData: any[] = [];
   paymentStatusArr: any[] = [];
   allocatedInventoryHistory: any[] = [];
@@ -589,21 +589,21 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     )
     this.isRippleLoad = true;
-    this.studentPrefillService.getChequeStatus().subscribe(
-      data => {
-        this.pdcStatus = data;
-      },
-      err => {
-        let msg = err.error.message;
-        this.isRippleLoad = false;
-        let obj = {
-          type: 'error',
-          title: msg,
-          body: ""
-        }
-        this.appC.popToast(obj);
-      }
-    )
+    // this.studentPrefillService.getChequeStatus().subscribe(
+    //   data => {
+    //     this.pdcStatus = data;
+    //   },
+    //   err => {
+    //     let msg = err.error.message;
+    //     this.isRippleLoad = false;
+    //     let obj = {
+    //       type: 'error',
+    //       title: msg,
+    //       body: ""
+    //     }
+    //     this.appC.popToast(obj);
+    //   }
+    // )
     this.getPdcChequeList();
     this.isRippleLoad = true;
     this.prefill.getEnqStardards().subscribe(
@@ -1037,7 +1037,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       else {
         this.batchList = [];
         this.isRippleLoad = true;
-        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, student_id).subscribe(
+        this.studentPrefillService.fetchStudentCourseDetails(this.student_id, '-1').subscribe(
           res => {
             console.log(res);
             if (res.coursesList != null) {
@@ -2319,7 +2319,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
+          // this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },
