@@ -1784,6 +1784,10 @@
     border-spacing: 5px 5px;
 }
 
+.table-scroll-wrapper {
+    overflow: auto;
+}
+
 .black-bg{
   background: rgba(10,10,10,0.3);
   position: fixed;
