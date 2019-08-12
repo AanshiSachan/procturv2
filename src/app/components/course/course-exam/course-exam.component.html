@@ -297,6 +297,9 @@
                 </div>
 
                 <div class="row btn-Group">
+                  <div class="pull-left">
+                    <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+                  </div>
                     <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" [disabled]="isRippleLoad" (click)="addDataToExamSchedule()">Create Exam Schedule</button>
                     <!-- <button class="btn fullBlue pull-right" *ngIf="examScheduleData.otherSchd.length !=0" (click)="addDataToExamSchedule()">Update</button> -->
                 </div>

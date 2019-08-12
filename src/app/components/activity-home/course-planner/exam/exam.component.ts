@@ -225,7 +225,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
          }
       );
     }
@@ -243,7 +243,7 @@ export class ExamComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
          }
       );
     }
@@ -255,7 +255,7 @@ export class ExamComponent implements OnInit {
         this.facultyList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
       }
     );
   }
@@ -668,16 +668,16 @@ export class ExamComponent implements OnInit {
         is_cancel_notify: notify,
         requested_date: moment(this.tempData.date).format('YYYY-MM-DD')
       }
-      this.jsonFlag.isRippleLoad = true;
+      // this.jsonFlag.isRippleLoad = true;
       this.widgetService.cancelExamScheduleCourse(obj).subscribe(
         res => {
-          this.jsonFlag.isRippleLoad = false;
+          // this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled', 'Exam Cancelled Successfully');
           this.closePopUpCommon();
           this.getData();
         },
         err => {
-          this.jsonFlag.isRippleLoad = false;
+          // this.jsonFlag.isRippleLoad = false;
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         }
       )
@@ -730,16 +730,16 @@ export class ExamComponent implements OnInit {
         is_notified: notify
       }]
     }
-    this.jsonFlag.isRippleLoad = true;
+    // this.jsonFlag.isRippleLoad = true;
     this.widgetService.cancelExamSchedule(obj).subscribe(
       res => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Successfully Cancelled', 'Exam Schedule Cancelled Successfully');
         this.closeExamPopup();
         this.getData();
       },
       err => {
-        this.jsonFlag.isRippleLoad = false;
+        // this.jsonFlag.isRippleLoad = false;
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
       }
     )
@@ -791,7 +791,7 @@ export class ExamComponent implements OnInit {
         batch_id: exam.batch_id,
         schd_id: exam.schedule_id,
         batch_name: exam.batch_name,
-        topics_covered: exam,
+        topics_covered: exam.topic_covered_ids,
         course_name: exam.standard_name,
         master_course_name: exam.batch_name,
         subject_id: exam,
