@@ -24,6 +24,7 @@ export class EcourseListComponent implements OnInit {
     this.auth.currentInstituteId.subscribe(id => {
       this.institute_id = id;
     });
+    console.log("EcourseListComponent");
   }
 
   ngOnInit() {

@@ -1,6 +1,11 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
+<button  class="btn " (click)=" getVdocipherVideoOtp()">
+  show Video Stream
+</button>
+
+<!-- (click)="ShowVideo('20160313versASE323ND0ylfz5VIJXZEVtOIgZO8guUTY5fTa92lZgixRcokG2xm','eyJ2aWRlb0lkIjoiNGQ1YjRiMzA5YjQ5NGUzYTgxOGU1ZDE3NDZiNzU2ODAifQ==')" -->
 <div class="row">
     <div class="head" id="addDiv" routerLink="/view/course/topic" style="text-align: right">
       <button class="btn_addecourse">
@@ -276,6 +281,22 @@
             <button class="btn btn-xs btn-ga-white" (click)="removeData()">Delete</button>
             <button class="btn btn-xs btn-ga-white" (click)="showModal = false">Cancel</button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ga-modal-wrapper" [hidden]="showVideo">
+  <div class="ga-modal-container">
+    <div class="ga-modal" style="height: 460px;">
+      <div class="ga-modal-head" style="text-align: left">
+        <span>uploadCheck77</span>  
+        <button style="    position: absolute; right: 21rem; top: 5.6rem;" class="btn btn-xs btn-ga-white" (click)="showVideo = true">X</button>
+      </div>
+      <div class="ga-modal-body">
+        <div class="row upload-box">
+          <div id="embedBox" style="width:700px;max-width:100%;height:auto;"></div>
         </div>
       </div>
     </div>
