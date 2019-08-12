@@ -25,6 +25,7 @@ export class ExamComponent implements OnInit {
     institute_id: '',
     isRippleLoad: false,
     showHideColumn: false,
+    setting: true
   };
   coursePlannerFor: String = "exam";
   // apis variables to send
@@ -58,10 +59,10 @@ export class ExamComponent implements OnInit {
     subject: true,
     topic: true,
     description: false,
-    roomNo: false
+    // roomNo: false
   };
   // for show hide table columns
-  checkedColCounter: number = 2;
+  checkedColCounter: number = 1;
   // Array Elements
   facultyList: any[] = [];
   coursePlannerData: any = [];  // saved course planner fetched data
@@ -73,9 +74,9 @@ export class ExamComponent implements OnInit {
   // batch model array
   batchList: any[] = [];
 
- coursePlannerFilters: CoursePlanner = new CoursePlanner();
+  coursePlannerFilters: CoursePlanner = new CoursePlanner();
 
- sessionFiltersArr: SessionFilter = new SessionFilter();
+  sessionFiltersArr: SessionFilter = new SessionFilter();
 
   filterShow: boolean = false;
   filterDateRange: any = "";
@@ -87,7 +88,6 @@ export class ExamComponent implements OnInit {
   displayBatchSize: number = 20;
   totalCount: number = 0;
   sizeArr: any[] = [20, 50, 100, 150, 200, 500];
-
 
   // pop up section variables
 
@@ -123,21 +123,23 @@ export class ExamComponent implements OnInit {
       }
     )
 
-    // this.showHideColForModel();
+
+    this.showHideColForModel();
     this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     this.fetchPreFillData();
     let filters = sessionStorage.getItem('coursePlannerFilter');
-    if(filters){
+    if(filters){  // if session filters are not blank
       this.sessionFilters(filters);
     }
   }
 
-  // showHideColForModel(){
-  //   if(this.jsonFlag.isProfessional){
-  //     this.showHideColumns.description = true;
-  //     this.showHideColumns.topic = false;
-  //   }
-  // }
+  showHideColForModel(){
+    if(this.jsonFlag.isProfessional){
+      this.showHideColumns.description = true;
+      this.showHideColumns.topic = false;
+      this.jsonFlag.setting = false;
+    }
+  }
 
   sessionFilters(filters){
     this.sessionFiltersArr = JSON.parse(filters);
@@ -404,8 +406,8 @@ export class ExamComponent implements OnInit {
       e.currentTarget.checked = true;
     }
     else if(inputDateFilter == 'lastWeek'){     // Last week
-      this.coursePlannerFilters.from_date = moment().subtract('week', 1).format("YYYY-MM-DD");
-      this.coursePlannerFilters.to_date = moment().format("YYYY-MM-DD");
+      this.coursePlannerFilters.from_date = moment().subtract(1, 'weeks').startOf('isoWeek').format("YYYY-MM-DD");
+      this.coursePlannerFilters.to_date = moment().subtract(1, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
       this.filterDateInputs.lastWeek = true;
       e.currentTarget.checked = true;
     }
@@ -747,35 +749,37 @@ export class ExamComponent implements OnInit {
 
   //  Notify to Cancel Class
     notifyCancelClass(selected){
-      let obj = {};
-      if(!this.jsonFlag.isProfessional){
-        obj = {
-          "institute_id": this.jsonFlag.institute_id,
-          "schedule_id": selected.schedule_id,
-          "to_date": selected.date,
-          "course_id": selected.course_id
+      if (confirm('Are you sure you want to notify?')) {
+        let obj = {};
+        if(!this.jsonFlag.isProfessional){
+          obj = {
+            "institute_id": this.jsonFlag.institute_id,
+            "schedule_id": selected.schedule_id,
+            "to_date": selected.date,
+            "course_id": selected.course_id
+          }
         }
-      }
-      else{
-        obj = {
-          "institute_id": this.jsonFlag.institute_id,
-          "schedule_id": selected.schedule_id,
-          "to_date": selected.date,
-          "batch_id": selected.batch_id
+        else{
+          obj = {
+            "institute_id": this.jsonFlag.institute_id,
+            "schedule_id": selected.schedule_id,
+            "to_date": selected.date,
+            "batch_id": selected.batch_id
+          }
         }
-      }
 
-      this.jsonFlag.isRippleLoad = true;
-      this.classService.notifyCancelClass(obj, 'exam').subscribe(
-        res => {
-          this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Reminder Sent', 'Students have been notified');
-        },
-        err => {
-          this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
-        }
-      )
+        this.jsonFlag.isRippleLoad = true;
+        this.classService.notifyCancelClass(obj, 'exam').subscribe(
+          res => {
+            this.jsonFlag.isRippleLoad = false;
+            this.msgService.showErrorMessage(this.msgService.toastTypes.success, 'Cancelled schedule notification', 'Notification has been sent successfully');
+          },
+          err => {
+            this.jsonFlag.isRippleLoad = false;
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Failed To Notify', err.error.message);
+          }
+        )
+      }
     }
 
 
