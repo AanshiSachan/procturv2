@@ -60,7 +60,8 @@
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
             <label for="slotNew">Tax(%)
             </label>
-            <input type="number" max="99" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_tax" name="slotNew">
+            <input type="number" max="99" #idSlot class="form-ctrl" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="addNewFee.fee_type_tax"
+              name="slotNew">
 
           </div>
         </div>
@@ -84,6 +85,12 @@
           </th>
           <th>
             Tax(%)
+            <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                Enable  GST
+              </div>
+            </div>
           </th>
           <th>
             Action
@@ -108,7 +115,8 @@
             </td>
             <td>
               <div class="field-wrapper">
-                <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_type_tax" name="label">
+                <input type="number" class="form-ctrl editCellInput" style="width:25%" [readonly]="isTaxEnableFeeInstallments" [(ngModel)]="row.fee_type_tax"
+                  name="tax">
               </div>
             </td>
             <td>

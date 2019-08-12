@@ -10,6 +10,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 export class FeeTypesComponent implements OnInit {
 
   createNewFeeType: boolean = false;
+  isTaxEnableFeeInstallments: boolean = false;
   addNewFee = {
     fee_type: '',
     fee_type_desc: '',
@@ -26,6 +27,8 @@ export class FeeTypesComponent implements OnInit {
 
   ngOnInit() {
     this.getListOfFeeType();
+    this.isTaxEnableFeeInstallments = sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0' ? true : false;
+
   }
 
   getListOfFeeType() {

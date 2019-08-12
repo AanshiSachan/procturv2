@@ -72,6 +72,9 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
       this.recordCount = this.displayData.length;
       // this.displayKeys.displayMessage = "Data not found";
     }
+    if(this.displayData.length==1){
+      $('#printDiv tbody').css('height','35vh');
+    }
   }
 
   notifyMe(e) {
@@ -208,7 +211,7 @@ export class DataDisplayTableComponent implements OnInit, OnChanges {
 
 
   rowClick(index) {
-    if (index == (this.recordsTrimmed.length - 1)) {
+    if (index == (this.recordsTrimmed.length - 1) &&index!=0) {
       $(".dd-list-container").css("bottom", "-30px");
     }
   }
