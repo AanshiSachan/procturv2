@@ -70,7 +70,6 @@
               <span>Remarks</span>
             </div>
           </div>
-<<<<<<< HEAD
           <!-- Body Container -->
           <div class="value_container" *ngFor="let s of studentAttList; let i=index;">
             <div style="width: 5%;padding:5px;" class="field-checkbox-wrapper">
@@ -131,11 +130,6 @@
               <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks"
                [disabled]="(s.attendance == 'A') ||(s.attendance == 'L')" [ngClass]="(s.attendance == 'A') ||(s.attendance == 'L') ? 'grayColor' : 'blackColor'">
             </div>
-=======
-          <div class="value_item">
-            <input type="text" class="side-form-ctrl paddingLess" [(ngModel)]="s.remarks"
-             [disabled]="(s.attendance == 'A') ||(s.attendance == 'L')" [ngClass]="(s.attendance == 'A') ||(s.attendance == 'L') ? 'grayColor' : 'blackColor'">
->>>>>>> topic
           </div>
           <div class="value_container" *ngIf="studentAttList.length == 0">
             <div class="value_item" style="width: 100%;">
