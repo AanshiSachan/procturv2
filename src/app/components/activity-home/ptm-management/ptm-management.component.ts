@@ -173,6 +173,9 @@ export class PtmManagementComponent implements OnInit {
       (data: any) => {
         this.jsonFlag.isRippleLoad = false;
         this.fetchPtmDates = data;
+        if(this.fetchPtmDates.length == 0){
+          this.msgService.showErrorMessage(this.msgService.toastTypes.info, 'Info', 'No PTM schedule found');
+        }
       },
       (error: any) => {
         this.jsonFlag.isRippleLoad = false;

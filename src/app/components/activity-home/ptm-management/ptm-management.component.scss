@@ -181,6 +181,12 @@
           border-radius: 4px;
           height: 25px;
         }
+        // .action-dropdown:hover {
+        //   box-shadow: 0 0 10px 100px #fff inset;
+        // }
+        .action-dropdown.decorated option:hover {
+            box-shadow: 0 0 10px 100px #1882A8 inset;
+        }
       }
     }
   }
