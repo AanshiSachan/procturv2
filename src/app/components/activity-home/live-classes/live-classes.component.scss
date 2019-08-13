@@ -184,6 +184,9 @@ table {
 }
 
 
+.middle-section{
+  padding: 1%;
+}
 .border-container{
   border-top: 1px solid #e3e3e3;
 }
@@ -219,7 +222,7 @@ table {
     position: relative;
     i {
       position: absolute;
-      right: 7px;
+      right: 15px;
       padding: 7px 9px;
       top: 1px;
       background: white;
@@ -232,6 +235,7 @@ table {
         margin: 0;
         height: 35px;
         font-size: 14px;
+        border-radius: 4px;
     }
   }
   .filter-wrapper{
@@ -272,8 +276,8 @@ table {
 
 .live-class{
   // margin-top: 20px;
-  height: 60vh;
-  max-height: 60vh;
+  height: 73vh;
+  max-height: 73vh;
   overflow-x: hidden;
   overflow-y: auto;
   ::-webkit-scrollbar {

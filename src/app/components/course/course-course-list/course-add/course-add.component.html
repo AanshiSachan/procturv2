@@ -24,7 +24,7 @@
              <span class="text-danger">*</span>
             </label>
             <input type="text" id="idMasterCourse" #masterCourseInput name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name"
-              class="form-ctrl" />
+              class="form-ctrl" placeholder="Enter Master Course Name"/>
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
@@ -33,7 +33,7 @@
              <span class="text-danger">*</span>
             </label>
             <select id="idStandardName" #standardNameDDn class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id">
-              <option value="-1"></option>
+              <option value="-1">Select Standard</option>
               <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
                 {{opt.standard_name}}
               </option>

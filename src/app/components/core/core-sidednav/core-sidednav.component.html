@@ -267,12 +267,12 @@
       </div>
 
       <div class="menu-item" #divManageUsers id="divManageUsers">
-        <div class="current-menu">
+        <div class="current-menu" (click)="routerLink('/view/manage')">
           <div class="menu-icon">
             <img src="./assets/images/sidebar/sideMenu/users.svg" alt="icon">
           </div>
           <div class="menu-name">
-            <span (click)="routerLink('/view/manage')">Manage Users</span>
+            <span>Manage Users</span>
           </div>
         </div>
       </div>
@@ -352,12 +352,12 @@
       </div>
 
       <div class="menu-item">
-        <div class="current-menu">
+        <div class="current-menu" (click)="logout()">
           <div class="menu-icon">
             <img src="./assets/images/sidebar/sideMenu/logout.svg" alt="icon">
           </div>
           <div class="menu-name">
-            <span (click)="logout()">Logout</span>
+            <span>Logout</span>
           </div>
         </div>
       </div>

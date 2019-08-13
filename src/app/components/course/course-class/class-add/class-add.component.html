@@ -26,7 +26,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id" (ngModelChange)="updateSubjectList($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Standard Name</option>
                             <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
                               {{std.standard_name}}
                             </option>
@@ -40,7 +40,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id" (ngModelChange)="filterSubjectBatches($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Subject Name</option>
                             <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
                               {{subject.subject_name}}
                             </option>
@@ -53,7 +53,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Batch Name</option>
                             <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
                               {{batch.batch_name}}
                             </option>
@@ -79,7 +79,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Master Course</option>
                             <option [value]="master.master_course" *ngFor="let  master of masterCourse">
                               {{master.master_course}}
                             </option>
@@ -93,7 +93,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="onCourseListSelection($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Course</option>
                             <option [value]="course.course_id" *ngFor="let course of courseList">
                               {{course.course_name}}
                             </option>
