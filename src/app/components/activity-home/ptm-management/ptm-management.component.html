@@ -151,6 +151,7 @@
 
       </div>
       <div class="right-container">
+        <button type="button" name="button" class="act-btn" (click)="cancelPTM()" *ngIf="!illustration">Cancel PTM</button>
         <button type="button" name="button" class="create-ptm-btn" (click)="showCreateNewPTM()" data-toggle="modal" data-target="#createPTM">Create PTM</button>
       </div>
     </div>
@@ -205,16 +206,18 @@
             <span>{{student.student_name}}</span>
           </div>
           <div class="value-item medium">
-            <select class="action-dropdown" name="" [(ngModel)]="student.attendance" (ngModelChange)="attendanceChange(student)">
-              <option value="A">A</option>
-              <option value="P">P</option>
+            <select class="action-dropdown" [(ngModel)]="student.attendance" (ngModelChange)="attendanceChange(student)"
+             [ngClass]="{'absent-student': student.attendance == 'A',
+                         'present-student': student.attendance == 'P'}">
+              <option value="A" style="background: #ff5e5e;">A</option>
+              <option value="P" style="background: #77f080;">P</option>
             </select>
           </div>
           <div class="value-item medium">
-            <input type="text" name="" value="" class="value-input" [(ngModel)]="student.parent_remark" style="width: 180px;">
+            <input type="text" name="" value="" class="value-input" [(ngModel)]="student.parent_remark" style="width: 150px;">
           </div>
           <div class="value-item medium">
-            <input type="text" name="" value="" class="value-input" [(ngModel)]="student.teacher_remark" style="width: 180px;">
+            <input type="text" name="" value="" class="value-input" [(ngModel)]="student.teacher_remark" style="width: 150px;">
           </div>
           <div class="value-item medium align-center flex-item">
             <select class="action-dropdown" name="" [(ngModel)]="student.status">
@@ -231,9 +234,9 @@
 <!-- Action button -->
   <section *ngIf="!illustration">
     <div class="action-container">
-      <div class="action-btn-container">
+      <!-- <div class="action-btn-container">
         <button type="button" name="button" class="act-btn" style="margin-right: 20px;" (click)="cancelPTM()">Cancel PTM</button>
-      </div>
+      </div> -->
       <div class="action-btn-container">
         <button type="button" name="button" class="act-btn full" (click)="updatePTM()">Update PTM</button>
       </div>

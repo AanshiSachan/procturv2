@@ -25,7 +25,7 @@ hr {
     padding: 5px 15px;
     width: 100%;
     box-sizing: border-box;
-    background: #f7f5f5;
+    // background: #f7f5f5;
      max-height: -moz-available;
      max-height: stretch;
     .middle-top {
@@ -56,11 +56,12 @@ hr {
 
 // Marks update grid-container
 .marks-section{
-  height: 430px;
+  height: 77vh;
   border-radius: 4px;
   background: white;
-  box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
-  overflow-y: scroll;
+  -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  overflow-y: auto;
   .update_exam_marks_container{
     display: flex;
     flex-direction: column;
