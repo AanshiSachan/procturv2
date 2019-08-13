@@ -16,7 +16,7 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
   selector: 'app-class-add',
   templateUrl: './class-add.component.html',
   styleUrls: ['./class-add.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.Emulated
 })
 
 export class ClassAddComponent implements OnInit {
@@ -190,6 +190,7 @@ export class ClassAddComponent implements OnInit {
   public isExpanded;
 
   multiClickDisabled: boolean = false;
+  coursePlannerStatus: any;
 
   constructor(
     private router: Router,
@@ -223,8 +224,12 @@ export class ClassAddComponent implements OnInit {
       this.checkForEditMode();
     }
     this.switchActiveView();
+    this.checkForCoursePlannerRoute();
   }
 
+  checkForCoursePlannerRoute(){
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
+  }
   checkNotifyDate(data) {
     if (moment(data.class_date).valueOf() <= moment().subtract(1, 'days').valueOf()) {
       return false;
@@ -863,7 +868,7 @@ export class ClassAddComponent implements OnInit {
             console.log(res);
             this.isRippleLoad = false;
             this.topicsData = res;
-            let array = this.selectedRow.topics_covered.split("|"); //add selected array data 
+            let array = this.selectedRow.topics_covered.split("|"); //add selected array data
             array.forEach((value) => {
               if (value != " " || value != "0") {
                 this.checkedKeys.push(Number(value));
@@ -1557,10 +1562,10 @@ export class ClassAddComponent implements OnInit {
       if (data.otherSchd.length > 0) {
         this.customTable = data.otherSchd;
         if ((data.weekSchd && data.weekSchd.length == 0)) {
-          this.batchFrequency = '2';         
+          this.batchFrequency = '2';
         }
         else{
-          this.batchFrequency = '1';  
+          this.batchFrequency = '1';
         }
         this.scheduleSelection(this.batchFrequency);
       }
@@ -1867,7 +1872,7 @@ export class ClassAddComponent implements OnInit {
   }
 
   notifyOfCustomClass(data, index) {
-    if (confirm('Are you sure u want to send Regular(Custom) Class Schedule SMS to the batch?')) {
+    if (confirm('Are you sure you want to send Regular Class Schedule SMS to the batch?')) {
       this.notifyExtraClassCancel(data, "OTHER");
     }
   }
