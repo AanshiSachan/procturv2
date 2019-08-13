@@ -16,7 +16,7 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
   selector: 'app-class-add',
   templateUrl: './class-add.component.html',
   styleUrls: ['./class-add.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.Emulated
 })
 
 export class ClassAddComponent implements OnInit {
@@ -190,6 +190,7 @@ export class ClassAddComponent implements OnInit {
   public isExpanded;
 
   multiClickDisabled: boolean = false;
+  coursePlannerStatus: any;
 
   constructor(
     private router: Router,
@@ -223,8 +224,12 @@ export class ClassAddComponent implements OnInit {
       this.checkForEditMode();
     }
     this.switchActiveView();
+    this.checkForCoursePlannerRoute();
   }
 
+  checkForCoursePlannerRoute(){
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
+  }
   checkNotifyDate(data) {
     if (moment(data.class_date).valueOf() <= moment().subtract(1, 'days').valueOf()) {
       return false;
@@ -863,7 +868,7 @@ export class ClassAddComponent implements OnInit {
             console.log(res);
             this.isRippleLoad = false;
             this.topicsData = res;
-            let array = this.selectedRow.topics_covered.split("|"); //add selected array data 
+            let array = this.selectedRow.topics_covered.split("|"); //add selected array data
             array.forEach((value) => {
               if (value != " " || value != "0") {
                 this.checkedKeys.push(Number(value));

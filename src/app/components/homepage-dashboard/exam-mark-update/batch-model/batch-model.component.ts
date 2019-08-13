@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../../../app.component';
 import * as moment from 'moment';
@@ -11,7 +11,8 @@ declare var $;
 @Component({
   selector: 'app-batch-model',
   templateUrl: './batch-model.component.html',
-  styleUrls: ['./batch-model.component.scss']
+  styleUrls: ['./batch-model.component.scss'],
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class BatchModelComponent implements OnInit {
 
@@ -21,11 +22,12 @@ export class BatchModelComponent implements OnInit {
   isRippleLoad: boolean = false;
   exam_info: any;
   examGradeFeature: any;
-  is_exam_grad_feature:any=0;
+  is_exam_grad_feature: any = 0;
   examData: any = "";
   subjectList: any = [];
   studentList: any = [];
   gradesList: any = [];
+  coursePlannerStatus: any;
 
   constructor(
     private router: Router,
@@ -50,19 +52,24 @@ export class BatchModelComponent implements OnInit {
 
     this.examGradeFeature = Number(sessionStorage.getItem('is_exam_grad_feature'));
     this.fetchData();
+    this.checkForCoursePlannerRoute();
+  }
+
+  checkForCoursePlannerRoute(){
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
   updateGradesOption() {
     $("#myModal").modal("show");
-    let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
+     let object :any = document.getElementsByClassName('ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only');
     if(object.length>0){
-      object[0].click();// clear object on template
+       object[0].click();// clear object on template
     }
   }
 
   /** upload student details  subject or course wise
  *     created by laxmi */
-  uploadHandler($event,fileUpload) {
+  uploadHandler($event, fileUpload) {
     let files = $event.files;
     let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.xls|.xlsx)$/i;
     console.log(pattern.test(files[0].name));
@@ -137,7 +144,7 @@ export class BatchModelComponent implements OnInit {
   }
 
   /**
-   * convert binary data into excel 
+   * convert binary data into excel
    * created by : laxmi wapte
    */
 
@@ -165,19 +172,21 @@ export class BatchModelComponent implements OnInit {
     let encryptedData = sessionStorage.getItem('exam_info');
     let data = atob(encryptedData)
     this.exam_info = JSON.parse(data);
-
     this.fetchStudentDetails(this.exam_info.data);
-    this.is_exam_grad_feature = this.exam_info.data.is_exam_grad_feature;
-    if (this.examGradeFeature == 1) {
-      this.getAllExamGrades();
-    }
   }
 
   fetchStudentDetails(data) {
     this.widgetService.fetchStudentExamDetails(data.batch_id, data.schd_id).subscribe(
       (res: any) => {
         this.examData = res;
-        this.studentList = this.addKeys(res.studLi, false);
+        if(res.studLi.length > 0){
+          this.is_exam_grad_feature = res.is_exam_grad_feature;
+          if (this.examGradeFeature == 1) {
+            this.getAllExamGrades();
+          }
+          this.studentList = this.addKeys(res.studLi, false);
+        }
+
       },
       err => {
         //console.log(err);
@@ -236,16 +245,16 @@ export class BatchModelComponent implements OnInit {
     if (dataToSend.studLi.length == 0) {
       this.messageNotifier('error', 'Error', 'Please Select Student');
       return;
-    }else{
-      for(let i = 0; i < dataToSend.studLi.length; i++) {
+    } else {
+      for (let i = 0; i < dataToSend.studLi.length; i++) {
         let object = dataToSend.studLi[i];
-        if (this.examData.is_exam_grad_feature == 1 && object.grade_id == -1){
+        if (this.examData.is_exam_grad_feature == 1 && object.grade_id == -1 && object.attendance=='P') {
           this.messageNotifier('error', 'Error', 'Please Select grades');
           dataToSend = false;
           break;
         }
       }
-
+     
     }
     if (dataToSend == false) {
       return;
@@ -270,23 +279,22 @@ export class BatchModelComponent implements OnInit {
     arr.isStudentExamSMS = sendSms;
     arr.studLi = [];
     for (let i = 0; i < this.studentList.length; i++) {
+      let student: any = {};
+      student.student_id = this.studentList[i].student_id;
+      student.marks_obtained = this.studentList[i].marks_obtained;
+      student.student_exam_det_id = this.studentList[i].student_exam_det_id;
+      student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
+      student.remarks = this.studentList[i].remarks;
+      student.isUpdated = this.studentList[i].isUpdated;
+      student.isSendExamRemarkInSMS = "N";
+      student.attendance = this.studentList[i].attendance;
+      student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+      student.grade_id = this.studentList[i].grade_id;
       if (this.studentList[i].assigned) {
-        let student: any = {};
-        student.student_id = this.studentList[i].student_id;
-        student.marks_obtained = this.studentList[i].marks_obtained;
-        student.student_exam_det_id = this.studentList[i].student_exam_det_id;
-        student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
-        student.remarks = this.studentList[i].remarks;
         if (sendSms == "Y") {
           student.isUpdated = "Y";
           student.isSendExamRemarkInSMS = "Y";
-        } else {
-          student.isUpdated = this.studentList[i].isUpdated;
-          student.isSendExamRemarkInSMS = "N";
         }
-        student.attendance = this.studentList[i].attendance;
-        student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
-        student.grade_id = this.studentList[i].grade_id;
         if (this.examData.is_exam_grad_feature == 0) {
           if (student.marks_obtained > this.examData.total_marks) {
             this.messageNotifier('error', 'Error', 'Please check marks you have provided');
@@ -298,9 +306,20 @@ export class BatchModelComponent implements OnInit {
               student.marks_obtained = '0';
             }
           }
+        }else{
+          student.marks_obtained = null;
         }
-        arr.studLi.push(student);
+      } else {
+        if (this.examData.is_exam_grad_feature == 1) {
+          student.marks_obtained = null;
+        }
+        else {
+          if (this.studentList[i].attendance == 'A' || this.studentList[i].attendance == 'L') {
+            student.marks_obtained = '0';
+          }
+        }
       }
+      arr.studLi.push(student);
     }
     return arr;
   }
@@ -315,12 +334,22 @@ export class BatchModelComponent implements OnInit {
   }
 
   closeAttendance() {
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
   backToHome() {
-    sessionStorage.setItem('exam_info', '');
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      sessionStorage.setItem('exam_info', '');
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
 }

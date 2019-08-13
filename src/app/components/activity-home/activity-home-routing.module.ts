@@ -9,7 +9,7 @@ import { EcourseMappingComponent } from './ecourse-mapping/ecourse-mapping.compo
 import { AddClassComponent } from './live-classes/add-class/add-class.component';
 import { EditClassComponent } from './live-classes/edit-class/edit-class.component';
 import { TimeTableComponent } from './time-table/time-table.component';
-
+import { CoursePlannerComponent } from './course-planner/course-planner.component';
 
 
 @NgModule({
@@ -84,6 +84,12 @@ import { TimeTableComponent } from './time-table/time-table.component';
                         path: 'edit/:id',
                         component: EditClassComponent
                     },
+                    {
+                        path: 'coursePlanner',
+                        loadChildren: 'app/components/activity-home/course-planner/course-planner.module#CoursePlannerModule',
+                        pathMatch: 'prefix'
+                    }
+
                 ]
             }
         ])

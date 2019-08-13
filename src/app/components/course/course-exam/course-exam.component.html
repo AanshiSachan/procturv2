@@ -297,6 +297,9 @@
                 </div>
 
                 <div class="row btn-Group">
+                  <div class="pull-left">
+                    <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+                  </div>
                     <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" [disabled]="isRippleLoad" (click)="addDataToExamSchedule()">Create Exam Schedule</button>
                     <!-- <button class="btn fullBlue pull-right" *ngIf="examScheduleData.otherSchd.length !=0" (click)="addDataToExamSchedule()">Update</button> -->
                 </div>
@@ -568,7 +571,7 @@
                   <div class="" *ngIf="viewList?.length">
                     <div class="loopingDiv" *ngFor="let data of viewList;let j= index ; trackBy : index">
 
-                        <div class="row dateInfo"  *ngIf="data.courseTableList.length > 0">  
+                        <div class="row dateInfo"  *ngIf="data.courseTableList.length > 0">
 
                           <div class="c-sm-3 c-lg-3 c-md-3">
 
@@ -627,7 +630,7 @@
                         </div>
 
 
-                       <div class="row basic-detail" *ngIf="data.courseTableList.length > 0">   
+                       <div class="row basic-detail" *ngIf="data.courseTableList.length > 0">
 
                         <div class="c-sm-2 c-lg-2 c-md-2">
                           <div class="form-wrapper">
@@ -760,9 +763,14 @@
 
                     </div>
                   </div>
-                    <div class="row" style="padding-right:40px;" class="save_btn_container pull-right" >
+                    <div class="row" style="padding-right:25px;" class="save_btn_container" >
+                      <div class="pull-left">
+                        <button type="button" class="btn" Style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+                      </div>
+                      <div class="pull-right">
                         <button class="btn fullBlue pull-right" (click)="saveExamScheduleCourse()" [disabled]="multiClickDisabled">Save</button>
                         <button type="button" name="button" class="btn pull-right">Cancel</button>
+                      </div>
                     </div>
                 </div>
             </div>
