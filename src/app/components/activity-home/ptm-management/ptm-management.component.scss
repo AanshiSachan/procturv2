@@ -74,7 +74,7 @@
     }
   }
   .right-container{
-    width: 10%;
+    width: 25%;
     display: flex;
     justify-content: flex-end;
     .create-ptm-btn{
@@ -87,6 +87,18 @@
       font-weight: 600;
       margin-top: 20px;
       height: 30px;
+    }
+    .act-btn{
+      border-radius: 4px;
+      padding: 4px 10px;
+      color: #3a66fa;
+      text-align: center;
+      background: #ffffff;
+      height: 30px;
+      font-weight: 600;
+      border: 1px solid #3a66fa;
+      margin-top: 20px;
+      margin-right: 20px;
     }
   }
 }
@@ -184,6 +196,18 @@
   .flex-item{
     display: flex;
     justify-content: center;
+  }
+  .absent-student{
+    background:#ff5e5e;
+    color: white;
+    border: 1px solid #ff5e5e !important;
+    margin-left: 20px;
+  }
+  .present-student{
+    background:#77f080;
+    color: white;
+    border: 1px solid #77f080 !important;
+    margin-left: 20px;
   }
 }
 
