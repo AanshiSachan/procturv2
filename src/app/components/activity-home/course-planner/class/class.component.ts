@@ -64,6 +64,7 @@ export class ClassComponent implements OnInit {
   };
   // for show hide table columns
   checkedColCounter: number = 2;
+  dynamicColCounter: number = 2;
 
   // Array Elements
   facultyList: any[] = [];
@@ -145,12 +146,21 @@ export class ClassComponent implements OnInit {
     )
 
     this.coursePlannerFilters.isMarksUpdate =  "N";
-
+    this.showHideColForModel();
     this.fetchPreFillData();
     this.jsonFlag.institute_id = sessionStorage.getItem('institute_id');
     let filters = sessionStorage.getItem('coursePlannerFilter');
     if(filters){
       this.sessionFilters(filters);
+    }
+  }
+
+  showHideColForModel(){
+    if(this.jsonFlag.isProfessional){
+      this.dynamicColCounter = 1;
+      this.checkedColCounter = 1;
+      this.showHideColumns.description = true;
+      this.showHideColumns.topic = false;
     }
   }
 
@@ -227,7 +237,7 @@ export class ClassComponent implements OnInit {
           this.jsonFlag.isRippleLoad = false;
         },
         err => {
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
           this.jsonFlag.isRippleLoad = false;
         }
       );
@@ -246,7 +256,7 @@ export class ClassComponent implements OnInit {
         },
         err => {
           this.jsonFlag.isRippleLoad = false;
-          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
          }
       );
     }
@@ -257,7 +267,7 @@ export class ClassComponent implements OnInit {
         this.facultyList = res;
       },
       err => {
-        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
       }
     );
   }

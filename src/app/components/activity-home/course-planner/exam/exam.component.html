@@ -284,7 +284,8 @@
           </div>
           <div class="table-value-item medium align-center action ">
             <div class="action-container" *ngIf="course.status == 'Upcoming'">  <!--  upcoming exam action -->
-              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify"(click)="sendReminderForCourse(course)"></i>
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="!jsonFlag.isProfessional" (click)="sendReminderForCourse(course)"></i>
+              <i class="fa fa-bell" aria-hidden="true" style="color: #1283f4" title="Notify" *ngIf="jsonFlag.isProfessional" (click)="notifyExamSchedule(course)"></i>
               <!-- <i class="fa fa-pencil" aria-hidden="true" style="color: #1283f4;" title="Edit"></i> -->
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelModal" *ngIf="!jsonFlag.isProfessional" (click)="onCancelExamClickCourse(course)"></i>
               <i class="fa fa-times-circle" aria-hidden="true" style="color: red;" title="Cancel" data-toggle="modal" data-target="#cancelBatchModal" *ngIf="jsonFlag.isProfessional" (click)="onCancelExamClick(course)"></i>

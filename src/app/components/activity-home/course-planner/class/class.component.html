@@ -428,23 +428,23 @@
               </div> -->
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="course" name="" [(ngModel)]="showHideColumns.course"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.course && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.course && checkedColCounter == dynamicColCounter">
                 <label for="course">Course</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="subject" name="" [(ngModel)]="showHideColumns.subject"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.subject && checkedColCounter == dynamicColCounter">
                 <label for="subject" *ngIf="!jsonFlag.isProfessional">Subject</label>
                 <label for="subject" *ngIf="jsonFlag.isProfessional">Batch</label>
               </div>
-              <div class="field-checkbox-wrapper show-hide-item">
+              <div class="field-checkbox-wrapper show-hide-item" *ngIf="!jsonFlag.isProfessional">
                 <input type="checkbox" id="topic" name="" [(ngModel)]="showHideColumns.topic"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.topic && checkedColCounter == dynamicColCounter">
                 <label for="topic">Topic</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="teacher" name="" [(ngModel)]="showHideColumns.teacher"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.teacher && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.teacher && checkedColCounter == dynamicColCounter">
                 <label for="teacher">Teacher</label>
               </div>
             </div>
@@ -456,12 +456,12 @@
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="description" name="" [(ngModel)]="showHideColumns.description"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.description && checkedColCounter == dynamicColCounter">
                 <label for="description">Description</label>
               </div>
               <div class="field-checkbox-wrapper show-hide-item">
                 <input type="checkbox" id="homework" name="" [(ngModel)]="showHideColumns.homework"
-                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.homework && checkedColCounter == 2">
+                    class="form-checkbox" (change)="hideCol($event)" [disabled]="!showHideColumns.homework && checkedColCounter == dynamicColCounter">
                 <label for="homework">Homework</label>
               </div>
             </div>
