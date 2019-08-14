@@ -19,7 +19,7 @@ import { TreeItemLookup } from '@progress/kendo-angular-treeview';
   selector: 'app-mark-attendance',
   templateUrl: './mark-attendance.component.html',
   styleUrls: ['./mark-attendance.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class MarkAttendanceComponent implements OnInit {
 
@@ -170,7 +170,7 @@ export class MarkAttendanceComponent implements OnInit {
     }
   }
 
-  
+
   public handleChecking(itemLookup: TreeItemLookup): void {
     let subTopic = itemLookup.item.dataItem.subTopic;
     let arrayIndex = this.checkedKeys.indexOf(itemLookup.item.dataItem.topicId);
@@ -537,7 +537,13 @@ export class MarkAttendanceComponent implements OnInit {
 
   backToHome() {
     sessionStorage.setItem('batch_info', '');
-    this.router.navigate(['/view/home/admin']);
+    let coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
+    if(coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
   closeAttendance() {

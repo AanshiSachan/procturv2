@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="20" height="20" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Symbol_70_333" data-name="Symbol 70 – 333" clip-path="url(#clip-path)">
+    <g id="Group_2240" data-name="Group 2240" transform="translate(2 2)">
+      <circle id="Ellipse_5" data-name="Ellipse 5" cx="8" cy="8" r="8" fill="#fa3145"/>
+      <g id="ic_add_white" transform="translate(14.789 7.999) rotate(135)">
+        <path id="ic_add_white-2" data-name="ic_add_white" d="M9.6,5.486H5.486V9.6H4.114V5.486H0V4.114H4.114V0H5.486V4.114H9.6Z" fill="#fff"/>
+      </g>
+    </g>
+    <rect id="Rectangle_1108" data-name="Rectangle 1108" width="20" height="20" fill="none"/>
+  </g>
+</svg>

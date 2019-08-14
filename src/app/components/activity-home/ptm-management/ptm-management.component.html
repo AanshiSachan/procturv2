@@ -1,30 +1,265 @@
-<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="jsonFlag.isRippleLoad">
 </loaders-css>
-<div class="clear-fix background">
-  <aside class="middle-full">
-    <section class="middle-main clearFix">
-      <section class="middle-top mb0 clearFix sms-header">
-        <h2 class="pull-left">
-          <a routerLink="/view/activity/dashboard">
-            Activity
-          </a>
-          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Manage PTM
-        </h2>
-      </section>
-      <div class="row">
-        <div class="c-lg-3 field-wrapper">
-          <input type="text" class="form-ctrl">
+
+<!-- Create PTM Model -->
+<!-- Modal -->
+<div id="createPTM" class="modal" role="dialog" *ngIf="createPTMShow">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create PTM Schedule</h4>
+      </div>
+      <div class="modal-body">
+        <div class="cal-outer-container">
+          <span style="margin-top: 10px; margin-right: 10px;">PTM Schedule Date<span class="danger">*</span></span>
+          <div class="form-wrapper ptm-schedule-date-container">
+            <span id="changeDate">{{today | date: 'dd MMM yyyy'}}</span> &nbsp;&nbsp;
+            <input  type="text" value="" id="ptmScheduleDate" class="widgetDatepicker bsDatepicker" name="ptmScheduleDate"
+             [(ngModel)]="ptmScheduleDate" (ngModelChange)="addNewDate($event)" readonly="true" bsDatepicker  style="width:0px;margin-right: 10px;"/>
+            <i class="fa fa-calendar" style="cursor: pointer;color: #1283f4;" (click)="openCalendar('ptmScheduleDate')"></i>
+          </div>
         </div>
-        <div class="c-lg-3 field-wrapper">
-          <input type="text" class="form-ctrl">
-        </div>
-        <div class="c-lg-3 field-wrapper">
-          <input type="text" class="form-ctrl">
-        </div>
-        <div class="c-lg-3 field-wrapper">
-          <button class="btn fullBlue" (click)="fetchDetails()">Go</button>
+
+        <div class="ptm-batch-table-container">
+          <div class="ptm-heading-container">
+            <div class="ptm-heading-item small-item field-checkbox-wrapper">
+              <input type="checkbox" id="checkall" name="checkall" class="form-checkbox" [(ngModel)]="ptmSelectAll" (ngModelChange)="checkAllBatch()">
+              <label for="checkall"></label>
+            </div>
+            <div class="ptm-heading-item large-item">
+              <span>Select Batch(s)</span>
+            </div>
+            <div class="ptm-heading-item medium-item">
+              <span>Start Time</span>
+            </div>
+            <div class="ptm-heading-item medium-item">
+              <span>End Time</span>
+            </div>
+          </div>
+          <div class="ptm-value-outer-container">
+            <div class="ptm-value-container" *ngFor="let batch of createPTMAllBatches">
+              <div class="ptm-value-item small-item field-checkbox-wrapper">
+                <input type="checkbox" id="{{batch.batch_id}}" name="" class="form-checkbox"
+                  [(ngModel)]="batch.isSelected" (ngModelChange)="checkBatch(batch, $event)">
+                <label for=""></label>
+              </div>
+              <div class="ptm-value-item large-item" style="margin-top: 3px;">
+                <span>{{batch.batch_name}}</span>
+              </div>
+              <div class="ptm-value-item medium-item" style="margin-right: 4%;">
+                <select class="ptm-time" name="" [(ngModel)]="batch.startHH" (ngModelChange)="changeTime(batch)">
+                  <option [value]="hr" *ngFor="let hr of hrs">{{hr}}</option>
+                </select>
+                <select class="ptm-time" name="" [(ngModel)]="batch.startMM" (ngModelChange)="changeTime(batch)">
+                  <option [value]="min" *ngFor="let min of mins">{{min}}</option>
+                </select>
+                <select class="ptm-time" name="" [(ngModel)]="batch.startMed" (ngModelChange)="changeTime(batch)">
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+              <div class="ptm-value-item medium-item" style="">
+                <select class="ptm-time" name="" [(ngModel)]="batch.endHH" (ngModelChange)="changeTime(batch)">
+                  <option [value]="hr" *ngFor="let hr of hrs">{{hr}}</option>
+                </select>
+                <select class="ptm-time" name="" [(ngModel)]="batch.endMM" (ngModelChange)="changeTime(batch)">
+                  <option [value]="min" *ngFor="let min of mins">{{min}}</option>
+                </select>
+                <select class="ptm-time" name="" [(ngModel)]="batch.endMed" (ngModelChange)="changeTime(batch)">
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
-  </aside>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="scheduleNewPTM()">Create</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="middle-section clear-fix">
+
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/activity/dashboard" style="padding:0px; ">
+          Activity
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+         <span>Manage PTM</span>
+      </h1>
+    </div>
+  </section>
+
+<!-- Add PTM and Filter PTM Section -->
+  <section>
+    <div class="header-container">
+      <div class="left-container">
+        <!-- FOR COURSE MODEL -->
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <span>Master Course <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.masterCourse" (ngModelChange)="updateCoursesList()">
+            <option value="-1">Select Master Course</option>
+            <option [value]="masterCourse.master_course" *ngFor="let masterCourse of masterCourseList">{{masterCourse.master_course}}</option>
+          </select>
+        </div>
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <span>Course <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.course" (ngModelChange)="updateSubjectsList()">
+            <option value="-1">Select Course</option>
+            <option [value]="course.course_id" *ngFor="let course of courseList">{{course.course_name}}</option>
+          </select>
+        </div>
+        <div class="header-item" *ngIf="!jsonFlag.isProfessional">
+          <span>Subject <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.subject" (ngModelChange)="loadPtmDates()">
+            <option value="-1">Select Subject</option>
+            <option [value]="subject.batch_id" *ngFor="let subject of subjectList">{{subject.subject_name}}</option>
+          </select>
+        </div>
+
+        <!-- FOR BATCH MODEL -->
+        <div class="header-item" *ngIf="jsonFlag.isProfessional">
+          <span>Batch <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.batch_id" (ngModelChange)="loadPtmDates()">
+            <option value="-1">Select Batch</option>
+            <option [value]="batch.batch_id" *ngFor="let batch of getAllBatches">{{batch.batch_name}}</option>
+          </select>
+        </div>
+
+        <div class="header-item">
+          <span>PTM Schedules <span class="danger">*</span></span>
+          <select class="header-select-box" name="" [(ngModel)]="inputElements.ptmId">
+            <option value="-1">Select PTM Schedule</option>
+            <option [value]="ptmDate.ptm_id" *ngFor="let ptmDate of fetchPtmDates">{{ptmDate.ptm_date}}</option>
+          </select>
+        </div>
+
+        <div class="header-item">
+          <button type="button" name="button" class="view-ptm-btn" (click)="viewStudentsData()">View</button>
+        </div>
+
+      </div>
+      <div class="right-container">
+        <button type="button" name="button" class="act-btn" (click)="cancelPTM()" *ngIf="!illustration">Cancel PTM</button>
+        <button type="button" name="button" class="create-ptm-btn" (click)="showCreateNewPTM()" data-toggle="modal" data-target="#createPTM">Create PTM</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Send Notification and Search fun -->
+  <section *ngIf="!illustration">
+    <div class="search-and-send-container">
+      <div class="search-container">
+        <div class="search-filter-wrapper">
+            <input type="text" class="normal-field" placeholder="Search" name="searchData" (keyup)="searchInList($event)" [(ngModel)]="searchInput">
+        </div>
+      </div>
+      <div class="send-notification-container">
+        <button type="button" name="button" class="send-btn" (click)="sendNotification()">Send Notification</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PTM Result -->
+  <section *ngIf="!illustration">
+    <div class="table-container">
+      <div class="heading-container">
+        <div class="heading-item small-item">
+          <span>Student Id</span>
+        </div>
+        <div class="heading-item medium">
+          <span>Student Name</span>
+        </div>
+        <div class="heading-item medium">
+          <span>Attendence </span>
+        </div>
+        <div class="heading-item medium">
+          <span>Parent Remarks</span>
+        </div>
+        <div class="heading-item medium">
+          <span>Teacher/Institute Remarks</span>
+        </div>
+        <div class="heading-item medium align-center">
+          <span>Action</span>
+        </div>
+      </div>
+      <div class="" *ngIf="viewStudents.length == 0">
+        <h4 style="text-align: center; margin: 20px 0px; font-weight: 600;">No Result Found!</h4>
+      </div>
+      <div class="outer-value-container">
+        <div class="value-container" *ngFor="let student of viewStudents">
+          <div class="value-item small-item">
+            <span>{{student.student_disp_id}}</span>
+          </div>
+          <div class="value-item medium">
+            <span>{{student.student_name}}</span>
+          </div>
+          <div class="value-item medium">
+            <select class="action-dropdown" [(ngModel)]="student.attendance" (ngModelChange)="attendanceChange(student)"
+             [ngClass]="{'absent-student': student.attendance == 'A',
+                         'present-student': student.attendance == 'P'}">
+              <option value="A" style="background: #ff5e5e;">A</option>
+              <option value="P" style="background: #77f080;">P</option>
+            </select>
+          </div>
+          <div class="value-item medium">
+            <input type="text" name="" value="" class="value-input" [(ngModel)]="student.parent_remark" style="width: 150px;">
+          </div>
+          <div class="value-item medium">
+            <input type="text" name="" value="" class="value-input" [(ngModel)]="student.teacher_remark" style="width: 150px;">
+          </div>
+          <div class="value-item medium align-center flex-item">
+            <select class="action-dropdown" name="" [(ngModel)]="student.status">
+              <option value="pending">Pending</option>
+              <option value="in progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Action button -->
+  <section *ngIf="!illustration">
+    <div class="action-container">
+      <!-- <div class="action-btn-container">
+        <button type="button" name="button" class="act-btn" style="margin-right: 20px;" (click)="cancelPTM()">Cancel PTM</button>
+      </div> -->
+      <div class="action-btn-container">
+        <button type="button" name="button" class="act-btn full" (click)="updatePTM()">Update PTM</button>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Illustration container -->
+<section *ngIf="illustration">
+  <div class="illustration-container">
+    <img src="./assets/images/blank-illustration.svg" alt="illustration" class="illustration-img">
+  </div>
+</section>
+
+
+<!-- Pagination -->
+  <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="pageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+      </pagination>
+    </div>
+  </div>
+
 </div>

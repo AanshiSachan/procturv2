@@ -26,7 +26,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id" (ngModelChange)="updateSubjectList($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Standard Name</option>
                             <option [value]="std.standard_id" *ngFor="let  std of courseModelStdList">
                               {{std.standard_name}}
                             </option>
@@ -40,7 +40,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.subject_id" (ngModelChange)="filterSubjectBatches($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Subject Name</option>
                             <option [value]="subject.subject_id" *ngFor="let subject of courseModelSubList">
                               {{subject.subject_name}}
                             </option>
@@ -53,7 +53,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Batch Name</option>
                             <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
                               {{batch.batch_name}}
                             </option>
@@ -79,7 +79,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Master Course</option>
                             <option [value]="master.master_course" *ngFor="let  master of masterCourse">
                               {{master.master_course}}
                             </option>
@@ -93,7 +93,7 @@
                             <span class="text-danger">*</span>
                           </label>
                           <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="onCourseListSelection($event)">
-                            <option value="-1"></option>
+                            <option value="-1">Select Course</option>
                             <option [value]="course.course_id" *ngFor="let course of courseList">
                               {{course.course_name}}
                             </option>
@@ -423,9 +423,14 @@
             </div>
           </div>
 
-          <div class="extraMargin row  pull-right" style="margin-right: 15px; margin-bottom:10px;">
-            <button class="btn" routerLink="/view/course/class/home" id="BtnCancelBtn">Cancel</button>
-            <button class="btn fullBlue" (click)="saveCourseSchedule()" id="btnSaveBtn">Save</button>
+          <div class="extraMargin row" style="margin-right: 15px; margin-bottom:10px;">
+            <div class="pull-left">
+              <button type="button" class="btn" style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+            </div>
+            <div class="pull-right">
+              <button class="btn" routerLink="/view/course/class/home" id="BtnCancelBtn">Cancel</button>
+              <button class="btn fullBlue" (click)="saveCourseSchedule()" id="btnSaveBtn">Save</button>
+            </div>
           </div>
         </section>
 
@@ -584,8 +589,13 @@
                 </div>
               </div>
 
-              <div class="row btn-table" style="margin-top: 5px;">
-                <button class="btn fullBlue pull-right" [disabled]="isRippleLoad" (click)="updateWeeklySchedule()">Update </button>
+              <div class="row btn-table" style="margin: 10px 0px;">
+                <div class="pull-left">
+                  <button type="button" class="btn" style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+                </div>
+                <div class="pull-right">
+                  <button class="btn fullBlue " [disabled]="isRippleLoad" (click)="updateWeeklySchedule()">Update </button>
+                </div>
               </div>
 
             </div>
@@ -736,9 +746,13 @@ c0.438,0.454,0.659,0.988,0.659,1.626C29.498,11.607,29.271,12.144,28.818,12.606z"
               </div>
             </div>
 
-            <div class="row">
-              <button class="btn fullBlue pull-right" style="margin-right: 15px" [disabled]="isRippleLoad" (click)="updateCustomClass()">
-              Update</button>
+            <div class="row" style="margin: 10px 0px;">
+              <div class="pull-left">
+                <button type="button" class="btn" style="margin-left: 0px;" name="button" routerLink="/view/activity/coursePlanner" *ngIf="coursePlannerStatus">Back to Course Planner</button>
+              </div>
+              <div class="pull-right">
+                <button class="btn fullBlue" style="margin-right: 15px" [disabled]="isRippleLoad" (click)="updateCustomClass()"> Update</button>
+              </div>
             </div>
 
           </div>

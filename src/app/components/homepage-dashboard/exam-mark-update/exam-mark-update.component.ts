@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
@@ -11,7 +11,8 @@ declare var $;
 @Component({
   selector: 'app-exam-mark-update',
   templateUrl: './exam-mark-update.component.html',
-  styleUrls: ['./exam-mark-update.component.scss']
+  styleUrls: ['./exam-mark-update.component.scss'],
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class ExamMarkUpdateComponent implements OnInit {
 
@@ -28,7 +29,8 @@ export class ExamMarkUpdateComponent implements OnInit {
   isRippleLoad: boolean = false;
   institute_id: any;
   upload_text: any = 'Upload Marks';
-
+  examGradeFeature: any;
+  coursePlannerStatus: any;
 
   constructor(
     private router: Router,
@@ -49,13 +51,22 @@ export class ExamMarkUpdateComponent implements OnInit {
         }
       }
     );
+    this.examGradeFeature = Number(sessionStorage.getItem('is_exam_grad_feature'));
+    this.checkForCoursePlannerRoute();
     this.fetchWidgetPrefill();
+  }
+
+  checkForCoursePlannerRoute(){
+    this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
   fetchWidgetPrefill() {
     let encryptedData = sessionStorage.getItem('exam_info');
-    let data = atob(encryptedData)
+    let data = atob(encryptedData);
     this.exam_info = JSON.parse(data);
+    if(this.coursePlannerStatus){
+      this.exam_info.data.is_exam_grad_feature = this.examGradeFeature
+    }
     let data1 = this.exam_info.data;
     this.examMarksUpdateCourse(data1);
   }
@@ -139,7 +150,7 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   /**
-   * convert binary data into excel 
+   * convert binary data into excel
    * created by : laxmi wapte
    */
 
@@ -166,7 +177,7 @@ export class ExamMarkUpdateComponent implements OnInit {
 
 
   /**
-   * 
+   *
    */
   updateGradesOption() {
     if (this.examMarksLevel == "0" || Number(this.examMarksLevel) == 3) {
@@ -292,7 +303,7 @@ export class ExamMarkUpdateComponent implements OnInit {
             flag = false;
             this.messageNotifier('error', '', 'Please select grades');
           }
-        }// check grades are given or not 
+        }// check grades are given or not
 
         delete data[i].assigned;
       }
@@ -493,11 +504,22 @@ export class ExamMarkUpdateComponent implements OnInit {
   }
 
   closeAttendance() {
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
   backToHome() {
-    this.router.navigate(['/view/home/admin']);
+    if(this.coursePlannerStatus){
+      this.router.navigate(['/view/activity/coursePlanner']);
+    }
+    else{
+      sessionStorage.setItem('exam_info', '');
+      this.router.navigate(['/view/home/admin']);
+    }
   }
 
 }
