@@ -29,6 +29,9 @@ export class ProductListComponent implements OnInit {
     btnText: 'Loading...'
   };
 
+  jsonKeys = {
+    selectAll: false,
+  }
 
   constructor(
     private http: ProductService,
@@ -42,7 +45,7 @@ export class ProductListComponent implements OnInit {
   }
 
   initFilters() {
-    let response = {"validate":"true","data":[{"exam_id":1,"account_id":51,"exam_name":"RRB - M & I Categoris CEN 03 / 2019","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/excise_sub_inspector_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-05-07T07:37:48.000Z","updated_by":11,"ecourse_id":87,"ecourse_name":"appium","subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":2,"account_id":51,"exam_name":"RRB - Level - 1 by RRC CEN 01 / 2019","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/hm&teachers_RPC_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:23:45.000Z","updated_by":11,"ecourse_id":87,"ecourse_name":"appium","subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":3,"account_id":51,"exam_name":"KPSC Group A & B","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/HM_& _Teachers_HK_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:24:18.000Z","updated_by":11,"ecourse_id":6,"ecourse_name":"Bank PO","subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":5,"account_id":51,"exam_name":"Current Affairs (saturday at 4 pm)","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/HM_& _Teachers_HK_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:10:39.000Z","updated_by":11,"ecourse_id":null,"ecourse_name":null,"subjects":[{"subject_id":2,"subject_name":"Physcis"}]},{"exam_id":6,"account_id":51,"exam_name":"RRB -JE CEN 03/2018","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/psi.png","page_url":"pages/staff_selection_commission_ssc","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:25:02.000Z","updated_by":11,"ecourse_id":null,"ecourse_name":null,"subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":8,"account_id":51,"exam_name":"IAS Prelims","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/KAR_TET_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:14:41.000Z","updated_by":11,"ecourse_id":null,"ecourse_name":null,"subjects":[{"subject_id":2,"subject_name":"Physcis"}]}]}
+    let response = { "validate": "true", "data": [{ "exam_id": 1, "account_id": 51, "exam_name": "RRB - M & I Categoris CEN 03 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/excise_sub_inspector_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-05-07T07:37:48.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 2, "account_id": 51, "exam_name": "RRB - Level - 1 by RRC CEN 01 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/hm&teachers_RPC_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:23:45.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 3, "account_id": 51, "exam_name": "KPSC Group A & B", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:24:18.000Z", "updated_by": 11, "ecourse_id": 6, "ecourse_name": "Bank PO", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 5, "account_id": 51, "exam_name": "Current Affairs (saturday at 4 pm)", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:10:39.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }, { "exam_id": 6, "account_id": 51, "exam_name": "RRB -JE CEN 03/2018", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/psi.png", "page_url": "pages/staff_selection_commission_ssc", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:25:02.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 8, "account_id": 51, "exam_name": "IAS Prelims", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/KAR_TET_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:14:41.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }] }
     this.examList = response.data;
     //Fetch Exams List
     this.http.getMethod('exams', null).then(
@@ -56,26 +59,26 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.msgService.showErrorMessage('error',err['error'].errors.message, '');
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
-    
+
 
   }
 
   getStandardList() {
     this.filter.standard_id = null;
     this.filter.subject_id = null;
-    this.subjectsList = 
-    [
+    this.standardList =
+      [
         {
-            "standard_id": 214,
-            "standard_name": "Floor",
-            "is_active": "\u0000",
-            "institution_id": 0,
-            "created_by": null,
-            "created_date": null,
-            "updated_by": null,
-            "update_date": null
+          "standard_id": 214,
+          "standard_name": "Floor",
+          "is_active": "\u0000",
+          "institution_id": 0,
+          "created_by": null,
+          "created_date": null,
+          "updated_by": null,
+          "update_date": null
         },
         {
           "standard_id": 215,
@@ -86,19 +89,19 @@ export class ProductListComponent implements OnInit {
           "created_date": null,
           "updated_by": null,
           "update_date": null
-      },
-      {
-        "standard_id": 216,
-        "standard_name": "Floor 216",
-        "is_active": "\u0000",
-        "institution_id": 0,
-        "created_by": null,
-        "created_date": null,
-        "updated_by": null,
-        "update_date": null
-    }
-    ]
-    
+        },
+        {
+          "standard_id": 216,
+          "standard_name": "Floor 216",
+          "is_active": "\u0000",
+          "institution_id": 0,
+          "created_by": null,
+          "created_date": null,
+          "updated_by": null,
+          "update_date": null
+        }
+      ]
+
     // if (this.filter.exam_id > 0) {
     //   //Fetch Subjects List
     //   this.http.getMethod('exams/' + this.filter.exam_id + '/standards', null).then(
@@ -122,29 +125,43 @@ export class ProductListComponent implements OnInit {
 
   getSubjectList() {
     this.filter.subject_id = null;
-    if (this.filter.standard_id > 0) {
-      //Fetch Subjects List
-      this.http.getMethod('standard/' + this.filter.standard_id + '/subjects', null).then(
-        (resp) => {
-          let response = resp['body'];
-          if (response.validate) {
-            this.subjectsList = response.data;
-          }
-          else {
-            this.msgService.showErrorMessage('error', response.errors.message, '');
-          }
-        },
-        (err) => {
-          this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-        });
-    }
-    else {
-      this.subjectsList = [];
-    }
+    this.subjectsList = [
+      {
+        "subject_id": 41,
+        "subject_name": "Medieval History"
+      },
+      {
+        "subject_id": 42,
+        "subject_name": "space history"
+      },
+      {
+        "subject_id": 43,
+        "subject_name": "Artificial intelegence"
+      }
+    ]
+
+
+    // if (this.filter.standard_id > 0) {
+    //   //Fetch Subjects List
+    //   this.http.getMethod('standard/' + this.filter.standard_id + '/subjects', null).then(
+    //     (resp) => {
+    //       let response = resp['body'];
+    //       if (response.validate) {
+    //         this.subjectsList = response.data;
+    //       }
+    //       else {
+    //         this.msgService.showErrorMessage('error', response.errors.message, '');
+    //       }
+    //     },
+    //     (err) => {
+    //       this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+    //     });
+    // }
+
   }
 
   getExamList() {
-    let response = {"validate":"true","data":[{"exam_id":1,"account_id":51,"exam_name":"RRB - M & I Categoris CEN 03 / 2019","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/excise_sub_inspector_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-05-07T07:37:48.000Z","updated_by":11,"ecourse_id":87,"ecourse_name":"appium","subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":2,"account_id":51,"exam_name":"RRB - Level - 1 by RRC CEN 01 / 2019","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/hm&teachers_RPC_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:23:45.000Z","updated_by":11,"ecourse_id":87,"ecourse_name":"appium","subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":3,"account_id":51,"exam_name":"KPSC Group A & B","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/HM_& _Teachers_HK_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:24:18.000Z","updated_by":11,"ecourse_id":6,"ecourse_name":"Bank PO","subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":5,"account_id":51,"exam_name":"Current Affairs (saturday at 4 pm)","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/HM_& _Teachers_HK_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:10:39.000Z","updated_by":11,"ecourse_id":null,"ecourse_name":null,"subjects":[{"subject_id":2,"subject_name":"Physcis"}]},{"exam_id":6,"account_id":51,"exam_name":"RRB -JE CEN 03/2018","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/psi.png","page_url":"pages/staff_selection_commission_ssc","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:25:02.000Z","updated_by":11,"ecourse_id":null,"ecourse_name":null,"subjects":[{"subject_id":4,"subject_name":"Aptitude"}]},{"exam_id":8,"account_id":51,"exam_name":"IAS Prelims","exam_icon":"https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png","page_url":"pages/KAR_TET_2018","proctur_course_id":null,"status_id":1,"created_date":"2018-12-11T06:22:33+00:00","created_by":51,"updated_date":"2019-04-01T13:14:41.000Z","updated_by":11,"ecourse_id":null,"ecourse_name":null,"subjects":[{"subject_id":2,"subject_name":"Physcis"}]}]}
+    let response = { "validate": "true", "data": [{ "exam_id": 1, "account_id": 51, "exam_name": "RRB - M & I Categoris CEN 03 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/excise_sub_inspector_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-05-07T07:37:48.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 2, "account_id": 51, "exam_name": "RRB - Level - 1 by RRC CEN 01 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/hm&teachers_RPC_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:23:45.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 3, "account_id": 51, "exam_name": "KPSC Group A & B", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:24:18.000Z", "updated_by": 11, "ecourse_id": 6, "ecourse_name": "Bank PO", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 5, "account_id": 51, "exam_name": "Current Affairs (saturday at 4 pm)", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:10:39.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }, { "exam_id": 6, "account_id": 51, "exam_name": "RRB -JE CEN 03/2018", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/psi.png", "page_url": "pages/staff_selection_commission_ssc", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:25:02.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 8, "account_id": 51, "exam_name": "IAS Prelims", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/KAR_TET_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:14:41.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }] }
     this.examList = response.data;
     this.http.getData('exams', 'web').then(
       (response) => {
@@ -259,23 +276,26 @@ export class ProductListComponent implements OnInit {
     this.productList = response.data.products;
     this.total_items = response.data.total_items;
     this.productListLoading = false;
-    this.http.getData('products', 'web').then(
-      (resp) => {
-        let response = resp['body'];
-        if (response.validate) {
-          this.productList = response.data.products;
-          this.total_items = response.data.total_items;
-          this.productListLoading = false;
-        }
-        else {
-          this.msgService.showErrorMessage('error', response.errors.message, '');
-        }
+    this.productList.forEach(element => {
+      element.isSelected = false;
+    });
+    // this.http.getData('products', 'web').then(
+    //   (resp) => {
+    //     let response = resp['body'];
+    //     if (response.validate) {
+    //       this.productList = response.data.products;
+    //       this.total_items = response.data.total_items;
+    //       this.productListLoading = false;
+    //     }
+    //     else {
+    //       this.msgService.showErrorMessage('error', response.errors.message, '');
+    //     }
 
-      },
-      (err) => {
-         this.msgService.showErrorMessage('error',err['error'].errors.message, '');
-      }
-    );
+    //   },
+    //   (err) => {
+    //     this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+    //   }
+    // );
   }
 
   loadMoreItems() {
@@ -284,15 +304,16 @@ export class ProductListComponent implements OnInit {
       this.http.getData('products?offset=' + this.productList.length, 'web').then(
         (resp) => {
           let response = resp['body'];
+          this.productListLoading = false;
           if (response.validate) {
-            this.productList = [...this.productList, ...response.data.products];
-            this.productListLoading = false;
+            this.productList = [...this.productList, ...response.data.products];            
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');
           }
         },
         (err) => {
+          this.productListLoading = false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -371,6 +392,21 @@ export class ProductListComponent implements OnInit {
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       }
     );
+  }
+
+  filterData(){
+    console.log("filterData");
+  }
+
+  toggleAllCheckBox($event) {
+    console.log('toggleAllCheckBox');
+    this.productList.forEach(element => {
+      element.isSelected = this.jsonKeys.selectAll;
+    });
+  }
+
+   isAllSelected($event,item){
+    console.log($event,item);
   }
 
   toggleActionMenu(event) {
