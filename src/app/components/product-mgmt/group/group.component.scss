@@ -51,6 +51,58 @@
   color: darkgreen;
 }
 
+.text-inactive {
+  color: darkred;
+}
+
+.text-bold {
+  font-weight: 600;
+}
+
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn_popup{
+  padding: .4em .6em;
+  /* font-size: .8em; */
+  line-height: 1;
+  color: #212529 ;
+  background-color: #f8f9fa
+}
+.modal-header .close {
+  margin-top: -25px;
+}
+
+.btn-product{
+  
+  color: #fff;
+  background-color: #0066b7;
+  &:hover{
+    background-color: #007bff;
+  
+  }
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1pt solid #ddd;
+
+  //#0066b7
+  thead {
+    background: #eaeaea;
+    th {
+      vertical-align: bottom;
+      border-bottom: 2px solid #dee2e6;
+      background: #eaeaea;
+    }
+  }
+}
+
 .action-bar {
   .form-el-width {
     max-width: 25%;
@@ -61,7 +113,6 @@
 
   .add-icon {
     font-size: 1.2em;
-    background: #0066b7;
     width: 24px;
     height: 24px;
     display: inline-block;

@@ -1,3 +1,142 @@
-<p>
-  basic-info works!
-</p>
+<form #basicInfoForm="ngForm">
+  <div class="row">
+    <!-- <div class="col-md-3">
+    <div class="form-group product-image">
+      <label>Product Image</label>
+      <div class="change-box">
+        <img src="../../../../../assets/images/default_product.png">
+        <input type="hidden" [(ngModel)]="prodForm.product_image" name="product_image" #title="ngModel" class="form-control form-control-sm" placeholder="Product Image" value="" />
+        <div class="change"><label>Change Image</label></div>
+      </div>
+    </div>
+  </div> -->
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="text-bold">Product Name
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" [(ngModel)]="prodForm.title" name="title" #title="ngModel" class="form-control form-control-sm" placeholder="Product Name"
+              required />
+            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+              <div *ngIf="title.errors.required">
+                Product Name should not be empty
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="text-bold">Exam</label>
+            <select [(ngModel)]="prodForm.exam_ids" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc" id="cc">
+              <option value="-1" disabled selected>Select Exam</option>
+              <option *ngFor="let exam of examList" [value]="exam.exam_id">{{exam.exam_name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="text-bold">Product Group
+              <span class="text-danger">*</span>
+            </label>
+            <select [(ngModel)]="prodForm.product_group_id" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc" id="cc">
+              <option value="-1" disabled selected>Select Product Group</option>
+              <option *ngFor="let prod of prodGroupList" [value]="prod.product_group_id">{{prod.title}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="text-bold">Short Description</label>
+            <textarea [(ngModel)]="prodForm.short_description" name="description" class="form-control form-control-sm" placeholder="Write a short description about this product"></textarea>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="text-bold">About Product</label>
+            <textarea [(ngModel)]="prodForm.about_product" name="about_product" class="form-control form-control-sm" placeholder="About Product"></textarea>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="text-bold">Product Items</label>
+          </div>
+          <!--<div class="form-group border-bt">
+          <input type="checkbox" [(ngModel)]="prodForm.has_sectional_tests" (ngModelChange)="prodForm.has_sectional_tests = $event ? 1 : 0" name="has_sectional_tests" id="section_test" value="1"> <label for="section_test"> Section Test</label>
+          &nbsp;&nbsp;
+          <input type="checkbox" [(ngModel)]="prodForm.has_videos" (ngModelChange)="prodForm.has_videos = $event ? 1 : 0" name="has_videos" id="videos" value="1"> <label for="videos"> Videos</label>
+          &nbsp;&nbsp;
+          <input type="checkbox" [(ngModel)]="prodForm.has_notes" (ngModelChange)="prodForm.has_notes = $event ? 1 : 0" name="has_notes" id="notes" value="1"> <label for="notes"> Notes</label>
+          &nbsp;&nbsp;
+          <input type="checkbox" [(ngModel)]="prodForm.has_assignments" (ngModelChange)="prodForm.has_assignments = $event ? 1 : 0" name="has_assignments" id="assignments" value="1"> <label for="assignments"> Assignments</label>
+          &nbsp;&nbsp;
+          <input type="checkbox" [(ngModel)]="prodForm.has_ebooks" (ngModelChange)="prodForm.has_ebooks = $event ? 1 : 0" name="has_ebooks" id="ebooks" value="1"> <label for="ebooks"> eBooks</label>
+        </div>-->
+
+
+
+          <div class="row form-group border-bt" *ngFor="let item of prodForm.itemStates;let i = index">
+            <div class="col-md-4">
+              <div class="field-checkbox-wrapper">
+                <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]" (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i"
+                  [id]="item.slug" value="1" type="checkbox">
+                <label [for]="item.slug"> {{item.title}} </label>
+              </div>
+            </div>
+            <div class="col-md-8" *ngIf="item.is_count_applicable">
+              <label>No. {{item.title}}</label>
+              <input type="number" (ngModelChange)="updateProductItemStates(null)" [disabled]="!prodItems[item.slug]" [name]="item.slug"
+                [(ngModel)]="prodForm.product_item_stats[item.slug]" value="0" min="0" class="form-control form-control-sm count-input-box">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="text-bold">Price</label>
+            <span class="field-checkbox-wrapper" style="margin-left: 110px;">
+              <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_free" (ngModelChange)="prodForm.is_free = $event ? 1 : 0;prodForm.price =0"
+                name="free_price" name="is_free">
+              <label for="free_price">Free</label>
+            </span>
+            <input type="number" min="0.00" value="0.00" step=".01" [(ngModel)]="prodForm.price" [disabled]="prodForm.is_free" name="price"
+              class="form-control form-control-sm">
+          </div>
+        </div>
+
+        <div class="row m-0">
+          <div class="col-md-12 form-group m-0">
+            <label class="text-bold">Visibility Date Range</label>
+          </div>
+          <div class="col-md-5 form-group">
+            <label>Start Date</label>
+            <input [owlDateTimeTrigger]="startTime" [(ngModel)]="prodForm.start_datetime" (change)="calc_days()" class="form-control form-control-sm"
+              [owlDateTime]="startTime" name="start_date" placeholder="Start Date">
+            <owl-date-time [pickerMode]="'dialog'" #startTime></owl-date-time>
+          </div>
+          <div class="col-md-5 form-group">
+            <label>End Date</label>
+            <input [owlDateTimeTrigger]="endTime" [(ngModel)]="prodForm.end_datetime" name="end_date" (change)="calc_days()" class="form-control form-control-sm"
+              [owlDateTime]="endTime" placeholder="End Date">
+            <owl-date-time [pickerMode]="'dialog'" #endTime></owl-date-time>
+          </div>
+          <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
+            <label>{{calc_days()}} Day(s)</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+  <div class="row basic-info-footer">
+    <div class="col text-center">
+      <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">
+        Cancel</button>
+      <button class="btn btn-primary btn-round" (click)="saveProduct()">Save & Next</button>
+    </div>
+  </div>
+</form>

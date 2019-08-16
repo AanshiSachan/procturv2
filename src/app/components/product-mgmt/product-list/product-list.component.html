@@ -1,10 +1,20 @@
 <div class="container-fluid product-wrapper p-0">
   <div class="row m-0 pt-3 pb-3" style="border-bottom: 1pt solid #ddd;">
     <div class="col-md-8">
-      <p class="lead text-bold mb-0">Products Management</p>
+      <section class="middle-top clearFix bulk-header">
+        <div>
+          <h1 class="pull-left">
+            <a routerLink="/view/products" style="padding:0px; ">
+              Product
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+             <span> Product Details </span>
+          </h1>
+        </div>      
+      </section>
     </div>
     <div class="col-md-4 col-sm-4 text-right m-auto">
-      <button class="btn btn-primary btn-product " [routerLink]="['create']">New Product</button>
+      <button class="btn btn-primary btn-product " routerLink="/view/products/create">New Product</button>
     </div>
   </div>
   <div class="row m-0 action-bar">

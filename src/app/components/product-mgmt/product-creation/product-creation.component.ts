@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../../services/products.service';
+import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
+import { MessageShowService } from '../../../services/message-show.service';
 
 @Component({
   selector: 'app-product-creation',
@@ -7,9 +10,210 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductCreationComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit() {
+  formLoading: boolean = false;
+  activeForm: number = 3;
+  product_id: any = 0;
+  productItems: any = [];
+
+  prodForm: any = {
+    product_id: 0,
+    title: '',
+    exams: '',
+    product_image: '',
+    exam_ids: [],
+    product_group_id: {},
+    short_description: '',
+    about_product: '',
+    has_sectional_tests: 0,
+    has_videos: 0,
+    has_notes: 0,
+    has_assignments: 0,
+    has_ebooks: 0,
+    has_mock_tests: 0,
+    has_online_exams: 0,
+    has_live_classes: 0,
+    is_free: true,
+    is_paid: 0,
+    price: 0,
+    start_datetime: '',
+    end_datetime: '',
+    start_timestamp: '',
+    end_timestamp: '',
+    itemStates:[],
+    product_item_stats: {
+      mock_test: 0,
+      online_exams: 0,
+      live_classes: 0,
+      assignments: 0
+    }
+  };
+
+
+  formSequence: any = {
+    1: {
+      slug: 'basic',
+      show: true,
+      is_completed: true,
+      index:1
+    },
+    2: {
+      slug: 'stude_material',
+      show: false,
+      is_completed: false,
+      index:2
+    },
+    3: {
+      slug: 'mock_test',
+      show: false,
+      is_completed: false,
+      index:3
+    },
+    4: {
+      slug: 'online_exams',
+      show: false,
+      is_completed: false,
+      index:4
+    },
+    5: {
+      slug: 'offlineItems',
+      show: false,
+      is_completed: false,
+      index:5
+    },
+    6: {
+      slug: 'review',
+      show: true,
+      is_completed: false,
+      index:6
+    }
+  };
+
+  constructor(
+    private router: Router,
+    private http: ProductService,
+    private route: ActivatedRoute,
+    private msgService: MessageShowService
+  ) {
+    this.route.params.subscribe(params => {
+      console.log(params);
+      if (Object.keys(params).length > 0) {
+        this.product_id = params.product_id;
+        switch (params.form) {
+          case 'basic': this.activeForm = 1; break;
+          case 'stude_material': this.activeForm = 2; break;
+          case 'mock_test': this.activeForm = 3; break;
+          case 'online_exams': this.activeForm = 4; break;
+          case 'offlineItems': this.activeForm = 5; break;
+          case 'review': this.activeForm = 6; break;
+          default:
+            this.router.navigate(['/error404'], { replaceUrl: true }); break;
+        }
+      }
+      else {
+        this.activeForm = 1;
+      }
+    });
   }
 
+  ngOnInit() {
+    if (this.product_id > 0) {
+      this.initFormSequence();
+    }
+  }
+
+
+  // get value of previedata and set 
+  previewSetter($event) {
+    // console.log($event);
+    this.prodForm = $event;
+    let keys = Object.keys(this.formSequence)
+    keys.forEach((element, index) => {
+      let i = index + 1;
+      this.formSequence[i].show = ( this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+    });
+    this.formSequence[1].show = true;
+    this.formSequence[6].show = true;
+  }
+
+
+
+  toggleLoader(show) {
+    this.formLoading = show;
+  }
+
+  visitForm(form_id,data) {
+    //console.log(this.formSequence);
+    let moveForward = false;
+    for (let index = data.index - 1; index > 0; index--) {
+      let form = this.formSequence[index];
+      console.log(form);
+      if (!form.show) {
+        continue;
+      }
+      else if (form.is_completed) {
+        moveForward = true;
+        break;
+      }
+      else {
+        break;
+      }
+    }
+
+    if (form_id > this.activeForm && !moveForward) {
+      this.msgService.showErrorMessage('error', 'Please complete previous forms first', '');
+    }
+    else {
+      let formUrl = this.formSequence[form_id].slug;
+      this.router.navigate(['../' + formUrl], { relativeTo: this.route });
+    }
+
+  }
+
+  startForm(product_id) {
+    this.product_id = product_id;
+    console.log('Called - ' + product_id);
+    this.initFormSequence();
+  }
+
+  initFormSequence() {
+    //Fetch Product Info
+    this.http.getMethod('product/' + this.product_id, null).then(
+      (resp) => {
+        let response = resp['body'];
+        if (response.validate) {
+          let product = response.data;
+          let keys = Object.keys(this.formSequence)
+          keys.forEach((element, index) => {
+            let i = index + 1;
+            this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+          });
+          this.formSequence[1].show = true;
+          this.formSequence[6].show = true;
+        }
+        else {
+          this.msgService.showErrorMessage('error', response.errors.message, '');
+        }
+      },
+      (err) => {
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+  }
+
+  nextForm() {
+    console.log('Called');
+    this.initFormSequence();
+    this.formSequence[this.activeForm].is_completed = true;
+    let index = this.activeForm + 1;
+    for (; index <= Object.keys(this.formSequence).length; index++) {
+      if (this.formSequence[index].show) {
+        break;
+      }
+      else {
+        continue;
+      }
+    }
+    let nextFormUrl = this.formSequence[index].slug;
+    this.router.navigate(['../' + nextFormUrl], { relativeTo: this.route });
+  }
 }

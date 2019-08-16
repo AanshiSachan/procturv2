@@ -15,6 +15,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '../../../../node_modules/@angular/forms';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { SharedModule } from '../shared/shared.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { SharedModule } from '../shared/shared.module';
     OnlineExamComponent,
     OfflineProductsComponent,
     StudyMaterialComponent,
-    ReviewProductComponent
+    ReviewProductComponent,
+    HomeComponent
   ]
 })
 export class ProductMgmtModule { }
