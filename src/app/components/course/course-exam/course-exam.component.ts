@@ -102,23 +102,23 @@ export class CourseExamComponent implements OnInit {
     endTimeMins: '00',
     total_marks: ''
   };
-  exam_desc:any ='';
-  exam_room_no:any ='';
-  subject_id:any ='';
-  subject_name:any ='';
-  exam_marks:any ='';
-  edit_subject_id:any ='';
-  edit_subject_name:any ='';
-  edit_exam_marks:any ='';
-  edit_subject_topics:any ='';
-  edit_exam_desc:any ='';
-  edit_exam_room_no:any ='';
-  row_edit_subject_id:any ='';
-  row_edit_subject_name:any ='';
-  row_edit_exam_marks:any ='';
-  row_edit_subject_topics:any ='';
-  row_edit_exam_desc:any ='';
-  row_edit_exam_room_no:any ='';
+  exam_desc: any = '';
+  exam_room_no: any = '';
+  subject_id: any = '';
+  subject_name: any = '';
+  exam_marks: any = '';
+  edit_subject_id: any = '';
+  edit_subject_name: any = '';
+  edit_exam_marks: any = '';
+  edit_subject_topics: any = '';
+  edit_exam_desc: any = '';
+  edit_exam_room_no: any = '';
+  row_edit_subject_id: any = '';
+  row_edit_subject_name: any = '';
+  row_edit_exam_marks: any = '';
+  row_edit_subject_topics: any = '';
+  row_edit_exam_desc: any = '';
+  row_edit_exam_room_no: any = '';
   selectedSubId: any;
   total_marks_to_show = 0;
   // Topic listing variables
@@ -165,7 +165,7 @@ export class CourseExamComponent implements OnInit {
     this.checkForCoursePlannerRoute();
   }
 
-  checkForCoursePlannerRoute(){
+  checkForCoursePlannerRoute() {
     this.coursePlannerStatus = sessionStorage.getItem('isFromCoursePlanner')
   }
 
@@ -1024,7 +1024,6 @@ export class CourseExamComponent implements OnInit {
               }
             )
             this.subject_name = subjectName;
-            this.subject_name ;
             this.children = (dataItem: any) => of(dataItem.subTopic);
             this.hasChildren = (item: any) => item.subTopic && item.subTopic.length > 0;
           }
@@ -1232,6 +1231,11 @@ export class CourseExamComponent implements OnInit {
 
 
   addNewExamSubject() {
+    if (this.newExamData.startTimeHrs == this.newExamData.endTimeHrs
+      && this.newExamData.startTimeMins == this.newExamData.endTimeMins) {
+      this.messageNotifier('error', 'Error', 'Exam  start time and end time cannot be same !');
+      return;
+    }
     if (this.subject_id == null || this.subject_id == '') {
       this.messageNotifier('error', 'Error', 'No subject(s) added!');
       return;
@@ -1429,8 +1433,8 @@ export class CourseExamComponent implements OnInit {
       return;
     }
 
-    let subjectName = ""
-
+    let subjectName = "";
+    console.log(this.viewList);
     this.viewList[j].subjectList.forEach(
       ele => {
         if (this.row_edit_subject_id == ele.subject_id) {
@@ -1494,7 +1498,17 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     if (dataToSend.coursesList.length > 0) {
-      if (dataToSend.coursesList[0].courseClassSchdList.length > 0) {
+      let flag = false;
+      dataToSend.coursesList.forEach((object) => {
+        if (object.courseClassSchdList.length) {
+          flag = true;
+        }
+        else {
+          object.exam_start_time = null;
+          object.exam_end_time = null;
+        }
+      });
+      if (flag) {
         this.apiService.updateExamSch(dataToSend).subscribe(
           (res: any) => {
             this.isRippleLoad = false;
@@ -1514,11 +1528,6 @@ export class CourseExamComponent implements OnInit {
             this.messageNotifier('error', 'Error', err.error.message);
           }
         )
-      }
-      else {
-        this.multiClickDisabled = false;
-        this.isRippleLoad = false;
-        this.messageNotifier('error', 'Error', 'Required fields not mentioned!');
       }
     }
     else {
@@ -1693,6 +1702,17 @@ export class CourseExamComponent implements OnInit {
           unselected.exam_end_time = timeEnd;
           data.coursesList.push(unselected);
         }
+        else if (this.examScheduleData.coursesList[i].course_id == this.courseData.course_id &&
+          this.examScheduleData.coursesList[i] && this.examScheduleData.coursesList[i].courseClassSchdList == null &&
+          this.examScheduleData.coursesList[i].course_exam_schedule_id != 0) {
+          /** this condition used  for cancel exam if user try to create exam 
+           * using  same time and type then cancel exam course_exam_schedule_id need to send in new created 
+           * exam object  --- added laxmi */
+          if (data.coursesList[i] && this.examScheduleData.coursesList[i]) {
+            data.coursesList[i].course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id;
+          }
+
+        }
       }
 
     }
@@ -1701,7 +1721,6 @@ export class CourseExamComponent implements OnInit {
 
 
   ////cancel Exam popup/////
-
   cancelExamCourse(data, index, j) {
     this.cancelExamPopUp = true;
     this.cancelExamData = this.viewList[j].courseTableList[index];
