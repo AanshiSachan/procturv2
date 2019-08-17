@@ -1708,7 +1708,10 @@ export class CourseExamComponent implements OnInit {
           /** this condition used  for cancel exam if user try to create exam 
            * using  same time and type then cancel exam course_exam_schedule_id need to send in new created 
            * exam object  --- added laxmi */
-          data.coursesList[i].course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id;
+          if (data.coursesList[i] && this.examScheduleData.coursesList[i]) {
+            data.coursesList[i].course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id;
+          }
+
         }
       }
 
