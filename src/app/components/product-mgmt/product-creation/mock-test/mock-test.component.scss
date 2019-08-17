@@ -1,0 +1,67 @@
+
+.subjects-nav-bar{
+    padding: 0.8em 1em;
+    border-top: 1pt solid #ddd;
+    margin-top: 1em;
+    .btn-tab{
+        border: 1pt solid #ddd;
+        margin-right: 0.4em;
+    }
+}
+
+.table-cell{
+    margin: auto;
+    text-align: left;
+}
+
+.checkbox-cell{
+    max-width: 20px;
+}
+
+.content-name-cell{
+    min-width: 40%;
+}
+
+.content-table{
+    padding: 0.2em !important;
+    border: 1pt solid #f1f1f1;
+    box-shadow: 0pt 0pt 4pt #eee;
+    .head{
+        border-bottom: 1pt solid #d9e5ea;
+        padding: 0.2em 0;
+        color: #777;
+        .table-cell{
+
+        }
+    }
+    .table-body{
+        .singleton-row{
+            cursor: default;
+            border-bottom: 1pt solid #d9e5ea;
+            padding: 0.4em 0 !important;
+            &:last-child{
+                border-bottom: 0;
+            }
+            .table-cell{
+
+            }
+        }
+    }
+}
+
+.basic-info-footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1pt solid #f3f3f3;
+    padding: 0.5em 0.8em;
+    background: #fff;
+    box-shadow: 0pt -2pt 6pt #e6e6e6;
+    z-index: 5;
+    .btn-round{
+        padding: 0.2em 1em;
+        border-radius: 2em;
+        margin: 0.2em;
+    }
+}

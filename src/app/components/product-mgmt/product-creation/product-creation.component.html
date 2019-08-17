@@ -16,13 +16,13 @@
       <div class="divWrapper">
         <app-basic-info (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" (previewEvent)="previewSetter($event)"
           [product_id]="product_id" *ngIf="activeForm == 1"></app-basic-info>
-        <!-- <app-study-material [product_id]="product_id" [prodForm]="prodForm" (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 2"></app-study-material>
+        <app-study-material [product_id]="product_id" [prodForm]="prodForm" (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 2"></app-study-material>
         <app-mock-test [product_id]="product_id" [prodForm]="prodForm" (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           *ngIf="activeForm == 3"></app-mock-test>
         <app-online-exam [product_id]="product_id"  [prodForm]="prodForm" (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           *ngIf="activeForm == 4"></app-online-exam>
         <app-offline-products *ngIf="activeForm == 5"></app-offline-products>
-        <app-review-product *ngIf="activeForm == 6"></app-review-product> -->
+        <app-review-product *ngIf="activeForm == 6"></app-review-product>
       </div>
     </div>
     <div class="col-md-4 product-preview-wrapper">

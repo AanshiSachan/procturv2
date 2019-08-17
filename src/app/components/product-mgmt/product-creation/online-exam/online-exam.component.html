@@ -1,3 +1,161 @@
-<p>
-  online-exam works!
-</p>
+<!-- <div class="row filters-box">
+    <div class="col-md-3">
+      <select name="" class="form-control form-control-sm">
+        <option>Select Exam</option>
+        <option>SSC CGL</option>
+        <option>SSC CHSL</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select name="" class="form-control form-control-sm">
+        <option>Select Subject</option>
+        <option>SSC CGL</option>
+        <option>SSC CHSL</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-primary btn-sm btn-round">Add</button>
+    </div>
+    <div class="col-md-12 subjects-nav-bar">
+      <button class="btn btn-light btn-sm btn-tab">History</button>
+      <button class="btn btn-light btn-sm btn-tab">Geography</button>
+    </div>
+  </div>
+  
+  
+  <div class="row m-0 content-wrapper">
+    <div class="col-md-12 p-0 content-table">
+      <div class="row m-0 head table-row">
+        <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+        <div class="col table-cell content-name-cell">Content</div>
+        <div class="col table-cell">Marks</div>
+        <div class="col table-cell">Questions</div>
+        <div class="col table-cell">Time</div>
+        <div class="col table-cell">Difficulty</div>
+      </div>
+      <div class="row m-0 table-body">
+  
+        <div class="row m-0 col-md-12 p-0 singleton-row">
+          <div class="col table-cell checkbox-cell">
+            <input type="checkbox">
+          </div>
+          <div class="col table-cell content-name-cell">
+            History Model Exam
+          </div>
+          <div class="col table-cell stats-cell">
+            50
+          </div>
+          <div class="col table-cell stats-cell">
+            100
+          </div>
+          <div class="col table-cell stats-cell">
+            60 mins
+          </div>
+          <div class="col table-cell stats-cell">
+            Easy
+          </div>
+        </div>
+  
+        <div class="row m-0 col-md-12 p-0 singleton-row">
+          <div class="col table-cell checkbox-cell">
+            <input type="checkbox">
+          </div>
+          <div class="col table-cell content-name-cell">
+            History Model Exam
+          </div>
+          <div class="col table-cell stats-cell">
+            50
+          </div>
+          <div class="col table-cell stats-cell">
+            100
+          </div>
+          <div class="col table-cell stats-cell">
+            60 mins
+          </div>
+          <div class="col table-cell stats-cell">
+            Easy
+          </div>
+        </div>
+  
+        <div class="row m-0 col-md-12 p-0 singleton-row">
+          <div class="col table-cell checkbox-cell">
+            <input type="checkbox">
+          </div>
+          <div class="col table-cell content-name-cell">
+            History Model Exam
+          </div>
+          <div class="col table-cell stats-cell">
+            50
+          </div>
+          <div class="col table-cell stats-cell">
+            100
+          </div>
+          <div class="col table-cell stats-cell">
+            60 mins
+          </div>
+          <div class="col table-cell stats-cell">
+            Easy
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+<div class="row basic-info-footer">
+  <div class="col">
+    
+  </div>
+  <div class="col text-center">
+    <button class="btn btn-outline-danger btn-round">Cancel</button>
+    <button class="btn btn-primary btn-round">Save</button>
+  </div>
+  <div class="col text-right">
+      <button class="btn btn-link">Next ></button>
+  </div>
+</div> -->
+
+<div style="color: #777;">Select Online Exams : {{prodForm.product_item_stats.online_exams}}</div>
+<div class="row m-0 content-wrapper">
+  <div class="col-md-12 p-0 content-table">
+    <div class="row m-0 head table-row">
+      <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+      <div class="col table-cell content-name-cell">Content</div>
+      <div class="col table-cell">Marks</div>
+      <div class="col table-cell">Questions</div>
+      <div class="col table-cell">Time</div>
+      <div class="col table-cell">Difficulty</div>
+    </div>
+    <div class="row m-0 table-body">
+
+      <div class="row m-0 col-md-12 p-0 singleton-row" *ngFor="let test of testlist;">
+        <div class="col table-cell checkbox-cell">
+          <input type="checkbox">
+        </div>
+        <div class="col table-cell content-name-cell">
+          {{test.test_name}}
+        </div>
+        <div class="col table-cell stats-cell">
+          {{test.total_marks}}
+        </div>
+        <div class="col table-cell stats-cell">
+          {{test.total_question}}
+        </div>
+        <div class="col table-cell stats-cell">
+          {{test.duration}}
+        </div>
+        <div class="col table-cell stats-cell">
+          {{test.difficulty_title}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row basic-info-footer">
+  <div class="col text-center">
+    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">Cancel</button>
+    <button class="btn btn-primary btn-round" (click)="gotoNext()">Save & Next</button>
+  </div>
+</div>

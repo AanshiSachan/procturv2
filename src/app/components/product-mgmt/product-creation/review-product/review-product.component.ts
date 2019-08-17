@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./review-product.component.scss']
 })
 export class ReviewProductComponent implements OnInit {
-
+  prod_free:any;
+  selectedPeople1:any;
+  people:any;
   constructor() { }
 
   ngOnInit() {
   }
-
+  
 }

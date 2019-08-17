@@ -1,3 +1,207 @@
-<p>
-  study-material works!
-</p>
+<div class="row filters-box">
+  <div class="col-md-3">
+    <select name="" class="form-control form-control-sm">
+      <option>Select Exam</option>
+      <option>SSC CGL</option>
+      <option>SSC CHSL</option>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select name="" class="form-control form-control-sm">
+      <option>Select Subject</option>
+      <option>SSC CGL</option>
+      <option>SSC CHSL</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <button class="btn btn-primary btn-sm btn-round">Add</button>
+  </div>
+  <div class="col-md-12 subjects-nav-bar">
+    <button class="btn btn-light btn-sm btn-tab">History</button>
+    <button class="btn btn-light btn-sm btn-tab">Geography</button>
+  </div>
+</div>
+
+<div class="row m-0 content-wrapper">
+  <div class="col-md-12 p-0 content-table">
+    <div class="row m-0 head table-row">
+      <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+      <div class="col table-cell">Content</div>
+    </div>
+    <div class="row m-0 table-body">
+
+      <div class="col-md-12 p-0 master-table-row">
+        <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
+          <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+          <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Ancient History</div>
+          <div class="col table-cell stats-cell">
+            <span>40 Videos</span>
+            <span>25 Notes</span>
+            <span>10 Tests</span>
+            <span>20 Assignments</span>
+          </div>
+          <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
+        </div>
+        <div class="row m-0 col-md-12 p-0 child-table-row">
+          <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
+            <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+            <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Indus Valley Civilization</div>
+            <div class="col table-cell stats-cell">
+              <span>40 Videos</span>
+              <span>25 Notes</span>
+              <span>10 Tests</span>
+              <span>20 Assignments</span>
+            </div>
+            <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
+          </div>
+          <div class="row m-0 col-md-12 p-0 child-table-row">
+            <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
+              <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+              <div class="col table-cell content-name-cell">Tests</div>
+            </div>
+            <div class="row m-0 col-md-12 p-0 child-table-row">
+              <div class="row m-0 col-md-12 p-0 content-row singleton-row">
+                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
+                <div class="col table-cell stats-cell">
+                  <span>150 marks</span>
+                  <span>75 Questions</span>
+                  <span>60 mins</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row m-0 col-md-12 p-0 child-table-row">
+          <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
+            <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+            <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Maurayan Empire</div>
+            <div class="col table-cell stats-cell">
+              <span>20 Videos</span>
+              <span>35 Notes</span>
+              <span>40 Tests</span>
+              <span>50 Assignments</span>
+            </div>
+            <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
+          </div>
+          <div class="row m-0 col-md-12 p-0 child-table-row">
+            <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
+              <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+              <div class="col table-cell content-name-cell">Tests</div>
+            </div>
+            <div class="row m-0 col-md-12 p-0 child-table-row">
+              <div class="row m-0 col-md-12 p-0 content-row singleton-row">
+                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
+                <div class="col table-cell stats-cell">
+                  <span>150 marks</span>
+                  <span>75 Questions</span>
+                  <span>60 mins</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row m-0 col-md-12 p-0 child-table-row">
+            <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
+              <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+              <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Topic Level 3</div>
+              <div class="col table-cell stats-cell">
+                <span>20 Videos</span>
+                <span>35 Notes</span>
+                <span>40 Tests</span>
+                <span>50 Assignments</span>
+              </div>
+              <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
+            </div>
+            <div class="row m-0 col-md-12 p-0 child-table-row">
+              <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
+                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                <div class="col table-cell content-name-cell">Tests</div>
+              </div>
+              <div class="row m-0 col-md-12 p-0 child-table-row">
+                <div class="row m-0 col-md-12 p-0 content-row singleton-row">
+                  <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                  <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
+                  <div class="col table-cell stats-cell">
+                    <span>150 marks</span>
+                    <span>75 Questions</span>
+                    <span>60 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row m-0 col-md-12 p-0 child-table-row">
+              <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
+                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Topic Level 4</div>
+                <div class="col table-cell stats-cell">
+                  <span>20 Videos</span>
+                  <span>35 Notes</span>
+                  <span>40 Tests</span>
+                  <span>50 Assignments</span>
+                </div>
+                <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
+              </div>
+              <div class="row m-0 col-md-12 p-0 child-table-row">
+                <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
+                  <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                  <div class="col table-cell content-name-cell">Tests</div>
+                </div>
+                <div class="row m-0 col-md-12 p-0 child-table-row">
+                  <div class="row m-0 col-md-12 p-0 content-row singleton-row">
+                    <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                    <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
+                    <div class="col table-cell stats-cell">
+                      <span>150 marks</span>
+                      <span>75 Questions</span>
+                      <span>60 mins</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row m-0 col-md-12 p-0 child-table-row">
+                <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
+                  <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                  <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Topic Level 5</div>
+                  <div class="col table-cell stats-cell">
+                    <span>20 Videos</span>
+                    <span>35 Notes</span>
+                    <span>40 Tests</span>
+                    <span>50 Assignments</span>
+                  </div>
+                  <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
+                </div>
+                <div class="row m-0 col-md-12 p-0 child-table-row">
+                  <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
+                    <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                    <div class="col table-cell content-name-cell">Tests</div>
+                  </div>
+                  <div class="row m-0 col-md-12 p-0 child-table-row">
+                    <div class="row m-0 col-md-12 p-0 content-row singleton-row">
+                      <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
+                      <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
+                      <div class="col table-cell stats-cell">
+                        <span>150 marks</span>
+                        <span>75 Questions</span>
+                        <span>60 mins</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row basic-info-footer">
+  <div class="col text-center">
+    <button class="btn btn-outline-danger btn-round">Cancel</button>
+    <button class="btn btn-primary btn-round" (click)="gotoNext()">Save & Next</button>
+  </div>
+</div>

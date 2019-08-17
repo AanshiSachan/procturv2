@@ -1,3 +1,64 @@
-<p>
-  review-product works!
-</p>
+<div class="row">
+  <div class="col-md-12">
+    <p class="m-0">Review Product</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+      <img class="prod-image" src="https://iasexamportal.com/sites/default/files/UPSC-LOGO.jpg">
+  </div>
+
+  <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label class="text-bold">Product Name <span><i class="fas fa-edit"></i></span></label>
+        <input type="text" class="form-control form-control-sm" value="UPSC Test Combo Series">
+      </div>
+
+      <div class="col-md-12 form-group">
+        <label class="text-bold">Description</label>
+        <textarea class="form-control form-control-sm"></textarea>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <label class="text-bold">Product Group</label>
+        <ng-select
+              [items]="people"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              [hideSelected]="true"
+              [searchable]="true"
+              bindLabel="name"
+              placeholder="Select Exam"
+              [(ngModel)]="selectedPeople1">
+        </ng-select>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <label class="text-bold">Price</label> 
+        <span class="float-right"><input type="checkbox" id="free_price" (change)="prod_free = (prod_free)?0:1" name="free"> <label for="free_price">Free</label></span>
+        <input type="number" min="0.00" value="0.00" step=".01" [disabled]="!prod_free" name="product_name" class="form-control form-control-sm" >
+      </div>
+
+      <div class="col-md-12 p-0 row m-0">
+        <div class="col-md-12 form-group m-0">
+          <label class="text-bold">Visibility Date Range</label>
+        </div>
+        <div class="col-md-5 form-group">
+          <label>Start Date</label>
+          <input [owlDateTimeTrigger]="startTime" class="form-control form-control-sm" [owlDateTime]="startTime" placeholder="Start Date">
+          <owl-date-time [pickerMode]="'dialog'" #startTime></owl-date-time>
+        </div>
+        <div class="col-md-5 form-group">
+          <label>End Date</label>
+          <input [owlDateTimeTrigger]="endTime" class="form-control form-control-sm" [owlDateTime]="endTime" placeholder="End Date">
+          <owl-date-time [pickerMode]="'dialog'" #endTime></owl-date-time>
+        </div>
+        <div class="col-md-2 form-group text-right m-auto text-bold">
+          <label>90 Days</label>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
