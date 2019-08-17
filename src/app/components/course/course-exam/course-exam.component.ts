@@ -1492,6 +1492,8 @@ export class CourseExamComponent implements OnInit {
     this.multiClickDisabled = true;
     this.isRippleLoad = true;
     let dataToSend = this.makeDataJsonToSendServer();
+    console.log(dataToSend);
+    // dataToSend = false;
     if (dataToSend == false) {
       this.isRippleLoad = false;
       this.multiClickDisabled = false;
@@ -1710,6 +1712,16 @@ export class CourseExamComponent implements OnInit {
            * exam object  --- added laxmi */
           if (data.coursesList[i] && this.examScheduleData.coursesList[i]) {
             data.coursesList[i].course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id;
+          }
+          else if(this.examScheduleData.coursesList[i]){
+          let obj=  {
+              "course_id": this.examScheduleData.coursesList[i].course_id,
+              "courseClassSchdList": [],
+              "exam_start_time": null,
+              "exam_end_time": null,
+              "course_exam_schedule_id": this.examScheduleData.coursesList[i].course_exam_schedule_id
+            }
+            data.coursesList.push(obj);
           }
 
         }
