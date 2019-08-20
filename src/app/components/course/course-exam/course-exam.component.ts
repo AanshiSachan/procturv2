@@ -1661,9 +1661,16 @@ export class CourseExamComponent implements OnInit {
       data.coursesList.push(test);
       if (validation_flag) {
         for (let m = 0; m < coursesLists.length; m++) {
-          // if(i == 0){
-          data.coursesList.push(coursesLists[m]);
-          // }
+          let isPush = true;
+          console.log(coursesLists[m]);
+          this.examScheduleData.coursesList.forEach((object, index) => {
+            if (object.course_exam_schedule_id == coursesLists[m].course_exam_schedule_id) {
+              isPush = false;
+            }
+          });
+          if (isPush) {
+            data.coursesList.push(coursesLists[m]);
+          }
         }
       }
       // }
@@ -1672,6 +1679,7 @@ export class CourseExamComponent implements OnInit {
 
     /// This section makes json for unselected course
     if (this.examScheduleData.coursesList.length > 0) {
+      let startIndex =0;
       for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
         if (this.examScheduleData.coursesList[i].course_id != this.courseData.course_id) {
           let unselected: any = {};
@@ -1711,10 +1719,11 @@ export class CourseExamComponent implements OnInit {
            * using  same time and type then cancel exam course_exam_schedule_id need to send in new created 
            * exam object  --- added laxmi */
           if (data.coursesList[i] && this.examScheduleData.coursesList[i]) {
-            data.coursesList[i].course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id;
+            data.coursesList[startIndex].course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id;
+            startIndex++;
           }
-          else if(this.examScheduleData.coursesList[i]){
-          let obj=  {
+          else if (this.examScheduleData.coursesList[i]) {
+            let obj = {
               "course_id": this.examScheduleData.coursesList[i].course_id,
               "courseClassSchdList": [],
               "exam_start_time": null,
@@ -1723,7 +1732,19 @@ export class CourseExamComponent implements OnInit {
             }
             data.coursesList.push(obj);
           }
+        } else if (this.examScheduleData.coursesList[i].course_id == this.courseData.course_id &&
+          this.examScheduleData.coursesList[i] && this.examScheduleData.coursesList[i].courseClassSchdList) {
+          let isNeedToAdd = true;
 
+          data.coursesList.forEach((obj) => {
+            if (obj.course_exam_schedule_id == this.examScheduleData.coursesList[i].course_exam_schedule_id) {
+              isNeedToAdd = false;
+            }
+          });
+          if(isNeedToAdd){
+            data.coursesList.push(coursesLists[i]);
+          }
+          
         }
       }
 
