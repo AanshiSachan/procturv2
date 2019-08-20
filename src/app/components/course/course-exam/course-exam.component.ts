@@ -502,27 +502,34 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-    let obj: any = {
-      batch_id: this.batchData.batch_id,
-      exam_freq: "OTHER",
-      cancelSchd: [{
-        schd_id: this.cancelExamData.schd_id,
-        exam_desc: this.cancelPopUpData.reason,
-        is_notified: notify
-      }]
-    }
 
-    this.apiService.cancelExamSchedule(obj).subscribe(
-      res => {
-        this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
-        this.batchModelGoClick();
-        this.closeCancelExamPopUp();
-      },
-      err => {
-        //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+    if(!this.isRippleLoad){
+      this.isRippleLoad = true;
+      let obj: any = {
+        batch_id: this.batchData.batch_id,
+        exam_freq: "OTHER",
+        cancelSchd: [{
+          schd_id: this.cancelExamData.schd_id,
+          exam_desc: this.cancelPopUpData.reason,
+          is_notified: notify
+        }]
       }
-    )
+  
+      this.apiService.cancelExamSchedule(obj).subscribe(
+        res => {
+          this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
+          this.isRippleLoad = false;
+          this.batchModelGoClick();
+          this.closeCancelExamPopUp();
+        },
+        err => {
+          //console.log(err);
+          this.isRippleLoad = false;
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+    
   }
 
   // Mark Attendance Popup
@@ -1770,26 +1777,31 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-    let obj: any = {
-      batch_id: this.cancelExamData.batch_id,
-      exam_freq: "OTHER",
-      cancelSchd: [{
-        schd_id: this.cancelExamData.class_schedule_id,
-        exam_desc: this.cancelPopUpData.reason,
-        is_notified: notify
-      }]
-    }
-    this.apiService.cancelExamSchedule(obj).subscribe(
-      res => {
-        this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
-        this.closeCancelExamPopUp();
-        this.getExamSchedule();
-      },
-      err => {
-        //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+    if(!this.isRippleLoad){
+      this.isRippleLoad = true;
+      let obj: any = {
+        batch_id: this.cancelExamData.batch_id,
+        exam_freq: "OTHER",
+        cancelSchd: [{
+          schd_id: this.cancelExamData.class_schedule_id,
+          exam_desc: this.cancelPopUpData.reason,
+          is_notified: notify
+        }]
       }
-    )
+      this.apiService.cancelExamSchedule(obj).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
+          this.closeCancelExamPopUp();
+          this.getExamSchedule();
+        },
+        err => {
+          //console.log(err);
+          this.isRippleLoad = false;
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }   
   }
 
   // cancel Button next to Send Reminder
@@ -1811,24 +1823,31 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-    let obj = {
-      cancel_reason: this.cancelPopUpData.reason,
-      course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
-      course_id: this.courseData.course_id,
-      is_cancel_notify: notify,
-      requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
-    }
-    this.apiService.cancelExamScheduleCourse(obj).subscribe(
-      res => {
-        this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
-        this.closeCancelExamPopUp();
-        this.getExamSchedule();
-      },
-      err => {
-        //console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
+
+    if(!this.isRippleLoad){
+      this.isRippleLoad = true;
+      let obj = {
+        cancel_reason: this.cancelPopUpData.reason,
+        course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
+        course_id: this.courseData.course_id,
+        is_cancel_notify: notify,
+        requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
       }
-    )
+      this.apiService.cancelExamScheduleCourse(obj).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
+          this.closeCancelExamPopUp();
+          this.getExamSchedule();
+        },
+        err => {
+          //console.log(err);
+          this.isRippleLoad = false;
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+    
   }
 
 

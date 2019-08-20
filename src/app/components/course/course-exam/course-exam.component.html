@@ -1007,12 +1007,12 @@
                         </aside>
                         <aside *ngIf="isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="No" class="btn" (click)="closeCancelExamPopUp()" style="width:70px;">
-                            <input type="button" value="Yes" (click)="cancelExamClassSchedule()" class="fullBlue btn" style="width:70px;">
+                            <input type="button" value="Yes" [disabled]="isRippleLoad" (click)="cancelExamClassSchedule()" class="fullBlue btn" style="width:70px;">
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="No" class="btn" (click)="closeCancelExamPopUp()" style="width:70px;">
-                            <input *ngIf="jsonVar.cancelCourseLevel" type="button" value="Yes" (click)="cancelCourseLevelExam()" class="fullBlue btn" style="width:70px;">
-                            <input *ngIf="!jsonVar.cancelCourseLevel" type="button" value="Yes" (click)="cancelCourseExam()" class="fullBlue btn" style="width:70px;">
+                            <input *ngIf="jsonVar.cancelCourseLevel" type="button" value="Yes" [disabled]="isRippleLoad" (click)="cancelCourseLevelExam()" class="fullBlue btn" style="width:70px;">
+                            <input *ngIf="!jsonVar.cancelCourseLevel" type="button" value="Yes"  [disabled]="isRippleLoad" (click)="cancelCourseExam()" class="fullBlue btn" style="width:70px;">
                         </aside>
                     </div>
 
