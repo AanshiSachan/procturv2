@@ -13,9 +13,10 @@ import { StudyMaterialComponent } from './product-creation/study-material/study-
 import { ReviewProductComponent } from './product-creation/review-product/review-product.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '../../../../node_modules/@angular/forms';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+// import { OwlDateTimeModule, OwlNativeDateTimeModul } from 'ng-pick-datetime';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
+import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
 
 @NgModule({
   imports: [
@@ -23,8 +24,8 @@ import { HomeComponent } from './home/home.component';
     ProductMgmtRoutingModule,
     NgSelectModule,
     FormsModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+    BsDatepickerModule,
+    TimepickerModule,
     SharedModule    
   ],
   declarations: [    

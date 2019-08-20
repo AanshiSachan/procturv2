@@ -19,8 +19,8 @@
             <label class="text-bold">Product Name
               <span class="text-danger">*</span>
             </label>
-            <input type="text" [(ngModel)]="prodForm.title" name="title" #title="ngModel" class="form-control form-control-sm" placeholder="Product Name"
-              required />
+            <input type="text" [(ngModel)]="prodForm.title" name="title" #title="ngModel"
+              class="form-control form-control-sm" placeholder="Product Name" required />
             <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
               <div *ngIf="title.errors.required">
                 Product Name should not be empty
@@ -29,7 +29,8 @@
           </div>
           <div class="form-group">
             <label class="text-bold">Exam</label>
-            <select [(ngModel)]="prodForm.exam_ids" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc" id="cc">
+            <select [(ngModel)]="prodForm.exam_ids" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc"
+              id="cc">
               <option value="-1" disabled selected>Select Exam</option>
               <option *ngFor="let exam of examList" [value]="exam.exam_id">{{exam.exam_name}}</option>
             </select>
@@ -38,7 +39,8 @@
             <label class="text-bold">Product Group
               <span class="text-danger">*</span>
             </label>
-            <select [(ngModel)]="prodForm.product_group_id" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc" id="cc">
+            <select [(ngModel)]="prodForm.product_group_id" class="form-ctrl" (ngModelChange)="getStandardList()"
+              name="cc" id="cc">
               <option value="-1" disabled selected>Select Product Group</option>
               <option *ngFor="let prod of prodGroupList" [value]="prod.product_group_id">{{prod.title}}</option>
             </select>
@@ -48,14 +50,16 @@
         <div class="col-md-12">
           <div class="form-group">
             <label class="text-bold">Short Description</label>
-            <textarea [(ngModel)]="prodForm.short_description" name="description" class="form-control form-control-sm" placeholder="Write a short description about this product"></textarea>
+            <textarea [(ngModel)]="prodForm.short_description" name="description" class="form-control form-control-sm"
+              placeholder="Write a short description about this product"></textarea>
           </div>
         </div>
 
         <div class="col-md-12">
           <div class="form-group">
             <label class="text-bold">About Product</label>
-            <textarea [(ngModel)]="prodForm.about_product" name="about_product" class="form-control form-control-sm" placeholder="About Product"></textarea>
+            <textarea [(ngModel)]="prodForm.about_product" name="about_product" class="form-control form-control-sm"
+              placeholder="About Product"></textarea>
           </div>
         </div>
 
@@ -80,15 +84,17 @@
           <div class="row form-group border-bt" *ngFor="let item of prodForm.itemStates;let i = index">
             <div class="col-md-4">
               <div class="field-checkbox-wrapper">
-                <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]" (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i"
-                  [id]="item.slug" value="1" type="checkbox">
+                <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]"
+                  (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i" [id]="item.slug" value="1"
+                  type="checkbox">
                 <label [for]="item.slug"> {{item.title}} </label>
               </div>
             </div>
             <div class="col-md-8" *ngIf="item.is_count_applicable">
               <label>No. {{item.title}}</label>
-              <input type="number" (ngModelChange)="updateProductItemStates(null)" [disabled]="!prodItems[item.slug]" [name]="item.slug"
-                [(ngModel)]="prodForm.product_item_stats[item.slug]" value="0" min="0" class="form-control form-control-sm count-input-box">
+              <input type="number" (ngModelChange)="updateProductItemStates(null)" [disabled]="!prodItems[item.slug]"
+                [name]="item.slug" [(ngModel)]="prodForm.product_item_stats[item.slug]" value="0" min="0"
+                class="form-control form-control-sm count-input-box">
             </div>
           </div>
         </div>
@@ -97,12 +103,12 @@
           <div class="form-group">
             <label class="text-bold">Price</label>
             <span class="field-checkbox-wrapper" style="margin-left: 110px;">
-              <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_free" (ngModelChange)="prodForm.is_free = $event ? 1 : 0;prodForm.price =0"
-                name="free_price" name="is_free">
+              <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_free"
+                (ngModelChange)="prodForm.is_free = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_free">
               <label for="free_price">Free</label>
             </span>
-            <input type="number" min="0.00" value="0.00" step=".01" [(ngModel)]="prodForm.price" [disabled]="prodForm.is_free" name="price"
-              class="form-control form-control-sm">
+            <input type="number" min="0.00" value="0.00" step=".01" [(ngModel)]="prodForm.price"
+              [disabled]="prodForm.is_free" name="price" class="form-control form-control-sm">
           </div>
         </div>
 
@@ -111,19 +117,22 @@
             <label class="text-bold">Visibility Date Range</label>
           </div>
           <div class="col-md-5 form-group">
-            <label>Start Date</label>
-            <input [owlDateTimeTrigger]="startTime" [(ngModel)]="prodForm.start_datetime" (change)="calc_days()" class="form-control form-control-sm"
-              [owlDateTime]="startTime" name="start_date" placeholder="Start Date">
-            <owl-date-time [pickerMode]="'dialog'" #startTime></owl-date-time>
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;"> 
+                <label for="from">Start Date</label>
+                <input type="text"  [(ngModel)]="prodForm.start_datetime"  (change)="calc_days()"
+                name="from" class="form-control form-control-sm" bsDatepicker>
+            </div>
           </div>
           <div class="col-md-5 form-group">
-            <label>End Date</label>
-            <input [owlDateTimeTrigger]="endTime" [(ngModel)]="prodForm.end_datetime" name="end_date" (change)="calc_days()" class="form-control form-control-sm"
-              [owlDateTime]="endTime" placeholder="End Date">
-            <owl-date-time [pickerMode]="'dialog'" #endTime></owl-date-time>
-          </div>
+              <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;"> 
+                  <label for="from">End Date</label>
+                  <input type="text"  [(ngModel)]="prodForm.end_datetime"  (change)="calc_days()"
+                  name="from" class="form-control form-control-sm" bsDatepicker>
+              </div>
+            </div>
+        
           <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
-            <label>{{calc_days()}} Day(s)</label>
+            <label>{{calc_days()}} Day(s)</label>  
           </div>
         </div>
 

@@ -46,14 +46,20 @@
           <label class="text-bold">Visibility Date Range</label>
         </div>
         <div class="col-md-5 form-group">
-          <label>Start Date</label>
-          <input [owlDateTimeTrigger]="startTime" class="form-control form-control-sm" [owlDateTime]="startTime" placeholder="Start Date">
-          <owl-date-time [pickerMode]="'dialog'" #startTime></owl-date-time>
+          <div class="col-md-12 form-group">
+            <div class="c-md-12 c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">Start Date</label>
+              <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="startTime">
+            </div>
+          </div>
         </div>
         <div class="col-md-5 form-group">
-          <label>End Date</label>
-          <input [owlDateTimeTrigger]="endTime" class="form-control form-control-sm" [owlDateTime]="endTime" placeholder="End Date">
-          <owl-date-time [pickerMode]="'dialog'" #endTime></owl-date-time>
+          <div class="col-md-12 form-group">
+            <div class="c-md-12 c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">End Date</label>
+              <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="endTime">
+            </div>
+          </div>
         </div>
         <div class="col-md-2 form-group text-right m-auto text-bold">
           <label>90 Days</label>

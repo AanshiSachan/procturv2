@@ -89,3 +89,9 @@ input[type="checkbox"], label{
     border-bottom: 1pt solid #eee;
     padding-bottom: 0.8rem;
 }
+
+.field-wrapper.datePickerBox:after{
+    position: absolute;
+    right: 20px;
+    top: 24px;
+}
