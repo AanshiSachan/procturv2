@@ -7,6 +7,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ViewReportCardComponent } from './view-report-card/view-report-card.component';
 import { BsDatepickerModule } from 'ngx-bootstrap-custome';
+import { HttpService } from '../../../services/http.service';
+import { CommonServiceFactory } from '../../../services/common-service';
+
 
 @NgModule({
     imports: [
@@ -22,7 +25,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap-custome';
         ViewReportCardComponent
     ],
     providers: [
-        StudentReportService
+        StudentReportService,
+        HttpService,
+        CommonServiceFactory,
     ]
 })
 
