@@ -9,46 +9,6 @@
     }
 }
 
-.table-cell{
-    margin: auto;
-    text-align: left;
-}
-
-.checkbox-cell{
-    max-width: 20px;
-}
-
-.content-name-cell{
-    min-width: 40%;
-}
-
-.content-table{
-    padding: 0.2em !important;
-    border: 1pt solid #f1f1f1;
-    box-shadow: 0pt 0pt 4pt #eee;
-    .head{
-        border-bottom: 1pt solid #d9e5ea;
-        padding: 0.2em 0;
-        color: #777;
-        .table-cell{
-
-        }
-    }
-    .table-body{
-        .singleton-row{
-            cursor: default;
-            border-bottom: 1pt solid #d9e5ea;
-            padding: 0.4em 0 !important;
-            &:last-child{
-                border-bottom: 0;
-            }
-            .table-cell{
-
-            }
-        }
-    }
-}
-
 .basic-info-footer{
     position: fixed;
     bottom: 0;
@@ -65,3 +25,54 @@
         margin: 0.2em;
     }
 }
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}   
+
+.product-list-wrapper {
+    padding: 1em;
+  }
+  .table {
+    td,
+    th {
+      padding: 1.2em .6em !important;
+      vertical-align: middle;
+    }
+  }
+  
+  .product-table {
+    border-collapse: separate;
+    border-spacing: 0 .8em;
+  
+    .product-table-head {
+      background: #fff;
+  
+      tr {
+        border: 0;
+        cursor: default;
+  
+        th {
+          border: 0;
+          padding: .2em .6em;
+          color: #999;
+          font-weight: normal;
+          border-top: 0;
+        }
+      }
+    }
+  
+    .product-table-body {
+      tr {
+        box-shadow: 0 0 2pt #b9b9b9;
+        border-radius: .2em;
+  
+        td {
+          padding: .6em;
+          font-size: 1em;
+          border-top: 0;
+        }
+      }
+    }
+  }

@@ -40,7 +40,7 @@ export class ProductCreationComponent implements OnInit {
     end_datetime: '',
     start_timestamp: '',
     end_timestamp: '',
-    itemStates:[],
+    itemStates: [],
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
@@ -55,37 +55,37 @@ export class ProductCreationComponent implements OnInit {
       slug: 'basic',
       show: true,
       is_completed: true,
-      index:1
+      index: 1
     },
     2: {
       slug: 'stude_material',
       show: false,
       is_completed: false,
-      index:2
+      index: 2
     },
     3: {
       slug: 'mock_test',
       show: false,
       is_completed: false,
-      index:3
+      index: 3
     },
     4: {
       slug: 'online_exams',
       show: false,
       is_completed: false,
-      index:4
+      index: 4
     },
     5: {
       slug: 'offlineItems',
       show: false,
       is_completed: false,
-      index:5
+      index: 5
     },
     6: {
       slug: 'review',
       show: true,
       is_completed: false,
-      index:6
+      index: 6
     }
   };
 
@@ -130,7 +130,7 @@ export class ProductCreationComponent implements OnInit {
     let keys = Object.keys(this.formSequence)
     keys.forEach((element, index) => {
       let i = index + 1;
-      this.formSequence[i].show = ( this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+      this.formSequence[i].show = (this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
     });
     this.formSequence[1].show = true;
     this.formSequence[6].show = true;
@@ -142,7 +142,7 @@ export class ProductCreationComponent implements OnInit {
     this.formLoading = show;
   }
 
-  visitForm(form_id,data) {
+  visitForm(form_id, data) {
     //console.log(this.formSequence);
     let moveForward = false;
     for (let index = data.index - 1; index > 0; index--) {
@@ -177,27 +177,61 @@ export class ProductCreationComponent implements OnInit {
   }
 
   initFormSequence() {
+    let product = {
+      "title": "Online Test",
+      "subject_ids": null,
+      "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
+      "short_description": "Nice Product to purchase ",
+      "about_product": "Nice Product to purchase ",
+      "product_group_id": 26,
+      "is_paid": 1,
+      "price": 0,
+      "start_timestamp": 1548335000,
+      "end_timestamp": 1548355000,
+      "exams": "1",
+      "product_item_stats": {
+        "stude_material": 0,
+        "mock_test": 0,
+        "live_classes": 0,
+        "online_exams": 1,
+        "assignments": 0,
+        "ebooks": 0,
+        "notes": 0,
+        "youtube_video": 0,
+        "audio_notes": 0,
+        "images": 0,
+        "previous_yr_question_paper": 0
+      }
+    };
+    
+    let keys = Object.keys(this.formSequence)
+    keys.forEach((element, index) => {
+      let i = index + 1;
+      this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+    });
+    this.formSequence[1].show = true;
+    this.formSequence[6].show = true;
     //Fetch Product Info
-    this.http.getMethod('product/' + this.product_id, null).then(
-      (resp) => {
-        let response = resp['body'];
-        if (response.validate) {
-          let product = response.data;
-          let keys = Object.keys(this.formSequence)
-          keys.forEach((element, index) => {
-            let i = index + 1;
-            this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
-          });
-          this.formSequence[1].show = true;
-          this.formSequence[6].show = true;
-        }
-        else {
-          this.msgService.showErrorMessage('error', response.errors.message, '');
-        }
-      },
-      (err) => {
-        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-      });
+    // this.http.getMethod('product/' + this.product_id, null).then(
+    //   (resp) => {
+    //     let response = resp['body'];
+    //     if (response.validate) {
+    //       let product = response.data;
+    //       let keys = Object.keys(this.formSequence)
+    //       keys.forEach((element, index) => {
+    //         let i = index + 1;
+    //         this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+    //       });
+    //       this.formSequence[1].show = true;
+    //       this.formSequence[6].show = true;
+    //     }
+    //     else {
+    //       this.msgService.showErrorMessage('error', response.errors.message, '');
+    //     }
+    //   },
+    //   (err) => {
+    //     this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+    //   });
   }
 
   nextForm() {
@@ -214,6 +248,7 @@ export class ProductCreationComponent implements OnInit {
       }
     }
     let nextFormUrl = this.formSequence[index].slug;
-    this.router.navigate(['../' + nextFormUrl], { relativeTo: this.route });
+    this.router.navigate(['/view/products/create/2/'+nextFormUrl]
+    );
   }
 }

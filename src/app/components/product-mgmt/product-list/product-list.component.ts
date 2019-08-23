@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageShowService } from '../../../services/message-show.service';
 import { ProductService } from '../../../services/products.service';
+import { HttpService } from '../../../services/http.service';
 declare var $;
 
 @Component({
@@ -10,7 +11,7 @@ declare var $;
 })
 export class ProductListComponent implements OnInit {
   filter: any = {
-    exam_id: null,
+    ecourse_id: null,
     standard_id: null,
     subject_id: null
   };
@@ -18,9 +19,8 @@ export class ProductListComponent implements OnInit {
   total_items: any;
   productListLoading: boolean = true;
 
-  examList: any = [];
+  ecourseList: any = [];
   subjectsList: any = [];
-  standardList: any = [];
   deleteItem: any = {
     title: '',
     product_id: 0,
@@ -31,28 +31,32 @@ export class ProductListComponent implements OnInit {
 
   jsonKeys = {
     selectAll: false,
+    institute_id:''
   }
 
   constructor(
     private http: ProductService,
-    private msgService: MessageShowService
+    private msgService: MessageShowService,
+    private _http :HttpService
   ) { }
 
   ngOnInit() {
     //this.getExamList();
+    this.jsonKeys.institute_id = sessionStorage.getItem('institute_id');
     this.initFilters();
     this.getProductList();
   }
 
   initFilters() {
-    let response = { "validate": "true", "data": [{ "exam_id": 1, "account_id": 51, "exam_name": "RRB - M & I Categoris CEN 03 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/excise_sub_inspector_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-05-07T07:37:48.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 2, "account_id": 51, "exam_name": "RRB - Level - 1 by RRC CEN 01 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/hm&teachers_RPC_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:23:45.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 3, "account_id": 51, "exam_name": "KPSC Group A & B", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:24:18.000Z", "updated_by": 11, "ecourse_id": 6, "ecourse_name": "Bank PO", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 5, "account_id": 51, "exam_name": "Current Affairs (saturday at 4 pm)", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:10:39.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }, { "exam_id": 6, "account_id": 51, "exam_name": "RRB -JE CEN 03/2018", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/psi.png", "page_url": "pages/staff_selection_commission_ssc", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:25:02.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 8, "account_id": 51, "exam_name": "IAS Prelims", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/KAR_TET_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:14:41.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }] }
-    this.examList = response.data;
-    //Fetch Exams List
-    this.http.getMethod('exams', null).then(
-      (resp) => {
-        let response = resp['body'];
-        if (response.validate) {
-          this.examList = response.data;
+ let param ={
+      "proc-authorization":"MTk4MzJ8MDphZG1pbjoxMDAxMjg="
+    }
+    this.http.getMethod('ext/get-ecources', param).subscribe(
+      (resp:any) => {
+        let response = JSON.parse(resp.result);
+        console.log(resp);
+        if (resp.validate) {
+          this.ecourseList = response;
         }
         else {
           this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -65,105 +69,28 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  getStandardList() {
-    this.filter.standard_id = null;
-    this.filter.subject_id = null;
-    this.standardList =
-      [
-        {
-          "standard_id": 214,
-          "standard_name": "Floor",
-          "is_active": "\u0000",
-          "institution_id": 0,
-          "created_by": null,
-          "created_date": null,
-          "updated_by": null,
-          "update_date": null
-        },
-        {
-          "standard_id": 215,
-          "standard_name": "Floor 33",
-          "is_active": "\u0000",
-          "institution_id": 0,
-          "created_by": null,
-          "created_date": null,
-          "updated_by": null,
-          "update_date": null
-        },
-        {
-          "standard_id": 216,
-          "standard_name": "Floor 216",
-          "is_active": "\u0000",
-          "institution_id": 0,
-          "created_by": null,
-          "created_date": null,
-          "updated_by": null,
-          "update_date": null
-        }
-      ]
-
-    // if (this.filter.exam_id > 0) {
-    //   //Fetch Subjects List
-    //   this.http.getMethod('exams/' + this.filter.exam_id + '/standards', null).then(
-    //     (resp:any) => {
-    //       let response = resp['body'];
-    //       if (response.validate) {
-    //         this.standardList = response.data;
-    //       }
-    //       else {
-    //         this.msgService.showErrorMessage('error', response.errors.message, '');
-    //       }
-    //     },
-    //     (err:any) => {
-    //        this.msgService.showErrorMessage('error',err['error'].errors.message, '');
-    //     });
-    // }
-    // else {
-    //   this.standardList = [];
-    // }
-  }
-
   getSubjectList() {
-    this.filter.subject_id = null;
-    this.subjectsList = [
-      {
-        "subject_id": 41,
-        "subject_name": "Medieval History"
-      },
-      {
-        "subject_id": 42,
-        "subject_name": "space history"
-      },
-      {
-        "subject_id": 43,
-        "subject_name": "Artificial intelegence"
-      }
-    ]
-
-
     // if (this.filter.standard_id > 0) {
     //   //Fetch Subjects List
-    //   this.http.getMethod('standard/' + this.filter.standard_id + '/subjects', null).then(
-    //     (resp) => {
-    //       let response = resp['body'];
-    //       if (response.validate) {
-    //         this.subjectsList = response.data;
-    //       }
-    //       else {
-    //         this.msgService.showErrorMessage('error', response.errors.message, '');
-    //       }
-    //     },
-    //     (err) => {
-    //       this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-    //     });
+    //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
+    
+      this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/'+this.filter.ecourse_id+'/subjects').subscribe(
+        (resp:any) => {
+          if (resp.length) {
+            this.subjectsList = resp;
+          }
+        },
+        (err) => {
+          this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+        });
     // }
 
   }
 
   getExamList() {
     let response = { "validate": "true", "data": [{ "exam_id": 1, "account_id": 51, "exam_name": "RRB - M & I Categoris CEN 03 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/excise_sub_inspector_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-05-07T07:37:48.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 2, "account_id": 51, "exam_name": "RRB - Level - 1 by RRC CEN 01 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/hm&teachers_RPC_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:23:45.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 3, "account_id": 51, "exam_name": "KPSC Group A & B", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:24:18.000Z", "updated_by": 11, "ecourse_id": 6, "ecourse_name": "Bank PO", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 5, "account_id": 51, "exam_name": "Current Affairs (saturday at 4 pm)", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:10:39.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }, { "exam_id": 6, "account_id": 51, "exam_name": "RRB -JE CEN 03/2018", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/psi.png", "page_url": "pages/staff_selection_commission_ssc", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:25:02.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 8, "account_id": 51, "exam_name": "IAS Prelims", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/KAR_TET_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:14:41.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }] }
-    this.examList = response.data;
-    this.http.getData('exams', 'web').then(
+    this.ecourseList = response.data;
+    this.http.getData('exams', 'web').subscribe(
       (response) => {
         let resp = response['body'];
       },
@@ -279,29 +206,30 @@ export class ProductListComponent implements OnInit {
     this.productList.forEach(element => {
       element.isSelected = false;
     });
-    // this.http.getData('products', 'web').then(
-    //   (resp) => {
-    //     let response = resp['body'];
-    //     if (response.validate) {
-    //       this.productList = response.data.products;
-    //       this.total_items = response.data.total_items;
-    //       this.productListLoading = false;
-    //     }
-    //     else {
-    //       this.msgService.showErrorMessage('error', response.errors.message, '');
-    //     }
+    this.http.getData('product/get', 'web').subscribe(
+      (resp:any) => {
+        let response = JSON.parse(resp.result);
+        console.log(response);
+        if (resp.validate) {
+          this.productList = response;
+          this.total_items = response.data.total_items;
+          this.productListLoading = false;
+        }
+        else {
+          this.msgService.showErrorMessage('error', response.errors.message, '');
+        }
 
-    //   },
-    //   (err) => {
-    //     this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-    //   }
-    // );
+      },
+      (err) => {
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      }
+    );
   }
 
   loadMoreItems() {
     this.productListLoading = true;
     if (this.productList.length < this.total_items) {
-      this.http.getData('products?offset=' + this.productList.length, 'web').then(
+      this.http.getData('products?offset=' + this.productList.length, 'web').subscribe(
         (resp) => {
           let response = resp['body'];
           this.productListLoading = false;

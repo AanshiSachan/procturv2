@@ -10,8 +10,8 @@ import { Router } from '../../../../../../node_modules/@angular/router';
 })
 export class MockTestComponent implements OnInit {
 
-  @Input()  product_id: any;
-  @Input()  prodForm: any;
+  @Input() product_id: any;
+  @Input() prodForm: any;
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
@@ -34,7 +34,7 @@ export class MockTestComponent implements OnInit {
     this.testlist.forEach(element => { element.isChecked = $event });
   }
 
-  selectVlaue(item) {
+  selectVlaue($event) {
     this.selectAll = false;
     let array = this.testlist.filter(element => element.isChecked == true);
     if (array.length == this.testlist.length) {
@@ -44,7 +44,7 @@ export class MockTestComponent implements OnInit {
 
   initMockTests() {
     //Fetch Product Groups List
-    this.http.getMethod('products/' + this.product_id + '/mock_test', null).then(
+    this.http.getMethod('products/' + this.product_id + '/mock_test', null).subscribe(
       (resp) => {
         let response = resp['body'];
         if (response.validate) {
@@ -56,10 +56,13 @@ export class MockTestComponent implements OnInit {
         }
       },
       (err) => {
-         this.msgService.showErrorMessage('error',  err['error'].errors.message, '');
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
 
-    this.http.getMethod('subjects/1/mock_test', null).then(
+    let response = { "validate": true, "data": [{ "test_id": 2502, "test_name": "Test", "test_description": "Test with Report", "test_type_id": 1, "difficulty_title": "Medium", "duration": "10", "total_question": 10, "total_marks": 10, "start_timestamp": 1565289000, "end_timestamp": 1572546540 }, { "test_id": 2507, "test_name": "Test-2", "test_description": "Test", "test_type_id": 1, "difficulty_title": "Medium", "duration": "10", "total_question": 10, "total_marks": 10, "start_timestamp": 1565548200, "end_timestamp": 1567276140 }, { "test_id": 2511, "test_name": "Test-3", "test_description": "Test-3", "test_type_id": 1, "difficulty_title": "Medium", "duration": "50", "total_question": 50, "total_marks": 50, "start_timestamp": 1565634600, "end_timestamp": 1567276140 }] };
+    this.testlist = response.data;
+    this.selectAllDetails(false);
+    this.http.getMethod('subjects/1/mock_test', null).subscribe(
       (resp) => {
         let response = resp['body'];
         if (response.validate) {
@@ -71,12 +74,12 @@ export class MockTestComponent implements OnInit {
         }
       },
       (err) => {
-         this.msgService.showErrorMessage('error',  err['error'].errors.message, '');
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
 
   gotoBack() {
-    this.router.navigateByUrl('/products');
+      this.router.navigateByUrl('/view/products/details');
   }
 
   gotoNext() {
@@ -102,11 +105,11 @@ export class MockTestComponent implements OnInit {
             this.msgService.showErrorMessage('success',response.message, '');
           }
           else {
-           this.msgService.showErrorMessage('error', response.errors.message, '');
+            this.msgService.showErrorMessage('error', response.errors.message, '');
           }
         },
           (err) => {
-             this.msgService.showErrorMessage('error',  err['error'].errors.message, '');
+            this.msgService.showErrorMessage('error', err['error'].errors.message, '');
           });
       }
       else {
@@ -115,7 +118,7 @@ export class MockTestComponent implements OnInit {
       }
     }
     else {
-      this.msgService.showErrorMessage('error',  " select only " + this.prodForm.product_item_stats.mock_test + " Mock Test", '');
+      this.msgService.showErrorMessage('error', " select only " + this.prodForm.product_item_stats.mock_test + " Mock Test", '');
       return;
     }
   }

@@ -116,40 +116,56 @@
 </div> -->
 
 <div style="color: #777;">Select Online Exams : {{prodForm.product_item_stats.online_exams}}</div>
-<div class="row m-0 content-wrapper">
-  <div class="col-md-12 p-0 content-table">
-    <div class="row m-0 head table-row">
-      <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-      <div class="col table-cell content-name-cell">Content</div>
-      <div class="col table-cell">Marks</div>
-      <div class="col table-cell">Questions</div>
-      <div class="col table-cell">Time</div>
-      <div class="col table-cell">Difficulty</div>
-    </div>
-    <div class="row m-0 table-body">
+<div class="row m-0 pt-0 product-list-wrapper">
+  <div class="col-md-12 table-wrapper p-0">
+    <table class="table product-table">
+      <thead class="product-table-head">
+        <tr>
+          <th width="5%">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+                (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test"> <label
+                for="ch2"></label>
+            </div>
+          </th>
+          <th width="5%">Content</th>
+          <th width="20%">Marks</th>
+          <th class="text-center">Questions</th>
+          <th class="text-center">Time</th>
+          <th class="text-center">Difficulty</th>
+        </tr>
+      </thead>
+      <tbody class="product-table-body">
+        <tr *ngFor="let test of testlist;">
+          <td>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" class="form-checkbox" [checked]="test.isChecked" [(ngModel)]="test.isChecked"
+                (ngModelChange)="selectVlaue($event)" id="ch2">
+              <label for="ch2"></label>
+            </div>
+          </td>
+          <td>
+            {{test.test_name}}
+          </td>
+          <td>  {{test.total_marks}}</td>
+          <td>
+            {{test.total_question}}
+          </td>
+          <td>
+            {{test.duration}}
+          </td>
+          <td class="text-center">
+            {{test.difficulty_title}}
+          </td>
+        </tr>
 
-      <div class="row m-0 col-md-12 p-0 singleton-row" *ngFor="let test of testlist;">
-        <div class="col table-cell checkbox-cell">
-          <input type="checkbox">
-        </div>
-        <div class="col table-cell content-name-cell">
-          {{test.test_name}}
-        </div>
-        <div class="col table-cell stats-cell">
-          {{test.total_marks}}
-        </div>
-        <div class="col table-cell stats-cell">
-          {{test.total_question}}
-        </div>
-        <div class="col table-cell stats-cell">
-          {{test.duration}}
-        </div>
-        <div class="col table-cell stats-cell">
-          {{test.difficulty_title}}
-        </div>
-      </div>
-
-    </div>
+        <ng-container *ngIf="testlist.length < 1">
+          <tr>
+            <td colspan="7">No Records Found</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
   </div>
 </div>
 

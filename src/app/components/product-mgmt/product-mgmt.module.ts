@@ -17,6 +17,7 @@ import { FormsModule } from '../../../../node_modules/@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap-custome';
     FormsModule,
     BsDatepickerModule,
     TimepickerModule,
-    SharedModule    
+    SharedModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [    
     ProductListComponent,

@@ -96,7 +96,7 @@ export class GroupComponent implements OnInit {
     this.total_items = resp.data.total_items;
     this.groupListLoading = false;
 
-    this.http.getData('product_groups', 'web').then(
+    this.http.getData('product_groups', 'web').subscribe(
       (response) => {
         let resp = response['body'];
         console.log(resp);
@@ -195,7 +195,7 @@ export class GroupComponent implements OnInit {
   loadMoreItems() {
     this.groupListLoading = true;
     if (this.groupList.length < this.total_items) {
-      this.http.getData('product_groups?offset=' + this.groupList.length, 'web').then(
+      this.http.getData('product_groups?offset=' + this.groupList.length, 'web').subscribe(
         (resp) => {
           console.log(this.groupList);
           //this.groupList.concat([...(resp['body'].data.product_groups)]);

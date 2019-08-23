@@ -8,11 +8,11 @@ export class ProductService {
 
     urls: any = {
         // //test
-        // siteUrl:"http://localhost:5200/api",
-        // apiBaseUrl:"http://localhost:5200/api/v1/",
+        // siteUrl:"http://localhost:8080",
+        // apiBaseUrl:"http://localhost:8080",
         siteUrl: "https://elearntest.proctur.com/api",
         apiBaseUrl: "https://elearntest.proctur.com/api/v1/",
-        apiAdminUrl: "https://elearntest.proctur.com/api/v1/admin/",
+        apiAdminUrl: "http://localhost:8080/prod/",
         masterSiteUrl: "https://elearntest.proctur.com/api/master/site_master/",
         enquryUrl: "https://app.proctur.com/StdMgmtWebAPI/api/v1/extLeads/website",
 
@@ -24,40 +24,48 @@ export class ProductService {
         // enquryUrl: "https://app.proctur.com/StdMgmtWebAPI/api/v1/extLeads/website",
 
     }
-    
+
     subscription: any;
-    headerJson: any = {
+
+    header: HttpHeaders = new HttpHeaders({
         "Content-Type": "application/json",
         // 'X-Platform': 'web',
-        "X-Access-Token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjo1MSwiaW5zdGl0dXRlX2lkIjo5OTk5OTksImlhdCI6MTUzOTg1OTM2MX0.vhVUlNyp0HgLViatCVA78rijiXA2mnlIptOeYmJolQA',
-        "X-Auth-Token": 'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SjBlWEJsSWpvaVlXUnRhVzRpTENKaFpHMXBibDlwWkNJNk1URXNJbUZqWTI5MWJuUmZhV1FpT2pVeExDSmxiV0ZwYkY5cFpDSTZJbXRqWVdkMWNuVTVPVUJuYldGcGJDNWpiMjBpTENKcFlYUWlPakUxTXprNE5qVTROVGQ5LjM3eGlDeUtnZUlTa2FWSHRhZGpSYmxnMVZxcXR3N0xnRDlKS3F1LVJyLTQ='
-    }
-
+        "x-prod-inst-id": '100058',
+        "x-prod-user-id": 'zin'
+    });
     constructor(
         private _http: HttpClient
-    ) { }
+    ) {
+
+    }
 
     createHeader(type) {
-        this.headerJson['X-Platform'] = type;
-        if (window.sessionStorage) {
-            if (sessionStorage.getItem('userCreadentials') != null) {
-                let obj = JSON.parse(sessionStorage.getItem('userCreadentials'));
-                this.headerJson['X-Auth-Token'] = obj['session_token'];
-            }
+        // this.headerJson['x-prod-inst-id'] = '100058';
+        // this.headerJson['x-prod-user-id'] = 'zin';
+        // if (window.sessionStorage) {
+        //     if (sessionStorage.getItem('userCreadentials') != null) {
+        //         let obj = JSON.parse(sessionStorage.getItem('userCreadentials'));
 
-            if (sessionStorage.getItem('siteScreadentials') != null) {
-                let obj = JSON.parse(sessionStorage.getItem('siteScreadentials'));
-                this.headerJson['X-Access-Token'] = obj['portal_access_token'];
-            }
-        }
-        let headers: HttpHeaders = new HttpHeaders(this.headerJson);
-        return headers;
+        //     }
+
+        //     if (sessionStorage.getItem('siteScreadentials') != null) {
+        //         let obj = JSON.parse(sessionStorage.getItem('siteScreadentials'));
+        //         this.headerJson['X-Access-Token'] = obj['portal_access_token'];
+        //     }
+        // }
+        // let headers: HttpHeaders = new HttpHeaders(this.headerJson);
+        // return headers;
     }
 
     searchMethod(method, url, body, params, plateform) {
         let fullUrl = this.urls.apiAdminUrl + url;
         let _httpRequest = new HttpRequest(method, fullUrl, body, {
-            headers: this.createHeader(plateform),
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                // 'X-Platform': 'web',
+                "x-prod-inst-id": '100058',
+                "x-prod-user-id": 'zin'
+            }),
             params: params,
             responseType: 'json',
             reportProgress: true,
@@ -83,23 +91,25 @@ export class ProductService {
 
     // for search method 
     getData(url, plateform = 'web') {
-        return new Promise((resolve, reject) => {
-            this.searchMethod('GET', url, null, null, plateform)
-                .then(
-                    (data) => {
-                        resolve(data);
-                    },
-                    (err) => {
-                        reject(err);
-                    }
-                );
-        });
+        return this._http.get(url, { headers: this.header }).map(
+            data => {
+                return data;
+            },
+            err => {
+                return err;
+            }
+        )
     }
 
     callMethods(method, url, body, params, plateform) {
         let fullUrl = this.urls.apiAdminUrl + url;
         let _httpRequest = new HttpRequest(method, fullUrl, body, {
-            headers: this.createHeader(plateform),
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                // 'X-Platform': 'web',
+                "x-prod-inst-id": '100058',
+                "x-prod-user-id": 'zin'
+            }),
             params: params,
             responseType: 'json',
             reportProgress: true,
@@ -185,17 +195,23 @@ export class ProductService {
                 }
             }
         }
-        return new Promise((resolve, reject) => {
-            this.callMethods('GET', url, null, null, plateform)
-                .then(
-                    (data) => {
-                        resolve(data);
-                    },
-                    (err) => {
-                        reject(err);
-                    }
-                );
-        });
+        url=  this.urls.apiAdminUrl + url;
+        return this._http.get(url, {
+            headers: {
+                "Content-Type": "application/json",
+                // 'X-Platform': 'web',
+                "x-prod-inst-id": '100058',
+                "x-prod-user-id": 'zin'
+            }
+        }).map(
+            data => {
+                return data;
+            },
+            err => {
+                return err;
+            }
+        )
+
     }
 
     putMethod(url, body, plateform = 'web') {

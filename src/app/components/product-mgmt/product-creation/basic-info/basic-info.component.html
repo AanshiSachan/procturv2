@@ -29,13 +29,19 @@
           </div>
           <div class="form-group">
             <label class="text-bold">Exam</label>
-            <select [(ngModel)]="prodForm.exam_ids" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc"
+            <!-- <select [(ngModel)]="prodForm.exam_ids" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc"
               id="cc">
               <option value="-1" disabled selected>Select Exam</option>
               <option *ngFor="let exam of examList" [value]="exam.exam_id">{{exam.exam_name}}</option>
-            </select>
+            </select> -->
+            <ng-multiselect-dropdown
+            [placeholder]="'Select Exams'"
+            [data]="examList"
+            [settings]="moderatorSettings"
+            [(ngModel)]="prodForm.exam_ids" >
+          </ng-multiselect-dropdown>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="text-bold">Product Group
               <span class="text-danger">*</span>
             </label>
@@ -44,7 +50,7 @@
               <option value="-1" disabled selected>Select Product Group</option>
               <option *ngFor="let prod of prodGroupList" [value]="prod.product_group_id">{{prod.title}}</option>
             </select>
-          </div>
+          </div> -->
         </div>
 
         <div class="col-md-12">
@@ -87,7 +93,7 @@
                 <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]"
                   (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i" [id]="item.slug" value="1"
                   type="checkbox">
-                <label [for]="item.slug"> {{item.title}} </label>
+                <label [for]="item.slug">{{item.title}} </label>
               </div>
             </div>
             <div class="col-md-8" *ngIf="item.is_count_applicable">

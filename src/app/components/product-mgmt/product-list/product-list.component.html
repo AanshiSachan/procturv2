@@ -8,9 +8,9 @@
               Product
             </a>
             <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
-             <span> Product Details </span>
+            <span> Product Details </span>
           </h1>
-        </div>      
+        </div>
       </section>
     </div>
     <div class="col-md-4 col-sm-4 text-right m-auto">
@@ -20,20 +20,20 @@
   <div class="row m-0 action-bar">
     <div class="col-md-12 col-sm-12 container">
       <div class="form-group field-wrapper form-el-width">
-        <label class="text-bold">Exam</label>
-        <select [(ngModel)]="filter.exam_id" class="form-ctrl" (ngModelChange)="getStandardList()" name="cc" id="cc">
-          <option value="-1" disabled selected>Select Exam</option>
-          <option *ngFor="let exam of examList" [value]="exam.exam_id">{{exam.exam_name}}</option>
+        <label class="text-bold">E-course</label>
+        <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
+          <option value="-1" disabled selected>Select E-course</option>
+          <option *ngFor="let course of ecourseList" [value]="course.course_type_id">{{course.course_type}}</option>
         </select>
       </div>
 
-      <div class="form-group field-wrapper form-el-width">
+      <!-- <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">Standard</label>
         <select [(ngModel)]="filter.standard_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
           <option value="-1" disabled selected>Select Standard</option>
           <option *ngFor="let std of standardList" [value]="std.exam_id">{{std.standard_name}}</option>
         </select>
-      </div>
+      </div> -->
 
       <div class="form-group  field-wrapper form-el-width">
         <label class="text-bold">Subject</label>
@@ -43,7 +43,7 @@
         </select>
       </div>
 
-      <button class="btn btn-primary btn-product btn_go" (click)="filterData()" >GO</button>
+      <button class="btn btn-primary btn-product btn_go" (click)="filterData()">GO</button>
 
     </div>
   </div>
@@ -54,15 +54,15 @@
       <table class="table product-table">
         <thead class="product-table-head">
           <tr>
-            <th width="5%">
+            <!-- <th width="5%">
               <div class="field-checkbox-wrapper">
                 <input type="checkbox" class="form-checkbox" [checked]="jsonKeys.selectAll"  (change)="toggleAllCheckBox($event)" id="ch2">
                 <label for="ch2"></label>
               </div>
-            </th>
+            </th> -->
             <th width="5%">View</th>
             <th width="20%">Product Name</th>
-            <th>Exam</th>
+            <th>E-course</th>
             <th class="text-center">Status</th>
             <th class="text-center">Start Date</th>
             <th class="text-center">End Date</th>
@@ -73,14 +73,15 @@
         </thead>
         <tbody class="product-table-body">
           <tr *ngFor="let item of productList">
-            <td>
+            <!-- <td>
                 <div class="field-checkbox-wrapper">
                     <input type="checkbox" class="form-checkbox" [checked]="item.isSelected" [(ngModel)]="item.isSelected" (ngModelChange)="isAllSelected($event,item)" id="ch2">
                     <label for="ch2"></label>
                   </div>
-            </td>
+            </td> -->
             <td>
-              <img  src="assets/images/file_manager/image.svg" class="img-responsive" alt="product image"> 
+              <img src="assets/images/file_manager/image.svg" style="height: 25px;;" class="img-responsive"
+                alt="product image">
               <!-- [src]="item.product_image" -->
             </td>
             <td>
@@ -109,16 +110,18 @@
               </td> -->
             <td class="text-center">
               <div class="dropdown dropleft">
-                <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-light btn-xs dropdown-toggle" type="button" (click)="toggleActionMenu($event)"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-caret-left" aria-hidden="true"></i> &nbsp;
                   Action
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                  <a class="dropdown-item" [routerLink]="['create/'+item.product_id+'/basic']">Edit</a>
+                  <a class="dropdown-item" [routerLink]="['/view/products/create/'+item.product_id+'/basic']">Edit</a>
                   <a class="dropdown-item" (click)="actionProductModal('delete', item.product_id)">Delete</a>
-                  <a class="dropdown-item" (click)="actionProductModal('publish', item.product_id)" *ngIf="item.product_status != 3">Publish</a>
-                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.product_id)" *ngIf="item.product_status == 3">Unpublished</a>
+                  <a class="dropdown-item" (click)="actionProductModal('publish', item.product_id)"
+                    *ngIf="item.product_status != 3">Publish</a>
+                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.product_id)"
+                    *ngIf="item.product_status == 3">Unpublished</a>
                 </div>
               </div>
             </td>
@@ -144,14 +147,16 @@
     <!-- Pagination -->
     <div class="col-md-12" style="text-align: right;" *ngIf="(productList.length > 0) && !productListLoading">
       <span class="float-left">{{productList.length}} of {{total_items}} items</span>
-      <button class="btn btn-light btn-sm float-right" *ngIf="productList.length < total_items" (click)="loadMoreItems()">Load More</button>
+      <button class="btn btn-light btn-sm float-right" *ngIf="productList.length < total_items"
+        (click)="loadMoreItems()">Load More</button>
     </div>
   </div>
 </div>
 
 
 <!-- Delete/Publish Product Modal -->
-<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="actionProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
@@ -162,7 +167,8 @@
         <div class="form-group m-0">
           <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
           &nbsp;
-          <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm" (click)="confirmAction(deleteItem.operation, deleteItem.product_id)">{{deleteItem.btnText}}</button>
+          <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm"
+            (click)="confirmAction(deleteItem.operation, deleteItem.product_id)">{{deleteItem.btnText}}</button>
         </div>
       </div>
     </div>

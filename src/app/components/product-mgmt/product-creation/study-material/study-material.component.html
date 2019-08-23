@@ -14,11 +14,12 @@
     </select>
   </div>
   <div class="col-md-6">
-    <button class="btn btn-primary btn-sm btn-round">Add</button>
+    <button class="btn btn-primary btn-sm btn-round">Go</button>
   </div>
   <div class="col-md-12 subjects-nav-bar">
-    <button class="btn btn-light btn-sm btn-tab">History</button>
-    <button class="btn btn-light btn-sm btn-tab">Geography</button>
+    <ng-container *ngFor="let subject of subjectList ">
+        <button class="btn btn-light btn-sm btn-tab">{{subject.name}}</button>
+    </ng-container>
   </div>
 </div>
 
