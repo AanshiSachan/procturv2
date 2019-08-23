@@ -101,115 +101,115 @@ export class ProductListComponent implements OnInit {
   }
 
   getProductList() {
-    let response = {
-      "validate": "true",
-      "data": {
-        "total_items": 139,
-        "products":
-          [
-            {
-              "product_id": 2,
-              "title": "Online Test",
-              "slug": "online_test_Rw9SWHZ",
-              "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-              "short_description": "Nice Product to purchase ",
-              "is_paid": 1,
-              "price": 0,
-              "start_timestamp": 1548335,
-              "end_timestamp": 1548355,
-              "product_status": 3,
-              "total_items": 139,
-              "product_group_id": 26,
-              "exam_ids": [1],
-              "exams": "RRB - M & I Categoris CEN 03 / 2019"
-            }, {
-              "product_id": 3,
-              "title": "Online Test",
-              "slug": "online_test_xZeF0ne",
-              "product_image": "123",
-              "short_description": "short_description",
-              "is_paid": 1,
-              "price": 20,
-              "start_timestamp": 1262253,
-              "end_timestamp": 1264328,
-              "product_status": 3,
-              "total_items": 139,
-              "product_group_id": 10,
-              "exam_ids": [],
-              "exams": ""
-            }, {
-              "product_id": 5,
-              "title": "Online Test",
-              "slug": "upsc_prelims_crash_course_s56jTy",
-              "product_image": "https://ams-s3-url.com",
-              "short_description": "short_description",
-              "is_paid": 1,
-              "price": 110,
-              "start_timestamp": 1550079564,
-              "end_timestamp": 1550079564,
-              "product_status": 3,
-              "total_items": 139,
-              "product_group_id": 12,
-              "exam_ids": [2, 4],
-              "exams": "RRB - Level - 1 by RRC CEN 01 / 2019,CTET"
-            }, {
-              "product_id": 31,
-              "title": "Online Test",
-              "slug": "check_update_product_PKh13oa",
-              "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-              "short_description": "This is a short description using the textarea element of the form",
-              "is_paid": 1,
-              "price": 110,
-              "start_timestamp": 1548335,
-              "end_timestamp": 1548355,
-              "product_status": 1,
-              "total_items": 139,
-              "product_group_id": 10,
-              "exam_ids": [57],
-              "exams": ""
-            }, {
-              "product_id": 32,
-              "title": "Online Test",
-              "slug": "check_update_product_jQSVMwX",
-              "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-              "short_description": "This is a short description using the textarea element of the form",
-              "is_paid": 1,
-              "price": 110,
-              "start_timestamp": 1548335,
-              "end_timestamp": 1548355,
-              "product_status": 1,
-              "total_items": 139,
-              "product_group_id": 10,
-              "exam_ids": [10],
-              "exams": "RRB - NTPC CEN01/2019"
-            }, {
-              "product_id": 33,
-              "title": "Product_test6",
-              "slug": "producttest_1BUbQKK",
-              "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-              "short_description": "This is a short description using the textarea element of the form",
-              "is_paid": 1,
-              "price": 1250,
-              "start_timestamp": 1548335,
-              "end_timestamp": 1548355,
-              "product_status": 1,
-              "total_items": 139,
-              "product_group_id": 38,
-              "exam_ids": [233, 244, 344],
-              "exams": ""
-            }]
-      }
-    }
-    this.productList = response.data.products;
-    this.total_items = response.data.total_items;
-    this.productListLoading = false;
-    this.productList.forEach(element => {
-      element.isSelected = false;
-    });
-    this.http.getData('product/get', 'web').subscribe(
+    // let response = {
+    //   "validate": "true",
+    //   "data": {
+    //     "total_items": 139,
+    //     "products":
+    //       [
+    //         {
+    //           "product_id": 2,
+    //           "title": "Online Test",
+    //           "slug": "online_test_Rw9SWHZ",
+    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
+    //           "short_description": "Nice Product to purchase ",
+    //           "is_paid": 1,
+    //           "price": 0,
+    //           "start_timestamp": 1548335,
+    //           "end_timestamp": 1548355,
+    //           "product_status": 3,
+    //           "total_items": 139,
+    //           "product_group_id": 26,
+    //           "exam_ids": [1],
+    //           "exams": "RRB - M & I Categoris CEN 03 / 2019"
+    //         }, {
+    //           "product_id": 3,
+    //           "title": "Online Test",
+    //           "slug": "online_test_xZeF0ne",
+    //           "product_image": "123",
+    //           "short_description": "short_description",
+    //           "is_paid": 1,
+    //           "price": 20,
+    //           "start_timestamp": 1262253,
+    //           "end_timestamp": 1264328,
+    //           "product_status": 3,
+    //           "total_items": 139,
+    //           "product_group_id": 10,
+    //           "exam_ids": [],
+    //           "exams": ""
+    //         }, {
+    //           "product_id": 5,
+    //           "title": "Online Test",
+    //           "slug": "upsc_prelims_crash_course_s56jTy",
+    //           "product_image": "https://ams-s3-url.com",
+    //           "short_description": "short_description",
+    //           "is_paid": 1,
+    //           "price": 110,
+    //           "start_timestamp": 1550079564,
+    //           "end_timestamp": 1550079564,
+    //           "product_status": 3,
+    //           "total_items": 139,
+    //           "product_group_id": 12,
+    //           "exam_ids": [2, 4],
+    //           "exams": "RRB - Level - 1 by RRC CEN 01 / 2019,CTET"
+    //         }, {
+    //           "product_id": 31,
+    //           "title": "Online Test",
+    //           "slug": "check_update_product_PKh13oa",
+    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
+    //           "short_description": "This is a short description using the textarea element of the form",
+    //           "is_paid": 1,
+    //           "price": 110,
+    //           "start_timestamp": 1548335,
+    //           "end_timestamp": 1548355,
+    //           "product_status": 1,
+    //           "total_items": 139,
+    //           "product_group_id": 10,
+    //           "exam_ids": [57],
+    //           "exams": ""
+    //         }, {
+    //           "product_id": 32,
+    //           "title": "Online Test",
+    //           "slug": "check_update_product_jQSVMwX",
+    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
+    //           "short_description": "This is a short description using the textarea element of the form",
+    //           "is_paid": 1,
+    //           "price": 110,
+    //           "start_timestamp": 1548335,
+    //           "end_timestamp": 1548355,
+    //           "product_status": 1,
+    //           "total_items": 139,
+    //           "product_group_id": 10,
+    //           "exam_ids": [10],
+    //           "exams": "RRB - NTPC CEN01/2019"
+    //         }, {
+    //           "product_id": 33,
+    //           "title": "Product_test6",
+    //           "slug": "producttest_1BUbQKK",
+    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
+    //           "short_description": "This is a short description using the textarea element of the form",
+    //           "is_paid": 1,
+    //           "price": 1250,
+    //           "start_timestamp": 1548335,
+    //           "end_timestamp": 1548355,
+    //           "product_status": 1,
+    //           "total_items": 139,
+    //           "product_group_id": 38,
+    //           "exam_ids": [233, 244, 344],
+    //           "exams": ""
+    //         }]
+    //   }
+    // }
+    // this.productList = response.data.products;
+    // this.total_items = response.data.total_items;
+    // this.productListLoading = false;
+    // this.productList.forEach(element => {
+    //   element.isSelected = false;
+    // });
+    this.http.getMethod('product/get', null).subscribe(
       (resp:any) => {
         let response = JSON.parse(resp.result);
-        console.log(response);
+        console.log(resp);
         if (resp.validate) {
           this.productList = response;
           this.total_items = response.data.total_items;
@@ -218,12 +218,10 @@ export class ProductListComponent implements OnInit {
         else {
           this.msgService.showErrorMessage('error', response.errors.message, '');
         }
-
       },
       (err) => {
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-      }
-    );
+      });
   }
 
   loadMoreItems() {

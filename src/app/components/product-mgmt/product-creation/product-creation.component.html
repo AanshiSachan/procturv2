@@ -10,8 +10,7 @@
     </ul>
   </div>
 
-  <div class="row ml-0 mr-0 product-creation-wrapper" style="background: #fafafa; padding-bottom: 7em;padding-left: 2em;
-  padding-right: 2em;">
+  <div class="row ml-0 mr-0 product-creation-wrapper" style="background: #fafafa; padding-left: 20em;">
     <div class="col-md-8 product-form-wrapper">
       <div class="divWrapper">
         <app-basic-info (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" (previewEvent)="previewSetter($event)"
@@ -25,11 +24,9 @@
         <app-review-product *ngIf="activeForm == 6"></app-review-product>
       </div>
     </div>
-    <div class="col-md-4 product-preview-wrapper">
+    <!-- <div class="col-md-4 product-preview-wrapper">
       <div>
         <h5 class="head-label">Product Preview</h5>
-        <!-- <h4 class="prod-name">UPSC Test Combo Series</h4>
-        <img class="prod-image" src="https://iasexamportal.com/sites/default/files/UPSC-LOGO.jpg"> -->
         <table class="prod-table table">
           <tbody *ngIf="prodForm.itemStates?.length">
             <tr *ngFor="let item of prodForm.itemStates;">
@@ -64,7 +61,7 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
