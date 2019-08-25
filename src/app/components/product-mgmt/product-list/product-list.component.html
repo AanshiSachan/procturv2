@@ -89,16 +89,16 @@
             </td>
             <td>{{item.exams}}</td>
             <td class="text-center text-bold">
-              <span *ngIf="item.product_status == 1" class="text-primary">Draft</span>
-              <span *ngIf="item.product_status == 2" class="text-warning">Ready</span>
-              <span *ngIf="item.product_status == 3" class="text-success">Published</span>
-              <span *ngIf="item.product_status == 4" class="text-secondary">Unpublished</span>
+              <span *ngIf="item.status == 10" class="text-primary">Draft</span>
+              <!-- <span *ngIf="item.status == 20" class="text-warning">Ready</span> -->
+              <span *ngIf="item.status == 20" class="text-success">Published</span>
+              <span *ngIf="item.status == 30" class="text-secondary">Unpublished</span>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.start_datetime*1000 | date: 'dd MMM yy, HH:mm'}}</p>
+              <p class="m-0 text-bold">{{item.valid_from_date | date: 'dd MMM yy, HH:mm'}}</p>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.end_datetime*1000 | date: 'dd MMM yy, HH:mm'}}</p>
+              <p class="m-0 text-bold">{{item.valid_to_date   | date: 'dd MMM yy, HH:mm'}}</p>
             </td>
             <td class="text-center">
               <span *ngIf="item.price <= 0" class="text-active text-bold">Free</span>
@@ -116,12 +116,12 @@
                   Action
                 </button>
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
-                  <a class="dropdown-item" [routerLink]="['/view/products/create/'+item.product_id+'/basic']">Edit</a>
-                  <a class="dropdown-item" (click)="actionProductModal('delete', item.product_id)">Delete</a>
-                  <a class="dropdown-item" (click)="actionProductModal('publish', item.product_id)"
-                    *ngIf="item.product_status != 3">Publish</a>
-                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.product_id)"
-                    *ngIf="item.product_status == 3">Unpublished</a>
+                  <a class="dropdown-item" [routerLink]="['/view/products/create/'+item.entity_id+'/basic']">Edit</a>
+                  <a class="dropdown-item" (click)="actionProductModal('delete', item.entity_id)">Delete</a>
+                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
+                    *ngIf="item.status != 20">Publish</a>
+                  <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
+                    *ngIf="item.status == 20">Unpublished</a>
                 </div>
               </div>
             </td>
@@ -168,7 +168,7 @@
           <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
           &nbsp;
           <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm"
-            (click)="confirmAction(deleteItem.operation, deleteItem.product_id)">{{deleteItem.btnText}}</button>
+            (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">{{deleteItem.btnText}}</button>
         </div>
       </div>
     </div>

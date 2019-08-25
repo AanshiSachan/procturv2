@@ -11,7 +11,7 @@ import { Router } from '../../../../../../node_modules/@angular/router';
 export class OnlineExamComponent implements OnInit {
 
   @Input()
-  product_id: any;
+  entity_id: any;
   @Input()
   prodForm: any;
 
@@ -34,7 +34,7 @@ export class OnlineExamComponent implements OnInit {
 
   initOnlineTests() {
     //Fetch Product Groups List
-    this.http.getMethod('products/' + this.product_id + '/online_exams', null).subscribe(
+    this.http.getMethod('products/' + this.entity_id + '/online_exams', null).subscribe(
       (resp) => {
         let response = resp['body'];
         if (response.validate) {
@@ -427,7 +427,7 @@ export class OnlineExamComponent implements OnInit {
       });
 
       if (array.length) {
-        this.http.postMethod('product/' + this.product_id + '/items', array).then((resp) => {
+        this.http.postMethod('product/' + this.entity_id + '/items', array).then((resp) => {
           let response = resp['body'];
           if (response.validate) {
             this.msgService.showErrorMessage('success',response.message, '');

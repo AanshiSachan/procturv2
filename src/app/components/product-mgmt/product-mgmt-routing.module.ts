@@ -23,11 +23,11 @@ const routes: Routes = [
         component: ProductCreationComponent
     },
     {
-        path: 'create/:product_id',
+        path: 'create/:entity_id',
         component: ProductCreationComponent
     },
     {
-        path: 'create/:product_id/:form',
+        path: 'create/:entity_id/:form',
         component: ProductCreationComponent
     }
 ];

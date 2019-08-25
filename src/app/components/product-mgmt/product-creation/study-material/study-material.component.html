@@ -1,4 +1,4 @@
-<div class="row filters-box">
+<!-- <div class="row filters-box">
   <div class="col-md-3">
     <select name="" class="form-control form-control-sm">
       <option>Select Exam</option>
@@ -21,184 +21,329 @@
         <button class="btn btn-light btn-sm btn-tab">{{subject.name}}</button>
     </ng-container>
   </div>
+</div> -->
+
+
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
+  *ngIf="isRippleLoad">
+</loaders-css>
+<div style="padding: 10px 15px;">
+  <div class="field-checkbox-wrapper">
+    <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+      name="has_mock_tests" id="mock_test">
+    <label for="ch2" style="font-weight: 600;">Select All</label>
+  </div>
 </div>
-
-<div class="row m-0 content-wrapper">
-  <div class="col-md-12 p-0 content-table">
-    <div class="row m-0 head table-row">
-      <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-      <div class="col table-cell">Content</div>
-    </div>
-    <div class="row m-0 table-body">
-
-      <div class="col-md-12 p-0 master-table-row">
-        <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
-          <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-          <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Ancient History</div>
-          <div class="col table-cell stats-cell">
-            <span>40 Videos</span>
-            <span>25 Notes</span>
-            <span>10 Tests</span>
-            <span>20 Assignments</span>
-          </div>
-          <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
+<div class="fluid-container data-wrapper">
+  <div class="row main-topic-row" *ngFor="let topic of materialData;">
+    <div class="row singleton-row col-md-12 topic-data main-topic-data">
+      <div class="col-md-8 topic-name">
+        <div class="field-checkbox-wrapper">
+          <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+            (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
+          <label for="ch2"></label>
         </div>
-        <div class="row m-0 col-md-12 p-0 child-table-row">
-          <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
-            <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-            <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Indus Valley Civilization</div>
-            <div class="col table-cell stats-cell">
-              <span>40 Videos</span>
-              <span>25 Notes</span>
-              <span>10 Tests</span>
-              <span>20 Assignments</span>
-            </div>
-            <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
-          </div>
-          <div class="row m-0 col-md-12 p-0 child-table-row">
-            <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
-              <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-              <div class="col table-cell content-name-cell">Tests</div>
-            </div>
-            <div class="row m-0 col-md-12 p-0 child-table-row">
-              <div class="row m-0 col-md-12 p-0 content-row singleton-row">
-                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
-                <div class="col table-cell stats-cell">
-                  <span>150 marks</span>
-                  <span>75 Questions</span>
-                  <span>60 mins</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row m-0 col-md-12 p-0 child-table-row">
-          <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
-            <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-            <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Maurayan Empire</div>
-            <div class="col table-cell stats-cell">
-              <span>20 Videos</span>
-              <span>35 Notes</span>
-              <span>40 Tests</span>
-              <span>50 Assignments</span>
-            </div>
-            <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
-          </div>
-          <div class="row m-0 col-md-12 p-0 child-table-row">
-            <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
-              <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-              <div class="col table-cell content-name-cell">Tests</div>
-            </div>
-            <div class="row m-0 col-md-12 p-0 child-table-row">
-              <div class="row m-0 col-md-12 p-0 content-row singleton-row">
-                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
-                <div class="col table-cell stats-cell">
-                  <span>150 marks</span>
-                  <span>75 Questions</span>
-                  <span>60 mins</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          <div class="row m-0 col-md-12 p-0 child-table-row">
-            <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
-              <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-              <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Topic Level 3</div>
-              <div class="col table-cell stats-cell">
-                <span>20 Videos</span>
-                <span>35 Notes</span>
-                <span>40 Tests</span>
-                <span>50 Assignments</span>
-              </div>
-              <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
-            </div>
-            <div class="row m-0 col-md-12 p-0 child-table-row">
-              <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
-                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                <div class="col table-cell content-name-cell">Tests</div>
-              </div>
-              <div class="row m-0 col-md-12 p-0 child-table-row">
-                <div class="row m-0 col-md-12 p-0 content-row singleton-row">
-                  <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                  <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
-                  <div class="col table-cell stats-cell">
-                    <span>150 marks</span>
-                    <span>75 Questions</span>
-                    <span>60 mins</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row m-0 col-md-12 p-0 child-table-row">
-              <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
-                <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Topic Level 4</div>
-                <div class="col table-cell stats-cell">
-                  <span>20 Videos</span>
-                  <span>35 Notes</span>
-                  <span>40 Tests</span>
-                  <span>50 Assignments</span>
-                </div>
-                <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
-              </div>
-              <div class="row m-0 col-md-12 p-0 child-table-row">
-                <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
-                  <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                  <div class="col table-cell content-name-cell">Tests</div>
-                </div>
-                <div class="row m-0 col-md-12 p-0 child-table-row">
-                  <div class="row m-0 col-md-12 p-0 content-row singleton-row">
-                    <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                    <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
-                    <div class="col table-cell stats-cell">
-                      <span>150 marks</span>
-                      <span>75 Questions</span>
-                      <span>60 mins</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row m-0 col-md-12 p-0 child-table-row">
-                <div class="row m-0 col-md-12 p-0 topic-row singleton-row">
-                  <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                  <div class="col table-cell content-name-cell"><button class="btn btn-xs btn-collapse btn-close" data="hide" (click)="toggleRows($event)" ></button> Topic Level 5</div>
-                  <div class="col table-cell stats-cell">
-                    <span>20 Videos</span>
-                    <span>35 Notes</span>
-                    <span>40 Tests</span>
-                    <span>50 Assignments</span>
-                  </div>
-                  <div class="table-cell m-auto"><button class="btn btn-outline-primary btn-xs btn-round btn-add-topic">+ Add Topic</button></div>
-                </div>
-                <div class="row m-0 col-md-12 p-0 child-table-row">
-                  <div class="row m-0 col-md-12 p-0 content-type-row singleton-row">
-                    <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                    <div class="col table-cell content-name-cell">Tests</div>
-                  </div>
-                  <div class="row m-0 col-md-12 p-0 child-table-row">
-                    <div class="row m-0 col-md-12 p-0 content-row singleton-row">
-                      <div class="col table-cell checkbox-cell"><input type="checkbox"></div>
-                      <div class="col table-cell content-name-cell">Model Exam Paper 3</div>
-                      <div class="col table-cell stats-cell">
-                        <span>150 marks</span>
-                        <span>75 Questions</span>
-                        <span>60 mins</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <button class="btn-ga-collapse">
+          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
+        </button> {{topic.topic_name}}
+      </div>
+      <div class="col-md-4">
       </div>
 
     </div>
+    <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
+      <div class="col-md-12 topic-material-data">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: 1}"></ng-container>
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: 1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: 1}"></ng-container>
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: 1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}">
+        </ng-container>
+      </div>
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } ">
+        </ng-container>
+      </div>
+    </div>
   </div>
+  <div *ngIf="materialData.length==0">
+    {{outputMessage}}
+  </div>
+
 </div>
+
+<ng-template #recursiveNodes let-subTopics let-level="subLevel">
+  <div class="row topic-row" *ngFor="let topic of subTopics">
+    <div class="row singleton-row col-md-12 topic-data">
+      <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
+        <div class="field-checkbox-wrapper">
+          <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+            (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
+          <label for="ch2"></label>
+        </div>
+        <button class="btn-ga-collapse">
+          <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="toggleObject(topic)"></i>
+          <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="toggleObject(topic)"></i>
+        </button> {{topic.topic_name}}
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+    <div class="row col-md-12 p-0" *ngIf="topic.isExpand">
+      <div class="row col-md-12 topic-material-data">
+        <ng-container *ngTemplateOutlet="youtubeData; context:{$implicit: topic.videosList, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="assignmentData; context:{$implicit: topic.assignmentList, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="imagelistData; context:{$implicit: topic.imageList, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="audioNotesData; context:{$implicit: topic.audioNotesList, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="notesData; context:{$implicit: topic.notesList, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="previousYearQuesListData; context:{$implicit: topic.previousYearQuesList, level: level+1}">
+        </ng-container>
+        <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}">
+        </ng-container>
+
+      </div>
+      <div class="row col-md-12 subTopics-data">
+        <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: level+1 } ">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #youtubeData let-youtube let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{video.title}}">
+        <i class="fa fa-youtube-play text-red"></i>
+        <a [href]="video.video_url" target="_blank" class="txt-color">
+          <span class="txt-title">{{video.title}}</span>
+        </a>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{video.category_name}}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #imagelistData let-image let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of image">
+    <div class="col-md-8 material-title txt-color " [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{file.title}}">
+        <i [class]="file?.extension" aria-hidden="true"></i>
+        <span class="txt-title">{{file.title}}</span>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{file.size | number:'.2-2'}}&nbsp;MB
+    </div>
+    <!-- <div class="col-md-4">
+      <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          </button>
+          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
+        </div>
+    </div> -->
+  </div>
+</ng-template>
+
+<ng-template #assignmentData let-assignment let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of assignment">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{file.title}}">
+        <i [class]="file?.extension" aria-hidden="true"></i>
+        <span class="txt-title">{{file.title}}</span>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{file.size | number:'.2-2'}}&nbsp;MB
+    </div>
+    <!-- <div class="col-md-4">
+      <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          </button>
+          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
+        </div>
+    </div> -->
+  </div>
+</ng-template>
+
+<ng-template #notesData let-notes let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of notes">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{file.title}}">
+        <i [class]="file?.extension" aria-hidden="true"></i>
+        <span class="txt-title">{{file.title}}</span>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{file.size | number :'.2-2'}}&nbsp;MB
+    </div>
+    <!-- <div class="col-md-4">
+      <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          </button>
+          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
+        </div>
+    </div> -->
+  </div>
+</ng-template>
+
+<ng-template #audioNotesData let-audios let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let audio of audios">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{audio.title}}">
+        <i [class]="audio?.extension" aria-hidden="true"></i>
+        <span class="txt-title">{{audio.title}}</span>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{audio.size | number :'.2-2'}}&nbsp;MB
+    </div>
+    <!-- <div class="col-md-4">
+      <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">
+            <a [href]="audio.file_name" class="btn-ga-white" [download]="audio.title">Download</a>
+          </button>
+          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(audio)">Delete</button>
+        </div>
+    </div> -->
+  </div>
+</ng-template>
+
+<ng-template #previousYearQuesListData let-previousYearQuesList let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{file.title}}">
+        <i [class]="file?.extension" aria-hidden="true"></i>
+        <span class="txt-title">{{file.title}}</span>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{file.size | number :'.2-2'}}&nbsp;MB
+    </div>
+    <!-- <div class="col-md-4">
+      <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          </button>
+          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
+        </div>
+    </div> -->
+  </div>
+</ng-template>
+
+
+<ng-template #slidesListData let-slidesList let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of slidesList">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{file.title}}">
+        <i [class]="file?.extension" aria-hidden="true"></i>
+        <span class="txt-title">{{file.title}}</span>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{file.size | number:'.2-2'}}&nbsp;MB
+    </div>
+    <!-- <div class="col-md-4">
+      <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          </button>
+          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
+        </div>
+    </div> -->
+  </div>
+</ng-template>
+
+<ng-template #studyMaterialList let-studyList let-level="level">
+  <div class="row singleton-row material-row" *ngFor="let file of studyList">
+    <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+          name="has_mock_tests" id="mock_test">
+        <label for="ch2"></label>
+      </div>
+      <h4 class="file__title" title="{{file.title}}">
+        <i [class]="file?.extension" aria-hidden="true"></i>
+        <span class="txt-title">{{file.title}}</span>
+      </h4>
+    </div>
+    <div class="col-md-4 txt-font">
+      {{file.size | number:'.2-2'}}&nbsp;MB
+    </div>
+    <!-- <div class="col-md-4">
+      <div class="action-buttons">
+          <button class="btn btn-xs btn-ga-white">
+            <a [href]="file.file_name" class="btn-ga-white-download" [download]="file.title">Download</a>
+          </button>
+          <button class="btn btn-xs btn-ga-white" (click)="setRemoveDataFile(file)">Delete</button>
+        </div>
+    </div> -->
+  </div>
+</ng-template>
+
+
+
 
 <div class="row basic-info-footer">
   <div class="col text-center">

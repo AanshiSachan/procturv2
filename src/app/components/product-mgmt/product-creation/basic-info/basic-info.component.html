@@ -28,10 +28,11 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="text-bold">Exam <span class="text-danger">*</span></label>
-            <ng-multiselect-dropdown [placeholder]="'Select Exams'" [data]="examList" [settings]="moderatorSettings"
-              [(ngModel)]="prodForm.exam_ids">
-            </ng-multiselect-dropdown>
+            <label class="text-bold">E-courses <span class="text-danger">*</span></label>
+            <ng-multiselect-dropdown [placeholder]="'Select E-courses'"
+            [(ngModel)]="selectedItems" [data]="ecourseList" [settings]="moderatorSettings"
+              (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeselect($event)">
+            </ng-multiselect-dropdown> {{selectedItems}}
           </div>
         </div>
 
@@ -39,7 +40,7 @@
         <div class="col-md-12">
           <div class="form-group">
             <label class="text-bold">Short Description</label>
-            <textarea [(ngModel)]="prodForm.short_description" name="description" class="form-control form-control-sm"
+            <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
               placeholder="Write a short description about this product"></textarea>
           </div>
         </div>
@@ -47,39 +48,25 @@
           <div class="form-group">
             <label class="text-bold">Price</label>
             <span class="field-checkbox-wrapper" style="margin-left: 160px;">
-              <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_free"
-                (ngModelChange)="prodForm.is_free = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_free">
+              <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
+                (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_paid">
               <label for="free_price">Free</label>
             </span>
             <input type="number" min="0.00" value="0.00" step=".01" [(ngModel)]="prodForm.price"
-              [disabled]="prodForm.is_free" name="price" class="form-control form-control-sm">
+              [disabled]="prodForm.is_paid" name="price" class="form-control form-control-sm">
           </div>
         </div>
         <div class="col-md-12">
           <div class="form-group">
             <label class="text-bold">Product Items</label>
           </div>
-          <!--<div class="form-group border-bt">
-          <input type="checkbox" [(ngModel)]="prodForm.has_sectional_tests" (ngModelChange)="prodForm.has_sectional_tests = $event ? 1 : 0" name="has_sectional_tests" id="section_test" value="1"> <label for="section_test"> Section Test</label>
-          &nbsp;&nbsp;
-          <input type="checkbox" [(ngModel)]="prodForm.has_videos" (ngModelChange)="prodForm.has_videos = $event ? 1 : 0" name="has_videos" id="videos" value="1"> <label for="videos"> Videos</label>
-          &nbsp;&nbsp;
-          <input type="checkbox" [(ngModel)]="prodForm.has_notes" (ngModelChange)="prodForm.has_notes = $event ? 1 : 0" name="has_notes" id="notes" value="1"> <label for="notes"> Notes</label>
-          &nbsp;&nbsp;
-          <input type="checkbox" [(ngModel)]="prodForm.has_assignments" (ngModelChange)="prodForm.has_assignments = $event ? 1 : 0" name="has_assignments" id="assignments" value="1"> <label for="assignments"> Assignments</label>
-          &nbsp;&nbsp;
-          <input type="checkbox" [(ngModel)]="prodForm.has_ebooks" (ngModelChange)="prodForm.has_ebooks = $event ? 1 : 0" name="has_ebooks" id="ebooks" value="1"> <label for="ebooks"> eBooks</label>
-        </div>-->
-
-
-
           <div class="row form-group border-bt">
             <div class="col-md-4" *ngFor="let item of prodForm.itemStates;let i = index">
               <div class="field-checkbox-wrapper">
                 <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]"
                   (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i" [id]="item.slug" value="1"
                   type="checkbox">
-                <label [for]="item.slug">{{item.title}} </label>
+                <label [for]="item.slug">{{item.name}} </label>
               </div>
             </div>
             <!-- <div class="col-md-8" *ngIf="item.is_count_applicable">

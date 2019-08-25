@@ -23,7 +23,7 @@ export class ProductListComponent implements OnInit {
   subjectsList: any = [];
   deleteItem: any = {
     title: '',
-    product_id: 0,
+    entity_id: 0,
     operation: '',
     btnClass: 'btn-disable',
     btnText: 'Loading...'
@@ -63,10 +63,8 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+        // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
-
-
   }
 
   getSubjectList() {
@@ -101,125 +99,21 @@ export class ProductListComponent implements OnInit {
   }
 
   getProductList() {
-    // let response = {
-    //   "validate": "true",
-    //   "data": {
-    //     "total_items": 139,
-    //     "products":
-    //       [
-    //         {
-    //           "product_id": 2,
-    //           "title": "Online Test",
-    //           "slug": "online_test_Rw9SWHZ",
-    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-    //           "short_description": "Nice Product to purchase ",
-    //           "is_paid": 1,
-    //           "price": 0,
-    //           "start_timestamp": 1548335,
-    //           "end_timestamp": 1548355,
-    //           "product_status": 3,
-    //           "total_items": 139,
-    //           "product_group_id": 26,
-    //           "exam_ids": [1],
-    //           "exams": "RRB - M & I Categoris CEN 03 / 2019"
-    //         }, {
-    //           "product_id": 3,
-    //           "title": "Online Test",
-    //           "slug": "online_test_xZeF0ne",
-    //           "product_image": "123",
-    //           "short_description": "short_description",
-    //           "is_paid": 1,
-    //           "price": 20,
-    //           "start_timestamp": 1262253,
-    //           "end_timestamp": 1264328,
-    //           "product_status": 3,
-    //           "total_items": 139,
-    //           "product_group_id": 10,
-    //           "exam_ids": [],
-    //           "exams": ""
-    //         }, {
-    //           "product_id": 5,
-    //           "title": "Online Test",
-    //           "slug": "upsc_prelims_crash_course_s56jTy",
-    //           "product_image": "https://ams-s3-url.com",
-    //           "short_description": "short_description",
-    //           "is_paid": 1,
-    //           "price": 110,
-    //           "start_timestamp": 1550079564,
-    //           "end_timestamp": 1550079564,
-    //           "product_status": 3,
-    //           "total_items": 139,
-    //           "product_group_id": 12,
-    //           "exam_ids": [2, 4],
-    //           "exams": "RRB - Level - 1 by RRC CEN 01 / 2019,CTET"
-    //         }, {
-    //           "product_id": 31,
-    //           "title": "Online Test",
-    //           "slug": "check_update_product_PKh13oa",
-    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-    //           "short_description": "This is a short description using the textarea element of the form",
-    //           "is_paid": 1,
-    //           "price": 110,
-    //           "start_timestamp": 1548335,
-    //           "end_timestamp": 1548355,
-    //           "product_status": 1,
-    //           "total_items": 139,
-    //           "product_group_id": 10,
-    //           "exam_ids": [57],
-    //           "exams": ""
-    //         }, {
-    //           "product_id": 32,
-    //           "title": "Online Test",
-    //           "slug": "check_update_product_jQSVMwX",
-    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-    //           "short_description": "This is a short description using the textarea element of the form",
-    //           "is_paid": 1,
-    //           "price": 110,
-    //           "start_timestamp": 1548335,
-    //           "end_timestamp": 1548355,
-    //           "product_status": 1,
-    //           "total_items": 139,
-    //           "product_group_id": 10,
-    //           "exam_ids": [10],
-    //           "exams": "RRB - NTPC CEN01/2019"
-    //         }, {
-    //           "product_id": 33,
-    //           "title": "Product_test6",
-    //           "slug": "producttest_1BUbQKK",
-    //           "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-    //           "short_description": "This is a short description using the textarea element of the form",
-    //           "is_paid": 1,
-    //           "price": 1250,
-    //           "start_timestamp": 1548335,
-    //           "end_timestamp": 1548355,
-    //           "product_status": 1,
-    //           "total_items": 139,
-    //           "product_group_id": 38,
-    //           "exam_ids": [233, 244, 344],
-    //           "exams": ""
-    //         }]
-    //   }
-    // }
-    // this.productList = response.data.products;
-    // this.total_items = response.data.total_items;
-    // this.productListLoading = false;
-    // this.productList.forEach(element => {
-    //   element.isSelected = false;
-    // });
     this.http.getMethod('product/get', null).subscribe(
       (resp:any) => {
-        let response = JSON.parse(resp.result);
+        this.productListLoading = false;
+        let response = resp.result;
         console.log(resp);
         if (resp.validate) {
           this.productList = response;
-          this.total_items = response.data.total_items;
-          this.productListLoading = false;
+          this.total_items = response.length;
         }
         else {
           this.msgService.showErrorMessage('error', response.errors.message, '');
         }
       },
       (err) => {
+        this.productListLoading = false;
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
@@ -247,9 +141,9 @@ export class ProductListComponent implements OnInit {
 
   actionProductModal(operation, id) {
     this.deleteItem.operation = operation;
-    let item = this.productList.filter(item => item.product_id == id)[0];
+    let item = this.productList.filter(item => item.entity_id == id)[0];
     this.deleteItem.title = item.title;
-    this.deleteItem.product_id = item.product_id;
+    this.deleteItem.entity_id = item.entity_id;
     switch (operation) {
       case 'delete': {
         this.deleteItem.btnClass = 'btn-danger';
@@ -276,46 +170,65 @@ export class ProductListComponent implements OnInit {
   }
 
   confirmAction(operation, id) {
-    let body = {
-      product_status: 1
-    }
+    let item = this.productList.filter(item => item.entity_id == id)[0];
 
     switch (operation) {
       case 'delete': {
-        body.product_status = 5;
+        this.http.getMethod('product/delete/'+id, null).subscribe(
+          (resp:any) => {
+            this.productListLoading = false;
+            let response = resp.result;
+            console.log(resp);
+            if (resp.validate) {
+              this.msgService.showErrorMessage('success', 'Product removed successfully', '');
+              $("#actionProductModal").modal('hide');
+              this.productList.forEach((element,index) => {
+                if(element.entity_id==response.entity_id){
+                  this.productList.splice(index,1);
+                  console.log(this.productList);
+                }
+              });              
+              this.total_items = response.length;
+            }
+            else {
+              this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+            }
+          },
+          (err) => {
+            this.productListLoading = false;
+            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+          });
         break;
       }
       case 'publish': {
-        body.product_status = 3;
+        item.status = 20;
+        this.tempFucntion(id , item,operation);
         break;
       }
       case 'unpublish': {
-        body.product_status = 4;
+        item.status = 30;
+        this.tempFucntion(id , item,operation);
         break;
       }
     }
 
-    let item = this.productList.filter(item => item.product_id == id)[0];
-    let index = this.productList.indexOf(item);
-    this.http.patchMethod('product/' + id, body).then(
+  }
+
+  tempFucntion(id , body,operation){
+    this.http.postMethod('product/update', body).then(
       (resp) => {
         let data = resp['body'];
         if (data.validate) {
-          this.msgService.showErrorMessage("success", data.message, '');
+          this.msgService.showErrorMessage("success","product updated successfully", '');
           $("#actionProductModal").modal('hide');
-          if (operation == 'delete') {
-            this.productList.splice(index, 1);
-            this.total_items--;
-          } else {
-            item.product_status = body.product_status;
-          }
+            // item.product_status = body.product_status;
         }
         else {
-          this.msgService.showErrorMessage('error', data.errors.message, '');
+          this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
         }
       },
       (err) => {
-        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+        this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
       }
     );
   }

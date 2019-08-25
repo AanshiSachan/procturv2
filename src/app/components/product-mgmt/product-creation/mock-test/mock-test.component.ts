@@ -10,7 +10,7 @@ import { Router } from '../../../../../../node_modules/@angular/router';
 })
 export class MockTestComponent implements OnInit {
 
-  @Input() product_id: any;
+  @Input() entity_id: any;
   @Input() prodForm: any;
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
@@ -44,7 +44,7 @@ export class MockTestComponent implements OnInit {
 
   initMockTests() {
     //Fetch Product Groups List
-    this.http.getMethod('products/' + this.product_id + '/mock_test', null).subscribe(
+    this.http.getMethod('products/' + this.entity_id + '/mock_test', null).subscribe(
       (resp) => {
         let response = resp['body'];
         if (response.validate) {
@@ -98,7 +98,7 @@ export class MockTestComponent implements OnInit {
       });
 
       if (array.length) {
-        this.http.postMethod('product/' + this.product_id + '/items', array).then((resp) => {
+        this.http.postMethod('product/' + this.entity_id + '/items', array).then((resp) => {
           let response = resp['body'];
           if (response.validate) {
             this.nextForm.emit();

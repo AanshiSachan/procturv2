@@ -13,11 +13,12 @@ export class ProductCreationComponent implements OnInit {
 
   formLoading: boolean = false;
   activeForm: number = 3;
-  product_id: any = 0;
+  entity_id: any = 0;
   productItems: any = [];
 
+
   prodForm: any = {
-    product_id: 0,
+    entity_id: 0,
     title: '',
     exams: '',
     product_image: '',
@@ -98,7 +99,7 @@ export class ProductCreationComponent implements OnInit {
     this.route.params.subscribe(params => {
       console.log(params);
       if (Object.keys(params).length > 0) {
-        this.product_id = params.product_id;
+        this.entity_id = params.entity_id;
         switch (params.form) {
           case 'basic': this.activeForm = 1; break;
           case 'stude_material': this.activeForm = 2; break;
@@ -114,19 +115,76 @@ export class ProductCreationComponent implements OnInit {
         this.activeForm = 1;
       }
     });
+
   }
 
   ngOnInit() {
-    if (this.product_id > 0) {
+    if (this.entity_id > 0) {
       this.initFormSequence();
     }
   }
 
+  /** get product item details in  */
+  getProductItemsData() {
+    this.productItems = [];
+    this.http.getMethod('master/item-type/get', null).subscribe(
+      (resp: any) => {
+        let response = resp.result;
+        if (resp.validate) {
+          this.productItems = response;
+          this.prodForm.product_item_stats = {};
+          let array = {
+            "Offline Products": 'offline_products',
+            "Videos": 'videos',
+            "Live Classes": 'live_classes',
+            "Notes": 'notes',
+            "Assignments": 'assignments',
+            "Mock Test": 'mock_test',
+            "Section Test": 'section_test',
+            "eBooks": "eBooks",
+            "Online Test": "online_exams"
+          };
+          this.productItems.forEach((element, index) => {
+            element.slug = array[element.name];
+            this.prodForm.product_item_stats[element.slug] = 0;
+          });
+
+          this.prodForm.product_items_types.forEach(se_state => {
+            this.productItems.forEach(actual_state => {
+              if (actual_state.entity_id == se_state.entity_id) {
+                this.prodForm.product_item_stats[actual_state.slug] = 1;
+              }
+            });
+          });
+          let keys = Object.keys(this.formSequence)
+          keys.forEach((element, index) => {
+            let i = index + 1;
+            this.formSequence[i].show = (this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+          });
+          this.formSequence[1].show = true;
+          this.formSequence[6].show = true;
+
+        }
+        else {
+          this.msgService.showErrorMessage('error', response.errors.message, '');
+        }
+      },
+      (err) => {
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+
+  }
 
   // get value of previedata and set 
   previewSetter($event) {
     // console.log($event);
     this.prodForm = $event;
+    // this.prodForm.product_items_types = [{
+    // 	"entity_id": "67daf969-bd18-4dd9-9b01-cac27a35b431"
+    // }, {
+    // 	"entity_id": "db7fa536-3191-4cd5-81af-ccbda5003a0a"
+    // }];
+    // this.getProductItemsData();
     let keys = Object.keys(this.formSequence)
     keys.forEach((element, index) => {
       let i = index + 1;
@@ -170,68 +228,68 @@ export class ProductCreationComponent implements OnInit {
 
   }
 
-  startForm(product_id) {
-    this.product_id = product_id;
-    console.log('Called - ' + product_id);
+  startForm(data) {
+    this.entity_id = data.entity_id;
+    console.log('Called - ' + data.entity_id);
     this.initFormSequence();
   }
 
   initFormSequence() {
-    let product = {
-      "title": "Online Test",
-      "subject_ids": null,
-      "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-      "short_description": "Nice Product to purchase ",
-      "about_product": "Nice Product to purchase ",
-      "product_group_id": 26,
-      "is_paid": 1,
-      "price": 0,
-      "start_timestamp": 1548335000,
-      "end_timestamp": 1548355000,
-      "exams": "1",
-      "product_item_stats": {
-        "stude_material": 0,
-        "mock_test": 0,
-        "live_classes": 0,
-        "online_exams": 1,
-        "assignments": 0,
-        "ebooks": 0,
-        "notes": 0,
-        "youtube_video": 0,
-        "audio_notes": 0,
-        "images": 0,
-        "previous_yr_question_paper": 0
-      }
-    };
-    
-    let keys = Object.keys(this.formSequence)
-    keys.forEach((element, index) => {
-      let i = index + 1;
-      this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
-    });
-    this.formSequence[1].show = true;
-    this.formSequence[6].show = true;
+    // let product = {
+    //   "title": "Online Test",
+    //   "subject_ids": null,
+    //   "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
+    //   "short_description": "Nice Product to purchase ",
+    //   "about_product": "Nice Product to purchase ",
+    //   "product_group_id": 26,
+    //   "is_paid": 1,
+    //   "price": 0,
+    //   "start_timestamp": 1548335000,
+    //   "end_timestamp": 1548355000,
+    //   "exams": "1",
+    //   "product_item_stats": {
+    //     "stude_material": 0,
+    //     "mock_test": 0,
+    //     "live_classes": 0,
+    //     "online_exams": 1,
+    //     "assignments": 0,
+    //     "ebooks": 0,
+    //     "notes": 0,
+    //     "youtube_video": 0,
+    //     "audio_notes": 0,
+    //     "images": 0,
+    //     "previous_yr_question_paper": 0
+    //   }
+    // };
+
+    // let keys = Object.keys(this.formSequence)
+    // keys.forEach((element, index) => {
+    //   let i = index + 1;
+    //   this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+    // });
+    // this.formSequence[1].show = true;
+    // this.formSequence[6].show = true;
     //Fetch Product Info
-    // this.http.getMethod('product/' + this.product_id, null).then(
-    //   (resp) => {
-    //     let response = resp['body'];
-    //     if (response.validate) {
-    //       let product = response.data;
-    //       let keys = Object.keys(this.formSequence)
-    //       keys.forEach((element, index) => {
-    //         let i = index + 1;
-    //         this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
-    //       });
-    //       this.formSequence[1].show = true;
-    //       this.formSequence[6].show = true;
-    //     }
-    //     else {
-    //       this.msgService.showErrorMessage('error', response.errors.message, '');
-    //     }
-    //   },
-    //   (err) => {
-    //     this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-    //   });
+    this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
+      (resp) => {
+        let response = resp['body'];
+        if (response.validate) {
+          let product = response.result;
+          let keys = Object.keys(this.formSequence)
+          keys.forEach((element, index) => {
+            let i = index + 1;
+            this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+          });
+          this.formSequence[1].show = true;
+          this.formSequence[6].show = true;
+        }
+        else {
+          this.msgService.showErrorMessage('error', response.errors.message, '');
+        }
+      },
+      (err) => {
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
   }
 
   nextForm() {
@@ -248,7 +306,7 @@ export class ProductCreationComponent implements OnInit {
       }
     }
     let nextFormUrl = this.formSequence[index].slug;
-    this.router.navigate(['/view/products/create/2/'+nextFormUrl]
+    this.router.navigate(['/view/products/create/2/' + nextFormUrl]
     );
   }
 }
