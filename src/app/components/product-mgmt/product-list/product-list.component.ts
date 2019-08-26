@@ -138,6 +138,7 @@ export class ProductListComponent implements OnInit {
         });
     }
   }
+  
 
   actionProductModal(operation, id) {
     this.deleteItem.operation = operation;

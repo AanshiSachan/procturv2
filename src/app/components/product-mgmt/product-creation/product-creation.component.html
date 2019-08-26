@@ -1,27 +1,39 @@
 <div class="container-fluid product-contents-wrapper">
   <div class="row m-0 form-steps-wrapper">
     <ul id="progressbar" class="row">
-      <li class="col" [ngClass]="{'active' : activeForm == 1, 'completed' : activeForm > 1}" *ngIf="formSequence[1].show" (click)="visitForm(1,formSequence[1])">Basic Info</li>
-      <li class="col" [ngClass]="{'active' : activeForm == 2, 'completed' : activeForm > 2}" *ngIf="formSequence[2].show" (click)="visitForm(2,formSequence[2])">Study Materials</li>
-      <li class="col" [ngClass]="{'active' : activeForm == 3, 'completed' : activeForm > 3}" *ngIf="formSequence[3].show" (click)="visitForm(3,formSequence[3])">Mock Test</li>
-      <li class="col" [ngClass]="{'active' : activeForm == 4, 'completed' : activeForm > 4}" *ngIf="formSequence[4].show" (click)="visitForm(4,formSequence[4])">Online Exam</li>
-      <li class="col" [ngClass]="{'active' : activeForm == 5, 'completed' : activeForm > 5}" *ngIf="formSequence[5].show" (click)="visitForm(5,formSequence[5])">Offline Products</li>
-      <li class="col" [ngClass]="{'active' : activeForm == 6, 'completed' : activeForm > 6}" *ngIf="formSequence[6].show" (click)="visitForm(6,formSequence[6])">Review Product</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 1, 'completed' : activeForm > 1}"
+        *ngIf="formSequence[1].show" (click)="visitForm(1,formSequence[1])">Basic Info</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 2, 'completed' : activeForm > 2}"
+        *ngIf="formSequence[2].show" (click)="visitForm(2,formSequence[2])">Study Materials</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 3, 'completed' : activeForm > 3}"
+        *ngIf="formSequence[3].show" (click)="visitForm(3,formSequence[3])">Mock Test</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 4, 'completed' : activeForm > 4}"
+        *ngIf="formSequence[4].show" (click)="visitForm(4,formSequence[4])">Online Exam</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 5, 'completed' : activeForm > 5}"
+        *ngIf="formSequence[5].show" (click)="visitForm(5,formSequence[5])">Offline Products</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 6, 'completed' : activeForm > 6}"
+        *ngIf="formSequence[6].show" (click)="visitForm(6,formSequence[6])">Review Product</li>
     </ul>
   </div>
-
   <div class="row ml-0 mr-0 product-creation-wrapper" style="background: #fafafa; padding-left: 20em;">
     <div class="col-md-8 product-form-wrapper">
       <div class="divWrapper">
-        <app-basic-info (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" (previewEvent)="previewSetter($event)"
-          [entity_id]="entity_id" *ngIf="activeForm == 1"></app-basic-info>
-        <app-study-material [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 2"></app-study-material>
-        <app-mock-test [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
-          *ngIf="activeForm == 3"></app-mock-test>
-        <app-online-exam [entity_id]="entity_id"  [prodForm]="prodForm" (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
-          *ngIf="activeForm == 4"></app-online-exam>
-        <app-offline-products *ngIf="activeForm == 5"></app-offline-products>
-        <app-review-product *ngIf="activeForm == 6"></app-review-product>
+        <app-basic-info (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
+          (previewEvent)="previewSetter($event)" [entity_id]="entity_id" *ngIf="activeForm == 1"></app-basic-info>
+        <app-study-material [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 2">
+        </app-study-material>
+        <app-mock-test [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 3"></app-mock-test>
+        <app-online-exam [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 4">
+        </app-online-exam>
+        <app-offline-products [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 5">
+        </app-offline-products>
+        <app-review-product [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 6">
+        </app-review-product>
       </div>
     </div>
     <!-- <div class="col-md-4 product-preview-wrapper">

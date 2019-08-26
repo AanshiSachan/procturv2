@@ -5,66 +5,62 @@
 </div>
 
 <div class="row">
-  <div class="col-md-3">
+  <!-- <div class="col-md-3">
       <img class="prod-image" src="https://iasexamportal.com/sites/default/files/UPSC-LOGO.jpg">
-  </div>
+  </div> -->
 
-  <div class="col-md-9">
+  <div class="col-md-12">
     <div class="row">
       <div class="col-md-12 form-group">
         <label class="text-bold">Product Name <span><i class="fas fa-edit"></i></span></label>
-        <input type="text" class="form-control form-control-sm" value="UPSC Test Combo Series">
+        <input type="text" [(ngModel)]="prodForm.title" class="form-control form-control-sm">
       </div>
 
       <div class="col-md-12 form-group">
         <label class="text-bold">Description</label>
-        <textarea class="form-control form-control-sm"></textarea>
+        <textarea class="form-control form-control-sm" [(ngModel)]="prodForm.about"></textarea>
       </div>
 
       <div class="col-md-6 form-group">
-        <label class="text-bold">Product Group</label>
-        <ng-select
-              [items]="people"
-              [multiple]="true"
-              [closeOnSelect]="false"
-              [hideSelected]="true"
-              [searchable]="true"
-              bindLabel="name"
-              placeholder="Select Exam"
-              [(ngModel)]="selectedPeople1">
-        </ng-select>
+        <label class="text-bold">E-courses </label>
+        <ng-multiselect-dropdown [placeholder]="'Select E-courses'" [(ngModel)]="selectedItems" [data]="ecourseList"
+          [settings]="moderatorSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeselect($event)">
+        </ng-multiselect-dropdown> {{selectedItems}}
+      </div>
+      <div class="col-md-6 form-group">        
+          <label class="text-bold">Price</label>
+          <span class="field-checkbox-wrapper" style="margin-left: 160px;">
+            <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
+              (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_paid">
+            <label for="free_price">Free</label>
+          </span>
+          <input type="number" min="0.00" value="0.00" step=".01" [(ngModel)]="prodForm.price"
+            [disabled]="prodForm.is_paid" name="price" class="form-control form-control-sm">      
       </div>
 
-      <div class="col-md-6 form-group">
-        <label class="text-bold">Price</label> 
-        <span class="float-right"><input type="checkbox" id="free_price" (change)="prod_free = (prod_free)?0:1" name="free"> <label for="free_price">Free</label></span>
-        <input type="number" min="0.00" value="0.00" step=".01" [disabled]="!prod_free" name="product_name" class="form-control form-control-sm" >
-      </div>
-
-      <div class="col-md-12 p-0 row m-0">
+      <div class="row m-0">
         <div class="col-md-12 form-group m-0">
           <label class="text-bold">Visibility Date Range</label>
         </div>
         <div class="col-md-5 form-group">
-          <div class="col-md-12 form-group">
-            <div class="c-md-12 c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-              <label for="from">Start Date</label>
-              <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="startTime">
-            </div>
+          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+            <label for="from">Start Date</label>
+            <input type="text" [(ngModel)]="prodForm.start_datetime" (change)="calc_days()" name="from"
+              class="form-control form-control-sm" bsDatepicker>
           </div>
         </div>
         <div class="col-md-5 form-group">
-          <div class="col-md-12 form-group">
-            <div class="c-md-12 c-lg-12 field-wrapper datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-              <label for="from">End Date</label>
-              <input type="text" class="form-ctrl" id="from" bsDatepicker [(ngModel)]="endTime">
-            </div>
+          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+            <label for="from">End Date</label>
+            <input type="text" [(ngModel)]="prodForm.end_datetime" (change)="calc_days()" name="from"
+              class="form-control form-control-sm" bsDatepicker>
           </div>
         </div>
-        <div class="col-md-2 form-group text-right m-auto text-bold">
-          <label>90 Days</label>
+
+        <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
+          <label>{{calc_days()}} Day(s)</label>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </div>

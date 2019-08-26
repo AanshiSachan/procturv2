@@ -1,4 +1,3 @@
-<form #basicInfoForm="ngForm">
   <div class="row">
     <!-- <div class="col-md-3">
     <div class="form-group product-image">
@@ -30,9 +29,8 @@
           <div class="form-group">
             <label class="text-bold">E-courses <span class="text-danger">*</span></label>
             <ng-multiselect-dropdown [placeholder]="'Select E-courses'"
-            [(ngModel)]="selectedItems" [data]="ecourseList" [settings]="moderatorSettings"
-              (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeselect($event)">
-            </ng-multiselect-dropdown> {{selectedItems}}
+            [(ngModel)]="products_ecourse_maps" [data]="ecourseList" [settings]="moderatorSettings">
+            </ng-multiselect-dropdown> 
           </div>
         </div>
 
@@ -109,9 +107,7 @@
 
   <div class="row basic-info-footer">
     <div class="col text-center">
-      <button class="btn btn-outline-danger btn-round" (click)="gotoBack()">
-        Cancel</button>
+      <button class="btn btn-outline-danger btn-round" (click)="gotoBack()"> Cancel</button>
       <button class="btn btn-primary btn-round" (click)="saveProduct()">Save & Next</button>
     </div>
   </div>
-</form>

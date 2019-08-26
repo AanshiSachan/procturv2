@@ -59,7 +59,7 @@ export class ProductCreationComponent implements OnInit {
       index: 1
     },
     2: {
-      slug: 'stude_material',
+      slug: 'study_material',
       show: false,
       is_completed: false,
       index: 2
@@ -90,7 +90,7 @@ export class ProductCreationComponent implements OnInit {
     }
   };
 
-  constructor(
+    constructor(
     private router: Router,
     private http: ProductService,
     private route: ActivatedRoute,
@@ -102,7 +102,7 @@ export class ProductCreationComponent implements OnInit {
         this.entity_id = params.entity_id;
         switch (params.form) {
           case 'basic': this.activeForm = 1; break;
-          case 'stude_material': this.activeForm = 2; break;
+          case 'study_material': this.activeForm = 2; break;
           case 'mock_test': this.activeForm = 3; break;
           case 'online_exams': this.activeForm = 4; break;
           case 'offlineItems': this.activeForm = 5; break;
@@ -122,6 +122,7 @@ export class ProductCreationComponent implements OnInit {
     if (this.entity_id > 0) {
       this.initFormSequence();
     }
+    
   }
 
   /** get product item details in  */
@@ -133,19 +134,7 @@ export class ProductCreationComponent implements OnInit {
         if (resp.validate) {
           this.productItems = response;
           this.prodForm.product_item_stats = {};
-          let array = {
-            "Offline Products": 'offline_products',
-            "Videos": 'videos',
-            "Live Classes": 'live_classes',
-            "Notes": 'notes',
-            "Assignments": 'assignments',
-            "Mock Test": 'mock_test',
-            "Section Test": 'section_test',
-            "eBooks": "eBooks",
-            "Online Test": "online_exams"
-          };
           this.productItems.forEach((element, index) => {
-            element.slug = array[element.name];
             this.prodForm.product_item_stats[element.slug] = 0;
           });
 
@@ -235,40 +224,6 @@ export class ProductCreationComponent implements OnInit {
   }
 
   initFormSequence() {
-    // let product = {
-    //   "title": "Online Test",
-    //   "subject_ids": null,
-    //   "product_image": "https://s3-aws.com/product/pepper-pot.jpg",
-    //   "short_description": "Nice Product to purchase ",
-    //   "about_product": "Nice Product to purchase ",
-    //   "product_group_id": 26,
-    //   "is_paid": 1,
-    //   "price": 0,
-    //   "start_timestamp": 1548335000,
-    //   "end_timestamp": 1548355000,
-    //   "exams": "1",
-    //   "product_item_stats": {
-    //     "stude_material": 0,
-    //     "mock_test": 0,
-    //     "live_classes": 0,
-    //     "online_exams": 1,
-    //     "assignments": 0,
-    //     "ebooks": 0,
-    //     "notes": 0,
-    //     "youtube_video": 0,
-    //     "audio_notes": 0,
-    //     "images": 0,
-    //     "previous_yr_question_paper": 0
-    //   }
-    // };
-
-    // let keys = Object.keys(this.formSequence)
-    // keys.forEach((element, index) => {
-    //   let i = index + 1;
-    //   this.formSequence[i].show = (product.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
-    // });
-    // this.formSequence[1].show = true;
-    // this.formSequence[6].show = true;
     //Fetch Product Info
     this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
       (resp) => {
@@ -306,7 +261,7 @@ export class ProductCreationComponent implements OnInit {
       }
     }
     let nextFormUrl = this.formSequence[index].slug;
-    this.router.navigate(['/view/products/create/2/' + nextFormUrl]
+    this.router.navigate(['/view/products/create/'+this.entity_id+'/' + nextFormUrl]
     );
   }
 }

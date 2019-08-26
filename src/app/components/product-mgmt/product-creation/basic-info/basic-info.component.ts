@@ -15,7 +15,7 @@ export class BasicInfoComponent implements OnInit {
   @Input() entity_id: any;
   productItems: any = [];
   @Input() product_item_stats: any;
-  product_item_list:any[]=[];
+  product_item_list: any[] = [];
 
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
@@ -28,9 +28,9 @@ export class BasicInfoComponent implements OnInit {
     tablets: 0
   };
 
-  selectedItems:any;
+  selectedItems2: any = [{ course_type: 'Aniket course', course_type_id: 75 }, { course_type: 'Aniket course', course_type_id: 75 }];
   ecourseList: any = [];
-  products_ecourse_maps:any[]=[];
+  products_ecourse_maps: any[] = [];
   prodItems: any = {}
   moderatorSettings: any = {
     singleSelection: false,
@@ -57,7 +57,7 @@ export class BasicInfoComponent implements OnInit {
     end_datetime: moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
-    status:10,
+    status: 10,
     product_item_stats: {
       mock_test: 0,
       online_exams: 0,
@@ -70,7 +70,8 @@ export class BasicInfoComponent implements OnInit {
     private http: ProductService,
     private msgService: MessageShowService,
     private router: Router,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.getProductItemsData();
@@ -78,22 +79,6 @@ export class BasicInfoComponent implements OnInit {
     this.initDataEcourse();
     this.previewEvent.emit(this.prodForm);
     this.toggleLoader.emit(false);
-  }
-
-  onItemSelect($event){
-    console.log($event);
-    this.products_ecourse_maps.push($event);
-  }
-
-  onItemDeselect($event){
-    console.log($event);
-    this.products_ecourse_maps.forEach((object,index)=>{
-      if(object.course_type_id==$event.course_type_id){
-         this.products_ecourse_maps.splice(index,1);
-         console.log(this.products_ecourse_maps);
-      }
-    })
-
   }
 
   /** get product item details in  */
@@ -105,24 +90,12 @@ export class BasicInfoComponent implements OnInit {
         if (resp.validate) {
           this.productItems = response;
           this.prodForm.product_item_stats = {};
-              let array = {
-              "Offline Products": 'offline_products',
-              "Videos": 'videos',
-              "Live Classes": 'live_classes',
-              "Notes": 'notes',
-              "Assignments": 'assignments',
-              "Mock Test": 'mock_test',
-              "Section Test": 'section_test',
-              "eBooks": "eBooks",
-              "Online Test": "online_exams"
-            };
-          this.productItems.forEach((element, index) => {       
-            element.slug = array[element.name];
+          this.productItems.forEach((element, index) => {
             this.prodForm.itemStates.push(element);// add states
             this.prodForm.product_item_stats[element.slug] = 0;
             this.prodItems[element.slug] = false;
           });
-              this.initForm();
+          this.initForm();
         }
         else {
           this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -136,38 +109,34 @@ export class BasicInfoComponent implements OnInit {
 
   initForm() {
     //Fetch Product Groups List
-   
-    if (this.entity_id && this.entity_id.length>0) {
+
+    if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
-        (resp:any) => {
+        (resp: any) => {
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
-            this.prodForm.entity_id =productData.entity_id;
-            this.prodForm.title =  productData.title;
-            this.prodForm.about =  productData.about ;
-            this.prodForm.is_paid =  productData.is_paid ;
-            this.prodForm.price =  productData.price ;
-            this.prodForm.start_datetime =  productData.valid_from_date ;
-            this.prodForm.end_datetime =  productData.valid_to_date ;
-            this.prodForm.status =  productData.status ;
-            this.prodForm.purchase_limit =  productData.purchase_limit ;
-            this.prodForm.product_ecourse_maps =  productData.product_ecourse_maps ;
-            this.prodForm.product_items_types =  [{
-                            "entity_id": "67daf969-bd18-4dd9-9b01-cac27a35b431"
-                          }, {
-                            "entity_id": "db7fa536-3191-4cd5-81af-ccbda5003a0a"
-                          }];
-            this.prodForm.product_items_types.forEach(element => {             
-            this.prodForm.itemStates.forEach((object)=>{
-              if(object.entity_id==element.entity_id){
-               this.prodItems[object.slug] = true;
-               this.prodForm.product_item_stats[object.slug] = true;
-              }
-            }); 
+            this.prodForm.entity_id = productData.entity_id;
+            this.prodForm.title = productData.title;
+            this.prodForm.about = productData.about;
+            this.prodForm.is_paid = productData.is_paid;
+            this.prodForm.price = productData.price;
+            this.prodForm.start_datetime = productData.valid_from_date;
+            this.prodForm.end_datetime = productData.valid_to_date;
+            this.prodForm.status = productData.status;
+            this.prodForm.purchase_limit = productData.purchase_limit;
+            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+            this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm.product_items_types.forEach(element => {
+              this.prodForm.itemStates.forEach((object) => {
+                if (object.entity_id == element.entity_id) {
+                  this.prodItems[object.slug] = true;
+                  this.prodForm.product_item_stats[object.slug] = true;
+                }
+              });
             });
-            this.updateProductItemStates(null,null);
+            this.updateProductItemStates(null, null);
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -188,7 +157,7 @@ export class BasicInfoComponent implements OnInit {
     this.http.getMethod('ext/get-ecources', param).subscribe(
       (resp: any) => {
         let response = JSON.parse(resp.result);
-        console.log(resp);
+        console.log(response);
         if (resp.validate) {
           this.ecourseList = response;
         }
@@ -239,20 +208,20 @@ export class BasicInfoComponent implements OnInit {
     this.prodForm.price = this.prodForm.price ? 0 : this.prodForm.price;
     this.productItems.forEach(element => {
       this.prodForm.product_item_stats[element.slug] = (this.prodItems[element.slug]) ? this.prodForm.product_item_stats[element.slug] : 0;
-      if(this.prodForm.product_item_stats[element.slug]){
-        let object ={
+      if (this.prodForm.product_item_stats[element.slug]) {
+        let object = {
           "entity_id": element.entity_id
         }
         this.product_item_list.push(object);
       }
     });
-     let object = {
-      "entity_id":this.prodForm.entity_id,
+    let object = {
+      "entity_id": this.prodForm.entity_id,
       "title": this.prodForm.title,
-      "institute_id":sessionStorage.getItem('institute_id'),
+      "institute_id": sessionStorage.getItem('institute_id'),
       "logoUrl": "",
       "about": this.prodForm.about,
-      "is_paid": this.prodForm.is_paid ,
+      "is_paid": this.prodForm.is_paid,
       "price": this.prodForm.price,
       "valid_from_date": this.prodForm.start_datetime,
       "valid_to_date": this.prodForm.end_datetime,
@@ -261,7 +230,7 @@ export class BasicInfoComponent implements OnInit {
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
     }
-    if (this.prodForm.entity_id && this.prodForm.entity_id.length< 1) {
+    if (this.prodForm.entity_id == 0) {
       this.createProduct(object);
     }
     else {
@@ -270,31 +239,17 @@ export class BasicInfoComponent implements OnInit {
   }
 
   createProduct(object) {
-    this.toggleLoader.emit(true); 
-
-    // let object = {
-    //   "title": this.prodForm.title,
-    //   "logoUrl": "",
-    //   "about": this.prodForm.about,
-    //   "is_paid": this.prodForm.is_paid ,
-    //   "price": this.prodForm.price,
-    //   "valid_from_date": this.prodForm.start_timestamp,
-    //   "valid_to_date": this.prodForm.end_timestamp,
-    //   "purchase_limit": 12,
-    //   "status": this.prodForm.status,
-    //   "product_ecourse_maps": this.products_ecourse_maps,
-    //   "product_items_types": this.product_item_list,
-    // }
+    this.toggleLoader.emit(true);
 
     let body = JSON.parse(JSON.stringify(object));
     this.toggleLoader.emit(true);
     this.http.postMethod('/product/create', object).then(
-      (resp:any) => {
+      (resp: any) => {
         this.toggleLoader.emit(false);
-        let response =  resp['body']
+        let response = resp['body']
         if (response.validate) {
           this.msgService.showErrorMessage('success', "product created successfully", '');
-          response.result.product=object;
+          response.result.product = object;
           this.startForm.emit(response.result);
           this.nextForm.emit();
         }
@@ -318,16 +273,16 @@ export class BasicInfoComponent implements OnInit {
         this.toggleLoader.emit(false);
         let data = resp['body'];
         if (data.validate) {
-          this.msgService.showErrorMessage('success',  "product updated successfully", '');
+          this.msgService.showErrorMessage('success', "product updated successfully", '');
           this.nextForm.emit();
         }
         else {
-             this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          this.msgService.showErrorMessage('error', "something went wrong, try again", '');
         }
       },
       (err) => {
         this.toggleLoader.emit(false);
-          this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+        this.msgService.showErrorMessage('error', "something went wrong, try again", '');
       });
   }
 
