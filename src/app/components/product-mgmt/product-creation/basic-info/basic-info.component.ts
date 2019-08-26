@@ -28,9 +28,8 @@ export class BasicInfoComponent implements OnInit {
     tablets: 0
   };
 
-  selectedItems2: any = [{ course_type: 'Aniket course', course_type_id: 75 }, { course_type: 'Aniket course', course_type_id: 75 }];
   ecourseList: any = [];
-  products_ecourse_maps: any[] = [];
+  products_ecourse_maps: any[] = [{ course_type: 'Aniket course', course_type_id: 75 }];
   prodItems: any = {}
   moderatorSettings: any = {
     singleSelection: false,
