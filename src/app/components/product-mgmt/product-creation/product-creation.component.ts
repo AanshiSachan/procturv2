@@ -220,16 +220,14 @@ export class ProductCreationComponent implements OnInit {
   startForm(data) {
     this.entity_id = data.entity_id;
     console.log('Called - ' + data.entity_id);
-    this.initFormSequence();
   }
 
   initFormSequence() {
     //Fetch Product Info
     this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
-      (resp) => {
-        let response = resp['body'];
-        if (response.validate) {
-          let product = response.result;
+      (resp:any) => {
+        if (resp.validate) {
+          let product = resp.result;
           let keys = Object.keys(this.formSequence)
           keys.forEach((element, index) => {
             let i = index + 1;
@@ -239,7 +237,7 @@ export class ProductCreationComponent implements OnInit {
           this.formSequence[6].show = true;
         }
         else {
-          this.msgService.showErrorMessage('error', response.errors.message, '');
+          this.msgService.showErrorMessage('error', resp.errors.message, '');
         }
       },
       (err) => {
@@ -249,7 +247,7 @@ export class ProductCreationComponent implements OnInit {
 
   nextForm() {
     console.log('Called');
-    this.initFormSequence();
+    // this.initFormSequence();
     this.formSequence[this.activeForm].is_completed = true;
     let index = this.activeForm + 1;
     for (; index <= Object.keys(this.formSequence).length; index++) {

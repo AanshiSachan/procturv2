@@ -29,7 +29,7 @@ export class BasicInfoComponent implements OnInit {
   };
 
   ecourseList: any = [];
-  products_ecourse_maps: any[] = [{ course_type: 'Aniket course', course_type_id: 75 }];
+  products_ecourse_maps: any[] = [];
   prodItems: any = {}
   moderatorSettings: any = {
     singleSelection: false,
@@ -127,6 +127,11 @@ export class BasicInfoComponent implements OnInit {
             this.prodForm.purchase_limit = productData.purchase_limit;
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
             this.prodForm.product_items_types = productData.product_items_types;
+            this.products_ecourse_maps = [];
+            this.prodForm.product_ecourse_maps.forEach((object) => {
+              let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
+              this.products_ecourse_maps.push(obj);
+            });
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.itemStates.forEach((object) => {
                 if (object.entity_id == element.entity_id) {
@@ -201,8 +206,6 @@ export class BasicInfoComponent implements OnInit {
       return;
     }
 
-    // this.prodForm.start_timestamp =this.prodForm.start_datetime;
-    // this.prodForm.end_timestamp = this.prodForm.end_datetime;
     this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
     this.prodForm.price = this.prodForm.price ? 0 : this.prodForm.price;
     this.productItems.forEach(element => {

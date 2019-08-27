@@ -18,13 +18,12 @@ export class ReviewProductComponent implements OnInit {
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
-  selectedItems:any[]=[];
+  products_ecourse_maps:any[]=[];
   ecourseList: any = [];
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
     textField: 'course_type',
-    // itemsShowLimit: ,
     enableCheckAll: false
   };
   constructor(
@@ -34,14 +33,18 @@ export class ReviewProductComponent implements OnInit {
   ) { }
 
 
+
   ngOnInit() {
-    if (this.entity_id > 0) {
+    if (this.entity_id != 0) {
       this.initFormSequence();
     }
     this.initDataEcourse();
     console.log(this.prodForm,this.entity_id);
   }
 
+  calc_days() {
+    return (this.prodForm.start_datetime != '' && this.prodForm.end_datetime != '') ? Math.ceil(Math.abs((new Date(this.prodForm.end_datetime).getTime()) - (new Date(this.prodForm.start_datetime).getTime())) / (1000 * 3600 * 24)) : 'NA';
+  }
 
   initDataEcourse() {
     let param = {
@@ -81,7 +84,12 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.status = productData.status;
             this.prodForm.purchase_limit = productData.purchase_limit;
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            this.prodForm.product_items_types = [];
+            this.prodForm.product_items_types = productData.product_items_types;
+            this.products_ecourse_maps = [];
+            this.prodForm.product_ecourse_maps.forEach((object) => {
+              let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
+              this.products_ecourse_maps.push(obj);
+            });
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');

@@ -20,7 +20,7 @@ export class MockTestComponent implements OnInit {
   checkedList: any = [];
   selectAll: boolean = false;
   constructor(
-    private http:ProductService,
+    private http: ProductService,
     private msgService: MessageShowService,
     private router: Router,
   ) { }
@@ -44,11 +44,13 @@ export class MockTestComponent implements OnInit {
 
   initMockTests() {
     //Fetch Product Groups List
-    this.http.getMethod('products/' + this.entity_id + '/mock_test', null).subscribe(
-      (resp) => {
+    this.http.postMethod('ext/get-examdesk', ["Mock_Test"]).then(
+      (resp: any) => {
         let response = resp['body'];
         if (response.validate) {
-          this.checkedList = response.data;
+          let details = JSON.parse(response.result['Mock Test']);
+          this.testlist = details.data;
+          this.selectAllDetails(false);
         }
         else {
           this.checkedList = [];
@@ -59,67 +61,57 @@ export class MockTestComponent implements OnInit {
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
 
-    let response = { "validate": true, "data": [{ "test_id": 2502, "test_name": "Test", "test_description": "Test with Report", "test_type_id": 1, "difficulty_title": "Medium", "duration": "10", "total_question": 10, "total_marks": 10, "start_timestamp": 1565289000, "end_timestamp": 1572546540 }, { "test_id": 2507, "test_name": "Test-2", "test_description": "Test", "test_type_id": 1, "difficulty_title": "Medium", "duration": "10", "total_question": 10, "total_marks": 10, "start_timestamp": 1565548200, "end_timestamp": 1567276140 }, { "test_id": 2511, "test_name": "Test-3", "test_description": "Test-3", "test_type_id": 1, "difficulty_title": "Medium", "duration": "50", "total_question": 50, "total_marks": 50, "start_timestamp": 1565634600, "end_timestamp": 1567276140 }] };
-    this.testlist = response.data;
-    this.selectAllDetails(false);
-    this.http.getMethod('subjects/1/mock_test', null).subscribe(
-      (resp) => {
-        let response = resp['body'];
-        if (response.validate) {
-          this.testlist = response.data;
-          this.selectAllDetails(false);
-        }
-        else {
-          this.msgService.showErrorMessage('error', response.errors.message, '');
-        }
-      },
-      (err) => {
-        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-      });
   }
 
   gotoBack() {
-      this.router.navigateByUrl('/view/products/details');
+    this.router.navigateByUrl('/view/products/details');
   }
 
   gotoNext() {
     let array = this.testlist.filter((item) => item.isChecked == true);
-    if (this.prodForm.product_item_stats.mock_test === array.length) {
-      array = [];
-      this.testlist.forEach(element => {
-        if (element.isChecked) {
-          let object = {
-            "source_item_id": element.test_id,
-            "prod_item_type_id": 11,
-            "source_subject_id": 0
-          }
-          array.push(object);
-        }
-      });
 
-      if (array.length) {
-        this.http.postMethod('product/' + this.entity_id + '/items', array).then((resp) => {
-          let response = resp['body'];
-          if (response.validate) {
-            this.nextForm.emit();
-            this.msgService.showErrorMessage('success',response.message, '');
+    if (this.testlist.length == 0) {
+      this.nextForm.emit();
+    } else {
+      if (this.prodForm.product_item_stats.mock_test === array.length) {
+        array = [];
+        this.testlist.forEach(element => {
+          if (element.isChecked) {
+            let object = {
+              "source_item_id": element.test_id,
+              "prod_item_type_id": 11,
+              "source_subject_id": 0
+            }
+            array.push(object);
           }
-          else {
-            this.msgService.showErrorMessage('error', response.errors.message, '');
-          }
-        },
-          (err) => {
-            this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-          });
+        });
+
+        if (array.length) {
+          this.http.postMethod('product/' + this.entity_id + '/items', array).then((resp) => {
+            let response = resp['body'];
+            if (response.validate) {
+              this.nextForm.emit();
+              this.msgService.showErrorMessage('success', response.message, '');
+            }
+            else {
+              this.msgService.showErrorMessage('error', response.errors.message, '');
+            }
+          },
+            (err) => {
+              this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+            });
+        }
+        else {
+          this.nextForm.emit();
+          // this.toaster.error('error',);
+        }
       }
       else {
-        this.nextForm.emit();
-        // this.toaster.error('error',);
+           this.nextForm.emit();
+        this.msgService.showErrorMessage('error', " select at least one Mock Test", '');
+        return;
       }
     }
-    else {
-      this.msgService.showErrorMessage('error', " select only " + this.prodForm.product_item_stats.mock_test + " Mock Test", '');
-      return;
-    }
+
   }
 }
