@@ -1,5 +1,5 @@
-  <div class="row">
-    <!-- <div class="col-md-3">
+<div class="row">
+  <!-- <div class="col-md-3">
     <div class="form-group product-image">
       <label>Product Image</label>
       <div class="change-box">
@@ -9,40 +9,48 @@
       </div>
     </div>
   </div> -->
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div class="row">
 
-        <div class="col-md-12">
-          <div class="form-group">
-            <label class="text-bold">Product Name
-              <span class="text-danger">*</span>
-            </label>
-            <input type="text" [(ngModel)]="prodForm.title" name="title" #title="ngModel"
-              class="form-control form-control-sm" placeholder="Product Name" required />
-            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
-              <div *ngIf="title.errors.required">
-                Product Name should not be empty
-              </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="text-bold">Product Name
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" [(ngModel)]="prodForm.title" name="title" #title="ngModel"
+            class="form-control form-control-sm" placeholder="Product Name" required />
+          <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+            <div *ngIf="title.errors.required">
+              Product Name should not be empty
             </div>
           </div>
-          <div class="form-group">
-            <label class="text-bold">E-courses <span class="text-danger">*</span></label>
-            <ng-multiselect-dropdown [placeholder]="'Select E-courses'"
-            [(ngModel)]="products_ecourse_maps" [data]="ecourseList" [settings]="moderatorSettings">
-            </ng-multiselect-dropdown> 
-          </div>
         </div>
+        <div class="form-group">
+          <label class="text-bold">E-courses <span class="text-danger">*</span></label>
+          <ng-multiselect-dropdown [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps"
+            [data]="ecourseList" [settings]="moderatorSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
 
-      
-        <div class="col-md-12">
-          <div class="form-group">
-            <label class="text-bold">Short Description</label>
-            <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
-              placeholder="Write a short description about this product"></textarea>
-          </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="text-bold">Short Description</label>
+          <textarea [(ngModel)]="prodForm.about" name="description" class="form-control form-control-sm"
+            placeholder="Write a short description about this product"></textarea>
         </div>
-        <div class="col-md-6">
+      </div>
+      <div class="col-md-12">
+          <div class="col-md-6" style=" padding-left: 0px;">
+              <div class="form-group">
+                <label class="text-bold">Product Sell Limit  <span class="text-danger">*</span></label>
+                <input type="number"  [(ngModel)]="prodForm.purchase_limit"
+                  name="purchase_limit" class="form-control form-control-sm">
+              </div>
+            </div>
+        <div class="col-md-6" style=" padding-right: 0px;">
           <div class="form-group">
             <label class="text-bold">Price</label>
             <span class="field-checkbox-wrapper" style="margin-left: 160px;">
@@ -54,60 +62,61 @@
               [disabled]="prodForm.is_paid" name="price" class="form-control form-control-sm">
           </div>
         </div>
-        <div class="col-md-12">
-          <div class="form-group">
-            <label class="text-bold">Product Items</label>
-          </div>
-          <div class="row form-group border-bt">
-            <div class="col-md-4" *ngFor="let item of prodForm.itemStates;let i = index">
-              <div class="field-checkbox-wrapper">
-                <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]"
-                  (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i" [id]="item.slug" value="1"
-                  type="checkbox">
-                <label [for]="item.slug">{{item.name}} </label>
-              </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="text-bold">Product Items</label>
+        </div>
+        <div class="row form-group border-bt">
+          <div class="col-md-4" *ngFor="let item of itemStates;let i = index">
+            <div class="field-checkbox-wrapper">
+              <input class="form-checkbox" [(ngModel)]="prodItems[item.slug]"
+                (ngModelChange)="updateProductItemStates($event,item)" [name]="'item-'+i" [id]="item.slug" value="1"
+                type="checkbox">
+              <label [for]="item.slug">{{item.name}} </label>
             </div>
-            <!-- <div class="col-md-8" *ngIf="item.is_count_applicable">
+          </div>
+          <!-- <div class="col-md-8" *ngIf="item.is_count_applicable">
               <label>No. {{item.title}}</label>
               <input type="number" (ngModelChange)="updateProductItemStates(null)" [disabled]="!prodItems[item.slug]"
                 [name]="item.slug" [(ngModel)]="prodForm.product_item_stats[item.slug]" value="0" min="0"
                 class="form-control form-control-sm count-input-box">
             </div> -->
-          </div>
         </div>
-
-        <div class="row m-0">
-          <div class="col-md-12 form-group m-0">
-            <label class="text-bold">Visibility Date Range</label>
-          </div>
-          <div class="col-md-5 form-group">
-            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-              <label for="from">Start Date</label>
-              <input type="text" [(ngModel)]="prodForm.start_datetime" (change)="calc_days()" name="from"
-                class="form-control form-control-sm" bsDatepicker>
-            </div>
-          </div>
-          <div class="col-md-5 form-group">
-            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-              <label for="from">End Date</label>
-              <input type="text" [(ngModel)]="prodForm.end_datetime" (change)="calc_days()" name="from"
-                class="form-control form-control-sm" bsDatepicker>
-            </div>
-          </div>
-
-          <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
-            <label>{{calc_days()}} Day(s)</label>
-          </div>
-        </div>
-
       </div>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
 
-  <div class="row basic-info-footer">
-    <div class="col text-center">
-      <button class="btn btn-outline-danger btn-round" (click)="gotoBack()"> Cancel</button>
-      <button class="btn btn-primary btn-round" (click)="saveProduct()">Save & Next</button>
+      <div class="row m-0">
+        <div class="col-md-12 form-group m-0">
+          <label class="text-bold">Visibility Date Range</label>
+        </div>
+        <div class="col-md-5 form-group">
+          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+            <label for="from">Start Date</label>
+            <input type="text" [(ngModel)]="prodForm.valid_from_date" (change)="calc_days()" name="from"
+              class="form-control form-control-sm" bsDatepicker>
+          </div>
+        </div>
+        <div class="col-md-5 form-group">
+          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+            <label for="from">End Date</label>
+            <input type="text" [(ngModel)]="prodForm.valid_to_date" (change)="calc_days()" name="from"
+              class="form-control form-control-sm" bsDatepicker>
+          </div>
+        </div>
+
+        <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
+          <label>{{calc_days()}} Day(s)</label>
+        </div>
+      </div>
+
     </div>
   </div>
+  <div class="col-md-1"></div>
+</div>
+
+<div class="row basic-info-footer">
+  <div class="col text-center">
+    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()"> Cancel</button>
+    <button class="btn btn-primary btn-round" (click)="saveProduct()">Save & Next</button>
+  </div>
+</div>

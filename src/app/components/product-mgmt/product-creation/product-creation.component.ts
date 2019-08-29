@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../services/products.service';
 import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import { MessageShowService } from '../../../services/message-show.service';
+import { product_details } from './product.model';
 
 @Component({
   selector: 'app-product-creation',
@@ -15,8 +16,7 @@ export class ProductCreationComponent implements OnInit {
   activeForm: number = 3;
   entity_id: any = 0;
   productItems: any = [];
-
-
+  // prodForm: product_details = new product_details();
   prodForm: any = {
     entity_id: 0,
     title: '',
@@ -49,7 +49,6 @@ export class ProductCreationComponent implements OnInit {
       assignments: 0
     }
   };
-
 
   formSequence: any = {
     1: {
@@ -90,7 +89,7 @@ export class ProductCreationComponent implements OnInit {
     }
   };
 
-    constructor(
+  constructor(
     private router: Router,
     private http: ProductService,
     private route: ActivatedRoute,
@@ -122,7 +121,7 @@ export class ProductCreationComponent implements OnInit {
     if (this.entity_id > 0) {
       this.initFormSequence();
     }
-    
+
   }
 
   /** get product item details in  */
@@ -225,7 +224,7 @@ export class ProductCreationComponent implements OnInit {
   initFormSequence() {
     //Fetch Product Info
     this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
-      (resp:any) => {
+      (resp: any) => {
         if (resp.validate) {
           let product = resp.result;
           let keys = Object.keys(this.formSequence)
@@ -259,7 +258,7 @@ export class ProductCreationComponent implements OnInit {
       }
     }
     let nextFormUrl = this.formSequence[index].slug;
-    this.router.navigate(['/view/products/create/'+this.entity_id+'/' + nextFormUrl]
+    this.router.navigate(['/view/products/create/' + this.entity_id + '/' + nextFormUrl]
     );
   }
 }

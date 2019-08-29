@@ -21,18 +21,18 @@
         <app-basic-info (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
           (previewEvent)="previewSetter($event)" [entity_id]="entity_id" *ngIf="activeForm == 1"></app-basic-info>
         <app-study-material [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
-          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 2">
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 2">
         </app-study-material>
         <app-mock-test [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
-          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 3"></app-mock-test>
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 3"></app-mock-test>
         <app-online-exam [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
-          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 4">
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 4">
         </app-online-exam>
         <app-offline-products [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
-          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 5">
+        (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 5">
         </app-offline-products>
         <app-review-product [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
-          (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 6">
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 6">
         </app-review-product>
       </div>
     </div>

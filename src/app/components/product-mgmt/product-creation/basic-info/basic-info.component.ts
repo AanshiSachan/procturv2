@@ -3,6 +3,7 @@ import { MessageShowService } from '../../../../services/message-show.service';
 import { ProductService } from '../../../../services/products.service';
 import { Router } from '../../../../../../node_modules/@angular/router';
 import * as moment from 'moment';
+import { product_details } from '../product.model';
 
 @Component({
   selector: 'app-basic-info',
@@ -21,24 +22,19 @@ export class BasicInfoComponent implements OnInit {
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
-
-  items: any = {
-    pendrive: 0,
-    books: 0,
-    tablets: 0
-  };
-
   ecourseList: any = [];
   products_ecourse_maps: any[] = [];
+  itemStates:any[]=[];
   prodItems: any = {}
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
     textField: 'course_type',
-    // itemsShowLimit: ,
     enableCheckAll: false
   };
+  
 
+  // prodForm = new product_details();
   prodForm: any = {
     entity_id: 0,
     title: '',
@@ -64,7 +60,6 @@ export class BasicInfoComponent implements OnInit {
       assignments: 0
     }
   };
-
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -90,7 +85,7 @@ export class BasicInfoComponent implements OnInit {
           this.productItems = response;
           this.prodForm.product_item_stats = {};
           this.productItems.forEach((element, index) => {
-            this.prodForm.itemStates.push(element);// add states
+            this.itemStates.push(element);// add states
             this.prodForm.product_item_stats[element.slug] = 0;
             this.prodItems[element.slug] = false;
           });
@@ -115,25 +110,15 @@ export class BasicInfoComponent implements OnInit {
         (resp: any) => {
           let response = resp.result;
           if (resp.validate) {
-            let productData = response;
-            this.prodForm.entity_id = productData.entity_id;
-            this.prodForm.title = productData.title;
-            this.prodForm.about = productData.about;
-            this.prodForm.is_paid = productData.is_paid;
-            this.prodForm.price = productData.price;
-            this.prodForm.start_datetime = productData.valid_from_date;
-            this.prodForm.end_datetime = productData.valid_to_date;
-            this.prodForm.status = productData.status;
-            this.prodForm.purchase_limit = productData.purchase_limit;
-            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm = response;
             this.products_ecourse_maps = [];
             this.prodForm.product_ecourse_maps.forEach((object) => {
               let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
               this.products_ecourse_maps.push(obj);
             });
+            this.prodForm.product_item_stats={};
             this.prodForm.product_items_types.forEach(element => {
-              this.prodForm.itemStates.forEach((object) => {
+              this.itemStates.forEach((object) => {
                 if (object.entity_id == element.entity_id) {
                   this.prodItems[object.slug] = true;
                   this.prodForm.product_item_stats[object.slug] = true;
@@ -194,7 +179,10 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'title should NOT be shorter than 1 characters', '');
       return;
     }
-
+   if(this.prodForm.purchase_limit==0){
+    this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+    return;
+   }
     // if (this.prodForm.product_group_id == null) {
     //   this.msgService.showErrorMessage('error', 'product group should be not null', '');
     //   return;
@@ -225,14 +213,14 @@ export class BasicInfoComponent implements OnInit {
       "about": this.prodForm.about,
       "is_paid": this.prodForm.is_paid,
       "price": this.prodForm.price,
-      "valid_from_date": this.prodForm.start_datetime,
-      "valid_to_date": this.prodForm.end_datetime,
-      "purchase_limit": 12,
+      "valid_from_date": this.prodForm.valid_from_date,
+      "valid_to_date": this.prodForm.valid_to_date,
+      "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
     }
-    if (this.prodForm.entity_id == 0) {
+    if (this.prodForm.entity_id == null) {
       this.createProduct(object);
     }
     else {
@@ -289,7 +277,7 @@ export class BasicInfoComponent implements OnInit {
   }
 
   calc_days() {
-    return (this.prodForm.start_datetime != '' && this.prodForm.end_datetime != '') ? Math.ceil(Math.abs((new Date(this.prodForm.end_datetime).getTime()) - (new Date(this.prodForm.start_datetime).getTime())) / (1000 * 3600 * 24)) : 'NA';
+    return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   }
 
 
