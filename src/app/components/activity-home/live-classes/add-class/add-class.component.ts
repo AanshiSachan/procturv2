@@ -93,7 +93,7 @@ export class AddClassComponent implements OnInit {
     )
 
     this.facultySettings = {
-      singleSelection: true,
+      singleSelection: false,
       idField: 'teacher_id',
       textField: 'teacher_name',
       itemsShowLimit: 2,
@@ -265,8 +265,9 @@ export class AddClassComponent implements OnInit {
       this.service.getOnlineClasses(this.addOnlineClass).subscribe(
         (data: any) => {
           this.appC.popToast({ type: "success", body: "Live class session "+this.topicName + " " + "created successfully" });
-          this.navigateTo("studentForm");
+          // this.navigateTo("studentForm");
           this.isRippleLoad = false;
+          this.cancel();
           this.clearOnlineSchedulesObject();
         },
         (error: any) => {
