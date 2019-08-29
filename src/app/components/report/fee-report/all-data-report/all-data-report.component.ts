@@ -330,7 +330,7 @@ export class AllDataReportComponent implements OnInit {
       master_course_name: null,
       course_id: null,
       batch_id: this.courseFetchForm.batch_id,
-      type: '0',// this.courseFetchForm.type,
+      type: this.courseFetchForm.type,
       from_date: date1,
       to_date: date2,
       installment_id: this.courseFetchForm.installment_id,
@@ -524,7 +524,7 @@ export class AllDataReportComponent implements OnInit {
       // this.getBatchCourseDetails();
       this.courseFetchForm.from_date = '';
       this.courseFetchForm.to_date = '';
-      this.courseFetchForm.type = "0";
+      this.courseFetchForm.type = "1";
     }
 
     else if (this.due_type == 'next_month_dues') {
