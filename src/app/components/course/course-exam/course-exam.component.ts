@@ -503,7 +503,7 @@ export class CourseExamComponent implements OnInit {
       notify = "N";
     }
 
-    if(!this.isRippleLoad){
+    if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       let obj: any = {
         batch_id: this.batchData.batch_id,
@@ -514,7 +514,7 @@ export class CourseExamComponent implements OnInit {
           is_notified: notify
         }]
       }
-  
+
       this.apiService.cancelExamSchedule(obj).subscribe(
         res => {
           this.messageNotifier('success', 'Successfully Cancelled', 'Scheduled exam cancelled successfully');
@@ -529,7 +529,7 @@ export class CourseExamComponent implements OnInit {
         }
       )
     }
-    
+
   }
 
   // Mark Attendance Popup
@@ -1509,7 +1509,7 @@ export class CourseExamComponent implements OnInit {
     if (dataToSend.coursesList.length > 0) {
       let flag = false;
       dataToSend.coursesList.forEach((object) => {
-        if (object.courseClassSchdList.length) {
+        if ( object && object.courseClassSchdList.length) {
           flag = true;
         }
         else {
@@ -1675,7 +1675,7 @@ export class CourseExamComponent implements OnInit {
               isPush = false;
             }
           });
-          if (isPush) {
+          if (isPush && coursesLists[m]) {
             data.coursesList.push(coursesLists[m]);
           }
         }
@@ -1686,7 +1686,7 @@ export class CourseExamComponent implements OnInit {
 
     /// This section makes json for unselected course
     if (this.examScheduleData.coursesList.length > 0) {
-      let startIndex =0;
+      let startIndex = 0;
       for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
         if (this.examScheduleData.coursesList[i].course_id != this.courseData.course_id) {
           let unselected: any = {};
@@ -1748,10 +1748,10 @@ export class CourseExamComponent implements OnInit {
               isNeedToAdd = false;
             }
           });
-          if(isNeedToAdd){
+          if (isNeedToAdd  && coursesLists[i]) {
             data.coursesList.push(coursesLists[i]);
           }
-          
+
         }
       }
 
@@ -1777,7 +1777,7 @@ export class CourseExamComponent implements OnInit {
     } else {
       notify = "N";
     }
-    if(!this.isRippleLoad){
+    if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       let obj: any = {
         batch_id: this.cancelExamData.batch_id,
@@ -1801,7 +1801,7 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
-    }   
+    }
   }
 
   // cancel Button next to Send Reminder
@@ -1824,7 +1824,7 @@ export class CourseExamComponent implements OnInit {
       notify = "N";
     }
 
-    if(!this.isRippleLoad){
+    if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       let obj = {
         cancel_reason: this.cancelPopUpData.reason,
@@ -1847,7 +1847,7 @@ export class CourseExamComponent implements OnInit {
         }
       )
     }
-    
+
   }
 
 
