@@ -53,7 +53,15 @@ export class MockTestComponent implements OnInit {
         if (response.validate) {
           let details = JSON.parse(response.result['Mock Test']);
           this.testlist = details.data;
-          this.selectAllDetails(false);
+          this.selectAllDetails(false);          
+          if(this.testlist.length && this.prodForm.product_item_list.length){
+            this.prodForm.product_item_list.forEach((obj)=>{
+              this.testlist.forEach((test)=>{
+                 if(test.test_id==obj.source_item_id)
+                  {test.isChecked =true;}
+                 });
+              });  
+            }
         }
         else {
           this.checkedList = [];
@@ -86,6 +94,7 @@ export class MockTestComponent implements OnInit {
             this.prodForm.purchase_limit = productData.purchase_limit;
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
             this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm.product_item_list =productData.product_item_list;
             this.prodForm.product_item_stats = {};
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
@@ -122,27 +131,29 @@ export class MockTestComponent implements OnInit {
     if (this.testlist.length == 0) {
       this.nextForm.emit();
     } else {
-
-      this.testlist.forEach(element => {
+      let objectArray=[]
+      array.forEach(element => {
         if (element.isChecked) {
           let object = {
             "source_item_id": element.test_id,
-            "prod_item_type_id": 11,
-            "source_subject_id": 0
+            "prod_item_type_id": "",
+            "slug": "Mock_Test"
           }
-          array.push(object);
+          objectArray.push(object);
         }
       });
+      
 
-      if (array.length) {
+      if (objectArray.length) {
         //update test List
-        this.http.postMethod('product-item/update',array).then(
+        this.http.postMethod('product-item/update/' + this.entity_id, objectArray).then(
           (resp: any) => {
             let response = resp['body'];
             if (response.validate) {
-              let details = JSON.parse(response.result['Mock Test']);
-              this.testlist = details.data;
-              this.selectAllDetails(false);
+              let details = response.result;
+              this.prodForm.product_item_list = details;
+              this.msgService.showErrorMessage('success', "product mock test updated successfully", '');
+              this.nextForm.emit();
             }
             else {
               this.checkedList = [];
@@ -154,7 +165,6 @@ export class MockTestComponent implements OnInit {
           });
       }
       else {
-        this.nextForm.emit();
         this.msgService.showErrorMessage('error', " select at least one Mock Test", '');
         return;
       }

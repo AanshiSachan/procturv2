@@ -65,6 +65,7 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.purchase_limit = productData.purchase_limit;
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
             this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm.product_item_list =productData.product_item_list;
             this.prodForm.product_item_stats= {};
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
@@ -126,6 +127,7 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.purchase_limit = productData.purchase_limit;
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
             this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm.product_item_list =productData.product_item_list;
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
@@ -173,8 +175,8 @@ export class ReviewProductComponent implements OnInit {
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.prodForm.product_items_types,
-    }
-  
+      "product_item_list" :this.prodForm.product_item_list
+    }  
       this.updateProduct(object);
     
   }

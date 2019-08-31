@@ -26,14 +26,6 @@ export class ProductCreationComponent implements OnInit {
     product_group_id: {},
     short_description: '',
     about_product: '',
-    has_sectional_tests: 0,
-    has_videos: 0,
-    has_notes: 0,
-    has_assignments: 0,
-    has_ebooks: 0,
-    has_mock_tests: 0,
-    has_online_exams: 0,
-    has_live_classes: 0,
     is_free: true,
     is_paid: 0,
     price: 0,
@@ -58,25 +50,25 @@ export class ProductCreationComponent implements OnInit {
       index: 1
     },
     2: {
-      slug: 'study_material',
+      slug: 'Study_Material',
       show: false,
       is_completed: false,
       index: 2
     },
     3: {
-      slug: 'mock_test',
+      slug: 'Mock_Test',
       show: false,
       is_completed: false,
       index: 3
     },
     4: {
-      slug: 'online_exams',
+      slug: 'Online_Test',
       show: false,
       is_completed: false,
       index: 4
     },
     5: {
-      slug: 'offlineItems',
+      slug: 'Offline_Products',
       show: false,
       is_completed: false,
       index: 5
@@ -101,10 +93,10 @@ export class ProductCreationComponent implements OnInit {
         this.entity_id = params.entity_id;
         switch (params.form) {
           case 'basic': this.activeForm = 1; break;
-          case 'study_material': this.activeForm = 2; break;
-          case 'mock_test': this.activeForm = 3; break;
-          case 'online_exams': this.activeForm = 4; break;
-          case 'offlineItems': this.activeForm = 5; break;
+          case 'Study_Material': this.activeForm = 2; break;
+          case 'Mock_Test': this.activeForm = 3; break;
+          case 'Online_Test': this.activeForm = 4; break;
+          case 'Offline_Products': this.activeForm = 5; break;
           case 'review': this.activeForm = 6; break;
           default:
             this.router.navigate(['/error404'], { replaceUrl: true }); break;

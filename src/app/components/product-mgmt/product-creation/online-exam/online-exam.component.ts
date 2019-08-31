@@ -40,6 +40,14 @@ export class OnlineExamComponent implements OnInit {
           let details = JSON.parse(response.result['Mock Test']);
           this.testlist = details.data;
           this.selectAllDetails(false);
+          if(this.testlist.length && this.prodForm.product_item_list.length){
+            this.prodForm.product_item_list.forEach((obj)=>{
+              this.testlist.forEach((test)=>{
+                 if(test.test_id==obj.source_item_id)
+                  {test.isChecked =true;}
+                 });
+              });  
+            }
         }
         else {
           this.checkedList = [];
@@ -72,6 +80,7 @@ export class OnlineExamComponent implements OnInit {
             this.prodForm.purchase_limit = productData.purchase_limit;
             this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
             this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm.product_item_list =productData.product_item_list;
             this.prodForm.product_item_stats= {};
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
@@ -117,47 +126,48 @@ export class OnlineExamComponent implements OnInit {
 
   gotoNext() {
     let array = this.testlist.filter((item) => item.isChecked == true);
+    console.log(array);
     if (this.testlist.length == 0) {
       this.nextForm.emit();
     } else {
-      if (this.prodForm.product_item_stats.mock_test === array.length) {
-        array = [];
-        this.testlist.forEach(element => {
-          if (element.isChecked) {
-            let object = {
-              "source_item_id": element.test_id,
-              "prod_item_type_id": 11,
-              "source_subject_id": 0
-            }
-            array.push(object);
+      let objectArray=[]
+      array.forEach(element => {
+        if (element.isChecked) {
+          let object = {
+            "source_item_id": element.test_id,
+            "prod_item_type_id": "",
+            "slug": "Online_Test"
           }
-        });
+          objectArray.push(object);
+        }
+      });
+      
 
-        if (array.length) {
-          this.http.postMethod('product/' + this.entity_id + '/items', array).then((resp) => {
+      if (objectArray.length) {
+        //update test List
+        this.http.postMethod('product-item/update/' + this.entity_id, objectArray).then(
+          (resp: any) => {
             let response = resp['body'];
             if (response.validate) {
-              this.msgService.showErrorMessage('success', response.message, '');
+              let details = response.result;
+              this.prodForm.product_item_list = details;
+              this.msgService.showErrorMessage('success', "product online test updated successfully", '');
               this.nextForm.emit();
             }
             else {
+              this.checkedList = [];
               this.msgService.showErrorMessage('error', response.errors.message, '');
             }
           },
-            (err) => {
-              this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-            });
-        }
-        else {
-          this.nextForm.emit();
-          // this.toaster.error('error',);
-        }
+          (err) => {
+            this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+          });
       }
       else {
-        this.nextForm.emit();
-        this.msgService.showErrorMessage('error', " select at least one Online Test", '');
+        this.msgService.showErrorMessage('error', " select at least one online test", '');
         return;
       }
     }
+
   }
 }

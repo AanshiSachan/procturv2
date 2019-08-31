@@ -127,7 +127,7 @@
                 for="ch2"></label>
             </div>
           </th>
-          <th  width="45%" style="text-align: left;">Content</th>
+          <th width="45%" style="text-align: left;">Content</th>
           <th width="10%">Marks</th>
           <th class="text-center">Questions</th>
           <th class="text-center">Time</th>
@@ -135,18 +135,18 @@
         </tr>
       </thead>
       <tbody class="product-table-body">
-        <tr *ngFor="let test of testlist;">
+        <tr *ngFor="let test of testlist;let i =index;">
           <td>
             <div class="field-checkbox-wrapper">
               <input type="checkbox" class="form-checkbox" [checked]="test.isChecked" [(ngModel)]="test.isChecked"
-                (ngModelChange)="selectVlaue($event)" id="ch2">
-              <label for="ch2"></label>
-            </div>
+                (ngModelChange)="selectVlaue($event)" [id]="'ch'+index">
+                <label [for]="'ch'+index"></label>
+              </div>
           </td>
-          <td>
-            {{test.test_name}}
+          <td style="text-align: left;">
+            <label [for]="'ch'+index">{{test.test_name}}{{index}}</label>
           </td>
-          <td>  {{test.total_marks}}</td>
+          <td> {{test.total_marks}}</td>
           <td>
             {{test.total_question}}
           </td>

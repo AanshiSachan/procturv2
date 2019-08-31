@@ -39,16 +39,16 @@
         </tr>
       </thead>
       <tbody class="product-table-body">
-        <tr *ngFor="let test of testlist;">
+        <tr *ngFor="let test of testlist; let i = index">
           <td>
             <div class="field-checkbox-wrapper">
               <input type="checkbox" class="form-checkbox" [checked]="test.isChecked" [(ngModel)]="test.isChecked"
-                (ngModelChange)="selectVlaue($event)" id="ch2">
-              <label for="ch2"></label>
+                (ngModelChange)="selectVlaue($event)" [id]="'ch'+index">
+                <label [for]="'ch'+index"></label>
             </div>
           </td>
           <td style="text-align: left;"> 
-            {{test.test_name}}
+            <label >{{test.test_name}}</label>
           </td>
           <td>  {{test.total_marks}}</td>
           <td>

@@ -215,6 +215,7 @@ export class ProductListComponent implements OnInit {
 
   }
 
+
   tempFucntion(id , body,operation){
     this.http.postMethod('product/update', body).then(
       (resp) => {
