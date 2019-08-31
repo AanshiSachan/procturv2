@@ -160,6 +160,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("ngOnInit");
     this.checkInstituteType();
     this.fetchPrefillData();
     this.checkForCoursePlannerRoute();
@@ -852,7 +853,7 @@ export class CourseExamComponent implements OnInit {
           this.multiClickDisabled = false;
           this.examScheduleData = res;
           this.calculateDataAsPerSelection(res);
-          console.log(this.subjectListData);
+          // console.log(this.subjectListData);
           this.showContentSection = true;
           //console.log(res);
         },
@@ -1508,13 +1509,18 @@ export class CourseExamComponent implements OnInit {
     }
     if (dataToSend.coursesList.length > 0) {
       let flag = false;
-      dataToSend.coursesList.forEach((object) => {
-        if ( object && object.courseClassSchdList.length) {
-          flag = true;
+      dataToSend.coursesList.forEach((object, index) => {
+        if (object) {
+          if (object.courseClassSchdList.length) {
+            flag = true;
+          }
+          else {
+            object.exam_start_time = null;
+            object.exam_end_time = null;
+          }
         }
         else {
-          object.exam_start_time = null;
-          object.exam_end_time = null;
+          dataToSend.coursesList.splice(index, 1);
         }
       });
       if (flag) {
@@ -1668,15 +1674,15 @@ export class CourseExamComponent implements OnInit {
       data.coursesList.push(test);
       if (validation_flag) {
         for (let m = 0; m < coursesLists.length; m++) {
-          let isPush = true;
+          let isPush = false;
           console.log(coursesLists[m]);
           this.examScheduleData.coursesList.forEach((object, index) => {
             if (object.course_exam_schedule_id == coursesLists[m].course_exam_schedule_id) {
-              isPush = false;
+              isPush = true;;
             }
           });
-          if (isPush && coursesLists[m]) {
-            data.coursesList.push(coursesLists[m]);
+          if (isPush) {
+            coursesLists[m] && coursesLists[m].courseClassSchdList.length != 0 ? data.coursesList.push(coursesLists[m]) : '';
           }
         }
       }
@@ -1748,8 +1754,10 @@ export class CourseExamComponent implements OnInit {
               isNeedToAdd = false;
             }
           });
-          if (isNeedToAdd  && coursesLists[i]) {
-            data.coursesList.push(coursesLists[i]);
+          if (isNeedToAdd) {
+            if (coursesLists[i]) {
+              data.coursesList.push(coursesLists[i]);
+            }
           }
 
         }
