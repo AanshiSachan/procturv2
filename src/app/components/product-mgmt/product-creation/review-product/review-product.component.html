@@ -55,7 +55,7 @@
           </div>
           <div class="col-md-5 form-group">
             <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-              <label for="from">Start Date</label>
+              <label for="from">Start Date<span class="text-danger">*</span></label>
               <input type="text" [(ngModel)]="prodForm.valid_from_date" (change)="calc_days()" name="from"
                 class="form-control form-control-sm" bsDatepicker>
             </div>
@@ -72,6 +72,23 @@
             <label>{{calc_days()}} Day(s)</label>
           </div>
         </div>
+
+        <div class="row m-0">
+            <div class="col-md-5 form-group">
+              <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+                <label for="from">Publish Date<span class="text-danger">*</span></label>
+                <input type="text" [(ngModel)]="prodForm.publish_date"  name="publish"
+                  class="form-control form-control-sm" bsDatepicker>
+              </div>
+            </div>
+            <div class="col-md-7 form-group">
+                <div class="col-md-12" style="padding-top: 0px;padding-bottom: 10px;">
+                    <label for="test">Total Test</label><br>
+                    <label for="from" style="    font-weight: 600;">Mock Test  &nbsp; : {{mock_count}}  </label><br> 
+                    <label for="online" style="    font-weight: 600;">Online Test  &nbsp; : {{online_count}}  </label><br>                  
+                  </div>
+              </div>
+          </div>
     </div>
   </div>
 </div>

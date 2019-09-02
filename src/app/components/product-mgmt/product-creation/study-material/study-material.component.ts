@@ -207,19 +207,20 @@ export class StudyMaterialComponent implements OnInit {
         (resp: any) => {
           let response = resp.result;
           if (resp.validate) {
-            let productData = response;
-            this.prodForm.entity_id = productData.entity_id;
-            this.prodForm.title = productData.title;
-            this.prodForm.about = productData.about;
-            this.prodForm.is_paid = productData.is_paid;
-            this.prodForm.price = productData.price;
-            this.prodForm.start_datetime = productData.valid_from_date;
-            this.prodForm.end_datetime = productData.valid_to_date;
-            this.prodForm.status = productData.status;
-            this.prodForm.purchase_limit = productData.purchase_limit;
-            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            this.prodForm.product_items_types = productData.product_items_types;
-            this.prodForm.product_item_stats= {};
+            this.prodForm = response;
+              // let productData = response;
+              // this.prodForm.entity_id = productData.entity_id;
+              // this.prodForm.title = productData.title;
+              // this.prodForm.about = productData.about;
+              // this.prodForm.is_paid = productData.is_paid;
+              // this.prodForm.price = productData.price;
+              // this.prodForm.start_datetime = productData.valid_from_date;
+              // this.prodForm.end_datetime = productData.valid_to_date;
+              // this.prodForm.status = productData.status;
+              // this.prodForm.purchase_limit = productData.purchase_limit;
+              // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+              // this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm.product_item_stats = { };
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });

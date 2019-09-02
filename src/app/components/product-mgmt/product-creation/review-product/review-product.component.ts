@@ -21,6 +21,8 @@ export class ReviewProductComponent implements OnInit {
   @Output() previewEvent = new EventEmitter<boolean>();
   products_ecourse_maps:any[]=[];
   ecourseList: any = [];
+  mock_count:number =0;
+  online_count:number =0;
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
@@ -54,21 +56,33 @@ export class ReviewProductComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
-            this.prodForm.entity_id = productData.entity_id;
-            this.prodForm.title = productData.title;
-            this.prodForm.about = productData.about;
-            this.prodForm.is_paid = productData.is_paid;
-            this.prodForm.price = productData.price;
-            this.prodForm.start_datetime = productData.valid_from_date;
-            this.prodForm.end_datetime = productData.valid_to_date;
-            this.prodForm.status = productData.status;
-            this.prodForm.purchase_limit = productData.purchase_limit;
-            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            this.prodForm.product_items_types = productData.product_items_types;
-            this.prodForm.product_item_list =productData.product_item_list;
-            this.prodForm.product_item_stats= {};
+            this.prodForm = response;
+            // this.prodForm.entity_id = productData.entity_id;
+            // this.prodForm.title = productData.title;
+            // this.prodForm.about = productData.about;
+            // this.prodForm.is_paid = productData.is_paid;
+            // this.prodForm.price = productData.price;
+            // this.prodForm.valid_from_date = productData.valid_from_date;
+            // this.prodForm.valid_from_date = productData.valid_to_date;
+            // this.prodForm.status = productData.status;
+            // this.prodForm.purchase_limit = productData.purchase_limit;
+            // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+            // this.prodForm.product_items_types = productData.product_items_types;
+            // this.prodForm.product_item_list =productData.product_item_list;
+            this.prodForm.product_item_stats = { };
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
+            });
+            this.mock_count =0;
+            this.online_count =0;
+            this.prodForm.product_item_list.forEach((data)=>{
+              if(data.slug=='Mock_Test'){
+                this.mock_count++;
+              }
+
+              if(data.slug=='Online_Test'){
+                this.online_count++;
+              }
             });
             this.updateProductItemStates(null, null);
           }
@@ -85,7 +99,7 @@ export class ReviewProductComponent implements OnInit {
   }
 
   calc_days() {
-    return (this.prodForm.start_datetime != '' && this.prodForm.end_datetime != '') ? Math.ceil(Math.abs((new Date(this.prodForm.end_datetime).getTime()) - (new Date(this.prodForm.start_datetime).getTime())) / (1000 * 3600 * 24)) : 'NA';
+    return (this.prodForm.valid_from_date != '' && this.prodForm.valid_to_date != '') ? Math.ceil(Math.abs((new Date(this.prodForm.valid_to_date).getTime()) - (new Date(this.prodForm.valid_from_date).getTime())) / (1000 * 3600 * 24)) : 'NA';
   }
 
   initDataEcourse() {
@@ -116,18 +130,20 @@ export class ReviewProductComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
-            this.prodForm.entity_id = productData.entity_id;
-            this.prodForm.title = productData.title;
-            this.prodForm.about = productData.about;
-            this.prodForm.is_paid = productData.is_paid;
-            this.prodForm.price = productData.price;
-            this.prodForm.start_datetime = productData.valid_from_date;
-            this.prodForm.end_datetime = productData.valid_to_date;
-            this.prodForm.status = productData.status;
-            this.prodForm.purchase_limit = productData.purchase_limit;
-            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            this.prodForm.product_items_types = productData.product_items_types;
-            this.prodForm.product_item_list =productData.product_item_list;
+            this.prodForm =productData;
+            // this.prodForm.entity_id = productData.entity_id;
+            // this.prodForm.title = productData.title;
+            // this.prodForm.about = productData.about;
+            // this.prodForm.is_paid = productData.is_paid;
+            // this.prodForm.price = productData.price;
+            // this.prodForm.start_datetime = productData.valid_from_date;
+            // this.prodForm.end_datetime = productData.valid_to_date;
+            // this.prodForm.status = productData.status;
+            // this.prodForm.purchase_limit = productData.purchase_limit;
+            // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+            // this.prodForm.product_items_types = productData.product_items_types;
+            // this.prodForm.product_item_list =productData.product_item_list;
+            this.prodForm.product_item_stats={};
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
@@ -175,7 +191,8 @@ export class ReviewProductComponent implements OnInit {
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.prodForm.product_items_types,
-      "product_item_list" :this.prodForm.product_item_list
+      "product_item_list" :this.prodForm.product_item_list,
+      "publish_date":this.prodForm.publish_date
     }  
       this.updateProduct(object);
     

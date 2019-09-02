@@ -143,7 +143,15 @@ export class ProductCreationComponent implements OnInit {
           });
           this.formSequence[1].show = true;
           this.formSequence[6].show = true;
-
+          let states = Object.keys(this.prodForm.product_item_stats);
+          this.prodForm.product_item_stats['Study_Material'] = false;
+          this.formSequence[2].show = false ;
+          states.forEach((object, index) => {
+            if (object != 'Mock_Test' && object != 'Section_Test' && object != 'Online_Test') {
+              this.prodForm.product_item_stats['Study_Material'] = true;
+              this.formSequence[2].show = true ;
+            }        
+          });
         }
         else {
           this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -157,14 +165,7 @@ export class ProductCreationComponent implements OnInit {
 
   // get value of previedata and set 
   previewSetter($event) {
-    // console.log($event);
     this.prodForm = $event;
-    // this.prodForm.product_items_types = [{
-    // 	"entity_id": "67daf969-bd18-4dd9-9b01-cac27a35b431"
-    // }, {
-    // 	"entity_id": "db7fa536-3191-4cd5-81af-ccbda5003a0a"
-    // }];
-    // this.getProductItemsData();
     let keys = Object.keys(this.formSequence)
     keys.forEach((element, index) => {
       let i = index + 1;
@@ -172,6 +173,17 @@ export class ProductCreationComponent implements OnInit {
     });
     this.formSequence[1].show = true;
     this.formSequence[6].show = true;
+    let states = Object.keys(this.prodForm.product_item_stats);
+    this.prodForm.product_item_stats['Study_Material'] = false;
+        this.formSequence[2].show = false ;
+    states.forEach((object, index) => {
+      if (object != 'Mock_Test' && object != 'Section_Test' && object != 'Online_Test') {
+        if(this.prodForm.product_item_stats[object]>0){
+          this.prodForm.product_item_stats['Study_Material'] = true;
+          this.formSequence[2].show = true ;
+        }
+      }        
+    });
   }
 
 

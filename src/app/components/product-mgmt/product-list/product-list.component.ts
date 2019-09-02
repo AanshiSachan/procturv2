@@ -17,8 +17,7 @@ export class ProductListComponent implements OnInit {
   };
   productList: any = [];
   total_items: any;
-  productListLoading: boolean = true;
-
+  isRippleLoad:boolean = false;
   ecourseList: any = [];
   subjectsList: any = [];
   deleteItem: any = {
@@ -41,7 +40,6 @@ export class ProductListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.getExamList();
     this.jsonKeys.institute_id = sessionStorage.getItem('institute_id');
     this.initFilters();
     this.getProductList();
@@ -51,8 +49,10 @@ export class ProductListComponent implements OnInit {
  let param ={
       "proc-authorization":"MTk4MzJ8MDphZG1pbjoxMDAxMjg="
     }
+    this.isRippleLoad = true;
     this.http.getMethod('ext/get-ecources', param).subscribe(
       (resp:any) => {
+        this.isRippleLoad = false;
         let response = JSON.parse(resp.result);
         console.log(resp);
         if (resp.validate) {
@@ -63,6 +63,7 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
+        this.isRippleLoad = false;
         // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
@@ -71,37 +72,27 @@ export class ProductListComponent implements OnInit {
     // if (this.filter.standard_id > 0) {
     //   //Fetch Subjects List
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
-    
+    this.isRippleLoad = false;
       this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/'+this.filter.ecourse_id+'/subjects').subscribe(
         (resp:any) => {
+          this.isRippleLoad = false;
           if (resp.length) {
             this.subjectsList = resp;
           }
         },
         (err) => {
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     // }
 
   }
 
-  getExamList() {
-    let response = { "validate": "true", "data": [{ "exam_id": 1, "account_id": 51, "exam_name": "RRB - M & I Categoris CEN 03 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/excise_sub_inspector_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-05-07T07:37:48.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 2, "account_id": 51, "exam_name": "RRB - Level - 1 by RRC CEN 01 / 2019", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/hm&teachers_RPC_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:23:45.000Z", "updated_by": 11, "ecourse_id": 87, "ecourse_name": "appium", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 3, "account_id": 51, "exam_name": "KPSC Group A & B", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:24:18.000Z", "updated_by": 11, "ecourse_id": 6, "ecourse_name": "Bank PO", "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 5, "account_id": 51, "exam_name": "Current Affairs (saturday at 4 pm)", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/HM_& _Teachers_HK_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:10:39.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }, { "exam_id": 6, "account_id": 51, "exam_name": "RRB -JE CEN 03/2018", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/psi.png", "page_url": "pages/staff_selection_commission_ssc", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:25:02.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 4, "subject_name": "Aptitude" }] }, { "exam_id": 8, "account_id": 51, "exam_name": "IAS Prelims", "exam_icon": "https://s3-ap-southeast-1.amazonaws.com/proctur-elearn/common_resources/kpsc.png", "page_url": "pages/KAR_TET_2018", "proctur_course_id": null, "status_id": 1, "created_date": "2018-12-11T06:22:33+00:00", "created_by": 51, "updated_date": "2019-04-01T13:14:41.000Z", "updated_by": 11, "ecourse_id": null, "ecourse_name": null, "subjects": [{ "subject_id": 2, "subject_name": "Physcis" }] }] }
-    this.ecourseList = response.data;
-    this.http.getData('exams', 'web').subscribe(
-      (response) => {
-        let resp = response['body'];
-      },
-      (err) => {
-
-      }
-    );
-  }
-
   getProductList() {
+    this.isRippleLoad = true;
     this.http.getMethod('product/get', null).subscribe(
       (resp:any) => {
-        this.productListLoading = false;
+        this.isRippleLoad = false;
         let response = resp.result;
         console.log(resp);
         if (resp.validate) {
@@ -113,18 +104,18 @@ export class ProductListComponent implements OnInit {
         }
       },
       (err) => {
-        this.productListLoading = false;
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
 
   loadMoreItems() {
-    this.productListLoading = true;
+    this.isRippleLoad = true;
     if (this.productList.length < this.total_items) {
       this.http.getData('products?offset=' + this.productList.length, 'web').subscribe(
         (resp) => {
           let response = resp['body'];
-          this.productListLoading = false;
+          this.isRippleLoad = false;
           if (response.validate) {
             this.productList = [...this.productList, ...response.data.products];            
           }
@@ -133,7 +124,7 @@ export class ProductListComponent implements OnInit {
           }
         },
         (err) => {
-          this.productListLoading = false;
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -175,9 +166,10 @@ export class ProductListComponent implements OnInit {
 
     switch (operation) {
       case 'delete': {
+        this.isRippleLoad = true;
         this.http.getMethod('product/delete/'+id, null).subscribe(
           (resp:any) => {
-            this.productListLoading = false;
+            this.isRippleLoad = false;
             let response = resp.result;
             console.log(resp);
             if (resp.validate) {
@@ -196,7 +188,7 @@ export class ProductListComponent implements OnInit {
             }
           },
           (err) => {
-            this.productListLoading = false;
+            this.isRippleLoad = false;
             this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
           });
         break;

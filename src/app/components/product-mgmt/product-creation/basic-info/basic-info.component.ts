@@ -24,7 +24,7 @@ export class BasicInfoComponent implements OnInit {
   @Output() previewEvent = new EventEmitter<boolean>();
   ecourseList: any = [];
   products_ecourse_maps: any[] = [];
-  itemStates:any[]=[];
+  itemStates: any[] = [];
   prodItems: any = {}
   moderatorSettings: any = {
     singleSelection: false,
@@ -32,7 +32,7 @@ export class BasicInfoComponent implements OnInit {
     textField: 'course_type',
     enableCheckAll: false
   };
-  
+
 
   // prodForm = new product_details();
   prodForm: any = {
@@ -48,8 +48,9 @@ export class BasicInfoComponent implements OnInit {
     price: 0,
     cateory: 0,
     itemStates: [],
-    start_datetime: moment().format('DD-MMM-YYYY'),
-    end_datetime: moment().format('DD-MMM-YYYY'),
+    valid_from_date: moment().format('DD-MMM-YYYY'),
+    valid_to_date: moment().format('DD-MMM-YYYY'),
+    publish_date:moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -57,7 +58,8 @@ export class BasicInfoComponent implements OnInit {
       mock_test: 0,
       online_exams: 0,
       live_classes: 0,
-      assignments: 0
+      assignments: 0,
+      Study_Material: 0
     }
   };
   constructor(
@@ -85,9 +87,11 @@ export class BasicInfoComponent implements OnInit {
           this.productItems = response;
           this.prodForm.product_item_stats = {};
           this.productItems.forEach((element, index) => {
-            this.itemStates.push(element);// add states
-            this.prodForm.product_item_stats[element.slug] = 0;
-            this.prodItems[element.slug] = false;
+            if (element.slug != 'Study_Material') {
+              this.itemStates.push(element);// add states
+              this.prodForm.product_item_stats[element.slug] = 0;
+              this.prodItems[element.slug] = false;
+            }
           });
           this.initForm();
         }
@@ -121,7 +125,7 @@ export class BasicInfoComponent implements OnInit {
               this.itemStates.forEach((object) => {
                 if (object.entity_id == element.entity_id) {
                   this.prodItems[object.slug] = true;
-                  this.prodForm.product_item_stats[object.slug] = true;
+                  this.prodForm.product_item_stats[object.slug] = true; 
                 }
               });
             });
@@ -179,10 +183,10 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'title should NOT be shorter than 1 characters', '');
       return;
     }
-   if(this.prodForm.purchase_limit==0){
-    this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
-    return;
-   }
+    if (this.prodForm.purchase_limit == 0) {
+      this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
+      return;
+    }
     // if (this.prodForm.product_group_id == null) {
     //   this.msgService.showErrorMessage('error', 'product group should be not null', '');
     //   return;
@@ -219,8 +223,9 @@ export class BasicInfoComponent implements OnInit {
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
+      "publish_date":this.prodForm.publish_date
     }
-    if (this.prodForm.entity_id == null) {
+    if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);
     }
     else {
