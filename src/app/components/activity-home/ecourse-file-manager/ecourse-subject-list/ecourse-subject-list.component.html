@@ -1,25 +1,36 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 <div class="row">
+    <div class="head" id="addDiv" routerLink="/view/activity/ecoursemapping" style="text-align: right">
+      <button class="btn_addecourse">
+        <i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Subject  &nbsp; 
+      </button>
+    </div>
+  </div>
+  
+<div class="row">
   <div class="col-md-12 subject-wrapper">
     <div class="subject-title">
       Subject List
     </div>
   </div>
 </div>
+<div class="row">
+    <div class="col-md-12 subject-wrapper">
+      <div  *ngIf="subjectList.length==0">
+          {{outputMessage}}
+      </div>
+    </div>
+  </div>
 
 <div class="table table-responsive scroll_table">
   <div id="divSubjectListTable " class="row" *ngFor="let subject of subjectList;" style="padding: 10px;">
-    <div class="col-md-11">
-      <div class="subject-label" (click)="getToSubjectMaterials(subject)">{{subject.subject_name}}</div>
+    <div class="col-md-11">      
+      <div class="subject-label" (click)="getToSubjectMaterials(subject)">{{subject.subject_name}}
+        <!-- <span><i class="fa fa-angle-right" aria-hidden="true"></i> </span> -->
+      </div>
     </div>
+    
   </div>
   <!-- <i class="fa fa-angle-right" aria-hidden="true"></i> -->
-</div>
-<div class="row">
-  <div class="col-md-12 subject-wrapper">
-    <div *ngIf="subjectList.length==0">
-      {{outputMessage}}
-    </div>
-  </div>
 </div>

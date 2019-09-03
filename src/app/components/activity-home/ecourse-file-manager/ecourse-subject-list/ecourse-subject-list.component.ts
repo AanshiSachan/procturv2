@@ -14,7 +14,7 @@ export class EcourseSubjectListComponent implements OnInit {
   institute_id: any;
   ecourse_id: any;
   isRippleLoad: boolean = false;
-  outputMessage:any;
+  outputMessage:string='';
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
