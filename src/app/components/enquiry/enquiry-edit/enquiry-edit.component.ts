@@ -21,6 +21,8 @@ export class EnquiryEditComponent implements OnInit {
 
   isConvertToStudent: boolean = false;
   /* Variable Declarations */
+  countrySelected: string = "";
+  countryList: any = [];
   enqstatus: any = [];
   enqPriority: any = [];
   enqFollowType: any = [];
@@ -44,6 +46,7 @@ export class EnquiryEditComponent implements OnInit {
     email: "",
     dob: '',
     gender: "",
+    country: "",
     phone2: "",
     email2: "",
     curr_address: "",
@@ -144,6 +147,7 @@ export class EnquiryEditComponent implements OnInit {
   isCityMandatory: any;
   cityListDataSource: any = [];
   areaListDataSource: any = [];
+  countryListDataSource: any = [];
   actualAssignee: any;
   isMainBranch: any = "N";
   branchesList: any = [];
@@ -494,6 +498,14 @@ export class EnquiryEditComponent implements OnInit {
         // console.log(err);
       }
     );
+
+    this.prefill.getEnqCountry().subscribe(
+      data => {
+        this.countryList = data;
+      },
+      err => {
+      }
+    )
 
     this.prefill.getCityList().subscribe(
       data => {
@@ -1024,6 +1036,7 @@ export class EnquiryEditComponent implements OnInit {
       email: "",
       gender: "",
       phone2: "",
+      country: "",
       email2: "",
       curr_address: "",
       parent_name: "",
@@ -1193,7 +1206,7 @@ export class EnquiryEditComponent implements OnInit {
     this.meridian = '';
   }
 
-  onCitySelctionChanges(event) {
+   onCitySelctionChanges(event) {
     this.areaListDataSource = [];
     if (event != -1 && event != "" && event != null) {
       let obj = {
@@ -1276,6 +1289,7 @@ export class EnquiryEditComponent implements OnInit {
       }
     )
   }
+
 
   closingReason() {
     this.closingReasonOpen = true;

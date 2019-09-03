@@ -81,30 +81,30 @@
                     <div class="c-lg-4">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.from_date" (ngModelChange)="futureDateValid($event)"
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.from_date"
                                 bsDatepicker/>
                             <i style="float:right; color:blue;" (click)="clearFromDate()" class="showCursor">Clear</i>
                         </div>
 
-                        <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
+                        <!-- <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>From date</label>
                             <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" (ngModelChange)="futureDateValid($event)"
                                 bsDatepicker/>
                             <i style="float:right; color:blue;" (click)="clearFromDate()" class="showCursor">Clear</i>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="c-lg-4">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.to_date" (ngModelChange)="futureDateValid($event)"
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.to_date" 
                                 bsDatepicker/>
                             <i style="float:right;  color:blue;" (click)="clearToDate()" class="showCursor">Clear</i>
                         </div>
 
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" (ngModelChange)="futureDateValid($event)"
+                            <input type="text" class="side-form-ctrl  bsDatepicker"  
                                 bsDatepicker/>
                             <i style="float:right;  color:blue;" (click)="clearToDate()" class="showCursor">Clear</i>
                         </div>

@@ -93,10 +93,24 @@
                   <!-- Date of Birth -->
                   <div class="field-wrapper datePickerBox">
                     <label for="dob">Date of Birth</label>
-                    <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.dob"
+                    <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.dob" 
                       name="dob" readonly='true' bsDatepicker>
 
                     <span class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
+                  </div>
+                  <!-- Country -->
+
+                  <div class="field-wrapper">
+                    <label for="countryDdn">Country
+                      <span class="text-danger">*</span>
+                    </label>
+                    <select id="countryDdn" class="form-ctrl" [(ngModel)]="newEnqData.country"
+                      name="country">
+                  
+
+                      <option *ngFor="let count of countryList" [value]="count.data_value" selected>{{count.data_value}}</option>
+                    </select>
+                    <!-- <span (click)="addNewAreaCity()" class="sourceI iconPlus">+</span> -->
                   </div>
 
                   <!-- city -->
@@ -104,7 +118,7 @@
                     <label for="cityDdn">City
                       <span *ngIf="isCityMandatory == 1"><span class="text-danger">*</span></span>
                     </label>
-                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)"
+                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city"
                       name="city">
                       <option value="-1"></option>
                       <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>

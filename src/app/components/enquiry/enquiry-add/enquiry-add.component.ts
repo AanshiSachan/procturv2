@@ -19,6 +19,7 @@ import { CommonServiceFactory } from '../../../services/common-service';
 })
 export class EnquiryAddComponent implements OnInit {
 
+  countrySelected: string="";
   isRippleLoad: boolean;
   isRegisterStudent: boolean = false;
   /* Variable Declarations */
@@ -56,6 +57,7 @@ export class EnquiryAddComponent implements OnInit {
       parent_name: "",
       parent_phone: "",
       parent_email: "",
+      country: "",
       city: -1,
       area: -1,
       occupation_id: "-1",
@@ -142,9 +144,12 @@ export class EnquiryAddComponent implements OnInit {
     name: "",
     inst_id: sessionStorage.getItem('institute_id')
   }
+  isCountryMandatory: any;
   isCityMandatory: any;
+  countryList: any = [];
   cityListDataSource: any = [];
   areaListDataSource: any = [];
+  countryListDataSource: any = [];
   course_standard_id: any = '-1';
   course_subject: any[] = [];
   course_mastercourse_id: any = '-1';
@@ -215,6 +220,7 @@ export class EnquiryAddComponent implements OnInit {
       parent_name: "",
       parent_phone: "",
       parent_email: "",
+      country: "",
       city: -1,
       area: -1,
       occupation_id: "-1",
@@ -394,17 +400,8 @@ export class EnquiryAddComponent implements OnInit {
         // console.log(err);
       }
     );
-
-    this.getCityAreaList()
-
-    this.fetchCustomComponentData();
-
-    if (!this.isProfessional) {
-      this.fetchMasterCourseDetails();
-    }
-  }
-
-  getCityAreaList() {
+  
+  
     this.prefill.getCityList().subscribe(
       data => {
         this.cityListDataSource = data;
@@ -413,7 +410,26 @@ export class EnquiryAddComponent implements OnInit {
 
       }
     )
+  
+    
+      this.prefill.getEnqCountry().subscribe(
+        data => {
+          this.countryList = data;
+        },
+        err => {
+        }
+      )
+  
+
+    this.fetchCustomComponentData();
+
+    if (!this.isProfessional) {
+      this.fetchMasterCourseDetails();
+    }
   }
+
+  
+
 
   fetchMasterCourseDetails() {
     this.prefill.getMasterCourseData().subscribe(
@@ -634,6 +650,7 @@ export class EnquiryAddComponent implements OnInit {
   updateForm(data) {
     this.newEnqData.curr_address = data.address;
     this.newEnqData.assigned_to = data.assigned_to;
+    this.newEnqData.country = data.country;
     this.newEnqData.city = data.city;
     this.newEnqData.email = data.email;
     this.newEnqData.gender = data.gender;
@@ -677,6 +694,7 @@ export class EnquiryAddComponent implements OnInit {
       parent_name: "",
       parent_phone: "",
       parent_email: "",
+      country: "",
       city: "",
       occupation_id: "-1",
       school_id: "-1",
@@ -814,7 +832,13 @@ export class EnquiryAddComponent implements OnInit {
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
 
     // Validate If Area And City Settings is enable
-    let validate = this.validateAreaAndCityFields();
+    let validate1 = this.validateAreaAndCityFields();
+    if (validate1 == false) {
+      return;
+    }
+    
+    //validate country
+    let validate = this.validateAreaAndCountryFields();
     if (validate == false) {
       return;
     }
@@ -879,12 +903,16 @@ export class EnquiryAddComponent implements OnInit {
         else {
           this.newEnqData.is_follow_up_time_notification = 0;
         }
+        // if (this.newEnqData.country == null || this.newEnqData.country == "") {
+        //   this.studentAddFormData.country = "India";
+        // }
 
         if (!this.isProfessional && (this.isEnquirySubmit)) {
           this.isEnquirySubmit = false;
           let obj = {
             area: this.newEnqData.area,
             assigned_to: this.newEnqData.assigned_to,
+            country: this.newEnqData.country,
             city: this.newEnqData.city,
             closedReason: this.newEnqData.closedReason,
             courseIdArray: this.selectedCourseIds,
@@ -1078,6 +1106,19 @@ export class EnquiryAddComponent implements OnInit {
       return moment(e).format('YYYY-MM-DD');
     }
   }
+
+  validateAreaAndCountryFields() {
+    if (this.isCountryMandatory == 1) {
+      if (this.newEnqData.country == '-1') {
+        return this.showErrorMessage('error', 'Country Is Mandatory', 'Please provide country details.');
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
 
 
   validateAreaAndCityFields() {
@@ -1767,8 +1808,8 @@ export class EnquiryAddComponent implements OnInit {
     this.meridian = '';
   }
 
-
-  onCitySelctionChanges(event) {
+ 
+   onCitySelctionChanges(event) {
     this.areaListDataSource = [];
     if (event != -1) {
       let obj = {
@@ -1861,7 +1902,7 @@ export class EnquiryAddComponent implements OnInit {
       this.poster.saveNewCity(obj).subscribe(
         res => {
           this.commonServiceFactory.showErrorMessage('success', "Success", "Added Successfully");
-          this.getCityAreaList();
+       
           this.toggleCityAreaAdd();
         },
         err => {
@@ -1877,5 +1918,6 @@ export class EnquiryAddComponent implements OnInit {
     this.addCityAreaPopUp.showPopUp = false;
     this.addCityAreaPopUp.addNew = false;
   }
-
+  
+  
 }
