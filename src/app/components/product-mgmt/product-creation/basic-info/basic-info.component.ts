@@ -17,7 +17,7 @@ export class BasicInfoComponent implements OnInit {
   productItems: any = [];
   @Input() product_item_stats: any;
   product_item_list: any[] = [];
-
+  isRippleLoad:boolean = false;
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
@@ -42,6 +42,7 @@ export class BasicInfoComponent implements OnInit {
     product_image: '',
     exam_ids: [],
     // product_group_id: null,
+    purchase_limit:0,
     short_description: '',
     about: '',
     is_paid: true,
@@ -180,17 +181,18 @@ export class BasicInfoComponent implements OnInit {
   saveProduct() {
     if (this.prodForm.title == "" ||
       this.prodForm.title == null) {
-      this.msgService.showErrorMessage('error', 'title should NOT be shorter than 1 characters', '');
+      this.msgService.showErrorMessage('error', 'title should not be shorter than 1 characters', '');
       return;
     }
     if (this.prodForm.purchase_limit == 0) {
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
     }
-    // if (this.prodForm.product_group_id == null) {
-    //   this.msgService.showErrorMessage('error', 'product group should be not null', '');
-    //   return;
-    // }
+    
+    if (this.products_ecourse_maps.length==0) {
+      this.msgService.showErrorMessage('error', 'please select at least one e-course', '');
+      return;
+    }
     let keys = Object.keys(this.prodItems);
     let notselectedItem = keys.filter(key => this.prodItems[key] == false);
     if (this.productItems.length == notselectedItem.length) {

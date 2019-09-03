@@ -24,8 +24,8 @@
     <div class="col-md-12 col-sm-12 container">
       <div class="form-group field-wrapper form-el-width">
         <label class="text-bold">E-course</label>
-        <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
-          <option value="-1" disabled selected>Select E-course</option>
+        <select [(ngModel)]="filter.ecourse_id" class="form-ctrl" (ngModelChange)="getSubjectList()" >
+          <option value="-1"  selected>Select E-course</option>
           <option *ngFor="let course of ecourseList" [value]="course.course_type_id">{{course.course_type}}</option>
         </select>
       </div>
@@ -41,7 +41,7 @@
       <div class="form-group  field-wrapper form-el-width">
         <label class="text-bold">Subject</label>
         <select [(ngModel)]="filter.subject_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
-          <option value="-1" disabled selected>Select Subject</option>
+          <option value="-1" selected>Select Subject</option>
           <option *ngFor="let sub of subjectsList" [value]="sub.subject_id">{{sub.subject_name}}</option>
         </select>
       </div>

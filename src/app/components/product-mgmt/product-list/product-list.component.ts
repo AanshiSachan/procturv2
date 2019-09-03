@@ -73,6 +73,7 @@ export class ProductListComponent implements OnInit {
     //   //Fetch Subjects List
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
     this.isRippleLoad = false;
+    this.filter.subject_id='-1';
       this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/'+this.filter.ecourse_id+'/subjects').subscribe(
         (resp:any) => {
           this.isRippleLoad = false;
@@ -229,6 +230,24 @@ export class ProductListComponent implements OnInit {
 
   filterData(){
     console.log("filterData");
+    this.isRippleLoad = true;
+        this.http.getMethod('product/find-by-course/'+this.filter.ecourse_id, null).subscribe(
+          (resp:any) => {
+            this.isRippleLoad = false;
+            let response = resp.result;
+            console.log(resp);
+            if (resp.validate) {
+              this.productList = response;
+              this.total_items = response.length;
+            }
+            else {
+              this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+            }
+          },
+          (err) => {
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+          });
   }
 
   toggleAllCheckBox($event) {
