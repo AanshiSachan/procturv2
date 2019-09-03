@@ -137,6 +137,16 @@
                     </select>
                   </div>
 
+                  <div class="field-wrapper">
+                    <label for="userCountry">Country</label>
+
+                    <select id="userCountry" class="form-ctrl" [(ngModel)]="studentAddFormData.country">
+          
+                      <option *ngFor="let count of countryList" [value]="count.data_value">{{count.data_value}}</option>
+                      
+                    </select>
+                  </div>
+
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                     <label for="parentName">Parent Name</label>
 
@@ -188,7 +198,7 @@
                   <h2>Additional Details</h2>
 
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
-                    <label for="sdob">Date of Birth</label>
+                    <label >Date of Birth</label>
 
                     <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
                       readonly="true" bsDatepicker>
@@ -256,7 +266,7 @@
             <section class="enquiry-detail common-right-section">
               <h4>
                 <strong>Administration Details</strong> (Official Use)</h4>
-              <div class="box-shadow-lite">
+              <div>
 
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <label for="doj">Date of Admission</label>

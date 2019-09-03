@@ -90,6 +90,18 @@
                     <span class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
                   </div>
 
+                   <!-- Country -->
+
+                   <div class="field-wrapper">
+                    <label for="countryDdn">Country
+                      <span class="text-danger">*</span>
+                    </label>
+                    <select id="countryDdn" class="form-ctrl" [(ngModel)]="editEnqData.country" 
+                      name="country">
+                      <option *ngFor="let count of countryList" [value]="count.data_value" selected>{{count.data_value}}</option>
+                    </select>
+                  </div>
+
                   <!-- city -->
                   <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != ''}">
                     <label for="cityDdn">City

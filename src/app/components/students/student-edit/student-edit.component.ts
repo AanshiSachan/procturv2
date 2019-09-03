@@ -32,6 +32,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     isDisabled:false,
     formIsActive:false,
   }
+  countrySelected: string = "";
+  countryList: any = [];
 
   isConvertEnquiry: boolean = false;
   isNewInstitute: boolean = true;
@@ -127,6 +129,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_sex: "",
     student_email: "",
     student_phone: "",
+    country: "",
     student_curr_addr: "",
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
@@ -619,6 +622,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
     );
+
+
+    this.prefill.getEnqCountry().subscribe(
+      data => {
+        this.countryList = data;
+      
+      },
+      err => {
+      }
+    )
+
+
 
     this.isRippleLoad = true;
     this.prefill.getAllFinancialYear().subscribe(

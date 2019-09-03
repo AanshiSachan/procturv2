@@ -36,6 +36,7 @@ export class StudentAddComponent implements OnInit {
   savedAssignedBatch: any[] = [];
   instituteList: any[] = [];
   standardList: any[] = [];
+  countryList: any[] = [];
   courseList: any[] = [];
   batchList: any[] = [];
   slots: any[] = [];
@@ -176,6 +177,7 @@ export class StudentAddComponent implements OnInit {
   studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
+    country: "",
     student_email: "",
     student_phone: "",
     student_curr_addr: "",
@@ -364,6 +366,7 @@ export class StudentAddComponent implements OnInit {
           el.academic_year_id = this.defaultAcadYear;
         }
         let obj = { isSelected: false, data: el, assignDate: moment().format('YYYY-MM-DD') };
+     
         this.batchList.push(obj);
         // console.log('updateBatchList @' + this.batchList.length);
       });
@@ -573,6 +576,13 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = false;
         this.msgToast.showErrorMessage('error', '', err.error.message);
       });
+
+      this.prefill.getEnqCountry().subscribe(
+        data => { this.countryList = data; },
+        err => {
+          this.isRippleLoad = false;
+          this.msgToast.showErrorMessage('error', '', err.error.message);
+        });
 
     // this.studentPrefillService.getChequeStatus().subscribe(
     //   data => { this.pdcStatus = data; },
@@ -1098,6 +1108,9 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
+      if (this.studentAddFormData.country == null || this.studentAddFormData.country == "") {
+        this.studentAddFormData.country = "India";
+      }
       let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/;
       if (this.studentAddFormData.student_email != "") {
         if (!email.test(this.studentAddFormData.student_email)) {
@@ -1133,7 +1146,7 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.dob = dob;
       this.btnSaveAndContinue.nativeElement.disabled = true;
       if (!this.isRippleLoad) {
-        this.isRippleLoad = true;
+
         this.postService.quickAddStudent(this.studentAddFormData).subscribe(
           (res: any) => {
             let result: any = res;
@@ -1381,6 +1394,9 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
+      if (this.studentAddFormData.country == null || this.studentAddFormData.country == "") {
+        this.studentAddFormData.country = "India";
+      }
       this.isRippleLoad = true;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         (res: any) => {
@@ -1420,6 +1436,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData = {
       student_name: "",
       student_sex: "",
+      country: "",
       student_email: "",
       student_phone: "",
       student_curr_addr: "",
@@ -1465,6 +1482,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
+    this.studentAddFormData.country = this.enquiryData.country;
     this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     this.studentAddFormData.school_name = this.enquiryData.school_id;
     this.studentAddFormData.standard_id = this.enquiryData.standard_id;
@@ -1527,6 +1545,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData = {
       student_name: "",
       student_sex: "",
+      country: "",
       student_email: "",
       student_phone: "",
       student_curr_addr: "",

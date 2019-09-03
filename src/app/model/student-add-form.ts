@@ -1,4 +1,5 @@
 export interface StudentForm {
+  	country: any;
 	student_name?: any, //"test 122",
 	student_sex?: any, //"M",
 	student_email?: any, // "tester@gmail.com",
