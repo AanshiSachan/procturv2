@@ -68,7 +68,7 @@ export class ProductCreationComponent implements OnInit {
       index: 4
     },
     5: {
-      slug: 'Offline_Products',
+      slug: 'Offline22_Products',
       show: false,
       is_completed: false,
       index: 5

@@ -17,7 +17,7 @@ export class ProductListComponent implements OnInit {
   };
   productList: any = [];
   total_items: any;
-  isRippleLoad:boolean = false;
+  isRippleLoad: boolean = false;
   ecourseList: any = [];
   subjectsList: any = [];
   deleteItem: any = {
@@ -30,13 +30,13 @@ export class ProductListComponent implements OnInit {
 
   jsonKeys = {
     selectAll: false,
-    institute_id:''
+    institute_id: ''
   }
 
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
-    private _http :HttpService
+    private _http: HttpService
   ) { }
 
   ngOnInit() {
@@ -46,12 +46,12 @@ export class ProductListComponent implements OnInit {
   }
 
   initFilters() {
- let param ={
-      "proc-authorization":"MTk4MzJ8MDphZG1pbjoxMDAxMjg="
+    let param = {
+      "proc-authorization": "MTk4MzJ8MDphZG1pbjoxMDAxMjg="
     }
     this.isRippleLoad = true;
     this.http.getMethod('ext/get-ecources', param).subscribe(
-      (resp:any) => {
+      (resp: any) => {
         this.isRippleLoad = false;
         let response = JSON.parse(resp.result);
         console.log(resp);
@@ -73,18 +73,18 @@ export class ProductListComponent implements OnInit {
     //   //Fetch Subjects List
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
     this.isRippleLoad = false;
-    this.filter.subject_id='-1';
-      this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/'+this.filter.ecourse_id+'/subjects').subscribe(
-        (resp:any) => {
-          this.isRippleLoad = false;
-          if (resp.length) {
-            this.subjectsList = resp;
-          }
-        },
-        (err) => {
-          this.isRippleLoad = false;
-          this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-        });
+    this.filter.subject_id = '-1';
+    this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/' + this.filter.ecourse_id + '/subjects').subscribe(
+      (resp: any) => {
+        this.isRippleLoad = false;
+        if (resp.length) {
+          this.subjectsList = resp;
+        }
+      },
+      (err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
     // }
 
   }
@@ -92,7 +92,7 @@ export class ProductListComponent implements OnInit {
   getProductList() {
     this.isRippleLoad = true;
     this.http.getMethod('product/get', null).subscribe(
-      (resp:any) => {
+      (resp: any) => {
         this.isRippleLoad = false;
         let response = resp.result;
         console.log(resp);
@@ -118,7 +118,7 @@ export class ProductListComponent implements OnInit {
           let response = resp['body'];
           this.isRippleLoad = false;
           if (response.validate) {
-            this.productList = [...this.productList, ...response.data.products];            
+            this.productList = [...this.productList, ...response.data.products];
           }
           else {
             this.msgService.showErrorMessage('error', response.errors.message, '');
@@ -130,7 +130,7 @@ export class ProductListComponent implements OnInit {
         });
     }
   }
-  
+
 
   actionProductModal(operation, id) {
     this.deleteItem.operation = operation;
@@ -167,41 +167,43 @@ export class ProductListComponent implements OnInit {
 
     switch (operation) {
       case 'delete': {
-        this.isRippleLoad = true;
-        this.http.getMethod('product/delete/'+id, null).subscribe(
-          (resp:any) => {
-            this.isRippleLoad = false;
-            let response = resp.result;
-            console.log(resp);
-            if (resp.validate) {
-              this.msgService.showErrorMessage('success', 'Product removed successfully', '');
-              $("#actionProductModal").modal('hide');
-              this.productList.forEach((element,index) => {
-                if(element.entity_id==response.entity_id){
-                  this.productList.splice(index,1);
-                  console.log(this.productList);
-                }
-              });              
-              this.total_items = response.length;
-            }
-            else {
+        if (!this.isRippleLoad) {
+          this.isRippleLoad = true;
+          this.http.getMethod('product/delete/' + id, null).subscribe(
+            (resp: any) => {
+              this.isRippleLoad = false;
+              let response = resp.result;
+              console.log(resp);
+              if (resp.validate) {
+                this.msgService.showErrorMessage('success', 'Product removed successfully', '');
+                $("#actionProductModal").modal('hide');
+                this.productList.forEach((element, index) => {
+                  if (element.entity_id == response.entity_id) {
+                    this.productList.splice(index, 1);
+                    console.log(this.productList);
+                  }
+                });
+                this.total_items = response.length;
+              }
+              else {
+                this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+              }
+            },
+            (err) => {
+              this.isRippleLoad = false;
               this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
-            }
-          },
-          (err) => {
-            this.isRippleLoad = false;
-            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
-          });
+            });
+        }
         break;
       }
       case 'publish': {
         item.status = 20;
-        this.tempFucntion(id , item,operation);
+        this.tempFucntion(id, item, operation);
         break;
       }
       case 'unpublish': {
         item.status = 30;
-        this.tempFucntion(id , item,operation);
+        this.tempFucntion(id, item, operation);
         break;
       }
     }
@@ -209,45 +211,51 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  tempFucntion(id , body,operation){
-    this.http.postMethod('product/update', body).then(
-      (resp) => {
-        let data = resp['body'];
-        if (data.validate) {
-          this.msgService.showErrorMessage("success","product updated successfully", '');
-          $("#actionProductModal").modal('hide');
+  tempFucntion(id, body, operation) {
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.http.postMethod('product/update', body).then(
+        (resp) => {
+          this.isRippleLoad = false;
+          let data = resp['body'];
+          if (data.validate) {
+            this.msgService.showErrorMessage("success", "product updated successfully", '');
+            $("#actionProductModal").modal('hide');
             // item.product_status = body.product_status;
+          }
+          else {
+            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+        }
+      );
+    }
+
+  }
+
+  filterData() {
+    console.log("filterData");
+    this.isRippleLoad = true;
+    this.http.getMethod('product/find-by-course/' + this.filter.ecourse_id, null).subscribe(
+      (resp: any) => {
+        this.isRippleLoad = false;
+        let response = resp.result;
+        console.log(resp);
+        if (resp.validate) {
+          this.productList = response;
+          this.total_items = response.length;
         }
         else {
           this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
         }
       },
       (err) => {
+        this.isRippleLoad = false;
         this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
-      }
-    );
-  }
-
-  filterData(){
-    console.log("filterData");
-    this.isRippleLoad = true;
-        this.http.getMethod('product/find-by-course/'+this.filter.ecourse_id, null).subscribe(
-          (resp:any) => {
-            this.isRippleLoad = false;
-            let response = resp.result;
-            console.log(resp);
-            if (resp.validate) {
-              this.productList = response;
-              this.total_items = response.length;
-            }
-            else {
-              this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
-            }
-          },
-          (err) => {
-            this.isRippleLoad = false;
-            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
-          });
+      });
   }
 
   toggleAllCheckBox($event) {
@@ -257,8 +265,8 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-   isAllSelected($event,item){
-    console.log($event,item);
+  isAllSelected($event, item) {
+    console.log($event, item);
   }
 
   toggleActionMenu(event) {

@@ -19,6 +19,7 @@ export class MockTestComponent implements OnInit {
   testlist: any = [];
   checkedList: any = [];
   selectAll: boolean = false;
+  isRippleLoad :boolean = false;
   constructor(
     private http: ProductService,
     private msgService: MessageShowService,
@@ -46,39 +47,46 @@ export class MockTestComponent implements OnInit {
 
   initMockTests() {
     //Fetch Product Groups List
-    this.http.postMethod('ext/get-examdesk', ["Mock_Test"]).then(
-      (resp: any) => {
-        let response = resp['body'];
-        if (response.validate) {
-          let details = JSON.parse(response.result['Mock Test']);
-          this.testlist = details.data;
-          this.selectAllDetails(false);          
-          if(this.testlist.length && this.prodForm.product_item_list.length){
-            this.prodForm.product_item_list.forEach((obj)=>{
-              this.testlist.forEach((test)=>{
-                 if(test.test_id==obj.source_item_id)
-                  {test.isChecked =true;}
-                 });
-              });  
-            }
-        }
-        else {
-          this.checkedList = [];
-          this.msgService.showErrorMessage('error', response.errors.message, '');
-        }
-      },
-      (err) => {
-        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-      });
+    if(!this.isRippleLoad){
+      this.isRippleLoad= true;
+      this.http.postMethod('ext/get-examdesk', ["Mock_Test"]).then(
+        (resp: any) => {
+          this.isRippleLoad= false;
+          let response = resp['body'];
+          if (response.validate) {
+            let details = JSON.parse(response.result['Mock Test']);
+            this.testlist = details.data;
+            this.selectAllDetails(false);          
+            if(this.testlist.length && this.prodForm.product_item_list.length){
+              this.prodForm.product_item_list.forEach((obj)=>{
+                this.testlist.forEach((test)=>{
+                   if(test.test_id==obj.source_item_id)
+                    {test.isChecked =true;}
+                   });
+                });  
+              }
+          }
+          else {
+            this.checkedList = [];
+            this.msgService.showErrorMessage('error', response.errors.message, '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad= false;
+          this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+        });
+    }
   }
 
   initForm() {
     //Fetch Product Groups List
 
-    if (this.entity_id && this.entity_id.length > 0) {
+    if (this.entity_id && this.entity_id.length > 0 &&(!this.isRippleLoad)) {
       //Fetch Product Info
+      this.isRippleLoad= true;
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
+          this.isRippleLoad= false;
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
@@ -109,6 +117,7 @@ export class MockTestComponent implements OnInit {
           }
         },
         (err) => {
+          this.isRippleLoad= false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -145,12 +154,13 @@ export class MockTestComponent implements OnInit {
           objectArray.push(object);
         }
       });
-      
 
-      if (objectArray.length) {
+      if (objectArray.length&&(!this.isRippleLoad)) {
         //update test List
+        this.isRippleLoad= true;
         this.http.postMethod('product-item/update/' + this.entity_id, objectArray).then(
           (resp: any) => {
+            this.isRippleLoad= false;
             let response = resp['body'];
             if (response.validate) {
               let details = response.result;
@@ -164,6 +174,7 @@ export class MockTestComponent implements OnInit {
             }
           },
           (err) => {
+            this.isRippleLoad= false;
             this.msgService.showErrorMessage('error', err['error'].errors.message, '');
           });
       }
