@@ -1,0 +1,84 @@
+<div class="container-fluid product-contents-wrapper">
+  <div class="row m-0 form-steps-wrapper">
+    <ul id="progressbar" class="row">
+      <li class="col" [ngClass]="{'active' : activeForm == 1, 'completed' : activeForm > 1}"
+        *ngIf="formSequence[1].show" (click)="visitForm(1,formSequence[1])">Basic Info</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 2, 'completed' : activeForm > 2}"
+        *ngIf="formSequence[2].show" (click)="visitForm(2,formSequence[2])">Study Materials</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 3, 'completed' : activeForm > 3}"
+        *ngIf="formSequence[3].show" (click)="visitForm(3,formSequence[3])">Mock Test</li>
+      <li class="col" [ngClass]="{'active' : activeForm == 4, 'completed' : activeForm > 4}"
+        *ngIf="formSequence[4].show" (click)="visitForm(4,formSequence[4])">Online Exam</li>
+      <!-- <li class="col" [ngClass]="{'active' : activeForm == 5, 'completed' : activeForm > 5}"
+        *ngIf="formSequence[5].show" (click)="visitForm(5,formSequence[5])">Offline Products</li> -->
+      <li class="col" [ngClass]="{'active' : activeForm == 6, 'completed' : activeForm > 6}"
+        *ngIf="formSequence[6].show" (click)="visitForm(6,formSequence[6])">Review Product</li>
+    </ul>
+  </div>
+  <div class="row ml-0 mr-0 product-creation-wrapper" style="background: #fafafa; padding-left: 20em;">
+    <div class="col-md-8 product-form-wrapper">
+      <div class="divWrapper">
+        <app-basic-info (nextForm)="nextForm()" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)"
+          (previewEvent)="previewSetter($event)" [entity_id]="entity_id" *ngIf="activeForm == 1"></app-basic-info>
+        <app-study-material [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 2">
+        </app-study-material>
+        <app-mock-test [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 3"></app-mock-test>
+        <app-online-exam [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 4">
+        </app-online-exam>
+        <app-offline-products [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+        (previewEvent)="previewSetter($event)" (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 5">
+        </app-offline-products>
+        <app-review-product [entity_id]="entity_id" [prodForm]="prodForm" (nextForm)="nextForm()"
+        (previewEvent)="previewSetter($event)"  (startForm)="startForm($event)" (toggleLoader)="toggleLoader($event)" *ngIf="activeForm == 6">
+        </app-review-product>
+      </div>
+    </div>
+    <!-- <div class="col-md-4 product-preview-wrapper">
+      <div>
+        <h5 class="head-label">Product Preview</h5>
+        <table class="prod-table table">
+          <tbody *ngIf="prodForm.itemStates?.length">
+            <tr *ngFor="let item of prodForm.itemStates;">
+              <th>{{item.title}}</th>
+              <th *ngIf="item.is_count_applicable">{{prodForm.product_item_stats[item.slug]}}</th>
+              <th *ngIf="!item.is_count_applicable"></th>
+            </tr>
+            <tr>
+              <th colspan="2">Description</th>
+            </tr>
+            <tr>
+              <td colspan="2" class="text-left wrap-text" *ngIf="prodForm.short_description.length==0">
+                No description added</td>
+              <td colspan="2" class="text-left wrap-text" *ngIf="prodForm.short_description.length!=0">
+                {{prodForm.short_description}}</td>
+            </tr>
+            <tr>
+              <th>Cateory</th>
+              <td>{{prodForm.cateory}}</td>
+            </tr>
+            <tr>
+              <th>Price</th>
+              <td>{{prodForm.price}}</td>
+            </tr>
+            <tr>
+              <th colspan="2">Visibility Date Range</th>
+            </tr>
+            <tr>
+              <td colspan="2" class="text-left" *ngIf="prodForm.start_datetime=='' && prodForm.end_datetime=='' ">Select Date Range </td>
+              <td colspan="2" class="text-left" *ngIf="prodForm.start_datetime!='' && prodForm.end_datetime!='' ">{{prodForm.start_datetime | date: 'dd MMM, yyyy'}} - {{prodForm.end_datetime| date: 'dd MMM, yyyy'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<div class="row loader-wrapper" *ngIf="formLoading">
+  <div class="loader-box m-auto">
+    <i class="loading"></i>
+  </div>
+</div>

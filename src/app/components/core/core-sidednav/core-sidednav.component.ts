@@ -226,17 +226,6 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   }
 
   showAllFields() {
-    // this.divAdminTag.nativeElement.style.display = '';
-    // this.divMyAccountTag.nativeElement.style.display = '';
-    // this.divMasterTag.nativeElement.style.display = '';
-    // this.divTeacherTag.nativeElement.style.display = '';
-    // this.divFeeTag.nativeElement.style.display = '';
-    // this.divAcademicTag.nativeElement.style.display = '';
-    // this.divSettingTag.nativeElement.style.display = '';
-    // this.divGeneralSettingTag.nativeElement.style.display = '';
-    // this.divManageFormTag.nativeElement.style.display = '';
-    // this.divManageUsers.nativeElement.style.display = '';
-    // this.divClassRoomTag.nativeElement.style.display = '';
     let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag', 'divAcademicTag',
       'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag', 'divManageUsers', 'divClassRoomTag'];
     this.setNativeElementValue(array, '');
@@ -254,23 +243,6 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   }
 
   hideAllFields() {
-    // this.divAdminTag.nativeElement.style.display = 'none';
-    // this.divMyAccountTag.nativeElement.style.display = 'none';
-    // this.divMasterTag.nativeElement.style.display = 'none';
-    // this.divTeacherTag.nativeElement.style.display = 'none';
-    // this.divFeeTag.nativeElement.style.display = 'none';
-
-    // this.divSlotTag.nativeElement.style.display = 'none';
-    // this.divAcademicTag.nativeElement.style.display = 'none';
-    // this.divSettingTag.nativeElement.style.display = 'none';
-    // this.divGeneralSettingTag.nativeElement.style.display = 'none';
-    // this.divManageFormTag.nativeElement.style.display = 'none';
-
-    // this.divAreaAndMap.nativeElement.style.display = 'none';
-    // this.divManageUsers.nativeElement.style.display = 'none';
-    // this.divGradesTag.nativeElement.style.display = 'none';
-    // this.divClassRoomTag.nativeElement.style.display = 'none';
-    // this.divManageTag.nativeElement.style.display = 'none';
     let array = ['divMyAccountTag', 'divMasterTag', 'divTeacherTag', 'divFeeTag',
       'divSlotTag', 'divAcademicTag', 'divSettingTag', 'divGeneralSettingTag', 'divManageFormTag',
       'divAreaAndMap', 'divManageUsers', 'divGradesTag', 'divClassRoomTag', 'divManageTag'];
@@ -387,17 +359,16 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     if (userType == 0) {
       /* admin detected */
       if (permission == null || permission == undefined || permission == '') {
-        document.getElementById('lione').classList.remove('hide');
-        document.getElementById('litwo').classList.remove('hide');
-        document.getElementById('lithree').classList.remove('hide');
-        document.getElementById('lifour').classList.remove('hide');
-        document.getElementById('lifive').classList.remove('hide');
-        document.getElementById('lisix').classList.remove('hide');
-        document.getElementById('liseven').classList.remove('hide');
-        document.getElementById('lieight').classList.remove('hide');
-        document.getElementById('linine').classList.remove('hide');
+        let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine','lieleone'];
+        hideArray.forEach(obj => {
+          if (document.getElementById(obj)) {
+            document.getElementById(obj).classList.remove('hide');
+          }
+        })
         document.getElementById('lizero').classList.remove('active');
-        // document.getElementById('liten').classList.remove('hide');
+        if(this.isProfessional){
+          document.getElementById('lieleone').classList.add('hide');
+        }
       }
       /* custom user detected */
       else {
@@ -412,6 +383,7 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
         this.hasInventory(this.permissionData);
         this.hasExpense(this.permissionData);
         this.hasCampaign(this.permissionData);
+        this.hasProducts(this.permissionData);
       }
     }
     /* Teacher login detected */
@@ -420,24 +392,20 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     }
 
     let username = sessionStorage.getItem('username');
-    if ((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077) || p.indexOf('721') != -1) {
+    if ((username == "admin" && this.instituteId == 100127) || (username == "admin" && this.instituteId == 101077) || (permission && permission.indexOf('721') != -1)) {
       document.getElementById('liten').classList.remove('hide');
     }
 
   }
 
-
-
+  /// loggedout user
   loggedout() {
-    document.getElementById('lione').classList.add('hide');
-    document.getElementById('litwo').classList.add('hide');
-    document.getElementById('lithree').classList.add('hide');
-    document.getElementById('lifour').classList.add('hide');
-    document.getElementById('lifive').classList.add('hide');
-    document.getElementById('lisix').classList.add('hide');
-    document.getElementById('liseven').classList.add('hide');
-    document.getElementById('lieight').classList.add('hide');
-    document.getElementById('linine').classList.add('hide');
+    let hideArray = ['lione', 'litwo', 'lithree', 'lifour', 'lifive', 'lisix', 'liseven', 'lieight', 'linine'];
+    hideArray.forEach(object => {
+      if (document.getElementById(object)) {
+        document.getElementById(object).classList.add('hide');
+      }
+    });
     document.getElementById('lizero').classList.add('active');
   }
 
@@ -455,7 +423,9 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
 
   hasStudent(permissions) {
-    if (permissions.includes('301') || permissions.includes('302') || permissions.includes('303')) {
+    if (permissions.includes('301') ||
+      permissions.includes('302') ||
+      permissions.includes('303')) {
       document.getElementById('litwo').classList.remove('hide');
     }
     else {
@@ -466,14 +436,18 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
 
   hasCourse(permissions) {
-    if (permissions.includes('401') || permissions.includes('402') || permissions.includes('403') || permissions.includes('404') || permissions.includes('405') || permissions.includes('406') || permissions.includes('501') || permissions.includes('502') || permissions.includes('505') || permissions.includes('701') || permissions.includes('704') || permissions.includes('702') || permissions.includes('404')) {
+    if (permissions.includes('401') || permissions.includes('402') 
+    || permissions.includes('403') || permissions.includes('404') ||
+     permissions.includes('405') || permissions.includes('406') || 
+     permissions.includes('501') || permissions.includes('502') || 
+     permissions.includes('505') || permissions.includes('701') || 
+     permissions.includes('704') || permissions.includes('702') ) {
       document.getElementById('lithree').classList.remove('hide');
     }
     else {
       document.getElementById('lithree').classList.add('hide');
     }
   }
-
 
 
   hasActivity(permissions) {
@@ -538,6 +512,22 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
     }
   }
 
+  hasProducts(permissions) {
+    if(this.isProfessional){
+      if (permissions.includes('401') || permissions.includes('402') 
+      || permissions.includes('403') || permissions.includes('404') ||
+       permissions.includes('405') || permissions.includes('406') || 
+       permissions.includes('501') || permissions.includes('502') || 
+       permissions.includes('505') || permissions.includes('701') || 
+       permissions.includes('704') || permissions.includes('702') ) {
+        document.getElementById('lieleone').classList.remove('hide');
+      }
+      else {
+        document.getElementById('lieleone').classList.add('hide');
+      }
+    }    
+  }
+
 
   hasExam(permissions) {
     if (permissions.includes('103') || permissions.includes('112') || permissions.includes('203') || permissions.includes('404')) {
@@ -549,49 +539,8 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
   /* Function to set the id for setActive function to act upon */
   toggler(id) {
     this.RemoveActiveTabs();
-    if (id === 'lione' || id === 'li1') {
-      id = 'lione';
-      document.getElementById('lione').classList.add('active');
-    }
-    else if (id === 'litwo' || id === 'li2') {
-      id = 'litwo';
-      document.getElementById('litwo').classList.add('active');
-    }
-    else if (id === 'lithree' || id === 'li3') {
-      id = 'lithree';
-      document.getElementById('lithree').classList.add('active');
-    }
-    else if (id === 'lifour' || id === 'li4') {
-      id = 'lifour';
-      document.getElementById('lifour').classList.add('active');
-    }
-    else if (id === 'lifive' || id === 'li5') {
-      id = 'lifive';
-      document.getElementById('lifive').classList.add('active');
-    }
-    else if (id === 'lisix' || id === 'li6') {
-      id = 'lisix';
-      document.getElementById('lisix').classList.add('active');
-    }
-    else if (id === 'liseven' || id === 'li7') {
-      id = 'liseven';
-      document.getElementById('liseven').classList.add('active');
-    }
-    else if (id === 'lieight' || id === 'li8') {
-      id = 'lieight';
-      document.getElementById('lieight').classList.add('active');
-    }
-    else if (id === 'linine' || id === 'li9') {
-      id = 'linine';
-      document.getElementById('linine').classList.add('active');
-    }
-    else if (id === 'liten' || id === 'liX') {
-      id = 'liten';
-      document.getElementById('liten').classList.add('active');
-    }
-    else if (id === 'lizero' || id === 'li0') {
-      id = 'lizero';
-      document.getElementById('lizero').classList.add('active');
+    if (document.getElementById(id)) {
+      document.getElementById(id).classList.add('active');
     }
   }
 
@@ -610,56 +559,71 @@ export class CoreSidednavComponent implements OnInit, AfterViewInit {
 
   /// Teacher Role Found
   teacherLoginFound() {
-    document.getElementById('lione').classList.add('hide');
-    document.getElementById('litwo').classList.add('hide');
-    document.getElementById('lifive').classList.add('hide');
-    document.getElementById('liseven').classList.add('hide');
-    document.getElementById('lieight').classList.add('hide');
-    document.getElementById('linine').classList.add('hide');
+    let hideArray = ['lione', 'litwo', 'lifive', 'liseven', 'lieight', 'linine'];
+    hideArray.forEach(object => {
+      if (document.getElementById(object)) {
+        document.getElementById(object).classList.add('hide');
+      }
+    });
 
-    document.getElementById('lithree').classList.remove('hide');
-    document.getElementById('lifour').classList.remove('hide');
-    document.getElementById('lisix').classList.remove('hide');
+    let removeArray = ['lithree', 'lifour', 'lisix'];
+    removeArray.forEach(object => {
+      if (document.getElementById(object)) {
+        document.getElementById(object).classList.remove('hide');
+      }
+    });
   }
 
   RemoveActiveTabs() {
-    document.getElementById('lizero').classList.remove('active');
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.remove('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('liten').classList.remove('active');
-    /* document.getElementById('liten').classList.add('active');
-      document.getElementById('lieleven').classList.remove('active'); */
+    let removeArray = ['lizero', 'lione', 'litwo', 'lithree', 'lifour', 'lifive',
+      'lisix', 'liseven', 'lieight', 'linine', 'liten', 'lieleone'];
+    removeArray.forEach(object => {
+      if (document.getElementById(object)) {
+        document.getElementById(object).classList.remove('active');
+      }
+    });
   }
 
   setActiveClassOnSideNav() {
     this.RemoveActiveTabs();
     let url: string = window.location.href;
-    if (url.includes('admin')) {
-      document.getElementById('lizero').classList.add('active');
-    } else if (url.includes('enquiry')) {
-      document.getElementById('lione').classList.add('active');
-    } else if (url.includes('student')) {
-      document.getElementById('litwo').classList.add('active');
-    } else if (url.includes('course')) {
-      document.getElementById('lithree').classList.add('active');
-    } else if (url.includes('activity')) {
-      document.getElementById('lifour').classList.add('active');
-    } else if (url.includes('reports')) {
-      document.getElementById('lisix').classList.add('active');
-    } else if (url.includes('inventory')) {
-      document.getElementById('liseven').classList.add('active');
-    } else if (url.includes('campaign')) {
-      document.getElementById('linine').classList.add('active');
-    } else if (url.includes('library')) {
-      document.getElementById('liten').classList.add('active');
+    let pathLastURL = url.substring(url.lastIndexOf("/") + 1, url.length);
+    let routesData = {
+      'admin': 'lizero',
+      'enquiry': 'lione',
+      'student': 'litwo',
+      'course': 'lithree',
+      'activity': 'lifour',
+      'reports': 'lisix',
+      'inventory': 'liseven',
+      'campaign': 'linine',
+      'library': 'liten',
+      'products': 'lieleone'
+    };
+    if (document.getElementById(routesData[pathLastURL])) {
+      document.getElementById(routesData[pathLastURL]).classList.add('active');
     }
+    // if (url.includes('admin')) {
+    //   document.getElementById('lizero').classList.add('active');
+    // } else if (url.includes('enquiry')) {
+    //   document.getElementById('lione').classList.add('active');
+    // } else if (url.includes('student')) {
+    //   document.getElementById('litwo').classList.add('active');
+    // } else if (url.includes('course')) {
+    //   document.getElementById('lithree').classList.add('active');
+    // } else if (url.includes('activity')) {
+    //   document.getElementById('lifour').classList.add('active');
+    // } else if (url.includes('reports')) {
+    //   document.getElementById('lisix').classList.add('active');
+    // } else if (url.includes('inventory')) {
+    //   document.getElementById('liseven').classList.add('active');
+    // } else if (url.includes('campaign')) {
+    //   document.getElementById('linine').classList.add('active');
+    // } else if (url.includes('library')) {
+    //   document.getElementById('liten').classList.add('active');
+    //   } else if (url.includes('products')) {
+    //     document.getElementById('lieleone').classList.add('active');
+    // }
   }
 
 

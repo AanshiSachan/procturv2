@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-md-12">
+    <p class="m-0  review-title">Review Product</p>
+  </div>
+</div>
+
+<div class="row">
+  <!-- <div class="col-md-3">
+      <img class="prod-image" src="https://iasexamportal.com/sites/default/files/UPSC-LOGO.jpg">
+  </div> -->
+
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label class="text-bold">Product Name  <span class="text-danger">*</span> </label>
+        <input type="text" [(ngModel)]="prodForm.title" class="form-control form-control-sm">
+      </div>
+
+      <div class="col-md-12 form-group">
+        <label class="text-bold">Description</label>
+        <textarea class="form-control form-control-sm" [(ngModel)]="prodForm.about"></textarea>
+      </div>
+
+      <div class="col-md-12 form-group">
+        <label class="text-bold">E-courses  <span class="text-danger">*</span> </label>
+        <ng-multiselect-dropdown [placeholder]="'Select E-courses'" [(ngModel)]="products_ecourse_maps" [data]="ecourseList"
+          [settings]="moderatorSettings">
+        </ng-multiselect-dropdown> 
+      </div>
+      <div class="col-md-12">
+          <div class="col-md-6" style=" padding-left: 0px;">
+              <div class="form-group">
+                <label class="text-bold">Product Sell Limit   <span class="text-danger">*</span></label>
+                <input type="number"  [(ngModel)]="prodForm.purchase_limit"
+                  name="purchase_limit" class="form-control form-control-sm">
+              </div>
+            </div>
+        <div class="col-md-6" style=" padding-right: 0px;">
+          <div class="form-group">
+            <label class="text-bold">Price</label>
+            <span class="field-checkbox-wrapper" style="margin-left: 160px;">
+              <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
+                (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_paid">
+              <label for="free_price">Free</label>
+            </span>
+            <input type="number" min="0.00" value="0.00" step=".01" [(ngModel)]="prodForm.price"
+              [disabled]="prodForm.is_paid" name="price" class="form-control form-control-sm">
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-0">
+          <div class="col-md-12 form-group m-0">
+            <label class="text-bold">Visibility Date Range</label>
+          </div>
+          <div class="col-md-5 form-group">
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">Start Date<span class="text-danger">*</span></label>
+              <input type="text" [(ngModel)]="prodForm.valid_from_date" (change)="calc_days()" name="from"
+                class="form-control form-control-sm" bsDatepicker>
+            </div>
+          </div>
+          <div class="col-md-5 form-group">
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">End Date</label>
+              <input type="text" [(ngModel)]="prodForm.valid_to_date" (change)="calc_days()" name="from"
+                class="form-control form-control-sm" bsDatepicker>
+            </div>
+          </div>
+  
+          <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
+            <label>{{calc_days()}} Day(s)</label>
+          </div>
+        </div>
+
+        <div class="row m-0">
+            <div class="col-md-5 form-group">
+              <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+                <label for="from">Publish Date<span class="text-danger">*</span></label>
+                <input type="text" [(ngModel)]="prodForm.publish_date"  name="publish"
+                  class="form-control form-control-sm" bsDatepicker>
+              </div>
+            </div>
+            <div class="col-md-7 form-group">
+                <div class="col-md-12" style="padding-top: 0px;padding-bottom: 10px;">
+                    <label for="test">Total Test</label><br>
+                    <label for="from" style="    font-weight: 600;">Mock Test  &nbsp; : {{mock_count}}  </label><br> 
+                    <label for="online" style="    font-weight: 600;">Online Test  &nbsp; : {{online_count}}  </label><br>                  
+                  </div>
+              </div>
+          </div>
+    </div>
+  </div>
+</div>
+
+<div class="row basic-info-footer">
+  <div class="col text-center">
+    <button class="btn btn-outline-danger btn-round" (click)="gotoBack()"> Cancel</button>
+    <button class="btn btn-primary btn-round" (click)="saveProduct()">Save</button>
+  </div>
+</div>
