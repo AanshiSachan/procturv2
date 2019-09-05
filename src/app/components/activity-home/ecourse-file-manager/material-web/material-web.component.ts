@@ -188,6 +188,7 @@ export class MaterialWebComponent implements OnInit {
                 this.outputMessage = 'No Data Found';
             } else {
                 this.materialData.forEach(element => {
+                    element.parent_topic_name=null;
                     element.isExpand = false;
                     element.subTopics = [];
                     this.addMaterialExtension(element);
@@ -273,6 +274,7 @@ export class MaterialWebComponent implements OnInit {
             // console.log(res);
             topic.subTopics = res;
             topic.subTopics.forEach(element => {
+                element.parent_topic_name =topic.topic_name
                 element.isExpand = false;
                 element.subTopics = [];
                 this.addMaterialExtension(element);
@@ -286,7 +288,16 @@ export class MaterialWebComponent implements OnInit {
 
     uploadPopupOpen(topic) {
         // console.log(topic);
-        this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+        if(topic.parent_topic_id==0){
+            this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+        }else{
+            this.uploadFile.showParentTopicModel = (this.uploadFile.showParentTopicModel) ? false : true;
+            this.uploadFile.jsonData.mainTopic = topic.topic_name;
+            this.uploadFile.varJson.sub_topic_id= topic.parent_topic_id // topic
+            this.uploadFile.varJson.topic_id= topic.topic_id;// parent  
+            this.uploadFile.jsonData.parentTopic = topic.parent_topic_name;
+        }
+        
         this.uploadFile.varJson.course_types = this.course_types;
         this.uploadFile.material_dataFlag = 'material';
         this.uploadFile.getSubjectsList(this.course_types);
