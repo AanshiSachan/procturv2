@@ -3,6 +3,7 @@ import { HttpService } from '../../../../services/http.service';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { EcourseFileManagerComponent } from '../ecourse-file-manager.component';
 import { Router } from '@angular/router';
+import { MessageShowService } from '../../../../services/message-show.service';
 
 @Component({
   selector: 'app-ecourse-list',
@@ -14,11 +15,26 @@ export class EcourseListComponent implements OnInit {
   categiesList: any = [];
   institute_id: any;
   isRippleLoad: boolean = false;
+  showSettings: boolean = true;
   outputMessage: any = '';
-  
+  settingDetails: any = {
+    "institute_id": 100058,
+    "video_watermark": "Megha",
+    "is_video_public": "N",
+    "watermark_opacity": 1,
+    "watermark_color": "#2680eb",
+    "watermark_font_size": 10,
+    "video_watch_limit_per_video": 0,
+    "storage_capacity_threshold_alerts": null,
+    "bandwidth_threshold_alerts": null,
+    "watermark_text_moving_interval": 0,
+    "moving_text_type": "rtext"
+  }
+
   constructor(
     private _http: HttpService,
     private auth: AuthenticatorService,
+    private msgService: MessageShowService,
     private router: Router
   ) {
     this.auth.currentInstituteId.subscribe(id => {
@@ -47,6 +63,45 @@ export class EcourseListComponent implements OnInit {
     if (sessionStorage.getItem('routeListForEcourse')) {
       this.router.navigate(['/view/activity/ecourse-file-manager/ecourses/' + ecourse.course_type_id + "/subjects"], { queryParams: { data: window.btoa(ecourse.course_type) } });
     }
+  }
+
+  getSettingDetails(){
+    // <base_url>/instFileSystem/getStudyMaterialSetting/{institute_id}
+    let url = "/api/v1/instFileSystem/getStudyMaterialSetting/" + this.institute_id;
+    this.isRippleLoad = true;
+    this.showSettings = true;
+    this._http.getData(url).subscribe((res: any) => {
+      console.log("getSettingDetails",res);
+      this.isRippleLoad = false;
+      this.settingDetails =res;
+      this.showSettings = false;
+      
+    }, err => {
+      this.isRippleLoad = false;
+    });
+  }
+
+
+  clearObject() {
+    this.showSettings = !this.showSettings;
+  }
+
+  Save_Setting_Details() {
+    this.isRippleLoad = true;
+    //<base_url>/instFileSystem/updateStudyMaterialSetting
+    let url = "/api/v1/instFileSystem/updateStudyMaterialSetting";
+    this.settingDetails.institute_id = this.institute_id ;
+    this._http.putData(url,this.settingDetails).subscribe((res: any) => {
+      console.log(res);
+      this.isRippleLoad = false;
+      this.showSettings = true;
+      this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
+
+    }, err => {
+      console.log(err);
+      this.isRippleLoad = false;
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
+    });
   }
 
   getcategoriesList() {
