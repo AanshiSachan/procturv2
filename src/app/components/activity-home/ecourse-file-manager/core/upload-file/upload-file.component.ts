@@ -25,7 +25,12 @@ export class UploadFileComponent implements OnInit {
   isRippleLoad: boolean = false;
   addCategoryPopup: boolean = false;
   material_dataShow: boolean = false;
+  showParentTopicModel:boolean = false;
   material_dataFlag: string = '';
+  jsonData={
+    parentTopic:'',
+    mainTopic:''
+  }
   file: any;
   payload = {
     "clientPayload": {
@@ -144,6 +149,7 @@ export class UploadFileComponent implements OnInit {
 
   clearuploadObject() {
     this.showModal = false;
+    this.showParentTopicModel= false;
     this.varJson = {
       category_id: 0,
       name: '',
