@@ -1502,7 +1502,7 @@ export class CourseExamComponent implements OnInit {
     let dataToSend = this.makeDataJsonToSendServer();
     // console.log(dataToSend);
     // dataToSend = false;
-    if (dataToSend == false) {
+    if (dataToSend == false ||dataToSend==undefined) {
       this.isRippleLoad = false;
       this.multiClickDisabled = false;
       return;
