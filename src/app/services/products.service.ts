@@ -12,7 +12,7 @@ export class ProductService {
         // apiBaseUrl:"http://localhost:8080",
         siteUrl: "https://elearntest.proctur.com/api",
         apiBaseUrl: "https://elearntest.proctur.com/api/v1/",
-        apiAdminUrl: "http://localhost:8080/prod/",
+        apiAdminUrl: "http://proc-product-api.us-east-2.elasticbeanstalk.com/prod/", //"http://localhost:8080/prod/",
         masterSiteUrl: "https://elearntest.proctur.com/api/master/site_master/",
         enquryUrl: "https://app.proctur.com/StdMgmtWebAPI/api/v1/extLeads/website",
 

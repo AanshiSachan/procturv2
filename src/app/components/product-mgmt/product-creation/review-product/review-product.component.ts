@@ -23,6 +23,7 @@ export class ReviewProductComponent implements OnInit {
   ecourseList: any = [];
   mock_count:number =0;
   online_count:number =0;
+  isRippleLoad:boolean = false;
   moderatorSettings: any = {
     singleSelection: false,
     idField: 'course_type_id',
@@ -49,10 +50,12 @@ export class ReviewProductComponent implements OnInit {
   initForm() {
     //Fetch Product Groups List
 
-    if (this.entity_id && this.entity_id.length > 0) {
+    if (this.entity_id && this.entity_id.length > 0 && (!this.isRippleLoad)) {
       //Fetch Product Info
+      this.isRippleLoad = true;
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
+          this.isRippleLoad = false;
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
@@ -91,6 +94,7 @@ export class ReviewProductComponent implements OnInit {
           }
         },
         (err) => {
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -106,27 +110,34 @@ export class ReviewProductComponent implements OnInit {
     let param = {
       "proc-authorization": "MTk4MzJ8MDphZG1pbjoxMDAxMjg="
     }
-    this.http.getMethod('ext/get-ecources', param).subscribe(
-      (resp: any) => {
-        let response = JSON.parse(resp.result);
-        console.log(resp);
-        if (resp.validate) {
-          this.ecourseList = response;
-        }
-        else {
-          this.msgService.showErrorMessage('error', response.errors.message, '');
-        }
-      },
-      (err) => {
-        // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-      });
+    if(!this.isRippleLoad){
+      this.isRippleLoad = true;
+      this.http.getMethod('ext/get-ecources', param).subscribe(
+        (resp: any) => {
+          this.isRippleLoad = false;
+          let response = JSON.parse(resp.result);
+          console.log(resp);
+          if (resp.validate) {
+            this.ecourseList = response;
+          }
+          else {
+            this.msgService.showErrorMessage('error', response.errors.message, '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad = false;
+          // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+        });
+    }    
   }
 
   initFormSequence() {
-    if (this.entity_id && this.entity_id.length > 0) {
+    if (this.entity_id && this.entity_id.length > 0&&(!this.isRippleLoad)) {
       //Fetch Product Info
+      this.isRippleLoad= true;
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
+          this.isRippleLoad= false;
           let response = resp.result;
           if (resp.validate) {
             let productData = response;
@@ -147,6 +158,17 @@ export class ReviewProductComponent implements OnInit {
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
+            this.mock_count =0;
+            this.online_count =0;
+            this.prodForm.product_item_list.forEach((data)=>{
+              if(data.slug=='Mock_Test'){
+                this.mock_count++;
+              }
+
+              if(data.slug=='Online_Test'){
+                this.online_count++;
+              }
+            });
             this.updateProductItemStates(null, null);
             this.products_ecourse_maps = [];
             this.prodForm.product_ecourse_maps.forEach((object) => {
@@ -159,6 +181,7 @@ export class ReviewProductComponent implements OnInit {
           }
         },
         (err) => {
+          this.isRippleLoad= false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -201,25 +224,27 @@ export class ReviewProductComponent implements OnInit {
 
   updateProduct(object) {
 
-    this.toggleLoader.emit(true);
     let body = JSON.parse(JSON.stringify(object));
-
-    this.http.postMethod('product/update', body).then(
-      (resp) => {
-        this.toggleLoader.emit(false);
-        let data = resp['body'];
-        if (data.validate) {
-          this.msgService.showErrorMessage('success', "product updated successfully", '');
-          this.gotoBack();
-        }
-        else {
+     if(!this.isRippleLoad){
+       this.isRippleLoad = true;
+       this.http.postMethod('product/update', body).then(
+        (resp) => {
+          this.isRippleLoad = false;
+          let data = resp['body'];
+          if (data.validate) {
+            this.msgService.showErrorMessage('success', "product updated successfully", '');
+            this.gotoBack();
+          }
+          else {
+            this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
-        }
-      },
-      (err) => {
-        this.toggleLoader.emit(false);
-        this.msgService.showErrorMessage('error', "something went wrong, try again", '');
-      });
+        });
+     }
+   
   }
 
    // update parent state data

@@ -281,7 +281,7 @@ export class StudyMaterialComponent implements OnInit {
   }
 
   getSubtopicListData(topic) {
-    this.isRippleLoad = true;
+    
     let url = "/api/v1/topic_manager/subject/6685/topicMaterials";
     let parent_topic_id = -1;
     topic.topic_id = -1;
@@ -290,7 +290,8 @@ export class StudyMaterialComponent implements OnInit {
       "institute_id": sessionStorage.getItem('institute_id'),
       "parent_topic_id": topic.topic_id,
     }
-
+    if(!this.isRippleLoad){
+      this.isRippleLoad = true;
     this._http.postData(url, data).subscribe((res) => {
       console.log(res);
       topic.subTopics = res;
@@ -303,7 +304,8 @@ export class StudyMaterialComponent implements OnInit {
     },
       (err) => {
         this.isRippleLoad = false;
-      })
+      });
+    }
   }
 
   getSubjectData() {
@@ -386,10 +388,8 @@ export class StudyMaterialComponent implements OnInit {
               element.extension = "fa fa-file-o assign-color";
             }
           }
-
         });
       }
-
     });
 
 
@@ -404,36 +404,41 @@ export class StudyMaterialComponent implements OnInit {
         "productId": this.entity_id,
         "proc-authorization": "MTc3MTV8MDphZG1pbmE1OjEwMDA1OA=="
       }
-      this.http.getMethod('ext/get-subjects-of-ecourses', object).subscribe(
-        (resp: any) => {
-          let response = resp.result;
-          if (resp.validate) {
-            let productData = response;
-            this.prodForm.entity_id = productData.entity_id;
-            this.prodForm.title = productData.title;
-            this.prodForm.about = productData.about;
-            this.prodForm.is_paid = productData.is_paid;
-            this.prodForm.price = productData.price;
-            this.prodForm.start_datetime = productData.valid_from_date;
-            this.prodForm.end_datetime = productData.valid_to_date;
-            this.prodForm.status = productData.status;
-            this.prodForm.purchase_limit = productData.purchase_limit;
-            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-            this.prodForm.product_items_types = productData.product_items_types;
-            this.prodForm.product_item_stats = {};
-            this.prodForm.product_items_types.forEach(
-              element => {
-                this.prodForm.product_item_stats[element.slug] = true;
-              });
-            this.updateProductItemStates(null, null);
-          }
-          else {
-            this.msgService.showErrorMessage('error', response.errors.message, '');
-          }
-        },
-        (err) => {
-          this.msgService.showErrorMessage('error', err['error'].message, '');
-        });
+       if(!this.isRippleLoad){
+        this.isRippleLoad=true;
+        this.http.getMethod('ext/get-subjects-of-ecourses', object).subscribe(
+          (resp: any) => {
+            this.isRippleLoad=false;
+            let response = resp.result;
+            if (resp.validate) {
+              let productData = response;
+              this.prodForm.entity_id = productData.entity_id;
+              this.prodForm.title = productData.title;
+              this.prodForm.about = productData.about;
+              this.prodForm.is_paid = productData.is_paid;
+              this.prodForm.price = productData.price;
+              this.prodForm.start_datetime = productData.valid_from_date;
+              this.prodForm.end_datetime = productData.valid_to_date;
+              this.prodForm.status = productData.status;
+              this.prodForm.purchase_limit = productData.purchase_limit;
+              this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+              this.prodForm.product_items_types = productData.product_items_types;
+              this.prodForm.product_item_stats = {};
+              this.prodForm.product_items_types.forEach(
+                element => {
+                  this.prodForm.product_item_stats[element.slug] = true;
+                });
+              this.updateProductItemStates(null, null);
+            }
+            else {
+              this.msgService.showErrorMessage('error', response.errors.message, '');
+            }
+          },
+          (err) => {
+            this.isRippleLoad=false;
+            this.msgService.showErrorMessage('error', err['error'].message, '');
+          });
+       }
     }
 
 
@@ -443,10 +448,12 @@ export class StudyMaterialComponent implements OnInit {
   initProductForm() {
     //Fetch Product Groups List
 
-    if (this.entity_id && this.entity_id.length > 0) {
+    if (this.entity_id && this.entity_id.length > 0 &&(!this.isRippleLoad)) {
       //Fetch Product Info
+      this.isRippleLoad=true;
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
+          this.isRippleLoad=false;
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
@@ -473,6 +480,7 @@ export class StudyMaterialComponent implements OnInit {
           }
         },
         (err) => {
+          this.isRippleLoad=false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }

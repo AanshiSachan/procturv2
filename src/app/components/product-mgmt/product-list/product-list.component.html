@@ -174,7 +174,7 @@
         <div class="form-group m-0">
           <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
           &nbsp;
-          <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm"
+          <button type="submit" class="btn {{deleteItem.btnClass}} btn-sm" [disabled]="isRippleLoad"
             (click)="confirmAction(deleteItem.operation, deleteItem.entity_id)">{{deleteItem.btnText}}</button>
         </div>
       </div>

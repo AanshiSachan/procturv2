@@ -17,7 +17,7 @@ export class BasicInfoComponent implements OnInit {
   productItems: any = [];
   @Input() product_item_stats: any;
   product_item_list: any[] = [];
-  isRippleLoad:boolean = false;
+  isRippleLoad: boolean = false;
   @Output() nextForm = new EventEmitter<string>();
   @Output() startForm = new EventEmitter<string>();
   @Output() toggleLoader = new EventEmitter<boolean>();
@@ -42,7 +42,7 @@ export class BasicInfoComponent implements OnInit {
     product_image: '',
     exam_ids: [],
     // product_group_id: null,
-    purchase_limit:0,
+    purchase_limit: 0,
     short_description: '',
     about: '',
     is_paid: true,
@@ -51,7 +51,7 @@ export class BasicInfoComponent implements OnInit {
     itemStates: [],
     valid_from_date: moment().format('DD-MMM-YYYY'),
     valid_to_date: moment().format('DD-MMM-YYYY'),
-    publish_date:moment().format('DD-MMM-YYYY'),
+    publish_date: moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -80,9 +80,10 @@ export class BasicInfoComponent implements OnInit {
 
   /** get product item details in  */
   getProductItemsData() {
-
+    this.isRippleLoad = true;
     this.http.getMethod('master/item-type/get', null).subscribe(
       (resp: any) => {
+        this.isRippleLoad = false;
         let response = resp.result;
         if (resp.validate) {
           this.productItems = response;
@@ -97,6 +98,7 @@ export class BasicInfoComponent implements OnInit {
           this.initForm();
         }
         else {
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', response.errors.message, '');
         }
       },
@@ -111,8 +113,10 @@ export class BasicInfoComponent implements OnInit {
 
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
+      this.isRippleLoad = true;
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
+          this.isRippleLoad = false;
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
@@ -121,12 +125,12 @@ export class BasicInfoComponent implements OnInit {
               let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
               this.products_ecourse_maps.push(obj);
             });
-            this.prodForm.product_item_stats={};
+            this.prodForm.product_item_stats = {};
             this.prodForm.product_items_types.forEach(element => {
               this.itemStates.forEach((object) => {
                 if (object.entity_id == element.entity_id) {
                   this.prodItems[object.slug] = true;
-                  this.prodForm.product_item_stats[object.slug] = true; 
+                  this.prodForm.product_item_stats[object.slug] = true;
                 }
               });
             });
@@ -137,6 +141,7 @@ export class BasicInfoComponent implements OnInit {
           }
         },
         (err) => {
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
@@ -148,8 +153,10 @@ export class BasicInfoComponent implements OnInit {
     let param = {
       "proc-authorization": "MTk4MzJ8MDphZG1pbjoxMDAxMjg="
     }
+    this.isRippleLoad = true;
     this.http.getMethod('ext/get-ecources', param).subscribe(
       (resp: any) => {
+        this.isRippleLoad = false;
         let response = JSON.parse(resp.result);
         console.log(response);
         if (resp.validate) {
@@ -160,6 +167,7 @@ export class BasicInfoComponent implements OnInit {
         }
       },
       (err) => {
+        this.isRippleLoad = false;
         // this.msgService.showErrorMessage('error', err['error'].errors.message, '');
       });
   }
@@ -188,8 +196,8 @@ export class BasicInfoComponent implements OnInit {
       this.msgService.showErrorMessage('error', 'product sell limit should be grater than zero', '');
       return;
     }
-    
-    if (this.products_ecourse_maps.length==0) {
+
+    if (this.products_ecourse_maps.length == 0) {
       this.msgService.showErrorMessage('error', 'please select at least one e-course', '');
       return;
     }
@@ -225,7 +233,7 @@ export class BasicInfoComponent implements OnInit {
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
       "product_items_types": this.product_item_list,
-      "publish_date":this.prodForm.publish_date
+      "publish_date": this.prodForm.publish_date
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);
@@ -236,51 +244,54 @@ export class BasicInfoComponent implements OnInit {
   }
 
   createProduct(object) {
-    this.toggleLoader.emit(true);
-
     let body = JSON.parse(JSON.stringify(object));
-    this.toggleLoader.emit(true);
-    this.http.postMethod('/product/create', object).then(
-      (resp: any) => {
-        this.toggleLoader.emit(false);
-        let response = resp['body']
-        if (response.validate) {
-          this.msgService.showErrorMessage('success', "product created successfully", '');
-          response.result.product = object;
-          this.startForm.emit(response.result);
-          this.nextForm.emit();
-        }
-        else {
+
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.http.postMethod('/product/create', object).then(
+        (resp: any) => {
+          this.isRippleLoad = false;
+          let response = resp['body']
+          if (response.validate) {
+            this.msgService.showErrorMessage('success', "product created successfully", '');
+            response.result.product = object;
+            this.startForm.emit(response.result);
+            this.nextForm.emit();
+          }
+          else {
+            this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          }
+        },
+        (err) => {
+
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
-        }
-      },
-      (err) => {
-        this.toggleLoader.emit(false);
-        this.msgService.showErrorMessage('error', "something went wrong, try again", '');
-      });
+        });
+    }
+
   }
 
   updateProduct(object) {
-
-    this.toggleLoader.emit(true);
-    let body = JSON.parse(JSON.stringify(object));
-
-    this.http.postMethod('product/update', body).then(
-      (resp) => {
-        this.toggleLoader.emit(false);
-        let data = resp['body'];
-        if (data.validate) {
-          this.msgService.showErrorMessage('success', "product updated successfully", '');
-          this.nextForm.emit();
-        }
-        else {
+    if (!this.isRippleLoad) {
+      let body = JSON.parse(JSON.stringify(object));
+      this.isRippleLoad = true;
+      this.http.postMethod('product/update', body).then(
+        (resp) => {
+          this.isRippleLoad = false;
+          let data = resp['body'];
+          if (data.validate) {
+            this.msgService.showErrorMessage('success', "product updated successfully", '');
+            this.nextForm.emit();
+          }
+          else {
+            this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', "something went wrong, try again", '');
-        }
-      },
-      (err) => {
-        this.toggleLoader.emit(false);
-        this.msgService.showErrorMessage('error', "something went wrong, try again", '');
-      });
+        });
+    }
   }
 
   calc_days() {
