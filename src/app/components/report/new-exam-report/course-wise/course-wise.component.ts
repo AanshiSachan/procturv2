@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ExamService } from '../../../../services/report-services/exam.service';
 import { CourseListService } from '../../../../services/course-services/course-list.service';
+import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 import { AppComponent } from '../../../../app.component';
 import { AuthenticatorService } from '../../../../services/authenticator.service';
 import { MessageShowService } from '../../../../services/message-show.service';
@@ -14,6 +15,9 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./course-wise.component.scss']
 })
 export class CourseWiseComponent implements OnInit {
+
+  @ViewChild('chartWrap') chartWrap: ElementRef;
+
 
   jsonFlag = {
     isProfessional: false,
@@ -36,6 +40,7 @@ export class CourseWiseComponent implements OnInit {
     private courseList: CourseListService,
     private auth: AuthenticatorService,
     private msgService: MessageShowService,
+    private classService: ClassScheduleService,
   ) {
 
     this.auth.institute_type.subscribe(
@@ -47,14 +52,19 @@ export class CourseWiseComponent implements OnInit {
         }
       }
     )
-    this.masterCourse = sessionStorage.getItem('masterCourseForReport');
+    if(this.jsonFlag.isProfessional){
+      this.preRequiredDataForBatchModel();
+    }
+    else{
+      this.masterCourse = sessionStorage.getItem('masterCourseForReport');
+    }
     this.course_id = this.route.snapshot.paramMap.get('id');
     this.getCourseWiseReport();
     this.updateCoursesList();
   }
 
   ngOnInit() {
-
+    // this.createChart();
   }
 
   getCourseWiseReport(){
@@ -63,6 +73,7 @@ export class CourseWiseComponent implements OnInit {
       res => {
         this.jsonFlag.isRippleLoad = false;
         this.courseWiseReportList = res;
+        this.generateChartData(res);
       },
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
@@ -95,4 +106,62 @@ export class CourseWiseComponent implements OnInit {
     this.getCourseWiseReport();
   }
 
+  preRequiredDataForBatchModel(){
+    let standard_id = sessionStorage.getItem('subejctIdForReport');
+    this.masterCourse = sessionStorage.getItem('masterCourseForReport');
+    this.jsonFlag.isRippleLoad = true;
+    this.classService.getStandardSubjectList(standard_id, "-1", "Y").subscribe(
+      res => {
+        this.coursesList = res.subjectLi;
+        this.jsonFlag.isRippleLoad = false;
+      },
+      err => {
+        this.jsonFlag.isRippleLoad = false;
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', 'Please check your internet connection or contact at support@proctur.com if the issue persist');
+       }
+    );
+  }
+
+
+  generateChartData(res: any[]) {
+    let dateMap: any[] = [];
+    let feeMap: any[] = [];
+
+    res.map(e => {
+      dateMap.push(e.exam_date);
+      feeMap.push(e.total_absent_student);
+    });
+
+    this.createChart(dateMap, feeMap);
+  }
+
+  createChart(d: any[], f: any[]){
+    Highcharts.chart('chartWrap', {
+      chart: {
+             type: 'spline'
+         },
+         title: {
+              text: 'Exam Report'
+         },
+         xAxis: {
+           title: {
+              text: 'Date'
+            },
+            categories: d
+          // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+         },
+         yAxis: {
+           title: {
+             text: 'Percentage(%)'
+           }
+         },
+         series: [{
+             name: '',
+             data: f
+         }],
+         plotOptions: {
+          pointStart: 0
+       },
+     }
+  }
 }
