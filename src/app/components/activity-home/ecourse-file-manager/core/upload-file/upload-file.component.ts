@@ -25,7 +25,25 @@ export class UploadFileComponent implements OnInit {
   isRippleLoad: boolean = false;
   addCategoryPopup: boolean = false;
   material_dataShow: boolean = false;
+  showParentTopicModel:boolean = false;
   material_dataFlag: string = '';
+  jsonData={
+    parentTopic:'',
+    mainTopic:''
+  }
+  file: any;
+  payload = {
+    "clientPayload": {
+      "policy": "eyJleHBpcmF0aW9uIjoiMjAxOS0wOC0wOVQxMzozNDowMi42NTJaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoidmRvLWFwLXNvdXRoZWFzdCJ9LHsia2V5Ijoib3JpZy9LbTdCenZibk9sQ1lLIn0seyJ4LWFtei1jcmVkZW50aWFsIjoiQUtJQUoyUzJMQldLR04zVzMzR1EvMjAxOTA4MDgvYXAtc291dGhlYXN0LTEvczMvYXdzNF9yZXF1ZXN0In0seyJ4LWFtei1hbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJ4LWFtei1kYXRlIjoiMjAxOTA4MDhUMDAwMDAwWiJ9LFsic3RhcnRzLXdpdGgiLCIkc3VjY2Vzc19hY3Rpb25fc3RhdHVzIiwiIl0sWyJzdGFydHMtd2l0aCIsIiRzdWNjZXNzX2FjdGlvbl9yZWRpcmVjdCIsIiJdXX0=",
+      "key": "orig/Km7BzvbnOlCYK",
+      "x-amz-signature": "822fc67703da52612f3de3ffcea962ae82442f3e1df101aba3eee668b4f81757",
+      "x-amz-algorithm": "AWS4-HMAC-SHA256",
+      "x-amz-date": "20190808T000000Z",
+      "x-amz-credential": "AKIAJ2S2LBWKGN3W33GQ/20190808/ap-southeast-1/s3/aws4_request",
+      "uploadLink": "https://vdo-ap-southeast.s3-accelerate.amazonaws.com"
+    },
+    "videoId": "d2863726e1c1407092cd9674f170719d"
+  };
   varJson = {
     category_id: 0,
     name: '',
@@ -35,7 +53,8 @@ export class UploadFileComponent implements OnInit {
     sub_topic_id: 0,
     subject_id: 0,
     file_id: 0,
-    is_readonly: 'N'
+    is_readonly: 'N',
+    title: ''
   }
 
   constructor(
@@ -51,6 +70,7 @@ export class UploadFileComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("UploadFileComponent");
     this.dragoverflag = true;
     this.getcategoriesList();
     this.getCategories();
@@ -70,16 +90,14 @@ export class UploadFileComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
         return false;
       }
-      let category_id;
-      this.categiesTypeList.forEach(element => {
-        if (element.category_id == -1) {
-          category_id = element.videoCategoryList[0].category_id;
-        }
-      });
+      if(this.varJson.title==''){
+        this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
+        return false;          
+      }
       const formData = new FormData();
       let fileJson = {
         institute_id: this.institute_id,
-        category_id: category_id,
+        category_id: this.varJson.category_id,
         topic_id: this.varJson.topic_id,
         course_types: this.varJson.course_types,
         video_url: this.varJson.video_url,
@@ -131,6 +149,7 @@ export class UploadFileComponent implements OnInit {
 
   clearuploadObject() {
     this.showModal = false;
+    this.showParentTopicModel= false;
     this.varJson = {
       category_id: 0,
       name: '',
@@ -140,7 +159,8 @@ export class UploadFileComponent implements OnInit {
       sub_topic_id: 0,
       subject_id: 0,
       file_id: 0,
-      is_readonly: 'N'
+      is_readonly: 'N',
+      title: ''
     }
     this.varJson.name = '';
   }
@@ -160,10 +180,10 @@ export class UploadFileComponent implements OnInit {
       return false;
     }
 
-    if (this.varJson.topic_id == 0) {
-      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select topic to upload data");
-      return false;
-    }
+    // if (this.varJson.topic_id == 0) {
+    //   this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select topic to upload data");
+    //   return false;
+    // }
     return true;
   }
 
@@ -249,7 +269,7 @@ export class UploadFileComponent implements OnInit {
   getDataUsedInCourseList() {
     let url = "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
     this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this._fservice.storageData.storage_allocated = (Number(res.storage_allocated) * 0.001048576);
       this._fservice.storageData.uploaded_size = (Number(res.uploaded_size) * 0.001048576);
       let width = 1;
@@ -288,17 +308,21 @@ export class UploadFileComponent implements OnInit {
         }
         break;
       }
-      // case "Assignment": {
-      //   for (let i = 0; i < files.length; i++) {
-      //     let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.doc|.docx|.xls|.xlsx)$/i;
-      //     if (!pattern.test(files[i].name)) {
-      //       this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + "in pdf, doc, docx, xls, xlsx form");
-      //       flag = false;
-      //       break;
-      //     }
-      //   }
-      //   break;
-      // }
+      case "VDOCipher": {
+        if(this.varJson.title==''){
+          this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
+          flag = false;          
+        }
+        for (let i = 0; i < files.length; i++) {
+          let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV)$/i;
+          if (!pattern.test(files[i].name)) {
+            this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please select " + this.varJson.name + "in avi,flv,wmv,mp4 and mov form");
+            flag = false;
+            break;
+          }
+        }        
+        break;
+      }
       // case "EBook": {
       //   for (let i = 0; i < files.length; i++) {
       //     let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.pdf|.epub)$/i;
@@ -348,9 +372,19 @@ export class UploadFileComponent implements OnInit {
     // this.isRippleLoad = true;
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
+      let temp = [];
+      res.forEach(category => {
+        if (category.category_id == -1) {
+          category.videoCategoryList.forEach(vdoType => {
+            temp.push(vdoType);
+          });
+        } else {
+          temp.push(category);
+        }
+      });
       // this.isRippleLoad = false;
-      this.categiesTypeList = res;
+      this.categiesTypeList = temp;
     }, err => {
       // this.isRippleLoad = false;
     });
@@ -390,7 +424,7 @@ export class UploadFileComponent implements OnInit {
     this.categiesList = [];
     let url = "/api/v1/instFileSystem/institute/" + this.institute_id + "/ecoursesList";
     this._http.getData(url).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.categiesList = res;
     }, err => {
 
@@ -414,6 +448,106 @@ export class UploadFileComponent implements OnInit {
     }, err => {
       this.isRippleLoad = false;
     });
+  }
+
+  uploadHandler2($event) {
+    debugger;
+    let flag = this.uploadDatavalidation();
+
+    if (flag && this.checkCategoriesType($event.files)) {
+      let fileJson = {
+        "institute_id": this.institute_id,
+        "category_id": this.varJson.category_id,
+        "topic_id": this.varJson.topic_id,
+        "course_types": this.varJson.course_types,
+        "video_url": null,
+        "sub_topic_id": this.varJson.sub_topic_id,
+        "subject_id": this.varJson.subject_id,
+        "is_readonly": "N",
+        "is_raw_data": "Y",                                             //if send only video title then this key value should be 'Y' ; else set 'N'
+        "is_url": "N",                                                        //if send video url & title then this key value should be 'Y' ; else set 'N'
+        "is_private": "Y",                                                 // if user wants to make file as private
+        "title": this.varJson.title,
+        "vdoCipherOTPPayloadJson": {
+          "ttl": 300,
+          "annotate": [{
+            "size": 15,
+            "interval": 5000,
+            "type": "rtext",
+            "text": "Proctur",
+            "alpha": "0.60",
+            "color": "0xFF0000"
+          }]
+        }
+      }
+      let base = this.auth.getBaseUrl();
+      let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";
+      let newxhr = new XMLHttpRequest();
+      let auths: any = {
+        userid: sessionStorage.getItem('userid'),
+        userType: sessionStorage.getItem('userType'),
+        password: sessionStorage.getItem('password'),
+        institution_id: sessionStorage.getItem('institute_id'),
+      }
+      let Authorization = btoa(auths.userid + "|" + auths.userType + ":" + auths.password + ":" + auths.institution_id);
+      const formData = new FormData();
+      formData.append('fileJson', JSON.stringify(fileJson));
+      newxhr.open("POST", urlPostXlsDocument, true);
+      newxhr.setRequestHeader("Authorization", Authorization);
+      newxhr.setRequestHeader("enctype", "multipart/form-data;");
+      newxhr.setRequestHeader("Accept", "application/json, text/javascript");
+      newxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      this.isRippleLoad = false;
+      if (!this.isRippleLoad) {
+        this.isRippleLoad = true;
+        newxhr.onreadystatechange = () => {
+          this.isRippleLoad = false;
+          if (newxhr.readyState == 4) {
+            if (newxhr.status >= 200 && newxhr.status < 300) {
+              this.isRippleLoad = false;
+              var files = $event.files;
+              this.file = files[0];
+              console.log(this.file);
+              let payloadObject: any = newxhr;
+              this.payload = payloadObject;
+              this.upload();
+            } else {
+              this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
+            }
+          }
+        }
+        newxhr.send(formData);
+      }
+    }
+
+    // var files = $event.files;
+    // this.file = files[0];
+    // console.log(this.file);
+    // this.upload();
+  }
+
+  upload() {
+    var formData = new FormData();
+    var xhr = new XMLHttpRequest();
+    var self = this;
+    //Build AWS S3 Request
+    formData.append('key', this.payload.clientPayload.key);
+    formData.append('x-amz-credential', this.payload.clientPayload['x-amz-credential']);
+    formData.append('x-amz-algorithm', this.payload.clientPayload['x-amz-algorithm']);
+    formData.append('x-amz-date', this.payload.clientPayload['x-amz-date']);
+    formData.append('policy', this.payload.clientPayload['policy']);
+    formData.append('x-amz-signature', this.payload.clientPayload['x-amz-signature']);
+    formData.append("success_action_status", "201");
+    formData.append("success_action_redirect", "");
+    formData.append('file', this.file);
+    xhr.open('POST', this.payload.clientPayload['uploadLink'], false);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4 && xhr.status == 201) {
+        console.log(xhr.response);
+        this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "Video uploaded successfully");
+      }
+    }
+    xhr.send(formData);
   }
 
 }
