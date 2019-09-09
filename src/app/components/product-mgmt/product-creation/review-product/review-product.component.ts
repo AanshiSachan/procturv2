@@ -210,6 +210,8 @@ export class ReviewProductComponent implements OnInit {
       "price": this.prodForm.price,
       "valid_from_date": this.prodForm.valid_from_date,
       "valid_to_date": this.prodForm.valid_to_date,
+      "sales_from_date":this.prodForm.sales_from_date,
+      "sales_to_date":this.prodForm.sales_to_date,
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
