@@ -1,4 +1,4 @@
-import moment = require("moment");
+import * as moment from 'moment';
 
 export class product_details {
     entity_id:string=null;

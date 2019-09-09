@@ -49,7 +49,7 @@ export class MockTestComponent implements OnInit {
     //Fetch Product Groups List
     if(!this.isRippleLoad){
       this.isRippleLoad= true;
-      this.http.postMethod('ext/get-examdesk', ["Mock_Test"]).then(
+      this.http.postMethod2('ext/get-examdesk', ["Mock_Test"]).then(
         (resp: any) => {
           this.isRippleLoad= false;
           let response = resp['body'];

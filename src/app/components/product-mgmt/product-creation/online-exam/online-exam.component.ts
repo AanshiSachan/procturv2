@@ -35,7 +35,7 @@ export class OnlineExamComponent implements OnInit {
     //Fetch Product Groups List
     if(!this.isRippleLoad){
       this.isRippleLoad= true;
-      this.http.postMethod('ext/get-examdesk', ["Online_Test"]).then(
+      this.http.postMethod2('ext/get-examdesk', ["Online_Test"]).then(
         (resp: any) => {
           this.isRippleLoad= false;
           let response = resp['body'];

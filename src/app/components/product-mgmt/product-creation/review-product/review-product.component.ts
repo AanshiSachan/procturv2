@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ProductService } from '../../../../services/products.service';
 import { MessageShowService } from '../../../../services/message-show.service';
 import { Router } from '@angular/router';
-import moment = require('moment');
+
 
 @Component({
   selector: 'app-review-product',

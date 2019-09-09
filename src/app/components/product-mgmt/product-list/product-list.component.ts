@@ -46,20 +46,19 @@ export class ProductListComponent implements OnInit {
   }
 
   initFilters() {
-    let param = {
-      "proc-authorization": "MTk4MzJ8MDphZG1pbjoxMDAxMjg="
-    }
     this.isRippleLoad = true;
-    this.http.getMethod('ext/get-ecources', param).subscribe(
+    this.http.getMethod('ext/get-ecources', null).subscribe(
       (resp: any) => {
         this.isRippleLoad = false;
-        let response = JSON.parse(resp.result);
-        console.log(resp);
-        if (resp.validate) {
-          this.ecourseList = response;
-        }
-        else {
-          this.msgService.showErrorMessage('error', response.errors.message, '');
+        if (resp) {
+          let response = JSON.parse(resp.result);
+          console.log(resp);
+          if (resp.validate) {
+            this.ecourseList = response;
+          }
+          else {
+            this.msgService.showErrorMessage('error', response.errors.message, '');
+          }
         }
       },
       (err) => {
@@ -74,10 +73,11 @@ export class ProductListComponent implements OnInit {
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
     this.isRippleLoad = false;
     this.filter.subject_id = '-1';
+    this.subjectsList=[];
     this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/' + this.filter.ecourse_id + '/subjects').subscribe(
       (resp: any) => {
         this.isRippleLoad = false;
-        if (resp.length) {
+        if (resp && resp.length) {
           this.subjectsList = resp;
         }
       },
@@ -93,15 +93,19 @@ export class ProductListComponent implements OnInit {
     this.isRippleLoad = true;
     this.http.getMethod('product/get', null).subscribe(
       (resp: any) => {
-        this.isRippleLoad = false;
-        let response = resp.result;
-        console.log(resp);
-        if (resp.validate) {
-          this.productList = response;
-          this.total_items = response.length;
-        }
-        else {
-          this.msgService.showErrorMessage('error', response.errors.message, '');
+        if (resp) {
+          this.isRippleLoad = false;
+          console.log(resp);
+          if(resp){
+            let response = resp.result;
+            if (resp && resp.validate) {            
+              this.productList = response;
+              this.total_items = response.length;
+            }
+            else {
+              this.msgService.showErrorMessage('error', response.errors.message, '');
+            }
+          }        
         }
       },
       (err) => {
@@ -117,7 +121,7 @@ export class ProductListComponent implements OnInit {
         (resp) => {
           let response = resp['body'];
           this.isRippleLoad = false;
-          if (response.validate) {
+          if (resp && response.validate) {
             this.productList = [...this.productList, ...response.data.products];
           }
           else {
@@ -143,6 +147,11 @@ export class ProductListComponent implements OnInit {
         this.deleteItem.btnText = 'Delete';
         break;
       }
+      case 'ready': {
+        this.deleteItem.btnClass = 'btn-primary';
+        this.deleteItem.btnText = 'Ready';
+        break;
+      }
       case 'publish': {
         this.deleteItem.btnClass = 'btn-success';
         this.deleteItem.btnText = 'Publish';
@@ -151,6 +160,11 @@ export class ProductListComponent implements OnInit {
       case 'unpublish': {
         this.deleteItem.btnClass = 'btn-primary';
         this.deleteItem.btnText = 'Unpublish';
+        break;
+      }
+      case 'close': {
+        this.deleteItem.btnClass = 'btn-primary';
+        this.deleteItem.btnText = 'Close';
         break;
       }
     }
@@ -172,9 +186,10 @@ export class ProductListComponent implements OnInit {
           this.http.getMethod('product/delete/' + id, null).subscribe(
             (resp: any) => {
               this.isRippleLoad = false;
-              let response = resp.result;
+
               console.log(resp);
-              if (resp.validate) {
+              if (resp && resp.validate) {
+                let response = resp.result;
                 this.msgService.showErrorMessage('success', 'Product removed successfully', '');
                 $("#actionProductModal").modal('hide');
                 this.productList.forEach((element, index) => {
@@ -196,13 +211,23 @@ export class ProductListComponent implements OnInit {
         }
         break;
       }
-      case 'publish': {
+      case 'ready': {
         item.status = 20;
         this.tempFucntion(id, item, operation);
         break;
       }
-      case 'unpublish': {
+      case 'publish': {
         item.status = 30;
+        this.tempFucntion(id, item, operation);
+        break;
+      }
+      case 'unpublish': {
+        item.status = 40;
+        this.tempFucntion(id, item, operation);
+        break;
+      }
+      case 'close': {
+        item.status = 50;
         this.tempFucntion(id, item, operation);
         break;
       }
@@ -217,14 +242,17 @@ export class ProductListComponent implements OnInit {
       this.http.postMethod('product/update', body).then(
         (resp) => {
           this.isRippleLoad = false;
-          let data = resp['body'];
-          if (data.validate) {
-            this.msgService.showErrorMessage("success", "product updated successfully", '');
-            $("#actionProductModal").modal('hide');
-            // item.product_status = body.product_status;
-          }
-          else {
-            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+          if (resp) {
+            let data = resp['body'];
+            if (resp && data.validate) {
+
+              this.msgService.showErrorMessage("success", "product updated successfully", '');
+              $("#actionProductModal").modal('hide');
+              // item.product_status = body.product_status;
+            }
+            else {
+              this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+            }
           }
         },
         (err) => {
@@ -239,17 +267,21 @@ export class ProductListComponent implements OnInit {
   filterData() {
     console.log("filterData");
     this.isRippleLoad = true;
-    this.http.getMethod('product/find-by-course/' + this.filter.ecourse_id, null).subscribe(
+    //find-by-course-subject?courseId=123&sujectId=7
+    let url ='product/find-by-course-subject?courseId='+ this.filter.ecourse_id+'&sujectId='+ this.filter.subject_id
+    this.http.getMethod(url, null).subscribe(
       (resp: any) => {
         this.isRippleLoad = false;
-        let response = resp.result;
-        console.log(resp);
-        if (resp.validate) {
-          this.productList = response;
-          this.total_items = response.length;
-        }
-        else {
-          this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+        if (resp) {
+          let response = resp.result;
+          console.log(resp);
+          if (resp.validate) {
+            this.productList = response;
+            this.total_items = response.length;
+          }
+          else {
+            this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+          }
         }
       },
       (err) => {
