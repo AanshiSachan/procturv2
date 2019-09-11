@@ -54,17 +54,24 @@ export class EcourseSubjectListComponent implements OnInit {
   ngOnInit() {
     this.getSubjectList();
     this._http.routeList.splice(2, this._http.routeList.length);
+    this._http.updatedDataSelection('subject-list');
+        this._http.data.subscribe(data => {
+            if (data == 'subject') {
+                this.getSubjectList();
+                this._http.updatedDataSelection(null);
+            }
+        });
   }
 
   uploadPopupOpen(topic) {
     // console.log(topic);
     this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+    this.uploadFile.material_dataShow = true;
+    this.uploadFile.material_dataFlag = 'subject-list';
     this.uploadFile.varJson.course_types = this.ecourse_id;
-    this.uploadFile.material_dataFlag = 'material';
     this.uploadFile.getSubjectsList(this.ecourse_id);
     this.uploadFile.varJson.subject_id = topic.subject_id;
     this.uploadFile.getTopicsList(topic.subject_id);
-    this.uploadFile.material_dataShow = true;
   }
 
   getSubjectList() {

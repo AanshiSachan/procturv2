@@ -25,11 +25,11 @@ export class UploadFileComponent implements OnInit {
   isRippleLoad: boolean = false;
   addCategoryPopup: boolean = false;
   material_dataShow: boolean = false;
-  showParentTopicModel:boolean = false;
+  showParentTopicModel: boolean = false;
   material_dataFlag: string = '';
-  jsonData={
-    parentTopic:'',
-    mainTopic:''
+  jsonData = {
+    parentTopic: '',
+    mainTopic: ''
   }
   file: any;
   payload = {
@@ -90,9 +90,9 @@ export class UploadFileComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
         return false;
       }
-      if(this.varJson.title==''){
+      if (this.varJson.title == '') {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
-        return false;          
+        return false;
       }
       const formData = new FormData();
       let fileJson = {
@@ -132,9 +132,10 @@ export class UploadFileComponent implements OnInit {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
               this.clearuploadObject();
-              this.material_dataShow ?
-                this._http.updatedDataSelection('material') :
+
+              this.material_dataShow ? this._http.updatedDataSelection('material') :
                 this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+              console.log(this.material_dataFlag);
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
@@ -146,10 +147,17 @@ export class UploadFileComponent implements OnInit {
     }
   }
 
+  checkListCall() {
+
+    switch (this.material_dataFlag) {
+      default:
+        this._http.updatedDataSelection('subject');
+    }
+  }
 
   clearuploadObject() {
     this.showModal = false;
-    this.showParentTopicModel= false;
+    this.showParentTopicModel = false;
     this.varJson = {
       category_id: 0,
       name: '',
@@ -189,7 +197,7 @@ export class UploadFileComponent implements OnInit {
 
   uploadHandler($event) {
     let flag = this.uploadDatavalidation();
-
+    console.log(this.material_dataFlag);
     if (flag && this.checkCategoriesType($event.files)) {
       const formData = new FormData();
       let fileJson = {
@@ -235,10 +243,16 @@ export class UploadFileComponent implements OnInit {
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.clearuploadObject();
-              this.material_dataShow ?
-                this._http.updatedDataSelection('material') :
-                this.material_dataFlag == 'material' ?
-                  this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+
+              if (this.material_dataShow && this.material_dataFlag == 'material') {
+                this._http.updatedDataSelection('material')
+              }
+              else if (this.material_dataShow && this.material_dataFlag == 'subject-list') {
+                this._http.updatedDataSelection('subject');
+              }
+              else {
+                this._http.updatedDataSelection('list');
+              }
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
               this.getDataUsedInCourseList();
 
@@ -309,9 +323,9 @@ export class UploadFileComponent implements OnInit {
         break;
       }
       case "VDOCipher": {
-        if(this.varJson.title==''){
+        if (this.varJson.title == '') {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
-          flag = false;          
+          flag = false;
         }
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV)$/i;
@@ -320,7 +334,7 @@ export class UploadFileComponent implements OnInit {
             flag = false;
             break;
           }
-        }        
+        }
         break;
       }
       // case "EBook": {
@@ -439,7 +453,7 @@ export class UploadFileComponent implements OnInit {
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
       this.subjectList = res;
-      if (this.material_dataFlag != 'material') {
+      if (this.material_dataFlag != 'material' && this.material_dataFlag != 'subject-list') {
         this.varJson.subject_id = 0;
       }
       this.varJson.sub_topic_id = 0;
@@ -452,6 +466,7 @@ export class UploadFileComponent implements OnInit {
 
   uploadHandler2($event) {
     debugger;
+    console.log(this.material_dataFlag);
     let flag = this.uploadDatavalidation();
 
     if (flag && this.checkCategoriesType($event.files)) {

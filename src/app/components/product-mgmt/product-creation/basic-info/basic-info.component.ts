@@ -52,6 +52,8 @@ export class BasicInfoComponent implements OnInit {
     valid_from_date: moment().format('DD-MMM-YYYY'),
     valid_to_date: moment().format('DD-MMM-YYYY'),
     publish_date: moment().format('DD-MMM-YYYY'),
+    salesFromDate:moment().format('DD-MMM-YYYY'),
+    salesToDate:moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -229,6 +231,8 @@ export class BasicInfoComponent implements OnInit {
       "price": this.prodForm.price,
       "valid_from_date": this.prodForm.valid_from_date,
       "valid_to_date": this.prodForm.valid_to_date,
+      "sales_from_date":this.prodForm.sales_from_date,
+      "sales_to_date":this.prodForm.sales_to_date,
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
@@ -248,7 +252,7 @@ export class BasicInfoComponent implements OnInit {
 
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod('/product/create', object).then(
+      this.http.postMethod('product/create', object).then(
         (resp: any) => {
           this.isRippleLoad = false;
           let response = resp['body']

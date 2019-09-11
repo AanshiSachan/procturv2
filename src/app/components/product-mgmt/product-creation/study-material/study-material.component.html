@@ -27,26 +27,26 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'"
   *ngIf="isRippleLoad">
 </loaders-css>
-<div style="padding: 10px 15px;">
+<!-- <div style="padding: 10px 15px;">
   <div class="field-checkbox-wrapper">
     <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
       name="has_mock_tests" id="mock_test">
     <label for="ch2" style="font-weight: 600;">Select All</label>
   </div>
-</div>
+</div> -->
 <div class="fluid-container data-wrapper">
   <div class="row main-topic-row" *ngFor="let ecourse of materialData;">
     <div class="row singleton-row col-md-12 topic-data main-topic-data">
       <div class="col-md-8 topic-name">
-        <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+        <!-- <div class="field-checkbox-wrapper">
+          <input type="checkbox" class="form-checkbox" [(ngModel)]="ecourse.isSelected"
             (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
           <label for="ch2"></label>
-        </div>
+        </div> -->
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="ecourse.isExpand" (click)="subjectListToggle(ecourse)"></i>
           <i class="fa fa-plus" *ngIf="!ecourse.isExpand" (click)="subjectListToggle(ecourse)"></i>
-        </button> {{ecourse.ecourse_name}}
+        </button> {{ecourse.ecourse_name}} 
       </div>
       <div class="col-md-4">
       </div>
@@ -94,19 +94,19 @@
 </div>
 
 
-<ng-template #subjectsNodes let-subjectList let-level="subject">
+<ng-template #subjectsNodes let-subjectList let-level="subLevel">
     <div class="row topic-row" *ngFor="let subject of subjectList">
       <div class="row singleton-row col-md-12 topic-data topic-name">
         <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+          <!-- <div class="field-checkbox-wrapper">
+            <input type="checkbox" class="form-checkbox" [(ngModel)]="subject.isSelected"
               (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
             <label for="ch2"></label>
-          </div>
+          </div> -->
           <button class="btn-ga-collapse">
             <i class="fa fa-minus" *ngIf="subject.isExpand" (click)="toggleObject(subject)"></i>
             <i class="fa fa-plus" *ngIf="!subject.isExpand" (click)="toggleObject(subject)"></i>
-          </button> {{subject.title}}
+          </button> {{subject.subject_name}}
         </div>
         <div class="col-md-4">
         </div>
@@ -132,10 +132,10 @@
             *ngTemplateOutlet="studyMaterialList; context:{$implicit: subject.studyMaterialList, level: level+2}">
           </ng-container>  
         </div>
-        <!-- <div class="row col-md-12 subTopics-data">
+        <div class="row col-md-12 subTopics-data">
           <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: subject.subTopics, subLevel: level+1 } ">
           </ng-container>
-        </div> -->
+        </div>
       </div>
     </div>
   </ng-template>
@@ -144,11 +144,11 @@
   <div class="row topic-row" *ngFor="let topic of subTopics">
     <div class="row singleton-row col-md-12 topic-data">
       <div class="col-md-8 topic-name" [ngStyle]="{'padding-left': level+'em'}">
-        <div class="field-checkbox-wrapper">
-          <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll"
+        <!-- <div class="field-checkbox-wrapper">
+          <input type="checkbox" class="form-checkbox" [(ngModel)]="topic.isSelected"
             (ngModelChange)="selectAllDetails($event)" name="has_mock_tests" id="mock_test">
           <label for="ch2"></label>
-        </div>
+        </div> -->
         <button class="btn-ga-collapse">
           <i class="fa fa-minus" *ngIf="topic.isExpand" (click)="subjectListToggle(topic)"></i>
           <i class="fa fa-plus" *ngIf="!topic.isExpand" (click)="subjectListToggle(topic)"></i>
@@ -189,10 +189,10 @@
 
 
 <ng-template #youtubeData let-youtube let-level="level">
-  <div class="row singleton-row material-row" *ngFor="let video of youtube">
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">{{level}}
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="video.isSelected" (ngModelChange)="selectAllDetails($event,video)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -213,7 +213,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of image">
     <div class="col-md-8 material-title txt-color " [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -240,7 +240,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of assignment">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"  (ngModelChange)="selectAllDetails($event,file)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -267,7 +267,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of notes">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected"  (ngModelChange)="selectAllDetails($event,file)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -294,7 +294,7 @@
   <div class="row singleton-row material-row" *ngFor="let audio of audios">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="audio.isSelected"  (ngModelChange)="selectAllDetails($event,audio)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -321,7 +321,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of previousYearQuesList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -349,7 +349,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of slidesList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>
@@ -376,7 +376,7 @@
   <div class="row singleton-row material-row" *ngFor="let file of studyList">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
-        <input type="checkbox" class="form-checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllDetails($event)"
+        <input type="checkbox" class="form-checkbox" [(ngModel)]="file.isSelected" (ngModelChange)="selectAllDetails($event,file)"
           name="has_mock_tests" id="mock_test">
         <label for="ch2"></label>
       </div>

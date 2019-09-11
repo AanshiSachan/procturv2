@@ -21,189 +21,11 @@ export class StudyMaterialComponent implements OnInit {
   @Output() toggleLoader = new EventEmitter<boolean>();
   @Output() previewEvent = new EventEmitter<boolean>();
   institute_id: any = sessionStorage.getItem('institute_id');
-  subjectList: any[] = [{ name: 'History' }, { name: 'Geography' }, { name: 'Physics' }];
+  // subjectList: any[] = [{ name: 'History' }, { name: 'Geography' }, { name: 'Physics' }];
   studyMaterial: any[] = [{ "course_type": "PG-DAC", "is_test_series": "N", "course_type_id": 512, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New Db Migrationgvf", "is_test_series": "N", "course_type_id": 736, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New Db Migration", "is_test_series": "N", "course_type_id": 737, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "testiii", "is_test_series": "N", "course_type_id": 706, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Primary", "is_test_series": "N", "course_type_id": 676, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "HTML", "is_test_series": "N", "course_type_id": 612, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Gate Review :D", "is_test_series": "N", "course_type_id": 4, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "Primary-EE", "is_test_series": "N", "course_type_id": 677, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "GATE New", "is_test_series": "N", "course_type_id": 5, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "CDAC", "is_test_series": "N", "course_type_id": 678, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "aditya", "is_test_series": "N", "course_type_id": 616, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": ["Assignment", "Audio Notes", "EBook", "Images", "Notes", "Youtube URL"] }, { "course_type": "Gogo", "is_test_series": "N", "course_type_id": 501, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }, { "course_type": "New db migrationbf", "is_test_series": "N", "course_type_id": 735, "total_assigned_student_count": 0, "master_course_ids": null, "eCourseMapping": null, "categoryList": [] }];
   outputMessage: any = '';
-  materialData: any[] = [
-    {
-      "ecourse_id": 4,
-      "ecourse_name": "course access ",
-      "subjects": null,
-      "subjectsList": [
-        {
-          "subject_id": 1251,
-          "is_readonly": "N",
-          "file_id": null,
-          "file_name": null,
-          "file_path": null,
-          "size": null,
-          "desc": null,
-          "title": "subjeect 1",
-          "uploadedBy": null,
-          "video_url": null,
-          "youtubeVideoID": null,
-          "subject_name": "Bio",
-          "videosList": [
-            {
-              "is_readonly": "N",
-              "file_id": "793",
-              "file_name": null,
-              "file_path": null,
-              "size": "0.0",
-              "desc": null,
-              "title": "aaakrosh_12306",
-              "uploadedBy": "admin",
-              "video_url": null,
-              "youtubeVideoID": null
-            }],
-          "notesList": [
-            {
-              "is_readonly": "N",
-              "file_id": "792",
-              "file_name": "https://s3-ap-southeast-1.amazonaws.com/testeduimspro/100058/aaakrosh_12306_539_661.pdf",
-              "file_path": "100058/aaakrosh_12306_539_661.pdf",
-              "size": "0.0",
-              "desc": null,
-              "title": "aaakrosh_12306",
-              "uploadedBy": "admin",
-              "video_url": null,
-              "youtubeVideoID": null
-            },
-            {
-              "is_readonly": "N",
-              "file_id": "796",
-              "file_name": "https://s3-ap-southeast-1.amazonaws.com/testeduimspro/100058/aaakrosh_12306_539_661.pdf",
-              "file_path": "100058/aaakrosh_12306_539_661.pdf",
-              "size": "0.0",
-              "desc": null,
-              "title": "aaakrosh_12306",
-              "uploadedBy": "admin",
-              "video_url": null,
-              "youtubeVideoID": null
-            }
-          ]
-        }
-        ,
-        {
-          "subject_id": 1250,
-          "is_readonly": "N",
-          "file_id": null,
-          "file_name": null,
-          "file_path": null,
-          "size": null,
-          "desc": null,
-          "title": "subjeect 2",
-          "uploadedBy": null,
-          "video_url": null,
-          "youtubeVideoID": null,
-          "subject_name": "Chem"
-        },
-        {
-          "subject_id": 339,
-          "is_readonly": "N",
-          "file_id": null,
-          "file_name": null,
-          "file_path": null,
-          "size": null,
-          "desc": null,
-          "title": "subjeect 3",
-          "uploadedBy": null,
-          "video_url": null,
-          "youtubeVideoID": null,
-          "subject_name": "Maths"
-        }
-      ]
-    },
-    {
-      "ecourse_id": 5,
-      "ecourse_name": "aniket course ",
-      "subjects": null,
-      "subjectsList": [
-        {
-          "subject_id": 1251,
-          "is_readonly": "N",
-          "file_id": null,
-          "file_name": null,
-          "file_path": null,
-          "size": null,
-          "desc": null,
-          "title": "subjeect 21",
-          "uploadedBy": null,
-          "video_url": null,
-          "youtubeVideoID": null,
-          "subject_name": "Bio",
-          "videosList": [{
-            "is_readonly": "N",
-            "file_id": "793",
-            "file_name": null,
-            "file_path": null,
-            "size": "0.0",
-            "desc": null,
-            "title": "aaakrosh_12306",
-            "uploadedBy": "admin",
-            "video_url": null,
-            "youtubeVideoID": null
-          }],
-          "notesList": [
-            {
-              "is_readonly": "N",
-              "file_id": "792",
-              "file_name": "https://s3-ap-southeast-1.amazonaws.com/testeduimspro/100058/aaakrosh_12306_539_661.pdf",
-              "file_path": "100058/aaakrosh_12306_539_661.pdf",
-              "size": "0.0",
-              "desc": null,
-              "title": "aaakrosh_12306",
-              "uploadedBy": "admin",
-              "video_url": null,
-              "youtubeVideoID": null
-            },
-            {
-              "is_readonly": "N",
-              "file_id": "796",
-              "file_name": "https://s3-ap-southeast-1.amazonaws.com/testeduimspro/100058/aaakrosh_12306_539_661.pdf",
-              "file_path": "100058/aaakrosh_12306_539_661.pdf",
-              "size": "0.0",
-              "desc": null,
-              "title": "aaakrosh_12306",
-              "uploadedBy": "admin",
-              "video_url": null,
-              "youtubeVideoID": null
-            }
-          ]
-        }
-        ,
-        {
-          "subject_id": 1250,
-          "is_readonly": "N",
-          "file_id": null,
-          "file_name": null,
-          "file_path": null,
-          "size": null,
-          "desc": null,
-          "title": "subjeect 22",
-          "uploadedBy": null,
-          "video_url": null,
-          "youtubeVideoID": null,
-          "subject_name": "Chem"
-        },
-        {
-          "subject_id": 339,
-          "is_readonly": "N",
-          "file_id": null,
-          "file_name": null,
-          "file_path": null,
-          "size": null,
-          "desc": null,
-          "title": "subjeect 23",
-          "uploadedBy": null,
-          "video_url": null,
-          "youtubeVideoID": null,
-          "subject_name": "Maths"
-        }
-      ]
-    }
-  ]
-  
+  materialData: any[] = [];
+  testlist: any[] = [];
   constructor(
     private router: Router,
     private msgService: MessageShowService,
@@ -211,21 +33,6 @@ export class StudyMaterialComponent implements OnInit {
     private http: ProductService) { }
 
   ngOnInit() {
-    this.materialData.forEach(element => {
-      element.isExpand = false;
-      if (element.subjectsList) {
-        element.subjectsList.forEach((subject) => {
-          subject.isExpand = false;
-          this.addMaterialExtension(subject);
-        });
-      }
-      else{
-        element.subjectsList=[];
-      }
-      // if (element.subTopics == undefined) {
-      //   element.subTopics = [];
-      // }
-    });
     this.initForm();
     this.initProductForm();
   }
@@ -261,27 +68,49 @@ export class StudyMaterialComponent implements OnInit {
   }
 
   gotoNext() {
-    this.nextForm.emit();
+    if ((!this.isRippleLoad)) {
+      //update test List
+      this.isRippleLoad = true;
+      this.http.postMethod('product-item/update/' + this.entity_id, this.testlist).then(
+        (resp: any) => {
+          this.isRippleLoad = false;
+          let response = resp['body'];
+          if (response.validate) {
+            let details = response.result;
+            this.prodForm.product_item_list = details;
+            this.msgService.showErrorMessage('success', "product study matterial data updated successfully", '');
+            this.nextForm.emit();
+          }
+          else {
+            this.testlist = [];
+            this.msgService.showErrorMessage('error', response.errors.message, '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage('error','something went wrong ty again ', '');
+        });
+    }
   }
-   
-  subjectListToggle(subject){
+
+  subjectListToggle(subject) {
     subject.isExpand = !subject.isExpand;
   }
 
   toggleObject(topic) {
     topic.isExpand = !topic.isExpand;
     if (topic.isExpand && topic.subTopics.length == 0) {
-      this.getSubtopicListData(topic);
+      this.getSubjectTopics(topic);
     }
     else {
-      topic.subTopics.forEach(subtopic => {
-        subtopic.isExpand = false;
-      });
+      // topic.subTopics.forEach(subtopic => {
+      //   subtopic.isExpand = false;
+      // });
     }
   }
 
   getSubtopicListData(topic) {
-    
+
     let url = "/api/v1/topic_manager/subject/6685/topicMaterials";
     let parent_topic_id = -1;
     topic.topic_id = -1;
@@ -290,21 +119,21 @@ export class StudyMaterialComponent implements OnInit {
       "institute_id": sessionStorage.getItem('institute_id'),
       "parent_topic_id": topic.topic_id,
     }
-    if(!this.isRippleLoad){
+    if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-    this._http.postData(url, data).subscribe((res) => {
-      console.log(res);
-      topic.subTopics = res;
-      topic.subTopics.forEach(element => {
-        element.isExpand = false;
-        element.subTopics = [];
-        this.addMaterialExtension(element);
-      });
-      this.isRippleLoad = false;
-    },
-      (err) => {
+      this._http.postData(url, data).subscribe((res) => {
+        console.log(res);
+        topic.subTopics = res;
+        topic.subTopics.forEach(element => {
+          element.isExpand = false;
+          element.subTopics = [];
+          this.addMaterialExtension(element);
+        });
         this.isRippleLoad = false;
-      });
+      },
+        (err) => {
+          this.isRippleLoad = false;
+        });
     }
   }
 
@@ -319,9 +148,11 @@ export class StudyMaterialComponent implements OnInit {
       }
       this.materialData.forEach(element => {
         element.isExpand = false;
+        element.isSelected = false
         if (element.subjectsList) {
           element.subjectsList.forEach((subject) => {
             subject.isExpand = false;
+            subject.isSelected = false
             this.addMaterialExtension(subject);
           })
         }
@@ -338,12 +169,65 @@ export class StudyMaterialComponent implements OnInit {
       })
   }
 
+  getSlugname(key) {
+    let slug = 'Slides';
+    switch (key) {
+      case "notesList": {
+        slug = 'Notes';
+        break;
+      }
+      case "assignmentList": {
+        slug = 'Assignment';
+        break;
+      }
+      case "studyMaterialList": {
+        slug = 'eBook';
+        break;
+      }
+      case "videosList": {
+        slug = 'Images';
+        break;
+      }
+      case "imageList": {
+        slug = 'Video';
+        break;
+      }
+      case "previousYearQuesList": {
+        slug = 'Previous_Year_Questions_Paper';
+        break;
+      }
+      case "audioNotesList": {
+        slug = 'Audio_Notes';
+        break;
+      }
+      case "slidesList": {
+        slug = 'Slides';
+        break;
+      }
+    }
+    return slug;
+  }
+
+  isItemSelected(item, key) {
+    this.prodForm.product_item_list.forEach((object) => {
+      if (object.source_item_id == item.file_id && item.slug == object.slug) {
+        item.isSelected = true;
+        // this.testlist.push(object);
+      }
+    });
+  }
+
+
   addMaterialExtension(object) {
     let keys = ["notesList", "assignmentList", "studyMaterialList", "videosList", "imageList", "previousYearQuesList", "audioNotesList", "slidesList"];
     keys.forEach(key => {
       if (object[key]) {
+        let slug = this.getSlugname(key);
         object[key].forEach(element => {
-          let str = element.file_path;
+          element.isSelected = false;
+          element.slug = slug;
+          let str = element.file_name;
+          this.isItemSelected(element, key);
           let ext = str && str.substr(str.lastIndexOf(".") + 1, str.length);
           switch (ext) {
             case 'epub': {
@@ -391,85 +275,126 @@ export class StudyMaterialComponent implements OnInit {
         });
       }
     });
-
-
   }
 
   initForm() {
     //Fetch Product Groups List
-
     if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
-      let object = {
-        "productId": this.entity_id,
-        "proc-authorization": "MTc3MTV8MDphZG1pbmE1OjEwMDA1OA=="
-      }
-       if(!this.isRippleLoad){
-        this.isRippleLoad=true;
-        this.http.getMethod('ext/get-subjects-of-ecourses', object).subscribe(
+      if (!this.isRippleLoad) {
+        this.isRippleLoad = true;
+        this.http.getMethod('ext/get-subjects-of-ecourses/' + this.entity_id, null).subscribe(
           (resp: any) => {
-            this.isRippleLoad=false;
-            let response = resp.result;
-            if (resp.validate) {
-              let productData = response;
-              this.prodForm.entity_id = productData.entity_id;
-              this.prodForm.title = productData.title;
-              this.prodForm.about = productData.about;
-              this.prodForm.is_paid = productData.is_paid;
-              this.prodForm.price = productData.price;
-              this.prodForm.start_datetime = productData.valid_from_date;
-              this.prodForm.end_datetime = productData.valid_to_date;
-              this.prodForm.status = productData.status;
-              this.prodForm.purchase_limit = productData.purchase_limit;
-              this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-              this.prodForm.product_items_types = productData.product_items_types;
-              this.prodForm.product_item_stats = {};
-              this.prodForm.product_items_types.forEach(
-                element => {
-                  this.prodForm.product_item_stats[element.slug] = true;
-                });
-              this.updateProductItemStates(null, null);
-            }
-            else {
-              this.msgService.showErrorMessage('error', response.errors.message, '');
+            this.isRippleLoad = false;
+            if (resp) {
+              let response = JSON.parse(resp.result);
+              this.materialData = response;
+              console.log(this.materialData);
+              this.materialData.forEach(element => {
+                element.isExpand = false;
+                element.isSelected = false
+                if (element.subjectsList) {
+                  element.subjectsList.forEach((subject) => {
+                    subject.isExpand = false;
+                    subject.isSelected = false;
+                    subject.parent_topic_id = '-1';
+                    subject.subTopics = [];
+                    this.addMaterialExtension(subject);
+                  });
+                }
+                else {
+                  element.subjectsList = [];
+                }
+              });
             }
           },
           (err) => {
-            this.isRippleLoad=false;
-            this.msgService.showErrorMessage('error', err['error'].message, '');
+            this.isRippleLoad = false;
+            this.msgService.showErrorMessage('error','something went wrong ty again ', '');
           });
-       }
+      }
     }
 
 
   }
 
+  getSubjectTopics(object) {
+    let params = {
+      "source_subject_id": object.subject_id,
+      "product_id": this.entity_id,
+      "parent_topic_id": object.parent_topic_id
+    }
+
+    if (!this.isRippleLoad) {
+      this.isRippleLoad = true;
+      this.http.postMethod('ext/get-topic-of-subject', params, null).then((res: any) => {
+        this.isRippleLoad = false;
+        if (res && res.body && res.body.result) {
+          let responce = JSON.parse(res.body.result);
+          console.log(responce);
+          object.subTopics = responce;
+          object.subTopics.forEach(element => {
+            element.isExpand = false;
+            element.isSelected = false
+            element.subTopics = [];
+            this.addMaterialExtension(element);
+            element.parent_topic_id = object.parent_topic_id;
+          });
+        }
+      }).catch((err) => {
+        this.isRippleLoad = false;
+        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
+      });
+    }
+  }
+
+  selectAllDetails($event, object) {
+    console.log($event, object);
+    if (object.isSelected) {
+      let obj = {
+        "source_item_id": object.file_id,
+        "prod_item_type_id": "",
+        "slug": object.slug
+      }
+      this.testlist.push(obj);
+    } else {
+      this.testlist.forEach((item, index) => {
+        if (item.source_item_id == object.file_id) {
+          this.testlist.splice(index, 1);
+          console.log(this.testlist);
+        }
+      });
+    }
+    // console.log(this.testlist);
+    // console.log($event, object);
+  }
 
   initProductForm() {
     //Fetch Product Groups List
 
-    if (this.entity_id && this.entity_id.length > 0 &&(!this.isRippleLoad)) {
+    if (this.entity_id && this.entity_id.length > 0) {
       //Fetch Product Info
-      this.isRippleLoad=true;
+      this.isRippleLoad = true;
       this.http.getMethod('product/get/' + this.entity_id, null).subscribe(
         (resp: any) => {
-          this.isRippleLoad=false;
+          this.isRippleLoad = false;
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
-              let productData = response;
-              // this.prodForm.entity_id = productData.entity_id;
-              // this.prodForm.title = productData.title;
-              // this.prodForm.about = productData.about;
-              // this.prodForm.is_paid = productData.is_paid;
-              // this.prodForm.price = productData.price;
-              // this.prodForm.start_datetime = productData.valid_from_date;
-              // this.prodForm.end_datetime = productData.valid_to_date;
-              // this.prodForm.status = productData.status;
-              // this.prodForm.purchase_limit = productData.purchase_limit;
-              // this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
-              // this.prodForm.product_items_types = productData.product_items_types;
-            this.prodForm.product_item_stats = { };
+            let productData = response;
+            this.prodForm.entity_id = productData.entity_id;
+            this.prodForm.title = productData.title;
+            this.prodForm.about = productData.about;
+            this.prodForm.is_paid = productData.is_paid;
+            this.prodForm.price = productData.price;
+            this.prodForm.start_datetime = productData.valid_from_date;
+            this.prodForm.end_datetime = productData.valid_to_date;
+            this.prodForm.status = productData.status;
+            this.prodForm.purchase_limit = productData.purchase_limit;
+            this.prodForm.product_ecourse_maps = productData.product_ecourse_maps;
+            this.prodForm.product_items_types = productData.product_items_types;
+            this.prodForm.product_item_stats = {};
+             this.testlist = this.prodForm.product_item_list;
             this.prodForm.product_items_types.forEach(element => {
               this.prodForm.product_item_stats[element.slug] = true;
             });
@@ -480,11 +405,11 @@ export class StudyMaterialComponent implements OnInit {
           }
         },
         (err) => {
-          this.isRippleLoad=false;
+          this.isRippleLoad = false;
           this.msgService.showErrorMessage('error', err['error'].errors.message, '');
         });
     }
-    
+
 
   }
 

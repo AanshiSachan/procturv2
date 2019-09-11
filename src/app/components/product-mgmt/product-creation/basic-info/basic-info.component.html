@@ -111,6 +111,25 @@
           <label>{{calc_days()}} Day(s)</label>
         </div>
       </div>
+      <div class="row m-0">
+        <div class="col-md-12 form-group m-0">
+          <label class="text-bold">Sales Date Range</label>
+        </div>
+        <div class="col-md-5 form-group">
+          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+            <label for="from">From Date<span class="text-danger">*</span></label>
+            <input type="text" [(ngModel)]="prodForm.sales_from_date"  name="from"
+              class="form-control form-control-sm" bsDatepicker>
+          </div>
+        </div>
+        <div class="col-md-5 form-group">
+          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+            <label for="from">To Date</label>
+            <input type="text" [(ngModel)]="prodForm.sales_to_date"  name="to"
+              class="form-control form-control-sm" bsDatepicker>
+          </div>
+        </div>
+      </div>
 
       <div class="row m-0">
           <div class="col-md-5 form-group">
