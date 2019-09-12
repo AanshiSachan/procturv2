@@ -218,25 +218,26 @@ export class ProductListComponent implements OnInit {
 
         object.status = 20;
         item.status = 20;
-        this.tempFucntion(id, object, operation);
+        this.tempFucntion(id,item, object, operation);
         break;
       }
       case 'publish': {
         object.status = 30;
         item.status = 30;
-        this.tempFucntion(id, object, operation);
+        this.tempFucntion(id,item, object, operation);
         break;
       }
       case 'unpublish': {
         object.status = 40;
         item.status = 40;
-        this.tempFucntion(id, object, operation);
+        
+        this.tempFucntion(id,item, object, operation);
         break;
       }
       case 'close': {
         object.status = 50;
         item.status = 50;
-        this.tempFucntion(id, object, operation);
+        this.tempFucntion(id,item, object, operation);
         break;
       }
     }
@@ -244,7 +245,7 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  tempFucntion(id, body, operation) {
+  tempFucntion(id, item,body, operation) {
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
       this.http.postMethod('product/change-status', body).then(
@@ -253,6 +254,7 @@ export class ProductListComponent implements OnInit {
           if (resp) {
             let data = resp['body'];
             if (resp && data.validate) {
+              item.publish_date = data.result.publish_date;
               this.msgService.showErrorMessage("success", "product updated successfully", '');
               $("#actionProductModal").modal('hide');
               // item.product_status = body.product_status;
