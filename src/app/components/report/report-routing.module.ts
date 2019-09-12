@@ -48,8 +48,11 @@ import { EnquiryReportComponent } from './enquiry-report/enquiry-report.componen
                     {
                         path: 'exam',
                         loadChildren: 'app/components/report/new-exam-report/exam-report.module#ExamReportModule',
-                        // loadChildren: 'app/components/report/fee-report/fee-report.module#FeeReportModule',
                         pathMatch: 'prefix'
+                    },
+                    {
+                        path: 'oldexam',
+                        component: ExamReportComponent
                     },
                     {
                         path: 'reportCard',
