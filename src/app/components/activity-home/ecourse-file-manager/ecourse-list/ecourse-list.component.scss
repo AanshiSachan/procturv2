@@ -1,6 +1,6 @@
 .wrap-data {
 
-  height: 88vh; 
+  height: 88vh;
   overflow-y: scroll;
   overflow-x: none;
 
@@ -9,6 +9,14 @@
     width: 7px;
     height: 7px;
   }
+}
+
+.btn_cross {
+  text-align: right;
+  margin-bottom: -25px;
+  position: relative;
+  bottom: 1.4rem;
+  right: -.7rem;
 }
 
 #addDiv {
@@ -27,7 +35,7 @@
   }
 }
 
-.icons:hover{
+.icons:hover {
   color: #2680eb;
 }
 
@@ -112,6 +120,7 @@
       box-shadow: 0 2pt 3pt #999;
       min-width: 30%;
       max-width: 35%;
+
       .ga-modal-head {
         padding: .5em 1em;
         border-bottom: 1pt solid #ddd;
@@ -122,7 +131,7 @@
       .ga-modal-body {
         padding: 1em;
         text-align: center;
-        padding-top:0px;
+        padding-top: 0px;
       }
     }
   }
@@ -130,7 +139,7 @@
 
 .btn-ga-white {
   // padding: .2em .8em;
-      padding: .1em .6em;
+  padding: .1em .6em;
   height: auto;
   box-shadow: 1pt 1pt 0 #f1f1f1;
   color: #555;
@@ -152,11 +161,12 @@
 }
 
 .model_body_div {
-  .field-wrapper{
-    label{
+  .field-wrapper {
+    label {
       color: #3e3d4a;
       font-weight: 600;
     }
+
     .dropdown-div {
       .dropdown {
         width: 100%;
@@ -165,11 +175,11 @@
         border-radius: 4px;
       }
     }
-  }        
+  }
 }
 
 
-.field-wrapper{
+.field-wrapper {
   position: relative;
   padding-top: 10px;
   text-align: LEFT;

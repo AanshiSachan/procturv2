@@ -148,7 +148,9 @@ export class MockTestComponent implements OnInit {
         if (element.isChecked) {
           let object = {
             "source_item_id": element.test_id,
-            "prod_item_type_id": "",
+            "source_subject_id": "",
+            "course_type_id": "",
+            "parent_topic_id": "",
             "slug": "Mock_Test"
           }
           objectArray.push(object);
@@ -157,8 +159,12 @@ export class MockTestComponent implements OnInit {
 
       if (objectArray.length&&(!this.isRippleLoad)) {
         //update test List
+        let obj={
+          "page_type": "Mock_Test",
+          "item_list":objectArray
+        }
         this.isRippleLoad= true;
-        this.http.postMethod('product-item/update/' + this.entity_id, objectArray).then(
+        this.http.postMethod('product-item/update/' + this.entity_id, obj).then(
           (resp: any) => {
             this.isRippleLoad= false;
             let response = resp['body'];

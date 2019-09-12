@@ -204,12 +204,12 @@ export class ProductListComponent implements OnInit {
                 this.total_items = response.length;
               }
               else {
-                this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+                this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
               }
             },
             (err) => {
               this.isRippleLoad = false;
-              this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+              this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             });
         }
         break;
