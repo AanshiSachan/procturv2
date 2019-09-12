@@ -51,9 +51,8 @@ export class BasicInfoComponent implements OnInit {
     itemStates: [],
     valid_from_date: moment().format('DD-MMM-YYYY'),
     valid_to_date: moment().format('DD-MMM-YYYY'),
-    publish_date: moment().format('DD-MMM-YYYY'),
-    salesFromDate:moment().format('DD-MMM-YYYY'),
-    salesToDate:moment().format('DD-MMM-YYYY'),
+    sales_from_date:moment().format('DD-MMM-YYYY'),
+    sales_to_date:moment().format('DD-MMM-YYYY'),
     start_timestamp: '',
     end_timestamp: '',
     status: 10,
@@ -236,8 +235,7 @@ export class BasicInfoComponent implements OnInit {
       "purchase_limit": this.prodForm.purchase_limit,
       "status": this.prodForm.status,
       "product_ecourse_maps": this.products_ecourse_maps,
-      "product_items_types": this.product_item_list,
-      "publish_date": this.prodForm.publish_date
+      "product_items_types": this.product_item_list
     }
     if (this.prodForm.entity_id == null || this.prodForm.entity_id == 0) {
       this.createProduct(object);

@@ -81,13 +81,13 @@
       <div class="row col-md-12 subTopics-data">
         <ng-container *ngTemplateOutlet="subjectsNodes; context: { $implicit: ecourse.subjectsList, subLevel: 1 } ">
         </ng-container>
-        <div *ngIf="ecourse.subjectsList.length==0">
+        <div *ngIf="ecourse.subjectsList?.length==0">
            No Data Found
           </div>
       </div>
     </div>
   </div>
-  <div *ngIf="materialData.length==0">
+  <div *ngIf="materialData?.length==0">
     {{outputMessage}}
   </div>
 
