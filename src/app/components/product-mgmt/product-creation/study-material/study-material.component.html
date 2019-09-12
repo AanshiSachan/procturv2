@@ -189,7 +189,7 @@
 
 
 <ng-template #youtubeData let-youtube let-level="level">
-  <div class="row singleton-row material-row" *ngFor="let video of youtube">{{level}}
+  <div class="row singleton-row material-row" *ngFor="let video of youtube">
     <div class="col-md-8 material-title txt-color" [ngStyle]="{'padding-left': level+'em'}">
       <div class="field-checkbox-wrapper">
         <input type="checkbox" class="form-checkbox" [(ngModel)]="video.isSelected" (ngModelChange)="selectAllDetails($event,video)"
@@ -198,7 +198,8 @@
       </div>
       <h4 class="file__title" title="{{video.title}}">
         <i class="fa fa-youtube-play text-red"></i>
-        <a [href]="video.video_url" target="_blank" class="txt-color">
+        <a  target="_blank" class="txt-color">
+          <!-- //[href]="video.video_url" -->
           <span class="txt-title">{{video.title}}</span>
         </a>
       </h4>

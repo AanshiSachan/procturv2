@@ -56,7 +56,7 @@
         <div class="col-md-6" style=" padding-right: 0px;">
           <div class="form-group" style="text-align: right;">
             <label class="text-bold" style="position: absolute; left: 19px;">Price</label>
-            <span class="field-checkbox-wrapper" style="margin-left: 160px;">
+            <span class="field-checkbox-wrapper" >
               <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
                 (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_paid">
               <label for="free_price">Free</label>

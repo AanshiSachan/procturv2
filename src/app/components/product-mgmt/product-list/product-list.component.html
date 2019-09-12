@@ -63,19 +63,19 @@
                 <label for="ch2"></label>
               </div>
             </th> -->
-            <!-- <th width="5%">View</th> -->
-            <th width="20%">Product Name</th>
+            <th width="5%"></th>
+            <th width="20%" class="text-left" style="text-align: left">Product Name</th>
             <th>E-course</th>
             <th class="text-center">Status</th>
             <th class="text-center">Start Date</th>
             <th class="text-center">End Date</th>
-            <th width="8%" class="text-center">Price</th>
-            <!-- <th width="8%" class="text-center">Sale</th> -->
+            <th width="8%" class="text-center">Publish Date</th>
+            <th width="8%" class="text-center">Price</th>        
             <th width="8%" class="text-center">Action</th>
           </tr>
         </thead>
         <tbody class="product-table-body">
-          <tr *ngFor="let item of productList">
+          <tr *ngFor="let item of productList;let i= index">
             <!-- <td>
                 <div class="field-checkbox-wrapper">
                     <input type="checkbox" class="form-checkbox" [checked]="item.isSelected" [(ngModel)]="item.isSelected" (ngModelChange)="isAllSelected($event,item)" id="ch2">
@@ -87,7 +87,8 @@
                 alt="product image">
               [src]="item.product_image" 
             </td> -->
-            <td>
+            <td>{{i+1}}</td>
+            <td style="text-align: left">
               <p class="m-0 text-bold">{{item.title}}</p>
             </td>
             <td  style="width:20%">
@@ -102,10 +103,14 @@
               <span *ngIf="item.status == 40" class="text-secondary">Unpublished</span>
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.valid_from_date | date: 'dd MMM yy, HH:mm'}}</p>
+              <p class="m-0 text-bold">{{item.valid_from_date | date: 'dd MMM yy'}}</p>
+              <!-- , HH:mm -->
             </td>
             <td class="text-center">
-              <p class="m-0 text-bold">{{item.valid_to_date   | date: 'dd MMM yy, HH:mm'}}</p>
+              <p class="m-0 text-bold">{{item.valid_to_date   | date: 'dd MMM yy'}}</p>
+            </td>
+            <td class="text-center">
+              <p class="m-0 text-bold">{{item.publish_date   | date: 'dd MMM yy'}}</p>
             </td>
             <td class="text-center">
               <span *ngIf="item.price <= 0" class="text-active text-bold">Free</span>
