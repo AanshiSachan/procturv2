@@ -57,7 +57,7 @@
                     <span title="{{report.course_name}}">{{ (report.course_name.length > 15) ? (report.course_name | slice:0:15) + '...' : report.course_name }}</span>
                   </div>
                   <div class="value-item large-item">
-                    <span title="{{report.subject_name}}">{{ (report.subject_name.length > 15) ? (report.subject_name | slice:0:15) + '...' : report.subject_name }}</span>
+                    <span title="{{report.subject_name}}">{{ (report.subject_name.length > 30) ? (report.subject_name | slice:0:30) + '...' : report.subject_name }}</span>
                   </div>
                   <div class="value-item small-item">
                     <span>{{report.total_exam}}</span>
@@ -83,7 +83,7 @@
         <br>
         <div class="left-outer-container">
           <div class="left-item">
-            <select class="header-select-box" name="" [(ngModel)]="standard" (ngModelChange)="getExamReportForStandard()">
+            <select class="header-select-box" name="" [(ngModel)]="standard" (ngModelChange)="getExamReportForStandard()" id="standard">
               <option value="-1">Select Standard</option>
               <option [value]="standard.standard_id" *ngFor="let standard of standardtList">{{standard.standard_name}}</option>
             </select>
@@ -128,7 +128,7 @@
                   </div>
                   <div class="value-item small-item align-center">
                     <button type="button" name="button" class="view-result-btn" routerLink='./teacherWise/{{report.subject_id}}' *ngIf="!jsonFlag.isProfessional">View Result</button>
-                    <button type="button" name="button" class="view-result-btn" routerLink='./courseWise/{{report.batch_id}}' *ngIf="jsonFlag.isProfessional">View Result</button>
+                    <button type="button" name="button" class="view-result-btn" (click)="routeTo(report.batch_id)" *ngIf="jsonFlag.isProfessional">View Result</button>
                   </div>
                 </div>
                 <div class="table-value-container" *ngIf="standardExamReportData?.length == 0" style="justify-content: center; font-size: 14px; font-weight: 600;">
@@ -169,16 +169,16 @@
             <div class="table-outer-container" style="min-height: 73vh; max-height: 73vh;">
               <div class="table-value-container" [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated', 'border-class': report.exam_status != 'Mks. Updated'}" *ngFor="let report of weeklyExamReportData">
                 <div class="value-item custom-item">
-                  <span>{{report.exam_date | date: 'dd-MMM-yyyy'}}</span>
+                  <span>{{report?.exam_date | date: 'dd-MMM-yyyy'}}</span>
                 </div>
                 <div class="value-item custom-item">
-                  <span title="{{report.master_course_name}}">{{ (report.master_course_name.length > 12) ? (report.master_course_name | slice:0:12) + '...' : report.master_course_name }}</span>
+                  <span title="{{report.master_course_name}}">{{ (report?.master_course_name.length > 12) ? (report.master_course_name | slice:0:12) + '...' : report.master_course_name }}</span>
                 </div>
                 <div class="value-item custom-item">
-                  <span title="{{report.course_name}}">{{ (report.course_name.length > 12) ? (report.course_name | slice:0:12) + '...' : report.course_name }}</span>
+                  <span title="{{report.course_name}}">{{ (report?.course_name.length > 12) ? (report.course_name | slice:0:12) + '...' : report.course_name }}</span>
                 </div>
                 <div class="value-item custom-item">
-                  <span>{{report.exam_status}}</span>
+                  <span>{{report?.exam_status}}</span>
                 </div>
                 <div class="value-item custom-item align-center" *ngIf="report.exam_status == 'Mks. Updated'">
                   <button type="button" name="button" class="view-result-btn" routerLink='/view/reports/exam/examWise/{{report.exam_schd_id}}'>View Result</button>

@@ -220,7 +220,20 @@ export class ExamReportHomeComponent implements OnInit {
     }
 
     routeTo(course_id){
-      sessionStorage.setItem('masterCourseForReport', this.mastercourse);
+      if(this.jsonFlag.isProfessional){
+        let standard_id = (document.getElementById("standard") as HTMLInputElement ).value;
+        for(let i = 0; i < this.standardtList.length; i++){
+          if(this.standardtList[i].standard_id == standard_id){
+            sessionStorage.setItem('masterCourseForReport', this.standardtList[i].standard_name);
+            sessionStorage.setItem('subejctIdForReport', this.standardtList[i].standard_id);
+          }
+        }
+      }
+      else{
+        sessionStorage.setItem('masterCourseForReport', this.mastercourse);
+      }
       this.router.navigate(['/view/reports/exam/courseWise/'+course_id]);
     }
+
+    
   }

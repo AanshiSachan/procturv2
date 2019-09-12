@@ -24,9 +24,13 @@
         <span>{{masterCourse}}</span>
       </div>
       <div class="name-item">
-        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()">
+        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()" *ngIf="!jsonFlag.isProfessional">
           <option value="-1">Select Course</option>
           <option [value]="course.course_id" *ngFor="let course of coursesList">{{course.course_name}}</option>
+        </select>
+        <select class="header-select-box" name="" [(ngModel)]="course" (ngModelChange)="getExamReport()" *ngIf="jsonFlag.isProfessional">
+          <option value="-1">Select Subject</option>
+          <option [value]="subject.subject_id" *ngFor="let subject of coursesList">{{subject.subject_name}}</option>
         </select>
       </div>
     </div>
@@ -36,13 +40,17 @@
   <section>
     <div class="graph-outer-container">
       <div class="graph-item-container">
-        <h1>Graph Section</h1>
+        <div #chartWrap id="chartWrap">
+        </div>
       </div>
       <div class="graph-item-container" *ngIf="!jsonFlag.isProfessional">
-        <h1>Graph Section</h1>
+        <div #subjectWise id="subjectWise">
+        </div>
       </div>
     </div>
   </section>
+
+
 
   <!-- report container -->
   <section>

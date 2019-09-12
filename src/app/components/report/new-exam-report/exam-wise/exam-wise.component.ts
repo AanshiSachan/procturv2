@@ -50,7 +50,7 @@ export class ExamWiseComponent implements OnInit {
       this.examSchdlType = JSON.parse(examschd);
     }
     this.exam_schd_id = this.route.snapshot.paramMap.get('id');
-    this.getExamWiseReport()
+    this.getExamWiseReport();
   }
 
   getExamWiseReport(){
@@ -69,6 +69,7 @@ export class ExamWiseComponent implements OnInit {
       err => {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, 'Error', err.error.message);
         this.jsonFlag.isRippleLoad = false;
+        sessionStorage.setItem('examSchdType', "");
       }
     );
   }
