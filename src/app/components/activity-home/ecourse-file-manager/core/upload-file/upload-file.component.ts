@@ -19,6 +19,43 @@ export class UploadFileComponent implements OnInit {
   subtopicList: any[] = [];
   categiesList: any[] = [];
   categiesTypeList: any[] = [];
+  existVideos:any[]=[{
+    "video_id": "f62d50c9522c4d6aa6e510438b606e28",
+    "video_title": "new-file-video",
+    "video_thumbnail": null,
+    "video_size": 0,
+    "video_upload_date": "07-Sep-2019 12:26:06 PM",
+    "ecourse_name": "Aniket course",
+    "subject_name": "Artificial Intelligence",
+    "parent_topic_name": null,
+    "sub_topic_name": null,
+    "link_video_list": [
+      {
+        "ecourse_name": "gogo12",
+        "subject_name": "Bio",
+        "parent_topic_name": null,
+        "sub_topic_name": null
+      },
+      {
+        "ecourse_name": "Aniket course",
+        "subject_name": "Artificial Intelligence",
+        "parent_topic_name": null,
+        "sub_topic_name": null
+      }
+    ]
+  },
+  {
+    "video_id": "f62d50c9522c4d6aa6e510438b606e28",
+    "video_title": "new-file-title",
+    "video_thumbnail": null,
+    "video_size": 0,
+    "video_upload_date": "07-Sep-2019 12:26:06 PM",
+    "ecourse_name": "Aniket course",
+    "subject_name": "Artificial Intelligence",
+    "parent_topic_name": null,
+    "sub_topic_name": null,
+    "link_video_list": []
+  }];
   institute_id: any;
   showModal: boolean = false;
   dragoverflag: boolean = false;
@@ -29,7 +66,8 @@ export class UploadFileComponent implements OnInit {
   material_dataFlag: string = '';
   jsonData = {
     parentTopic: '',
-    mainTopic: ''
+    mainTopic: '',
+    selectedVideo:''
   }
   file: any;
   payload = {
@@ -54,7 +92,8 @@ export class UploadFileComponent implements OnInit {
     subject_id: 0,
     file_id: 0,
     is_readonly: 'N',
-    title: ''
+    title: '',
+    is_private:'Y'
   }
 
   constructor(
@@ -82,6 +121,22 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
+  getSourceName(video){
+    //{{video.subject_name}}
+    if(video.sub_topic_name!=null){
+      return video.sub_topic_name+'  ( '+video.ecourse_name+' )';
+    }else{
+      if(video.parent_topic_name!=null){
+        return video.parent_topic_name+'  ( '+video.ecourse_name+' )';
+      }else{        
+          return video.subject_name+'  ( '+video.ecourse_name+' )';        
+      }
+    }
+  }
+
+  getLocationName(video){
+  return video.sub_topic_name;
+  }
   uploadYoutubeURL($event) {
     let flag = this.uploadDatavalidation();
     if (flag) {
@@ -168,7 +223,8 @@ export class UploadFileComponent implements OnInit {
       subject_id: 0,
       file_id: 0,
       is_readonly: 'N',
-      title: ''
+      title: '',
+      is_private:'Y'
     }
     this.varJson.name = '';
   }
@@ -387,7 +443,7 @@ export class UploadFileComponent implements OnInit {
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      let temp = [];
+      let temp = [{category_id:330,category_name:'existing video'}];
       res.forEach(category => {
         if (category.category_id == -1) {
           category.videoCategoryList.forEach(vdoType => {
@@ -478,22 +534,10 @@ export class UploadFileComponent implements OnInit {
         "video_url": null,
         "sub_topic_id": this.varJson.sub_topic_id,
         "subject_id": this.varJson.subject_id,
-        "is_readonly": "N",
         "is_raw_data": "Y",                                             //if send only video title then this key value should be 'Y' ; else set 'N'
         "is_url": "N",                                                        //if send video url & title then this key value should be 'Y' ; else set 'N'
-        "is_private": "Y",                                                 // if user wants to make file as private
-        "title": this.varJson.title,
-        "vdoCipherOTPPayloadJson": {
-          "ttl": 300,
-          "annotate": [{
-            "size": 15,
-            "interval": 5000,
-            "type": "rtext",
-            "text": "Proctur",
-            "alpha": "0.60",
-            "color": "0xFF0000"
-          }]
-        }
+        "is_private": this.varJson.is_private,                                                 // if user wants to make file as private
+        "title": this.varJson.title
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";

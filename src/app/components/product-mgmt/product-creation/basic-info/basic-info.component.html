@@ -49,20 +49,20 @@
           <div class="col-md-6" style=" padding-left: 0px;">
               <div class="form-group">
                 <label class="text-bold">Product Sell Limit  <span class="text-danger">*</span></label>
-                <input type="number"  [(ngModel)]="prodForm.purchase_limit"
+                <input type="text"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="prodForm.purchase_limit"
                   name="purchase_limit" class="form-control form-control-sm">
               </div>
             </div>
         <div class="col-md-6" style=" padding-right: 0px;">
-          <div class="form-group">
-            <label class="text-bold">Price</label>
+          <div class="form-group" style="text-align: right;">
+            <label class="text-bold" style="position: absolute; left: 19px;">Price</label>
             <span class="field-checkbox-wrapper" style="margin-left: 160px;">
               <input class="form-checkbox" type="checkbox" id="free_price" [(ngModel)]="prodForm.is_paid"
                 (ngModelChange)="prodForm.is_paid = $event ? 1 : 0;prodForm.price =0" name="free_price" name="is_paid">
               <label for="free_price">Free</label>
             </span>
-            <input type="number" min="0.00" value="0.00" step=".01" [(ngModel)]="prodForm.price"
-              [disabled]="prodForm.is_paid" name="price" class="form-control form-control-sm">
+            <input type="text" value="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" 
+            [(ngModel)]="prodForm.price" [disabled]="prodForm.is_paid" name="price" class="form-control form-control-sm">
           </div>
         </div>
       </div>
@@ -79,15 +79,27 @@
               <label [for]="item.slug">{{item.name}} </label>
             </div>
           </div>
-          <!-- <div class="col-md-8" *ngIf="item.is_count_applicable">
-              <label>No. {{item.title}}</label>
-              <input type="number" (ngModelChange)="updateProductItemStates(null)" [disabled]="!prodItems[item.slug]"
-                [name]="item.slug" [(ngModel)]="prodForm.product_item_stats[item.slug]" value="0" min="0"
-                class="form-control form-control-sm count-input-box">
-            </div> -->
         </div>
       </div>
-
+      <div class="row m-0">
+          <div class="col-md-12 form-group m-0">
+            <label class="text-bold">Sales Date Range</label>
+          </div>
+          <div class="col-md-5 form-group">
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">From Date<span class="text-danger">*</span></label>
+              <input type="text" [(ngModel)]="prodForm.sales_from_date"  name="from"
+                class="form-control form-control-sm" bsDatepicker>
+            </div>
+          </div>
+          <div class="col-md-5 form-group">
+            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
+              <label for="from">To Date</label>
+              <input type="text" [(ngModel)]="prodForm.sales_to_date"  name="to"
+                class="form-control form-control-sm" bsDatepicker>
+            </div>
+          </div>
+        </div>
       <div class="row m-0">
         <div class="col-md-12 form-group m-0">
           <label class="text-bold">Visibility Date Range</label>
@@ -110,36 +122,7 @@
         <div class="col-md-2 form-group text-right m-auto text-bold" style="margin-top: 25px;">
           <label>{{calc_days()}} Day(s)</label>
         </div>
-      </div>
-      <div class="row m-0">
-        <div class="col-md-12 form-group m-0">
-          <label class="text-bold">Sales Date Range</label>
-        </div>
-        <div class="col-md-5 form-group">
-          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-            <label for="from">From Date<span class="text-danger">*</span></label>
-            <input type="text" [(ngModel)]="prodForm.sales_from_date"  name="from"
-              class="form-control form-control-sm" bsDatepicker>
-          </div>
-        </div>
-        <div class="col-md-5 form-group">
-          <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-            <label for="from">To Date</label>
-            <input type="text" [(ngModel)]="prodForm.sales_to_date"  name="to"
-              class="form-control form-control-sm" bsDatepicker>
-          </div>
-        </div>
-      </div>
-
-      <div class="row m-0">
-          <div class="col-md-5 form-group">
-            <div class="col-md-12 datePickerBox" style="padding-top: 0px;padding-bottom: 10px;">
-              <label for="from">Publish Date<span class="text-danger">*</span></label>
-              <input type="text" [(ngModel)]="prodForm.publish_date"  name="publish"
-                class="form-control form-control-sm" bsDatepicker>
-            </div>
-          </div>
-        </div>
+      </div>     
     </div>
   </div>
   <div class="col-md-1"></div>

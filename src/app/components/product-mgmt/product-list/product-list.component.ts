@@ -73,7 +73,7 @@ export class ProductListComponent implements OnInit {
     //<base_url>/ecourse/{institute_id}/{ecourse_id}/subjects
     this.isRippleLoad = false;
     this.filter.subject_id = '-1';
-    this.subjectsList=[];
+    this.subjectsList = [];
     this._http.getData('/api/v1/ecourse/' + this.jsonKeys.institute_id + '/' + this.filter.ecourse_id + '/subjects').subscribe(
       (resp: any) => {
         this.isRippleLoad = false;
@@ -96,16 +96,16 @@ export class ProductListComponent implements OnInit {
         if (resp) {
           this.isRippleLoad = false;
           console.log(resp);
-          if(resp){
+          if (resp) {
             let response = resp.result;
-            if (resp && resp.validate) {            
+            if (resp && resp.validate) {
               this.productList = response;
               this.total_items = response.length;
             }
             else {
               this.msgService.showErrorMessage('error', response.errors.message, '');
             }
-          }        
+          }
         }
       },
       (err) => {
@@ -178,7 +178,10 @@ export class ProductListComponent implements OnInit {
 
   confirmAction(operation, id) {
     let item = this.productList.filter(item => item.entity_id == id)[0];
-
+    let object = {
+      "status": 10,
+      "entity_id":  item.entity_id 
+    }
     switch (operation) {
       case 'delete': {
         if (!this.isRippleLoad) {
@@ -212,23 +215,28 @@ export class ProductListComponent implements OnInit {
         break;
       }
       case 'ready': {
+
+        object.status = 20;
         item.status = 20;
-        this.tempFucntion(id, item, operation);
+        this.tempFucntion(id, object, operation);
         break;
       }
       case 'publish': {
+        object.status = 30;
         item.status = 30;
-        this.tempFucntion(id, item, operation);
+        this.tempFucntion(id, object, operation);
         break;
       }
       case 'unpublish': {
+        object.status = 40;
         item.status = 40;
-        this.tempFucntion(id, item, operation);
+        this.tempFucntion(id, object, operation);
         break;
       }
       case 'close': {
+        object.status = 50;
         item.status = 50;
-        this.tempFucntion(id, item, operation);
+        this.tempFucntion(id, object, operation);
         break;
       }
     }
@@ -239,25 +247,24 @@ export class ProductListComponent implements OnInit {
   tempFucntion(id, body, operation) {
     if (!this.isRippleLoad) {
       this.isRippleLoad = true;
-      this.http.postMethod('product/update', body).then(
+      this.http.postMethod('product/change-status', body).then(
         (resp) => {
           this.isRippleLoad = false;
           if (resp) {
             let data = resp['body'];
             if (resp && data.validate) {
-
               this.msgService.showErrorMessage("success", "product updated successfully", '');
               $("#actionProductModal").modal('hide');
               // item.product_status = body.product_status;
             }
             else {
-              this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+              this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
             }
           }
         },
         (err) => {
           this.isRippleLoad = false;
-          this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
+          this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
         }
       );
     }
@@ -268,7 +275,7 @@ export class ProductListComponent implements OnInit {
     console.log("filterData");
     this.isRippleLoad = true;
     //find-by-course-subject?courseId=123&sujectId=7
-    let url ='product/find-by-course-subject?courseId='+ this.filter.ecourse_id+'&sujectId='+ this.filter.subject_id
+    let url = 'product/find-by-course-subject?courseId=' + this.filter.ecourse_id + '&sujectId=' + this.filter.subject_id
     this.http.getMethod(url, null).subscribe(
       (resp: any) => {
         this.isRippleLoad = false;
