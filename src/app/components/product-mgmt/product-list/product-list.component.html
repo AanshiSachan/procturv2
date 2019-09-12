@@ -40,7 +40,7 @@
 
       <div class="form-group  field-wrapper form-el-width">
         <label class="text-bold">Subject</label>
-        <select [(ngModel)]="filter.subject_id" class="form-ctrl" (ngModelChange)="getSubjectList()" name="cc" id="cc">
+        <select [(ngModel)]="filter.subject_id" class="form-ctrl"  name="cc" id="cc">
           <option value="-1" selected>Select Subject</option>
           <option *ngFor="let sub of subjectsList" [value]="sub.subject_id">{{sub.subject_name}}</option>
         </select>
@@ -63,7 +63,7 @@
                 <label for="ch2"></label>
               </div>
             </th> -->
-            <th width="5%">View</th>
+            <!-- <th width="5%">View</th> -->
             <th width="20%">Product Name</th>
             <th>E-course</th>
             <th class="text-center">Status</th>
@@ -82,11 +82,11 @@
                     <label for="ch2"></label>
                   </div>
             </td> -->
-            <td>
+            <!-- <td>
               <img src="assets/images/file_manager/image.svg" style="height: 25px;;" class="img-responsive"
                 alt="product image">
-              <!-- [src]="item.product_image" -->
-            </td>
+              [src]="item.product_image" 
+            </td> -->
             <td>
               <p class="m-0 text-bold">{{item.title}}</p>
             </td>
@@ -97,9 +97,9 @@
               </td>
             <td class="text-center text-bold">
               <span *ngIf="item.status == 10" class="text-primary">Draft</span>
-              <!-- <span *ngIf="item.status == 20" class="text-warning">Ready</span> -->
-              <span *ngIf="item.status == 20" class="text-success">Published</span>
-              <span *ngIf="item.status == 30" class="text-secondary">Unpublished</span>
+              <span *ngIf="item.status == 20" class="text-warning">Ready</span>
+              <span *ngIf="item.status == 30" class="text-success">Published</span>
+              <span *ngIf="item.status == 40" class="text-secondary">Unpublished</span>
             </td>
             <td class="text-center">
               <p class="m-0 text-bold">{{item.valid_from_date | date: 'dd MMM yy, HH:mm'}}</p>
@@ -125,10 +125,14 @@
                 <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">
                   <a class="dropdown-item" [routerLink]="['/view/products/create/'+item.entity_id+'/basic']">Edit</a>
                   <a class="dropdown-item" (click)="actionProductModal('delete', item.entity_id)">Delete</a>
-                  <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
-                    *ngIf="item.status != 20">Publish</a>
+                  <a class="dropdown-item" (click)="actionProductModal('ready', item.entity_id)"
+                    *ngIf="item.status == 10">Ready</a>
+                    <a class="dropdown-item" (click)="actionProductModal('publish', item.entity_id)"
+                    *ngIf="item.status == 20">Publish</a>
                   <a class="dropdown-item" (click)="actionProductModal('unpublish', item.entity_id)"
-                    *ngIf="item.status == 20">Unpublished</a>
+                    *ngIf="item.status == 30">Unpublished</a>
+                    <a class="dropdown-item" (click)="actionProductModal('close', item.entity_id)"
+                    *ngIf="item.status == 40">Closed</a>
                 </div>
               </div>
             </td>
@@ -136,13 +140,13 @@
 
           <ng-container *ngIf="productList.length < 1 && !productListLoading">
             <tr>
-              <td colspan="7">No Records Found</td>
+              <td colspan="8">No Records Found</td>
             </tr>
           </ng-container>
 
           <ng-container *ngIf="productListLoading">
             <tr>
-              <td colspan="7" class="text-center">
+              <td colspan="8" class="text-center">
                 <i class="fa fa-spinner"></i>&nbsp; Loading...
               </td>
             </tr>

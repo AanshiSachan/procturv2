@@ -288,8 +288,16 @@ export class MaterialWebComponent implements OnInit {
 
     uploadPopupOpen(topic) {
         // console.log(topic);
+        this.uploadFile.varJson.course_types = this.course_types;
+        this.uploadFile.material_dataFlag = 'material';
+        this.uploadFile.getSubjectsList(this.course_types);
+        this.uploadFile.varJson.subject_id = this.subject_id;
+        this.uploadFile.getTopicsList(this.subject_id);
+        this.uploadFile.material_dataShow = true;
         if(topic.parent_topic_id==0){
             this.uploadFile.showModal = (this.uploadFile.showModal) ? false : true;
+            this.uploadFile.varJson.topic_id= topic.topic_id;// parent 
+            this.uploadFile.getSubtopicList(topic.topic_id);
         }else{
             this.uploadFile.showParentTopicModel = (this.uploadFile.showParentTopicModel) ? false : true;
             this.uploadFile.jsonData.mainTopic = topic.topic_name;
@@ -297,13 +305,6 @@ export class MaterialWebComponent implements OnInit {
             this.uploadFile.varJson.topic_id= topic.topic_id;// parent  
             this.uploadFile.jsonData.parentTopic = topic.parent_topic_name;
         }
-        
-        this.uploadFile.varJson.course_types = this.course_types;
-        this.uploadFile.material_dataFlag = 'material';
-        this.uploadFile.getSubjectsList(this.course_types);
-        this.uploadFile.varJson.subject_id = this.subject_id;
-        this.uploadFile.getTopicsList(this.subject_id);
-        this.uploadFile.material_dataShow = true;
     }
 
     getSubjectData() {

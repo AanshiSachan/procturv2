@@ -4,8 +4,9 @@
 
 .form-steps-wrapper{
     width: 100%;
-    padding: 3em 1em 2em 10em;
     background: #fafafa;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .col{
@@ -96,13 +97,20 @@ table tr{
         &:before {
             content: counter(step);
             counter-increment: step;
-            width: 30px;
             display: block;
             color: #333;
-            background: white;
-            border-radius: 3px;
-            margin: 0 auto 10px auto;
-            border: 1pt solid #c5c5c5;
+            margin: 0px auto 10px auto;
+            border: 1px solid #ccc;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ddd;
+            text-align: center;
+            line-height: 30px;
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            font-size: 14px;
         }
         &:after {
             content: '';
@@ -111,7 +119,7 @@ table tr{
             background: #c5c5c5;
             position: absolute;
             left: -40%;
-            top: 10px;
+            top: 16px;
             z-index: -1; /*put it behind the numbers*/
         }
         &:first-child:after {
@@ -126,6 +134,7 @@ table tr{
         background: #27AE60;
         color: white;
         border: 1pt solid #fff;
+        border-radius: .9rem;
     }
 }
 

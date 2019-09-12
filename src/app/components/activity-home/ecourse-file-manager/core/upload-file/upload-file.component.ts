@@ -19,17 +19,55 @@ export class UploadFileComponent implements OnInit {
   subtopicList: any[] = [];
   categiesList: any[] = [];
   categiesTypeList: any[] = [];
+  existVideos:any[]=[{
+    "video_id": "f62d50c9522c4d6aa6e510438b606e28",
+    "video_title": "new-file-video",
+    "video_thumbnail": null,
+    "video_size": 0,
+    "video_upload_date": "07-Sep-2019 12:26:06 PM",
+    "ecourse_name": "Aniket course",
+    "subject_name": "Artificial Intelligence",
+    "parent_topic_name": null,
+    "sub_topic_name": null,
+    "link_video_list": [
+      {
+        "ecourse_name": "gogo12",
+        "subject_name": "Bio",
+        "parent_topic_name": null,
+        "sub_topic_name": null
+      },
+      {
+        "ecourse_name": "Aniket course",
+        "subject_name": "Artificial Intelligence",
+        "parent_topic_name": null,
+        "sub_topic_name": null
+      }
+    ]
+  },
+  {
+    "video_id": "f62d50c9522c4d6aa6e510438b606e28",
+    "video_title": "new-file-title",
+    "video_thumbnail": null,
+    "video_size": 0,
+    "video_upload_date": "07-Sep-2019 12:26:06 PM",
+    "ecourse_name": "Aniket course",
+    "subject_name": "Artificial Intelligence",
+    "parent_topic_name": null,
+    "sub_topic_name": null,
+    "link_video_list": []
+  }];
   institute_id: any;
   showModal: boolean = false;
   dragoverflag: boolean = false;
   isRippleLoad: boolean = false;
   addCategoryPopup: boolean = false;
   material_dataShow: boolean = false;
-  showParentTopicModel:boolean = false;
+  showParentTopicModel: boolean = false;
   material_dataFlag: string = '';
-  jsonData={
-    parentTopic:'',
-    mainTopic:''
+  jsonData = {
+    parentTopic: '',
+    mainTopic: '',
+    selectedVideo:''
   }
   file: any;
   payload = {
@@ -54,7 +92,8 @@ export class UploadFileComponent implements OnInit {
     subject_id: 0,
     file_id: 0,
     is_readonly: 'N',
-    title: ''
+    title: '',
+    is_private:'Y'
   }
 
   constructor(
@@ -82,6 +121,22 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
+  getSourceName(video){
+    //{{video.subject_name}}
+    if(video.sub_topic_name!=null){
+      return video.sub_topic_name+'  ( '+video.ecourse_name+' )';
+    }else{
+      if(video.parent_topic_name!=null){
+        return video.parent_topic_name+'  ( '+video.ecourse_name+' )';
+      }else{        
+          return video.subject_name+'  ( '+video.ecourse_name+' )';        
+      }
+    }
+  }
+
+  getLocationName(video){
+  return video.sub_topic_name;
+  }
   uploadYoutubeURL($event) {
     let flag = this.uploadDatavalidation();
     if (flag) {
@@ -90,9 +145,9 @@ export class UploadFileComponent implements OnInit {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "Incorrect url");
         return false;
       }
-      if(this.varJson.title==''){
+      if (this.varJson.title == '') {
         this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
-        return false;          
+        return false;
       }
       const formData = new FormData();
       let fileJson = {
@@ -132,9 +187,10 @@ export class UploadFileComponent implements OnInit {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
               this.clearuploadObject();
-              this.material_dataShow ?
-                this._http.updatedDataSelection('material') :
+
+              this.material_dataShow ? this._http.updatedDataSelection('material') :
                 this.material_dataFlag == 'material' ? this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+              console.log(this.material_dataFlag);
             } else {
               this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', JSON.parse(newxhr.response).message);
             }
@@ -146,10 +202,17 @@ export class UploadFileComponent implements OnInit {
     }
   }
 
+  checkListCall() {
+
+    switch (this.material_dataFlag) {
+      default:
+        this._http.updatedDataSelection('subject');
+    }
+  }
 
   clearuploadObject() {
     this.showModal = false;
-    this.showParentTopicModel= false;
+    this.showParentTopicModel = false;
     this.varJson = {
       category_id: 0,
       name: '',
@@ -160,7 +223,8 @@ export class UploadFileComponent implements OnInit {
       subject_id: 0,
       file_id: 0,
       is_readonly: 'N',
-      title: ''
+      title: '',
+      is_private:'Y'
     }
     this.varJson.name = '';
   }
@@ -189,7 +253,7 @@ export class UploadFileComponent implements OnInit {
 
   uploadHandler($event) {
     let flag = this.uploadDatavalidation();
-
+    console.log(this.material_dataFlag);
     if (flag && this.checkCategoriesType($event.files)) {
       const formData = new FormData();
       let fileJson = {
@@ -235,10 +299,16 @@ export class UploadFileComponent implements OnInit {
           if (newxhr.readyState == 4) {
             if (newxhr.status >= 200 && newxhr.status < 300) {
               this.clearuploadObject();
-              this.material_dataShow ?
-                this._http.updatedDataSelection('material') :
-                this.material_dataFlag == 'material' ?
-                  this._http.updatedDataSelection('material') : this._http.updatedDataSelection('list');
+
+              if (this.material_dataShow && this.material_dataFlag == 'material') {
+                this._http.updatedDataSelection('material')
+              }
+              else if (this.material_dataShow && this.material_dataFlag == 'subject-list') {
+                this._http.updatedDataSelection('subject');
+              }
+              else {
+                this._http.updatedDataSelection('list');
+              }
               this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', "File uploaded successfully");
               this.getDataUsedInCourseList();
 
@@ -309,9 +379,9 @@ export class UploadFileComponent implements OnInit {
         break;
       }
       case "VDOCipher": {
-        if(this.varJson.title==''){
+        if (this.varJson.title == '') {
           this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', "please add video title");
-          flag = false;          
+          flag = false;
         }
         for (let i = 0; i < files.length; i++) {
           let pattern = /([a-zA-Z0-9\s_\\.\-\(\):])+(.AVI|.FLV|.WMV|.MP4|.MOV)$/i;
@@ -320,7 +390,7 @@ export class UploadFileComponent implements OnInit {
             flag = false;
             break;
           }
-        }        
+        }
         break;
       }
       // case "EBook": {
@@ -373,7 +443,7 @@ export class UploadFileComponent implements OnInit {
     let url = "/api/v1/instFileSystem/v2/categories";
     this._http.getData(url).subscribe((res: any) => {
       // console.log(res);
-      let temp = [];
+      let temp = [{category_id:330,category_name:'existing video'}];
       res.forEach(category => {
         if (category.category_id == -1) {
           category.videoCategoryList.forEach(vdoType => {
@@ -439,7 +509,7 @@ export class UploadFileComponent implements OnInit {
     this._http.getData(url).subscribe((res: any) => {
       console.log(res);
       this.subjectList = res;
-      if (this.material_dataFlag != 'material') {
+      if (this.material_dataFlag != 'material' && this.material_dataFlag != 'subject-list') {
         this.varJson.subject_id = 0;
       }
       this.varJson.sub_topic_id = 0;
@@ -452,6 +522,7 @@ export class UploadFileComponent implements OnInit {
 
   uploadHandler2($event) {
     debugger;
+    console.log(this.material_dataFlag);
     let flag = this.uploadDatavalidation();
 
     if (flag && this.checkCategoriesType($event.files)) {
@@ -463,22 +534,10 @@ export class UploadFileComponent implements OnInit {
         "video_url": null,
         "sub_topic_id": this.varJson.sub_topic_id,
         "subject_id": this.varJson.subject_id,
-        "is_readonly": "N",
         "is_raw_data": "Y",                                             //if send only video title then this key value should be 'Y' ; else set 'N'
         "is_url": "N",                                                        //if send video url & title then this key value should be 'Y' ; else set 'N'
-        "is_private": "Y",                                                 // if user wants to make file as private
-        "title": this.varJson.title,
-        "vdoCipherOTPPayloadJson": {
-          "ttl": 300,
-          "annotate": [{
-            "size": 15,
-            "interval": 5000,
-            "type": "rtext",
-            "text": "Proctur",
-            "alpha": "0.60",
-            "color": "0xFF0000"
-          }]
-        }
+        "is_private": this.varJson.is_private,                                                 // if user wants to make file as private
+        "title": this.varJson.title
       }
       let base = this.auth.getBaseUrl();
       let urlPostXlsDocument = base + "/api/v1/instFileSystem/uploadFile";

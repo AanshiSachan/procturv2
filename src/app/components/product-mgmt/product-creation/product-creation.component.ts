@@ -16,6 +16,10 @@ export class ProductCreationComponent implements OnInit {
   activeForm: number = 3;
   entity_id: any = 0;
   productItems: any = [];
+  jsonData={
+    padding_right:34,
+    padding_left:34
+  }
   // prodForm: product_details = new product_details();
   prodForm: any = {
     entity_id: 0,
@@ -166,10 +170,10 @@ export class ProductCreationComponent implements OnInit {
   // get value of previedata and set 
   previewSetter($event) {
     this.prodForm = $event;
-    let keys = Object.keys(this.formSequence)
+    let keys = Object.keys(this.formSequence);
     keys.forEach((element, index) => {
       let i = index + 1;
-      this.formSequence[i].show = (this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true : false;
+      this.formSequence[i].show = (this.prodForm.product_item_stats[this.formSequence[i].slug] > 0) ? true: false;
     });
     this.formSequence[1].show = true;
     this.formSequence[6].show = true;
@@ -184,9 +188,22 @@ export class ProductCreationComponent implements OnInit {
         }
       }        
     });
+      this.setPaddingDetails();
   }
 
-
+   setPaddingDetails(){
+    this.jsonData.padding_left =35;
+    let obj={1:35,2:35,3:30,4:26,5:15};
+    let keys = Object.keys(this.formSequence);
+    let flag_count=0;
+   keys.forEach((element, index) => {
+     let i = index + 1;
+     if(this.formSequence[i].show){
+       flag_count++;
+       this.jsonData.padding_left = obj[flag_count];
+     }
+   });
+   }
 
   toggleLoader(show) {
     this.formLoading = show;
