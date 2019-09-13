@@ -142,6 +142,7 @@ export class ReviewProductComponent implements OnInit {
           if (resp.validate) {
             let productData = response;
             this.prodForm =productData;
+            this.prodForm.is_paid =  this.prodForm.is_paid =='Y' ?0:1;
             // this.prodForm.entity_id = productData.entity_id;
             // this.prodForm.title = productData.title;
             // this.prodForm.about = productData.about;

@@ -121,6 +121,7 @@ export class BasicInfoComponent implements OnInit {
           let response = resp.result;
           if (resp.validate) {
             this.prodForm = response;
+            this.prodForm.is_paid =  this.prodForm.is_paid =='Y' ?0:1;
             this.products_ecourse_maps = [];
             this.prodForm.product_ecourse_maps.forEach((object) => {
               let obj = { course_type: object.course_type, course_type_id: object.course_type_id };
@@ -210,7 +211,7 @@ export class BasicInfoComponent implements OnInit {
     }
 
     this.prodForm.is_paid = (this.prodForm.price) ? 'Y' : 'N';
-    this.prodForm.price = this.prodForm.price ? 0 : this.prodForm.price;
+    this.prodForm.price = this.prodForm.price? this.prodForm.price : 0;
     this.productItems.forEach(element => {
       this.prodForm.product_item_stats[element.slug] = (this.prodItems[element.slug]) ? this.prodForm.product_item_stats[element.slug] : 0;
       if (this.prodForm.product_item_stats[element.slug]) {
