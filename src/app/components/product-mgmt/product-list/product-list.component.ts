@@ -15,8 +15,15 @@ export class ProductListComponent implements OnInit {
     standard_id: null,
     subject_id: null
   };
+
+  /* Variable to handle popups */
+  varJson: any = {
+    PageIndex: 1,
+    sizeArr: [5,25, 50, 100, 150, 200, 500],
+    displayBatchSize: 25,
+    total_items:0
+  };
   productList: any = [];
-  total_items: any;
   isRippleLoad: boolean = false;
   ecourseList: any = [];
   subjectsList: any = [];
@@ -42,7 +49,57 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     this.jsonKeys.institute_id = sessionStorage.getItem('institute_id');
     this.initFilters();
-    this.getProductList();
+    this.fectchTableDataByPage(1)
+  }
+
+  /*** pagination functions */
+    /* Fetch next set of data from server and update table */
+    fetchNext() {
+      this.varJson.PageIndex++;
+      this.fectchTableDataByPage(this.varJson.PageIndex);
+  }
+
+  /* Fetch previous set of data from server and update table */
+  fetchPrevious() {
+      this.varJson.PageIndex--;
+      this.fectchTableDataByPage(this.varJson.PageIndex);
+  }
+
+    /* Fetch table data by page index */
+    fectchTableDataByPage(index) {
+      this.varJson.PageIndex = index;
+     let object=  {
+        "page_no":  this.varJson.PageIndex ,
+        "no_of_records": this.varJson.displayBatchSize
+      }            
+   
+      this.isRippleLoad = true;
+      this.http.postMethod('product/get', object).then(
+        (resp: any) => {
+          this.isRippleLoad = false;
+          let response = resp['body'];
+          console.log(response);
+          if (response.validate) {
+            this.productList = response.result.results;
+            this.varJson.total_items = response.result.total_records;
+          }
+          else {
+            this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+          }
+        },
+        (err) => {
+          this.isRippleLoad = false;
+          this.msgService.showErrorMessage('error', "something went wrong, try again", '');
+        });
+    
+  }
+
+
+  /* Fetches Data as per the user selected batch size */
+  updateTableBatchSize(num) {
+      this.varJson.PageIndex = 1;
+      this.varJson.displayBatchSize = parseInt(num);
+      this.fectchTableDataByPage(this.varJson.PageIndex);
   }
 
   initFilters() {
@@ -89,53 +146,6 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  getProductList() {
-    this.isRippleLoad = true;
-    this.http.getMethod('product/get', null).subscribe(
-      (resp: any) => {
-        if (resp) {
-          this.isRippleLoad = false;
-          console.log(resp);
-          if (resp) {
-            let response = resp.result;
-            if (resp && resp.validate) {
-              this.productList = response;
-              this.total_items = response.length;
-            }
-            else {
-              this.msgService.showErrorMessage('error', response.errors.message, '');
-            }
-          }
-        }
-      },
-      (err) => {
-        this.isRippleLoad = false;
-        this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-      });
-  }
-
-  loadMoreItems() {
-    this.isRippleLoad = true;
-    if (this.productList.length < this.total_items) {
-      this.http.getData('products?offset=' + this.productList.length, 'web').subscribe(
-        (resp) => {
-          let response = resp['body'];
-          this.isRippleLoad = false;
-          if (resp && response.validate) {
-            this.productList = [...this.productList, ...response.data.products];
-          }
-          else {
-            this.msgService.showErrorMessage('error', response.errors.message, '');
-          }
-        },
-        (err) => {
-          this.isRippleLoad = false;
-          this.msgService.showErrorMessage('error', err['error'].errors.message, '');
-        });
-    }
-  }
-
-
   actionProductModal(operation, id) {
     this.deleteItem.operation = operation;
     let item = this.productList.filter(item => item.entity_id == id)[0];
@@ -180,7 +190,7 @@ export class ProductListComponent implements OnInit {
     let item = this.productList.filter(item => item.entity_id == id)[0];
     let object = {
       "status": 10,
-      "entity_id":  item.entity_id 
+      "entity_id": item.entity_id
     }
     switch (operation) {
       case 'delete': {
@@ -201,7 +211,7 @@ export class ProductListComponent implements OnInit {
                     console.log(this.productList);
                   }
                 });
-                this.total_items = response.length;
+                this.varJson.total_items--;
               }
               else {
                 this.msgService.showErrorMessage('info', 'Something went wrong, try again ', '');
@@ -285,8 +295,8 @@ export class ProductListComponent implements OnInit {
           let response = resp.result;
           console.log(resp);
           if (resp.validate) {
-            this.productList = response;
-            this.total_items = response.length;
+            this.productList = response.results;
+            this.varJson.total_items = response.total_records;
           }
           else {
             this.msgService.showErrorMessage('success', 'Something went wrong, try again ', '');
