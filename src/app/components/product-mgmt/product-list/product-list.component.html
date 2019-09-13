@@ -53,7 +53,7 @@
 
 
   <div class="row m-0 pt-0 product-list-wrapper">
-    <div class="col-md-12 table-wrapper p-0">
+    <div class="col-md-12 table-wrapper p-0" style="height: 430px;overflow-y: scroll;">
       <table class="table product-table">
         <thead class="product-table-head">
           <tr>
@@ -63,7 +63,7 @@
                 <label for="ch2"></label>
               </div>
             </th> -->
-            <th width="5%"></th>
+            <th width="5%">ID</th>
             <th width="20%" class="text-left" style="text-align: left">Product Name</th>
             <th>E-course</th>
             <th class="text-center">Status</th>
@@ -160,11 +160,13 @@
       </table>
     </div>
 
-    <!-- Pagination -->
-    <div class="col-md-12" style="text-align: right;" *ngIf="(productList.length > 0) && !productListLoading">
-      <span class="float-left">{{productList.length}} of {{total_items}} items</span>
-      <button class="btn btn-light btn-sm float-right" *ngIf="productList.length < total_items"
-        (click)="loadMoreItems()">Load More</button>
+    <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+          [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize" [sizeArr]="varJson.sizeArr"
+          (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
+        </pagination>
+      </div>
     </div>
   </div>
 </div>
