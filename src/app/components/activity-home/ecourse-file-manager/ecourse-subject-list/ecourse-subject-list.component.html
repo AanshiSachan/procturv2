@@ -52,7 +52,7 @@
       <div class="col-md-4">
         <div>
           <button class="btn btn-xs btn-ga-white" (click)="uploadPopupOpen(topic)">Upload</button>
-          <button class="btn btn-xs btn-ga-white" (click)="getToSubjectMaterials(topic)">view topic</button>
+          <!-- <button class="btn btn-xs btn-ga-white" (click)="getToSubjectMaterials(topic)">view topic</button> -->
           <!-- <button class="btn btn-xs btn-ga-white">Add Topic</button> -->
         </div>
       </div>
@@ -68,7 +68,7 @@
         <ng-container *ngTemplateOutlet="slidesListData; context:{$implicit: topic.slidesList, level: level+1}"></ng-container>
         <ng-container *ngTemplateOutlet="studyMaterialList; context:{$implicit: topic.studyMaterialList, level: level+1}"></ng-container>
       </div>
-      <div class="row col-md-12 subTopics-data">
+      <div class="row col-md-12 subTopics-data" *ngIf="topic.isExpand">
         <ng-container *ngTemplateOutlet="recursiveNodes; context: { $implicit: topic.subTopics, subLevel: 1 } "></ng-container>
       </div>
     </div>

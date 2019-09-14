@@ -19,43 +19,7 @@ export class UploadFileComponent implements OnInit {
   subtopicList: any[] = [];
   categiesList: any[] = [];
   categiesTypeList: any[] = [];
-  existVideos:any[]=[{
-    "video_id": "f62d50c9522c4d6aa6e510438b606e28",
-    "video_title": "new-file-video",
-    "video_thumbnail": null,
-    "video_size": 0,
-    "video_upload_date": "07-Sep-2019 12:26:06 PM",
-    "ecourse_name": "Aniket course",
-    "subject_name": "Artificial Intelligence",
-    "parent_topic_name": null,
-    "sub_topic_name": null,
-    "link_video_list": [
-      {
-        "ecourse_name": "gogo12",
-        "subject_name": "Bio",
-        "parent_topic_name": null,
-        "sub_topic_name": null
-      },
-      {
-        "ecourse_name": "Aniket course",
-        "subject_name": "Artificial Intelligence",
-        "parent_topic_name": null,
-        "sub_topic_name": null
-      }
-    ]
-  },
-  {
-    "video_id": "f62d50c9522c4d6aa6e510438b606e28",
-    "video_title": "new-file-title",
-    "video_thumbnail": null,
-    "video_size": 0,
-    "video_upload_date": "07-Sep-2019 12:26:06 PM",
-    "ecourse_name": "Aniket course",
-    "subject_name": "Artificial Intelligence",
-    "parent_topic_name": null,
-    "sub_topic_name": null,
-    "link_video_list": []
-  }];
+  existVideos:any[]=[];
   institute_id: any;
   showModal: boolean = false;
   dragoverflag: boolean = false;
@@ -119,6 +83,51 @@ export class UploadFileComponent implements OnInit {
         this._http.updatedDataSelection(null);
       }
     });
+  }
+
+  getVDOCipherLinkedDate(){
+    let url = "/api/v1/instFileSystem/VDOCipher/" + this.institute_id;
+    this.existVideos = [];
+    this._http.getData(url).subscribe((res: any) => {
+      console.log(res);
+      if(res){
+        this.existVideos = res;
+      }
+    },(err)=>{
+      this.existVideos = [];
+    });
+  }
+
+  linkAlreadyUploadedVideo($event){
+    console.log($event);
+    let url = "/api/v1/instFileSystem/linkVideos" ;    
+    let object = { 
+      "institute_id":this.institute_id,
+      "videoID":this.jsonData.selectedVideo,
+      "course_types": this.varJson.course_types,
+      "subject_id": this.varJson.subject_id,
+      "topic_id": this.varJson.topic_id,                                                          
+      "sub_topic_id": this.varJson.sub_topic_id,                                             
+      "title": this.varJson.title,
+      "category_id": 235,
+  }
+  let flag = this.uploadDatavalidation();
+  if(!this.isRippleLoad &&(flag)){
+    this.isRippleLoad = true;
+    this._http.postData(url,object).subscribe((res: any) => {
+      console.log(res);
+      this.isRippleLoad = false;
+      if(res){
+        this.clearuploadObject();
+                this.msgService.showErrorMessage(this.msgService.toastTypes.success, '', res.message);
+      
+      }
+    },(err)=>{
+      this.isRippleLoad = false;
+      this.msgService.showErrorMessage(this.msgService.toastTypes.error, '', err.message);
+    });
+  }
+   
   }
 
   getSourceName(video){
@@ -333,6 +342,9 @@ export class UploadFileComponent implements OnInit {
         }
       }
     });
+    if(value=='330'){
+      this.getVDOCipherLinkedDate();
+    }
   }
 
   // user data usage get
@@ -520,8 +532,13 @@ export class UploadFileComponent implements OnInit {
     });
   }
 
+  onRadioButtonChange($event,video){
+    console.log($event,video);
+    this.varJson.title =video.video_title;
+  }
+
+
   uploadHandler2($event) {
-    debugger;
     console.log(this.material_dataFlag);
     let flag = this.uploadDatavalidation();
 
