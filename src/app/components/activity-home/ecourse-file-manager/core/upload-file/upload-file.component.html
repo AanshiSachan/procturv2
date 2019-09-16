@@ -65,9 +65,9 @@
               <div class="btn-div" *ngIf="varJson.category_id==230">
                 <input class="btn fullBlue" type="button" value="Upload" [disabled]="varJson.video_url==''"
                   (click)="uploadYoutubeURL($event)">
-                <input class="btn " (click)=" clearuploadObject()" type="button" value="Cancel">
+                <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;" class="table table-responsive table-made"
+              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
                 *ngIf="varJson.category_id==330">
                 <table>
                   <thead>
@@ -82,7 +82,13 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let video of existVideos;">
-                        <td><input type="radio" [(ngModel)]="jsonData.selectedVideo" /></td>
+                        <td>
+                          <div class="field-radio-wrapper">
+                            <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
+                              [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
+                            (ngModelChange)="onRadioButtonChange($event,video)">
+                            <label for="bothRadio"></label>
+                          </div></td>
                         <td>{{video.video_title}}</td>
                         <td>{{video.video_size}} MB</td>
                         <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
@@ -92,7 +98,12 @@
 
                   </tbody>
 
-                </table>
+                </table>              
+              </div>
+              <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
+                <input class="btn fullBlue" type="button" value="Link Video" [disabled]="varJson.title==''"
+                  (click)="linkAlreadyUploadedVideo($event)">
+                <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
               <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)"
                 [showCancelButton]="false"
@@ -181,9 +192,42 @@
                   (click)="uploadYoutubeURL($event)">
                 <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
               </div>
-              <div style="width: 50rem; height: 20rem;" *ngIf="varJson.category_id==330">
-                existing video show
-              </div>
+              <div style="width: 50rem; height: 20rem;    overflow-y: scroll;" class="table table-responsive table-made"
+              *ngIf="varJson.category_id==330">
+              <table>
+                <thead>
+                  <tr>
+                    <td>#</td>
+                    <td>Title</td>
+                    <td>Size</td>
+                    <td>Date</td>                     
+                    <td>Source</td>
+                    <td>Location</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let video of existVideos;">
+                      <td>
+                        <div class="field-radio-wrapper">
+                          <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" 
+                            [(ngModel)]="jsonData.selectedVideo"  [value]="video.video_id"
+                          (ngModelChange)="onRadioButtonChange($event,video)">
+                          <label for="bothRadio"></label>
+                        </div></td>
+                      <td>{{video.video_title}}</td>
+                      <td>{{video.video_size}} MB</td>
+                      <td>{{video.video_upload_date | date: 'dd-MMM-yyyy'}}</td>
+                      <td>{{getSourceName(video)}}</td>
+                      <td>{{getLocationName(video)}}</td>
+                  </tr>
+                </tbody>
+              </table>              
+            </div>
+            <div class="btn-div" *ngIf="varJson.category_id==330" style=" position: absolute; right: 1rem; bottom: 0;">
+              <input class="btn fullBlue" type="button" value="Link Video" 
+                (click)="linkAlreadyUploadedVideo($event)">
+              <input class="btn" (click)=" clearuploadObject()" type="button" value="Cancel">
+            </div>
               <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler2($event,values)"
                 [showCancelButton]="false"
                 *ngIf="varJson.category_id==235 && varJson.category_id!=0 && varJson.category_id!=330">
